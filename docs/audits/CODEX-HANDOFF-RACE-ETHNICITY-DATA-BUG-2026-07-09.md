@@ -31,14 +31,14 @@ The Census Bureau's DP05 ("ACS Demographic and Housing Estimates") profile table
 | American Indian / Alaska Native alone | `DP05_0039E` | "White: English" | `DP05_0053E` |
 | Asian alone | `DP05_0047E` | "Black or African American: Ethiopian" | `DP05_0061E` |
 | Native Hawaiian / Pacific Islander alone | `DP05_0055E` | "American Indian and Alaska Native: Blackfeet Tribe of the Blackfeet Indian Reservation of Montana" | `DP05_0069E` |
-| Some Other Race alone | `DP05_0060E` | Not independently verified, same shift pattern implied — verify before use | `DP05_0074E` |
+| Some Other Race alone | `DP05_0060E` | "American Indian and Alaska Native: Other American Indian and Alaska Native" | `DP05_0074E` |
 | Two or More Races | `DP05_0061E` | "Race alone: Asian" (i.e. this is now the correct **Asian alone** code, not two-or-more) | `DP05_0035E` |
 | Hispanic or Latino (of any race) | `DP05_0076E` | "Two or More Races: White and Black or African American" | `DP05_0090E` |
 | Not Hispanic, White alone | `DP05_0082E` | "Race alone or in combination with one or more other races: Total population" (i.e. always ≈ total population by definition — this is exactly why the site shows "100.0% white") | `DP05_0096E` |
 
 **Important trap for whoever fixes this**: the *old* code for "Two or More Races" (`DP05_0061E`) is the *correct* code for "Asian alone" in the new mapping. Don't just search-and-replace blindly — the fetch list needs `DP05_0061E` **kept** (relabeled to Asian) and a **new** `DP05_0035E` **added** (for the real two-or-more-races figure). Every other row is a straight code swap.
 
-Before starting, re-verify `DP05_0055E`→`DP05_0069E` and `DP05_0060E`→`DP05_0074E` yourself against `https://api.census.gov/data/2024/acs/acs5/profile/variables/<code>.json` (needs a Census API key — see `js/config.local.js` / GitHub Secrets, same key already used by the existing pipeline).
+All 8 rows above are now independently confirmed against `https://api.census.gov/data/2024/acs/acs5/profile/variables/<code>.json` — no remaining unverified mappings, safe to implement directly.
 
 ## Files to change
 
