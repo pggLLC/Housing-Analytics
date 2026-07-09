@@ -10,7 +10,10 @@
 (function () {
   'use strict';
 
-  var GLOSSARY_DATA_PATH = (typeof __PATH_PREFIX !== 'undefined' ? __PATH_PREFIX : '') + 'data/glossary.json';
+  var PATH_PREFIX = (typeof window.APP_BASE_PATH === 'string')
+    ? window.APP_BASE_PATH
+    : (typeof __PATH_PREFIX !== 'undefined' ? __PATH_PREFIX : '');
+  var GLOSSARY_DATA_PATH = PATH_PREFIX + 'data/glossary.json';
   var MODAL_ID = 'glossaryModal';
   var BACKDROP_ID = 'glossaryBackdrop';
   var _terms = null; // cached array of term objects
