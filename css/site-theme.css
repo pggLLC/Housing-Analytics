@@ -1136,18 +1136,16 @@ label { color: var(--muted); font-size: var(--small); font-weight: 600; display:
    which read as visually jarring even though contrast was AAA. We
    accept the lower contrast on those rare inline buttons and lean on
    the class-based overrides below for the canonical .btn.primary /
-   .btn-primary / .home-onboarding__num cases.
+   .btn-primary cases.
    ================================================================ */
 @media (prefers-color-scheme: dark) {
-  .btn.primary, .btn-primary,
-  .home-onboarding__num {
+  .btn.primary, .btn-primary {
     color: #0d1f35 !important;
   }
   .kicker { color: var(--accent) !important; }
 }
 html.dark-mode .btn.primary,
-html.dark-mode .btn-primary,
-html.dark-mode .home-onboarding__num { color: #0d1f35 !important; }
+html.dark-mode .btn-primary { color: #0d1f35 !important; }
 html.dark-mode .kicker { color: var(--accent) !important; }
 /* F155 — Explicit light-mode override for the same rules. The
    `@media (prefers-color-scheme: dark)` block above fires off the OS
@@ -1157,8 +1155,7 @@ html.dark-mode .kicker { color: var(--accent) !important; }
    (rgb(13,31,53) on rgb(9,110,101) = 2.71:1). Class-based selector beats
    the @media block via specificity, restoring white text in light mode. */
 html.light-mode .btn.primary,
-html.light-mode .btn-primary,
-html.light-mode .home-onboarding__num { color: var(--on-accent, #fff) !important; }
+html.light-mode .btn-primary { color: var(--on-accent, #fff) !important; }
 html.light-mode .kicker { color: var(--accent) !important; }
 
 /* ================================================================
