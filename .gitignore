@@ -54,10 +54,13 @@ private/
 
 # IDE save-as / duplicate artifacts (macOS Finder + some editors create
 # "filename 2.ext" when re-saving; iCloud sync conflicts create "filename 3.ext",
-# "filename 4.ext", etc. on subsequent conflicts — the original "*\ 2.*"-only
-# pattern missed those higher suffixes, see #1107). These have been polluting
-# the tree.
+# "filename 4.ext", etc. on subsequent conflicts. Keep common one-, two-, and
+# three-digit suffix patterns aligned with scripts/audit/duplicate-artifact-scan.mjs.
 *\ [0-9].*
+*\ [0-9][0-9].*
+*\ [0-9][0-9][0-9].*
 *\ [0-9]/
+*\ [0-9][0-9]/
+*\ [0-9][0-9][0-9]/
 data/hna/lodes-raw/
 out/~$*
