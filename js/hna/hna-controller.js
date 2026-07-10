@@ -405,6 +405,7 @@
       placeCountyLookup: await loadJson('data/hna/derived/place_county_lookup.json'),
       crossCountyPlaces: await loadJson('data/hna/cross-county-places.json'),
       aliases: await loadJson('data/hna/place-phantom-aliases.json'),
+      homeValues: await loadJson('data/hna/home-value-cascade.json').then(function (d) { return d && d.places; }),
     };
     window.HNAState.state.combinedDatasets = datasets;
     return datasets;
