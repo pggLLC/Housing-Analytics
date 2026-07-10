@@ -26,6 +26,9 @@
 
   function resolveAlias(geoid, datasets) {
     var key = String(geoid || '').padStart(7, '0');
+    if (window.PlaceChas && typeof window.PlaceChas.resolveAlias === 'function') {
+      try { return window.PlaceChas.resolveAlias(key); } catch (_e) {}
+    }
     return aliasMap(datasets)[key] || key;
   }
 
