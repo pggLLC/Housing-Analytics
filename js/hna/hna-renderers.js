@@ -40,6 +40,81 @@
     return /^https?:\/\//i.test(url) ? url : '#';
   }
 
+  const DECISION_STRIP_DEFAULTS = {
+    need: { value: '—', read: 'Loading', href: '#hnaScorecardPanel', tone: '' },
+    affordability: { value: '—', read: 'Loading', href: '#statRentBurden', tone: '' },
+    production: { value: '—', read: 'Loading', href: '#statUnitsNeed', tone: '' },
+    ownership: { value: '—', read: 'Loading', href: '#affordable-ownership-need-section', tone: '' },
+    confidence: { value: '—', read: 'Loading', href: '#hnaGapCoveragePanel', tone: '' },
+  };
+
+  function _decisionTone(read) {
+    const t = String(read || '').toLowerCase();
+    if (/unavailable|not available/.test(t)) return 'unavailable';
+    if (/high data|ready|available|lower|low/.test(t)) return 'ready';
+    if (/highest|high|acute|limited/.test(t)) return 'high';
+    if (/elevated|moderate|verify|medium|gap remains/.test(t)) return 'moderate';
+    return '';
+  }
+
+  function _decisionReadFromPct(pct) {
+    if (pct == null || !Number.isFinite(Number(pct))) return 'Unavailable';
+    const v = Number(pct);
+    if (v >= 50) return 'High';
+    if (v >= 35) return 'Elevated';
+    if (v >= 20) return 'Moderate';
+    return 'Lower';
+  }
+
+  function _decisionState() {
+    const state = S() && S().state;
+    if (!state) return null;
+    state.decisionStrip = state.decisionStrip || {};
+    Object.keys(DECISION_STRIP_DEFAULTS).forEach(function (key) {
+      state.decisionStrip[key] = state.decisionStrip[key] || Object.assign({}, DECISION_STRIP_DEFAULTS[key]);
+    });
+    return state.decisionStrip;
+  }
+
+  function _paintDecisionStrip() {
+    const strip = document.getElementById('hnaDecisionStrip');
+    if (!strip) return;
+    const state = _decisionState();
+    if (!state) return;
+    let hasValue = false;
+    Object.keys(DECISION_STRIP_DEFAULTS).forEach(function (key) {
+      const tile = strip.querySelector('[data-decision-key="' + key + '"]');
+      const data = Object.assign({}, DECISION_STRIP_DEFAULTS[key], state[key] || {});
+      if (!tile) return;
+      const valueEl = document.getElementById('decision' + key.charAt(0).toUpperCase() + key.slice(1) + 'Value');
+      const readEl = document.getElementById('decision' + key.charAt(0).toUpperCase() + key.slice(1) + 'Read');
+      if (valueEl) valueEl.textContent = data.value || '—';
+      if (readEl) readEl.textContent = data.read || 'Loading';
+      tile.setAttribute('href', data.href || DECISION_STRIP_DEFAULTS[key].href);
+      const tone = data.tone || _decisionTone(data.read);
+      if (tone) tile.setAttribute('data-tone', tone);
+      else tile.removeAttribute('data-tone');
+      if (data.value && data.value !== '—' && data.value !== 'Loading') hasValue = true;
+    });
+    strip.hidden = !hasValue;
+  }
+
+  function updateDecisionStrip(patch) {
+    const state = _decisionState();
+    if (!state || !patch) return;
+    Object.keys(patch).forEach(function (key) {
+      if (!DECISION_STRIP_DEFAULTS[key]) return;
+      state[key] = Object.assign({}, state[key] || DECISION_STRIP_DEFAULTS[key], patch[key] || {});
+    });
+    _paintDecisionStrip();
+  }
+
+  function clearDecisionStrip() {
+    const state = S() && S().state;
+    if (state) state.decisionStrip = null;
+    _paintDecisionStrip();
+  }
+
   // ---------------------------------------------------------------------------
   // Chart theme / core utilities
   // ---------------------------------------------------------------------------
@@ -287,6 +362,7 @@
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    clearDecisionStrip();
   }
 
   // ---------------------------------------------------------------------------
@@ -383,6 +459,13 @@
     // Rent burden: % paying 30%+ of income on rent (DP04_0141PE + DP04_0142PE)
     const rb30 = U().rentBurden30Plus ? U().rentBurden30Plus(profile) : null;
     if (els.statRentBurden) els.statRentBurden.textContent = rb30 !== null ? fmtPct(rb30) : '—';
+    updateDecisionStrip({
+      affordability: {
+        value: rb30 !== null ? fmtPct(rb30) : '—',
+        read: _decisionReadFromPct(rb30),
+        href: '#statRentBurden',
+      },
+    });
 
     // Income needed to buy the median home at the 30%-rule front-end
     // ratio. computeIncomeNeeded takes a scalar home value and returns
@@ -3478,6 +3561,9 @@
     if (els.needNote) {
       els.needNote.textContent = 'County-level projections are not shown for state-level view. Select a county, place, or CDP.';
     }
+    updateDecisionStrip({
+      production: { value: 'Not available', read: 'Select local geography', href: '#statUnitsNeed', tone: 'unavailable' },
+    });
     return { ok: true };
   }
 
@@ -4656,10 +4742,18 @@
     if (!container) return;
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
       container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      updateDecisionStrip({
+        ownership: { value: 'Unavailable', read: 'Verify locally', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+        confidence: { value: 'Unavailable', read: 'Ownership data missing', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+      });
       return;
     }
     if (!result || result.dataQuality === 'Unavailable') {
       container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      updateDecisionStrip({
+        ownership: { value: 'Unavailable', read: 'Verify locally', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+        confidence: { value: 'Unavailable', read: 'Ownership data missing', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+      });
       return;
     }
 
@@ -4729,6 +4823,19 @@
     var caveats = (result.caveats || []).map(function (c) {
       return '<li style="margin:.2rem 0;">' + escHtml(c) + '</li>';
     }).join('');
+
+    updateDecisionStrip({
+      ownership: {
+        value: result.tenureMixRecommendation || 'Verify locally',
+        read: result.dataQuality ? result.dataQuality + ' data' : 'Verify locally',
+        href: '#affordable-ownership-need-section',
+      },
+      confidence: {
+        value: result.dataQuality || 'Verify',
+        read: (result.caveats && result.caveats.length) ? 'Review caveats' : 'Ready to screen',
+        href: '#affordable-ownership-need-section',
+      },
+    });
 
     container.innerHTML =
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
@@ -7187,6 +7294,14 @@
     else if (composite >= 50) { compSev = 'var(--warn,#d97706)'; compLabel = 'Elevated';     }
     else if (composite >= 30) { compSev = 'var(--accent,#1d4ed8)'; compLabel = 'Moderate';   }
     else                       { compSev = 'var(--good,#16a34a)'; compLabel = 'Lower';       }
+    updateDecisionStrip({
+      need: {
+        value: composite + '/100',
+        read: compLabel,
+        href: '#hnaScorecardPanel',
+        tone: _decisionTone(compLabel),
+      },
+    });
 
     // Format helpers
     const pctStr = (v, digits) => v != null && Number.isFinite(v) ? (v * 100).toFixed(digits != null ? digits : 1) + '%' : '—';
@@ -7996,6 +8111,25 @@
     _combinedSetText('statTenureSrc', 'Combined CHAS households · DERIVED');
     _combinedSetText('statRentBurden', _ownFmtPct(renterCbShare));
     _combinedSetText('statRentBurdenSrc', 'Combined CHAS renter cost burden · DERIVED');
+    updateDecisionStrip({
+      need: {
+        value: 'Combined',
+        read: 'Member-level scorecards',
+        href: '#hnaScorecardPanel',
+        tone: 'unavailable',
+      },
+      affordability: {
+        value: _ownFmtPct(renterCbShare),
+        read: _decisionReadFromPct(renterCbShare * 100),
+        href: '#statRentBurden',
+      },
+      production: {
+        value: 'Not available',
+        read: 'View members',
+        href: '#statUnitsNeed',
+        tone: 'unavailable',
+      },
+    });
 
     var amiGapAvailable = !!(result.availability && result.availability.amiGap && result.availability.amiGap.available);
     var amiGapMessage = 'Not available — one or more members missing AMI-gap data';
@@ -8059,6 +8193,8 @@
     showAllChartsLoading,
     setBanner,
     clearStats,
+    updateDecisionStrip,
+    clearDecisionStrip,
     // Map
     renderBoundary,
     // Snapshot
