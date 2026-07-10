@@ -55,6 +55,17 @@ The repo runs four layers of data quality checks. Each catches a different
 class of bug. New ingest pipelines should add at least one assertion in
 every applicable layer.
 
+### Shared metric source convention
+
+When the same metric appears in more than one place on a page, or across
+multiple pages, every render path should read from one shared source object or
+helper instead of recomputing the value locally. The HNA median-home-value
+display is the reference pattern: `HNAUtils.homeValueInfo()` centralizes the
+value, source label, confidence, and suppression flags so the headline stat,
+narrative text, ownership module, and combined-area views cannot drift apart.
+If a future metric needs multiple presentations, create the equivalent shared
+helper/source first, then make each UI surface consume that object.
+
 ### Layer 1 — Schema (`scripts/validate-schemas.js`)
 
 Asserts file existence + JSON parseability + presence of expected keys
