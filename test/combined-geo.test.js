@@ -8,9 +8,9 @@ const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 
-function loadBrowserModule(rel, exportName) {
+function loadBrowserModule(rel, exportName, windowExtras) {
   const src = fs.readFileSync(path.join(ROOT, rel), 'utf8');
-  const sandbox = { window: {} };
+  const sandbox = { window: Object.assign({}, windowExtras || {}) };
   vm.createContext(sandbox);
   vm.runInContext(src, sandbox, { filename: rel });
   return sandbox.window[exportName];
@@ -221,6 +221,26 @@ test('phantom alias member resolves to canonical record', () => {
   assert.equal(out.valid, true);
   assert.equal(out.members[0].geoid, '0800001');
   assert.equal(out.pseudoChasRecord.memberNames[0], 'A');
+});
+
+test('combined alias resolution delegates to canonical PlaceChas helper when available', () => {
+  const calls = [];
+  const combined = loadBrowserModule('js/hna/combined-geo.js', 'HNACombinedGeo', {
+    PlaceChas: {
+      resolveAlias(geoid) {
+        calls.push(geoid);
+        return geoid === '0999999' ? '0800002' : geoid;
+      },
+    },
+  });
+  const out = combined.aggregate([
+    { geoType: 'place', geoid: '0999999' },
+    { geoType: 'place', geoid: '0800001' },
+  ], fixtureDatasets());
+  assert.deepEqual(calls, ['0999999', '0800001']);
+  assert.equal(out.valid, true);
+  assert.deepEqual(out.members.map(m => m.geoid), ['0800002', '0800001']);
+  assert.equal(out.pseudoChasRecord.summary.total_renter_hh, 1000);
 });
 
 test('availability map marks commuting unavailable and multi-county AMI limits listed', () => {
