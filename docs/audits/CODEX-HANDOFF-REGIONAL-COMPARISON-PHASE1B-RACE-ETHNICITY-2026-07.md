@@ -36,19 +36,27 @@ This doc specs the population-level metric as an optional addition, clearly labe
 ## 3. Exact implementation scope
 
 **Files to change:**
-1. `scripts/hna/build_jurisdiction_metrics_digest.mjs` — add `pct_bipoc_population` to `regionalComparisonMetrics()` (~line 382-416), following the exact shape of the existing `pct_age_65_plus` entry at line 408:
+1. `scripts/hna/build_jurisdiction_metrics_digest.mjs` — add `pct_bipoc_population` to `regionalComparisonMetrics()` (~line 382-416). **Use a dedicated helper with explicit null-checking on both raw fields before subtracting — do not subtract two `sumNumbers()` calls directly.** `sumNumbers()` returns `null` (not `0`) when its input is missing (confirmed at `build_jurisdiction_metrics_digest.mjs:291-301`). If `DP05_0096E` were ever missing for a geography while `DP05_0033E` succeeded, `sumNumbers([acs.DP05_0033E]) - sumNumbers([acs.DP05_0096E])` would coerce the missing side to `0` via JavaScript's `null` arithmetic (`total - null` evaluates to `total`, not `NaN`), silently producing a false **100% BIPOC population share** instead of correctly returning unavailable — `pctFromCounts`'s own null-check runs on the already-computed, already-corrupted difference, so it can't catch this after the fact. Follow the exact shape of `housingBuiltPre1970Pct()` (~line 373-380), which already handles a similar multi-field computation safely:
+   ```js
+   function bipocPopulationPct(acs) {
+     const total = numberOrNull(acs.DP05_0033E);
+     const notHispanicWhite = numberOrNull(acs.DP05_0096E);
+     if (total == null || notHispanicWhite == null) return null;
+     return pctFromCounts(total - notHispanicWhite, total);
+   }
+   ```
+   then in `regionalComparisonMetrics()`:
    ```js
    pct_bipoc_population: acsRegionalMetric(
-     pctFromCounts(sumNumbers([acs.DP05_0033E]) - sumNumbers([acs.DP05_0096E]), acs.DP05_0033E),
+     bipocPopulationPct(acs),
      entry,
      'acs-profile-dp05',
      'total_population',
      acs.DP05_0033E,
    ),
    ```
-   (Adjust null-safety to match this file's existing conventions — `sumNumbers`/`pctFromCounts` already null-guard individual fields; confirm the subtraction doesn't produce `NaN` when a field is legitimately absent, same as the other metrics in this function handle it.)
 2. `js/hna/hna-renderers.js` — add one row to `REGIONAL_COMPARISON_ROWS` (~line in the "Demographics" section, next to `pct_age_65_plus`): `{ section: 'Demographics', label: '<approved label from §2>', key: 'pct_bipoc_population', format: 'pct' }`.
-3. No changes needed to `scripts/hna/build_hna_data.py` — `DP05_0033E` and `DP05_0096E` are already in the ACS fetch list (confirmed).
+3. No changes needed to `scripts/hna/build_hna_data.py` — `DP05_0033E` and `DP05_0096E` are in `vars_d`, which is fetched via the `supplements` list (batch `'D'`, ~line 990-993) — the same **unconditional, always-run** path used for every other successfully-cached geography, not the fallback-only `_fetch_acs5_b_series()`. Confirmed directly against Garfield County's and Aspen's live `data/hna/summary/*.json` — both already contain populated `DP05_0033E`/`DP05_0096E` values today. (This distinction matters: a sibling doc for the household-level version of this metric, `docs/audits/SCOPING-HOUSEHOLD-RACE-B25006-2026-07.md`, originally pointed at the wrong — fallback-only — fetch function for a different field pair; verify against the always-run `supplements` list specifically, not just "a B-series fetch function exists somewhere in this file," before claiming a field is already populated.)
 
 **Generated artifacts:** `data/hna/jurisdiction-metrics-digest/*.json` (all ~337 county/place/CDP digests) — regenerate via the existing `build-hna-data.yml` workflow, same as Phase 1. No summary-cache changes needed (the source fields are already cached).
 
@@ -67,6 +75,7 @@ Extend `test/jurisdiction-metrics-digest.test.js` (or add to the existing "regio
    - Garfield County (`08045`): `pct_bipoc_population` ≈ **38.5%** (`100 - 61.5`)
    - Aspen (`0803620`): `pct_bipoc_population` ≈ **21.0%** (`100 - 79.0`)
 4. **Label regression**: a source-grep assertion on `js/hna/hna-renderers.js` that the row label for `pct_bipoc_population` contains "population" (or explicitly does not contain "Household"/"Households") — this is the guard against silently drifting back toward the EPS report's misleading label.
+5. **Null-safety regression**: unit-test `bipocPopulationPct()` (or equivalent) directly with a fixture where `DP05_0033E` is present but `DP05_0096E` is `null`/missing, and assert the function returns `null` — not `100`. Guards against the coercion bug described in §3.
 
 ## 5. QA gate
 
@@ -89,4 +98,10 @@ Rendered smoke check (required, live browser): load `housing-needs-assessment.ht
 
 ## 7. Final Codex implementation prompt (paste after owner approval)
 
-> Implement `docs/audits/CODEX-HANDOFF-REGIONAL-COMPARISON-PHASE1B-RACE-ETHNICITY-2026-07.md` for the Housing-Analytics repo. The owner has approved: metric = population-level BIPOC share using the non-Hispanic-white-alone complement (`DP05_0033E − DP05_0096E`) / `DP05_0033E`; label = "[owner's approved label from §6]"; [one row / two rows, per §6]; scope = Regional Comparison table only. Add `pct_bipoc_population` to `regionalComparisonMetrics()` in `scripts/hna/build_jurisdiction_metrics_digest.mjs`, add the corresponding row to `REGIONAL_COMPARISON_ROWS` in `js/hna/hna-renderers.js`, regenerate all jurisdiction-metrics-digest artifacts via `build-hna-data.yml`, and add the four tests specified in §4 (bounds, shares-sum sanity against raw ACS fields, Garfield County 38.5% / Aspen 21.0% fixtures, and a label-regression test confirming the row label says "population" not "households"). Run `npm run test:jurisdiction-metrics-digest`, `npm run test:hna`, and `npm run validate`, and do a live-browser rendered smoke check per §5 before opening the PR. Do not touch `js/hna/hna-controller.js`'s ACS fetch list (`DP05_0033E`/`DP05_0096E` are already fetched) or the single-geography HNA page's existing race breakdown section. Mark the PR "do not merge until external QA completes," matching this repo's established convention.
+> Implement `docs/audits/CODEX-HANDOFF-REGIONAL-COMPARISON-PHASE1B-RACE-ETHNICITY-2026-07.md` for the Housing-Analytics repo. The owner has approved: metric = population-level BIPOC share using the non-Hispanic-white-alone complement (`DP05_0033E − DP05_0096E`) / `DP05_0033E`; label = "[owner's approved label from §6]"; [one row / two rows, per §6]; scope = Regional Comparison table only. Add `pct_bipoc_population` to `regionalComparisonMetrics()` in `scripts/hna/build_jurisdiction_metrics_digest.mjs` via a dedicated `bipocPopulationPct()` helper that null-checks `DP05_0033E` and `DP05_0096E` individually *before* subtracting — do not subtract two `sumNumbers()` calls directly, since a missing `DP05_0096E` would silently coerce to a false 100% rather than correctly returning null (see §3 for the full explanation). Add the corresponding row to `REGIONAL_COMPARISON_ROWS` in `js/hna/hna-renderers.js`, regenerate all jurisdiction-metrics-digest artifacts via `build-hna-data.yml`, and add all five tests specified in §4 (bounds, shares-sum sanity against raw ACS fields, Garfield County 38.5% / Aspen 21.0% fixtures, a label-regression test, and the null-safety regression on `bipocPopulationPct()`). Run `npm run test:jurisdiction-metrics-digest`, `npm run test:hna`, and `npm run validate`, and do a live-browser rendered smoke check per §5 before opening the PR. Do not touch `js/hna/hna-controller.js`'s ACS fetch list (`DP05_0033E`/`DP05_0096E` are already fetched via the always-run `supplements` batch `'D'`, confirmed present in live summary caches) or the single-geography HNA page's existing race breakdown section. Mark the PR "do not merge until external QA completes," matching this repo's established convention.
+
+---
+
+## Revision note
+
+**2026-07-10**: fixed a null-coercion bug in §3's original digest snippet, caught during a routine cross-check against the same bug pattern Codex's external QA found in a sibling doc (`docs/audits/SCOPING-HOUSEHOLD-RACE-B25006-2026-07.md`, PR #1144). `sumNumbers([acs.DP05_0033E]) - sumNumbers([acs.DP05_0096E])` silently coerces a missing `DP05_0096E` to a false 100% via JavaScript's `null` arithmetic instead of returning unavailable. Replaced with a dedicated `bipocPopulationPct()` helper matching the corrected pattern used in the household-level doc. The fetch-path claim in §3 item 3 was independently re-verified and is correct as originally written — `DP05_0033E`/`DP05_0096E` genuinely are in the always-run `supplements` batch, not the fallback-only path that tripped up the sibling doc; added a note there distinguishing the two for future reference.
