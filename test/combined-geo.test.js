@@ -501,6 +501,23 @@ test('combined geos URL restore resolves member type from geo config before leng
   assert.ok(!src.includes("parts.map(g => ({\n        geoType: String(g).length === 5 ? 'county' : 'place',"), '?geos restore no longer uses inline length-only inference');
 });
 
+test('combine toggle off resyncs current jurisdiction to WorkflowState', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  const handlerStart = src.indexOf("window.HNAState.els.combineGeosToggle?.addEventListener('change', () => {");
+  assert.ok(handlerStart >= 0, 'combine toggle handler exists');
+  const handlerEnd = src.indexOf('\n    });', handlerStart);
+  assert.ok(handlerEnd > handlerStart, 'test can isolate combine toggle handler');
+  const body = src.slice(handlerStart, handlerEnd);
+  const panelIdx = body.indexOf('_syncCombinedPanel();');
+  const addIdx = body.indexOf('if (window.HNAState.els.combineGeosToggle.checked) _addCurrentCombinedMember();');
+  const syncIdx = body.indexOf('else _syncJurisdictionToWorkflowState();');
+  const updateIdx = body.indexOf('update();');
+  assert.ok(panelIdx >= 0, 'panel sync still runs on toggle change');
+  assert.ok(addIdx > panelIdx, 'turning combine on still adds current member after panel sync');
+  assert.ok(syncIdx > addIdx, 'turning combine off syncs WorkflowState instead of adding a member');
+  assert.ok(updateIdx > syncIdx, 'update runs after WorkflowState is resynced');
+});
+
 test('combined AMI-gap rendering gates on availability flag', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');
