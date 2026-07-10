@@ -7890,8 +7890,18 @@
     _combinedSetText('statPopSrc', 'Combined areas do not have a direct ACS population profile in v1.');
     _combinedSetText('statMhi', 'Not available');
     _combinedSetText('statMhiSrc', 'Not available for combined areas — view members individually.');
-    _combinedSetText('statHomeValue', 'Range / modeled average');
-    _combinedSetText('statHomeValueSrc', 'Combined areas do not have a true median; use member range and modeled average only.');
+    var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;
+    if (homeValueMetric && homeValueMetric.available) {
+      var homeRange = homeValueMetric.min && homeValueMetric.max
+        ? _ownFmtMoney(homeValueMetric.min.value) + ' - ' + _ownFmtMoney(homeValueMetric.max.value)
+        : 'Not available';
+      var homeAvg = homeValueMetric.weightedAverage != null ? _ownFmtMoney(homeValueMetric.weightedAverage) : 'Not available';
+      _combinedSetText('statHomeValue', homeRange + ' · avg ' + homeAvg);
+      _combinedSetText('statHomeValueSrc', homeValueMetric.caveat || 'Combined areas do not have a true median; show member range and household-weighted average only.');
+    } else {
+      _combinedSetText('statHomeValue', 'Not available');
+      _combinedSetText('statHomeValueSrc', 'Not available — no member home-value inputs available.');
+    }
     _combinedSetText('statRent', 'Not available');
     _combinedSetText('statRentSrc', 'Not available for combined areas — view members individually.');
     _combinedSetText('statTenure', _ownFmtPct(renterShare) + ' renters / ' + _ownFmtPct(1 - renterShare) + ' owners');
