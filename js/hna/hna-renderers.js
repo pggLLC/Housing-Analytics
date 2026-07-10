@@ -8196,6 +8196,7 @@
     { section: 'Demographics', label: 'No high school degree, age 25+', key: 'pct_no_hs_degree_25plus', format: 'pct' },
     { section: 'Demographics', label: 'Single-parent households', key: 'pct_single_parent_households', format: 'pct' },
     { section: 'Demographics', label: 'Age 65+', key: 'pct_age_65_plus', format: 'pct' },
+    { section: 'Demographics', label: 'BIPOC population share', key: 'pct_bipoc_population', format: 'pct' },
   ];
 
   function _regionalFmt(value, format) {
