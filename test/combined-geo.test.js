@@ -373,7 +373,26 @@ test('combined member cap is checked before mutation and success announcement', 
 test('combined home-value renderer uses computed metric instead of static placeholder', () => {
   const controller = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   const renderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
-  assert(controller.includes("homeValues: await loadJson('data/hna/home-value-cascade.json').then(function (d) { return d && d.places; })"), 'combined datasets unwrap home-value cascade places');
+  const loadStart = controller.indexOf('async function _loadCombinedDatasets()');
+  assert.ok(loadStart >= 0, 'combined dataset loader exists');
+  const loadEnd = controller.indexOf('\n  }\n\n  async function updateCombined', loadStart);
+  assert.ok(loadEnd > loadStart, 'test can isolate combined dataset loader body');
+  const loadBody = controller.slice(loadStart, loadEnd);
+  assert(loadBody.includes('] = await Promise.all(['), 'combined datasets are fetched concurrently');
+  [
+    "loadJson('data/hna/place-chas.json')",
+    'loadJson(window.HNAUtils.PATHS.chasCostBurden)',
+    "loadJson('data/co_ami_gap_by_place.json')",
+    'loadJson(window.HNAUtils.PATHS.acsAmiGap)',
+    "loadJson('data/hna/derived/place_county_lookup.json')",
+    "loadJson('data/hna/cross-county-places.json')",
+    "loadJson('data/hna/place-phantom-aliases.json')",
+    "loadJson('data/hna/home-value-cascade.json')",
+  ].forEach(expected => {
+    assert(loadBody.includes(expected), 'combined loader includes ' + expected);
+  });
+  assert(loadBody.includes('homeValues: homeValueCascade && homeValueCascade.places'), 'combined datasets unwrap home-value cascade places');
+  assert.equal((loadBody.match(/await loadJson/g) || []).length, 0, 'combined loader does not fetch datasets sequentially');
   assert(renderers.includes('var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;'), 'renderer reads combined home-value metric');
   assert(renderers.includes("_combinedSetText('statHomeValue', homeRange + ' · avg ' + homeAvg);"), 'renderer displays range and weighted average');
   assert(renderers.includes("_combinedSetText('statHomeValue', 'Not available');"), 'renderer has unavailable fallback');
