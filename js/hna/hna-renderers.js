@@ -1116,25 +1116,24 @@
 
     const bins = [
       { label: 'White alone',                          key: 'DP05_0037E' },
-      { label: 'Hispanic or Latino (any race)',        key: 'DP05_0076E' },
-      { label: 'Black or African American alone',      key: 'DP05_0038E' },
-      { label: 'Asian alone',                          key: 'DP05_0047E' },
-      { label: 'Two or more races',                    key: 'DP05_0061E' },
-      { label: 'American Indian / Alaska Native alone', key: 'DP05_0039E' },
-      { label: 'Some Other Race alone',                key: 'DP05_0060E' },
-      { label: 'Native Hawaiian / Pacific Islander alone', key: 'DP05_0055E' },
+      { label: 'Black or African American alone',      key: 'DP05_0045E' },
+      { label: 'Asian alone',                          key: 'DP05_0061E' },
+      { label: 'Two or more races',                    key: 'DP05_0035E' },
+      { label: 'American Indian / Alaska Native alone', key: 'DP05_0053E' },
+      { label: 'Some Other Race alone',                key: 'DP05_0074E' },
+      { label: 'Native Hawaiian / Pacific Islander alone', key: 'DP05_0069E' },
     ];
     const values = bins.map(b => rawNum(b.key) || 0);  // chart still tolerates 0
 
     // Headline cards — when totalPop is known we render as percentages,
     // otherwise we fall back to absolute counts so the user still sees
     // useful data even on small places with suppressed totals.
-    const hispanicAny    = rawNum('DP05_0076E');
-    const notHispWhite   = rawNum('DP05_0082E');
-    const blackAlone     = rawNum('DP05_0038E');
-    const asianAlone     = rawNum('DP05_0047E');
-    const aianAlone      = rawNum('DP05_0039E');
-    const twoOrMore      = rawNum('DP05_0061E');
+    const hispanicAny    = rawNum('DP05_0090E');
+    const notHispWhite   = rawNum('DP05_0096E');
+    const blackAlone     = rawNum('DP05_0045E');
+    const asianAlone     = rawNum('DP05_0061E');
+    const aianAlone      = rawNum('DP05_0053E');
+    const twoOrMore      = rawNum('DP05_0035E');
     // Renders a percentage when totalPop is present, raw count when it
     // isn't. Both cases also return null → "—" only when truly missing.
     const display = (v) => {

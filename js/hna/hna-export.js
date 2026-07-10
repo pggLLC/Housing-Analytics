@@ -969,12 +969,12 @@
       drawSectionHeader('3. Race & ethnicity', 'Population share by single-race "alone" categories and Hispanic/Latino ethnicity (which cross-cuts race in the Census schema).');
       drawStatGrid([
         { label: 'Total population',         value: _elText('statRacePopTotal'),  sub: 'DP05_0033E' },
-        { label: 'Hispanic / Latino',        value: _elText('statRaceHispanic'),  sub: 'Any race' },
-        { label: 'Not Hispanic, White alone', value: _elText('statRaceNHWhite'),   sub: 'DP05_0082E' },
-        { label: 'Black alone',              value: _elText('statRaceBlack'),     sub: 'DP05_0038E' },
-        { label: 'Asian alone',              value: _elText('statRaceAsian'),     sub: 'DP05_0047E' },
-        { label: 'American Indian / AN',     value: _elText('statRaceAIAN'),      sub: 'DP05_0039E' },
-        { label: 'Two or more races',        value: _elText('statRaceTwoOrMore'), sub: 'DP05_0061E' },
+        { label: 'Hispanic / Latino',        value: _elText('statRaceHispanic'),  sub: 'DP05_0090E' },
+        { label: 'Not Hispanic, White alone', value: _elText('statRaceNHWhite'),   sub: 'DP05_0096E' },
+        { label: 'Black alone',              value: _elText('statRaceBlack'),     sub: 'DP05_0045E' },
+        { label: 'Asian alone',              value: _elText('statRaceAsian'),     sub: 'DP05_0061E' },
+        { label: 'American Indian / AN',     value: _elText('statRaceAIAN'),      sub: 'DP05_0053E' },
+        { label: 'Two or more races',        value: _elText('statRaceTwoOrMore'), sub: 'DP05_0035E' },
       ]);
       drawChart('chartRaceEthnicity', 'Race and ethnicity distribution (people, with cross-cut footnote — see site).', 260);
 
