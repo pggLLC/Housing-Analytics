@@ -2030,15 +2030,15 @@
       'DP02_0068E', // Bachelor's or higher (count)
       // F170 — Race / ethnicity (DP05 — all "alone" categories):
       'DP05_0033E', // Total population (RACE denominator)
+      'DP05_0035E', // Two or more races
       'DP05_0037E', // White alone
-      'DP05_0038E', // Black or African American alone
-      'DP05_0039E', // American Indian / Alaska Native alone
-      'DP05_0047E', // Asian alone
-      'DP05_0055E', // Native Hawaiian / Pacific Islander alone
-      'DP05_0060E', // Some Other Race alone
-      'DP05_0061E', // Two or more races
-      'DP05_0076E', // Hispanic or Latino (any race)
-      'DP05_0082E', // Not Hispanic, White alone
+      'DP05_0045E', // Black or African American alone
+      'DP05_0053E', // American Indian / Alaska Native alone
+      'DP05_0061E', // Asian alone
+      'DP05_0069E', // Native Hawaiian / Pacific Islander alone
+      'DP05_0074E', // Some Other Race alone
+      'DP05_0090E', // Hispanic or Latino (any race)
+      'DP05_0096E', // Not Hispanic, White alone
     ];                                                        // 50 variables
 
     var forParam = geoType === 'county'

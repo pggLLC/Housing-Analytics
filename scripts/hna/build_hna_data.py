@@ -915,8 +915,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         'DP03_0027E','DP03_0028E','DP03_0029E','DP03_0030E','DP03_0031E',
         'DP03_0002E','DP03_0005E','DP03_0007E',
         'DP05_0016E','DP05_0017E','DP05_0019E','DP05_0024E','DP05_0029E',
-        'DP05_0033E','DP05_0037E','DP05_0038E','DP05_0039E','DP05_0047E',
-        'DP05_0055E','DP05_0060E','DP05_0061E','DP05_0076E','DP05_0082E',
+        'DP05_0033E','DP05_0035E','DP05_0037E','DP05_0045E','DP05_0053E',
+        'DP05_0061E','DP05_0069E','DP05_0074E','DP05_0090E','DP05_0096E',
         'NAME',
     ]
     # Single var_list kept for backward-compat with downstream call sites
