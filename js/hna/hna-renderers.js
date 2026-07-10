@@ -7802,6 +7802,12 @@
     if (el) el.textContent = value == null || value === '' ? '—' : String(value);
   }
 
+  function _combinedSetTextMap(values) {
+    Object.keys(values || {}).forEach(function (id) {
+      _combinedSetText(id, values[id]);
+    });
+  }
+
   function _combinedUnavailable(id, message) {
     var el = document.getElementById(id);
     if (el) el.textContent = message || 'Not available for combined areas — view members individually.';
@@ -7886,10 +7892,23 @@
     var total = renter + owner;
     var renterShare = total ? renter / total : 0;
     var renterCbShare = renter ? Number(summary.renter_cb30_count || 0) / renter : 0;
-    _combinedSetText('statPop', 'Not available');
-    _combinedSetText('statPopSrc', 'Combined areas do not have a direct ACS population profile in v1.');
-    _combinedSetText('statMhi', 'Not available');
-    _combinedSetText('statMhiSrc', 'Not available for combined areas — view members individually.');
+    var unavailable = 'Not available for combined areas — view members individually.';
+    _combinedSetTextMap({
+      statPop: 'Not available',
+      statPopSrc: 'Combined areas do not have a direct ACS population profile in v1.',
+      statMhi: 'Not available',
+      statMhiSrc: unavailable,
+      statRent: 'Not available',
+      statRentSrc: unavailable,
+      statIncomeNeed: 'Not available',
+      statIncomeNeedNote: 'AMI limits are county-level; multi-county combos list counties separately.',
+      statCommute: 'Not available',
+      statCommuteSrc: unavailable,
+      statBaseUnits: 'Not available',
+      statBaseUnitsSrc: unavailable,
+      statUnitsNeed: 'Not available',
+      statNetMig: 'Not available',
+    });
     var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;
     if (homeValueMetric && homeValueMetric.available) {
       var homeRange = homeValueMetric.min && homeValueMetric.max
@@ -7902,16 +7921,10 @@
       _combinedSetText('statHomeValue', 'Not available');
       _combinedSetText('statHomeValueSrc', 'Not available — no member home-value inputs available.');
     }
-    _combinedSetText('statRent', 'Not available');
-    _combinedSetText('statRentSrc', 'Not available for combined areas — view members individually.');
     _combinedSetText('statTenure', _ownFmtPct(renterShare) + ' renters / ' + _ownFmtPct(1 - renterShare) + ' owners');
     _combinedSetText('statTenureSrc', 'Combined CHAS households · DERIVED');
     _combinedSetText('statRentBurden', _ownFmtPct(renterCbShare));
     _combinedSetText('statRentBurdenSrc', 'Combined CHAS renter cost burden · DERIVED');
-    _combinedSetText('statIncomeNeed', 'Not available');
-    _combinedSetText('statIncomeNeedNote', 'AMI limits are county-level; multi-county combos list counties separately.');
-    _combinedSetText('statCommute', 'Not available');
-    _combinedSetText('statCommuteSrc', 'Not available for combined areas — view members individually.');
 
     var amiGapAvailable = !!(result.availability && result.availability.amiGap && result.availability.amiGap.available);
     var amiGapMessage = 'Not available — one or more members missing AMI-gap data';
@@ -7935,17 +7948,12 @@
       _combinedSetText('hnaGapConfidence', amiGapMessage);
     }
 
-    var unavailable = 'Not available for combined areas — view members individually.';
     _combinedClearNonCanvasPanels(unavailable, result);
     _combinedUnavailable('lehdNote', unavailable);
     _combinedUnavailable('seniorNote', unavailable);
     _combinedUnavailable('scenarioNeedSummary', unavailable);
     _combinedUnavailable('localResources', 'Local resources are listed by individual jurisdiction; view members individually.');
     _combinedUnavailable('lihtcMapStatus', 'LIHTC map remains county/statewide scoped for combined areas.');
-    _combinedSetText('statBaseUnits', 'Not available');
-    _combinedSetText('statBaseUnitsSrc', unavailable);
-    _combinedSetText('statUnitsNeed', 'Not available');
-    _combinedSetText('statNetMig', 'Not available');
     document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
       _combinedMarkChartUnavailable(canvas.id, unavailable);
     });

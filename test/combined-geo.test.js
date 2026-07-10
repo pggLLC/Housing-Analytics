@@ -20,7 +20,12 @@ const Combined = loadBrowserModule('js/hna/combined-geo.js', 'HNACombinedGeo');
 const Ownership = loadBrowserModule('js/hna/hna-ownership-need.js', 'HNAOwnershipNeed');
 
 function loadRenderersDom() {
-  const dom = new JSDOM('<!doctype html><div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div><div id="statHomeValue"></div><div id="statHomeValueSrc"></div>');
+  const dom = new JSDOM('<!doctype html>' +
+    '<div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div>' +
+    '<div id="statPop"></div><div id="statPopSrc"></div><div id="statMhi"></div><div id="statMhiSrc"></div>' +
+    '<div id="statHomeValue"></div><div id="statHomeValueSrc"></div><div id="statRent"></div><div id="statRentSrc"></div>' +
+    '<div id="statIncomeNeed"></div><div id="statIncomeNeedNote"></div><div id="statCommute"></div><div id="statCommuteSrc"></div>' +
+    '<div id="statBaseUnits"></div><div id="statBaseUnitsSrc"></div><div id="statUnitsNeed"></div><div id="statNetMig"></div>');
   const sandbox = {
     window: dom.window,
     document: dom.window.document,
@@ -393,6 +398,8 @@ test('combined home-value renderer uses computed metric instead of static placeh
   });
   assert(loadBody.includes('homeValues: homeValueCascade && homeValueCascade.places'), 'combined datasets unwrap home-value cascade places');
   assert.equal((loadBody.match(/await loadJson/g) || []).length, 0, 'combined loader does not fetch datasets sequentially');
+  assert(renderers.includes('function _combinedSetTextMap(values)'), 'combined renderer has table-driven stat text helper');
+  assert(renderers.includes('_combinedSetTextMap({'), 'combined renderer uses table-driven stat text assignment');
   assert(renderers.includes('var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;'), 'renderer reads combined home-value metric');
   assert(renderers.includes("_combinedSetText('statHomeValue', homeRange + ' · avg ' + homeAvg);"), 'renderer displays range and weighted average');
   assert(renderers.includes("_combinedSetText('statHomeValue', 'Not available');"), 'renderer has unavailable fallback');
@@ -417,8 +424,16 @@ test('combined home-value renderer paints range and average into stat card', () 
       },
     },
   });
+  assert.equal(dom.window.document.getElementById('statPop').textContent, 'Not available');
+  assert.equal(dom.window.document.getElementById('statPopSrc').textContent, 'Combined areas do not have a direct ACS population profile in v1.');
+  assert.equal(dom.window.document.getElementById('statMhi').textContent, 'Not available');
+  assert.equal(dom.window.document.getElementById('statMhiSrc').textContent, 'Not available for combined areas — view members individually.');
   assert.equal(dom.window.document.getElementById('statHomeValue').textContent, '$300,000 - $600,000 · avg $450,000');
   assert.equal(dom.window.document.getElementById('statHomeValueSrc').textContent, 'Fixture home-value caveat.');
+  assert.equal(dom.window.document.getElementById('statRent').textContent, 'Not available');
+  assert.equal(dom.window.document.getElementById('statRentSrc').textContent, 'Not available for combined areas — view members individually.');
+  assert.equal(dom.window.document.getElementById('statIncomeNeedNote').textContent, 'AMI limits are county-level; multi-county combos list counties separately.');
+  assert.equal(dom.window.document.getElementById('statBaseUnitsSrc').textContent, 'Not available for combined areas — view members individually.');
 });
 
 test('combined add button preserves rejection warning by skipping update on false', () => {
