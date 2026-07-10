@@ -4,6 +4,7 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 
@@ -17,6 +18,25 @@ function loadBrowserModule(rel, exportName) {
 
 const Combined = loadBrowserModule('js/hna/combined-geo.js', 'HNACombinedGeo');
 const Ownership = loadBrowserModule('js/hna/hna-ownership-need.js', 'HNAOwnershipNeed');
+
+function loadRenderersDom() {
+  const dom = new JSDOM('<!doctype html><div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div><div id="statHomeValue"></div><div id="statHomeValueSrc"></div>');
+  const sandbox = {
+    window: dom.window,
+    document: dom.window.document,
+    console,
+    getComputedStyle: dom.window.getComputedStyle.bind(dom.window),
+  };
+  sandbox.window.HNAState = { els: { banner: dom.window.document.getElementById('hnaBanner') }, charts: {} };
+  sandbox.window.HNAUtils = {
+    fmtMoney(n) { return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }); },
+    fmtNum(n) { return Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); },
+    fmtPct(n) { return Number(n).toFixed(1) + '%'; },
+  };
+  vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8'), sandbox, { filename: 'js/hna/hna-renderers.js' });
+  return dom;
+}
 
 function readJson(rel) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
@@ -97,6 +117,11 @@ function fixtureDatasets() {
       '0800002': chasRecord('B', 900, 90, 100, 80),
       '0800003': chasRecord('Cross', 0, 0, 0, 0),
     } },
+    homeValues: {
+      '0800001': { value: 300000, source: 'fixture' },
+      '0800002': { value: 600000, source: 'fixture' },
+      '0800003': { value: null, confidence: 'missing' },
+    },
     countyChas: { counties: {
       '08009': chasRecord('Far County', 200, 40, 300, 50),
     } },
@@ -219,6 +244,31 @@ test('mixed place plus non-overlapping county aggregates correctly', () => {
   assert.equal(out.pseudoChasRecord.summary.total_owner_hh, 1200);
 });
 
+test('combined home value produces member range and household-weighted average', () => {
+  const out = Combined.aggregate([
+    { geoType: 'place', geoid: '0800001' },
+    { geoType: 'place', geoid: '0800002' },
+  ], fixtureDatasets());
+  assert.equal(out.valid, true);
+  assert.equal(out.medianMetrics.homeValue.available, true);
+  assert.equal(out.medianMetrics.homeValue.min.value, 300000);
+  assert.equal(out.medianMetrics.homeValue.max.value, 600000);
+  assert.equal(out.medianMetrics.homeValue.weightedAverage, 450000);
+  assert.equal(out.medianMetrics.homeValue.method, 'MODELED');
+});
+
+test('combined home value skips missing member values without using zero', () => {
+  const out = Combined.aggregate([
+    { geoType: 'place', geoid: '0800001' },
+    { geoType: 'place', geoid: '0800003' },
+  ], fixtureDatasets());
+  assert.equal(out.valid, true);
+  assert.equal(out.medianMetrics.homeValue.available, true);
+  assert.equal(out.medianMetrics.homeValue.min.value, 300000);
+  assert.equal(out.medianMetrics.homeValue.max.value, 300000);
+  assert.equal(out.medianMetrics.homeValue.weightedAverage, 300000);
+});
+
 test('computeOwnershipNeed accepts aggregated pseudo-record and worst member quality propagates', () => {
   const datasets = fixtureDatasets();
   datasets.placeChas.places['0800002'].low_confidence = true;
@@ -298,6 +348,38 @@ test('combined member cap is checked before mutation and success announcement', 
   assert.ok(body.includes("if (list.some(m => (m.geoType + ':' + m.geoid) === key)) return false;"), 'duplicates reject without re-rendering');
   assert.ok(body.includes("if (list.length >= 6) {\n      window.HNARenderers.setBanner('Combined areas support up to 6 members.', 'warn');\n      return false;\n    }"), 'cap rejects without re-rendering');
   assert.ok(!body.includes('list.slice(0, 6)'), '7th member is no longer pushed then truncated');
+});
+
+test('combined home-value renderer uses computed metric instead of static placeholder', () => {
+  const controller = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  const renderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  assert(controller.includes("homeValues: await loadJson('data/hna/home-value-cascade.json').then(function (d) { return d && d.places; })"), 'combined datasets unwrap home-value cascade places');
+  assert(renderers.includes('var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;'), 'renderer reads combined home-value metric');
+  assert(renderers.includes("_combinedSetText('statHomeValue', homeRange + ' · avg ' + homeAvg);"), 'renderer displays range and weighted average');
+  assert(renderers.includes("_combinedSetText('statHomeValue', 'Not available');"), 'renderer has unavailable fallback');
+  assert(!renderers.includes("_combinedSetText('statHomeValue', 'Range / modeled average')"), 'static placeholder is removed');
+});
+
+test('combined home-value renderer paints range and average into stat card', () => {
+  const dom = loadRenderersDom();
+  dom.window.HNARenderers.renderCombinedAssessment({
+    valid: true,
+    label: 'Fixture combo',
+    members: [{ geoid: '0800001' }, { geoid: '0800002' }],
+    pseudoChasRecord: { summary: { total_renter_hh: 100, total_owner_hh: 100, renter_cb30_count: 25 } },
+    availability: { amiGap: { available: false }, amiLimits: { counties: [] } },
+    medianMetrics: {
+      homeValue: {
+        available: true,
+        min: { value: 300000 },
+        max: { value: 600000 },
+        weightedAverage: 450000,
+        caveat: 'Fixture home-value caveat.',
+      },
+    },
+  });
+  assert.equal(dom.window.document.getElementById('statHomeValue').textContent, '$300,000 - $600,000 · avg $450,000');
+  assert.equal(dom.window.document.getElementById('statHomeValueSrc').textContent, 'Fixture home-value caveat.');
 });
 
 test('combined add button preserves rejection warning by skipping update on false', () => {
