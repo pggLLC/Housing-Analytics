@@ -13,7 +13,7 @@
     "region": "Eastern Plains",
     "containingCounty": "08039"
   },
-  "metric_count": 87,
+  "metric_count": 95,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -551,6 +551,102 @@
       "source_id": "hna-ranking-index-derived",
       "as_of": "2026-07-10T03:08:35Z",
       "measure_type": "derived"
+    },
+    "pct_ami_lte30": {
+      "value": 15.4,
+      "geography_level": "place",
+      "confidence": "medium",
+      "source_id": "hud-chas-place-apportioned",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 161.9,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_31to50": {
+      "value": 19.8,
+      "geography_level": "place",
+      "confidence": "medium",
+      "source_id": "hud-chas-place-apportioned",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 161.9,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_51to80": {
+      "value": 21,
+      "geography_level": "place",
+      "confidence": "medium",
+      "source_id": "hud-chas-place-apportioned",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 161.9,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_gt80": {
+      "value": 43.8,
+      "geography_level": "place",
+      "confidence": "medium",
+      "source_id": "hud-chas-place-apportioned",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 161.9,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_housing_built_pre1970": {
+      "value": 39.4,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-profile-dp04",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "housing_units",
+      "denominator": 208,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_no_hs_degree_25plus": {
+      "value": 5.9,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-profile-dp02",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "population_25plus",
+      "denominator": 306,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_single_parent_households": {
+      "value": 17.1,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-profile-dp02",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "households",
+      "denominator": 187,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_age_65_plus": {
+      "value": 16.1,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-profile-dp05",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "total_population",
+      "denominator": 423,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
     },
     "workforce_housing_pressure_score": {
       "value": 26,

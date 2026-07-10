@@ -13,7 +13,7 @@
     "region": "Mountains",
     "containingCounty": "08093"
   },
-  "metric_count": 87,
+  "metric_count": 95,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -551,6 +551,102 @@
       "source_id": "hna-ranking-index-derived",
       "as_of": "2026-07-10T03:08:35Z",
       "measure_type": "derived"
+    },
+    "pct_ami_lte30": {
+      "value": 14.5,
+      "geography_level": "county",
+      "confidence": "medium",
+      "source_id": "hud-chas-county",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 7669,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_31to50": {
+      "value": 11.2,
+      "geography_level": "county",
+      "confidence": "medium",
+      "source_id": "hud-chas-county",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 7669,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_51to80": {
+      "value": 16.7,
+      "geography_level": "county",
+      "confidence": "medium",
+      "source_id": "hud-chas-county",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 7669,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_ami_gt80": {
+      "value": 57.6,
+      "geography_level": "county",
+      "confidence": "medium",
+      "source_id": "hud-chas-county",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "chas_households_with_ami",
+      "denominator": 7669,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_housing_built_pre1970": {
+      "value": 12.2,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "acs-profile-dp04",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "housing_units",
+      "denominator": 14066,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_no_hs_degree_25plus": {
+      "value": 2.1,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "acs-profile-dp02",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "population_25plus",
+      "denominator": 14699,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_single_parent_households": {
+      "value": 3.1,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "acs-profile-dp02",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "households",
+      "denominator": 8988,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_age_65_plus": {
+      "value": 23.8,
+      "geography_level": "county",
+      "confidence": "high",
+      "source_id": "acs-profile-dp05",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "total_population",
+      "denominator": 17907,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
     },
     "workforce_housing_pressure_score": {
       "value": 43.6,

@@ -206,6 +206,10 @@ function numberOrNull(value) {
   return Number.isFinite(n) ? n : null;
 }
 
+function roundPct(value) {
+  return Number.isFinite(value) ? Math.round(value * 10) / 10 : null;
+}
+
 function localLevel(entry) {
   if (entry.type === 'county') return 'county';
   return 'place';
@@ -275,6 +279,140 @@ function measureType(metric) {
   if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr') return 'projection';
   if (metric.includes('score') || metric === 'rank') return 'derived';
   return 'level';
+}
+
+function pctFromCounts(numerator, denominator) {
+  const num = numberOrNull(numerator);
+  const den = numberOrNull(denominator);
+  if (num == null || den == null || den <= 0) return null;
+  return roundPct(num / den * 100);
+}
+
+function sumNumbers(values) {
+  let total = 0;
+  let seen = false;
+  for (const value of values) {
+    const n = numberOrNull(value);
+    if (n == null) continue;
+    total += n;
+    seen = true;
+  }
+  return seen ? total : null;
+}
+
+function chasForEntry(entry, chasSources) {
+  if (entry.type === 'county') {
+    return {
+      entry: chasSources.countyChas[String(entry.geoid)] || null,
+      source_id: 'hud-chas-county',
+      geography_level: 'county',
+    };
+  }
+  return {
+    entry: chasSources.placeChas[String(entry.geoid)] || null,
+    source_id: 'hud-chas-place-apportioned',
+    geography_level: 'place',
+  };
+}
+
+function amiTierTotal(chas, tier) {
+  return sumNumbers([
+    chas?.owner_hh_by_ami?.[tier]?.total,
+    chas?.renter_hh_by_ami?.[tier]?.total,
+  ]);
+}
+
+function amiShareMetrics(entry, chasSources) {
+  const chasInfo = chasForEntry(entry, chasSources);
+  const chas = chasInfo.entry;
+  const tierTotals = {
+    lte30: amiTierTotal(chas, 'lte30'),
+    '31to50': amiTierTotal(chas, '31to50'),
+    '51to80': amiTierTotal(chas, '51to80'),
+    '81to100': amiTierTotal(chas, '81to100'),
+    '100plus': amiTierTotal(chas, '100plus'),
+  };
+  const total = sumNumbers(Object.values(tierTotals));
+  const metric = (numerator) => ({
+    value: pctFromCounts(numerator, total),
+    geography_level: chasInfo.geography_level,
+    confidence: total && total < MIN_RATE_DENOMINATOR ? 'low' : valueConfidence(pctFromCounts(numerator, total), 'medium'),
+    source_id: chasInfo.source_id,
+    as_of: ACS_AS_OF,
+    measure_type: 'level',
+    denominator_key: 'chas_households_with_ami',
+    denominator: total,
+    min_denominator: MIN_RATE_DENOMINATOR,
+    denominator_floor_applied: total !== null && total < MIN_RATE_DENOMINATOR,
+  });
+  return {
+    pct_ami_lte30: metric(tierTotals.lte30),
+    pct_ami_31to50: metric(tierTotals['31to50']),
+    pct_ami_51to80: metric(tierTotals['51to80']),
+    pct_ami_gt80: metric(sumNumbers([tierTotals['81to100'], tierTotals['100plus']])),
+  };
+}
+
+function acsRegionalMetric(value, entry, sourceId, denominatorKey, denominator, confidence = 'high') {
+  const denom = numberOrNull(denominator);
+  const floorApplies = denom !== null && denom < MIN_RATE_DENOMINATOR;
+  return {
+    value,
+    geography_level: localLevel(entry),
+    confidence: floorApplies ? 'low' : valueConfidence(value, confidence),
+    source_id: sourceId,
+    as_of: ACS_AS_OF,
+    measure_type: 'level',
+    denominator_key: denominatorKey,
+    denominator: denom,
+    min_denominator: MIN_RATE_DENOMINATOR,
+    denominator_floor_applied: floorApplies,
+  };
+}
+
+function housingBuiltPre1970Pct(acs) {
+  const pe = sumNumbers(['DP04_0023PE', 'DP04_0024PE', 'DP04_0025PE', 'DP04_0026PE'].map((key) => acs[key]));
+  if (pe != null) return roundPct(pe);
+  return pctFromCounts(
+    sumNumbers(['DP04_0023E', 'DP04_0024E', 'DP04_0025E', 'DP04_0026E'].map((key) => acs[key])),
+    acs.DP04_0001E,
+  );
+}
+
+function regionalComparisonMetrics(entry, summary, chasSources) {
+  const acs = summary?.acsProfile || {};
+  const builtPre1970 = housingBuiltPre1970Pct(acs);
+  return {
+    ...amiShareMetrics(entry, chasSources),
+    pct_housing_built_pre1970: acsRegionalMetric(
+      builtPre1970,
+      entry,
+      'acs-profile-dp04',
+      'housing_units',
+      acs.DP04_0001E,
+    ),
+    pct_no_hs_degree_25plus: acsRegionalMetric(
+      pctFromCounts(sumNumbers([acs.DP02_0060E, acs.DP02_0061E]), acs.DP02_0059E),
+      entry,
+      'acs-profile-dp02',
+      'population_25plus',
+      acs.DP02_0059E,
+    ),
+    pct_single_parent_households: acsRegionalMetric(
+      pctFromCounts(sumNumbers([acs.DP02_0007E, acs.DP02_0011E]), acs.DP02_0001E),
+      entry,
+      'acs-profile-dp02',
+      'households',
+      acs.DP02_0001E,
+    ),
+    pct_age_65_plus: acsRegionalMetric(
+      pctFromCounts(acs.DP05_0024E, acs.DP05_0033E),
+      entry,
+      'acs-profile-dp05',
+      'total_population',
+      acs.DP05_0033E,
+    ),
+  };
 }
 
 function economicGeographyLevel(entry, config) {
@@ -456,7 +594,7 @@ function ownershipDigestMetric(metric, value, entry, rankingMeta) {
   };
 }
 
-function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords) {
+function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSources) {
   const summary = loadSummary(entry.geoid);
   const denom = denominators(summary);
   const metrics = {};
@@ -464,6 +602,7 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords) {
     if (INTERNAL_METRICS.has(metric)) continue;
     metrics[metric] = digestMetric(metric, value, entry, summary, denom);
   }
+  Object.assign(metrics, regionalComparisonMetrics(entry, summary, chasSources));
   const economic = economicLayer[entry.geoid] || {};
   for (const [metric, config] of Object.entries(ECONOMIC_METRICS)) {
     const sourceField = metric === 'county_service_sector_share_pct' ? 'service_sector_share_pct' : metric;
@@ -635,6 +774,10 @@ function main() {
   const ranking = readJson(RANKING_PATH);
   fs.rmSync(OUT_DIR, { recursive: true, force: true });
   fs.mkdirSync(OUT_DIR, { recursive: true });
+  const chasSources = {
+    placeChas: loadOptionalJson(PLACE_CHAS_PATH)?.places || {},
+    countyChas: loadOptionalJson(COUNTY_CHAS_PATH)?.counties || {},
+  };
   const economicLayer = buildEconomicLayer(ranking);
   const ownershipRecords = buildOwnershipRecords(ranking);
   writeJson(OWNERSHIP_OUT_PATH, {
@@ -647,7 +790,7 @@ function main() {
     records: ownershipRecords,
   });
   refreshBriefTenureStrategy(ownershipRecords);
-  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords));
+  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords, chasSources));
   for (const digest of digests) {
     writeJson(path.join(OUT_DIR, `${digest.geography.geoid}.json`), digest);
   }

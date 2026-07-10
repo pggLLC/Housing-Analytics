@@ -13,6 +13,16 @@ const OWNERSHIP_PATH = path.join(ROOT, 'data/hna/ownership-need.json');
 const HOME_VALUE_CASCADE_PATH = path.join(ROOT, 'data/hna/home-value-cascade.json');
 const COVERAGE_PATH = path.join(ROOT, 'docs/qa/metric-digest-coverage-2026-06-30.md');
 const BUILDER = path.join(ROOT, 'scripts/hna/build_jurisdiction_metrics_digest.mjs');
+const REGIONAL_METRICS = [
+  'pct_ami_lte30',
+  'pct_ami_31to50',
+  'pct_ami_51to80',
+  'pct_ami_gt80',
+  'pct_housing_built_pre1970',
+  'pct_no_hs_degree_25plus',
+  'pct_single_parent_households',
+  'pct_age_65_plus',
+];
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -134,6 +144,69 @@ test('B3 workforce housing metrics are bounded and honestly labeled', () => {
   const rentTrend = digest.metrics.county_trend_rent_change_2009_2024_pct;
   assert.strictEqual(rentTrend.geography_level, 'county_context');
   assert.strictEqual(rentTrend.measure_type, 'trend');
+});
+
+test('regional comparison metrics are present, bounded, and source-tagged for counties and places', () => {
+  const fixtures = [
+    ['08045', 'county'],
+    ['08097', 'county'],
+    ['0803620', 'place'],
+    ['0812045', 'place'],
+  ];
+  for (const [geoid, level] of fixtures) {
+    const digest = readJson(path.join(DIGEST_DIR, `${geoid}.json`));
+    assert.strictEqual(digest.geography.type === 'county' ? 'county' : 'place', level);
+    for (const key of REGIONAL_METRICS) {
+      const metric = digest.metrics[key];
+      assert.ok(metric, `${geoid} missing regional metric ${key}`);
+      assert.ok(Number.isFinite(metric.value), `${geoid} ${key} value should be numeric`);
+      assert.ok(metric.value >= 0 && metric.value <= 100, `${geoid} ${key} out of percent bounds: ${metric.value}`);
+      assert.strictEqual(metric.geography_level, level, `${geoid} ${key} geography_level`);
+      assert.strictEqual(metric.measure_type, 'level', `${geoid} ${key} measure_type`);
+      assert.strictEqual(metric.as_of, 'ACS 2020-2024 5-year', `${geoid} ${key} as_of`);
+    }
+    const sourcePrefix = level === 'county' ? 'hud-chas-county' : 'hud-chas-place-apportioned';
+    for (const key of ['pct_ami_lte30', 'pct_ami_31to50', 'pct_ami_51to80', 'pct_ami_gt80']) {
+      assert.strictEqual(digest.metrics[key].source_id, sourcePrefix, `${geoid} ${key} source`);
+      assert.strictEqual(digest.metrics[key].denominator_key, 'chas_households_with_ami', `${geoid} ${key} denominator`);
+    }
+    assert.strictEqual(digest.metrics.pct_housing_built_pre1970.source_id, 'acs-profile-dp04');
+    assert.strictEqual(digest.metrics.pct_no_hs_degree_25plus.source_id, 'acs-profile-dp02');
+    assert.strictEqual(digest.metrics.pct_single_parent_households.source_id, 'acs-profile-dp02');
+    assert.strictEqual(digest.metrics.pct_age_65_plus.source_id, 'acs-profile-dp05');
+  }
+});
+
+test('regional comparison fixture values stay stable for Garfield County and Roaring Fork places', () => {
+  const expected = {
+    '08045': {
+      pct_ami_lte30: 10.9,
+      pct_housing_built_pre1970: 14.1,
+      pct_no_hs_degree_25plus: 10.6,
+      pct_single_parent_households: 5.9,
+      pct_age_65_plus: 14.8,
+    },
+    '0803620': {
+      pct_ami_gt80: 60.8,
+      pct_housing_built_pre1970: 18.3,
+      pct_no_hs_degree_25plus: 1.2,
+      pct_single_parent_households: 4.1,
+      pct_age_65_plus: 17.4,
+    },
+    '0812045': {
+      pct_ami_gt80: 64.4,
+      pct_housing_built_pre1970: 7.9,
+      pct_no_hs_degree_25plus: 12.4,
+      pct_single_parent_households: 3.7,
+      pct_age_65_plus: 19.9,
+    },
+  };
+  for (const [geoid, metrics] of Object.entries(expected)) {
+    const digest = readJson(path.join(DIGEST_DIR, `${geoid}.json`));
+    for (const [key, value] of Object.entries(metrics)) {
+      assert.strictEqual(digest.metrics[key].value, value, `${geoid} ${key}`);
+    }
+  }
 });
 
 test('county-derived metrics are explicitly labeled county_context for places/CDPs', () => {
