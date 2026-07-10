@@ -397,15 +397,34 @@
 
   async function _loadCombinedDatasets() {
     if (window.HNAState.state.combinedDatasets) return window.HNAState.state.combinedDatasets;
+    const [
+      placeChas,
+      countyChas,
+      amiGapPlace,
+      amiGapCounty,
+      placeCountyLookup,
+      crossCountyPlaces,
+      aliases,
+      homeValueCascade,
+    ] = await Promise.all([
+      loadJson('data/hna/place-chas.json'),
+      loadJson(window.HNAUtils.PATHS.chasCostBurden),
+      loadJson('data/co_ami_gap_by_place.json'),
+      loadJson(window.HNAUtils.PATHS.acsAmiGap),
+      loadJson('data/hna/derived/place_county_lookup.json'),
+      loadJson('data/hna/cross-county-places.json'),
+      loadJson('data/hna/place-phantom-aliases.json'),
+      loadJson('data/hna/home-value-cascade.json'),
+    ]);
     const datasets = {
-      placeChas: await loadJson('data/hna/place-chas.json'),
-      countyChas: await loadJson(window.HNAUtils.PATHS.chasCostBurden),
-      amiGapPlace: await loadJson('data/co_ami_gap_by_place.json'),
-      amiGapCounty: await loadJson(window.HNAUtils.PATHS.acsAmiGap),
-      placeCountyLookup: await loadJson('data/hna/derived/place_county_lookup.json'),
-      crossCountyPlaces: await loadJson('data/hna/cross-county-places.json'),
-      aliases: await loadJson('data/hna/place-phantom-aliases.json'),
-      homeValues: await loadJson('data/hna/home-value-cascade.json').then(function (d) { return d && d.places; }),
+      placeChas,
+      countyChas,
+      amiGapPlace,
+      amiGapCounty,
+      placeCountyLookup,
+      crossCountyPlaces,
+      aliases,
+      homeValues: homeValueCascade && homeValueCascade.places,
     };
     window.HNAState.state.combinedDatasets = datasets;
     return datasets;
