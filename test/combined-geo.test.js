@@ -480,6 +480,27 @@ test('combined add button preserves rejection warning by skipping update on fals
   assert.ok(updateIdx > guardIdx, 'update only runs after a successful add');
 });
 
+test('combined geos URL restore resolves member type from geo config before length fallback', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  const helperStart = src.indexOf('function _combinedMemberFromUrlGeoid(geoid)');
+  assert.ok(helperStart >= 0, 'URL combined-member resolver exists');
+  const helperEnd = src.indexOf('\n\n  function _addCurrentCombinedMember', helperStart);
+  assert.ok(helperEnd > helperStart, 'test can isolate URL combined-member resolver');
+  const helperBody = src.slice(helperStart, helperEnd);
+  const countyIdx = helperBody.indexOf("hasGeoid(cfg.counties)");
+  const cdpIdx = helperBody.indexOf("hasGeoid(cfg.cdps)");
+  const placeIdx = helperBody.indexOf("hasGeoid(cfg.places)");
+  const fallbackIdx = helperBody.indexOf("geoType: id.length === 5 ? 'county' : 'place'");
+  assert.ok(countyIdx >= 0, 'resolver checks configured counties');
+  assert.ok(cdpIdx >= 0, 'resolver checks configured CDPs');
+  assert.ok(placeIdx >= 0, 'resolver checks configured places');
+  assert.ok(countyIdx < fallbackIdx, 'county lookup runs before length fallback');
+  assert.ok(cdpIdx < fallbackIdx, 'CDP lookup runs before length fallback');
+  assert.ok(placeIdx < fallbackIdx, 'place lookup runs before length fallback');
+  assert.ok(src.includes('window.HNAState.state.combinedMembers = parts.map(_combinedMemberFromUrlGeoid).slice(0, 6);'), '?geos restore uses resolver helper');
+  assert.ok(!src.includes("parts.map(g => ({\n        geoType: String(g).length === 5 ? 'county' : 'place',"), '?geos restore no longer uses inline length-only inference');
+});
+
 test('combined AMI-gap rendering gates on availability flag', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');
