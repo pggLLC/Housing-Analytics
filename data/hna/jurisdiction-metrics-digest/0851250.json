@@ -13,7 +13,7 @@
     "region": "San Luis Valley",
     "containingCounty": "08109"
   },
-  "metric_count": 95,
+  "metric_count": 96,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -638,6 +638,18 @@
     },
     "pct_age_65_plus": {
       "value": 44.4,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-profile-dp05",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "total_population",
+      "denominator": 54,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_bipoc_population": {
+      "value": 13,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "acs-profile-dp05",
