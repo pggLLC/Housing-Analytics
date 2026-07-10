@@ -379,6 +379,13 @@ function housingBuiltPre1970Pct(acs) {
   );
 }
 
+export function bipocPopulationPct(acs) {
+  const total = numberOrNull(acs?.DP05_0033E);
+  const notHispanicWhite = numberOrNull(acs?.DP05_0096E);
+  if (total == null || notHispanicWhite == null) return null;
+  return pctFromCounts(total - notHispanicWhite, total);
+}
+
 function regionalComparisonMetrics(entry, summary, chasSources) {
   const acs = summary?.acsProfile || {};
   const builtPre1970 = housingBuiltPre1970Pct(acs);
@@ -407,6 +414,13 @@ function regionalComparisonMetrics(entry, summary, chasSources) {
     ),
     pct_age_65_plus: acsRegionalMetric(
       pctFromCounts(acs.DP05_0024E, acs.DP05_0033E),
+      entry,
+      'acs-profile-dp05',
+      'total_population',
+      acs.DP05_0033E,
+    ),
+    pct_bipoc_population: acsRegionalMetric(
+      bipocPopulationPct(acs),
       entry,
       'acs-profile-dp05',
       'total_population',
@@ -801,4 +815,6 @@ function main() {
   console.log(`[metric-digest] wrote ${path.relative(ROOT, COVERAGE_PATH)}`);
 }
 
-main();
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main();
+}
