@@ -3584,6 +3584,7 @@
     window.HNAState.els.combineGeosToggle?.addEventListener('change', () => {
       _syncCombinedPanel();
       if (window.HNAState.els.combineGeosToggle.checked) _addCurrentCombinedMember();
+      else _syncJurisdictionToWorkflowState();
       update();
     });
     window.HNAState.els.btnAddCombinedGeo?.addEventListener('click', () => {
