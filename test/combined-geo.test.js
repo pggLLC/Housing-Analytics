@@ -21,11 +21,20 @@ const Ownership = loadBrowserModule('js/hna/hna-ownership-need.js', 'HNAOwnershi
 
 function loadRenderersDom() {
   const dom = new JSDOM('<!doctype html>' +
+    '<section id="hnaDecisionStrip" hidden>' +
+    '<a data-decision-key="need" href="#hnaScorecardPanel"><strong id="decisionNeedValue">—</strong><span id="decisionNeedRead">Loading</span></a>' +
+    '<a data-decision-key="affordability" href="#statRentBurden"><strong id="decisionAffordabilityValue">—</strong><span id="decisionAffordabilityRead">Loading</span></a>' +
+    '<a data-decision-key="production" href="#statUnitsNeed"><strong id="decisionProductionValue">—</strong><span id="decisionProductionRead">Loading</span></a>' +
+    '<a data-decision-key="ownership" href="#affordable-ownership-need-section"><strong id="decisionOwnershipValue">—</strong><span id="decisionOwnershipRead">Loading</span></a>' +
+    '<a data-decision-key="confidence" href="#hnaGapCoveragePanel"><strong id="decisionConfidenceValue">—</strong><span id="decisionConfidenceRead">Loading</span></a>' +
+    '</section>' +
     '<div id="hnaBanner"></div><div id="geoContextPill"></div><div id="execNarrative"></div>' +
     '<div id="statPop"></div><div id="statPopSrc"></div><div id="statMhi"></div><div id="statMhiSrc"></div>' +
     '<div id="statHomeValue"></div><div id="statHomeValueSrc"></div><div id="statRent"></div><div id="statRentSrc"></div>' +
+    '<div id="statTenure"></div><div id="statTenureSrc"></div><div id="statRentBurden"></div>' +
     '<div id="statIncomeNeed"></div><div id="statIncomeNeedNote"></div><div id="statCommute"></div><div id="statCommuteSrc"></div>' +
     '<div id="statBaseUnits"></div><div id="statBaseUnitsSrc"></div><div id="statUnitsNeed"></div><div id="statNetMig"></div>' +
+    '<section id="hnaScorecardPanel"></section><section id="affordable-ownership-need-section"><div id="hnaAffordableOwnershipNeed"></div></section>' +
     '<div id="chasGapStatus"></div><div class="chart-box"><canvas id="chartChasGap"></canvas></div>' +
     '<div class="chart-box"><canvas id="chartMode"></canvas></div>');
   dom.window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
@@ -37,12 +46,26 @@ function loadRenderersDom() {
     getComputedStyle: dom.window.getComputedStyle.bind(dom.window),
   };
   sandbox.window.Chart = sandbox.Chart;
-  sandbox.window.HNAState = { els: { banner: dom.window.document.getElementById('hnaBanner') }, charts: {} };
+  sandbox.window.HNAState = { state: {}, els: { banner: dom.window.document.getElementById('hnaBanner') }, charts: {} };
+  [
+    'geoContextPill', 'statPop', 'statPopSrc', 'statMhi', 'statMhiSrc',
+    'statHomeValue', 'statHomeValueSrc', 'statRent', 'statRentSrc',
+    'statTenure', 'statRentBurden', 'statIncomeNeed', 'statIncomeNeedNote',
+    'statCommute', 'statCommuteSrc', 'statBaseUnits', 'statBaseUnitsSrc',
+    'statUnitsNeed', 'statNetMig',
+  ].forEach(id => { sandbox.window.HNAState.els[id] = dom.window.document.getElementById(id); });
   sandbox.window.HNAUtils = {
     fmtMoney(n) { return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }); },
     fmtNum(n) { return Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); },
     fmtPct(n) { return Number(n).toFixed(1) + '%'; },
     safeNum(n) { const value = Number(n); return Number.isFinite(value) ? value : null; },
+    srcLink() { return 'fixture source'; },
+    homeValueSourceText() { return 'fixture home-value source'; },
+    rentBurden30Plus(profile) {
+      const severe = Number(profile.DP04_0142PE);
+      const moderate = Number(profile.DP04_0141PE);
+      return (Number.isFinite(severe) ? severe : 0) + (Number.isFinite(moderate) ? moderate : 0);
+    },
   };
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8'), sandbox, { filename: 'js/hna/hna-renderers.js' });
@@ -461,6 +484,97 @@ test('combined home-value renderer paints range and average into stat card', () 
   assert.equal(dom.window.document.getElementById('chasGapStatus').textContent, 'Source: combined HUD CHAS 2018-2022 member records · DERIVED.');
   assert.equal(dom.window.document.getElementById('chartMode').style.display, 'none', 'single-geography commute chart is marked unavailable');
   assert.ok(dom.window.document.getElementById('chartMode').parentElement.textContent.includes('Not available for combined areas'), 'single-geography chart gets unavailable note');
+});
+
+test('HNA executive decision strip mirrors detailed renderer values', () => {
+  const dom = loadRenderersDom();
+  const doc = dom.window.document;
+  dom.window.HNAState.state.chasData = {
+    counties: {
+      '08009': {
+        name: 'Fixture County',
+        summary: {
+          total_renter_hh: 600,
+          total_owner_hh: 400,
+          pct_renter_cb30: 0.52,
+          pct_owner_cb30: 0.18,
+          pct_renter_cb50: 0.28,
+        },
+        renter_hh_by_ami: {
+          lte30: { total: 200 },
+          '31to50': { total: 160 },
+          '51to80': { total: 150 },
+          '81to100': { total: 90 },
+        },
+      },
+      '08011': {
+        name: 'Peer County',
+        summary: {
+          total_renter_hh: 500,
+          total_owner_hh: 500,
+          pct_renter_cb30: 0.22,
+          pct_owner_cb30: 0.1,
+          pct_renter_cb50: 0.12,
+        },
+        renter_hh_by_ami: {
+          lte30: { total: 80 },
+          '31to50': { total: 140 },
+          '51to80': { total: 160 },
+          '81to100': { total: 120 },
+        },
+      },
+    },
+  };
+  dom.window.HNAState.state.blsEconData = {
+    counties: {
+      'Fixture County': { affordability_index: 6.8 },
+      'Peer County': { affordability_index: 3.4 },
+    },
+  };
+  dom.window.HNARenderers.renderSnapshot({
+    _acsYear: 2024,
+    _acsSeries: 'ACS5',
+    _geoType: 'county',
+    _geoid: '08009',
+    DP05_0001E: 1000,
+    DP03_0062E: 75000,
+    DP04_0134E: 1500,
+    DP04_0047PE: 48,
+    DP04_0141PE: 25,
+    DP04_0142PE: 15,
+  }, null, 'Fixture County', null);
+  dom.window.HNARenderers.updateDecisionStrip({
+    production: { value: '125', read: 'Gap remains', href: '#statUnitsNeed' },
+  });
+  doc.getElementById('statUnitsNeed').textContent = '125';
+  dom.window.HNAOwnershipNeed = { computeOwnershipNeed() {} };
+  dom.window.HNARenderers.renderAffordableOwnershipNeed({
+    dataQuality: 'High',
+    tenureMixRecommendation: 'Rental plus shared-equity ownership',
+    recommendationDetail: 'Fixture recommendation detail.',
+    renterCostBurdened: 240,
+    severeRenterCostBurdened: 100,
+    ownerCostBurdened: 90,
+    severeOwnerCostBurdened: 40,
+    moderateIncomeRenterHouseholds: 75,
+    moderateIncomeOwnerCostBurdened: 25,
+    existingRentalGap: 125,
+    rentalPressure: { tier: 'High', inputs: { source: 'HUD CHAS', renterCostBurdenedShare: 0.4, severeRenterCostBurdenedShare: 0.17 } },
+    ownershipPressure: { tier: 'Moderate', inputs: { ownerCostBurdenedShare: 0.23, moderateIncomeOwnerCostBurdenedShare: 0.06 } },
+    ownershipFit: { tier: 'Moderate', inputs: { moderateIncomeRenterShare: 0.13 } },
+    affordabilityTest: { medianHomeValue: 350000, classification: 'constrained', source: 'fixture home values' },
+    caveats: [],
+  });
+  dom.window.HNARenderers.renderHnaScorecardPanel('08009');
+
+  assert.equal(doc.getElementById('hnaDecisionStrip').hidden, false, 'decision strip is visible after real renderers populate it');
+  assert.equal(doc.getElementById('decisionAffordabilityValue').textContent, doc.getElementById('statRentBurden').textContent, 'affordability tile mirrors rent-burden stat');
+  assert.equal(doc.getElementById('decisionProductionValue').textContent, doc.getElementById('statUnitsNeed').textContent, 'production tile mirrors unit-need stat');
+  assert.equal(doc.getElementById('decisionOwnershipValue').textContent, 'Rental plus shared-equity ownership', 'ownership tile mirrors ownership recommendation');
+  assert.equal(doc.getElementById('decisionConfidenceValue').textContent, 'High', 'confidence tile mirrors ownership data-quality field');
+  const needValue = doc.getElementById('decisionNeedValue').textContent;
+  assert.match(needValue, /^\d+\/100$/, 'need tile renders scorecard composite');
+  assert.ok(doc.getElementById('hnaScorecardPanel').textContent.includes(needValue.replace('/100', '')), 'scorecard panel contains same composite score');
 });
 
 test('combined add button preserves rejection warning by skipping update on false', () => {

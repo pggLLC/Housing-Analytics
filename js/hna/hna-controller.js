@@ -2385,6 +2385,17 @@
     window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? `Total units to house current households at ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy` : 'Current requirement';
     window.HNAState.els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     window.HNAState.els.statUnitsNeed.textContent = incUnits !== null ? window.HNAUtils.fmtNum(Math.round(incUnits)) : '—';
+    if (window.HNARenderers.updateDecisionStrip) {
+      window.HNARenderers.updateDecisionStrip({
+        production: {
+          value: incUnits !== null ? window.HNAUtils.fmtNum(Math.round(incUnits)) : '—',
+          read: incUnits !== null && Number.isFinite(Number(incUnits))
+            ? (incUnits > 0 ? 'Gap remains' : (incUnits === 0 ? 'At target' : 'Surplus'))
+            : 'Unavailable',
+          href: '#statUnitsNeed',
+        },
+      });
+    }
     window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');

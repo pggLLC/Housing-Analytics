@@ -19,6 +19,79 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
+  <style>
+    .hna-decision-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .6rem;
+      margin: 0 var(--sp4) var(--sp3);
+    }
+    .hna-decision-strip[hidden] {
+      display: none;
+    }
+    .hna-decision-tile {
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: .16rem;
+      padding: .72rem .8rem;
+      text-decoration: none;
+    }
+    .hna-decision-tile:hover,
+    .hna-decision-tile:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 18%, transparent);
+      outline: none;
+    }
+    .hna-decision-label {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .hna-decision-tile strong {
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+      font-weight: 900;
+      line-height: 1.16;
+      overflow-wrap: anywhere;
+    }
+    .hna-decision-tile span:last-child {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .hna-decision-tile[data-tone="high"],
+    .hna-decision-tile[data-tone="elevated"] {
+      border-left-color: var(--bad, #dc2626);
+    }
+    .hna-decision-tile[data-tone="moderate"] {
+      border-left-color: var(--warn, #d97706);
+    }
+    .hna-decision-tile[data-tone="low"],
+    .hna-decision-tile[data-tone="ready"] {
+      border-left-color: var(--good, #16a34a);
+    }
+    .hna-decision-tile[data-tone="unavailable"] {
+      border-left-color: var(--muted);
+    }
+    @media (max-width: 980px) {
+      .hna-decision-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .hna-decision-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
   <!-- Leaflet (vendored locally — no CDN required) -->
   <link rel="stylesheet" href="js/vendor/leaflet.css" />
   <script src="js/path-resolver.js"></script>
@@ -251,6 +324,34 @@
           <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>
         </div>
       </div>
+    </section>
+
+    <section id="hnaDecisionStrip" class="hna-decision-strip" aria-label="Executive decision indicators" hidden>
+      <a class="hna-decision-tile" href="#hnaScorecardPanel" data-decision-key="need">
+        <span class="hna-decision-label">Need severity</span>
+        <strong id="decisionNeedValue">—</strong>
+        <span id="decisionNeedRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statRentBurden" data-decision-key="affordability">
+        <span class="hna-decision-label">Affordability pressure</span>
+        <strong id="decisionAffordabilityValue">—</strong>
+        <span id="decisionAffordabilityRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statUnitsNeed" data-decision-key="production">
+        <span class="hna-decision-label">Production gap</span>
+        <strong id="decisionProductionValue">—</strong>
+        <span id="decisionProductionRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
+        <span class="hna-decision-label">Ownership feasibility</span>
+        <strong id="decisionOwnershipValue">—</strong>
+        <span id="decisionOwnershipRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#hnaGapCoveragePanel" data-decision-key="confidence">
+        <span class="hna-decision-label">Data confidence</span>
+        <strong id="decisionConfidenceValue">—</strong>
+        <span id="decisionConfidenceRead">Loading</span>
+      </a>
     </section>
 
     <div id="pageContext"></div>
