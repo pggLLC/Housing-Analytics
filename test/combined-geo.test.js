@@ -25,18 +25,24 @@ function loadRenderersDom() {
     '<div id="statPop"></div><div id="statPopSrc"></div><div id="statMhi"></div><div id="statMhiSrc"></div>' +
     '<div id="statHomeValue"></div><div id="statHomeValueSrc"></div><div id="statRent"></div><div id="statRentSrc"></div>' +
     '<div id="statIncomeNeed"></div><div id="statIncomeNeedNote"></div><div id="statCommute"></div><div id="statCommuteSrc"></div>' +
-    '<div id="statBaseUnits"></div><div id="statBaseUnitsSrc"></div><div id="statUnitsNeed"></div><div id="statNetMig"></div>');
+    '<div id="statBaseUnits"></div><div id="statBaseUnitsSrc"></div><div id="statUnitsNeed"></div><div id="statNetMig"></div>' +
+    '<div id="chasGapStatus"></div><div class="chart-box"><canvas id="chartChasGap"></canvas></div>' +
+    '<div class="chart-box"><canvas id="chartMode"></canvas></div>');
+  dom.window.HTMLCanvasElement.prototype.getContext = function () { return { canvas: this }; };
   const sandbox = {
     window: dom.window,
     document: dom.window.document,
     console,
+    Chart: function Chart() { this.destroy = function () {}; },
     getComputedStyle: dom.window.getComputedStyle.bind(dom.window),
   };
+  sandbox.window.Chart = sandbox.Chart;
   sandbox.window.HNAState = { els: { banner: dom.window.document.getElementById('hnaBanner') }, charts: {} };
   sandbox.window.HNAUtils = {
     fmtMoney(n) { return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }); },
     fmtNum(n) { return Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 }); },
     fmtPct(n) { return Number(n).toFixed(1) + '%'; },
+    safeNum(n) { const value = Number(n); return Number.isFinite(value) ? value : null; },
   };
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8'), sandbox, { filename: 'js/hna/hna-renderers.js' });
@@ -398,8 +404,16 @@ test('combined home-value renderer uses computed metric instead of static placeh
   });
   assert(loadBody.includes('homeValues: homeValueCascade && homeValueCascade.places'), 'combined datasets unwrap home-value cascade places');
   assert.equal((loadBody.match(/await loadJson/g) || []).length, 0, 'combined loader does not fetch datasets sequentially');
+  const renderCombinedStart = renderers.indexOf('function renderCombinedAssessment(result)');
+  assert.ok(renderCombinedStart >= 0, 'combined renderer exists');
+  const renderCombinedEnd = renderers.indexOf('\n  }\n\n  window.HNARenderers', renderCombinedStart);
+  assert.ok(renderCombinedEnd > renderCombinedStart, 'test can isolate combined renderer body');
+  const renderCombinedBody = renderers.slice(renderCombinedStart, renderCombinedEnd);
   assert(renderers.includes('function _combinedSetTextMap(values)'), 'combined renderer has table-driven stat text helper');
-  assert(renderers.includes('_combinedSetTextMap({'), 'combined renderer uses table-driven stat text assignment');
+  assert(renderCombinedBody.includes('_combinedSetTextMap({'), 'combined renderer uses table-driven stat text assignment');
+  assert(renderers.includes('var COMBINED_UNAVAILABLE_CHART_IDS = ['), 'combined renderer uses explicit unavailable chart IDs');
+  assert(!renderCombinedBody.includes("document.querySelectorAll('canvas[id^=\"chart\"]').forEach"), 'combined renderer no longer blanks every chart canvas');
+  assert(renderCombinedBody.includes('_renderCombinedChasGapChart(rec);'), 'combined renderer preserves combined CHAS chart');
   assert(renderers.includes('var homeValueMetric = result.medianMetrics && result.medianMetrics.homeValue;'), 'renderer reads combined home-value metric');
   assert(renderers.includes("_combinedSetText('statHomeValue', homeRange + ' · avg ' + homeAvg);"), 'renderer displays range and weighted average');
   assert(renderers.includes("_combinedSetText('statHomeValue', 'Not available');"), 'renderer has unavailable fallback');
@@ -412,7 +426,16 @@ test('combined home-value renderer paints range and average into stat card', () 
     valid: true,
     label: 'Fixture combo',
     members: [{ geoid: '0800001' }, { geoid: '0800002' }],
-    pseudoChasRecord: { summary: { total_renter_hh: 100, total_owner_hh: 100, renter_cb30_count: 25 } },
+    pseudoChasRecord: {
+      summary: { total_renter_hh: 100, total_owner_hh: 100, renter_cb30_count: 25 },
+      renter_hh_by_ami: {
+        lte30: { cost_burdened_30pct: 20, cost_burdened_50pct: 10 },
+        '31to50': { cost_burdened_30pct: 18, cost_burdened_50pct: 8 },
+        '51to80': { cost_burdened_30pct: 14, cost_burdened_50pct: 4 },
+        '81to100': { cost_burdened_30pct: 8, cost_burdened_50pct: 2 },
+        '100plus': { cost_burdened_30pct: 4, cost_burdened_50pct: 1 },
+      },
+    },
     availability: { amiGap: { available: false }, amiLimits: { counties: [] } },
     medianMetrics: {
       homeValue: {
@@ -434,6 +457,10 @@ test('combined home-value renderer paints range and average into stat card', () 
   assert.equal(dom.window.document.getElementById('statRentSrc').textContent, 'Not available for combined areas — view members individually.');
   assert.equal(dom.window.document.getElementById('statIncomeNeedNote').textContent, 'AMI limits are county-level; multi-county combos list counties separately.');
   assert.equal(dom.window.document.getElementById('statBaseUnitsSrc').textContent, 'Not available for combined areas — view members individually.');
+  assert.equal(dom.window.document.getElementById('chartChasGap').style.display, '', 'combined CHAS chart remains visible');
+  assert.equal(dom.window.document.getElementById('chasGapStatus').textContent, 'Source: combined HUD CHAS 2018-2022 member records · DERIVED.');
+  assert.equal(dom.window.document.getElementById('chartMode').style.display, 'none', 'single-geography commute chart is marked unavailable');
+  assert.ok(dom.window.document.getElementById('chartMode').parentElement.textContent.includes('Not available for combined areas'), 'single-geography chart gets unavailable note');
 });
 
 test('combined add button preserves rejection warning by skipping update on false', () => {

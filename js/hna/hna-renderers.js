@@ -7842,6 +7842,77 @@
     note.textContent = message || 'Not available for combined areas. View members individually.';
   }
 
+  var COMBINED_UNAVAILABLE_CHART_IDS = [
+    'chartStock',
+    'chartHomeValue',
+    'chartTenure',
+    'chartAfford',
+    'chartRentBurdenBins',
+    'chartMode',
+    'chartLehd',
+    'chartHouseholdSize',
+    'chartOccupationMix',
+    'chartRaceEthnicity',
+    'chartEducation',
+    'chartPyramid',
+    'chartSenior',
+    'chartPopProj',
+    'chartIncomeDistribution',
+    'chartHousingAge',
+    'chartBedroomMix',
+    'chartOwnerCostBurden',
+    'chartScenarioComparison',
+    'chartProjectionDetail',
+    'chartProjectedHH',
+    'chartHouseholdDemand',
+    'chartWage',
+    'chartIndustry',
+    'chartEmploymentTrend',
+    'chartWageTrend',
+    'chartIndustryAnalysis',
+    'chartProp123Growth',
+    'chartProp123Historical',
+    'chartBedroomNeed',
+    'chartHousingTypeComposition',
+    'chartConstructionEra',
+  ];
+
+  function _renderCombinedChasGapChart(rec) {
+    var canvas = document.getElementById('chartChasGap');
+    var statusEl = document.getElementById('chasGapStatus');
+    if (!canvas) return;
+    var noteEl = document.getElementById('chartChasGapProxyNote');
+    if (noteEl) noteEl.remove();
+    canvas.style.display = '';
+    var tierData = rec && rec.renter_hh_by_ami;
+    if (!tierData) {
+      _combinedMarkChartUnavailable('chartChasGap', 'Combined CHAS tier data unavailable.');
+      return;
+    }
+    var tierOrder = ['lte30', '31to50', '51to80', '81to100', '100plus'];
+    var tierLabels = {
+      lte30: '≤30% AMI',
+      '31to50': '31–50% AMI',
+      '51to80': '51–80% AMI',
+      '81to100': '81–100% AMI',
+      '100plus': '>100% AMI',
+    };
+    var tiers = tierOrder.map(function (key) {
+      var row = tierData[key] || {};
+      var cb30 = Number(row.cost_burdened_30pct || 0);
+      var cb50 = Number(row.cost_burdened_50pct || 0);
+      return {
+        ami_tier: tierLabels[key],
+        tier: key,
+        burden_30_50: Math.max(0, cb30 - cb50),
+        burden_50plus: cb50,
+      };
+    });
+    _setProvenanceBadge('none');
+    _renderTiers(tiers, 'combined CHAS', false);
+    if (statusEl) statusEl.textContent = 'Source: combined HUD CHAS 2018-2022 member records · DERIVED.';
+  }
+
   function clearCombinedUnavailable() {
     document.querySelectorAll('[data-combined-unavailable]').forEach(function (el) { el.remove(); });
     document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
@@ -7954,8 +8025,9 @@
     _combinedUnavailable('scenarioNeedSummary', unavailable);
     _combinedUnavailable('localResources', 'Local resources are listed by individual jurisdiction; view members individually.');
     _combinedUnavailable('lihtcMapStatus', 'LIHTC map remains county/statewide scoped for combined areas.');
-    document.querySelectorAll('canvas[id^="chart"]').forEach(function (canvas) {
-      _combinedMarkChartUnavailable(canvas.id, unavailable);
+    _renderCombinedChasGapChart(rec);
+    COMBINED_UNAVAILABLE_CHART_IDS.forEach(function (id) {
+      _combinedMarkChartUnavailable(id, unavailable);
     });
 
     if (window.HNAOwnershipNeed && typeof window.HNAOwnershipNeed.computeOwnershipNeed === 'function') {
