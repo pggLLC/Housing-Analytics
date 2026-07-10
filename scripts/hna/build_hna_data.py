@@ -879,6 +879,8 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # ACS 2023: DP04_0017E (2020+) … DP04_0026E (pre-1940)
         'DP04_0017E','DP04_0018E','DP04_0019E','DP04_0020E','DP04_0021E',
         'DP04_0022E','DP04_0023E','DP04_0024E','DP04_0025E','DP04_0026E',
+        # Year structure built percentages used by the regional comparison digest.
+        'DP04_0023PE','DP04_0024PE','DP04_0025PE','DP04_0026PE',
         # Bedroom mix (DP04 — renderBedroomMixChart).
         # ACS 2023: DP04_0039E (no BR) … DP04_0044E (5+ BR)
         'DP04_0039E','DP04_0040E','DP04_0041E','DP04_0042E','DP04_0043E','DP04_0044E',
