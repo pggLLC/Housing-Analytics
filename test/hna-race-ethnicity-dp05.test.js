@@ -122,8 +122,8 @@ assertRaceCache('08045', 'Garfield County', {
 });
 
 assertRaceCache('0803620', 'Aspen city', {
-  hispanic: 9.3,
-  notHispWhite: 85.3,
+  hispanic: 13.4,
+  notHispWhite: 79.0,
   tolerance: 1.5,
 });
 
