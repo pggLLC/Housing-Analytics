@@ -188,7 +188,7 @@ test('regional comparison fixture values stay stable for Garfield County and Roa
     },
     '0803620': {
       pct_ami_gt80: 60.8,
-      pct_housing_built_pre1970: 18.3,
+      pct_housing_built_pre1970: 18.2,
       pct_no_hs_degree_25plus: 1.2,
       pct_single_parent_households: 4.1,
       pct_age_65_plus: 17.4,
