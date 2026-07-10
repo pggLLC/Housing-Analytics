@@ -264,6 +264,26 @@
     return { geoType: subtype || gt, geoid: window.HNAState.els.geoSelect.value };
   }
 
+  function _combinedMemberFromUrlGeoid(geoid) {
+    const id = String(geoid || '');
+    const cfg = window.__HNA_GEO_CONFIG || {};
+    const hasGeoid = (items) => Array.isArray(items) && items.some(item => String(item && item.geoid) === id);
+    const featuredByType = (type) => (cfg.featured || window.HNAUtils.FEATURED || []).filter(item => item && item.type === type);
+    if (hasGeoid(cfg.counties) || hasGeoid(featuredByType('county'))) {
+      return { geoType: 'county', geoid: id };
+    }
+    if (hasGeoid(cfg.cdps) || hasGeoid(featuredByType('cdp'))) {
+      return { geoType: 'cdp', geoid: id };
+    }
+    if (hasGeoid(cfg.places) || hasGeoid(featuredByType('place'))) {
+      return { geoType: 'place', geoid: id };
+    }
+    return {
+      geoType: id.length === 5 ? 'county' : 'place',
+      geoid: id,
+    };
+  }
+
   function _regionFromCurrentSelect() {
     const opt = _selectedOption();
     if (!opt) return null;
@@ -3420,10 +3440,7 @@
     } else if (urlGeos) {
       restoredGeoType = 'place';
       const parts = urlGeos.split(/[\s+,]+/).filter(Boolean);
-      window.HNAState.state.combinedMembers = parts.map(g => ({
-        geoType: String(g).length === 5 ? 'county' : 'place',
-        geoid: g,
-      })).slice(0, 6);
+      window.HNAState.state.combinedMembers = parts.map(_combinedMemberFromUrlGeoid).slice(0, 6);
       if (window.HNAState.els.combineGeosToggle) window.HNAState.els.combineGeosToggle.checked = true;
     }
     if (!restoredGeoType && urlAutoFlag && urlGeoType && urlGeoid) {
