@@ -486,6 +486,60 @@ test('combined home-value renderer paints range and average into stat card', () 
   assert.ok(dom.window.document.getElementById('chartMode').parentElement.textContent.includes('Not available for combined areas'), 'single-geography chart gets unavailable note');
 });
 
+test('regional comparison renderer paints distinct digest values side by side', () => {
+  const dom = loadRenderersDom();
+  dom.window.HNARenderers.renderRegionalComparison({
+    label: 'Fixture regional comparison',
+    members: [
+      {
+        label: 'Garfield County',
+        member: { geoType: 'county', geoid: '08045' },
+        digest: { metrics: {
+          pct_cost_burdened: { value: 34.8 },
+          pct_ami_lte30: { value: 10.9 },
+          pct_ami_31to50: { value: 9.2 },
+          pct_ami_51to80: { value: 19.1 },
+          pct_ami_gt80: { value: 60.8 },
+          pct_renters: { value: 30.4 },
+          overcrowding_rate: { value: 2.0 },
+          pct_housing_built_pre1970: { value: 14.1 },
+          median_home_value: { value: 589000 },
+          pct_no_hs_degree_25plus: { value: 10.6 },
+          pct_single_parent_households: { value: 5.9 },
+          pct_age_65_plus: { value: 14.8 },
+        } },
+      },
+      {
+        label: 'Aspen',
+        member: { geoType: 'place', geoid: '0803620' },
+        digest: { metrics: {
+          pct_cost_burdened: { value: 67.6 },
+          pct_ami_lte30: { value: 10.1 },
+          pct_ami_31to50: { value: 10.5 },
+          pct_ami_51to80: { value: 18.6 },
+          pct_ami_gt80: { value: 60.8 },
+          pct_renters: { value: 42.9 },
+          overcrowding_rate: { value: 1.1 },
+          pct_housing_built_pre1970: { value: 18.2 },
+          median_home_value: { value: 2500000 },
+          pct_no_hs_degree_25plus: { value: 1.2 },
+          pct_single_parent_households: { value: 4.1 },
+          pct_age_65_plus: { value: 17.4 },
+        } },
+      },
+    ],
+  });
+  const html = dom.window.document.getElementById('execNarrative').innerHTML;
+  assert.ok(html.includes('Garfield County'), 'renders first jurisdiction header');
+  assert.ok(html.includes('Aspen'), 'renders second jurisdiction header');
+  assert.ok(html.includes('34.8%'), 'renders Garfield cost burden');
+  assert.ok(html.includes('67.6%'), 'renders Aspen cost burden');
+  assert.ok(html.includes('$589,000'), 'renders Garfield home value');
+  assert.ok(html.includes('$2,500,000'), 'renders Aspen home value');
+  assert.ok(html.includes('Side-by-side view only'), 'discloses non-aggregate mode');
+  assert.equal(dom.window.document.getElementById('geoContextPill').textContent, 'Regional comparison: Garfield County + Aspen');
+});
+
 test('HNA executive decision strip mirrors detailed renderer values', () => {
   const dom = loadRenderersDom();
   const doc = dom.window.document;
@@ -632,6 +686,20 @@ test('combine toggle off resyncs current jurisdiction to WorkflowState', () => {
   assert.ok(updateIdx > syncIdx, 'update runs after WorkflowState is resynced');
 });
 
+test('regional comparison mode reuses combined picker but fetches member digests instead of aggregating', () => {
+  const controller = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  const html = fs.readFileSync(path.join(ROOT, 'housing-needs-assessment.html'), 'utf8');
+  assert.ok(html.includes('name="combinedGeoMode" value="blended" checked'), 'blended mode radio is present and default');
+  assert.ok(html.includes('name="combinedGeoMode" value="regional"'), 'regional mode radio is present');
+  assert.ok(controller.includes('function _combinedMode()'), 'controller reads combined mode');
+  assert.ok(controller.includes("if (_combinedMode() === 'regional') await updateRegionalComparison(null);"), 'combined update branches to regional mode');
+  assert.ok(controller.includes('else await updateCombined(null);'), 'blended update path remains intact');
+  assert.ok(controller.includes("loadJson('data/hna/jurisdiction-metrics-digest/' + member.geoid + '.json')"), 'regional mode fetches member digest files');
+  assert.ok(controller.includes('window.HNARenderers.renderRegionalComparison({'), 'regional mode calls dedicated renderer');
+  assert.ok(controller.includes("url.searchParams.set('combinedMode', 'regional')"), 'regional mode persists URL mode');
+  assert.ok(controller.includes("selection.geoType === 'regional-comparison'"), 'regional mode is guarded as a multi-jurisdiction selection');
+});
+
 test('combined AMI-gap rendering gates on availability flag', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert(src.includes('result.availability && result.availability.amiGap && result.availability.amiGap.available'), 'renderCombinedAssessment reads availability.amiGap.available');
@@ -667,9 +735,11 @@ test('ownership need labels combined areas as combined CHAS', () => {
 
 test('combined geoType is guarded at projection, map, and checklist call sites', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
-  assert(src.includes("selection && selection.geoType === 'combined'"), 'applyAssumptions exits for combined selections');
-  assert(src.includes("if (cur.geoType === 'combined') return;"), 'moveend LIHTC refresh is gated for combined selections');
-  assert(src.includes("window.HNAState.state.current.geoType !== 'combined'"), 'beforeunload checklist broadcast skips combined selections');
+  assert(src.includes('function _isMultiJurisdictionSelection(selection)'), 'multi-jurisdiction guard helper exists');
+  assert(src.includes("selection.geoType === 'combined' || selection.geoType === 'regional-comparison'"), 'guard covers blended and regional modes');
+  assert(src.includes('if (_isMultiJurisdictionSelection(cur)) return;'), 'moveend LIHTC refresh is gated for multi-jurisdiction selections');
+  assert(src.includes('if (_isMultiJurisdictionSelection(selection))'), 'applyAssumptions exits for multi-jurisdiction selections');
+  assert(src.includes('!_isMultiJurisdictionSelection(window.HNAState.state.current)'), 'beforeunload checklist broadcast skips multi-jurisdiction selections');
 });
 
 test('preset config members resolve against registry and validate', () => {

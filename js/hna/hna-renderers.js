@@ -8183,6 +8183,105 @@
     setBanner('Combined screening area loaded. Panels that cannot be safely aggregated are marked unavailable.', 'info');
   }
 
+  var REGIONAL_COMPARISON_ROWS = [
+    { section: 'Affordability', label: 'Cost burdened households', key: 'pct_cost_burdened', format: 'pct' },
+    { section: 'Affordability', label: '≤30% AMI households', key: 'pct_ami_lte30', format: 'pct' },
+    { section: 'Affordability', label: '31–50% AMI households', key: 'pct_ami_31to50', format: 'pct' },
+    { section: 'Affordability', label: '51–80% AMI households', key: 'pct_ami_51to80', format: 'pct' },
+    { section: 'Affordability', label: '>80% AMI households', key: 'pct_ami_gt80', format: 'pct' },
+    { section: 'Housing Stock', label: 'Renter share', key: 'pct_renters', format: 'pct' },
+    { section: 'Housing Stock', label: 'Overcrowding', key: 'overcrowding_rate', format: 'pct' },
+    { section: 'Housing Stock', label: 'Housing built before 1970', key: 'pct_housing_built_pre1970', format: 'pct' },
+    { section: 'Housing Stock', label: 'Median home value', key: 'median_home_value', format: 'money' },
+    { section: 'Demographics', label: 'No high school degree, age 25+', key: 'pct_no_hs_degree_25plus', format: 'pct' },
+    { section: 'Demographics', label: 'Single-parent households', key: 'pct_single_parent_households', format: 'pct' },
+    { section: 'Demographics', label: 'Age 65+', key: 'pct_age_65_plus', format: 'pct' },
+  ];
+
+  function _regionalFmt(value, format) {
+    var n = Number(value);
+    if (!Number.isFinite(n)) return '—';
+    if (format === 'money') return _ownFmtMoney(n);
+    if (format === 'int') return _ownFmtNum(n);
+    return _ownFmtPct(n / 100);
+  }
+
+  function renderRegionalComparison(result) {
+    var members = result && result.members || [];
+    if (!members.length) {
+      setBanner('Regional comparison unavailable — no member digests loaded.', 'warn');
+      return;
+    }
+    var label = result.label || 'Regional comparison';
+    _combinedSetText('geoContextPill', 'Regional comparison: ' + members.map(function (m) { return m.label || (m.member && m.member.geoid); }).join(' + '));
+    var caption = label + ' compares ' + members.length + ' jurisdictions side by side. Values are read from each jurisdiction metric digest; no households, rates, or medians are blended.';
+    var grouped = {};
+    REGIONAL_COMPARISON_ROWS.forEach(function (row) {
+      if (!grouped[row.section]) grouped[row.section] = [];
+      grouped[row.section].push(row);
+    });
+    var html = '<div class="regional-comparison-table-wrap" style="overflow-x:auto;margin-top:.65rem;">' +
+      '<table class="regional-comparison-table table" style="min-width:680px;width:100%;border-collapse:collapse;font-size:.86rem;">' +
+      '<caption style="text-align:left;color:var(--muted);font-size:.82rem;margin-bottom:.4rem;">Side-by-side view only; not an aggregate.</caption>' +
+      '<thead><tr><th scope="col" style="text-align:left;">Metric</th>' +
+      members.map(function (m) { return '<th scope="col" style="text-align:right;">' + escHtml(m.label || (m.member && m.member.geoid) || 'Jurisdiction') + '</th>'; }).join('') +
+      '</tr></thead><tbody>';
+    Object.keys(grouped).forEach(function (section) {
+      html += '<tr><th scope="rowgroup" colspan="' + (members.length + 1) + '" style="text-align:left;color:var(--text);background:var(--bg2);">' + escHtml(section) + '</th></tr>';
+      grouped[section].forEach(function (row) {
+        html += '<tr><th scope="row" style="text-align:left;font-weight:700;">' + escHtml(row.label) + '</th>' +
+          members.map(function (m) {
+            var metric = m.digest && m.digest.metrics && m.digest.metrics[row.key];
+            return '<td style="text-align:right;">' + escHtml(_regionalFmt(metric && metric.value, row.format)) + '</td>';
+          }).join('') + '</tr>';
+      });
+    });
+    html += '</tbody></table></div>' +
+      '<p style="margin:.55rem 0 0;color:var(--muted);font-size:.82rem;">Shared picker cap remains 6 members for now; the product question is whether regional comparison should later allow more columns.</p>';
+    var exec = document.getElementById('execNarrative');
+    if (exec) {
+      exec.classList.add('hna-narrative-mount');
+      exec.innerHTML = '<p style="margin:0;">' + escHtml(caption) + '</p>' + html;
+    }
+    _combinedSetTextMap({
+      statPop: 'Side-by-side',
+      statPopSrc: 'Regional comparison uses each member digest, not a blended ACS profile.',
+      statMhi: 'See table',
+      statMhiSrc: 'Digest-backed member metrics.',
+      statHomeValue: 'See table',
+      statHomeValueSrc: 'Member median home values are not averaged.',
+      statRent: 'See table',
+      statRentSrc: 'Member digest values only.',
+      statTenure: 'See table',
+      statTenureSrc: 'Member renter-share digest values.',
+      statRentBurden: 'See table',
+      statRentBurdenSrc: 'Member cost-burden digest values.',
+      statIncomeNeed: 'See table',
+      statIncomeNeedNote: 'AMI-tier shares come from member CHAS/digest records.',
+      statCommute: 'Not available',
+      statCommuteSrc: 'Regional side-by-side mode does not aggregate commute flows.',
+      statBaseUnits: 'Not available',
+      statBaseUnitsSrc: 'Regional side-by-side mode does not project blended units.',
+      statUnitsNeed: 'Not available',
+      statNetMig: 'Not available',
+    });
+    updateDecisionStrip({
+      need: { value: 'Compare', read: 'Digest rows', href: '#execNarrative' },
+      affordability: { value: 'Side-by-side', read: 'No blending', href: '#execNarrative' },
+      production: { value: 'Not available', read: 'View members', href: '#statUnitsNeed', tone: 'unavailable' },
+    });
+    _combinedClearNonCanvasPanels('Not available for regional side-by-side comparison — view members individually.', null);
+    _combinedUnavailable('lehdNote', 'Regional side-by-side mode does not aggregate commute or LEHD flows.');
+    _combinedUnavailable('seniorNote', 'Age 65+ is shown in the comparison table.');
+    _combinedUnavailable('scenarioNeedSummary', 'Scenario projections are not blended in regional side-by-side mode.');
+    _combinedUnavailable('localResources', 'Local resources are listed by individual jurisdiction; view members individually.');
+    _combinedUnavailable('lihtcMapStatus', 'LIHTC map remains county/statewide scoped for regional comparisons.');
+    COMBINED_UNAVAILABLE_CHART_IDS.concat(['chartChasGap']).forEach(function (id) {
+      _combinedMarkChartUnavailable(id, 'Regional side-by-side mode uses the comparison table above; view members individually for charts.');
+    });
+    setBanner('Regional comparison loaded. Values are side-by-side member digest metrics; no aggregation is applied.', 'info');
+  }
+
   window.HNARenderers = {
     // Chart / UI utilities
     chartTheme,
@@ -8242,6 +8341,7 @@
     renderAffordableOwnershipNeed,
     tryRenderAffordableOwnershipNeedFromState,
     renderCombinedAssessment,
+    renderRegionalComparison,
     clearCombinedUnavailable,
     // Labor market
     renderLaborMarketSection,

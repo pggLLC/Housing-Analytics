@@ -309,7 +309,17 @@
             Combine jurisdictions
           </label>
           <div id="combinedGeosPanel" hidden style="grid-column:1 / -1;border:1px solid var(--border);border-radius:6px;padding:.55rem;background:var(--card);">
-            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 non-overlapping jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div role="radiogroup" aria-label="Combined jurisdiction mode" style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem;font-size:.82rem;color:var(--muted);">
+              <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
+                <input type="radio" name="combinedGeoMode" value="blended" checked>
+                Blended total
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
+                <input type="radio" name="combinedGeoMode" value="regional">
+                Side-by-side comparison
+              </label>
+            </div>
             <div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;">
               <button id="btnAddCombinedGeo" type="button">Add selected</button>
               <button id="btnClearCombinedGeos" type="button">Clear</button>
