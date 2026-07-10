@@ -124,6 +124,28 @@
       ]
     },
     {
+      "id": "tenure-strategy-screening",
+      "heading": "Tenure strategy screening",
+      "paragraphs": [
+        {
+          "text": "The Affordable Ownership Need screening module recommends Verify locally for City of Cortez. It classifies rental pressure as High, ownership pressure as Moderate, and identifies 295 moderate-income renter households as the ownership-fit base.",
+          "cites": [
+            "own1",
+            "own2",
+            "own3",
+            "own4"
+          ]
+        },
+        {
+          "text": "The same screening run counts 559 renter households and 358 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "cites": [
+            "own5",
+            "own6"
+          ]
+        }
+      ]
+    },
+    {
       "id": "metric-digest",
       "heading": "Metric Digest",
       "paragraphs": [
@@ -172,28 +194,6 @@
             "d20",
             "d21",
             "d22"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "tenure-strategy-screening",
-      "heading": "Tenure strategy screening",
-      "paragraphs": [
-        {
-          "text": "The Affordable Ownership Need screening module recommends Verify locally for City of Cortez. It classifies rental pressure as High, ownership pressure as Moderate, and identifies 295 moderate-income renter households as the ownership-fit base.",
-          "cites": [
-            "own1",
-            "own2",
-            "own3",
-            "own4"
-          ]
-        },
-        {
-          "text": "The same screening run counts 559 renter households and 358 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
-          "cites": [
-            "own5",
-            "own6"
           ]
         }
       ]
@@ -306,8 +306,62 @@
       "accessed": "2026-06-16"
     },
     {
+      "id": "own1",
+      "label": "Affordable Ownership Need recommendation",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_recommendation",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own2",
+      "label": "Affordable Ownership Need rental pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_rental_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own3",
+      "label": "Affordable Ownership Need ownership pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_ownership_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own4",
+      "label": "Affordable Ownership Need moderate-income renter households",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_moderate_income_renter_households",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own5",
+      "label": "Affordable Ownership Need renter cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_renter_cost_burdened",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own6",
+      "label": "Affordable Ownership Need owner cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_owner_cost_burdened",
+      "accessed": "2026-07-07"
+    },
+    {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-06T11:51:41Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-10T03:08:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -316,7 +370,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-06T11:51:41Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-10T03:08:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -451,7 +505,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-06T11:51:41Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-10T03:08:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -460,7 +514,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-06T11:51:41Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-10T03:08:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -469,7 +523,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-06T11:51:41Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-10T03:08:35Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -502,60 +556,6 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "county_trend_income_change_2009_2024_pct",
       "accessed": "2026-07-03"
-    },
-    {
-      "id": "own1",
-      "label": "Affordable Ownership Need recommendation",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_recommendation",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own2",
-      "label": "Affordable Ownership Need rental pressure tier",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_rental_pressure_tier",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own3",
-      "label": "Affordable Ownership Need ownership pressure tier",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_ownership_pressure_tier",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own4",
-      "label": "Affordable Ownership Need moderate-income renter households",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_moderate_income_renter_households",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own5",
-      "label": "Affordable Ownership Need renter cost burdened households",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_renter_cost_burdened",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own6",
-      "label": "Affordable Ownership Need owner cost burdened households",
-      "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_owner_cost_burdened",
-      "accessed": "2026-07-07"
     }
   ]
 }
