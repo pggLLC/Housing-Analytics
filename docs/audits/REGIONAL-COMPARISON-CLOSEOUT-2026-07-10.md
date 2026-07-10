@@ -27,8 +27,8 @@ Rendered smoke check, live browser, `main` HEAD:
 ## Known, accepted limitations (by design, not gaps)
 
 - **6-member cap** carried over from the shared picker. The report compares 11 jurisdictions; this repo currently caps at 6. Flagged in the UI copy as an open product question, not silently limited.
-- **Race/ethnicity is not included.** Deferred — see the Phase 1b handoff request below. This was a deliberate scope decision, not an oversight: the DP05 race-code vintage-shift bug (#1129, fixed in #1140) needed to land first, and the report's "BIPOC Households" metric is household-head race, which this repo cannot currently reproduce (see Phase 1b spec for detail).
-- **Overlapping-geography validation is pre-existing, not new.** Selecting a place alongside its containing county (e.g. Garfield County + Carbondale) correctly rejects blended-mode aggregation as double-counting risk — this rule predates Regional Comparison and applies identically in both modes' shared picker.
+- **Race/ethnicity is not included.** Deferred — see the Phase 1b handoff request below for the population-level DP05 option, and `docs/audits/SCOPING-HOUSEHOLD-RACE-B25006-2026-07.md` / PR #1144 for the separately scoped household-level EPS-equivalent path (`B25003`/`B25003H`). This was a deliberate scope decision, not an oversight: the DP05 race-code vintage-shift bug (#1129, fixed in #1140) needed to land first.
+- **Overlapping-geography validation is pre-existing, not new, and remains specific to blended aggregation.** Selecting a place alongside its containing county (e.g. Garfield County + Carbondale) correctly rejects blended-mode aggregation as a double-counting risk. Regional side-by-side mode is different: it reads each member independently and can display overlapping county/place jurisdictions next to each other because it is not aggregating them.
 
 ## Backlog state
 

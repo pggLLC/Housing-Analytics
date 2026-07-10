@@ -2,15 +2,15 @@
 
 **For**: Codex (implementer) — **do not start until the owner approves the metric definition and label in this doc.**
 **QA**: Claude Code reviews the PR against the gate below before the owner merges.
-**Owner**: paulglasow (merges; squash-merge convention)
+**Owner**: paulglasgow (merges; squash-merge convention)
 **Repo**: `pggLLC/Housing-Analytics` · Public site: `cohoanalytics.com`
 **Status**: Optional follow-on to Regional Comparison Phase 1/2 (PRs #1141, #1142, both merged — see `docs/audits/REGIONAL-COMPARISON-CLOSEOUT-2026-07-10.md`). Not required for those to be considered done.
 
 ## Straight answer up front
 
-**Current data cannot support an EPS-report-equivalent "BIPOC Households" metric.** The EPS report's Table 9 measures race/ethnicity of the *household head* (household-level). This repo's DP05 data — even after the #1140 fix that corrected the stale variable codes — is population-level (every person counted individually, not by household). Population-level race share is a real, computable, correct metric; it is a **different statistic** than the report's household metric and will not match its numbers. If the owner wants the household-level equivalent, that requires a new Census table fetch (`B25006`, Race of Householder), not currently pulled anywhere in this repo — a separate, larger effort, not in scope here.
+**Current DP05 data cannot support an EPS-report-equivalent "BIPOC Households" metric.** The EPS report's Table 9 measures race/ethnicity of the *household head* (household-level). This repo's DP05 data — even after the #1140 fix that corrected the stale variable codes — is population-level (every person counted individually, not by household). Population-level race share is a real, computable, correct metric; it is a **different statistic** than the report's household metric and will not match its numbers. The household-level equivalent is now separately resolved and scoped in `docs/audits/SCOPING-HOUSEHOLD-RACE-B25006-2026-07.md` / PR #1144 using `B25003_001E` and `B25003H_001E`; that requires a new always-run ACS Detail Table supplement and is intentionally not part of this Phase 1b population-level handoff.
 
-This doc specs the population-level metric as an optional addition, clearly labeled as such. It does not ask Codex to build the household-level version.
+This doc specs the population-level metric as an optional addition, clearly labeled as such. It does not ask Codex to build the household-level version; use the sibling household scoping doc if the owner chooses to implement that EPS-equivalent row.
 
 ## 1. Recommended metric definition
 
@@ -31,7 +31,7 @@ This doc specs the population-level metric as an optional addition, clearly labe
 **Label: "Population identifying as BIPOC"** or **"BIPOC population share"** — **not** "BIPOC Households." Do not reuse the EPS report's exact label; it would misrepresent what this repo measures.
 
 **Tooltip/disclaimer text** (draft, owner should confirm wording):
-> "Share of total population identifying as Hispanic/Latino or as a race other than non-Hispanic White alone (ACS DP05, 2020–2024 5-year, population-level). This is a different measure than 'BIPOC Households' as some consultant reports define it — that measures the race/ethnicity of the household head, a household-level statistic this repo does not currently compute."
+> "Share of total population identifying as Hispanic/Latino or as a race other than non-Hispanic White alone (ACS DP05, 2020–2024 5-year, population-level). This is a different measure than 'BIPOC Households' as some consultant reports define it — that measures the race/ethnicity of the household head. The household-level version is separately scoped from ACS Detail Table B25003/B25003H."
 
 ## 3. Exact implementation scope
 
@@ -61,7 +61,7 @@ This doc specs the population-level metric as an optional addition, clearly labe
 **Generated artifacts:** `data/hna/jurisdiction-metrics-digest/*.json` (all ~337 county/place/CDP digests) — regenerate via the existing `build-hna-data.yml` workflow, same as Phase 1. No summary-cache changes needed (the source fields are already cached).
 
 **Explicitly out of scope — do not build these here:**
-- Household-level race/ethnicity (`B25006`, Race of Householder) — not fetched anywhere in this repo; a genuinely separate ETL effort if the owner later wants the EPS-equivalent household metric.
+- Household-level race/ethnicity (`B25003_001E` / `B25003H_001E`) — separately resolved and scoped in `docs/audits/SCOPING-HOUSEHOLD-RACE-B25006-2026-07.md` / PR #1144; it needs a new always-run ACS Detail Table supplement before the digest metric can be populated.
 - Any change to the single-geography HNA page's existing "Race & ethnicity" section (`js/hna/hna-renderers.js:1035-1123`, fixed in #1140) — that section already shows the full race breakdown; this doc only adds a summary stat to the Regional Comparison table.
 - Combined Jurisdictions ("Blended total") mode — not touched.
 - Two-row Hispanic/BIPOC split (see §1's owner consideration) — only build this if the owner explicitly requests it in §6.
@@ -91,7 +91,7 @@ Rendered smoke check (required, live browser): load `housing-needs-assessment.ht
 
 ## 6. Owner decision points
 
-1. **Include or defer this metric entirely?** Data supports the population-level version cleanly; the household-level EPS-equivalent does not exist without new ETL work.
+1. **Include or defer this metric entirely?** Data supports the population-level version cleanly; the household-level EPS-equivalent is a separate scoped ETL/digest task using `B25003`/`B25003H`.
 2. **Preferred label** — "Population identifying as BIPOC," "BIPOC population share," or another phrasing. §2's draft is not final.
 3. **One row or two?** — collapse Hispanic + non-Hispanic-nonwhite into one "BIPOC" figure (§1's recommended formula), or report Hispanic/Latino share and a separate non-Hispanic-BIPOC share as two distinct rows.
 4. **Scope**: Regional Comparison table only (as specced above), or should the same summary stat also surface elsewhere (e.g., a single-geography HNA page summary card, alongside the existing detailed race breakdown)? Default recommendation: Regional Comparison only, for now — keeps this a small, contained addition.
