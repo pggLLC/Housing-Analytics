@@ -600,8 +600,8 @@
   }
 
   /**
-   * D — Compute LIHTC-eligible renter HH count from CHAS, weighted across
-   * the buffer's tracts by county.
+   * D — Compute LIHTC-eligible renter HH count from CHAS, scaled to the
+   * buffer's tract-level renter footprint by county.
    *
    * CHFA market study standard: capture-rate denominator should be renter
    * households at or below the project's max target AMI (typically 80% for
@@ -618,68 +618,8 @@
    *   counties: Array<{fips:string, share:number, lihtc_eligible:number}>
    * }}
    */
-  function _chasLihtcEligibleRenters(bufTracts) {
-    if (!chasData || !chasData.counties || !bufTracts || !bufTracts.length) {
-      return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
-    }
-    // Sum tract-share by county FIPS so multi-county buffers get a weighted blend.
-    var shareByCounty = {};
-    var totalShare = 0;
-    bufTracts.forEach(function (t) {
-      var gid = String(t.geoid || '');
-      if (gid.length < 5) return;
-      var fips = gid.slice(0, 5);
-      var share = (typeof t._bufferShare === 'number') ? t._bufferShare : 1;
-      shareByCounty[fips] = (shareByCounty[fips] || 0) + share;
-      totalShare += share;
-    });
-    if (totalShare <= 0) return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
-
-    var lihtcEligible = 0;
-    var breakdown = { lte30: 0, '31to50': 0, '51to80': 0 };
-    var perCounty = [];
-    Object.keys(shareByCounty).forEach(function (fips) {
-      var rec = chasData.counties[fips];
-      if (!rec || !rec.renter_hh_by_ami) return;
-      // Weight: county's share of the buffer (e.g., 2 tracts at .5 share in one
-      // county = 1.0 share; another county with 0.5 share = 0.5 share). Use the
-      // share as a fraction of the totalShare to apportion the county-wide
-      // count to the buffer footprint.
-      var pop = rec.renter_hh_by_ami;
-      var w = shareByCounty[fips] / totalShare;
-      var countyLihtc = 0;
-      ['lte30', '31to50', '51to80'].forEach(function (tier) {
-        var t = pop[tier] && pop[tier].total;
-        if (typeof t === 'number') {
-          // CHAS gives county TOTAL renter HH at that tier. The buffer
-          // covers only `share/totalTracts` of the county geographically;
-          // but the per-tract _bufferShare already approximates that. Use
-          // w as the within-buffer weighting and scale the county tier
-          // total by w * (buffer share within county / county area share).
-          //
-          // Simpler approach: just sum (county tier total * w). This
-          // assumes the income distribution is uniform across the county,
-          // which is reasonable at the buffer-scale.
-          var apportioned = t * w;
-          countyLihtc += apportioned;
-          breakdown[tier] += apportioned;
-        }
-      });
-      lihtcEligible += countyLihtc;
-      perCounty.push({ fips: fips, share: w, lihtc_eligible: Math.round(countyLihtc) });
-    });
-
-    if (lihtcEligible <= 0) return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
-
-    // Round to integers for cleaner downstream math.
-    Object.keys(breakdown).forEach(function (k) { breakdown[k] = Math.round(breakdown[k]); });
-
-    return {
-      value: Math.round(lihtcEligible),
-      tier_breakdown: breakdown,
-      source: 'chas',
-      counties: perCounty.sort(function (a, b) { return b.share - a.share; })
-    };
+  function _chasLihtcEligibleRenters(bufTracts, acsIdx) {
+    return PMAScoring.chasLihtcEligibleRenters(chasData && chasData.counties, bufTracts, acsIdx);
   }
 
   function scoreCaptureRisk(acs, existingUnits, proposedUnits, chasEligible) {
@@ -916,14 +856,14 @@
     };
   }
 
-  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi, nearbyLihtcFeatures) {
+  function computePma(acs, existingLihtcUnits, proposedUnits, lat, lon, bufTracts, countyAmi, nearbyLihtcFeatures, acsIdx) {
     proposedUnits = proposedUnits || 0;
 
     var demandScore        = scoreDemand(acs);
     // D — Pre-compute LIHTC-eligible renter HH from CHAS (≤80% AMI tiers) so
     // capture-rate uses the income-qualified denominator CHFA expects, not
     // raw ACS renter_hh.
-    var chasEligible       = _chasLihtcEligibleRenters(bufTracts);
+    var chasEligible       = _chasLihtcEligibleRenters(bufTracts, acsIdx);
     var captureObj         = scoreCaptureRisk(acs, existingLihtcUnits, proposedUnits, chasEligible);
     var rentPressureObj    = scoreRentPressure(acs, countyAmi);
     var lihtcRecency       = _computeLihtcRecency(nearbyLihtcFeatures);
@@ -1086,7 +1026,8 @@
       dimensionNotes: {
         captureRisk:     captureObj.denominatorSource === 'chas_lihtc_eligible'
           ? 'Ratio of total affordable units to LIHTC-eligible renter HH (≤80% AMI from CHAS ' +
-            (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') + ')'
+            (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
+            '), scaled to the PMA buffer using county income mix'
           : 'Ratio of total affordable units to ALL renter households in buffer (ACS total — over-counts LIHTC demand pool)',
         marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
         rentPressure:    rentPressureObj.unavailable
@@ -2202,7 +2143,7 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc);
+    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
