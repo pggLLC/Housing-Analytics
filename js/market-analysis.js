@@ -876,6 +876,17 @@
     // null-propagation refactor — unwrap defensively. If the Bridge path
     // reports unavailable (ACS missing), fall back to the local
     // scoreMarketTightness which accepts a defaulted vacancy_rate.
+    //
+    // NOTE (#1149): the two paths below use DIFFERENT vacancy ceilings.
+    // This Bridge-gated path (scoreLandSupplyWithBridge → scoreLandSupply in
+    // js/market-analysis/site-selection-score.js) normalizes against a 0.10
+    // ceiling; the fallback scoreMarketTightness uses the 0.12 documented in
+    // docs/PMA_SCORING.md. Currently dormant in every default deployment —
+    // BridgeMarketSummary.isAvailable() is false until BRIDGE_BROWSER_TOKEN
+    // is configured (js/config.js) — so the 0.12 path always runs today.
+    // Flag to whoever enables real Bridge/MLS access: this divergence needs
+    // an owner decision before the 0.10 path silently takes over. See the
+    // follow-up issue referenced in #1149 for the reconciliation decision.
     var _landResult = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
       ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
       : null;
