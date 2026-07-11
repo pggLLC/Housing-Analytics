@@ -23,6 +23,7 @@ const REGIONAL_METRICS = [
   'pct_single_parent_households',
   'pct_age_65_plus',
   'pct_bipoc_population',
+  'pct_bipoc_households',
 ];
 
 function readJson(file) {
@@ -176,6 +177,7 @@ test('regional comparison metrics are present, bounded, and source-tagged for co
     assert.strictEqual(digest.metrics.pct_single_parent_households.source_id, 'acs-profile-dp02');
     assert.strictEqual(digest.metrics.pct_age_65_plus.source_id, 'acs-profile-dp05');
     assert.strictEqual(digest.metrics.pct_bipoc_population.source_id, 'acs-profile-dp05');
+    assert.strictEqual(digest.metrics.pct_bipoc_households.source_id, 'acs-b25003');
   }
 });
 
@@ -193,6 +195,27 @@ test('regional BIPOC population share recomputes from raw DP05 fields', () => {
   }
 });
 
+test('regional BIPOC households recomputes from raw B25003 fields', () => {
+  const fixtures = ['08045', '0803620'];
+  for (const geoid of fixtures) {
+    const digest = readJson(path.join(DIGEST_DIR, `${geoid}.json`));
+    const summary = readJson(path.join(ROOT, 'data/hna/summary', `${geoid}.json`));
+    const total = Number(summary.acsProfile.B25003_001E);
+    const notHispanicWhite = Number(summary.acsProfile.B25003H_001E);
+    assert.ok(Number.isFinite(total) && total > 0, `${geoid} occupied housing units`);
+    assert.ok(Number.isFinite(notHispanicWhite), `${geoid} non-Hispanic White alone householder occupied units`);
+    const expected = Math.round(((total - notHispanicWhite) / total * 100) * 10) / 10;
+    assert.strictEqual(digest.metrics.pct_bipoc_households.value, expected, `${geoid} pct_bipoc_households raw B25003 recompute`);
+  }
+});
+
+test('regional BIPOC household source fields are cached for normal profile geographies', () => {
+  const summary = readJson(path.join(ROOT, 'data/hna/summary', '08045.json'));
+  const acs = summary.acsProfile || {};
+  assert.ok(Number.isFinite(Number(acs.B25003_001E)), 'Garfield B25003_001E should be present in the normal summary cache');
+  assert.ok(Number.isFinite(Number(acs.B25003H_001E)), 'Garfield B25003H_001E should be present in the normal summary cache');
+});
+
 test('regional comparison fixture values stay stable for Garfield County and Roaring Fork places', () => {
   const expected = {
     '08045': {
@@ -203,6 +226,8 @@ test('regional comparison fixture values stay stable for Garfield County and Roa
       pct_age_65_plus: 14.8,
       // ACS 2020-2024 DP05 complement method; cross-checked against Census Reporter B03002.
       pct_bipoc_population: 38.5,
+      // ACS 2020-2024 B25003/B25003H complement method; matches EPS report Table 9.
+      pct_bipoc_households: 28.3,
     },
     '0803620': {
       pct_ami_gt80: 60.8,
@@ -212,6 +237,8 @@ test('regional comparison fixture values stay stable for Garfield County and Roa
       pct_age_65_plus: 17.4,
       // ACS 2020-2024 DP05 complement method; cross-checked against Census Reporter B03002.
       pct_bipoc_population: 21.0,
+      // ACS 2020-2024 B25003/B25003H complement method; matches EPS report Table 9.
+      pct_bipoc_households: 21.8,
     },
     '0812045': {
       pct_ami_gt80: 64.4,
@@ -233,12 +260,27 @@ test('regional BIPOC population row is labeled as population, not households', (
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   assert.ok(src.includes("label: 'BIPOC population share', key: 'pct_bipoc_population'"), 'population row label is present');
   assert.ok(!src.includes("label: 'BIPOC households', key: 'pct_bipoc_population'"), 'population row is not mislabeled as households');
+  assert.ok(src.includes("label: 'BIPOC households', key: 'pct_bipoc_households'"), 'household row label is present');
+  assert.ok(src.indexOf("key: 'pct_bipoc_population'") < src.indexOf("key: 'pct_bipoc_households'"), 'population row should precede household row');
 });
 
 test('bipocPopulationPct returns null when required DP05 fields are missing', () => {
   const probe = [
     `import { bipocPopulationPct } from ${JSON.stringify(`file://${BUILDER}`)};`,
     `const value = bipocPopulationPct({ DP05_0033E: 1000 });`,
+    `if (value !== null) throw new Error('expected null, got ' + value);`,
+  ].join('\n');
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', probe], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  assert.strictEqual(result.status, 0, result.stderr || result.stdout);
+});
+
+test('bipocHouseholdsPct returns null when required B25003 fields are missing', () => {
+  const probe = [
+    `import { bipocHouseholdsPct } from ${JSON.stringify(`file://${BUILDER}`)};`,
+    `const value = bipocHouseholdsPct({ B25003_001E: 1000 });`,
     `if (value !== null) throw new Error('expected null, got ' + value);`,
   ].join('\n');
   const result = spawnSync(process.execPath, ['--input-type=module', '-e', probe], {

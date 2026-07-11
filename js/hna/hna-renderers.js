@@ -8197,6 +8197,7 @@
     { section: 'Demographics', label: 'Single-parent households', key: 'pct_single_parent_households', format: 'pct' },
     { section: 'Demographics', label: 'Age 65+', key: 'pct_age_65_plus', format: 'pct' },
     { section: 'Demographics', label: 'BIPOC population share', key: 'pct_bipoc_population', format: 'pct' },
+    { section: 'Demographics', label: 'BIPOC households', key: 'pct_bipoc_households', format: 'pct' },
   ];
 
   function _regionalFmt(value, format) {
