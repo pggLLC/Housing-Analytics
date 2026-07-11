@@ -386,6 +386,13 @@ export function bipocPopulationPct(acs) {
   return pctFromCounts(total - notHispanicWhite, total);
 }
 
+export function bipocHouseholdsPct(acs) {
+  const total = numberOrNull(acs?.B25003_001E);
+  const notHispanicWhite = numberOrNull(acs?.B25003H_001E);
+  if (total == null || notHispanicWhite == null) return null;
+  return pctFromCounts(total - notHispanicWhite, total);
+}
+
 function regionalComparisonMetrics(entry, summary, chasSources) {
   const acs = summary?.acsProfile || {};
   const builtPre1970 = housingBuiltPre1970Pct(acs);
@@ -425,6 +432,13 @@ function regionalComparisonMetrics(entry, summary, chasSources) {
       'acs-profile-dp05',
       'total_population',
       acs.DP05_0033E,
+    ),
+    pct_bipoc_households: acsRegionalMetric(
+      bipocHouseholdsPct(acs),
+      entry,
+      'acs-b25003',
+      'occupied_housing_units',
+      acs.B25003_001E,
     ),
   };
 }
