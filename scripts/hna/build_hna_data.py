@@ -150,6 +150,57 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
         return None
 
 
+_ACS5_DETAIL_TENURE_CACHE: dict[str, dict[str, str]] | None = None
+_ACS5_DETAIL_TENURE_CACHE_KEY: tuple[int, ...] | None = None
+
+
+def _fetch_acs5_detail_tenure_lookup(years_to_try: list[int]) -> dict[str, dict[str, str]]:
+    """Fetch B25003/B25003H for Colorado counties and places in two bulk calls."""
+    global _ACS5_DETAIL_TENURE_CACHE, _ACS5_DETAIL_TENURE_CACHE_KEY
+    cache_key = tuple(years_to_try)
+    if _ACS5_DETAIL_TENURE_CACHE is not None and _ACS5_DETAIL_TENURE_CACHE_KEY == cache_key:
+        return _ACS5_DETAIL_TENURE_CACHE
+
+    lookup: dict[str, dict[str, str]] = {}
+    vars_ = ['B25003_001E', 'B25003H_001E', 'NAME']
+    key = census_key()
+
+    def fetch_scope(scope: str) -> bool:
+        for year in years_to_try:
+            qs = f"get={','.join(vars_)}&for={scope}:*&in=state:{STATE_FIPS_CO}"
+            if key:
+                qs += f"&key={urllib.parse.quote(key, safe='')}"
+            url = f"https://api.census.gov/data/{year}/acs/acs5?{qs}"
+            result = http_get_json(url)
+            if not result or len(result) <= 1:
+                continue
+            header = result[0]
+            for row in result[1:]:
+                rec = {header[i]: row[i] for i in range(len(header))}
+                if scope == 'county':
+                    geoid = STATE_FIPS_CO + rec['county']
+                else:
+                    geoid = STATE_FIPS_CO + rec['place']
+                lookup[geoid] = rec
+            if year != years_to_try[0]:
+                print(f"ℹ ACS detail tenure/race {scope}:* resolved via acs5 year={year}", file=sys.stderr)
+            return True
+        print(f"ℹ ACS detail tenure/race {scope}:* unavailable — regional BIPOC households will be unavailable for that scope", file=sys.stderr)
+        return False
+
+    fetch_scope('county')
+    fetch_scope('place')
+    _ACS5_DETAIL_TENURE_CACHE = lookup
+    _ACS5_DETAIL_TENURE_CACHE_KEY = cache_key
+    return lookup
+
+
+def _acs5_detail_tenure_for_geo(geo_type: str, geoid: str, years_to_try: list[int]) -> dict[str, str] | None:
+    """Return cached ACS5 Detail Table tenure/race fields for one geography."""
+    lookup = _fetch_acs5_detail_tenure_lookup(years_to_try)
+    return lookup.get(geoid)
+
+
 def read_csv_with_banner_skip(path: str, encoding: str = "utf-8") -> tuple[list[str], list[dict]]:
     """Read CSV, auto-detecting and skipping banner rows.
     
@@ -999,6 +1050,13 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                 merged.setdefault(k, v)
         else:
             print(f"ℹ ACS profile (batch {label}) for {geo_type}:{geoid} unavailable — {description} will fall back to live fetch", file=sys.stderr)
+
+    detail_tenure = _acs5_detail_tenure_for_geo(geo_type, geoid, years_to_try)
+    if detail_tenure is not None:
+        for k, v in detail_tenure.items():
+            merged.setdefault(k, v)
+    else:
+        print(f"ℹ ACS detail tenure/race supplement for {geo_type}:{geoid} unavailable — regional BIPOC households will be unavailable", file=sys.stderr)
     return merged
 
 
