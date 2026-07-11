@@ -297,6 +297,40 @@ group('5. calculateAbsorptionRisk', () => {
     assert.equal(r.captureRate, 0.08);
     assert.equal(r.risk, 'moderate');
   });
+
+  // Label guard for #1148: calculateAbsorptionRisk()'s output is a
+  // supply-÷-supply ratio and must be rendered as "competitive supply
+  // share", never "capture rate" — that term is reserved for the
+  // demand-pool metric (units ÷ income-qualified renter HH) documented in
+  // docs/PMA_SCORING.md. Scope the greps to the absorption block only:
+  // "capture rate" legitimately appears elsewhere in both files for the
+  // real metric.
+  test('absorption-risk UI surfaces use "competitive supply share", not "capture rate"', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+
+    const ui = fs.readFileSync(
+      path.resolve(__dirname, '..', 'js', 'pma-ui-controller.js'), 'utf8');
+    const uiStart = ui.indexOf('scoreRun.absorptionRisk');
+    const uiEnd = ui.indexOf('pmaIncentiveBadges', uiStart);
+    assert.ok(uiStart !== -1 && uiEnd > uiStart, 'absorption render block found in pma-ui-controller.js');
+    const uiBlock = ui.slice(uiStart, uiEnd);
+    assert.ok(!/capture rate/i.test(uiBlock),
+      'absorption block must not label its value "capture rate"');
+    assert.ok(/competitive supply share/i.test(uiBlock),
+      'absorption block labels its value "competitive supply share"');
+
+    const html = fs.readFileSync(
+      path.resolve(__dirname, '..', 'market-analysis.html'), 'utf8');
+    const cardStart = html.indexOf('pmaAbsorptionRiskWrap');
+    const cardEnd = html.indexOf('pmaAbsorptionRiskBody', cardStart);
+    assert.ok(cardStart !== -1 && cardEnd > cardStart, 'absorption card found in market-analysis.html');
+    const cardBlock = html.slice(cardStart, cardEnd);
+    assert.ok(!/capture/i.test(cardBlock),
+      'absorption card heading must not say "capture"');
+    assert.ok(/Competitive Supply Share/.test(cardBlock),
+      'absorption card heading uses "Competitive Supply Share"');
+  });
 });
 
 /* ── Summary ───────────────────────────────────────────────────────── */
