@@ -58,7 +58,11 @@
   var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
-  var bufferMiles  = 5;
+  // Must match the `selected` option of #pmaBufferSelect in
+  // market-analysis.html and _bufferMiles in js/pma-ui-controller.js —
+  // guarded by a three-way agreement test in test/pma-scoring.test.js
+  // (#1160). bindBufferSelect() re-syncs from the live select at init.
+  var bufferMiles  = 3;
 
   // Walking + biking ring radii (miles). The ½-mile walking ring is the
   // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
@@ -1478,7 +1482,7 @@
     if (!tbody || !_pmaLastSite) return;
     var radiusSel = document.getElementById('pmaNearbyRadius');
     var outer = radiusSel ? Math.max(1, parseFloat(radiusSel.value) || 25) : 25;
-    var inner = (_pmaLastSite.bufferMiles || 5);
+    var inner = (_pmaLastSite.bufferMiles || 3);
     var lat = _pmaLastSite.lat, lon = _pmaLastSite.lon;
     if (!Number.isFinite(lat) || !Number.isFinite(lon) || !lihtcFeatures) {
       tbody.innerHTML = '<tr><td colspan="6" style="padding:8px;color:var(--muted)">No LIHTC features loaded.</td></tr>';
@@ -3681,8 +3685,12 @@
   function bindBufferSelect() {
     var sel = el('pmaBufferSelect');
     if (!sel) return;
+    // #1160: sync module state to whatever the HTML marks as selected, so
+    // programmatic runAnalysis() calls (no change event) use the same
+    // default the UI displays.
+    bufferMiles = parseInt(sel.value, 10) || bufferMiles;
     sel.addEventListener('change', function () {
-      bufferMiles = parseInt(sel.value, 10) || 5;
+      bufferMiles = parseInt(sel.value, 10) || 3;
       if (siteLatLng) {
         placeSiteMarker(siteLatLng.lat, siteLatLng.lon);
         runAnalysis(siteLatLng.lat, siteLatLng.lon);
@@ -3794,7 +3802,7 @@
    */
   function _buildPmaReportData() {
     var r = lastResult || {};
-    var bufferM = r.bufferMiles || bufferMiles || 5;
+    var bufferM = r.bufferMiles || bufferMiles || 3;
     var acs = r.acs || {};
     var dims = r.dimensions || {};
     var dimAvail = r.dimensionDataAvailable || {};
@@ -4447,7 +4455,7 @@
       }
       if (!_allFlowArcs || !_allFlowArcs.features) return;
 
-      var bufMi = site.bufferMiles || 5;
+      var bufMi = site.bufferMiles || 3;
       // Expand filter radius to catch arcs that start/end near the site
       var filterRadius = Math.max(bufMi * 2, 15);
 
@@ -4589,7 +4597,7 @@
     // guidance + standard market studies expect. Buffer is still selectable
     // for sites where LODES data is sparse.
     method      = method      || 'hybrid';
-    bufferMiles = bufferMiles || 5;
+    bufferMiles = bufferMiles || 3;
 
     if (method === 'buffer') {
       var commMod = window.PMACommuting;

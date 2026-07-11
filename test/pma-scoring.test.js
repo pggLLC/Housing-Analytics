@@ -298,6 +298,34 @@ test('scoreRentPressure requires county AMI instead of statewide fallback', () =
   assert(typeof present.score === 'number', 'county AMI score is numeric');
 });
 
+// #1160: three sources declare the default PMA buffer radius — the HTML
+// select's `selected` option, market-analysis.js's module-level fallback,
+// and pma-ui-controller.js's _bufferMiles. They silently disagreed (5 vs 3)
+// until #1160; this guards against re-drift. bindBufferSelect() also
+// re-syncs the module var from the live select at init, but these static
+// defaults are what programmatic callers hit before/without DOM.
+test('default PMA buffer radius agrees across HTML select, engine, and UI controller (#1160)', () => {
+  const html = fs.readFileSync(path.resolve(__dirname, '..', 'market-analysis.html'), 'utf8');
+  const selStart = html.indexOf('id="pmaBufferSelect"');
+  const selEnd = html.indexOf('</select>', selStart);
+  assert(selStart !== -1 && selEnd > selStart, 'pmaBufferSelect found in market-analysis.html');
+  const selectedOpt = html.slice(selStart, selEnd).match(/<option value="(\d+)"\s+selected/);
+  assert(selectedOpt, 'pmaBufferSelect has a selected default option');
+
+  const engine = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  const engineDefault = engine.match(/var bufferMiles\s*=\s*(\d+)\s*;/);
+  assert(engineDefault, 'module-level bufferMiles default found in market-analysis.js');
+
+  const uic = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'pma-ui-controller.js'), 'utf8');
+  const uicDefault = uic.match(/var _bufferMiles\s*=\s*(\d+)\s*;/);
+  assert(uicDefault, '_bufferMiles default found in pma-ui-controller.js');
+
+  assert(engineDefault[1] === selectedOpt[1],
+    `engine default (${engineDefault[1]}) matches HTML selected option (${selectedOpt[1]})`);
+  assert(uicDefault[1] === selectedOpt[1],
+    `UI controller default (${uicDefault[1]}) matches HTML selected option (${selectedOpt[1]})`);
+});
+
 test('scoreMarketTightness treats suppressed vacancy as neutral default, not max-tight', () => {
   const suppressed = Scoring.scoreMarketTightness({ vacancy_rate: null });
   const explicitZero = Scoring.scoreMarketTightness({ vacancy_rate: 0 });
