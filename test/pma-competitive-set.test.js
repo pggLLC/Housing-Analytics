@@ -276,10 +276,26 @@ group('5. calculateAbsorptionRisk', () => {
     assert.equal(r.totalCompetitiveUnits, expected);
   });
 
-  test('risk value is one of low/medium/high (string)', () => {
+  test('risk value is one of low/moderate/high (string)', () => {
     const r = PMACS.calculateAbsorptionRisk(set, 100);
-    assert.ok(['low', 'medium', 'high'].includes(r.risk),
+    assert.ok(['low', 'moderate', 'high'].includes(r.risk),
       `unexpected risk value: ${r.risk}`);
+  });
+
+  // Regression guard for #1150: the risk-tier assertion above previously
+  // checked ['low', 'medium', 'high'] against code that actually returns
+  // 'moderate' for the middle tier -- a typo that passed for years only
+  // because no fixture here ever landed in that branch (this file's main
+  // `set` always resolves to 'high', captureRate 0.14). This synthetic
+  // set is sized so captureRate falls at 100/1300 ~= 0.077, inside
+  // [SATURATION_LIMIT * 0.5, SATURATION_LIMIT) = [0.05, 0.10), to
+  // actually exercise the 'moderate' branch instead of just not-yet-
+  // having-broken on it.
+  test('risk is moderate when captureRate falls inside the middle band', () => {
+    const moderateSet = [{ units: 1200 }];
+    const r = PMACS.calculateAbsorptionRisk(moderateSet, 100);
+    assert.equal(r.captureRate, 0.08);
+    assert.equal(r.risk, 'moderate');
   });
 });
 
