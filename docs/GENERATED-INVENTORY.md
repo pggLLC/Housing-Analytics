@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-11T04:53:13.550Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-11T12:31:59.761Z. Do not edit by hand.
 
 ---
 
@@ -1714,7 +1714,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 5.0 KB |
-| `test/pma-competitive-set.test.js` | 10.1 KB |
+| `test/pma-competitive-set.test.js` | 11.0 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 12.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
