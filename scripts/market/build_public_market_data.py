@@ -592,6 +592,8 @@ ACS_VARIABLES = [
     "B25003_002E",  # owner-occupied
     "B25003_003E",  # renter-occupied
     "B25004_001E",  # total vacant
+    "B25004_002E",  # vacant — for rent (#1163: rental-vacancy numerator)
+    "B25004_003E",  # vacant — rented, not occupied (#1163: HVS denominator term)
     "B25064_001E",  # median gross rent
     "B19013_001E",  # median HH income
     "B25070_007E",  # 30-34.9% income on rent
@@ -673,6 +675,20 @@ def build_acs_metrics(centroids: dict) -> dict:
         universe  = total_hh + vacant
         vac_rate  = round(vacant / universe, 4) if universe > 0 else 0.0
 
+        # #1163 — rental vacancy per the Census HVS convention:
+        # vacant-for-rent / (renter-occupied + vacant-for-rent + rented-not-
+        # occupied). Total `vacancy_rate` above counts seasonal/second homes
+        # as vacant, which reads resort counties (Summit: 63% median tract
+        # "vacancy") as oversupplied; rental vacancy is the lease-up-risk
+        # signal PMA Land/Supply scoring actually needs. Emit null (not 0.0)
+        # when the rental universe is empty — 0.0 would read as "perfectly
+        # tight market" for tracts with no rental stock at all.
+        vacant_for_rent     = safe_int(row[idx.get("B25004_002E", -1)])
+        rented_not_occupied = safe_int(row[idx.get("B25004_003E", -1)])
+        rental_universe     = renter_hh + vacant_for_rent + rented_not_occupied
+        rental_vacancy_rate = round(vacant_for_rent / rental_universe, 4) \
+                              if rental_universe > 0 else None
+
         # Severe cost burden (50%+ of income on rent)
         severe_num = safe_int(row[idx.get("B25070_010E", -1)])
         severe_rate = round(severe_num / cb_den, 4) if cb_den > 0 else 0.0
@@ -737,6 +753,13 @@ def build_acs_metrics(centroids: dict) -> dict:
             "poverty_rate":         pov_rate,
             "unemployment_rate":    unemp_rate,
             "vacancy_rate":         vac_rate,
+            # #1163 — rental-vacancy fields (additive; total `vacant` /
+            # `vacancy_rate` unchanged for their existing consumers). Counts
+            # are emitted so buffer-level aggregation can sum apportioned
+            # counts instead of averaging tract rates.
+            "vacant_for_rent":      vacant_for_rent,
+            "rented_not_occupied":  rented_not_occupied,
+            "rental_vacancy_rate":  rental_vacancy_rate,
             # E — demographics breadth
             "median_age":           median_age,
             "avg_hh_size_owner":    avg_hh_size_owner,
@@ -765,7 +788,10 @@ def _acs_meta() -> dict:
             "median_gross_rent": "B25064_001E — Median gross rent ($)",
             "median_hh_income":  "B19013_001E — Median household income ($)",
             "cost_burden_rate":  "Derived: B25070 pct paying 30%+ of income on rent",
-            "vacancy_rate":      "Derived: vacant / (total_hh + vacant)",
+            "vacancy_rate":      "Derived: vacant / (total_hh + vacant) — TOTAL vacancy, includes seasonal/recreational units",
+            "vacant_for_rent":   "B25004_002E — Vacant housing units: for rent",
+            "rented_not_occupied": "B25004_003E — Vacant housing units: rented, not occupied",
+            "rental_vacancy_rate": "Derived (#1163, HVS convention): vacant_for_rent / (renter_hh + vacant_for_rent + rented_not_occupied); null when that universe is 0",
         },
         "note": "Rebuild via scripts/market/build_public_market_data.py",
     }
