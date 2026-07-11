@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-11T17:47:45.450Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-11T18:07:08.535Z. Do not edit by hand.
 
 ---
 
@@ -1549,7 +1549,7 @@
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 195.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
-| `data/market/acs_tract_metrics_co.json` | 1.11 MB | ✅ | — |
+| `data/market/acs_tract_metrics_co.json` | 1.25 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -1717,7 +1717,7 @@
 | `test/place-pages.test.js` | 5.0 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 19.4 KB |
+| `test/pma-scoring.test.js` | 23.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
