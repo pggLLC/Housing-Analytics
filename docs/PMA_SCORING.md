@@ -167,6 +167,32 @@ the "Total proposed units" field.
 
 ---
 
+## Competitive Supply Share (absorption risk)
+
+**Not a capture rate.** Capture rate (above) divides units by a *demand pool*
+(income-qualified renter households). Competitive Supply Share divides supply
+by supply — the proposed project's share of the competitive inventory it will
+lease up against. The two move in opposite directions for the same market
+signal (more existing LIHTC supply raises capture rate but lowers supply
+share), so they must never share a label. Implemented by
+`calculateAbsorptionRisk()` in `js/pma-competitive-set.js`:
+
+```
+competitiveSupplyShare = proposedUnits / (totalCompetitiveUnits + proposedUnits)
+```
+
+Thresholds (`SATURATION_LIMIT = 0.10`):
+- **Low**: share < 5%
+- **Moderate**: 5% ≤ share < 10%
+- **High**: share ≥ 10%
+
+Rendered in the "Absorption Risk — Competitive Supply Share" card on the
+Market Analysis page. The result object's internal field name remains
+`captureRate` for backwards compatibility; only the user-facing label
+changed (#1148).
+
+---
+
 ## Explainability
 
 Each dimension score is displayed as a bar (0–100) in the UI alongside the

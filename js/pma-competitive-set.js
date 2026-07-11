@@ -21,7 +21,7 @@
   var EARTH_RADIUS_MI   = 3958.8;
   var DEFAULT_RADIUS    = 5;         // miles
   var SUBSIDY_EXPIRY_RISK_YEARS = 5;         // properties expiring within this many years are "at risk"
-  var SATURATION_LIMIT  = 0.10;      // >10 % capture rate = high absorption risk
+  var SATURATION_LIMIT  = 0.10;      // >10 % competitive supply share = high absorption risk
   var CURRENT_YEAR      = new Date().getFullYear();
 
   /* ── Internal state ───────────────────────────────────────────────── */

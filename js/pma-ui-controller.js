@@ -520,10 +520,13 @@
       }
     }
 
-    // Absorption / capture risk — was previously computed by the PMA
-    // runner (results.absorptionRisk) but never rendered. Surfacing it
-    // here so a banker can see whether the proposed unit count vs the
-    // existing competitive set raises a saturation flag.
+    // Absorption risk (competitive supply share) — was previously computed
+    // by the PMA runner (results.absorptionRisk) but never rendered.
+    // Surfacing it here so a banker can see whether the proposed unit count
+    // vs the existing competitive set raises a saturation flag. Deliberately
+    // NOT labeled "capture rate": that term is reserved for the demand-pool
+    // metric (units ÷ income-qualified renter HH) in the stat tile — this is
+    // a supply-÷-supply ratio with a different threshold (see #1148).
     var absorption = scoreRun.absorptionRisk || null;
     var absWrap = $id('pmaAbsorptionRiskWrap');
     var absBody = $id('pmaAbsorptionRiskBody');
@@ -541,17 +544,17 @@
         var propUnits = absorption.proposedUnits || 0;
         absBody.innerHTML =
           '<div><strong style="color:' + riskColor + ';">' + _esc(riskLabel) + '</strong> ' +
-            '— capture rate: <strong>' + captureRatePct + '%</strong> ' +
+            '— competitive supply share: <strong>' + captureRatePct + '%</strong> ' +
             '(' + propUnits + ' proposed / ' + (compUnits + propUnits) + ' total).' +
           '</div>' +
           '<div style="font-size:.92em;color:var(--muted,#888);margin-top:.25rem;">' +
             'Based on ' + compCount + ' nearby competitive ' +
             (compCount === 1 ? 'property' : 'properties') + ' totaling ' + compUnits + ' units. ' +
             (risk === 'high'
-               ? 'High capture rate suggests the proposed deal may struggle to lease at proforma absorption rates.'
+               ? 'High competitive supply share suggests the proposed deal may struggle to lease at proforma absorption rates.'
             : risk === 'moderate'
-               ? 'Moderate capture — verify lease-up assumptions vs comparable lease-up timelines.'
-            :  'Low capture — proposed unit count is well-absorbed by the local market.') +
+               ? 'Moderate supply share — verify lease-up assumptions vs comparable lease-up timelines.'
+            :  'Low supply share — proposed unit count is well-absorbed by the local market.') +
           '</div>';
         absWrap.hidden = false;
       } else {
