@@ -83,37 +83,59 @@ Where `AMI` = Colorado statewide Area Median Income. See [HUD Income Limits](htt
 
 ### 4. Land / Supply (15%)
 
-Measures housing supply tightness via vacancy rate.
-Very low vacancy signals unmet demand.
+Measures rental-market supply tightness via **rental vacancy** (#1163).
+Very low rental vacancy signals unmet demand; 10%+ signals lease-up risk.
 
-**Two code paths implement this dimension with different vacancy ceilings** (#1149):
-
-**Current default path** — `scoreMarketTightness()` (`js/market-analysis-scoring.js`,
-delegated from `js/market-analysis.js`). Runs in every deployment without
-Bridge/MLS credentials, which is all of them today
-(`BRIDGE_BROWSER_TOKEN` is empty by default in `js/config.js`):
+**The input is rental vacancy, not total vacancy.** Total ACS vacancy
+(`B25004_001E`) counts seasonal and second homes as "vacant," which scored
+every Colorado resort county 0 on this dimension (Summit County: 63% median
+tract "vacancy") — reading the state's most workforce-housing-starved rental
+markets as oversupplied. Rental vacancy follows the Census Housing Vacancy
+Survey convention:
 
 ```
-landScore = max(0, min(100, (1 − vacancy_rate / 0.12) × 100))
+rental_vacancy_rate = vacant_for_rent / (renter_hh + vacant_for_rent + rented_not_occupied)
+                      (B25004_002E)     (B25003_003E + B25004_002E + B25004_003E)
+
+landScore = max(0, min(100, (1 − rental_vacancy_rate / 0.10) × 100))
 ```
 
-Suppressed/missing vacancy defaults to 0.05 (neutral ≈ 58), never max-tight.
+**Both code paths use this same input and the same 0.10 ceiling**
+(`PMAMarketScoring.RENTAL_VACANCY_CEILING`) — the historical 0.10-vs-0.12
+divergence (#1149) is resolved:
 
-**Dormant Bridge-gated path** — `scoreLandSupplyWithBridge()` →
-`scoreLandSupply()` (`js/market-analysis/site-selection-score.js`). Preferred
-automatically whenever `BridgeMarketSummary.isAvailable()` is true, i.e. once
-real Bridge/MLS access is configured. Uses a **0.10** ceiling, chosen
-independently in that module ("10% is where lease-up risk begins to
-materially threaten LIHTC underwriting"), and blends in Bridge land-cost
-context (60% ACS vacancy / 40% land cost). Suppressed vacancy propagates
-`unavailable` (weight redistributes) instead of defaulting.
+- `scoreMarketTightness()` (`js/market-analysis-scoring.js`) — the default
+  path. Buffer-level rental vacancy is derived from summed, buffer-share-
+  apportioned counts (not averaged tract rates) in `aggregateAcs()`.
+- `scoreLandSupplyWithBridge()` → `scoreLandSupply()`
+  (`js/market-analysis/site-selection-score.js`) — the Bridge-gated path.
+  Its only remaining difference is the 60/40 land-cost blend; enabling
+  Bridge/MLS access no longer changes the vacancy normalization.
 
-Neither threshold has been formally reconciled — that is a deliberate open
-owner decision, not an oversight. Do not silently change either number; see
-the follow-up issue referenced from #1149. Until then, be aware that
-enabling Bridge/MLS access will switch this dimension from the 0.12 to the
-0.10 ceiling (and from neutral-default to weight-redistribution on
-suppressed vacancy) without any other code change.
+The 0.10 ceiling is underwriting-grounded: 10%+ vacancy is where lease-up
+risk and absorption pace materially threaten LIHTC underwriting.
+
+**Legacy fallback**: when the tract data predates the rental-vacancy fields
+(or a buffer has no rental universe at all), scoring falls back to the
+historical behavior — total vacancy at a 0.12 ceiling, suppressed input
+defaulting to 0.05 (neutral ≈ 58) — and the dimension note discloses
+`legacy_total_vacancy` as the basis. This exists only for stale data files;
+current pipelines always emit the rental fields.
+
+**Known limitation — STR contamination in resort cores.** ACS classifies
+units actively listed for rent as "For rent" (`B25004_002E`) regardless of
+whether they are offered as long-term housing or short-term/vacation
+rentals. In STR-saturated resort markets this inflates rental vacancy far
+above the long-term-market reality (2019–2023 ACS: Summit County's rental
+universe is ~38% "for rent" county-wide — clearly STR stock, not workforce-
+available vacancies), so buffers centered on resort cores still floor at 0
+on this dimension. This is a data limitation, not a formula error: ACS has
+no STR/long-term split. The switch to rental vacancy fixed the metro and
+non-resort mountain counties (Denver ~5%, La Plata ~7% — sensible scores)
+and removed the worst of the seasonal-homes inversion, but resort-core
+Land/Supply scores should be read alongside local STR-license and
+long-term-listing data until a refinement lands (see the follow-up issue
+referenced from #1163).
 
 ### 5. Workforce (15%)
 

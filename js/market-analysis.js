@@ -410,6 +410,9 @@
       hh_size_owner_sum: 0, hh_size_owner_n: 0,
       hh_size_renter_sum: 0, hh_size_renter_n: 0,
       bachelors_sum: 0, bachelors_n: 0,
+      // #1163 — rental-vacancy counts (apportioned), so the buffer-level
+      // rate is derived from summed counts, not averaged tract rates.
+      vacant_for_rent: 0, rented_not_occupied: 0,
       renter_by_structure: null,  // initialized lazily below
       n: 0
     };
@@ -429,6 +432,8 @@
       totals.owner_hh     += (m.owner_hh     || 0) * share;
       totals.total_hh     += (m.total_hh     || 0) * share;
       totals.vacant       += (m.vacant       || 0) * share;
+      totals.vacant_for_rent     += (m.vacant_for_rent     || 0) * share;
+      totals.rented_not_occupied += (m.rented_not_occupied || 0) * share;
       // Rates are unweighted averages — don't multiply by share.
       totals.rent_sum     += m.median_gross_rent  || 0;
       totals.income_sum   += m.median_hh_income   || 0;
@@ -493,6 +498,14 @@
       median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
+      // #1163 — buffer-level rental vacancy from summed apportioned counts
+      // (HVS convention). Null when the buffer has no rental universe —
+      // scoring's legacy fallback handles that case.
+      vacant_for_rent:     Math.round(totals.vacant_for_rent),
+      rented_not_occupied: Math.round(totals.rented_not_occupied),
+      rental_vacancy_rate: (totals.renter_hh + totals.vacant_for_rent + totals.rented_not_occupied) > 0
+        ? totals.vacant_for_rent / (totals.renter_hh + totals.vacant_for_rent + totals.rented_not_occupied)
+        : null,
       severe_cost_burden_rate: totals.severe_burden_n
         ? totals.severe_burden_sum / totals.severe_burden_n : null,
       poverty_rate:        totals.poverty_n
@@ -881,24 +894,23 @@
     // reports unavailable (ACS missing), fall back to the local
     // scoreMarketTightness which accepts a defaulted vacancy_rate.
     //
-    // NOTE (#1149): the two paths below use DIFFERENT vacancy ceilings.
-    // This Bridge-gated path (scoreLandSupplyWithBridge → scoreLandSupply in
-    // js/market-analysis/site-selection-score.js) normalizes against a 0.10
-    // ceiling; the fallback scoreMarketTightness uses the 0.12 documented in
-    // docs/PMA_SCORING.md. Currently dormant in every default deployment —
-    // BridgeMarketSummary.isAvailable() is false until BRIDGE_BROWSER_TOKEN
-    // is configured (js/config.js) — so the 0.12 path always runs today.
-    // Flag to whoever enables real Bridge/MLS access: this divergence needs
-    // an owner decision before the 0.10 path silently takes over. See the
-    // follow-up issue referenced in #1149 for the reconciliation decision.
+    // #1163: both paths now score RENTAL vacancy against the single 0.10
+    // ceiling (PMAScoring.RENTAL_VACANCY_CEILING) — the #1149 divergence
+    // (0.10 Bridge-gated vs 0.12 default) is resolved. Enabling Bridge/MLS
+    // no longer changes the vacancy normalization, only adds the land-cost
+    // blend. Legacy total-vacancy fallback (0.12) exists solely for data
+    // files that predate the rental_vacancy_rate fields.
     var _landResult = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
       ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
       : null;
+    var _mtDetail = PMAScoring.scoreMarketTightnessDetail
+      ? PMAScoring.scoreMarketTightnessDetail(acs)
+      : { score: scoreMarketTightness(acs), basis: 'legacy_total_vacancy' };
     var marketTightnessScore;
     if (_landResult && !_landResult.unavailable && typeof _landResult.score === 'number') {
       marketTightnessScore = _landResult.score;
     } else {
-      marketTightnessScore = scoreMarketTightness(acs);
+      marketTightnessScore = _mtDetail.score;
     }
 
     // Enhance market score with Bridge transaction velocity
@@ -1044,7 +1056,9 @@
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
             '), scaled to the PMA buffer using county income mix'
           : 'Ratio of total affordable units to ALL renter households in buffer (ACS total — over-counts LIHTC demand pool)',
-        marketTightness: 'Vacancy rate signal — measures how fully occupied existing stock is, NOT land availability for new construction',
+        marketTightness: _mtDetail.basis === 'rental_vacancy'
+          ? 'Rental-vacancy signal (Census HVS convention: for-rent ÷ rental universe, 0.10 ceiling) — seasonal/second homes excluded; measures lease-up risk, NOT land availability'
+          : 'TOTAL vacancy rate signal (legacy fallback — rental-vacancy fields absent from tract data; includes seasonal units, which overstates softness in resort markets)',
         rentPressure:    rentPressureObj.unavailable
           ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
           : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'

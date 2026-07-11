@@ -176,10 +176,33 @@
     return { score: Math.round(score), ratio: ratio, amiUsed: countyAmi, amiSource: 'county', unavailable: false };
   }
 
-  function scoreMarketTightness(acs) {
+  // #1163 — the Land/Supply vacancy signal scores RENTAL vacancy (Census HVS
+  // convention) against a single 0.10 ceiling. Total ACS vacancy counts
+  // seasonal/second homes as vacant, which scored every Colorado resort
+  // county 0 (Summit: 63% median tract "vacancy") — an inverted signal in
+  // exactly the markets this platform serves. 0.10 is the underwriting-
+  // grounded ceiling (10%+ vacancy materially threatens LIHTC lease-up);
+  // the old 0.12 survives only in the legacy fallback below for data files
+  // that predate the rental-vacancy fields.
+  var RENTAL_VACANCY_CEILING = 0.10;
+  var LEGACY_TOTAL_VACANCY_CEILING = 0.12;
+
+  function scoreMarketTightnessDetail(acs) {
+    var rental = acs ? Number(acs.rental_vacancy_rate) : NaN;
+    if (acs && acs.rental_vacancy_rate != null && isFinite(rental)) {
+      var score = Math.max(0, Math.min(100, (1 - rental / RENTAL_VACANCY_CEILING) * 100));
+      return { score: Math.round(score), basis: 'rental_vacancy' };
+    }
+    // Legacy fallback (stale tract file without rental_vacancy_rate, or
+    // suppressed rental universe): historical behavior verbatim — total
+    // vacancy at 0.12, defaulting suppressed input to a neutral 0.05.
     var vac = (acs && acs.vacancy_rate != null) ? acs.vacancy_rate : 0.05;
-    var score = Math.max(0, Math.min(100, (1 - vac / 0.12) * 100));
-    return Math.round(score);
+    var legacy = Math.max(0, Math.min(100, (1 - vac / LEGACY_TOTAL_VACANCY_CEILING) * 100));
+    return { score: Math.round(legacy), basis: 'legacy_total_vacancy' };
+  }
+
+  function scoreMarketTightness(acs) {
+    return scoreMarketTightnessDetail(acs).score;
   }
 
   function scoreTier(s) {
@@ -192,6 +215,8 @@
   return {
     AMI_60_PCT: AMI_60_PCT,
     MAX_AFFORDABLE_RENT_PCT: MAX_AFFORDABLE_RENT_PCT,
+    RENTAL_VACANCY_CEILING: RENTAL_VACANCY_CEILING,
+    LEGACY_TOTAL_VACANCY_CEILING: LEGACY_TOTAL_VACANCY_CEILING,
     WEIGHTS: WEIGHTS,
     RISK: RISK,
     scoreDemand: scoreDemand,
@@ -199,6 +224,7 @@
     chasLihtcEligibleRenters: chasLihtcEligibleRenters,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
+    scoreMarketTightnessDetail: scoreMarketTightnessDetail,
     scoreTier: scoreTier
   };
 }));

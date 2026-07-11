@@ -52,6 +52,11 @@ const SAMPLE_ACS = {
   severe_cost_burden_rate: 0.16,
   poverty_rate: 0.12,
   vacancy_rate: 0.03,
+  // #1163 — rental-vacancy fields so composition tests exercise the
+  // preferred (rental) scoring path, matching regenerated tract data.
+  vacant_for_rent: 330,
+  rented_not_occupied: 20,
+  rental_vacancy_rate: 0.04,
   tract_count: 12,
 };
 
@@ -326,12 +331,65 @@ test('default PMA buffer radius agrees across HTML select, engine, and UI contro
     `UI controller default (${uicDefault[1]}) matches HTML selected option (${selectedOpt[1]})`);
 });
 
+// #1163: when BOTH vacancy inputs are absent/suppressed, scoring routes
+// through the legacy fallback (total vacancy, 0.12 ceiling, 0.05 neutral
+// default) — deliberately preserving the historical 58, not the 50 the
+// rental ceiling would give. Full weight-redistribution for suppressed
+// data in computePma's composite was considered and deferred (see #1163).
 test('scoreMarketTightness treats suppressed vacancy as neutral default, not max-tight', () => {
   const suppressed = Scoring.scoreMarketTightness({ vacancy_rate: null });
   const explicitZero = Scoring.scoreMarketTightness({ vacancy_rate: 0 });
 
-  assert(suppressed === 58, `suppressed vacancy gets neutral-ish score 58 (got ${suppressed})`);
+  assert(suppressed === 58, `suppressed vacancy gets neutral-ish legacy score 58 (got ${suppressed})`);
   assert(explicitZero === 100, 'explicit zero vacancy still scores as max tightness');
+});
+
+// ── #1163: Land/Supply scores RENTAL vacancy at a single 0.10 ceiling ──────
+
+test('scoreMarketTightness prefers rental vacancy over resort-inflated total vacancy', () => {
+  // Resort-style aggregate: 63% total "vacancy" (seasonal homes) but a
+  // genuinely tight 5% rental market. Old behavior scored this 0.
+  const detail = Scoring.scoreMarketTightnessDetail({ vacancy_rate: 0.63, rental_vacancy_rate: 0.05 });
+  assert(detail.basis === 'rental_vacancy', 'rental basis is reported');
+  assert(detail.score === 50, `5% rental vacancy scores 50 under the 0.10 ceiling (got ${detail.score})`);
+  assert(Scoring.scoreMarketTightness({ vacancy_rate: 0.63, rental_vacancy_rate: 0.05 }) === 50,
+    'plain scoreMarketTightness returns the same rental-based score');
+});
+
+test('rental-vacancy ceiling boundaries', () => {
+  assert(Scoring.scoreMarketTightness({ rental_vacancy_rate: 0.10 }) === 0,
+    '10% rental vacancy scores 0 (ceiling)');
+  assert(Scoring.scoreMarketTightness({ rental_vacancy_rate: 0 }) === 100,
+    '0% rental vacancy scores 100 (max tight)');
+  assert(Scoring.RENTAL_VACANCY_CEILING === 0.10, 'exported rental ceiling is 0.10');
+});
+
+test('legacy fallback preserves historical total-vacancy behavior when rental fields absent', () => {
+  const detail = Scoring.scoreMarketTightnessDetail({ vacancy_rate: 0.03 });
+  assert(detail.basis === 'legacy_total_vacancy', 'legacy basis is reported');
+  assert(detail.score === 75, `3% total vacancy at the legacy 0.12 ceiling scores 75 (got ${detail.score})`);
+  assert(Scoring.LEGACY_TOTAL_VACANCY_CEILING === 0.12, 'exported legacy ceiling is 0.12');
+  // null rental_vacancy_rate (no rental universe in buffer) also routes legacy
+  const nullRental = Scoring.scoreMarketTightnessDetail({ vacancy_rate: 0.03, rental_vacancy_rate: null });
+  assert(nullRental.basis === 'legacy_total_vacancy', 'null rental universe routes to legacy fallback');
+});
+
+// Anti-re-divergence guard (#1149/#1163): both scoring files must normalize
+// rental vacancy against the same 0.10 ceiling. If either drifts, this fails.
+test('both Land/Supply code paths score rental vacancy at the 0.10 ceiling', () => {
+  const sss = fs.readFileSync(
+    path.resolve(__dirname, '..', 'js', 'market-analysis', 'site-selection-score.js'), 'utf8');
+  assert(sss.includes('rental_vacancy_rate'), 'site-selection-score.js consumes rental_vacancy_rate');
+  assert(/rental\s*\/\s*0\.10/.test(sss), 'site-selection-score.js normalizes rental vacancy against 0.10');
+
+  const helper = fs.readFileSync(
+    path.resolve(__dirname, '..', 'js', 'market-analysis-scoring.js'), 'utf8');
+  assert(/RENTAL_VACANCY_CEILING\s*=\s*0\.10/.test(helper),
+    'shared helper declares RENTAL_VACANCY_CEILING = 0.10');
+
+  const engine = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  assert(engine.includes('rental_vacancy_rate'), 'aggregateAcs derives buffer-level rental_vacancy_rate');
+  assert(engine.includes('scoreMarketTightnessDetail'), 'computePma uses the basis-aware detail for disclosure');
 });
 
 test('computePma composition uses shared helpers and returns valid score object', () => {
