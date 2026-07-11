@@ -79,6 +79,92 @@
     };
   }
 
+  /**
+   * Estimate LIHTC-eligible renter households (<=80% AMI) inside a PMA buffer.
+   *
+   * CHAS income tiers are county-wide, while the PMA buffer is tract-scoped.
+   * For each county touched by the buffer, scale that county's CHAS tiers by
+   * buffer renter HH / county CHAS renter HH. This keeps the income-qualified
+   * denominator narrowed to <=80% AMI without accidentally using a whole
+   * county's renter pool for a small urban buffer.
+   *
+   * @param {Object<string,Object>} chasCounties - chasData.counties
+   * @param {Array<Object>} bufTracts - buffer tracts with geoid/_bufferShare
+   * @param {Object<string,Object>} acsIdx - tract metrics keyed by geoid
+   * @returns {{
+   *   value: number|null,
+   *   tier_breakdown: Object|null,
+   *   source: 'chas'|'unavailable',
+   *   counties: Array<{fips:string, share:number, lihtc_eligible:number}>
+   * }}
+   */
+  function chasLihtcEligibleRenters(chasCounties, bufTracts, acsIdx) {
+    if (!chasCounties || !bufTracts || !bufTracts.length || !acsIdx) {
+      return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
+    }
+
+    var rentersByCounty = {};
+    bufTracts.forEach(function (tract) {
+      var gid = String(tract && tract.geoid || '');
+      if (gid.length < 5) return;
+      var metrics = acsIdx[gid];
+      var renterHh = metrics && metrics.renter_hh;
+      if (typeof renterHh !== 'number' || renterHh <= 0) return;
+      var share = (typeof tract._bufferShare === 'number') ? tract._bufferShare : 1;
+      if (share <= 0) return;
+      var fips = gid.slice(0, 5);
+      rentersByCounty[fips] = (rentersByCounty[fips] || 0) + renterHh * share;
+    });
+
+    var lihtcEligible = 0;
+    var breakdown = { lte30: 0, '31to50': 0, '51to80': 0 };
+    var perCounty = [];
+
+    Object.keys(rentersByCounty).forEach(function (fips) {
+      var rec = chasCounties[fips];
+      var pop = rec && rec.renter_hh_by_ami;
+      if (!pop) return;
+
+      var chasCountyTotalRenters = 0;
+      ['lte30', '31to50', '51to80', '81to100', '100plus'].forEach(function (tier) {
+        var total = pop[tier] && pop[tier].total;
+        if (typeof total === 'number' && total > 0) chasCountyTotalRenters += total;
+      });
+      if (chasCountyTotalRenters <= 0) return;
+
+      // County CHAS is the only income-tier source currently available, so
+      // assume the PMA buffer's income mix matches the county's income mix.
+      var countyScale = Math.min(1, rentersByCounty[fips] / chasCountyTotalRenters);
+      if (countyScale <= 0) return;
+
+      var countyLihtc = 0;
+      ['lte30', '31to50', '51to80'].forEach(function (tier) {
+        var total = pop[tier] && pop[tier].total;
+        if (typeof total !== 'number' || total <= 0) return;
+        var apportioned = total * countyScale;
+        countyLihtc += apportioned;
+        breakdown[tier] += apportioned;
+      });
+
+      if (countyLihtc <= 0) return;
+      lihtcEligible += countyLihtc;
+      perCounty.push({ fips: fips, share: countyScale, lihtc_eligible: Math.round(countyLihtc) });
+    });
+
+    if (lihtcEligible <= 0) {
+      return { value: null, tier_breakdown: null, source: 'unavailable', counties: [] };
+    }
+
+    Object.keys(breakdown).forEach(function (k) { breakdown[k] = Math.round(breakdown[k]); });
+
+    return {
+      value: Math.round(lihtcEligible),
+      tier_breakdown: breakdown,
+      source: 'chas',
+      counties: perCounty.sort(function (a, b) { return b.share - a.share; })
+    };
+  }
+
   function scoreRentPressure(acs, countyAmi) {
     acs = acs || {};
     if (!countyAmi || countyAmi <= 0) {
@@ -110,6 +196,7 @@
     RISK: RISK,
     scoreDemand: scoreDemand,
     scoreCaptureRisk: scoreCaptureRisk,
+    chasLihtcEligibleRenters: chasLihtcEligibleRenters,
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
     scoreTier: scoreTier

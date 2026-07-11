@@ -90,6 +90,7 @@ test('market-analysis.js source file exists and delegates to shared scoring help
   const content = fs.readFileSync(srcPath, 'utf8');
   assert(content.includes('PMAMarketScoring'), 'market-analysis.js reads window.PMAMarketScoring');
   assert(content.includes('PMAScoring.scoreCaptureRisk'), 'scoreCaptureRisk delegates to shared helper');
+  assert(content.includes('PMAScoring.chasLihtcEligibleRenters'), 'CHAS LIHTC denominator delegates to shared helper');
   assert(content.includes('PMAScoring.scoreRentPressure'), 'scoreRentPressure delegates to shared helper');
   assert(content.includes('PMAScoring.scoreMarketTightness'), 'scoreMarketTightness delegates to shared helper');
   assert(content.includes('lihtcLoadError'), 'source contains lihtcLoadError flag');
@@ -114,12 +115,119 @@ test('shared scoring helper exports real scoring functions', () => {
   [
     'scoreDemand',
     'scoreCaptureRisk',
+    'chasLihtcEligibleRenters',
     'scoreRentPressure',
     'scoreMarketTightness',
     'scoreTier',
   ].forEach((name) => {
     assert(typeof Scoring[name] === 'function', `${name} is exported`);
   });
+});
+
+function chasCounty(tiers) {
+  return {
+    renter_hh_by_ami: {
+      lte30: { total: tiers.lte30 },
+      '31to50': { total: tiers['31to50'] },
+      '51to80': { total: tiers['51to80'] },
+      '81to100': { total: tiers['81to100'] },
+      '100plus': { total: tiers['100plus'] },
+    },
+  };
+}
+
+test('chasLihtcEligibleRenters scales one-county CHAS tiers to buffer renters', () => {
+  const result = Scoring.chasLihtcEligibleRenters({
+    '08031': chasCounty({
+      lte30: 2500,
+      '31to50': 2500,
+      '51to80': 2500,
+      '81to100': 1250,
+      '100plus': 1250,
+    }),
+  }, [
+    { geoid: '08031000100', _bufferShare: 0.5 },
+    { geoid: '08031000200', _bufferShare: 0.5 },
+  ], {
+    '08031000100': { renter_hh: 1000 },
+    '08031000200': { renter_hh: 1000 },
+  });
+
+  assert(result.source === 'chas', 'scaled CHAS result is available');
+  assert(result.value === 750, 'one-county buffer uses 750 eligible renters, not full county 7,500');
+  assert(result.tier_breakdown.lte30 === 250, 'lte30 tier scales to 250');
+  assert(result.tier_breakdown['31to50'] === 250, '31to50 tier scales to 250');
+  assert(result.tier_breakdown['51to80'] === 250, '51to80 tier scales to 250');
+  assertClose(result.counties[0].share, 0.10, 1e-12, 'county scale is buffer renters / CHAS county renters');
+});
+
+test('chasLihtcEligibleRenters caps county scale at one', () => {
+  const result = Scoring.chasLihtcEligibleRenters({
+    '08001': chasCounty({
+      lte30: 100,
+      '31to50': 200,
+      '51to80': 300,
+      '81to100': 200,
+      '100plus': 200,
+    }),
+  }, [
+    { geoid: '08001000100', _bufferShare: 1 },
+  ], {
+    '08001000100': { renter_hh: 1500 },
+  });
+
+  assert(result.value === 600, 'scale cap returns full <=80% pool, never inflated');
+  assert(result.counties[0].share === 1, 'county scale is capped at 1');
+});
+
+test('chasLihtcEligibleRenters sums independently scaled multi-county pools', () => {
+  const result = Scoring.chasLihtcEligibleRenters({
+    '08001': chasCounty({
+      lte30: 1000,
+      '31to50': 1000,
+      '51to80': 1000,
+      '81to100': 1000,
+      '100plus': 1000,
+    }),
+    '08005': chasCounty({
+      lte30: 2000,
+      '31to50': 1000,
+      '51to80': 500,
+      '81to100': 1000,
+      '100plus': 500,
+    }),
+  }, [
+    { geoid: '08001000100', _bufferShare: 1 },
+    { geoid: '08005000100', _bufferShare: 0.5 },
+  ], {
+    '08001000100': { renter_hh: 500 },
+    '08005000100': { renter_hh: 1000 },
+  });
+
+  assert(result.value === 650,
+    'multi-county total is sum of county A 300 and county B 350, not a cross-county blend');
+  assert(result.tier_breakdown.lte30 === 300, 'lte30 sums scaled county contributions');
+  assert(result.tier_breakdown['31to50'] === 200, '31to50 sums scaled county contributions');
+  assert(result.tier_breakdown['51to80'] === 150, '51to80 sums scaled county contributions');
+});
+
+test('chasLihtcEligibleRenters unavailable result lets capture risk fall back to ACS', () => {
+  const chasResult = Scoring.chasLihtcEligibleRenters({
+    '08031': chasCounty({
+      lte30: 2500,
+      '31to50': 2500,
+      '51to80': 2500,
+      '81to100': 1250,
+      '100plus': 1250,
+    }),
+  }, [
+    { geoid: '08031000100', _bufferShare: 1 },
+  ], {});
+  const capture = Scoring.scoreCaptureRisk({ renter_hh: 8000 }, 100, 100, chasResult);
+
+  assert(chasResult.source === 'unavailable', 'missing ACS tract metrics make CHAS denominator unavailable');
+  assert(capture.denominatorSource === 'acs_total_renter_hh', 'capture risk falls back to ACS renter households');
+  assert(capture.qualRenters === 8000, 'ACS fallback denominator is preserved');
 });
 
 test('scoreCaptureRisk prefers CHAS LIHTC-eligible renter households as denominator', () => {
@@ -143,6 +251,33 @@ test('scoreCaptureRisk prefers CHAS LIHTC-eligible renter households as denomina
     `smaller CHAS denominator increases capture risk (${chas.score} < ${acsOnly.score})`);
   assert(chas.chasBreakdown && chas.chasBreakdown.lte30 === 250,
     'CHAS tier breakdown is carried through');
+});
+
+test('buffer-scaled CHAS denominator lowers or preserves capture score versus old county-wide denominator', () => {
+  const scaled = Scoring.chasLihtcEligibleRenters({
+    '08031': chasCounty({
+      lte30: 2500,
+      '31to50': 2500,
+      '51to80': 2500,
+      '81to100': 1250,
+      '100plus': 1250,
+    }),
+  }, [
+    { geoid: '08031000100', _bufferShare: 1 },
+  ], {
+    '08031000100': { renter_hh: 1000 },
+  });
+  const oldCountyWide = {
+    value: 7500,
+    tier_breakdown: { lte30: 2500, '31to50': 2500, '51to80': 2500 },
+  };
+  const fixed = Scoring.scoreCaptureRisk({ renter_hh: 8000 }, 100, 100, scaled);
+  const old = Scoring.scoreCaptureRisk({ renter_hh: 8000 }, 100, 100, oldCountyWide);
+
+  assert(fixed.qualRenters < old.qualRenters,
+    `scaled denominator is smaller than old county-wide denominator (${fixed.qualRenters} < ${old.qualRenters})`);
+  assert(fixed.score <= old.score,
+    `smaller denominator lowers or preserves capture score (${fixed.score} <= ${old.score})`);
 });
 
 test('scoreCaptureRisk falls back to denominator 1 when ACS renter households are missing', () => {
