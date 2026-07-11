@@ -205,6 +205,32 @@
     return scoreMarketTightnessDetail(acs).score;
   }
 
+  // #1171 — STR-distortion disclosure. ACS B25004_002E counts short-term/
+  // vacation rental listings as "for rent", so in STR-saturated resort
+  // cores rental vacancy reads far above the long-term market (Summit:
+  // ~38% of the county rental universe). Flag a buffer as STR-distorted
+  // when BOTH hold:
+  //   - rental vacancy >= 0.08 (score <= 20 — materially depressed), AND
+  //   - total vacancy >= 0.25 (seasonal-dominated market, the STR tell).
+  // Calibrated against 2019-2023 county aggregates: flags Summit, Eagle,
+  // Pitkin, Gunnison, San Miguel, Archuleta; does NOT flag Denver/Boulder
+  // (low both), La Plata (score 27, mixed), Lake/Leadville (rental tight —
+  // score not depressed), or a hypothetical soft metro (high rental, low
+  // total — genuine oversupply, not STR). Disclosure only; the score is
+  // unchanged. Real refinement options tracked in #1171.
+  var STR_FLAG_RENTAL_VACANCY_MIN = 0.08;
+  var STR_FLAG_TOTAL_VACANCY_MIN = 0.25;
+
+  function isStrDistorted(acs) {
+    if (!acs) return false;
+    var rental = Number(acs.rental_vacancy_rate);
+    var total = Number(acs.vacancy_rate);
+    return acs.rental_vacancy_rate != null && isFinite(rental) &&
+           acs.vacancy_rate != null && isFinite(total) &&
+           rental >= STR_FLAG_RENTAL_VACANCY_MIN &&
+           total >= STR_FLAG_TOTAL_VACANCY_MIN;
+  }
+
   function scoreTier(s) {
     if (s >= 80) return { label: 'Strong', color: 'var(--good)' };
     if (s >= 60) return { label: 'Moderate', color: 'var(--accent)' };
@@ -225,6 +251,9 @@
     scoreRentPressure: scoreRentPressure,
     scoreMarketTightness: scoreMarketTightness,
     scoreMarketTightnessDetail: scoreMarketTightnessDetail,
+    STR_FLAG_RENTAL_VACANCY_MIN: STR_FLAG_RENTAL_VACANCY_MIN,
+    STR_FLAG_TOTAL_VACANCY_MIN: STR_FLAG_TOTAL_VACANCY_MIN,
+    isStrDistorted: isStrDistorted,
     scoreTier: scoreTier
   };
 }));
