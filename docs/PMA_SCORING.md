@@ -86,9 +86,34 @@ Where `AMI` = Colorado statewide Area Median Income. See [HUD Income Limits](htt
 Measures housing supply tightness via vacancy rate.
 Very low vacancy signals unmet demand.
 
+**Two code paths implement this dimension with different vacancy ceilings** (#1149):
+
+**Current default path** — `scoreMarketTightness()` (`js/market-analysis-scoring.js`,
+delegated from `js/market-analysis.js`). Runs in every deployment without
+Bridge/MLS credentials, which is all of them today
+(`BRIDGE_BROWSER_TOKEN` is empty by default in `js/config.js`):
+
 ```
 landScore = max(0, min(100, (1 − vacancy_rate / 0.12) × 100))
 ```
+
+Suppressed/missing vacancy defaults to 0.05 (neutral ≈ 58), never max-tight.
+
+**Dormant Bridge-gated path** — `scoreLandSupplyWithBridge()` →
+`scoreLandSupply()` (`js/market-analysis/site-selection-score.js`). Preferred
+automatically whenever `BridgeMarketSummary.isAvailable()` is true, i.e. once
+real Bridge/MLS access is configured. Uses a **0.10** ceiling, chosen
+independently in that module ("10% is where lease-up risk begins to
+materially threaten LIHTC underwriting"), and blends in Bridge land-cost
+context (60% ACS vacancy / 40% land cost). Suppressed vacancy propagates
+`unavailable` (weight redistributes) instead of defaulting.
+
+Neither threshold has been formally reconciled — that is a deliberate open
+owner decision, not an oversight. Do not silently change either number; see
+the follow-up issue referenced from #1149. Until then, be aware that
+enabling Bridge/MLS access will switch this dimension from the 0.12 to the
+0.10 ceiling (and from neutral-default to weight-redistribution on
+suppressed vacancy) without any other code change.
 
 ### 5. Workforce (15%)
 
