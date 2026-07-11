@@ -97,11 +97,7 @@
   // Annual mortgage constant for a fully-amortising loan.
   // -------------------------------------------------------------------
   function mortgageConstant(annualRate, termYears) {
-    var monthlyRate = annualRate / 12;
-    var totalMonths = termYears * 12;
-    if (monthlyRate <= 0 || totalMonths <= 0) return 0;
-    var factor = Math.pow(1 + monthlyRate, totalMonths);
-    return (monthlyRate * factor / (factor - 1)) * 12;
+    return window.DealCalculatorMath.mortgageConstant(annualRate, termYears);
   }
 
   // -------------------------------------------------------------------
