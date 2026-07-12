@@ -5,7 +5,7 @@
   "source": "DOLA State Demography Office (2024) with FRED unemployment adjustment",
   "sourceUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   "fredSeriesRef": "UNRATE",
-  "createdAt": "2026-07-11T02:06:40Z",
+  "createdAt": "2026-07-12T04:10:18Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "5% above baseline",

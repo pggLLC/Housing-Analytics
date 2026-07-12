@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-11T08:49:11.168598Z",
+  "generated": "2026-07-12T04:12:15.900786Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7124,7 +7124,7 @@
     "data/hna/summary/0882460.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3473
+      "bytes": 3471
     },
     "data/hna/summary/0882735.json": {
       "featureCount": 0,
@@ -7434,7 +7434,7 @@
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1166112
+      "bytes": 1305573
     },
     "data/market/apartment_list_co.json": {
       "featureCount": 0,
@@ -7584,7 +7584,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529917
+      "bytes": 996778
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
