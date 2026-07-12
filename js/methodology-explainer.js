@@ -35,6 +35,13 @@
       caveats: 'CHAS publishes at county granularity. Place-level rates come from TIGER 2024 area-weighted apportionment of overlapping tracts (96.1% of registry places covered).',
       source: 'data/market/chas_co.json (county) + data/hna/place-chas.json (place)',
     },
+    'ami-chas-acs-difference': {
+      title: 'Why ACS AMI demand and CHAS tier counts differ',
+      what: 'The AMI demand headline and CHAS tier table both describe very low-income renter households, but they are built from different source systems.',
+      how: 'The AMI demand headline uses ACS 2020-2024 renter income brackets interpolated against the unadjusted county 30% AMI cutoff. The CHAS tier table uses HUD CHAS 2018-2022 household counts with HAMFI, HUD\'s household-size-adjusted income standard, then apportions tract records to place boundaries when a city or CDP is selected.',
+      caveats: 'The three main differences are vintage, income standard, and estimation path. CHAS can run lower than the ACS headline in student-heavy, resort, or one-person-household markets because size-adjusted HAMFI treats household composition differently from a flat county AMI cutoff. Both metrics remain useful: CHAS is the source for burden-within-tier, while ACS is the fresher demand headline.',
+      source: 'data/hna/jurisdiction-metrics-digest/*.json + data/hna/place-chas.json',
+    },
     'tiger-place-chas': {
       title: 'TIGER 2024 place-level CHAS',
       what: 'CHAS metrics aggregated up to municipal place boundaries (Aurora, Erie, etc.) using Census TIGER 2024 spatial join.',
