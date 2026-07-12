@@ -178,6 +178,9 @@
           '#coho-watchlist-panel > details[open] {' +
             ' min-width: 200px !important; max-width: 86vw !important;' +
           '}' +
+          '#coho-watchlist-body {' +
+            ' min-width: 0 !important; max-width: calc(86vw - 24px) !important;' +
+          '}' +
           '#coho-watchlist-panel > details:not([open]) {' +
             ' min-width: 0 !important;' +
           '}' +
