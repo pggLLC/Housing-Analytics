@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-12T04:14:50.909302Z",
+  "generated": "2026-07-12T04:15:31.403886Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -19,7 +19,7 @@
     "data/affordable-housing/lihtc/chfa-properties.json": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 837043
+      "bytes": 837046
     },
     "data/affordable-housing/local-pha-roster/denver-housing-authority.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1567781
+      "bytes": 1567784
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -184,7 +184,7 @@
     "data/chfa-lihtc.json": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 837043
+      "bytes": 837046
     },
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
@@ -3929,7 +3929,7 @@
     "data/hna/lihtc/08069.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 57909
+      "bytes": 57912
     },
     "data/hna/lihtc/08071.json": {
       "featureCount": 4,
@@ -7584,7 +7584,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996778
+      "bytes": 1529920
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
