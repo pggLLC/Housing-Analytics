@@ -1056,9 +1056,12 @@
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
             '), scaled to the PMA buffer using county income mix'
           : 'Ratio of total affordable units to ALL renter households in buffer (ACS total — over-counts LIHTC demand pool)',
-        marketTightness: _mtDetail.basis === 'rental_vacancy'
+        marketTightness: (_mtDetail.basis === 'rental_vacancy'
           ? 'Rental-vacancy signal (Census HVS convention: for-rent ÷ rental universe, 0.10 ceiling) — seasonal/second homes excluded; measures lease-up risk, NOT land availability'
-          : 'TOTAL vacancy rate signal (legacy fallback — rental-vacancy fields absent from tract data; includes seasonal units, which overstates softness in resort markets)',
+          : 'TOTAL vacancy rate signal (legacy fallback — rental-vacancy fields absent from tract data; includes seasonal units, which overstates softness in resort markets)')
+          + (PMAScoring.isStrDistorted && PMAScoring.isStrDistorted(acs)
+            ? ' ⚠ STR-DISTORTED: ACS counts short-term/vacation rental listings as "for rent" — in this seasonal-dominated market the score likely understates long-term rental tightness. Verify against local STR-license and long-term listing data (#1171).'
+            : ''),
         rentPressure:    rentPressureObj.unavailable
           ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
           : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'

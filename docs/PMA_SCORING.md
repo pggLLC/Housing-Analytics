@@ -134,8 +134,21 @@ no STR/long-term split. The switch to rental vacancy fixed the metro and
 non-resort mountain counties (Denver ~5%, La Plata ~7% — sensible scores)
 and removed the worst of the seasonal-homes inversion, but resort-core
 Land/Supply scores should be read alongside local STR-license and
-long-term-listing data until a refinement lands (see the follow-up issue
-referenced from #1163).
+long-term-listing data until a refinement lands (see #1171).
+
+Buffers meeting **both** of the following are automatically flagged
+"STR-DISTORTED" in the dimension note (`PMAMarketScoring.isStrDistorted`,
+disclosure only — the score itself is unchanged):
+
+- `rental_vacancy_rate ≥ 0.08` (score ≤ 20 — materially depressed), and
+- total `vacancy_rate ≥ 0.25` (seasonal-dominated market, the STR tell).
+
+Calibrated against 2019–2023 county aggregates: flags Summit, Eagle,
+Pitkin, Gunnison, San Miguel, and Archuleta buffers; does not flag
+Denver/Boulder (low on both), La Plata (score not floored), tight-but-
+seasonal towns like Leadville (rental vacancy near 0 — score not
+depressed), or a genuinely soft non-seasonal market (high rental, low
+total vacancy — real oversupply, not STR).
 
 ### 5. Workforce (15%)
 
