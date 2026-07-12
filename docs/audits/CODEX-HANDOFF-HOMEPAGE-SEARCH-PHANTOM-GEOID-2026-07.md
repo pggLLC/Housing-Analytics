@@ -1,6 +1,6 @@
 # Codex Handoff: complete homepage inline search (#1097) + phantom GEOID fix (#1173)
 
-**For: Codex.** Two items, one PR each, do them **in order** (item 1's search results will show a duplicate "Lamar (city)" until item 2's phantom is removed — landing item 2 first avoids shipping that visibly).
+**For: Codex.** Two items, one PR each, do them **in order** (item 2's search results will show a duplicate "Lamar (city)" until item 1's phantom is removed — landing item 1 first avoids shipping that visibly).
 
 **QA**: Claude reviews each PR against its gate before the owner merges. **Owner**: paulglasow (merges; squash convention).
 
