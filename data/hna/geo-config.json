@@ -115,7 +115,7 @@
     },
     {
       "type": "place",
-      "geoid": "0855745",
+      "geoid": "0862000",
       "label": "Pueblo (city)",
       "containingCounty": "08101"
     },
@@ -139,13 +139,13 @@
     },
     {
       "type": "place",
-      "geoid": "0830475",
+      "geoid": "0830780",
       "label": "Glenwood Springs (city)",
       "containingCounty": "08045"
     },
     {
       "type": "place",
-      "geoid": "0823680",
+      "geoid": "0822035",
       "label": "Durango (city)",
       "containingCounty": "08067"
     },
@@ -647,7 +647,7 @@
       "containingCounty": "08047"
     },
     {
-      "geoid": "0812910",
+      "geoid": "0812900",
       "label": "Central City (city)",
       "containingCounty": "08047"
     },
