@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-12T02:27:58.607Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-12T09:46:17.658Z. Do not edit by hand.
 
 ---
 
@@ -94,7 +94,7 @@
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-05.json` | 64.1 KB | ✅ | — |
-| `data/car-market-report-2026-06.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-06.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
@@ -130,7 +130,7 @@
 | `data/hna/combined-regions.json` | 1.4 KB | ✅ | — |
 | `data/hna/cross-county-places.json` | 9.7 KB | ✅ | — |
 | `data/hna/derived/geo-derived.json` | 6.2 KB | ✅ | — |
-| `data/hna/derived/place_county_lookup.json` | 12.4 KB | ✅ | — |
+| `data/hna/derived/place_county_lookup.json` | 11.6 KB | ✅ | — |
 | `data/hna/dola_sya/08.json` | 3.7 KB | ✅ | — |
 | `data/hna/dola_sya/08000.json` | 2.3 KB | ✅ | — |
 | `data/hna/dola_sya/08001.json` | 2.1 KB | ✅ | — |
@@ -198,7 +198,7 @@
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
-| `data/hna/geography-registry.json` | 127.3 KB | ✅ | — |
+| `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 81.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 27.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 27.5 KB | ✅ | — |
@@ -1624,7 +1624,7 @@
 
 ## Test Files
 
-171 test files found.
+172 test files found.
 
 | File | Size |
 |------|------|
@@ -1669,6 +1669,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -1679,7 +1680,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
-| `test/hna-functionality-check.js` | 54.9 KB |
+| `test/hna-functionality-check.js` | 55.1 KB |
 | `test/hna-home-value-cascade.test.js` | 7.3 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
@@ -1695,7 +1696,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
-| `test/integration/compliance-dashboard.test.js` | 13.7 KB |
+| `test/integration/compliance-dashboard.test.js` | 14.0 KB |
 | `test/integration/economic-indicators.test.js` | 13.0 KB |
 | `test/integration/hna-ranking.test.js` | 11.2 KB |
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
@@ -1722,7 +1723,7 @@
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-historical.test.js` | 17.9 KB |
+| `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
@@ -1750,7 +1751,7 @@
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
-| `test/tigerweb-timeout.test.js` | 5.5 KB |
+| `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/unit-mix-validation.test.js` | 3.9 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
