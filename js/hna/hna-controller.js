@@ -255,6 +255,45 @@
     return found ? found.label : member.geoid;
   }
 
+  function _registryHasGeoid(geoid) {
+    const id = String(geoid || '');
+    const registry = window.__HNA_GEOGRAPHY_REGISTRY;
+    return !!(id && registry && Array.isArray(registry.geographies) &&
+      registry.geographies.some(geo => String(geo && geo.geoid) === id));
+  }
+
+  function _resolveIncomingGeoid(geoType, geoid) {
+    const id = String(geoid || '');
+    if (!id || !/^(place|cdp)$/.test(String(geoType || ''))) return id;
+    if (_registryHasGeoid(id)) return id;
+    const aliases = window.__HNA_PLACE_PHANTOM_ALIASES || {};
+    const canonical = aliases[id];
+    if (canonical && _registryHasGeoid(canonical)) {
+      if (window.HNAUtils.DEBUG_HNA) {
+        console.info('[HNA] resolved retired phantom GEOID ' + id + ' -> ' + canonical);
+      }
+      return canonical;
+    }
+    return id;
+  }
+
+  function _syncUrlGeoidAlias(originalGeoid, canonicalGeoid) {
+    if (!originalGeoid || !canonicalGeoid || String(originalGeoid) === String(canonicalGeoid)) return;
+    try {
+      const url = new URL(window.location.href);
+      let changed = false;
+      if (url.searchParams.get('geoid') === String(originalGeoid)) {
+        url.searchParams.set('geoid', canonicalGeoid);
+        changed = true;
+      }
+      if (url.searchParams.get('fips') === String(originalGeoid)) {
+        url.searchParams.set('fips', canonicalGeoid);
+        changed = true;
+      }
+      if (changed) window.history.replaceState(null, '', url.toString());
+    } catch (_) {}
+  }
+
   function _memberFromCurrentSelect() {
     const opt = _selectedOption();
     if (!opt || opt.getAttribute('data-region-id')) return null;
@@ -265,7 +304,8 @@
   }
 
   function _combinedMemberFromUrlGeoid(geoid) {
-    const id = String(geoid || '');
+    const rawId = String(geoid || '');
+    const id = _resolveIncomingGeoid(rawId.length === 7 ? 'place' : 'county', rawId);
     const cfg = window.__HNA_GEO_CONFIG || {};
     const hasGeoid = (items) => Array.isArray(items) && items.some(item => String(item && item.geoid) === id);
     const featuredByType = (type) => (cfg.featured || window.HNAUtils.FEATURED || []).filter(item => item && item.type === type);
@@ -3459,6 +3499,13 @@
       catch (_) { /* soft-fail: callers handle null county lookup */ }
     }
 
+    try {
+      const aliasDoc = await loadJson('data/hna/place-phantom-aliases.json');
+      window.__HNA_PLACE_PHANTOM_ALIASES = (aliasDoc && aliasDoc.aliases) || {};
+    } catch (_) {
+      window.__HNA_PLACE_PHANTOM_ALIASES = {};
+    }
+
     // Wire up aria-live announcement helper for screen reader updates (Rule 11)
     const liveRegion = document.getElementById('hnaLiveRegion');
     if (liveRegion && typeof window.__announceUpdate !== 'function') {
@@ -3582,6 +3629,12 @@
         restoredGeoType = 'county';
         restoredGeoId   = county.fips;
       }
+    }
+
+    if (restoredGeoType && restoredGeoId) {
+      const originalGeoId = restoredGeoId;
+      restoredGeoId = _resolveIncomingGeoid(restoredGeoType, restoredGeoId);
+      _syncUrlGeoidAlias(originalGeoId, restoredGeoId);
     }
 
     // Apply restored jurisdiction or defaults

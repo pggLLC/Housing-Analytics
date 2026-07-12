@@ -64,10 +64,10 @@
     { type: 'place', geoid: '0827425', label: 'Fort Collins (city)',     containingCounty: '08069' },
     { type: 'place', geoid: '0807850', label: 'Boulder (city)',          containingCounty: '08013' },
     { type: 'place', geoid: '0831660', label: 'Grand Junction (city)',   containingCounty: '08077' },
-    { type: 'place', geoid: '0855745', label: 'Pueblo (city)',           containingCounty: '08101' },
+    { type: 'place', geoid: '0862000', label: 'Pueblo (city)',           containingCounty: '08101' },
     { type: 'place', geoid: '0830780', label: 'Glenwood Springs (city)', containingCounty: '08045' },
-    { type: 'place', geoid: '0873220', label: 'Steamboat Springs (city)', containingCounty: '08107' },
-    { type: 'place', geoid: '0823680', label: 'Durango (city)',          containingCounty: '08067' },
+    { type: 'place', geoid: '0873825', label: 'Steamboat Springs (city)', containingCounty: '08107' },
+    { type: 'place', geoid: '0822035', label: 'Durango (city)',          containingCounty: '08067' },
     // CDPs
     { type: 'cdp',   geoid: '0836410', label: 'Highlands Ranch (CDP)',  containingCounty: '08035' },
     { type: 'cdp',   geoid: '0815165', label: 'Clifton (CDP)',          containingCounty: '08077' },

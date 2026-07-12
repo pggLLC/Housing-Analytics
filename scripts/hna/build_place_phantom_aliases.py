@@ -4,6 +4,16 @@
 Identify duplicate place entries in geography-registry.json and produce
 a phantom→canonical alias map.
 
+FROZEN after registry cleanup (#1173)
+-------------------------------------
+Do not re-run this generator against the cleaned geography registry. The
+duplicate phantom rows were removed in PR #1176, so the duplicate-based
+method below would now emit an empty alias map and wipe the historical
+phantom→canonical redirects that keep old bookmarks and cached UI state
+working. Treat data/hna/place-phantom-aliases.json as a frozen migration
+bridge unless a future migration script is deliberately written for the
+post-cleanup registry shape.
+
 Background
 ----------
 The geography-registry.json contains 29 duplicate places — each real

@@ -3,10 +3,10 @@
   "description": "Canonical geography registry for HNA selector and ranking coverage. GEOID is always a 5- or 7-digit string. hasHnaSummary indicates a full HNA summary file exists. hasRanking indicates the geography appears in the comparative ranking index. projectionMode: direct=DOLA SYA data available, county_scaled=projections derived from county totals, none=no projection data.",
   "counts": {
     "county": 64,
-    "place": 302,
+    "place": 272,
     "cdp": 210,
-    "total": 576,
-    "places": 303
+    "total": 546,
+    "places": 272
   },
   "geographies": [
     {
@@ -585,15 +585,6 @@
       "projectionMode": "place_permit_blend"
     },
     {
-      "geoid": "0822465",
-      "name": "Englewood (city)",
-      "type": "place",
-      "containingCounty": "08005",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
       "geoid": "0827425",
       "name": "Fort Collins (city)",
       "type": "place",
@@ -639,24 +630,6 @@
       "projectionMode": "place_permit_blend"
     },
     {
-      "geoid": "0852290",
-      "name": "Parker (town)",
-      "type": "place",
-      "containingCounty": "08035",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0855745",
-      "name": "Pueblo (city)",
-      "type": "place",
-      "containingCounty": "08101",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
       "geoid": "0877290",
       "name": "Thornton (city)",
       "type": "place",
@@ -691,15 +664,6 @@
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "place_permit_blend"
-    },
-    {
-      "geoid": "0875140",
-      "name": "Commerce City (city)",
-      "type": "place",
-      "containingCounty": "08001",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
     },
     {
       "geoid": "0845255",
@@ -756,123 +720,6 @@
       "projectionMode": "place_permit_blend"
     },
     {
-      "geoid": "0820730",
-      "name": "Dillon (town)",
-      "type": "place",
-      "containingCounty": "08117",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0827565",
-      "name": "Frisco (town)",
-      "type": "place",
-      "containingCounty": "08117",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0830475",
-      "name": "Glenwood Springs (city)",
-      "type": "place",
-      "containingCounty": "08097",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0835250",
-      "name": "Gypsum (town)",
-      "type": "place",
-      "containingCounty": "08037",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0866500",
-      "name": "Rifle (city)",
-      "type": "place",
-      "containingCounty": "08045",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0873220",
-      "name": "Steamboat Springs (city)",
-      "type": "place",
-      "containingCounty": "08107",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0877580",
-      "name": "Telluride (town)",
-      "type": "place",
-      "containingCounty": "08113",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0882870",
-      "name": "Vail (town)",
-      "type": "place",
-      "containingCounty": "08037",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0810270",
-      "name": "Canon City (city)",
-      "type": "place",
-      "containingCounty": "08043",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0817320",
-      "name": "Craig (city)",
-      "type": "place",
-      "containingCounty": "08081",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0821735",
-      "name": "Delta (city)",
-      "type": "place",
-      "containingCounty": "08029",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0823680",
-      "name": "Durango (city)",
-      "type": "place",
-      "containingCounty": "08067",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0824640",
-      "name": "Eagle (town)",
-      "type": "place",
-      "containingCounty": "08037",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
       "geoid": "0831660",
       "name": "Grand Junction (city)",
       "type": "place",
@@ -880,123 +727,6 @@
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "place_permit_blend"
-    },
-    {
-      "geoid": "0832515",
-      "name": "Gunnison (city)",
-      "type": "place",
-      "containingCounty": "08051",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0844380",
-      "name": "Montrose (city)",
-      "type": "place",
-      "containingCounty": "08085",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0857330",
-      "name": "Parachute (town)",
-      "type": "place",
-      "containingCounty": "08045",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0866955",
-      "name": "Silt (town)",
-      "type": "place",
-      "containingCounty": "08045",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0800775",
-      "name": "Alamosa (city)",
-      "type": "place",
-      "containingCounty": "08003",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0803875",
-      "name": "Brush (city)",
-      "type": "place",
-      "containingCounty": "08049",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0826145",
-      "name": "Florence (city)",
-      "type": "place",
-      "containingCounty": "08043",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0827290",
-      "name": "Fort Morgan (city)",
-      "type": "place",
-      "containingCounty": "08049",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0831400",
-      "name": "Lamar (city)",
-      "type": "place",
-      "containingCounty": "08071",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0841930",
-      "name": "Monte Vista (city)",
-      "type": "place",
-      "containingCounty": "08105",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0869985",
-      "name": "Sterling (city)",
-      "type": "place",
-      "containingCounty": "08075",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0875415",
-      "name": "Trinidad (city)",
-      "type": "place",
-      "containingCounty": "08071",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
-    },
-    {
-      "geoid": "0884330",
-      "name": "Walsenburg (city)",
-      "type": "place",
-      "containingCounty": "08055",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "county_scaled"
     },
     {
       "geoid": "0828745",
@@ -3161,15 +2891,6 @@
     {
       "geoid": "0812900",
       "name": "Central (city)",
-      "type": "place",
-      "containingCounty": "08047",
-      "hasHnaSummary": false,
-      "hasRanking": false,
-      "projectionMode": "place_permit_blend"
-    },
-    {
-      "geoid": "0812910",
-      "name": "Central City (city)",
       "type": "place",
       "containingCounty": "08047",
       "hasHnaSummary": false,
