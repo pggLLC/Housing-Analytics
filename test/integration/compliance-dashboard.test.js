@@ -149,6 +149,10 @@ test('js/prop123-historical-tracker.js: file exists with required exports', () =
   assert(src.includes('window.Prop123Tracker'),            'window.Prop123Tracker exposed');
 });
 
+// C-04 (#1120) triage: this block is SOURCE-GREP (IIFE shape + function-name
+// presence), kept as a static contract guard only. Retirement criteria: same
+// as test/prop123-historical.test.js — migrate to require()-based behavior
+// tests once the tracker/HNA modules gain Node-safe dual-context exports.
 test('js/prop123-historical-tracker.js: uses IIFE pattern consistent with codebase', () => {
   const src = fs.readFileSync(TRACKER, 'utf8');
   assert(src.includes('(function'),              'contains IIFE pattern');

@@ -401,6 +401,9 @@ test('HTML: CSV and JSON download buttons are present', () => {
     assert(html.includes('id="btnJson"'), 'btnJson button is present in HTML');
 });
 
+// C-04 (#1120) triage: cross-file HTML-id <-> JS-reference contract grep.
+// This is the legitimate use of source-grep (a DOM contract has no better
+// static home); keep as-is. No retirement planned.
 test('JS: CSV and JSON export buttons are wired in init()', () => {
     assert(js.includes('btnCsv'),                'btnCsv is referenced in HNA modules');
     assert(js.includes('btnJson'),               'btnJson is referenced in HNA modules');
