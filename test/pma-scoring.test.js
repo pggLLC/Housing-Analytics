@@ -374,6 +374,32 @@ test('legacy fallback preserves historical total-vacancy behavior when rental fi
   assert(nullRental.basis === 'legacy_total_vacancy', 'null rental universe routes to legacy fallback');
 });
 
+// #1171 — STR-distortion disclosure predicate. Flags only when the score is
+// materially depressed (rental >= 0.08) AND the market is seasonal-dominated
+// (total >= 0.25). Disclosure-only: the score itself is unchanged.
+test('isStrDistorted flags STR-saturated resort buffers and nothing else', () => {
+  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.51, vacancy_rate: 0.69 }) === true,
+    'Breckenridge-style buffer (51% rental / 69% total) is flagged');
+  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.11, vacancy_rate: 0.32 }) === true,
+    'Pitkin-style buffer (11% / 32%) is flagged');
+  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.05, vacancy_rate: 0.077 }) === false,
+    'Denver-style buffer (5% / 7.7%) is not flagged');
+  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.16, vacancy_rate: 0.10 }) === false,
+    'genuinely soft non-seasonal market (16% rental / 10% total) is NOT flagged — real oversupply');
+  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.0, vacancy_rate: 0.27 }) === false,
+    'tight-but-seasonal town (0% rental / 27% total) is not flagged — score not depressed');
+  assert(Scoring.isStrDistorted({ vacancy_rate: 0.40 }) === false,
+    'missing rental field never flags (legacy data)');
+  assert(Scoring.isStrDistorted(null) === false, 'null acs never flags');
+  // score is unchanged by the flag — disclosure only
+  assert(Scoring.scoreMarketTightness({ rental_vacancy_rate: 0.51, vacancy_rate: 0.69 }) === 0,
+    'flagged buffer still scores on the same formula');
+  // the dimension note wiring exists in computePma
+  const engine = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  assert(engine.includes('isStrDistorted'), 'computePma consults isStrDistorted for the dimension note');
+  assert(engine.includes('STR-DISTORTED'), 'dimension note carries the STR-DISTORTED warning text');
+});
+
 // Anti-re-divergence guard (#1149/#1163): both scoring files must normalize
 // rental vacancy against the same 0.10 ceiling. If either drifts, this fails.
 test('both Land/Supply code paths score rental vacancy at the 0.10 ceiling', () => {
