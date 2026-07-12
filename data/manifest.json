@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-12T04:12:15.900786Z",
+  "generated": "2026-07-12T04:13:52.581338Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -152,9 +152,9 @@
       "bytes": 65597
     },
     "data/car-market-report-2026-06.json": {
-      "featureCount": 0,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 2325
+      "bytes": 65589
     },
     "data/car-market-report-2026-07.json": {
       "featureCount": 0,
