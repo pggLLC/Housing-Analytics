@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-11T08:41:20.350Z
+**Scan timestamp:** 2026-07-12T08:56:48.805Z
 
 ## Summary
 
@@ -36,7 +36,7 @@
 - `data/capital-partners.json` (13 KB)
 - `data/car-market-report-2026-04.json` (2 KB)
 - `data/car-market-report-2026-05.json` (64 KB)
-- `data/car-market-report-2026-06.json` (2 KB)
+- `data/car-market-report-2026-06.json` (64 KB)
 - `data/car-market-report-2026-07.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)

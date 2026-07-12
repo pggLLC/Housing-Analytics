@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-11T08:41:20.350Z",
+  "scanTimestamp": "2026-07-12T08:56:48.805Z",
   "totalScanned": 1586,
   "newSourceCount": 1555,
   "existingCount": 30,
@@ -26,7 +26,7 @@
     },
     {
       "path": "data/affordable-housing/lihtc/chfa-properties.json",
-      "sizeBytes": 837043,
+      "sizeBytes": 837046,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -74,7 +74,7 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1567781,
+      "sizeBytes": 1567784,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -140,7 +140,7 @@
     },
     {
       "path": "data/car-market-report-2026-06.json",
-      "sizeBytes": 2325,
+      "sizeBytes": 65589,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4604,7 +4604,7 @@
     },
     {
       "path": "data/hna/lihtc/08069.json",
-      "sizeBytes": 57909,
+      "sizeBytes": 57912,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8456,7 +8456,7 @@
     },
     {
       "path": "data/hna/summary/0882460.json",
-      "sizeBytes": 3473,
+      "sizeBytes": 3471,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9218,7 +9218,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20138,
+      "sizeBytes": 20123,
       "inDataManifest": false,
       "inFilesManifest": true
     },
