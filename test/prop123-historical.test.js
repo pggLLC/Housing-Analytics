@@ -168,6 +168,14 @@ function generateComplianceReport(rows) {
 }
 
 // ── Tests ──────────────────────────────────────────────────────────────────────
+//
+// C-04 (#1120) triage: the assertions below are SOURCE-GREP static contract
+// checks (module defines its API surface and exposes window.Prop123Tracker),
+// not behavior tests — a broken implementation with the right names still
+// passes. Kept deliberately as existence guards. Retirement criteria: when
+// prop123-historical-tracker.js gains a Node-safe dual-context export
+// (pattern: js/deal-calculator-math.js / js/market-analysis-scoring.js),
+// replace these with require()-based behavior tests of the real functions.
 
 test('js/prop123-historical-tracker.js source file exists', () => {
   const p = path.join(ROOT, 'js', 'prop123-historical-tracker.js');

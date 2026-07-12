@@ -52,6 +52,16 @@ const fetchHelperSrc = fs.readFileSync(FETCH_HELPER_PATH, 'utf8');
 const hnaControllerSrc = fs.readFileSync(HNA_CONTROLLER_PATH, 'utf8');
 
 // ── Tests ───────────────────────────────────────────────────────────────────
+//
+// C-04 (#1120) triage: these are the most brittle source-grep tests in the
+// repo — they pattern-match implementation details (AbortController spelling,
+// backoff arithmetic, a regex chain for the maxRetries default) to guard the
+// specific TIGERweb-timeout incident fix. Known-brittle placeholder, kept
+// because the incident regression it guards is real. Retirement criteria:
+// port fetchWithTimeout behavior coverage into the require()-based harness
+// used by test/fetch-helper-resolve.js (mock fetch, assert real timeout/retry
+// behavior), then delete every grep below except the two window-wiring
+// contract checks.
 
 test('fetch-helper.js defines fetchWithTimeout', () => {
   assert(fetchHelperSrc.includes('function fetchWithTimeout('), 'fetchWithTimeout is defined');
