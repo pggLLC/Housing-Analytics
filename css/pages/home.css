@@ -841,3 +841,9 @@
     grid-template-columns: 2.5rem 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .home-snapshot__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -70,6 +70,28 @@
             <span style="font-size:1.1rem;">→</span>
             <span>Start Here · Pick a Colorado jurisdiction</span>
           </a>
+          <!-- B-06/#1097 — inline jurisdiction search: lighter-weight complement
+               to the select-jurisdiction.html full-page flow. Registry loads
+               lazily on first focus; matches route to the interactive profile. -->
+          <div style="position:relative;margin-top:.9rem;max-width:420px;">
+            <label for="homeJurisdictionSearch"
+                   style="display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem;color:var(--muted,#555);">
+              Or search for your community directly:
+            </label>
+            <input id="homeJurisdictionSearch" type="text"
+                   role="combobox" aria-expanded="false" aria-autocomplete="list"
+                   aria-controls="homeJurisdictionSearchResults"
+                   placeholder="e.g. Aspen, Garfield County, Carbondale…"
+                   autocomplete="off"
+                   style="width:100%;padding:10px 14px;font-size:.95rem;border:1.5px solid var(--border,#c9d4d2);
+                          border-radius:8px;background:var(--bg,#fff);color:var(--text,#1a1a1a);min-height:44px;" />
+            <ul id="homeJurisdictionSearchResults" role="listbox" hidden
+                aria-label="Matching jurisdictions"
+                style="position:absolute;z-index:40;left:0;right:0;top:100%;margin:.25rem 0 0;padding:.25rem 0;
+                       list-style:none;background:var(--bg,#fff);border:1px solid var(--border,#c9d4d2);
+                       border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;">
+            </ul>
+          </div>
           <a href="hna-comparative-analysis.html" class="home-opening__explore"
              style="display:block;margin-top:.5rem;font-size:.92rem;">
             Not sure where to start? Explore all 645 Colorado jurisdictions →
@@ -500,6 +522,7 @@
   </main>
 
   <script defer src="js/index.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
 
   <footer class="site-footer">
     <!-- Injected by navigation.js -->
