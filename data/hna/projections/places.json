@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated_at": "2026-07-05T17:25:05Z",
+    "generated_at": "2026-07-13T14:30:09Z",
     "counts": {
-      "places": 473,
+      "places": 472,
       "cross_county_places": 26,
       "counties_in_ledger": 64
     },
@@ -129,8 +129,8 @@
         "normalization_factor": 1.0
       },
       "08047": {
-        "place_share_sum": 0.214864,
-        "unincorporated_remainder": 0.785136,
+        "place_share_sum": 0.097952,
+        "unincorporated_remainder": 0.902048,
         "normalization_factor": 1.0
       },
       "08049": {
@@ -331,7 +331,7 @@
     },
     "normalization_factors": {},
     "statewide": {
-      "place_2044_incremental_sum": 412652.406,
+      "place_2044_incremental_sum": 412613.417,
       "county_2044_incremental_total": 426887.597,
       "place_sum_lte_county_total": true
     }
@@ -8237,110 +8237,6 @@
         "household": 0.039749,
         "permit": 0.03866,
         "blended": 0.039204,
-        "permit_window": "2020-2024"
-      },
-      "method": "county_projection_x_blended_share_v1"
-    },
-    "0812910": {
-      "name": "Central City (city)",
-      "containing_county": "08047",
-      "cross_county": false,
-      "years": [
-        2024,
-        2025,
-        2026,
-        2027,
-        2028,
-        2029,
-        2030,
-        2031,
-        2032,
-        2033,
-        2034,
-        2035,
-        2036,
-        2037,
-        2038,
-        2039,
-        2040,
-        2041,
-        2042,
-        2043,
-        2044
-      ],
-      "incremental_units_needed": [
-        0.0,
-        2.599,
-        5.142,
-        5.99,
-        7.007,
-        8.137,
-        9.437,
-        11.64,
-        14.466,
-        17.291,
-        20.116,
-        22.998,
-        24.976,
-        27.066,
-        29.157,
-        30.852,
-        32.491,
-        34.13,
-        35.768,
-        37.407,
-        38.989
-      ],
-      "replacement_cumulative": [
-        0.0,
-        0.81,
-        1.619,
-        2.429,
-        3.238,
-        4.048,
-        4.857,
-        5.667,
-        6.477,
-        7.286,
-        8.096,
-        8.905,
-        9.715,
-        10.524,
-        11.334,
-        12.144,
-        12.953,
-        13.763,
-        14.572,
-        15.382,
-        16.191
-      ],
-      "incremental_tenure_adjusted": [
-        0.0,
-        2.476,
-        4.899,
-        5.706,
-        6.676,
-        7.752,
-        8.99,
-        11.09,
-        13.782,
-        16.473,
-        19.165,
-        21.911,
-        23.795,
-        25.787,
-        27.779,
-        29.394,
-        30.955,
-        32.516,
-        34.077,
-        35.639,
-        37.146
-      ],
-      "shares": {
-        "household": 0.116912,
-        "permit": null,
-        "blended": 0.116912,
         "permit_window": "2020-2024"
       },
       "method": "county_projection_x_blended_share_v1"
