@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-07-06. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-07-13. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -53,6 +53,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hmda-lookup.js`](./js__hmda-lookup.md) | hmda-lookup. | 5 |
 | [`hmda-trend-chart.js`](./js__hmda-trend-chart.md) | hmda-trend-chart. | 0 |
 | [`hna-export.js`](./js__hna-export.md) | _no header_ | 9 |
+| [`home-jurisdiction-search.js`](./js__home-jurisdiction-search.md) | js/home-jurisdiction-search. | 2 |
 | [`housing-data-integration.js`](./js__housing-data-integration.md) | housing-data-integration. | 8 |
 | [`housing-need-projector.js`](./js__housing-need-projector.md) | housing-need-projector. | 10 |
 | [`housing-needs-assessment.js`](./js__housing-needs-assessment.md) | js/housing-needs-assessment. | 0 |
@@ -70,6 +71,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`map-overlay.js`](./js__map-overlay.md) | map-overlay. | 0 |
 | [`market-analysis-cache-fix.js`](./js__market-analysis-cache-fix.md) | js/market-analysis-cache-fix. | 13 |
 | [`market-analysis-enhancements.js`](./js__market-analysis-enhancements.md) | js/market-analysis-enhancements. | 4 |
+| [`market-analysis-scoring.js`](./js__market-analysis-scoring.md) | _no header_ | 1 |
 | [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 15 |
 | [`market-data-quality.js`](./js__market-data-quality.md) | js/market-data-quality. | 0 |
 | [`market-health-composite.js`](./js__market-health-composite.md) | market-health-composite. | 1 |
@@ -227,11 +229,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
+| [`combined-geo.js`](./js__hna__combined-geo.md) | js/hna/combined-geo. | 0 |
 | [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 4 |
 | [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 8 |
 | [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 11 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
+| [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
 | [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 47 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
@@ -296,8 +300,10 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
+| [`benchmark-freshness-check.mjs`](./scripts__audit__benchmark-freshness-check.md) | _no header_ | 1 |
 | [`chart-population-audit.mjs`](./scripts__audit__chart-population-audit.md) | chart-population-audit. | 0 |
 | [`console-error-reporter.mjs`](./scripts__audit__console-error-reporter.md) | console-error-reporter. | 1 |
+| [`core-rendered-smoke.mjs`](./scripts__audit__core-rendered-smoke.md) | core-rendered-smoke. | 0 |
 | [`data-freshness-check.mjs`](./scripts__audit__data-freshness-check.md) | _no header_ | 1 |
 | [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | _no header_ | 1 |
 | [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | _no header_ | 1 |

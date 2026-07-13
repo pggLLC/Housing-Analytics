@@ -1107,6 +1107,14 @@ disclosure rendered alongside the cards.
     else if (composite >= 50) { compSev = 'var(--warn,#d97706)'; compLabel = 'Elevated';     }
     else if (composite >= 30) { compSev = 'var(--accent,#1d4ed8)'; compLabel = 'Moderate';   }
     else                       { compSev = 'var(--good,#16a34a)'; compLabel = 'Lower';       }
+    updateDecisionStrip({
+      need: {
+        value: composite + '/100',
+        read: compLabel,
+        href: '#hnaScorecardPanel',
+        tone: _decisionTone(compLabel),
+      },
+    });
 
     // Format helpers
     const pctStr = (v, digits) => v != null && Number.isFinite(v) ? (v * 100).toFixed(digits != null ? digits : 1) + '%' : '—';

@@ -2,18 +2,16 @@
  * js/home-jurisdiction-search.js — B-06 / #1097
  *
  * Inline jurisdiction/place autocomplete for the homepage hero. Lets a
- * visitor search all ~577 registry geographies (64 counties, 303 places,
+ * visitor search all 546 registry geographies (64 counties, 272 places,
  * 210 CDPs) from the first screen and jump straight to the matched
  * profile, instead of navigating to select-jurisdiction.html first.
  *
  * Routing: every match goes to the interactive profile
  * (housing-needs-assessment.html?geoid=…&geoType=…&auto=1 — the same
  * destination the select-jurisdiction flow ends at, and the ic-summary
- * deep-link convention). Static places/<geoid>.html pages exist for only
- * 482 of the 513 place/CDP entries with no registry field predicting
- * which, so uniform HNA routing avoids client-side 404 guessing; the
- * "Browse local housing profiles" link remains the entry to the static
- * pages.
+ * deep-link convention). Static places/<geoid>.html pages are still the
+ * browse-profile surface for the 482 place/CDP entries; uniform HNA routing
+ * keeps the search action consistent with the full select-jurisdiction flow.
  *
  * The registry (~130 KB) is fetched lazily on first focus so the
  * homepage's initial load is unaffected.
