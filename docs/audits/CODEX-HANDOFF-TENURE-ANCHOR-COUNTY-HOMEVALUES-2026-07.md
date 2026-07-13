@@ -61,14 +61,17 @@ targets.
    `test:ranking-scenarios` fails if you regenerate the index without them).
    Commit all regenerated artifacts in the same PR.
 6. **Basalt / cross-county (F2)**: Basalt (`0804935`) is 74% Eagle County
-   (`cross-county-places.json`, `primary_county: "08037"`) and is ABSENT from
-   `data/hna/derived/place_county_lookup.json` (verified — the flat map has no
-   `0804935` key). Trace how the HNA controller resolves Basalt's
-   `contextCounty` today (cross-county handling exists — find it before
-   changing anything). Required outcome: the ownership panel's county-context
-   inputs (AMI fallback, county CHAS fallback) for cross-county places use
-   `primary_county`. If tracing shows this already works, document the
-   evidence in the PR instead of changing code.
+   (`cross-county-places.json`, `primary_county: "08037"`). CORRECTION from
+   review: `data/hna/derived/place_county_lookup.json` ALREADY maps Basalt
+   correctly — the mapping is nested under the file's `places` key
+   (`places["0804935"] = "08037"`); an earlier flat-key read misreported it
+   as absent. So the data layer is likely fine — this sub-item is
+   **trace-and-document, not repair**: confirm the HNA controller's
+   `contextCounty` for Basalt resolves to `08037` end-to-end (including the
+   ownership panel's AMI fallback and county-CHAS fallback), and put the
+   trace evidence in the PR. Only change code if the trace shows a consumer
+   bypassing the lookup/cross-county handling. Do not "fix" the lookup file
+   itself — it is correct.
 
 **Tests** (extend `test/hna-ownership-need.test.js` or a new file wired into
 the explicit `test:ci` chain — new test files do NOT auto-run):
@@ -114,6 +117,16 @@ market-attainable/stretch/priced-out.
    `js/hna/hna-renderers.js` to look up counties. Keep the display-only
    convention: the rank/score model must continue ignoring these fields
    (stated in the builder's header — preserve that contract).
+3. **Controller load path (added from review — without this the renderer
+   change is dead code on county views)**: `js/hna/hna-controller.js`
+   lazy-loads `home-value-cascade.json` ONLY for place/CDP selections
+   (`if (geoType === 'place' || geoType === 'cdp')` guarding
+   `ownershipHomeValueCascadePromise`, ~line 3244 — recheck, lines drift).
+   Extend that gate so county selections also load the cascade (or drop
+   the gate and lazy-load for any ownership-panel render); otherwise
+   Pitkin/Garfield keep falling back to the profile's raw `DP04_0089E`
+   and never exercise the new county block. The QA gate below assumes
+   this works.
 3. The renderer/test conventions from `test/hna-home-values.test.js` apply —
    extend it for the county block and wire any new npm script into `test:ci`.
 
