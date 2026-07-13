@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-07-06T17:46:28Z",
+    "generated_at_utc": "2026-07-13T17:14:09Z",
     "total_urls": 395,
-    "broken_count": 50,
-    "warning_count": 36,
-    "ok_count": 309,
+    "broken_count": 52,
+    "warning_count": 31,
+    "ok_count": 312,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -26,7 +26,7 @@
     },
     {
       "url": "https://hrwc.net/",
-      "status": 0,
+      "status": 404,
       "found_in": [
         "local-resources / county:08029/advocacy[0]",
         "local-resources / county:08085/advocacy[0]",
@@ -127,18 +127,19 @@
       ]
     },
     {
-      "url": "https://www.cityofaspen.com/",
-      "status": 0,
-      "found_in": [
-        "local-resources / place:0803620/housingLead",
-        "local-resources / place:0803620/majorEmployers[2]"
-      ]
-    },
-    {
       "url": "https://www.co.montezuma.co.us/",
       "status": 0,
       "found_in": [
         "local-resources / county:08083/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.cortez.k12.co.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08083/majorEmployers[2]",
+        "local-resources / place:0817375/majorEmployers[1]",
+        "local-resources / place:0817375/schoolDistrict"
       ]
     },
     {
@@ -163,6 +164,16 @@
       "found_in": [
         "local-resources / county:08101/majorEmployers[0]",
         "local-resources / place:0862000/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://www.foothillsunitedway.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08019/advocacy[0]",
+        "local-resources / county:08047/advocacy[0]",
+        "local-resources / county:08059/advocacy[1]",
+        "local-resources / county:08093/advocacy[0]"
       ]
     },
     {
@@ -217,6 +228,14 @@
       "found_in": [
         "local-resources / county:08081/housingAuthority[0]",
         "local-resources / county:08081/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.moffatsd.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0817760/majorEmployers[2]",
+        "local-resources / place:0817760/schoolDistrict"
       ]
     },
     {
@@ -340,7 +359,7 @@
     },
     {
       "url": "https://www.townofpagosasprings.com/",
-      "status": 502,
+      "status": 0,
       "found_in": [
         "local-resources / county:08007/majorEmployers[4]",
         "local-resources / place:0856860/majorEmployers[3]"
@@ -402,13 +421,6 @@
   ],
   "warnings": [
     {
-      "url": "https://lovelandhousing.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0846465/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.buckley.spaceforce.mil/",
       "status": 403,
       "found_in": [
@@ -458,14 +470,6 @@
       ]
     },
     {
-      "url": "https://www.denverhousing.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08031/housingAuthority[0]",
-        "local-resources / place:0820000/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force",
       "status": 403,
       "found_in": [
@@ -496,15 +500,6 @@
       "found_in": [
         "policy-progress / Fort Collins / hna",
         "policy-progress / Fort Collins / land_banking"
-      ]
-    },
-    {
-      "url": "https://www.habitatroaringfork.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08045/advocacy[1]",
-        "local-resources / place:0831660/advocacy[2]",
-        "local-resources / place:0853395/advocacy[1]"
       ]
     },
     {
@@ -637,13 +632,6 @@
       ]
     },
     {
-      "url": "https://www.upstatecolorado.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / county:08123/_employers_source"
-      ]
-    },
-    {
       "url": "https://www.vail.gov/government/departments/housing",
       "status": 403,
       "found_in": [
@@ -679,16 +667,7 @@
       "found_in": [
         "local-resources / county:08123/housingPlans[0]"
       ]
-    },
-    {
-      "url": "https://yvha.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0874090/housingAuthority[0]",
-        "local-resources / place:0874090/housingLead",
-        "policy-progress / Steamboat Springs / land_banking"
-      ]
     }
   ],
-  "ok_count": 309
+  "ok_count": 312
 }
