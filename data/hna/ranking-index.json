@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-07-12T04:10:34Z",
+    "generatedAt": "2026-07-13T10:53:03Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 273,
@@ -26885,7 +26885,7 @@
     },
     {
       "geoid": "0812900",
-      "name": "Central (city)",
+      "name": "Central City (city)",
       "type": "place",
       "region": "Mountains",
       "containingCounty": "08047",

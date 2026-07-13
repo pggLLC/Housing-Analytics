@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-07-12T04:10:34Z",
+    "ranking_index_generated_at": "2026-07-13T10:53:03Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -6940,7 +6940,7 @@
     },
     "0812900": {
       "geoid": "0812900",
-      "name": "Central (city)",
+      "name": "Central City (city)",
       "type": "place",
       "recommendation": "Rental priority",
       "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
