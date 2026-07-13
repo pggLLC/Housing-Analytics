@@ -681,6 +681,9 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
   padding: 0.32rem 0.65rem;
   margin: 0.35rem 0;
   font-size: 0.78rem;
@@ -689,12 +692,20 @@ html.dark-mode .stat .src a, html.dark-mode .kpi-source a { color: rgba(210, 225
   background: var(--bg2, #f8fafc);
   border: 1px solid var(--border, #cbd5e1);
   border-radius: 999px;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 /* F76: dropped opacity:.75 on the icon — the parent already uses muted text,
    and stacking opacity on top dropped it below AA in dark mode. */
 .data-vintage-badge .data-vintage-icon { font-size: 0.65rem; }
+.data-vintage-badge .data-vintage-text,
+.data-vintage-badge .data-vintage-source { min-width: 0; }
 .data-vintage-badge .data-vintage-age { color: var(--faint, #94a3b8); }
+@media (max-width: 480px) {
+  .data-vintage-badge {
+    max-width: calc(100vw - 24px);
+  }
+}
 /* F76: stale badge — was hardcoded amber pair (#92400e text on rgba(217,
    119,6,...) bg) with no dark-mode override, so dark-mode users saw dark
    amber text on a dark-amber-tinted background ≈ 2:1. Use the live --warn
