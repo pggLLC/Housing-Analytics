@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-13T13:53:07.843Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-13T15:06:15.793Z. Do not edit by hand.
 
 ---
 
@@ -880,7 +880,7 @@
 | `data/hna/local-resources-candidates.json` | 31.8 KB | ✅ | — |
 | `data/hna/local-resources.json` | 171.6 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 718.0 KB | ✅ | — |
-| `data/hna/permits.json` | 244.1 KB | ✅ | — |
+| `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.34 MB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
@@ -952,7 +952,7 @@
 | `data/hna/projections/08121.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
-| `data/hna/projections/places.json` | 828.0 KB | ✅ | — |
+| `data/hna/projections/places.json` | 826.3 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 1.64 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.9 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.9 KB | ✅ | — |
