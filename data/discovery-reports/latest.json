@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-12T08:56:48.805Z",
+  "scanTimestamp": "2026-07-13T10:14:41.766Z",
   "totalScanned": 1586,
   "newSourceCount": 1555,
   "existingCount": 30,
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 223356,
+      "sizeBytes": 195268,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -242,7 +242,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 239812,
+      "sizeBytes": 239813,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -302,7 +302,7 @@
     },
     {
       "path": "data/hna/derived/place_county_lookup.json",
-      "sizeBytes": 12718,
+      "sizeBytes": 11919,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -710,7 +710,7 @@
     },
     {
       "path": "data/hna/geography-registry.json",
-      "sizeBytes": 130328,
+      "sizeBytes": 123285,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4832,7 +4832,7 @@
     },
     {
       "path": "data/hna/place-phantom-aliases.json",
-      "sizeBytes": 1770,
+      "sizeBytes": 1771,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8702,7 +8702,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 107374,
+      "sizeBytes": 222650,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9212,13 +9212,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 178723,
+      "sizeBytes": 157146,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20123,
+      "sizeBytes": 20118,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9266,7 +9266,7 @@
     },
     {
       "path": "data/reports/data-source-health.json",
-      "sizeBytes": 7820,
+      "sizeBytes": 7833,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9308,7 +9308,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 390758,
+      "sizeBytes": 405528,
       "inDataManifest": false,
       "inFilesManifest": true
     },
