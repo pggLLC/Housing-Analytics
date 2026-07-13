@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-12T08:56:48.805Z
+**Scan timestamp:** 2026-07-13T10:14:41.766Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (218 KB)
+- `data/alerts/alerts_archive.json` (191 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -131,7 +131,7 @@
 - `data/hna/dola_sya/08123.json` (2 KB)
 - `data/hna/dola_sya/08125.json` (2 KB)
 - `data/hna/geo-config.json` (64 KB)
-- `data/hna/geography-registry.json` (127 KB)
+- `data/hna/geography-registry.json` (120 KB)
 - `data/hna/home-value-cascade.json` (81 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (28 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (28 KB)
@@ -1463,7 +1463,7 @@
 - `data/jurisdiction-briefs/0867280.json` (25 KB)
 - `data/jurisdiction-briefs/0870195.json` (30 KB)
 - `data/jurisdiction-briefs/_candidates.json` (25 KB)
-- `data/jurisdiction-briefs/_liveness.json` (105 KB)
+- `data/jurisdiction-briefs/_liveness.json` (217 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
 - `data/jurisdiction-briefs/_stale.json` (0 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (177 KB)
@@ -1548,7 +1548,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (175 KB)
+- `data/policy_briefs.json` (153 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -1564,7 +1564,7 @@
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (382 KB)
+- `data/url-health.json` (396 KB)
 - `data/zillow/median_list_price_metro.csv` (822 KB)
 - `data/zillow/zhvi_metro.csv` (4323 KB)
 - `data/zillow/zori_metro.csv` (1003 KB)
