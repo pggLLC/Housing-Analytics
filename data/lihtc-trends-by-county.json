@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12",
+  "updated": "2026-07-13",
   "source": "CHFA Housing Tax Credit Properties (live ArcGIS FeatureServer)",
   "note": "Counts derive from YR_ALLOC (reservation year). Built by scripts/rebuild_lihtc_derivatives.py from data/chfa-lihtc.json.",
   "years": [
