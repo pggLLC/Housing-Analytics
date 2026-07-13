@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-06T11:21:54.144Z",
+  "generatedAt": "2026-07-13T10:15:24.244Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 21,
@@ -1009,28 +1009,19 @@
         }
       ]
     },
-    "place:0843110": {
-      "name": "Lamar",
-      "county_fips": "08099",
-      "households": 823,
-      "slug": "lamar",
+    "place:0827700": {
+      "name": "Fort Lupton",
+      "county_fips": "08123",
+      "households": 817,
+      "slug": "fort lupton",
       "candidateUrls": [
         {
-          "url": "https://ci.lamar.co.us/",
+          "url": "https://www.fortluptonco.gov/",
           "type": "base",
           "status": 200,
-          "title": "Homepage City of Lamar",
+          "title": "Fort Lupton, CO - Official Website | Official Website",
           "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://ci.lamar.co.us/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": "Community Development - City of Lamar",
-          "hasHousingKeyword": true,
-          "looksLikeColorado": true
+          "looksLikeColorado": false
         }
       ]
     }
