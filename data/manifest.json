@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-13T09:37:00.463056Z",
+  "generated": "2026-07-13T10:54:39.211641Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1394,7 +1394,7 @@
     "data/hna/jurisdiction-metrics-digest/0812900.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28167
+      "bytes": 28172
     },
     "data/hna/jurisdiction-metrics-digest/0812910.json": {
       "featureCount": 0,
@@ -4089,7 +4089,7 @@
     "data/hna/ownership-need.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 735219
+      "bytes": 735224
     },
     "data/hna/permits.json": {
       "featureCount": 64,
@@ -4459,7 +4459,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1722709
+      "bytes": 1722714
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
@@ -5209,7 +5209,7 @@
     "data/hna/summary/0812900.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3536
+      "bytes": 3541
     },
     "data/hna/summary/0812910.json": {
       "featureCount": 0,
@@ -7124,7 +7124,7 @@
     "data/hna/summary/0882460.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3471
+      "bytes": 3473
     },
     "data/hna/summary/0882735.json": {
       "featureCount": 0,
@@ -7749,7 +7749,7 @@
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183751
+      "bytes": 183418
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
@@ -7799,7 +7799,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20123
+      "bytes": 20118
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
