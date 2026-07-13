@@ -237,6 +237,8 @@ scenario over a custom year range.
     censusSourceUrl,
     srcLink,
     safeNum,
+    homeValueInfo,
+    homeValueSourceText,
     computeIncomeNeeded,
     computeActiveMarketTargetVacancy,
     rentBurden30Plus,
