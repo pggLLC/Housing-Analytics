@@ -1,25 +1,79 @@
 {
   "meta": {
-    "generated": "2026-07-13T04:29:29Z",
+    "generated": "2026-07-13T11:18:44Z",
     "brief_count": 7,
-    "source_alerts": 280,
+    "source_alerts": 300,
     "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
   },
   "briefs": [
     {
-      "title": "Addressing Colorado's Affordable Housing Crisis: Collaborative Efforts and Legislative Actions Needed",
+      "title": "Leveraging Recent Investments and Tax Credits to Enhance Affordable Housing in Colorado",
       "policy_topic": "Affordable Housing",
-      "summary": "Recent reports highlight the growing challenges of affordable housing in Colorado, with certain markets becoming increasingly inaccessible for low-income residents. Collaborative initiatives, such as those on the Western Slope, and legislative measures, including low-income housing credits, are emerging to tackle these issues. However, the effectiveness of these programs is under scrutiny as many new developments remain unaffordable for the very populations they aim to serve.",
-      "implications": "To enhance the impact of affordable housing initiatives, policymakers must prioritize the alignment of funding with community needs, ensuring that new developments are genuinely affordable. Additionally, expanding support for nonprofit organizations that convert existing properties into affordable housing can provide immediate relief. Finally, implementing stricter regulations on corporate homebuyers could help stabilize the housing market and protect low-income residents from displacement.",
+      "summary": "Recent developments in affordable housing funding, including WNC & Associates' $210 million investment for over 2,000 units and the Pascua Yaqui Tribe's successful LIHTC project, highlight the potential for significant growth in affordable housing initiatives. Colorado's engagement with community input on tax credit allocations further underscores the state's commitment to addressing housing affordability challenges. These initiatives present an opportunity to expand affordable housing options and improve living conditions for vulnerable populations in the state.",
+      "implications": "To capitalize on these funding opportunities, Colorado should prioritize the allocation of tax credits to areas with the greatest need for affordable housing, as identified through community feedback. Additionally, state policymakers should consider creating incentives for private developers to participate in affordable housing projects, thereby increasing the overall supply. Finally, ongoing monitoring and evaluation of these investments will be crucial to ensure they meet the intended goals of affordability and accessibility.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "Crain's Detroit",
-        "KOAA News 5",
-        "The Business Journals",
-        "WesternSlopeNow.com",
-        "Yellow Scene Magazine"
+        "Mirror Indy",
+        "MultifamilyBiz",
+        "Michigan Public",
+        "Rocky Mountain Voice",
+        "Multi-Housing News"
       ],
       "articles": [
+        {
+          "title": "WNC & Associates Closes $210 Million Fund to Support Investments in Over 2,000 Affordable Housing - MultifamilyBiz",
+          "source": "MultifamilyBiz",
+          "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQSHRMVW5TUmNHbGRmLWJFUldWY1hPZkx6UjVXYnc0TmtYVHdjOUMxTTZ3Y0c0dVowaE1OM1kyYmJPaGM4aS1vbHVDODh1QVRkWl9hZWE1dHJrQkEwMVM2QTYzaXY5dnA5TzFaWUlPNG1KNGFNUlFoZVh0c0tJNXVaYkp1NjIwa0JXWlhPMVhvcFd5VWYybjE3V2JCWQ?oc=5",
+          "date": "2026-07-13"
+        },
+        {
+          "title": "Pascua Yaqui Tribe leverages LIHTC to turn $1.5M investment into $27.3M elder housing project - Tribal Business News",
+          "source": "Tribal Business News",
+          "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNdjFZNWUwcDdUbGN2OGJBQ0twTWRKa2lzd1E4ZWhIOVpHeEYtcXNJYjZON0ItcE8taURaLURHc1lfWHVQeGNQLVdLakFiNjc1dzJZX2tlZHZLS2tpU08tYkpsZHVTTkZZTEZ1WWRCYUhBVXlyODRYNi1WR3ZtWEowWnowaTlRbUZRbFVNN1o5ci1XTVR4bjh2WGYtbklTOFQ2Ykl1OGNsNnhWaVY2OFhZWEpoWkk2TERjaTRaMC1JeE8tdnRocnY0bm5NS2dDbHFzQnAxUnFqWllOSkNqWGtSM2xvdjA?oc=5",
+          "date": "2026-07-12"
+        },
+        {
+          "title": "Bipartisan affordable housing tax credit bills waiting on Whitmer signature - Michigan Public",
+          "source": "Michigan Public",
+          "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNYXAtMGRJTjBFVUxQamtkXy1jVGpSb2hFNGo2V05VbGVVQ0Z5eF9sMDRZY0o4ZFFDbHZDcENOWnVqS2xJVGk5WUJkMU13VHVLNERMOGJ2TWxGa1BVSVNtekdnM1BTeVUyRWdWWUpacFhKbHVyOENCVU95YW1iYTRISlV5U2s0UUhlWGVEVjM3b3Q3QmF6dzhSbWFEbVNRRlRic3MxSVRVc2dQbVZVQTA4VXR6OVdoaHB1aXVXS09VaUxwVHlPM0FUV0g0MXFUTFM2azVz?oc=5",
+          "date": "2026-07-10"
+        },
+        {
+          "title": "WNC & Associates Closes its Institutional Tax Credit Fund 59 at $210M for Rehabilitation and Development of Affordable Housing - Yield PRO",
+          "source": "Yield PRO",
+          "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1HUmJWNWRGdFRaSEpRNUdtSG8yU0dreUVqRHdPQXBzV3p3M1FsN3RpYlRQM3dGQlZ6NjZIcy1zSXM0RktUbnVkN1ZaMlFaQmE1VkN1R2VEc29YNnIteVJ6aw?oc=5",
+          "date": "2026-07-09"
+        },
+        {
+          "title": "WNC closes $210M LIHTC funding for 2,000-plus affordable units - HousingWire",
+          "source": "HousingWire",
+          "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQdDEzQnR5ZUx3c1gybkhsVVdIc04zWGFfR282TnJSc19GX3h0UzZhcU1Yemt1NjJiRUYyQTg4bFJPVklSdjJtWVVmc1o0T1NRajRiS1QxMVctS0xTc2pfb216YzdycjhqMk1NdjE2WkFWRElhZjJrbmtmQms0aUoyblJfeUQ3eUpTbFdwZGZUbVVYbjlFa190eTl5SU8?oc=5",
+          "date": "2026-07-09"
+        },
+        {
+          "title": "How Indy\u2019s new favorite tax break for affordable housing works - Mirror Indy",
+          "source": "Mirror Indy",
+          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNZldFNWZ5RlQ5LTZoQ2xhYXZ3ZzdkM09IRHVRd0tTRXJNWnlvYXk4WU15Sl8tQklhaTRITFZpVXVJWkNNUVh5QTlJS2lyUXdsY0NqREFfWWkwQnVtQmJPYzNDSjZVUmg0aDRNcnFCQnVOWXJ6c05vSFVXcjVfRXE3enRsSW5ucnBSbmc?oc=5",
+          "date": "2026-07-09"
+        },
+        {
+          "title": "Colorado wants your input on where affordable housing tax credits go - Rocky Mountain Voice",
+          "source": "Rocky Mountain Voice",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQbnU2M3E2S19HcUU3RWRubl9KT1Q0dmZUbmJXOEJIMm5qRmtqSE5UMTVPbExWNG5MUXByRWJ0cW1vR2JxaHpONlkzd0U3LXg3anRrY2o4aVhCYTVXMVpSSFFNdHlaYXVtbW9COGdFT21UWnpiclVRWnE4ZEZmVjlkZVl6SEhmOUJZdEJzRjZ5YTV1MkllWld5d2k2Slhicnk4Q19xQkw4b0VOMmNiZDZETQ?oc=5",
+          "date": "2026-07-08"
+        },
+        {
+          "title": "WNC Wraps Up $210M Tax Credit Fund - Multi-Housing News",
+          "source": "Multi-Housing News",
+          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9JQUxEbGpPY2NaWkJtLXJob05ldkQ1d0U4Nzl4TVFWWXMySTJ1bjltZmpVZDRSMU82NF9Xd0VkVmhhZV9nQ3VncW42XzhndHJQWmZ2WHBIWkpXLVJxemJfRzBDWVJ6ZkhTYkRHd09aeGtFTDhWSVE?oc=5",
+          "date": "2026-07-08"
+        },
+        {
+          "title": "Social Housing in America: Gaining Steam or Running Out of Track? - Tax Credit Advisor",
+          "source": "Tax Credit Advisor",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9raWFvbjRieDJfVG1CT2xxYzU5bVhVNkwyajhqRm1XZkRiTkRucmhuOFJFdi1GYnYzY2Flb1MwV21senNqbkx2MHEwSVQtMVM3SGJyMlZrd3VsNk0tX0xCWW9Fd2JzdWxRWk1HdWdueGEtN00?oc=5",
+          "date": "2026-07-06"
+        },
         {
           "title": "Colorado\u2019s least affordable housing markets revealed - AOL.com",
           "source": "AOL.com",
@@ -87,6 +141,12 @@
           "date": "2026-06-26"
         },
         {
+          "title": "PNC Fund to Support More Than 1,700 Affordable Homes - Affordable Housing Finance",
+          "source": "Affordable Housing Finance",
+          "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQeG1MeHdlYWdTTnhxcmhkUC1OOGdPa3JfQklObmFwZDRkMjQySzBDZUlRSnZYNThvX1lZV3huc01LUVE4NjRpSXNWaDVxRVFabndFdUowNW51NjEtMGVGYUxuQVYyTnp0UmcySkpPVkwzNHEyZTVyUExPWWtkZWNFZlRON0t5WVg4Q1E?oc=5",
+          "date": "2026-06-26"
+        },
+        {
           "title": "Modular apartments could help solve Denver's affordable housing crisis - CBS News",
           "source": "CBS News",
           "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNcW0wa044c3ZPdF95YmJNb01WdngxRUh5NjAyYm14WDJSajdHbk96d2Q2UFdxSjhvcDJ2UUNZTk1KY1hwcWJITzdRc3lUVF8zSzR1RU1QV1VyeHc5aVplRXRHZnktN0xKWmY0U1QxWTBaREVwTC1kWmNuakNHTUg3NVlwMUZaSm5KendNMERxb2wyWUpHcUJzMFc0Q1VSZHZacTg3ZXVvM0pxb3c4Unc?oc=5",
@@ -105,6 +165,12 @@
           "date": "2026-06-25"
         },
         {
+          "title": "New ROAD to Housing Act would reshape affordable housing - Nixon Peabody",
+          "source": "Nixon Peabody",
+          "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNajVrNkZ2ZVU2UU1QbWJnMXpadzZyQjhNUFU5Z1lPMVZxVUNLUk1ZWkZqQWoyOW85SXN5LVlkWENkX2FOQXlSQ1ZremhaS3R5YlNGaXJRUloxRXJ3Ujd5MDlpMEdJcEk4Qk1Zd2YydFdoQ25DSGNwU0NzeHk1T18zckU4ejNHMlJZZWttX09qdFJZUzJackJJalB1NzBHc3I1MTJYVE4ycm9FeXVQbFdZVEl3?oc=5",
+          "date": "2026-06-24"
+        },
+        {
           "title": "Tiny Home Manufacturer Looks to Fill Affordable Housing Gap - SoCo Digest",
           "source": "SoCo Digest",
           "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOUVZ5d3BQeEpPUndpZm0wUlFMZC02MEtnZVFMNGVpczR2ZThKRWllN0hvc3dtWXBEUTMzVmpoOU56dDE4bGFFdk5hQkpfMERvT0tMRnlhWGhaYXRNVEhoOVRNb3c5VVp5eFVsVHdKT2ZtOE1xbU12XzJ0MkVad1BBaWdfSnd0UjdVNEo2MXhncVhnbk9tcUYtTkgtVnc0UWhURFE?oc=5",
@@ -120,6 +186,12 @@
           "title": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure - Tax Credit Advisor",
           "source": "Tax Credit Advisor",
           "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPUGFUWnU2SU8wNzMwVEdvNVFabjFZUkNEZzZtTENZWnNSMEp3Y3VWWGd2VjkxQ1F0UERHNTl1c0ptZmdGQzZZX1hZSXhNc2o4Y0FXdHlUS0pLMTY0ZjM4VHgtVmhaczg1OTZsaVdULWNLZWpQeGtVMGxBbE9DTVdTcFo5UnQ5SEE?oc=5",
+          "date": "2026-06-22"
+        },
+        {
+          "title": "Denver rolls out 90-day review for affordable housing - City and County of Denver",
+          "source": "City and County of Denver",
+          "link": "https://news.google.com/rss/articles/CBMiywJBVV95cUxORWhXZ2lKU0ZKRkVVUzRoYmI2ZVc0RXRvMy1FemlILXp5ZFpSZ3FpS0NicVJwZUg4RERhM3RMTExIUDFTX0d2ZThQcnUzcGJZc2xPTHUxa3BZOWlHM2Rzd0IxMEtVTTI3UGNFNEVWSTJXR1pfdko3RzdFQnh5SkZEU3ZaY2dnMDFzSmM3T1FMeHdxOUlvc2hncXZXQmJwWWJZdk1SNG5zbXBEeGxsOEpOWjNHSGFQRG5GeGI0dVBNRFgtMWs2c3VpQzVNRDd1bUhRLXlhcE9PWXRJcFhIT0tMMmtueU83Qm1TektHUVN5SEhhamlYNDRnUU9TX1JWN3V6cExCbk9YRXFDMjlSNHZ1bEp1MHJUYnhSLTdlM3lheWJPZHZBNU0yMFdldWFKeHZXS0FCVFlJMVpObnlwZGNsenZIMHAwQTg4LXJr?oc=5",
           "date": "2026-06-22"
         },
         {
@@ -150,6 +222,12 @@
           "title": "Michigan Senate approves low-income housing tax credit bills: Here\u2019s what to know - WILX",
           "source": "WILX",
           "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNdHJFSEt1LVl1UzA0cDNtUVdWbmJ3MVBWTzBMMDZnZG9SbDhwZU15V1Z2b1VrMzV3X011d3hGakV3bUFRQnIyLXNDcFQ1N29aRF84VjVJOVU2czJ3ZHpNQU1jUU5tVloyZktyU3ZRbHE2anlHX3FLUFlRSjhXQWxqU3FhaVJiUF9fRVBWSThvLXZ3MVRFZlRCZ216aEg4bDVtTHByLVJQcUplb0NxcGfSAcIBQVVfeXFMTW05VEhBdjA5TnBXMnJjSHBxMWNpN201NmUzajJtdmhuUVlmb0d0RFE1eGk4MmNJQ1JZOW5FdjVfRFpsUkgzenUyZnFudlZpd05tSXduYy1SWXhYT3BiT295WXpfMTY4S2s4NlEwRDRFZUZiellGM3BUdnZPWXVEcE5zbDB1ZFFCY18tbWFqYTY2dkF5eXRQdHlteUxUSnR2LThFMWUzN01ocm9SRTlEOGlUNndBWkp2NVdwOURqdDJTbHc?oc=5",
+          "date": "2026-06-19"
+        },
+        {
+          "title": "Western Slope governments partner on affordable housing goals - KKCO 11 News",
+          "source": "KKCO 11 News",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQT1hDMFNIaEdBTEpIbGUyb2xfWVZ3S0piSUxXc0xDeVpjeFhVX2ZJb2tOclpxWklmcllUdW5DQnQxalZwYnhNNnd0bTg1em53WGZwYXdKd19JUDN3ZFlzZXFXWFZIcDV1T2FxeW1JQk1WWnZPellHNWlXY2Z5ZF9faDVPRjl1RVlBaEhzYkRMS0taUHpFU3BmaGwxSHQxZ9IBsgFBVV95cUxNNGxkNGx6aWtVZ1h2Q0lwWmU3WkROdm1tNWxHNmZmWUgyTnR2SGgtcE5PQi1yZTlySTBXZm1jeEI0dVVjMzNncTQwbGYteUV5S0VJRVF4enZ2YlJCS3RyVzVsdkhQdzRyWXZheVlmUU14ajFmZTlOR3lLSTRpVi1nMlNiUDByYU9yTk9vdVl1dVFsU3ZGb2dKMUV3VlFORllHR3pTdzgzdmRjM0d2QmlLajVR?oc=5",
           "date": "2026-06-19"
         },
         {
@@ -495,6 +573,12 @@
           "date": "2026-05-29"
         },
         {
+          "title": "Arkansas awarded $13M to create nearly 700 affordable housing units - KNWA FOX24",
+          "source": "KNWA FOX24",
+          "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPdklRTkFvT2xsWXl4eXgzdERySE1uZllfeDFDeVRkQnhUcl85NGlrUEJEOUxvcVNfeTlYV0xIVzdVM2pxdWZZVUFQU0lTdUNIeXA4bS10R09qZTZiTGhYenRERkk0cmlVMnUyYmVGVkZTaHQxVWkwdXVISjd1RDQ4LWRrVkEtRE9zYzFzcDMxOVVZdVJkRl9TTlNWTEYySlYwMUZHNjhxWFo0ODBGVnNUU9IBtgFBVV95cUxQOHo5dFFPZnN5eERaRGUyUnRwWTBIRm9WUHlrSkhiR1VBSk9RVk5UdnhGd200Uk1tS3dIYWM4NHNnUlFHa1ZTQVBYTG9nOHhFWlA2MEExMk5CTGRmdjdSRE5vQmpMYVhSOXlfVEplMzBxaklmdXE2LUZmaVdjMWFFcm1MclV2UE9QUG5fb0FXczFVcWRRUVJ4bk9SVU5XSHlBNlliYlJyN1FjdVZwN3BNRzBMaUYwdw?oc=5",
+          "date": "2026-05-28"
+        },
+        {
           "title": "La Fun developers receive coveted low-income housing tax credits for Manitou Springs project - Colorado Springs Gazette",
           "source": "Colorado Springs Gazette",
           "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNb0tuUU1JYmw2d2NyZzlfVXh0cXJUMUQ4S0lhc2F6eFhZVGRkVmpNSnFCdktxQ1FBejdweXFaRnFGRWx5Uk95MGJXOF84N0tSVVFyVzRfZ0hDZkR2UTlQQnlCbFpUR3lremgtT3VNZ1B1U01DMmRER1h5cEcwbnFpaVJRMnJnRkNERFlCU1ZfVXBmVkx1blNKV3oydGkyZ0J0RnNmTTg4UkRQZjU2MFY0Z3BLN2sxalBBaFpYTUZjbmRMQQ?oc=5",
@@ -651,6 +735,12 @@
           "date": "2026-05-11"
         },
         {
+          "title": "LIHTC Enters a New Era After OBBB - Multifamily Executive",
+          "source": "Multifamily Executive",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOOFI4a3NHTTdWcXpUYk5mamJISm1STHFfUXBYeko3QnFhbHhMaEcxUEcwRnpxY0d2Z3hZWHRNNWpCU2ttM1VWckQ3QmR5TlFaYW9QWUJRamlBTW03VEtpYXBnZWdxbzhXSTA1MVRRZ1o2b2RselVmMkFDVEVqV0ZNMkE5bDNyOGNEcGxfa0Z3?oc=5",
+          "date": "2026-05-11"
+        },
+        {
           "title": "New bill offers tax credits for middle-income housing - Multifamily Dive",
           "source": "Multifamily Dive",
           "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPVUh1T3hlc3pPT2E0VXlzQmQ4WHpxMk5HU0tFTGc5UG9lYlVnU0Jmb29sNGVXbGYtYzAwQnhJT05OdkE1VndwRzdDOFZmRGVTSmFvcjlpeTRvaFFUVk5MNjQ2TDg1SHFSZW9xY3FoMUM3Zlh3TW1vclRFYklxMDRpcUtjdV9BdmVJZXl6OUtR?oc=5",
@@ -775,6 +865,12 @@
           "source": "Pasadena Now",
           "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQM0doYlhUY3AzZVVDTGdHbnh6WTI0RDBpZnlKMmtpVGVldFJwOGNRUGh6aGxxeEFySFVYQWxOV09VMENqMk1UZXJQOTNick5SUC1zbHY5V3gwWDZ1OGQwWVBLbXlsd2xpY19jWHNkdEt5dkM1VjhubE1MN2JDX3pNRVlBUTJheGJiS0pOdjhFazNyb1RXT2Q0TF9abmNqQl84Yl9FUGxqMFhMOF9fZ2FPWkF1Qmc1aEJPazdVWHFRb056UVBEdW13bk5xZzVMTndTS2RVR0RJXzQ?oc=5",
           "date": "2026-04-28"
+        },
+        {
+          "title": "Maine extends tax credit for affordable housing developments - Mainebiz",
+          "source": "Mainebiz",
+          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPZV9lMEdPbWgydlpPNlpRRnFPLVBFQjR2eUs0TkRybHdtcUVhbUwwX0xZV0ZpQTBERFdza0h4NlVvejRIeXVzcHZXUENvWU9zdXZMOGY0Rkk2ZUZxaGFZRE04MmRJSWQzOVh3WVI5c0NBaHdCVnFfOG1pQnFuaUZ3WUhVQVh1Ul9wWHdPQXJieDVLVGpo?oc=5",
+          "date": "2026-04-27"
         },
         {
           "title": "Chicago Awards Financing to 15 Projects - Affordable Housing Finance",
@@ -933,29 +1029,45 @@
           "date": "2026-04-14"
         }
       ],
-      "alert_count": 152,
+      "alert_count": 168,
       "regions": [
-        "Colorado",
         "Statewide",
-        "Colorado Springs",
-        "Denver"
+        "Colorado"
       ],
-      "generated": "2026-07-13T04:29:08Z"
+      "generated": "2026-07-13T11:18:14Z"
     },
     {
-      "title": "Navigating Colorado's Housing Crisis: Legislative Challenges and Innovative Solutions",
+      "title": "Addressing Colorado's Ongoing Housing Challenges: A Call for Comprehensive Solutions",
       "policy_topic": "General",
-      "summary": "Recent developments in Colorado highlight the ongoing struggle with housing affordability and availability, as lawmakers grapple with stalled legislation and innovative approaches to address the crisis. Notable initiatives include the expansion of home rehabilitation loan programs and new regulations for modular housing, while discussions continue around the impact of federal policies on state efforts. The state's budget also reflects a commitment to tackling housing shortages, albeit amidst significant challenges.",
-      "implications": "To effectively address the housing crisis, Colorado policymakers must prioritize collaboration with federal authorities to expedite housing affordability legislation. Additionally, investing in innovative housing solutions, such as modular construction and rehabilitation programs, can enhance housing availability. Finally, local governments should consider adjusting fees and regulations to support new housing developments while ensuring sustainable growth.",
+      "summary": "Recent developments in Colorado highlight the persistent housing challenges facing the state, despite new initiatives like the opening of Endwell apartments and the introduction of first-time homebuyer programs. Lawmakers are grappling with a housing affordability crisis, compounded by legislative delays and a shortage of subsidized housing units. Innovative solutions, including unique construction technologies, are being explored, but significant gaps remain in meeting workforce housing needs.",
+      "implications": "To effectively tackle the housing crisis, Colorado must prioritize the expansion of affordable housing initiatives and streamline legislative processes to ensure timely implementation of housing policies. Stakeholders should collaborate to enhance funding for workforce housing projects and explore innovative construction methods to reduce costs. Additionally, increasing public awareness and support for first-time homebuyer programs can help bridge the gap for low- and middle-income families.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
-        "KKTV",
-        "The Colorado Sun",
+        "North Forty News",
         "USAFacts",
-        "Enterprise Community Partners",
-        "BizWest"
+        "The Grand Junction Daily Sentinel",
+        "Denver7",
+        "AOL.com"
       ],
       "articles": [
+        {
+          "title": "New Endwell apartments open, but lawmakers say housing challenges remain - AOL.com",
+          "source": "AOL.com",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQZXRuZk1CTVdvMGU0S3JtRjlja0w5NFZGR0VwT3VUWjFWWEc4WUdiSlhFM3RFWEpYcGl6SVp2YUo2Wl9aMnFyYWxuMEVLc3JDaHJ0bDZXdkVhNEFEUXRNRVlCeVUxOE1OQldqOXRhSHptbEtxdzhLTGlWcE1RR1NhYWR1NFFQY0xrdXlNTGVB?oc=5",
+          "date": "2026-07-09"
+        },
+        {
+          "title": "Colorado First-Time Homebuyer Programs (2026) - ConsumerAffairs",
+          "source": "ConsumerAffairs",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOOGpDTGtoTWVvOEtpeHlQeW8xYnJDb0MzX0lGRHB6djVQT1VjN0xhODRnWUxzMVhxWEpFT1RxSHRFbnFTSmliMURQTGtUS0ZKRklydVM0WUY0NUFYUnl6YW55Rm4wci04TjVJZXRCcmp0bFZxcU9zSDNtWjNiS1F4aVZiaXVfSER2QXpF?oc=5",
+          "date": "2026-07-09"
+        },
+        {
+          "title": "Bozeman project aims to add 296 workforce housing units - Fairfield Sun Times",
+          "source": "Fairfield Sun Times",
+          "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQZU9SVk9jU09xRmNibXhJMXk0OUxGZGJlWHV5SHJNXzN6RHgtUUZURktaeWZIbGIzX09yR0gzRnVHVHVhRGs3LUZoTExtMTJUb2pyTi1rR2pYaXlfZXNOYWVJejdVTmZGNTRHZDNLckNYcEFJbG1tUEt2aU1Qcy10cWJXbVY0YTZnb1V1VVFzd3lXak1faW8wWjA5WGdSd0ZJaXUxdVBBaHhhOXQ5OUxENXNZckdla3NsQ3VRb0ZzaThScHJ1OWx6UDVwSHlFMlNlcjEtSkt3Q3pBX29kcERiR0JNanM?oc=5",
+          "date": "2026-07-07"
+        },
         {
           "title": "How many subsidized housing units are available in Colorado County, TX? - USAFacts",
           "source": "USAFacts",
@@ -1275,6 +1387,12 @@
           "date": "2026-05-22"
         },
         {
+          "title": "Georgia 2026 Legislative Session Wrap-Up - Enterprise Community Partners",
+          "source": "Enterprise Community Partners",
+          "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQR25jbWh2THZMVEdyMjZaWjRSUVkzSVBraHF1RmZybVdhb3UzQ0E0aDJRZm1laXltMTFobU5OMDJoQnhON05CSWlGMFExQ05OVy1tc0xSSXh0N3FVSWtZQ1haZ3NSZVI1aE1XUERnbUlRcFJlREM5TW1mTzFBcVdiSFNldmprVUIzWEtSa1REYzhQUzZReHh3SDVR?oc=5",
+          "date": "2026-05-21"
+        },
+        {
           "title": "Boulder Receives National Attention for its Innovative Approach to Affordable Homeownership - City of Boulder (.gov)",
           "source": "City of Boulder (.gov)",
           "link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOUXRrMGdNT0R6XzctaHYycFFNcG43eFhkeGViVDJkSGVfc1F1Y2p4TDE0UTFBc1dtdG5sS1FLeEc0MzNrVG5vNmVISzlWTlMzMk5VUWdUMFVMY1g4WXpwTXc1Q2kyV1A3NExFVTlBN0xmNEVoTG1STVRidnRXQS1aZ3VGTXR4TUhXdFdESkRoUG1Vb2doakdLVEZUNEVhLTVKbWN2U09UbklyaTUwZHRUaGtyQVVzdFJ6?oc=5",
@@ -1398,6 +1516,12 @@
           "title": "Affordable units in Denver more vacant than market-rate apartments - The Denver Post",
           "source": "The Denver Post",
           "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQdFN0enRRU25UeEJrOWFMWFJMTHBhN0NkMDVzdTcwc00wRkt2VUQzb2pCdmlxYWpmMjI1UWdVbHE2VDFtc0ZnZV9sNVRFRVdUZWdCSUM1V0FoTkNWQVEySDVGWnUyN3drWVloWEpDQ1o5ZEozeTlPQkJ0bjZfd2RrWTY3SGM3NVZZZ0ZOTw?oc=5",
+          "date": "2026-05-12"
+        },
+        {
+          "title": "Colorado\u2019s fierce two-year fight over AI regulation ends with watered-down law, little fanfare - The Colorado Sun",
+          "source": "The Colorado Sun",
+          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9mbUpWMWVFUEtZSUp4emRNVXNGUVJSVlJHSXVrZG91cWxWTFRianRuaDhJaEQ5b2ZCNXA2V1VXbmFEV3hGYzBGRzBnVzN1cVluWFRGQ3RuWDAtYm5yZ0JocjNsUEtXUGtpVXdfem5xdHZGSjZj?oc=5",
           "date": "2026-05-12"
         },
         {
@@ -1585,42 +1709,30 @@
           "source": "Denverite",
           "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFAzd29XVkxUUEpfMHRDV3JIcWR1QWJtS3J2T2JrbUo1TEtmZDJoVl9pSU9NUnpqbXBPVHVnSXJsNUlDS01HLVhGNGFsYjQ4WXp6dUN5a0ZmUjRaVzl3Mk5tUmVjbDNxNUU2VWs2Sw?oc=5",
           "date": "2026-04-14"
-        },
-        {
-          "title": "State vs. Local, State vs. State - Reason Magazine",
-          "source": "Reason Magazine",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9WVmNxYi1zUF9WYlF3VDB2M1dnMW5mcFZHRzFucktYWnVTcmhSdzQzYlZCSjJsVWFMTTBocVN1WUlrTm5PbUpwLTdHaFpkeGZETE91TEhyNzFtNUVPTURaT05kRG04dzFNQUdUXw?oc=5",
-          "date": "2026-04-14"
-        },
-        {
-          "title": "New Colorado bill aims to expand affordable homeownership programs - KOAA News 5",
-          "source": "KOAA News 5",
-          "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNSHhEcFBpQV80MXlGLS1EVklCMG1QWHJoWVFUc2t1Yk1ZSFF5cjZjX0lyWGIzTjlDR2cwMzNjYVVCTVYzXzJDeUhGbFk3TzJkZ3pfdExaV3NYejNkQ3A4N3ZNdzg1Y29GdXBqd0RIR3AtZkFpRUsybXRnbjJZUERwRURCblZUblpQYVZadW5MR0lYVEZqN1FfQlBRMjJEOHlJaWVfR09nRDFhNExpS2hLLTRTSHlpcUFMdlN3OWRZSVRlOFVTSy1mTW51bnFQSTRYZEE?oc=5",
-          "date": "2026-04-14"
         }
       ],
-      "alert_count": 107,
+      "alert_count": 110,
       "regions": [
-        "Colorado",
-        "Grand Junction",
         "Statewide",
         "Colorado Springs",
-        "Denver"
+        "Grand Junction",
+        "Denver",
+        "Colorado"
       ],
-      "generated": "2026-07-13T04:29:13Z"
+      "generated": "2026-07-13T11:18:29Z"
     },
     {
-      "title": "Addressing Housing Affordability in Colorado Through Innovative Zoning Reforms",
+      "title": "Navigating Housing Density and Zoning Challenges in Colorado",
       "policy_topic": "Zoning & Land Use",
-      "summary": "Recent discussions in Colorado highlight the need for increased housing density and the introduction of creative single-family living options to combat rising costs of living. As cities like Denver explore zoning changes to facilitate 'missing middle housing,' the challenges of local opposition and legislative setbacks underscore the complexity of implementing effective housing policies. The push for new home styles that offer lower prices reflects a growing recognition of the need for diverse housing solutions.",
-      "implications": "To effectively address housing affordability, policymakers should prioritize zoning reforms that encourage innovative housing designs while engaging communities in the decision-making process. Local governments must also consider strategies to overcome resistance to zoning changes, such as providing education on the benefits of increased density and affordable housing options. Additionally, collaboration with stakeholders, including developers and community organizations, will be essential to create a comprehensive approach that meets the diverse needs of Colorado residents.",
+      "summary": "Recent discussions in Colorado highlight the need for innovative housing solutions as the state grapples with rising living costs. New home styles are emerging that promote housing density beyond traditional apartments, offering affordable options for single-family living. However, zoning preemption issues and local resistance to changes complicate the path forward for these initiatives.",
+      "implications": "To effectively address the housing crisis, policymakers should prioritize flexible zoning reforms that accommodate diverse housing styles while promoting density. Engaging local communities in the planning process can mitigate resistance and foster support for necessary changes. Additionally, state-level advocacy for zoning preemption could streamline the approval process for innovative housing solutions.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
         "Colorado Springs Gazette",
-        "Denver Gazette",
         "The Denver Post",
         "HousingWire",
-        "CBS News"
+        "CBS News",
+        "Denver Gazette"
       ],
       "articles": [
         {
@@ -1668,24 +1780,24 @@
       ],
       "alert_count": 7,
       "regions": [
-        "Colorado",
+        "Denver",
         "Statewide",
         "Colorado Springs",
-        "Denver"
+        "Colorado"
       ],
-      "generated": "2026-07-13T04:29:17Z"
+      "generated": "2026-07-13T11:18:31Z"
     },
     {
-      "title": "Advancing Affordable Housing Initiatives in Colorado: A Call to Action",
+      "title": "Advancing Affordable Housing Initiatives in Colorado: A Policy Perspective",
       "policy_topic": "Construction & Permitting",
-      "summary": "Recent developments in Colorado highlight a growing commitment to affordable housing, with projects like the downtown Golden condos and a proposed senior housing development near South Academy Boulevard. These initiatives reflect a proactive approach to addressing housing shortages and enhancing community support for vulnerable populations. However, continued investment and strategic planning are essential to sustain this momentum.",
-      "implications": "Policymakers should prioritize funding and resources for affordable housing projects, ensuring they meet the diverse needs of the community. Collaboration with local governments and private developers can enhance the effectiveness of these initiatives. Additionally, implementing streamlined permitting processes can accelerate construction timelines and increase the availability of affordable housing options.",
+      "summary": "Recent developments in Colorado highlight a growing commitment to affordable housing, with projects like the downtown Golden condos and a proposed senior housing development near South Academy Boulevard. These initiatives reflect a broader trend towards addressing housing shortages and supporting vulnerable populations. The completion of significant projects in other states also underscores the importance of strategic financing in fostering housing development.",
+      "implications": "To capitalize on this momentum, Colorado policymakers should prioritize streamlined permitting processes and increased funding for affordable housing projects. Additionally, fostering partnerships between public and private sectors can enhance resource allocation and project efficiency. Implementing incentives for developers to focus on affordable housing can further address the pressing housing needs in the state.",
       "related_data": "data/market/hud_lihtc_co.geojson",
       "sources": [
-        "KOAA News 5",
         "Homes and Community Renewal (.gov)",
+        "Golden Transcript",
         "The Ohio Housing Finance Agency (OHFA)",
-        "Golden Transcript"
+        "KOAA News 5"
       ],
       "articles": [
         {
@@ -1723,18 +1835,64 @@
       "regions": [
         "Colorado"
       ],
-      "generated": "2026-07-13T04:29:19Z"
+      "generated": "2026-07-13T11:18:34Z"
+    },
+    {
+      "title": "Addressing Colorado's Rental Housing Challenges Amidst National Trends",
+      "policy_topic": "Rent & Tenants",
+      "summary": "Recent developments in affordable housing across the Midwest highlight a growing trend towards addressing rental affordability, with initiatives in Illinois and Michigan announcing significant new units. In Colorado, however, the debate over rent control intensifies as candidates approach primaries, while new regulations in Telluride are inadvertently displacing renters. This juxtaposition underscores the need for a balanced approach to housing policy that supports both renters and the local economy.",
+      "implications": "Policymakers in Colorado should consider implementing targeted rent control measures that protect tenants while fostering a stable rental market. Additionally, a comprehensive review of local regulations is necessary to ensure that they do not unintentionally drive renters out of their communities. Engaging with stakeholders, including tenants and landlords, will be crucial in crafting effective housing policies that address the needs of all parties involved.",
+      "related_data": "data/market/acs_tract_metrics_co.json",
+      "sources": [
+        "Denverite",
+        "The Troy Times Tribune",
+        "Michigan Public",
+        "The Colorado Sun"
+      ],
+      "articles": [
+        {
+          "title": "Illinois Housing Development Authority announces creation of 1,000 units of affordable rental housing - The Troy Times Tribune",
+          "source": "The Troy Times Tribune",
+          "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPNU9HbFRNNXlBVWhiVV9UdlYycTFIa2JaWFZuLXhsM3RSQXFEUmFZQzhWeWNldEpUemNHWXg0RmVCZC1KQ3NuVkxidVI4NGg2S0ZVamczQ2VQVlpFVGRMNlZBei1rOHVPOEpNdkNwcndkUnRfd21CdjZyd0xERmpYSnZ4NkxMSXl1MUJRUUFJd09yUnhkYVVQSDAxWmJkTExsd2VmYXJjR3c3OE1QWU8za0dvbElBS2dlRGRsbjR0Szh0YXA1WFRINkhRNFc5b0JHRlJCdFdIZWZaX2t3ZEE?oc=5",
+          "date": "2026-07-10"
+        },
+        {
+          "title": "Gov. Whitmer announces construction of more than 600 affordable rental units across Michigan - Michigan Public",
+          "source": "Michigan Public",
+          "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPQ2hXMm9qQnFFeGo0N1hQRGVvUjFtT0RvZTg2VkFCOEJ1RlZxMkNROE1Md0x3Y0lWWUJoaTVwRTluck5Mb21hNTAyZTVpT21wanB0dVM4VFBKNnJEWFpmZEY1LWlSN3Q1bTFCMzlHWmhqMHR0YzJBYXg0V0VlTVF0b3R6OTlwdHRCV01zejNfaEFXbWNjNld4VUI3bVZGRFBYWDYzTFR3R1JfeUc1UFZLRlBjb3hZLWdrUzE3WGJKZ01iVGx1cm5yQWhNYTE?oc=5",
+          "date": "2026-06-22"
+        },
+        {
+          "title": "Denver statehouse candidates debate rent control as primaries approach - Denverite",
+          "source": "Denverite",
+          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNSXNYLTFFR01DclkycThLWE1lOWpKRVE1ZG5CcHNySTZ6c1RpUzFsNFR5OHFtZ3hGTDZwR3RXR2xiY0VncmZuQ0pSeW5BOFJtZExNZHZkY2N4VEVZQ3Q2R2M4WnU5ZWxrSlVpamtoSTJpRjFLendieE9ldnRHLWVYNDVSdHFab3A3QmN2TlJ6WG1lX0FCUC1FMDJjWWkzMm8yaE5FTzZkOA?oc=5",
+          "date": "2026-06-02"
+        },
+        {
+          "title": "In Telluride, new regulations designed to help renters are instead driving many out of town - The Colorado Sun",
+          "source": "The Colorado Sun",
+          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPRi03NzZodjRMRnByTWExQmg1TUthSlN5blVxQlFDSkRHYTBSR1FDLUs4SE52cmNqTmYwbkdLbHFyUmJBVkRxcF93S2NlQV8xQU5xc0tPdFNIZXA1QzkzV1RESThwWEJ6U2M5OXJKZDFKQVBfOUc4Nl8zS0w1SkFoUjZubkVhRXNMaTdzcnNtVG5MNWo3dlNyUnFJS2JodUd2SXgzNUV6Y3FaVWtlRW1venVZMFhqUkQ5MFRDX0lR?oc=5",
+          "date": "2026-04-19"
+        }
+      ],
+      "alert_count": 4,
+      "regions": [
+        "Denver",
+        "Statewide",
+        "Colorado"
+      ],
+      "generated": "2026-07-13T11:18:38Z"
     },
     {
       "title": "Colorado Advances Legislation for Affordable Home Ownership Opportunities",
       "policy_topic": "Housing Policy",
-      "summary": "Recent legislative actions by Colorado Senate and House Democrats have successfully passed and enacted measures aimed at increasing affordable home ownership opportunities in the state. These initiatives are designed to address the growing housing affordability crisis and provide more pathways for residents to achieve home ownership.",
-      "implications": "To maximize the impact of these new policies, local governments should prioritize the implementation of supportive zoning regulations and incentives for developers to create affordable housing units. Additionally, stakeholders must engage with community organizations to ensure that the benefits of these programs reach the most underserved populations.",
+      "summary": "Recent legislative actions by Colorado Senate and House Democrats have successfully passed measures aimed at increasing affordable home ownership opportunities in the state. These initiatives are designed to address the growing housing affordability crisis and support families in achieving home ownership. The new laws are set to take effect, signaling a commitment to improving housing accessibility for Colorado residents.",
+      "implications": "To maximize the impact of these new laws, local governments should develop targeted outreach programs to educate potential homebuyers about available resources and assistance. Additionally, stakeholders in the housing market, including developers and non-profits, should collaborate to create more affordable housing projects that align with the new legislation. Continuous monitoring and evaluation of these policies will be essential to ensure they effectively meet the needs of Colorado families.",
       "related_data": "data/policy/prop123_jurisdictions.json",
       "sources": [
+        "Colorado House Democrats",
         "Colorado Senate Democrats",
-        "Michigan Senate Democrats",
-        "Colorado House Democrats"
+        "Michigan Senate Democrats"
       ],
       "articles": [
         {
@@ -1758,21 +1916,21 @@
       ],
       "alert_count": 3,
       "regions": [
-        "Colorado",
-        "Statewide"
+        "Statewide",
+        "Colorado"
       ],
-      "generated": "2026-07-13T04:29:23Z"
+      "generated": "2026-07-13T11:18:40Z"
     },
     {
-      "title": "Addressing Homelessness in Colorado: Recent Initiatives and Future Directions",
+      "title": "Addressing Homelessness in Colorado: Supportive Housing and Affordable Initiatives",
       "policy_topic": "Homelessness",
-      "summary": "Recent initiatives in Colorado, including Governor Polis's visit to supportive housing for young adults and the investment in affordable homes for formerly homeless residents, highlight the state's commitment to addressing homelessness. Additionally, proposed changes to rural housing programs aim to tackle a preservation crisis that could exacerbate housing instability. These efforts reflect a multifaceted approach to reducing homelessness and improving housing security.",
-      "implications": "To build on these initiatives, policymakers should prioritize funding for supportive housing programs and ensure that affordable housing developments are accessible to vulnerable populations. Furthermore, addressing the preservation crisis in rural areas requires targeted investments and incentives for maintaining existing affordable housing stock. Collaborative efforts between state and local governments, non-profits, and community organizations will be essential in creating sustainable solutions to homelessness.",
+      "summary": "Recent initiatives in Colorado highlight a commitment to tackling homelessness through supportive housing for young adults and the development of affordable homes. Governor Polis's visit to a supportive housing project in Colorado Springs underscores the state's focus on providing stable housing solutions for vulnerable populations. Additionally, new investments in affordable housing aim to reserve units for formerly homeless residents, addressing immediate needs while promoting long-term stability.",
+      "implications": "To effectively combat homelessness, Colorado should prioritize funding for supportive housing programs and expand partnerships with local organizations to enhance service delivery. Policymakers must also consider revising rural housing programs to prevent preservation crises, ensuring that affordable housing remains accessible across all regions. A comprehensive strategy that combines immediate housing solutions with long-term support services will be essential for reducing homelessness statewide.",
       "related_data": "data/market/acs_tract_metrics_co.json",
       "sources": [
         "Yield PRO",
-        "KKTV",
-        "Shelterforce"
+        "Shelterforce",
+        "KKTV"
       ],
       "articles": [
         {
@@ -1796,49 +1954,10 @@
       ],
       "alert_count": 3,
       "regions": [
-        "Colorado",
-        "Colorado Springs"
+        "Colorado Springs",
+        "Colorado"
       ],
-      "generated": "2026-07-13T04:29:25Z"
-    },
-    {
-      "title": "Navigating Colorado's Rental Market: Balancing Regulation and Affordability",
-      "policy_topic": "Rent & Tenants",
-      "summary": "Recent discussions in Colorado highlight the ongoing challenges of rent control and tenant protections, particularly as candidates debate these issues ahead of the primaries. Meanwhile, new regulations in Telluride, intended to support renters, have inadvertently led to displacement, raising concerns about their effectiveness. The need for a balanced approach to affordable housing is more pressing than ever.",
-      "implications": "Policymakers should consider revising current regulations to ensure they effectively support renters without causing unintended consequences like displacement. Additionally, exploring partnerships with developers to increase the supply of affordable housing units could alleviate pressure on the rental market. Engaging with community stakeholders to gather input on proposed regulations can foster more sustainable and equitable housing solutions.",
-      "related_data": "data/market/acs_tract_metrics_co.json",
-      "sources": [
-        "The Colorado Sun",
-        "Michigan Public",
-        "Denverite"
-      ],
-      "articles": [
-        {
-          "title": "Gov. Whitmer announces construction of more than 600 affordable rental units across Michigan - Michigan Public",
-          "source": "Michigan Public",
-          "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPQ2hXMm9qQnFFeGo0N1hQRGVvUjFtT0RvZTg2VkFCOEJ1RlZxMkNROE1Md0x3Y0lWWUJoaTVwRTluck5Mb21hNTAyZTVpT21wanB0dVM4VFBKNnJEWFpmZEY1LWlSN3Q1bTFCMzlHWmhqMHR0YzJBYXg0V0VlTVF0b3R6OTlwdHRCV01zejNfaEFXbWNjNld4VUI3bVZGRFBYWDYzTFR3R1JfeUc1UFZLRlBjb3hZLWdrUzE3WGJKZ01iVGx1cm5yQWhNYTE?oc=5",
-          "date": "2026-06-22"
-        },
-        {
-          "title": "Denver statehouse candidates debate rent control as primaries approach - Denverite",
-          "source": "Denverite",
-          "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNSXNYLTFFR01DclkycThLWE1lOWpKRVE1ZG5CcHNySTZ6c1RpUzFsNFR5OHFtZ3hGTDZwR3RXR2xiY0VncmZuQ0pSeW5BOFJtZExNZHZkY2N4VEVZQ3Q2R2M4WnU5ZWxrSlVpamtoSTJpRjFLendieE9ldnRHLWVYNDVSdHFab3A3QmN2TlJ6WG1lX0FCUC1FMDJjWWkzMm8yaE5FTzZkOA?oc=5",
-          "date": "2026-06-02"
-        },
-        {
-          "title": "In Telluride, new regulations designed to help renters are instead driving many out of town - The Colorado Sun",
-          "source": "The Colorado Sun",
-          "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPRi03NzZodjRMRnByTWExQmg1TUthSlN5blVxQlFDSkRHYTBSR1FDLUs4SE52cmNqTmYwbkdLbHFyUmJBVkRxcF93S2NlQV8xQU5xc0tPdFNIZXA1QzkzV1RESThwWEJ6U2M5OXJKZDFKQVBfOUc4Nl8zS0w1SkFoUjZubkVhRXNMaTdzcnNtVG5MNWo3dlNyUnFJS2JodUd2SXgzNUV6Y3FaVWtlRW1venVZMFhqUkQ5MFRDX0lR?oc=5",
-          "date": "2026-04-19"
-        }
-      ],
-      "alert_count": 3,
-      "regions": [
-        "Colorado",
-        "Statewide",
-        "Denver"
-      ],
-      "generated": "2026-07-13T04:29:29Z"
+      "generated": "2026-07-13T11:18:44Z"
     }
   ]
 }
