@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-12T09:03:48.960253Z",
+  "generated": "2026-07-13T05:40:51.069173Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 223356
+      "bytes": 195268
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -344,7 +344,7 @@
     "data/hna/derived/place_county_lookup.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12718
+      "bytes": 11919
     },
     "data/hna/dola_sya/08.json": {
       "featureCount": 0,
@@ -684,7 +684,7 @@
     "data/hna/geography-registry.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 130328
+      "bytes": 123285
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 0,
@@ -4119,7 +4119,7 @@
     "data/hna/place-phantom-aliases.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1770
+      "bytes": 1771
     },
     "data/hna/place-tract-membership.json": {
       "featureCount": 0,
@@ -7334,7 +7334,7 @@
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 107374
+      "bytes": 222650
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -7584,7 +7584,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
@@ -7794,7 +7794,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 178723
+      "bytes": 157146
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
@@ -7844,7 +7844,7 @@
     "data/reports/data-source-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 7820
+      "bytes": 7833
     },
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
