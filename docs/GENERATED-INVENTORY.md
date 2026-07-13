@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-13T04:14:35.196Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-13T04:33:33.570Z. Do not edit by hand.
 
 ---
 
@@ -85,7 +85,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 218.1 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 190.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1528,7 +1528,7 @@
 | `data/jurisdiction-briefs/0867280.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 30.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.7 KB | ✅ | — |
-| `data/jurisdiction-briefs/_liveness.json` | 104.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 217.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 70 B | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
@@ -1601,7 +1601,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
-| `data/policy_briefs.json` | 174.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 153.5 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
