@@ -43,10 +43,10 @@ bbox format: [minLon, minLat, maxLon, maxLat]
 Compute statewide tract coverage vs. expected Colorado tract count.
 @returns {{ loaded: number, expected: number, pct: number, isProductionReady: boolean, label: string }}
 
-### `_chasLihtcEligibleRenters(bufTracts)`
+### `_chasLihtcEligibleRenters(bufTracts, acsIdx)`
 
-D — Compute LIHTC-eligible renter HH count from CHAS, weighted across
-the buffer's tracts by county.
+D — Compute LIHTC-eligible renter HH count from CHAS, scaled to the
+buffer's tract-level renter footprint by county.
 
 CHFA market study standard: capture-rate denominator should be renter
 households at or below the project's max target AMI (typically 80% for

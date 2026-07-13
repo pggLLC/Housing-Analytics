@@ -44,8 +44,10 @@ advances (e.g. HUD's 2026 QCT list publishes — adjust QCT count expectation).
 /
 
 import fs from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT      = path.resolve(__dirname, '..', '..');
@@ -55,23 +57,81 @@ const JSON_OUT  = ARGV.has('--json');
 
 const CURRENT_YEAR = 2026;
 
-/* ── Score weights — must match js/lihtc-opportunity-finder.js ────── */
-// 5-dimension weighting per methodology §4. Each target sums to 1.0.
-// F9 (2026-05-26): civic bumped on 9pct/4pct/workforce_resort to reflect
-// real CHFA QAP signals (Prop 123 commitment, housing authority infra).
-// Must match SCORE_WEIGHTS in js/lihtc-opportunity-finder.js exactly.
-const SCORE_WEIGHTS = {
-  '9pct':              { need: 0.30, recency: 0.22, basis: 0.15, pop: 0.15, civic: 0.18 },
-  '4pct':              { need: 0.25, recency: 0.12, basis: 0.15, pop: 0.30, civic: 0.18 },
-  'preservation':      { need: 0.20, recency: 0.15, basis: 0.35, pop: 0.10, civic: 0.20 },
-  'workforce_resort':  { need: 0.25, recency: 0.15, basis: 0.15, pop: 0.25, civic: 0.20 },
-  'prop123_local':     { need: 0.25, recency: 0.10, basis: 0.20, pop: 0.15, civic: 0.30 },
-  'any':               { need: 0.25, recency: 0.20, basis: 0.15, pop: 0.20, civic: 0.20 }
-};
+/* ── Score weights — extracted from production source ─────────────── */
+// Keep the verifier structurally tied to js/lihtc-opportunity-finder.js.
+// The browser module is an IIFE, so this script extracts the literals rather
+// than maintaining a second copy that can drift.
+export const EXPECTED_SCORE_TARGETS = ['9pct', '4pct', 'preservation', 'workforce_resort', 'prop123_local', 'any'];
+export const EXPECTED_SCORE_FACTORS = ['need', 'recency', 'basis', 'pop', 'civic'];
 
-// F9: CDP penalty applied on incorporation-sensitive targets. Must match
-// CDP_PENALTY + CDP_PENALTY_TARGETS in js/lihtc-opportunity-finder.js.
-const CDP_PENALTY = -8;
-const CDP_PENALTY_TARGETS = new Set(['9pct', '4pct', 'workforce_resort', 'any']);
+function _extractBalancedLiteral(source, name) {
+  const assignment = new RegExp('(?:var|const|let)\\s+' + name + '\\s*=\\s*', 'm');
+  const match = assignment.exec(source);
+  if (!match) throw new Error('Cannot find ' + name + ' assignment in js/lihtc-opportunity-finder.js');
+  let i = match.index + match[0].length;
+  while (/\s/.test(source[i])) i++;
+  if (source[i] !== '{') {
+    const scalar = /^[^;]+/.exec(source.slice(i));
+    if (!scalar) throw new Error('Cannot parse scalar assignment for ' + name);
+    return scalar[0].trim();
+  }
+  let depth = 0;
+  let quote = null;
+  for (let j = i; j < source.length; j++) {
+    const ch = source[j];
+    const prev = source[j - 1];
+    if (quote) {
+      if (ch === quote && prev !== '\\') quote = null;
+      continue;
+    }
+    if (ch === '\'' || ch === '"' || ch === '`') { quote = ch; continue; }
+    if (ch === '{') depth++;
+    if (ch === '}') {
+      depth--;
+      if (depth === 0) return source.slice(i, j + 1);
+    }
+  }
+  throw new Error('Unbalanced object literal for ' + name);
+}
+
+function _evalLiteral(literal, name) {
+  try {
+    return vm.runInNewContext('(' + literal + ')', Object.create(null), { timeout: 1000 });
+  } catch (err) {
+    throw new Error('Cannot evaluate ' + name + ' literal: ' + err.message);
+  }
+}
+
+export function extractOpportunityFinderConfig(source) {
+  const weights = _evalLiteral(_extractBalancedLiteral(source, 'SCORE_WEIGHTS'), 'SCORE_WEIGHTS');
+  const penalty = Number(_extractBalancedLiteral(source, 'CDP_PENALTY'));
+  const penaltyTargetsObject = _evalLiteral(_extractBalancedLiteral(source, 'CDP_PENALTY_TARGETS'), 'CDP_PENALTY_TARGETS');
+  const penaltyTargets = Object.keys(penaltyTargetsObject).filter((key) => penaltyTargetsObject[key]);
+
+  if (!Number.isFinite(penalty)) throw new Error('CDP_PENALTY is not finite');
+  for (const target of EXPECTED_SCORE_TARGETS) {
+    if (!weights[target]) throw new Error('SCORE_WEIGHTS missing target ' + target);
+    for (const factor of EXPECTED_SCORE_FACTORS) {
+      if (!Number.isFinite(weights[target][factor])) {
+        throw new Error('SCORE_WEIGHTS.' + target + '.' + factor + ' is not finite');
+      }
+    }
+  }
+  return {
+    scoreWeights: JSON.parse(JSON.stringify(weights)),
+    cdpPenalty: penalty,
+    cdpPenaltyTargets: penaltyTargets,
+  };
+}
+
+export function loadOpportunityFinderConfig(rootDir = ROOT) {
+  const source = readFileSync(path.join(rootDir, 'js/lihtc-opportunity-finder.js'), 'utf8');
+  return extractOpportunityFinderConfig(source);
+}
+
+const OPPORTUNITY_FINDER_CONFIG = loadOpportunityFinderConfig();
+const SCORE_WEIGHTS = OPPORTUNITY_FINDER_CONFIG.scoreWeights;
+const CDP_PENALTY = OPPORTUNITY_FINDER_CONFIG.cdpPenalty;
+const CDP_PENALTY_TARGETS = new Set(OPPORTUNITY_FINDER_CONFIG.cdpPenaltyTargets);
 
 /* ── Pretty printing ────────────────────────────────────────────────
