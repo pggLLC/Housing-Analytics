@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 17.9,
-    "total_owner_hh": 586.5,
+    "total_renter_hh": 6.0,
+    "total_owner_hh": 672.0,
     "renter_cb30_count": 0.0,
     "renter_cb30_share": 0.0,
     "renter_cb50_count": 0.0,
     "renter_cb50_share": 0.0,
-    "owner_cb30_count": 145.6,
-    "owner_cb30_share": 0.2483,
-    "owner_cb50_count": 78.6,
-    "owner_cb50_share": 0.134
+    "owner_cb30_count": 166.8,
+    "owner_cb30_share": 0.2482,
+    "owner_cb50_count": 90.0,
+    "owner_cb50_share": 0.1339
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -51,14 +51,14 @@
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 2.5,
+      "total": 0.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 15.4,
+      "total": 5.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 18.4,
-      "cost_burdened_30pct": 11.1,
-      "cost_burdened_50pct": 11.1,
+      "total": 21.1,
+      "cost_burdened_30pct": 12.7,
+      "cost_burdened_50pct": 12.7,
       "pct_cost_burdened_30": 0.6,
       "pct_cost_burdened_50": 0.6
     },
     "31to50": {
-      "total": 21.5,
-      "cost_burdened_30pct": 15.4,
-      "cost_burdened_50pct": 9.2,
+      "total": 24.6,
+      "cost_burdened_30pct": 17.6,
+      "cost_burdened_50pct": 10.5,
       "pct_cost_burdened_30": 0.7143,
       "pct_cost_burdened_50": 0.4286
     },
     "51to80": {
-      "total": 55.3,
-      "cost_burdened_30pct": 49.1,
-      "cost_burdened_50pct": 39.9,
+      "total": 63.4,
+      "cost_burdened_30pct": 56.3,
+      "cost_burdened_50pct": 45.7,
       "pct_cost_burdened_30": 0.8889,
       "pct_cost_burdened_50": 0.7222
     },
     "81to100": {
-      "total": 46.1,
-      "cost_burdened_30pct": 27.0,
-      "cost_burdened_50pct": 12.3,
+      "total": 52.8,
+      "cost_burdened_30pct": 30.9,
+      "cost_burdened_50pct": 14.1,
       "pct_cost_burdened_30": 0.5867,
       "pct_cost_burdened_50": 0.2667
     },
     "100plus": {
-      "total": 445.2,
-      "cost_burdened_30pct": 43.0,
-      "cost_burdened_50pct": 6.1,
+      "total": 510.1,
+      "cost_burdened_30pct": 49.3,
+      "cost_burdened_50pct": 7.0,
       "pct_cost_burdened_30": 0.0966,
       "pct_cost_burdened_50": 0.0138
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 667,
-    "base_hh": 604.4
+    "acs_occupied_hh": 678,
+    "base_hh": 604.4,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.3352,
+    "owner_scale": 1.1458,
+    "acs_renter_hh": 6.0,
+    "acs_owner_hh": 672.0,
+    "base_renter_hh_before": 17.9,
+    "base_owner_hh_before": 586.5,
+    "renter_share_before": 0.0296,
+    "renter_share_after": 0.0088,
+    "rates_preserved": true
   },
   "geoid": "0858592",
   "county_fips": "08035",
@@ -133,10 +147,10 @@
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
     "renter_cost_burdened": 0,
-    "owner_cost_burdened": 145.6,
+    "owner_cost_burdened": 166.8,
     "severe_renter_cost_burdened": 0,
-    "moderate_income_renter_households": 15.4,
-    "moderate_income_owner_cost_burdened": 76.1,
+    "moderate_income_renter_households": 5.2,
+    "moderate_income_owner_cost_burdened": 87.2,
     "existing_rental_gap_lte80": 6,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -189,7 +203,7 @@
           Colorado · Douglas County
         </div>
         <h1>Perry Park</h1>
-        <p class="place-sub">~604 households</p>
+        <p class="place-sub">~678 households</p>
       </div>
     </div>
 

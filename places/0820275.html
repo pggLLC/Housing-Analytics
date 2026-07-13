@@ -31,34 +31,34 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 722.4,
-    "total_owner_hh": 1490.1,
-    "renter_cb30_count": 233.4,
+    "total_renter_hh": 722.0,
+    "total_owner_hh": 1757.0,
+    "renter_cb30_count": 233.3,
     "renter_cb30_share": 0.3231,
-    "renter_cb50_count": 139.9,
-    "renter_cb50_share": 0.1937,
-    "owner_cb30_count": 459.3,
-    "owner_cb30_share": 0.3082,
-    "owner_cb50_count": 110.5,
+    "renter_cb50_count": 139.8,
+    "renter_cb50_share": 0.1936,
+    "owner_cb30_count": 541.7,
+    "owner_cb30_share": 0.3083,
+    "owner_cb50_count": 130.3,
     "owner_cb50_share": 0.0742
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 109.4,
-      "cost_burdened_30pct": 93.4,
-      "cost_burdened_50pct": 93.3,
+      "total": 109.3,
+      "cost_burdened_30pct": 93.3,
+      "cost_burdened_50pct": 93.2,
       "pct_cost_burdened_30": 0.8539,
       "pct_cost_burdened_50": 0.853
     },
     "31to50": {
-      "total": 164.9,
+      "total": 164.8,
       "cost_burdened_30pct": 77.0,
       "cost_burdened_50pct": 46.6,
       "pct_cost_burdened_30": 0.4672,
       "pct_cost_burdened_50": 0.2826
     },
     "51to80": {
-      "total": 199.9,
+      "total": 199.8,
       "cost_burdened_30pct": 62.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3147,
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 169.6,
+      "total": 169.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 193.0,
-      "cost_burdened_30pct": 108.6,
-      "cost_burdened_50pct": 73.1,
+      "total": 227.6,
+      "cost_burdened_30pct": 128.1,
+      "cost_burdened_50pct": 86.2,
       "pct_cost_burdened_30": 0.5628,
       "pct_cost_burdened_50": 0.3788
     },
     "31to50": {
-      "total": 248.0,
-      "cost_burdened_30pct": 152.5,
-      "cost_burdened_50pct": 12.8,
+      "total": 292.4,
+      "cost_burdened_30pct": 179.8,
+      "cost_burdened_50pct": 15.1,
       "pct_cost_burdened_30": 0.6149,
       "pct_cost_burdened_50": 0.0515
     },
     "51to80": {
-      "total": 362.9,
-      "cost_burdened_30pct": 111.5,
-      "cost_burdened_50pct": 24.6,
+      "total": 427.9,
+      "cost_burdened_30pct": 131.5,
+      "cost_burdened_50pct": 29.0,
       "pct_cost_burdened_30": 0.3073,
       "pct_cost_burdened_50": 0.0677
     },
     "81to100": {
-      "total": 182.1,
-      "cost_burdened_30pct": 70.7,
+      "total": 214.7,
+      "cost_burdened_30pct": 83.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3884,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 504.1,
-      "cost_burdened_30pct": 16.0,
+      "total": 594.4,
+      "cost_burdened_30pct": 18.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0316,
       "pct_cost_burdened_50": 0.0
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 2481,
-    "base_hh": 2212.5
+    "acs_occupied_hh": 2479,
+    "base_hh": 2212.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.9994,
+    "owner_scale": 1.1791,
+    "acs_renter_hh": 722.0,
+    "acs_owner_hh": 1757.0,
+    "base_renter_hh_before": 722.4,
+    "base_owner_hh_before": 1490.1,
+    "renter_share_before": 0.3265,
+    "renter_share_after": 0.2912,
+    "rates_preserved": true
   },
   "geoid": "0820275",
   "county_fips": "08001",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 233.4,
-    "owner_cost_burdened": 459.3,
-    "severe_renter_cost_burdened": 139.9,
-    "moderate_income_renter_households": 278.5,
-    "moderate_income_owner_cost_burdened": 182.2,
+    "renter_cost_burdened": 233.3,
+    "owner_cost_burdened": 541.7,
+    "severe_renter_cost_burdened": 139.8,
+    "moderate_income_renter_households": 278.4,
+    "moderate_income_owner_cost_burdened": 214.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Moderate",
@@ -189,7 +203,7 @@
           Colorado · Adams County
         </div>
         <h1>Derby</h1>
-        <p class="place-sub">~2,212 households · renter cost-burden 32.3%</p>
+        <p class="place-sub">~2,479 households · renter cost-burden 32.3%</p>
       </div>
     </div>
 

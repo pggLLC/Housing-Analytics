@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 254.3,
-    "total_owner_hh": 2978.5,
-    "renter_cb30_count": 67.5,
-    "renter_cb30_share": 0.2654,
-    "renter_cb50_count": 44.5,
-    "renter_cb50_share": 0.175,
-    "owner_cb30_count": 689.9,
+    "total_renter_hh": 249.0,
+    "total_owner_hh": 3118.9,
+    "renter_cb30_count": 66.1,
+    "renter_cb30_share": 0.2655,
+    "renter_cb50_count": 43.5,
+    "renter_cb50_share": 0.1747,
+    "owner_cb30_count": 722.4,
     "owner_cb30_share": 0.2316,
-    "owner_cb50_count": 220.5,
+    "owner_cb50_count": 230.9,
     "owner_cb50_share": 0.074
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 61.9,
-      "cost_burdened_30pct": 35.8,
-      "cost_burdened_50pct": 27.0,
+      "total": 60.6,
+      "cost_burdened_30pct": 35.1,
+      "cost_burdened_50pct": 26.4,
       "pct_cost_burdened_30": 0.5793,
       "pct_cost_burdened_50": 0.4363
     },
     "31to50": {
-      "total": 8.9,
-      "cost_burdened_30pct": 8.9,
-      "cost_burdened_50pct": 8.9,
+      "total": 8.7,
+      "cost_burdened_30pct": 8.7,
+      "cost_burdened_50pct": 8.7,
       "pct_cost_burdened_30": 0.9971,
       "pct_cost_burdened_50": 0.9947
     },
     "51to80": {
-      "total": 39.1,
-      "cost_burdened_30pct": 19.2,
-      "cost_burdened_50pct": 8.6,
+      "total": 38.3,
+      "cost_burdened_30pct": 18.8,
+      "cost_burdened_50pct": 8.4,
       "pct_cost_burdened_30": 0.4912,
       "pct_cost_burdened_50": 0.2188
     },
     "81to100": {
-      "total": 3.7,
-      "cost_burdened_30pct": 3.6,
+      "total": 3.6,
+      "cost_burdened_30pct": 3.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.9585,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 140.7,
+      "total": 137.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 226.2,
-      "cost_burdened_30pct": 173.9,
-      "cost_burdened_50pct": 113.2,
+      "total": 236.9,
+      "cost_burdened_30pct": 182.1,
+      "cost_burdened_50pct": 118.5,
       "pct_cost_burdened_30": 0.7686,
       "pct_cost_burdened_50": 0.5002
     },
     "31to50": {
-      "total": 307.6,
-      "cost_burdened_30pct": 201.6,
-      "cost_burdened_50pct": 68.9,
+      "total": 322.1,
+      "cost_burdened_30pct": 211.1,
+      "cost_burdened_50pct": 72.2,
       "pct_cost_burdened_30": 0.6554,
       "pct_cost_burdened_50": 0.2241
     },
     "51to80": {
-      "total": 539.2,
-      "cost_burdened_30pct": 206.5,
-      "cost_burdened_50pct": 26.4,
+      "total": 564.6,
+      "cost_burdened_30pct": 216.2,
+      "cost_burdened_50pct": 27.6,
       "pct_cost_burdened_30": 0.3831,
       "pct_cost_burdened_50": 0.049
     },
     "81to100": {
-      "total": 456.6,
-      "cost_burdened_30pct": 78.0,
-      "cost_burdened_50pct": 8.6,
+      "total": 478.1,
+      "cost_burdened_30pct": 81.7,
+      "cost_burdened_50pct": 9.0,
       "pct_cost_burdened_30": 0.1707,
       "pct_cost_burdened_50": 0.0188
     },
     "100plus": {
-      "total": 1448.9,
-      "cost_burdened_30pct": 29.9,
-      "cost_burdened_50pct": 3.4,
+      "total": 1517.2,
+      "cost_burdened_30pct": 31.3,
+      "cost_burdened_50pct": 3.6,
       "pct_cost_burdened_30": 0.0206,
       "pct_cost_burdened_50": 0.0024
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 3365,
-    "base_hh": 3232.8
+    "acs_occupied_hh": 3368,
+    "base_hh": 3232.8,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.9792,
+    "owner_scale": 1.0472,
+    "acs_renter_hh": 249.0,
+    "acs_owner_hh": 3119.0,
+    "base_renter_hh_before": 254.3,
+    "base_owner_hh_before": 2978.5,
+    "renter_share_before": 0.0787,
+    "renter_share_after": 0.0739,
+    "rates_preserved": true
   },
   "geoid": "0828800",
   "county_fips": "08077",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 67.5,
-    "owner_cost_burdened": 689.9,
-    "severe_renter_cost_burdened": 44.5,
-    "moderate_income_renter_households": 42.8,
-    "moderate_income_owner_cost_burdened": 284.5,
+    "renter_cost_burdened": 66.1,
+    "owner_cost_burdened": 722.4,
+    "severe_renter_cost_burdened": 43.5,
+    "moderate_income_renter_households": 41.9,
+    "moderate_income_owner_cost_burdened": 297.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Moderate",
@@ -189,7 +203,7 @@
           Colorado · Mesa County
         </div>
         <h1>Fruitvale</h1>
-        <p class="place-sub">~3,233 households · renter cost-burden 26.5%</p>
+        <p class="place-sub">~3,368 households · renter cost-burden 26.6%</p>
       </div>
     </div>
 

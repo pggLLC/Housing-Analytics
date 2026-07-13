@@ -160,7 +160,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Carbondale. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 327 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Carbondale. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 360 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -169,7 +169,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 421 renter households and 437 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 463 renter households and 469 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -182,7 +182,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Carbondale at #184 with an overall housing-need score of 54.6. It identifies 52 deeply affordable units missing at <=30% AMI, equal to 44.8% of <=30% AMI households. 42.8% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Carbondale at #181 with an overall housing-need score of 55.0. It identifies 52 deeply affordable units missing at <=30% AMI, equal to 44.8% of <=30% AMI households. 42.8% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -407,7 +407,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -416,7 +416,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -551,7 +551,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -560,7 +560,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -569,7 +569,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

@@ -179,7 +179,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Denver. It classifies rental pressure as High, ownership pressure as High, and identifies 48,652 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Denver. It classifies rental pressure as High, ownership pressure as High, and identifies 54,103 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -188,7 +188,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 69,851 renter households and 37,302 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 77,677 renter households and 39,315 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -201,7 +201,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Denver at #77 with an overall housing-need score of 71.5. It identifies 28,477 deeply affordable units missing at <=30% AMI, equal to 63.5% of <=30% AMI households. 49.5% of renter households are cost burdened, and 3.2% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Denver at #78 with an overall housing-need score of 71.1. It identifies 28,477 deeply affordable units missing at <=30% AMI, equal to 63.5% of <=30% AMI households. 49.5% of renter households are cost burdened, and 3.2% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -475,7 +475,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -484,7 +484,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -619,7 +619,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -628,7 +628,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -637,7 +637,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

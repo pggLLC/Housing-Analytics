@@ -31,34 +31,34 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 34.0,
-    "total_owner_hh": 1259.1,
-    "renter_cb30_count": 22.7,
-    "renter_cb30_share": 0.6676,
-    "renter_cb50_count": 12.7,
-    "renter_cb50_share": 0.3735,
-    "owner_cb30_count": 221.4,
-    "owner_cb30_share": 0.1758,
-    "owner_cb50_count": 124.2,
+    "total_renter_hh": 128.9,
+    "total_owner_hh": 1356.0,
+    "renter_cb30_count": 86.1,
+    "renter_cb30_share": 0.668,
+    "renter_cb50_count": 48.2,
+    "renter_cb50_share": 0.3739,
+    "owner_cb30_count": 238.5,
+    "owner_cb30_share": 0.1759,
+    "owner_cb50_count": 133.7,
     "owner_cb50_share": 0.0986
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 7.1,
-      "cost_burdened_30pct": 2.8,
-      "cost_burdened_50pct": 2.8,
+      "total": 26.9,
+      "cost_burdened_30pct": 10.6,
+      "cost_burdened_50pct": 10.6,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 24.1,
-      "cost_burdened_30pct": 19.9,
-      "cost_burdened_50pct": 9.9,
+      "total": 91.4,
+      "cost_burdened_30pct": 75.5,
+      "cost_burdened_50pct": 37.6,
       "pct_cost_burdened_30": 0.8242,
       "pct_cost_burdened_50": 0.4101
     },
     "51to80": {
-      "total": 2.8,
+      "total": 10.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 64.1,
-      "cost_burdened_30pct": 64.1,
-      "cost_burdened_50pct": 64.1,
+      "total": 69.0,
+      "cost_burdened_30pct": 69.0,
+      "cost_burdened_50pct": 69.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "31to50": {
-      "total": 58.9,
-      "cost_burdened_30pct": 20.5,
-      "cost_burdened_50pct": 13.4,
+      "total": 63.4,
+      "cost_burdened_30pct": 22.1,
+      "cost_burdened_50pct": 14.4,
       "pct_cost_burdened_30": 0.3482,
       "pct_cost_burdened_50": 0.2282
     },
     "51to80": {
-      "total": 94.5,
-      "cost_burdened_30pct": 34.9,
-      "cost_burdened_50pct": 26.9,
+      "total": 101.8,
+      "cost_burdened_30pct": 37.6,
+      "cost_burdened_50pct": 29.0,
       "pct_cost_burdened_30": 0.369,
       "pct_cost_burdened_50": 0.2844
     },
     "81to100": {
-      "total": 121.6,
-      "cost_burdened_30pct": 26.7,
-      "cost_burdened_50pct": 5.7,
+      "total": 131.0,
+      "cost_burdened_30pct": 28.8,
+      "cost_burdened_50pct": 6.1,
       "pct_cost_burdened_30": 0.2199,
       "pct_cost_burdened_50": 0.0465
     },
     "100plus": {
-      "total": 920.0,
-      "cost_burdened_30pct": 75.2,
-      "cost_burdened_50pct": 14.1,
+      "total": 990.8,
+      "cost_burdened_30pct": 81.0,
+      "cost_burdened_50pct": 15.2,
       "pct_cost_burdened_30": 0.0817,
       "pct_cost_burdened_50": 0.0154
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1483,
-    "base_hh": 1293.1
+    "acs_occupied_hh": 1485,
+    "base_hh": 1293.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 3.7941,
+    "owner_scale": 1.077,
+    "acs_renter_hh": 129.0,
+    "acs_owner_hh": 1356.0,
+    "base_renter_hh_before": 34.0,
+    "base_owner_hh_before": 1259.1,
+    "renter_share_before": 0.0263,
+    "renter_share_after": 0.0868,
+    "rates_preserved": true
   },
   "geoid": "0873943",
   "county_fips": "08035",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 22.7,
-    "owner_cost_burdened": 221.4,
-    "severe_renter_cost_burdened": 12.7,
-    "moderate_income_renter_households": 2.8,
-    "moderate_income_owner_cost_burdened": 61.6,
+    "renter_cost_burdened": 86.1,
+    "owner_cost_burdened": 238.5,
+    "severe_renter_cost_burdened": 48.2,
+    "moderate_income_renter_households": 10.6,
+    "moderate_income_owner_cost_burdened": 66.4,
     "existing_rental_gap_lte80": 17,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Moderate",
@@ -189,7 +203,7 @@
           Colorado · Douglas County
         </div>
         <h1>Sterling Ranch</h1>
-        <p class="place-sub">~1,293 households · renter cost-burden 66.8%</p>
+        <p class="place-sub">~1,485 households · renter cost-burden 66.8%</p>
       </div>
     </div>
 

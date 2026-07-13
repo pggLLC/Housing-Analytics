@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 352.1,
-    "total_owner_hh": 721.0,
-    "renter_cb30_count": 116.7,
-    "renter_cb30_share": 0.3314,
-    "renter_cb50_count": 98.2,
-    "renter_cb50_share": 0.2789,
-    "owner_cb30_count": 205.1,
+    "total_renter_hh": 415.0,
+    "total_owner_hh": 964.0,
+    "renter_cb30_count": 137.6,
+    "renter_cb30_share": 0.3316,
+    "renter_cb50_count": 115.8,
+    "renter_cb50_share": 0.279,
+    "owner_cb30_count": 274.3,
     "owner_cb30_share": 0.2845,
-    "owner_cb50_count": 65.0,
-    "owner_cb50_share": 0.0902
+    "owner_cb50_count": 86.9,
+    "owner_cb50_share": 0.0901
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 25.0,
-      "cost_burdened_30pct": 25.0,
-      "cost_burdened_50pct": 25.0,
+      "total": 29.5,
+      "cost_burdened_30pct": 29.5,
+      "cost_burdened_50pct": 29.5,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "31to50": {
-      "total": 40.0,
-      "cost_burdened_30pct": 25.0,
-      "cost_burdened_50pct": 25.0,
+      "total": 47.1,
+      "cost_burdened_30pct": 29.5,
+      "cost_burdened_50pct": 29.5,
       "pct_cost_burdened_30": 0.625,
       "pct_cost_burdened_50": 0.625
     },
     "51to80": {
-      "total": 48.2,
-      "cost_burdened_30pct": 48.2,
-      "cost_burdened_50pct": 48.2,
+      "total": 56.8,
+      "cost_burdened_30pct": 56.8,
+      "cost_burdened_50pct": 56.8,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "81to100": {
-      "total": 74.5,
-      "cost_burdened_30pct": 18.5,
+      "total": 87.8,
+      "cost_burdened_30pct": 21.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2485,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 164.4,
+      "total": 193.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,37 +81,37 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 13.1,
+      "total": 17.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 114.7,
-      "cost_burdened_30pct": 106.0,
-      "cost_burdened_50pct": 45.0,
+      "total": 153.4,
+      "cost_burdened_30pct": 141.7,
+      "cost_burdened_50pct": 60.2,
       "pct_cost_burdened_30": 0.924,
       "pct_cost_burdened_50": 0.3924
     },
     "51to80": {
-      "total": 109.2,
-      "cost_burdened_30pct": 50.0,
+      "total": 146.0,
+      "cost_burdened_30pct": 66.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4578,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 33.2,
-      "cost_burdened_30pct": 7.3,
+      "total": 44.4,
+      "cost_burdened_30pct": 9.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2185,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 450.8,
-      "cost_burdened_30pct": 41.8,
-      "cost_burdened_50pct": 20.0,
+      "total": 602.7,
+      "cost_burdened_30pct": 55.9,
+      "cost_burdened_50pct": 26.7,
       "pct_cost_burdened_30": 0.0927,
       "pct_cost_burdened_50": 0.0444
     }
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 1379,
-    "base_hh": 1073.1
+    "base_hh": 1073.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.1786,
+    "owner_scale": 1.337,
+    "acs_renter_hh": 415.0,
+    "acs_owner_hh": 964.0,
+    "base_renter_hh_before": 352.1,
+    "base_owner_hh_before": 721.0,
+    "renter_share_before": 0.3281,
+    "renter_share_after": 0.3009,
+    "rates_preserved": true
   },
   "geoid": "0828690",
   "county_fips": "08117",
@@ -213,16 +227,16 @@
     "geoid": "0828690",
     "name": "Frisco (town)",
     "type": "place",
-    "recommendation": "Rental + ownership mix",
-    "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
+    "recommendation": "Ownership-supportive strategy",
+    "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 116.7,
-    "owner_cost_burdened": 205.1,
-    "severe_renter_cost_burdened": 98.2,
-    "moderate_income_renter_households": 122.7,
-    "moderate_income_owner_cost_burdened": 57.3,
+    "renter_cost_burdened": 137.6,
+    "owner_cost_burdened": 274.3,
+    "severe_renter_cost_burdened": 115.8,
+    "moderate_income_renter_households": 144.6,
+    "moderate_income_owner_cost_burdened": 76.7,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "High",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Very High",
     "ownership_fit_tier": "High",
     "affordability_classification": "priced-out",
@@ -273,7 +287,7 @@
           Colorado · Summit County
         </div>
         <h1>Frisco</h1>
-        <p class="place-sub">~1,073 households · renter cost-burden 33.1%</p>
+        <p class="place-sub">~1,379 households · renter cost-burden 33.2%</p>
       </div>
     </div>
 

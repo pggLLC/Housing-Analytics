@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 34.6,
-    "total_owner_hh": 95.6,
-    "renter_cb30_count": 8.7,
-    "renter_cb30_share": 0.2514,
-    "renter_cb50_count": 3.4,
-    "renter_cb50_share": 0.0983,
-    "owner_cb30_count": 21.2,
-    "owner_cb30_share": 0.2218,
-    "owner_cb50_count": 8.9,
-    "owner_cb50_share": 0.0931
+    "total_renter_hh": 52.1,
+    "total_owner_hh": 93.0,
+    "renter_cb30_count": 13.2,
+    "renter_cb30_share": 0.2534,
+    "renter_cb50_count": 5.2,
+    "renter_cb50_share": 0.0998,
+    "owner_cb30_count": 20.5,
+    "owner_cb30_share": 0.2204,
+    "owner_cb50_count": 8.7,
+    "owner_cb50_share": 0.0935
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 10.2,
-      "cost_burdened_30pct": 4.3,
-      "cost_burdened_50pct": 2.4,
+      "total": 15.3,
+      "cost_burdened_30pct": 6.5,
+      "cost_burdened_50pct": 3.6,
       "pct_cost_burdened_30": 0.4267,
       "pct_cost_burdened_50": 0.24
     },
     "31to50": {
-      "total": 6.1,
-      "cost_burdened_30pct": 3.3,
-      "cost_burdened_50pct": 0.5,
+      "total": 9.2,
+      "cost_burdened_30pct": 5.0,
+      "cost_burdened_50pct": 0.8,
       "pct_cost_burdened_30": 0.5333,
       "pct_cost_burdened_50": 0.0889
     },
     "51to80": {
-      "total": 6.1,
-      "cost_burdened_30pct": 1.1,
-      "cost_burdened_50pct": 0.5,
+      "total": 9.2,
+      "cost_burdened_30pct": 1.7,
+      "cost_burdened_50pct": 0.8,
       "pct_cost_burdened_30": 0.1778,
       "pct_cost_burdened_50": 0.0889
     },
     "81to100": {
-      "total": 2.7,
+      "total": 4.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 9.5,
+      "total": 14.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 19.0,
-      "cost_burdened_30pct": 10.3,
-      "cost_burdened_50pct": 6.5,
+      "total": 18.5,
+      "cost_burdened_30pct": 10.0,
+      "cost_burdened_50pct": 6.3,
       "pct_cost_burdened_30": 0.5429,
       "pct_cost_burdened_50": 0.3429
     },
     "31to50": {
-      "total": 12.9,
-      "cost_burdened_30pct": 5.8,
+      "total": 12.5,
+      "cost_burdened_30pct": 5.6,
       "cost_burdened_50pct": 1.4,
       "pct_cost_burdened_30": 0.4526,
       "pct_cost_burdened_50": 0.1053
     },
     "51to80": {
-      "total": 10.2,
-      "cost_burdened_30pct": 2.2,
+      "total": 9.9,
+      "cost_burdened_30pct": 2.1,
       "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.2133,
       "pct_cost_burdened_50": 0.0533
     },
     "81to100": {
-      "total": 8.1,
+      "total": 7.9,
       "cost_burdened_30pct": 0.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0667,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 45.4,
-      "cost_burdened_30pct": 2.4,
+      "total": 44.2,
+      "cost_burdened_30pct": 2.3,
       "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.0537,
       "pct_cost_burdened_50": 0.0119
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 145,
-    "base_hh": 130.2
+    "base_hh": 130.2,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.5029,
+    "owner_scale": 0.9728,
+    "acs_renter_hh": 52.0,
+    "acs_owner_hh": 93.0,
+    "base_renter_hh_before": 34.6,
+    "base_owner_hh_before": 95.6,
+    "renter_share_before": 0.2657,
+    "renter_share_after": 0.3591,
+    "rates_preserved": true
   },
   "geoid": "0803235",
   "county_fips": "08073",
@@ -132,13 +146,13 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 8.7,
-    "owner_cost_burdened": 21.2,
-    "severe_renter_cost_burdened": 3.4,
-    "moderate_income_renter_households": 8.8,
-    "moderate_income_owner_cost_burdened": 2.7,
+    "renter_cost_burdened": 13.2,
+    "owner_cost_burdened": 20.5,
+    "severe_renter_cost_burdened": 5.2,
+    "moderate_income_renter_households": 13.3,
+    "moderate_income_owner_cost_burdened": 2.6,
     "existing_rental_gap_lte80": 5,
-    "rental_pressure_tier": "Low",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Moderate",
     "ownership_fit_tier": "Low",
     "affordability_classification": "market-attainable",
@@ -189,7 +203,7 @@
           Colorado · Lincoln County
         </div>
         <h1>Arriba</h1>
-        <p class="place-sub">~130 households · renter cost-burden 25.1%</p>
+        <p class="place-sub">~145 households · renter cost-burden 25.3%</p>
       </div>
     </div>
 

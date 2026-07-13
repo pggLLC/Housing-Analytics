@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 212.8,
-    "total_owner_hh": 859.5,
-    "renter_cb30_count": 111.4,
-    "renter_cb30_share": 0.5235,
-    "renter_cb50_count": 10.6,
-    "renter_cb50_share": 0.0498,
-    "owner_cb30_count": 212.8,
-    "owner_cb30_share": 0.2476,
-    "owner_cb50_count": 120.4,
-    "owner_cb50_share": 0.1401
+    "total_renter_hh": 433.1,
+    "total_owner_hh": 864.0,
+    "renter_cb30_count": 226.7,
+    "renter_cb30_share": 0.5234,
+    "renter_cb50_count": 21.6,
+    "renter_cb50_share": 0.0499,
+    "owner_cb30_count": 214.0,
+    "owner_cb30_share": 0.2477,
+    "owner_cb50_count": 121.0,
+    "owner_cb50_share": 0.14
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 25.2,
-      "cost_burdened_30pct": 14.0,
-      "cost_burdened_50pct": 8.4,
+      "total": 51.3,
+      "cost_burdened_30pct": 28.5,
+      "cost_burdened_50pct": 17.1,
       "pct_cost_burdened_30": 0.5556,
       "pct_cost_burdened_50": 0.3333
     },
     "31to50": {
-      "total": 47.6,
-      "cost_burdened_30pct": 47.0,
-      "cost_burdened_50pct": 2.2,
+      "total": 96.9,
+      "cost_burdened_30pct": 95.6,
+      "cost_burdened_50pct": 4.5,
       "pct_cost_burdened_30": 0.9882,
       "pct_cost_burdened_50": 0.0471
     },
     "51to80": {
-      "total": 70.0,
-      "cost_burdened_30pct": 50.4,
+      "total": 142.4,
+      "cost_burdened_30pct": 102.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.72,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 19.6,
+      "total": 39.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 50.4,
+      "total": 102.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 112.0,
-      "cost_burdened_30pct": 86.8,
-      "cost_burdened_50pct": 56.0,
+      "total": 112.6,
+      "cost_burdened_30pct": 87.3,
+      "cost_burdened_50pct": 56.3,
       "pct_cost_burdened_30": 0.775,
       "pct_cost_burdened_50": 0.5
     },
     "31to50": {
-      "total": 131.6,
-      "cost_burdened_30pct": 70.0,
-      "cost_burdened_50pct": 50.4,
+      "total": 132.3,
+      "cost_burdened_30pct": 70.4,
+      "cost_burdened_50pct": 50.7,
       "pct_cost_burdened_30": 0.5319,
       "pct_cost_burdened_50": 0.383
     },
     "51to80": {
-      "total": 89.6,
-      "cost_burdened_30pct": 33.6,
+      "total": 90.1,
+      "cost_burdened_30pct": 33.8,
       "cost_burdened_50pct": 5.6,
       "pct_cost_burdened_30": 0.375,
       "pct_cost_burdened_50": 0.0625
     },
     "81to100": {
-      "total": 64.4,
+      "total": 64.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 461.9,
-      "cost_burdened_30pct": 22.4,
+      "total": 464.3,
+      "cost_burdened_30pct": 22.5,
       "cost_burdened_50pct": 8.4,
       "pct_cost_burdened_30": 0.0485,
       "pct_cost_burdened_50": 0.0182
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1296,
-    "base_hh": 1072.3
+    "acs_occupied_hh": 1297,
+    "base_hh": 1072.3,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 2.0348,
+    "owner_scale": 1.0052,
+    "acs_renter_hh": 433.0,
+    "acs_owner_hh": 864.0,
+    "base_renter_hh_before": 212.8,
+    "base_owner_hh_before": 859.5,
+    "renter_share_before": 0.1985,
+    "renter_share_after": 0.3339,
+    "rates_preserved": true
   },
   "geoid": "0856970",
   "county_fips": "08077",
@@ -129,16 +143,16 @@
     "geoid": "0856970",
     "name": "Palisade (town)",
     "type": "place",
-    "recommendation": "Ownership-supportive strategy",
-    "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+    "recommendation": "Rental + ownership mix",
+    "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
     "data_quality": "High",
-    "renter_cost_burdened": 111.4,
-    "owner_cost_burdened": 212.8,
-    "severe_renter_cost_burdened": 10.6,
-    "moderate_income_renter_households": 89.6,
-    "moderate_income_owner_cost_burdened": 33.6,
+    "renter_cost_burdened": 226.7,
+    "owner_cost_burdened": 214,
+    "severe_renter_cost_burdened": 21.6,
+    "moderate_income_renter_households": 182.3,
+    "moderate_income_owner_cost_burdened": 33.8,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "Moderate",
+    "rental_pressure_tier": "High",
     "ownership_pressure_tier": "High",
     "ownership_fit_tier": "High",
     "affordability_classification": "priced-out",
@@ -189,7 +203,7 @@
           Colorado · Mesa County
         </div>
         <h1>Palisade</h1>
-        <p class="place-sub">~1,072 households · renter cost-burden 52.3%</p>
+        <p class="place-sub">~1,297 households · renter cost-burden 52.3%</p>
       </div>
     </div>
 

@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 17.0,
-    "total_owner_hh": 76.1,
-    "renter_cb30_count": 1.0,
-    "renter_cb30_share": 0.0588,
+    "total_renter_hh": 25.9,
+    "total_owner_hh": 74.0,
+    "renter_cb30_count": 1.5,
+    "renter_cb30_share": 0.0579,
     "renter_cb50_count": 0.0,
     "renter_cb50_share": 0.0,
-    "owner_cb30_count": 8.5,
-    "owner_cb30_share": 0.1117,
-    "owner_cb50_count": 2.0,
-    "owner_cb50_share": 0.0263
+    "owner_cb30_count": 8.3,
+    "owner_cb30_share": 0.1122,
+    "owner_cb50_count": 1.9,
+    "owner_cb50_share": 0.0257
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -51,28 +51,28 @@
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 2.5,
+      "total": 3.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 1.0,
-      "cost_burdened_30pct": 1.0,
+      "total": 1.5,
+      "cost_burdened_30pct": 1.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 1.0,
+      "total": 1.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 12.5,
+      "total": 19.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 2.5,
+      "total": 2.4,
       "cost_burdened_30pct": 1.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 6.2,
-      "cost_burdened_30pct": 3.0,
-      "cost_burdened_50pct": 2.0,
+      "total": 6.0,
+      "cost_burdened_30pct": 2.9,
+      "cost_burdened_50pct": 1.9,
       "pct_cost_burdened_30": 0.48,
       "pct_cost_burdened_50": 0.32
     },
     "51to80": {
-      "total": 10.0,
-      "cost_burdened_30pct": 3.5,
+      "total": 9.7,
+      "cost_burdened_30pct": 3.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.35,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 5.0,
+      "total": 4.9,
       "cost_burdened_30pct": 1.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 52.4,
+      "total": 51.0,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 100,
-    "base_hh": 93.1
+    "base_hh": 93.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.5294,
+    "owner_scale": 0.9724,
+    "acs_renter_hh": 26.0,
+    "acs_owner_hh": 74.0,
+    "base_renter_hh_before": 17.0,
+    "base_owner_hh_before": 76.1,
+    "renter_share_before": 0.1826,
+    "renter_share_after": 0.2593,
+    "rates_preserved": true
   },
   "geoid": "0883500",
   "county_fips": "08035",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 1,
-    "owner_cost_burdened": 8.5,
+    "renter_cost_burdened": 1.5,
+    "owner_cost_burdened": 8.3,
     "severe_renter_cost_burdened": 0,
-    "moderate_income_renter_households": 2,
-    "moderate_income_owner_cost_burdened": 4.5,
+    "moderate_income_renter_households": 3,
+    "moderate_income_owner_cost_burdened": 4.4,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Low",
@@ -189,7 +203,7 @@
           Colorado · Douglas County
         </div>
         <h1>Westcreek</h1>
-        <p class="place-sub">~93 households · renter cost-burden 5.9%</p>
+        <p class="place-sub">~100 households · renter cost-burden 5.8%</p>
       </div>
     </div>
 

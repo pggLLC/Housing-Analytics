@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 411.7,
-    "total_owner_hh": 723.9,
-    "renter_cb30_count": 242.6,
-    "renter_cb30_share": 0.5893,
-    "renter_cb50_count": 117.6,
+    "total_renter_hh": 471.0,
+    "total_owner_hh": 699.1,
+    "renter_cb30_count": 277.6,
+    "renter_cb30_share": 0.5894,
+    "renter_cb50_count": 134.5,
     "renter_cb50_share": 0.2856,
-    "owner_cb30_count": 124.9,
+    "owner_cb30_count": 120.6,
     "owner_cb30_share": 0.1725,
-    "owner_cb50_count": 61.6,
-    "owner_cb50_share": 0.0851
+    "owner_cb50_count": 59.4,
+    "owner_cb50_share": 0.085
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 171.9,
-      "cost_burdened_30pct": 121.3,
-      "cost_burdened_50pct": 117.6,
+      "total": 196.7,
+      "cost_burdened_30pct": 138.8,
+      "cost_burdened_50pct": 134.5,
       "pct_cost_burdened_30": 0.7053,
       "pct_cost_burdened_50": 0.6842
     },
     "31to50": {
-      "total": 72.4,
-      "cost_burdened_30pct": 31.7,
+      "total": 82.8,
+      "cost_burdened_30pct": 36.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4375,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 117.6,
-      "cost_burdened_30pct": 89.6,
+      "total": 134.5,
+      "cost_burdened_30pct": 102.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7615,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 13.6,
+      "total": 15.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 36.2,
+      "total": 41.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 149.3,
-      "cost_burdened_30pct": 61.5,
-      "cost_burdened_50pct": 34.4,
+      "total": 144.2,
+      "cost_burdened_30pct": 59.4,
+      "cost_burdened_50pct": 33.2,
       "pct_cost_burdened_30": 0.4121,
       "pct_cost_burdened_50": 0.2303
     },
     "31to50": {
-      "total": 76.9,
-      "cost_burdened_30pct": 13.6,
-      "cost_burdened_50pct": 13.6,
+      "total": 74.3,
+      "cost_burdened_30pct": 13.1,
+      "cost_burdened_50pct": 13.1,
       "pct_cost_burdened_30": 0.1765,
       "pct_cost_burdened_50": 0.1765
     },
     "51to80": {
-      "total": 131.2,
-      "cost_burdened_30pct": 13.6,
-      "cost_burdened_50pct": 13.6,
+      "total": 126.7,
+      "cost_burdened_30pct": 13.1,
+      "cost_burdened_50pct": 13.1,
       "pct_cost_burdened_30": 0.1034,
       "pct_cost_burdened_50": 0.1034
     },
     "81to100": {
-      "total": 113.1,
-      "cost_burdened_30pct": 36.2,
+      "total": 109.2,
+      "cost_burdened_30pct": 35.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.32,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 253.4,
+      "total": 244.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1169,
-    "base_hh": 1135.6
+    "acs_occupied_hh": 1170,
+    "base_hh": 1135.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.144,
+    "owner_scale": 0.9656,
+    "acs_renter_hh": 471.0,
+    "acs_owner_hh": 699.0,
+    "base_renter_hh_before": 411.7,
+    "base_owner_hh_before": 723.9,
+    "renter_share_before": 0.3625,
+    "renter_share_after": 0.4025,
+    "rates_preserved": true
   },
   "geoid": "0882350",
   "county_fips": "08055",
@@ -216,11 +230,11 @@
     "recommendation": "Rental priority",
     "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
     "data_quality": "High",
-    "renter_cost_burdened": 242.6,
-    "owner_cost_burdened": 124.9,
-    "severe_renter_cost_burdened": 117.6,
-    "moderate_income_renter_households": 131.2,
-    "moderate_income_owner_cost_burdened": 49.8,
+    "renter_cost_burdened": 277.6,
+    "owner_cost_burdened": 120.6,
+    "severe_renter_cost_burdened": 134.5,
+    "moderate_income_renter_households": 150.1,
+    "moderate_income_owner_cost_burdened": 48.1,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "Low",
@@ -273,7 +287,7 @@
           Colorado · Huerfano County
         </div>
         <h1>Walsenburg</h1>
-        <p class="place-sub">~1,136 households · renter cost-burden 58.9%</p>
+        <p class="place-sub">~1,170 households · renter cost-burden 58.9%</p>
       </div>
     </div>
 

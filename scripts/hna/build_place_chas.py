@@ -100,8 +100,8 @@ MEMBERSHIP = os.path.join(REPO_ROOT, 'data', 'hna', 'place-tract-membership.json
 PLACE_POP_SRC = os.path.join(REPO_ROOT, 'data', 'hna', 'place-lehd.json')         # has place_pop per geoid
 TRACT_POP_SRC = os.path.join(REPO_ROOT, 'data', 'market', 'acs_tract_metrics_co.json')  # has pop per tract
 OUT_FILE = os.path.join(REPO_ROOT, 'data', 'hna', 'place-chas.json')
-# Per-place ACS profiles — source of the occupied-HH count used to CAP the
-# apportioned CHAS base so it never overestimates the real household stock.
+# Per-place ACS profiles — source of the direct occupied tenure counts used to
+# anchor apportioned CHAS renter/owner levels while preserving CHAS rates.
 ACS_SUMMARY_DIR = os.path.join(REPO_ROOT, 'data', 'hna', 'summary')
 
 AMI_TIERS = ['lte30', '31to50', '51to80', '81to100', '100plus']
@@ -163,9 +163,15 @@ def load_pop_maps() -> tuple[dict, dict]:
     return place_pop, tract_pop
 
 
-def load_acs_occupied_map() -> dict:
-    """Per-place ACS occupied-household counts, used to cap the apportioned
-    CHAS base so it never exceeds the place's real occupied stock.
+def _num(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def load_acs_anchor_map() -> dict:
+    """Per-place ACS occupied tenure counts for CHAS level anchoring.
 
     The population-share apportionment weights each tract by
     max(area-share, pop-share); that MAX is generous and, where a place's
@@ -175,15 +181,16 @@ def load_acs_occupied_map() -> dict:
     units). CHAS *rates* apportion fine; the absolute *level* does not, so we
     anchor the level to ACS.
 
-    Occupied HH is derived from the cached ACS DP04 profile as
-    renter-occupied (DP04_0047E) / renter-share (DP04_0047PE) — the direct
-    occupied var isn't cached — and bounded by total housing units
-    (DP04_0001E) as a hard sanity cap. Soft dependency: a place with no usable
-    profile is left un-anchored.
+    DP04_0046E and DP04_0047E are the cached direct owner-occupied and
+    renter-occupied household counts. When both are usable, the final CHAS
+    step scales renter bands to DP04_0047E and owner bands to DP04_0046E
+    separately. That corrects the tenure mix while preserving within-tenure
+    AMI distributions and cost-burden rates. A weaker occupied-HH cap is kept
+    only as fallback for profiles missing one of the direct tenure counts.
     """
-    occ_map: dict = {}
+    anchor_map: dict = {}
     if not os.path.isdir(ACS_SUMMARY_DIR):
-        return occ_map
+        return anchor_map
     for fn in os.listdir(ACS_SUMMARY_DIR):
         if not fn.endswith('.json'):
             continue
@@ -193,12 +200,8 @@ def load_acs_occupied_map() -> dict:
                 prof = (json.load(f) or {}).get('acsProfile') or {}
         except (OSError, ValueError):
             continue
-        def _num(v):
-            try:
-                return float(v)
-            except (TypeError, ValueError):
-                return None
         total_units = _num(prof.get('DP04_0001E'))
+        owner_occ = _num(prof.get('DP04_0046E'))
         renter_occ = _num(prof.get('DP04_0047E'))
         renter_pct = _num(prof.get('DP04_0047PE'))
         occ = None
@@ -208,43 +211,24 @@ def load_acs_occupied_map() -> dict:
                 occ = min(occ, total_units)   # occupied can't exceed total units
         elif total_units:
             occ = total_units                 # weaker fallback cap
-        if occ and occ > 0:
-            occ_map[geoid] = occ
-    return occ_map
+        if (owner_occ and owner_occ > 0) or (renter_occ and renter_occ > 0) or (occ and occ > 0):
+            anchor_map[geoid] = {
+                'owner_occ': owner_occ,
+                'renter_occ': renter_occ,
+                'renter_pct': renter_pct,
+                'occupied': occ,
+            }
+    return anchor_map
 
 
-def anchor_to_acs(agg: dict, acs_occupied: float | None) -> dict:
-    """Cap the apportioned CHAS household LEVEL at the ACS occupied count.
-
-    Scales every household *count* (tier totals + cost-burdened counts +
-    summary totals) by ``factor = acs_occupied / apportioned_base`` whenever
-    the base exceeds ACS occupied. Cost-burden *rates* (pct_*) and the
-    AMI/tenure distribution are preserved exactly — only the level shrinks.
-    Cap-only: a place already at/below ACS occupied is left untouched (we do
-    not inflate undercounts). The adjustment is recorded under ``acs_anchor``.
-    """
-    s = agg.get('summary', {})
-    base = (s.get('total_renter_hh') or 0) + (s.get('total_owner_hh') or 0)
-    if not acs_occupied or base <= 0 or base <= acs_occupied:
-        agg['acs_anchor'] = {
-            'applied': False,
-            'acs_occupied_hh': round(acs_occupied) if acs_occupied else None,
-            'base_hh': round(base, 1),
-        }
-        return agg
-    factor = acs_occupied / base
-    for grp in ('renter_hh_by_ami', 'owner_hh_by_ami'):
-        for tier in agg.get(grp, {}).values():
-            for k in ('total', 'cost_burdened_30pct', 'cost_burdened_50pct'):
-                if k in tier:
-                    tier[k] = round(tier[k] * factor, 1)
-            # pct_cost_burdened_* are scale-invariant — left unchanged
+def recompute_summary(agg: dict) -> None:
     tr  = sum(agg['renter_hh_by_ami'][t]['total'] for t in AMI_TIERS)
     to  = sum(agg['owner_hh_by_ami'][t]['total']  for t in AMI_TIERS)
     cr30 = sum(agg['renter_hh_by_ami'][t]['cost_burdened_30pct'] for t in AMI_TIERS)
     cr50 = sum(agg['renter_hh_by_ami'][t]['cost_burdened_50pct'] for t in AMI_TIERS)
     co30 = sum(agg['owner_hh_by_ami'][t]['cost_burdened_30pct']  for t in AMI_TIERS)
     co50 = sum(agg['owner_hh_by_ami'][t]['cost_burdened_50pct']  for t in AMI_TIERS)
+    s = agg.setdefault('summary', {})
     s['total_renter_hh']   = round(tr, 1)
     s['total_owner_hh']    = round(to, 1)
     s['renter_cb30_count'] = round(cr30, 1)
@@ -255,6 +239,99 @@ def anchor_to_acs(agg: dict, acs_occupied: float | None) -> dict:
     s['renter_cb50_share'] = round(cr50 / tr, 4) if tr else 0.0
     s['owner_cb30_share']  = round(co30 / to, 4) if to else 0.0
     s['owner_cb50_share']  = round(co50 / to, 4) if to else 0.0
+
+
+def scale_tenure_group(group: dict, factor: float) -> None:
+    for tier in group.values():
+        for k in ('total', 'cost_burdened_30pct', 'cost_burdened_50pct'):
+            if k in tier:
+                tier[k] = round(tier[k] * factor, 1)
+        # pct_cost_burdened_* are scale-invariant — left unchanged.
+
+
+def anchor_to_acs(agg: dict, acs_anchor: dict | None) -> dict:
+    """Anchor apportioned CHAS household LEVEL to cached ACS tenure counts.
+
+    Preferred path: scale renter and owner counts independently to direct
+    DP04_0047E / DP04_0046E occupied-household counts. Fallback path: keep the
+    legacy cap-only total occupied anchor for profiles missing usable tenure
+    counts. Both paths preserve within-tenure AMI and cost-burden rates.
+    """
+    s = agg.get('summary', {})
+    base = (s.get('total_renter_hh') or 0) + (s.get('total_owner_hh') or 0)
+    base_renter = s.get('total_renter_hh') or 0
+    base_owner = s.get('total_owner_hh') or 0
+    if not acs_anchor:
+        agg['acs_anchor'] = {
+            'applied': False,
+            'acs_occupied_hh': None,
+            'base_hh': round(base, 1),
+        }
+        agg['tenure_anchor'] = {
+            'applied': False,
+            'status': 'unavailable',
+            'reason': 'missing_summary_cache',
+            'source': 'data/hna/summary DP04_0046E/DP04_0047E place-level tenure',
+        }
+        return agg
+
+    owner_occ = acs_anchor.get('owner_occ')
+    renter_occ = acs_anchor.get('renter_occ')
+    acs_occupied = acs_anchor.get('occupied')
+    if owner_occ and renter_occ and owner_occ > 0 and renter_occ > 0 and base_owner > 0 and base_renter > 0:
+        renter_scale = renter_occ / base_renter
+        owner_scale = owner_occ / base_owner
+        before_renter_share = base_renter / base if base else None
+        scale_tenure_group(agg['renter_hh_by_ami'], renter_scale)
+        scale_tenure_group(agg['owner_hh_by_ami'], owner_scale)
+        recompute_summary(agg)
+        total_after = agg['summary']['total_renter_hh'] + agg['summary']['total_owner_hh']
+        agg['acs_anchor'] = {
+            'applied': False,
+            'acs_occupied_hh': round(owner_occ + renter_occ),
+            'base_hh': round(base, 1),
+            'superseded_by': 'tenure_anchor',
+        }
+        agg['tenure_anchor'] = {
+            'applied': True,
+            'source': 'data/hna/summary DP04_0046E/DP04_0047E place-level tenure',
+            'renter_scale': round(renter_scale, 4),
+            'owner_scale': round(owner_scale, 4),
+            'acs_renter_hh': round(renter_occ, 1),
+            'acs_owner_hh': round(owner_occ, 1),
+            'base_renter_hh_before': round(base_renter, 1),
+            'base_owner_hh_before': round(base_owner, 1),
+            'renter_share_before': round(before_renter_share, 4) if before_renter_share is not None else None,
+            'renter_share_after': round(agg['summary']['total_renter_hh'] / total_after, 4) if total_after else None,
+            'rates_preserved': True,
+        }
+        return agg
+
+    reason = 'missing_dp04_tenure'
+    if base_renter <= 0 or base_owner <= 0:
+        reason = 'zero_apportioned_tenure'
+    agg['tenure_anchor'] = {
+        'applied': False,
+        'status': 'unavailable',
+        'reason': reason,
+        'source': 'data/hna/summary DP04_0046E/DP04_0047E place-level tenure',
+        'acs_renter_hh': round(renter_occ, 1) if renter_occ else None,
+        'acs_owner_hh': round(owner_occ, 1) if owner_occ else None,
+        'base_renter_hh': round(base_renter, 1),
+        'base_owner_hh': round(base_owner, 1),
+    }
+
+    if not acs_occupied or base <= 0 or base <= acs_occupied:
+        agg['acs_anchor'] = {
+            'applied': False,
+            'acs_occupied_hh': round(acs_occupied) if acs_occupied else None,
+            'base_hh': round(base, 1),
+        }
+        return agg
+    factor = acs_occupied / base
+    for grp in ('renter_hh_by_ami', 'owner_hh_by_ami'):
+        scale_tenure_group(agg.get(grp, {}), factor)
+    recompute_summary(agg)
     agg['acs_anchor'] = {
         'applied': True,
         'factor': round(factor, 4),
@@ -485,8 +562,8 @@ def main() -> int:
     print(f'  tract CHAS: {len(tract_index)} tracts')
     print(f'  membership: {len(membership_doc.get("places", {}))} places')
     print(f'  place pop:  {len(place_pop_map)} places | tract pop: {len(tract_pop_map)} tracts')
-    acs_occupied_map = load_acs_occupied_map()
-    print(f'  ACS occupied: {len(acs_occupied_map)} place profiles (no-overestimate anchor)')
+    acs_anchor_map = load_acs_anchor_map()
+    print(f'  ACS tenure anchors: {len(acs_anchor_map)} place profiles (DP04 owner/renter occupied)')
 
     places_in = membership_doc.get('places', {})
     if args.limit:
@@ -497,12 +574,18 @@ def main() -> int:
     skipped = 0
     low_conf = 0
     anchored = 0
+    tenure_anchored = 0
+    tenure_unavailable = 0
     for i, (geoid, place_record) in enumerate(places_in.items(), 1):
         agg = aggregate_place(geoid, place_record, tract_index, place_pop_map, tract_pop_map)
         if not agg:
             skipped += 1
             continue
-        agg = anchor_to_acs(agg, acs_occupied_map.get(geoid))  # cap level at ACS occupied
+        agg = anchor_to_acs(agg, acs_anchor_map.get(geoid))
+        if agg.get('tenure_anchor', {}).get('applied'):
+            tenure_anchored += 1
+        elif agg.get('tenure_anchor', {}).get('status') == 'unavailable':
+            tenure_unavailable += 1
         if agg.get('acs_anchor', {}).get('applied'):
             anchored += 1
         if agg['low_confidence']:
@@ -514,7 +597,9 @@ def main() -> int:
 
     print(f'  Total: {len(out_places)} places, {skipped} skipped (no overlapping CHAS data), '
           f'{low_conf} low-confidence (coverage <{int(COVERAGE_WARN_THRESHOLD*100)}%), '
-          f'{anchored} anchored down to ACS occupied (overestimate fix)')
+          f'{tenure_anchored} tenure-anchored to ACS DP04 owner/renter counts, '
+          f'{tenure_unavailable} missing tenure anchor, '
+          f'{anchored} fallback-capped down to ACS occupied')
 
     payload = {
         'meta': {
@@ -523,17 +608,21 @@ def main() -> int:
             'source_membership': 'data/hna/place-tract-membership.json',
             'source_place_pop': 'data/hna/place-lehd.json (place_pop)',
             'source_tract_pop': 'data/market/acs_tract_metrics_co.json (pop)',
+            'source_acs_tenure': 'data/hna/summary/*.json DP04_0046E owner-occupied and DP04_0047E renter-occupied',
             'method': 'Population-share apportionment: weight = min(1, place_pop × share_of_place_area / tract_pop). '
                       'Falls back to area-share (share_of_tract_area) when population data is missing. '
                       'F28 fix — area-share alone under-counted small towns in large rural tracts ~70×. '
-                      'Post-step: household LEVEL capped at each place\'s ACS occupied count (renter-occupied / '
-                      'renter-share, bounded by total units) so the apportioned base never overestimates real '
-                      'stock — CHAS rates and AMI/tenure distribution preserved (see acs_anchor per place).',
+                      'Post-step: renter and owner household LEVELS are independently anchored to each place\'s '
+                      'cached ACS DP04_0047E/DP04_0046E occupied-tenure counts when available, preserving '
+                      'within-tenure CHAS AMI distributions and cost-burden rates (see tenure_anchor per place). '
+                      'Profiles missing usable tenure fields keep the legacy ACS occupied cap as fallback.',
             'vintage_chas': tract_doc['meta'].get('vintage', 'unknown'),
             'vintage_tiger': membership_doc['meta'].get('vintage', 0),
             'count_places': len(out_places),
             'count_low_confidence': low_conf,
             'count_acs_anchored': anchored,
+            'count_tenure_anchored': tenure_anchored,
+            'count_tenure_anchor_unavailable': tenure_unavailable,
             'coverage_warn_threshold': COVERAGE_WARN_THRESHOLD,
         },
         'places': out_places,

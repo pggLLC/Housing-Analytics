@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 6.1,
-    "total_owner_hh": 38.3,
-    "renter_cb30_count": 0.8,
-    "renter_cb30_share": 0.1311,
-    "renter_cb50_count": 0.5,
-    "renter_cb50_share": 0.082,
-    "owner_cb30_count": 18.1,
-    "owner_cb30_share": 0.4726,
-    "owner_cb50_count": 4.9,
-    "owner_cb50_share": 0.1279
+    "total_renter_hh": 18.0,
+    "total_owner_hh": 50.0,
+    "renter_cb30_count": 2.4,
+    "renter_cb30_share": 0.1333,
+    "renter_cb50_count": 1.5,
+    "renter_cb50_share": 0.0833,
+    "owner_cb30_count": 23.6,
+    "owner_cb30_share": 0.472,
+    "owner_cb50_count": 6.5,
+    "owner_cb50_share": 0.13
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.3,
-      "cost_burdened_30pct": 0.3,
-      "cost_burdened_50pct": 0.3,
+      "total": 3.8,
+      "cost_burdened_30pct": 0.9,
+      "cost_burdened_50pct": 0.9,
       "pct_cost_burdened_30": 0.2286,
       "pct_cost_burdened_50": 0.2286
     },
     "31to50": {
-      "total": 0.4,
-      "cost_burdened_30pct": 0.1,
+      "total": 1.2,
+      "cost_burdened_30pct": 0.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 1.3,
-      "cost_burdened_30pct": 0.3,
-      "cost_burdened_50pct": 0.1,
+      "total": 3.8,
+      "cost_burdened_30pct": 0.9,
+      "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.2286,
       "pct_cost_burdened_50": 0.1143
     },
     "81to100": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.1,
-      "cost_burdened_50pct": 0.1,
+      "total": 2.1,
+      "cost_burdened_30pct": 0.3,
+      "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.2,
       "pct_cost_burdened_50": 0.2
     },
     "100plus": {
-      "total": 2.4,
+      "total": 7.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 2.9,
-      "cost_burdened_30pct": 2.9,
-      "cost_burdened_50pct": 2.5,
+      "total": 3.8,
+      "cost_burdened_30pct": 3.8,
+      "cost_burdened_50pct": 3.3,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.8625
     },
     "31to50": {
-      "total": 3.1,
-      "cost_burdened_30pct": 2.3,
-      "cost_burdened_50pct": 1.5,
+      "total": 4.0,
+      "cost_burdened_30pct": 3.0,
+      "cost_burdened_50pct": 2.0,
       "pct_cost_burdened_30": 0.7412,
       "pct_cost_burdened_50": 0.4706
     },
     "51to80": {
-      "total": 4.5,
-      "cost_burdened_30pct": 3.0,
-      "cost_burdened_50pct": 0.9,
+      "total": 5.9,
+      "cost_burdened_30pct": 3.9,
+      "cost_burdened_50pct": 1.2,
       "pct_cost_burdened_30": 0.672,
       "pct_cost_burdened_50": 0.2
     },
     "81to100": {
-      "total": 2.0,
+      "total": 2.6,
       "cost_burdened_30pct": 0.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0727,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 25.8,
-      "cost_burdened_30pct": 9.8,
+      "total": 33.7,
+      "cost_burdened_30pct": 12.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3803,
       "pct_cost_burdened_50": 0.0
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 68,
-    "base_hh": 44.4
+    "base_hh": 44.4,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 2.9508,
+    "owner_scale": 1.3055,
+    "acs_renter_hh": 18.0,
+    "acs_owner_hh": 50.0,
+    "base_renter_hh_before": 6.1,
+    "base_owner_hh_before": 38.3,
+    "renter_share_before": 0.1374,
+    "renter_share_after": 0.2647,
+    "rates_preserved": true
   },
   "geoid": "0883175",
   "county_fips": "08087",
@@ -132,11 +146,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 0.8,
-    "owner_cost_burdened": 18.1,
-    "severe_renter_cost_burdened": 0.5,
-    "moderate_income_renter_households": 2,
-    "moderate_income_owner_cost_burdened": 3.1,
+    "renter_cost_burdened": 2.4,
+    "owner_cost_burdened": 23.6,
+    "severe_renter_cost_burdened": 1.5,
+    "moderate_income_renter_households": 5.9,
+    "moderate_income_owner_cost_burdened": 4,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -189,7 +203,7 @@
           Colorado · Morgan County
         </div>
         <h1>Weldona</h1>
-        <p class="place-sub">~44 households · renter cost-burden 13.1%</p>
+        <p class="place-sub">~68 households · renter cost-burden 13.3%</p>
       </div>
     </div>
 

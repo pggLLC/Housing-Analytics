@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 189.9,
-    "total_owner_hh": 718.7,
-    "renter_cb30_count": 61.5,
+    "total_renter_hh": 393.0,
+    "total_owner_hh": 719.0,
+    "renter_cb30_count": 127.3,
     "renter_cb30_share": 0.3239,
-    "renter_cb50_count": 15.3,
-    "renter_cb50_share": 0.0806,
+    "renter_cb50_count": 31.7,
+    "renter_cb50_share": 0.0807,
     "owner_cb30_count": 171.4,
-    "owner_cb30_share": 0.2385,
+    "owner_cb30_share": 0.2384,
     "owner_cb50_count": 69.9,
-    "owner_cb50_share": 0.0973
+    "owner_cb50_share": 0.0972
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 27.6,
-      "cost_burdened_30pct": 15.3,
-      "cost_burdened_50pct": 15.3,
+      "total": 57.1,
+      "cost_burdened_30pct": 31.7,
+      "cost_burdened_50pct": 31.7,
       "pct_cost_burdened_30": 0.5551,
       "pct_cost_burdened_50": 0.5551
     },
     "31to50": {
-      "total": 27.2,
-      "cost_burdened_30pct": 27.2,
+      "total": 56.3,
+      "cost_burdened_30pct": 56.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 44.1,
-      "cost_burdened_30pct": 19.0,
+      "total": 91.3,
+      "cost_burdened_30pct": 39.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.43,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 37.9,
+      "total": 78.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 53.1,
+      "total": 109.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -95,7 +95,7 @@
       "pct_cost_burdened_50": 0.3669
     },
     "51to80": {
-      "total": 148.0,
+      "total": 148.1,
       "cost_burdened_30pct": 41.1,
       "cost_burdened_50pct": 13.6,
       "pct_cost_burdened_30": 0.2777,
@@ -109,7 +109,7 @@
       "pct_cost_burdened_50": 0.145
     },
     "100plus": {
-      "total": 430.4,
+      "total": 430.6,
       "cost_burdened_30pct": 71.9,
       "cost_burdened_50pct": 20.4,
       "pct_cost_burdened_30": 0.167,
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1113,
-    "base_hh": 908.6
+    "acs_occupied_hh": 1112,
+    "base_hh": 908.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 2.0695,
+    "owner_scale": 1.0004,
+    "acs_renter_hh": 393.0,
+    "acs_owner_hh": 719.0,
+    "base_renter_hh_before": 189.9,
+    "base_owner_hh_before": 718.7,
+    "renter_share_before": 0.209,
+    "renter_share_after": 0.3534,
+    "rates_preserved": true
   },
   "geoid": "0831605",
   "county_fips": "08049",
@@ -132,13 +146,13 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 61.5,
+    "renter_cost_burdened": 127.3,
     "owner_cost_burdened": 171.4,
-    "severe_renter_cost_burdened": 15.3,
-    "moderate_income_renter_households": 82,
+    "severe_renter_cost_burdened": 31.7,
+    "moderate_income_renter_households": 169.7,
     "moderate_income_owner_cost_burdened": 72.3,
     "existing_rental_gap_lte80": 4,
-    "rental_pressure_tier": "Low",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "High",
     "ownership_fit_tier": "High",
     "affordability_classification": "priced-out",
@@ -189,7 +203,7 @@
           Colorado · Grand County
         </div>
         <h1>Granby</h1>
-        <p class="place-sub">~909 households · renter cost-burden 32.4%</p>
+        <p class="place-sub">~1,112 households · renter cost-burden 32.4%</p>
       </div>
     </div>
 
