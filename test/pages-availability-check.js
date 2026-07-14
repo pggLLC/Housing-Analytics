@@ -170,6 +170,7 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
     assert(content.includes('node scripts/audit/public-artifact-guard.mjs dist'), 'public artifact guard step present');
     assert(content.includes('path: dist'),            "artifact path is dist");
     assert(content.includes('deploy-pages'),         'deploy-pages action present');
+    assert(content.includes('cancel-in-progress: true'), 'new deploys cancel stuck older Pages deploys');
 });
 
 test('Deploy watchdog: automation commits cannot silently miss Pages deploy', () => {
@@ -183,10 +184,14 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
     assert(archive.includes('gh workflow run deploy.yml --ref main'), 'archive workflow dispatches Pages deploy after automation commit');
 
     const watchdog = fs.readFileSync(path.join(ROOT, watchdogYml), 'utf8');
+    const watchdogScript = fs.readFileSync(path.join(ROOT, 'scripts/audit/pages-deploy-watchdog.mjs'), 'utf8');
     assert(watchdog.includes('schedule:'), 'Pages deploy watchdog has a scheduled trigger');
-    assert(watchdog.includes("workflow_id: workflowId"), 'Pages deploy watchdog queries deploy.yml runs');
-    assert(watchdog.includes('head_sha === headSha'), 'Pages deploy watchdog compares deploy run SHA to main HEAD');
-    assert(watchdog.includes('core.setFailed'), 'Pages deploy watchdog fails loudly when deploy coverage is missing');
+    assert(watchdog.includes('WATCHDOG_WORKFLOW_ID: deploy.yml'), 'Pages deploy watchdog targets deploy.yml');
+    assert(watchdog.includes('WATCHDOG_STALE_ACTIVE_MINUTES'), 'Pages deploy watchdog has a stale-active threshold');
+    assert(watchdog.includes('node scripts/audit/pages-deploy-watchdog.mjs'), 'Pages deploy watchdog runs the audited script');
+    assert(watchdogScript.includes('stale-active-run'), 'Pages deploy watchdog fails stale active runs');
+    assert(watchdogScript.includes("run.status !== 'completed'"), 'Pages deploy watchdog does not accept pending runs forever');
+    assert(watchdogScript.includes('head_sha === headSha'), 'Pages deploy watchdog compares deploy run SHA to main HEAD');
 });
 
 test('robots.txt: public crawler policy does not pretend to protect private paths', () => {
