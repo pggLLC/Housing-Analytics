@@ -18,6 +18,17 @@
  * mirroring the existing county:* shape (prop123, housingLead,
  * housingAuthority, housingPlans, advocacy, contacts).
  *
+ * MERGE SEMANTICS (non-destructive; see test/augment-local-resources-
+ * nondestructive.test.js): the committed JSON is the source of truth.
+ * local-resources.json is enriched after the fact by later processes —
+ * F35 link healing (durable search URLs), discovery promotion, and
+ * hand-curation (council_agenda_url, schoolDistrict, hospital,
+ * majorEmployers, advocacy additions). This script therefore only FILLS IN
+ * fields that are missing: new place keys are added whole, missing fields
+ * on existing entries are added, plain objects are merged recursively, and
+ * any field already present in the JSON (scalars AND arrays) is left
+ * untouched. It never deletes or overwrites existing data.
+ *
  * Data sourced from public-facing city/county housing pages + CDOLA
  * Prop 123 commitment filings + each housing authority's own website.
  * Last verified 2026-05-26.
@@ -200,8 +211,10 @@ const PLACE_ENTRIES = {
     ],
     notes: 'Resort/workforce market. YVHA is a multi-jurisdiction authority covering Steamboat + Routt County. Strong commitment to deed-restricted workforce housing.'
   },
-  // Aspen (Pitkin County)
-  'place:0803455': {
+  // Aspen (Pitkin County). GEOID fixed 2026-07-14: was 0803455, which is
+  // Arvada — the old destructive rewrite stamped Aspen data onto Arvada's
+  // entry. 0803620 is Aspen's actual CO place FIPS.
+  'place:0803620': {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings', fast_track: true },
     housingLead: { name: 'Aspen-Pitkin County Housing Authority (APCHA)', url: 'https://apcha.org/' },
     housingAuthority: [
@@ -213,8 +226,10 @@ const PLACE_ENTRIES = {
     ],
     notes: 'Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.'
   },
-  // Vail
-  'place:0680930': {
+  // Vail. GEOID fixed 2026-07-14: was 0680930, a California FIPS — earlier
+  // runs created an orphan 'place:0680930' entry in the JSON. 0880040 is
+  // Vail's actual CO place FIPS.
+  'place:0880040': {
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings', fast_track: true },
     housingLead: { name: 'Vail Housing Department', url: 'https://www.vailgov.com/government/departments/housing' },
     housingAuthority: [
@@ -228,21 +243,57 @@ const PLACE_ENTRIES = {
   }
 };
 
+function isPlainObject(v) {
+  return v !== null && typeof v === 'object' && !Array.isArray(v);
+}
+
+/**
+ * Recursively fill fields from `incoming` into `existing` without ever
+ * overwriting or deleting anything already there. The committed JSON wins
+ * every conflict: scalars and arrays present in `existing` are left as-is
+ * (arrays are NOT merged element-wise — a healed URL or hand-added array
+ * item must survive), plain objects recurse. Returns the number of fields
+ * added. Mutates `existing`.
+ */
+function mergeMissing(existing, incoming) {
+  let added = 0;
+  for (const [key, value] of Object.entries(incoming)) {
+    if (!(key in existing)) {
+      existing[key] = value;
+      added++;
+    } else if (isPlainObject(existing[key]) && isPlainObject(value)) {
+      added += mergeMissing(existing[key], value);
+    }
+    // else: existing wins — never overwrite committed scalars or arrays
+  }
+  return added;
+}
+
 function main() {
   const existing = JSON.parse(fs.readFileSync(TARGET, 'utf-8'));
-  let added = 0, updated = 0;
+  let added = 0, filled = 0, untouched = 0;
   Object.entries(PLACE_ENTRIES).forEach(function ([key, value]) {
-    if (existing[key]) {
-      updated++;
-    } else {
+    if (!existing[key]) {
+      existing[key] = value;
       added++;
+    } else {
+      const n = mergeMissing(existing[key], value);
+      if (n > 0) filled++; else untouched++;
     }
-    existing[key] = value;
   });
+  if (added === 0 && filled === 0) {
+    console.log(`No changes needed for ${TARGET} (${untouched} entries already complete)`);
+    return;
+  }
   fs.writeFileSync(TARGET, JSON.stringify(existing, null, 2) + '\n');
   console.log(`Augmented ${TARGET}`);
-  console.log(`  Added: ${added}  Updated: ${updated}  Total entries now: ${Object.keys(existing).length}`);
+  console.log(`  New entries: ${added}  Entries with fields filled in: ${filled}  Already complete: ${untouched}`);
+  console.log(`  Total entries now: ${Object.keys(existing).length}`);
   console.log(`  Place-level entries now: ${Object.keys(existing).filter(k => k.startsWith('place:')).length}`);
 }
 
-main();
+module.exports = { PLACE_ENTRIES, mergeMissing, TARGET };
+
+if (require.main === module) {
+  main();
+}
