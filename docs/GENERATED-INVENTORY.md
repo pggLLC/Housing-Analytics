@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T15:35:32.484Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T19:03:37.565Z. Do not edit by hand.
 
 ---
 
@@ -1695,7 +1695,7 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
-| `test/homepage-job-routing.test.js` | 2.2 KB |
+| `test/homepage-job-routing.test.js` | 2.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
