@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 64.1,
-    "total_owner_hh": 1713.7,
-    "renter_cb30_count": 17.3,
-    "renter_cb30_share": 0.2699,
-    "renter_cb50_count": 6.4,
-    "renter_cb50_share": 0.0998,
-    "owner_cb30_count": 376.9,
+    "total_renter_hh": 31.9,
+    "total_owner_hh": 1761.0,
+    "renter_cb30_count": 8.7,
+    "renter_cb30_share": 0.2727,
+    "renter_cb50_count": 3.2,
+    "renter_cb50_share": 0.1003,
+    "owner_cb30_count": 387.2,
     "owner_cb30_share": 0.2199,
-    "owner_cb50_count": 100.7,
+    "owner_cb50_count": 103.5,
     "owner_cb50_share": 0.0588
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.7,
-      "cost_burdened_30pct": 1.6,
-      "cost_burdened_50pct": 1.0,
+      "total": 0.8,
+      "cost_burdened_30pct": 0.8,
+      "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.9189,
       "pct_cost_burdened_50": 0.6216
     },
     "31to50": {
-      "total": 9.2,
-      "cost_burdened_30pct": 8.5,
-      "cost_burdened_50pct": 5.4,
+      "total": 4.6,
+      "cost_burdened_30pct": 4.3,
+      "cost_burdened_50pct": 2.7,
       "pct_cost_burdened_30": 0.921,
       "pct_cost_burdened_50": 0.5852
     },
     "51to80": {
-      "total": 13.3,
-      "cost_burdened_30pct": 6.8,
+      "total": 6.6,
+      "cost_burdened_30pct": 3.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.5118,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 2.3,
-      "cost_burdened_30pct": 0.4,
+      "total": 1.1,
+      "cost_burdened_30pct": 0.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.18,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 37.6,
+      "total": 18.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 36.2,
-      "cost_burdened_30pct": 22.4,
-      "cost_burdened_50pct": 22.3,
+      "total": 37.2,
+      "cost_burdened_30pct": 23.0,
+      "cost_burdened_50pct": 22.9,
       "pct_cost_burdened_30": 0.6213,
       "pct_cost_burdened_50": 0.6149
     },
     "31to50": {
-      "total": 88.4,
-      "cost_burdened_30pct": 48.6,
-      "cost_burdened_50pct": 41.5,
+      "total": 90.9,
+      "cost_burdened_30pct": 50.0,
+      "cost_burdened_50pct": 42.7,
       "pct_cost_burdened_30": 0.5495,
       "pct_cost_burdened_50": 0.4695
     },
     "51to80": {
-      "total": 152.8,
-      "cost_burdened_30pct": 99.2,
-      "cost_burdened_50pct": 21.8,
+      "total": 157.0,
+      "cost_burdened_30pct": 101.9,
+      "cost_burdened_50pct": 22.4,
       "pct_cost_burdened_30": 0.6489,
       "pct_cost_burdened_50": 0.1424
     },
     "81to100": {
-      "total": 182.0,
-      "cost_burdened_30pct": 89.6,
-      "cost_burdened_50pct": 9.4,
+      "total": 187.0,
+      "cost_burdened_30pct": 92.0,
+      "cost_burdened_50pct": 9.7,
       "pct_cost_burdened_30": 0.492,
       "pct_cost_burdened_50": 0.0517
     },
     "100plus": {
-      "total": 1254.3,
-      "cost_burdened_30pct": 117.1,
-      "cost_burdened_50pct": 5.7,
+      "total": 1288.9,
+      "cost_burdened_30pct": 120.3,
+      "cost_burdened_50pct": 5.8,
       "pct_cost_burdened_30": 0.0934,
       "pct_cost_burdened_50": 0.0045
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 1793,
+    "base_hh": 2251.2,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.7897,
-    "acs_occupied_hh": 1778,
-    "base_hh_before": 2251.2
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.3946,
+    "owner_scale": 0.8115,
+    "acs_renter_hh": 32.0,
+    "acs_owner_hh": 1761.0,
+    "base_renter_hh_before": 81.1,
+    "base_owner_hh_before": 2170.1,
+    "renter_share_before": 0.036,
+    "renter_share_after": 0.0178,
+    "rates_preserved": true
   },
   "geoid": "0877757",
   "county_fips": "08001",
@@ -132,12 +145,12 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 17.3,
-    "owner_cost_burdened": 376.9,
-    "severe_renter_cost_burdened": 6.4,
-    "moderate_income_renter_households": 15.6,
-    "moderate_income_owner_cost_burdened": 188.8,
+    "data_quality": "High",
+    "renter_cost_burdened": 8.7,
+    "owner_cost_burdened": 387.2,
+    "severe_renter_cost_burdened": 3.2,
+    "moderate_income_renter_households": 7.7,
+    "moderate_income_owner_cost_burdened": 193.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Moderate",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Adams County
         </div>
         <h1>Todd Creek</h1>
-        <p class="place-sub">~1,778 households · renter cost-burden 27.0%</p>
+        <p class="place-sub">~1,793 households · renter cost-burden 27.3%</p>
       </div>
     </div>
 

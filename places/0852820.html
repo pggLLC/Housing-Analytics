@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 46.8,
-    "total_owner_hh": 116.8,
-    "renter_cb30_count": 16.0,
-    "renter_cb30_share": 0.3419,
-    "renter_cb50_count": 1.8,
-    "renter_cb50_share": 0.0385,
-    "owner_cb30_count": 33.2,
-    "owner_cb30_share": 0.2842,
-    "owner_cb50_count": 20.9,
-    "owner_cb50_share": 0.1789
+    "total_renter_hh": 7.0,
+    "total_owner_hh": 169.9,
+    "renter_cb30_count": 2.5,
+    "renter_cb30_share": 0.3571,
+    "renter_cb50_count": 0.3,
+    "renter_cb50_share": 0.0429,
+    "owner_cb30_count": 48.3,
+    "owner_cb30_share": 0.2843,
+    "owner_cb50_count": 30.3,
+    "owner_cb50_share": 0.1783
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 11.0,
-      "cost_burdened_30pct": 1.2,
-      "cost_burdened_50pct": 1.2,
+      "total": 1.6,
+      "cost_burdened_30pct": 0.2,
+      "cost_burdened_50pct": 0.2,
       "pct_cost_burdened_30": 0.1071,
       "pct_cost_burdened_50": 0.1071
     },
     "31to50": {
-      "total": 1.2,
-      "cost_burdened_30pct": 0.6,
-      "cost_burdened_50pct": 0.6,
+      "total": 0.2,
+      "cost_burdened_30pct": 0.1,
+      "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.5333,
       "pct_cost_burdened_50": 0.5333
     },
     "51to80": {
-      "total": 13.8,
-      "cost_burdened_30pct": 10.6,
+      "total": 2.1,
+      "cost_burdened_30pct": 1.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7714,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 3.9,
-      "cost_burdened_30pct": 1.2,
+      "total": 0.6,
+      "cost_burdened_30pct": 0.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 16.9,
-      "cost_burdened_30pct": 2.4,
+      "total": 2.5,
+      "cost_burdened_30pct": 0.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1395,
       "pct_cost_burdened_50": 0.0
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 16.5,
-      "cost_burdened_30pct": 13.4,
-      "cost_burdened_50pct": 12.6,
+      "total": 24.0,
+      "cost_burdened_30pct": 19.5,
+      "cost_burdened_50pct": 18.3,
       "pct_cost_burdened_30": 0.8095,
       "pct_cost_burdened_50": 0.7619
     },
     "31to50": {
-      "total": 11.0,
-      "cost_burdened_30pct": 7.1,
-      "cost_burdened_50pct": 5.5,
+      "total": 16.0,
+      "cost_burdened_30pct": 10.3,
+      "cost_burdened_50pct": 8.0,
       "pct_cost_burdened_30": 0.6429,
       "pct_cost_burdened_50": 0.5
     },
     "51to80": {
-      "total": 5.1,
-      "cost_burdened_30pct": 1.6,
+      "total": 7.4,
+      "cost_burdened_30pct": 2.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3077,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 5.5,
-      "cost_burdened_30pct": 2.4,
-      "cost_burdened_50pct": 1.2,
+      "total": 8.0,
+      "cost_burdened_30pct": 3.5,
+      "cost_burdened_50pct": 1.7,
       "pct_cost_burdened_30": 0.4286,
       "pct_cost_burdened_50": 0.2143
     },
     "100plus": {
-      "total": 78.7,
-      "cost_burdened_30pct": 8.7,
-      "cost_burdened_50pct": 1.6,
+      "total": 114.5,
+      "cost_burdened_30pct": 12.7,
+      "cost_burdened_50pct": 2.3,
       "pct_cost_burdened_30": 0.11,
       "pct_cost_burdened_50": 0.02
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 175,
-    "base_hh": 163.6
+    "acs_occupied_hh": 177,
+    "base_hh": 163.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.1496,
+    "owner_scale": 1.4555,
+    "acs_renter_hh": 7.0,
+    "acs_owner_hh": 170.0,
+    "base_renter_hh_before": 46.8,
+    "base_owner_hh_before": 116.8,
+    "renter_share_before": 0.2861,
+    "renter_share_after": 0.0396,
+    "rates_preserved": true
   },
   "geoid": "0852820",
   "county_fips": "08045",
@@ -132,11 +146,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 16,
-    "owner_cost_burdened": 33.2,
-    "severe_renter_cost_burdened": 1.8,
-    "moderate_income_renter_households": 17.7,
-    "moderate_income_owner_cost_burdened": 4,
+    "renter_cost_burdened": 2.5,
+    "owner_cost_burdened": 48.3,
+    "severe_renter_cost_burdened": 0.3,
+    "moderate_income_renter_households": 2.7,
+    "moderate_income_owner_cost_burdened": 5.8,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -189,7 +203,7 @@
           Colorado · Garfield County
         </div>
         <h1>Mulford</h1>
-        <p class="place-sub">~164 households · renter cost-burden 34.2%</p>
+        <p class="place-sub">~177 households · renter cost-burden 35.7%</p>
       </div>
     </div>
 

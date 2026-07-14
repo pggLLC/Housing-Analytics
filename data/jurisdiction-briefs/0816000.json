@@ -150,7 +150,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Colorado Springs. It classifies rental pressure as Very High, ownership pressure as High, and identifies 27,865 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Colorado Springs. It classifies rental pressure as Very High, ownership pressure as High, and identifies 32,608 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -159,7 +159,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 38,767 renter households and 27,738 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 45,365 renter households and 25,976 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -172,7 +172,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Colorado Springs at #44 with an overall housing-need score of 77.3. It identifies 14,405 deeply affordable units missing at <=30% AMI, equal to 74.8% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Colorado Springs at #43 with an overall housing-need score of 77.5. It identifies 14,405 deeply affordable units missing at <=30% AMI, equal to 74.8% of <=30% AMI households. 54.6% of renter households are cost burdened, and 2.1% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -390,7 +390,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -399,7 +399,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -534,7 +534,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -543,7 +543,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -552,7 +552,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

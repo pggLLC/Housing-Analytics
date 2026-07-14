@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 651.1,
-    "total_owner_hh": 2648.2,
-    "renter_cb30_count": 354.1,
-    "renter_cb30_share": 0.5438,
-    "renter_cb50_count": 197.0,
-    "renter_cb50_share": 0.3026,
-    "owner_cb30_count": 551.1,
+    "total_renter_hh": 833.1,
+    "total_owner_hh": 2710.0,
+    "renter_cb30_count": 453.1,
+    "renter_cb30_share": 0.5439,
+    "renter_cb50_count": 252.0,
+    "renter_cb50_share": 0.3025,
+    "owner_cb30_count": 563.9,
     "owner_cb30_share": 0.2081,
-    "owner_cb50_count": 159.0,
-    "owner_cb50_share": 0.06
+    "owner_cb50_count": 162.8,
+    "owner_cb50_share": 0.0601
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 31.0,
-      "cost_burdened_30pct": 18.2,
-      "cost_burdened_50pct": 18.2,
+      "total": 39.7,
+      "cost_burdened_30pct": 23.3,
+      "cost_burdened_50pct": 23.3,
       "pct_cost_burdened_30": 0.5862,
       "pct_cost_burdened_50": 0.5862
     },
     "31to50": {
-      "total": 85.6,
-      "cost_burdened_30pct": 85.6,
-      "cost_burdened_50pct": 72.8,
+      "total": 109.5,
+      "cost_burdened_30pct": 109.5,
+      "cost_burdened_50pct": 93.1,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.8513
     },
     "51to80": {
-      "total": 257.6,
-      "cost_burdened_30pct": 246.1,
-      "cost_burdened_50pct": 106.0,
+      "total": 329.6,
+      "cost_burdened_30pct": 314.9,
+      "cost_burdened_50pct": 135.6,
       "pct_cost_burdened_30": 0.9555,
       "pct_cost_burdened_50": 0.4116
     },
     "81to100": {
-      "total": 22.1,
+      "total": 28.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 254.8,
-      "cost_burdened_30pct": 4.2,
+      "total": 326.0,
+      "cost_burdened_30pct": 5.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0166,
       "pct_cost_burdened_50": 0.0
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 176.7,
-      "cost_burdened_30pct": 69.5,
-      "cost_burdened_50pct": 63.4,
+      "total": 180.8,
+      "cost_burdened_30pct": 71.1,
+      "cost_burdened_50pct": 64.9,
       "pct_cost_burdened_30": 0.3933,
       "pct_cost_burdened_50": 0.3587
     },
     "31to50": {
-      "total": 138.1,
-      "cost_burdened_30pct": 96.1,
-      "cost_burdened_50pct": 45.8,
+      "total": 141.3,
+      "cost_burdened_30pct": 98.3,
+      "cost_burdened_50pct": 46.9,
       "pct_cost_burdened_30": 0.6955,
       "pct_cost_burdened_50": 0.3314
     },
     "51to80": {
-      "total": 398.1,
-      "cost_burdened_30pct": 182.6,
-      "cost_burdened_50pct": 38.1,
+      "total": 407.4,
+      "cost_burdened_30pct": 186.9,
+      "cost_burdened_50pct": 39.0,
       "pct_cost_burdened_30": 0.4586,
       "pct_cost_burdened_50": 0.0956
     },
     "81to100": {
-      "total": 349.9,
-      "cost_burdened_30pct": 56.0,
+      "total": 358.1,
+      "cost_burdened_30pct": 57.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1601,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 1585.4,
-      "cost_burdened_30pct": 146.9,
-      "cost_burdened_50pct": 11.7,
+      "total": 1622.4,
+      "cost_burdened_30pct": 150.3,
+      "cost_burdened_50pct": 12.0,
       "pct_cost_burdened_30": 0.0927,
       "pct_cost_burdened_50": 0.0074
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 3545,
-    "base_hh": 3299.3
+    "acs_occupied_hh": 3543,
+    "base_hh": 3299.3,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.2794,
+    "owner_scale": 1.0233,
+    "acs_renter_hh": 833.0,
+    "acs_owner_hh": 2710.0,
+    "base_renter_hh_before": 651.1,
+    "base_owner_hh_before": 2648.2,
+    "renter_share_before": 0.1973,
+    "renter_share_after": 0.2351,
+    "rates_preserved": true
   },
   "geoid": "0886090",
   "county_fips": "08119",
@@ -216,11 +230,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 354.1,
-    "owner_cost_burdened": 551.1,
-    "severe_renter_cost_burdened": 197,
-    "moderate_income_renter_households": 279.7,
-    "moderate_income_owner_cost_burdened": 238.6,
+    "renter_cost_burdened": 453.1,
+    "owner_cost_burdened": 563.9,
+    "severe_renter_cost_burdened": 252,
+    "moderate_income_renter_households": 357.9,
+    "moderate_income_owner_cost_burdened": 244.2,
     "existing_rental_gap_lte80": 3,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Moderate",
@@ -273,7 +287,7 @@
           Colorado · Teller County
         </div>
         <h1>Woodland Park</h1>
-        <p class="place-sub">~3,299 households · renter cost-burden 54.4%</p>
+        <p class="place-sub">~3,543 households · renter cost-burden 54.4%</p>
       </div>
     </div>
 

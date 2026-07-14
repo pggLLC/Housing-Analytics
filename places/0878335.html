@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 2.9,
-    "total_owner_hh": 8.1,
-    "renter_cb30_count": 1.1,
-    "renter_cb30_share": 0.3793,
-    "renter_cb50_count": 0.5,
-    "renter_cb50_share": 0.1724,
-    "owner_cb30_count": 2.0,
-    "owner_cb30_share": 0.2469,
-    "owner_cb50_count": 1.7,
-    "owner_cb50_share": 0.2099
+    "total_renter_hh": 6.9,
+    "total_owner_hh": 4.0,
+    "renter_cb30_count": 2.9,
+    "renter_cb30_share": 0.4203,
+    "renter_cb50_count": 1.2,
+    "renter_cb50_share": 0.1739,
+    "owner_cb30_count": 0.9,
+    "owner_cb30_share": 0.225,
+    "owner_cb50_count": 0.8,
+    "owner_cb50_share": 0.2
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 0.4,
-      "cost_burdened_30pct": 0.2,
-      "cost_burdened_50pct": 0.2,
+      "total": 0.9,
+      "cost_burdened_30pct": 0.6,
+      "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.6,
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.7,
-      "cost_burdened_50pct": 0.2,
+      "total": 1.7,
+      "cost_burdened_30pct": 1.7,
+      "cost_burdened_50pct": 0.6,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.2857
     },
     "51to80": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.2,
-      "cost_burdened_50pct": 0.1,
+      "total": 1.7,
+      "cost_burdened_30pct": 0.6,
+      "cost_burdened_50pct": 0.2,
       "pct_cost_burdened_30": 0.3429,
       "pct_cost_burdened_50": 0.1143
     },
     "81to100": {
-      "total": 0.7,
+      "total": 1.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.4,
+      "total": 0.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 1.3,
-      "cost_burdened_30pct": 1.2,
-      "cost_burdened_50pct": 1.1,
+      "total": 0.6,
+      "cost_burdened_30pct": 0.6,
+      "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.9385,
       "pct_cost_burdened_50": 0.8154
     },
     "31to50": {
-      "total": 1.1,
-      "cost_burdened_30pct": 0.3,
-      "cost_burdened_50pct": 0.2,
+      "total": 0.6,
+      "cost_burdened_30pct": 0.1,
+      "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.2545,
       "pct_cost_burdened_50": 0.1818
     },
     "51to80": {
-      "total": 2.0,
-      "cost_burdened_30pct": 0.5,
-      "cost_burdened_50pct": 0.4,
+      "total": 1.0,
+      "cost_burdened_30pct": 0.2,
+      "cost_burdened_50pct": 0.2,
       "pct_cost_burdened_30": 0.24,
       "pct_cost_burdened_50": 0.2
     },
     "81to100": {
-      "total": 0.7,
+      "total": 0.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 3.0,
+      "total": 1.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -117,10 +117,23 @@
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.7591,
+    "applied": false,
     "acs_occupied_hh": 11,
-    "base_hh_before": 14.5
+    "base_hh": 14.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.8919,
+    "owner_scale": 0.3704,
+    "acs_renter_hh": 7.0,
+    "acs_owner_hh": 4.0,
+    "base_renter_hh_before": 3.7,
+    "base_owner_hh_before": 10.8,
+    "renter_share_before": 0.2552,
+    "renter_share_after": 0.633,
+    "rates_preserved": true
   },
   "geoid": "0878335",
   "county_fips": "08061",
@@ -130,24 +143,23 @@
     "geoid": "0878335",
     "name": "Towner (CDP)",
     "type": "cdp",
-    "recommendation": "Ownership-supportive strategy",
-    "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+    "recommendation": "Verify locally",
+    "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "Medium",
-    "renter_cost_burdened": 1.1,
-    "owner_cost_burdened": 2,
-    "severe_renter_cost_burdened": 0.5,
-    "moderate_income_renter_households": 1.4,
-    "moderate_income_owner_cost_burdened": 0.5,
+    "renter_cost_burdened": 2.9,
+    "owner_cost_burdened": 0.9,
+    "severe_renter_cost_burdened": 1.2,
+    "moderate_income_renter_households": 3.4,
+    "moderate_income_owner_cost_burdened": 0.2,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "Moderate",
-    "ownership_pressure_tier": "High",
+    "rental_pressure_tier": "High",
+    "ownership_pressure_tier": "Moderate",
     "ownership_fit_tier": "Moderate",
     "affordability_classification": null,
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Kiowa County
         </div>
         <h1>Towner</h1>
-        <p class="place-sub">~11 households · renter cost-burden 37.9%</p>
+        <p class="place-sub">~11 households · renter cost-burden 42.0%</p>
       </div>
     </div>
 

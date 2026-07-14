@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 181.5,
-    "total_owner_hh": 2073.0,
-    "renter_cb30_count": 131.5,
+    "total_renter_hh": 494.0,
+    "total_owner_hh": 2075.0,
+    "renter_cb30_count": 357.9,
     "renter_cb30_share": 0.7245,
-    "renter_cb50_count": 52.8,
+    "renter_cb50_count": 143.7,
     "renter_cb50_share": 0.2909,
-    "owner_cb30_count": 222.0,
+    "owner_cb30_count": 222.3,
     "owner_cb30_share": 0.1071,
     "owner_cb50_count": 85.3,
     "owner_cb50_share": 0.0411
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 17.2,
-      "cost_burdened_30pct": 17.2,
-      "cost_burdened_50pct": 17.2,
+      "total": 46.8,
+      "cost_burdened_30pct": 46.8,
+      "cost_burdened_50pct": 46.8,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "31to50": {
-      "total": 28.4,
-      "cost_burdened_30pct": 28.4,
-      "cost_burdened_50pct": 28.4,
+      "total": 77.3,
+      "cost_burdened_30pct": 77.3,
+      "cost_burdened_50pct": 77.3,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "51to80": {
-      "total": 51.5,
-      "cost_burdened_30pct": 51.5,
-      "cost_burdened_50pct": 7.2,
+      "total": 140.2,
+      "cost_burdened_30pct": 140.2,
+      "cost_burdened_50pct": 19.6,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.1396
     },
     "81to100": {
-      "total": 34.4,
-      "cost_burdened_30pct": 34.4,
+      "total": 93.6,
+      "cost_burdened_30pct": 93.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 50.0,
+      "total": 136.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,8 +81,8 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 57.9,
-      "cost_burdened_30pct": 54.9,
+      "total": 58.0,
+      "cost_burdened_30pct": 55.0,
       "cost_burdened_50pct": 35.9,
       "pct_cost_burdened_30": 0.9482,
       "pct_cost_burdened_50": 0.6199
@@ -95,22 +95,22 @@
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 148.9,
-      "cost_burdened_30pct": 54.8,
+      "total": 149.0,
+      "cost_burdened_30pct": 54.9,
       "cost_burdened_50pct": 45.1,
       "pct_cost_burdened_30": 0.3682,
       "pct_cost_burdened_50": 0.3027
     },
     "81to100": {
-      "total": 85.2,
+      "total": 85.3,
       "cost_burdened_30pct": 4.3,
       "cost_burdened_50pct": 4.3,
       "pct_cost_burdened_30": 0.0506,
       "pct_cost_burdened_50": 0.0506
     },
     "100plus": {
-      "total": 1733.8,
-      "cost_burdened_30pct": 80.8,
+      "total": 1735.5,
+      "cost_burdened_30pct": 80.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0466,
       "pct_cost_burdened_50": 0.0
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 2573,
-    "base_hh": 2254.5
+    "acs_occupied_hh": 2569,
+    "base_hh": 2254.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 2.7218,
+    "owner_scale": 1.001,
+    "acs_renter_hh": 494.0,
+    "acs_owner_hh": 2075.0,
+    "base_renter_hh_before": 181.5,
+    "base_owner_hh_before": 2073.0,
+    "renter_share_before": 0.0805,
+    "renter_share_after": 0.1923,
+    "rates_preserved": true
   },
   "geoid": "0830420",
   "county_fips": "08041",
@@ -132,15 +146,15 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 131.5,
-    "owner_cost_burdened": 222,
-    "severe_renter_cost_burdened": 52.8,
-    "moderate_income_renter_households": 85.9,
-    "moderate_income_owner_cost_burdened": 59.1,
+    "renter_cost_burdened": 357.9,
+    "owner_cost_burdened": 222.3,
+    "severe_renter_cost_burdened": 143.7,
+    "moderate_income_renter_households": 233.8,
+    "moderate_income_owner_cost_burdened": 59.2,
     "existing_rental_gap_lte80": 34,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
-    "ownership_fit_tier": "High",
+    "ownership_fit_tier": "Very High",
     "affordability_classification": "priced-out",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -189,7 +203,7 @@
           Colorado · El Paso County
         </div>
         <h1>Gleneagle</h1>
-        <p class="place-sub">~2,254 households · renter cost-burden 72.5%</p>
+        <p class="place-sub">~2,569 households · renter cost-burden 72.5%</p>
       </div>
     </div>
 

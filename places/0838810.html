@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 42.7,
-    "total_owner_hh": 348.0,
-    "renter_cb30_count": 2.6,
-    "renter_cb30_share": 0.0609,
+    "total_renter_hh": 37.0,
+    "total_owner_hh": 386.1,
+    "renter_cb30_count": 2.2,
+    "renter_cb30_share": 0.0595,
     "renter_cb50_count": 0.0,
     "renter_cb50_share": 0.0,
-    "owner_cb30_count": 70.2,
-    "owner_cb30_share": 0.2017,
-    "owner_cb50_count": 40.0,
-    "owner_cb50_share": 0.1149
+    "owner_cb30_count": 77.9,
+    "owner_cb30_share": 0.2018,
+    "owner_cb50_count": 44.4,
+    "owner_cb50_share": 0.115
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -51,28 +51,28 @@
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 18.1,
-      "cost_burdened_30pct": 1.3,
+      "total": 15.7,
+      "cost_burdened_30pct": 1.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0727,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 4.9,
-      "cost_burdened_30pct": 1.3,
+      "total": 4.2,
+      "cost_burdened_30pct": 1.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2667,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 3.3,
+      "total": 2.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 16.4,
+      "total": 14.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 31.2,
-      "cost_burdened_30pct": 14.4,
-      "cost_burdened_50pct": 14.4,
+      "total": 34.6,
+      "cost_burdened_30pct": 16.0,
+      "cost_burdened_50pct": 16.0,
       "pct_cost_burdened_30": 0.4632,
       "pct_cost_burdened_50": 0.4632
     },
     "31to50": {
-      "total": 19.7,
-      "cost_burdened_30pct": 17.4,
-      "cost_burdened_50pct": 17.4,
+      "total": 21.9,
+      "cost_burdened_30pct": 19.3,
+      "cost_burdened_50pct": 19.3,
       "pct_cost_burdened_30": 0.8833,
       "pct_cost_burdened_50": 0.8833
     },
     "51to80": {
-      "total": 18.1,
-      "cost_burdened_30pct": 12.8,
+      "total": 20.1,
+      "cost_burdened_30pct": 14.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7091,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 32.8,
-      "cost_burdened_30pct": 21.0,
-      "cost_burdened_50pct": 8.2,
+      "total": 36.4,
+      "cost_burdened_30pct": 23.3,
+      "cost_burdened_50pct": 9.1,
       "pct_cost_burdened_30": 0.64,
       "pct_cost_burdened_50": 0.25
     },
     "100plus": {
-      "total": 246.2,
-      "cost_burdened_30pct": 4.6,
+      "total": 273.1,
+      "cost_burdened_30pct": 5.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0187,
       "pct_cost_burdened_50": 0.0
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 425,
-    "base_hh": 390.7
+    "acs_occupied_hh": 423,
+    "base_hh": 390.7,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.8665,
+    "owner_scale": 1.1092,
+    "acs_renter_hh": 37.0,
+    "acs_owner_hh": 386.0,
+    "base_renter_hh_before": 42.7,
+    "base_owner_hh_before": 348.0,
+    "renter_share_before": 0.1093,
+    "renter_share_after": 0.0874,
+    "rates_preserved": true
   },
   "geoid": "0838810",
   "county_fips": "08059",
@@ -132,11 +146,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 2.6,
-    "owner_cost_burdened": 70.2,
+    "renter_cost_burdened": 2.2,
+    "owner_cost_burdened": 77.9,
     "severe_renter_cost_burdened": 0,
-    "moderate_income_renter_households": 8.2,
-    "moderate_income_owner_cost_burdened": 33.8,
+    "moderate_income_renter_households": 7.1,
+    "moderate_income_owner_cost_burdened": 37.5,
     "existing_rental_gap_lte80": 37,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "High",
@@ -189,7 +203,7 @@
           Colorado · Jefferson County
         </div>
         <h1>Indian Hills</h1>
-        <p class="place-sub">~391 households · renter cost-burden 6.1%</p>
+        <p class="place-sub">~423 households · renter cost-burden 5.9%</p>
       </div>
     </div>
 

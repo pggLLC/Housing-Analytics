@@ -31,34 +31,34 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 30.1,
-    "total_owner_hh": 86.2,
-    "renter_cb30_count": 12.0,
-    "renter_cb30_share": 0.3987,
-    "renter_cb50_count": 12.0,
-    "renter_cb50_share": 0.3987,
-    "owner_cb30_count": 7.1,
-    "owner_cb30_share": 0.0824,
-    "owner_cb50_count": 2.0,
-    "owner_cb50_share": 0.0232
+    "total_renter_hh": 28.0,
+    "total_owner_hh": 88.1,
+    "renter_cb30_count": 11.3,
+    "renter_cb30_share": 0.4036,
+    "renter_cb50_count": 11.3,
+    "renter_cb50_share": 0.4036,
+    "owner_cb30_count": 7.2,
+    "owner_cb30_share": 0.0817,
+    "owner_cb50_count": 2.1,
+    "owner_cb50_share": 0.0238
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 13.9,
-      "cost_burdened_30pct": 11.0,
-      "cost_burdened_50pct": 11.0,
+      "total": 12.9,
+      "cost_burdened_30pct": 10.3,
+      "cost_burdened_50pct": 10.3,
       "pct_cost_burdened_30": 0.7949,
       "pct_cost_burdened_50": 0.7949
     },
     "31to50": {
-      "total": 4.7,
+      "total": 4.3,
       "cost_burdened_30pct": 1.0,
       "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.2169,
       "pct_cost_burdened_50": 0.2159
     },
     "51to80": {
-      "total": 3.6,
+      "total": 3.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 7.9,
+      "total": 7.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 3.6,
+      "total": 3.7,
       "cost_burdened_30pct": 2.0,
-      "cost_burdened_50pct": 1.4,
+      "cost_burdened_50pct": 1.5,
       "pct_cost_burdened_30": 0.5439,
       "pct_cost_burdened_50": 0.3827
     },
     "31to50": {
-      "total": 13.7,
+      "total": 14.0,
       "cost_burdened_30pct": 2.4,
       "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.1713,
       "pct_cost_burdened_50": 0.0236
     },
     "51to80": {
-      "total": 14.4,
+      "total": 14.7,
       "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0428,
       "pct_cost_burdened_50": 0.0013
     },
     "81to100": {
-      "total": 7.2,
+      "total": 7.4,
       "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.0793,
       "pct_cost_burdened_50": 0.0397
     },
     "100plus": {
-      "total": 47.3,
-      "cost_burdened_30pct": 1.4,
+      "total": 48.3,
+      "cost_burdened_30pct": 1.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0305,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.9492,
+    "applied": false,
     "acs_occupied_hh": 116,
-    "base_hh_before": 122.4
+    "base_hh": 122.4,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.8861,
+    "owner_scale": 0.9692,
+    "acs_renter_hh": 28.0,
+    "acs_owner_hh": 88.0,
+    "base_renter_hh_before": 31.6,
+    "base_owner_hh_before": 90.8,
+    "renter_share_before": 0.2582,
+    "renter_share_after": 0.2412,
+    "rates_preserved": true
   },
   "geoid": "0809115",
   "county_fips": "08043",
@@ -216,11 +229,11 @@
     "type": "place",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 12,
-    "owner_cost_burdened": 7.1,
-    "severe_renter_cost_burdened": 12,
-    "moderate_income_renter_households": 3.6,
+    "data_quality": "High",
+    "renter_cost_burdened": 11.3,
+    "owner_cost_burdened": 7.2,
+    "severe_renter_cost_burdened": 11.3,
+    "moderate_income_renter_households": 3.4,
     "moderate_income_owner_cost_burdened": 1.3,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
@@ -230,8 +243,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -275,7 +287,7 @@
           Colorado · Fremont County
         </div>
         <h1>Brookside</h1>
-        <p class="place-sub">~116 households · renter cost-burden 39.9%</p>
+        <p class="place-sub">~116 households · renter cost-burden 40.4%</p>
       </div>
     </div>
 

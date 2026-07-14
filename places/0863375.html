@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 353.1,
-    "total_owner_hh": 3135.4,
-    "renter_cb30_count": 165.0,
-    "renter_cb30_share": 0.4673,
-    "renter_cb50_count": 94.5,
-    "renter_cb50_share": 0.2676,
-    "owner_cb30_count": 562.2,
+    "total_renter_hh": 299.9,
+    "total_owner_hh": 3182.0,
+    "renter_cb30_count": 140.1,
+    "renter_cb30_share": 0.4672,
+    "renter_cb50_count": 80.4,
+    "renter_cb50_share": 0.2681,
+    "owner_cb30_count": 570.6,
     "owner_cb30_share": 0.1793,
-    "owner_cb50_count": 291.5,
+    "owner_cb50_count": 295.8,
     "owner_cb50_share": 0.093
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 41.0,
-      "cost_burdened_30pct": 41.0,
-      "cost_burdened_50pct": 40.9,
+      "total": 34.8,
+      "cost_burdened_30pct": 34.8,
+      "cost_burdened_50pct": 34.8,
       "pct_cost_burdened_30": 0.9989,
       "pct_cost_burdened_50": 0.9965
     },
     "31to50": {
-      "total": 45.2,
-      "cost_burdened_30pct": 21.1,
-      "cost_burdened_50pct": 21.1,
+      "total": 38.4,
+      "cost_burdened_30pct": 18.0,
+      "cost_burdened_50pct": 18.0,
       "pct_cost_burdened_30": 0.4675,
       "pct_cost_burdened_50": 0.4675
     },
     "51to80": {
-      "total": 85.3,
-      "cost_burdened_30pct": 81.6,
-      "cost_burdened_50pct": 32.5,
+      "total": 72.5,
+      "cost_burdened_30pct": 69.3,
+      "cost_burdened_50pct": 27.6,
       "pct_cost_burdened_30": 0.9568,
       "pct_cost_burdened_50": 0.3814
     },
     "81to100": {
-      "total": 4.9,
-      "cost_burdened_30pct": 3.6,
+      "total": 4.1,
+      "cost_burdened_30pct": 3.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7337,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 176.7,
-      "cost_burdened_30pct": 17.7,
+      "total": 150.1,
+      "cost_burdened_30pct": 15.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1002,
       "pct_cost_burdened_50": 0.0
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 180.0,
-      "cost_burdened_30pct": 152.7,
-      "cost_burdened_50pct": 114.0,
+      "total": 182.7,
+      "cost_burdened_30pct": 155.0,
+      "cost_burdened_50pct": 115.7,
       "pct_cost_burdened_30": 0.8485,
       "pct_cost_burdened_50": 0.6332
     },
     "31to50": {
-      "total": 153.2,
-      "cost_burdened_30pct": 76.4,
-      "cost_burdened_50pct": 71.0,
+      "total": 155.4,
+      "cost_burdened_30pct": 77.6,
+      "cost_burdened_50pct": 72.0,
       "pct_cost_burdened_30": 0.4989,
       "pct_cost_burdened_50": 0.4635
     },
     "51to80": {
-      "total": 422.4,
-      "cost_burdened_30pct": 219.7,
-      "cost_burdened_50pct": 94.0,
+      "total": 428.7,
+      "cost_burdened_30pct": 223.0,
+      "cost_burdened_50pct": 95.4,
       "pct_cost_burdened_30": 0.5203,
       "pct_cost_burdened_50": 0.2225
     },
     "81to100": {
-      "total": 253.3,
-      "cost_burdened_30pct": 23.6,
+      "total": 257.0,
+      "cost_burdened_30pct": 23.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0933,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 2126.5,
-      "cost_burdened_30pct": 89.8,
-      "cost_burdened_50pct": 12.5,
+      "total": 2158.2,
+      "cost_burdened_30pct": 91.1,
+      "cost_burdened_50pct": 12.7,
       "pct_cost_burdened_30": 0.0422,
       "pct_cost_burdened_50": 0.0059
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 3482,
+    "base_hh": 4024.7,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.8667,
-    "acs_occupied_hh": 3488,
-    "base_hh_before": 4024.7
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7364,
+    "owner_scale": 0.8797,
+    "acs_renter_hh": 300.0,
+    "acs_owner_hh": 3182.0,
+    "base_renter_hh_before": 407.4,
+    "base_owner_hh_before": 3617.3,
+    "renter_share_before": 0.1012,
+    "renter_share_after": 0.0861,
+    "rates_preserved": true
   },
   "geoid": "0863375",
   "county_fips": "08077",
@@ -132,12 +145,12 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 165,
-    "owner_cost_burdened": 562.2,
-    "severe_renter_cost_burdened": 94.5,
-    "moderate_income_renter_households": 90.2,
-    "moderate_income_owner_cost_burdened": 243.3,
+    "data_quality": "High",
+    "renter_cost_burdened": 140.1,
+    "owner_cost_burdened": 570.6,
+    "severe_renter_cost_burdened": 80.4,
+    "moderate_income_renter_households": 76.6,
+    "moderate_income_owner_cost_burdened": 246.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Moderate",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Mesa County
         </div>
         <h1>Redlands</h1>
-        <p class="place-sub">~3,488 households · renter cost-burden 46.7%</p>
+        <p class="place-sub">~3,482 households · renter cost-burden 46.7%</p>
       </div>
     </div>
 

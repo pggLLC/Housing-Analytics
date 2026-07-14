@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 140.7,
-    "total_owner_hh": 453.4,
-    "renter_cb30_count": 56.9,
+    "total_renter_hh": 105.1,
+    "total_owner_hh": 507.0,
+    "renter_cb30_count": 42.5,
     "renter_cb30_share": 0.4044,
-    "renter_cb50_count": 43.5,
+    "renter_cb50_count": 32.5,
     "renter_cb50_share": 0.3092,
-    "owner_cb30_count": 108.8,
-    "owner_cb30_share": 0.24,
-    "owner_cb50_count": 60.2,
-    "owner_cb50_share": 0.1328
+    "owner_cb30_count": 121.8,
+    "owner_cb30_share": 0.2402,
+    "owner_cb50_count": 67.4,
+    "owner_cb50_share": 0.1329
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 48.6,
-      "cost_burdened_30pct": 45.3,
-      "cost_burdened_50pct": 43.5,
+      "total": 36.3,
+      "cost_burdened_30pct": 33.8,
+      "cost_burdened_50pct": 32.5,
       "pct_cost_burdened_30": 0.9333,
       "pct_cost_burdened_50": 0.8952
     },
     "31to50": {
-      "total": 1.9,
+      "total": 1.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 11.6,
+      "total": 8.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 43.9,
-      "cost_burdened_30pct": 11.6,
+      "total": 32.8,
+      "cost_burdened_30pct": 8.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2632,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 34.7,
+      "total": 25.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 34.7,
-      "cost_burdened_30pct": 30.1,
-      "cost_burdened_50pct": 30.1,
+      "total": 38.8,
+      "cost_burdened_30pct": 33.7,
+      "cost_burdened_50pct": 33.7,
       "pct_cost_burdened_30": 0.8667,
       "pct_cost_burdened_50": 0.8667
     },
     "31to50": {
-      "total": 39.3,
-      "cost_burdened_30pct": 30.1,
-      "cost_burdened_50pct": 30.1,
+      "total": 43.9,
+      "cost_burdened_30pct": 33.7,
+      "cost_burdened_50pct": 33.7,
       "pct_cost_burdened_30": 0.7647,
       "pct_cost_burdened_50": 0.7647
     },
     "51to80": {
-      "total": 71.7,
-      "cost_burdened_30pct": 10.6,
+      "total": 80.2,
+      "cost_burdened_30pct": 11.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1484,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 46.3,
-      "cost_burdened_30pct": 17.6,
+      "total": 51.8,
+      "cost_burdened_30pct": 19.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.38,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 261.4,
-      "cost_burdened_30pct": 20.4,
+      "total": 292.3,
+      "cost_burdened_30pct": 22.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0779,
       "pct_cost_burdened_50": 0.0
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 610,
-    "base_hh": 594.1
+    "acs_occupied_hh": 612,
+    "base_hh": 594.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7463,
+    "owner_scale": 1.1182,
+    "acs_renter_hh": 105.0,
+    "acs_owner_hh": 507.0,
+    "base_renter_hh_before": 140.7,
+    "base_owner_hh_before": 453.4,
+    "renter_share_before": 0.2368,
+    "renter_share_after": 0.1717,
+    "rates_preserved": true
   },
   "geoid": "0841560",
   "county_fips": "08049",
@@ -132,11 +146,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 56.9,
-    "owner_cost_burdened": 108.8,
-    "severe_renter_cost_burdened": 43.5,
-    "moderate_income_renter_households": 55.5,
-    "moderate_income_owner_cost_burdened": 28.2,
+    "renter_cost_burdened": 42.5,
+    "owner_cost_burdened": 121.8,
+    "severe_renter_cost_burdened": 32.5,
+    "moderate_income_renter_households": 41.5,
+    "moderate_income_owner_cost_burdened": 31.6,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "High",
@@ -189,7 +203,7 @@
           Colorado · Grand County
         </div>
         <h1>Kremmling</h1>
-        <p class="place-sub">~594 households · renter cost-burden 40.4%</p>
+        <p class="place-sub">~612 households · renter cost-burden 40.4%</p>
       </div>
     </div>
 

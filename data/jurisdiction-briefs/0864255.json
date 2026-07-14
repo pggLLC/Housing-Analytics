@@ -88,7 +88,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Rifle. It classifies rental pressure as Low, ownership pressure as High, and identifies 277 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for City of Rifle. It classifies rental pressure as Moderate, ownership pressure as High, and identifies 526 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -97,7 +97,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 174 renter households and 577 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 331 renter households and 638 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -110,7 +110,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Rifle at #265 with an overall housing-need score of 44.5. It identifies 165 deeply affordable units missing at <=30% AMI, equal to 48.5% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Rifle at #263 with an overall housing-need score of 44.8. It identifies 165 deeply affordable units missing at <=30% AMI, equal to 48.5% of <=30% AMI households. 39.3% of renter households are cost burdened, and 1.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -279,7 +279,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -288,7 +288,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -423,7 +423,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -432,7 +432,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -441,7 +441,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

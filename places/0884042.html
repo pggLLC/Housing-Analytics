@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 857.7,
-    "total_owner_hh": 878.4,
-    "renter_cb30_count": 383.2,
-    "renter_cb30_share": 0.4468,
-    "renter_cb50_count": 265.5,
-    "renter_cb50_share": 0.3095,
-    "owner_cb30_count": 155.4,
+    "total_renter_hh": 658.0,
+    "total_owner_hh": 1079.0,
+    "renter_cb30_count": 294.1,
+    "renter_cb30_share": 0.447,
+    "renter_cb50_count": 203.7,
+    "renter_cb50_share": 0.3096,
+    "owner_cb30_count": 190.9,
     "owner_cb30_share": 0.1769,
-    "owner_cb50_count": 72.6,
+    "owner_cb50_count": 89.2,
     "owner_cb50_share": 0.0827
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 186.8,
-      "cost_burdened_30pct": 173.3,
-      "cost_burdened_50pct": 173.3,
+      "total": 143.3,
+      "cost_burdened_30pct": 133.0,
+      "cost_burdened_50pct": 133.0,
       "pct_cost_burdened_30": 0.9277,
       "pct_cost_burdened_50": 0.9277
     },
     "31to50": {
-      "total": 101.3,
-      "cost_burdened_30pct": 87.8,
-      "cost_burdened_50pct": 73.7,
+      "total": 77.7,
+      "cost_burdened_30pct": 67.4,
+      "cost_burdened_50pct": 56.5,
       "pct_cost_burdened_30": 0.867,
       "pct_cost_burdened_50": 0.7282
     },
     "51to80": {
-      "total": 135.2,
-      "cost_burdened_30pct": 67.5,
-      "cost_burdened_50pct": 18.5,
+      "total": 103.7,
+      "cost_burdened_30pct": 51.8,
+      "cost_burdened_50pct": 14.2,
       "pct_cost_burdened_30": 0.4991,
       "pct_cost_burdened_50": 0.1362
     },
     "81to100": {
-      "total": 116.5,
-      "cost_burdened_30pct": 41.7,
+      "total": 89.4,
+      "cost_burdened_30pct": 32.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3578,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 317.9,
-      "cost_burdened_30pct": 12.9,
+      "total": 243.9,
+      "cost_burdened_30pct": 9.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0405,
       "pct_cost_burdened_50": 0.0
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 78.3,
-      "cost_burdened_30pct": 61.4,
-      "cost_burdened_50pct": 54.3,
+      "total": 96.2,
+      "cost_burdened_30pct": 75.5,
+      "cost_burdened_50pct": 66.8,
       "pct_cost_burdened_30": 0.7847,
       "pct_cost_burdened_50": 0.6934
     },
     "31to50": {
-      "total": 39.2,
-      "cost_burdened_30pct": 9.1,
-      "cost_burdened_50pct": 8.6,
+      "total": 48.2,
+      "cost_burdened_30pct": 11.2,
+      "cost_burdened_50pct": 10.5,
       "pct_cost_burdened_30": 0.2333,
       "pct_cost_burdened_50": 0.2202
     },
     "51to80": {
-      "total": 235.0,
-      "cost_burdened_30pct": 45.1,
+      "total": 288.6,
+      "cost_burdened_30pct": 55.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1918,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 63.5,
-      "cost_burdened_30pct": 20.3,
+      "total": 78.0,
+      "cost_burdened_30pct": 24.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3192,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 462.4,
-      "cost_burdened_30pct": 19.5,
-      "cost_burdened_50pct": 9.7,
+      "total": 568.0,
+      "cost_burdened_30pct": 23.9,
+      "cost_burdened_50pct": 11.9,
       "pct_cost_burdened_30": 0.0422,
       "pct_cost_burdened_50": 0.0209
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 1737,
+    "base_hh": 1881.9,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9226,
-    "acs_occupied_hh": 1736,
-    "base_hh_before": 1881.9
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7077,
+    "owner_scale": 1.1333,
+    "acs_renter_hh": 658.0,
+    "acs_owner_hh": 1079.0,
+    "base_renter_hh_before": 929.8,
+    "base_owner_hh_before": 952.1,
+    "renter_share_before": 0.4941,
+    "renter_share_after": 0.3788,
+    "rates_preserved": true
   },
   "geoid": "0884042",
   "county_fips": "08059",
@@ -130,14 +143,14 @@
     "geoid": "0884042",
     "name": "West Pleasant View (CDP)",
     "type": "cdp",
-    "recommendation": "Deep affordability priority",
-    "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 383.2,
-    "owner_cost_burdened": 155.4,
-    "severe_renter_cost_burdened": 265.5,
-    "moderate_income_renter_households": 251.7,
-    "moderate_income_owner_cost_burdened": 65.4,
+    "recommendation": "Verify locally",
+    "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+    "data_quality": "High",
+    "renter_cost_burdened": 294.1,
+    "owner_cost_burdened": 190.9,
+    "severe_renter_cost_burdened": 203.7,
+    "moderate_income_renter_households": 193.1,
+    "moderate_income_owner_cost_burdened": 80.3,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "Low",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Jefferson County
         </div>
         <h1>West Pleasant View</h1>
-        <p class="place-sub">~1,736 households · renter cost-burden 44.7%</p>
+        <p class="place-sub">~1,737 households · renter cost-burden 44.7%</p>
       </div>
     </div>
 

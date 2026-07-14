@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 943.0,
-    "total_owner_hh": 1265.5,
-    "renter_cb30_count": 441.9,
-    "renter_cb30_share": 0.4686,
-    "renter_cb50_count": 176.1,
-    "renter_cb50_share": 0.1867,
-    "owner_cb30_count": 271.4,
+    "total_renter_hh": 772.9,
+    "total_owner_hh": 1433.0,
+    "renter_cb30_count": 362.1,
+    "renter_cb30_share": 0.4685,
+    "renter_cb50_count": 144.4,
+    "renter_cb50_share": 0.1868,
+    "owner_cb30_count": 307.4,
     "owner_cb30_share": 0.2145,
-    "owner_cb50_count": 79.0,
-    "owner_cb50_share": 0.0624
+    "owner_cb50_count": 89.5,
+    "owner_cb50_share": 0.0625
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 153.2,
-      "cost_burdened_30pct": 142.0,
-      "cost_burdened_50pct": 113.1,
+      "total": 125.6,
+      "cost_burdened_30pct": 116.4,
+      "cost_burdened_50pct": 92.7,
       "pct_cost_burdened_30": 0.9271,
       "pct_cost_burdened_50": 0.7384
     },
     "31to50": {
-      "total": 126.1,
-      "cost_burdened_30pct": 110.0,
-      "cost_burdened_50pct": 44.6,
+      "total": 103.4,
+      "cost_burdened_30pct": 90.1,
+      "cost_burdened_50pct": 36.6,
       "pct_cost_burdened_30": 0.8724,
       "pct_cost_burdened_50": 0.3542
     },
     "51to80": {
-      "total": 309.8,
-      "cost_burdened_30pct": 153.6,
-      "cost_burdened_50pct": 17.8,
+      "total": 253.9,
+      "cost_burdened_30pct": 125.9,
+      "cost_burdened_50pct": 14.6,
       "pct_cost_burdened_30": 0.4957,
       "pct_cost_burdened_50": 0.0576
     },
     "81to100": {
-      "total": 104.2,
-      "cost_burdened_30pct": 36.3,
-      "cost_burdened_50pct": 0.6,
+      "total": 85.4,
+      "cost_burdened_30pct": 29.7,
+      "cost_burdened_50pct": 0.5,
       "pct_cost_burdened_30": 0.3481,
       "pct_cost_burdened_50": 0.0067
     },
     "100plus": {
-      "total": 249.7,
+      "total": 204.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 108.9,
-      "cost_burdened_30pct": 94.9,
-      "cost_burdened_50pct": 58.5,
+      "total": 123.3,
+      "cost_burdened_30pct": 107.5,
+      "cost_burdened_50pct": 66.2,
       "pct_cost_burdened_30": 0.8724,
       "pct_cost_burdened_50": 0.5377
     },
     "31to50": {
-      "total": 151.3,
-      "cost_burdened_30pct": 76.2,
-      "cost_burdened_50pct": 3.2,
+      "total": 171.3,
+      "cost_burdened_30pct": 86.3,
+      "cost_burdened_50pct": 3.7,
       "pct_cost_burdened_30": 0.5038,
       "pct_cost_burdened_50": 0.0215
     },
     "51to80": {
-      "total": 244.1,
-      "cost_burdened_30pct": 57.4,
-      "cost_burdened_50pct": 11.0,
+      "total": 276.4,
+      "cost_burdened_30pct": 65.0,
+      "cost_burdened_50pct": 12.5,
       "pct_cost_burdened_30": 0.2349,
       "pct_cost_burdened_50": 0.0453
     },
     "81to100": {
-      "total": 384.4,
-      "cost_burdened_30pct": 35.9,
-      "cost_burdened_50pct": 6.3,
+      "total": 435.3,
+      "cost_burdened_30pct": 40.7,
+      "cost_burdened_50pct": 7.1,
       "pct_cost_burdened_30": 0.0933,
       "pct_cost_burdened_50": 0.0163
     },
     "100plus": {
-      "total": 376.8,
-      "cost_burdened_30pct": 7.0,
+      "total": 426.7,
+      "cost_burdened_30pct": 7.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0184,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 2206,
+    "base_hh": 2379.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9281,
-    "acs_occupied_hh": 2209,
-    "base_hh_before": 2379.6
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7608,
+    "owner_scale": 1.051,
+    "acs_renter_hh": 773.0,
+    "acs_owner_hh": 1433.0,
+    "base_renter_hh_before": 1016.1,
+    "base_owner_hh_before": 1363.5,
+    "renter_share_before": 0.427,
+    "renter_share_after": 0.3504,
+    "rates_preserved": true
   },
   "geoid": "0874430",
   "county_fips": "08041",
@@ -132,12 +145,12 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 441.9,
-    "owner_cost_burdened": 271.4,
-    "severe_renter_cost_burdened": 176.1,
-    "moderate_income_renter_households": 414,
-    "moderate_income_owner_cost_burdened": 93.3,
+    "data_quality": "High",
+    "renter_cost_burdened": 362.1,
+    "owner_cost_burdened": 307.4,
+    "severe_renter_cost_burdened": 144.4,
+    "moderate_income_renter_households": 339.3,
+    "moderate_income_owner_cost_burdened": 105.7,
     "existing_rental_gap_lte80": 26,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · El Paso County
         </div>
         <h1>Stratmoor</h1>
-        <p class="place-sub">~2,208 households · renter cost-burden 46.9%</p>
+        <p class="place-sub">~2,206 households · renter cost-burden 46.9%</p>
       </div>
     </div>
 

@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 57.1,
-    "total_owner_hh": 1092.9,
+    "total_renter_hh": 23.0,
+    "total_owner_hh": 1150.0,
     "renter_cb30_count": 0.0,
     "renter_cb30_share": 0.0,
     "renter_cb50_count": 0.0,
     "renter_cb50_share": 0.0,
-    "owner_cb30_count": 211.5,
+    "owner_cb30_count": 222.5,
     "owner_cb30_share": 0.1935,
-    "owner_cb50_count": 72.0,
-    "owner_cb50_share": 0.0659
+    "owner_cb50_count": 75.7,
+    "owner_cb50_share": 0.0658
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -58,7 +58,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 13.2,
+      "total": 5.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 43.9,
+      "total": 17.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 96.6,
-      "cost_burdened_30pct": 78.1,
-      "cost_burdened_50pct": 38.6,
+      "total": 101.6,
+      "cost_burdened_30pct": 82.2,
+      "cost_burdened_50pct": 40.7,
       "pct_cost_burdened_30": 0.8091,
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 17.5,
-      "cost_burdened_30pct": 12.3,
-      "cost_burdened_50pct": 12.3,
+      "total": 18.4,
+      "cost_burdened_30pct": 12.9,
+      "cost_burdened_50pct": 12.9,
       "pct_cost_burdened_30": 0.7,
       "pct_cost_burdened_50": 0.7
     },
     "51to80": {
-      "total": 131.7,
-      "cost_burdened_30pct": 33.4,
-      "cost_burdened_50pct": 12.3,
+      "total": 138.6,
+      "cost_burdened_30pct": 35.1,
+      "cost_burdened_50pct": 12.9,
       "pct_cost_burdened_30": 0.2533,
       "pct_cost_burdened_50": 0.0933
     },
     "81to100": {
-      "total": 166.8,
-      "cost_burdened_30pct": 48.2,
-      "cost_burdened_50pct": 8.8,
+      "total": 175.5,
+      "cost_burdened_30pct": 50.8,
+      "cost_burdened_50pct": 9.2,
       "pct_cost_burdened_30": 0.2895,
       "pct_cost_burdened_50": 0.0526
     },
     "100plus": {
-      "total": 680.3,
-      "cost_burdened_30pct": 39.5,
+      "total": 715.9,
+      "cost_burdened_30pct": 41.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0581,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 1173,
+    "base_hh": 1246.8,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9224,
-    "acs_occupied_hh": 1150,
-    "base_hh_before": 1246.8
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.3716,
+    "owner_scale": 0.9705,
+    "acs_renter_hh": 23.0,
+    "acs_owner_hh": 1150.0,
+    "base_renter_hh_before": 61.9,
+    "base_owner_hh_before": 1184.9,
+    "renter_share_before": 0.0496,
+    "renter_share_after": 0.0196,
+    "rates_preserved": true
   },
   "geoid": "0860655",
   "county_fips": "08039",
@@ -132,12 +145,12 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
+    "data_quality": "High",
     "renter_cost_burdened": 0,
-    "owner_cost_burdened": 211.5,
+    "owner_cost_burdened": 222.5,
     "severe_renter_cost_burdened": 0,
-    "moderate_income_renter_households": 13.2,
-    "moderate_income_owner_cost_burdened": 81.6,
+    "moderate_income_renter_households": 5.3,
+    "moderate_income_owner_cost_burdened": 85.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Low",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Elbert County
         </div>
         <h1>Ponderosa Park</h1>
-        <p class="place-sub">~1,150 households</p>
+        <p class="place-sub">~1,173 households</p>
       </div>
     </div>
 

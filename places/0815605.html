@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 14.9,
-    "total_owner_hh": 82.9,
-    "renter_cb30_count": 4.3,
-    "renter_cb30_share": 0.2886,
-    "renter_cb50_count": 2.2,
-    "renter_cb50_share": 0.1477,
-    "owner_cb30_count": 26.3,
-    "owner_cb30_share": 0.3172,
+    "total_renter_hh": 13.9,
+    "total_owner_hh": 84.0,
+    "renter_cb30_count": 4.0,
+    "renter_cb30_share": 0.2878,
+    "renter_cb50_count": 2.0,
+    "renter_cb50_share": 0.1439,
+    "owner_cb30_count": 26.6,
+    "owner_cb30_share": 0.3167,
     "owner_cb50_count": 5.3,
-    "owner_cb50_share": 0.0639
+    "owner_cb50_share": 0.0631
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.5,
-      "cost_burdened_30pct": 1.1,
-      "cost_burdened_50pct": 1.1,
+      "total": 1.4,
+      "cost_burdened_30pct": 1.0,
+      "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.7,
       "pct_cost_burdened_50": 0.7
     },
     "31to50": {
-      "total": 2.7,
-      "cost_burdened_30pct": 2.1,
-      "cost_burdened_50pct": 1.1,
+      "total": 2.5,
+      "cost_burdened_30pct": 2.0,
+      "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.8,
       "pct_cost_burdened_50": 0.4
     },
     "51to80": {
-      "total": 3.1,
+      "total": 2.9,
       "cost_burdened_30pct": 0.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 1.9,
-      "cost_burdened_30pct": 0.8,
+      "total": 1.8,
+      "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 5.7,
+      "total": 5.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 6.4,
+      "total": 6.5,
       "cost_burdened_30pct": 4.3,
       "cost_burdened_50pct": 2.6,
       "pct_cost_burdened_30": 0.6706,
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 4.5,
-      "cost_burdened_30pct": 1.5,
+      "total": 4.6,
+      "cost_burdened_30pct": 1.6,
       "cost_burdened_50pct": 0.6,
       "pct_cost_burdened_30": 0.3333,
       "pct_cost_burdened_50": 0.1333
     },
     "51to80": {
-      "total": 12.9,
-      "cost_burdened_30pct": 5.8,
+      "total": 13.0,
+      "cost_burdened_30pct": 5.9,
       "cost_burdened_50pct": 0.6,
       "pct_cost_burdened_30": 0.4529,
       "pct_cost_burdened_50": 0.0471
     },
     "81to100": {
-      "total": 8.7,
+      "total": 8.9,
       "cost_burdened_30pct": 3.0,
       "cost_burdened_50pct": 1.5,
       "pct_cost_burdened_30": 0.3391,
       "pct_cost_burdened_50": 0.1652
     },
     "100plus": {
-      "total": 50.4,
-      "cost_burdened_30pct": 11.7,
+      "total": 51.0,
+      "cost_burdened_30pct": 11.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2316,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.7673,
+    "applied": false,
     "acs_occupied_hh": 98,
-    "base_hh_before": 127.6
+    "base_hh": 127.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.7216,
+    "owner_scale": 0.7763,
+    "acs_renter_hh": 14.0,
+    "acs_owner_hh": 84.0,
+    "base_renter_hh_before": 19.4,
+    "base_owner_hh_before": 108.2,
+    "renter_share_before": 0.152,
+    "renter_share_after": 0.142,
+    "rates_preserved": true
   },
   "geoid": "0815605",
   "county_fips": "08077",
@@ -132,12 +145,12 @@
     "type": "place",
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 4.3,
-    "owner_cost_burdened": 26.3,
-    "severe_renter_cost_burdened": 2.2,
-    "moderate_income_renter_households": 5,
-    "moderate_income_owner_cost_burdened": 8.8,
+    "data_quality": "High",
+    "renter_cost_burdened": 4,
+    "owner_cost_burdened": 26.6,
+    "severe_renter_cost_burdened": 2,
+    "moderate_income_renter_households": 4.7,
+    "moderate_income_owner_cost_burdened": 8.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "High",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Mesa County
         </div>
         <h1>Collbran</h1>
-        <p class="place-sub">~98 households · renter cost-burden 28.9%</p>
+        <p class="place-sub">~98 households · renter cost-burden 28.8%</p>
       </div>
     </div>
 

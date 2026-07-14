@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 1606.5,
-    "total_owner_hh": 2207.0,
-    "renter_cb30_count": 669.9,
+    "total_renter_hh": 1763.0,
+    "total_owner_hh": 2133.0,
+    "renter_cb30_count": 735.2,
     "renter_cb30_share": 0.417,
-    "renter_cb50_count": 326.3,
+    "renter_cb50_count": 358.1,
     "renter_cb50_share": 0.2031,
-    "owner_cb30_count": 599.8,
+    "owner_cb30_count": 579.7,
     "owner_cb30_share": 0.2718,
-    "owner_cb50_count": 267.7,
+    "owner_cb50_count": 258.8,
     "owner_cb50_share": 0.1213
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 367.3,
-      "cost_burdened_30pct": 293.7,
-      "cost_burdened_50pct": 271.3,
+      "total": 403.1,
+      "cost_burdened_30pct": 322.3,
+      "cost_burdened_50pct": 297.7,
       "pct_cost_burdened_30": 0.7997,
       "pct_cost_burdened_50": 0.7386
     },
     "31to50": {
-      "total": 104.8,
-      "cost_burdened_30pct": 96.1,
-      "cost_burdened_50pct": 24.4,
+      "total": 115.0,
+      "cost_burdened_30pct": 105.5,
+      "cost_burdened_50pct": 26.8,
       "pct_cost_burdened_30": 0.9173,
       "pct_cost_burdened_50": 0.2327
     },
     "51to80": {
-      "total": 294.1,
-      "cost_burdened_30pct": 200.5,
-      "cost_burdened_50pct": 30.6,
+      "total": 322.8,
+      "cost_burdened_30pct": 220.0,
+      "cost_burdened_50pct": 33.6,
       "pct_cost_burdened_30": 0.6817,
       "pct_cost_burdened_50": 0.104
     },
     "81to100": {
-      "total": 320.7,
-      "cost_burdened_30pct": 49.3,
+      "total": 351.9,
+      "cost_burdened_30pct": 54.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1536,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 519.6,
-      "cost_burdened_30pct": 30.3,
+      "total": 570.2,
+      "cost_burdened_30pct": 33.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0584,
       "pct_cost_burdened_50": 0.0
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 116.2,
-      "cost_burdened_30pct": 99.4,
-      "cost_burdened_50pct": 99.4,
+      "total": 112.3,
+      "cost_burdened_30pct": 96.1,
+      "cost_burdened_50pct": 96.1,
       "pct_cost_burdened_30": 0.8561,
       "pct_cost_burdened_50": 0.8561
     },
     "31to50": {
-      "total": 183.6,
-      "cost_burdened_30pct": 149.1,
-      "cost_burdened_50pct": 114.5,
+      "total": 177.4,
+      "cost_burdened_30pct": 144.1,
+      "cost_burdened_50pct": 110.7,
       "pct_cost_burdened_30": 0.8122,
       "pct_cost_burdened_50": 0.6234
     },
     "51to80": {
-      "total": 208.0,
-      "cost_burdened_30pct": 84.3,
-      "cost_burdened_50pct": 30.4,
+      "total": 201.0,
+      "cost_burdened_30pct": 81.5,
+      "cost_burdened_50pct": 29.4,
       "pct_cost_burdened_30": 0.4053,
       "pct_cost_burdened_50": 0.1463
     },
     "81to100": {
-      "total": 111.3,
-      "cost_burdened_30pct": 38.2,
+      "total": 107.6,
+      "cost_burdened_30pct": 36.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3434,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 1587.9,
-      "cost_burdened_30pct": 228.8,
-      "cost_burdened_50pct": 23.4,
+      "total": 1534.7,
+      "cost_burdened_30pct": 221.1,
+      "cost_burdened_50pct": 22.6,
       "pct_cost_burdened_30": 0.1441,
       "pct_cost_burdened_50": 0.0147
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 3892,
-    "base_hh": 3813.5
+    "acs_occupied_hh": 3896,
+    "base_hh": 3813.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.0974,
+    "owner_scale": 0.9665,
+    "acs_renter_hh": 1763.0,
+    "acs_owner_hh": 2133.0,
+    "base_renter_hh_before": 1606.5,
+    "base_owner_hh_before": 2207.0,
+    "renter_share_before": 0.4213,
+    "renter_share_after": 0.4525,
+    "rates_preserved": true
   },
   "geoid": "0830780",
   "county_fips": "08045",
@@ -216,11 +230,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 669.9,
-    "owner_cost_burdened": 599.8,
-    "severe_renter_cost_burdened": 326.3,
-    "moderate_income_renter_households": 614.8,
-    "moderate_income_owner_cost_burdened": 122.5,
+    "renter_cost_burdened": 735.2,
+    "owner_cost_burdened": 579.7,
+    "severe_renter_cost_burdened": 358.1,
+    "moderate_income_renter_households": 674.7,
+    "moderate_income_owner_cost_burdened": 118.4,
     "existing_rental_gap_lte80": 67,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Very High",
@@ -273,7 +287,7 @@
           Colorado · Garfield County
         </div>
         <h1>Glenwood Springs</h1>
-        <p class="place-sub">~3,814 households · renter cost-burden 41.7%</p>
+        <p class="place-sub">~3,896 households · renter cost-burden 41.7%</p>
       </div>
     </div>
 

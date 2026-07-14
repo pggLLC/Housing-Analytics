@@ -31,35 +31,35 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 214.2,
-    "total_owner_hh": 1187.1,
-    "renter_cb30_count": 126.5,
+    "total_renter_hh": 342.0,
+    "total_owner_hh": 1163.0,
+    "renter_cb30_count": 202.0,
     "renter_cb30_share": 0.5906,
-    "renter_cb50_count": 80.8,
+    "renter_cb50_count": 129.0,
     "renter_cb50_share": 0.3772,
-    "owner_cb30_count": 171.3,
-    "owner_cb30_share": 0.1443,
-    "owner_cb50_count": 70.2,
+    "owner_cb30_count": 167.7,
+    "owner_cb30_share": 0.1442,
+    "owner_cb50_count": 68.7,
     "owner_cb50_share": 0.0591
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 91.3,
-      "cost_burdened_30pct": 80.8,
-      "cost_burdened_50pct": 80.8,
+      "total": 145.8,
+      "cost_burdened_30pct": 129.0,
+      "cost_burdened_50pct": 129.0,
       "pct_cost_burdened_30": 0.8846,
       "pct_cost_burdened_50": 0.8846
     },
     "31to50": {
-      "total": 42.1,
-      "cost_burdened_30pct": 28.1,
+      "total": 67.2,
+      "cost_burdened_30pct": 44.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.6667,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 35.1,
-      "cost_burdened_30pct": 17.6,
+      "total": 56.0,
+      "cost_burdened_30pct": 28.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.5,
       "pct_cost_burdened_50": 0.0
@@ -72,7 +72,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 45.7,
+      "total": 73.0,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 63.2,
-      "cost_burdened_30pct": 24.6,
-      "cost_burdened_50pct": 24.6,
+      "total": 61.9,
+      "cost_burdened_30pct": 24.1,
+      "cost_burdened_50pct": 24.1,
       "pct_cost_burdened_30": 0.3889,
       "pct_cost_burdened_50": 0.3889
     },
     "31to50": {
-      "total": 59.7,
-      "cost_burdened_30pct": 42.1,
-      "cost_burdened_50pct": 17.6,
+      "total": 58.5,
+      "cost_burdened_30pct": 41.2,
+      "cost_burdened_50pct": 17.2,
       "pct_cost_burdened_30": 0.7059,
       "pct_cost_burdened_50": 0.2941
     },
     "51to80": {
-      "total": 98.3,
-      "cost_burdened_30pct": 24.6,
-      "cost_burdened_50pct": 14.0,
+      "total": 96.3,
+      "cost_burdened_30pct": 24.1,
+      "cost_burdened_50pct": 13.7,
       "pct_cost_burdened_30": 0.25,
       "pct_cost_burdened_50": 0.1429
     },
     "81to100": {
-      "total": 77.3,
-      "cost_burdened_30pct": 13.3,
+      "total": 75.7,
+      "cost_burdened_30pct": 13.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1727,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 888.6,
-      "cost_burdened_30pct": 66.7,
-      "cost_burdened_50pct": 14.0,
+      "total": 870.6,
+      "cost_burdened_30pct": 65.3,
+      "cost_burdened_50pct": 13.7,
       "pct_cost_burdened_30": 0.0751,
       "pct_cost_burdened_50": 0.0158
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1507,
-    "base_hh": 1401.3
+    "acs_occupied_hh": 1505,
+    "base_hh": 1401.3,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.5966,
+    "owner_scale": 0.9797,
+    "acs_renter_hh": 342.0,
+    "acs_owner_hh": 1163.0,
+    "base_renter_hh_before": 214.2,
+    "base_owner_hh_before": 1187.1,
+    "renter_share_before": 0.1529,
+    "renter_share_after": 0.2272,
+    "rates_preserved": true
   },
   "geoid": "0853780",
   "county_fips": "08013",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 126.5,
-    "owner_cost_burdened": 171.3,
-    "severe_renter_cost_burdened": 80.8,
-    "moderate_income_renter_households": 35.1,
-    "moderate_income_owner_cost_burdened": 37.9,
+    "renter_cost_burdened": 202,
+    "owner_cost_burdened": 167.7,
+    "severe_renter_cost_burdened": 129,
+    "moderate_income_renter_households": 56,
+    "moderate_income_owner_cost_burdened": 37.1,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
@@ -189,7 +203,7 @@
           Colorado · Boulder County
         </div>
         <h1>Niwot</h1>
-        <p class="place-sub">~1,401 households · renter cost-burden 59.1%</p>
+        <p class="place-sub">~1,505 households · renter cost-burden 59.1%</p>
       </div>
     </div>
 

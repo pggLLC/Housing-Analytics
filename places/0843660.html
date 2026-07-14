@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 306.6,
-    "total_owner_hh": 481.3,
-    "renter_cb30_count": 125.7,
-    "renter_cb30_share": 0.41,
-    "renter_cb50_count": 34.7,
-    "renter_cb50_share": 0.1132,
-    "owner_cb30_count": 113.6,
+    "total_renter_hh": 413.1,
+    "total_owner_hh": 647.0,
+    "renter_cb30_count": 169.3,
+    "renter_cb30_share": 0.4098,
+    "renter_cb50_count": 46.7,
+    "renter_cb50_share": 0.113,
+    "owner_cb30_count": 152.7,
     "owner_cb30_share": 0.236,
-    "owner_cb50_count": 50.2,
+    "owner_cb50_count": 67.5,
     "owner_cb50_share": 0.1043
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 123.8,
-      "cost_burdened_30pct": 71.7,
-      "cost_burdened_50pct": 34.7,
+      "total": 166.8,
+      "cost_burdened_30pct": 96.6,
+      "cost_burdened_50pct": 46.7,
       "pct_cost_burdened_30": 0.5787,
       "pct_cost_burdened_50": 0.2804
     },
     "31to50": {
-      "total": 60.8,
-      "cost_burdened_30pct": 20.8,
+      "total": 81.9,
+      "cost_burdened_30pct": 28.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3416,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 67.1,
-      "cost_burdened_30pct": 33.2,
+      "total": 90.4,
+      "cost_burdened_30pct": 44.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4952,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 28.4,
+      "total": 38.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 26.5,
+      "total": 35.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 88.0,
-      "cost_burdened_30pct": 52.9,
-      "cost_burdened_50pct": 39.2,
+      "total": 118.3,
+      "cost_burdened_30pct": 71.1,
+      "cost_burdened_50pct": 52.7,
       "pct_cost_burdened_30": 0.6017,
       "pct_cost_burdened_50": 0.446
     },
     "31to50": {
-      "total": 65.2,
-      "cost_burdened_30pct": 34.6,
-      "cost_burdened_50pct": 9.4,
+      "total": 87.6,
+      "cost_burdened_30pct": 46.5,
+      "cost_burdened_50pct": 12.6,
       "pct_cost_burdened_30": 0.5302,
       "pct_cost_burdened_50": 0.1441
     },
     "51to80": {
-      "total": 68.0,
-      "cost_burdened_30pct": 17.9,
-      "cost_burdened_50pct": 1.6,
+      "total": 91.4,
+      "cost_burdened_30pct": 24.1,
+      "cost_burdened_50pct": 2.2,
       "pct_cost_burdened_30": 0.2624,
       "pct_cost_burdened_50": 0.024
     },
     "81to100": {
-      "total": 65.6,
-      "cost_burdened_30pct": 8.2,
+      "total": 88.2,
+      "cost_burdened_30pct": 11.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1246,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 194.5,
+      "total": 261.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1059,
-    "base_hh": 787.9
+    "acs_occupied_hh": 1060,
+    "base_hh": 787.9,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.347,
+    "owner_scale": 1.3443,
+    "acs_renter_hh": 413.0,
+    "acs_owner_hh": 647.0,
+    "base_renter_hh_before": 306.6,
+    "base_owner_hh_before": 481.3,
+    "renter_share_before": 0.3891,
+    "renter_share_after": 0.3897,
+    "rates_preserved": true
   },
   "geoid": "0843660",
   "county_fips": "08011",
@@ -216,11 +230,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 125.7,
-    "owner_cost_burdened": 113.6,
-    "severe_renter_cost_burdened": 34.7,
-    "moderate_income_renter_households": 95.5,
-    "moderate_income_owner_cost_burdened": 26.1,
+    "renter_cost_burdened": 169.3,
+    "owner_cost_burdened": 152.7,
+    "severe_renter_cost_burdened": 46.7,
+    "moderate_income_renter_households": 128.7,
+    "moderate_income_owner_cost_burdened": 35.1,
     "existing_rental_gap_lte80": 29,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "High",
@@ -273,7 +287,7 @@
           Colorado · Bent County
         </div>
         <h1>Las Animas</h1>
-        <p class="place-sub">~788 households · renter cost-burden 41.0%</p>
+        <p class="place-sub">~1,060 households · renter cost-burden 41.0%</p>
       </div>
     </div>
 

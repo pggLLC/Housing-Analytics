@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 271.3,
-    "total_owner_hh": 311.7,
-    "renter_cb30_count": 145.1,
-    "renter_cb30_share": 0.5348,
-    "renter_cb50_count": 45.2,
-    "renter_cb50_share": 0.1666,
-    "owner_cb30_count": 39.5,
-    "owner_cb30_share": 0.1267,
-    "owner_cb50_count": 3.8,
-    "owner_cb50_share": 0.0122
+    "total_renter_hh": 161.0,
+    "total_owner_hh": 422.1,
+    "renter_cb30_count": 86.2,
+    "renter_cb30_share": 0.5354,
+    "renter_cb50_count": 26.8,
+    "renter_cb50_share": 0.1665,
+    "owner_cb30_count": 53.6,
+    "owner_cb30_share": 0.127,
+    "owner_cb50_count": 5.2,
+    "owner_cb50_share": 0.0123
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 88.1,
-      "cost_burdened_30pct": 83.3,
-      "cost_burdened_50pct": 45.2,
+      "total": 52.3,
+      "cost_burdened_30pct": 49.4,
+      "cost_burdened_50pct": 26.8,
       "pct_cost_burdened_30": 0.9459,
       "pct_cost_burdened_50": 0.5135
     },
     "31to50": {
-      "total": 52.3,
-      "cost_burdened_30pct": 52.3,
+      "total": 31.1,
+      "cost_burdened_30pct": 31.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 61.9,
-      "cost_burdened_30pct": 9.5,
+      "total": 36.7,
+      "cost_burdened_30pct": 5.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1538,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 4.7,
+      "total": 2.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 64.3,
+      "total": 38.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 16.7,
-      "cost_burdened_30pct": 3.8,
-      "cost_burdened_50pct": 3.8,
+      "total": 22.6,
+      "cost_burdened_30pct": 5.2,
+      "cost_burdened_50pct": 5.2,
       "pct_cost_burdened_30": 0.2286,
       "pct_cost_burdened_50": 0.2286
     },
     "31to50": {
-      "total": 47.6,
-      "cost_burdened_30pct": 9.5,
+      "total": 64.4,
+      "cost_burdened_30pct": 12.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 45.2,
+      "total": 61.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 7.1,
+      "total": 9.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 195.1,
-      "cost_burdened_30pct": 26.2,
+      "total": 264.2,
+      "cost_burdened_30pct": 35.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1341,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.615,
+    "applied": false,
     "acs_occupied_hh": 583,
-    "base_hh_before": 948.0
+    "base_hh": 948.0,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.365,
+    "owner_scale": 0.8325,
+    "acs_renter_hh": 161.0,
+    "acs_owner_hh": 422.0,
+    "base_renter_hh_before": 441.1,
+    "base_owner_hh_before": 506.9,
+    "renter_share_before": 0.4653,
+    "renter_share_after": 0.2761,
+    "rates_preserved": true
   },
   "geoid": "0801145",
   "county_fips": "08003",
@@ -130,24 +143,23 @@
     "geoid": "0801145",
     "name": "Alamosa East (CDP)",
     "type": "cdp",
-    "recommendation": "Rental priority",
-    "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 145.1,
-    "owner_cost_burdened": 39.5,
-    "severe_renter_cost_burdened": 45.2,
-    "moderate_income_renter_households": 66.6,
+    "recommendation": "Verify locally",
+    "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+    "data_quality": "High",
+    "renter_cost_burdened": 86.2,
+    "owner_cost_burdened": 53.6,
+    "severe_renter_cost_burdened": 26.8,
+    "moderate_income_renter_households": 39.5,
     "moderate_income_owner_cost_burdened": 0,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "High",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Low",
     "ownership_fit_tier": "Low",
     "affordability_classification": "stretch",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }

@@ -31,20 +31,20 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 4.2,
-    "total_owner_hh": 14.1,
+    "total_renter_hh": 4.1,
+    "total_owner_hh": 20.0,
     "renter_cb30_count": 1.3,
-    "renter_cb30_share": 0.3095,
+    "renter_cb30_share": 0.3171,
     "renter_cb50_count": 0.5,
-    "renter_cb50_share": 0.119,
-    "owner_cb30_count": 3.6,
-    "owner_cb30_share": 0.2553,
-    "owner_cb50_count": 1.2,
-    "owner_cb50_share": 0.0851
+    "renter_cb50_share": 0.122,
+    "owner_cb30_count": 5.2,
+    "owner_cb30_share": 0.26,
+    "owner_cb50_count": 1.6,
+    "owner_cb50_share": 0.08
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.6,
+      "total": 1.5,
       "cost_burdened_30pct": 0.4,
       "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.2727,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 2.6,
-      "cost_burdened_30pct": 1.1,
-      "cost_burdened_50pct": 1.0,
+      "total": 3.7,
+      "cost_burdened_30pct": 1.6,
+      "cost_burdened_50pct": 1.4,
       "pct_cost_burdened_30": 0.4222,
       "pct_cost_burdened_50": 0.3778
     },
     "31to50": {
-      "total": 0.9,
-      "cost_burdened_30pct": 0.3,
+      "total": 1.3,
+      "cost_burdened_30pct": 0.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 1.3,
-      "cost_burdened_30pct": 0.7,
+      "total": 1.8,
+      "cost_burdened_30pct": 1.0,
       "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.5333,
       "pct_cost_burdened_50": 0.0889
     },
     "81to100": {
-      "total": 2.6,
-      "cost_burdened_30pct": 0.6,
+      "total": 3.7,
+      "cost_burdened_30pct": 0.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2222,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 6.7,
-      "cost_burdened_30pct": 0.9,
+      "total": 9.5,
+      "cost_burdened_30pct": 1.3,
       "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.1391,
       "pct_cost_burdened_50": 0.0174
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 24,
-    "base_hh": 18.3
+    "base_hh": 18.3,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.9524,
+    "owner_scale": 1.4184,
+    "acs_renter_hh": 4.0,
+    "acs_owner_hh": 20.0,
+    "base_renter_hh_before": 4.2,
+    "base_owner_hh_before": 14.1,
+    "renter_share_before": 0.2295,
+    "renter_share_after": 0.1701,
+    "rates_preserved": true
   },
   "geoid": "0857245",
   "county_fips": "08095",
@@ -217,10 +231,10 @@
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
     "renter_cost_burdened": 1.3,
-    "owner_cost_burdened": 3.6,
+    "owner_cost_burdened": 5.2,
     "severe_renter_cost_burdened": 0.5,
     "moderate_income_renter_households": 1.2,
-    "moderate_income_owner_cost_burdened": 1.3,
+    "moderate_income_owner_cost_burdened": 1.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "High",
@@ -273,7 +287,7 @@
           Colorado · Phillips County
         </div>
         <h1>Paoli</h1>
-        <p class="place-sub">~18 households · renter cost-burden 30.9%</p>
+        <p class="place-sub">~24 households · renter cost-burden 31.7%</p>
       </div>
     </div>
 

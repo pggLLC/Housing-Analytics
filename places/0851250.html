@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 5.5,
-    "total_owner_hh": 21.4,
-    "renter_cb30_count": 3.2,
-    "renter_cb30_share": 0.5818,
-    "renter_cb50_count": 2.1,
-    "renter_cb50_share": 0.3818,
-    "owner_cb30_count": 4.5,
-    "owner_cb30_share": 0.2103,
-    "owner_cb50_count": 2.4,
-    "owner_cb50_share": 0.1121
+    "total_renter_hh": 22.9,
+    "total_owner_hh": 9.0,
+    "renter_cb30_count": 13.3,
+    "renter_cb30_share": 0.5808,
+    "renter_cb50_count": 8.8,
+    "renter_cb50_share": 0.3843,
+    "owner_cb30_count": 2.0,
+    "owner_cb30_share": 0.2222,
+    "owner_cb50_count": 1.0,
+    "owner_cb50_share": 0.1111
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 2.1,
-      "cost_burdened_30pct": 2.0,
-      "cost_burdened_50pct": 1.8,
+      "total": 8.8,
+      "cost_burdened_30pct": 8.4,
+      "cost_burdened_50pct": 7.5,
       "pct_cost_burdened_30": 0.963,
       "pct_cost_burdened_50": 0.8519
     },
     "31to50": {
-      "total": 1.3,
-      "cost_burdened_30pct": 0.8,
-      "cost_burdened_50pct": 0.3,
+      "total": 5.4,
+      "cost_burdened_30pct": 3.3,
+      "cost_burdened_50pct": 1.3,
       "pct_cost_burdened_30": 0.6235,
       "pct_cost_burdened_50": 0.2353
     },
     "51to80": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.2,
+      "total": 2.9,
+      "cost_burdened_30pct": 0.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3333,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 0.8,
-      "cost_burdened_30pct": 0.2,
+      "total": 3.3,
+      "cost_burdened_30pct": 0.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.6,
+      "total": 2.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 3.9,
-      "cost_burdened_30pct": 3.0,
-      "cost_burdened_50pct": 2.3,
+      "total": 1.6,
+      "cost_burdened_30pct": 1.3,
+      "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.752,
       "pct_cost_burdened_50": 0.596
     },
     "31to50": {
-      "total": 3.5,
-      "cost_burdened_30pct": 0.4,
-      "cost_burdened_50pct": 0.1,
+      "total": 1.5,
+      "cost_burdened_30pct": 0.2,
+      "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1045,
       "pct_cost_burdened_50": 0.0182
     },
     "51to80": {
-      "total": 2.5,
-      "cost_burdened_30pct": 0.5,
+      "total": 1.1,
+      "cost_burdened_30pct": 0.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2063,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 2.9,
-      "cost_burdened_30pct": 0.6,
+      "total": 1.2,
+      "cost_burdened_30pct": 0.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1892,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 8.6,
+      "total": 3.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 32,
-    "base_hh": 26.9
+    "base_hh": 26.9,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 4.1818,
+    "owner_scale": 0.4206,
+    "acs_renter_hh": 23.0,
+    "acs_owner_hh": 9.0,
+    "base_renter_hh_before": 5.5,
+    "base_owner_hh_before": 21.4,
+    "renter_share_before": 0.2045,
+    "renter_share_after": 0.7179,
+    "rates_preserved": true
   },
   "geoid": "0851250",
   "county_fips": "08109",
@@ -216,13 +230,13 @@
     "recommendation": "Rental + ownership mix",
     "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
     "data_quality": "High",
-    "renter_cost_burdened": 3.2,
-    "owner_cost_burdened": 4.5,
-    "severe_renter_cost_burdened": 2.1,
-    "moderate_income_renter_households": 1.5,
-    "moderate_income_owner_cost_burdened": 1.1,
+    "renter_cost_burdened": 13.3,
+    "owner_cost_burdened": 2,
+    "severe_renter_cost_burdened": 8.8,
+    "moderate_income_renter_households": 6.2,
+    "moderate_income_owner_cost_burdened": 0.5,
     "existing_rental_gap_lte80": 2,
-    "rental_pressure_tier": "High",
+    "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "High",
     "ownership_fit_tier": "Low",
     "affordability_classification": "market-attainable",
@@ -273,7 +287,7 @@
           Colorado · Saguache County
         </div>
         <h1>Moffat</h1>
-        <p class="place-sub">~27 households · renter cost-burden 58.2%</p>
+        <p class="place-sub">~32 households · renter cost-burden 58.1%</p>
       </div>
     </div>
 

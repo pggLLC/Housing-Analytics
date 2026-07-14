@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 3.5,
-    "total_owner_hh": 24.9,
-    "renter_cb30_count": 1.3,
-    "renter_cb30_share": 0.3714,
-    "renter_cb50_count": 0.4,
-    "renter_cb50_share": 0.1143,
-    "owner_cb30_count": 7.3,
-    "owner_cb30_share": 0.2932,
-    "owner_cb50_count": 2.5,
-    "owner_cb50_share": 0.1004
+    "total_renter_hh": 8.0,
+    "total_owner_hh": 27.0,
+    "renter_cb30_count": 2.9,
+    "renter_cb30_share": 0.3625,
+    "renter_cb50_count": 0.9,
+    "renter_cb50_share": 0.1125,
+    "owner_cb30_count": 7.9,
+    "owner_cb30_share": 0.2926,
+    "owner_cb50_count": 2.7,
+    "owner_cb50_share": 0.1
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.3,
-      "cost_burdened_30pct": 0.5,
-      "cost_burdened_50pct": 0.4,
+      "total": 3.0,
+      "cost_burdened_30pct": 1.1,
+      "cost_burdened_50pct": 0.9,
       "pct_cost_burdened_30": 0.3647,
       "pct_cost_burdened_50": 0.3176
     },
     "31to50": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.5,
+      "total": 1.6,
+      "cost_burdened_30pct": 1.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.66,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 0.7,
-      "cost_burdened_30pct": 0.3,
+      "total": 1.6,
+      "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.38,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 0.1,
+      "total": 0.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.7,
+      "total": 1.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 3.4,
-      "cost_burdened_30pct": 1.4,
-      "cost_burdened_50pct": 1.2,
+      "total": 3.7,
+      "cost_burdened_30pct": 1.5,
+      "cost_burdened_50pct": 1.3,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.3478
     },
     "31to50": {
-      "total": 2.5,
-      "cost_burdened_30pct": 1.8,
-      "cost_burdened_50pct": 1.1,
+      "total": 2.7,
+      "cost_burdened_30pct": 2.0,
+      "cost_burdened_50pct": 1.2,
       "pct_cost_burdened_30": 0.6941,
       "pct_cost_burdened_50": 0.4412
     },
     "51to80": {
-      "total": 3.9,
-      "cost_burdened_30pct": 1.6,
+      "total": 4.2,
+      "cost_burdened_30pct": 1.7,
       "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.0151
     },
     "81to100": {
-      "total": 3.5,
-      "cost_burdened_30pct": 2.0,
+      "total": 3.8,
+      "cost_burdened_30pct": 2.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.5702,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 11.6,
+      "total": 12.6,
       "cost_burdened_30pct": 0.5,
       "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.0462,
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 35,
-    "base_hh": 28.4
+    "base_hh": 28.4,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 2.2857,
+    "owner_scale": 1.0843,
+    "acs_renter_hh": 8.0,
+    "acs_owner_hh": 27.0,
+    "base_renter_hh_before": 3.5,
+    "base_owner_hh_before": 24.9,
+    "renter_share_before": 0.1232,
+    "renter_share_after": 0.2286,
+    "rates_preserved": true
   },
   "geoid": "0808620",
   "county_fips": "08123",
@@ -132,11 +146,11 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 1.3,
-    "owner_cost_burdened": 7.3,
-    "severe_renter_cost_burdened": 0.4,
-    "moderate_income_renter_households": 0.8,
-    "moderate_income_owner_cost_burdened": 3.6,
+    "renter_cost_burdened": 2.9,
+    "owner_cost_burdened": 7.9,
+    "severe_renter_cost_burdened": 0.9,
+    "moderate_income_renter_households": 1.8,
+    "moderate_income_owner_cost_burdened": 3.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Very High",
@@ -189,7 +203,7 @@
           Colorado · Weld County
         </div>
         <h1>Briggsdale</h1>
-        <p class="place-sub">~28 households · renter cost-burden 37.1%</p>
+        <p class="place-sub">~35 households · renter cost-burden 36.2%</p>
       </div>
     </div>
 

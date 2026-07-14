@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 44.8,
-    "total_owner_hh": 120.0,
-    "renter_cb30_count": 27.1,
-    "renter_cb30_share": 0.6049,
-    "renter_cb50_count": 12.5,
-    "renter_cb50_share": 0.279,
-    "owner_cb30_count": 36.4,
-    "owner_cb30_share": 0.3033,
-    "owner_cb50_count": 11.6,
-    "owner_cb50_share": 0.0967
+    "total_renter_hh": 61.0,
+    "total_owner_hh": 104.0,
+    "renter_cb30_count": 37.1,
+    "renter_cb30_share": 0.6082,
+    "renter_cb50_count": 17.0,
+    "renter_cb50_share": 0.2787,
+    "owner_cb30_count": 31.5,
+    "owner_cb30_share": 0.3029,
+    "owner_cb50_count": 10.0,
+    "owner_cb50_share": 0.0962
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 15.6,
-      "cost_burdened_30pct": 15.5,
-      "cost_burdened_50pct": 11.6,
+      "total": 21.2,
+      "cost_burdened_30pct": 21.2,
+      "cost_burdened_50pct": 15.8,
       "pct_cost_burdened_30": 0.9962,
       "pct_cost_burdened_50": 0.7448
     },
     "31to50": {
-      "total": 11.0,
-      "cost_burdened_30pct": 8.5,
-      "cost_burdened_50pct": 0.9,
+      "total": 15.0,
+      "cost_burdened_30pct": 11.6,
+      "cost_burdened_50pct": 1.2,
       "pct_cost_burdened_30": 0.773,
       "pct_cost_burdened_50": 0.0805
     },
     "51to80": {
-      "total": 3.6,
-      "cost_burdened_30pct": 3.1,
+      "total": 4.9,
+      "cost_burdened_30pct": 4.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.8756,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 5.5,
+      "total": 7.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 9.1,
+      "total": 12.4,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 20.4,
-      "cost_burdened_30pct": 13.8,
-      "cost_burdened_50pct": 8.2,
+      "total": 17.7,
+      "cost_burdened_30pct": 11.9,
+      "cost_burdened_50pct": 7.1,
       "pct_cost_burdened_30": 0.674,
       "pct_cost_burdened_50": 0.4039
     },
     "31to50": {
-      "total": 14.7,
-      "cost_burdened_30pct": 7.5,
-      "cost_burdened_50pct": 1.6,
+      "total": 12.7,
+      "cost_burdened_30pct": 6.5,
+      "cost_burdened_50pct": 1.4,
       "pct_cost_burdened_30": 0.5109,
       "pct_cost_burdened_50": 0.1077
     },
     "51to80": {
-      "total": 22.5,
-      "cost_burdened_30pct": 8.7,
-      "cost_burdened_50pct": 1.8,
+      "total": 19.5,
+      "cost_burdened_30pct": 7.6,
+      "cost_burdened_50pct": 1.5,
       "pct_cost_burdened_30": 0.387,
       "pct_cost_burdened_50": 0.0783
     },
     "81to100": {
-      "total": 11.2,
-      "cost_burdened_30pct": 1.1,
+      "total": 9.7,
+      "cost_burdened_30pct": 0.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0963,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 51.2,
-      "cost_burdened_30pct": 5.3,
+      "total": 44.4,
+      "cost_burdened_30pct": 4.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1035,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.1025,
+    "applied": false,
     "acs_occupied_hh": 165,
-    "base_hh_before": 1607.8
+    "base_hh": 1607.8,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.1396,
+    "owner_scale": 0.0888,
+    "acs_renter_hh": 61.0,
+    "acs_owner_hh": 104.0,
+    "base_renter_hh_before": 437.0,
+    "base_owner_hh_before": 1170.8,
+    "renter_share_before": 0.2718,
+    "renter_share_after": 0.3697,
+    "rates_preserved": true
   },
   "geoid": "0854750",
   "county_fips": "08001",
@@ -132,22 +145,21 @@
     "type": "cdp",
     "recommendation": "Rental + ownership mix",
     "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 27.1,
-    "owner_cost_burdened": 36.4,
-    "severe_renter_cost_burdened": 12.5,
-    "moderate_income_renter_households": 9.1,
-    "moderate_income_owner_cost_burdened": 9.8,
+    "data_quality": "High",
+    "renter_cost_burdened": 37.1,
+    "owner_cost_burdened": 31.5,
+    "severe_renter_cost_burdened": 17,
+    "moderate_income_renter_households": 12.4,
+    "moderate_income_owner_cost_burdened": 8.5,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "High",
+    "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "High",
     "ownership_fit_tier": "Moderate",
     "affordability_classification": "priced-out",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Adams County
         </div>
         <h1>North Washington</h1>
-        <p class="place-sub">~165 households · renter cost-burden 60.5%</p>
+        <p class="place-sub">~165 households · renter cost-burden 60.8%</p>
       </div>
     </div>
 
