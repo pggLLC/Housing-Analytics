@@ -83,7 +83,8 @@ Where `AMI` = Colorado statewide Area Median Income. See [HUD Income Limits](htt
 
 ### 4. Land / Supply (15%)
 
-Measures rental-market supply tightness via **rental vacancy** (#1163).
+Measures rental-market supply tightness via **STR-adjusted rental vacancy**
+(#1163/#1171).
 Very low rental vacancy signals unmet demand; 10%+ signals lease-up risk.
 
 **The input is rental vacancy, not total vacancy.** Total ACS vacancy
@@ -91,22 +92,36 @@ Very low rental vacancy signals unmet demand; 10%+ signals lease-up risk.
 every Colorado resort county 0 on this dimension (Summit County: 63% median
 tract "vacancy") — reading the state's most workforce-housing-starved rental
 markets as oversupplied. Rental vacancy follows the Census Housing Vacancy
-Survey convention:
+Survey convention, then applies a seasonal-share discount as a proxy for the
+share of "for rent" units that are short-term/vacation product unavailable to
+the long-term rental market:
 
 ```
-rental_vacancy_rate = vacant_for_rent / (renter_hh + vacant_for_rent + rented_not_occupied)
-                      (B25004_002E)     (B25003_003E + B25004_002E + B25004_003E)
+seasonal_share       = Σ vacant_seasonal / Σ vacant
+                      (B25004_006E)       (B25004_001E)
+                      # 0 when Σ vacant = 0
 
-landScore = max(0, min(100, (1 − rental_vacancy_rate / 0.10) × 100))
+adj_vacant_for_rent  = Σ vacant_for_rent × (1 − seasonal_share)
+
+str_adjusted_rental_vacancy_rate =
+    adj_vacant_for_rent / (Σ renter_hh + adj_vacant_for_rent + Σ rented_not_occupied)
+
+landScore = max(0, min(100, (1 − str_adjusted_rental_vacancy_rate / 0.10) × 100))
 ```
 
-**Both code paths use this same input and the same 0.10 ceiling**
+The seasonal discount is a proxy, not a direct STR inventory count: Colorado
+has no statewide STR registry, and local license counts are patchy and use a
+different universe than ACS "for rent at survey time." License counts are used
+only in a warn-only calibration benchmark (`npm run
+audit:str-discount-calibration`) and are never scoring inputs.
+
+**Both code paths use this same preferred input and the same 0.10 ceiling**
 (`PMAMarketScoring.RENTAL_VACANCY_CEILING`) — the historical 0.10-vs-0.12
-divergence (#1149) is resolved:
+divergence (#1149) remains resolved:
 
 - `scoreMarketTightness()` (`js/market-analysis-scoring.js`) — the default
-  path. Buffer-level rental vacancy is derived from summed, buffer-share-
-  apportioned counts (not averaged tract rates) in `aggregateAcs()`.
+  path. Buffer-level adjusted rental vacancy is derived from summed, buffer-
+  share-apportioned counts (not averaged tract rates) in `aggregateAcs()`.
 - `scoreLandSupplyWithBridge()` → `scoreLandSupply()`
   (`js/market-analysis/site-selection-score.js`) — the Bridge-gated path.
   Its only remaining difference is the 60/40 land-cost blend; enabling
@@ -115,40 +130,35 @@ divergence (#1149) is resolved:
 The 0.10 ceiling is underwriting-grounded: 10%+ vacancy is where lease-up
 risk and absorption pace materially threaten LIHTC underwriting.
 
-**Legacy fallback**: when the tract data predates the rental-vacancy fields
-(or a buffer has no rental universe at all), scoring falls back to the
-historical behavior — total vacancy at a 0.12 ceiling, suppressed input
-defaulting to 0.05 (neutral ≈ 58) — and the dimension note discloses
-`legacy_total_vacancy` as the basis. This exists only for stale data files;
-current pipelines always emit the rental fields.
+**Fallbacks**:
 
-**Known limitation — STR contamination in resort cores.** ACS classifies
-units actively listed for rent as "For rent" (`B25004_002E`) regardless of
-whether they are offered as long-term housing or short-term/vacation
-rentals. In STR-saturated resort markets this inflates rental vacancy far
-above the long-term-market reality (2019–2023 ACS: Summit County's rental
-universe is ~38% "for rent" county-wide — clearly STR stock, not workforce-
-available vacancies), so buffers centered on resort cores still floor at 0
-on this dimension. This is a data limitation, not a formula error: ACS has
-no STR/long-term split. The switch to rental vacancy fixed the metro and
-non-resort mountain counties (Denver ~5%, La Plata ~7% — sensible scores)
-and removed the worst of the seasonal-homes inversion, but resort-core
-Land/Supply scores should be read alongside local STR-license and
-long-term-listing data until a refinement lands (see #1171).
+- When tract data predates the `vacant_seasonal` field, scoring uses raw
+  `rental_vacancy_rate` (`rental_vacancy` basis) at the same 0.10 ceiling.
+- When tract data predates all rental-vacancy fields (or a buffer has no rental
+  universe at all), scoring falls back to the historical behavior — total
+  vacancy at a 0.12 ceiling, suppressed input defaulting to 0.05 (neutral ≈ 58)
+  — and the dimension note discloses `legacy_total_vacancy` as the basis.
+
+**Known limitation — residual STR contamination in resort cores.** ACS still
+does not identify short-term rentals directly. The seasonal-share discount
+mitigates the worst resort-core inversion, but it can under- or over-discount
+where seasonal housing and STR licenses diverge. Read adjusted resort-market
+scores alongside local STR-license and long-term-listing data.
+For example, a year-round-marketed Breckenridge STR can be counted as ACS
+"for rent" without also being counted as "seasonal," so residual STR
+contamination can remain after the seasonal-share discount.
 
 Buffers meeting **both** of the following are automatically flagged
 "STR-DISTORTED" in the dimension note (`PMAMarketScoring.isStrDistorted`,
-disclosure only — the score itself is unchanged):
+disclosure only):
 
-- `rental_vacancy_rate ≥ 0.08` (score ≤ 20 — materially depressed), and
+- `str_adjusted_rental_vacancy_rate ≥ 0.08` when present, otherwise raw
+  `rental_vacancy_rate ≥ 0.08` for stale data (score ≤ 20 — materially
+  depressed), and
 - total `vacancy_rate ≥ 0.25` (seasonal-dominated market, the STR tell).
 
-Calibrated against 2019–2023 county aggregates: flags Summit, Eagle,
-Pitkin, Gunnison, San Miguel, and Archuleta buffers; does not flag
-Denver/Boulder (low on both), La Plata (score not floored), tight-but-
-seasonal towns like Leadville (rental vacancy near 0 — score not
-depressed), or a genuinely soft non-seasonal market (high rental, low
-total vacancy — real oversupply, not STR).
+Residual flags mean the proxy-adjusted rate is still high in a seasonal-
+dominated market; they do not change the score.
 
 ### 5. Workforce (15%)
 
