@@ -48,7 +48,7 @@
       "geography_level": "county",
       "licensed_str_units": 154,
       "as_of": "2026-07-14",
-      "source_url": "https://services1.arcgis.com/faTiISwEuJk1lvB1/arcgis/rest/services/GovBuilt_STR_License_Parcels_(GIS_Friendly)/FeatureServer/0/query?where=licenseStatus%3D%27Active%27&outFields=licenseNumber&returnDistinctValues=true&returnGeometry=false&f=json",
+      "source_url": "https://services1.arcgis.com/faTiISwEuJk1lvB1/arcgis/rest/services/GovBuilt_STR_License_Parcels_%28GIS_Friendly%29/FeatureServer/0/query?where=licenseStatus%3D%27Active%27&outFields=licenseNumber&returnDistinctValues=true&returnGeometry=false&f=json",
       "source_note": "Clear Creek County STR license parcel service; distinct active licenseNumber query returned 154 features."
     }
   ]

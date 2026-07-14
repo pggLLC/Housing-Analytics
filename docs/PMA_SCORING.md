@@ -144,6 +144,9 @@ does not identify short-term rentals directly. The seasonal-share discount
 mitigates the worst resort-core inversion, but it can under- or over-discount
 where seasonal housing and STR licenses diverge. Read adjusted resort-market
 scores alongside local STR-license and long-term-listing data.
+For example, a year-round-marketed Breckenridge STR can be counted as ACS
+"for rent" without also being counted as "seasonal," so residual STR
+contamination can remain after the seasonal-share discount.
 
 Buffers meeting **both** of the following are automatically flagged
 "STR-DISTORTED" in the dimension note (`PMAMarketScoring.isStrDistorted`,
