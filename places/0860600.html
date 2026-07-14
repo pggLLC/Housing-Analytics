@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 74.0,
-    "total_owner_hh": 424.2,
-    "renter_cb30_count": 37.7,
-    "renter_cb30_share": 0.5095,
-    "renter_cb50_count": 25.1,
-    "renter_cb50_share": 0.3392,
-    "owner_cb30_count": 94.8,
-    "owner_cb30_share": 0.2235,
-    "owner_cb50_count": 31.0,
+    "total_renter_hh": 39.1,
+    "total_owner_hh": 520.1,
+    "renter_cb30_count": 20.0,
+    "renter_cb30_share": 0.5115,
+    "renter_cb50_count": 13.3,
+    "renter_cb50_share": 0.3402,
+    "owner_cb30_count": 116.2,
+    "owner_cb30_share": 0.2234,
+    "owner_cb50_count": 38.0,
     "owner_cb50_share": 0.0731
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 17.7,
-      "cost_burdened_30pct": 15.8,
-      "cost_burdened_50pct": 15.5,
+      "total": 9.3,
+      "cost_burdened_30pct": 8.3,
+      "cost_burdened_50pct": 8.2,
       "pct_cost_burdened_30": 0.8947,
       "pct_cost_burdened_50": 0.8756
     },
     "31to50": {
-      "total": 7.7,
-      "cost_burdened_30pct": 7.7,
-      "cost_burdened_50pct": 0.3,
+      "total": 4.1,
+      "cost_burdened_30pct": 4.1,
+      "cost_burdened_50pct": 0.2,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.044
     },
     "51to80": {
-      "total": 24.2,
-      "cost_burdened_30pct": 11.3,
-      "cost_burdened_50pct": 9.3,
+      "total": 12.8,
+      "cost_burdened_30pct": 6.0,
+      "cost_burdened_50pct": 4.9,
       "pct_cost_burdened_30": 0.469,
       "pct_cost_burdened_50": 0.3849
     },
     "81to100": {
-      "total": 8.1,
-      "cost_burdened_30pct": 0.5,
+      "total": 4.3,
+      "cost_burdened_30pct": 0.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0625,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 16.3,
-      "cost_burdened_30pct": 2.4,
+      "total": 8.6,
+      "cost_burdened_30pct": 1.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1484,
       "pct_cost_burdened_50": 0.0
@@ -81,45 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 33.2,
-      "cost_burdened_30pct": 14.8,
-      "cost_burdened_50pct": 8.8,
+      "total": 40.7,
+      "cost_burdened_30pct": 18.1,
+      "cost_burdened_50pct": 10.8,
       "pct_cost_burdened_30": 0.4454,
       "pct_cost_burdened_50": 0.2643
     },
     "31to50": {
-      "total": 21.6,
-      "cost_burdened_30pct": 17.6,
-      "cost_burdened_50pct": 10.0,
+      "total": 26.5,
+      "cost_burdened_30pct": 21.6,
+      "cost_burdened_50pct": 12.3,
       "pct_cost_burdened_30": 0.816,
       "pct_cost_burdened_50": 0.4631
     },
     "51to80": {
-      "total": 76.5,
-      "cost_burdened_30pct": 22.3,
-      "cost_burdened_50pct": 5.5,
+      "total": 93.8,
+      "cost_burdened_30pct": 27.3,
+      "cost_burdened_50pct": 6.7,
       "pct_cost_burdened_30": 0.2918,
       "pct_cost_burdened_50": 0.0719
     },
     "81to100": {
-      "total": 42.0,
-      "cost_burdened_30pct": 7.9,
+      "total": 51.5,
+      "cost_burdened_30pct": 9.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1883,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 250.9,
-      "cost_burdened_30pct": 32.2,
-      "cost_burdened_50pct": 6.7,
+      "total": 307.6,
+      "cost_burdened_30pct": 39.5,
+      "cost_burdened_50pct": 8.2,
       "pct_cost_burdened_30": 0.1285,
       "pct_cost_burdened_50": 0.0268
     }
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 557,
-    "base_hh": 498.2
+    "acs_occupied_hh": 559,
+    "base_hh": 498.2,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.527,
+    "owner_scale": 1.2258,
+    "acs_renter_hh": 39.0,
+    "acs_owner_hh": 520.0,
+    "base_renter_hh_before": 74.0,
+    "base_owner_hh_before": 424.2,
+    "renter_share_before": 0.1485,
+    "renter_share_after": 0.0699,
+    "rates_preserved": true
   },
   "geoid": "0860600",
   "county_fips": "08015",
@@ -132,11 +146,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 37.7,
-    "owner_cost_burdened": 94.8,
-    "severe_renter_cost_burdened": 25.1,
-    "moderate_income_renter_households": 32.3,
-    "moderate_income_owner_cost_burdened": 30.2,
+    "renter_cost_burdened": 20,
+    "owner_cost_burdened": 116.2,
+    "severe_renter_cost_burdened": 13.3,
+    "moderate_income_renter_households": 17.1,
+    "moderate_income_owner_cost_burdened": 37,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Moderate",
@@ -189,7 +203,7 @@
           Colorado · Chaffee County
         </div>
         <h1>Poncha Springs</h1>
-        <p class="place-sub">~498 households · renter cost-burden 50.9%</p>
+        <p class="place-sub">~559 households · renter cost-burden 51.1%</p>
       </div>
     </div>
 

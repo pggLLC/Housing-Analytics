@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 2508.0,
-    "total_owner_hh": 178.8,
-    "renter_cb30_count": 1306.1,
+    "total_renter_hh": 2581.9,
+    "total_owner_hh": 106.0,
+    "renter_cb30_count": 1344.7,
     "renter_cb30_share": 0.5208,
-    "renter_cb50_count": 586.1,
+    "renter_cb50_count": 603.4,
     "renter_cb50_share": 0.2337,
-    "owner_cb30_count": 24.8,
+    "owner_cb30_count": 14.7,
     "owner_cb30_share": 0.1387,
     "owner_cb50_count": 0.0,
     "owner_cb50_share": 0.0
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 476.8,
-      "cost_burdened_30pct": 456.9,
-      "cost_burdened_50pct": 447.0,
+      "total": 490.8,
+      "cost_burdened_30pct": 470.4,
+      "cost_burdened_50pct": 460.2,
       "pct_cost_burdened_30": 0.9583,
       "pct_cost_burdened_50": 0.9375
     },
     "31to50": {
-      "total": 332.7,
-      "cost_burdened_30pct": 317.8,
-      "cost_burdened_50pct": 109.3,
+      "total": 342.6,
+      "cost_burdened_30pct": 327.2,
+      "cost_burdened_50pct": 112.5,
       "pct_cost_burdened_30": 0.9552,
       "pct_cost_burdened_50": 0.3284
     },
     "51to80": {
-      "total": 596.0,
-      "cost_burdened_30pct": 417.2,
-      "cost_burdened_50pct": 29.8,
+      "total": 613.5,
+      "cost_burdened_30pct": 429.5,
+      "cost_burdened_50pct": 30.7,
       "pct_cost_burdened_30": 0.7,
       "pct_cost_burdened_50": 0.05
     },
     "81to100": {
-      "total": 278.1,
-      "cost_burdened_30pct": 99.3,
+      "total": 286.3,
+      "cost_burdened_30pct": 102.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3571,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 824.4,
-      "cost_burdened_30pct": 14.9,
+      "total": 848.7,
+      "cost_burdened_30pct": 15.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0181,
       "pct_cost_burdened_50": 0.0
@@ -95,8 +95,8 @@
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 44.7,
-      "cost_burdened_30pct": 24.8,
+      "total": 26.5,
+      "cost_burdened_30pct": 14.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.5556,
       "pct_cost_burdened_50": 0.0
@@ -109,7 +109,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 134.1,
+      "total": 79.5,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -117,10 +117,23 @@
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 2688,
+    "base_hh": 2705.0,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9933,
-    "acs_occupied_hh": 2687,
-    "base_hh_before": 2705.0
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.0226,
+    "owner_scale": 0.5889,
+    "acs_renter_hh": 2582.0,
+    "acs_owner_hh": 106.0,
+    "base_renter_hh_before": 2525.0,
+    "base_owner_hh_before": 180.0,
+    "renter_share_before": 0.9335,
+    "renter_share_after": 0.9606,
+    "rates_preserved": true
   },
   "geoid": "0830340",
   "county_fips": "08005",
@@ -216,12 +229,12 @@
     "type": "place",
     "recommendation": "Deep affordability priority",
     "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 1306.1,
-    "owner_cost_burdened": 24.8,
-    "severe_renter_cost_burdened": 586.1,
-    "moderate_income_renter_households": 874.1,
-    "moderate_income_owner_cost_burdened": 24.8,
+    "data_quality": "High",
+    "renter_cost_burdened": 1344.7,
+    "owner_cost_burdened": 14.7,
+    "severe_renter_cost_burdened": 603.4,
+    "moderate_income_renter_households": 899.8,
+    "moderate_income_owner_cost_burdened": 14.7,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "Moderate",
@@ -230,8 +243,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -275,7 +287,7 @@
           Colorado · Arapahoe County
         </div>
         <h1>Glendale</h1>
-        <p class="place-sub">~2,687 households · renter cost-burden 52.1%</p>
+        <p class="place-sub">~2,688 households · renter cost-burden 52.1%</p>
       </div>
     </div>
 

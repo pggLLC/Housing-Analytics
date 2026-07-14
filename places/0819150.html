@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 2573.7,
-    "total_owner_hh": 10670.1,
-    "renter_cb30_count": 1410.0,
+    "total_renter_hh": 2172.1,
+    "total_owner_hh": 11043.0,
+    "renter_cb30_count": 1189.9,
     "renter_cb30_share": 0.5478,
-    "renter_cb50_count": 413.6,
+    "renter_cb50_count": 349.0,
     "renter_cb50_share": 0.1607,
-    "owner_cb30_count": 1929.5,
+    "owner_cb30_count": 1997.0,
     "owner_cb30_share": 0.1808,
-    "owner_cb50_count": 755.9,
+    "owner_cb50_count": 782.3,
     "owner_cb50_share": 0.0708
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 310.9,
-      "cost_burdened_30pct": 261.7,
-      "cost_burdened_50pct": 233.7,
+      "total": 262.4,
+      "cost_burdened_30pct": 220.8,
+      "cost_burdened_50pct": 197.2,
       "pct_cost_burdened_30": 0.8415,
       "pct_cost_burdened_50": 0.7517
     },
     "31to50": {
-      "total": 377.5,
-      "cost_burdened_30pct": 362.8,
-      "cost_burdened_50pct": 149.5,
+      "total": 318.6,
+      "cost_burdened_30pct": 306.2,
+      "cost_burdened_50pct": 126.1,
       "pct_cost_burdened_30": 0.9612,
       "pct_cost_burdened_50": 0.396
     },
     "51to80": {
-      "total": 851.9,
-      "cost_burdened_30pct": 599.1,
-      "cost_burdened_50pct": 30.4,
+      "total": 719.0,
+      "cost_burdened_30pct": 505.6,
+      "cost_burdened_50pct": 25.7,
       "pct_cost_burdened_30": 0.7033,
       "pct_cost_burdened_50": 0.0356
     },
     "81to100": {
-      "total": 379.1,
-      "cost_burdened_30pct": 112.7,
+      "total": 319.9,
+      "cost_burdened_30pct": 95.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2973,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 654.3,
-      "cost_burdened_30pct": 73.7,
+      "total": 552.2,
+      "cost_burdened_30pct": 62.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1127,
       "pct_cost_burdened_50": 0.0
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 603.0,
-      "cost_burdened_30pct": 454.3,
-      "cost_burdened_50pct": 319.0,
+      "total": 624.1,
+      "cost_burdened_30pct": 470.2,
+      "cost_burdened_50pct": 330.2,
       "pct_cost_burdened_30": 0.7534,
       "pct_cost_burdened_50": 0.5291
     },
     "31to50": {
-      "total": 593.8,
-      "cost_burdened_30pct": 336.6,
-      "cost_burdened_50pct": 231.2,
+      "total": 614.5,
+      "cost_burdened_30pct": 348.4,
+      "cost_burdened_50pct": 239.2,
       "pct_cost_burdened_30": 0.5668,
       "pct_cost_burdened_50": 0.3893
     },
     "51to80": {
-      "total": 1229.5,
-      "cost_burdened_30pct": 565.7,
-      "cost_burdened_50pct": 132.0,
+      "total": 1272.5,
+      "cost_burdened_30pct": 585.5,
+      "cost_burdened_50pct": 136.6,
       "pct_cost_burdened_30": 0.4601,
       "pct_cost_burdened_50": 0.1073
     },
     "81to100": {
-      "total": 1345.9,
-      "cost_burdened_30pct": 322.9,
-      "cost_burdened_50pct": 73.7,
+      "total": 1393.0,
+      "cost_burdened_30pct": 334.1,
+      "cost_burdened_50pct": 76.3,
       "pct_cost_burdened_30": 0.2399,
       "pct_cost_burdened_50": 0.0547
     },
     "100plus": {
-      "total": 6897.9,
-      "cost_burdened_30pct": 250.0,
+      "total": 7138.9,
+      "cost_burdened_30pct": 258.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0363,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 13215,
+    "base_hh": 13549.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9774,
-    "acs_occupied_hh": 13244,
-    "base_hh_before": 13549.5
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.8249,
+    "owner_scale": 1.0116,
+    "acs_renter_hh": 2172.0,
+    "acs_owner_hh": 11043.0,
+    "base_renter_hh_before": 2633.1,
+    "base_owner_hh_before": 10916.4,
+    "renter_share_before": 0.1943,
+    "renter_share_after": 0.1644,
+    "rates_preserved": true
   },
   "geoid": "0819150",
   "county_fips": "08059",
@@ -132,12 +145,12 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 1410,
-    "owner_cost_burdened": 1929.5,
-    "severe_renter_cost_burdened": 413.6,
-    "moderate_income_renter_households": 1231,
-    "moderate_income_owner_cost_burdened": 888.6,
+    "data_quality": "High",
+    "renter_cost_burdened": 1189.9,
+    "owner_cost_burdened": 1997,
+    "severe_renter_cost_burdened": 349,
+    "moderate_income_renter_households": 1038.9,
+    "moderate_income_owner_cost_burdened": 919.6,
     "existing_rental_gap_lte80": 36,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Low",
@@ -146,8 +159,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Jefferson County
         </div>
         <h1>Dakota Ridge</h1>
-        <p class="place-sub">~13,244 households · renter cost-burden 54.8%</p>
+        <p class="place-sub">~13,215 households · renter cost-burden 54.8%</p>
       </div>
     </div>
 

@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 133.4,
-    "total_owner_hh": 116.5,
-    "renter_cb30_count": 63.6,
-    "renter_cb30_share": 0.4768,
-    "renter_cb50_count": 38.7,
-    "renter_cb50_share": 0.2901,
-    "owner_cb30_count": 30.9,
-    "owner_cb30_share": 0.2652,
-    "owner_cb50_count": 11.8,
+    "total_renter_hh": 2.0,
+    "total_owner_hh": 239.0,
+    "renter_cb30_count": 0.9,
+    "renter_cb30_share": 0.45,
+    "renter_cb50_count": 0.5,
+    "renter_cb50_share": 0.25,
+    "owner_cb30_count": 63.4,
+    "owner_cb30_share": 0.2653,
+    "owner_cb50_count": 24.2,
     "owner_cb50_share": 0.1013
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 8.1,
-      "cost_burdened_30pct": 7.5,
-      "cost_burdened_50pct": 7.5,
+      "total": 0.1,
+      "cost_burdened_30pct": 0.1,
+      "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.9231,
       "pct_cost_burdened_50": 0.9231
     },
     "31to50": {
-      "total": 33.7,
-      "cost_burdened_30pct": 31.8,
-      "cost_burdened_50pct": 29.3,
+      "total": 0.5,
+      "cost_burdened_30pct": 0.5,
+      "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.9444,
       "pct_cost_burdened_50": 0.8704
     },
     "51to80": {
-      "total": 31.2,
-      "cost_burdened_30pct": 21.8,
-      "cost_burdened_50pct": 1.9,
+      "total": 0.5,
+      "cost_burdened_30pct": 0.3,
+      "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7,
       "pct_cost_burdened_50": 0.06
     },
     "81to100": {
-      "total": 11.2,
-      "cost_burdened_30pct": 2.5,
+      "total": 0.2,
+      "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2222,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 49.2,
+      "total": 0.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 6.2,
-      "cost_burdened_30pct": 6.1,
-      "cost_burdened_50pct": 6.1,
+      "total": 12.8,
+      "cost_burdened_30pct": 12.5,
+      "cost_burdened_50pct": 12.5,
       "pct_cost_burdened_30": 0.98,
       "pct_cost_burdened_50": 0.98
     },
     "31to50": {
-      "total": 5.6,
-      "cost_burdened_30pct": 4.2,
-      "cost_burdened_50pct": 4.2,
+      "total": 11.5,
+      "cost_burdened_30pct": 8.7,
+      "cost_burdened_50pct": 8.7,
       "pct_cost_burdened_30": 0.7556,
       "pct_cost_burdened_50": 0.7556
     },
     "51to80": {
-      "total": 13.7,
-      "cost_burdened_30pct": 11.0,
-      "cost_burdened_50pct": 0.5,
+      "total": 28.1,
+      "cost_burdened_30pct": 22.5,
+      "cost_burdened_50pct": 1.0,
       "pct_cost_burdened_30": 0.8,
       "pct_cost_burdened_50": 0.0364
     },
     "81to100": {
-      "total": 8.1,
-      "cost_burdened_30pct": 1.9,
+      "total": 16.6,
+      "cost_burdened_30pct": 3.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2308,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 82.9,
-      "cost_burdened_30pct": 7.7,
-      "cost_burdened_50pct": 1.0,
+      "total": 170.0,
+      "cost_burdened_30pct": 15.9,
+      "cost_burdened_50pct": 2.0,
       "pct_cost_burdened_30": 0.0932,
       "pct_cost_burdened_50": 0.012
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 241,
+    "base_hh": 1390.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.1798,
-    "acs_occupied_hh": 250,
-    "base_hh_before": 1390.1
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.0027,
+    "owner_scale": 0.3687,
+    "acs_renter_hh": 2.0,
+    "acs_owner_hh": 239.0,
+    "base_renter_hh_before": 741.8,
+    "base_owner_hh_before": 648.3,
+    "renter_share_before": 0.5336,
+    "renter_share_after": 0.0083,
+    "rates_preserved": true
   },
   "geoid": "0828105",
   "county_fips": "08005",
@@ -214,24 +227,23 @@
     "geoid": "0828105",
     "name": "Foxfield (town)",
     "type": "place",
-    "recommendation": "Rental + ownership mix",
-    "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 63.6,
-    "owner_cost_burdened": 30.9,
-    "severe_renter_cost_burdened": 38.7,
-    "moderate_income_renter_households": 42.4,
-    "moderate_income_owner_cost_burdened": 12.9,
+    "recommendation": "Ownership-supportive strategy",
+    "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+    "data_quality": "High",
+    "renter_cost_burdened": 0.9,
+    "owner_cost_burdened": 63.4,
+    "severe_renter_cost_burdened": 0.5,
+    "moderate_income_renter_households": 0.7,
+    "moderate_income_owner_cost_burdened": 26.3,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "Very High",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Very High",
-    "ownership_fit_tier": "Moderate",
+    "ownership_fit_tier": "High",
     "affordability_classification": "priced-out",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -275,7 +287,7 @@
           Colorado · Arapahoe County
         </div>
         <h1>Foxfield</h1>
-        <p class="place-sub">~250 households · renter cost-burden 47.7%</p>
+        <p class="place-sub">~241 households · renter cost-burden 45.0%</p>
       </div>
     </div>
 

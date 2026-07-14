@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 166.1,
-    "total_owner_hh": 362.4,
-    "renter_cb30_count": 88.6,
-    "renter_cb30_share": 0.5334,
-    "renter_cb50_count": 41.8,
+    "total_renter_hh": 189.1,
+    "total_owner_hh": 366.9,
+    "renter_cb30_count": 100.9,
+    "renter_cb30_share": 0.5336,
+    "renter_cb50_count": 47.6,
     "renter_cb50_share": 0.2517,
-    "owner_cb30_count": 65.4,
-    "owner_cb30_share": 0.1805,
-    "owner_cb50_count": 33.2,
+    "owner_cb30_count": 66.2,
+    "owner_cb30_share": 0.1804,
+    "owner_cb50_count": 33.6,
     "owner_cb50_share": 0.0916
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 75.5,
-      "cost_burdened_30pct": 66.5,
-      "cost_burdened_50pct": 39.8,
+      "total": 85.9,
+      "cost_burdened_30pct": 75.7,
+      "cost_burdened_50pct": 45.3,
       "pct_cost_burdened_30": 0.88,
       "pct_cost_burdened_50": 0.5267
     },
     "31to50": {
-      "total": 25.2,
-      "cost_burdened_30pct": 18.1,
-      "cost_burdened_50pct": 2.0,
+      "total": 28.7,
+      "cost_burdened_30pct": 20.6,
+      "cost_burdened_50pct": 2.3,
       "pct_cost_burdened_30": 0.72,
       "pct_cost_burdened_50": 0.08
     },
     "51to80": {
-      "total": 35.2,
-      "cost_burdened_30pct": 4.0,
+      "total": 40.1,
+      "cost_burdened_30pct": 4.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1143,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 15.1,
+      "total": 17.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 15.1,
+      "total": 17.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 40.3,
-      "cost_burdened_30pct": 31.2,
-      "cost_burdened_50pct": 22.2,
+      "total": 40.8,
+      "cost_burdened_30pct": 31.6,
+      "cost_burdened_50pct": 22.5,
       "pct_cost_burdened_30": 0.775,
       "pct_cost_burdened_50": 0.55
     },
     "31to50": {
-      "total": 50.3,
-      "cost_burdened_30pct": 18.1,
-      "cost_burdened_50pct": 7.0,
+      "total": 50.9,
+      "cost_burdened_30pct": 18.3,
+      "cost_burdened_50pct": 7.1,
       "pct_cost_burdened_30": 0.36,
       "pct_cost_burdened_50": 0.14
     },
     "51to80": {
-      "total": 75.5,
-      "cost_burdened_30pct": 6.0,
+      "total": 76.5,
+      "cost_burdened_30pct": 6.1,
       "cost_burdened_50pct": 2.0,
       "pct_cost_burdened_30": 0.08,
       "pct_cost_burdened_50": 0.0267
     },
     "81to100": {
-      "total": 35.2,
+      "total": 35.6,
       "cost_burdened_30pct": 2.0,
       "cost_burdened_50pct": 2.0,
       "pct_cost_burdened_30": 0.0571,
       "pct_cost_burdened_50": 0.0571
     },
     "100plus": {
-      "total": 161.1,
-      "cost_burdened_30pct": 8.1,
+      "total": 163.1,
+      "cost_burdened_30pct": 8.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.05,
       "pct_cost_burdened_50": 0.0
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 556,
-    "base_hh": 528.5
+    "base_hh": 528.5,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.1379,
+    "owner_scale": 1.0127,
+    "acs_renter_hh": 189.0,
+    "acs_owner_hh": 367.0,
+    "base_renter_hh_before": 166.1,
+    "base_owner_hh_before": 362.4,
+    "renter_share_before": 0.3143,
+    "renter_share_after": 0.3401,
+    "rates_preserved": true
   },
   "geoid": "0839965",
   "county_fips": "08115",
@@ -216,11 +230,11 @@
     "recommendation": "Rental priority",
     "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
     "data_quality": "High",
-    "renter_cost_burdened": 88.6,
-    "owner_cost_burdened": 65.4,
-    "severe_renter_cost_burdened": 41.8,
-    "moderate_income_renter_households": 50.3,
-    "moderate_income_owner_cost_burdened": 8,
+    "renter_cost_burdened": 100.9,
+    "owner_cost_burdened": 66.2,
+    "severe_renter_cost_burdened": 47.6,
+    "moderate_income_renter_households": 57.3,
+    "moderate_income_owner_cost_burdened": 8.1,
     "existing_rental_gap_lte80": 25,
     "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "Low",
@@ -273,7 +287,7 @@
           Colorado · Sedgwick County
         </div>
         <h1>Julesburg</h1>
-        <p class="place-sub">~528 households · renter cost-burden 53.3%</p>
+        <p class="place-sub">~556 households · renter cost-burden 53.4%</p>
       </div>
     </div>
 

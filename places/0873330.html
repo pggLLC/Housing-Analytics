@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 175.7,
-    "total_owner_hh": 374.7,
-    "renter_cb30_count": 60.3,
-    "renter_cb30_share": 0.3432,
-    "renter_cb50_count": 36.4,
-    "renter_cb50_share": 0.2072,
-    "owner_cb30_count": 99.5,
+    "total_renter_hh": 211.0,
+    "total_owner_hh": 439.1,
+    "renter_cb30_count": 72.4,
+    "renter_cb30_share": 0.3431,
+    "renter_cb50_count": 43.7,
+    "renter_cb50_share": 0.2071,
+    "owner_cb30_count": 116.6,
     "owner_cb30_share": 0.2655,
-    "owner_cb50_count": 44.5,
-    "owner_cb50_share": 0.1188
+    "owner_cb50_count": 52.2,
+    "owner_cb50_share": 0.1189
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 53.1,
-      "cost_burdened_30pct": 39.1,
-      "cost_burdened_50pct": 29.8,
+      "total": 63.8,
+      "cost_burdened_30pct": 47.0,
+      "cost_burdened_50pct": 35.8,
       "pct_cost_burdened_30": 0.7375,
       "pct_cost_burdened_50": 0.5625
     },
     "31to50": {
-      "total": 82.9,
-      "cost_burdened_30pct": 14.6,
-      "cost_burdened_50pct": 6.6,
+      "total": 99.6,
+      "cost_burdened_30pct": 17.5,
+      "cost_burdened_50pct": 7.9,
       "pct_cost_burdened_30": 0.176,
       "pct_cost_burdened_50": 0.08
     },
     "51to80": {
-      "total": 26.5,
-      "cost_burdened_30pct": 6.6,
+      "total": 31.8,
+      "cost_burdened_30pct": 7.9,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.25,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 6.6,
+      "total": 7.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 6.6,
+      "total": 7.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 66.3,
-      "cost_burdened_30pct": 58.4,
-      "cost_burdened_50pct": 32.5,
+      "total": 77.7,
+      "cost_burdened_30pct": 68.4,
+      "cost_burdened_50pct": 38.1,
       "pct_cost_burdened_30": 0.88,
       "pct_cost_burdened_50": 0.49
     },
     "31to50": {
-      "total": 56.4,
-      "cost_burdened_30pct": 31.8,
-      "cost_burdened_50pct": 9.3,
+      "total": 66.1,
+      "cost_burdened_30pct": 37.3,
+      "cost_burdened_50pct": 10.9,
       "pct_cost_burdened_30": 0.5647,
       "pct_cost_burdened_50": 0.1647
     },
     "51to80": {
-      "total": 66.3,
-      "cost_burdened_30pct": 9.3,
-      "cost_burdened_50pct": 2.7,
+      "total": 77.7,
+      "cost_burdened_30pct": 10.9,
+      "cost_burdened_50pct": 3.2,
       "pct_cost_burdened_30": 0.14,
       "pct_cost_burdened_50": 0.04
     },
     "81to100": {
-      "total": 19.9,
+      "total": 23.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 165.8,
+      "total": 194.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 649,
-    "base_hh": 550.4
+    "acs_occupied_hh": 650,
+    "base_hh": 550.4,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.2009,
+    "owner_scale": 1.1716,
+    "acs_renter_hh": 211.0,
+    "acs_owner_hh": 439.0,
+    "base_renter_hh_before": 175.7,
+    "base_owner_hh_before": 374.7,
+    "renter_share_before": 0.3192,
+    "renter_share_after": 0.3246,
+    "rates_preserved": true
   },
   "geoid": "0873330",
   "county_fips": "08009",
@@ -216,11 +230,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 60.3,
-    "owner_cost_burdened": 99.5,
-    "severe_renter_cost_burdened": 36.4,
-    "moderate_income_renter_households": 33.1,
-    "moderate_income_owner_cost_burdened": 9.3,
+    "renter_cost_burdened": 72.4,
+    "owner_cost_burdened": 116.6,
+    "severe_renter_cost_burdened": 43.7,
+    "moderate_income_renter_households": 39.7,
+    "moderate_income_owner_cost_burdened": 10.9,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "High",
@@ -273,7 +287,7 @@
           Colorado · Baca County
         </div>
         <h1>Springfield</h1>
-        <p class="place-sub">~550 households · renter cost-burden 34.3%</p>
+        <p class="place-sub">~650 households · renter cost-burden 34.3%</p>
       </div>
     </div>
 

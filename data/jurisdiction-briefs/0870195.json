@@ -201,7 +201,7 @@
       "heading": "Tenure strategy screening",
       "paragraphs": [
         {
-          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Silt. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 134 moderate-income renter households as the ownership-fit base.",
+          "text": "The Affordable Ownership Need screening module recommends Ownership-supportive strategy for Town of Silt. It classifies rental pressure as Moderate, ownership pressure as Very High, and identifies 166 moderate-income renter households as the ownership-fit base.",
           "cites": [
             "own1",
             "own2",
@@ -210,7 +210,7 @@
           ]
         },
         {
-          "text": "The same screening run counts 173 renter households and 285 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "text": "The same screening run counts 215 renter households and 302 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
           "cites": [
             "own5",
             "own6"
@@ -223,7 +223,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Silt at #104 with an overall housing-need score of 66.3. It identifies 49 deeply affordable units missing at <=30% AMI, equal to 81.7% of <=30% AMI households. 51.2% of renter households are cost burdened, and 1.3% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Silt at #105 with an overall housing-need score of 66.3. It identifies 49 deeply affordable units missing at <=30% AMI, equal to 81.7% of <=30% AMI households. 51.2% of renter households are cost burdened, and 1.3% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -427,7 +427,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -436,7 +436,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -571,7 +571,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -580,7 +580,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -589,7 +589,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T10:53:03Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

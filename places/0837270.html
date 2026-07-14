@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 233.7,
-    "total_owner_hh": 661.6,
-    "renter_cb30_count": 65.0,
+    "total_renter_hh": 403.1,
+    "total_owner_hh": 670.1,
+    "renter_cb30_count": 112.1,
     "renter_cb30_share": 0.2781,
-    "renter_cb50_count": 11.1,
-    "renter_cb50_share": 0.0475,
-    "owner_cb30_count": 203.7,
+    "renter_cb50_count": 19.1,
+    "renter_cb50_share": 0.0474,
+    "owner_cb30_count": 206.3,
     "owner_cb30_share": 0.3079,
-    "owner_cb50_count": 59.4,
+    "owner_cb50_count": 60.2,
     "owner_cb50_share": 0.0898
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 27.7,
-      "cost_burdened_30pct": 14.3,
-      "cost_burdened_50pct": 11.1,
+      "total": 47.8,
+      "cost_burdened_30pct": 24.7,
+      "cost_burdened_50pct": 19.1,
       "pct_cost_burdened_30": 0.5143,
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 27.7,
-      "cost_burdened_30pct": 19.8,
+      "total": 47.8,
+      "cost_burdened_30pct": 34.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7143,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 83.2,
-      "cost_burdened_30pct": 30.9,
+      "total": 143.5,
+      "cost_burdened_30pct": 53.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3714,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 39.6,
+      "total": 68.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 55.5,
+      "total": 95.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 91.1,
-      "cost_burdened_30pct": 63.4,
-      "cost_burdened_50pct": 43.6,
+      "total": 92.3,
+      "cost_burdened_30pct": 64.2,
+      "cost_burdened_50pct": 44.2,
       "pct_cost_burdened_30": 0.6957,
       "pct_cost_burdened_50": 0.4783
     },
     "31to50": {
-      "total": 71.3,
-      "cost_burdened_30pct": 46.8,
+      "total": 72.2,
+      "cost_burdened_30pct": 47.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.6556,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 134.7,
-      "cost_burdened_30pct": 54.7,
-      "cost_burdened_50pct": 15.8,
+      "total": 136.4,
+      "cost_burdened_30pct": 55.4,
+      "cost_burdened_50pct": 16.0,
       "pct_cost_burdened_30": 0.4059,
       "pct_cost_burdened_50": 0.1176
     },
     "81to100": {
-      "total": 43.6,
+      "total": 44.2,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 320.9,
-      "cost_burdened_30pct": 38.8,
+      "total": 325.0,
+      "cost_burdened_30pct": 39.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.121,
       "pct_cost_burdened_50": 0.0
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1072,
-    "base_hh": 895.3
+    "acs_occupied_hh": 1073,
+    "base_hh": 895.3,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.7244,
+    "owner_scale": 1.0127,
+    "acs_renter_hh": 403.0,
+    "acs_owner_hh": 670.0,
+    "base_renter_hh_before": 233.7,
+    "base_owner_hh_before": 661.6,
+    "renter_share_before": 0.261,
+    "renter_share_after": 0.3756,
+    "rates_preserved": true
   },
   "geoid": "0837270",
   "county_fips": "08095",
@@ -216,15 +230,15 @@
     "recommendation": "Ownership-supportive strategy",
     "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
     "data_quality": "High",
-    "renter_cost_burdened": 65,
-    "owner_cost_burdened": 203.7,
-    "severe_renter_cost_burdened": 11.1,
-    "moderate_income_renter_households": 122.8,
-    "moderate_income_owner_cost_burdened": 54.7,
+    "renter_cost_burdened": 112.1,
+    "owner_cost_burdened": 206.3,
+    "severe_renter_cost_burdened": 19.1,
+    "moderate_income_renter_households": 211.8,
+    "moderate_income_owner_cost_burdened": 55.4,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "Low",
+    "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "High",
-    "ownership_fit_tier": "Moderate",
+    "ownership_fit_tier": "High",
     "affordability_classification": "stretch",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -273,7 +287,7 @@
           Colorado · Phillips County
         </div>
         <h1>Holyoke</h1>
-        <p class="place-sub">~895 households · renter cost-burden 27.8%</p>
+        <p class="place-sub">~1,073 households · renter cost-burden 27.8%</p>
       </div>
     </div>
 

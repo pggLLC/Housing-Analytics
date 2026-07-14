@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 496.7,
-    "total_owner_hh": 2056.2,
-    "renter_cb30_count": 233.1,
-    "renter_cb30_share": 0.4693,
-    "renter_cb50_count": 136.1,
-    "renter_cb50_share": 0.274,
-    "owner_cb30_count": 344.6,
+    "total_renter_hh": 314.0,
+    "total_owner_hh": 2238.9,
+    "renter_cb30_count": 147.6,
+    "renter_cb30_share": 0.4701,
+    "renter_cb50_count": 86.0,
+    "renter_cb50_share": 0.2739,
+    "owner_cb30_count": 375.3,
     "owner_cb30_share": 0.1676,
-    "owner_cb50_count": 144.7,
+    "owner_cb50_count": 157.6,
     "owner_cb50_share": 0.0704
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 135.0,
-      "cost_burdened_30pct": 85.0,
-      "cost_burdened_50pct": 66.8,
+      "total": 85.3,
+      "cost_burdened_30pct": 53.8,
+      "cost_burdened_50pct": 42.2,
       "pct_cost_burdened_30": 0.6304,
       "pct_cost_burdened_50": 0.4951
     },
     "31to50": {
-      "total": 59.2,
-      "cost_burdened_30pct": 48.0,
-      "cost_burdened_50pct": 35.9,
+      "total": 37.4,
+      "cost_burdened_30pct": 30.4,
+      "cost_burdened_50pct": 22.7,
       "pct_cost_burdened_30": 0.8105,
       "pct_cost_burdened_50": 0.6055
     },
     "51to80": {
-      "total": 149.6,
-      "cost_burdened_30pct": 74.1,
-      "cost_burdened_50pct": 33.4,
+      "total": 94.6,
+      "cost_burdened_30pct": 46.9,
+      "cost_burdened_50pct": 21.1,
       "pct_cost_burdened_30": 0.4956,
       "pct_cost_burdened_50": 0.2233
     },
     "81to100": {
-      "total": 80.8,
-      "cost_burdened_30pct": 26.0,
+      "total": 51.1,
+      "cost_burdened_30pct": 16.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3219,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 72.1,
+      "total": 45.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 106.8,
-      "cost_burdened_30pct": 84.5,
-      "cost_burdened_50pct": 70.0,
+      "total": 116.2,
+      "cost_burdened_30pct": 92.1,
+      "cost_burdened_50pct": 76.2,
       "pct_cost_burdened_30": 0.7921,
       "pct_cost_burdened_50": 0.6552
     },
     "31to50": {
-      "total": 192.3,
-      "cost_burdened_30pct": 88.2,
-      "cost_burdened_50pct": 34.9,
+      "total": 209.4,
+      "cost_burdened_30pct": 96.0,
+      "cost_burdened_50pct": 38.1,
       "pct_cost_burdened_30": 0.4584,
       "pct_cost_burdened_50": 0.1817
     },
     "51to80": {
-      "total": 306.3,
-      "cost_burdened_30pct": 105.1,
-      "cost_burdened_50pct": 39.8,
+      "total": 333.5,
+      "cost_burdened_30pct": 114.4,
+      "cost_burdened_50pct": 43.3,
       "pct_cost_burdened_30": 0.343,
       "pct_cost_burdened_50": 0.1298
     },
     "81to100": {
-      "total": 261.9,
-      "cost_burdened_30pct": 23.9,
+      "total": 285.2,
+      "cost_burdened_30pct": 26.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0913,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 1188.9,
-      "cost_burdened_30pct": 42.9,
+      "total": 1294.6,
+      "cost_burdened_30pct": 46.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0361,
       "pct_cost_burdened_50": 0.0
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.8321,
+    "applied": false,
     "acs_occupied_hh": 2553,
-    "base_hh_before": 3068.1
+    "base_hh": 3068.1,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.5261,
+    "owner_scale": 0.906,
+    "acs_renter_hh": 314.0,
+    "acs_owner_hh": 2239.0,
+    "base_renter_hh_before": 596.9,
+    "base_owner_hh_before": 2471.2,
+    "renter_share_before": 0.1946,
+    "renter_share_after": 0.123,
+    "rates_preserved": true
   },
   "geoid": "0856035",
   "county_fips": "08077",
@@ -132,22 +145,21 @@
     "type": "cdp",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 233.1,
-    "owner_cost_burdened": 344.6,
-    "severe_renter_cost_burdened": 136.1,
-    "moderate_income_renter_households": 230.4,
-    "moderate_income_owner_cost_burdened": 129,
+    "data_quality": "High",
+    "renter_cost_burdened": 147.6,
+    "owner_cost_burdened": 375.3,
+    "severe_renter_cost_burdened": 86,
+    "moderate_income_renter_households": 145.7,
+    "moderate_income_owner_cost_burdened": 140.4,
     "existing_rental_gap_lte80": 22,
-    "rental_pressure_tier": "Moderate",
+    "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
-    "ownership_fit_tier": "High",
+    "ownership_fit_tier": "Moderate",
     "affordability_classification": "stretch",
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -191,7 +203,7 @@
           Colorado · Mesa County
         </div>
         <h1>Orchard Mesa</h1>
-        <p class="place-sub">~2,553 households · renter cost-burden 46.9%</p>
+        <p class="place-sub">~2,553 households · renter cost-burden 47.0%</p>
       </div>
     </div>
 

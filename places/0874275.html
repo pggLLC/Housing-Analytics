@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 4.1,
-    "total_owner_hh": 13.9,
-    "renter_cb30_count": 1.8,
-    "renter_cb30_share": 0.439,
-    "renter_cb50_count": 1.1,
-    "renter_cb50_share": 0.2683,
-    "owner_cb30_count": 4.3,
-    "owner_cb30_share": 0.3094,
-    "owner_cb50_count": 1.9,
-    "owner_cb50_share": 0.1367
+    "total_renter_hh": 15.0,
+    "total_owner_hh": 9.9,
+    "renter_cb30_count": 6.5,
+    "renter_cb30_share": 0.4333,
+    "renter_cb50_count": 4.1,
+    "renter_cb50_share": 0.2733,
+    "owner_cb30_count": 3.1,
+    "owner_cb30_share": 0.3131,
+    "owner_cb50_count": 1.3,
+    "owner_cb50_share": 0.1313
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 1.6,
-      "cost_burdened_30pct": 1.1,
-      "cost_burdened_50pct": 0.9,
+      "total": 5.9,
+      "cost_burdened_30pct": 4.0,
+      "cost_burdened_50pct": 3.3,
       "pct_cost_burdened_30": 0.6421,
       "pct_cost_burdened_50": 0.5579
     },
     "31to50": {
-      "total": 0.5,
-      "cost_burdened_30pct": 0.2,
-      "cost_burdened_50pct": 0.1,
+      "total": 1.8,
+      "cost_burdened_30pct": 0.7,
+      "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.4,
       "pct_cost_burdened_50": 0.1333
     },
     "51to80": {
-      "total": 1.4,
-      "cost_burdened_30pct": 0.5,
-      "cost_burdened_50pct": 0.1,
+      "total": 5.1,
+      "cost_burdened_30pct": 1.8,
+      "cost_burdened_50pct": 0.4,
       "pct_cost_burdened_30": 0.3875,
       "pct_cost_burdened_50": 0.05
     },
     "81to100": {
-      "total": 0.3,
+      "total": 1.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 0.3,
+      "total": 1.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,36 +81,36 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 2.7,
-      "cost_burdened_30pct": 1.7,
-      "cost_burdened_50pct": 1.3,
+      "total": 1.9,
+      "cost_burdened_30pct": 1.2,
+      "cost_burdened_50pct": 0.9,
       "pct_cost_burdened_30": 0.6258,
       "pct_cost_burdened_50": 0.471
     },
     "31to50": {
-      "total": 1.2,
-      "cost_burdened_30pct": 0.8,
-      "cost_burdened_50pct": 0.4,
+      "total": 0.9,
+      "cost_burdened_30pct": 0.6,
+      "cost_burdened_50pct": 0.3,
       "pct_cost_burdened_30": 0.6857,
       "pct_cost_burdened_50": 0.3571
     },
     "51to80": {
-      "total": 2.0,
-      "cost_burdened_30pct": 0.4,
-      "cost_burdened_50pct": 0.2,
+      "total": 1.4,
+      "cost_burdened_30pct": 0.3,
+      "cost_burdened_50pct": 0.1,
       "pct_cost_burdened_30": 0.2174,
       "pct_cost_burdened_50": 0.087
     },
     "81to100": {
-      "total": 1.7,
-      "cost_burdened_30pct": 0.6,
+      "total": 1.2,
+      "cost_burdened_30pct": 0.4,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.34,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 6.3,
-      "cost_burdened_30pct": 0.8,
+      "total": 4.5,
+      "cost_burdened_30pct": 0.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1342,
       "pct_cost_burdened_50": 0.0
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 25,
-    "base_hh": 18.0
+    "base_hh": 18.0,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 3.6585,
+    "owner_scale": 0.7194,
+    "acs_renter_hh": 15.0,
+    "acs_owner_hh": 10.0,
+    "base_renter_hh_before": 4.1,
+    "base_owner_hh_before": 13.9,
+    "renter_share_before": 0.2278,
+    "renter_share_after": 0.6024,
+    "rates_preserved": true
   },
   "geoid": "0874275",
   "county_fips": "08071",
@@ -129,16 +143,16 @@
     "geoid": "0874275",
     "name": "Stonewall Gap (CDP)",
     "type": "cdp",
-    "recommendation": "Ownership-supportive strategy",
-    "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+    "recommendation": "Rental + ownership mix",
+    "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
     "data_quality": "High",
-    "renter_cost_burdened": 1.8,
-    "owner_cost_burdened": 4.3,
-    "severe_renter_cost_burdened": 1.1,
-    "moderate_income_renter_households": 1.7,
-    "moderate_income_owner_cost_burdened": 1,
+    "renter_cost_burdened": 6.5,
+    "owner_cost_burdened": 3.1,
+    "severe_renter_cost_burdened": 4.1,
+    "moderate_income_renter_households": 6.2,
+    "moderate_income_owner_cost_burdened": 0.7,
     "existing_rental_gap_lte80": 0,
-    "rental_pressure_tier": "Moderate",
+    "rental_pressure_tier": "Very High",
     "ownership_pressure_tier": "High",
     "ownership_fit_tier": "Moderate",
     "affordability_classification": "stretch",
@@ -189,7 +203,7 @@
           Colorado · Las Animas County
         </div>
         <h1>Stonewall Gap</h1>
-        <p class="place-sub">~18 households · renter cost-burden 43.9%</p>
+        <p class="place-sub">~25 households · renter cost-burden 43.3%</p>
       </div>
     </div>
 

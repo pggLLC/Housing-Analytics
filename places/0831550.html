@@ -31,16 +31,16 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 56.9,
-    "total_owner_hh": 120.2,
+    "total_renter_hh": 57.0,
+    "total_owner_hh": 120.1,
     "renter_cb30_count": 12.4,
-    "renter_cb30_share": 0.2179,
-    "renter_cb50_count": 9.3,
-    "renter_cb50_share": 0.1634,
+    "renter_cb30_share": 0.2175,
+    "renter_cb50_count": 9.4,
+    "renter_cb50_share": 0.1649,
     "owner_cb30_count": 20.9,
-    "owner_cb30_share": 0.1739,
+    "owner_cb30_share": 0.174,
     "owner_cb50_count": 10.9,
-    "owner_cb50_share": 0.0907
+    "owner_cb50_share": 0.0908
   },
   "renter_hh_by_ami": {
     "lte30": {
@@ -51,9 +51,9 @@
       "pct_cost_burdened_50": 0.4
     },
     "31to50": {
-      "total": 24.6,
+      "total": 24.7,
       "cost_burdened_30pct": 6.3,
-      "cost_burdened_50pct": 4.7,
+      "cost_burdened_50pct": 4.8,
       "pct_cost_burdened_30": 0.2538,
       "pct_cost_burdened_50": 0.1923
     },
@@ -109,7 +109,7 @@
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 50.2,
+      "total": 50.1,
       "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0151,
@@ -117,10 +117,23 @@
     }
   },
   "acs_anchor": {
-    "applied": true,
-    "factor": 0.8945,
+    "applied": false,
     "acs_occupied_hh": 177,
-    "base_hh_before": 197.9
+    "base_hh": 197.9,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.8976,
+    "owner_scale": 0.8929,
+    "acs_renter_hh": 57.0,
+    "acs_owner_hh": 120.0,
+    "base_renter_hh_before": 63.5,
+    "base_owner_hh_before": 134.4,
+    "renter_share_before": 0.3209,
+    "renter_share_after": 0.3219,
+    "rates_preserved": true
   },
   "geoid": "0831550",
   "county_fips": "08099",
@@ -216,10 +229,10 @@
     "type": "place",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
+    "data_quality": "High",
     "renter_cost_burdened": 12.4,
     "owner_cost_burdened": 20.9,
-    "severe_renter_cost_burdened": 9.3,
+    "severe_renter_cost_burdened": 9.4,
     "moderate_income_renter_households": 12.4,
     "moderate_income_owner_cost_burdened": 3.6,
     "existing_rental_gap_lte80": 0,
@@ -230,8 +243,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }

@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 28.6,
-    "total_owner_hh": 177.0,
-    "renter_cb30_count": 5.0,
-    "renter_cb30_share": 0.1748,
-    "renter_cb50_count": 2.6,
-    "renter_cb50_share": 0.0909,
-    "owner_cb30_count": 21.7,
-    "owner_cb30_share": 0.1226,
-    "owner_cb50_count": 9.5,
-    "owner_cb50_share": 0.0537
+    "total_renter_hh": 27.1,
+    "total_owner_hh": 184.0,
+    "renter_cb30_count": 4.8,
+    "renter_cb30_share": 0.1771,
+    "renter_cb50_count": 2.5,
+    "renter_cb50_share": 0.0923,
+    "owner_cb30_count": 22.6,
+    "owner_cb30_share": 0.1228,
+    "owner_cb50_count": 9.9,
+    "owner_cb50_share": 0.0538
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 6.1,
-      "cost_burdened_30pct": 2.6,
-      "cost_burdened_50pct": 2.6,
+      "total": 5.8,
+      "cost_burdened_30pct": 2.5,
+      "cost_burdened_50pct": 2.5,
       "pct_cost_burdened_30": 0.4286,
       "pct_cost_burdened_50": 0.4286
     },
     "31to50": {
-      "total": 2.6,
-      "cost_burdened_30pct": 1.7,
+      "total": 2.5,
+      "cost_burdened_30pct": 1.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.6667,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 5.2,
+      "total": 4.9,
       "cost_burdened_30pct": 0.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1333,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 4.3,
+      "total": 4.1,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 10.4,
+      "total": 9.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 31.2,
-      "cost_burdened_30pct": 12.2,
-      "cost_burdened_50pct": 7.8,
+      "total": 32.4,
+      "cost_burdened_30pct": 12.7,
+      "cost_burdened_50pct": 8.1,
       "pct_cost_burdened_30": 0.3889,
       "pct_cost_burdened_50": 0.25
     },
     "31to50": {
-      "total": 16.5,
-      "cost_burdened_30pct": 4.3,
+      "total": 17.2,
+      "cost_burdened_30pct": 4.5,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2632,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 32.1,
-      "cost_burdened_30pct": 3.5,
-      "cost_burdened_50pct": 1.7,
+      "total": 33.4,
+      "cost_burdened_30pct": 3.6,
+      "cost_burdened_50pct": 1.8,
       "pct_cost_burdened_30": 0.1081,
       "pct_cost_burdened_50": 0.0541
     },
     "81to100": {
-      "total": 11.3,
-      "cost_burdened_30pct": 1.7,
+      "total": 11.7,
+      "cost_burdened_30pct": 1.8,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.1538,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 85.9,
+      "total": 89.3,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -119,7 +119,21 @@
   "acs_anchor": {
     "applied": false,
     "acs_occupied_hh": 211,
-    "base_hh": 205.6
+    "base_hh": 205.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.9441,
+    "owner_scale": 1.0395,
+    "acs_renter_hh": 27.0,
+    "acs_owner_hh": 184.0,
+    "base_renter_hh_before": 28.6,
+    "base_owner_hh_before": 177.0,
+    "renter_share_before": 0.1391,
+    "renter_share_after": 0.1284,
+    "rates_preserved": true
   },
   "geoid": "0864090",
   "county_fips": "08033",
@@ -216,11 +230,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "High",
-    "renter_cost_burdened": 5,
-    "owner_cost_burdened": 21.7,
-    "severe_renter_cost_burdened": 2.6,
-    "moderate_income_renter_households": 9.5,
-    "moderate_income_owner_cost_burdened": 5.2,
+    "renter_cost_burdened": 4.8,
+    "owner_cost_burdened": 22.6,
+    "severe_renter_cost_burdened": 2.5,
+    "moderate_income_renter_households": 9,
+    "moderate_income_owner_cost_burdened": 5.4,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Low",
     "ownership_pressure_tier": "Low",
@@ -273,7 +287,7 @@
           Colorado · Dolores County
         </div>
         <h1>Rico</h1>
-        <p class="place-sub">~206 households · renter cost-burden 17.5%</p>
+        <p class="place-sub">~211 households · renter cost-burden 17.7%</p>
       </div>
     </div>
 

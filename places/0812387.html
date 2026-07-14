@@ -31,49 +31,49 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 772.2,
-    "total_owner_hh": 4264.2,
-    "renter_cb30_count": 449.4,
-    "renter_cb30_share": 0.582,
-    "renter_cb50_count": 171.6,
+    "total_renter_hh": 971.9,
+    "total_owner_hh": 4058.0,
+    "renter_cb30_count": 565.9,
+    "renter_cb30_share": 0.5823,
+    "renter_cb50_count": 216.0,
     "renter_cb50_share": 0.2222,
-    "owner_cb30_count": 631.1,
+    "owner_cb30_count": 600.5,
     "owner_cb30_share": 0.148,
-    "owner_cb50_count": 248.2,
+    "owner_cb50_count": 236.1,
     "owner_cb50_share": 0.0582
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 101.0,
-      "cost_burdened_30pct": 89.5,
-      "cost_burdened_50pct": 89.5,
+      "total": 127.1,
+      "cost_burdened_30pct": 112.7,
+      "cost_burdened_50pct": 112.7,
       "pct_cost_burdened_30": 0.8866,
       "pct_cost_burdened_50": 0.8866
     },
     "31to50": {
-      "total": 66.5,
-      "cost_burdened_30pct": 63.3,
-      "cost_burdened_50pct": 49.5,
+      "total": 83.7,
+      "cost_burdened_30pct": 79.7,
+      "cost_burdened_50pct": 62.3,
       "pct_cost_burdened_30": 0.9519,
       "pct_cost_burdened_50": 0.744
     },
     "51to80": {
-      "total": 175.2,
-      "cost_burdened_30pct": 154.6,
-      "cost_burdened_50pct": 32.6,
+      "total": 220.5,
+      "cost_burdened_30pct": 194.7,
+      "cost_burdened_50pct": 41.0,
       "pct_cost_burdened_30": 0.8826,
       "pct_cost_burdened_50": 0.1861
     },
     "81to100": {
-      "total": 106.1,
-      "cost_burdened_30pct": 77.2,
+      "total": 133.5,
+      "cost_burdened_30pct": 97.2,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.7278,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 323.4,
-      "cost_burdened_30pct": 64.8,
+      "total": 407.1,
+      "cost_burdened_30pct": 81.6,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2004,
       "pct_cost_burdened_50": 0.0
@@ -81,46 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 128.1,
-      "cost_burdened_30pct": 101.3,
-      "cost_burdened_50pct": 90.9,
+      "total": 121.9,
+      "cost_burdened_30pct": 96.4,
+      "cost_burdened_50pct": 86.5,
       "pct_cost_burdened_30": 0.7905,
       "pct_cost_burdened_50": 0.7092
     },
     "31to50": {
-      "total": 131.8,
-      "cost_burdened_30pct": 60.7,
-      "cost_burdened_50pct": 24.0,
+      "total": 125.4,
+      "cost_burdened_30pct": 57.8,
+      "cost_burdened_50pct": 22.8,
       "pct_cost_burdened_30": 0.4613,
       "pct_cost_burdened_50": 0.1819
     },
     "51to80": {
-      "total": 262.1,
-      "cost_burdened_30pct": 71.6,
-      "cost_burdened_50pct": 37.1,
+      "total": 249.4,
+      "cost_burdened_30pct": 68.1,
+      "cost_burdened_50pct": 35.3,
       "pct_cost_burdened_30": 0.2733,
       "pct_cost_burdened_50": 0.1416
     },
     "81to100": {
-      "total": 286.2,
-      "cost_burdened_30pct": 172.6,
-      "cost_burdened_50pct": 86.4,
+      "total": 272.4,
+      "cost_burdened_30pct": 164.2,
+      "cost_burdened_50pct": 82.2,
       "pct_cost_burdened_30": 0.603,
       "pct_cost_burdened_50": 0.3019
     },
     "100plus": {
-      "total": 3456.0,
-      "cost_burdened_30pct": 224.9,
-      "cost_burdened_50pct": 9.8,
+      "total": 3288.9,
+      "cost_burdened_30pct": 214.0,
+      "cost_burdened_50pct": 9.3,
       "pct_cost_burdened_30": 0.0651,
       "pct_cost_burdened_50": 0.0028
     }
   },
   "acs_anchor": {
+    "applied": false,
+    "acs_occupied_hh": 5030,
+    "base_hh": 5565.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
     "applied": true,
-    "factor": 0.9049,
-    "acs_occupied_hh": 5036,
-    "base_hh_before": 5565.6
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 1.1391,
+    "owner_scale": 0.8612,
+    "acs_renter_hh": 972.0,
+    "acs_owner_hh": 4058.0,
+    "base_renter_hh_before": 853.3,
+    "base_owner_hh_before": 4712.3,
+    "renter_share_before": 0.1533,
+    "renter_share_after": 0.1932,
+    "rates_preserved": true
   },
   "geoid": "0812387",
   "county_fips": "08035",
@@ -216,12 +229,12 @@
     "type": "place",
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-    "data_quality": "Medium",
-    "renter_cost_burdened": 449.4,
-    "owner_cost_burdened": 631.1,
-    "severe_renter_cost_burdened": 171.6,
-    "moderate_income_renter_households": 281.3,
-    "moderate_income_owner_cost_burdened": 244.2,
+    "data_quality": "High",
+    "renter_cost_burdened": 565.9,
+    "owner_cost_burdened": 600.5,
+    "severe_renter_cost_burdened": 216,
+    "moderate_income_renter_households": 354,
+    "moderate_income_owner_cost_burdened": 232.3,
     "existing_rental_gap_lte80": 30,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Moderate",
@@ -230,8 +243,7 @@
     "caveats": [
       "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
       "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-      "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
     ]
   }
 }
@@ -275,7 +287,7 @@
           Colorado · Douglas County
         </div>
         <h1>Castle Pines</h1>
-        <p class="place-sub">~5,036 households · renter cost-burden 58.2%</p>
+        <p class="place-sub">~5,030 households · renter cost-burden 58.2%</p>
       </div>
     </div>
 

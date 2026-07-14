@@ -31,48 +31,48 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 40.0,
-    "total_owner_hh": 198.6,
-    "renter_cb30_count": 20.4,
-    "renter_cb30_share": 0.51,
-    "renter_cb50_count": 19.5,
-    "renter_cb50_share": 0.4875,
-    "owner_cb30_count": 35.1,
-    "owner_cb30_share": 0.1767,
-    "owner_cb50_count": 17.4,
-    "owner_cb50_share": 0.0876
+    "total_renter_hh": 33.1,
+    "total_owner_hh": 241.0,
+    "renter_cb30_count": 16.8,
+    "renter_cb30_share": 0.5076,
+    "renter_cb50_count": 16.0,
+    "renter_cb50_share": 0.4834,
+    "owner_cb30_count": 42.6,
+    "owner_cb30_share": 0.1768,
+    "owner_cb50_count": 21.2,
+    "owner_cb50_share": 0.088
   },
   "renter_hh_by_ami": {
     "lte30": {
-      "total": 21.2,
-      "cost_burdened_30pct": 19.5,
-      "cost_burdened_50pct": 18.6,
+      "total": 17.5,
+      "cost_burdened_30pct": 16.1,
+      "cost_burdened_50pct": 15.3,
       "pct_cost_burdened_30": 0.9222,
       "pct_cost_burdened_50": 0.8778
     },
     "31to50": {
-      "total": 5.9,
-      "cost_burdened_30pct": 0.9,
-      "cost_burdened_50pct": 0.9,
+      "total": 4.9,
+      "cost_burdened_30pct": 0.7,
+      "cost_burdened_50pct": 0.7,
       "pct_cost_burdened_30": 0.16,
       "pct_cost_burdened_50": 0.16
     },
     "51to80": {
-      "total": 4.7,
+      "total": 3.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 3.5,
+      "total": 2.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 4.7,
+      "total": 3.9,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,35 +81,35 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 31.7,
-      "cost_burdened_30pct": 12.5,
-      "cost_burdened_50pct": 9.2,
+      "total": 38.5,
+      "cost_burdened_30pct": 15.2,
+      "cost_burdened_50pct": 11.2,
       "pct_cost_burdened_30": 0.3926,
       "pct_cost_burdened_50": 0.2889
     },
     "31to50": {
-      "total": 47.0,
-      "cost_burdened_30pct": 17.4,
-      "cost_burdened_50pct": 8.2,
+      "total": 57.0,
+      "cost_burdened_30pct": 21.1,
+      "cost_burdened_50pct": 10.0,
       "pct_cost_burdened_30": 0.37,
       "pct_cost_burdened_50": 0.175
     },
     "51to80": {
-      "total": 49.4,
-      "cost_burdened_30pct": 3.3,
+      "total": 59.9,
+      "cost_burdened_30pct": 4.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0667,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 8.2,
-      "cost_burdened_30pct": 1.9,
+      "total": 10.0,
+      "cost_burdened_30pct": 2.3,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.2286,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 62.3,
+      "total": 75.6,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -118,8 +118,22 @@
   },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 275,
-    "base_hh": 238.6
+    "acs_occupied_hh": 274,
+    "base_hh": 238.6,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.825,
+    "owner_scale": 1.2135,
+    "acs_renter_hh": 33.0,
+    "acs_owner_hh": 241.0,
+    "base_renter_hh_before": 40.0,
+    "base_owner_hh_before": 198.6,
+    "renter_share_before": 0.1676,
+    "renter_share_after": 0.1208,
+    "rates_preserved": true
   },
   "geoid": "0853120",
   "county_fips": "08085",
@@ -216,11 +230,11 @@
     "recommendation": "Rental priority",
     "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
     "data_quality": "High",
-    "renter_cost_burdened": 20.4,
-    "owner_cost_burdened": 35.1,
-    "severe_renter_cost_burdened": 19.5,
-    "moderate_income_renter_households": 8.2,
-    "moderate_income_owner_cost_burdened": 5.2,
+    "renter_cost_burdened": 16.8,
+    "owner_cost_burdened": 42.6,
+    "severe_renter_cost_burdened": 16,
+    "moderate_income_renter_households": 6.8,
+    "moderate_income_owner_cost_burdened": 6.3,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "High",
     "ownership_pressure_tier": "Low",
@@ -273,7 +287,7 @@
           Colorado · Montrose County
         </div>
         <h1>Naturita</h1>
-        <p class="place-sub">~239 households · renter cost-burden 51.0%</p>
+        <p class="place-sub">~274 households · renter cost-burden 50.8%</p>
       </div>
     </div>
 
