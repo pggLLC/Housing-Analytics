@@ -136,8 +136,19 @@ test('HTML: site scripts are loaded', () => {
 
 test('HTML: HNA employment cards are consolidated', () => {
     assert(html.includes('id="chartIndustry"'), 'consolidated Top Industries chart remains present');
-    assert(html.includes('LEHD WAC by NAICS; BLS QCEW wage context'), 'consolidated industry card discloses LEHD/QCEW source context');
+    const industryBlockMatch = html.match(/<div id="industryChartContainer"[\s\S]*?<\/div>\s*<\/div>/);
+    assert(industryBlockMatch, 'Top Industries card block exists for source-label guard');
+    const industryBlock = industryBlockMatch ? industryBlockMatch[0] : '';
+    assert(industryBlock.includes('LEHD WAC by NAICS'), 'consolidated industry card discloses LEHD WAC source context');
+    assert(!/QCEW/.test(industryBlock), 'Top Industries card must not claim QCEW involvement');
     assert(html.includes('id="chartWage"'), 'single wage distribution chart remains present');
+    const wageTrendBlockMatch = html.match(/<div id="wageTrendContainer"[\s\S]*?<\/div>\s*<\/div>/);
+    assert(wageTrendBlockMatch, 'Wage-Band Job Trend card block exists for source-label guard');
+    const wageTrendBlock = wageTrendBlockMatch ? wageTrendBlockMatch[0] : '';
+    assert(wageTrendBlock.includes('id="chartWageTrend"'), 'Wage-Band Job Trend chart remains present');
+    assert(wageTrendBlock.includes('LEHD WAC wage bands'), 'Wage-Band Job Trend card discloses LEHD WAC wage bands');
+    assert(wageTrendBlock.includes('LODES 2023'), 'Wage-Band Job Trend card discloses LODES 2023 vintage');
+    assert(!/QCEW/.test(wageTrendBlock), 'Wage-Band Job Trend card must not claim QCEW source/vintage');
     assert(!html.includes('id="chartIndustryAnalysis"'), 'duplicate Industry Analysis chart is absent');
     assert(!html.includes('id="wageGapsContainer"'), 'duplicate Wage Gaps card is absent');
     assert(!html.includes('id="chartWageGaps"'), 'duplicate Wage Gaps chart canvas is absent');

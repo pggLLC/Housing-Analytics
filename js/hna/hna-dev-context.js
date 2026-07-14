@@ -275,7 +275,7 @@
       project: 'The ratio reads well in CHFA narratives: "A full-time worker earning X must spend Y% of pre-tax income on the median 2BR rent." This is the language that scores in "Community Need" + "Local Support" sections (because it persuades local elected officials).',
     },
 
-    /* ── Economic indicators / employment trend / wage trend / industry analysis ── */
+    /* ── Economic indicators / employment trend / wage-band job trend ── */
     'Economic Indicators': {
       why: 'Macroeconomic context (unemployment, labor-force participation, prime-age employment) shows whether the local economy is expanding or contracting — which shapes 15-year lease-up risk.',
       demand: 'Tight labor market + rising wages + low unemployment = strong rental demand at all AMI bands. Loosening labor market = workforce-housing demand stays high as workers downsize from market-rate to subsidized units.',
@@ -288,10 +288,10 @@
       project: 'Employment trends feed CHFA "market growth" + "lease-up confidence" narratives. Positive trends support 9% LIHTC family / workforce; negative trends suit senior / preservation niches.',
     },
 
-    'Wage Trend': {
-      why: 'Wage growth (or stagnation) shows whether AMI thresholds will rise (lifting unit rents) or stagnate (locking a project at its initial pricing). Critical for 15-year compliance economics.',
-      demand: 'Wage trend BELOW rent growth = expanding affordability gap = permanent and growing demand. Wage trend ABOVE rent growth = closing gap, projects may become less competitive over time.',
-      project: 'Pro formas are typically stress-tested against the worst 5-yr wage trend in this dataset. When unit rents stay viable under flat wages for 5 years, the project survives a recession.',
+    'Wage-Band Job Trend': {
+      why: 'The wage-band job trend shows whether local workplace jobs are shifting toward low-, medium-, or high-wage bands over time. It is a LEHD WAC job-count series, not an average-wage series.',
+      demand: 'Growth in low- and medium-wage job counts strengthens the case for workforce homes affordable to workers below typical market rents.',
+      project: 'AMI mix can be cross-checked against the local job distribution over time. When job growth concentrates in lower wage bands, deeper affordability is easier to justify in local-support and market narratives.',
     },
 
     /* ── Affordable Housing Compliance (HB 22-1093 / Prop 123) ── */
