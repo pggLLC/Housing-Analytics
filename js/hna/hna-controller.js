@@ -3237,11 +3237,11 @@
     if (window.ChasTierShares && typeof window.ChasTierShares.init === 'function') {
       try { await window.ChasTierShares.init(); } catch (_) { /* soft-fail */ }
     }
-    // Affordable Ownership Need only uses the home-value cascade for
-    // place/CDP selections. Start it early but do not block the core CHAS
-    // and AMI-gap panels on this optional ownership-only input.
+    // Affordable Ownership Need uses the home-value cascade for place/CDP and
+    // county selections. Start it early but do not block the core CHAS and
+    // AMI-gap panels on this optional ownership-only input.
     let ownershipHomeValueCascadePromise = null;
-    if ((geoType === 'place' || geoType === 'cdp') && !window.HNAState.state.homeValueCascade) {
+    if ((geoType === 'place' || geoType === 'cdp' || geoType === 'county') && !window.HNAState.state.homeValueCascade) {
       ownershipHomeValueCascadePromise = loadJson('data/hna/home-value-cascade.json')
         .then((data) => { window.HNAState.state.homeValueCascade = data; return data; })
         .catch(() => { window.HNAState.state.homeValueCascade = null; return null; });

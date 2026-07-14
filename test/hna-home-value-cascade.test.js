@@ -12,6 +12,8 @@ const affordabilityPanel = fs.readFileSync(path.join(ROOT, 'js/affordability-met
 const hnaUtils = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
 const hnaNarratives = fs.readFileSync(path.join(ROOT, 'js/hna/hna-narratives.js'), 'utf8');
 const hnaRenderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+const hnaController = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+const ownershipNeed = fs.readFileSync(path.join(ROOT, 'js/hna/hna-ownership-need.js'), 'utf8');
 
 assert(fruitaHomeValue, 'Fruita summary should be stamped with median_home_value');
 assert.equal(fruitaHomeValue.source, 'zhvi', 'Fruita should use Zillow ZHVI as the display home value');
@@ -22,6 +24,17 @@ assert.deepStrictEqual(fruitaHomeValue, cascade.places['0828745'], 'Fruita summa
 const flags = cascade.review_flags && cascade.review_flags.zhvi_over_acs_ratio_gt_3 || [];
 assert(flags.some((row) => row.geoid === '0803620' && row.ratio > 3), 'Aspen should be flagged as ZHVI/ACS > 3x');
 assert.equal(cascade.meta.counts.total, 482, 'home-value cascade should cover all Colorado places in the public HNA set');
+assert.equal(cascade.meta.counts.counties.total, 64, 'home-value cascade should cover all Colorado counties');
+assert.equal(cascade.meta.counts.counties.acs_raw, 64, 'county home values should be populated from committed ACS summaries when no county ZHVI CSV exists');
+
+for (const geoid of ['08097', '08045']) {
+  const row = cascade.counties && cascade.counties[geoid];
+  const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary', `${geoid}.json`), 'utf8')).acsProfile;
+  assert(row, `${geoid}: county cascade row should exist`);
+  assert.equal(row.geography_level, 'county', `${geoid}: county cascade row should be labeled county`);
+  assert.equal(row.source, 'acs_raw', `${geoid}: county cascade row should use ACS fallback in this repo state`);
+  assert.equal(row.value, profile.DP04_0089E, `${geoid}: county cascade should match summary DP04_0089E`);
+}
 
 const adjustedSummaries = fs.readdirSync(path.join(ROOT, 'data/hna/summary'))
   .filter((file) => file.endsWith('.json'))
@@ -43,6 +56,31 @@ assert(/function renderAffordChart[\s\S]*homeValueInfo\(profile\)/.test(hnaRende
 assert(/function renderWageAffordability[\s\S]*homeValueInfo\(profile\)/.test(hnaRenderers), 'Wage affordability panel should use the home-value cascade helper');
 assert(!/function renderAffordChart[\s\S]{0,900}safeNum\(profile\.DP04_0089E\) \|\| 0/.test(hnaRenderers), 'Affordability chart should not fall back to raw DP04 directly');
 assert(!/function renderWageAffordability[\s\S]{0,900}profile && profile\.DP04_0089E/.test(hnaRenderers), 'Wage affordability panel should not read raw DP04 directly');
+assert(/geoType === 'place' \|\| geoType === 'cdp' \|\| geoType === 'county'/.test(hnaController), 'Controller should lazy-load home-value cascade for county ownership views');
+assert(/geoType === 'county'[\s\S]{0,220}homeValueData\.counties/.test(hnaRenderers), 'Ownership renderer should read county cascade rows before profile fallback');
+assert(/Object\.assign\(\{ geography_level: 'county' \}, countyRec\)/.test(hnaRenderers), 'Ownership renderer should mark county home-value rows as county inputs');
+
+const ownershipCtx = { window: {} };
+vm.createContext(ownershipCtx);
+vm.runInContext(ownershipNeed, ownershipCtx, { filename: 'js/hna/hna-ownership-need.js' });
+const countyChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/chas_affordability_gap.json'), 'utf8')).counties;
+const countyAmiGapRows = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_county.json'), 'utf8')).counties;
+function countyAmiGap(geoid) {
+  return countyAmiGapRows.find((row) => row.fips === geoid);
+}
+for (const [geoid, label] of [['08097', 'Pitkin County'], ['08045', 'Garfield County']]) {
+  const result = ownershipCtx.window.HNAOwnershipNeed.computeOwnershipNeed({
+    geographyId: geoid,
+    geographyName: label,
+    geoLevel: 'county',
+    countyChasEntry: countyChas[geoid],
+    amiGapEntry: countyAmiGap(geoid),
+    homeValueEntry: cascade.counties[geoid],
+  });
+  assert(result.affordabilityTest, `${label}: county ownership computation should render an affordability classification`);
+  assert(['priced-out', 'stretch'].includes(result.affordabilityTest.classification), `${label}: resort-area county value should classify as priced-out or stretch`);
+  assert.equal(result.affordabilityTest.medianHomeValue, cascade.counties[geoid].value, `${label}: computation should use the county cascade value`);
+}
 
 const context = {
   window: {},

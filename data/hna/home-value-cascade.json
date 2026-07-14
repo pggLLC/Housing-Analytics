@@ -1,9 +1,10 @@
 {
   "meta": {
-    "generated_at": "2026-06-27T03:57:02.823Z",
-    "schema": "median_home_value = { value, source, as_of, confidence }",
+    "generated_at": "2026-07-14T14:00:27.653Z",
+    "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
+      "zhvi_county_csv": null,
       "acs_raw": "ACS DP04_0089E, 2020-2024 5-year"
     },
     "latest_zhvi_month": "2026-05-31",
@@ -11,8 +12,14 @@
     "counts": {
       "zhvi": 264,
       "acs_raw": 218,
-      "total": 482
-    }
+      "total": 482,
+      "counties": {
+        "acs_raw": 64,
+        "missing": 0,
+        "total": 64
+      }
+    },
+    "build_note": "Local Zillow city ZHVI CSV absent; preserved committed place rows and rebuilt county rows from committed ACS summary caches."
   },
   "places": {
     "0800320": {
@@ -3434,6 +3441,456 @@
       "confidence": "high",
       "zillow_region_id": "29333",
       "acs_raw_value": 165500
+    }
+  },
+  "counties": {
+    "08001": {
+      "value": 519500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08003": {
+      "value": 239100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08005": {
+      "value": 589300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08007": {
+      "value": 478100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08009": {
+      "value": 122900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08011": {
+      "value": 146900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08013": {
+      "value": 783000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08014": {
+      "value": 686200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08015": {
+      "value": 665700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08017": {
+      "value": 187500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08019": {
+      "value": 608500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08021": {
+      "value": 193400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08023": {
+      "value": 184700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08025": {
+      "value": 116200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08027": {
+      "value": 392100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08029": {
+      "value": 343200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08031": {
+      "value": 636400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08033": {
+      "value": 247600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08035": {
+      "value": 742700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08037": {
+      "value": 839500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08039": {
+      "value": 709800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08041": {
+      "value": 486000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08043": {
+      "value": 324000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08045": {
+      "value": 527800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08047": {
+      "value": 573900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08049": {
+      "value": 601500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08051": {
+      "value": 621800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08053": {
+      "value": 437900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08055": {
+      "value": 247800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08057": {
+      "value": 239600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08059": {
+      "value": 668600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08061": {
+      "value": 161500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08063": {
+      "value": 239500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08065": {
+      "value": 466100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08067": {
+      "value": 591500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08069": {
+      "value": 610000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08071": {
+      "value": 237600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08073": {
+      "value": 246500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08075": {
+      "value": 245300,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08077": {
+      "value": 410200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08079": {
+      "value": 430500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08081": {
+      "value": 289500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08083": {
+      "value": 331400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08085": {
+      "value": 388400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08087": {
+      "value": 338600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08089": {
+      "value": 168900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08091": {
+      "value": 739800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08093": {
+      "value": 532100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08095": {
+      "value": 258200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08097": {
+      "value": 1139100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08099": {
+      "value": 160600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08101": {
+      "value": 301800,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08103": {
+      "value": 274400,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08105": {
+      "value": 239500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08107": {
+      "value": 854700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08109": {
+      "value": 212600,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08111": {
+      "value": 432500,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08113": {
+      "value": 720700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08115": {
+      "value": 149000,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08117": {
+      "value": 939900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08119": {
+      "value": 479900,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08121": {
+      "value": 226200,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08123": {
+      "value": 496100,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
+    },
+    "08125": {
+      "value": 211700,
+      "source": "acs_raw",
+      "as_of": "ACS 2020-2024 5-year",
+      "confidence": "low",
+      "geography_level": "county"
     }
   },
   "review_flags": {
