@@ -18,7 +18,7 @@ function runFixture(overrides = {}) {
     created_at: overrides.created_at || '2026-07-14T10:00:00Z',
     run_started_at: overrides.run_started_at || overrides.created_at || '2026-07-14T10:00:00Z',
     updated_at: overrides.updated_at || overrides.created_at || '2026-07-14T10:00:00Z',
-    html_url: overrides.html_url || 'https://github.com/pggLLC/Housing-Analytics/actions/runs/1',
+    html_url: overrides.html_url || 'http://127.0.0.1/actions/runs/1',
   };
 }
 
