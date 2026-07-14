@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-13T10:55:10.571673Z",
+  "generated": "2026-07-14T09:05:29.245416Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 195268
+      "bytes": 209094
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1291069
+      "bytes": 1291356
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4094,7 +4094,7 @@
     "data/hna/permits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 249941
+      "bytes": 249058
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4454,7 +4454,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 847885
+      "bytes": 846135
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
@@ -7794,12 +7794,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 157146
+      "bytes": 167795
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20118
+      "bytes": 20135
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -7849,7 +7849,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20271
+      "bytes": 19758
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
