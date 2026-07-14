@@ -59,4 +59,16 @@ assert(
 assert(!index.includes('every stat is sourced'), 'homepage must not overclaim that every stat is sourced');
 assert(!index.includes('docs/demo-mode-audit.csv'), 'homepage trust claim must not point public readers to the old demo-mode audit');
 
+const leadMatch = index.match(/<p class="home-opening__lead">([\s\S]*?)<\/p>/);
+assert(leadMatch, 'homepage hero lead copy must exist');
+const heroLead = leadMatch[1].replace(/\s+/g, ' ').trim();
+assert(
+  heroLead.includes('roughly half of renters now spend more than 30%'),
+  'homepage hero should use durable renter cost-burden copy aligned with the live snapshot card'
+);
+assert(
+  !/\b\d+(?:\.\d+)?% of renters\b/.test(heroLead),
+  'homepage hero must not hard-code a renter cost-burden percentage that can drift from #snapCostBurden'
+);
+
 console.log('Homepage job routing (Phase 2.3): PASS');
