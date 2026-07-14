@@ -2,8 +2,8 @@
   "generatedAt": "2026-07-13T10:15:24.244Z",
   "limit": 30,
   "placesChecked": 30,
-  "placesWithCandidates": 21,
-  "placesWithoutCandidates": 9,
+  "placesWithCandidates": 20,
+  "placesWithoutCandidates": 10,
   "candidates": {
     "place:0885485": {
       "name": "Windsor",
@@ -490,130 +490,6 @@
           "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
-        }
-      ]
-    },
-    "place:0833035": {
-      "name": "Greenwood Village",
-      "county_fips": "08005",
-      "households": 1622,
-      "slug": "greenwood",
-      "candidateUrls": [
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "base",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
-        },
-        {
-          "url": "https://townofgreenwood.org/",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 200,
-          "title": "Records Search | Florida Inmate Check",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": true
         }
       ]
     },
