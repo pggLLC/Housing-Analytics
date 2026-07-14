@@ -594,6 +594,7 @@ ACS_VARIABLES = [
     "B25004_001E",  # total vacant
     "B25004_002E",  # vacant — for rent (#1163: rental-vacancy numerator)
     "B25004_003E",  # vacant — rented, not occupied (#1163: HVS denominator term)
+    "B25004_006E",  # vacant — seasonal, recreational, or occasional use (#1171)
     "B25064_001E",  # median gross rent
     "B19013_001E",  # median HH income
     "B25070_007E",  # 30-34.9% income on rent
@@ -685,6 +686,7 @@ def build_acs_metrics(centroids: dict) -> dict:
         # tight market" for tracts with no rental stock at all.
         vacant_for_rent     = safe_int(row[idx.get("B25004_002E", -1)])
         rented_not_occupied = safe_int(row[idx.get("B25004_003E", -1)])
+        vacant_seasonal     = safe_int(row[idx.get("B25004_006E", -1)])
         rental_universe     = renter_hh + vacant_for_rent + rented_not_occupied
         rental_vacancy_rate = round(vacant_for_rent / rental_universe, 4) \
                               if rental_universe > 0 else None
@@ -759,6 +761,7 @@ def build_acs_metrics(centroids: dict) -> dict:
             # counts instead of averaging tract rates.
             "vacant_for_rent":      vacant_for_rent,
             "rented_not_occupied":  rented_not_occupied,
+            "vacant_seasonal":      vacant_seasonal,
             "rental_vacancy_rate":  rental_vacancy_rate,
             # E — demographics breadth
             "median_age":           median_age,
@@ -791,6 +794,7 @@ def _acs_meta() -> dict:
             "vacancy_rate":      "Derived: vacant / (total_hh + vacant) — TOTAL vacancy, includes seasonal/recreational units",
             "vacant_for_rent":   "B25004_002E — Vacant housing units: for rent",
             "rented_not_occupied": "B25004_003E — Vacant housing units: rented, not occupied",
+            "vacant_seasonal":   "B25004_006E — Vacant housing units: for seasonal, recreational, or occasional use",
             "rental_vacancy_rate": "Derived (#1163, HVS convention): vacant_for_rent / (renter_hh + vacant_for_rent + rented_not_occupied); null when that universe is 0",
         },
         "note": "Rebuild via scripts/market/build_public_market_data.py",
