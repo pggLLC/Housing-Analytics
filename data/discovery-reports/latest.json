@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-13T10:14:41.766Z",
+  "scanTimestamp": "2026-07-14T08:57:44.053Z",
   "totalScanned": 1586,
   "newSourceCount": 1555,
   "existingCount": 30,
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 195268,
+      "sizeBytes": 209094,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -1562,7 +1562,7 @@
     },
     {
       "path": "data/hna/jurisdiction-metrics-digest/0812900.json",
-      "sizeBytes": 28167,
+      "sizeBytes": 28172,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4784,7 +4784,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 32794,
+      "sizeBytes": 32525,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4796,13 +4796,13 @@
     },
     {
       "path": "data/hna/ownership-need.json",
-      "sizeBytes": 735219,
+      "sizeBytes": 735224,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/permits.json",
-      "sizeBytes": 249941,
+      "sizeBytes": 249058,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5234,13 +5234,13 @@
     },
     {
       "path": "data/hna/projections/places.json",
-      "sizeBytes": 847885,
+      "sizeBytes": 846135,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-index.json",
-      "sizeBytes": 1722709,
+      "sizeBytes": 1722714,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -6158,7 +6158,7 @@
     },
     {
       "path": "data/hna/summary/0812900.json",
-      "sizeBytes": 3536,
+      "sizeBytes": 3541,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8456,7 +8456,7 @@
     },
     {
       "path": "data/hna/summary/0882460.json",
-      "sizeBytes": 3471,
+      "sizeBytes": 3473,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9164,7 +9164,7 @@
     },
     {
       "path": "data/policy/housing-policy-scorecard.json",
-      "sizeBytes": 183751,
+      "sizeBytes": 183418,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9212,13 +9212,13 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 157146,
+      "sizeBytes": 167795,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20118,
+      "sizeBytes": 20135,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9272,7 +9272,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 20271,
+      "sizeBytes": 19758,
       "inDataManifest": false,
       "inFilesManifest": true
     },
