@@ -3592,6 +3592,17 @@
     });
   }
 
+  function _scenarioGrowthSensitivitySeries(baseline, growthFactor) {
+    const series = Array.isArray(baseline) ? baseline : [];
+    const p0 = series.find(v => v != null && Number.isFinite(Number(v)));
+    if (p0 == null || !Number.isFinite(Number(growthFactor))) return series.map(() => null);
+    const base = Number(p0);
+    return series.map((p) => {
+      const value = Number(p);
+      return Number.isFinite(value) ? base + (growthFactor * (value - base)) : null;
+    });
+  }
+
   /**
    * _renderScenarioSection — render scenario comparison charts.
    * @param {object} proj        - Projection data object
@@ -3623,17 +3634,17 @@
           tension: 0.25,
         };
       });
-      // Fallback when proj.scenarios is missing: synthesise three lines
-      // from popSel (DOLA forecast) + popSelTrend-style ±15% sensitivity.
+      // Fallback when proj.scenarios is missing: synthesise three lines from
+      // popSel (DOLA forecast) and scale only the projected growth increment.
       // This makes the chart render for ALL geographies, not just those
       // with explicit scenario series in the projection JSON.
       if (!datasets.some(d => d.data && d.data.length)) {
         const baseline = popSel || proj.population_dola || [];
         datasets.length = 0;
         datasets.push(
-          { label: 'Baseline (DOLA)',  data: baseline,                           borderColor: t.c1, borderWidth: 2, pointRadius: 0, tension: 0.25 },
-          { label: 'Low growth (-15%)', data: baseline.map(p => p ? p * 0.85 : null), borderColor: t.c5, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 },
-          { label: 'High growth (+15%)',data: baseline.map(p => p ? p * 1.15 : null), borderColor: t.c6, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 }
+          { label: 'Baseline (DOLA)', data: baseline, borderColor: t.c1, borderWidth: 2, pointRadius: 0, tension: 0.25 },
+          { label: 'Growth −15%', data: _scenarioGrowthSensitivitySeries(baseline, 0.85), borderColor: t.c5, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 },
+          { label: 'Growth +15%', data: _scenarioGrowthSensitivitySeries(baseline, 1.15), borderColor: t.c6, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 }
         );
       }
       makeChart(compCanvas.getContext('2d'), {
@@ -3663,10 +3674,10 @@
       let series = popSel;
       if (proj.scenarios && proj.scenarios[scenarioSel]) {
         series = proj.scenarios[scenarioSel].map(d => d.population || d.pop || 0);
-      } else if (scenarioSel === 'low') {
-        series = popSel.map(p => p ? p * 0.85 : null);
-      } else if (scenarioSel === 'high') {
-        series = popSel.map(p => p ? p * 1.15 : null);
+      } else if (scenarioSel === 'low_growth') {
+        series = _scenarioGrowthSensitivitySeries(popSel, 0.85);
+      } else if (scenarioSel === 'high_growth') {
+        series = _scenarioGrowthSensitivitySeries(popSel, 1.15);
       }
       makeChart(detailCanvas.getContext('2d'), {
         type: 'line',
@@ -8368,6 +8379,7 @@
     renderFastTrackCalculatorSection,
     renderHistoricalSection,
     renderComplianceTable,
+    _scenarioGrowthSensitivitySeries,
     // BLS / CHAS / FMR
     renderBlsLabourMarket,
     renderGapCoverageStats,
