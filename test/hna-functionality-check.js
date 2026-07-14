@@ -134,6 +134,15 @@ test('HTML: site scripts are loaded', () => {
     assert(html.includes('js/housing-needs-assessment.js') || html.includes('js/hna/hna-controller.js'), 'hna controller is loaded');
 });
 
+test('HTML: HNA employment cards are consolidated', () => {
+    assert(html.includes('id="chartIndustry"'), 'consolidated Top Industries chart remains present');
+    assert(html.includes('LEHD WAC by NAICS; BLS QCEW wage context'), 'consolidated industry card discloses LEHD/QCEW source context');
+    assert(html.includes('id="chartWage"'), 'single wage distribution chart remains present');
+    assert(!html.includes('id="chartIndustryAnalysis"'), 'duplicate Industry Analysis chart is absent');
+    assert(!html.includes('id="wageGapsContainer"'), 'duplicate Wage Gaps card is absent');
+    assert(!html.includes('id="chartWageGaps"'), 'duplicate Wage Gaps chart canvas is absent');
+});
+
 // ---------------------------------------------------------------------------
 // JS: diagnostic banner on ACS failure
 // ---------------------------------------------------------------------------

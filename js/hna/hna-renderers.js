@@ -6025,50 +6025,6 @@
     });
   }
 
-  function renderIndustryAnalysis(geoid) {
-    var canvas = document.getElementById('chartIndustryAnalysis');
-    if (!canvas) return;
-    var lehd = _lehdFor(geoid);
-    var industries = lehd && U().parseIndustries
-      ? U().parseIndustries(lehd, 8)
-      : [];
-    if (!industries.length) {
-      _placeholderInBox(canvas, 'Industry analysis data not yet cached for this geography.');
-      return;
-    }
-    var t = chartTheme();
-    var fmtNum = U().fmtNum;
-    // Compute share-of-total for the share-axis label. Falls back to
-    // raw count when the pct field is absent (state-aggregate files
-    // already populate pct; per-county files don't always).
-    var total = industries.reduce(function (s, i) { return s + (i.count || 0); }, 0);
-    makeChart(canvas.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: industries.map(function (i) { return i.label; }),
-        datasets: [{
-          data: industries.map(function (i) { return i.count; }),
-          backgroundColor: t.c2,
-        }],
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: { callbacks: { label: function (c) {
-            var pct = total > 0 ? ' (' + ((c.parsed.x / total) * 100).toFixed(1) + '%)' : '';
-            return fmtNum(c.parsed.x) + ' jobs' + pct;
-          } } },
-        },
-        scales: {
-          x: { ticks: { color: t.muted, callback: function (v) { return fmtNum(v); } }, grid: { color: t.border } },
-          y: { ticks: { color: t.muted }, grid: { color: t.border } },
-        },
-      },
-    });
-  }
-
   function renderEconomicIndicators(geoid) {
     // Cards container — the HTML has #econIndicatorCards (lower section)
     // and the legacy #economicIndicatorsCards is unused. Prefer the
@@ -6151,74 +6107,6 @@
         '<div class="mc-sub">'   + c.src              + '</div>' +
       '</div>';
     }).join('');
-  }
-
-  function renderWageGaps(geoid, profile) {
-    // Find the empty .chart-container--bar div the HTML reserves
-    // and inject a canvas for the wage-gap bar chart. The container
-    // is empty by design (HTML doesn't ship a canvas — the renderer
-    // owns the chart instance lifecycle).
-    var wrap = document.getElementById('wageGapsContainer');
-    if (!wrap) return;
-    var box = wrap.querySelector('.chart-container');
-    if (!box) return;
-
-    var lehd = _lehdFor(geoid);
-    var dist = lehd && U().calculateWageDistribution
-      ? U().calculateWageDistribution(lehd)
-      : null;
-    if (!dist || !dist.total) {
-      box.innerHTML = '<p style="margin:0;padding:1rem;color:var(--muted);font-size:.85rem;text-align:center">'
-        + 'Wage gap data not yet cached for this geography.</p>';
-      return;
-    }
-
-    // Ensure a canvas exists inside the box (idempotent on re-render).
-    var canvasId = 'chartWageGaps';
-    var canvas = document.getElementById(canvasId);
-    if (!canvas) {
-      box.innerHTML = '';
-      canvas = document.createElement('canvas');
-      canvas.id = canvasId;
-      canvas.setAttribute('role', 'img');
-      canvas.setAttribute('aria-label', 'Wage gap distribution: high vs medium vs low');
-      box.appendChild(canvas);
-    }
-
-    var t = chartTheme();
-    var fmtNum = U().fmtNum;
-    var lowPct    = (dist.low    / dist.total) * 100;
-    var mediumPct = (dist.medium / dist.total) * 100;
-    var highPct   = (dist.high   / dist.total) * 100;
-
-    makeChart(canvas.getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: ['Low (≤$15k/yr)', 'Medium ($15–40k)', 'High ($40k+)'],
-        datasets: [{
-          data: [lowPct, mediumPct, highPct],
-          backgroundColor: [t.c5, t.c3, t.c1],
-        }],
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: { callbacks: { label: function (c) {
-            var counts = [dist.low, dist.medium, dist.high][c.dataIndex];
-            return c.parsed.y.toFixed(1) + '% (' + fmtNum(counts) + ' jobs)';
-          } } },
-        },
-        scales: {
-          x: { ticks: { color: t.muted }, grid: { color: t.border } },
-          y: {
-            beginAtZero: true,
-            ticks: { color: t.muted, callback: function (v) { return v + '%'; } },
-            grid: { color: t.border },
-          },
-        },
-      },
-    });
   }
 
   // ---------------------------------------------------------------------------
@@ -7998,7 +7886,6 @@
     'chartIndustry',
     'chartEmploymentTrend',
     'chartWageTrend',
-    'chartIndustryAnalysis',
     'chartProp123Growth',
     'chartProp123Historical',
     'chartBedroomNeed',
@@ -8364,9 +8251,7 @@
     renderLaborMarketSection,
     renderEmploymentTrend,
     renderWageTrend,
-    renderIndustryAnalysis,
     renderEconomicIndicators,
-    renderWageGaps,
     renderWageAffordability,  // F198 — income needed to afford rent + buy + LIHTC, vs LEHD wage tiers
     // F199 + F200 — Decade trends (county-level)
     renderDecadeAffordTrend,

@@ -294,18 +294,6 @@
       project: 'Pro formas are typically stress-tested against the worst 5-yr wage trend in this dataset. When unit rents stay viable under flat wages for 5 years, the project survives a recession.',
     },
 
-    'Industry Analysis': {
-      why: 'Industry concentration shows economic resilience — diverse economies recover from shocks; single-industry towns don\'t. 15-year LIHTC compliance favors diverse economies.',
-      demand: 'Single-industry towns (mining, military, university) have wildly variable affordable-housing demand depending on local employer fortunes. Diverse economies have stable, predictable demand.',
-      project: 'Diverse economies suit 9% family / workforce projects with multi-AMI mixes. Single-industry towns suit targeted niches (senior, supportive, or employer-aligned workforce). Project type typically matches economic structure.',
-    },
-
-    'Wage Gaps': {
-      why: 'Wage inequality reveals "service worker / professional" splits that are invisible in median stats. It shows the depth of workforce-housing crisis.',
-      demand: 'Large wage gaps at the local level mean dual demand: deep-affordability for service workers (30-50% AMI) AND workforce middle for healthcare / education (60-80% AMI). Both are needed.',
-      project: 'Mixed-AMI projects (for example, 25% at 30% AMI, 35% at 50% AMI, and 40% at 60% AMI) can reflect documented wage gaps and show how the proposed affordability mix relates to the local economy under CHFA\'s QAP framework.',
-    },
-
     /* ── Affordable Housing Compliance (HB 22-1093 / Prop 123) ── */
     'HB 22-1093': {
       why: 'HB 22-1093 + Prop 123 are Colorado\'s state-level housing-action requirements. Compliance status determines eligibility for Prop 123 fast-track funding and state-level credit allocations.',

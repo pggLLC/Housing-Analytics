@@ -1345,9 +1345,11 @@
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2>Top Industries by Employment</h2>
-            <p style="color:var(--muted);font-size:.88rem">Top NAICS 2-digit sectors (LEHD WAC CNS fields).</p>
+            <p style="color:var(--muted);font-size:.88rem">
+              Top NAICS 2-digit sectors from LEHD WAC workplace jobs; QCEW covered-employment wages remain in the wage trend card below.
+            </p>
             <div id="industryChartContainer" class="chart-container">
-              <div class="chart-box" data-source="LEHD WAC by NAICS" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="transformed"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
+              <div class="chart-box" data-source="LEHD WAC by NAICS; BLS QCEW wage context" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023 · QCEW 2024 wage trend" data-source-type="transformed"><canvas id="chartIndustry" role="img" aria-label="Top industries by employment count chart"></canvas></div>
             </div>
           </div>
         </div>
@@ -1417,18 +1419,6 @@
             <div class="chart-container">
               <div class="chart-box" data-source="BLS QCEW (Quarterly Census of Employment and Wages)" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartWageTrend" role="img" aria-label="Average wage trend over time chart"></canvas></div>
             </div>
-          </div>
-          <div id="industryAnalysisContainer" class="chart-card span-6" style="margin:0">
-            <h2>Industry Analysis</h2>
-            <p style="color:var(--muted);font-size:.88rem">Employment share by NAICS sector.</p>
-            <div class="chart-container">
-              <div class="chart-box" data-source="BLS QCEW Industry Share by NAICS" data-source-url="https://www.bls.gov/cew/" data-vintage="QCEW 2024" data-source-type="raw"><canvas id="chartIndustryAnalysis" role="img" aria-label="Industry employment share by NAICS sector chart"></canvas></div>
-            </div>
-          </div>
-          <div id="wageGapsContainer" class="chart-card span-6" style="margin:0">
-            <h2>Wage Gaps</h2>
-            <p style="color:var(--muted);font-size:.88rem">High / medium / low wage job distribution (LEHD CE01–CE03).</p>
-            <div class="chart-container chart-container--bar" data-source="LEHD LODES Wage Bands (CE01–CE03)" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="raw"></div>
           </div>
         </div>
       </section>

@@ -61,8 +61,6 @@ const EXPECTED = [
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartIndustry',         note: 'LEHD top industries' },
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartEmploymentTrend',  note: 'LEHD annualEmployment' },
   { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartWageTrend',        note: 'LEHD annualWages' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartIndustryAnalysis', note: 'LEHD industry share' },
-  { fixture: 'hna-adams',  url: '/housing-needs-assessment.html?geoType=county&geoid=08001&auto=1', chart: 'chartWageGaps',         note: 'wage gap percent bars' },
   // ── Place selection (Paonia 0857300): place-apportioned LEHD ──
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartLehd',         note: 'commute flows (apportioned from Delta)' },
   { fixture: 'hna-paonia', url: '/housing-needs-assessment.html?geoType=place&geoid=0857300&auto=1', chart: 'chartWage',         note: 'wage tiers (apportioned)' },
