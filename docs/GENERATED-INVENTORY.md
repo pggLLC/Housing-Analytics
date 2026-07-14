@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T13:46:50.662Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T14:33:58.019Z. Do not edit by hand.
 
 ---
 
@@ -200,7 +200,7 @@
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
-| `data/hna/home-value-cascade.json` | 81.1 KB | ✅ | — |
+| `data/hna/home-value-cascade.json` | 92.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 27.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 27.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0800320.json` | 27.7 KB | ✅ | — |
@@ -1683,7 +1683,7 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 55.1 KB |
-| `test/hna-home-value-cascade.test.js` | 7.3 KB |
+| `test/hna-home-value-cascade.test.js` | 10.1 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 3.9 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
