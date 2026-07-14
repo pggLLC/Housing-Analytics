@@ -542,6 +542,18 @@ test('build_public_market_data.py: _bbox function exists', () => {
   assert(src.includes('"bbox"'), 'bbox key written to tract record');
 });
 
+test('build_public_market_data.py: emits additive vacant_seasonal field', () => {
+  const src = fs.readFileSync(
+    path.resolve(__dirname, '..', 'scripts', 'market', 'build_public_market_data.py'), 'utf8');
+  assert(src.includes('"B25004_006E"'), 'ACS variable B25004_006E is fetched');
+  assert(src.includes('vacant_seasonal     = safe_int(row[idx.get("B25004_006E", -1)])'),
+    'vacant_seasonal is parsed with safe_int');
+  assert(src.includes('"vacant_seasonal":      vacant_seasonal'),
+    'vacant_seasonal is emitted on each tract');
+  assert(src.includes('"vacant_seasonal":   "B25004_006E'),
+    'vacant_seasonal is documented in meta.fields');
+});
+
 test('generate_tract_centroids.py: compute_bbox function exists', () => {
   const src = fs.readFileSync(
     path.resolve(__dirname, '..', 'scripts', 'generate_tract_centroids.py'), 'utf8');
