@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-13T10:14:41.766Z
+**Scan timestamp:** 2026-07-14T08:57:44.053Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (191 KB)
+- `data/alerts/alerts_archive.json` (204 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -813,7 +813,7 @@
 - `data/hna/local-resources-candidates.json` (32 KB)
 - `data/hna/local-resources.json` (172 KB)
 - `data/hna/ownership-need.json` (718 KB)
-- `data/hna/permits.json` (244 KB)
+- `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1376 KB)
 - `data/hna/place-lehd.json` (1868 KB)
@@ -885,7 +885,7 @@
 - `data/hna/projections/08121.json` (5 KB)
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
-- `data/hna/projections/places.json` (828 KB)
+- `data/hna/projections/places.json` (826 KB)
 - `data/hna/ranking-index.json` (1682 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
@@ -1548,7 +1548,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy_briefs.json` (153 KB)
+- `data/policy_briefs.json` (164 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -1558,7 +1558,7 @@
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (20 KB)
+- `data/reports/developer-url-health.json` (19 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
