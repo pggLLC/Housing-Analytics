@@ -4720,6 +4720,10 @@
   }
 
   function _ownHomeValueForSelection(profile, geoType, geoid, homeValueData) {
+    if (geoType === 'county' && homeValueData && homeValueData.counties) {
+      var countyRec = homeValueData.counties[String(geoid)];
+      if (countyRec) return Object.assign({ geography_level: 'county' }, countyRec);
+    }
     if ((geoType === 'place' || geoType === 'cdp') && homeValueData && homeValueData.places) {
       var flagged = _ownReviewFlagSet(homeValueData.review_flags);
       var canonical = _ownCanonicalGeoid(geoid);
