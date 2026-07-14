@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T20:59:32.453Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T21:54:02.100Z. Do not edit by hand.
 
 ---
 
@@ -1625,7 +1625,7 @@
 
 ## Test Files
 
-176 test files found.
+177 test files found.
 
 | File | Size |
 |------|------|
@@ -1713,7 +1713,8 @@
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
-| `test/pages-availability-check.js` | 14.0 KB |
+| `test/pages-availability-check.js` | 14.6 KB |
+| `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
@@ -1861,7 +1862,7 @@
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
 | `.github/workflows/market_data_build.yml` | 13.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
-| `.github/workflows/pages-deploy-watchdog.yml` | 2.4 KB |
+| `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 7.5 KB |
