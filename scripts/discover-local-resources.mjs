@@ -48,6 +48,12 @@ const NOW = new Date().toISOString();
 const TIMEOUT_MS = 8_000;
 const CONCURRENCY = 4;       // Be polite — these are .gov sites
 const LIMIT_DEFAULT = 30;
+const DENIED_CANDIDATE_HOSTS = new Set([
+  // #1194: wrong-state/squatter domain that recurred for Greenwood Village.
+  // Official city site is https://www.greenwoodvillage.com/.
+  'townofgreenwood.org',
+  'www.townofgreenwood.org',
+]);
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
@@ -68,7 +74,15 @@ function slugify(name) {
     .trim();
 }
 
-function urlVariants(slug) {
+export function isDeniedCandidateUrl(url) {
+  try {
+    return DENIED_CANDIDATE_HOSTS.has(new URL(url).hostname.toLowerCase());
+  } catch (_) {
+    return false;
+  }
+}
+
+export function urlVariants(slug) {
   // Try a handful of common .gov / .org / .com patterns CO cities use
   const noSpace = slug.replace(/[\s-]+/g, '');
   const hyphen = slug.replace(/\s+/g, '-');
@@ -88,7 +102,7 @@ function urlVariants(slug) {
     variants.add(`https://www.${hyphen}.org/`);
     variants.add(`https://www.cityof${hyphen}.com/`);
   }
-  return [...variants];
+  return [...variants].filter((url) => !isDeniedCandidateUrl(url));
 }
 
 // Sub-paths to probe once we find a working base
@@ -352,7 +366,9 @@ async function main() {
   }, null, 2));
 }
 
-main().catch((err) => {
-  console.error('[discover] FATAL:', err);
-  process.exit(2);
-});
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch((err) => {
+    console.error('[discover] FATAL:', err);
+    process.exit(2);
+  });
+}
