@@ -4,15 +4,14 @@
  *
  * Regression for 2026-05-16 deep-dive batch 2. The Labor Market section
  * (chartWage, chartIndustry, jobMetrics) and Economic Indicators panel
- * (chartEmploymentTrend, chartWageTrend, chartIndustryAnalysis,
- * Wage Gaps, econIndicatorCards) were either:
+ * (chartEmploymentTrend, chartWageTrend, econIndicatorCards) were either:
  *   - stubs that found their canvas and returned, or
  *   - the existing trend renderer read from `state.lehdData`, a slot
  *     that was never populated (data lives in `__HNA_LEHD_CACHE` and
  *     is keyed by geoid).
  *
  * What this test asserts (source-grep):
- *   - Each of the 6 renderers is no longer a stub — it consumes lehd
+ *   - Each active renderer is no longer a stub — it consumes lehd
  *     data and renders a chart or placeholder.
  *   - renderEmploymentTrend reads `__HNA_LEHD_CACHE` (the cache the
  *     controller actually populates), not `state.lehdData`.
@@ -20,8 +19,9 @@
  *     `{year: count}` dict shape that lives in the cache files
  *     (previous code did `.map(d => d.year)` on a dict — would render
  *     `["0","1","2",…]` if it didn't return early).
- *   - renderWageGaps injects a canvas into wageGapsContainer because
- *     the HTML container ships empty (no canvas).
+ *   - The removed duplicate Industry Analysis and Wage Gaps renderers
+ *     stay removed so the HNA page has one industry card and one wage
+ *     distribution card.
  *
  * Run: node test/hna-labor-market-renderers.test.js
  */
@@ -56,9 +56,7 @@ console.log('\n[test] renderers are no longer stubs');
 ['renderLaborMarketSection',
  'renderEmploymentTrend',
  'renderWageTrend',
- 'renderIndustryAnalysis',
- 'renderEconomicIndicators',
- 'renderWageGaps'].forEach(function (name) {
+ 'renderEconomicIndicators'].forEach(function (name) {
   const body = fnBody(name);
   assert(body != null && /makeChart|innerHTML|appendChild|metric/.test(body),
     name + '() does real work (makeChart / DOM write)');
@@ -81,14 +79,15 @@ const wageBody = fnBody('renderWageTrend') || '';
 assert(/Object\.keys\(aw\)/.test(wageBody) || /Object\.keys\([^)]*annualWages/.test(wageBody),
   'renderWageTrend treats annualWages as a {year: {low,medium,high}} dict');
 
-console.log('\n[test] renderWageGaps injects a canvas into the empty container');
-const wgBody = fnBody('renderWageGaps') || '';
-assert(/wageGapsContainer/.test(wgBody),
-  'renderWageGaps looks up #wageGapsContainer');
-assert(/createElement\(['"]canvas/.test(wgBody),
-  'renderWageGaps creates a <canvas> element');
-assert(/chartWageGaps/.test(wgBody),
-  'the injected canvas has id="chartWageGaps"');
+console.log('\n[test] duplicate employment cards stay removed');
+assert(fnBody('renderIndustryAnalysis') === null,
+  'renderIndustryAnalysis was removed with the duplicate Industry Analysis card');
+assert(fnBody('renderWageGaps') === null,
+  'renderWageGaps was removed with the duplicate Wage Gaps card');
+assert(!/chartIndustryAnalysis/.test(src),
+  'chartIndustryAnalysis is not referenced by active renderers');
+assert(!/chartWageGaps|wageGapsContainer/.test(src),
+  'duplicate Wage Gaps chart/container is not referenced by active renderers');
 
 console.log('\n=========================================');
 console.log('Results: ' + passed + ' passed, ' + failed + ' failed');

@@ -3181,8 +3181,6 @@
     window.HNARenderers.renderEconomicIndicators(econGeoid);
     window.HNARenderers.renderEmploymentTrend(econGeoid);
     window.HNARenderers.renderWageTrend(econGeoid);
-    window.HNARenderers.renderIndustryAnalysis(econGeoid);
-    window.HNARenderers.renderWageGaps(econGeoid, profile);
 
     // ── County-scope disclosures ────────────────────────────────────
     // LEHD, DOLA SYA, and BLS QCEW are county-only datasets. When the
@@ -3851,9 +3849,7 @@
   window.__HNA_PROJECTION_SCENARIOS     = window.HNAUtils.PROJECTION_SCENARIOS;
   window.__HNA_renderEmploymentTrend   = window.HNARenderers.renderEmploymentTrend;
   window.__HNA_renderWageTrend         = window.HNARenderers.renderWageTrend;
-  window.__HNA_renderIndustryAnalysis  = window.HNARenderers.renderIndustryAnalysis;
   window.__HNA_renderEconomicIndicators = window.HNARenderers.renderEconomicIndicators;
-  window.__HNA_renderWageGaps          = window.HNARenderers.renderWageGaps;
   window.__HNA_renderFmrPanel          = window.HNARenderers.renderFmrPanel;
   window.__HNA_renderChasAffordabilityGap = window.HNARenderers.renderChasAffordabilityGap;
 

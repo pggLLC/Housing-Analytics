@@ -172,13 +172,6 @@ test('HNA modules define renderWageTrend', () => {
   assert(hnaSrc.includes('yAxisID'),                  'dual-axis chart uses yAxisID');
 });
 
-test('HNA modules define renderIndustryAnalysis', () => {
-  assert(hnaSrc.includes('function renderIndustryAnalysis'), 'renderIndustryAnalysis function defined');
-  assert(hnaSrc.includes('chartIndustryAnalysis'),           'creates chartIndustryAnalysis canvas');
-  assert(hnaSrc.includes('LEHD WAC CNS sectors'),            'uses LEHD WAC sector data source');
-  assert(hnaSrc.includes("' jobs' + pct"),                   'tooltip reports industry job count and share');
-});
-
 test('HNA modules define renderEconomicIndicators', () => {
   assert(hnaSrc.includes('function renderEconomicIndicators'), 'renderEconomicIndicators function defined');
   assert(hnaSrc.includes('economicIndicatorsContainer'),        'uses economicIndicatorsContainer element');
@@ -188,27 +181,23 @@ test('HNA modules define renderEconomicIndicators', () => {
   assert(hnaSrc.includes('Top Industry'),                       '4-card dashboard includes Top Industry card');
 });
 
-test('HNA modules define renderWageGaps', () => {
-  assert(hnaSrc.includes('function renderWageGaps'), 'renderWageGaps function defined');
-  assert(hnaSrc.includes('wageGapsContainer'),        'uses wageGapsContainer element');
-  assert(hnaSrc.includes('chartWageGaps'),            'creates chartWageGaps canvas');
-  assert(hnaSrc.includes('Wage gap distribution'),    'sets accessible wage-gap chart label');
+test('HNA modules do not retain duplicate employment renderers', () => {
+  assert(!hnaSrc.includes('function renderIndustryAnalysis'), 'duplicate renderIndustryAnalysis function removed');
+  assert(!hnaSrc.includes('chartIndustryAnalysis'),           'duplicate chartIndustryAnalysis canvas removed');
+  assert(!hnaSrc.includes('function renderWageGaps'),         'duplicate renderWageGaps function removed');
+  assert(!hnaSrc.includes('chartWageGaps'),                   'duplicate chartWageGaps canvas removed');
 });
 
 test('Economic indicator functions are exposed on window', () => {
   assert(hnaSrc.includes('window.__HNA_renderEmploymentTrend'),    '__HNA_renderEmploymentTrend exposed');
   assert(hnaSrc.includes('window.__HNA_renderWageTrend'),          '__HNA_renderWageTrend exposed');
-  assert(hnaSrc.includes('window.__HNA_renderIndustryAnalysis'),   '__HNA_renderIndustryAnalysis exposed');
   assert(hnaSrc.includes('window.__HNA_renderEconomicIndicators'), '__HNA_renderEconomicIndicators exposed');
-  assert(hnaSrc.includes('window.__HNA_renderWageGaps'),           '__HNA_renderWageGaps exposed');
 });
 
 test('Economic indicator functions are called in the update() flow', () => {
   assert(hnaSrc.includes('renderEconomicIndicators('), 'renderEconomicIndicators called in update');
   assert(hnaSrc.includes('renderEmploymentTrend('),    'renderEmploymentTrend called in update');
   assert(hnaSrc.includes('renderWageTrend('),          'renderWageTrend called in update');
-  assert(hnaSrc.includes('renderIndustryAnalysis('),   'renderIndustryAnalysis called in update');
-  assert(hnaSrc.includes('renderWageGaps('),           'renderWageGaps called in update');
 });
 
 test('LEHD cache is populated before economic indicator rendering', () => {
