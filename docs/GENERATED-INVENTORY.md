@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T11:41:53.638Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T13:34:44.572Z. Do not edit by hand.
 
 ---
 
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1548 JSON files found.
+1549 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -89,6 +89,7 @@
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
+| `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
 | `data/car-market-report-2026-02.json` | 2.2 KB | ✅ | — |
 | `data/car-market-report-2026-03.json` | 2.2 KB | ✅ | — |
@@ -1549,7 +1550,7 @@
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 195.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
-| `data/market/acs_tract_metrics_co.json` | 1.25 MB | ✅ | — |
+| `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
 | `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
@@ -1722,7 +1723,7 @@
 | `test/place-pages.test.js` | 5.0 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 25.5 KB |
+| `test/pma-scoring.test.js` | 28.4 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
