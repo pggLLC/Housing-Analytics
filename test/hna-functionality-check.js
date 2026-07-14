@@ -883,6 +883,25 @@ test('JS: reset button uses correct per-scenario migration defaults', () => {
     assert(js.includes('migration: 1000'), 'high_growth scenario uses 1000/yr migration default');
 });
 
+test('JS: scenario fallback sensitivity scales growth from the shared observed base year', () => {
+    const rendererSrc = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-renderers.js'), 'utf8');
+    const helperMatch = rendererSrc.match(/function _scenarioGrowthSensitivitySeries[\s\S]*?\n  \}\n\n  \/\*\*/);
+    assert(Boolean(helperMatch), '_scenarioGrowthSensitivitySeries helper exists');
+    if (!helperMatch) return;
+    const helperSrc = helperMatch[0].replace(/\n\n  \/\*\*$/, '');
+    const helper = new Function(`${helperSrc}; return _scenarioGrowthSensitivitySeries;`)();
+    const baseline = [13900, 14500, 15400];
+    const low = helper(baseline, 0.85);
+    const high = helper(baseline, 1.15);
+    assert(low[0] === baseline[0] && high[0] === baseline[0], 'low/high scenario series share the observed base-year value');
+    assert(low[2] === 13900 + 0.85 * (15400 - 13900), 'low scenario scales only cumulative growth at horizon');
+    assert(high[2] === 13900 + 1.15 * (15400 - 13900), 'high scenario scales only cumulative growth at horizon');
+    assert(low[2] !== baseline[2] * 0.85 && high[2] !== baseline[2] * 1.15, 'old level-scaling shortcut is not used');
+    assert(js.includes("label: 'Growth −15%'"), 'low fallback dataset is labeled Growth −15%');
+    assert(js.includes("label: 'Growth +15%'"), 'high fallback dataset is labeled Growth +15%');
+    assert(html.includes('scale only the projected growth increment'), 'scenario copy explains growth-increment sensitivity');
+});
+
 test('JS: __announceUpdate called on projection view toggle for WCAG 4.1.3', () => {
     assert(
         js.includes("__announceUpdate(`Scenario view changed to:") ||
