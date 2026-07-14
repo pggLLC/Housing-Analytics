@@ -412,7 +412,7 @@
       bachelors_sum: 0, bachelors_n: 0,
       // #1163 — rental-vacancy counts (apportioned), so the buffer-level
       // rate is derived from summed counts, not averaged tract rates.
-      vacant_for_rent: 0, rented_not_occupied: 0,
+      vacant_for_rent: 0, rented_not_occupied: 0, vacant_seasonal: 0,
       renter_by_structure: null,  // initialized lazily below
       n: 0
     };
@@ -434,6 +434,7 @@
       totals.vacant       += (m.vacant       || 0) * share;
       totals.vacant_for_rent     += (m.vacant_for_rent     || 0) * share;
       totals.rented_not_occupied += (m.rented_not_occupied || 0) * share;
+      totals.vacant_seasonal     += (m.vacant_seasonal     || 0) * share;
       // Rates are unweighted averages — don't multiply by share.
       totals.rent_sum     += m.median_gross_rent  || 0;
       totals.income_sum   += m.median_hh_income   || 0;
@@ -488,6 +489,11 @@
       STRUCT_KEYS.forEach(function (k) { rbs[k] = Math.round(rbs[k]); });
     }
 
+    var rentalUniverse = totals.renter_hh + totals.vacant_for_rent + totals.rented_not_occupied;
+    var seasonalShare = totals.vacant > 0 ? Math.min(1, Math.max(0, totals.vacant_seasonal / totals.vacant)) : 0;
+    var strAdjustedVacantForRent = totals.vacant_for_rent * (1 - seasonalShare);
+    var strAdjustedRentalUniverse = totals.renter_hh + strAdjustedVacantForRent + totals.rented_not_occupied;
+
     return {
       // F80: round the apportioned floats back to whole counts for display.
       pop:              Math.round(totals.pop),
@@ -503,8 +509,14 @@
       // scoring's legacy fallback handles that case.
       vacant_for_rent:     Math.round(totals.vacant_for_rent),
       rented_not_occupied: Math.round(totals.rented_not_occupied),
-      rental_vacancy_rate: (totals.renter_hh + totals.vacant_for_rent + totals.rented_not_occupied) > 0
-        ? totals.vacant_for_rent / (totals.renter_hh + totals.vacant_for_rent + totals.rented_not_occupied)
+      vacant_seasonal:     Math.round(totals.vacant_seasonal),
+      seasonal_vacancy_share: seasonalShare,
+      str_adjusted_vacant_for_rent: Math.round(strAdjustedVacantForRent),
+      rental_vacancy_rate: rentalUniverse > 0
+        ? totals.vacant_for_rent / rentalUniverse
+        : null,
+      str_adjusted_rental_vacancy_rate: strAdjustedRentalUniverse > 0
+        ? strAdjustedVacantForRent / strAdjustedRentalUniverse
         : null,
       severe_cost_burden_rate: totals.severe_burden_n
         ? totals.severe_burden_sum / totals.severe_burden_n : null,
@@ -894,12 +906,12 @@
     // reports unavailable (ACS missing), fall back to the local
     // scoreMarketTightness which accepts a defaulted vacancy_rate.
     //
-    // #1163: both paths now score RENTAL vacancy against the single 0.10
-    // ceiling (PMAScoring.RENTAL_VACANCY_CEILING) — the #1149 divergence
-    // (0.10 Bridge-gated vs 0.12 default) is resolved. Enabling Bridge/MLS
+    // #1163/#1171: both paths score rental vacancy against the single 0.10
+    // ceiling (PMAScoring.RENTAL_VACANCY_CEILING), preferring the STR proxy
+    // rate when the tract data includes vacant_seasonal. Enabling Bridge/MLS
     // no longer changes the vacancy normalization, only adds the land-cost
-    // blend. Legacy total-vacancy fallback (0.12) exists solely for data
-    // files that predate the rental_vacancy_rate fields.
+    // blend. Raw rental vacancy and legacy total vacancy remain fallbacks for
+    // stale tract files.
     var _landResult = (SSS.scoreLandSupplyWithBridge && _bridgeLandCtx)
       ? SSS.scoreLandSupplyWithBridge(acs, _bridgeLandCtx)
       : null;
@@ -1056,11 +1068,13 @@
             (chasData && chasData.meta && chasData.meta.vintage ? chasData.meta.vintage : '?') +
             '), scaled to the PMA buffer using county income mix'
           : 'Ratio of total affordable units to ALL renter households in buffer (ACS total — over-counts LIHTC demand pool)',
-        marketTightness: (_mtDetail.basis === 'rental_vacancy'
-          ? 'Rental-vacancy signal (Census HVS convention: for-rent ÷ rental universe, 0.10 ceiling) — seasonal/second homes excluded; measures lease-up risk, NOT land availability'
-          : 'TOTAL vacancy rate signal (legacy fallback — rental-vacancy fields absent from tract data; includes seasonal units, which overstates softness in resort markets)')
+        marketTightness: (_mtDetail.basis === 'rental_vacancy_str_adjusted'
+          ? 'STR-adjusted rental-vacancy signal (Census HVS convention with seasonal-share discount applied as an STR proxy — verify against local STR-license data; 0.10 ceiling) — measures lease-up risk, NOT land availability'
+          : (_mtDetail.basis === 'rental_vacancy'
+            ? 'Rental-vacancy signal (Census HVS convention: for-rent ÷ rental universe, 0.10 ceiling; raw fallback because seasonal-vacancy field is absent) — measures lease-up risk, NOT land availability'
+            : 'TOTAL vacancy rate signal (legacy fallback — rental-vacancy fields absent from tract data; includes seasonal units, which overstates softness in resort markets)'))
           + (PMAScoring.isStrDistorted && PMAScoring.isStrDistorted(acs)
-            ? ' ⚠ STR-DISTORTED: ACS counts short-term/vacation rental listings as "for rent" — in this seasonal-dominated market the score likely understates long-term rental tightness. Verify against local STR-license and long-term listing data (#1171).'
+            ? ' ⚠ STR-DISTORTED: residual ACS short-term/vacation rental contamination may remain after the seasonal-share proxy discount. Verify against local STR-license and long-term listing data (#1171).'
             : ''),
         rentPressure:    rentPressureObj.unavailable
           ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'

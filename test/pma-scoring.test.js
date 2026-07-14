@@ -356,6 +356,49 @@ test('scoreMarketTightness prefers rental vacancy over resort-inflated total vac
     'plain scoreMarketTightness returns the same rental-based score');
 });
 
+test('scoreMarketTightness prefers STR-adjusted rental vacancy when present', () => {
+  const detail = Scoring.scoreMarketTightnessDetail({
+    vacancy_rate: 0.69,
+    rental_vacancy_rate: 0.51,
+    str_adjusted_rental_vacancy_rate: 0.075
+  });
+  assert(detail.basis === 'rental_vacancy_str_adjusted', 'STR-adjusted rental basis is reported');
+  assert(detail.score === 25, `7.5% adjusted rental vacancy scores 25 under the 0.10 ceiling (got ${detail.score})`);
+  assert(Scoring.scoreMarketTightness({
+    rental_vacancy_rate: 0.51,
+    str_adjusted_rental_vacancy_rate: 0.075
+  }) === 25, 'plain scoreMarketTightness uses the adjusted basis');
+});
+
+test('STR-adjusted vacancy formula fixtures match buffer-count method', () => {
+  function adjustedRate(renterHh, vacant, vacantForRent, rentedNotOccupied, vacantSeasonal) {
+    const seasonalShare = vacant > 0 ? Math.min(1, Math.max(0, vacantSeasonal / vacant)) : 0;
+    const adjustedForRent = vacantForRent * (1 - seasonalShare);
+    const universe = renterHh + adjustedForRent + rentedNotOccupied;
+    return universe > 0 ? adjustedForRent / universe : null;
+  }
+
+  const seasonalDominated = adjustedRate(3801, 19502, 2447, 182, 15847);
+  assertClose(seasonalDominated, 0.1033, 0.0002,
+    'Summit-style seasonal-dominated fixture discounts raw 38.1% rental vacancy to low-teens');
+  assert(Scoring.scoreMarketTightness({
+    rental_vacancy_rate: 2447 / (3801 + 2447 + 182),
+    str_adjusted_rental_vacancy_rate: seasonalDominated
+  }) === 0, 'low-teens adjusted rate still hits the 0.10 ceiling');
+
+  const zeroSeasonal = adjustedRate(900, 100, 50, 10, 0);
+  assertClose(zeroSeasonal, 50 / (900 + 50 + 10), 1e-12,
+    'zero-seasonal fixture leaves raw rental vacancy unchanged');
+  assert(Scoring.scoreMarketTightnessDetail({
+    rental_vacancy_rate: zeroSeasonal,
+    str_adjusted_rental_vacancy_rate: zeroSeasonal
+  }).basis === 'rental_vacancy_str_adjusted', 'zero-seasonal current data still reports adjusted basis');
+
+  const zeroVacant = adjustedRate(800, 0, 20, 5, 30);
+  assertClose(zeroVacant, 20 / (800 + 20 + 5), 1e-12,
+    'zero-vacant fixture clamps seasonal share to 0 instead of dividing by zero');
+});
+
 test('rental-vacancy ceiling boundaries', () => {
   assert(Scoring.scoreMarketTightness({ rental_vacancy_rate: 0.10 }) === 0,
     '10% rental vacancy scores 0 (ceiling)');
@@ -374,14 +417,23 @@ test('legacy fallback preserves historical total-vacancy behavior when rental fi
   assert(nullRental.basis === 'legacy_total_vacancy', 'null rental universe routes to legacy fallback');
 });
 
-// #1171 — STR-distortion disclosure predicate. Flags only when the score is
-// materially depressed (rental >= 0.08) AND the market is seasonal-dominated
-// (total >= 0.25). Disclosure-only: the score itself is unchanged.
-test('isStrDistorted flags STR-saturated resort buffers and nothing else', () => {
+// #1171 — STR-distortion disclosure predicate. After the seasonal-share
+// discount, flags only residual cases where the adjusted score is still
+// materially depressed (adjusted rental >= 0.08) AND the market is seasonal-
+// dominated (total >= 0.25). Raw rental vacancy remains the stale-data fallback.
+test('isStrDistorted evaluates adjusted rental vacancy when present', () => {
+  assert(Scoring.isStrDistorted({
+    rental_vacancy_rate: 0.51,
+    str_adjusted_rental_vacancy_rate: 0.06,
+    vacancy_rate: 0.69
+  }) === false, 'Breckenridge-style buffer stops flagging when adjusted rate drops below 8%');
+  assert(Scoring.isStrDistorted({
+    rental_vacancy_rate: 0.51,
+    str_adjusted_rental_vacancy_rate: 0.11,
+    vacancy_rate: 0.69
+  }) === true, 'residual high adjusted vacancy still flags');
   assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.51, vacancy_rate: 0.69 }) === true,
-    'Breckenridge-style buffer (51% rental / 69% total) is flagged');
-  assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.11, vacancy_rate: 0.32 }) === true,
-    'Pitkin-style buffer (11% / 32%) is flagged');
+    'stale data without adjusted rate falls back to raw rental vacancy');
   assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.05, vacancy_rate: 0.077 }) === false,
     'Denver-style buffer (5% / 7.7%) is not flagged');
   assert(Scoring.isStrDistorted({ rental_vacancy_rate: 0.16, vacancy_rate: 0.10 }) === false,
@@ -391,20 +443,25 @@ test('isStrDistorted flags STR-saturated resort buffers and nothing else', () =>
   assert(Scoring.isStrDistorted({ vacancy_rate: 0.40 }) === false,
     'missing rental field never flags (legacy data)');
   assert(Scoring.isStrDistorted(null) === false, 'null acs never flags');
-  // score is unchanged by the flag — disclosure only
-  assert(Scoring.scoreMarketTightness({ rental_vacancy_rate: 0.51, vacancy_rate: 0.69 }) === 0,
-    'flagged buffer still scores on the same formula');
+  assert(Scoring.scoreMarketTightness({
+    rental_vacancy_rate: 0.51,
+    str_adjusted_rental_vacancy_rate: 0.06,
+    vacancy_rate: 0.69
+  }) === 40, 'adjusted fixture moves score off 0');
   // the dimension note wiring exists in computePma
   const engine = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
   assert(engine.includes('isStrDistorted'), 'computePma consults isStrDistorted for the dimension note');
-  assert(engine.includes('STR-DISTORTED'), 'dimension note carries the STR-DISTORTED warning text');
+  assert(engine.includes('seasonal-share discount applied as an STR proxy'),
+    'dimension note discloses the STR proxy basis');
 });
 
-// Anti-re-divergence guard (#1149/#1163): both scoring files must normalize
-// rental vacancy against the same 0.10 ceiling. If either drifts, this fails.
-test('both Land/Supply code paths score rental vacancy at the 0.10 ceiling', () => {
+// Anti-re-divergence guard (#1149/#1163/#1171): both scoring files must prefer
+// the STR-adjusted rental basis and normalize against the same 0.10 ceiling.
+test('both Land/Supply code paths prefer STR-adjusted rental vacancy at the 0.10 ceiling', () => {
   const sss = fs.readFileSync(
     path.resolve(__dirname, '..', 'js', 'market-analysis', 'site-selection-score.js'), 'utf8');
+  assert(sss.includes('str_adjusted_rental_vacancy_rate'), 'site-selection-score.js consumes adjusted rental vacancy');
+  assert(/adjusted\s*\/\s*0\.10/.test(sss), 'site-selection-score.js normalizes adjusted vacancy against 0.10');
   assert(sss.includes('rental_vacancy_rate'), 'site-selection-score.js consumes rental_vacancy_rate');
   assert(/rental\s*\/\s*0\.10/.test(sss), 'site-selection-score.js normalizes rental vacancy against 0.10');
 
@@ -415,6 +472,8 @@ test('both Land/Supply code paths score rental vacancy at the 0.10 ceiling', () 
 
   const engine = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
   assert(engine.includes('rental_vacancy_rate'), 'aggregateAcs derives buffer-level rental_vacancy_rate');
+  assert(engine.includes('str_adjusted_rental_vacancy_rate'), 'aggregateAcs derives buffer-level adjusted rental vacancy');
+  assert(engine.includes('vacant_seasonal'), 'aggregateAcs sums vacant_seasonal counts');
   assert(engine.includes('scoreMarketTightnessDetail'), 'computePma uses the basis-aware detail for disclosure');
 });
 

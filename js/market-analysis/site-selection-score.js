@@ -603,13 +603,19 @@
         reason: 'ACS vacancy data unavailable'
       };
     }
-    // #1163 — prefer RENTAL vacancy (Census HVS convention). Total ACS
-    // vacancy counts seasonal/second homes as vacant, which reads resort
-    // counties as massively oversupplied (Summit: 63% median tract
-    // "vacancy") — the opposite of their actual rental-market condition.
-    // Same 0.10 ceiling as PMAMarketScoring.RENTAL_VACANCY_CEILING:
+    // #1163/#1171 — prefer the STR-adjusted rental vacancy proxy when present,
+    // then raw RENTAL vacancy (Census HVS convention), then legacy total
+    // vacancy. Same 0.10 ceiling as PMAMarketScoring.RENTAL_VACANCY_CEILING:
     // 10%+ vacancy is where lease-up risk and absorption pace begin to
     // materially threaten LIHTC underwriting.
+    var adjusted = Number(acs.str_adjusted_rental_vacancy_rate);
+    if (acs.str_adjusted_rental_vacancy_rate != null && isFinite(adjusted)) {
+      return {
+        score: _clamp(Math.round((1 - adjusted / 0.10) * 100)),
+        unavailable: false,
+        basis: 'rental_vacancy_str_adjusted'
+      };
+    }
     var rental = Number(acs.rental_vacancy_rate);
     if (acs.rental_vacancy_rate != null && isFinite(rental)) {
       return {

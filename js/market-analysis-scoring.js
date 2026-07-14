@@ -176,18 +176,20 @@
     return { score: Math.round(score), ratio: ratio, amiUsed: countyAmi, amiSource: 'county', unavailable: false };
   }
 
-  // #1163 — the Land/Supply vacancy signal scores RENTAL vacancy (Census HVS
-  // convention) against a single 0.10 ceiling. Total ACS vacancy counts
-  // seasonal/second homes as vacant, which scored every Colorado resort
-  // county 0 (Summit: 63% median tract "vacancy") — an inverted signal in
-  // exactly the markets this platform serves. 0.10 is the underwriting-
-  // grounded ceiling (10%+ vacancy materially threatens LIHTC lease-up);
-  // the old 0.12 survives only in the legacy fallback below for data files
-  // that predate the rental-vacancy fields.
+  // #1163/#1171 — the Land/Supply vacancy signal scores RENTAL vacancy
+  // (Census HVS convention) against a single 0.10 ceiling. Current tract data
+  // applies a seasonal-share discount to vacant-for-rent as an STR proxy before
+  // scoring; raw rental vacancy and legacy total vacancy remain fallbacks for
+  // stale data files.
   var RENTAL_VACANCY_CEILING = 0.10;
   var LEGACY_TOTAL_VACANCY_CEILING = 0.12;
 
   function scoreMarketTightnessDetail(acs) {
+    var strAdjusted = acs ? Number(acs.str_adjusted_rental_vacancy_rate) : NaN;
+    if (acs && acs.str_adjusted_rental_vacancy_rate != null && isFinite(strAdjusted)) {
+      var adjustedScore = Math.max(0, Math.min(100, (1 - strAdjusted / RENTAL_VACANCY_CEILING) * 100));
+      return { score: Math.round(adjustedScore), basis: 'rental_vacancy_str_adjusted' };
+    }
     var rental = acs ? Number(acs.rental_vacancy_rate) : NaN;
     if (acs && acs.rental_vacancy_rate != null && isFinite(rental)) {
       var score = Math.max(0, Math.min(100, (1 - rental / RENTAL_VACANCY_CEILING) * 100));
@@ -205,27 +207,22 @@
     return scoreMarketTightnessDetail(acs).score;
   }
 
-  // #1171 — STR-distortion disclosure. ACS B25004_002E counts short-term/
-  // vacation rental listings as "for rent", so in STR-saturated resort
-  // cores rental vacancy reads far above the long-term market (Summit:
-  // ~38% of the county rental universe). Flag a buffer as STR-distorted
-  // when BOTH hold:
-  //   - rental vacancy >= 0.08 (score <= 20 — materially depressed), AND
-  //   - total vacancy >= 0.25 (seasonal-dominated market, the STR tell).
-  // Calibrated against 2019-2023 county aggregates: flags Summit, Eagle,
-  // Pitkin, Gunnison, San Miguel, Archuleta; does NOT flag Denver/Boulder
-  // (low both), La Plata (score 27, mixed), Lake/Leadville (rental tight —
-  // score not depressed), or a hypothetical soft metro (high rental, low
-  // total — genuine oversupply, not STR). Disclosure only; the score is
-  // unchanged. Real refinement options tracked in #1171.
+  // #1171 — residual STR-distortion disclosure. Prefer the STR-adjusted
+  // vacancy rate when present; raw rental vacancy is the stale-data fallback.
+  // Most resort-core buffers should stop flagging after the seasonal-share
+  // proxy discount. Residual flags mean the adjusted rate is still materially
+  // depressed in a seasonal-dominated market and should be verified locally.
   var STR_FLAG_RENTAL_VACANCY_MIN = 0.08;
   var STR_FLAG_TOTAL_VACANCY_MIN = 0.25;
 
   function isStrDistorted(acs) {
     if (!acs) return false;
-    var rental = Number(acs.rental_vacancy_rate);
+    var basis = acs.str_adjusted_rental_vacancy_rate != null
+      ? acs.str_adjusted_rental_vacancy_rate
+      : acs.rental_vacancy_rate;
+    var rental = Number(basis);
     var total = Number(acs.vacancy_rate);
-    return acs.rental_vacancy_rate != null && isFinite(rental) &&
+    return basis != null && isFinite(rental) &&
            acs.vacancy_rate != null && isFinite(total) &&
            rental >= STR_FLAG_RENTAL_VACANCY_MIN &&
            total >= STR_FLAG_TOTAL_VACANCY_MIN;
