@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T21:54:02.100Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-14T22:48:06.517Z. Do not edit by hand.
 
 ---
 
@@ -878,8 +878,8 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 31.8 KB | ✅ | — |
-| `data/hna/local-resources.json` | 171.6 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 27.8 KB | ✅ | — |
+| `data/hna/local-resources.json` | 172.6 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 704.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1625,7 +1625,7 @@
 
 ## Test Files
 
-177 test files found.
+178 test files found.
 
 | File | Size |
 |------|------|
@@ -1709,6 +1709,7 @@
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
+| `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
