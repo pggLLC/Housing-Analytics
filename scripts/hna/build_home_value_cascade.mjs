@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Build current-market median home value display fields for HNA places.
+ * Build current-market median home value display fields for HNA places and
+ * county HNA ownership-affordability screens.
  *
  * Tier 1: Zillow city ZHVI, matched once into a GEOID -> RegionID crosswalk.
  * Tier 2: raw ACS DP04_0089E, labeled as a stale floor when no ZHVI row exists.
@@ -111,12 +112,42 @@ async function loadZhviRows() {
   return { byKey, latestAsOf: month.key, coRows };
 }
 
+function buildCountyAcsRows(registry) {
+  const counties = {};
+  let acsCount = 0;
+  let missingCount = 0;
+
+  for (const county of (registry.geographies || []).filter((geo) => geo.type === 'county').sort((a, b) => a.geoid.localeCompare(b.geoid))) {
+    const summaryPath = path.join(SUMMARY_DIR, `${county.geoid}.json`);
+    const summary = fs.existsSync(summaryPath) ? readJson(summaryPath) : null;
+    const profile = summary && summary.acsProfile || {};
+    const acsValue = Number(profile.DP04_0089E);
+    const hasValue = Number.isFinite(acsValue) && acsValue > 0;
+    counties[county.geoid] = {
+      value: hasValue ? acsValue : null,
+      source: 'acs_raw',
+      as_of: 'ACS 2020-2024 5-year',
+      confidence: hasValue ? 'low' : 'missing',
+      geography_level: 'county',
+    };
+    if (hasValue) acsCount += 1;
+    else missingCount += 1;
+  }
+
+  return { counties, acsCount, missingCount };
+}
+
 async function main() {
   const centroids = readJson(CENTROIDS).byGeoid || {};
   const placeCounties = readJson(PLACE_COUNTIES).places || {};
   const registry = readJson(REGISTRY);
   const countyNames = countyNamesByFips(registry);
-  const { byKey, latestAsOf, coRows } = await loadZhviRows();
+  const hasCityZhvi = fs.existsSync(ZHVI_CSV);
+  const existing = fs.existsSync(OUT) ? readJson(OUT) : {};
+  const zhviRows = hasCityZhvi ? await loadZhviRows() : null;
+  const byKey = zhviRows ? zhviRows.byKey : new Map();
+  const latestAsOf = zhviRows ? zhviRows.latestAsOf : (existing.meta && existing.meta.latest_zhvi_month) || null;
+  const coRows = zhviRows ? zhviRows.coRows : (existing.meta && existing.meta.colorado_zhvi_rows) || 0;
 
   const places = {};
   const crosswalk = {};
@@ -124,7 +155,17 @@ async function main() {
   let zhviCount = 0;
   let acsCount = 0;
 
-  for (const [geoid, place] of Object.entries(centroids).sort(([a], [b]) => a.localeCompare(b))) {
+  if (!hasCityZhvi && existing.places) {
+    Object.assign(places, existing.places);
+    const counts = existing.meta && existing.meta.counts || {};
+    zhviCount = Number(counts.zhvi) || Object.values(places).filter((row) => row && row.source === 'zhvi').length;
+    acsCount = Number(counts.acs_raw) || (Object.keys(places).length - zhviCount);
+    if (existing.review_flags && Array.isArray(existing.review_flags.zhvi_over_acs_ratio_gt_3)) {
+      review.push(...existing.review_flags.zhvi_over_acs_ratio_gt_3);
+    }
+  }
+
+  for (const [geoid, place] of hasCityZhvi ? Object.entries(centroids).sort(([a], [b]) => a.localeCompare(b)) : []) {
     const countyFips = placeCounties[geoid];
     const countyName = countyNames[countyFips];
     const summaryPath = path.join(SUMMARY_DIR, `${geoid}.json`);
@@ -178,33 +219,51 @@ async function main() {
     places[geoid] = display;
   }
 
+  const countyRows = buildCountyAcsRows(registry);
+
   fs.writeFileSync(OUT, JSON.stringify({
     meta: {
       generated_at: new Date().toISOString(),
-      schema: 'median_home_value = { value, source, as_of, confidence }',
+      schema: 'median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models',
       sources: {
         zhvi_city_csv: 'https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv',
+        zhvi_county_csv: null,
         acs_raw: 'ACS DP04_0089E, 2020-2024 5-year',
       },
       latest_zhvi_month: latestAsOf,
       colorado_zhvi_rows: coRows,
-      counts: { zhvi: zhviCount, acs_raw: acsCount, total: zhviCount + acsCount },
+      counts: {
+        zhvi: zhviCount,
+        acs_raw: acsCount,
+        total: zhviCount + acsCount,
+        counties: {
+          acs_raw: countyRows.acsCount,
+          missing: countyRows.missingCount,
+          total: Object.keys(countyRows.counties).length,
+        },
+      },
+      build_note: hasCityZhvi
+        ? 'Place rows rebuilt from local Zillow city ZHVI CSV.'
+        : 'Local Zillow city ZHVI CSV absent; preserved committed place rows and rebuilt county rows from committed ACS summary caches.',
     },
     places,
+    counties: countyRows.counties,
     review_flags: {
       zhvi_over_acs_ratio_gt_3: review,
     },
   }, null, 2) + '\n');
 
-  fs.writeFileSync(CROSSWALK_OUT, JSON.stringify({
-    meta: {
-      generated_at: new Date().toISOString(),
-      source: 'Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.',
-      latest_zhvi_month: latestAsOf,
-      count: Object.keys(crosswalk).length,
-    },
-    places: crosswalk,
-  }, null, 2) + '\n');
+  if (hasCityZhvi) {
+    fs.writeFileSync(CROSSWALK_OUT, JSON.stringify({
+      meta: {
+        generated_at: new Date().toISOString(),
+        source: 'Derived from Census GEOID place names + containing county matched to Zillow city RegionID + CountyName.',
+        latest_zhvi_month: latestAsOf,
+        count: Object.keys(crosswalk).length,
+      },
+      places: crosswalk,
+    }, null, 2) + '\n');
+  }
 
   console.log(`home-value cascade: ${zhviCount} ZHVI, ${acsCount} ACS raw, ${review.length} review flags`);
 }
