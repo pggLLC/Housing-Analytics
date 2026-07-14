@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "generated": "2026-07-14",
+    "purpose": "Warn-only calibration benchmark for the PMA STR seasonal-share discount (#1171).",
+    "method_note": "Licensed STR counts are not ACS vacant-for-rent units. They use different universes and dates; compare only for order-of-magnitude calibration. License counts are advisory only and are never scoring inputs.",
+    "source_rules": "Each row was queried from an official municipal/county ArcGIS or open-data endpoint on 2026-07-14. Absent jurisdictions are preferable to unverifiable or remembered counts."
+  },
+  "entries": [
+    {
+      "jurisdiction": "Denver",
+      "geoid": "0820000",
+      "geography_level": "place",
+      "licensed_str_units": 2386,
+      "as_of": "2026-07-14",
+      "source_url": "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_short_term_rental_licenses_active_or_pending_renewal/FeatureServer/67/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "City and County of Denver table 'Short Term Rental-Licenses Active or Pending Renewal'; query returned count 2386."
+    },
+    {
+      "jurisdiction": "Manitou Springs",
+      "geoid": "0848445",
+      "geography_level": "place",
+      "licensed_str_units": 51,
+      "as_of": "2026-07-14",
+      "source_url": "https://services6.arcgis.com/JvLU4FaQtqrjGWfU/arcgis/rest/services/Short_Term_Rental_and_Hotel_Motel_August_2025/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "City of Manitou Springs service 'Short Term Rentals' / 'Active Short Term Rentals'; query returned count 51."
+    },
+    {
+      "jurisdiction": "Lyons",
+      "geoid": "0847070",
+      "geography_level": "place",
+      "licensed_str_units": 16,
+      "as_of": "2026-07-14",
+      "source_url": "https://services1.arcgis.com/upSnbuH7dAfu37yT/arcgis/rest/services/Licensesed_Short_Term_Rental/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "Town of Lyons service 'Licensed Short Term Rentals'; query returned count 16."
+    },
+    {
+      "jurisdiction": "Lake County",
+      "geoid": "08065",
+      "geography_level": "county",
+      "licensed_str_units": 132,
+      "as_of": "2026-07-14",
+      "source_url": "https://services1.arcgis.com/38PTfoP8IjlBsxZN/arcgis/rest/services/STR_Compliance/FeatureServer/0/query?where=1%3D1&returnCountOnly=true&f=json",
+      "source_note": "Lake County, Colorado GIS service 'Compliant STR 2024'; query returned count 132."
+    },
+    {
+      "jurisdiction": "Clear Creek County",
+      "geoid": "08019",
+      "geography_level": "county",
+      "licensed_str_units": 154,
+      "as_of": "2026-07-14",
+      "source_url": "https://services1.arcgis.com/faTiISwEuJk1lvB1/arcgis/rest/services/GovBuilt_STR_License_Parcels_(GIS_Friendly)/FeatureServer/0/query?where=licenseStatus%3D%27Active%27&outFields=licenseNumber&returnDistinctValues=true&returnGeometry=false&f=json",
+      "source_note": "Clear Creek County STR license parcel service; distinct active licenseNumber query returned 154 features."
+    }
+  ]
+}
