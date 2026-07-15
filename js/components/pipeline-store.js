@@ -20,9 +20,10 @@
  *        HEADERS, STAGES, CONFIDENCES, CLASSIFICATIONS,
  *        CSV_URL, parseCsvText.
  *
- * The canonical source for the pipeline is
- * docs/developer-pipeline-prototype/02-pipeline.csv (read-only via
- * fetch). The local layer adds a localStorage cache of:
+ * The canonical pipeline CSV moved to a private workspace (June 2026)
+ * and is no longer published in this repo — loadCanonical() resolves
+ * to an empty list on the public site. The local layer adds a
+ * localStorage cache of:
  *   - DRAFTS: new rows (added in-app, not yet in the canonical CSV)
  *   - EDITS:  field-level overrides on canonical rows
  *   - DELETES: queued removals of canonical rows
@@ -456,12 +457,17 @@
       return fetch(syncUrl, { cache: 'no-store', credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (server) {
+          // No server copy (public/ungated deployment 404s, offline, bad
+          // payload): keep the local cache untouched and do NOT mark the
+          // device synced — otherwise the next load would treat the missing
+          // server as authoritative and wipe local drafts.
+          if (server == null) return;
           if (firstRun) {
             _writeState(_unionState(_localState(), server));    // protect pre-sync local drafts
             try { localStorage.setItem(KEY_SYNCED, '1'); } catch (_) {}
             _pushServer();                                       // converge server to the union
           } else {
-            _writeState(server || { drafts: [], edits: {}, deletes: [] }); // server is authoritative
+            _writeState(server); // server is authoritative once a real sync exists
           }
         })
         .catch(function () { /* offline or ungated — keep the local cache */ });
@@ -506,6 +512,9 @@
   // ────────────────────────────────────────────────────────────────
   if (global.PipelineStore) return;
 
+  // Canonical CSV moved to a private workspace; this path 404s on the
+  // public site and loadCanonical() falls back to []. Kept so a private
+  // deployment that bundles the CSV picks it up unchanged.
   var PIPELINE_CSV_URL = 'docs/developer-pipeline-prototype/02-pipeline.csv';
   var PIPELINE_NS      = 'coho_developer_pipeline';
 

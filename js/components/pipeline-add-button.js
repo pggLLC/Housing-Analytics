@@ -222,7 +222,7 @@
           (status.state === 'canonical' || status.state === 'draft'
             ? '<span class="pab-state">' + (status.state === 'canonical'
                 ? 'Stage: ' + _esc(status.row.stage || '—') + ' · IOI ' + _esc(status.row.ioi_score || '—')
-                : 'Local draft — export from the Deal Tracker page to commit to CSV')
+                : 'Local draft — export it from the Pipeline page (Your local drafts)')
               + '</span>'
             : '');
 
@@ -283,10 +283,10 @@
           return;
         }
         window.PipelineStore.editCanonical(data.geoid, diff);
-        setMsg('Saved local edits to canonical row. Export from the Deal Tracker page to commit.', true);
+        setMsg('Saved local edits to canonical row. Export from the Pipeline page to commit.', true);
       } else {
         window.PipelineStore.addDraft(data);
-        setMsg('Saved as local draft. Export from the Deal Tracker page to commit to CSV.', true);
+        setMsg('Saved as local draft. Export from the Pipeline page to commit to CSV.', true);
       }
 
       setTimeout(function () { form.remove(); onChange(); }, 600);
