@@ -70,11 +70,45 @@ function exists(p) {
   }
 }
 
+// Remove <script>/<pre>/<code> blocks so link extraction skips them.
+// Removing a block can splice a new tag together, so re-apply until stable.
+function stripIgnoredBlocks(html) {
+  const tags = ["script", "pre", "code"];
+  let out = String(html ?? "");
+  let changed;
+  do {
+    changed = false;
+    const lower = out.toLowerCase();
+    let block = null;
+    for (const tag of tags) {
+      const startToken = `<${tag}`;
+      let start = lower.indexOf(startToken);
+      while (start !== -1) {
+        const boundary = lower[startToken.length + start];
+        if (boundary && boundary !== ">" && boundary !== "/" && boundary.trim() !== "") {
+          start = lower.indexOf(startToken, start + 1);
+          continue;
+        }
+        const openEnd = lower.indexOf(">", start);
+        if (openEnd === -1) break;
+        const closeStart = lower.indexOf(`</${tag}`, openEnd + 1);
+        if (closeStart === -1) break;
+        const closeEnd = lower.indexOf(">", closeStart);
+        if (closeEnd === -1) break;
+        if (!block || start < block.start) block = { start, end: closeEnd + 1 };
+        break;
+      }
+    }
+    if (block) {
+      out = out.slice(0, block.start) + out.slice(block.end);
+      changed = true;
+    }
+  } while (changed);
+  return out;
+}
+
 function checkHtmlFile(file) {
-  const html = read(file)
-    .replace(/<script\b[\s\S]*?<\/script>/gi, "")
-    .replace(/<pre\b[\s\S]*?<\/pre>/gi, "")
-    .replace(/<code\b[\s\S]*?<\/code>/gi, "");
+  const html = stripIgnoredBlocks(read(file));
   const dir = path.dirname(file);
   const rawLinks = extractLinks(html);
 

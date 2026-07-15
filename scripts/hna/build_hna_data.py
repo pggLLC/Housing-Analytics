@@ -118,8 +118,10 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
                 body = ''
             print(f"← HTTP {status}  {elapsed:.1f}s  fetching external source (attempt {attempt + 1}/{retries})", file=sys.stderr)
             if status >= 400:
-                # Log response body preview for all API errors to aid debugging
-                print(f"  Response: {body[:1000]}", file=sys.stderr)
+                # Log response body preview for all API errors to aid debugging.
+                # Error bodies can echo the request URL (with API key) — redact
+                # before truncating so a key can't straddle the cut.
+                print(f"  Response: {redact(body)[:1000]}", file=sys.stderr)
             if status in (408, 429, 500, 502, 503, 504) and attempt < retries - 1:
                 time.sleep(wait)
                 wait *= backoff
@@ -141,7 +143,7 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
     status, text = http_get_text(url, timeout=timeout, retries=1)
     if status != 200:
         print(f"⚠ Failed to fetch JSON from external source: HTTP {status}", file=sys.stderr)
-        print(f"  Response preview: {text[:500]}", file=sys.stderr)
+        print(f"  Response preview: {redact(text)[:500]}", file=sys.stderr)
         return None
     try:
         return json.loads(text)
