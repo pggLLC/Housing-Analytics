@@ -650,7 +650,9 @@
       </script>
     </div>
 
-    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
+    <!-- Rental-only: 15-year operating pro forma reads the LIHTC rental calc.
+         Hidden by the Deal Mode toggle (updateDealModeUi) in ownership mode. -->
+    <div data-dc-mode="rental" style="max-width:1400px;margin:2rem auto;padding:0 18px;">
       <div id="proFormaMount"></div>
       <script>
       document.addEventListener('DOMContentLoaded', function () {

@@ -29,6 +29,7 @@ assertIncludes(dcSrc, 'HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordable
 assertIncludes(dcSrc, 'data-dc-mode="rental"', 'rental-only sections are marked for mode switching');
 assertIncludes(dcSrc, 'data-dc-mode="ownership"', 'ownership-only sections are marked for mode switching');
 assertIncludes(shareSrc, "'dc-sale-target-ami'", 'ownership AMI target round-trips through share/export keys');
+assertIncludes(shareSrc, "'dc-mode-rental'", 'deal mode radio round-trips through share/export keys');
 
 const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
   url: 'http://localhost/deal-calculator.html'
@@ -66,6 +67,16 @@ assert.strictEqual(rentalAmiMix.hidden, true, 'ownership mode hides rental AMI m
 assert.strictEqual(capitalStack.hidden, true, 'ownership mode hides rental capital stack outputs');
 assert.strictEqual(saleTargetWrap.hidden, false, 'ownership mode reveals ownership sale target');
 assert.strictEqual(unitsInput.closest('label').hidden, false, 'total units stays visible in ownership mode');
+
+// Every rental-scoped section (mortgage sizing, DSCR, rent achievability,
+// peer deals, adjust-guidance, headings) must leave ownership mode.
+document.querySelectorAll('[data-dc-mode="rental"]').forEach(el => {
+  assert.strictEqual(el.hidden, true, 'rental-scoped element hidden in ownership mode: ' + (el.id || el.tagName));
+});
+assert.strictEqual(document.getElementById('dc-adjust-guidance').hidden, true, 'rental adjust-guidance box is hidden in ownership mode');
+document.querySelectorAll('[data-dc-mode="ownership"]').forEach(el => {
+  assert.strictEqual(el.hidden, false, 'ownership-scoped element visible in ownership mode: ' + (el.id || el.tagName));
+});
 
 const expectedPrice80 = window.HNAOwnershipNeed.maxAffordablePrice(100000, 0.80);
 const result = dc.computeForSaleFeasibility({
