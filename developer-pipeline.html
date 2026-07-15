@@ -25,6 +25,9 @@
   .ib-doc h3 { margin: var(--sp3) 0 .4rem; }
   .ib-doc p, .ib-doc li { line-height: 1.6; }
   .ib-doc ul, .ib-doc ol { margin: 0 0 var(--sp2) 1.2rem; padding: 0; }
+  /* display:flex must not defeat the hidden attribute (UA display:none
+     loses to inline styles), so the flex layout lives here instead. */
+  #draftsActions:not([hidden]) { display: flex; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
@@ -82,7 +85,7 @@
         <tbody></tbody>
       </table>
     </div>
-    <div id="draftsActions" hidden style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem;">
+    <div id="draftsActions" hidden style="gap:.6rem;flex-wrap:wrap;margin-top:.7rem;">
       <button id="draftsExportCsv" class="btn" type="button">Export CSV</button>
       <button id="draftsExportJson" class="btn" type="button">Export JSON</button>
       <button id="draftsClear" class="btn" type="button" style="margin-left:auto;color:var(--warn);">Clear all drafts</button>
