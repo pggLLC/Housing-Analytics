@@ -184,37 +184,8 @@
 (function () {
   'use strict';
 
-  // -------------------------------------------------------------------------
-  // Minimal CSV parser
-  // -------------------------------------------------------------------------
-  function parseCSV(text) {
-    const rows = []; let row = [], field = '', q = false;
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-      if (q) {
-        if (c === '"') { if (text[i+1] === '"') { field += '"'; i++; } else q = false; }
-        else field += c;
-      } else {
-        if (c === '"') q = true;
-        else if (c === ',') { row.push(field); field = ''; }
-        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
-        else if (c !== '\r') field += c;
-      }
-    }
-    if (field.length || row.length) { row.push(field); rows.push(row); }
-    return rows.filter(r => r.some(c => c && c.trim()));
-  }
-  function toObj(text) {
-    const r = parseCSV(text);
-    if (!r.length) return [];
-    const h = r[0].map(x => x.trim());
-    return r.slice(1).map(row => {
-      const o = {}; h.forEach((k, i) => o[k] = (row[i] || '').trim()); return o;
-    });
-  }
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function softJson(url) { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.json() : null).catch(() => null); }
-  function softCsv(url)  { return fetch(url, {cache:'no-cache'}).then(r => r.ok ? r.text() : '').then(t => t ? toObj(t) : []).catch(() => []); }
   function fmtNum(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toLocaleString('en-US', {maximumFractionDigits: dp || 0}); }
   function fmtMoney(n) { if (n == null || !isFinite(n)) return '—'; return '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits: 0}); }
   function fmtPct(n, dp) { if (n == null || !isFinite(n)) return '—'; return Number(n).toFixed(dp || 1) + '%'; }
@@ -222,12 +193,14 @@
   // -------------------------------------------------------------------------
   // Load every data source once
   // -------------------------------------------------------------------------
-  const BASE_CSV = 'docs/developer-pipeline-prototype/';
+  // The canonical pipeline + signal-log CSVs moved to a private workspace
+  // (June 2026) and are no longer published in this repo. Pipeline state on
+  // briefs now comes solely from the local PipelineStore draft/edit layer.
   let DATA = {};
 
   Promise.all([
-    softCsv(BASE_CSV + '02-pipeline.csv'),
-    softCsv(BASE_CSV + '01-signal-log.csv'),
+    Promise.resolve([]),   // pipeline rows (canonical CSV is private now)
+    Promise.resolve([]),   // signal-log rows (canonical CSV is private now)
     softJson('data/policy/jurisdiction-housing-progress.json'),
     softJson('data/policy/prop123_jurisdictions.json'),
     softJson('data/policy/housing-policy-scorecard.json'),
@@ -248,7 +221,7 @@
     DATA.pipelineByGeoid = {};
     pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
     // Merge the in-app draft/edit layer (PipelineStore — cross-device via /api/pipeline)
-    // so a jurisdiction added as a draft, not yet written to 02-pipeline.csv, still shows
+    // so a jurisdiction added as a draft, not yet in the private workspace pipeline, still shows
     // its stage / IOI / etc. on its brief. Edits overlay canonical rows; drafts add new ones.
     if (window.PipelineStore) {
       try {
@@ -586,7 +559,7 @@
         <h1>${esc(name)}</h1>
         <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
         <div class="ib-brief-meta">
-          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Set in 02-pipeline.csv."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Maintained in the private workspace pipeline."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
           <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
           <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
           <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
@@ -1462,7 +1435,7 @@
         }
         if (raw === null) {
           if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
-            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the a developer pipeline CSV so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
+            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the pipeline in the private workspace so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
           }
           resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
           raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
@@ -1572,9 +1545,8 @@
       <div class="ib-card">
         <h2>Pipeline state</h2>
         <div class="ib-card-source">
-          <strong>Source:</strong> Internal pipeline ·
-          <code>docs/developer-pipeline-prototype/02-pipeline.csv</code>.
-          Edit the CSV and the page re-renders on next load.
+          <strong>Source:</strong> Internal pipeline — local drafts/edits saved in
+          this browser. The canonical pipeline is maintained in a private workspace.
         </div>
         <p style="font-size:var(--small);"><strong>Next action:</strong> ${esc(p.next_action || '—')}${p.next_action_due ? ` <span style="color:var(--warn);font-size:.78rem;">· due ${esc(p.next_action_due)}</span>` : ''}</p>
         ${p.notes ? `<p style="font-size:.82rem;color:var(--muted);margin:0;">${esc(p.notes)}</p>` : ''}
@@ -1588,8 +1560,7 @@
       <div class="ib-card">
         <h2>Signal history <span class="meta">${sigs.length} signals</span></h2>
         <div class="ib-card-source">
-          <strong>Source:</strong> Signal Log ·
-          <code>docs/developer-pipeline-prototype/01-signal-log.csv</code>.
+          <strong>Source:</strong> Signal Log — maintained in a private workspace.
           Each row's source URL is shown inline ↗.
         </div>
         ${sigs.map(s => `

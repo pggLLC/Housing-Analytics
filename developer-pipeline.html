@@ -3,142 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Affordable Housing Pipeline — COHO</title>
+<title>Affordable Housing Pipeline — Methodology — COHO</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="stylesheet" href="css/site-theme.css">
 <script src="js/developer-gate.js"></script>
 <style>
   /* Page-specific layout */
-  .ib-banner {
-    background: color-mix(in oklab, var(--warn) 12%, var(--card) 88%);
-    border: 1px solid color-mix(in oklab, var(--warn) 35%, var(--border) 65%);
+  .ib-notice {
+    background: color-mix(in oklab, var(--accent) 6%, var(--card) 94%);
+    border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--border) 65%);
     border-radius: var(--radius);
-    padding: 0.6rem 0.9rem;
-    margin-bottom: var(--sp3);
+    padding: 0.8rem 1rem;
+    margin: var(--sp3) 0;
     font-size: var(--small);
-    display: flex; align-items: center; gap: 0.6rem;
+    line-height: 1.55;
   }
-  .ib-banner strong { color: var(--warn); }
-
-  .ib-tabs {
-    display: flex; gap: 0.4rem;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: var(--sp3); padding-bottom: 0;
-    flex-wrap: wrap;
+  .ib-doc h2 {
+    margin: var(--sp4) 0 .5rem;
+    font-size: 1.15rem;
   }
-  .ib-tab {
-    padding: 0.5rem 0.9rem;
-    background: transparent; color: var(--muted);
-    border: none; border-bottom: 2px solid transparent;
-    cursor: pointer; font-weight: 600; font-size: var(--small);
-    margin-bottom: -1px;
-  }
-  .ib-tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
-  .ib-tab .count { font-size: .7rem; opacity: .7; margin-left: .3rem; }
-
-  .ib-section { display: none; }
-  .ib-section[aria-current="true"] { display: block; }
-
-  /* Tables */
-  .ib-table { width: 100%; border-collapse: collapse; font-size: var(--small); }
-  .ib-table th, .ib-table td {
-    text-align: left; padding: 0.5rem 0.6rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top; line-height: 1.4;
-  }
-  .ib-table th {
-    background: var(--bg2); color: var(--muted);
-    font-weight: 700; font-size: .72rem;
-    text-transform: uppercase; letter-spacing: .03em;
-    position: sticky; top: 0;
-  }
-  .ib-table tr:hover td { background: color-mix(in oklab, var(--accent) 4%, transparent 96%); }
-
-  /* Strength + stage chips */
-  .ib-chip {
-    display: inline-block; padding: 1px 8px;
-    border-radius: 9999px; font-size: .68rem; font-weight: 700;
-    letter-spacing: .02em; white-space: nowrap;
-  }
-  .ib-chip-strong   { background: color-mix(in oklab, var(--good) 26%, var(--card) 74%); color: var(--good); }
-  .ib-chip-moderate { background: color-mix(in oklab, var(--warn) 22%, var(--card) 78%); color: var(--warn); }
-  .ib-chip-weak     { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
-  .ib-chip-high     { background: color-mix(in oklab, var(--good) 22%, var(--card) 78%); color: var(--good); }
-  .ib-chip-medium   { background: color-mix(in oklab, var(--warn) 18%, var(--card) 82%); color: var(--warn); }
-  .ib-chip-low      { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
-  .ib-chip-A { background: color-mix(in oklab, var(--good) 28%, var(--card) 72%); color: var(--good); }
-  .ib-chip-B { background: color-mix(in oklab, var(--accent) 24%, var(--card) 76%); color: var(--accent); }
-  .ib-chip-C { background: color-mix(in oklab, var(--warn) 18%, var(--card) 82%); color: var(--warn); }
-  .ib-chip-D { background: var(--bg2); color: var(--muted); border: 1px solid var(--border); }
-
-  /* Kanban */
-  .ib-kanban {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(220px, 1fr));
-    gap: var(--sp2);
-    overflow-x: auto;
-    padding-bottom: var(--sp2);
-  }
-  .ib-kanban-col {
-    background: var(--bg2);
-    border-radius: var(--radius);
-    padding: 0.6rem;
-    min-height: 220px;
-  }
-  .ib-kanban-col h3 {
-    font-size: .78rem !important; font-weight: 700;
-    letter-spacing: .04em; text-transform: uppercase;
-    color: var(--muted); margin: 0 0 .55rem; padding-bottom: .35rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .ib-kanban-col h3 .col-count { float: right; font-weight: 600; opacity: .7; }
-  .ib-card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 0.55rem 0.65rem; margin-bottom: 0.45rem;
-    font-size: .82rem; line-height: 1.4;
-  }
-  .ib-card-name { font-weight: 700; color: var(--text); margin-bottom: .15rem; }
-  .ib-card-meta { font-size: .7rem; color: var(--muted); margin-bottom: .25rem; }
-  .ib-card-next { font-size: .72rem; color: var(--text); }
-  .ib-card-next b { color: var(--accent); }
-
-  /* Outreach templates */
-  .ib-template { margin-bottom: var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .ib-template summary {
-    padding: 0.7rem 0.9rem; background: var(--bg2); cursor: pointer;
-    font-weight: 700; color: var(--text); font-size: .92rem;
-    list-style: none; display: flex; align-items: center; justify-content: space-between;
-  }
-  .ib-template summary::-webkit-details-marker { display: none; }
-  .ib-template summary::after { content: '▾'; opacity: .6; }
-  .ib-template[open] summary::after { content: '▴'; }
-  .ib-template-body { padding: 0.9rem; }
-  .ib-template-row { margin-bottom: .55rem; font-size: .85rem; }
-  .ib-template-row .label { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: .15rem; }
-  .ib-template-body pre {
-    white-space: pre-wrap; background: var(--bg2); padding: .7rem .8rem;
-    border-radius: var(--radius-sm); font-family: var(--font-sans);
-    font-size: .85rem; line-height: 1.55; margin: 0;
-  }
-  .ib-copy-btn {
-    background: var(--accent); color: var(--on-accent, #fff); border: none;
-    padding: .35rem .8rem; border-radius: var(--radius-sm);
-    font-size: .72rem; font-weight: 700; cursor: pointer;
-    margin-top: .4rem;
-  }
-  .ib-copy-btn.copied { background: var(--good); }
-
-  /* Status text */
-  .ib-loading { padding: 2rem; text-align: center; color: var(--muted); font-style: italic; }
-  .ib-error { padding: 1rem; background: color-mix(in oklab, var(--bad) 8%, var(--card) 92%); border-left: 3px solid var(--bad); color: var(--bad); border-radius: 0 var(--radius) var(--radius) 0; font-size: var(--small); }
+  .ib-doc h3 { margin: var(--sp3) 0 .4rem; }
+  .ib-doc p, .ib-doc li { line-height: 1.6; }
+  .ib-doc ul, .ib-doc ol { margin: 0 0 var(--sp2) 1.2rem; padding: 0; }
+  /* display:flex must not defeat the hidden attribute (UA display:none
+     loses to inline styles), so the flex layout lives here instead. */
+  #draftsActions:not([hidden]) { display: flex; }
 </style>
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
 <body>
 <header id="siteHeader"></header>
 
-<main class="page-container js-glossary-auto" style="max-width: 1400px; margin: 0 auto; padding: var(--sp3);">
+<main class="page-container js-glossary-auto ib-doc" style="max-width: 950px; margin: 0 auto; padding: var(--sp3);">
 
   <!-- Sub-section nav (matches developer.html + developer-brief.html) -->
   <nav style="display:flex;gap:1rem;align-items:center;padding:0.6rem 0;margin-bottom:var(--sp3);border-bottom:1px solid var(--border);font-size:var(--small);">
@@ -150,1452 +46,221 @@
     <span style="background:var(--warn);color:var(--card);font-size:.65rem;padding:2px 7px;border-radius:9999px;font-weight:700;letter-spacing:.03em;">INTERNAL</span>
   </nav>
 
-  <h1>Affordable Housing Pipeline</h1>
-  <p style="max-width: 90ch; color: var(--muted);">
-    Edit the CSVs in <code>docs/developer-pipeline-prototype/</code> in any text
-    editor or Excel, commit + push, page refreshes.
-  </p>
+  <h1>Affordable Housing Pipeline — Methodology</h1>
 
-  <!-- F107 — 30-day execution plan tracker. Acts as a working dashboard
-       for the QA/QC-reviewed 30-day plan (see methodology doc below) +
-       persists state in localStorage so it survives reloads. Designed
-       as a forcing function: the things in green are what produce
-       pipeline; the kanban tracks what's already in the funnel. -->
-  <details class="ib-30day" open style="margin: var(--sp3) 0; border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--border) 60%); border-radius: var(--radius); background: color-mix(in oklab, var(--accent) 4%, var(--card) 96%);">
-    <summary style="padding: 0.7rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
-      <span>🎯 30-day execution plan — track your next opportunity</span>
-      <span style="opacity:.7;font-weight:500;font-size:.78rem;color:var(--accent);">tracker · saved locally</span>
-    </summary>
-    <div style="padding: 0.4rem 1.1rem 1.1rem; font-size: var(--small); line-height: 1.55;">
-      <p style="margin: .4rem 0 .7rem; color: var(--muted); font-size: .82rem;">
-        <strong>Highest-value outcome assumed:</strong> (1) a new LIHTC/workforce development opportunity,
-        (2) a paid housing implementation engagement, or (3) a strategic partnership that can reasonably
-        lead to either within 12 months. Check items as you complete them — progress saves automatically
-        in this browser.
-      </p>
-
-      <div id="ib-30day-progress" style="margin: .6rem 0 .8rem; font-size: .78rem; color: var(--muted);"></div>
-
-      <div class="ib-30day-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--sp2);">
-
-        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
-          <h3 style="margin:0 0 .4rem;">Week 1 — Anchor + Calibrate</h3>
-          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
-            <li><label><input type="checkbox" data-30d="w1-fruita" /> <strong>Fruita Mews Phase II</strong> — request 30-min go/no-go meeting</label></li>
-            <li><label><input type="checkbox" data-30d="w1-chfa" /> <strong>CHFA R2 2026</strong> — request pre-application meeting (Matt Lynn 303.297.7330)</label></li>
-            <li><label><input type="checkbox" data-30d="w1-qap" /> Read CHFA 2026 R1 QAP cover-to-cover</label></li>
-            <li><label><input type="checkbox" data-30d="w1-of" /> Pull <a href="lihtc-opportunity-finder.html" target="_blank">OF Top 25 by IOI</a>, flag warm-contact jurisdictions</label></li>
-            <li><label><input type="checkbox" data-30d="w1-synd" /> Send first syndicator outreach (Boston Cap / Enterprise / RJ)</label></li>
-            <li><label><input type="checkbox" data-30d="w1-anti" /> Move 5 dead-end jurisdictions to Anti-Targets</label></li>
-            <li><label><input type="checkbox" data-30d="w1-outreach" /> Send 10 signal-based jurisdiction outreach emails</label></li>
-          </ul>
-        </div>
-
-        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
-          <h3 style="margin:0 0 .4rem;">Week 2 — Velocity (target: 15+ conversations)</h3>
-          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
-            <li><label><input type="checkbox" data-30d="w2-conv9" /> 9+ jurisdiction conversations (3 places × 3 contacts each: Planning Director, City Manager, HA Director)</label></li>
-            <li><label><input type="checkbox" data-30d="w2-synd2" /> 2 syndicator conversations</label></li>
-            <li><label><input type="checkbox" data-30d="w2-peers" /> 2 peer / partner conversations (architects, GCs, sponsor-track-record firms)</label></li>
-            <li><label><input type="checkbox" data-30d="w2-fruita" /> Fruita Mews Phase II coffee or site visit completed</label></li>
-            <li><label><input type="checkbox" data-30d="w2-chfa" /> CHFA pre-application slot scheduled or held</label></li>
-            <li><label><input type="checkbox" data-30d="w2-network" /> Update Network tab with every conversation</label></li>
-          </ul>
-        </div>
-
-        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
-          <h3 style="margin:0 0 .4rem;">Week 3 — Triangulate</h3>
-          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
-            <li><label><input type="checkbox" data-30d="w3-classify" /> A/B/C/D classification updated for every active jurisdiction</label></li>
-            <li><label><input type="checkbox" data-30d="w3-walk1" /> Site walk #1 (in person, with town staff)</label></li>
-            <li><label><input type="checkbox" data-30d="w3-walk2" /> Site walk #2 (in person, with town staff)</label></li>
-            <li><label><input type="checkbox" data-30d="w3-scope" /> Send 1 paid-engagement scope of work to a B-classified jurisdiction</label></li>
-            <li><label><input type="checkbox" data-30d="w3-publicland" /> Call 3 county managers / town clerks for surplus public-land inventory</label></li>
-            <li><label><input type="checkbox" data-30d="w3-church" /> Reach 1 denominational housing office (Methodist / Lutheran / UCC)</label></li>
-            <li><label><input type="checkbox" data-30d="w3-qap" /> 30-min QAP study every weekday this week</label></li>
-          </ul>
-        </div>
-
-        <div class="ib-30day-week" style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .7rem;background:var(--card);">
-          <h3 style="margin:0 0 .4rem;">Week 4 — Close the loop</h3>
-          <ul class="ib-30day-list" style="list-style:none;padding:0;margin:0;font-size:.83rem;">
-            <li><label><input type="checkbox" data-30d="w4-loi" /> <strong>1 LOI / term sheet / signed engagement letter in motion</strong></label></li>
-            <li><label><input type="checkbox" data-30d="w4-fruita" /> Fruita Phase II next step committed in writing</label></li>
-            <li><label><input type="checkbox" data-30d="w4-synd2" /> 1 syndicator second meeting scheduled</label></li>
-            <li><label><input type="checkbox" data-30d="w4-anti" /> Anti-Targets refreshed (drop anything stalled 90+ days)</label></li>
-            <li><label><input type="checkbox" data-30d="w4-retro" /> Weekly review note written: what worked, what didn't</label></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">QA/QC review tracker — challenge your own assumptions</h3>
-      <p style="font-size:.78rem;color:var(--muted);margin:.1rem 0 .5rem;">
-        Run each item below at end of week. Yellow border = needs your honest answer. Document tradeoffs
-        in the notes column of <code>02-pipeline.csv</code>.
-      </p>
-      <div class="ib-qaqc-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--sp2);">
-        <ul class="ib-30day-list" style="list-style:none;padding:.4rem .7rem;margin:0;font-size:.82rem;border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:var(--radius-sm);background:var(--card);">
-          <li><label><input type="checkbox" data-30d="qa-1" /> What's strong this week?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-2" /> What's weak / dragging?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-3" /> What's missing from the pipeline?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-4" /> What should be removed?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-5" /> What should be added?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-6" /> Biggest execution risk right now?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-7" /> Biggest blind spot?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-8" /> Are the opportunity scores guiding decisions or just decoration?</label></li>
-        </ul>
-        <ul class="ib-30day-list" style="list-style:none;padding:.4rem .7rem;margin:0;font-size:.82rem;border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:var(--radius-sm);background:var(--card);">
-          <li><label><input type="checkbox" data-30d="qa-9" /> Does Fruita Mews Phase II need more attention this week?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-10" /> Am I over-investing in COHO vs. outreach?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-11" /> Is the jurisdiction-selection biased toward winnability, not just need?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-12" /> Is outreach signal-based or generic?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-13" /> Is site identification driven by calls or by maps?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-14" /> Likely to produce a real opportunity by July 1?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-15" /> Did I update the pipeline + signal log this week?</label></li>
-          <li><label><input type="checkbox" data-30d="qa-16" /> What is the single highest-ROI action for tomorrow?</label></li>
-        </ul>
-      </div>
-
-      <p style="margin-top:var(--sp3);font-size:.72rem;color:var(--muted);">
-        Read the full senior-developer QA/QC analysis: see commit notes for <code>F107</code> in the repo, or
-        keep this tracker open and answer the questions weekly.
-      </p>
-    </div>
-  </details>
-
-  <!-- F102 — Methodology + how-to documentation. Collapsed by default so it
-       doesn't push the kanban below the fold, but always one click away
-       since users (and reviewers) asked for fuller explanation. -->
-  <details class="ib-method" style="margin: var(--sp3) 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2);">
-    <summary style="padding: 0.7rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
-      <span>📘 Methodology &amp; how the pipeline works</span>
-      <span style="opacity:.6;font-weight:400;font-size:.85rem;">click to expand</span>
-    </summary>
-    <div style="padding: 0.4rem 1.1rem 1.1rem; font-size: var(--small); line-height: 1.6; color: var(--text);">
-
-      <h3 style="margin: var(--sp2) 0 .4rem;">What this is</h3>
-      <p>
-        A weekly-maintained, CSV-backed pipeline of CO jurisdictions where we are
-        actively pursuing housing development opportunities. The pipeline tracks the
-        full lifecycle from <em>"I noticed a signal"</em> → <em>"a contract is executed"</em>,
-        plus the network of contacts, dropped targets, and re-usable outreach templates
-        that support it. <strong>This page is read-only; data lives in the CSVs.</strong>
-      </p>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">The 5 stages (left-to-right on the kanban)</h3>
-      <ol style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><strong>Screen</strong> — passed the Opportunity Finder filter (above the IOI threshold) but no signal logged yet. Default landing column for new entries.</li>
-        <li><strong>Signal</strong> — at least one <em>moderate</em>-or-<em>strong</em> signal logged in the last 90 days (HNA refresh, RFP open, dedicated funding move, etc).</li>
-        <li><strong>Outreach</strong> — email sent or call scheduled in the last 30 days. Move here as soon as a real conversation is in flight.</li>
-        <li><strong>IC</strong> — feasibility analysis or Investment Committee packet underway; specific site / partner identified.</li>
-        <li><strong>Active</strong> — executed LOI / MOU / contract. The actual deal is live.</li>
-      </ol>
-      <p style="margin-top: .5rem;">
-        <strong>Demotion rule:</strong> any jurisdiction sitting 90+ days in a stage with
-        no progress gets pushed one stage left with a <code>notes</code> entry explaining why.
-        A 6th stage, <code>Monitor</code>, exists in the CSV for long-cycle relationships
-        and is folded into the Screen column on this kanban.
-      </p>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">The IOI score</h3>
-      <p>
-        The <strong>Opportunity Index (IOI)</strong> is a 0–100 composite computed by the
-        LIHTC Opportunity Finder for every CO jurisdiction. It blends housing-need pressure,
-        funding posture (Prop 123, PAB, dedicated revenue), civic capacity, basis-boost
-        eligibility, and market-capture advantage. The full weighting is documented in
-        <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">LIHTC-LOCATOR-METHODOLOGY.md</a>.
-        We promote any jurisdiction above ~60 to at least the <code>Screen</code> column.
-      </p>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Classifications (A / B / C / D)</h3>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><strong>A</strong> — real development opportunity, we act as primary developer.</li>
-        <li><strong>B</strong> — planning-to-development consulting opportunity; fee work that may convert to A.</li>
-        <li><strong>C</strong> — relationship / monitor; long-cycle but worth nurturing.</li>
-        <li><strong>D</strong> — not worth current time; moved to Anti-Targets.</li>
-      </ul>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Confidence (high / medium / low)</h3>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><strong>high</strong> — in the COHO curated 33 + recent ACS/CHAS + ZORI or Apartment List coverage.</li>
-        <li><strong>medium</strong> — recent ACS/CHAS but limited policy data.</li>
-        <li><strong>low</strong> — sparse data; small CDP; no recent HNA. A <code>low</code> confidence row should not be in <code>Outreach</code> without an explicit override note.</li>
-      </ul>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Signal strength (weak / moderate / strong)</h3>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><strong>weak</strong> — interesting but not actionable. Default for most rumors / generic council mentions.</li>
-        <li><strong>moderate</strong> — actionable in 30–90 days (HNA draft expected, RFP cycle approaching, personnel change).</li>
-        <li><strong>strong</strong> — drives a same-week action (open RFP &lt; 60 days, immediate land disposition, direct partnership invite). If &gt; 30 % of your signals are strong, you're inflating — recalibrate.</li>
-      </ul>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Where the cards link</h3>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li>The jurisdiction name in each kanban card links to its <strong>Jurisdiction Brief</strong> — a full data sheet with HNA status, AMI gap, LIHTC inventory, funding readiness, and civic scoring.</li>
-        <li>The <strong>Sources</strong> row at the bottom of each card links directly to the signal-log entries (and their original URLs) that justified the pipeline placement. If a card has no sources, that's a flag — promote a signal or demote the entry.</li>
-      </ul>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Weekly review routine</h3>
-      <p>
-        Documented in <a href="docs/developer-pipeline-prototype/WEEKLY-REVIEW.md" target="_blank" rel="noopener"><code>WEEKLY-REVIEW.md</code></a>:
-        Monday morning, walk the kanban left-to-right, demote stalled entries, promote
-        new signals, add <code>next_action</code> + <code>next_action_due</code> for each
-        active row, then sweep the signal log for anything older than 90 days.
-      </p>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Data files (all in <code>docs/developer-pipeline-prototype/</code>)</h3>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><code>01-signal-log.csv</code> — every observed signal with date, source, source_url, strength.</li>
-        <li><code>02-pipeline.csv</code> — the kanban itself (one row per jurisdiction in the funnel).</li>
-        <li><code>03-anti-targets.csv</code> — explicitly dropped jurisdictions with reason + revisit date.</li>
-        <li><code>04-network.csv</code> — people we know in each jurisdiction.</li>
-        <li><code>05-outreach-templates.csv</code> — re-usable email/letter templates.</li>
-        <li><code>CONTROLLED-VOCABULARY.md</code> — exact allowed values for every column. Edit this <em>before</em> using a new value.</li>
-      </ul>
-
-      <h3 style="margin: var(--sp3) 0 .4rem;">Guard rails</h3>
-      <p>
-        Two CI jobs guard this data:
-      </p>
-      <ul style="margin: 0 0 0 1.2rem; padding: 0;">
-        <li><code>npm run test:developer-geoids</code> — every <code>geoid</code> in the CSVs must resolve to a real Census place whose name matches the <code>jurisdiction</code> string. Catches fabricated geoids.</li>
-        <li><code>.github/workflows/developer-url-health.yml</code> — weekly cron that pings every <code>source_url</code> in the signal log + every policy-progress URL; opens an issue when a link rots.</li>
-      </ul>
-    </div>
-  </details>
-
-  <div class="ib-tabs" role="tablist">
-    <button class="ib-tab" role="tab" aria-selected="true" data-section="kanban">Pipeline <span class="count" id="ct-kanban">—</span></button>
-    <button class="ib-tab" role="tab" aria-selected="false" data-section="signals">Signal Log <span class="count" id="ct-signals">—</span></button>
-    <button class="ib-tab" role="tab" aria-selected="false" data-section="anti">Anti-Targets <span class="count" id="ct-anti">—</span></button>
-    <button class="ib-tab" role="tab" aria-selected="false" data-section="network">Network <span class="count" id="ct-network">—</span></button>
-    <button class="ib-tab" role="tab" aria-selected="false" data-section="templates">Outreach Templates <span class="count" id="ct-templates">—</span></button>
+  <div class="ib-notice">
+    <strong>Where the data lives:</strong> the live pipeline — kanban, signal log,
+    anti-targets, network, and outreach templates — moved to a private workspace in
+    June 2026 and is no longer published in this repository. This page documents the
+    methodology that the pipeline follows, so the ranking tools
+    (<a href="lihtc-opportunity-finder.html">Opportunity Finder</a>,
+    <a href="developer-brief.html">Jurisdiction Briefs</a>) can be read in context.
+    The only working data kept here is <a href="#localDrafts">your browser-local
+    drafts</a> below.
   </div>
 
-  <!-- Pipeline Kanban -->
-  <section class="ib-section" aria-current="true" id="section-kanban">
-
-    <!-- F103 — Add jurisdiction to pipeline (client-side draft).
-         The canonical pipeline lives in 02-pipeline.csv (so it survives
-         deploys + is committable + reviewable). To keep the page usable
-         without a backend, drafts go to localStorage and render alongside
-         CSV-loaded cards with a [DRAFT] badge. The user can copy a CSV row
-         to clipboard when they're ready to promote a draft to canonical. -->
-    <details id="ib-add-form-wrap" style="margin: 0 0 var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2);">
-      <summary style="padding: 0.6rem 0.9rem; cursor: pointer; font-weight: 700; color: var(--text); list-style: none; display: flex; align-items: center; justify-content: space-between;">
-        <span>➕ Add a jurisdiction to the pipeline</span>
-        <span style="opacity:.6;font-weight:400;font-size:.85rem;">click to expand</span>
-      </summary>
-      <div style="padding: 0.6rem 1rem 1rem; font-size: var(--small);">
-        <p style="margin: 0 0 .6rem; color: var(--muted); font-size: .78rem;">
-          New entries are saved locally as <strong>drafts</strong> and shown on the kanban with a DRAFT badge.
-          When you're ready to commit a draft to the canonical
-          <code>docs/developer-pipeline-prototype/02-pipeline.csv</code>, click
-          <em>Copy CSV row</em> on the draft card and paste it in.
-        </p>
-        <form id="ib-add-form" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem .8rem;">
-          <label style="grid-column: 1 / -1;">
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Jurisdiction (type a CO place name)</div>
-            <input id="ib-add-jurisdiction" list="ib-jurisdiction-options" required autocomplete="off"
-              placeholder="e.g. Salida, Carbondale, Pueblo"
-              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-            <datalist id="ib-jurisdiction-options"></datalist>
-            <div id="ib-geoid-status" style="font-size:.7rem;color:var(--muted);margin-top:.2rem;">geoid will resolve once you pick a known place</div>
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Stage</div>
-            <select id="ib-add-stage" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-              <option value="Screen">Screen — passed OF filter, no signal yet</option>
-              <option value="Signal">Signal — moderate+ signal in last 90 d</option>
-              <option value="Outreach">Outreach — email/call in last 30 d</option>
-              <option value="IC">IC — feasibility / packet in flight</option>
-              <option value="Active">Active — LOI/MOU/contract executed</option>
-              <option value="Monitor">Monitor — long-cycle relationship</option>
-            </select>
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Classification</div>
-            <select id="ib-add-classification" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-              <option value="A">A — Primary developer</option>
-              <option value="B">B — Planning-to-dev consulting</option>
-              <option value="C">C — Relationship / monitor</option>
-              <option value="D">D — Not worth current time</option>
-            </select>
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Confidence</div>
-            <select id="ib-add-confidence" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-              <option value="high">high — curated + recent ACS/CHAS + rent</option>
-              <option value="medium" selected>medium — recent ACS/CHAS, limited policy</option>
-              <option value="low">low — sparse data / small CDP</option>
-            </select>
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Product type</div>
-            <select id="ib-add-product" style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-              <option value="9% LIHTC">9% LIHTC</option>
-              <option value="4% LIHTC">4% LIHTC</option>
-              <option value="4% LIHTC + Workforce">4% LIHTC + Workforce</option>
-              <option value="Workforce rental">Workforce rental</option>
-              <option value="Older adult housing">Older adult housing</option>
-              <option value="Mixed-income rental">Mixed-income rental</option>
-              <option value="Attainable ownership">Attainable ownership</option>
-              <option value="Preservation">Preservation</option>
-            </select>
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">IOI score (0-100, optional)</div>
-            <input id="ib-add-ioi" type="number" min="0" max="100" step="1" placeholder="65"
-              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-          </label>
-          <label>
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Next action due (yyyy-mm-dd, optional)</div>
-            <input id="ib-add-due" type="date"
-              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-          </label>
-          <label style="grid-column: 1 / -1;">
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Next action</div>
-            <input id="ib-add-next" type="text" placeholder="Draft outreach email to housing director"
-              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.88rem;">
-          </label>
-          <label style="grid-column: 1 / -1;">
-            <div style="font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.2rem;">Notes (1-2 sentences)</div>
-            <textarea id="ib-add-notes" rows="2" placeholder="HNA refresh in progress; strong 4% bond pool; resort-adjacent."
-              style="width:100%;padding:.4rem .55rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);color:var(--text);font-size:.85rem;font-family:inherit;resize:vertical;"></textarea>
-          </label>
-          <div style="grid-column: 1 / -1; display: flex; gap: .6rem; align-items: center;">
-            <button type="submit" id="ib-add-submit"
-              style="background:var(--accent);color:var(--on-accent,#fff);border:none;padding:.5rem 1.1rem;border-radius:var(--radius-sm);font-weight:700;font-size:.85rem;cursor:pointer;">
-              Save draft
-            </button>
-            <span id="ib-add-msg" style="font-size:.75rem;color:var(--muted);"></span>
-          </div>
-        </form>
-        <div id="ib-drafts-list" style="margin-top: var(--sp3); display:none;">
-          <h3 style="margin:.4rem 0 .5rem; text-transform:uppercase;">Saved drafts (this browser)</h3>
-          <ul id="ib-drafts-ul" style="list-style:none;padding:0;margin:0;font-size:.82rem;"></ul>
-        </div>
-      </div>
-    </details>
-
-    <!-- Pending changes summary — shows exactly what will be in the next
-         export so the user can review before downloading. Hidden when
-         there are zero pending changes. Hydrated by refreshKanban(). -->
-    <details id="ib-pending-summary" class="ib-card" style="display:none; margin: var(--sp2) 0 var(--sp2); padding: var(--sp2);">
-      <summary id="ib-pending-summary-label" style="cursor:pointer; font-size:.88rem; font-weight:600;">
-        📋 0 pending change(s) — review before export
-      </summary>
-      <div id="ib-pending-summary-body" style="margin-top: var(--sp2); font-size:.82rem; color: var(--muted);"></div>
-    </details>
-
-    <!-- F161 — Export updated CSV (merges canonical + local drafts +
-         edits + queued deletes). Workflow: review your kanban with
-         pending changes, click Export, save the file over
-         docs/developer-pipeline-prototype/02-pipeline.csv, commit + push.
-         The merged state then becomes canonical and local drafts clear. -->
-    <div class="ib-action-row" style="margin: var(--sp2) 0 var(--sp3); display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
-      <button id="ib-export-csv-btn" class="ib-action-btn secondary" type="button"
-              style="padding:.45rem .9rem; font-size:.85rem;" disabled>
-        Export 02-pipeline.csv
-      </button>
-      <button id="ib-clear-local-btn" class="ib-action-btn secondary" type="button"
-              style="padding:.45rem .9rem; font-size:.85rem; background:transparent;">
-        Clear all local edits
-      </button>
-      <span id="ib-export-status" style="font-size:.75rem; color: var(--muted);"></span>
+  <section id="localDrafts" aria-labelledby="localDraftsH">
+    <h2 id="localDraftsH">Your local drafts</h2>
+    <p>
+      Entries added with <em>Add to Pipeline</em> (on the Opportunity Finder or a
+      Jurisdiction Brief) are saved <strong>in this browser only</strong> — nothing
+      is uploaded to the public site. Export them here to carry them into the
+      private workspace.
+    </p>
+    <p id="draftsEmpty" style="color:var(--muted);font-size:var(--small);">
+      No local drafts in this browser yet.
+    </p>
+    <div id="draftsWrap" hidden style="overflow-x:auto;">
+      <table id="draftsTable" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+        <thead>
+          <tr style="text-align:left;border-bottom:1px solid var(--border);">
+            <th style="padding:.35rem .5rem;">Jurisdiction</th>
+            <th style="padding:.35rem .5rem;">Stage</th>
+            <th style="padding:.35rem .5rem;">IOI</th>
+            <th style="padding:.35rem .5rem;">Confidence</th>
+            <th style="padding:.35rem .5rem;">Next action</th>
+            <th style="padding:.35rem .5rem;"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
-
-    <div class="ib-loading" id="kanban-loading">Loading pipeline…</div>
-    <div class="ib-kanban" id="kanban" style="display:none;"></div>
-  </section>
-
-  <!-- Signal Log -->
-  <section class="ib-section" id="section-signals">
-    <div class="ib-loading" id="signals-loading">Loading signals…</div>
-    <div id="signals-wrap" style="display:none; overflow-x:auto;">
-      <table class="ib-table" id="signals-table"></table>
+    <div id="draftsActions" hidden style="gap:.6rem;flex-wrap:wrap;margin-top:.7rem;">
+      <button id="draftsExportCsv" class="btn" type="button">Export CSV</button>
+      <button id="draftsExportJson" class="btn" type="button">Export JSON</button>
+      <button id="draftsClear" class="btn" type="button" style="margin-left:auto;color:var(--warn);">Clear all drafts</button>
     </div>
   </section>
 
-  <!-- Anti-Targets -->
-  <section class="ib-section" id="section-anti">
-    <div class="ib-loading" id="anti-loading">Loading anti-targets…</div>
-    <div id="anti-wrap" style="display:none; overflow-x:auto;">
-      <table class="ib-table" id="anti-table"></table>
-    </div>
-  </section>
+  <h2>What this is</h2>
+  <p>
+    A weekly-maintained pipeline of Colorado jurisdictions where we are actively
+    pursuing housing development opportunities. The pipeline tracks the full
+    lifecycle from <em>"I noticed a signal"</em> → <em>"a contract is executed"</em>,
+    plus the network of contacts, dropped targets, and re-usable outreach templates
+    that support it.
+  </p>
 
-  <!-- Network -->
-  <section class="ib-section" id="section-network">
-    <div class="ib-loading" id="network-loading">Loading network…</div>
-    <div id="network-wrap" style="display:none; overflow-x:auto;">
-      <table class="ib-table" id="network-table"></table>
-    </div>
-  </section>
+  <h2>The 5 stages (left-to-right on the kanban)</h2>
+  <ol>
+    <li><strong>Screen</strong> — passed the Opportunity Finder filter (above the IOI threshold) but no signal logged yet. Default landing column for new entries.</li>
+    <li><strong>Signal</strong> — at least one <em>moderate</em>-or-<em>strong</em> signal logged in the last 90 days (HNA refresh, RFP open, dedicated funding move, etc).</li>
+    <li><strong>Outreach</strong> — email sent or call scheduled in the last 30 days. Move here as soon as a real conversation is in flight.</li>
+    <li><strong>IC</strong> — feasibility analysis or Investment Committee packet underway; specific site / partner identified.</li>
+    <li><strong>Active</strong> — executed LOI / MOU / contract. The actual deal is live.</li>
+  </ol>
+  <p>
+    <strong>Demotion rule:</strong> any jurisdiction sitting 90+ days in a stage with
+    no progress gets pushed one stage left with a note explaining why.
+    A 6th stage, <strong>Monitor</strong>, exists for long-cycle relationships and is
+    folded into the Screen column on the kanban.
+  </p>
 
-  <!-- Outreach Templates -->
-  <section class="ib-section" id="section-templates">
-    <div class="ib-loading" id="templates-loading">Loading templates…</div>
-    <div id="templates-wrap" style="display:none;"></div>
-  </section>
+  <h2>The IOI score</h2>
+  <p>
+    The <strong>Opportunity Index (IOI)</strong> is a 0–100 composite computed by the
+    LIHTC Opportunity Finder for every CO jurisdiction. It blends housing-need pressure,
+    funding posture (Prop 123, PAB, dedicated revenue), civic capacity, basis-boost
+    eligibility, and market-capture advantage. The full weighting is documented in
+    <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">LIHTC-LOCATOR-METHODOLOGY.md</a>.
+    We promote any jurisdiction above ~60 to at least the <strong>Screen</strong> stage.
+  </p>
+
+  <h2>Classifications (A / B / C / D)</h2>
+  <ul>
+    <li><strong>A</strong> — real development opportunity, we act as primary developer.</li>
+    <li><strong>B</strong> — planning-to-development consulting opportunity; fee work that may convert to A.</li>
+    <li><strong>C</strong> — relationship / monitor; long-cycle but worth nurturing.</li>
+    <li><strong>D</strong> — not worth current time; moved to Anti-Targets.</li>
+  </ul>
+
+  <h2>Confidence (high / medium / low)</h2>
+  <ul>
+    <li><strong>high</strong> — in the COHO curated 33 + recent ACS/CHAS + ZORI or Apartment List coverage.</li>
+    <li><strong>medium</strong> — recent ACS/CHAS but limited policy data.</li>
+    <li><strong>low</strong> — sparse data; small CDP; no recent HNA. A <strong>low</strong> confidence entry should not be in Outreach without an explicit override note.</li>
+  </ul>
+
+  <h2>Signal strength (weak / moderate / strong)</h2>
+  <ul>
+    <li><strong>weak</strong> — interesting but not actionable. Default for most rumors / generic council mentions.</li>
+    <li><strong>moderate</strong> — actionable in 30–90 days (HNA draft expected, RFP cycle approaching, personnel change).</li>
+    <li><strong>strong</strong> — drives a same-week action (open RFP &lt; 60 days, immediate land disposition, direct partnership invite). If &gt; 30 % of your signals are strong, you're inflating — recalibrate.</li>
+  </ul>
+
+  <h2>How pipeline entries connect to the public tools</h2>
+  <ul>
+    <li>Each pipeline entry links to its <strong><a href="developer-brief.html">Jurisdiction Brief</a></strong> — a full data sheet with HNA status, AMI gap, LIHTC inventory, funding readiness, and civic scoring.</li>
+    <li>Each entry carries the signal-log sources (and their original URLs) that justified the pipeline placement. An entry with no sources is a flag — promote a signal or demote the entry.</li>
+    <li>The <strong><a href="lihtc-opportunity-finder.html">Opportunity Finder</a></strong> is the top of the funnel: its IOI ranking decides which jurisdictions enter the Screen stage at all.</li>
+  </ul>
+
+  <h2>Weekly review routine</h2>
+  <p>
+    Monday morning, walk the kanban left-to-right: demote stalled entries, promote
+    new signals, add a next action + due date for each active row, then sweep the
+    signal log for anything older than 90 days.
+  </p>
+
+  <h2>The datasets</h2>
+  <p>Five datasets back the pipeline (maintained in the private workspace, not in this repository):</p>
+  <ul>
+    <li><strong>Signal log</strong> — every observed signal with date, source, source URL, strength.</li>
+    <li><strong>Pipeline</strong> — the kanban itself (one row per jurisdiction in the funnel).</li>
+    <li><strong>Anti-targets</strong> — explicitly dropped jurisdictions with reason + revisit date.</li>
+    <li><strong>Network</strong> — people we know in each jurisdiction.</li>
+    <li><strong>Outreach templates</strong> — re-usable email/letter templates.</li>
+  </ul>
+  <p>
+    A controlled vocabulary pins the allowed values for every column (stages,
+    strengths, classifications, product types), and two guard rails run against the
+    data: every geoid must resolve to a real Census place whose name matches the
+    jurisdiction string, and every signal source URL is health-checked periodically
+    so rotted links get flagged.
+  </p>
 
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted); line-height: 1.55;">
     <p>
-      <strong>To edit:</strong> open the CSV files in
-      <code>docs/developer-pipeline-prototype/</code>
-      in any text editor or Excel, save, commit, push. This page reads the CSVs
-      live on each load. No build step. Schema docs in
-      <code>CONTROLLED-VOCABULARY.md</code> in the same folder.
-    </p>
-    <p>
-      Weekly routine: see <code>docs/developer-pipeline-prototype/WEEKLY-REVIEW.md</code>.
+      This is a methodology reference. The working pipeline (kanban, shared datasets,
+      team data entry) lives in a private workspace and is not part of the public
+      site; only the browser-local drafts above stay here, and only on your device.
     </p>
   </footer>
 </main>
 
-<script src="js/navigation.js"></script>
-<!-- F161 — Pipeline CRUD store (drafts/edits/deletes from briefs land here) -->
 <script src="js/components/pipeline-store.js"></script>
 <script>
 (function () {
   'use strict';
+  var store = window.PipelineStore;
+  if (!store) return;
 
-  // ---------------------------------------------------------------------------
-  // Minimal CSV parser (handles quoted fields with embedded commas).
-  // ---------------------------------------------------------------------------
-  function parseCSV(text) {
-    const rows = [];
-    let row = [];
-    let field = '';
-    let inQuotes = false;
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
-      if (inQuotes) {
-        if (c === '"') {
-          if (text[i + 1] === '"') { field += '"'; i++; }
-          else inQuotes = false;
-        } else field += c;
-      } else {
-        if (c === '"') inQuotes = true;
-        else if (c === ',') { row.push(field); field = ''; }
-        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
-        else if (c === '\r') { /* skip */ }
-        else field += c;
-      }
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function download(name, mime, text) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: mime }));
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  }
+
+  function render() {
+    var drafts = store.getDrafts();
+    var empty = document.getElementById('draftsEmpty');
+    var wrap = document.getElementById('draftsWrap');
+    var actions = document.getElementById('draftsActions');
+    var tbody = document.querySelector('#draftsTable tbody');
+    var has = drafts.length > 0;
+    empty.hidden = has;
+    wrap.hidden = !has;
+    actions.hidden = !has;
+    tbody.innerHTML = drafts.map(function (d) {
+      return '<tr style="border-bottom:1px solid var(--border);">'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.jurisdiction) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.stage) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.ioi_score) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.confidence) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.next_action) + '</td>'
+        + '<td style="padding:.35rem .5rem;"><button type="button" class="btn" data-remove="' + esc(d.geoid) + '" style="font-size:var(--tiny);">Remove</button></td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  document.getElementById('localDrafts').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-remove]');
+    if (btn) {
+      store.removeDraft(btn.getAttribute('data-remove'));
+      render();
     }
-    if (field.length || row.length) { row.push(field); rows.push(row); }
-    return rows.filter(r => r.some(c => c && c.trim().length));
-  }
-
-  function csvToObjects(text) {
-    const rows = parseCSV(text);
-    if (!rows.length) return [];
-    const headers = rows[0].map(h => h.trim());
-    return rows.slice(1).map(r => {
-      const obj = {};
-      headers.forEach((h, i) => obj[h] = (r[i] || '').trim());
-      return obj;
-    });
-  }
-
-  function esc(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-
-  function chip(value, prefix) {
-    if (!value) return '';
-    return '<span class="ib-chip ib-chip-' + esc(value) + '">' + esc(value) + '</span>';
-  }
-
-  // ---------------------------------------------------------------------------
-  // Tab switching
-  // ---------------------------------------------------------------------------
-  document.querySelectorAll('.ib-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.ib-tab').forEach(t => t.setAttribute('aria-selected', 'false'));
-      document.querySelectorAll('.ib-section').forEach(s => s.setAttribute('aria-current', 'false'));
-      tab.setAttribute('aria-selected', 'true');
-      document.getElementById('section-' + tab.dataset.section).setAttribute('aria-current', 'true');
-    });
+  });
+  document.getElementById('draftsExportCsv').addEventListener('click', function () {
+    // Drafts only: pass an explicitly empty canonical set so nothing is fetched.
+    download('pipeline-drafts.csv', 'text/csv', store.exportCsv([]));
+  });
+  document.getElementById('draftsExportJson').addEventListener('click', function () {
+    download('pipeline-drafts.json', 'application/json', JSON.stringify(store.getDrafts(), null, 2));
+  });
+  document.getElementById('draftsClear').addEventListener('click', function () {
+    var n = store.getDrafts().length;
+    if (!n || !window.confirm('Remove all ' + n + ' local draft(s) from this browser? Exported copies are not affected.')) return;
+    store.getDrafts().forEach(function (d) { store.removeDraft(d.geoid); });
+    render();
   });
 
-  // ---------------------------------------------------------------------------
-  // Data fetch + render
-  // ---------------------------------------------------------------------------
-  const BASE = 'docs/developer-pipeline-prototype/';
-
-  function fetchCSV(filename) {
-    return fetch(BASE + filename, { cache: 'no-cache' })
-      .then(r => r.ok ? r.text() : Promise.reject(new Error('HTTP ' + r.status)))
-      .then(csvToObjects);
+  // Render immediately from the synchronous localStorage cache, then once
+  // more after the cross-device sync pull resolves (gated deployments).
+  render();
+  if (store.ready && typeof store.ready.then === 'function') {
+    store.ready.then(render).catch(function () {});
   }
-
-  function showError(loadingId, msg) {
-    const el = document.getElementById(loadingId);
-    if (el) el.innerHTML = '<div class="ib-error">' + esc(msg) + '</div>';
-  }
-
-  // ---------------------------------------------------------------------------
-  // F107 — 30-day execution plan tracker. Persists per-checkbox state in
-  // localStorage and renders a progress counter ("12 of 36 done · Week 2
-  // velocity track at 60%"). Forcing function for actual outreach
-  // discipline; complements the kanban with leading indicators.
-  // ---------------------------------------------------------------------------
-  const PLAN30_KEY = 'ib-30day-tracker-v1';
-  function load30() {
-    try { return JSON.parse(localStorage.getItem(PLAN30_KEY) || '{}'); }
-    catch (_) { return {}; }
-  }
-  function save30(obj) {
-    try { localStorage.setItem(PLAN30_KEY, JSON.stringify(obj || {})); } catch (_) {}
-  }
-  function init30Tracker() {
-    const state = load30();
-    const boxes = document.querySelectorAll('[data-30d]');
-    boxes.forEach(b => {
-      const key = b.getAttribute('data-30d');
-      b.checked = !!state[key];
-      b.addEventListener('change', () => {
-        const s = load30();
-        s[key] = b.checked;
-        save30(s);
-        render30Progress();
-      });
-    });
-    render30Progress();
-  }
-  function render30Progress() {
-    const state = load30();
-    const boxes = document.querySelectorAll('[data-30d]');
-    const total = boxes.length;
-    const done = [...boxes].filter(b => b.checked).length;
-    const weeks = ['w1', 'w2', 'w3', 'w4', 'qa'];
-    const byWeek = {};
-    weeks.forEach(w => byWeek[w] = { done: 0, total: 0 });
-    boxes.forEach(b => {
-      const key = b.getAttribute('data-30d') || '';
-      const w = key.split('-')[0];
-      if (byWeek[w]) {
-        byWeek[w].total++;
-        if (b.checked) byWeek[w].done++;
-      }
-      // F108 — Visual completion state: strike-through + fade so done items
-      // recede and remaining work pops.
-      const label = b.closest('label');
-      if (label) {
-        label.style.textDecoration = b.checked ? 'line-through' : '';
-        label.style.opacity = b.checked ? '0.5' : '';
-      }
-    });
-    const labels = { w1:'W1 Anchor', w2:'W2 Velocity', w3:'W3 Triangulate', w4:'W4 Close', qa:'QA/QC' };
-    const parts = weeks.map(w => `${labels[w]}: ${byWeek[w].done}/${byWeek[w].total}`);
-    const el = document.getElementById('ib-30day-progress');
-    if (el) {
-      const pct = total ? Math.round(done / total * 100) : 0;
-      el.innerHTML =
-        '<div style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;">' +
-          '<strong style="color:var(--accent);font-size:.95rem;">' + done + ' of ' + total + ' (' + pct + '%)</strong>' +
-          '<div style="flex:1;min-width:140px;height:6px;background:var(--bg2);border-radius:9999px;overflow:hidden;">' +
-            '<div style="width:' + pct + '%;height:100%;background:var(--accent);transition:width .3s;"></div>' +
-          '</div>' +
-        '</div>' +
-        '<div style="margin-top:.35rem;font-size:.7rem;color:var(--muted);">' + parts.join(' · ') + '</div>';
-    }
-  }
-
-  // F108 — Auto-tick checklist items that the pipeline data already implies.
-  // Reads pipeline + signal + network state once each CSV lands and marks
-  // the relevant tracker items checked when their underlying activity is
-  // detectable. The user can still manually un-check if they want to keep
-  // it as a target. This is what makes the tracker "dynamic — updates as
-  // tasks are accomplished" instead of pure manual entry.
-  function applyDerivedCompletion(pipelineRows, signalRows, networkRows) {
-    const state = load30();
-    function bump(key) {
-      if (state[key]) return;
-      state[key] = true;
-      const box = document.querySelector('[data-30d="' + key + '"]');
-      if (box) box.checked = true;
-    }
-    pipelineRows = pipelineRows || [];
-    signalRows = signalRows || [];
-    networkRows = networkRows || [];
-
-    // W1 outreach: 10+ jurisdictions reaching Outreach stage OR notes mentioning outreach
-    const outreachCount = pipelineRows.filter(r =>
-      r.stage === 'Outreach' || /email|sent|scheduled|called/i.test((r.notes || '') + ' ' + (r.next_action || ''))
-    ).length;
-    if (outreachCount >= 10) bump('w1-outreach');
-
-    // W1 OF pull: at least one A/B classification means OF was used
-    if (pipelineRows.some(r => r.classification === 'A' || r.classification === 'B')) bump('w1-of');
-
-    // W1 Anti-Targets: 5+ Monitor-stage rows OR notes mentioning anti-target/dropped
-    const antiCount = pipelineRows.filter(r =>
-      r.stage === 'Monitor' || /anti.?target|dropped/i.test(r.notes || '')
-    ).length;
-    if (antiCount >= 5) bump('w1-anti');
-
-    // W2 conversations: 9+ jurisdictions in Outreach+ stages
-    const conversationsCount = pipelineRows.filter(r =>
-      ['Outreach', 'IC', 'Active'].indexOf(r.stage) >= 0
-    ).length;
-    if (conversationsCount >= 9) bump('w2-conv9');
-
-    // W2 Network: at least 9 contact rows
-    if (networkRows.length >= 9) bump('w2-network');
-
-    // W3 classify: every active row has a classification
-    if (pipelineRows.length > 0 && pipelineRows.every(r => r.classification)) bump('w3-classify');
-
-    // W4 LOI: any row in IC or Active stage
-    if (pipelineRows.some(r => r.stage === 'IC' || r.stage === 'Active')) bump('w4-loi');
-
-    // Fruita signals
-    const fruitaTouched = signalRows.some(s =>
-      /fruita|mews/i.test((s.jurisdiction || '') + ' ' + (s.summary || ''))
-    );
-    if (fruitaTouched) { bump('w1-fruita'); bump('w2-fruita'); }
-
-    // CHFA signals
-    if (signalRows.some(s => /chfa/i.test((s.source || '') + ' ' + (s.summary || '')))) {
-      bump('w1-chfa');
-    }
-
-    // Syndicator signals
-    if (signalRows.some(s =>
-      /syndicator|boston capital|enterprise|raymond james|cohnreznick/i.test(
-        (s.source || '') + ' ' + (s.summary || '') + ' ' + (s.opportunity_implication || '')
-      )
-    )) bump('w1-synd');
-
-    save30(state);
-    render30Progress();
-  }
-  // Expose so the kanban loader can call it once both CSVs land.
-  window.__ibApplyDerivedCompletion = applyDerivedCompletion;
-
-  document.addEventListener('DOMContentLoaded', init30Tracker);
-
-  // ---------------------------------------------------------------------------
-  // F103 — Client-side draft pipeline (localStorage) so users can add
-  // jurisdictions without editing the CSV. Drafts render alongside CSV
-  // entries with a DRAFT badge + "Copy CSV row" button for promotion.
-  // ---------------------------------------------------------------------------
-  const DRAFTS_KEY = 'ib-pipeline-drafts-v1';
-  function loadDrafts() {
-    try { return JSON.parse(localStorage.getItem(DRAFTS_KEY) || '[]'); }
-    catch (_) { return []; }
-  }
-  function saveDrafts(arr) {
-    try { localStorage.setItem(DRAFTS_KEY, JSON.stringify(arr || [])); } catch (_) {}
-  }
-  function deleteDraft(id) {
-    saveDrafts(loadDrafts().filter(d => d._draftId !== id));
-    renderDraftsList();
-    refreshKanban();
-  }
-  function csvRowForDraft(d) {
-    // Header order must match 02-pipeline.csv exactly:
-    // jurisdiction,geoid,stage,ioi_score,confidence,classification,
-    // product_type,last_update,next_action,next_action_due,notes
-    const today = new Date().toISOString().slice(0, 10);
-    const cells = [
-      d.jurisdiction || '', d.geoid || '', d.stage || 'Screen',
-      d.ioi_score || '', d.confidence || 'medium', d.classification || 'B',
-      d.product_type || '', d.last_update || today, d.next_action || '',
-      d.next_action_due || '', d.notes || '',
-    ];
-    return cells.map(c => {
-      const s = String(c);
-      if (s.includes(',') || s.includes('"') || s.includes('\n')) {
-        return '"' + s.replace(/"/g, '""') + '"';
-      }
-      return s;
-    }).join(',');
-  }
-
-  // Build the jurisdiction autocomplete from co-place-centroids.json + counties.
-  // Map "Salida" → 0867280 etc so we can show the resolved geoid.
-  const _nameToGeoid = {};
-  fetch('data/co-place-centroids.json', { cache: 'no-cache' })
-    .then(r => r.ok ? r.json() : null)
-    .then(d => {
-      if (!d || !d.byGeoid) return;
-      const dl = document.getElementById('ib-jurisdiction-options');
-      const names = [];
-      Object.entries(d.byGeoid).forEach(([gid, rec]) => {
-        if (!rec || !rec.name) return;
-        const cleanName = String(rec.name).replace(/\s+(CDP|city|town|village)$/i, '').trim();
-        if (!_nameToGeoid[cleanName.toLowerCase()]) {
-          _nameToGeoid[cleanName.toLowerCase()] = gid;
-          names.push(cleanName);
-        }
-      });
-      names.sort();
-      dl.innerHTML = names.map(n => `<option value="${esc(n)}"></option>`).join('');
-    }).catch(() => {});
-
-  const addInput  = document.getElementById('ib-add-jurisdiction');
-  const geoidNote = document.getElementById('ib-geoid-status');
-  function resolveTypedJurisdiction() {
-    const raw = (addInput.value || '').trim();
-    if (!raw) { geoidNote.textContent = 'geoid will resolve once you pick a known place'; return null; }
-    const key = raw.toLowerCase();
-    const gid = _nameToGeoid[key];
-    if (gid) { geoidNote.textContent = '✓ resolved to geoid ' + gid; return gid; }
-    geoidNote.textContent = '⚠ not in co-place-centroids — geoid will be empty (acceptable for non-incorporated targets)';
-    return null;
-  }
-  if (addInput) {
-    addInput.addEventListener('input', resolveTypedJurisdiction);
-    addInput.addEventListener('change', resolveTypedJurisdiction);
-    // F209 — When a known place resolves, pre-fill the form with optimal
-    // suggestions from ranking-index.json. User can adjust before saving.
-    addInput.addEventListener('change', autoFillFromRanking);
-  }
-
-  // F209 — Auto-fill optimal form values when the jurisdiction resolves.
-  // Reads ranking-index.json (one-time cached) → matches by geoid → computes:
-  //   classification, confidence, product_type, IOI score, next_action, notes
-  // Only writes to fields the user hasn't already filled — preserves edits.
-  let _rankingCache = null;
-  function _loadRanking() {
-    if (_rankingCache) return Promise.resolve(_rankingCache);
-    return fetch('data/hna/ranking-index.json', { cache: 'no-cache' })
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { _rankingCache = d; return d; })
-      .catch(() => null);
-  }
-  // Rural set matches the F191 OF requireCapture relaxer.
-  const RURAL_REGIONS = { 'San Luis Valley': 1, 'Eastern Plains': 1, 'Northwest': 1, 'Southwest': 1, 'South Central': 1 };
-  function autoFillFromRanking() {
-    const gid = resolveTypedJurisdiction();
-    if (!gid) return;
-    _loadRanking().then(d => {
-      if (!d || !d.rankings) return;
-      const rec = d.rankings.find(r => r.geoid === gid);
-      if (!rec) return;
-      const m = rec.metrics || {};
-      const pop = m.population_projection_20yr || m.population || 0;
-      const gap = m.housing_gap_units || 0;
-      const ami30 = m.ami_gap_30pct || 0;
-      const need = m.overall_need_score || rec.percentileRank || 50;
-      const region = rec.region || '';
-      const isRural = !!RURAL_REGIONS[region];
-
-      // Classification — combination of need + size
-      let classification = 'C';
-      if (need >= 70 && pop >= 3000) classification = 'A';
-      else if (need >= 50 || (isRural && pop >= 1500)) classification = 'B';
-      else if (need < 30 || pop < 500) classification = 'D';
-
-      // Confidence — data completeness signal
-      let confidence = 'medium';
-      const hasGap = m.housing_gap_units != null;
-      const hasIncomplete = !!rec.hasIncompleteData;
-      if (!hasIncomplete && pop >= 5000) confidence = 'high';
-      else if (hasIncomplete || pop < 1000) confidence = 'low';
-
-      // Product type — LIHTC-execution shape by market size + region
-      let product = 'Workforce rental';
-      if (pop >= 25000) product = '9% LIHTC';
-      else if (pop >= 8000 && !isRural) product = '4% LIHTC';
-      else if (isRural && pop >= 3000) product = '4% LIHTC + Workforce';
-      else if (pop < 3000 && isRural) product = 'Workforce rental';
-      // (Older adult / preservation / attainable remain manual — they need
-      //  demographic + existing-stock context the index doesn't expose.)
-
-      // IOI — clamp 0-100, prefer overall_need_score
-      const ioi = Math.max(0, Math.min(100, Math.round(need)));
-
-      // Next action — stage-dependent default. Initially blank stage = Screen.
-      const nextAction = 'Pull HNA + check Prop 123 commitment + identify housing director contact';
-
-      // Notes — 1-2 sentence summary stitched from key metrics
-      const noteParts = [];
-      if (pop) noteParts.push('Pop ' + Math.round(pop).toLocaleString());
-      if (gap) noteParts.push(Math.round(gap).toLocaleString() + '-unit gap');
-      if (ami30 > 50) noteParts.push('AMI-30 need ' + Math.round(ami30));
-      if (region) noteParts.push(region + ' CO');
-      if (isRural) noteParts.push('rural / USDA RD-eligible');
-      const notes = noteParts.length ? noteParts.join(' · ') + '.' : '';
-
-      // Write only if the user hasn't already filled the field
-      const fields = [
-        ['ib-add-classification', classification],
-        ['ib-add-confidence',     confidence],
-        ['ib-add-product',        product],
-        ['ib-add-ioi',            String(ioi)],
-        ['ib-add-next',           nextAction],
-        ['ib-add-notes',          notes]
-      ];
-      let filledAny = false;
-      fields.forEach(([id, val]) => {
-        const el = document.getElementById(id);
-        if (!el || !val) return;
-        const cur = (el.value || '').trim();
-        // For SELECTs we always write if current value is the default first option (low signal).
-        // For text/textarea we only write if currently empty.
-        const isSelect = el.tagName === 'SELECT';
-        if (isSelect) {
-          const isDefault = (id === 'ib-add-classification' && cur === 'A') ||
-                            (id === 'ib-add-confidence'     && cur === 'medium') ||
-                            (id === 'ib-add-product'        && cur === '9% LIHTC') ||
-                            !cur;
-          if (isDefault) { el.value = val; filledAny = true; }
-        } else if (!cur) {
-          el.value = val;
-          filledAny = true;
-        }
-      });
-      // Brief visual flash so the user notices fields were auto-populated
-      if (filledAny && geoidNote) {
-        geoidNote.textContent = '✓ resolved to geoid ' + gid +
-          ' · auto-filled suggested values (adjust as needed)';
-        geoidNote.style.color = 'var(--good, #047857)';
-        setTimeout(() => {
-          geoidNote.style.color = '';
-        }, 4000);
-      }
-    });
-  }
-
-  const addForm = document.getElementById('ib-add-form');
-  if (addForm) {
-    addForm.addEventListener('submit', (ev) => {
-      ev.preventDefault();
-      const name = (addInput.value || '').trim();
-      if (!name) return;
-      const draft = {
-        _draftId: 'd_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
-        _isDraft: true,
-        jurisdiction: name,
-        geoid: resolveTypedJurisdiction() || '',
-        stage: document.getElementById('ib-add-stage').value,
-        ioi_score: document.getElementById('ib-add-ioi').value,
-        confidence: document.getElementById('ib-add-confidence').value,
-        classification: document.getElementById('ib-add-classification').value,
-        product_type: document.getElementById('ib-add-product').value,
-        next_action: document.getElementById('ib-add-next').value,
-        next_action_due: document.getElementById('ib-add-due').value,
-        notes: document.getElementById('ib-add-notes').value,
-        last_update: new Date().toISOString().slice(0, 10),
-      };
-      const arr = loadDrafts();
-      arr.push(draft);
-      saveDrafts(arr);
-      const msg = document.getElementById('ib-add-msg');
-      msg.textContent = '✓ Saved “' + name + '” as draft — it appears on the kanban with a DRAFT badge.';
-      msg.style.color = 'var(--good)';
-      addForm.reset();
-      document.getElementById('ib-add-confidence').value = 'medium';
-      geoidNote.textContent = 'geoid will resolve once you pick a known place';
-      renderDraftsList();
-      refreshKanban();
-    });
-  }
-
-  function renderDraftsList() {
-    const wrap = document.getElementById('ib-drafts-list');
-    const ul   = document.getElementById('ib-drafts-ul');
-    const arr  = loadDrafts();
-    if (!arr.length) { wrap.style.display = 'none'; return; }
-    wrap.style.display = 'block';
-    ul.innerHTML = arr.map(d => `
-      <li style="padding:.45rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr auto auto;gap:.5rem;align-items:center;">
-        <span><strong>${esc(d.jurisdiction)}</strong> <span style="color:var(--muted);font-size:.72rem;">${esc(d.stage)} · ${esc(d.classification)} · IOI ${esc(d.ioi_score || '—')}</span></span>
-        <button class="ib-draft-copy" data-id="${esc(d._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.25rem .55rem;border-radius:var(--radius-sm);font-size:.72rem;cursor:pointer;">Copy CSV row</button>
-        <button class="ib-draft-del" data-id="${esc(d._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.25rem .55rem;border-radius:var(--radius-sm);font-size:.72rem;color:var(--bad);cursor:pointer;">Delete</button>
-      </li>
-    `).join('');
-    ul.querySelectorAll('.ib-draft-copy').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.dataset.id;
-        const d = loadDrafts().find(x => x._draftId === id);
-        if (!d) return;
-        const row = csvRowForDraft(d);
-        navigator.clipboard.writeText(row).then(() => {
-          const orig = btn.textContent;
-          btn.textContent = '✓ Copied — paste into 02-pipeline.csv';
-          btn.style.background = 'color-mix(in oklab, var(--good) 20%, transparent 80%)';
-          setTimeout(() => { btn.textContent = orig; btn.style.background = 'var(--bg2)'; }, 2500);
-        });
-      });
-    });
-    ul.querySelectorAll('.ib-draft-del').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!confirm('Delete this draft?')) return;
-        deleteDraft(btn.dataset.id);
-      });
-    });
-  }
-  renderDraftsList();
-
-  // refreshKanban is a thunk we set below once the CSV-loaded data has been
-  // pulled into a closure. It re-runs the merge + render so saving / deleting
-  // a draft updates the board immediately.
-  let refreshKanban = function () {};
-
-  // Hydrate the "Pending changes" summary panel above the Export button.
-  // Pure read-only: reflects PipelineStore + page-local drafts. Field-level
-  // edit diffs come from comparing canonical csvRows (by geoid) to each
-  // overlay in PipelineStore.getCanonicalEdits().
-  function hydratePendingSummary(csvRows, pageDrafts) {
-    const wrap = document.getElementById('ib-pending-summary');
-    const label = document.getElementById('ib-pending-summary-label');
-    const body = document.getElementById('ib-pending-summary-body');
-    if (!wrap || !label || !body) return;
-    const storeDrafts = window.PipelineStore ? window.PipelineStore.getDrafts() : [];
-    const storeEdits  = window.PipelineStore ? window.PipelineStore.getCanonicalEdits() : {};
-    const storeDels   = window.PipelineStore ? window.PipelineStore.getQueuedDeletes() : new Set();
-    const allDrafts = storeDrafts.concat(pageDrafts || []);
-    const editGeoids = Object.keys(storeEdits || {});
-    const delGeoids = Array.from(storeDels || []);
-    const total = allDrafts.length + editGeoids.length + delGeoids.length;
-    if (total === 0) { wrap.style.display = 'none'; wrap.open = false; return; }
-    wrap.style.display = 'block';
-    label.textContent = '📋 ' + total + ' pending change' + (total === 1 ? '' : 's') + ' — review before export';
-    const canonByGeoid = {};
-    (csvRows || []).forEach(function (r) { if (r && r.geoid) canonByGeoid[r.geoid] = r; });
-    const listStyle = 'list-style:none; padding-left:1rem; margin:.25rem 0 .6rem;';
-    const sectStyle = 'margin-bottom:.4rem;';
-    const headStyle = 'font-weight:600; color: var(--text); font-size:.82rem;';
-    const sections = [];
-    if (allDrafts.length) {
-      const items = allDrafts.map(function (d) {
-        return '<li>' + esc(d.jurisdiction || '(unnamed)') + '</li>';
-      }).join('');
-      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">New drafts (' + allDrafts.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
-    }
-    if (editGeoids.length) {
-      const items = editGeoids.map(function (gid) {
-        const canon = canonByGeoid[gid] || {};
-        const overlay = storeEdits[gid] || {};
-        const name = canon.jurisdiction || overlay.jurisdiction || gid;
-        const diffs = Object.keys(overlay).filter(function (k) {
-          if (k.indexOf('_') === 0) return false;
-          return String(overlay[k] == null ? '' : overlay[k]) !== String(canon[k] == null ? '' : canon[k]);
-        }).map(function (k) {
-          const before = canon[k] == null || canon[k] === '' ? '(empty)' : canon[k];
-          const after  = overlay[k] == null || overlay[k] === '' ? '(empty)' : overlay[k];
-          return esc(k) + ' ' + esc(before) + ' → ' + esc(after);
-        });
-        const diffStr = diffs.length ? diffs.join('; ') : '(no field-level diff)';
-        return '<li>' + esc(name) + ': ' + diffStr + '</li>';
-      }).join('');
-      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">Edited rows (' + editGeoids.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
-    }
-    if (delGeoids.length) {
-      const items = delGeoids.map(function (gid) {
-        const canon = canonByGeoid[gid] || {};
-        return '<li>' + esc(canon.jurisdiction || gid) + '</li>';
-      }).join('');
-      sections.push('<div style="' + sectStyle + '"><div style="' + headStyle + '">Queued deletes (' + delGeoids.length + '):</div><ul style="' + listStyle + '">' + items + '</ul></div>');
-    }
-    body.innerHTML = sections.join('');
-  }
-
-  // --- Pipeline Kanban (joined with signal-log so each card surfaces the
-  //     source URLs that drove the entry — the user-facing "where did this
-  //     come from?" link they were missing).
-  Promise.all([
-    fetchCSV('02-pipeline.csv'),
-    fetchCSV('01-signal-log.csv').catch(() => []),
-    fetchCSV('04-network.csv').catch(() => []),
-  ]).then(([csvRows, signals, network]) => {
-    document.getElementById('kanban-loading').style.display = 'none';
-    document.getElementById('kanban').style.display = 'grid';
-
-    // refreshKanban re-runs the merge+render so saving a new draft updates
-    // the board without a page reload. It closes over csvRows and signals.
-    refreshKanban = function () {
-      const pageDrafts = loadDrafts();
-      // F161 — Also merge in drafts/edits/deletes from the shared
-      // PipelineStore (populated by developer-brief.html via
-      // PipelineAddButton). This means a jurisdiction added from any
-      // brief shows up on the kanban without copy-paste.
-      let storeRows = [];
-      let exportCounts = { drafts: 0, edits: 0, deletes: 0 };
-      if (window.PipelineStore) {
-        const storeDrafts = window.PipelineStore.getDrafts();
-        const storeEdits  = window.PipelineStore.getCanonicalEdits();
-        const storeDels   = window.PipelineStore.getQueuedDeletes();
-        exportCounts.drafts  = storeDrafts.length;
-        exportCounts.edits   = Object.keys(storeEdits).length;
-        exportCounts.deletes = storeDels.size;
-        // Apply edits to canonical rows in place + drop deletes
-        const canonAdj = csvRows.filter(r => !storeDels.has(r.geoid)).map(r => {
-          const e = storeEdits[r.geoid];
-          if (!e) return r;
-          return Object.assign({}, r, e, { _hasLocalEdits: true });
-        });
-        storeRows = canonAdj.concat(
-          storeDrafts.map(d => Object.assign({}, d, { _isStoreDraft: true }))
-        );
-        // Replace csvRows view with the adjusted set so the kanban shows the truth
-        document.getElementById('ct-kanban').textContent = storeRows.length + pageDrafts.length;
-      } else {
-        storeRows = csvRows;
-        document.getElementById('ct-kanban').textContent = storeRows.length + pageDrafts.length;
-      }
-      const rows = storeRows.concat(pageDrafts);
-      // F161 — update the export button label with pending-change counts.
-      // P0 fix: also include page-local drafts in the count so the user
-      // can see they will be exported.
-      const expBtn = document.getElementById('ib-export-csv-btn');
-      if (expBtn) {
-        const pend = exportCounts.drafts + exportCounts.edits + exportCounts.deletes + pageDrafts.length;
-        expBtn.textContent = pend > 0
-          ? 'Export updated 02-pipeline.csv (' + pend + ' pending change' + (pend === 1 ? '' : 's') + ')'
-          : 'Export 02-pipeline.csv';
-        expBtn.disabled = false;
-      }
-      hydratePendingSummary(csvRows, pageDrafts);
-      _renderKanban(rows, signals);
-      // F108 — Auto-derive completion state from the pipeline data so the
-      // 30-day tracker reflects reality, not just what Paul ticked. Drafts
-      // included so a freshly added jurisdiction in Outreach stage bumps
-      // the right items immediately.
-      if (window.__ibApplyDerivedCompletion) {
-        try { window.__ibApplyDerivedCompletion(rows, signals, network); }
-        catch (e) { console.warn('[30day] derived completion failed', e); }
-      }
-    };
-    refreshKanban();
-
-    // Cross-device: once the shared PipelineStore finishes pulling drafts/
-    // edits/deletes from the backend, repaint so a jurisdiction added on
-    // another device (e.g. Silt added on the laptop) shows here without a
-    // manual reload. Race-free: .then on an already-resolved promise still fires.
-    if (window.PipelineStore && window.PipelineStore.ready && typeof window.PipelineStore.ready.then === 'function') {
-      window.PipelineStore.ready.then(function () {
-        refreshKanban();
-        renderDraftsList();
-      });
-    }
-
-    // F161 — Wire Export + Clear buttons. Export downloads an updated CSV
-    // with all local changes applied; the user replaces the canonical file
-    // and commits. Clear nukes only the PipelineStore state, not the
-    // page-local drafts (those have their own UI to clear individually).
-    const expBtn = document.getElementById('ib-export-csv-btn');
-    const clrBtn = document.getElementById('ib-clear-local-btn');
-    const statusEl = document.getElementById('ib-export-status');
-    if (expBtn) {
-      expBtn.addEventListener('click', function () {
-        if (!window.PipelineStore) { statusEl.textContent = 'Pipeline store not loaded.'; return; }
-        // F161 P0 fix — the existing page-local drafts (form-built rows
-        // under DRAFTS_KEY) were silently omitted from exports. Merge
-        // them in after the PipelineStore-driven export so no user data
-        // is lost when they hit Export expecting their drafts in the
-        // downloaded CSV.
-        let csv = window.PipelineStore.exportCsv(csvRows);
-        const pageDrafts = loadDrafts();
-        if (pageDrafts.length) {
-          const headers = window.PipelineStore.HEADERS;
-          const lines = pageDrafts.map(function (d) {
-            return headers.map(function (k) {
-              const v = String(d[k] == null ? '' : d[k]);
-              return /[",\r\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
-            }).join(',');
-          });
-          // exportCsv() ends with a trailing newline; append directly.
-          csv += lines.join('\n') + '\n';
-        }
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '02-pipeline.csv';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-        const total = (window.PipelineStore.getDrafts().length) +
-                      Object.keys(window.PipelineStore.getCanonicalEdits()).length +
-                      window.PipelineStore.getQueuedDeletes().size +
-                      pageDrafts.length;
-        statusEl.textContent = '↓ Downloaded with ' + total + ' local change' + (total === 1 ? '' : 's') +
-          '. Replace docs/developer-pipeline-prototype/02-pipeline.csv, commit + push.';
-      });
-    }
-    if (clrBtn) {
-      clrBtn.addEventListener('click', function () {
-        if (!window.PipelineStore) return;
-        if (!confirm('Clear all PipelineStore drafts, edits, and queued deletes? (Page-local drafts in the form above are not affected.)')) return;
-        window.PipelineStore.clearAll();
-        refreshKanban();
-        statusEl.textContent = 'Local pipeline edits cleared.';
-      });
-    }
-  }).catch(e => showError('kanban-loading', 'Failed to load pipeline: ' + e.message));
-
-  function _renderKanban(rows, signals) {
-
-    // Index signals by jurisdiction name (case-insensitive) so we can hang
-    // sources off each pipeline card. The CSVs aren't keyed on geoid for
-    // signals, so name-matching is the join we have.
-    const signalsByJurisdiction = {};
-    (signals || []).forEach(s => {
-      const key = (s.jurisdiction || '').trim().toLowerCase();
-      if (!key) return;
-      if (!signalsByJurisdiction[key]) signalsByJurisdiction[key] = [];
-      signalsByJurisdiction[key].push(s);
-    });
-
-    function sourcesForRow(r) {
-      const key = (r.jurisdiction || '').trim().toLowerCase();
-      const matches = signalsByJurisdiction[key] || [];
-      // Sort newest-first; dedupe by source_url so we never show the same
-      // link twice on a single card.
-      const seen = new Set();
-      const items = matches
-        .slice()
-        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-        .filter(s => {
-          const url = (s.source_url || '').trim();
-          if (!url || url === '#') return false;
-          if (seen.has(url)) return false;
-          seen.add(url);
-          return true;
-        });
-      return items;
-    }
-
-    const stages = ['Screen', 'Signal', 'Outreach', 'IC', 'Active', 'Monitor'];
-    const byStage = {};
-    stages.forEach(s => byStage[s] = []);
-    rows.forEach(r => {
-      const s = r.stage && byStage[r.stage] ? r.stage : 'Screen';
-      byStage[s].push(r);
-    });
-
-    // Render 5 main columns; Monitor folded into "Screen" visually with a note,
-    // or shown as a 6th column when populated. Simpler: drop Monitor into Screen.
-    if (byStage['Monitor'] && byStage['Monitor'].length) {
-      byStage['Screen'] = byStage['Screen'].concat(byStage['Monitor']);
-    }
-
-    const kanban = document.getElementById('kanban');
-    kanban.innerHTML = stages.slice(0, 5).map(stage => {
-      const cards = (byStage[stage] || []).map(r => {
-        const sources = sourcesForRow(r);
-        // Show up to 3 most-recent source chips inline; surface "+N more"
-        // as a tooltip when there are more signals than the card has room for.
-        const visible = sources.slice(0, 3);
-        const overflow = sources.length - visible.length;
-        const sourceLinks = visible.map(s => {
-          const label = (s.source || s.signal_type || 'source').toLowerCase()
-            .replace(/^\s+|\s+$/g, '')
-            .replace(/^.{32,}$/, m => m.slice(0, 30) + '…');
-          return `<a href="${esc(s.source_url)}" target="_blank" rel="noopener" title="${esc(s.source || '')} · ${esc(s.date || '')} · ${esc(s.summary || '')}" style="font-size:.7rem;color:var(--accent);text-decoration:none;border-bottom:1px dotted color-mix(in oklab, var(--accent) 50%, transparent 50%);">${esc(label)} ↗</a>`;
-        }).join(' · ');
-        const sourceBlock = sources.length
-          ? `<div class="ib-card-sources" style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);font-size:.7rem;color:var(--muted);line-height:1.4;">
-              <strong style="color:var(--muted);font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;">Sources:</strong>
-              ${sourceLinks}${overflow > 0 ? ` <span title="${esc(sources.slice(3).map(s => s.source || s.signal_type).join('\n'))}">+${overflow} more</span>` : ''}
-            </div>`
-          : '';
-        // F103 — Draft cards (from localStorage) get a yellow DRAFT badge +
-        // an action row with "Copy CSV row" and "Delete" so users can manage
-        // drafts without leaving the kanban view.
-        // F161 — Also surface state from the shared PipelineStore: store
-        // drafts (added via brief), local edits on canonical rows, and
-        // queued-deletes. Each gets its own badge + action row.
-        const isDraft        = !!r._isDraft;            // page-local
-        const isStoreDraft   = !!r._isStoreDraft;       // from brief
-        const hasLocalEdits  = !!r._hasLocalEdits;      // canonical w/ overlay
-        const queuedForDelete= !!r._queuedForDelete;
-        const badges = [];
-        if (isDraft) {
-          // Page-local draft — added via the "Add jurisdiction to pipeline"
-          // form above. Lives in DRAFTS_KEY (localStorage). User has to
-          // "Copy CSV row" then paste into the canonical CSV to promote.
-          badges.push('<span title="Added via the page-local Add-jurisdiction form. Copy CSV row to promote to canonical." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Local draft (paste)</span>');
-        }
-        if (isStoreDraft) {
-          // PipelineStore draft — added via the Developer Brief workflow.
-          // Lives in the shared PipelineStore (coho_developer_pipeline_drafts_v1)
-          // and round-trips through the F161 Export-CSV pipeline.
-          badges.push('<span title="Added via the Jurisdiction Brief. Round-trips through Export CSV — no manual paste." style="display:inline-block;background:color-mix(in oklab, var(--warn) 22%, var(--card) 78%);color:var(--warn);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">Draft (via brief)</span>');
-        }
-        if (hasLocalEdits) {
-          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--info, #2563eb) 18%, var(--card) 82%);color:var(--info, #2563eb);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">EDITED</span>');
-        }
-        if (queuedForDelete) {
-          badges.push('<span style="display:inline-block;background:color-mix(in oklab, var(--bad, #b91c1c) 22%, var(--card) 78%);color:var(--bad, #b91c1c);font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:9999px;letter-spacing:.04em;margin-left:.35rem;">QUEUED FOR DELETE</span>');
-        }
-        const cardBadges = badges.join('');
-
-        // Action row contents
-        let actionsHtml = '';
-        if (isDraft) {
-          actionsHtml = `
-            <button class="ib-draft-copy" data-id="${esc(r._draftId)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Copy CSV row</button>
-            <button class="ib-draft-del" data-id="${esc(r._draftId)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Delete</button>`;
-        } else if (isStoreDraft && r.geoid) {
-          // F161 — store drafts can be edited via the Brief; here we offer
-          // quick stage-only update + remove.
-          actionsHtml = `
-            <a href="developer-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit in brief →</a>
-            <button class="ib-store-del" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Remove draft</button>`;
-        } else if (queuedForDelete) {
-          actionsHtml = `
-            <button class="ib-store-unqdel" data-geoid="${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;cursor:pointer;">Cancel delete</button>`;
-        } else if (r.geoid) {
-          // Canonical row: offer edit-in-brief + queue-for-delete
-          actionsHtml = `
-            <a href="developer-brief.html?geoid=${esc(r.geoid)}" style="background:var(--bg2);border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--text);text-decoration:none;">Edit →</a>
-            ${hasLocalEdits ? `<button class="ib-store-revert" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--muted);cursor:pointer;">Undo edits</button>` : ''}
-            <button class="ib-store-qdel" data-geoid="${esc(r.geoid)}" style="background:transparent;border:1px solid var(--border);padding:.2rem .5rem;border-radius:var(--radius-sm);font-size:.66rem;color:var(--bad);cursor:pointer;">Queue delete</button>`;
-        }
-        const draftActions = actionsHtml
-          ? `<div style="margin-top:.35rem;padding-top:.35rem;border-top:1px dashed var(--border);display:flex;gap:.4rem;flex-wrap:wrap;">${actionsHtml}</div>`
-          : '';
-
-        const cardStyle = isDraft || isStoreDraft
-          ? 'border-left:3px solid var(--warn);'
-          : queuedForDelete
-            ? 'border-left:3px solid var(--bad, #b91c1c);opacity:.65;'
-            : hasLocalEdits
-              ? 'border-left:3px solid var(--info, #2563eb);'
-              : '';
-        return `
-        <div class="ib-card" ${cardStyle ? `style="${cardStyle}"` : ''}>
-          <div class="ib-card-name">
-            ${r.geoid ? `<a href="developer-brief.html?geoid=${esc(r.geoid)}" style="color:inherit;text-decoration:none;">${esc(r.jurisdiction)} →</a>` : esc(r.jurisdiction)}
-            ${cardBadges}
-          </div>
-          <div class="ib-card-meta">
-            IOI ${esc(r.ioi_score || '—')} · ${chip(r.confidence)} · ${chip(r.classification)}<br>
-            ${esc(r.product_type || '')}
-          </div>
-          <div class="ib-card-next">
-            <b>Next:</b> ${esc(r.next_action || '—')}
-            ${r.next_action_due ? '<br><span style="color:var(--muted);font-size:.68rem;">due ' + esc(r.next_action_due) + '</span>' : ''}
-          </div>
-          ${sourceBlock}
-          ${draftActions}
-        </div>
-      `;
-      }).join('');
-      return `
-        <div class="ib-kanban-col">
-          <h3>${esc(stage)}<span class="col-count">${(byStage[stage] || []).length}</span></h3>
-          ${cards || '<div style="color:var(--muted);font-size:.78rem;font-style:italic;">empty</div>'}
-        </div>
-      `;
-    }).join('');
-
-    // Re-bind the per-card draft buttons after each render.
-    kanban.querySelectorAll('.ib-draft-copy').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const d = loadDrafts().find(x => x._draftId === btn.dataset.id);
-        if (!d) return;
-        navigator.clipboard.writeText(csvRowForDraft(d)).then(() => {
-          const orig = btn.textContent;
-          btn.textContent = '✓ Copied';
-          setTimeout(() => { btn.textContent = orig; }, 1500);
-        });
-      });
-    });
-    kanban.querySelectorAll('.ib-draft-del').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!confirm('Delete this draft?')) return;
-        deleteDraft(btn.dataset.id);
-      });
-    });
-
-    // F161 — Per-card actions on PipelineStore rows.
-    kanban.querySelectorAll('.ib-store-del').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!window.PipelineStore) return;
-        if (!confirm('Remove this draft from local pipeline?')) return;
-        window.PipelineStore.removeDraft(btn.dataset.geoid);
-        refreshKanban();
-      });
-    });
-    kanban.querySelectorAll('.ib-store-qdel').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!window.PipelineStore) return;
-        if (!confirm('Queue this canonical row for deletion? It is not removed until you Export the CSV and commit.')) return;
-        window.PipelineStore.queueDelete(btn.dataset.geoid);
-        refreshKanban();
-      });
-    });
-    kanban.querySelectorAll('.ib-store-unqdel').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!window.PipelineStore) return;
-        window.PipelineStore.unqueueDelete(btn.dataset.geoid);
-        refreshKanban();
-      });
-    });
-    kanban.querySelectorAll('.ib-store-revert').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (!window.PipelineStore) return;
-        if (!confirm('Discard local edits on this canonical row?')) return;
-        window.PipelineStore.clearCanonicalEdit(btn.dataset.geoid);
-        refreshKanban();
-      });
-    });
-  }
-
-  // --- Signal Log
-  fetchCSV('01-signal-log.csv').then(rows => {
-    document.getElementById('signals-loading').style.display = 'none';
-    document.getElementById('signals-wrap').style.display = 'block';
-    document.getElementById('ct-signals').textContent = rows.length;
-
-    rows.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-
-    const tbl = document.getElementById('signals-table');
-    // Evidence-status badge: signals the user can trust at a glance.
-    const evidenceBadge = (s) => {
-      const v = String(s || 'verified').toLowerCase();
-      if (v === 'verified') return '<span class="ib-chip" style="background:var(--good,#047857);color:var(--on-good,#fff);font-size:.62rem;padding:2px 5px;letter-spacing:.04em">VERIFIED</span>';
-      if (v === 'needs_verification') return '<span class="ib-chip" style="background:var(--warn,#a37822);color:var(--on-warn,#fff);font-size:.62rem;padding:2px 5px;letter-spacing:.04em">NEEDS VERIFICATION</span>';
-      return '<span class="ib-chip" style="background:var(--muted);color:#fff;font-size:.62rem;padding:2px 5px;letter-spacing:.04em">' + esc(v.toUpperCase()) + '</span>';
-    };
-    // Template chip: links to the outreach template by name.
-    const templateChip = (t) => {
-      if (!t || /^\(/.test(t)) return t ? '<span style="color:var(--muted);font-size:.7rem">' + esc(t) + '</span>' : '';
-      return '<a href="#section-templates" class="ib-chip" style="font-size:.66rem;padding:2px 6px;background:var(--card2,#1a1a1a);border:1px solid var(--border);color:var(--text);text-decoration:none;letter-spacing:.04em">' + esc(t) + ' →</a>';
-    };
-    tbl.innerHTML = `
-      <thead><tr>
-        <th>Date</th>
-        <th>Jurisdiction</th>
-        <th>Signal</th>
-        <th>Contact &amp; angle</th>
-        <th>Action</th>
-        <th>Status</th>
-      </tr></thead>
-      <tbody>${rows.map(r => `
-        <tr>
-          <td style="white-space:nowrap;vertical-align:top;font-size:.78rem">
-            ${esc(r.date)}
-            <div style="margin-top:.2rem">${evidenceBadge(r.evidence_status)}</div>
-            ${r.next_review_date ? `<div style="margin-top:.2rem;color:var(--muted);font-size:.66rem">Revisit ${esc(r.next_review_date)}</div>` : ''}
-          </td>
-          <td style="vertical-align:top">
-            <strong>${esc(r.jurisdiction)}</strong>
-            <span class="ib-chip ib-chip-low" style="margin-left:.35rem;font-size:.65rem">${esc(r.signal_type)}</span>
-            ${chip(r.strength)}
-            ${r.source_url && r.source_url !== '#' ? `<div style="margin-top:.2rem"><a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="font-size:.72rem;color:var(--accent,#3a8)">source: ${esc(r.source || 'link')} ↗</a></div>` : (r.source ? `<div style="color:var(--muted);font-size:.66rem">${esc(r.source)} (no URL)</div>` : '')}
-            <div style="margin-top:.3rem;font-size:.85rem">${esc(r.summary)}</div>
-            ${r.opportunity_implication ? `<div style="margin-top:.2rem;color:var(--muted);font-size:.74rem"><em>${esc(r.opportunity_implication)}</em></div>` : ''}
-          </td>
-          <td style="vertical-align:top;font-size:.78rem;max-width:280px">
-            ${r.contact_name ? `<div><strong>${esc(r.contact_name)}</strong></div>` : ''}
-            ${r.contact_role ? `<div style="color:var(--muted);font-size:.72rem">${esc(r.contact_role)}</div>` : ''}
-            ${r.contact_path ? `<div style="margin-top:.25rem;color:var(--text);font-size:.74rem"><span style="color:var(--muted)">Reach:</span> ${esc(r.contact_path)}</div>` : ''}
-            ${r.talking_point ? `<div style="margin-top:.35rem;padding:.3rem .4rem;background:var(--card2,#1a1a1a);border-left:2px solid var(--accent,#3a8);font-size:.74rem;line-height:1.45"><span style="color:var(--muted);font-size:.66rem;letter-spacing:.04em">ANGLE</span><br>${esc(r.talking_point)}</div>` : ''}
-          </td>
-          <td style="vertical-align:top;font-size:.78rem;max-width:240px">
-            <div>${esc(r.follow_up_action)}</div>
-            ${r.outreach_template ? `<div style="margin-top:.35rem">${templateChip(r.outreach_template)}</div>` : ''}
-          </td>
-          <td style="vertical-align:top">${esc(r.status)}</td>
-        </tr>
-      `).join('')}</tbody>
-    `;
-  }).catch(e => showError('signals-loading', 'Failed to load signals: ' + e.message));
-
-  // --- Anti-Targets
-  fetchCSV('03-anti-targets.csv').then(rows => {
-    document.getElementById('anti-loading').style.display = 'none';
-    document.getElementById('anti-wrap').style.display = 'block';
-    document.getElementById('ct-anti').textContent = rows.length;
-
-    document.getElementById('anti-table').innerHTML = `
-      <thead><tr>
-        <th>Jurisdiction</th><th>Dropped</th><th>Reason</th><th>Revisit</th><th>Notes</th>
-      </tr></thead>
-      <tbody>${rows.map(r => `
-        <tr>
-          <td><strong>${esc(r.jurisdiction)}</strong></td>
-          <td style="white-space:nowrap;">${esc(r.date_dropped)}</td>
-          <td>${esc(r.reason)}</td>
-          <td style="white-space:nowrap;">${esc(r.revisit_date)}</td>
-          <td style="color:var(--muted);">${esc(r.notes)}</td>
-        </tr>
-      `).join('')}</tbody>
-    `;
-  }).catch(e => showError('anti-loading', 'Failed to load anti-targets: ' + e.message));
-
-  // --- Network
-  fetchCSV('04-network.csv').then(rows => {
-    document.getElementById('network-loading').style.display = 'none';
-    document.getElementById('network-wrap').style.display = 'block';
-    document.getElementById('ct-network').textContent = rows.length;
-
-    document.getElementById('network-table').innerHTML = `
-      <thead><tr>
-        <th>Jurisdiction</th><th>Name</th><th>Role / Org</th><th>Last Talked</th><th>Tier</th><th>Notes</th>
-      </tr></thead>
-      <tbody>${rows.map(r => `
-        <tr>
-          <td><strong>${esc(r.jurisdiction)}</strong></td>
-          <td>${esc(r.name)}</td>
-          <td>${esc(r.role)}${r.org ? '<br><span style="color:var(--muted);font-size:.72rem;">' + esc(r.org) + '</span>' : ''}</td>
-          <td style="white-space:nowrap;">${esc(r.last_talked)}</td>
-          <td>${r.relationship_tier ? '<span class="ib-chip ib-chip-' + (r.relationship_tier === '1' ? 'high' : r.relationship_tier === '2' ? 'medium' : 'low') + '">Tier ' + esc(r.relationship_tier) + '</span>' : ''}</td>
-          <td style="color:var(--muted);font-size:.78rem;">${esc(r.notes)}</td>
-        </tr>
-      `).join('')}</tbody>
-    `;
-  }).catch(e => showError('network-loading', 'Failed to load network: ' + e.message));
-
-  // --- Outreach Templates
-  fetchCSV('05-outreach-templates.csv').then(rows => {
-    document.getElementById('templates-loading').style.display = 'none';
-    document.getElementById('templates-wrap').style.display = 'block';
-    document.getElementById('ct-templates').textContent = rows.length;
-
-    document.getElementById('templates-wrap').innerHTML = rows.map((r, idx) => `
-      <details class="ib-template"${idx === 0 ? ' open' : ''}>
-        <summary>
-          <span>${esc(r.template_name)} <span style="font-weight:400;color:var(--muted);font-size:.78rem;margin-left:.5rem;">${esc(r.use_case)}</span></span>
-        </summary>
-        <div class="ib-template-body">
-          <div class="ib-template-row">
-            <div class="label">Recipient role</div>
-            ${esc(r.recipient_role)}
-          </div>
-          <div class="ib-template-row">
-            <div class="label">Subject</div>
-            <strong>${esc(r.subject)}</strong>
-          </div>
-          <div class="ib-template-row">
-            <div class="label">Body</div>
-            <pre id="tpl-body-${idx}">${esc(r.body)}</pre>
-            <button class="ib-copy-btn" data-target="tpl-body-${idx}">Copy body</button>
-          </div>
-          <div class="ib-template-row">
-            <div class="label">Personalization notes</div>
-            <span style="color:var(--muted);font-size:.82rem;">${esc(r.notes_for_personalization)}</span>
-          </div>
-        </div>
-      </details>
-    `).join('');
-
-    document.querySelectorAll('.ib-copy-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const el = document.getElementById(btn.dataset.target);
-        if (!el) return;
-        navigator.clipboard.writeText(el.textContent).then(() => {
-          btn.textContent = '✓ Copied';
-          btn.classList.add('copied');
-          setTimeout(() => { btn.textContent = 'Copy body'; btn.classList.remove('copied'); }, 1500);
-        });
-      });
-    });
-  }).catch(e => showError('templates-loading', 'Failed to load templates: ' + e.message));
 })();
 </script>
+<script src="js/navigation.js"></script>
 </body>
 </html>
