@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T01:25:52.709Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T02:14:18.736Z. Do not edit by hand.
 
 ---
 
@@ -1625,7 +1625,7 @@
 
 ## Test Files
 
-178 test files found.
+179 test files found.
 
 | File | Size |
 |------|------|
@@ -1638,6 +1638,7 @@
 | `test/audit-modules/logic-validation.js` | 11.2 KB |
 | `test/audit-modules/report-generator.js` | 13.7 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
+| `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
