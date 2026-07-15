@@ -24,7 +24,49 @@ const REGIONAL_METRICS = [
   'pct_age_65_plus',
   'pct_bipoc_population',
   'pct_bipoc_households',
+  'pct_owner_stock_affordable_80ami',
+  'pct_owner_stock_affordable_100ami',
+  'pct_owner_stock_affordable_120ami',
 ];
+
+const B25075_BINS = [
+  ['B25075_002E', 0, 9999],
+  ['B25075_003E', 10000, 14999],
+  ['B25075_004E', 15000, 19999],
+  ['B25075_005E', 20000, 24999],
+  ['B25075_006E', 25000, 29999],
+  ['B25075_007E', 30000, 34999],
+  ['B25075_008E', 35000, 39999],
+  ['B25075_009E', 40000, 49999],
+  ['B25075_010E', 50000, 59999],
+  ['B25075_011E', 60000, 69999],
+  ['B25075_012E', 70000, 79999],
+  ['B25075_013E', 80000, 89999],
+  ['B25075_014E', 90000, 99999],
+  ['B25075_015E', 100000, 124999],
+  ['B25075_016E', 125000, 149999],
+  ['B25075_017E', 150000, 174999],
+  ['B25075_018E', 175000, 199999],
+  ['B25075_019E', 200000, 249999],
+  ['B25075_020E', 250000, 299999],
+  ['B25075_021E', 300000, 399999],
+  ['B25075_022E', 400000, 499999],
+  ['B25075_023E', 500000, 749999],
+  ['B25075_024E', 750000, 999999],
+  ['B25075_025E', 1000000, 1499999],
+  ['B25075_026E', 1500000, 1999999],
+  ['B25075_027E', 2000000, null],
+];
+
+const OWNERSHIP_AFFORD = {
+  rateAnnual: 0.065,
+  termYears: 30,
+  downPaymentPct: 0.10,
+  propertyTaxPctAnnual: 0.0065,
+  insurancePctAnnual: 0.0035,
+  pmiPctAnnual: 0.005,
+  paymentToIncome: 0.30,
+};
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -32,6 +74,46 @@ function readJson(file) {
 
 function sha256(file) {
   return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+}
+
+function countyAmiGap(fips) {
+  const data = readJson(path.join(ROOT, 'data/co_ami_gap_by_county.json'));
+  const counties = data.counties || [];
+  if (Array.isArray(counties)) return counties.find((row) => String(row.fips) === String(fips)) || null;
+  return counties[String(fips)] || null;
+}
+
+function placeAmiGap(geoid) {
+  return readJson(path.join(ROOT, 'data/co_ami_gap_by_place.json')).places[String(geoid)];
+}
+
+function maxAffordablePrice(ami4Person, amiPct) {
+  const income = Number(ami4Person) * amiPct;
+  const monthlyBudget = income * OWNERSHIP_AFFORD.paymentToIncome / 12;
+  const r = OWNERSHIP_AFFORD.rateAnnual / 12;
+  const n = OWNERSHIP_AFFORD.termYears * 12;
+  const mortgageFactor = r ? r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1) : 1 / n;
+  const loanShare = 1 - OWNERSHIP_AFFORD.downPaymentPct;
+  const monthlyCostPerDollar = (loanShare * mortgageFactor)
+    + ((OWNERSHIP_AFFORD.propertyTaxPctAnnual + OWNERSHIP_AFFORD.insurancePctAnnual) / 12)
+    + (loanShare * OWNERSHIP_AFFORD.pmiPctAnnual / 12);
+  return Math.round(monthlyBudget / monthlyCostPerDollar);
+}
+
+function ownerStockAffordablePct(acs, maxPrice) {
+  const denom = Number(acs.B25075_001E);
+  let affordable = 0;
+  for (const [key, lower, upper] of B25075_BINS) {
+    const count = Number(acs[key]);
+    assert.ok(Number.isFinite(count), `${key} should be present`);
+    if (maxPrice < lower) continue;
+    if (upper == null || maxPrice >= upper) {
+      affordable += count;
+    } else {
+      affordable += count * ((maxPrice - lower + 1) / (upper - lower + 1));
+    }
+  }
+  return Math.round((affordable / denom * 100) * 10) / 10;
 }
 
 function runBuilder() {
@@ -178,6 +260,10 @@ test('regional comparison metrics are present, bounded, and source-tagged for co
     assert.strictEqual(digest.metrics.pct_age_65_plus.source_id, 'acs-profile-dp05');
     assert.strictEqual(digest.metrics.pct_bipoc_population.source_id, 'acs-profile-dp05');
     assert.strictEqual(digest.metrics.pct_bipoc_households.source_id, 'acs-b25003');
+    for (const key of ['pct_owner_stock_affordable_80ami', 'pct_owner_stock_affordable_100ami', 'pct_owner_stock_affordable_120ami']) {
+      assert.strictEqual(digest.metrics[key].source_id, 'acs-b25075', `${geoid} ${key} source`);
+      assert.strictEqual(digest.metrics[key].denominator_key, 'owner_occupied_housing_units', `${geoid} ${key} denominator`);
+    }
   }
 });
 
@@ -214,6 +300,49 @@ test('regional BIPOC household source fields are cached for normal profile geogr
   const acs = summary.acsProfile || {};
   assert.ok(Number.isFinite(Number(acs.B25003_001E)), 'Garfield B25003_001E should be present in the normal summary cache');
   assert.ok(Number.isFinite(Number(acs.B25003H_001E)), 'Garfield B25003H_001E should be present in the normal summary cache');
+});
+
+test('regional owner-stock affordability recomputes from raw B25075 fields', () => {
+  const fixtures = [
+    ['08045', countyAmiGap('08045')],
+    ['0803620', placeAmiGap('0803620')],
+  ];
+  for (const [geoid, amiGap] of fixtures) {
+    const digest = readJson(path.join(DIGEST_DIR, `${geoid}.json`));
+    const summary = readJson(path.join(ROOT, 'data/hna/summary', `${geoid}.json`));
+    const acs = summary.acsProfile || {};
+    assert.ok(Number.isFinite(Number(acs.B25075_001E)) && Number(acs.B25075_001E) > 0, `${geoid} B25075 denominator`);
+    assert.ok(Number.isFinite(Number(amiGap.ami_4person)) && Number(amiGap.ami_4person) > 0, `${geoid} AMI input`);
+    for (const [amiPct, key] of [
+      [0.80, 'pct_owner_stock_affordable_80ami'],
+      [1.00, 'pct_owner_stock_affordable_100ami'],
+      [1.20, 'pct_owner_stock_affordable_120ami'],
+    ]) {
+      const expected = ownerStockAffordablePct(acs, maxAffordablePrice(amiGap.ami_4person, amiPct));
+      assert.strictEqual(digest.metrics[key].value, expected, `${geoid} ${key} raw B25075 recompute`);
+    }
+  }
+});
+
+test('regional owner-stock affordability source fields are cached for normal profile geographies', () => {
+  const summary = readJson(path.join(ROOT, 'data/hna/summary', '08045.json'));
+  const acs = summary.acsProfile || {};
+  assert.ok(Number.isFinite(Number(acs.B25075_001E)), 'Garfield B25075_001E should be present in the normal summary cache');
+  assert.ok(Number.isFinite(Number(acs.B25075_002E)), 'Garfield B25075_002E should be present in the normal summary cache');
+  assert.ok(Number.isFinite(Number(acs.B25075_027E)), 'Garfield B25075_027E should be present in the normal summary cache');
+
+  const builder = fs.readFileSync(path.join(ROOT, 'scripts/hna/build_hna_data.py'), 'utf8');
+  const detailStart = builder.indexOf('def _fetch_acs5_detail_tenure_lookup');
+  const detailEnd = builder.indexOf('\n\ndef _acs5_detail_tenure_for_geo', detailStart);
+  assert.ok(detailStart >= 0 && detailEnd > detailStart, 'test can isolate normal ACS5 detail supplement fetch path');
+  const detailBody = builder.slice(detailStart, detailEnd);
+  assert.ok(detailBody.includes("f'B25075_{i:03d}E'"), 'normal detail supplement fetches B25075 value bins');
+  assert.ok(detailBody.includes('range(1, 28)'), 'normal detail supplement fetches B25075_001E through B25075_027E');
+  const fallbackStart = builder.indexOf('def _fetch_acs5_b_series');
+  const fallbackEnd = builder.indexOf('\n\ndef fetch_acs_profile', fallbackStart);
+  assert.ok(fallbackStart >= 0 && fallbackEnd > fallbackStart, 'test can isolate fallback-only ACS5 B-series path');
+  const fallbackBody = builder.slice(fallbackStart, fallbackEnd);
+  assert.equal(fallbackBody.includes('B25075_'), false, 'B25075 must not be added only to fallback-only _fetch_acs5_b_series');
 });
 
 test('regional comparison fixture values stay stable for Garfield County and Roaring Fork places', () => {
@@ -264,6 +393,20 @@ test('regional BIPOC population row is labeled as population, not households', (
   assert.ok(src.indexOf("key: 'pct_bipoc_population'") < src.indexOf("key: 'pct_bipoc_households'"), 'population row should precede household row');
 });
 
+test('regional owner-stock affordability rows are labeled as ownership supply context', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  for (const [label, key] of [
+    ['Owner stock affordable at 80% AMI', 'pct_owner_stock_affordable_80ami'],
+    ['Owner stock affordable at 100% AMI', 'pct_owner_stock_affordable_100ami'],
+    ['Owner stock affordable at 120% AMI', 'pct_owner_stock_affordable_120ami'],
+  ]) {
+    assert.ok(src.includes(`label: '${label}', key: '${key}', format: 'pct'`), `missing regional row ${label}`);
+  }
+  assert.ok(src.indexOf("key: 'ownership_need_affordability_classification'") < src.indexOf("key: 'pct_owner_stock_affordable_80ami'"), 'supply rows should follow ownership classification');
+  assert.ok(src.indexOf("key: 'pct_owner_stock_affordable_80ami'") < src.indexOf("key: 'pct_owner_stock_affordable_100ami'"), '80% AMI row should precede 100% AMI row');
+  assert.ok(src.indexOf("key: 'pct_owner_stock_affordable_100ami'") < src.indexOf("key: 'pct_owner_stock_affordable_120ami'"), '100% AMI row should precede 120% AMI row');
+});
+
 test('regional comparison exposes existing ownership need digest metrics as text rows', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   const rows = [
@@ -309,6 +452,19 @@ test('bipocHouseholdsPct returns null when required B25003 fields are missing', 
   const probe = [
     `import { bipocHouseholdsPct } from ${JSON.stringify(`file://${BUILDER}`)};`,
     `const value = bipocHouseholdsPct({ B25003_001E: 1000 });`,
+    `if (value !== null) throw new Error('expected null, got ' + value);`,
+  ].join('\n');
+  const result = spawnSync(process.execPath, ['--input-type=module', '-e', probe], {
+    cwd: ROOT,
+    encoding: 'utf8',
+  });
+  assert.strictEqual(result.status, 0, result.stderr || result.stdout);
+});
+
+test('ownershipStockAffordablePct returns null when required B25075 bins are missing', () => {
+  const probe = [
+    `import { ownershipStockAffordablePct, maxAffordableOwnershipPrice } from ${JSON.stringify(`file://${BUILDER}`)};`,
+    `const value = ownershipStockAffordablePct({ B25075_001E: 1000, B25075_002E: 25 }, maxAffordableOwnershipPrice(120000, 1.0));`,
     `if (value !== null) throw new Error('expected null, got ' + value);`,
   ].join('\n');
   const result = spawnSync(process.execPath, ['--input-type=module', '-e', probe], {
