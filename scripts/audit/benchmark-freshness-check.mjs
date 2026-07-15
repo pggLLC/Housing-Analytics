@@ -8,6 +8,8 @@
  *
  *   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
  *   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
+ *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
+ *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -22,8 +24,9 @@
  * and deliberately NOT part of test:ci.
  *
  * What it checks, per file:
- *   1. `meta.next_expected_update` (when present) has not passed.
- *   2. `meta.as_of` (falling back to `meta.vintage`) is not older than
+ *   1. `review_by` dates (when present in meta or entries) have not passed.
+ *   2. `meta.next_expected_update` (when present) has not passed.
+ *   3. `meta.as_of` (falling back to `meta.vintage`) is not older than
  *      STALE_AFTER_DAYS (60 — both sources publish roughly quarterly).
  *
  * Date parsing accepts, in order:
@@ -53,6 +56,16 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/freddie-mac-multifamily-outlook.json',
     label: 'Freddie Mac multifamily outlook',
+  },
+  {
+    file: 'data/market/tax-credit-transfer-pricing.json',
+    label: 'Tax-credit transfer pricing',
+    reviewByPaths: ['meta.review_by', 'markets[].review_by'],
+  },
+  {
+    file: 'data/policy/tax-credit-legislation.json',
+    label: 'Tax-credit legislation watchlist',
+    reviewByPaths: ['meta.review_by', 'entries[].review_by'],
   },
 ];
 
@@ -89,20 +102,60 @@ function daysBetween(a, b) {
   return Math.floor((b - a) / 86_400_000);
 }
 
+function valuesAtPath(root, pathExpr) {
+  const parts = String(pathExpr || '').split('.');
+  let values = [root];
+  for (const part of parts) {
+    const next = [];
+    const isArray = part.endsWith('[]');
+    const key = isArray ? part.slice(0, -2) : part;
+    for (const value of values) {
+      if (!value || typeof value !== 'object') continue;
+      const child = value[key];
+      if (isArray) {
+        if (Array.isArray(child)) next.push(...child);
+      } else {
+        next.push(child);
+      }
+    }
+    values = next;
+  }
+  return values.filter((value) => value != null && value !== '');
+}
+
 const now = new Date();
 const warnings = [];
 let checked = 0;
 
-for (const { file, label } of BENCHMARK_FILES) {
+for (const { file, label, reviewByPaths = [] } of BENCHMARK_FILES) {
+  let parsed;
   let meta;
   try {
-    const parsed = JSON.parse(await fs.readFile(path.join(ROOT, file), 'utf8'));
+    parsed = JSON.parse(await fs.readFile(path.join(ROOT, file), 'utf8'));
     meta = parsed.meta || {};
   } catch (err) {
     warnings.push(`${label}: could not read/parse ${file} (${err.message})`);
     continue;
   }
   checked++;
+
+  for (const pathExpr of reviewByPaths) {
+    const reviewDates = valuesAtPath(parsed, pathExpr);
+    if (!reviewDates.length) {
+      warnings.push(`${label}: no review_by values found at ${pathExpr}`);
+      continue;
+    }
+    for (const raw of reviewDates) {
+      const reviewBy = parseWhen(raw);
+      if (!reviewBy) {
+        warnings.push(`${label}: review_by ${JSON.stringify(raw)} at ${pathExpr} is unparseable`);
+      } else if (reviewBy < now) {
+        warnings.push(
+          `${label}: review_by ${raw} at ${pathExpr} has passed — ` +
+          `re-verify the source cited in ${file}`);
+      }
+    }
+  }
 
   const asOfRaw = meta.as_of || meta.vintage || null;
   const asOf = parseWhen(asOfRaw);

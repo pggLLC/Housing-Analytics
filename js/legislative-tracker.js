@@ -21,11 +21,11 @@
   'use strict';
   /* istanbul ignore next */
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory();
+    module.exports = factory(root);
   } else {
-    root.LegislativeTracker = factory();
+    root.LegislativeTracker = factory(root);
   }
-}(typeof self !== 'undefined' ? self : this, function () {
+}(typeof self !== 'undefined' ? self : this, function (root) {
   'use strict';
 
   /* ── Bill stage constants ────────────────────────────────────────── */
@@ -53,119 +53,87 @@
     STAGES.SIGNED
   ];
 
-  /* ── Bill database ───────────────────────────────────────────────── */
+  /* ── Data-backed watchlist ───────────────────────────────────────── */
 
-  var BILLS = [
-    {
-      id:          'HR6644',
-      title:       'Housing for the 21st Century Act',
-      shortTitle:  'H.R. 6644',
-      stage:       STAGES.CONFERENCE,
-      houseVote:   '390-9',
-      targetPassage: 'Q2 2026',
-      lastUpdated: '2026-02-09',
-      summary:     'Sweeping bipartisan housing reform incorporating 43 individual bills, ' +
-                   'including AHCIA LIHTC improvements, FHA limit increases, and NEPA streamlining.',
-      lihtcImpact: {
-        score:       9,
-        description: 'Direct LIHTC credit amount increase (+12.5%), expanded basis boost eligibility, ' +
-                     'FHA limit increases improving 4% deal feasibility.',
-        provisions:  [
-          'AHCIA: 12.5% increase in LIHTC credit allocation',
-          'FHA multifamily loan limit increases',
-          'NEPA streamlining (3–6 month savings)',
-          'Income averaging expansion'
-        ]
-      },
-      craImpact: {
-        score:       7,
-        description: 'Expands CRA credit for LIHTC investments, broadens eligible institution types.',
-        provisions:  [
-          'LIHTC investments receive enhanced CRA examination weight',
-          'Credit union CRA-equivalent provisions included'
-        ]
-      },
-      tags: ['LIHTC', 'CRA', 'FHA', 'NEPA', 'bipartisan']
-    },
-    {
-      id:          'AHCIA',
-      title:       'Affordable Housing Credit Improvement Act',
-      shortTitle:  'AHCIA 2025',
-      stage:       STAGES.CONFERENCE,
-      lastUpdated: '2026-01-15',
-      summary:     'Standalone bill incorporated into H.R. 6644. Increases LIHTC allocations, ' +
-                   'expands income averaging, and improves 4% credit feasibility.',
-      lihtcImpact: {
-        score:       10,
-        description: 'Core LIHTC improvement legislation — largest credit enhancement in a decade.',
-        provisions:  [
-          '12.5% increase in state LIHTC ceiling',
-          'Income averaging election for mixed-income projects',
-          'Right of first refusal expansion',
-          'Rural and native area set-asides'
-        ]
-      },
-      craImpact: null,
-      tags: ['LIHTC', 'income-averaging', 'rural']
-    },
-    {
-      id:          'ROAD',
-      title:       'Revitalizing Opportunities for America\'s Development Act',
-      shortTitle:  'ROAD Act',
-      stage:       STAGES.SENATE_COMMITTEE,
-      lastUpdated: '2026-01-30',
-      summary:     'Senate companion to H.R. 6644. In conference committee to resolve differences. ' +
-                   'Includes additional rural housing provisions and community development focus.',
-      lihtcImpact: {
-        score:       7,
-        description: 'Complements AHCIA with rural set-asides and community development area targeting.',
-        provisions:  [
-          'Enhanced rural LIHTC targeting',
-          'Community development financial institution (CDFI) integration',
-          'Opportunity zone and LIHTC coordination'
-        ]
-      },
-      craImpact: {
-        score:       8,
-        description: 'Significant CRA modernization provisions for bank and credit union participation.',
-        provisions:  [
-          'CRA credit for rural LIHTC equity',
-          'Credit union CRA equivalency framework',
-          'Digital banking CRA assessment guidance'
-        ]
-      },
-      tags: ['CRA', 'rural', 'CDFI', 'Senate']
-    },
-    {
-      id:          'CRA-MOD',
-      title:       'Community Reinvestment Act Modernization Provisions',
-      shortTitle:  'CRA Modernization',
-      stage:       STAGES.CONFERENCE,
-      lastUpdated: '2026-02-01',
-      summary:     'Embedded CRA reform provisions across H.R. 6644 and ROAD Act. ' +
-                   'Expands CRA to insurance companies and FinTech lenders for LIHTC investments.',
-      lihtcImpact: {
-        score:       8,
-        description: 'Expands investor base for LIHTC equity by broadening CRA incentives to non-bank entities.',
-        provisions:  [
-          'Insurance company LIHTC investments receive CRA-equivalent credit',
-          'FinTech lenders included in CRA assessment',
-          'LIHTC equity counts double in CRA examination'
-        ]
-      },
-      craImpact: {
-        score:       10,
-        description: 'Most significant CRA reform since 1977 — expands eligible institutions and updates digital banking rules.',
-        provisions:  [
-          'All financial institutions with >$10B AUM subject to CRA',
-          'Insurance company CRA-like requirements',
-          'Digital banking geographic assessment update',
-          'Enhanced examination weighting for LIHTC investments'
-        ]
-      },
-      tags: ['CRA', 'insurance', 'fintech', 'investor-base']
-    }
-  ];
+  var BILLS = [];
+
+  function _stageFromStatus(status) {
+    if (status === 'enacted') return STAGES.SIGNED;
+    if (status === 'proposed' || status === 'rule-pending') return STAGES.COMMITTEE;
+    if (status === 'phased-out' || status === 'expired') return STAGES.FAILED;
+    return STAGES.INTRODUCED;
+  }
+
+  function _scoreForScope(scope, status) {
+    if (status === 'expired') return 0;
+    if (scope === 'lihtc') return status === 'enacted' ? 8 : 6;
+    if (scope === 'cra') return status === 'proposed' ? 5 : 7;
+    if (scope === 'nmtc' || scope === 'htc' || scope === 'itc-ptc') return status === 'enacted' ? 6 : 4;
+    if (scope === 'homebuyer') return status === 'proposed' ? 4 : 3;
+    return 2;
+  }
+
+  function _tagsForEntry(entry) {
+    var tags = [];
+    if (entry.scope) tags.push(String(entry.scope).toUpperCase());
+    if (entry.status) tags.push(entry.status);
+    if (/lihtc/i.test(entry.title || '')) tags.push('LIHTC');
+    if (/cra/i.test(entry.title || '')) tags.push('CRA');
+    if (/home|buyer|neighborhood/i.test(entry.title || '')) tags.push('homebuyer');
+    return tags.filter(function (tag, idx) { return tags.indexOf(tag) === idx; });
+  }
+
+  function _impactForEntry(entry, scope) {
+    var score = _scoreForScope(scope, entry.status);
+    var impact = {
+      score: score,
+      description: entry.pricing_impact || '',
+      provisions: [
+        entry.title,
+        entry.source_note || entry.source_url
+      ].filter(Boolean)
+    };
+    if (scope === 'lihtc') return { lihtcImpact: impact, craImpact: null };
+    if (scope === 'cra') return { lihtcImpact: null, craImpact: impact };
+    return { lihtcImpact: impact, craImpact: null };
+  }
+
+  function _normalizeEntry(entry) {
+    var stage = _stageFromStatus(entry.status);
+    var scope = entry.scope || 'tax-credit';
+    var impacts = _impactForEntry(entry, scope);
+    return Object.assign({
+      id: entry.id,
+      title: entry.title,
+      shortTitle: entry.id,
+      stage: stage,
+      effectiveDate: entry.effective_date || null,
+      sunsetDate: entry.sunset_date || null,
+      lastUpdated: entry.last_verified || entry.effective_date || null,
+      summary: entry.pricing_impact || '',
+      sourceUrl: entry.source_url || null,
+      sourceNote: entry.source_note || null,
+      tags: _tagsForEntry(entry)
+    }, impacts);
+  }
+
+  function setLegislationData(doc) {
+    var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
+    BILLS = entries.map(_normalizeEntry).filter(function (entry) {
+      return entry.id && entry.title;
+    });
+    return getAllBills();
+  }
+
+  function loadLegislationData(url, fetchImpl) {
+    var fetcher = fetchImpl || (typeof fetch === 'function' ? fetch : null);
+    var target = url || 'data/policy/tax-credit-legislation.json';
+    if (!fetcher) return Promise.resolve(getAllBills());
+    return fetcher(target)
+      .then(function (r) { return r && r.ok !== false && typeof r.json === 'function' ? r.json() : null; })
+      .then(function (doc) { return doc ? setLegislationData(doc) : getAllBills(); })
+      .catch(function () { return getAllBills(); });
+  }
 
   /* ── Impact scoring helpers ──────────────────────────────────────── */
 
@@ -327,16 +295,17 @@
    * @returns {Object[]} Timeline entries
    */
   function getLegislativeTimeline() {
-    return [
-      { date: '2025-09-12', event: 'AHCIA 2025 introduced in House and Senate', billId: 'AHCIA', stage: STAGES.INTRODUCED },
-      { date: '2025-11-05', event: 'H.R. 6644 introduced incorporating 43 bills', billId: 'HR6644', stage: STAGES.INTRODUCED },
-      { date: '2026-01-15', event: 'ROAD Act introduced in Senate', billId: 'ROAD', stage: STAGES.INTRODUCED },
-      { date: '2026-01-28', event: 'H.R. 6644 passes House Financial Services Committee', billId: 'HR6644', stage: STAGES.COMMITTEE },
-      { date: '2026-02-09', event: 'H.R. 6644 passes House 390-9 — strongest housing vote in a decade', billId: 'HR6644', stage: STAGES.HOUSE_PASSED },
-      { date: '2026-02-15', event: 'Conference committee convened to reconcile H.R. 6644 and ROAD Act', billId: 'HR6644', stage: STAGES.CONFERENCE },
-      { date: '2026-Q2',    event: 'Target: Conference report released and final vote expected', billId: 'HR6644', stage: STAGES.ENROLLED, projected: true },
-      { date: '2026-Q3',    event: 'Target: President signature and implementation begins', billId: 'HR6644', stage: STAGES.SIGNED, projected: true }
-    ];
+    return getAllBills().map(function (bill) {
+      return {
+        date: bill.effectiveDate || bill.lastUpdated || 'VERIFY',
+        event: bill.title + ' - ' + bill.stage,
+        billId: bill.id,
+        stage: bill.stage,
+        sourceUrl: bill.sourceUrl || null
+      };
+    }).sort(function (a, b) {
+      return String(a.date).localeCompare(String(b.date));
+    });
   }
 
   /* ── Constants exposed for testing ──────────────────────────────── */
@@ -344,6 +313,8 @@
   return {
     STAGES:                  STAGES,
     STAGE_ORDER:             STAGE_ORDER,
+    setLegislationData:      setLegislationData,
+    loadLegislationData:     loadLegislationData,
     getAllBills:              getAllBills,
     getBill:                 getBill,
     getBillsByTag:           getBillsByTag,

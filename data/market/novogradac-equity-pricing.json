@@ -7,7 +7,7 @@
     "methodology": "Novogradac surveys syndicators monthly and publishes national + regional average equity pricing for both 9% (competitive) and 4% (bond-driven) LIHTC. Pricing reflects: target IRR (typically 5-7% for 9%, 4-6% for 4%), CRA-buyer demand premium, asset-class basis-boost mix, sponsor track record, and macro debt-cost (perm rate + cap-rate impact on residual). Pricing is the cents-per-credit-dollar an investor pays for $1 of 10-yr tax credit + depreciation deductions; e.g., $0.87 means $0.87 of equity per $1.00 of 10-yr LIHTC credit annual amount.",
     "vintage": "2026-Q2",
     "as_of": "2026-06-04",
-    "next_expected_update": "2026-07-01",
+    "next_expected_update": "2026-10-01",
     "important_disclaimer": "Pricing benchmarks below are COHO's best-effort directional estimates based on publicly-available Novogradac reporting and recent market commentary. For IC memos, investor presentations, or actual capital-stack sizing, ALWAYS pull the current Novogradac Journal of Tax Credits pricing article directly. Pricing moves 1-4 cents per quarter based on macro conditions (10y Treasury, tax-credit policy uncertainty, CRA-buyer appetite) and 3-5 cents based on deal-specific factors (location, sponsor, BR mix, AMI mix). Use these as a starting anchor, not a closing number."
   },
   "pricing": {
@@ -48,7 +48,7 @@
     ]
   },
   "validation_check": {
-    "last_verified": "2026-06-04",
+    "last_verified": "2026-07-15",
     "verified_against": "Novogradac.com public-facing equity pricing summary (subscription required for full report)",
     "next_review": "Quarterly — refresh data + verify against current Novogradac publication",
     "ingestion_note": "Future: build a script that pulls the public Novogradac monthly headline article + parses national 9%/4% from the lede. Manual quarterly update for now."

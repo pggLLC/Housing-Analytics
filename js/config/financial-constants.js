@@ -6,7 +6,7 @@
  * once when market conditions change, rather than scattered across
  * 6+ files.
  *
- * Last reviewed: 2026-04-05
+ * Last reviewed: 2026-07-15
  * Sources noted inline.
  */
 (function () {
@@ -21,9 +21,11 @@
 
     // ── Equity Pricing ──────────────────────────────────────────────
     // Investor pricing per $1 of annual credit.
-    // Source: Novogradac LIHTC equity survey, Q1 2026
-    equityPrice9Pct: 0.90,         // 9% deals (national average)
-    equityPrice4Pct: 0.85,         // 4%/bond deals (national average)
+    // Offline fallback only; Deal Calculator soft-loads
+    // data/market/novogradac-equity-pricing.json at init when available.
+    // Source: Novogradac LIHTC equity benchmark, Q2 2026
+    equityPrice9Pct: 0.86,         // 9% deals (national average)
+    equityPrice4Pct: 0.84,         // 4%/bond deals (national average)
 
     // ── AMI Rent Limits (county-resolved) ──────────────────────────
     // AMI-indexed rent limits MUST come from HudFmr.getGrossRentLimit(fips, pct)
@@ -62,7 +64,7 @@
     acsYear:          '2024',      // for display labels
     hudFmrYear:       'FY2025',    // HUD FMR fiscal year — FY2026 not yet published
     dolaProjectionYr: '2050',      // DOLA population projection horizon
-    lastReviewDate:   '2026-04-11',
+    lastReviewDate:   '2026-07-15',
   };
 
   // Freeze to prevent accidental mutation

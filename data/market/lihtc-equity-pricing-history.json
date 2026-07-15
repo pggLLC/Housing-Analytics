@@ -38,6 +38,7 @@
     { "quarter": "2025-Q2", "nine": 0.88, "four": 0.85 },
     { "quarter": "2025-Q3", "nine": 0.87, "four": 0.84 },
     { "quarter": "2025-Q4", "nine": 0.87, "four": 0.85 },
-    { "quarter": "2026-Q1", "nine": 0.87, "four": 0.85 }
+    { "quarter": "2026-Q1", "nine": 0.87, "four": 0.85 },
+    { "quarter": "2026-Q2", "nine": 0.86, "four": 0.84 }
   ]
 }
