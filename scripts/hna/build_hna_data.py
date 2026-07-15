@@ -99,7 +99,7 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
     """
     wait = 1
     for attempt in range(retries):
-        print(f"→ GET {redact(url)}  (attempt {attempt + 1}/{retries}, timeout={timeout}s)", file=sys.stderr)
+        print(f"→ GET external source  (attempt {attempt + 1}/{retries}, timeout={timeout}s)", file=sys.stderr)
         t0 = time.monotonic()
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
@@ -116,7 +116,7 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
                 body = e.read().decode('utf-8', errors='replace')
             except Exception:
                 body = ''
-            print(f"← HTTP {status}  {elapsed:.1f}s  fetching {redact(url)} (attempt {attempt + 1}/{retries})", file=sys.stderr)
+            print(f"← HTTP {status}  {elapsed:.1f}s  fetching external source (attempt {attempt + 1}/{retries})", file=sys.stderr)
             if status >= 400:
                 # Log response body preview for all API errors to aid debugging
                 print(f"  Response: {body[:1000]}", file=sys.stderr)
@@ -127,7 +127,7 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
             return (status, body or f"HTTP {status}: {e.reason}")
         except Exception as e:
             elapsed = time.monotonic() - t0
-            print(f"← ERROR  {elapsed:.1f}s  fetching {redact(url)} (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
+            print(f"← ERROR  {elapsed:.1f}s  fetching external source (attempt {attempt + 1}/{retries}): {e}", file=sys.stderr)
             if attempt < retries - 1:
                 time.sleep(wait)
                 wait *= backoff
@@ -140,13 +140,13 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
     """Fetch URL and parse as JSON. Returns None on error."""
     status, text = http_get_text(url, timeout=timeout, retries=1)
     if status != 200:
-        print(f"⚠ Failed to fetch JSON from {redact(url)}: HTTP {status}", file=sys.stderr)
+        print(f"⚠ Failed to fetch JSON from external source: HTTP {status}", file=sys.stderr)
         print(f"  Response preview: {text[:500]}", file=sys.stderr)
         return None
     try:
         return json.loads(text)
     except json.JSONDecodeError as e:
-        print(f"⚠ Failed to parse JSON from {redact(url)}: {e}", file=sys.stderr)
+        print(f"⚠ Failed to parse JSON from external source: {e}", file=sys.stderr)
         return None
 
 
@@ -258,7 +258,7 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
     # If HTTP 400 (Bad Request) and we have a fallback, try it
     status, _ = http_get_text(url, timeout=30, retries=1)
     if status == 400 and fallback_url:
-        print(f"ℹ Falling back to {redact(fallback_url)}", file=sys.stderr)
+        print("ℹ Falling back to alternate external source", file=sys.stderr)
         return http_get_json(fallback_url)
 
     return None
@@ -266,7 +266,7 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
 
 def http_get(url: str, timeout: int = 60) -> bytes:
     """Original http_get for LEHD (critical path, no fallback)."""
-    print(f"→ GET {redact(url)}  (timeout={timeout}s)", file=sys.stderr)
+    print(f"→ GET external source  (timeout={timeout}s)", file=sys.stderr)
     t0 = time.monotonic()
     req = urllib.request.Request(url, headers={"User-Agent": "HNA-ETL/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
