@@ -4666,6 +4666,12 @@
     return U() && U().fmtMoney ? U().fmtMoney(v) : '—';
   }
 
+  function _ownFmtPermitAvg(v) {
+    var n = Number(v);
+    if (!Number.isFinite(n)) return '—';
+    return _ownFmtNum(Math.round(n));
+  }
+
   function _ownPill(text, method) {
     var source = String(text || 'source');
     var isCountyFallback = /county-CHAS fallback/i.test(source);
@@ -4717,6 +4723,32 @@
     return rec ? Object.assign({ gapSource: 'place' }, rec) : null;
   }
 
+  function _ownPermitContextForSelection(geoType, geoid, permitsDoc) {
+    if (!permitsDoc || !geoid || geoType === 'state') return null;
+    var rec = null;
+    var level = null;
+    if (geoType === 'county') {
+      rec = (permitsDoc.counties || {})[String(geoid)] || null;
+      level = 'county';
+    } else if (geoType === 'place' || geoType === 'cdp') {
+      var canonical = _ownCanonicalGeoid(geoid);
+      rec = (permitsDoc.places || {})[canonical] || (permitsDoc.places || {})[String(geoid)] || null;
+      level = 'place';
+    }
+    if (!rec) return null;
+    var sf = rec.avg_annual_sf_5yr || {};
+    var mf = rec.avg_annual_mf_5yr || {};
+    var total = rec.avg_annual_total_5yr || {};
+    if (sf.value == null && total.value == null) return null;
+    return {
+      level: level,
+      window: sf.window || total.window || '',
+      sfAnnual: sf.value,
+      mfAnnual: mf.value,
+      totalAnnual: total.value,
+    };
+  }
+
   function _ownReviewFlagSet(reviewFlags) {
     var set = {};
     Object.keys(reviewFlags || {}).forEach(function (key) {
@@ -4751,7 +4783,7 @@
     } : null;
   }
 
-  function renderAffordableOwnershipNeed(result) {
+  function renderAffordableOwnershipNeed(result, context) {
     var container = document.getElementById('hnaAffordableOwnershipNeed');
     if (!container) return;
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
@@ -4823,12 +4855,20 @@
     }).join('');
 
     var home = result.affordabilityTest;
+    var permitContext = context && context.permitContext;
     var tableRows = [
       _ownMetricRow('Renter cost-burdened households', _ownFmtNum(result.renterCostBurdened) + ' (' + _ownFmtPct(rental.inputs.renterCostBurdenedShare) + ')', source, 'RAW', 'Rental-oriented pressure signal.'),
       _ownMetricRow('Severely burdened renter households', _ownFmtNum(result.severeRenterCostBurdened) + ' (' + _ownFmtPct(rental.inputs.severeRenterCostBurdenedShare) + ')', source, 'RAW', 'Deep affordability pressure.'),
       _ownMetricRow('Owner cost-burdened households', _ownFmtNum(result.ownerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.ownerCostBurdenedShare) + ')', source, 'RAW', 'Ownership stress among current owners.'),
       _ownMetricRow('Severely burdened owner households', _ownFmtNum(result.severeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.severeOwnerCostBurdenedShare) + ')', source, 'RAW', 'Severe ownership cost pressure.'),
       _ownMetricRow('Moderate-income renter households', _ownFmtNum(result.moderateIncomeRenterHouseholds) + ' (' + _ownFmtPct(fit.inputs.moderateIncomeRenterShare) + ' of renters)', source, 'DERIVED', '51-100% HAMFI renter base.'),
+      permitContext ? _ownMetricRow(
+        'Single-family permit pace',
+        _ownFmtPermitAvg(permitContext.sfAnnual) + '/yr' + (permitContext.window ? ' (' + permitContext.window + ' avg)' : ''),
+        'Census BPS',
+        'CONTEXT',
+        'Recent market single-family production context only; not an affordable ownership count or purchase-readiness signal. Total recent permits: ' + _ownFmtPermitAvg(permitContext.totalAnnual) + '/yr' + (permitContext.mfAnnual != null ? '; multifamily: ' + _ownFmtPermitAvg(permitContext.mfAnnual) + '/yr.' : '.')
+      ) : '',
       _ownMetricRow('Moderate-income owner cost-burdened households', _ownFmtNum(result.moderateIncomeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.moderateIncomeOwnerCostBurdenedShare) + ')', source, 'DERIVED', 'Owner pressure in the 51-100% HAMFI bands.'),
       _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'MODELED' : 'VERIFY', home ? ('Modeled as ' + home.classification + ' at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
       _ownMetricRow('Existing rental gap', result.existingRentalGap == null ? 'Unavailable' : _ownFmtNum(result.existingRentalGap) + ' units at or below 80% AMI', 'AMI gap data', result.existingRentalGap == null ? 'VERIFY' : 'DERIVED', 'Rental supply context; not an ownership count.'),
@@ -4902,6 +4942,7 @@
         : _ownFindCountyAmiGap(stateRef.acsAmiGapData, geoid);
       if (!amiGapEntry && contextCounty) amiGapEntry = _ownFindCountyAmiGap(stateRef.acsAmiGapData, contextCounty);
       var homeValueEntry = _ownHomeValueForSelection(profile, geoType, geoid, stateRef.homeValueCascade);
+      var permitContext = _ownPermitContextForSelection(geoType, geoid, stateRef.permitsDoc);
       var afford = U() && U().AFFORD;
       var result = window.HNAOwnershipNeed.computeOwnershipNeed({
         placeChasEntry: geoLevel === 'place' ? chasRecord : null,
@@ -4924,7 +4965,7 @@
           source: 'HNAUtils.AFFORD',
         } : null,
       });
-      renderAffordableOwnershipNeed(result);
+      renderAffordableOwnershipNeed(result, { permitContext: permitContext });
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
       var container = document.getElementById('hnaAffordableOwnershipNeed');

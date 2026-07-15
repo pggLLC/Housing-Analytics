@@ -8,7 +8,7 @@
   'use strict';
 
   window.HNAState = {
-    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null, combinedMembers: [], combinedRegions: null, combinedDatasets: null },
+    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null, permitsDoc: null, combinedMembers: [], combinedRegions: null, combinedDatasets: null },
     charts: {},
     map: null,
     boundaryLayer: null,
@@ -3244,6 +3244,12 @@
         .then((data) => { window.HNAState.state.homeValueCascade = data; return data; })
         .catch(() => { window.HNAState.state.homeValueCascade = null; return null; });
     }
+    let ownershipPermitsPromise = null;
+    if ((geoType === 'place' || geoType === 'cdp' || geoType === 'county') && !window.HNAState.state.permitsDoc) {
+      ownershipPermitsPromise = loadPermitsDoc()
+        .then((data) => { window.HNAState.state.permitsDoc = data; return data; })
+        .catch(() => { window.HNAState.state.permitsDoc = null; return null; });
+    }
     // ACS-derived AMI gap (households-at-AMI minus units-priced-affordable
     // at each band). Used by renderGapCoverageStats as a fallback when the
     // cached CHAS file's ≤30% AMI row is suspect for the selected county
@@ -3293,6 +3299,7 @@
     }
     if (window.HNARenderers.tryRenderAffordableOwnershipNeedFromState) {
       if (ownershipHomeValueCascadePromise) await ownershipHomeValueCascadePromise;
+      if (ownershipPermitsPromise) await ownershipPermitsPromise;
       window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty);
     }
 

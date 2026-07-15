@@ -648,6 +648,101 @@ test('HNA executive decision strip mirrors detailed renderer values', () => {
   assert.ok(doc.getElementById('hnaScorecardPanel').textContent.includes(needValue.replace('/100', '')), 'scorecard panel contains same composite score');
 });
 
+test('ownership renderer surfaces single-family permit context without treating it as affordable supply', () => {
+  const dom = loadRenderersDom();
+  dom.window.HNAOwnershipNeed = { computeOwnershipNeed() {} };
+  const result = {
+    dataQuality: 'High',
+    tenureMixRecommendation: 'Ownership-supportive strategy',
+    recommendationDetail: 'Fixture recommendation detail.',
+    renterCostBurdened: 240,
+    severeRenterCostBurdened: 100,
+    ownerCostBurdened: 90,
+    severeOwnerCostBurdened: 40,
+    moderateIncomeRenterHouseholds: 75,
+    moderateIncomeOwnerCostBurdened: 25,
+    existingRentalGap: 125,
+    rentalPressure: { tier: 'Moderate', inputs: { source: 'HUD CHAS', renterCostBurdenedShare: 0.4, severeRenterCostBurdenedShare: 0.17 } },
+    ownershipPressure: { tier: 'High', inputs: { ownerCostBurdenedShare: 0.23, moderateIncomeOwnerCostBurdenedShare: 0.06 } },
+    ownershipFit: { tier: 'High', inputs: { moderateIncomeRenterShare: 0.13 } },
+    affordabilityTest: { medianHomeValue: 350000, classification: 'priced-out', source: 'fixture home values' },
+    caveats: [],
+  };
+  dom.window.HNARenderers.renderAffordableOwnershipNeed(result, {
+    permitContext: {
+      level: 'county',
+      window: '2021-2025',
+      sfAnnual: 51.8,
+      mfAnnual: 25.2,
+      totalAnnual: 77,
+    },
+  });
+  const html = dom.window.document.getElementById('hnaAffordableOwnershipNeed').innerHTML;
+  assert.ok(html.includes('Single-family permit pace'), 'renders SF permit context row');
+  assert.ok(html.includes('52/yr'), 'rounds average annual SF permits for display');
+  assert.ok(html.includes('2021-2025 avg'), 'shows BPS averaging window');
+  assert.ok(html.includes('Census BPS'), 'labels BPS source');
+  assert.ok(html.includes('CONTEXT'), 'marks permits as context');
+  assert.ok(html.includes('not an affordable ownership count'), 'does not treat SF permits as affordable ownership supply');
+  assert.ok(html.includes('purchase-readiness signal'), 'does not turn permits into buyer-readiness evidence');
+
+  dom.window.HNARenderers.renderAffordableOwnershipNeed(result);
+  const noPermitHtml = dom.window.document.getElementById('hnaAffordableOwnershipNeed').innerHTML;
+  assert.equal(noPermitHtml.includes('Single-family permit pace'), false, 'does not fabricate permit context when BPS record is absent');
+});
+
+test('ownership renderer receives permits doc from controller state for ownership context', () => {
+  const rendererSrc = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  const controllerSrc = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+  assert.ok(rendererSrc.includes('function _ownPermitContextForSelection'), 'renderer has ownership permit context helper');
+  assert.ok(rendererSrc.includes('stateRef.permitsDoc'), 'renderer reads permits doc from HNA state');
+  assert.ok(rendererSrc.includes('renderAffordableOwnershipNeed(result, { permitContext: permitContext })'), 'renderer passes permit context into ownership panel');
+  assert.ok(controllerSrc.includes('ownershipPermitsPromise'), 'controller starts ownership permit load');
+  assert.ok(controllerSrc.includes('window.HNAState.state.permitsDoc = data'), 'controller caches permits doc on HNA state');
+  assert.ok(controllerSrc.includes('if (ownershipPermitsPromise) await ownershipPermitsPromise'), 'ownership render waits for permit context load');
+});
+
+test('place ownership permit context does not fall back to county-only permit records', () => {
+  const dom = loadRenderersDom();
+  dom.window.HNAState.state.permitsDoc = {
+    counties: {
+      '08035': {
+        avg_annual_sf_5yr: { value: 500, window: '2021-2025' },
+        avg_annual_total_5yr: { value: 625, window: '2021-2025' },
+      },
+    },
+    places: {},
+  };
+  dom.window.HNAOwnershipNeed = {
+    computeOwnershipNeed() {
+      return {
+        dataQuality: 'High',
+        tenureMixRecommendation: 'Ownership-supportive strategy',
+        recommendationDetail: 'Fixture recommendation detail.',
+        renterCostBurdened: 240,
+        severeRenterCostBurdened: 100,
+        ownerCostBurdened: 90,
+        severeOwnerCostBurdened: 40,
+        moderateIncomeRenterHouseholds: 75,
+        moderateIncomeOwnerCostBurdened: 25,
+        existingRentalGap: 125,
+        rentalPressure: { tier: 'Moderate', inputs: { source: 'HUD CHAS', renterCostBurdenedShare: 0.4, severeRenterCostBurdenedShare: 0.17 } },
+        ownershipPressure: { tier: 'High', inputs: { ownerCostBurdenedShare: 0.23, moderateIncomeOwnerCostBurdenedShare: 0.06 } },
+        ownershipFit: { tier: 'High', inputs: { moderateIncomeRenterShare: 0.13 } },
+        affordabilityTest: { medianHomeValue: 350000, classification: 'priced-out', source: 'fixture home values' },
+        caveats: [],
+      };
+    },
+  };
+
+  dom.window.HNARenderers.tryRenderAffordableOwnershipNeedFromState({}, 'place', '0807850', 'Boulder city', '08035');
+  const html = dom.window.document.getElementById('hnaAffordableOwnershipNeed').innerHTML;
+
+  assert.equal(html.includes('Single-family permit pace'), false, 'place render must not surface county-only permit data');
+  assert.equal(html.includes('500/yr'), false, 'county-only SF permit pace must not leak into a place render');
+  assert.equal(html.includes('Census BPS'), false, 'no BPS context row appears without a place permit record');
+});
+
 test('combined add button preserves rejection warning by skipping update on false', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   const handlerStart = src.indexOf("window.HNAState.els.btnAddCombinedGeo?.addEventListener('click', () => {");
