@@ -153,6 +153,12 @@ Each tiered component receives a score from 0 to 3 based on these cutpoints. Com
 - High: 1.75 to below 2.5
 - Very High: 2.5 or higher
 
+### EPS Phase II Benchmark Check
+
+The constants above were benchmarked against EPS "Regional Housing Needs Assessment -- Draft Phase II Report" (June 16, 2026, EPS #243156) before the ownership roadmap advanced beyond the initial screening layer. See `docs/audits/OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md`.
+
+The benchmark did not invalidate the constants: it supports keeping the current cutpoints and keeping the screening caveat. It also records the input-scope issues and follow-up sequence that should be checked before ownership tiers are surfaced more widely, especially small-town tenure mix, cross-county place context, CHAS vintage lag, and county home-value coverage.
+
 ## Recommendation Logic
 
 The recommendation follows this order:
