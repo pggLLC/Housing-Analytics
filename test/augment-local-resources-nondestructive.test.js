@@ -22,16 +22,16 @@ const { PLACE_ENTRIES, mergeMissing, TARGET } = require('../scripts/augment-loca
 const existing = {
   'place:0899999': {
     // post-hoc enrichment not known to PLACE_ENTRIES
-    council_agenda_url: 'https://example.gov/agendas',
-    schoolDistrict: { name: 'Example RE-1', url: 'https://example-re1.org/' },
+    council_agenda_url: 'http://127.0.0.1/agendas',
+    schoolDistrict: { name: 'Example RE-1', url: 'http://127.0.0.1/example-re1' },
     hospital: 'Example Medical Center',
     majorEmployers: ['Example Corp', 'Example University'],
     // F35-healed URL (script has the old deep link)
     housingLead: { name: 'Example Housing Dept', url: 'https://www.google.com/search?q=%22Example+Housing+Dept%22+Colorado' },
     // hand-extended array (script has a shorter version)
     advocacy: [
-      { name: 'Original Org', url: 'https://original.org/' },
-      { name: 'Hand-Added Org', url: 'https://hand-added.org/' }
+      { name: 'Original Org', url: 'http://127.0.0.1/original' },
+      { name: 'Hand-Added Org', url: 'http://127.0.0.1/hand-added' }
     ],
     prop123: { status: 'Committed', hand_added_flag: true }
   }
@@ -39,13 +39,13 @@ const existing = {
 
 const incoming = {
   'place:0899999': {
-    housingLead: { name: 'Example Housing Dept', url: 'https://example.gov/housing-old-deep-link' },
+    housingLead: { name: 'Example Housing Dept', url: 'http://127.0.0.1/housing-old-deep-link' },
     advocacy: [
-      { name: 'Original Org', url: 'https://original.org/' }
+      { name: 'Original Org', url: 'http://127.0.0.1/original' }
     ],
     prop123: { status: 'Committed', link: 'https://cdola.colorado.gov/commitment-filings' },
     housingAuthority: [
-      { name: 'Example Housing Authority', url: 'https://example-ha.org/' }
+      { name: 'Example Housing Authority', url: 'http://127.0.0.1/example-ha' }
     ]
   }
 };
