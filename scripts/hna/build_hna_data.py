@@ -155,14 +155,15 @@ _ACS5_DETAIL_TENURE_CACHE_KEY: tuple[int, ...] | None = None
 
 
 def _fetch_acs5_detail_tenure_lookup(years_to_try: list[int]) -> dict[str, dict[str, str]]:
-    """Fetch B25003/B25003H for Colorado counties and places in two bulk calls."""
+    """Fetch ACS5 detail-table ownership supplements for Colorado counties and places."""
     global _ACS5_DETAIL_TENURE_CACHE, _ACS5_DETAIL_TENURE_CACHE_KEY
     cache_key = tuple(years_to_try)
     if _ACS5_DETAIL_TENURE_CACHE is not None and _ACS5_DETAIL_TENURE_CACHE_KEY == cache_key:
         return _ACS5_DETAIL_TENURE_CACHE
 
     lookup: dict[str, dict[str, str]] = {}
-    vars_ = ['B25003_001E', 'B25003H_001E', 'NAME']
+    b25075_vars = [f'B25075_{i:03d}E' for i in range(1, 28)]
+    vars_ = ['B25003_001E', 'B25003H_001E', *b25075_vars, 'NAME']
     key = census_key()
 
     def fetch_scope(scope: str) -> bool:
