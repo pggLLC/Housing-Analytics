@@ -8091,6 +8091,11 @@
     { section: 'Affordability', label: '31–50% AMI households', key: 'pct_ami_31to50', format: 'pct' },
     { section: 'Affordability', label: '51–80% AMI households', key: 'pct_ami_51to80', format: 'pct' },
     { section: 'Affordability', label: '>80% AMI households', key: 'pct_ami_gt80', format: 'pct' },
+    { section: 'Ownership Need', label: 'Tenure strategy recommendation', key: 'ownership_need_recommendation', format: 'text' },
+    { section: 'Ownership Need', label: 'Rental pressure tier', key: 'ownership_need_rental_pressure_tier', format: 'text' },
+    { section: 'Ownership Need', label: 'Ownership pressure tier', key: 'ownership_need_ownership_pressure_tier', format: 'text' },
+    { section: 'Ownership Need', label: 'Ownership fit tier', key: 'ownership_need_ownership_fit_tier', format: 'text' },
+    { section: 'Ownership Need', label: 'Modeled affordability classification', key: 'ownership_need_affordability_classification', format: 'text' },
     { section: 'Housing Stock', label: 'Renter share', key: 'pct_renters', format: 'pct' },
     { section: 'Housing Stock', label: 'Overcrowding', key: 'overcrowding_rate', format: 'pct' },
     { section: 'Housing Stock', label: 'Housing built before 1970', key: 'pct_housing_built_pre1970', format: 'pct' },
@@ -8103,6 +8108,7 @@
   ];
 
   function _regionalFmt(value, format) {
+    if (format === 'text') return value == null || value === '' ? '—' : String(value);
     var n = Number(value);
     if (!Number.isFinite(n)) return '—';
     if (format === 'money') return _ownFmtMoney(n);
