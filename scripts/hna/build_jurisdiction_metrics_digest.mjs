@@ -34,6 +34,43 @@ const ECONOMIC_BRIDGE = path.join(ROOT, 'scripts', 'hna', 'economic_housing_brid
 
 const MIN_RATE_DENOMINATOR = 50;
 const ACS_AS_OF = 'ACS 2020-2024 5-year';
+const OWNERSHIP_AFFORDABILITY_ASSUMPTIONS = {
+  rateAnnual: 0.065,
+  termYears: 30,
+  downPaymentPct: 0.10,
+  propertyTaxPctAnnual: 0.0065,
+  insurancePctAnnual: 0.0035,
+  pmiPctAnnual: 0.005,
+  paymentToIncome: 0.30,
+};
+const B25075_BINS = [
+  ['B25075_002E', 0, 9999],
+  ['B25075_003E', 10000, 14999],
+  ['B25075_004E', 15000, 19999],
+  ['B25075_005E', 20000, 24999],
+  ['B25075_006E', 25000, 29999],
+  ['B25075_007E', 30000, 34999],
+  ['B25075_008E', 35000, 39999],
+  ['B25075_009E', 40000, 49999],
+  ['B25075_010E', 50000, 59999],
+  ['B25075_011E', 60000, 69999],
+  ['B25075_012E', 70000, 79999],
+  ['B25075_013E', 80000, 89999],
+  ['B25075_014E', 90000, 99999],
+  ['B25075_015E', 100000, 124999],
+  ['B25075_016E', 125000, 149999],
+  ['B25075_017E', 150000, 174999],
+  ['B25075_018E', 175000, 199999],
+  ['B25075_019E', 200000, 249999],
+  ['B25075_020E', 250000, 299999],
+  ['B25075_021E', 300000, 399999],
+  ['B25075_022E', 400000, 499999],
+  ['B25075_023E', 500000, 749999],
+  ['B25075_024E', 750000, 999999],
+  ['B25075_025E', 1000000, 1499999],
+  ['B25075_026E', 1500000, 1999999],
+  ['B25075_027E', 2000000, null],
+];
 
 const INTERNAL_METRICS = new Set([
   '_ami_gap_source',
@@ -393,11 +430,75 @@ export function bipocHouseholdsPct(acs) {
   return pctFromCounts(total - notHispanicWhite, total);
 }
 
-function regionalComparisonMetrics(entry, summary, chasSources) {
+function monthlyMortgageFactor(annualRate, termYears) {
+  const r = annualRate / 12;
+  const n = termYears * 12;
+  if (!r) return 1 / n;
+  return r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+}
+
+export function maxAffordableOwnershipPrice(ami4Person, amiPct, assumptions = OWNERSHIP_AFFORDABILITY_ASSUMPTIONS) {
+  const ami = numberOrNull(ami4Person);
+  if (ami == null || ami <= 0) return null;
+  const income = ami * amiPct;
+  const monthlyBudget = income * assumptions.paymentToIncome / 12;
+  const loanShare = 1 - assumptions.downPaymentPct;
+  const monthlyCostPerDollar = (loanShare * monthlyMortgageFactor(assumptions.rateAnnual, assumptions.termYears))
+    + ((assumptions.propertyTaxPctAnnual + assumptions.insurancePctAnnual) / 12)
+    + (loanShare * assumptions.pmiPctAnnual / 12);
+  if (!Number.isFinite(monthlyCostPerDollar) || monthlyCostPerDollar <= 0) return null;
+  return Math.round(monthlyBudget / monthlyCostPerDollar);
+}
+
+export function ownershipStockAffordablePct(acs, maxPrice) {
+  const denominator = numberOrNull(acs?.B25075_001E);
+  const threshold = numberOrNull(maxPrice);
+  if (denominator == null || denominator <= 0 || threshold == null || threshold < 0) return null;
+  let affordable = 0;
+  for (const [key, lower, upper] of B25075_BINS) {
+    const count = numberOrNull(acs?.[key]);
+    if (count == null) return null;
+    if (threshold < lower) continue;
+    if (upper == null || threshold >= upper) {
+      affordable += count;
+    } else {
+      affordable += count * ((threshold - lower + 1) / (upper - lower + 1));
+    }
+  }
+  return pctFromCounts(affordable, denominator);
+}
+
+function amiGapForEntry(entry, amiGapSources) {
+  if (entry.type === 'county') {
+    return countyAmiGap(amiGapSources.county, entry.geoid);
+  }
+  return amiGapSources.place[String(entry.geoid)] || null;
+}
+
+function ownershipStockAffordabilityMetrics(entry, acs, amiGap) {
+  const ami4Person = numberOrNull(amiGap?.ami_4person);
+  const denominator = numberOrNull(acs?.B25075_001E);
+  const metric = (amiPct) => acsRegionalMetric(
+    ownershipStockAffordablePct(acs, maxAffordableOwnershipPrice(ami4Person, amiPct)),
+    entry,
+    'acs-b25075',
+    'owner_occupied_housing_units',
+    denominator,
+  );
+  return {
+    pct_owner_stock_affordable_80ami: metric(0.80),
+    pct_owner_stock_affordable_100ami: metric(1.00),
+    pct_owner_stock_affordable_120ami: metric(1.20),
+  };
+}
+
+function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
   const acs = summary?.acsProfile || {};
   const builtPre1970 = housingBuiltPre1970Pct(acs);
+  const amiGap = amiGapForEntry(entry, amiGapSources);
   return {
     ...amiShareMetrics(entry, chasSources),
+    ...ownershipStockAffordabilityMetrics(entry, acs, amiGap),
     pct_housing_built_pre1970: acsRegionalMetric(
       builtPre1970,
       entry,
@@ -622,7 +723,7 @@ function ownershipDigestMetric(metric, value, entry, rankingMeta) {
   };
 }
 
-function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSources) {
+function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSources, amiGapSources) {
   const summary = loadSummary(entry.geoid);
   const denom = denominators(summary);
   const metrics = {};
@@ -630,7 +731,7 @@ function buildDigest(entry, rankingMeta, economicLayer, ownershipRecords, chasSo
     if (INTERNAL_METRICS.has(metric)) continue;
     metrics[metric] = digestMetric(metric, value, entry, summary, denom);
   }
-  Object.assign(metrics, regionalComparisonMetrics(entry, summary, chasSources));
+  Object.assign(metrics, regionalComparisonMetrics(entry, summary, chasSources, amiGapSources));
   const economic = economicLayer[entry.geoid] || {};
   for (const [metric, config] of Object.entries(ECONOMIC_METRICS)) {
     const sourceField = metric === 'county_service_sector_share_pct' ? 'service_sector_share_pct' : metric;
@@ -806,6 +907,10 @@ function main() {
     placeChas: loadOptionalJson(PLACE_CHAS_PATH)?.places || {},
     countyChas: loadOptionalJson(COUNTY_CHAS_PATH)?.counties || {},
   };
+  const amiGapSources = {
+    place: loadOptionalJson(AMI_GAP_PLACE_PATH)?.places || {},
+    county: loadOptionalJson(AMI_GAP_COUNTY_PATH) || {},
+  };
   const economicLayer = buildEconomicLayer(ranking);
   const ownershipRecords = buildOwnershipRecords(ranking);
   writeJson(OWNERSHIP_OUT_PATH, {
@@ -818,7 +923,7 @@ function main() {
     records: ownershipRecords,
   });
   refreshBriefTenureStrategy(ownershipRecords);
-  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords, chasSources));
+  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords, chasSources, amiGapSources));
   for (const digest of digests) {
     writeJson(path.join(OUT_DIR, `${digest.geography.geoid}.json`), digest);
   }

@@ -6387,16 +6387,26 @@
     const sizeAdjust = dealSize > 100 ? 1 : dealSize > 50 ? 0.5 : 0;
     const estMonths = baseMonths + sizeAdjust;
     const fmtNum = U().fmtNum;
-    resultEl.innerHTML =
-      '<div style="margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:.9rem;">' +
-        '<strong>Estimated approval timeline: ' + estMonths.toFixed(1) + ' months</strong><br>' +
-        '<span style="color:var(--muted);font-size:.85rem;">Track: ' + (track === 'fast' ? 'Fast-track (HB 22-1093)' : 'Standard') +
-          ' · Type: ' + dealType + ' · Size: ' + fmtNum(dealSize) + ' units</span>' +
-        (track === 'fast'
-          ? '<br><span style="color:var(--good,#16a34a);font-size:.8rem;">⚡ ~' +
-            Math.round((1 - estMonths / 8) * 100) + '% time savings vs. standard process.</span>'
-          : '') +
-      '</div>';
+    resultEl.textContent = '';
+    const panel = document.createElement('div');
+    panel.style.cssText = 'margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:.9rem;';
+    const title = document.createElement('strong');
+    title.textContent = 'Estimated approval timeline: ' + estMonths.toFixed(1) + ' months';
+    panel.appendChild(title);
+    panel.appendChild(document.createElement('br'));
+    const detail = document.createElement('span');
+    detail.style.cssText = 'color:var(--muted);font-size:.85rem;';
+    detail.textContent = 'Track: ' + (track === 'fast' ? 'Fast-track (HB 22-1093)' : 'Standard') +
+      ' · Type: ' + dealType + ' · Size: ' + fmtNum(dealSize) + ' units';
+    panel.appendChild(detail);
+    if (track === 'fast') {
+      panel.appendChild(document.createElement('br'));
+      const savings = document.createElement('span');
+      savings.style.cssText = 'color:var(--good,#16a34a);font-size:.8rem;';
+      savings.textContent = '⚡ ~' + Math.round((1 - estMonths / 8) * 100) + '% time savings vs. standard process.';
+      panel.appendChild(savings);
+    }
+    resultEl.appendChild(panel);
   }
 
   function renderHistoricalSection(baselineData, geoType, geoid) {
@@ -8137,6 +8147,9 @@
     { section: 'Ownership Need', label: 'Ownership pressure tier', key: 'ownership_need_ownership_pressure_tier', format: 'text' },
     { section: 'Ownership Need', label: 'Ownership fit tier', key: 'ownership_need_ownership_fit_tier', format: 'text' },
     { section: 'Ownership Need', label: 'Modeled affordability classification', key: 'ownership_need_affordability_classification', format: 'text' },
+    { section: 'Ownership Need', label: 'Owner stock affordable at 80% AMI', key: 'pct_owner_stock_affordable_80ami', format: 'pct' },
+    { section: 'Ownership Need', label: 'Owner stock affordable at 100% AMI', key: 'pct_owner_stock_affordable_100ami', format: 'pct' },
+    { section: 'Ownership Need', label: 'Owner stock affordable at 120% AMI', key: 'pct_owner_stock_affordable_120ami', format: 'pct' },
     { section: 'Housing Stock', label: 'Renter share', key: 'pct_renters', format: 'pct' },
     { section: 'Housing Stock', label: 'Overcrowding', key: 'overcrowding_rate', format: 'pct' },
     { section: 'Housing Stock', label: 'Housing built before 1970', key: 'pct_housing_built_pre1970', format: 'pct' },

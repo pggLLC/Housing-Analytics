@@ -13,7 +13,7 @@
     "region": "Southwest",
     "containingCounty": "08027"
   },
-  "metric_count": 97,
+  "metric_count": 100,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -597,6 +597,42 @@
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
       "denominator": 375.9,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_80ami": {
+      "value": 44.1,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 218,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_100ami": {
+      "value": 58.2,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 218,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_120ami": {
+      "value": 69,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 218,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },

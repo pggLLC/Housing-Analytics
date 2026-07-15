@@ -13,7 +13,7 @@
     "region": "Mountains",
     "containingCounty": "08015"
   },
-  "metric_count": 97,
+  "metric_count": 100,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -597,6 +597,42 @@
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
       "denominator": 67,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_80ami": {
+      "value": 88.4,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 147,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_100ami": {
+      "value": 88.4,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 147,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_120ami": {
+      "value": 88.4,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 147,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },

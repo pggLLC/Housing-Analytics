@@ -13,7 +13,7 @@
     "region": "San Luis Valley",
     "containingCounty": "08055"
   },
-  "metric_count": 97,
+  "metric_count": 100,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -597,6 +597,42 @@
       "measure_type": "level",
       "denominator_key": "chas_households_with_ami",
       "denominator": 75.1,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_80ami": {
+      "value": 63.7,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 108,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_100ami": {
+      "value": 76.9,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 108,
+      "min_denominator": 50,
+      "denominator_floor_applied": false
+    },
+    "pct_owner_stock_affordable_120ami": {
+      "value": 83.5,
+      "geography_level": "place",
+      "confidence": "high",
+      "source_id": "acs-b25075",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level",
+      "denominator_key": "owner_occupied_housing_units",
+      "denominator": 108,
       "min_denominator": 50,
       "denominator_floor_applied": false
     },
