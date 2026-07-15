@@ -397,11 +397,16 @@
   function mountError(err) {
     var root = document.getElementById('ippMount');
     if (!root) return;
-    root.innerHTML =
-      '<div style="padding:2rem;background:var(--card);border:1px solid var(--border);border-radius:8px;">' +
-      '<h2 style="margin-top:0;color:var(--bad,#b91c1c);">Could not load the pipeline content.</h2>' +
-      '<p style="color:var(--muted);">Reload the page or check Data Health for ingest issues. Details: ' +
-      String(err && err.message ? err.message : err) + '</p></div>';
+    root.innerHTML = '';
+    root.appendChild(el('div', {
+      style: 'padding:2rem;background:var(--card);border:1px solid var(--border);border-radius:8px;'
+    }, [
+      el('h2', { style: 'margin-top:0;color:var(--bad,#b91c1c);' },
+        'Could not load the pipeline content.'),
+      el('p', { style: 'color:var(--muted);' },
+        'Reload the page or check Data Health for ingest issues. Details: ' +
+        String(err && err.message ? err.message : err))
+    ]));
   }
 
   function init() {

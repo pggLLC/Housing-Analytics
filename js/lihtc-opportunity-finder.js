@@ -3848,7 +3848,7 @@
       if (days <= 60) return '<span style="background:#f59e0b22;color:#f59e0b;padding:0 5px;border-radius:8px;font-size:.65rem;font-weight:600;margin-left:5px">≤ 60d</span>';
       return '';
     }
-    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     var bodyHtml = rows.map(function (r) {
       var compColor = r.competitiveness === 'high' ? '#dc2626' : (r.competitiveness === 'moderate' ? '#f59e0b' : '#0891b2');
@@ -3897,7 +3897,7 @@
     var sm = state.qapSummary;
     if (!sf || !sm) { host.innerHTML = ''; return; }
 
-    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function esc(s) { return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
     function _pct(num, denom) {
       if (!denom) return 0;
       return Math.max(0, Math.min(100, Math.round((num / denom) * 100)));
