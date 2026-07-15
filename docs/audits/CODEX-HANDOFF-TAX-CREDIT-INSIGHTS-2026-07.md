@@ -134,6 +134,78 @@ this feature.
    and update its status paragraph with the rescission-NPR fact (FR link).
 8. Feature both from `insights.html`.
 
+### PR B (continued) — "How credit pricing works" explainer section
+
+8a. The Equity Markets page must include an explainer that makes the pricing
+    table interpretable — why a dollar of credit trades below (or above) a
+    dollar, and why the four markets price differently. Render as a
+    comparison matrix (one row per credit: LIHTC 9%/4%, HTC, NMTC, ITC, PTC)
+    plus short prose. Dimensions, with the verified anchor facts:
+
+    **Term / timing of the credit stream** (statutory — cite IRC sections):
+    - LIHTC (§42): credits flow over **10 years**; compliance/recapture tail
+      runs **15 years**. Long stream → pricing is rate-sensitive (discounted
+      cash flow), which is why LIHTC pricing fell as rates rose 2022-2024.
+    - HTC (§47): 20% of qualified rehab, claimed **ratably over 5 years**
+      (post-TCJA rule).
+    - NMTC (§45D): **39% over 7 years** (5% × 3 yrs, then 6% × 4 yrs).
+    - ITC (§48/48E): **one-time** in the placed-in-service year, 5-year
+      recapture exposure.
+    - PTC (§45/45Y): per-kWh over **10 years**, follows actual production.
+    Rule of thumb for the explainer: shorter, safer stream → closer to $1.00
+    (PTC ~$0.90-0.96 > ITC ~$0.88-0.95 > 10-yr LIHTC ~$0.85-0.90).
+
+    **Transferability** (this is the structural divide):
+    - Energy credits (ITC/PTC) are **transferable for cash under §6418**
+      (IRA, 2023+): a simple sale, broad buyer pool, low transaction cost.
+    - LIHTC, HTC, NMTC are **NOT transferable** — the investor must own an
+      equity interest (partnership syndication), which means higher
+      transaction/legal cost, longer holds, and a narrower buyer pool. This
+      is a demand-side headwind worth stating: corporate tax capacity that
+      once had to buy LIHTC funds can now buy simpler transferable energy
+      credits instead (though OBBBA's 45Y/48E phase-outs will shrink that
+      competing supply after 2027).
+    - §6417 **direct pay** lets tax-exempts/governments claim energy credits
+      as cash — irrelevant to LIHTC, worth one line so novices don't confuse
+      the two.
+
+    **Tax treatment of the trade** (the "taxable vs not taxable" layer —
+    verify against IRS §6418 guidance before publishing):
+    - §6418 transfer proceeds are **excluded from the seller's income**, and
+      the buyer's discount (paying $0.92 for $1.00 of credit) is **not taxed
+      as income** — the spread is the buyer's return.
+    - All of these are **nonrefundable** credits against federal tax
+      liability — a buyer needs tax appetite; none of the developer-side
+      credits are refundable checks.
+    - Syndicated credits (LIHTC/HTC) come **bundled with depreciation
+      losses** through the partnership — part of what the investor pays for
+      beyond the credit itself, and why LIHTC pricing can exceed the pure
+      credit DCF (and historically topped $1.00 in hot CRA markets).
+
+    **Supply and demand factors** (each one should cross-link to the
+    legislation-watch entry that moves it):
+    - Supply side: 9% LIHTC ceiling (+12% from 2026 per OBBBA), 4% volume
+      driven by the private-activity-bond cap and the new 25% bond test
+      (both expand credit supply → pricing pressure down), NMTC allocation
+      rounds (CDFI Fund), HTC pipeline, and energy-credit volume (post-IRA
+      surge, then OBBBA 45Y/48E phase-outs shrinking it).
+    - Demand side: **CRA-motivated banks are the dominant LIHTC buyer** —
+      which is why regional pricing tracks CRA assessment-area demand
+      (Novogradac's regional spreads: NYC/Boston price 3-5¢ above national)
+      and why the CRA rescission NPR is a pricing story, not just a
+      compliance story. Also: corporate profitability/tax capacity, the
+      corporate tax rate (a lower rate cuts the value of tax shelter),
+      insurance-company appetite, and Fannie/Freddie's LIHTC equity caps
+      ($2B each/yr per FHFA, half reserved for difficult-to-serve markets).
+    Keep this section novice-legible: every driver gets one plain-English
+    sentence on *which direction* it pushes cents-per-dollar and *why*.
+
+    Test guard: the matrix renders one row per credit type from a data
+    object (not hardcoded HTML per cell), and the explainer section's
+    statutory anchors (10-yr/15-yr LIHTC, 5-yr HTC, 39%/7-yr NMTC) appear —
+    non-vacuous: removing a matrix row or the §6418 exclusion sentence must
+    fail.
+
 ### PR C — Help for Homebuyers (novice register)
 
 9. `data/policy/homeownership-programs.json`: id, name, level
