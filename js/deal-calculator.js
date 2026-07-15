@@ -100,6 +100,98 @@
     return window.DealCalculatorMath.mortgageConstant(annualRate, termYears);
   }
 
+  function getCurrentAmi4Person() {
+    var hudFmr = window.HudFmr;
+    if (!_countyFips || !hudFmr || typeof hudFmr.getIncomeLimitsByFips !== 'function') return NaN;
+    var il = hudFmr.getIncomeLimitsByFips(_countyFips);
+    return il && il.ami_4person ? +il.ami_4person : NaN;
+  }
+
+  function computeForSaleFeasibility(input) {
+    input = input || {};
+    var tdc = +input.tdc;
+    var units = +input.units;
+    var ami4Person = +input.ami4Person;
+    var targetAmiPct = +input.targetAmiPct;
+    var maxAffordablePrice = input.maxAffordablePrice ||
+      (window.HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice);
+    if (!isFinite(targetAmiPct) || targetAmiPct <= 0) targetAmiPct = 0.80;
+    if (!isFinite(tdc) || tdc <= 0 || !isFinite(units) || units <= 0) {
+      return { status: 'missing-costs', targetAmiPct: targetAmiPct };
+    }
+    if (!isFinite(ami4Person) || ami4Person <= 0) {
+      return { status: 'missing-ami', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units };
+    }
+    if (typeof maxAffordablePrice !== 'function') {
+      return { status: 'missing-helper', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units };
+    }
+    var tdcPerUnit = tdc / units;
+    var maxSalePrice = maxAffordablePrice(ami4Person, targetAmiPct, input.assumptions);
+    var rawGapPerUnit = tdcPerUnit - maxSalePrice;
+    var subsidyGapPerUnit = Math.max(0, rawGapPerUnit);
+    return {
+      status: 'ok',
+      targetAmiPct: targetAmiPct,
+      ami4Person: ami4Person,
+      tdcPerUnit: tdcPerUnit,
+      maxAffordableSalePrice: maxSalePrice,
+      rawGapPerUnit: rawGapPerUnit,
+      subsidyGapPerUnit: subsidyGapPerUnit,
+      totalSubsidyGap: subsidyGapPerUnit * units,
+      surplusPerUnit: Math.max(0, -rawGapPerUnit)
+    };
+  }
+
+  function renderForSaleFeasibility(result) {
+    result = result || {};
+    function fmt(n) {
+      return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : '—';
+    }
+    function setText(id, value) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+    var targetLabel = Math.round(((+result.targetAmiPct || 0.80) * 100)) + '% AMI';
+    setText('dc-own-target-label', targetLabel);
+    if (result.status !== 'ok') {
+      setText('dc-own-cost-per-unit', isFinite(result.tdcPerUnit) ? fmt(result.tdcPerUnit) : '—');
+      setText('dc-own-max-price', '—');
+      setText('dc-own-gap-per-unit', '—');
+      setText('dc-own-total-gap', '—');
+      var message = result.status === 'missing-ami'
+        ? 'Select a county to load HUD AMI and price the ownership affordability limit.'
+        : (result.status === 'missing-helper'
+          ? 'Ownership affordability helper unavailable; reload the page before relying on this mode.'
+          : 'Enter total development cost and units to size the ownership gap.');
+      setText('dc-own-note', message);
+      return;
+    }
+    setText('dc-own-cost-per-unit', fmt(result.tdcPerUnit));
+    setText('dc-own-max-price', fmt(result.maxAffordableSalePrice));
+    setText('dc-own-gap-per-unit', fmt(result.subsidyGapPerUnit));
+    setText('dc-own-total-gap', fmt(result.totalSubsidyGap));
+    var note = result.rawGapPerUnit <= 0
+      ? 'Screening result: no per-unit subsidy gap at this AMI under the shared HNA PITI assumptions.'
+      : 'Formula: development cost per unit minus max affordable sale price from the HNA ownership module.';
+    setText('dc-own-note', note);
+  }
+
+  function currentDealMode() {
+    var checked = document.querySelector('input[name="dc-deal-mode"]:checked');
+    return checked && checked.value === 'ownership' ? 'ownership' : 'rental';
+  }
+
+  function updateDealModeUi() {
+    var mode = currentDealMode();
+    var isOwnership = mode === 'ownership';
+    document.querySelectorAll('[data-dc-mode="rental"]').forEach(function (el) {
+      el.hidden = isOwnership;
+    });
+    document.querySelectorAll('[data-dc-mode="ownership"]').forEach(function (el) {
+      el.hidden = !isOwnership;
+    });
+  }
+
   // -------------------------------------------------------------------
   // Peer-deals filter (pure function, testable)
   //
@@ -626,8 +718,29 @@
     See <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">methodology notes</a> for scope and limitations.
   </p>
 
-  <!-- Credit Rate Scenario Toggle -->
+  <!-- Deal Mode Toggle -->
   <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);margin-bottom:var(--sp3);">
+    <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Deal Mode</legend>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--sp3);align-items:center;">
+      <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;font-size:var(--small);">
+        <input id="dc-mode-rental" type="radio" name="dc-deal-mode" value="rental" checked
+          style="width:16px;height:16px;flex-shrink:0;">
+        <span><strong>Rental LIHTC pro forma</strong></span>
+      </label>
+      <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;font-size:var(--small);">
+        <input id="dc-mode-ownership" type="radio" name="dc-deal-mode" value="ownership"
+          style="width:16px;height:16px;flex-shrink:0;">
+        <span><strong>For-sale ownership feasibility</strong></span>
+      </label>
+    </div>
+    <p style="font-size:var(--tiny);color:var(--muted);margin:0.3rem 0 0;">
+      Ownership mode sizes a per-unit subsidy gap for deed-restricted or shared-equity homes
+      using the same max affordable sale-price math as the HNA Affordable Ownership Need module.
+    </p>
+  </fieldset>
+
+  <!-- Credit Rate Scenario Toggle -->
+  <fieldset id="dc-credit-rate-scenario" data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);margin-bottom:var(--sp3);">
     <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Credit Rate Scenario</legend>
     <div style="display:flex;flex-wrap:wrap;gap:var(--sp3);align-items:center;">
       <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;font-size:var(--small);">
@@ -676,7 +789,17 @@
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
-        <div style="margin-bottom:var(--sp2);">
+        <label id="dc-sale-target-wrap" data-dc-mode="ownership" hidden style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Ownership Sale Target</span>
+          <select id="dc-sale-target-ami"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+            <option value="80" selected>80% AMI</option>
+            <option value="100">100% AMI</option>
+            <option value="120">120% AMI</option>
+          </select>
+        </label>
+
+        <div id="dc-rental-ami-mix" data-dc-mode="rental" style="margin-bottom:var(--sp2);">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:0.4rem;flex-wrap:wrap;">
             <span style="font-size:var(--small);color:var(--muted);">AMI Mix &amp; Units per Tier</span>
             <!-- F257 — "Pre-fill from local need" wires the AMI tier defaults
@@ -1077,7 +1200,7 @@
          to the right at desktop widths. -->
     <div id="dc-pro-forma-col" style="min-width:0;">
       <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
-        LIHTC Pro Forma
+        <span data-dc-mode="rental">LIHTC Pro Forma</span><span data-dc-mode="ownership" hidden>Ownership Feasibility</span>
       </h3>
 
       <!-- Methodology & Formulas — collapsed by default. Shows every formula
@@ -1237,8 +1360,9 @@
       </details>
 
       <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
-        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">LIHTC Credit Estimates <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(screening-level)</span></legend>
+        <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;"><span data-dc-mode="rental">LIHTC Credit Estimates</span><span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility</span> <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(screening-level)</span></legend>
 
+        <div data-dc-mode="rental">
         <!-- Adjacent-to-headline disclaimer (per methodology-gaps deep-dive):
              the "Screening tool only" note in the page intro is easy to miss
              once a user is staring at a 7-figure equity number. Repeat the
@@ -1268,6 +1392,26 @@
           <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY 2025</a>
           published limits (lags ~18 mo); spot-check against current market rents before underwriting.
         </p>
+        </div>
+
+        <div id="dc-ownership-feasibility" data-dc-mode="ownership" hidden style="margin-top:var(--sp3);padding:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+          <dl style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+            <dt style="color:var(--muted);">Development cost / unit</dt>
+            <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
+
+            <dt style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>)</dt>
+            <dd id="dc-own-max-price" style="font-weight:700;text-align:right;">—</dd>
+
+            <dt style="color:var(--muted);">Subsidy gap / unit</dt>
+            <dd id="dc-own-gap-per-unit" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
+
+            <dt style="color:var(--muted);">Total ownership gap</dt>
+            <dd id="dc-own-total-gap" style="font-weight:700;text-align:right;">—</dd>
+          </dl>
+          <p id="dc-own-note" style="margin:.45rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+            Select a county to load HUD AMI and price the ownership affordability limit.
+          </p>
+        </div>
 
         <!-- F257-6 — Development budget breakdown (typical shares). The
              headline outputs above show the equity raised but not what
@@ -1276,7 +1420,7 @@
              portion of TDC each represents. Shares are CHFA-typical for
              a new-construction 9% deal in Colorado; vary by site
              conditions and project type. -->
-        <details id="dc-budget-breakdown-wrap" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
+        <details id="dc-budget-breakdown-wrap" data-dc-mode="rental" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Development Budget — typical breakdown</summary>
           <p style="margin:.45rem 0 .35rem;font-size:var(--tiny);color:var(--muted);line-height:1.5;">
             These are <em>typical Colorado shares</em> for a new-construction LIHTC project, applied to your Total Development Cost. They are not your project's actual numbers — see your sponsor's draft budget for those. Use this to sanity-check that no major line item is missing from the screening estimate.
@@ -1311,7 +1455,7 @@
         <!-- F257-6 — "How to adjust" advisory. Surfaces 2-3 levers the
              user can pull when the calculated gap is wide or the deal
              is otherwise marginal. Updated live by recalculate(). -->
-        <div id="dc-adjust-guidance" hidden role="note"
+        <div id="dc-adjust-guidance" data-dc-mode="rental" hidden role="note"
           style="margin-top:var(--sp3);padding:.6rem .75rem;border:1px solid var(--accent);border-left-width:4px;border-radius:var(--radius);background:color-mix(in oklab,var(--card) 85%,var(--accent) 15%);font-size:var(--small);line-height:1.5;">
           <div style="font-weight:700;color:var(--accent);margin-bottom:.25rem;">How to adjust for a better fit</div>
           <ul id="dc-adjust-guidance-list" style="margin:.25rem 0 0;padding-left:1.2rem;"></ul>
@@ -1362,7 +1506,7 @@
         </details>
       </fieldset>
 
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Supportable First Mortgage <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(estimate · screening-level)</span></legend>
         <dl id="dc-mortgage-results" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);">Mortgage Constant (annual)</dt>
@@ -1393,7 +1537,7 @@
       </fieldset>
 
       <!-- Debt Service Coverage & Stress -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Service Coverage &amp; Stress Tests</legend>
         <dl id="dc-dscr-summary" style="display:grid;grid-template-columns:1fr auto;gap:0.5rem 1rem;font-size:var(--small);">
           <dt style="color:var(--muted);"><abbr data-glossary="NOI">NOI</abbr> (stabilized, annual)</dt>
@@ -1473,7 +1617,7 @@
       </fieldset>
 
       <!-- Rent Achievability Check -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Rent Achievability Check</legend>
         <p id="dc-rent-ach-intro" style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
           Compares LIHTC rent ceilings (at each AMI tier) against the county's HUD FMR 2BR market rent.
@@ -1526,7 +1670,7 @@
       </fieldset>
 
       <!-- Peer Deals — comparable LIHTC projects in same county + credit type -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Peer Deals <span style="font-weight:400;font-size:var(--tiny);color:var(--muted);">(real comparable CO LIHTC projects)</span></legend>
         <p id="dc-peers-intro" style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
           Top 5 LIHTC projects in the selected county with the same credit type, sorted by recency then by size proximity to your proposed unit count.
@@ -1575,7 +1719,7 @@
          the right of LIHTC Pro Forma so the user can scan Inputs →
          Performance → Capital Stack left-to-right. On narrower screens
          it stacks below Pro Forma. -->
-    <div id="dc-capital-stack-col" style="min-width:0;">
+    <div id="dc-capital-stack-col" data-dc-mode="rental" style="min-width:0;">
       <h3 style="font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 var(--sp2);padding:0 .15rem .35rem;border-bottom:1px solid var(--border);">
         Capital Stack &amp; Exit
       </h3>
@@ -1738,7 +1882,7 @@
 </section>`;
 
     // Attach event listeners
-    const ids = ['dc-tdc', 'dc-units', 'dc-basis-pct',
+    const ids = ['dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
       'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
       'dc-chk-70', 'dc-chk-80', 'dc-chk-100',
       'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
@@ -1757,6 +1901,12 @@
     // Select elements also need 'change' listener for reliable cross-browser support
     var taxExemptSel = document.getElementById('dc-tax-exempt');
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
+    var saleTargetSel = document.getElementById('dc-sale-target-ami');
+    if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
+    ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('change', recalculate);
+    });
     // P7: BR-type selectors fire 'change' not 'input'
     ['dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60', 'dc-br-70', 'dc-br-80', 'dc-br-100'].forEach(function (id) {
       var el = document.getElementById(id);
@@ -2121,6 +2271,14 @@
     var tdc = safeVal('dc-tdc') || 0;
     var units = safeVal('dc-units') || 0;
     var basisPct = (safeVal('dc-basis-pct') || 80) / 100;
+    updateDealModeUi();
+    var saleTargetAmiPct = (safeVal('dc-sale-target-ami') || 80) / 100;
+    renderForSaleFeasibility(computeForSaleFeasibility({
+      tdc: tdc,
+      units: units,
+      ami4Person: getCurrentAmi4Person(),
+      targetAmiPct: saleTargetAmiPct
+    }));
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
 
@@ -2526,7 +2684,9 @@
           adjustWrap.hidden = true;
         } else {
           adjustList.innerHTML = levers.map(function (s) { return '<li style="margin:.2rem 0;">' + s + '</li>'; }).join('');
-          adjustWrap.hidden = false;
+          // The levers quote the rental LIHTC gap — keep the box out of
+          // ownership mode even though this runs after updateDealModeUi().
+          adjustWrap.hidden = currentDealMode() === 'ownership';
         }
       }
     } catch (_) { /* never break recalc on advisory render */ }
@@ -3371,10 +3531,14 @@
       if (!mount) return;
       recCard = document.createElement('div');
       recCard.id = 'dc-concept-rec';
+      recCard.setAttribute('data-dc-mode', 'rental');
       recCard.style.cssText = 'margin-top:var(--sp3);padding:var(--sp2) var(--sp3);' +
         'border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);';
       mount.appendChild(recCard);
     }
+    // LIHTC-specific recommendation — created after updateDealModeUi() has
+    // already swept [data-dc-mode], so set the current mode's state directly.
+    recCard.hidden = currentDealMode() === 'ownership';
     var rec = result.base;
     recCard.innerHTML =
       '<h3 style="margin:0 0 0.5rem;font-size:0.95rem;">' +
@@ -5127,6 +5291,7 @@
     setDesignationContext: setDesignationContext,
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
+    computeForSaleFeasibility:  computeForSaleFeasibility,
     findPeerDeals:              findPeerDeals,
     computeRentAchievability:   computeRentAchievability,
     /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */

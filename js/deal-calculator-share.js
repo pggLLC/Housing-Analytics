@@ -35,11 +35,14 @@
   // matter — the param name is the DOM ID with the "dc-" prefix stripped.
   var SHARE_KEYS = [
     // Capital stack
-    'dc-tdc', 'dc-units', 'dc-basis-pct', 'dc-qct-dda',
+    'dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct', 'dc-qct-dda',
     'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
     // F221 — Credit rate radio (dc-credit-rate group, 9% vs 4%). One ID is
     // enough; _readVal/_writeVal walk the group via input[name=...].
     'dc-rate-9',
+    // Deal mode radio (dc-deal-mode group, rental vs ownership) — without it
+    // an ownership-mode share link opens in rental mode for the recipient.
+    'dc-mode-rental',
     // AMI mix (7 tiers) — both unit counts AND LIHTC-eligibility checkboxes
     // AND bedroom-mix dropdowns. F221 catch: partner opens link without
     // these → silent wrong NOI (different BR mix drives different HUD rents).
