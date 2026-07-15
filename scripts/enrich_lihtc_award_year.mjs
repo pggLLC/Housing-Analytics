@@ -25,7 +25,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -111,7 +111,7 @@ async function main() {
   }
   console.log('');
   console.log('Re-running recency augmentation…');
-  execSync('node ' + path.join(__dirname, 'augment_ranking_index_recency.mjs'), { stdio: 'inherit' });
+  execFileSync(process.execPath, [path.join(__dirname, 'augment_ranking_index_recency.mjs')], { stdio: 'inherit' });
 }
 
 main().catch(e => { console.error(e); process.exit(1); });

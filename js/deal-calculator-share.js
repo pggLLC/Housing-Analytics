@@ -93,7 +93,10 @@
       // F221 — Previously this set el.value = raw which mutated the value
       // attribute on a single radio, instead of selecting the radio whose
       // value matches. Find the matching member of the group and check it.
-      var match = document.querySelector('input[name="' + el.name + '"][value="' + String(raw).replace(/"/g, '\\"') + '"]');
+      // Escape backslashes before quotes so the value can't break out of the
+      // CSS string literal (backslash-escaping order matters).
+      var cssVal = String(raw).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+      var match = document.querySelector('input[name="' + el.name + '"][value="' + cssVal + '"]');
       if (match) {
         match.checked = true;
         match.dispatchEvent(new Event('input',  { bubbles: true }));

@@ -175,7 +175,7 @@
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(maxGross)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
             color: headroom == null ? 'var(--muted)' : (headroom < 0 ? 'var(--bad,#c14545)' : 'var(--good,#3da670)') } }, [
-            headroom == null ? '—' : (headroom >= 0 ? '+' : '') + $money(headroom).replace('$', '$')
+            headroom == null ? '—' : (headroom >= 0 ? '+' : '') + $money(headroom)
           ]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right', color: 'var(--muted)' } }, [$money(fmrVal)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right',
