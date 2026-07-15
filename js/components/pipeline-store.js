@@ -20,9 +20,10 @@
  *        HEADERS, STAGES, CONFIDENCES, CLASSIFICATIONS,
  *        CSV_URL, parseCsvText.
  *
- * The canonical source for the pipeline is
- * docs/developer-pipeline-prototype/02-pipeline.csv (read-only via
- * fetch). The local layer adds a localStorage cache of:
+ * The canonical pipeline CSV moved to a private workspace (June 2026)
+ * and is no longer published in this repo — loadCanonical() resolves
+ * to an empty list on the public site. The local layer adds a
+ * localStorage cache of:
  *   - DRAFTS: new rows (added in-app, not yet in the canonical CSV)
  *   - EDITS:  field-level overrides on canonical rows
  *   - DELETES: queued removals of canonical rows
@@ -506,6 +507,9 @@
   // ────────────────────────────────────────────────────────────────
   if (global.PipelineStore) return;
 
+  // Canonical CSV moved to a private workspace; this path 404s on the
+  // public site and loadCanonical() falls back to []. Kept so a private
+  // deployment that bundles the CSV picks it up unchanged.
   var PIPELINE_CSV_URL = 'docs/developer-pipeline-prototype/02-pipeline.csv';
   var PIPELINE_NS      = 'coho_developer_pipeline';
 
