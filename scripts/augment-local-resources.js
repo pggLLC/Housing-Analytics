@@ -31,7 +31,7 @@
  *
  * Data sourced from public-facing city/county housing pages + CDOLA
  * Prop 123 commitment filings + each housing authority's own website.
- * Last verified 2026-05-26.
+ * Last verified 2026-05-26; Greenwood Village verified 2026-07-14.
  */
 
 'use strict';
@@ -141,6 +141,15 @@ const PLACE_ENTRIES = {
     advocacy: [
       { name: 'Catholic Charities of Northern Colorado', url: 'https://ccncolorado.org/' }
     ]
+  },
+  // Greenwood Village
+  'place:0833035': {
+    housingLead: { name: 'Greenwood Village Community Development', url: 'https://www.greenwoodvillage.com/1064/Community-Development' },
+    contacts: [
+      { name: 'Greenwood Village Community Development', title: 'Community Development', jurisdiction: 'Greenwood Village', url: 'https://www.greenwoodvillage.com/1064/Community-Development' },
+      { name: 'Greenwood Village Planning & Development Review', title: 'Planning & Development Review', jurisdiction: 'Greenwood Village', url: 'https://www.greenwoodvillage.com/1269/Planning-Development-Review' }
+    ],
+    notes: 'Official city site verified 2026-07-14. No dedicated affordable-housing page was found; Community Development is the city planning/development contact. Do not use townofgreenwood.org, a recurring wrong-state/squatter discovery candidate.'
   },
   // Longmont
   'place:0845970': {

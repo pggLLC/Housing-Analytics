@@ -252,6 +252,31 @@ test('copy contains screening framing and avoids banned phrases', () => {
   ].forEach(phrase => assert.equal(src.includes(phrase), false, phrase + ' should be absent'));
 });
 
+test('EPS Phase II benchmark remains documented before ownership roadmap expansion', () => {
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterCb30Share), [0.35, 0.42, 0.47]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterCb50Share), [0.15, 0.21, 0.24]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterShare), [0.24, 0.28, 0.32]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.ownerCb30Share), [0.19, 0.21, 0.25]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.ownerCb50Share), [0.08, 0.09, 0.10]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.moderateOwnerCbShare), [0.18, 0.29, 0.36]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipFit.moderateRenterHouseholds), [200, 500, 1400]);
+  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipFit.moderateRenterShare), [0.30, 0.33, 0.36]);
+
+  const benchmark = fs.readFileSync(path.join(ROOT, 'docs/audits/OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md'), 'utf8');
+  const methodology = fs.readFileSync(path.join(ROOT, 'docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md'), 'utf8');
+  assert.ok(benchmark.includes('EPS #243156'));
+  assert.match(benchmark, /June 16,\s+2026/);
+  assert.ok(benchmark.includes('The constants are NOT invalidated'));
+  assert.match(benchmark, /keep them,\s+keep the screening\s+caveat/);
+  assert.ok(benchmark.includes('Pitkin County'));
+  assert.ok(benchmark.includes('Garfield County'));
+  assert.ok(benchmark.includes('Parachute'));
+  assert.match(benchmark, /F1[\s\S]*tenure mix is biased by tract apportionment/);
+  assert.match(benchmark, /Before Tier 1 item 4[\s\S]*F1\/F2 tenure-mix fix/);
+  assert.ok(methodology.includes('OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md'));
+  assert.ok(methodology.includes('The benchmark did not invalidate the constants'));
+});
+
 test('renderer ownership lookups resolve phantom GEOIDs to canonical IDs', () => {
   const rendererSrc = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
   const aliases = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/place-phantom-aliases.json'), 'utf8')).aliases;
