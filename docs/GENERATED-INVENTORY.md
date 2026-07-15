@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T15:22:52.247Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T16:56:55.579Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.1 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 89.2 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1625,7 +1625,7 @@
 
 ## Test Files
 
-179 test files found.
+180 test files found.
 
 | File | Size |
 |------|------|
@@ -1660,6 +1660,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
+| `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
 | `test/deal-tracker-wording.test.js` | 5.3 KB |
