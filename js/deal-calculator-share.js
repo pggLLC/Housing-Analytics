@@ -35,7 +35,7 @@
   // matter — the param name is the DOM ID with the "dc-" prefix stripped.
   var SHARE_KEYS = [
     // Capital stack
-    'dc-tdc', 'dc-units', 'dc-basis-pct', 'dc-qct-dda',
+    'dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct', 'dc-qct-dda',
     'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
     // F221 — Credit rate radio (dc-credit-rate group, 9% vs 4%). One ID is
     // enough; _readVal/_writeVal walk the group via input[name=...].
