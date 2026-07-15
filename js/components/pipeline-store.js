@@ -457,12 +457,17 @@
       return fetch(syncUrl, { cache: 'no-store', credentials: 'same-origin' })
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (server) {
+          // No server copy (public/ungated deployment 404s, offline, bad
+          // payload): keep the local cache untouched and do NOT mark the
+          // device synced — otherwise the next load would treat the missing
+          // server as authoritative and wipe local drafts.
+          if (server == null) return;
           if (firstRun) {
             _writeState(_unionState(_localState(), server));    // protect pre-sync local drafts
             try { localStorage.setItem(KEY_SYNCED, '1'); } catch (_) {}
             _pushServer();                                       // converge server to the union
           } else {
-            _writeState(server || { drafts: [], edits: {}, deletes: [] }); // server is authoritative
+            _writeState(server); // server is authoritative once a real sync exists
           }
         })
         .catch(function () { /* offline or ungated — keep the local cache */ });

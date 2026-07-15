@@ -221,7 +221,7 @@
     DATA.pipelineByGeoid = {};
     pipeline.forEach(p => { if (p.geoid) DATA.pipelineByGeoid[p.geoid] = p; });
     // Merge the in-app draft/edit layer (PipelineStore — cross-device via /api/pipeline)
-    // so a jurisdiction added as a draft, not yet written to 02-pipeline.csv, still shows
+    // so a jurisdiction added as a draft, not yet in the private workspace pipeline, still shows
     // its stage / IOI / etc. on its brief. Edits overlay canonical rows; drafts add new ones.
     if (window.PipelineStore) {
       try {
@@ -559,7 +559,7 @@
         <h1>${esc(name)}</h1>
         <p class="subtitle">GEOID ${esc(geoid)} ${countyLine}${progConf}</p>
         <div class="ib-brief-meta">
-          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Set in 02-pipeline.csv."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
+          <div class="ib-brief-meta-item" title="Pipeline stage — Screen (passed OF filter, no signal yet) → Signal (moderate+ signal in last 90 d) → Outreach (email/call in last 30 d) → IC (feasibility/packet in flight) → Active (LOI/MOU/contract executed). Any stage 90+ days without progress demotes one step. Maintained in the private workspace pipeline."><span class="label">Stage ⓘ</span><span class="value">${esc(stage)}</span></div>
           <div class="ib-brief-meta-item" title="Opportunity Index (IOI) — 0–100 composite from the LIHTC Opportunity Finder. Blends housing need, funding posture (Prop 123 + PAB), civic capacity, basis-boost eligibility, and market-capture advantage. >60 = worth screening; >75 = strong candidate."><span class="label">IOI ⓘ</span><span class="value">${esc(ioi)}</span></div>
           <div class="ib-brief-meta-item" title="Data confidence — high: in curated 33 + recent ACS/CHAS + rent data. medium: recent ACS/CHAS but limited policy data. low: sparse data / small CDP / no recent HNA. A 'low' confidence row should not sit in Outreach without an explicit override note."><span class="label">Confidence ⓘ</span><span class="value">${esc(conf)}</span></div>
           <div class="ib-brief-meta-item" title="Opportunity classification — A: real development (primary developer). B: planning-to-development consulting opportunity (fee work that may convert to A). C: relationship/monitor (long-cycle but worth nurturing). D: not worth current time — move to Anti-Targets."><span class="label">Classification ⓘ</span><span class="value">${esc(cls)}</span></div>
@@ -1435,7 +1435,7 @@
         }
         if (raw === null) {
           if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
-            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the a developer pipeline CSV so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
+            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the pipeline in the private workspace so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
           }
           resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
           raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);

@@ -52,7 +52,42 @@
     methodology that the pipeline follows, so the ranking tools
     (<a href="lihtc-opportunity-finder.html">Opportunity Finder</a>,
     <a href="developer-brief.html">Jurisdiction Briefs</a>) can be read in context.
+    The only working data kept here is <a href="#localDrafts">your browser-local
+    drafts</a> below.
   </div>
+
+  <section id="localDrafts" aria-labelledby="localDraftsH">
+    <h2 id="localDraftsH">Your local drafts</h2>
+    <p>
+      Entries added with <em>Add to Pipeline</em> (on the Opportunity Finder or a
+      Jurisdiction Brief) are saved <strong>in this browser only</strong> — nothing
+      is uploaded to the public site. Export them here to carry them into the
+      private workspace.
+    </p>
+    <p id="draftsEmpty" style="color:var(--muted);font-size:var(--small);">
+      No local drafts in this browser yet.
+    </p>
+    <div id="draftsWrap" hidden style="overflow-x:auto;">
+      <table id="draftsTable" style="width:100%;border-collapse:collapse;font-size:var(--small);">
+        <thead>
+          <tr style="text-align:left;border-bottom:1px solid var(--border);">
+            <th style="padding:.35rem .5rem;">Jurisdiction</th>
+            <th style="padding:.35rem .5rem;">Stage</th>
+            <th style="padding:.35rem .5rem;">IOI</th>
+            <th style="padding:.35rem .5rem;">Confidence</th>
+            <th style="padding:.35rem .5rem;">Next action</th>
+            <th style="padding:.35rem .5rem;"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="draftsActions" hidden style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.7rem;">
+      <button id="draftsExportCsv" class="btn" type="button">Export CSV</button>
+      <button id="draftsExportJson" class="btn" type="button">Export JSON</button>
+      <button id="draftsClear" class="btn" type="button" style="margin-left:auto;color:var(--warn);">Clear all drafts</button>
+    </div>
+  </section>
 
   <h2>What this is</h2>
   <p>
@@ -143,12 +178,86 @@
 
   <footer style="margin-top: var(--sp5); padding-top: var(--sp3); border-top: 1px solid var(--border); font-size: var(--tiny); color: var(--muted); line-height: 1.55;">
     <p>
-      This is a methodology reference. The working pipeline (data entry, kanban,
-      exports) lives in a private workspace and is not part of the public site.
+      This is a methodology reference. The working pipeline (kanban, shared datasets,
+      team data entry) lives in a private workspace and is not part of the public
+      site; only the browser-local drafts above stay here, and only on your device.
     </p>
   </footer>
 </main>
 
+<script src="js/components/pipeline-store.js"></script>
+<script>
+(function () {
+  'use strict';
+  var store = window.PipelineStore;
+  if (!store) return;
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function download(name, mime, text) {
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: mime }));
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  }
+
+  function render() {
+    var drafts = store.getDrafts();
+    var empty = document.getElementById('draftsEmpty');
+    var wrap = document.getElementById('draftsWrap');
+    var actions = document.getElementById('draftsActions');
+    var tbody = document.querySelector('#draftsTable tbody');
+    var has = drafts.length > 0;
+    empty.hidden = has;
+    wrap.hidden = !has;
+    actions.hidden = !has;
+    tbody.innerHTML = drafts.map(function (d) {
+      return '<tr style="border-bottom:1px solid var(--border);">'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.jurisdiction) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.stage) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.ioi_score) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.confidence) + '</td>'
+        + '<td style="padding:.35rem .5rem;">' + esc(d.next_action) + '</td>'
+        + '<td style="padding:.35rem .5rem;"><button type="button" class="btn" data-remove="' + esc(d.geoid) + '" style="font-size:var(--tiny);">Remove</button></td>'
+        + '</tr>';
+    }).join('');
+  }
+
+  document.getElementById('localDrafts').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-remove]');
+    if (btn) {
+      store.removeDraft(btn.getAttribute('data-remove'));
+      render();
+    }
+  });
+  document.getElementById('draftsExportCsv').addEventListener('click', function () {
+    // Drafts only: pass an explicitly empty canonical set so nothing is fetched.
+    download('pipeline-drafts.csv', 'text/csv', store.exportCsv([]));
+  });
+  document.getElementById('draftsExportJson').addEventListener('click', function () {
+    download('pipeline-drafts.json', 'application/json', JSON.stringify(store.getDrafts(), null, 2));
+  });
+  document.getElementById('draftsClear').addEventListener('click', function () {
+    var n = store.getDrafts().length;
+    if (!n || !window.confirm('Remove all ' + n + ' local draft(s) from this browser? Exported copies are not affected.')) return;
+    store.getDrafts().forEach(function (d) { store.removeDraft(d.geoid); });
+    render();
+  });
+
+  // Render immediately from the synchronous localStorage cache, then once
+  // more after the cross-device sync pull resolves (gated deployments).
+  render();
+  if (store.ready && typeof store.ready.then === 'function') {
+    store.ready.then(render).catch(function () {});
+  }
+})();
+</script>
 <script src="js/navigation.js"></script>
 </body>
 </html>
