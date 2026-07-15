@@ -11,6 +11,9 @@
 
 const assert = require('assert');
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const { execFileSync } = require('child_process');
 
 const { PLACE_ENTRIES, mergeMissing, TARGET } = require('../scripts/augment-local-resources.js');
 
@@ -123,5 +126,46 @@ for (const key of Object.keys(PLACE_ENTRIES)) {
 assert.ok(!('place:0803455' in PLACE_ENTRIES), 'Aspen data must not be keyed under Arvada GEOID 0803455');
 assert.ok(!('place:0680930' in PLACE_ENTRIES), 'Vail data must not be keyed under CA FIPS 0680930');
 
+// --- 4. End-to-end: run the ACTUAL script against a fixture copy ------------
+// The in-memory simulation above exercises mergeMissing() but not main()'s
+// wiring — a regression where main() reverts to `existing[key] = value`
+// would slip past it (caught in QA of #1209). Run the script as a child
+// process via AUGMENT_TARGET and assert enrichment survives on disk.
+
+const scriptPath = path.resolve(__dirname, '..', 'scripts/augment-local-resources.js');
+const tmpTarget = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'augment-e2e-')), 'local-resources.json');
+try {
+  fs.copyFileSync(TARGET, tmpTarget);
+  const before = collectPaths(JSON.parse(fs.readFileSync(tmpTarget, 'utf-8')), '', new Map());
+
+  execFileSync(process.execPath, [scriptPath], {
+    env: { ...process.env, AUGMENT_TARGET: tmpTarget },
+    stdio: 'pipe',
+  });
+
+  const after = collectPaths(JSON.parse(fs.readFileSync(tmpTarget, 'utf-8')), '', new Map());
+  const e2eDamage = [];
+  for (const [p, v] of before) {
+    if (!after.has(p)) e2eDamage.push(`REMOVED: ${p}`);
+    else if (after.get(p) !== v) e2eDamage.push(`CHANGED: ${p}`);
+  }
+  assert.strictEqual(e2eDamage.length, 0,
+    `real script run must be purely additive; damage:\n  ${e2eDamage.slice(0, 20).join('\n  ')}`);
+
+  // Second run must be a no-op (idempotent, no write).
+  const mtimeAfterRun1 = fs.statSync(tmpTarget).mtimeMs;
+  const out2 = execFileSync(process.execPath, [scriptPath], {
+    env: { ...process.env, AUGMENT_TARGET: tmpTarget },
+    stdio: 'pipe',
+  }).toString();
+  assert.ok(out2.includes('No changes needed'),
+    `second run must report "No changes needed", got:\n${out2}`);
+  assert.strictEqual(fs.statSync(tmpTarget).mtimeMs, mtimeAfterRun1,
+    'second run must not rewrite the file');
+} finally {
+  fs.rmSync(path.dirname(tmpTarget), { recursive: true, force: true });
+}
+
 console.log('augment-local-resources non-destructive: PASS');
 console.log(`  (${originalPaths.size} committed paths verified intact after simulated run)`);
+console.log('  (end-to-end child-process run verified additive + idempotent)');

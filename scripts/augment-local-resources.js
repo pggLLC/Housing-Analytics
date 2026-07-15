@@ -39,7 +39,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const TARGET = path.resolve(__dirname, '..', 'data/hna/local-resources.json');
+// AUGMENT_TARGET override exists so the regression test can run this script
+// end-to-end against a fixture copy instead of the committed JSON.
+const TARGET = process.env.AUGMENT_TARGET
+  || path.resolve(__dirname, '..', 'data/hna/local-resources.json');
 
 // place:GEOID → resources block. GEOIDs are 7-digit CO place FIPS.
 const PLACE_ENTRIES = {
