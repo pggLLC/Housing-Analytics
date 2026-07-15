@@ -702,6 +702,47 @@ test('ownership renderer receives permits doc from controller state for ownershi
   assert.ok(controllerSrc.includes('if (ownershipPermitsPromise) await ownershipPermitsPromise'), 'ownership render waits for permit context load');
 });
 
+test('place ownership permit context does not fall back to county-only permit records', () => {
+  const dom = loadRenderersDom();
+  dom.window.HNAState.state.permitsDoc = {
+    counties: {
+      '08035': {
+        avg_annual_sf_5yr: { value: 500, window: '2021-2025' },
+        avg_annual_total_5yr: { value: 625, window: '2021-2025' },
+      },
+    },
+    places: {},
+  };
+  dom.window.HNAOwnershipNeed = {
+    computeOwnershipNeed() {
+      return {
+        dataQuality: 'High',
+        tenureMixRecommendation: 'Ownership-supportive strategy',
+        recommendationDetail: 'Fixture recommendation detail.',
+        renterCostBurdened: 240,
+        severeRenterCostBurdened: 100,
+        ownerCostBurdened: 90,
+        severeOwnerCostBurdened: 40,
+        moderateIncomeRenterHouseholds: 75,
+        moderateIncomeOwnerCostBurdened: 25,
+        existingRentalGap: 125,
+        rentalPressure: { tier: 'Moderate', inputs: { source: 'HUD CHAS', renterCostBurdenedShare: 0.4, severeRenterCostBurdenedShare: 0.17 } },
+        ownershipPressure: { tier: 'High', inputs: { ownerCostBurdenedShare: 0.23, moderateIncomeOwnerCostBurdenedShare: 0.06 } },
+        ownershipFit: { tier: 'High', inputs: { moderateIncomeRenterShare: 0.13 } },
+        affordabilityTest: { medianHomeValue: 350000, classification: 'priced-out', source: 'fixture home values' },
+        caveats: [],
+      };
+    },
+  };
+
+  dom.window.HNARenderers.tryRenderAffordableOwnershipNeedFromState({}, 'place', '0807850', 'Boulder city', '08035');
+  const html = dom.window.document.getElementById('hnaAffordableOwnershipNeed').innerHTML;
+
+  assert.equal(html.includes('Single-family permit pace'), false, 'place render must not surface county-only permit data');
+  assert.equal(html.includes('500/yr'), false, 'county-only SF permit pace must not leak into a place render');
+  assert.equal(html.includes('Census BPS'), false, 'no BPS context row appears without a place permit record');
+});
+
 test('combined add button preserves rejection warning by skipping update on false', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   const handlerStart = src.indexOf("window.HNAState.els.btnAddCombinedGeo?.addEventListener('click', () => {");
