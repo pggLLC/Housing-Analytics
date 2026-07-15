@@ -283,10 +283,10 @@
           return;
         }
         window.PipelineStore.editCanonical(data.geoid, diff);
-        setMsg('Saved local edits to canonical row. Export from the Deal Tracker page to commit.', true);
+        setMsg('Saved local edits to canonical row. Export from the Pipeline page to commit.', true);
       } else {
         window.PipelineStore.addDraft(data);
-        setMsg('Saved as local draft. Export from the Deal Tracker page to commit to CSV.', true);
+        setMsg('Saved as local draft. Export from the Pipeline page to commit to CSV.', true);
       }
 
       setTimeout(function () { form.remove(); onChange(); }, 600);

@@ -59,6 +59,18 @@ function plain(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
+function loadPipelineStore({ beforeEval, fetchImpl }) {
+  const dom = new JSDOM('<!doctype html><body></body>', {
+    url: 'http://127.0.0.1/developer-pipeline.html',
+    runScripts: 'outside-only'
+  });
+  const { window } = dom;
+  window.fetch = fetchImpl;
+  if (beforeEval) beforeEval(window);
+  window.eval(read('js/components/pipeline-store.js'));
+  return window;
+}
+
 for (const { page, mountId } of PUBLIC_MOUNTS) {
   const html = read(page);
 
@@ -136,17 +148,71 @@ assert(component.includes('+ Add to Deal Tracker'), 'gated button now says Add t
 assert(component.includes('In Deal Tracker'), 'canonical state now says In Deal Tracker');
 assert(!component.includes('Add to Developer Pipeline'), 'component no longer uses the old internal feature label');
 assert(!component.includes('+ Add to Pipeline'), 'component no longer uses the ambiguous short pipeline label');
+assert(!component.includes('Deal Tracker page'), 'save confirmations do not point at the removed Deal Tracker page');
+assert(component.includes('Export from the Pipeline page'), 'save confirmations point users to the Pipeline page drafts/export surface');
 
-const hna = read('housing-needs-assessment.html');
-const opportunityFinder = read('lihtc-opportunity-finder.html');
-for (const [label, html] of [
-  ['housing-needs-assessment.html', hna],
-  ['lihtc-opportunity-finder.html', opportunityFinder]
-]) {
-  assert(
-    html.includes('The Affordable Housing Pipeline') && html.includes('pipeline.html'),
-    `${label} keeps the public Affordable Housing Pipeline methodology teaser`
-  );
-}
+(async () => {
+  const draft = {
+    jurisdiction: 'Aurora',
+    geoid: '0804000',
+    stage: 'Signal',
+    ioi_score: '72',
+    confidence: 'high',
+    classification: 'A',
+    product_type: '',
+    last_update: '',
+    next_action: 'Call housing staff',
+    next_action_due: '',
+    notes: ''
+  };
+  const draftKey = 'coho_developer_pipeline_drafts_v1';
+  const syncedKey = 'coho_developer_pipeline_synced_v1';
 
-console.log('Deal Tracker wording and public gating: PASS');
+  {
+    const calls = [];
+    const window = loadPipelineStore({
+      beforeEval(win) {
+        win.localStorage.setItem(draftKey, JSON.stringify([draft]));
+      },
+      fetchImpl(url, opts) {
+        calls.push({ url: String(url), method: opts && opts.method });
+        return Promise.resolve({ ok: false, status: 404 });
+      }
+    });
+    await window.PipelineStore.ready;
+    assert.equal(window.PipelineStore.getDrafts().length, 1, 'ungated /api/pipeline 404 keeps local drafts');
+    assert.equal(window.localStorage.getItem(syncedKey), null, 'ungated /api/pipeline 404 does not mark the device synced');
+    assert.equal(calls.filter((c) => c.method === 'POST').length, 0, 'ungated /api/pipeline 404 does not push a false empty sync');
+  }
+
+  {
+    const window = loadPipelineStore({
+      beforeEval(win) {
+        win.localStorage.setItem(draftKey, JSON.stringify([draft]));
+        win.localStorage.setItem(syncedKey, '1');
+      },
+      fetchImpl() {
+        return Promise.resolve({ ok: false, status: 404 });
+      }
+    });
+    await window.PipelineStore.ready;
+    assert.equal(window.PipelineStore.getDrafts().length, 1, 'ungated /api/pipeline 404 keeps local drafts even after a prior sync flag');
+  }
+
+  const hna = read('housing-needs-assessment.html');
+  const opportunityFinder = read('lihtc-opportunity-finder.html');
+  for (const [label, html] of [
+    ['housing-needs-assessment.html', hna],
+    ['lihtc-opportunity-finder.html', opportunityFinder]
+  ]) {
+    assert(
+      html.includes('The Affordable Housing Pipeline') && html.includes('pipeline.html'),
+      `${label} keeps the public Affordable Housing Pipeline methodology teaser`
+    );
+  }
+
+  console.log('Deal Tracker wording and public gating: PASS');
+})().catch((err) => {
+  console.error(err);
+  process.exitCode = 1;
+});
