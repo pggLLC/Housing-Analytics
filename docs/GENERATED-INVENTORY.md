@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T16:56:55.579Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T17:42:50.992Z. Do not edit by hand.
 
 ---
 
@@ -31,10 +31,10 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 90.5 KB |
-| `developer-pipeline.html` | Affordable Housing Pipeline — COHO | 89.2 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
+| `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
-| `developer.html` | Developer Home — COHO | 23.9 KB |
+| `developer.html` | Developer Home — COHO | 13.5 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
@@ -1663,7 +1663,7 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
-| `test/deal-tracker-wording.test.js` | 5.3 KB |
+| `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
