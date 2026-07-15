@@ -1,6 +1,9 @@
 # Phase 3.2 Rendered Evidence Pack
 
-Audit date: 2026-07-08
+Current status: **PASS** as of the 2026-07-15 rerun.
+
+Original audit date: 2026-07-08  
+Latest rerun: 2026-07-15
 
 Scope: Phase 3.2 from `docs/qa/site-audit-2026-07/04-plan.md`. Docs/QA evidence only; no application code changed.
 
@@ -24,20 +27,38 @@ Fresh smoke report:
 /tmp/coho-core-rendered-smoke-phase32/2026-07-08T23-42-13-649Z/core-rendered-smoke.md
 ```
 
-Result: the smoke ran against current `main` after PR #1095 merged. It failed with 3 hard findings: Erie place-profile glossary 404 on desktop/mobile and PMA mobile document overflow.
+Historical result: the 2026-07-08 smoke ran against `main` after PR #1095 merged. It failed with 3 hard findings: Erie place-profile glossary 404 on desktop/mobile and PMA mobile document overflow.
+
+Fresh rerun:
+
+```bash
+npm run audit:core-rendered-smoke
+```
+
+Fresh report:
+
+```text
+audit-report/core-rendered-smoke/2026-07-15T18-26-40-609Z/core-rendered-smoke.md
+```
+
+The report directory is gitignored; durable summary evidence is preserved in [`core-rendered-smoke-2026-07-15.md`](core-rendered-smoke-2026-07-15.md).
+
+Latest result: PASS across all 6 flows x 2 viewports. The prior Erie glossary 404 and PMA mobile overflow findings are no longer reproduced.
 
 ## Disposition Table
 
 | Flow | Desktop | Mobile | Disposition |
 |---|---|---|---|
-| HNA default | PASS | PASS | No console errors, blank cards, missing selectors/text, or mobile overflow in the fresh smoke. |
-| Boulder County route | PASS | PASS | Uses HNA county deep link because there is no generated county-profile page. No rendered smoke findings. |
-| Erie place profile | FAIL | FAIL | Console 404 for `/places/data/glossary.json` on both viewports. Screenshot confirms page renders, but console health fails. |
-| Opportunity Finder | PASS | PASS | No rendered smoke findings. |
-| PMA | PASS | FAIL | Desktop passed. Mobile overflows document by 31px; first offenders include `#mobileNavToggle` and workflow step elements, with Leaflet internals also reported. |
-| Data Trust Center | PASS | PASS | No rendered smoke findings. Request failures were captured but not hard failures in the smoke report. |
+| HNA default | PASS | PASS | Required controls/text present; no console errors, blank cards, or mobile overflow in the 2026-07-15 rerun. |
+| Boulder County route | PASS | PASS | Uses HNA county deep link because there is no generated county-profile page. No rendered smoke findings in the 2026-07-15 rerun. |
+| Erie place profile | PASS | PASS | The prior `/places/data/glossary.json` 404 is no longer reproduced; 0 request failures on both viewports in the 2026-07-15 rerun. |
+| Opportunity Finder | PASS | PASS | Required table selectors and expected copy present; no rendered smoke findings in the 2026-07-15 rerun. |
+| PMA | PASS | PASS | The prior PMA mobile overflow is no longer reproduced; mobile overflow failure count is 0 in the 2026-07-15 rerun. |
+| Data Trust Center | PASS | PASS | Required overview panel/stat selectors present. Request failures were captured but not hard failures in the 2026-07-15 rerun. |
 
 ## Screenshots
+
+The screenshots below are the original 2026-07-08 evidence images. The 2026-07-15 rerun used `scripts/audit/core-rendered-smoke.mjs`, which currently emits Markdown and JSON evidence rather than screenshots.
 
 | Flow | Desktop | Mobile |
 |---|---|---|
@@ -50,9 +71,9 @@ Result: the smoke ran against current `main` after PR #1095 merged. It failed wi
 
 ## Follow-Up Candidates
 
-These are evidence-backed findings only. Fixes are intentionally out of scope for Phase 3.2.
+Historical 2026-07-08 follow-up candidates are retained below for traceability. The 2026-07-15 rerun did not reproduce either hard finding.
 
 | Finding | Evidence | Suggested owner action |
 |---|---|---|
-| Generated place pages load `places/data/glossary.json` and receive 404. | Erie place profile desktop/mobile smoke failures. | Fix nested-page glossary path handling or generated page path prefix in a follow-up implementation PR. |
-| PMA mobile document overflows by 31px. | PMA mobile smoke failure and screenshot. | Triage mobile header/workflow step width and map-internal overflow in a follow-up implementation PR. |
+| Generated place pages load `places/data/glossary.json` and receive 404. | Erie place profile desktop/mobile smoke failures on 2026-07-08. | Resolved or no longer reproducible as of the 2026-07-15 rendered smoke rerun. |
+| PMA mobile document overflows by 31px. | PMA mobile smoke failure and screenshot on 2026-07-08. | Resolved or no longer reproducible as of the 2026-07-15 rendered smoke rerun. |
