@@ -264,6 +264,34 @@ test('regional BIPOC population row is labeled as population, not households', (
   assert.ok(src.indexOf("key: 'pct_bipoc_population'") < src.indexOf("key: 'pct_bipoc_households'"), 'population row should precede household row');
 });
 
+test('regional comparison exposes existing ownership need digest metrics as text rows', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
+  const rows = [
+    "label: 'Tenure strategy recommendation', key: 'ownership_need_recommendation', format: 'text'",
+    "label: 'Rental pressure tier', key: 'ownership_need_rental_pressure_tier', format: 'text'",
+    "label: 'Ownership pressure tier', key: 'ownership_need_ownership_pressure_tier', format: 'text'",
+    "label: 'Ownership fit tier', key: 'ownership_need_ownership_fit_tier', format: 'text'",
+    "label: 'Modeled affordability classification', key: 'ownership_need_affordability_classification', format: 'text'",
+  ];
+  for (const needle of rows) {
+    assert.ok(src.includes(needle), `regional comparison missing row: ${needle}`);
+  }
+  assert.ok(src.includes("section: 'Ownership Need'"), 'ownership rows should be grouped under Ownership Need');
+  assert.ok(src.includes("if (format === 'text')"), 'regional formatter should handle text-valued digest rows');
+
+  const digest = readJson(path.join(DIGEST_DIR, '08045.json'));
+  for (const key of [
+    'ownership_need_recommendation',
+    'ownership_need_rental_pressure_tier',
+    'ownership_need_ownership_pressure_tier',
+    'ownership_need_ownership_fit_tier',
+    'ownership_need_affordability_classification',
+  ]) {
+    assert.ok(digest.metrics[key], `fixture digest missing ${key}`);
+    assert.strictEqual(typeof digest.metrics[key].value, 'string', `${key} should be text-valued in the digest`);
+  }
+});
+
 test('bipocPopulationPct returns null when required DP05 fields are missing', () => {
   const probe = [
     `import { bipocPopulationPct } from ${JSON.stringify(`file://${BUILDER}`)};`,

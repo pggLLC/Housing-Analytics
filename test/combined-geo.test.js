@@ -500,6 +500,11 @@ test('regional comparison renderer paints distinct digest values side by side', 
           pct_ami_31to50: { value: 9.2 },
           pct_ami_51to80: { value: 19.1 },
           pct_ami_gt80: { value: 60.8 },
+          ownership_need_recommendation: { value: 'Ownership-supportive strategy' },
+          ownership_need_rental_pressure_tier: { value: 'Moderate' },
+          ownership_need_ownership_pressure_tier: { value: 'High' },
+          ownership_need_ownership_fit_tier: { value: 'Very High' },
+          ownership_need_affordability_classification: { value: 'priced-out' },
           pct_renters: { value: 30.4 },
           overcrowding_rate: { value: 2.0 },
           pct_housing_built_pre1970: { value: 14.1 },
@@ -518,6 +523,11 @@ test('regional comparison renderer paints distinct digest values side by side', 
           pct_ami_31to50: { value: 10.5 },
           pct_ami_51to80: { value: 18.6 },
           pct_ami_gt80: { value: 60.8 },
+          ownership_need_recommendation: { value: 'Rental + ownership mix' },
+          ownership_need_rental_pressure_tier: { value: 'High' },
+          ownership_need_ownership_pressure_tier: { value: 'Very High' },
+          ownership_need_ownership_fit_tier: { value: 'High' },
+          ownership_need_affordability_classification: { value: 'priced-out' },
           pct_renters: { value: 42.9 },
           overcrowding_rate: { value: 1.1 },
           pct_housing_built_pre1970: { value: 18.2 },
@@ -536,6 +546,13 @@ test('regional comparison renderer paints distinct digest values side by side', 
   assert.ok(html.includes('67.6%'), 'renders Aspen cost burden');
   assert.ok(html.includes('$589,000'), 'renders Garfield home value');
   assert.ok(html.includes('$2,500,000'), 'renders Aspen home value');
+  assert.ok(html.includes('Ownership Need'), 'renders ownership section');
+  assert.ok(html.includes('Tenure strategy recommendation'), 'renders ownership recommendation row label');
+  assert.ok(html.includes('Ownership-supportive strategy'), 'renders Garfield ownership recommendation');
+  assert.ok(html.includes('Rental + ownership mix'), 'renders Aspen ownership recommendation');
+  assert.ok(html.includes('Ownership fit tier'), 'renders ownership fit row label');
+  assert.ok(html.includes('Very High'), 'renders ownership tier text values');
+  assert.ok(html.includes('priced-out'), 'renders affordability classification text');
   assert.ok(html.includes('Side-by-side view only'), 'discloses non-aggregate mode');
   assert.equal(dom.window.document.getElementById('geoContextPill').textContent, 'Regional comparison: Garfield County + Aspen');
 });
