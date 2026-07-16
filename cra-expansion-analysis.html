@@ -26,6 +26,7 @@
   <script defer="" src="js/dark-mode-toggle.js"></script>
   <script defer="" src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/tax-credit-equity-markets.js"></script>
 </head>
 <body data-page="cra-expansion-analysis.html">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -41,9 +42,9 @@
         </p>
 
 <div class="callout callout-info" style="margin: 0 0 1.5rem;">
-  <h3 style="margin-top:0;">2026 Update — Rule Status Remains Regulator-Specific</h3>
-  <p>The 2023 CRA modernization rule should not be treated here as uniformly live for examined institutions. The OCC's current CRA page states that OCC-supervised banks continue to be assessed under the 1995/2021 CRA regulatory framework. The scenarios below are therefore a counterfactual sensitivity analysis around how LIHTC pricing could respond if examiner emphasis on Community Development financing tightens demand for credits, not a statement that the 2023 rule is currently operative across all federal banking agencies.</p>
-  <p style="margin-bottom:0;font-size:.85rem;color:var(--muted);">Source: OCC CRA status page; 2023 interagency CRA final rule (88 Fed. Reg. 71820, Oct. 24, 2023). Verify current Federal Reserve and FDIC applicability before applying these scenarios to non-OCC institutions.</p>
+  <h3 style="margin-top:0;">2026 Update — CRA Modernization Remains Unsettled</h3>
+  <p>The 2023 CRA modernization rule should not be treated here as uniformly live for examined institutions. The rule was enjoined before its main implementation date, and the federal banking agencies later published a July 18, 2025 notice of proposed rulemaking to rescind the 2023 rule and reinstate the prior CRA regulations. The scenarios below are therefore sensitivity analysis around how LIHTC pricing could respond if examiner emphasis on community-development finance changes demand for credits, not a claim that the 2023 framework currently controls all institutions.</p>
+  <p style="margin-bottom:0;font-size:.85rem;color:var(--muted);">Source: <a href="https://www.federalregister.gov/documents/2025/07/18/2025-13559/community-reinvestment-act-regulations" target="_blank" rel="noopener">Federal Register CRA rescission NPR</a>; OCC CRA status page; 2023 interagency CRA final rule (88 Fed. Reg. 71820, Oct. 24, 2023).</p>
 </div>
 <!-- F118-4 — these probabilities are author estimates of legislative outcome
      likelihood, not measured statistics. QUAL badge + link to the underlying
@@ -233,26 +234,10 @@
 </div>
 </div>
 </div>
-<h2>Pending Legislation</h2>
-<div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
-<div class="chart-card">
-<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-<h3 style="margin: 0;">Affordable Housing Credit Improvement Act (AHCIA)</h3>
-<span data-no-contrast-guard style="background: rgba(3, 105, 161, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong); white-space: nowrap;">Medium (40%)</span>
-</div>
-<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Status:</strong> Introduced in both chambers</p>
-<p style="margin-bottom: 1rem; line-height: 1.7; color: var(--color-text-light);"><strong>CRA Provisions:</strong> Enhances CRA credit value for LIHTC investments; encourages credit union participation</p>
-<p style="margin: 0; line-height: 1.7; color: var(--color-text-light);"><strong>Impact if Passed:</strong> Aligns with Moderate Expansion scenario (~15-20% investor pool increase)</p>
-</div>
-<div class="chart-card">
-<div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
-<h3 style="margin: 0;">Community Reinvestment Act Modernization</h3>
-<span data-no-contrast-guard style="background: rgba(243, 156, 18, 0.1); padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; color: var(--text-strong); white-space: nowrap;">Medium-Low (25%)</span>
-</div>
-<p style="margin-bottom: 1rem; line-height: 1.7;"><strong>Status:</strong> Under regulatory review</p>
-<p style="margin-bottom: 1rem; line-height: 1.7; color: var(--color-text-light);"><strong>CRA Provisions:</strong> Expands institutions subject to CRA; includes credit unions, insurance companies, potentially FinTech</p>
-<p style="margin: 0; line-height: 1.7; color: var(--color-text-light);"><strong>Impact if Passed:</strong> Could trigger Aggressive Expansion scenario (30-40% pool increase)</p>
-</div>
+<h2>Tax Credit Legislation Watch</h2>
+<div class="chart-card" style="margin: 2rem 0;">
+<p style="margin-top:0;line-height:1.7;color:var(--color-text-light);">The current policy watchlist is rendered from the shared tax-credit legislation artifact. It separates enacted tax-credit law from proposed CRA rulemaking so the scenario model does not imply passage probabilities for JSON-backed federal entries.</p>
+<div data-tax-credit-watch="cra,lihtc,nmtc,itc-ptc" style="display:grid;gap:var(--sp3);"></div>
 </div>
 <h2>Strategic Implications</h2>
 <div style="background: var(--color-background-alt); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
