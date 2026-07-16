@@ -1,0 +1,120 @@
+{
+  "schema": "tax-credit-legislation/v1",
+  "meta": {
+    "title": "Tax Credit Legislation Watchlist",
+    "as_of": "2026-07-15",
+    "last_updated": "2026-07-15",
+    "last_verified": "2026-07-15",
+    "review_by": "2026-10-15",
+    "methodology": "Curated federal tax-credit policy entries. Legislative status source_url fields are limited to official federal sources; market impact text is directional and should be re-reviewed quarterly."
+  },
+  "entries": [
+    {
+      "id": "obbba-lihtc-ceiling-12pct",
+      "title": "Permanent 12% increase in 9% LIHTC state ceiling",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2026-01-01",
+      "sunset_date": null,
+      "pricing_impact": "Expands competitive 9% credit authority beginning in 2026. More credit supply can modestly pressure cents-per-credit pricing lower unless investor demand rises with allocation volume.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
+      "source_note": "Public Law 119-21, section 70422(a), permanent state housing credit ceiling increase.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "obbba-lihtc-bond-25pct-test",
+      "title": "25% bond-financing test for 4% LIHTC buildings",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2026-01-01",
+      "sunset_date": null,
+      "pricing_impact": "Lowers the bond-financing threshold for qualifying buildings where post-2025 bond issues meet the statutory requirements. The change can widen 4% deal eligibility but may also add bond-credit supply that investors price selectively by market and sponsor risk.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
+      "source_note": "Public Law 119-21, section 70422(b), tax-exempt bond financing requirement.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "obbba-nmtc-permanent-extension",
+      "title": "Permanent extension of the New Markets Tax Credit",
+      "scope": "nmtc",
+      "status": "enacted",
+      "effective_date": "2026-01-01",
+      "sunset_date": null,
+      "pricing_impact": "Removes recurring extender risk for NMTC allocation planning after 2025. Pricing still depends on allocation competition, leverage structure, and investor appetite rather than statutory permanence alone.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
+      "source_note": "Public Law 119-21, section 70423, permanent extension of New Markets Tax Credit.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "obbba-25c-25d-termination",
+      "title": "Termination of 25C and 25D household clean-energy credits",
+      "scope": "homebuyer",
+      "status": "phased-out",
+      "effective_date": "2026-01-01",
+      "sunset_date": "2025-12-31",
+      "pricing_impact": "Ends two consumer-side home energy credits after 2025, which can reduce after-tax support for owner-occupied retrofit and clean-energy upgrades. Treat homebuyer affordability or rehab assumptions after 2025 as requiring other subsidy sources.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
+      "source_note": "Public Law 119-21, sections 70505 and 70506, termination of energy efficient home improvement and residential clean energy credits.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "obbba-45y-48e-wind-solar-deadlines",
+      "title": "45Y and 48E wind/solar credit termination deadlines",
+      "scope": "itc-ptc",
+      "status": "enacted",
+      "effective_date": "2025-07-04",
+      "sunset_date": "2027-12-31",
+      "pricing_impact": "Wind and solar projects face tighter timing tests: construction generally must begin before the statutory deadline or be placed in service by the termination date. Transfer pricing should be discounted when execution risk could push a credit outside the protected window.",
+      "source_url": "https://www.irs.gov/pub/irs-drop/n-25-42.pdf",
+      "source_note": "IRS Notice 2025-42 summarizes Public Law 119-21 sections 70512 and 70513 and beginning-of-construction guidance.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "cra-2025-rescission-npr",
+      "title": "CRA regulations rescission notice of proposed rulemaking",
+      "scope": "cra",
+      "status": "proposed",
+      "effective_date": "2025-07-18",
+      "sunset_date": null,
+      "pricing_impact": "The NPR creates uncertainty around future CRA examination treatment. Bank demand for LIHTC, NMTC, and HTC investments should be described as policy-sensitive until the agencies finalize a rule.",
+      "source_url": "https://www.federalregister.gov/documents/2025/07/18/2025-13559/community-reinvestment-act-regulations",
+      "source_note": "Federal Register proposed rule, Community Reinvestment Act Regulations.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "ira-section-6418-transferability",
+      "title": "Section 6418 transferability for eligible clean-energy credits",
+      "scope": "itc-ptc",
+      "status": "enacted",
+      "effective_date": "2023-01-01",
+      "sunset_date": null,
+      "pricing_impact": "Allows eligible taxpayers to sell all or part of qualifying clean-energy credits for cash. Pricing is negotiated between buyer and seller and generally reflects credit type, tax year, seller credit quality, indemnity, insurance, and recapture risk.",
+      "source_url": "https://www.irs.gov/credits-deductions/elective-pay-and-transferability",
+      "source_note": "IRS elective pay and transferability guidance.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "nhia-119th-congress",
+      "title": "Neighborhood Homes Investment Act",
+      "scope": "homebuyer",
+      "status": "proposed",
+      "effective_date": null,
+      "sunset_date": null,
+      "pricing_impact": "Would create a neighborhood homes tax credit for qualifying owner-occupied development and rehab if enacted. Do not size homebuyer subsidy from this proposal until statutory terms and allocation mechanics are enacted.",
+      "source_url": "https://www.congress.gov/bill/119th-congress/house-bill/2854",
+      "related_source_urls": [
+        "https://www.congress.gov/bill/119th-congress/senate-bill/1686"
+      ],
+      "source_note": "119th Congress House and Senate Neighborhood Homes Investment Act bill pages.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    }
+  ]
+}

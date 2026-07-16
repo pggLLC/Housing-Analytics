@@ -13,7 +13,11 @@
   var _amiLimitsByBr = null;   // P7: { 30: { studio, 1br, 2br, 3br, 4br }, ... }
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
-  var EQUITY_PRICE_DEFAULT = _cfg.equityPrice9Pct || 0.90;
+  var _equityPricingDefaults = {
+    credit_9pct: _cfg.equityPrice9Pct || 0.90,
+    credit_4pct: _cfg.equityPrice4Pct || 0.85
+  };
+  var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
@@ -70,6 +74,54 @@
     }
   })();
   const CREDIT_YEARS = 10;
+
+  function _numOrNull(value) {
+    var n = Number(value);
+    return isFinite(n) && n > 0 ? n : null;
+  }
+
+  function _getCreditPricingDefault(is4Pct) {
+    return is4Pct ? _equityPricingDefaults.credit_4pct : _equityPricingDefaults.credit_9pct;
+  }
+
+  function _activeCreditIs4Pct() {
+    var rate4 = document.getElementById('dc-rate-4');
+    if (rate4) return !!rate4.checked;
+    return Math.abs(Number(_creditRate) - 0.04) < 0.0001;
+  }
+
+  function _setEquityPriceInputToDefault(options) {
+    var opts = options || {};
+    var input = document.getElementById('dc-equity-price');
+    var defaultPrice = _getCreditPricingDefault(_activeCreditIs4Pct());
+    EQUITY_PRICE_DEFAULT = defaultPrice;
+    if (!input) return defaultPrice;
+    var current = _numOrNull(input.value);
+    var shouldUpdate = opts.force || current == null ||
+      Math.abs(current - (_cfg.equityPrice9Pct || 0.90)) < 0.0001 ||
+      Math.abs(current - (_cfg.equityPrice4Pct || 0.85)) < 0.0001;
+    if (shouldUpdate) {
+      input.value = defaultPrice.toFixed(2);
+      if (opts.dispatch !== false) {
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+    return defaultPrice;
+  }
+
+  function _applyNovogradacPricingDefaults(doc, options) {
+    var nat = doc && doc.pricing && doc.pricing.national_avg;
+    var nine = _numOrNull(nat && nat.credit_9pct);
+    var four = _numOrNull(nat && nat.credit_4pct);
+    if (!nine || !four) return false;
+    _equityPricingDefaults = {
+      credit_9pct: nine,
+      credit_4pct: four
+    };
+    _setEquityPriceInputToDefault(Object.assign({ force: true }, options || {}));
+    return true;
+  }
 
   // -------------------------------------------------------------------
   // Tunable constants — shown in the Methodology & Formulas panel and
@@ -2131,9 +2183,7 @@
           if (is4Pct) _renderPabNote(_countyFips);
 
           // Update equity price default to match credit rate scenario
-          var newDefault = is4Pct
-            ? (_cfg.equityPrice4Pct || 0.85)
-            : (_cfg.equityPrice9Pct || 0.90);
+          var newDefault = _getCreditPricingDefault(is4Pct);
           EQUITY_PRICE_DEFAULT = newDefault;
           var eqInput = document.getElementById('dc-equity-price');
           if (eqInput) eqInput.value = newDefault.toFixed(2);
@@ -5172,6 +5222,7 @@
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (j) {
           if (!j || !j.pricing) return;
+          _applyNovogradacPricingDefaults(j, { force: true });
           var nat = j.pricing.national_avg || {};
           var co  = j.pricing.colorado_specific || {};
           var denver = co.denver_msa || {};
@@ -5292,6 +5343,7 @@
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
+    applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
     computeRentAchievability:   computeRentAchievability,
     /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */
