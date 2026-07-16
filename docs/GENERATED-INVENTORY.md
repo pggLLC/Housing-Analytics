@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-16T12:25:09.194Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-16T13:10:58.023Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.9 KB |
 | `about.html` | About | Colorado Affordable Housing Data Reference | 14.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
-| `article-pricing.html` | Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference | 14.2 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.1 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 131.5 KB |
@@ -22,7 +22,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.1 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 23.3 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
@@ -1627,7 +1627,7 @@
 
 ## Test Files
 
-182 test files found.
+183 test files found.
 
 | File | Size |
 |------|------|
@@ -1752,6 +1752,7 @@
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
+| `test/tax-credit-equity-markets.test.js` | 7.1 KB |
 | `test/tax-credit-insights-data.test.js` | 4.2 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
