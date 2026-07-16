@@ -113,7 +113,8 @@
     var options = opts || {};
     var entries = (doc && Array.isArray(doc.entries) ? doc.entries : [])
       .filter(function (entry) {
-        return !options.scope || entry.scope === options.scope || (options.includeScopes || []).indexOf(entry.scope) !== -1;
+        var scoped = (options.scope ? [options.scope] : []).concat(options.includeScopes || []);
+        return !scoped.length || scoped.indexOf(entry.scope) !== -1;
       });
     if (!entries.length) {
       target.innerHTML = '<p style="color:var(--muted);">No policy entries loaded.</p>';

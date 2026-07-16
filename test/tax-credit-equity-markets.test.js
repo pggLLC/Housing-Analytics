@@ -124,6 +124,13 @@ console.log('='.repeat(46));
   const craText = craDom.window.document.body.textContent.replace(/\s+/g, ' ');
   assert(craText.includes('July 18, 2025 notice of proposed rulemaking'), 'CRA page status copy names the rescission NPR');
   assert(craDom.window.document.querySelector('[data-policy-id="cra-2025-rescission-npr"]'), 'CRA page renders shared watchlist');
+  const craIds = Array.from(craDom.window.document.querySelectorAll('[data-policy-id]'))
+    .map((node) => node.getAttribute('data-policy-id'));
+  assert(craIds.length > 0, 'CRA watchlist rendered entries');
+  assert(
+    !craIds.includes('obbba-25c-25d-termination') && !craIds.includes('nhia-119th-congress'),
+    'data-tax-credit-watch scope attribute filters out homebuyer entries on the CRA page'
+  );
   assert(!craText.includes('Medium-Low (25%)'), 'CRA page no longer shows stale hardcoded passage probability card');
 
   const insightsHtml = fs.readFileSync(path.join(root, 'insights.html'), 'utf8');
