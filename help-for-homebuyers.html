@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Help for Homebuyers | Colorado Public Data Reference</title>
+  <meta name="description" content="Plain-language guide to Colorado and federal homebuyer credits, grants, down-payment assistance, and property-tax relief programs.">
+  <meta property="og:title" content="Help for Homebuyers | Colorado Public Data Reference">
+  <meta property="og:description" content="Data-backed homebuyer assistance cards with official source links and freshness dates.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/homeownership-programs.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Program summaries are informational only, not financial, tax, legal, or lending advice.
+    </div>
+
+    <article class="article-wrap">
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Help for Homebuyers</span>
+        </nav>
+        <span class="tag tag-green" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Homebuyer Resource</span>
+        <span class="kicker">Consumer guide · Updated July 16, 2026</span>
+        <h1 style="margin-bottom:var(--sp3);">Help for Homebuyers</h1>
+        <div class="page-meta">
+          <span>Credits, grants, DPA, and property-tax relief</span>
+          <span>Official source links only</span>
+          <span>Owner copy review requested</span>
+        </div>
+      </header>
+
+      <div class="article-body" style="margin-top:var(--sp4);">
+        <div class="callout callout-info" style="margin-bottom:var(--sp4);">
+          <h3>Start here</h3>
+          <p>These cards explain programs in a buyer-friendly register. They are not a substitute for a lender, tax professional, program administrator, or HUD-approved housing counselor. Terms change, funding can pause, and eligibility depends on your household, lender, property, and timing.</p>
+          <p style="margin-bottom:0;">Quick terms: <strong>DPA</strong> means down-payment assistance. <strong>AMI</strong> means area median income. A <strong>tax credit</strong> reduces tax owed dollar-for-dollar; a deduction reduces taxable income.</p>
+        </div>
+
+        <section aria-labelledby="how-to-use-heading" class="chart-card" style="margin:var(--sp5) 0;padding:var(--sp3);">
+          <h2 id="how-to-use-heading" style="margin-top:0;">How to use this page</h2>
+          <p>Use the cards to identify programs worth asking about, then confirm details with the official source and the program administrator. For CHFA programs, the next step is usually a participating lender and CHFA-approved homebuyer education. For tax credits, talk with a tax professional before counting a benefit in your budget.</p>
+          <p style="margin-bottom:0;">Need counseling? CHFA points buyers to <a href="https://www.chfainfo.com/homeownership/homebuyer-education" target="_blank" rel="noopener">homebuyer education</a> and homeowners to <a href="https://www.chfainfo.com/homeownership/foreclosure-prevention" target="_blank" rel="noopener">HUD-approved housing counseling partners</a>; a counselor can help you understand options before you sign loan documents.</p>
+        </section>
+
+        <div data-homeownership-programs data-source="data/policy/homeownership-programs.json" data-source-type="curated"></div>
+
+        <div class="sources-box">
+          <h3>Data Sources &amp; Review Rules</h3>
+          <ul>
+            <li>Program cards render from <code>data/policy/homeownership-programs.json</code>.</li>
+            <li>Dollar amounts are shown only when the official source page reviewed this session stated them clearly.</li>
+            <li><code>VERIFY</code> means the official page did not publish one universal amount or the amount depends on borrower-specific facts.</li>
+          </ul>
+          <div class="disclaimer">
+            <strong>Disclaimer:</strong> Informational only. Confirm current terms with the program administrator, a participating lender, a HUD-approved housing counselor, or a qualified tax professional.
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
