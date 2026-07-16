@@ -38,10 +38,12 @@
     }[status] || 'Watch';
   }
 
-  function statusStyle(status) {
-    if (status === 'active') return 'color:var(--good);background:var(--good-dim,rgba(4,120,87,.10));';
-    if (status === 'proposed' || status === 'VERIFY') return 'color:var(--warn);background:var(--warn-dim,rgba(168,70,8,.10));';
-    return 'color:var(--bad);background:var(--bad-dim,rgba(185,28,28,.12));';
+  // Site-theme pill classes: token pairs are asserted >= 4.5:1 in BOTH
+  // modes by test/wcag-pill-contrast.test.js (F181).
+  function statusClass(status) {
+    if (status === 'active') return 'pill good';
+    if (status === 'proposed' || status === 'VERIFY') return 'pill warn';
+    return 'pill bad';
   }
 
   function fetchJson(url) {
@@ -67,7 +69,7 @@
           '</p>' +
           '<h3 style="margin:0 0 var(--sp1);font-size:1.08rem;">' + esc(program.name) + '</h3>' +
         '</div>' +
-        '<span style="' + statusStyle(program.status) + 'font-weight:700;font-size:var(--tiny);border-radius:999px;padding:.2rem .55rem;white-space:nowrap;">' + esc(statusLabel(program.status)) + '</span>' +
+        '<span class="' + statusClass(program.status) + '" style="font-size:var(--tiny);white-space:nowrap;">' + esc(statusLabel(program.status)) + '</span>' +
       '</div>' +
       '<p style="line-height:1.65;margin:var(--sp2) 0;">' + esc(program.plain_summary) + '</p>' +
       '<dl style="display:grid;gap:.65rem;margin:0;">' +

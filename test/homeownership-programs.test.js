@@ -102,7 +102,7 @@ console.log('='.repeat(38));
   const text = doc.body.textContent.replace(/\s+/g, ' ');
   assert.strictEqual(doc.querySelector('h1').textContent.trim(), 'Help for Homebuyers', 'page heading is present');
   assert(doc.querySelector('[data-homeownership-programs]'), 'page has program mount');
-  assert(text.includes('Owner copy review requested'), 'page requests owner copy review');
+  assert(!text.includes('Owner copy review requested'), 'internal owner-review flag must not ship in public page copy');
   assert(text.includes('DPA means down-payment assistance'), 'page defines DPA');
   assert(text.includes('AMI means area median income'), 'page defines AMI');
   assert(text.toLowerCase().includes('tax credit reduces tax owed dollar-for-dollar'), 'page explains credit versus deduction');
