@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-15T21:43:54.154Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-16T12:25:09.194Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
-| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 14.3 KB |
+| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 15.5 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 230.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
@@ -67,7 +67,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1549 JSON files found.
+1551 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1581,6 +1581,7 @@
 | `data/market/qct_dda_designations_co_normalized.json` | 698 B | ✅ | — |
 | `data/market/reference-projects.json` | 24.7 KB | ✅ | — |
 | `data/market/state-trend-analysis.json` | 6.8 KB | ✅ | — |
+| `data/market/tax-credit-transfer-pricing.json` | 3.4 KB | ✅ | — |
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
@@ -1602,8 +1603,9 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 6.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1625,7 +1627,7 @@
 
 ## Test Files
 
-180 test files found.
+182 test files found.
 
 | File | Size |
 |------|------|
@@ -1660,6 +1662,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
+| `test/deal-calc-equity-pricing.test.js` | 2.6 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
@@ -1749,6 +1752,7 @@
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
+| `test/tax-credit-insights-data.test.js` | 4.2 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
@@ -1756,7 +1760,7 @@
 | `test/test_environmental_screening.js` | 11.7 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 11.5 KB |
+| `test/test_legislative_tracker.js` | 7.8 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
