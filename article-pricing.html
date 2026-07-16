@@ -5,187 +5,144 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Tax Credit Pricing Reaches Historic Lows | Colorado Public Data Reference</title>
-  <meta name="description" content="Analysis of current LIHTC pricing trends and market implications for investors and developers.">
-  <meta property="og:title" content="Pricing Dynamics | Colorado Public Data Reference">
-  <meta property="og:description" content="Analysis of housing pricing dynamics and affordability trends in Colorado.">
+  <title>Tax Credit Equity Markets | Colorado Public Data Reference</title>
+  <meta name="description" content="Data-backed LIHTC, NMTC, HTC, ITC, and PTC equity-pricing reference with benchmark history, transfer-market snapshots, and federal policy watchlist.">
+  <meta property="og:title" content="Tax Credit Equity Markets | Colorado Public Data Reference">
+  <meta property="og:description" content="LIHTC equity benchmarks, transfer-credit pricing, and policy watchlist for affordable housing and energy tax-credit markets.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
-    <script src="js/path-resolver.js"></script>
+  <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
   <script src="js/data-service-portable.js"></script>
   <script src="js/scroll-fix.js"></script>
-<script src="js/site-state.js"></script>
-<script defer src="js/navigation.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/forecasting.js"></script>
+  <script defer src="js/components/equity-forecast-panel.js"></script>
+  <script defer src="js/components/tax-credit-equity-markets.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
 
-  <main id="main-content" class="js-glossary-auto">
-<div class="platform-disclaimer" role="note">
-  This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial or legal advice.
-</div>
+  <main id="main-content" class="js-glossary-auto" data-tax-credit-equity-markets>
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial, tax, legal, or underwriting advice.
+    </div>
+
     <article class="article-wrap">
-
-      <!-- Header -->
       <header>
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <a href="index.html">Home</a>
           <span class="breadcrumb-sep" aria-hidden="true">/</span>
           <a href="insights.html">Insights</a>
           <span class="breadcrumb-sep" aria-hidden="true">/</span>
-          <span aria-current="page">Credit Pricing</span>
+          <span aria-current="page">Tax Credit Equity Markets</span>
         </nav>
-        <span class="tag tag-red" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Q2 2026 Market Update</span>
-        <span class="kicker">Analysis</span>
-<h1 style="margin-bottom:var(--sp3);">Tax Credit Pricing Reaches Historic Lows</h1>
+        <span class="tag tag-red" style="margin:var(--sp3) 0 var(--sp2);display:inline-block;">Market Data</span>
+        <span class="kicker">Analysis · Updated July 16, 2026</span>
+        <h1 style="margin-bottom:var(--sp3);">Tax Credit Equity Markets</h1>
         <div class="page-meta">
-          <span>📅 Updated June 10, 2026</span>
-          <span>📖 6 min read</span>
-          <span>👤 Market Analysis Team</span>
-        </div>
-        <!-- F118 — this is a dated Q1 2026 snapshot article. STATIC notice clarifies
-             pricing figures inside don't refresh automatically; readers should
-             check the linked Novogradac feed for current pricing. -->
-        <div style="margin-top:var(--sp3); padding:.75rem 1rem; background: rgba(243, 156, 18, 0.08); border-left:3px solid var(--warn); border-radius:6px; font-size:.85rem; color: var(--muted);">
-          <span data-no-contrast-guard style="color:var(--warn);font-weight:700;">STATIC</span> · pricing figures in this article (e.g. $0.84) are Q1 2026 snapshots and do not refresh — check the <a data-no-contrast-guard href="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" target="_blank" rel="noopener">Novogradac pricing update</a> for current quarterly read.
+          <span>Pricing benchmark reference</span>
+          <span>Sources: Novogradac, Crux, IRS, Federal Register</span>
+          <span>Quarterly review cycle</span>
         </div>
       </header>
 
-      <!-- Article body -->
       <div class="article-body" style="margin-top:var(--sp4);">
-
         <div class="callout callout-info" style="margin-bottom:var(--sp4);">
-          <h3>Q2 2026 Update — Pricing Range Widens</h3>
-          <p>Mid-2026 syndicator commentary indicates 9% LIHTC pricing has stabilized in a wider band, with outcomes varying by investor mix, geography, and project quality. Treat any point estimate as directional unless tied to a current pricing note or transaction-level source. The softening that began in late 2024 has continued, but bifurcation between top-tier coastal/CRA-target deals and rural/middle-market transactions is now the dominant story rather than a single national clearing price.</p>
-          <p style="margin-bottom:0;font-size:.85rem;color:var(--muted);">Source note: exact Q2 2026 Novogradac quarterly figures were not publicly verifiable from the linked feed during the June 2026 audit. The Q1 2026 figures below remain the static reference for year-over-year context.</p>
+          <h3>What this page tracks</h3>
+          <p>This reference combines the site’s tax-credit pricing artifacts into one market page: LIHTC equity history and forecast context, Novogradac national and regional benchmarks, current public transfer-pricing snapshots for transferable credits, and a federal policy watchlist that is rendered directly from the shared legislation data file.</p>
+          <p style="margin-bottom:0;font-size:.9rem;color:var(--muted);">Use these values as directional market anchors. Actual pricing depends on sponsor quality, geography, CRA demand, tax appetite, indemnities, insurance, recapture risk, and transaction structure.</p>
         </div>
 
-        <p style="font-size:1.15rem;font-weight:500;color:var(--text-strong);line-height:1.7;">
-          Nine percent LIHTC pricing dropped to <span class="highlight">$0.84</span> in Q1 2026, marking the lowest level in over three years as corporate tax appetite softened amid economic uncertainty and increased supply of credits. By Q2, market commentary pointed to a wider pricing band reflecting investor concentration and CRA-driven demand.
-        </p>
+        <div id="tceDataError" role="status" aria-live="polite" style="color:var(--bad);font-weight:700;margin-bottom:var(--sp3);"></div>
 
-        <h2>Market Overview</h2>
-        <p>The Low-Income Housing Tax Credit market has entered a significant correction phase, with 9% competitive credit pricing falling from $0.94 just one year ago to $0.84 today. This 10.6% decline represents the steepest year-over-year drop since the 2008 financial crisis and has profound implications for project feasibility, developer strategies, and affordable housing production nationwide.</p>
-        <p>Four percent non-competitive credits have similarly declined to $0.79, down from $0.89 in early 2025. The parallel movement across both credit types suggests systemic market factors rather than program-specific dynamics.</p>
+        <section aria-labelledby="lihtc-history-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="lihtc-history-heading" class="chart-title">LIHTC Equity Pricing History</h2>
+              <p class="chart-subtitle">9% and 4% benchmark history from the shared LIHTC pricing artifact.</p>
+            </div>
+            <div id="tceHistoryChart" data-source="data/market/lihtc-equity-pricing-history.json" data-source-type="curated"></div>
+          </div>
+        </section>
 
-        <div class="callout">
-          <h3>Key Findings</h3>
-          <ul>
-            <li><strong>9% Credit Pricing:</strong> $0.84 (down 10.6% YoY)</li>
-            <li><strong>4% Credit Pricing:</strong> $0.79 (down 11.2% YoY)</li>
-            <li><strong>Transaction Volume:</strong> Down 23% from 2025</li>
-            <li><strong>Developer Impact:</strong> 15–20% reduction in equity proceeds</li>
-          </ul>
-        </div>
+        <section aria-labelledby="forecast-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="forecast-heading" class="chart-title">LIHTC Equity Forecast Panel</h2>
+              <p class="chart-subtitle">Shared forecast component reused from the deal-analysis surface.</p>
+            </div>
+            <div id="dcEquityForecast" data-source="js/components/equity-forecast-panel.js" data-source-type="modeled"></div>
+          </div>
+        </section>
 
-        <h2>Primary Drivers of the Decline</h2>
-        <h3>1. Corporate Tax Liability Reduction</h3>
-        <p>The most significant factor driving pricing down is reduced corporate tax liability among traditional LIHTC investors. Several major banks and insurance companies have reported lower-than-expected profits in 2025, directly reducing their appetite for tax credits. Bank of America, Wells Fargo, and JPMorgan Chase — collectively responsible for approximately 35% of LIHTC equity investments — have all reduced their 2026 acquisition targets by 15–25%.</p>
+        <section aria-labelledby="novogradac-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="novogradac-heading" class="chart-title">Novogradac LIHTC Benchmarks</h2>
+              <p class="chart-subtitle">National, regional, and Colorado-specific cents-per-credit-dollar benchmarks.</p>
+            </div>
+            <div class="table-wrap" id="tceNovogradacTable" data-source="data/market/novogradac-equity-pricing.json" data-source-type="curated"></div>
+          </div>
+        </section>
 
-        <h3>2. Increased Credit Supply</h3>
-        <p>State housing finance agencies allocated a record <span class="highlight">$12.8 billion</span> in tax credits during 2025, representing a 7% increase over 2024. This supply increase, coinciding with demand softening, has created an imbalance pushing prices downward.</p>
+        <section aria-labelledby="transfer-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="transfer-heading" class="chart-title">Transfer and Syndication Snapshot</h2>
+              <p class="chart-subtitle">Publicly verified pricing ranges stay numeric; unverified markets remain labeled VERIFY.</p>
+            </div>
+            <div class="table-wrap" id="tceTransferPricing" data-source="data/market/tax-credit-transfer-pricing.json" data-source-type="curated"></div>
+          </div>
+        </section>
 
-        <h3>3. Interest Rate Volatility</h3>
-        <p>Persistent interest rate uncertainty has made long-term tax credit investments less attractive relative to other fixed-income alternatives. The 10-year Treasury yield has fluctuated between 3.8% and 4.6% over the past six months.</p>
+        <section aria-labelledby="pricing-works-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="pricing-works-heading" class="chart-title">How Credit Pricing Works</h2>
+              <p class="chart-subtitle">Why LIHTC, HTC, NMTC, ITC, and PTC prices do not clear at the same discount.</p>
+            </div>
+            <p>Traditional community-development credits such as LIHTC, HTC, and NMTC generally require ownership, partnership, or allocation structures. Transferable clean-energy credits are different: under IRC §6418, eligible credits can be sold for cash, while §6417 provides elective-pay treatment for eligible tax-exempt and governmental entities. That transferability divide is why clean-energy ITC/PTC markets can look closer to credit trading while LIHTC, HTC, and NMTC still price through syndication economics.</p>
+            <p>Pricing also reflects tax treatment. Section 6418 transfer proceeds are excluded from seller income, and the buyer discount is not taxed as income. Non-transferable credits embed investor return in the partnership economics, depreciation, compliance exposure, and exit assumptions.</p>
+            <div class="table-wrap" id="tceExplainerMatrix" data-source="js/components/tax-credit-equity-markets.js" data-source-type="methodology"></div>
+          </div>
+        </section>
 
-        <h3>4. Economic Uncertainty</h3>
-        <p>Broader macroeconomic concerns, including potential recession risks, trade tensions, and fiscal policy uncertainty, have made corporate investors more conservative in their multi-year investment commitments.</p>
+        <section aria-labelledby="policy-watch-heading" style="margin:var(--sp5) 0;">
+          <div class="chart-card">
+            <div class="chart-header">
+              <h2 id="policy-watch-heading" class="chart-title">Tax Credit Legislation Watch</h2>
+              <p class="chart-subtitle">Status pills, effective dates, sunset dates, and source links are rendered from the shared policy JSON.</p>
+            </div>
+            <div data-tax-credit-watch="lihtc,nmtc,htc,itc-ptc,cra,homebuyer" style="display:grid;gap:var(--sp3);"></div>
+          </div>
+        </section>
 
-        <h2>Regional Variations</h2>
-        <p>While pricing has declined nationally, regional variations persist based on local market conditions, state policies, and investor concentration:</p>
-        <ul>
-          <li><strong>Northeast:</strong> $0.86 (relatively resilient due to strong regional bank presence)</li>
-          <li><strong>West:</strong> $0.85 (California drives regional average)</li>
-          <li><strong>South:</strong> $0.83 (largest allocation volume creates pricing pressure)</li>
-          <li><strong>Midwest:</strong> $0.82 (weakest pricing reflects economic challenges)</li>
-        </ul>
-        <p>Colorado specifically is pricing at $0.84, right at the national average, reflecting balanced supply-demand dynamics in the Denver metro area.</p>
-
-        <h2>Impact on Development Feasibility</h2>
-        <h3>Equity Gap Challenges</h3>
-        <p>A typical 100-unit LIHTC development might receive a $2.5 million credit allocation. At $0.94 pricing (2025), this generated $2.35 million in equity. At current $0.84 pricing, the same allocation yields only $2.1 million — a $250,000 shortfall that must be filled with additional gap financing, increased debt, or reduced development scope.</p>
-
-        <h3>Developer Responses</h3>
-        <ol>
-          <li><strong>Value Engineering:</strong> Reducing per-unit construction costs by 8–12%</li>
-          <li><strong>Additional Gap Financing:</strong> Seeking increased city, county, and state subsidy contributions</li>
-          <li><strong>Basis Boost Maximization:</strong> Focusing on QCTs and DDAs for 30% basis boosts</li>
-          <li><strong>Delayed Starts:</strong> Some projects placed on hold pending pricing recovery</li>
-          <li><strong>4% Bond Deals:</strong> Shift toward 4% credits with tax-exempt bonds due to more predictable pricing</li>
-        </ol>
-
-        <div class="callout callout-info">
-          <h3>Case Study: Denver Project Impact</h3>
-          <p>A proposed 150-unit senior housing development in Denver received a $3.8 million credit allocation in the 2026 competitive round. At 2025 pricing ($0.94), this would have yielded $3.57 million in equity. At current pricing ($0.84), equity proceeds dropped to $3.19 million — a $380,000 gap addressed through increased city gap financing ($200k), reduced amenity scope ($100k), and developer fee reduction ($80k).</p>
-        </div>
-
-        <h2>Looking Forward: Market Outlook</h2>
-        <h3>Short-Term (Q2–Q4 2026)</h3>
-        <p>We anticipate continued pricing pressure through mid-2026, with potential for further modest declines to the $0.82–$0.83 range for 9% credits.</p>
-
-        <h3>Medium-Term (2027–2028)</h3>
-        <p>We forecast gradual pricing recovery beginning in late 2026 or early 2027, driven by economic stabilization, supply-demand rebalancing, and investor diversification. Our econometric models suggest pricing will stabilize in the $0.85–$0.88 range by 2028, assuming moderate economic growth and no major policy disruptions.</p>
-
-        <h2>Strategic Recommendations</h2>
-        <h3>For Developers</h3>
-        <ul>
-          <li>Maintain flexibility in project timelines to capitalize on potential pricing improvements</li>
-          <li>Build deeper relationships with state and local gap financing sources</li>
-          <li>Focus on sites that qualify for basis boosts and other enhancements</li>
-          <li>Evaluate 4% bond deals as a potentially more stable alternative</li>
-        </ul>
-        <h3>For Investors</h3>
-        <ul>
-          <li>Current pricing presents potential value opportunities for investors with long-term tax appetite</li>
-          <li>Focus on high-quality sponsors with track records of successful lease-up and operations</li>
-          <li>Evaluate portfolio diversification across geographic markets and project types</li>
-        </ul>
-        <h3>For State Agencies</h3>
-        <ul>
-          <li>Monitor development pipeline closely for signs of significant slowdown</li>
-          <li>Consider targeted QAP adjustments to maintain production levels</li>
-          <li>Explore mechanisms to provide interim equity or gap financing support</li>
-        </ul>
-
-        <h2>Conclusion</h2>
-        <p>The current LIHTC pricing environment presents significant challenges but also opportunities. While $0.84 pricing complicates project feasibility, it also represents a potential entry point for new investors and could drive beneficial innovations in financing structures. For the latest pricing snapshots and market intelligence, visit the <a href="dashboard.html">dashboard</a> (refreshed on each quarterly data release).</p>
-
-        <!-- Related articles -->
-        <div style="margin-top:var(--sp5);padding-top:var(--sp4);border-top:1px solid var(--border);">
-          <p style="font-weight:700;margin-bottom:var(--sp3);color:var(--text-strong);">Related Articles</p>
-          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.5rem;">
-            <li><a href="cra-expansion-analysis.html" style="color:var(--link);">→ CRA Expansion Impact: Pricing Forecasts</a></li>
-            <li><a href="housing-legislation-2026.html" style="color:var(--link);">→ Housing for the 21st Century Act Analysis</a></li>
-            <li><a href="insights.html" style="color:var(--link);">→ Back to Market Insights</a></li>
-          </ul>
-        </div>
-
-        <!-- Sources -->
         <div class="sources-box">
           <h3>Data Sources &amp; Methodology</h3>
           <ul>
-            <li><strong>Novogradac LIHTC Equity Pricing Trends</strong> — National average pricing based on actual syndication reports · <a href="https://www.novoco.com" target="_blank" rel="noopener">www.novoco.com</a></li>
-            <li><strong>HUD Low-Income Housing Tax Credit Database</strong> — Project-level allocation data for all 50 states · <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD User</a></li>
-            <li><strong>U.S. Census Bureau</strong> — Housing starts and construction data · <a href="https://www.census.gov/construction" target="_blank" rel="noopener">census.gov/construction</a></li>
-            <li><strong>State Housing Finance Agencies</strong> — QAP data and allocation announcements via NCSHA</li>
+            <li><strong>LIHTC benchmarks:</strong> Novogradac equity-pricing artifact, reviewed quarterly and used here as directional cents-per-credit-dollar market context.</li>
+            <li><strong>Transfer pricing:</strong> Crux public transfer-credit pricing guide for verified clean-energy ranges; official program pages for markets left as VERIFY.</li>
+            <li><strong>Policy watch:</strong> Official federal sources only, including Congress.gov, IRS guidance, and the Federal Register.</li>
           </ul>
           <div class="disclaimer">
-            <strong>Disclaimer:</strong> Pricing data represents market averages and should not be relied upon as the sole source for project underwriting. Developers and investors should consult with syndicators for project-specific pricing guidance. This analysis is for informational purposes only and does not constitute investment advice.
+            <strong>Disclaimer:</strong> This page is a public-data reference and should not be used as transaction-level pricing, tax advice, legal advice, or investment advice.
           </div>
         </div>
-
       </div>
     </article>
   </main>
 
   <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
 </body>
 </html>
