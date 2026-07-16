@@ -15,7 +15,7 @@ function assertIsoReviewDate(raw, label) {
 function assertOfficialHttps(url, label) {
   assert(/^https:\/\//.test(url), `${label} source_url uses https`);
   assert(
-    /^(https:\/\/(www\.)?(congress|federalregister|irs)\.gov|https:\/\/www\.irs\.gov)/.test(url),
+    /^(https:\/\/(www\.)?(congress|federalregister|irs|govinfo)\.gov|https:\/\/www\.irs\.gov)/.test(url),
     `${label} legislation source_url is official federal source: ${url}`
   );
 }
@@ -29,6 +29,7 @@ assert(legislation.entries.length >= 8, 'legislation file is non-vacuous');
 assertIsoReviewDate(legislation.meta.review_by, 'legislation meta');
 
 const requiredLegislation = [
+  'hr6644-road-act',
   'obbba-lihtc-ceiling-12pct',
   'obbba-lihtc-bond-25pct-test',
   'obbba-25c-25d-termination',
