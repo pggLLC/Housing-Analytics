@@ -1,0 +1,85 @@
+{
+  "schema": "tax-credit-transfer-pricing/v1",
+  "meta": {
+    "title": "Tax Credit Transfer and Syndication Pricing Watchlist",
+    "vintage": "2026-Q3",
+    "as_of": "2026-07-15",
+    "last_verified": "2026-07-15",
+    "review_by": "2026-10-15",
+    "source": "Curated public market snapshots",
+    "methodology": "Prices are dollars paid per $1.00 of federal tax credit face value. Verified ranges are recorded only where a fetchable public source stated the range; otherwise the price fields remain null with status VERIFY.",
+    "unit": "dollars_per_credit_dollar"
+  },
+  "markets": [
+    {
+      "id": "clean-energy-transfer-general",
+      "label": "Transferable clean-energy credits",
+      "scope": "itc-ptc",
+      "credit_type": "mixed-transferable-clean-energy",
+      "status": "verified",
+      "price_low": 0.9,
+      "price_high": 0.95,
+      "as_of": "2026-06-26",
+      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
+      "source_note": "Crux 2026 guide states buyers typically purchase transferable tax credits at $0.90-$0.95 per $1.00 of credit.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "itc-transfer-investment-grade-2025",
+      "label": "Investment-grade ITC transfers",
+      "scope": "itc-ptc",
+      "credit_type": "itc",
+      "status": "verified",
+      "price_low": 0.92,
+      "price_high": 0.95,
+      "as_of": "2025",
+      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
+      "source_note": "Crux 2026 guide summarizes 2025 investment-grade ITC pricing range.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "ptc-transfer-investment-grade-2025",
+      "label": "Investment-grade PTC transfers",
+      "scope": "itc-ptc",
+      "credit_type": "ptc",
+      "status": "verified",
+      "price_low": 0.92,
+      "price_high": 0.96,
+      "as_of": "2025",
+      "source_url": "https://www.crux.com/insights/transferable-tax-credits",
+      "source_note": "Crux 2026 guide summarizes 2025 investment-grade PTC pricing range.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "nmtc-equity-pricing",
+      "label": "New Markets Tax Credit equity pricing",
+      "scope": "nmtc",
+      "credit_type": "nmtc",
+      "status": "VERIFY",
+      "price_low": null,
+      "price_high": null,
+      "as_of": null,
+      "source_url": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
+      "source_note": "Official CDFI Fund program page verifies the program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    },
+    {
+      "id": "federal-htc-pricing",
+      "label": "Federal Historic Tax Credit syndication pricing",
+      "scope": "htc",
+      "credit_type": "federal-htc",
+      "status": "VERIFY",
+      "price_low": null,
+      "price_high": null,
+      "as_of": null,
+      "source_url": "https://www.nps.gov/subjects/taxincentives/index.htm",
+      "source_note": "Official NPS tax incentives page verifies the federal HTC program but does not publish current cents-per-credit market pricing. Leave pricing null until a fetchable pricing source is read.",
+      "last_verified": "2026-07-15",
+      "review_by": "2026-10-15"
+    }
+  ]
+}
