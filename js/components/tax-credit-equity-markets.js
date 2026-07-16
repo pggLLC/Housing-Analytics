@@ -94,10 +94,12 @@
     }[status] || 'Watchlist';
   }
 
-  function statusStyle(status) {
-    if (status === 'enacted' || status === 'verified') return 'color:var(--good);background:var(--good-dim,rgba(4,120,87,.10));';
-    if (status === 'proposed' || status === 'rule-pending' || status === 'VERIFY') return 'color:var(--warn);background:var(--warn-dim,rgba(168,70,8,.10));';
-    return 'color:var(--bad);background:var(--bad-dim,rgba(185,28,28,.12));';
+  // Use the site-theme pill classes — their token pairs are asserted >= 4.5:1
+  // in BOTH light and dark mode by test/wcag-pill-contrast.test.js (F181).
+  function statusClass(status) {
+    if (status === 'enacted' || status === 'verified') return 'pill good';
+    if (status === 'proposed' || status === 'rule-pending' || status === 'VERIFY') return 'pill warn';
+    return 'pill bad';
   }
 
   function fetchJson(url) {
@@ -132,7 +134,7 @@
             '<h3 style="margin:0 0 var(--sp1);font-size:1rem;">' + esc(entry.title) + '</h3>' +
             '<p style="margin:0;color:var(--muted);font-size:var(--small);line-height:1.55;">' + esc(entry.pricing_impact) + '</p>' +
           '</div>' +
-          '<span style="' + statusStyle(entry.status) + 'font-weight:700;font-size:var(--tiny);border-radius:999px;padding:.2rem .55rem;white-space:nowrap;">' + esc(statusLabel(entry.status)) + '</span>' +
+          '<span class="' + statusClass(entry.status) + '" style="font-size:var(--tiny);white-space:nowrap;">' + esc(statusLabel(entry.status)) + '</span>' +
         '</div>' +
         '<div style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);display:flex;flex-wrap:wrap;gap:.5rem;">' +
           '<span>' + esc(meta || 'Date pending') + '</span>' +
@@ -154,7 +156,7 @@
           '<td><strong>' + esc(entry.label) + '</strong><br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.source_note) + '</span></td>' +
           '<td>' + esc(entry.credit_type || entry.scope) + '</td>' +
           '<td>' + esc(price) + '</td>' +
-          '<td><span style="' + statusStyle(entry.status) + 'font-weight:700;font-size:var(--tiny);border-radius:999px;padding:.2rem .55rem;">' + esc(statusLabel(entry.status)) + '</span></td>' +
+          '<td><span class="' + statusClass(entry.status) + '" style="font-size:var(--tiny);">' + esc(statusLabel(entry.status)) + '</span></td>' +
           '<td><a href="' + esc(entry.source_url) + '" target="_blank" rel="noopener">Source</a></td>' +
         '</tr>';
       }).join('') +
