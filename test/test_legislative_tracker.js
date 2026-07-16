@@ -9,10 +9,13 @@
 'use strict';
 
 const assert = require('assert');
+const fs = require('fs');
 const path = require('path');
+const { JSDOM } = require('jsdom');
 
-const tracker = require(path.resolve(__dirname, '..', 'js', 'legislative-tracker'));
-const legislation = require(path.resolve(__dirname, '..', 'data', 'policy', 'tax-credit-legislation.json'));
+const root = path.resolve(__dirname, '..');
+const tracker = require(path.join(root, 'js', 'legislative-tracker'));
+const legislation = require(path.join(root, 'data', 'policy', 'tax-credit-legislation.json'));
 
 let passed = 0;
 let failed = 0;
@@ -86,9 +89,13 @@ test('expected policy entries and tags are available from real JSON', () => {
   const lihtc = tracker.getBillsByTag('LIHTC');
   const cra = tracker.getBillsByTag('CRA');
   const nhia = tracker.getBill('nhia-119th-congress');
+  const phasedOut = tracker.getBill('obbba-25c-25d-termination');
+  const windSolar = tracker.getBill('obbba-45y-48e-wind-solar-deadlines');
   check(lihtc.length >= 2, 'LIHTC-tagged entries loaded');
   check(cra.length >= 1, 'CRA-tagged entries loaded');
   check(nhia && nhia.stage === tracker.STAGES.COMMITTEE, 'NHIA proposed entry maps to committee stage');
+  check(phasedOut && phasedOut.stage === tracker.STAGES.SIGNED, 'phased-out enacted-law entry does not map to failed stage');
+  check(windSolar && windSolar.status === 'enacted' && windSolar.stage === tracker.STAGES.SIGNED, '45Y/48E entry maps to enacted law');
 });
 
 test('market summary reflects loaded JSON and stays bounded', () => {
@@ -108,6 +115,38 @@ test('loadLegislationData consumes a fetch-compatible JSON response', async () =
     json: () => Promise.resolve(legislation)
   }));
   check(bills.length === legislation.entries.length, 'fetch-loaded entries populate tracker');
+});
+
+test('housing legislation page renders watchlist statuses without passage heuristics', async () => {
+  const html = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
+  const trackerSrc = fs.readFileSync(path.join(root, 'js', 'legislative-tracker.js'), 'utf8');
+  const inlineScript = Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi))
+    .map((match) => match[1])
+    .find((script) => script.includes('loadLegislationData') && script.includes('renderBills'));
+  assert(inlineScript, 'page render script found');
+
+  const dom = new JSDOM(html, {
+    url: 'http://127.0.0.1/housing-legislation-2026.html',
+    runScripts: 'outside-only'
+  });
+  const { window } = dom;
+  window.fetch = () => Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve(legislation)
+  });
+  window.eval(trackerSrc);
+  window.eval(inlineScript);
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded', { bubbles: true }));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+
+  const rendered = window.document.getElementById('bill-status-cards').innerHTML;
+  check(rendered.includes('obbba-25c-25d-termination'), 'phased-out entry rendered');
+  check(rendered.includes('Phased-out'), 'phased-out status pill rendered');
+  check(rendered.includes('obbba-45y-48e-wind-solar-deadlines'), '45Y/48E entry rendered');
+  check(rendered.includes('Enacted'), 'enacted status pill rendered');
+  check(!rendered.includes('Failed'), 'rendered watchlist never labels enacted/phased-out entries as Failed');
+  check(!rendered.includes('% passage'), 'rendered watchlist never shows passage percentages');
+  check(!rendered.includes('role="progressbar"'), 'rendered watchlist has no progress bars');
 });
 
 test('CRA tract targeting remains available', () => {

@@ -60,7 +60,7 @@
   function _stageFromStatus(status) {
     if (status === 'enacted') return STAGES.SIGNED;
     if (status === 'proposed' || status === 'rule-pending') return STAGES.COMMITTEE;
-    if (status === 'phased-out' || status === 'expired') return STAGES.FAILED;
+    if (status === 'phased-out' || status === 'expired') return STAGES.SIGNED;
     return STAGES.INTRODUCED;
   }
 
@@ -107,8 +107,10 @@
       title: entry.title,
       shortTitle: entry.id,
       stage: stage,
+      status: entry.status || null,
       effectiveDate: entry.effective_date || null,
       sunsetDate: entry.sunset_date || null,
+      lastVerified: entry.last_verified || null,
       lastUpdated: entry.last_verified || entry.effective_date || null,
       summary: entry.pricing_impact || '',
       sourceUrl: entry.source_url || null,

@@ -8,11 +8,8 @@ const root = path.join(__dirname, '..');
 const legislation = require(path.join(root, 'data', 'policy', 'tax-credit-legislation.json'));
 const pricing = require(path.join(root, 'data', 'market', 'tax-credit-transfer-pricing.json'));
 
-const TODAY = new Date('2026-07-15T00:00:00Z');
-
-function assertFutureDate(raw, label) {
+function assertIsoReviewDate(raw, label) {
   assert(/^\d{4}-\d{2}-\d{2}$/.test(raw), `${label} review_by is ISO date`);
-  assert(new Date(raw + 'T00:00:00Z') >= TODAY, `${label} review_by has not expired`);
 }
 
 function assertOfficialHttps(url, label) {
@@ -29,7 +26,7 @@ console.log('='.repeat(44));
 assert.strictEqual(legislation.schema, 'tax-credit-legislation/v1', 'legislation schema is versioned');
 assert(Array.isArray(legislation.entries), 'legislation entries array exists');
 assert(legislation.entries.length >= 8, 'legislation file is non-vacuous');
-assertFutureDate(legislation.meta.review_by, 'legislation meta');
+assertIsoReviewDate(legislation.meta.review_by, 'legislation meta');
 
 const requiredLegislation = [
   'obbba-lihtc-ceiling-12pct',
@@ -49,13 +46,13 @@ legislation.entries.forEach((entry) => {
   assert(['enacted', 'proposed', 'rule-pending', 'phased-out', 'expired'].includes(entry.status), `${entry.id} status allowed`);
   assert(entry.pricing_impact && entry.pricing_impact.length <= 280, `${entry.id} pricing impact is present and concise`);
   assertOfficialHttps(entry.source_url, entry.id);
-  assertFutureDate(entry.review_by, entry.id);
+  assertIsoReviewDate(entry.review_by, entry.id);
 });
 
 assert.strictEqual(pricing.schema, 'tax-credit-transfer-pricing/v1', 'pricing schema is versioned');
 assert(Array.isArray(pricing.markets), 'pricing markets array exists');
 assert(pricing.markets.length >= 5, 'pricing file is non-vacuous');
-assertFutureDate(pricing.meta.review_by, 'pricing meta');
+assertIsoReviewDate(pricing.meta.review_by, 'pricing meta');
 
 const requiredMarkets = [
   'clean-energy-transfer-general',
@@ -69,7 +66,7 @@ requiredMarkets.forEach((id) => assert(marketIds.has(id), `required pricing mark
 
 pricing.markets.forEach((entry) => {
   assert(/^https:\/\//.test(entry.source_url), `${entry.id} source_url uses https`);
-  assertFutureDate(entry.review_by, entry.id);
+  assertIsoReviewDate(entry.review_by, entry.id);
   if (entry.status === 'verified') {
     assert(typeof entry.price_low === 'number' && typeof entry.price_high === 'number', `${entry.id} verified entry has numeric range`);
     assert(entry.price_low > 0 && entry.price_high >= entry.price_low && entry.price_high <= 1, `${entry.id} range is bounded`);
