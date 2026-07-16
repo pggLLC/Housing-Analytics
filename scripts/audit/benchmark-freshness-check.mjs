@@ -10,6 +10,7 @@
  *   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
  *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
+ *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -66,6 +67,11 @@ const BENCHMARK_FILES = [
     file: 'data/policy/tax-credit-legislation.json',
     label: 'Tax-credit legislation watchlist',
     reviewByPaths: ['meta.review_by', 'entries[].review_by'],
+  },
+  {
+    file: 'data/policy/homeownership-programs.json',
+    label: 'Homeownership programs watchlist',
+    reviewByPaths: ['meta.review_by', 'programs[].review_by'],
   },
 ];
 
