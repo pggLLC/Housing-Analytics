@@ -120,7 +120,7 @@ test('loadLegislationData consumes a fetch-compatible JSON response', async () =
 test('housing legislation page renders watchlist statuses without passage heuristics', async () => {
   const html = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
   const trackerSrc = fs.readFileSync(path.join(root, 'js', 'legislative-tracker.js'), 'utf8');
-  const inlineScript = Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi))
+  const inlineScript = Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script\s*>/gi))
     .map((match) => match[1])
     .find((script) => script.includes('loadLegislationData') && script.includes('renderBills'));
   assert(inlineScript, 'page render script found');
