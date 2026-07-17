@@ -76,6 +76,7 @@ const HTML_PAGES = [
     'regional.html',
     'state-allocation-map.html',       // redirect stub → lihtc-allocations.html
     'housing-legislation-2026.html',
+    'help-for-homebuyers.html',
     'about.html',
     'insights.html',
 ];
@@ -227,8 +228,9 @@ test('sitemap.xml: public sitemap includes generated place pages and excludes pr
     const sitemap = fs.readFileSync(path.join(ROOT, sitemapPath), 'utf8');
     const urls = sitemap.match(/<loc>https:\/\/[^<]+<\/loc>/g) || [];
     const placeUrls = sitemap.match(/<loc>https:\/\/[^<]+\/places\/\d{7}\.html<\/loc>/g) || [];
-    assert(urls.length >= 500, `sitemap includes public tool pages plus place profiles (${urls.length} URLs)`);
+    assert(urls.length >= 537, `sitemap includes public tool pages plus place profiles (${urls.length} URLs)`);
     assert(placeUrls.length >= 480, `sitemap includes generated place profiles (${placeUrls.length} place URLs)`);
+    assert(sitemap.includes('<loc>https://cohoanalytics.com/help-for-homebuyers.html</loc>'), 'sitemap includes Help for Homebuyers page');
     assert(!sitemap.includes('_template.html'), 'sitemap excludes place template');
     assert(!sitemap.includes('404.html'), 'sitemap excludes 404 page');
     assert(!sitemap.includes('developer-brief'), 'sitemap excludes private developer pages');
