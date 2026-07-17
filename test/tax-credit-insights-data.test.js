@@ -15,8 +15,8 @@ function assertIsoReviewDate(raw, label) {
 function assertOfficialHttps(url, label) {
   assert(/^https:\/\//.test(url), `${label} source_url uses https`);
   assert(
-    /^(https:\/\/(www\.)?(congress|federalregister|irs|govinfo)\.gov|https:\/\/www\.irs\.gov)/.test(url),
-    `${label} legislation source_url is official federal source: ${url}`
+    /^(https:\/\/(www\.)?(congress|federalregister|irs|govinfo)\.gov|https:\/\/www\.irs\.gov|https:\/\/leg\.colorado\.gov)/.test(url),
+    `${label} legislation source_url is official government source: ${url}`
   );
 }
 
@@ -36,6 +36,7 @@ const requiredLegislation = [
   'obbba-45y-48e-wind-solar-deadlines',
   'cra-2025-rescission-npr',
   'ira-section-6418-transferability',
+  'hb24-1175-local-government-rofr-rofo',
   'nhia-119th-congress'
 ];
 const legislationIds = new Set(legislation.entries.map((entry) => entry.id));
