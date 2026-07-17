@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T05:03:17.706Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T13:47:01.430Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.7 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
@@ -121,7 +121,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 234.3 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 234.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 195.9 KB | ✅ | — |
+| `data/manifest.json` | 196.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1607,7 +1607,7 @@
 | `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 7.2 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1629,7 +1629,7 @@
 
 ## Test Files
 
-185 test files found.
+186 test files found.
 
 | File | Size |
 |------|------|
@@ -1657,6 +1657,7 @@
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
+| `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 4.1 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
