@@ -8,6 +8,7 @@ const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const benchmark = require(path.join(root, 'data', 'market', 'novogradac-equity-pricing.json'));
 const assumptions = require(path.join(root, 'data', 'policy', 'lihtc-assumptions.json'));
+const legislation = require(path.join(root, 'data', 'policy', 'tax-credit-legislation.json'));
 const Predictor = require(path.join(root, 'js', 'lihtc-deal-predictor.js'));
 const dcSrc = fs.readFileSync(path.join(root, 'js', 'deal-calculator.js'), 'utf8');
 const constantsSrc = fs.readFileSync(path.join(root, 'js', 'config', 'financial-constants.js'), 'utf8');
@@ -33,6 +34,21 @@ assert.strictEqual(constants.credit_4pct, 0.84, 'financial constants 4% fallback
 assert.strictEqual(assumptions.equityPricing.default9Pct, constants.credit_9pct, 'assumptions 9% fallback is synced to financial constants');
 assert.strictEqual(assumptions.equityPricing.default4Pct, constants.credit_4pct, 'assumptions 4% fallback is synced to financial constants');
 assert(fs.readFileSync(path.join(root, 'scripts', 'audit', 'benchmark-freshness-check.mjs'), 'utf8').includes('data/policy/lihtc-assumptions.json'), 'freshness audit includes LIHTC assumptions');
+
+const bonusDepreciationEntry = legislation.entries.find((entry) => entry.id === 'obbba-168k-permanent-bonus-depreciation');
+assert(bonusDepreciationEntry, 'legislation watchlist includes the enacted Section 168(k) bonus-depreciation entry');
+assert.strictEqual(bonusDepreciationEntry.status, 'enacted', 'Section 168(k) bonus-depreciation watchlist entry is enacted');
+assert.match(bonusDepreciationEntry.source_note, /Public Law 119-21, section 70301/, 'Section 168(k) watchlist entry cites PL 119-21 section 70301');
+const equityDriverText = JSON.stringify(benchmark.key_drivers);
+assert.match(
+  equityDriverText,
+  /Permanent 100% bonus depreciation under Section 168\(k\)/,
+  'equity-pricing drivers treat enacted Section 168(k) 100% bonus depreciation as a pricing tailwind'
+);
+assert(
+  !/phase-down|drops by 20% per year/i.test(equityDriverText),
+  'equity-pricing drivers do not contradict the enacted Section 168(k) watchlist entry with stale phase-down language'
+);
 
 const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
   url: 'http://localhost/deal-calculator.html'
