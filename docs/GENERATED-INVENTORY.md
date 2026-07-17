@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-16T15:55:49.304Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T01:14:37.020Z. Do not edit by hand.
 
 ---
 
@@ -22,7 +22,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.1 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.0 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
@@ -40,7 +40,7 @@
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
-| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act (H.R. 6644) — Status Update | Colorado Public Data Reference | 15.5 KB |
+| `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 230.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
@@ -1605,7 +1605,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 6.6 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 7.2 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1764,7 +1764,7 @@
 | `test/test_environmental_screening.js` | 11.7 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 7.8 KB |
+| `test/test_legislative_tracker.js` | 8.4 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
