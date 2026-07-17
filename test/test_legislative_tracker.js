@@ -89,11 +89,13 @@ test('expected policy entries and tags are available from real JSON', () => {
   const lihtc = tracker.getBillsByTag('LIHTC');
   const cra = tracker.getBillsByTag('CRA');
   const nhia = tracker.getBill('nhia-119th-congress');
+  const roadAct = tracker.getBill('hr6644-road-act');
   const phasedOut = tracker.getBill('obbba-25c-25d-termination');
   const windSolar = tracker.getBill('obbba-45y-48e-wind-solar-deadlines');
   check(lihtc.length >= 2, 'LIHTC-tagged entries loaded');
   check(cra.length >= 1, 'CRA-tagged entries loaded');
   check(nhia && nhia.stage === tracker.STAGES.COMMITTEE, 'NHIA proposed entry maps to committee stage');
+  check(roadAct && roadAct.status === 'enacted' && roadAct.stage === tracker.STAGES.SIGNED, 'ROAD Act enacted entry maps to signed law');
   check(phasedOut && phasedOut.stage === tracker.STAGES.SIGNED, 'phased-out enacted-law entry does not map to failed stage');
   check(windSolar && windSolar.status === 'enacted' && windSolar.stage === tracker.STAGES.SIGNED, '45Y/48E entry maps to enacted law');
 });
@@ -119,6 +121,8 @@ test('loadLegislationData consumes a fetch-compatible JSON response', async () =
 
 test('housing legislation page renders watchlist statuses without passage heuristics', async () => {
   const html = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
+  check(!/awaiting further Senate action/i.test(html), 'housing legislation source no longer says awaiting further Senate action');
+  check(!/conference committee/i.test(html), 'housing legislation source no longer says conference committee');
   const trackerSrc = fs.readFileSync(path.join(root, 'js', 'legislative-tracker.js'), 'utf8');
   const dom = new JSDOM(html, {
     url: 'http://127.0.0.1/housing-legislation-2026.html',
@@ -139,6 +143,8 @@ test('housing legislation page renders watchlist statuses without passage heuris
   await new Promise((resolve) => setTimeout(resolve, 0));
 
   const rendered = window.document.getElementById('bill-status-cards').innerHTML;
+  check(rendered.includes('hr6644-road-act'), 'ROAD Act enacted entry rendered');
+  check(rendered.includes('21st Century ROAD to Housing Act enacted'), 'ROAD Act enacted title rendered');
   check(rendered.includes('obbba-25c-25d-termination'), 'phased-out entry rendered');
   check(rendered.includes('Phased-out'), 'phased-out status pill rendered');
   check(rendered.includes('obbba-45y-48e-wind-solar-deadlines'), '45Y/48E entry rendered');

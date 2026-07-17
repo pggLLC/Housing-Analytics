@@ -77,8 +77,8 @@
 <h3 class="chart-title">Pricing Forecast by CRA Scenario</h3>
 <p class="chart-subtitle">9% credit pricing projections through Q4 2027</p>
 </div>
-<div style="height: 400px; position: relative;" data-source="Author scenario model — Novogradac pricing (Q1 2026 baseline) + author probability weights on CRA expansion paths" data-source-url="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" data-vintage="Q1 2026 baseline → Q4 2027 projection" data-source-type="modeled">
-<canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing forecast under four CRA expansion scenarios (Baseline, Moderate, Aggressive, Transformative) through Q4 2027"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: Baseline scenario ends at $0.85 (Q4 2027); Moderate Expansion $0.94; Aggressive Expansion $1.01; Transformative Reform $1.11.</p>
+<div style="height: 400px; position: relative;" data-source="Author scenario model — Novogradac pricing (Q2 2026 baseline) + author probability weights on CRA expansion paths" data-source-url="https://www.novoco.com/notes-from-novogradac/lihtc-pricing-update" data-vintage="Q2 2026 baseline → Q4 2027 projection" data-source-type="modeled">
+<canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing forecast under four CRA expansion scenarios (Baseline, Moderate, Aggressive, Transformative) through Q4 2027"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: Baseline scenario starts at $0.86 and ends at $0.86 (Q4 2027); Moderate Expansion $0.92; Aggressive Expansion $0.98; Transformative Reform $1.04.</p>
 </div>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; margin: 1.25rem 0;">
@@ -268,7 +268,7 @@
 <div data-no-contrast-guard style="margin-top: 3rem; padding: 2rem; background: var(--accent); color: var(--on-accent,#fff); border-radius: 8px;">
 <h3 class="h-on-accent" data-no-contrast-guard style="margin-bottom: 1rem;">Probability-Weighted Forecast</h3>
 <p data-no-contrast-guard style="margin-bottom: 1.5rem; color: var(--on-accent,#fff) !important;">Based on 40% baseline, 35% moderate, 20% aggressive, 5% transformative probabilities:</p>
-<div data-no-contrast-guard style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--on-accent,#fff) !important;">$0.90 - $0.93</div>
+<div data-no-contrast-guard style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--on-accent,#fff) !important;">$0.91 - $0.94</div>
 <div data-no-contrast-guard style="color: var(--on-accent,#fff) !important;">Expected 9% credit pricing range by Q4 2027</div>
 </div>
 </main>
@@ -279,11 +279,11 @@
                 new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: ['Current', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027', 'Q3 2027', 'Q4 2027'],
+                        labels: ['Q2 2026', 'Q3 2026', 'Q4 2026', 'Q1 2027', 'Q2 2027', 'Q3 2027', 'Q4 2027'],
                         datasets: [
                             {
                                 label: 'Baseline (No Change)',
-                                data: [0.87, 0.86, 0.86, 0.85, 0.85, 0.85, 0.84, 0.84, 0.84, 0.85, 0.85],
+                                data: [0.86, 0.85, 0.85, 0.85, 0.85, 0.86, 0.86],
                                 borderColor: '#1e5799',
                                 backgroundColor: 'rgba(30, 87, 153, 0.1)',
                                 borderWidth: 2,
@@ -291,7 +291,7 @@
                             },
                             {
                                 label: 'Moderate Expansion',
-                                data: [0.87, 0.87, 0.88, 0.89, 0.90, 0.91, 0.92, 0.93, 0.93, 0.94, 0.94],
+                                data: [0.86, 0.87, 0.88, 0.89, 0.90, 0.91, 0.92],
                                 borderColor: '#0369a1',
                                 backgroundColor: 'rgba(3, 105, 161, 0.1)',
                                 borderWidth: 2,
@@ -299,7 +299,7 @@
                             },
                             {
                                 label: 'Aggressive Expansion',
-                                data: [0.87, 0.88, 0.90, 0.92, 0.94, 0.96, 0.97, 0.99, 1.00, 1.01, 1.01],
+                                data: [0.86, 0.88, 0.90, 0.92, 0.94, 0.96, 0.98],
                                 borderColor: '#0a7e74',
                                 backgroundColor: 'rgba(10, 126, 116, 0.1)',
                                 borderWidth: 2,
@@ -307,7 +307,7 @@
                             },
                             {
                                 label: 'Transformative Reform',
-                                data: [0.87, 0.89, 0.92, 0.95, 0.98, 1.01, 1.04, 1.06, 1.08, 1.10, 1.11],
+                                data: [0.86, 0.89, 0.92, 0.95, 0.98, 1.01, 1.04],
                                 borderColor: '#7c3d00',
                                 backgroundColor: 'rgba(124, 61, 0, 0.1)',
                                 borderWidth: 2,
