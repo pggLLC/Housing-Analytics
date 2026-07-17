@@ -10,6 +10,19 @@
   },
   "entries": [
     {
+      "id": "hr6644-road-act",
+      "title": "21st Century ROAD to Housing Act enacted",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2026-07-11",
+      "sunset_date": null,
+      "pricing_impact": "Enacts housing-supply and HUD program reforms. The enrolled text adds affordable-housing construction as a CDBG-eligible activity and streamlines HOME review; it does not enact LIHTC or CRA expansion.",
+      "source_url": "https://www.govinfo.gov/app/details/BILLS-119hr6644enr",
+      "source_note": "GovInfo enrolled H.R. 6644 text, 119th Congress; 21st Century ROAD to Housing Act.",
+      "last_verified": "2026-07-16",
+      "review_by": "2026-10-16"
+    },
+    {
       "id": "obbba-lihtc-ceiling-12pct",
       "title": "Permanent 12% increase in 9% LIHTC state ceiling",
       "scope": "lihtc",
