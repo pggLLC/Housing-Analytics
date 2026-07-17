@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T03:52:18.476Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T05:03:17.706Z. Do not edit by hand.
 
 ---
 
@@ -26,7 +26,7 @@
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
-| `data-explorer.html` | Data Explorer | COHO Analytics | 17.0 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 62.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
@@ -72,7 +72,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 739.5 KB | ✅ | — |
+| `data/_manifest.json` | 746.6 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -880,7 +880,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 27.8 KB | ✅ | — |
-| `data/hna/local-resources.json` | 172.6 KB | ✅ | — |
+| `data/hna/local-resources.json` | 172.2 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 704.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1629,7 +1629,7 @@
 
 ## Test Files
 
-184 test files found.
+185 test files found.
 
 | File | Size |
 |------|------|
@@ -1675,6 +1675,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
+| `test/file-manifest.test.js` | 2.9 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -1850,7 +1851,7 @@
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
 | `.github/workflows/data-freshness-check.yml` | 6.4 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
-| `.github/workflows/data-refresh.yml` | 5.8 KB |
+| `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
