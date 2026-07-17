@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-16T09:17:14.605866Z",
+  "generated": "2026-07-17T09:11:02.408815Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 757227
+      "bytes": 764492
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 239969
+      "bytes": 240446
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -304,7 +304,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1292448
+      "bytes": 1292859
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4089,7 +4089,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 176707
+      "bytes": 176383
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7604,7 +7604,7 @@
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2312
+      "bytes": 2370
     },
     "data/market/lodes_co.json": {
       "featureCount": 0,
@@ -7670,6 +7670,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 6995
+    },
+    "data/market/tax-credit-transfer-pricing.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3439
     },
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
@@ -7751,6 +7756,11 @@
       "placeholder": false,
       "bytes": 6253
     },
+    "data/policy/homeownership-programs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 12936
+    },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7769,7 +7779,7 @@
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3080
+      "bytes": 3881
     },
     "data/policy/methodology-version.json": {
       "featureCount": 0,
@@ -7796,6 +7806,11 @@
       "placeholder": false,
       "bytes": 17388
     },
+    "data/policy/tax-credit-legislation.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 7419
+    },
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7804,7 +7819,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20120
+      "bytes": 20135
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
