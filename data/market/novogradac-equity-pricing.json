@@ -36,20 +36,21 @@
       "Falling 10y Treasury yield (debt becomes cheaper → cap rates fall → residual value rises → investor IRR up)",
       "CRA reform creating new buyer demand",
       "Tax-credit policy certainty (e.g., extending placed-in-service windows, raising 9% credit cap)",
+      "Permanent 100% bonus depreciation under Section 168(k) for qualified property acquired after January 19, 2025 (Public Law 119-21, section 70301)",
       "Strong sponsor track record (CHFA-allocator-tier syndicators get premium)",
       "Larger deals (50+ units, $20M+ TDC) get premium of 1-2 cents over smaller"
     ],
     "what_moves_pricing_down": [
       "Rising 10y Treasury yield (compresses residual values)",
-      "Bonus-depreciation phase-down (Section 168(k) drops by 20% per year)",
       "Tax-rate cut concerns (lower top-rate = lower credit value)",
       "Bank-stress / capital-charge headwinds",
       "Rural / smaller / first-time-sponsor / non-traditional populations discount"
     ]
   },
   "validation_check": {
-    "last_verified": "2026-07-15",
-    "verified_against": "Novogradac.com public-facing equity pricing summary (subscription required for full report)",
+    "last_verified": "2026-07-17",
+    "verified_against": "Novogradac.com public-facing equity pricing summary (subscription required for full report); Public Law 119-21 section 70301 for Section 168(k) bonus depreciation treatment",
+    "policy_source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
     "next_review": "Quarterly — refresh data + verify against current Novogradac publication",
     "ingestion_note": "Future: build a script that pulls the public Novogradac monthly headline article + parses national 9%/4% from the lede. Manual quarterly update for now."
   }

@@ -49,6 +49,19 @@
       "review_by": "2026-10-15"
     },
     {
+      "id": "obbba-168k-permanent-bonus-depreciation",
+      "title": "Permanent 100% bonus depreciation under Section 168(k)",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2025-01-20",
+      "sunset_date": null,
+      "pricing_impact": "Restores permanent 100% additional first-year depreciation for qualified property acquired after January 19, 2025. Treat the Section 168(k) change as an after-tax yield tailwind, not a continuing phase-down headwind.",
+      "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
+      "source_note": "Public Law 119-21, section 70301, 100 percent expensing; amendments generally apply to property acquired after January 19, 2025.",
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    },
+    {
       "id": "obbba-nmtc-permanent-extension",
       "title": "Permanent extension of the New Markets Tax Credit",
       "scope": "nmtc",
