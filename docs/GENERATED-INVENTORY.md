@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T13:47:01.430Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T14:08:45.518Z. Do not edit by hand.
 
 ---
 
@@ -1629,7 +1629,7 @@
 
 ## Test Files
 
-186 test files found.
+187 test files found.
 
 | File | Size |
 |------|------|
@@ -1660,6 +1660,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 4.1 KB |
+| `test/data-trust-center-badges.test.js` | 3.9 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
