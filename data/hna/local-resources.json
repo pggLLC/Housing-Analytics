@@ -1328,7 +1328,7 @@
       {
         "name": "Town of Vail",
         "url": "https://www.vailgov.com/",
-        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+        "workforce_housing_url": "https://www.vail.gov/government/departments/housing"
       },
       {
         "name": "Eagle County Government",
@@ -4493,7 +4493,7 @@
     "council_agenda_url": "https://www.vail.gov/government/town-council",
     "housingLead": {
       "name": "Vail Community Development / Housing",
-      "url": "https://www.vailgov.com/government/departments/housing"
+      "url": "https://www.vail.gov/government/departments/housing"
     },
     "schoolDistrict": {
       "name": "Eagle County School District",
@@ -4517,7 +4517,7 @@
       {
         "name": "Town of Vail",
         "url": "https://www.vailgov.com/",
-        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+        "workforce_housing_url": "https://www.vail.gov/government/departments/housing"
       }
     ],
     "prop123": {
@@ -4536,7 +4536,7 @@
         "type": "Housing Strategy",
         "year": 2018,
         "name": "Vail Housing 2027 strategic plan",
-        "url": "https://www.vailgov.com/government/departments/housing"
+        "url": "https://www.vail.gov/government/departments/housing"
       }
     ],
     "notes": "Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027."
