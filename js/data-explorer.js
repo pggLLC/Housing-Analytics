@@ -14,6 +14,7 @@
   const MANIFEST_URL = 'data/_manifest.json';
   const RAW_PREVIEW_LINES = 200;
   const RAW_PREVIEW_BYTES = 256 * 1024;            // hard cap 256 KB
+  const MANIFEST_STALE_MS = 7 * 24 * 60 * 60 * 1000;
 
   const state = {
     files: [],
@@ -109,6 +110,12 @@
     if (!iso) return '—';
     try { return new Date(iso).toLocaleString(); } catch { return iso; }
   };
+  function manifestStalenessDays(iso) {
+    if (!iso) return null;
+    const ms = Date.now() - new Date(iso).getTime();
+    if (!Number.isFinite(ms)) return null;
+    return Math.floor(ms / (1000 * 60 * 60 * 24));
+  }
 
   // ---------- DOM helpers ----------
   const $  = (sel) => document.querySelector(sel);
@@ -219,7 +226,11 @@
     $('#dexStatCsv').textContent   = fmtCount(state.meta.kinds?.csv || 0);
     const meta = $('#dexManifestMeta');
     if (meta && state.meta.generated_at) {
-      meta.textContent = ` Manifest generated ${fmtTimeAbs(state.meta.generated_at)} · rebuild with node scripts/audit/build-data-manifest.mjs`;
+      meta.textContent = ` Manifest generated ${fmtTimeAbs(state.meta.generated_at)} · rebuild with npm run audit:file-manifest`;
+      const ageDays = manifestStalenessDays(state.meta.generated_at);
+      if (ageDays != null && ageDays * 24 * 60 * 60 * 1000 > MANIFEST_STALE_MS) {
+        meta.appendChild(el('span', { class: 'dex-stale-pill', title: 'data/_manifest.json is older than the freshness target' }, `Manifest stale: ${ageDays} days`));
+      }
     }
   }
 
