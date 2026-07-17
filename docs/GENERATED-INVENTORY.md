@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T16:11:06.668Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T17:14:47.321Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1552 JSON files found.
+1553 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 746.6 KB | ✅ | — |
+| `data/_manifest.json` | 747.0 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1563,6 +1563,7 @@
 | `data/market/climate_hazards_co.json` | 2.6 KB | ✅ | — |
 | `data/market/co-adaptive-reuse-references.json` | 13.6 KB | ✅ | — |
 | `data/market/co-urban-renewal-authorities.json` | 11.9 KB | ✅ | — |
+| `data/market/colorado-equity-pricing-factors.json` | 5.2 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
@@ -1605,7 +1606,7 @@
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 8.0 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 8.9 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1629,7 +1630,7 @@
 
 ## Test Files
 
-187 test files found.
+188 test files found.
 
 | File | Size |
 |------|------|
@@ -1651,6 +1652,7 @@
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
+| `test/colorado-equity-pricing-factors.test.js` | 6.2 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
@@ -1759,7 +1761,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/tax-credit-equity-markets.test.js` | 7.1 KB |
-| `test/tax-credit-insights-data.test.js` | 4.2 KB |
+| `test/tax-credit-insights-data.test.js` | 4.3 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
