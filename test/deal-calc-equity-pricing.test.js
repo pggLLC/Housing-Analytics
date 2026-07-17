@@ -88,4 +88,20 @@ const predictorBefore = Predictor._getEquityPricingDefaults();
 assert.strictEqual(Predictor._applyNovogradacPricingDefaults({ pricing: { national_avg: { credit_9pct: null } } }), false, 'predictor rejects incomplete benchmark data');
 assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), predictorBefore, 'predictor rejected benchmark leaves current defaults untouched');
 
+// Parity must hold for benchmark values that DIFFER from the constants —
+// otherwise a module that silently ignores the benchmark passes because the
+// current benchmark happens to equal the fallback constants (QA #1226 gap).
+const synthetic = { pricing: { national_avg: { credit_9pct: 0.91, credit_4pct: 0.89 } } };
+assert.strictEqual(dc.applyNovogradacPricingDefaults(synthetic, { force: true, dispatch: false }), true, 'calculator accepts synthetic benchmark');
+assert.strictEqual(Predictor._applyNovogradacPricingDefaults(synthetic), true, 'predictor accepts synthetic benchmark');
+assert.deepStrictEqual(dc.getEquityPricingDefaults(), { credit_9pct: 0.91, credit_4pct: 0.89 }, 'calculator adopts divergent benchmark values');
+assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), { credit_9pct: 0.91, credit_4pct: 0.89 }, 'predictor adopts divergent benchmark values');
+assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), dc.getEquityPricingDefaults(), 'calculator and predictor stay in parity on divergent benchmark');
+
+// Reset both back to the real benchmark/constants so later assertions or
+// suites see production values.
+Predictor._resetPricingDefaultsForTest();
+dc.applyNovogradacPricingDefaults(benchmark, { force: true, dispatch: false });
+assert.deepStrictEqual(Predictor._getEquityPricingDefaults(), { credit_9pct: constants.credit_9pct, credit_4pct: constants.credit_4pct }, 'predictor reset restores constants fallback');
+
 console.log('All Deal Calculator equity-pricing benchmark tests passed.');
