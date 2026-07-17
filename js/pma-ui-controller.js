@@ -712,7 +712,12 @@
       var delineation = window.PMADelineation;
       var mapRef = window.PMAEngine && window.PMAEngine._map();
       if (delineation && mapRef) {
-        delineation.renderPmaLayer(mapRef, lat, lon, _bufferMiles);
+        var displayTracts = (scoreRun && Array.isArray(scoreRun.bufferTractsDetail))
+          ? scoreRun.bufferTractsDetail.map(function (d) {
+              return { geoid: d.geoid, share: d.share };
+            })
+          : null;
+        delineation.renderPmaLayer(mapRef, lat, lon, _bufferMiles, displayTracts);
 
         // If the analysis produced a commuting boundary, overlay it
         if (scoreRun && scoreRun.boundary) {
