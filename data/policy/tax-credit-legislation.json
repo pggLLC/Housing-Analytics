@@ -127,6 +127,22 @@
       "review_by": "2026-10-15"
     },
     {
+      "id": "hb24-1175-local-government-rofr-rofo",
+      "title": "Colorado local-government ROFR/ROFO for multifamily affordable housing",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2024-08-07",
+      "sunset_date": "2029-12-31",
+      "pricing_impact": "Creates local-government ROFR/ROFO rights for qualifying multifamily properties. Investors should diligence exit timing, notices, and assignment rights in Colorado preservation and Year-15 transactions.",
+      "source_url": "https://leg.colorado.gov/bills/HB24-1175",
+      "related_source_urls": [
+        "https://leg.colorado.gov/bills/hb23-1190"
+      ],
+      "source_note": "Colorado General Assembly HB24-1175 enacted summary. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    },
+    {
       "id": "nhia-119th-congress",
       "title": "Neighborhood Homes Investment Act",
       "scope": "homebuyer",
