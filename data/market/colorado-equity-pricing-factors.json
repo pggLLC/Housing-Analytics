@@ -1,0 +1,89 @@
+{
+  "schema": "colorado-equity-pricing-factors/v1",
+  "meta": {
+    "title": "Colorado LIHTC Equity Pricing Factor Snapshot",
+    "as_of": "2026-07-17",
+    "review_by": "2026-10-17",
+    "methodology": "Curated Colorado-specific factors that can move LIHTC equity pricing away from the national Novogradac benchmark. This file documents verified public inputs and qualitative pressure signals only; it does not model cents-per-credit pricing.",
+    "important_disclaimer": "Do not treat these factors as a pricing formula. Use data/market/novogradac-equity-pricing.json as the market-price anchor, then use this file to disclose Colorado-specific factors that require deal counsel, syndicator, and CHFA verification."
+  },
+  "factors": {
+    "state_affordable_housing_tax_credit": {
+      "label": "Colorado State Affordable Housing Tax Credit",
+      "status": "verified",
+      "administered_by": "Colorado Housing and Finance Authority",
+      "pricing_relevance": "State AHTC can add a second tax-credit equity stream to Colorado LIHTC transactions, especially federal 9% or 4% deals paired with state credit. Investor pricing must be verified deal-by-deal.",
+      "allocation_authority_by_year": {
+        "2024": 20000000,
+        "2025": 16000000,
+        "2026": 12000000,
+        "2027": 12000000,
+        "2028": 16000000,
+        "2029": 20000000,
+        "2030": 20000000,
+        "2031": 20000000
+      },
+      "claiming_schedule": "HB24-1434 accelerated the Colorado AHTC so qualified taxpayers claim 70% in year one and 6% in each of years two through six.",
+      "allocation_cadence": "CHFA allocates state AHTC through its Housing Tax Credit program, with annual reports and housing-credit rounds documenting awards.",
+      "state_credit_pricing": {
+        "price_low": null,
+        "price_high": null,
+        "status": "VERIFY",
+        "source_note": "No fetchable official CHFA or state source reviewed on 2026-07-17 published current cents-per-credit pricing for Colorado state AHTC. Keep pricing null until an official or directly citable market source publishes it."
+      },
+      "source_urls": [
+        "https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit",
+        "https://leg.colorado.gov/bills/HB24-1434"
+      ],
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    },
+    "property_insurance_regional_adjustment": {
+      "label": "Property-insurance shock: hail and wildfire",
+      "status": "qualitative",
+      "formula": null,
+      "pricing_relevance": "Higher property-insurance expectations can pressure underwriting NOI and investor yield in Colorado hail, wildfire, and mountain/WUI submarkets. This is a regional diligence factor, not a benchmark-price formula.",
+      "data_pointer": "data/market/climate_hazards_co.json",
+      "hazards_used": [
+        "hail_risk",
+        "wildfire_risk"
+      ],
+      "source_url": "https://doi.colorado.gov/news-releases-consumer-advisories/governor-polis-and-division-of-insurance-we-must-find-innovative",
+      "source_note": "Colorado DOI 2026 carrier-data release identifies hail as a large homeowner-insurance premium driver and wildfire as a targeted high-risk factor; COHO local climate-hazard data identifies hail and wildfire risk geographies.",
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    },
+    "pab_volume_cap_pressure": {
+      "label": "PAB volume-cap pressure",
+      "status": "derived_from_existing_data",
+      "formula": "data/policy/pab-allocations.json metadata ratios only; no demand/application oversubscription ratio is computed without a verified demand source.",
+      "pricing_relevance": "Federal 4% LIHTC execution depends on finite Colorado private-activity-bond volume cap. Limited cap and the 25% bond-financing test expansion are qualitative 4% supply/closing-timing pressure signals.",
+      "source_data": "data/policy/pab-allocations.json",
+      "year": 2025,
+      "state_volume_cap": 767174070,
+      "chfa_pool": 376587035,
+      "total_direct_allocations": 370846127,
+      "statewide_balance": 12740908,
+      "chfa_pool_share_of_state_cap": 0.4909,
+      "direct_allocation_share_of_state_cap": 0.4834,
+      "statewide_balance_share_of_state_cap": 0.0166,
+      "pressure_indicator": "watch",
+      "oversubscription_ratio": null,
+      "source_url": "https://doh.colorado.gov/PAB-Allocations-2025",
+      "source_note": "Existing DOLA allocation artifact provides cap distribution, not verified demand/applications. Treat this as a pressure indicator rather than proof of oversubscription.",
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    },
+    "local_government_rofr_rofo": {
+      "label": "Colorado local-government ROFR/ROFO",
+      "status": "watchlist-linked",
+      "formula": null,
+      "pricing_relevance": "Colorado local-government ROFR/ROFO can affect exit timing and preservation-transfer diligence for existing affordable multifamily assets.",
+      "watchlist_entry_id": "hb24-1175-local-government-rofr-rofo",
+      "source_url": "https://leg.colorado.gov/bills/HB24-1175",
+      "source_note": "HB23-1190 was vetoed and did not become law; the enacted Colorado ROFR/ROFO authority is HB24-1175.",
+      "last_verified": "2026-07-17",
+      "review_by": "2026-10-17"
+    }
+  }
+}

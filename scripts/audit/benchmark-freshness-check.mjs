@@ -9,6 +9,7 @@
  *   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
  *   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
  *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
+ *   - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
  *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
  *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
@@ -63,6 +64,11 @@ const BENCHMARK_FILES = [
     file: 'data/market/tax-credit-transfer-pricing.json',
     label: 'Tax-credit transfer pricing',
     reviewByPaths: ['meta.review_by', 'markets[].review_by'],
+  },
+  {
+    file: 'data/market/colorado-equity-pricing-factors.json',
+    label: 'Colorado LIHTC equity pricing factors',
+    reviewByPaths: ['meta.review_by'],
   },
   {
     file: 'data/policy/tax-credit-legislation.json',
