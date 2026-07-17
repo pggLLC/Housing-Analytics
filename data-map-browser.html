@@ -268,6 +268,12 @@
   'use strict';
 
   // ── Layer catalog ──
+  const DATA_MAP_GEOJSON_EXCLUSIONS = {
+    'data/boundaries/counties_co.geojson': 'Duplicate county geometry; Data Map uses data/co-county-boundaries.json as the canonical county boundary layer.',
+    'data/amenities/schools_co.geojson': 'Duplicate school point layer; Data Map uses data/market/schools_co.geojson because it carries richer NCES and enrollment fields.',
+    'data/environmental/fema-flood-co.geojson': 'Legacy 5-record stub kept only for source-comparison transparency; local flood coverage uses data/market/flood_zones_co.geojson and live NFHL remains available.',
+    'data/market/cdphe_county_boundaries_co.geojson': 'Duplicate county geometry from CDPHE; county boundaries already covered by the canonical Counties layer.',
+  };
   const LAYERS = [
     /* Boundaries */
     { key: 'counties', name: 'Counties', group: 'Boundaries',
@@ -339,6 +345,18 @@
         if (p.sponsor) rows.push({ k: 'Sponsor', v: p.sponsor });
         return rows;
       } },
+    { key: 'hud-lihtc', name: 'HUD LIHTC fallback properties', group: 'Affordable housing',
+      url: 'data/market/hud_lihtc_co.geojson', color: '#2563eb', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Project', v: p.PROJECT },
+          { k: 'Address', v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
+          { k: 'County', v: p.CNTY_NAME },
+          { k: 'LI units', v: p.LI_UNITS },
+          { k: 'Placed in service', v: p.YR_PIS },
+          { k: 'Allocation year', v: p.YR_ALLOC },
+        ];
+      } },
 
     /* Amenities */
     { key: 'transit', name: 'Transit stops', group: 'Amenities',
@@ -351,11 +369,14 @@
         ];
       } },
     { key: 'schools', name: 'Schools', group: 'Amenities',
-      url: 'data/amenities/schools_co.geojson', color: '#7c3aed', kind: 'point',
+      url: 'data/market/schools_co.geojson', color: '#7c3aed', kind: 'point',
       popupRows: function (p) {
         return [
-          { k: 'Name',     v: p.name || '(unnamed school)' },
-          { k: 'Amenity',  v: p.amenity },
+          { k: 'School', v: p.school_name || p.name },
+          { k: 'Type', v: p.school_type },
+          { k: 'Grades', v: [p.grade_low, p.grade_high].filter(Boolean).join('–') },
+          { k: 'Enrollment', v: p.enrollment },
+          { k: 'County', v: p.county_name },
         ];
       } },
     { key: 'parks', name: 'Parks', group: 'Amenities',
@@ -372,6 +393,16 @@
         return [
           { k: 'Name',     v: p.name || '(unnamed)' },
           { k: 'Amenity',  v: p.amenity },
+        ];
+      } },
+    { key: 'retail-nodes', name: 'Retail nodes', group: 'Amenities',
+      url: 'data/amenities/retail_nodes_co.geojson', color: '#f59e0b', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name', v: p.name || '(unnamed)' },
+          { k: 'Amenity', v: p.amenity },
+          { k: 'Shop', v: p.shop },
+          { k: 'Leisure', v: p.leisure },
         ];
       } },
 
@@ -415,6 +446,37 @@
           { k: 'Subtype',      v: p.ZONE_SUBTY },
           { k: 'County FIPS',  v: p.county_fips },
           { k: '⚠ Note',       v: 'Stub data — use "FEMA flood zones (live NFHL)" instead' },
+        ];
+      } },
+    { key: 'flood-zones-local', name: 'Flood zones (local GeoJSON)', group: 'Environment',
+      url: 'data/market/flood_zones_co.geojson', color: '#0284c7', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Flood zone', v: p.FLD_ZONE },
+          { k: 'Risk category', v: p.risk_category },
+          { k: 'SFHA', v: p.sfha === true ? 'Yes' : p.sfha === false ? 'No' : p.sfha },
+        ];
+      } },
+    { key: 'environmental-constraints', name: 'Environmental constraint points', group: 'Environment',
+      url: 'data/market/environmental_constraints_co.geojson', color: '#be123c', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name', v: p.name },
+          { k: 'County FIPS', v: p.county_fips },
+          { k: 'EJI percentile', v: p.eji_percentile },
+          { k: 'Environmental burden', v: p.env_burden },
+          { k: 'Risk category', v: p.risk_category },
+        ];
+      } },
+    { key: 'natural-barriers', name: 'Natural / roadway barriers', group: 'Environment',
+      url: 'data/market/natural_barriers_co.geojson', color: '#64748b', kind: 'line',
+      popupRows: function (p) {
+        return [
+          { k: 'Name', v: p.name || p.route },
+          { k: 'Barrier type', v: p.barrier_type },
+          { k: 'Subtype', v: p.sub_type },
+          { k: 'County FIPS', v: p.county_fips },
+          { k: 'Source', v: p.source },
         ];
       } },
 
@@ -470,6 +532,17 @@
           { k: 'Mid wage',    v: p.mid_wage },
         ];
       } },
+    { key: 'commuting', name: 'Commuting balance by tract', group: 'Employment',
+      url: 'data/market/commuting_co.geojson', color: '#4f46e5', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Tract GEOID', v: p.geoid },
+          { k: 'In-commuters', v: p.inCommuters },
+          { k: 'Out-commuters', v: p.outCommuters },
+          { k: 'Net flow', v: p.netFlow },
+          { k: 'Jobs / workers', v: p.jobHousingRatio },
+        ];
+      } },
 
     /* Health + community amenities */
     { key: 'hospitals', name: 'Hospitals', group: 'Amenities',
@@ -501,6 +574,17 @@
           { k: 'City',       v: p.city },
         ];
       } },
+    { key: 'hud-egis', name: 'HUD eGIS housing authorities', group: 'Amenities',
+      url: 'data/market/hud_egis_co.geojson', color: '#0f766e', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'PHA', v: p.FORMAL_PARTICIPANT_NAME },
+          { k: 'Participant code', v: p.PARTICIPANT_CODE },
+          { k: 'Phone', v: p.HA_PHN_NUM },
+          { k: 'Email', v: p.HA_EMAIL_ADDR_TEXT },
+          { k: 'PHAS designation', v: p.PHAS_DESIGNATION },
+        ];
+      } },
 
     /* Infrastructure */
     { key: 'transit_routes', name: 'Transit routes', group: 'Infrastructure',
@@ -521,6 +605,39 @@
           { k: 'Transit',      v: p.transit_score },
           { k: 'Bike',         v: p.bike_score },
           { k: 'Index',        v: p.walkability_index },
+        ];
+      } },
+    { key: 'utility-capacity', name: 'Utility capacity constraints', group: 'Infrastructure',
+      url: 'data/market/utility_capacity_co.geojson', color: '#0f766e', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name', v: p.NAME },
+          { k: 'GEOID', v: p.GEOID },
+          { k: 'Utility type', v: p.utility_type },
+          { k: 'Constraint', v: p.constraint_level },
+          { k: 'Source', v: p.data_source },
+        ];
+      } },
+    { key: 'landuse-zoning', name: 'Land-use / zoning proxy parcels', group: 'Infrastructure',
+      url: 'data/market/landuse_zoning_proxy_co.geojson', color: '#a16207', kind: 'point',
+      popupRows: function (p) {
+        return [
+          { k: 'Name', v: p.name || '(unnamed)' },
+          { k: 'Zone proxy', v: p.zone_proxy },
+          { k: 'Building', v: p.building },
+          { k: 'Land use', v: p.landuse },
+          { k: 'MF suitability', v: p.mf_suitability },
+        ];
+      } },
+    { key: 'housing-policy', name: 'Housing policy jurisdictions', group: 'Infrastructure',
+      url: 'data/market/housing_policy_jurisdictions_co.geojson', color: '#059669', kind: 'polygon',
+      popupRows: function (p) {
+        return [
+          { k: 'Jurisdiction', v: p.name },
+          { k: 'GEOID', v: p.geoid },
+          { k: 'Type', v: p.geo_type },
+          { k: 'Score', v: p.totalScore != null && p.maxPossible != null ? p.totalScore + ' / ' + p.maxPossible : p.totalScore },
+          { k: 'Prop 123', v: p.prop123_committed ? 'Committed' : 'Not flagged' },
         ];
       } },
 
@@ -1175,7 +1292,7 @@
     const el = document.getElementById('dmb-count-' + layer.key);
     const cache = _layerCache[layer.key];
     if (!el) return;
-    if (!cache) { el.textContent = '—'; return; }
+    if (!cache) { el.textContent = 'click to load'; return; }
     el.textContent = (typeof cache.count === 'number')
       ? cache.count.toLocaleString() + ' features'
       : String(cache.count);  // 'live (server-side)' for arcgisDynamic
@@ -1223,7 +1340,7 @@
             '<span class="dmb-layer-name">' + _esc(layer.name) + '</span>' +
             '<span class="dmb-layer-meta">' +
               '<code style="font-size:.85em">' + _esc(sourceCode) + '</code>' +
-              ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">—</span>' +
+              ' · <span class="dmb-count" id="dmb-count-' + layer.key + '">click to load</span>' +
             '</span>' +
           '</span>' +
         '</label>';
