@@ -58,8 +58,8 @@ assert.match(
   /No fetchable official CHFA or state source/i,
   'AHTC pricing gap explains why the price is null'
 );
-assert(ahtc.source_urls.includes('https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit'), 'AHTC source includes CHFA state-credit page');
-assert(ahtc.source_urls.includes('https://leg.colorado.gov/bills/HB24-1434'), 'AHTC source includes enacted HB24-1434');
+assert(ahtc.source_urls.some((url) => url === 'https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit'), 'AHTC source includes CHFA state-credit page');
+assert(ahtc.source_urls.some((url) => url === 'https://leg.colorado.gov/bills/HB24-1434'), 'AHTC source includes enacted HB24-1434');
 
 const insurance = factors.factors.property_insurance_regional_adjustment;
 assert(insurance, 'property-insurance factor exists');
@@ -103,7 +103,7 @@ assert.equal(rofrEntry.status, 'enacted', 'ROFR watchlist entry is enacted');
 assert.equal(rofrEntry.effective_date, '2024-08-07', 'ROFR watchlist entry carries enacted effective date');
 assert.equal(rofrEntry.sunset_date, '2029-12-31', 'ROFR watchlist entry carries sunset date');
 assert.equal(rofrEntry.source_url, 'https://leg.colorado.gov/bills/HB24-1175', 'ROFR watchlist entry sources enacted HB24-1175');
-assert(rofrEntry.related_source_urls.includes('https://leg.colorado.gov/bills/hb23-1190'), 'ROFR entry cites vetoed HB23-1190 only as related history');
+assert(rofrEntry.related_source_urls.some((url) => url === 'https://leg.colorado.gov/bills/hb23-1190'), 'ROFR entry cites vetoed HB23-1190 only as related history');
 assert(
   !legislation.entries.some((entry) => /hb23-1190/i.test(entry.id) && entry.status === 'enacted'),
   'vetoed HB23-1190 is never represented as enacted'
