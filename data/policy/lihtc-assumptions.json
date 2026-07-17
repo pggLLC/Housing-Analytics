@@ -1,11 +1,19 @@
 {
-  "version": "2026-Q1",
-  "lastUpdated": "2026-03-20",
+  "version": "2026-Q2",
+  "lastUpdated": "2026-07-16",
+  "meta": {
+    "title": "LIHTC Deal Predictor Non-Pricing Assumptions",
+    "as_of": "2026-07-16",
+    "source": "COHO policy assumptions synced to js/config/financial-constants.js and Novogradac benchmark fallback",
+    "source_url": "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/equity-pricing",
+    "review_by": "2026-10-16",
+    "methodology": "Hard costs, soft costs, developer fee, soft-funding, and concept mix assumptions support screening-level LIHTC concept recommendations. EquityPricing values are documented offline fallbacks only; live predictor pricing loads data/market/novogradac-equity-pricing.json first and otherwise falls back to js/config/financial-constants.js."
+  },
   "equityPricing": {
-    "default9Pct": 0.87,
-    "default4Pct": 0.85,
+    "default9Pct": 0.86,
+    "default4Pct": 0.84,
     "range": [0.75, 1.05],
-    "source": "CHFA syndication market, March 2026"
+    "source": "Offline fallback synced to financial-constants.js; live benchmark source is data/market/novogradac-equity-pricing.json"
   },
   "hardCostPerUnit": {
     "family": 275000,

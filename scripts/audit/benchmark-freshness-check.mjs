@@ -11,6 +11,7 @@
  *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
  *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
+ *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -72,6 +73,11 @@ const BENCHMARK_FILES = [
     file: 'data/policy/homeownership-programs.json',
     label: 'Homeownership programs watchlist',
     reviewByPaths: ['meta.review_by', 'programs[].review_by'],
+  },
+  {
+    file: 'data/policy/lihtc-assumptions.json',
+    label: 'LIHTC predictor assumptions',
+    reviewByPaths: ['meta.review_by'],
   },
 ];
 

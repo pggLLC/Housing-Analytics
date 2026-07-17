@@ -86,8 +86,8 @@
   var DEFAULT_ASSUMPTIONS = {
     creditRate9Pct:           _coho.creditRate9Pct  || 0.09,
     creditRate4Pct:           _coho.creditRate4Pct  || 0.04,
-    equityPrice9Pct:          _coho.equityPrice9Pct || 0.87,
-    equityPrice4Pct:          _coho.equityPrice4Pct || 0.85,
+    equityPrice9Pct:          _coho.equityPrice9Pct || 0.86,
+    equityPrice4Pct:          _coho.equityPrice4Pct || 0.84,
     hardCostPerUnit:          350000,
     softCostPct:              0.22,
     devFeePct:                0.15,
@@ -107,10 +107,52 @@
   var _assumptionsLoaded = false;
   var _assumptionsPromise = null;
 
+  function _numOrNull(value) {
+    var n = Number(value);
+    return isFinite(n) && n > 0 ? n : null;
+  }
+
+  function _getEquityPricingDefaults() {
+    return {
+      credit_9pct: DEFAULT_ASSUMPTIONS.equityPrice9Pct,
+      credit_4pct: DEFAULT_ASSUMPTIONS.equityPrice4Pct
+    };
+  }
+
+  function _applyNovogradacPricingDefaults(doc) {
+    var nat = doc && doc.pricing && doc.pricing.national_avg;
+    var nine = _numOrNull(nat && nat.credit_9pct);
+    var four = _numOrNull(nat && nat.credit_4pct);
+    if (!nine || !four) return false;
+    DEFAULT_ASSUMPTIONS.equityPrice9Pct = nine;
+    DEFAULT_ASSUMPTIONS.equityPrice4Pct = four;
+    return true;
+  }
+
+  function _resetPricingDefaultsForTest() {
+    DEFAULT_ASSUMPTIONS.equityPrice9Pct = _coho.equityPrice9Pct || 0.86;
+    DEFAULT_ASSUMPTIONS.equityPrice4Pct = _coho.equityPrice4Pct || 0.84;
+    return _getEquityPricingDefaults();
+  }
+
+  function _assetUrl(path) {
+    return (typeof window !== 'undefined' && typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl(path)
+      : path;
+  }
+
+  function _fetchJson(path) {
+    return fetch(_assetUrl(path)).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+  }
+
   /**
-   * Load constants from data/policy/lihtc-assumptions.json (once, cached).
-   * Overrides DEFAULT_ASSUMPTIONS where the JSON provides values.
-   * Falls back silently to hardcoded defaults on fetch failure.
+   * Load non-pricing assumptions from data/policy/lihtc-assumptions.json and
+   * current equity pricing from data/market/novogradac-equity-pricing.json.
+   * The assumptions file may document synced fallback pricing, but it must not
+   * override the centralized constants or the Novogradac benchmark.
    */
   function _loadAssumptions() {
     if (_assumptionsPromise) return _assumptionsPromise;
@@ -119,13 +161,18 @@
       _assumptionsLoaded = true;
       return (_assumptionsPromise = Promise.resolve());
     }
-    var url = (typeof window !== 'undefined' && typeof window.resolveAssetUrl === 'function')
-      ? window.resolveAssetUrl('data/policy/lihtc-assumptions.json')
-      : 'data/policy/lihtc-assumptions.json';
-    _assumptionsPromise = fetch(url).then(function (r) {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.json();
-    }).then(function (data) {
+    _assumptionsPromise = Promise.all([
+      _fetchJson('data/policy/lihtc-assumptions.json').catch(function (err) {
+        console.warn('[LIHTCDealPredictor] Could not load lihtc-assumptions.json, using defaults:', err);
+        return null;
+      }),
+      _fetchJson('data/market/novogradac-equity-pricing.json').catch(function (err) {
+        console.warn('[LIHTCDealPredictor] Could not load Novogradac equity pricing benchmark, using constants:', err);
+        return null;
+      })
+    ]).then(function (results) {
+      var data = results[0] || {};
+      var benchmark = results[1] || null;
       if (data.hardCostPerUnit && typeof data.hardCostPerUnit === 'object') {
         _hardCostByConcept = {
           family:      data.hardCostPerUnit.family      || DEFAULT_ASSUMPTIONS.hardCostPerUnit,
@@ -134,16 +181,13 @@
           supportive:  data.hardCostPerUnit.supportive   || DEFAULT_ASSUMPTIONS.hardCostPerUnit
         };
       }
-      if (data.equityPricing) {
-        if (data.equityPricing.default9Pct) DEFAULT_ASSUMPTIONS.equityPrice9Pct = data.equityPricing.default9Pct;
-        if (data.equityPricing.default4Pct) DEFAULT_ASSUMPTIONS.equityPrice4Pct = data.equityPricing.default4Pct;
-      }
       if (data.softCostPct)  DEFAULT_ASSUMPTIONS.softCostPct = data.softCostPct;
       if (data.devFeePct)    DEFAULT_ASSUMPTIONS.devFeePct    = data.devFeePct;
+      _applyNovogradacPricingDefaults(benchmark);
       _assumptionsLoaded = true;
-      console.log('[LIHTCDealPredictor] Loaded assumptions from lihtc-assumptions.json');
+      console.log('[LIHTCDealPredictor] Loaded assumptions and equity pricing defaults');
     }).catch(function (err) {
-      console.warn('[LIHTCDealPredictor] Could not load lihtc-assumptions.json, using defaults:', err);
+      console.warn('[LIHTCDealPredictor] Could not load predictor defaults, using constants:', err);
       _assumptionsLoaded = true;
     });
     return _assumptionsPromise;
@@ -937,6 +981,9 @@
     predictConcept:              predictConcept,
     predict:                     predict,
     DISCLAIMER:                  DISCLAIMER,
+    _applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
+    _getEquityPricingDefaults:   _getEquityPricingDefaults,
+    _resetPricingDefaultsForTest: _resetPricingDefaultsForTest,
     _computeScenarioSensitivity: _computeScenarioSensitivity,
     _computeFmrAlignment:        _computeFmrAlignment,
     _computeChfaAwardContext:    _computeChfaAwardContext
