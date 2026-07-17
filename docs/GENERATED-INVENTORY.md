@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T01:14:37.020Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T01:31:18.298Z. Do not edit by hand.
 
 ---
 
@@ -61,7 +61,7 @@
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.1 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 9.0 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 9.2 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
 
 ---
@@ -1722,7 +1722,7 @@
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
-| `test/pages-availability-check.js` | 14.6 KB |
+| `test/pages-availability-check.js` | 14.7 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
