@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-16T09:06:53.838Z
+**Scan timestamp:** 2026-07-17T09:01:58.007Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1587 |
-| New (unregistered) | 1556 |
+| Files scanned | 1590 |
+| New (unregistered) | 1559 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (739 KB)
+- `data/_manifest.json` (747 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -812,7 +812,7 @@
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (28 KB)
-- `data/hna/local-resources.json` (173 KB)
+- `data/hna/local-resources.json` (172 KB)
 - `data/hna/ownership-need.json` (704 KB)
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
@@ -1526,6 +1526,7 @@
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
+- `data/market/tax-credit-transfer-pricing.json` (3 KB)
 - `data/market/tract_boundaries_co.geojson` (16846 KB)
 - `data/market/transit_routes_co.geojson` (46250 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
@@ -1541,14 +1542,16 @@
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
+- `data/policy/homeownership-programs.json` (13 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
 - `data/policy/jurisdiction-housing-progress.json` (34 KB)
-- `data/policy/lihtc-assumptions.json` (3 KB)
+- `data/policy/lihtc-assumptions.json` (4 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
+- `data/policy/tax-credit-legislation.json` (7 KB)
 - `data/policy_briefs.json` (164 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
