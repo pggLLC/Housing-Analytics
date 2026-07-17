@@ -104,7 +104,7 @@
       ? 'Generated timestamp from data/manifest.json'
       : 'Most recent browser-side discovery scan';
     var pendingText = pendingCount === null || typeof pendingCount === 'undefined'
-      ? (state === 'scanning' || state === 'loading' ? 'Loading…' : '0')
+      ? (state === 'scanning' || state === 'loading' ? 'Loading…' : 'n/a')
       : String(pendingCount);
 
     /* F148 — `⏱ Daily` was hardcoded but no scheduled (cron / GitHub Action)
