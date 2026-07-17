@@ -7,6 +7,9 @@
 (function () {
   'use strict';
 
+  var MANIFEST_URL = 'data/manifest.json';
+  var QUARANTINE_CANDIDATES_URL = 'data/audit/quarantine-candidates.json';
+
   // ── Utility ──────────────────────────────────────────────────────────────
 
   function _esc(s) {
@@ -27,12 +30,65 @@
     });
   }
 
+  function resolveAssetPath(path) {
+    return (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl(path)
+      : path;
+  }
+
+  function fetchJson(path) {
+    if (typeof fetch !== 'function') {
+      return Promise.resolve(null);
+    }
+    return fetch(resolveAssetPath(path), { cache: 'no-store' }).then(function (res) {
+      if (!res || !res.ok) return null;
+      return res.json();
+    }).catch(function () {
+      return null;
+    });
+  }
+
+  function formatBadgeDate(value) {
+    var date = value ? new Date(value) : null;
+    if (!date || Number.isNaN(date.getTime())) return null;
+    return date.toLocaleString('en-US', {
+      month:  'short',
+      day:    'numeric',
+      year:   'numeric',
+      hour:   '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  function loadBadgeBaseline() {
+    return Promise.all([
+      fetchJson(MANIFEST_URL),
+      fetchJson(QUARANTINE_CANDIDATES_URL)
+    ]).then(function (results) {
+      var manifest = results[0];
+      var quarantine = results[1];
+      var report = manifest && manifest.generated
+        ? {
+          scanTimestamp: manifest.generated,
+          scanSource:    'manifest'
+        }
+        : null;
+      var pendingCount = quarantine && Number.isFinite(Number(quarantine.count))
+        ? Number(quarantine.count)
+        : null;
+      return {
+        report:       report,
+        pendingCount: pendingCount
+      };
+    });
+  }
+
   // ── Monitoring status badge ───────────────────────────────────────────────
 
   /**
    * Render the monitoring status badge in #drhMonitorBadge.
    * @param {object|null} report — result from DataSourceDiscovery.getLastReport()
-   * @param {number}       pendingCount
+   * @param {number|string|null} pendingCount
    * @param {string}       [state]  'scanning' shows a spinner-style hint
    *                                while a fresh scan is in flight; default
    *                                renders the cached/most-recent report.
@@ -42,14 +98,14 @@
     if (!el) return;
 
     var scanTs   = report ? report.scanTimestamp : null;
-    var scanDate;
-    if (state === 'scanning') {
-      scanDate = 'Scanning…';
-    } else if (scanTs) {
-      scanDate = new Date(scanTs).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-    } else {
-      scanDate = 'Never';
-    }
+    var scanDate = formatBadgeDate(scanTs) || (state === 'scanning' || state === 'loading' ? 'Loading…' : 'Not run');
+    var scanLabel = report && report.scanSource === 'manifest' ? 'Last inventory' : 'Last scan';
+    var scanTitle = report && report.scanSource === 'manifest'
+      ? 'Generated timestamp from data/manifest.json'
+      : 'Most recent browser-side discovery scan';
+    var pendingText = pendingCount === null || typeof pendingCount === 'undefined'
+      ? (state === 'scanning' || state === 'loading' ? 'Loading…' : 'n/a')
+      : String(pendingCount);
 
     /* F148 — `⏱ Daily` was hardcoded but no scheduled (cron / GitHub Action)
        job runs the discovery scan daily. The actual cadence is "every time
@@ -58,9 +114,9 @@
        exist. The label clicks through to the Admin tab where users can
        trigger a re-scan on demand. */
     el.innerHTML =
-      '<span class="drh-badge-item" title="Most recent discovery scan">' +
+      '<span class="drh-badge-item" title="' + _esc(scanTitle) + '">' +
         '<span class="drh-badge-icon">🔍</span> ' +
-        'Last scan: <strong>' + _esc(scanDate) + '</strong>' +
+        _esc(scanLabel) + ': <strong id="drhLastScanBadge">' + _esc(scanDate) + '</strong>' +
       '</span>' +
       '<span class="drh-badge-sep">·</span>' +
       '<span class="drh-badge-item" title="Scan cadence — the hub probes every known data path each time you open this page; the Admin tab lets you re-trigger on demand">' +
@@ -69,7 +125,7 @@
       '<span class="drh-badge-sep">·</span>' +
       '<span class="drh-badge-item drh-badge-pending" title="Files found on disk that aren\'t in the registry — review under the Pending Discovery tab">' +
         '<span class="drh-badge-icon">🔔</span> ' +
-        'Pending: <strong>' + pendingCount + '</strong>' +
+        'Pending: <strong id="drhPendingBadge">' + _esc(pendingText) + '</strong>' +
       '</span>' +
       '<span class="drh-badge-sep">·</span>' +
       '<a class="drh-badge-link" href="#tab-discovery" onclick="window.DiscoveryUIHandler.switchToDiscovery()">View discoveries →</a>';
@@ -238,8 +294,9 @@
       ? window.DataSourceDiscovery.getLastReport()
       : null;
 
-    var pendingCount = cached ? (cached.newSources || []).length : 0;
-    renderMonitorBadge(cached, pendingCount);
+    var pendingCount = cached ? (cached.newSources || []).length : null;
+    var renderedFreshDiscovery = false;
+    renderMonitorBadge(cached, pendingCount, cached ? null : 'loading');
 
     if (cached) {
       renderPendingTab(cached);
@@ -250,6 +307,15 @@
     // Update pending badge count in tab label
     var tabLabel = document.getElementById('drhPendingCount');
     if (tabLabel) tabLabel.textContent = pendingCount ? ' (' + pendingCount + ')' : '';
+
+    if (!cached) {
+      loadBadgeBaseline().then(function (baseline) {
+        if (!baseline || renderedFreshDiscovery) return;
+        if (baseline.report || baseline.pendingCount !== null) {
+          renderMonitorBadge(baseline.report, baseline.pendingCount, 'scanning');
+        }
+      });
+    }
 
     /* F148 — Auto-run a fresh discovery scan on init. The scan is
        browser-side (probes ~37 known data paths via fetch) and only
@@ -268,9 +334,10 @@
     if (window.DataSourceDiscovery && typeof window.DataSourceDiscovery.runDiscovery === 'function') {
       // Show "Scanning…" hint while in flight if we have no cached value
       if (!cached) {
-        renderMonitorBadge(null, 0, 'scanning');
+        renderMonitorBadge(null, null, 'scanning');
       }
       window.DataSourceDiscovery.runDiscovery().then(function (report) {
+        renderedFreshDiscovery = true;
         var pc = (report.newSources || []).length;
         renderMonitorBadge(report, pc);
         renderPendingTab(report);
