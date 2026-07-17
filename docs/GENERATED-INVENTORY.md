@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T01:31:18.298Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T03:52:18.476Z. Do not edit by hand.
 
 ---
 
@@ -1599,7 +1599,7 @@
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
-| `data/policy/lihtc-assumptions.json` | 3.0 KB | ✅ | — |
+| `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
@@ -1664,7 +1664,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
-| `test/deal-calc-equity-pricing.test.js` | 2.6 KB |
+| `test/deal-calc-equity-pricing.test.js` | 6.6 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
