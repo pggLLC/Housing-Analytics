@@ -40,6 +40,8 @@ const EXCLUDE_NAMES = new Set(["_manifest.json"]);
 
 // Don't try to parse files larger than this — just list them.
 const MAX_PARSE_BYTES = 25 * 1024 * 1024;
+export const DEFAULT_SHRINK_TOLERANCE_RATIO = 0.05;
+export const DEFAULT_SHRINK_TOLERANCE_MIN = 10;
 
 const exts = new Set([".json", ".geojson", ".csv"]);
 
@@ -79,6 +81,78 @@ function gitIgnoredPaths(files) {
     throw new Error(`git check-ignore failed: ${check.stderr || check.error || "unknown error"}`);
   }
   return new Set((check.stdout || "").split(/\r?\n/).filter(Boolean));
+}
+
+export async function discoverDataFiles() {
+  const files = [];
+  await walk(ROOT, files);
+  const ignored = gitIgnoredPaths(files);
+  return files
+    .filter((file) => !ignored.has(path.relative(REPO, file).replaceAll("\\", "/")))
+    .sort();
+}
+
+export async function discoverDataFilePaths() {
+  const files = await discoverDataFiles();
+  return files.map((file) => path.relative(ROOT, file).replaceAll("\\", "/"));
+}
+
+function manifestFileCount(manifest) {
+  if (!manifest || !Array.isArray(manifest.files)) return 0;
+  return manifest.files.length;
+}
+
+export function manifestCoverageReport(manifest, diskPaths) {
+  const manifestPaths = new Set((manifest?.files || [])
+    .map((entry) => entry && entry.path)
+    .filter(Boolean));
+  const diskSet = new Set(diskPaths || []);
+  return {
+    diskCount: diskSet.size,
+    manifestCount: manifestPaths.size,
+    missing: [...diskSet].filter((p) => !manifestPaths.has(p)).sort(),
+    extra: [...manifestPaths].filter((p) => !diskSet.has(p)).sort(),
+  };
+}
+
+export function assertManifestCoverage(manifest, diskPaths, options = {}) {
+  const tolerance = Number.isFinite(options.tolerance) ? options.tolerance : 0;
+  const report = manifestCoverageReport(manifest, diskPaths);
+  if (report.missing.length > tolerance || report.extra.length > tolerance) {
+    const missing = report.missing.slice(0, 8).join(", ") || "none";
+    const extra = report.extra.slice(0, 8).join(", ") || "none";
+    throw new Error(
+      `data/_manifest.json coverage drift: ${report.manifestCount} manifest entries vs ${report.diskCount} data files; ` +
+      `${report.missing.length} missing (${missing}); ${report.extra.length} extra (${extra})`
+    );
+  }
+  return report;
+}
+
+export function assertNoUnsafeShrink(previousManifest, nextManifest, options = {}) {
+  const previousCount = manifestFileCount(previousManifest);
+  const nextCount = manifestFileCount(nextManifest);
+  if (!previousCount) return { previousCount, nextCount, shrink: 0, tolerance: 0 };
+  const toleranceRatio = Number.isFinite(options.toleranceRatio)
+    ? options.toleranceRatio
+    : DEFAULT_SHRINK_TOLERANCE_RATIO;
+  const toleranceMin = Number.isFinite(options.toleranceMin)
+    ? options.toleranceMin
+    : DEFAULT_SHRINK_TOLERANCE_MIN;
+  const tolerance = Math.max(toleranceMin, Math.ceil(previousCount * toleranceRatio));
+  const shrink = previousCount - nextCount;
+  if (shrink > tolerance) {
+    throw new Error(
+      `[data-manifest] refusing to write ${nextCount} entries over previous ${previousCount}; ` +
+      `shrink of ${shrink} exceeds tolerance ${tolerance}. This prevents short/null nightly manifests from being committed.`
+    );
+  }
+  return { previousCount, nextCount, shrink: Math.max(0, shrink), tolerance };
+}
+
+function readExistingManifest(outPath) {
+  if (!fs.existsSync(outPath)) return null;
+  return JSON.parse(fs.readFileSync(outPath, "utf8"));
 }
 
 function snippetTopLevel(obj) {
@@ -155,13 +229,10 @@ async function probe(file) {
   return entry;
 }
 
-async function main() {
-  const files = [];
-  await walk(ROOT, files);
-  const ignored = gitIgnoredPaths(files);
-  const includedFiles = files
-    .filter((file) => !ignored.has(path.relative(REPO, file).replaceAll("\\", "/")))
-    .sort();
+export async function buildManifest(options = {}) {
+  const outPath = options.outPath || OUT;
+  const shouldWrite = options.write !== false;
+  const includedFiles = await discoverDataFiles();
   const items = [];
   for (const f of includedFiles) {
     items.push(await probe(f));
@@ -176,8 +247,19 @@ async function main() {
     },
     files: items,
   };
-  fs.writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n");
-  console.log(`[data-manifest] wrote ${items.length} entries (${(out.meta.total_size_bytes / 1024 / 1024).toFixed(1)} MB) → ${path.relative(REPO, OUT)}`);
+  if (shouldWrite) {
+    const previous = readExistingManifest(outPath);
+    assertNoUnsafeShrink(previous, out);
+    fs.writeFileSync(outPath, JSON.stringify(out, null, 2) + "\n");
+  }
+  return out;
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+async function main() {
+  const out = await buildManifest();
+  console.log(`[data-manifest] wrote ${out.files.length} entries (${(out.meta.total_size_bytes / 1024 / 1024).toFixed(1)} MB) → ${path.relative(REPO, OUT)}`);
+}
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((e) => { console.error(e); process.exit(1); });
+}

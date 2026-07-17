@@ -112,6 +112,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
+          npm run audit:file-manifest
           git add data/
           if git diff --cached --quiet; then
             echo "No data changes to commit"
