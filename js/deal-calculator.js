@@ -14,8 +14,8 @@
   var _countyFips = null;   // 5-digit FIPS of the currently selected county
   var _creditRate = _cfg.creditRate9Pct || 0.09;
   var _equityPricingDefaults = {
-    credit_9pct: _cfg.equityPrice9Pct || 0.90,
-    credit_4pct: _cfg.equityPrice4Pct || 0.85
+    credit_9pct: _cfg.equityPrice9Pct || 0.86,
+    credit_4pct: _cfg.equityPrice4Pct || 0.84
   };
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
@@ -98,8 +98,8 @@
     if (!input) return defaultPrice;
     var current = _numOrNull(input.value);
     var shouldUpdate = opts.force || current == null ||
-      Math.abs(current - (_cfg.equityPrice9Pct || 0.90)) < 0.0001 ||
-      Math.abs(current - (_cfg.equityPrice4Pct || 0.85)) < 0.0001;
+      Math.abs(current - (_cfg.equityPrice9Pct || 0.86)) < 0.0001 ||
+      Math.abs(current - (_cfg.equityPrice4Pct || 0.84)) < 0.0001;
     if (shouldUpdate) {
       input.value = defaultPrice.toFixed(2);
       if (opts.dispatch !== false) {
@@ -5349,6 +5349,7 @@
     /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */
     getZoriCountyRent:          getZoriCountyRent,
     getZoriPerBrRent:           getZoriPerBrRent,
+    getEquityPricingDefaults:   function () { return Object.assign({}, _equityPricingDefaults); },
     _setZoriDataForTest:        function (d) { _zoriData = d; },
     DEFAULT_CONSTANTS:          DEFAULT_CONSTANTS,
     /* Test helpers — mutate the live constants and read back */
