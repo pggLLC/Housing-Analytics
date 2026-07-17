@@ -1328,7 +1328,7 @@
       {
         "name": "Town of Vail",
         "url": "https://www.vailgov.com/",
-        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+        "workforce_housing_url": "https://www.vail.gov/government/departments/housing"
       },
       {
         "name": "Eagle County Government",
@@ -4173,8 +4173,7 @@
     "council_agenda_url": "https://www.arvadaco.gov/AgendaCenter",
     "prop123": {
       "status": "Committed",
-      "link": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": true
+      "link": "https://cdola.colorado.gov/commitment-filings"
     },
     "housingLead": {
       "name": "Arvada Housing Authority",
@@ -4199,32 +4198,6 @@
         "url": "https://www.google.com/search?q=Olde%20Town%20Arvada%20Colorado%20employers"
       }
     ]
-  },
-  "place:0680930": {
-    "prop123": {
-      "status": "Committed",
-      "link": "https://cdola.colorado.gov/commitment-filings",
-      "fast_track": true
-    },
-    "housingLead": {
-      "name": "Vail Housing Department",
-      "url": "https://www.vailgov.com/government/departments/housing"
-    },
-    "housingAuthority": [
-      {
-        "name": "Vail Local Housing Authority",
-        "url": "https://www.google.com/search?q=%22Vail%20Local%20Housing%20Authority%22%20Colorado"
-      }
-    ],
-    "housingPlans": [
-      {
-        "type": "Housing Strategy",
-        "year": 2018,
-        "name": "Vail Housing 2027 strategic plan",
-        "url": "https://www.vailgov.com/government/departments/housing"
-      }
-    ],
-    "notes": "Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027."
   },
   "place:0803620": {
     "name": "Aspen",
@@ -4517,10 +4490,10 @@
   },
   "place:0880040": {
     "name": "Vail",
-    "council_agenda_url": "https://www.vailgov.com/government/town-council",
+    "council_agenda_url": "https://www.vail.gov/government/town-council",
     "housingLead": {
       "name": "Vail Community Development / Housing",
-      "url": "https://www.vailgov.com/government/departments/housing"
+      "url": "https://www.vail.gov/government/departments/housing"
     },
     "schoolDistrict": {
       "name": "Eagle County School District",
@@ -4544,9 +4517,29 @@
       {
         "name": "Town of Vail",
         "url": "https://www.vailgov.com/",
-        "workforce_housing_url": "https://www.vailgov.com/government/departments/housing"
+        "workforce_housing_url": "https://www.vail.gov/government/departments/housing"
       }
-    ]
+    ],
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    "housingAuthority": [
+      {
+        "name": "Vail Local Housing Authority",
+        "url": "https://www.google.com/search?q=%22Vail%20Local%20Housing%20Authority%22%20Colorado"
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Strategy",
+        "year": 2018,
+        "name": "Vail Housing 2027 strategic plan",
+        "url": "https://www.vail.gov/government/departments/housing"
+      }
+    ],
+    "notes": "Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027."
   },
   "place:0822200": {
     "name": "Eagle",
@@ -5622,10 +5615,6 @@
       "name": "Lamar School District RE-2",
       "url": "https://www.lamarschools.org/"
     }
-  },
-  "place:0882870": {
-    "name": "Vail",
-    "council_agenda_url": "https://www.vail.gov/government/town-council"
   },
   "place:0833035": {
     "name": "Greenwood Village",

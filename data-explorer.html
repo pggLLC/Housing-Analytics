@@ -46,6 +46,23 @@
     .dex-hero h1 { font-size: 1.45rem; font-weight: 800; margin: 0 0 .25rem; }
     .dex-hero p  { font-size: .88rem; color: var(--muted); margin: 0; }
     .dex-hero-meta { font-size: .8rem; color: var(--muted); margin-top: .35rem; }
+    .dex-stale-pill {
+      display: inline-block;
+      margin-left: .4rem;
+      padding: .08rem .4rem;
+      border: 1px solid #b45309;
+      border-radius: 999px;
+      color: #92400e;
+      background: #fef3c7;
+      font-size: .72rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    html.dark-mode .dex-stale-pill {
+      color: #fde68a;
+      background: rgba(180, 83, 9, .22);
+      border-color: #f59e0b;
+    }
 
     /* ── Stats bar ── */
     .dex-stats {
