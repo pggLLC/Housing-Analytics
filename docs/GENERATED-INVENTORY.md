@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-17T17:14:47.321Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T01:31:39.024Z. Do not edit by hand.
 
 ---
 
@@ -27,7 +27,7 @@
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
-| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.7 KB |
+| `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
@@ -72,7 +72,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 747.0 KB | ✅ | — |
+| `data/_manifest.json` | 747.3 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1630,7 +1630,7 @@
 
 ## Test Files
 
-188 test files found.
+189 test files found.
 
 | File | Size |
 |------|------|
@@ -1739,6 +1739,7 @@
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 28.4 KB |
+| `test/pma-tract-display.test.js` | 6.4 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
