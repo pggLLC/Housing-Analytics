@@ -2434,6 +2434,9 @@
         jobs:       lodesIdx ? bufferTotalJobs : null
       }
     });
+    if (window.PMACommuteContext && typeof window.PMACommuteContext.attachResult === 'function') {
+      window.PMACommuteContext.attachResult(lastResult);
+    }
 
     renderScore(lastResult);
     // Hide chart loading overlay after rendering
@@ -2459,6 +2462,17 @@
       var parcelCheck = document.getElementById('pmaParcelZoningToggle');
       if (parcelCheck && parcelCheck.checked && window.PMAParcelZoning) {
         window.PMAParcelZoning.renderParcelZoningLayer(map, lat, lon, effectiveBuffer);
+      }
+      var commuteContextCheck = document.getElementById('pmaCommuteContextToggle');
+      if (commuteContextCheck && commuteContextCheck.checked && window.PMACommuteContext) {
+        window.PMACommuteContext.render(map, lastResult).then(function (data) {
+          if (data && data.blocked) {
+            commuteContextCheck.checked = false;
+            _showLayerToast('⚠ ' + data.warning, true);
+          }
+        });
+      } else if (window.PMACommuteContext && commuteContextCheck && !commuteContextCheck.checked) {
+        window.PMACommuteContext.clear(map);
       }
     }());
 
@@ -3051,6 +3065,7 @@
     parcelZoning:      { src: 'market/landuse_zoning_proxy_co.geojson',
                          pointStyle: { radius: 5, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
     commutingFlows:    { src: 'market/lodes_od_arcs_co.geojson' },
+    commuteContext:    { src: null },
     listings:          { src: null }    // handled externally (Bridge API)
   };
 
@@ -3091,7 +3106,7 @@
         if (!cfg) return;
 
         // Disable checkboxes for layers with no data source and no special handling
-        if (!cfg.src && !cfg.tileService && !cfg.arcgis && key !== 'lihtc' && key !== 'listings') {
+        if (!cfg.src && !cfg.tileService && !cfg.arcgis && key !== 'lihtc' && key !== 'listings' && key !== 'commuteContext') {
           cb.disabled = true;
           var noData = document.createElement('small');
           noData.textContent = ' (no data)';
@@ -3115,6 +3130,31 @@
 
         // Listings — skip, handled by external Bridge API integration
         if (key === 'listings') return;
+
+        // D-lite commute context — committed LODES WAC + top-500 OD arcs only.
+        // This overlay is disclosure/context only and never feeds PMA scoring,
+        // tract selection, or buffer logic.
+        if (key === 'commuteContext') {
+          cb.addEventListener('change', function () {
+            var ctx = window.PMACommuteContext;
+            if (!ctx) {
+              cb.checked = false;
+              _showLayerToast('⚠ Commute context module unavailable', true);
+              return;
+            }
+            if (!cb.checked) {
+              ctx.clear(map);
+              return;
+            }
+            ctx.render(map, lastResult).then(function (data) {
+              if (data && data.blocked) {
+                cb.checked = false;
+                _showLayerToast('⚠ ' + data.warning, true);
+              }
+            });
+          });
+          return;
+        }
 
         // ── Tile service layers (ArcGIS MapServer image tiles) ──
         if (cfg.tileService) {
@@ -3504,6 +3544,13 @@
         : bufferMi != null
           ? bufferMi.toFixed(1) + '-mile circular buffer'
           : 'Circular buffer (radius pending)');
+    var commuteContext = result.commuteContextOverlay || (window.PMACommuteContext && window.PMACommuteContext.getState
+      ? window.PMACommuteContext.getState()
+      : null);
+    setSum('pmaSumCommuteContext',
+      commuteContext && commuteContext.enabled
+        ? commuteContext.mode_label + ' — does not change PMA scores or tract selection'
+        : 'Off — does not change PMA scores or tract selection');
 
     // Tract count
     setSum('pmaSumTracts',
@@ -3980,7 +4027,11 @@
         bufferMiles: bufferM,
         boundaryMethod: 'circular buffer (screening simplification, not commuting-shed)',
         tractsInBuffer: r.tractCount,
-        tractGeoids:    (r._tractIds || []).slice(0, 50)
+        tractGeoids:    (r._tractIds || []).slice(0, 50),
+        commuteContextOverlay: r.commuteContextOverlay || {
+          enabled: false,
+          mode_label: 'Commute context overlay off'
+        }
       },
       overall: {
         score:      r.overall,
@@ -4028,6 +4079,7 @@
         var sumGet = function (id) { var e = document.getElementById(id); return e ? e.textContent.trim() : null; };
         return {
           boundary:   sumGet('pmaSumBoundary'),
+          commuteContext: sumGet('pmaSumCommuteContext'),
           tracts:     sumGet('pmaSumTracts'),
           units:      sumGet('pmaSumUnits'),
           renters:    sumGet('pmaSumRenters'),
@@ -4078,6 +4130,8 @@
       ['Longitude', s.longitude],
       ['Buffer (miles)', s.bufferMiles],
       ['Boundary Method', s.boundaryMethod],
+      ['Commute Context Overlay', s.commuteContextOverlay && s.commuteContextOverlay.mode_label],
+      ['Commute Context Disclosure', s.commuteContextOverlay && s.commuteContextOverlay.legend],
       ['ACS Tracts in Buffer', s.tractsInBuffer],
       ['Tract GEOIDs (first 50)', (s.tractGeoids || []).join('; ')],
       ['', ''],
@@ -4255,6 +4309,8 @@
       ['lat', r.lat],
       ['lon', r.lon],
       ['buffer_miles', r.bufferMiles],
+      ['commute_context_overlay', r.commuteContextOverlay ? r.commuteContextOverlay.mode_label : 'Commute context overlay off'],
+      ['commute_context_disclosure', r.commuteContextOverlay ? r.commuteContextOverlay.legend : ''],
       ['tract_count', r.tractCount],
       ['renter_hh', r.acs.renter_hh],
       ['cost_burden_rate', r.acs.cost_burden_rate],
