@@ -14,6 +14,7 @@
  *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
  *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
  *   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
+ *   - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -89,6 +90,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/colorado-foreclosure-performance.json',
     label: 'Colorado foreclosure performance',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/hud_zip_tract_crosswalk_co.json',
+    label: 'HUD-USPS ZIP-to-tract crosswalk',
     reviewByPaths: ['meta.review_by'],
   },
 ];

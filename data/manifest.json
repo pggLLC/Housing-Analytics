@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-18T08:49:54.658846Z",
+  "generated": "2026-07-18T22:28:55.546773Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 765230
+      "bytes": 766173
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7511,6 +7511,11 @@
       "placeholder": false,
       "bytes": 5360
     },
+    "data/market/colorado-foreclosure-performance.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 49077
+    },
     "data/market/commuting_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
@@ -7596,6 +7601,11 @@
       "placeholder": false,
       "bytes": 996787
     },
+    "data/market/hud_zip_tract_crosswalk_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 793484
+    },
     "data/market/inclusionary_zoning_co.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7622,9 +7632,9 @@
       "bytes": 127193
     },
     "data/market/natural_barriers_co.geojson": {
-      "featureCount": 11175,
+      "featureCount": 43599,
       "placeholder": false,
-      "bytes": 11359847
+      "bytes": 29087494
     },
     "data/market/nhpd_co.geojson": {
       "featureCount": 20,
@@ -7642,9 +7652,9 @@
       "bytes": 167238
     },
     "data/market/opportunity_zones_co.geojson": {
-      "featureCount": 1447,
+      "featureCount": 126,
       "placeholder": false,
-      "bytes": 79047286
+      "bytes": 10606819
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
@@ -7654,7 +7664,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 964352
+      "bytes": 1078508
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7769,7 +7779,7 @@
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12936
+      "bytes": 16701
     },
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
@@ -7814,12 +7824,12 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17388
+      "bytes": 25351
     },
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9116
+      "bytes": 11882
     },
     "data/policy_briefs.json": {
       "featureCount": 0,
