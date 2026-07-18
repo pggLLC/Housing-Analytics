@@ -17,13 +17,12 @@
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { execFile } from "node:child_process";
+import readline from "node:readline";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { promisify } from "node:util";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
-const execFileAsync = promisify(execFile);
 
 const TIMEOUT_MS = 10_000;
 const CONCURRENT = 8;
@@ -450,22 +449,47 @@ async function readUrlsFromExplicitPaths(pathsArg) {
 }
 
 async function readUrlsFromAddedDiff(baseRef, headRef) {
-  const { stdout } = await execFileAsync(
+  const urls = [];
+  const child = spawn(
     "git",
     ["diff", "--unified=0", "--no-ext-diff", `${baseRef}...${headRef}`],
-    {
-      cwd: ROOT,
-      maxBuffer: 50 * 1024 * 1024,
-    },
+    { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"] },
   );
 
+  let stderr = "";
+  child.stderr.setEncoding("utf8");
+  child.stderr.on("data", (chunk) => {
+    stderr += chunk;
+  });
+
+  const rl = readline.createInterface({
+    input: child.stdout,
+    crlfDelay: Infinity,
+  });
+
+  for await (const line of rl) {
+    urls.push(...extractUrlsFromAddedDiffLine(line));
+  }
+
+  const code = await new Promise((resolve, reject) => {
+    child.once("error", reject);
+    child.once("close", resolve);
+  });
+  if (code !== 0) {
+    throw new Error(
+      `git diff exited ${code}` + (stderr.trim() ? `: ${stderr.trim()}` : ""),
+    );
+  }
+
+  return urls;
+}
+
+function extractUrlsFromAddedDiffLine(line) {
+  if (!line.startsWith("+") || line.startsWith("+++")) return [];
   const urls = [];
   const rx = /https?:\/\/[^\s"'`<>)]*/g;
-  for (const line of stdout.split(/\r?\n/)) {
-    if (!line.startsWith("+") || line.startsWith("+++")) continue;
-    let m;
-    while ((m = rx.exec(line.slice(1))) !== null) urls.push(m[0]);
-  }
+  let m;
+  while ((m = rx.exec(line.slice(1))) !== null) urls.push(m[0]);
   return urls;
 }
 

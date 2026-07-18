@@ -4768,7 +4768,7 @@
     });
 
     // ── F242: Opportunity Zones (teal fill, OFF by default) ────────────
-    // 2018 designations — permanent. Federal capital-gains deferral via
+    // 2018 designations run through 12/31/2028. Federal capital-gains deferral via
     // Qualified Opportunity Fund equity. Stacks with LIHTC + state credit.
     // Created OFF by default since users typically want QCT + DDA visible
     // first; OZ surfaces when they toggle it on (or via F240 redev filter).
@@ -4791,7 +4791,7 @@
             fillOpacity: 0.22, opacity: 0.75, interactive: true
           });
           poly.bindTooltip('OZ tract ' + escHtml(p.geoid || '—') + ' · ' +
-            'federal capital-gains deferral · stacks with LIHTC + state credit (2018 designation, permanent)',
+            'federal capital-gains deferral · stacks with LIHTC + state credit (2018 designation, expires 12/31/2028)',
             { sticky: true });
           ozLayer.addLayer(poly);
         });

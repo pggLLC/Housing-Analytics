@@ -46,10 +46,7 @@ CACHE_TTL_HOURS = 720  # 30 days (OZ designations rarely change)
 # Official CDFI Fund archive of designated QOZ polygons. The prior ArcGIS
 # query returned all Colorado tracts and the old normalizer defaulted them to
 # designated=true when no designation flag was present.
-CDFI_OZ_ZIP_URL = (
-    "https://www.cdfifund.gov/system/files/documents/"
-    "opportunity-zones=8764.-9-10-2019.zip"
-)
+CDFI_OZ_ZIP_URL = "https://www.cdfifund.gov/system/files/documents/opportunity-zones=8764.-9-10-2019.zip"
 CDFI_OZ_PAGE_URL = "https://www.cdfifund.gov/opportunity-zones"
 TREASURY_QOZ_PAGE_URL = (
     "https://home.treasury.gov/policy-issues/tax-policy/"
