@@ -546,6 +546,10 @@
               Commuting flows <small>(LODES OD arcs)</small>
             </label>
             <label class="map-layer-label">
+              <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="commuteContext" id="pmaCommuteContextToggle">
+              Commute context <small>(LODES 2023 · no score change)</small>
+            </label>
+            <label class="map-layer-label">
               <input type="checkbox" class="map-layer-cb pma-layer-toggle" data-layer="flood">
               Flood zones
             </label>
@@ -622,6 +626,8 @@
           <dl class="pma-summary-dl" style="display:grid;grid-template-columns:max-content 1fr;column-gap:.75rem;row-gap:.35rem;font-size:.85rem;margin:0">
             <dt style="font-weight:600;color:var(--muted)">Boundary method</dt>
             <dd id="pmaSumBoundary" style="margin:0">—</dd>
+            <dt style="font-weight:600;color:var(--muted)">Commute context</dt>
+            <dd id="pmaSumCommuteContext" style="margin:0">Off — does not change PMA scores or tract selection</dd>
             <dt style="font-weight:600;color:var(--muted)">Census tracts</dt>
             <dd id="pmaSumTracts" style="margin:0">—</dd>
             <dt style="font-weight:600;color:var(--muted)">Housing units in buffer</dt>
@@ -1429,6 +1435,7 @@
   <script defer src="js/deal-calculator.js"></script>
   <!-- Enhanced PMA delineation modules -->
   <script defer src="js/pma-commuting.js"></script>
+  <script defer src="js/pma-commute-context.js"></script>
   <script defer src="js/pma-barriers.js"></script>
   <script defer src="js/pma-employment-centers.js"></script>
   <script defer src="js/pma-schools.js"></script>
