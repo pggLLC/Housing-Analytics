@@ -72,8 +72,12 @@ for (const feature of display.features) {
 assert.equal(fixture.production_use, false, 'Fruita calibration fixture is explicitly non-production');
 assert.equal(fixture.source_doc, 'docs/audits/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md',
   'Fruita fixture points to the calibration doc');
-assert.equal(fixture.professional_pma.tract_geoids_2020.length, 8,
-  'Fruita professional PMA fixture carries the approved 8-tract set');
+assert.deepStrictEqual(
+  [...fixture.professional_pma.tract_geoids_2020].sort(),
+  ['08077000900', '08077001402', '08077001403', '08077001404',
+   '08077001502', '08077001503', '08077001504', '08077001600'],
+  'Fruita professional PMA fixture pins the exact CHFA-approved 8-tract set'
+);
 assert.deepEqual(
   fixture.tool_buffer_current_main.tract_geoids,
   ['08077001503', '08077001504'],
