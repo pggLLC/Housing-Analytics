@@ -35,6 +35,11 @@ const ALLOW_LIST = new Set([
   // healthy; the URL sweep just doesn't pass query params.
   "https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations",
   // Known sources that frequently block CI user-agents.
+  // Polymarket sits behind Cloudflare and drops datacenter connections
+  // outright (no HTTP status), so the sweep can't classify it as WAF —
+  // it fetches 200 from residential IPs. Verified 2026-07-18.
+  "https://polymarket.com",
+  "https://polymarket.com/",
   "https://www.novoco.com",
   "https://www.novoco.com/",
   "https://www.novoco.com/resource-centers/affordable-housing-tax-credits",

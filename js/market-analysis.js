@@ -203,6 +203,8 @@
   }
 
   var tractCentroids      = null;
+  var tractGeometryIndex  = null;
+  var tractGeometryDisabledForTest = false;
   var acsMetrics          = null;
   var lihtcFeatures       = null;
   var lihtcLoadError      = false;  // true when LIHTC data failed to load
@@ -268,41 +270,138 @@
   // ~1,300. With apportionment the rural tracts only contribute the
   // proportion of their area that's actually in the circle.
   //
-  // Method: bbox-based area approximation. The tract bbox is converted to
-  // sq-mi (via cos(lat) longitude compression), the buffer-bbox intersection
-  // is computed as a rectangle, and a circle-fraction adjustment is applied
-  // (circle area / inscribing-rect area ≈ π/4 = 0.785). Returns a fraction
-  // in [0, 1]. Good to ~10-15% in irregular tracts; vastly more accurate
-  // than the previous "all-or-nothing" rollup.
+  // Method: tract polygon ∩ circular buffer area apportionment. The tract
+  // ring coordinates are projected to local miles around the selected site,
+  // clipped against a 72-segment buffer circle, and divided by the tract's
+  // projected polygon area. If display geometry is unavailable, fall back to
+  // the pre-PR-B bbox approximation so offline sessions still run.
   var _MILES_PER_DEG_LAT = 69.0;
-  function tractBufferShare(t, lat, lon, miles) {
-    if (!t) return 1;
-    if (!t.bbox || t.bbox.length !== 4) {
-      // F80b: most production tract files (including the current one) don't
-      // carry bbox — only centroid. Use a distance-based proxy: tracts whose
-      // centroid is near the site contribute most, tracts whose centroid
-      // sits near the buffer edge contribute least. This isn't a geometric
-      // intersection but it cuts the rural over-counting that drove the
-      // Silt 14,910 → ~1,300 complaint. A small floor of 0.1 keeps tracts
-      // from disappearing entirely when their centroid is just inside the
-      // buffer — they probably extend well beyond it.
-      if (typeof t.lat !== 'number' || typeof t.lon !== 'number') return 1;
-      var d = haversine(lat, lon, t.lat, t.lon);
-      if (d >= miles) return 0;
-      // Linear ramp: centered tract (d=0) → 1.0, edge tract → 0.1.
-      return Math.max(0.1, 1 - 0.9 * (d / miles));
+  var _BUFFER_CIRCLE_SEGMENTS = 72;
+
+  function _featureGeoid(feature) {
+    var p = feature && feature.properties;
+    return p && (p.GEOID || p.geoid || p.GEOID20 || p.tract_geoid);
+  }
+
+  function _indexTractGeometry(geojson) {
+    var index = {};
+    (geojson && geojson.features || []).forEach(function (feature) {
+      var geoid = _featureGeoid(feature);
+      if (geoid && feature.geometry) index[String(geoid)] = feature.geometry;
+    });
+    return index;
+  }
+
+  function _projectLonLat(coord, originLat, originLon) {
+    var milesPerDegLon = _MILES_PER_DEG_LAT * Math.cos(originLat * Math.PI / 180);
+    return {
+      x: (coord[0] - originLon) * milesPerDegLon,
+      y: (coord[1] - originLat) * _MILES_PER_DEG_LAT
+    };
+  }
+
+  function _ringArea(points) {
+    if (!points || points.length < 3) return 0;
+    var sum = 0;
+    for (var i = 0; i < points.length; i++) {
+      var a = points[i];
+      var b = points[(i + 1) % points.length];
+      sum += a.x * b.y - b.x * a.y;
     }
+    return sum / 2;
+  }
+
+  function _circleClipPolygon(radiusMiles) {
+    var pts = [];
+    for (var i = 0; i < _BUFFER_CIRCLE_SEGMENTS; i++) {
+      var a = (Math.PI * 2 * i) / _BUFFER_CIRCLE_SEGMENTS;
+      pts.push({ x: Math.cos(a) * radiusMiles, y: Math.sin(a) * radiusMiles });
+    }
+    return pts;
+  }
+
+  function _isInsideClipEdge(point, edgeA, edgeB) {
+    return ((edgeB.x - edgeA.x) * (point.y - edgeA.y) -
+            (edgeB.y - edgeA.y) * (point.x - edgeA.x)) >= -1e-9;
+  }
+
+  function _lineIntersection(a, b, edgeA, edgeB) {
+    var dx1 = b.x - a.x;
+    var dy1 = b.y - a.y;
+    var dx2 = edgeB.x - edgeA.x;
+    var dy2 = edgeB.y - edgeA.y;
+    var denom = dx1 * dy2 - dy1 * dx2;
+    if (Math.abs(denom) < 1e-12) return b;
+    var t = ((edgeA.x - a.x) * dy2 - (edgeA.y - a.y) * dx2) / denom;
+    return { x: a.x + t * dx1, y: a.y + t * dy1 };
+  }
+
+  function _clipPolygon(subject, clip) {
+    var output = subject.slice();
+    for (var i = 0; i < clip.length; i++) {
+      var edgeA = clip[i];
+      var edgeB = clip[(i + 1) % clip.length];
+      var input = output;
+      output = [];
+      if (!input.length) break;
+      var s = input[input.length - 1];
+      for (var j = 0; j < input.length; j++) {
+        var e = input[j];
+        var eInside = _isInsideClipEdge(e, edgeA, edgeB);
+        var sInside = _isInsideClipEdge(s, edgeA, edgeB);
+        if (eInside) {
+          if (!sInside) output.push(_lineIntersection(s, e, edgeA, edgeB));
+          output.push(e);
+        } else if (sInside) {
+          output.push(_lineIntersection(s, e, edgeA, edgeB));
+        }
+        s = e;
+      }
+    }
+    return output;
+  }
+
+  function _geometryRings(geometry) {
+    if (!geometry) return [];
+    if (geometry.type === 'Polygon') return [geometry.coordinates || []];
+    if (geometry.type === 'MultiPolygon') return geometry.coordinates || [];
+    return [];
+  }
+
+  function _polygonBufferShareFromGeometry(geometry, lat, lon, miles) {
+    var clip = _circleClipPolygon(miles);
+    var totalArea = 0;
+    var clippedArea = 0;
+    _geometryRings(geometry).forEach(function (polygon) {
+      (polygon || []).forEach(function (ring, ringIndex) {
+        if (!ring || ring.length < 4) return;
+        var pts = ring.slice(0, -1).map(function (coord) {
+          return _projectLonLat(coord, lat, lon);
+        });
+        var ringArea = Math.abs(_ringArea(pts));
+        if (ringArea <= 0) return;
+        var clipped = _clipPolygon(pts, clip);
+        var clippedRingArea = Math.abs(_ringArea(clipped));
+        var sign = ringIndex === 0 ? 1 : -1;
+        totalArea += sign * ringArea;
+        clippedArea += sign * clippedRingArea;
+      });
+    });
+    if (totalArea <= 0) return null;
+    return Math.max(0, Math.min(1, clippedArea / totalArea));
+  }
+
+  function _bboxBufferShare(t, lat, lon, miles) {
+    if (!t || !t.bbox || t.bbox.length !== 4) return null;
     var west = t.bbox[0], south = t.bbox[1], east = t.bbox[2], north = t.bbox[3];
     var milesPerDegLon = _MILES_PER_DEG_LAT * Math.cos(((south + north) / 2) * Math.PI / 180);
     var tractH = (north - south) * _MILES_PER_DEG_LAT;
     var tractW = (east  - west)  * milesPerDegLon;
     var tractAreaMi2 = Math.max(0.001, tractH * tractW);
-    // Buffer bbox in degrees, derived from miles + the same per-degree scalars.
     var dLat = miles / _MILES_PER_DEG_LAT;
     var dLon = milesPerDegLon > 0 ? (miles / milesPerDegLon) : dLat;
     var bWest  = lon - dLon, bEast  = lon + dLon;
     var bSouth = lat - dLat, bNorth = lat + dLat;
-    // Rectangular intersection of tract bbox + buffer bbox, in degrees.
     var ixW = Math.max(west,  bWest);
     var ixE = Math.min(east,  bEast);
     var ixS = Math.max(south, bSouth);
@@ -311,18 +410,28 @@
     var ixH = (ixN - ixS) * _MILES_PER_DEG_LAT;
     var ixW2 = (ixE - ixW) * milesPerDegLon;
     var rectIntersect = ixH * ixW2;
-    // Circle adjustment: the actual buffer is a circle of area π·r², not a
-    // 2r×2r square. Scale the rectangle intersection by π/4 (≈ .785) only
-    // when the rectangle would otherwise be the full square — when the
-    // intersection is a strip along one edge the circle is essentially a
-    // rectangle too. Use a smoothing factor based on how full the
-    // intersection rectangle is.
     var fullSquare = (2 * dLat * _MILES_PER_DEG_LAT) * (2 * dLon * milesPerDegLon);
     var fillFraction = fullSquare > 0 ? Math.min(1, rectIntersect / fullSquare) : 0;
-    var circleAdj = 0.785 + (1 - fillFraction) * (1 - 0.785); // .785 if full square, → 1 as fill → 0
-    var effectiveIntersect = rectIntersect * circleAdj;
-    var share = Math.max(0, Math.min(1, effectiveIntersect / tractAreaMi2));
-    return share;
+    var circleAdj = 0.785 + (1 - fillFraction) * (1 - 0.785);
+    return Math.max(0, Math.min(1, (rectIntersect * circleAdj) / tractAreaMi2));
+  }
+
+  function tractBufferShare(t, lat, lon, miles) {
+    if (!t) return 1;
+    var geoid = t.geoid || t.GEOID || t.GEOID20 || t.tract_geoid;
+    var geom = geoid && tractGeometryIndex ? tractGeometryIndex[String(geoid)] : null;
+    if (geom) {
+      var polygonShare = _polygonBufferShareFromGeometry(geom, lat, lon, miles);
+      if (typeof polygonShare === 'number' && isFinite(polygonShare)) {
+        return polygonShare;
+      }
+    }
+    var bboxShare = _bboxBufferShare(t, lat, lon, miles);
+    if (typeof bboxShare === 'number' && isFinite(bboxShare)) return bboxShare;
+    if (typeof t.lat !== 'number' || typeof t.lon !== 'number') return 1;
+    var d = haversine(lat, lon, t.lat, t.lon);
+    if (d >= miles) return 0;
+    return Math.max(0.1, 1 - 0.9 * (d / miles));
   }
 
   /* ── Get tracts within buffer ───────────────────────────────────── */
@@ -2056,6 +2165,11 @@
           _cache.has('acsMetrics')) {
         acsMetrics = _cache.get('acsMetrics');
       }
+      if (!tractGeometryDisabledForTest &&
+          (!tractGeometryIndex || !Object.keys(tractGeometryIndex).length) &&
+          _cache.has('pmaTractGeometryIndex')) {
+        tractGeometryIndex = _cache.get('pmaTractGeometryIndex');
+      }
     }
 
     // Guard: data files missing or empty — give a specific actionable message
@@ -2267,13 +2381,13 @@
       }
     }
 
-    // K — Per-tract breakdown for the PMA Site Summary. With TIGER 2020
-    // bboxes now in tract_centroids_co.json (task C), each tract's
-    // _bufferShare is a real geometric circle×rectangle intersection
-    // fraction instead of the old distance-ramp heuristic. We surface
-    // those shares — plus per-tract population, household, and (via
-    // LODES C000 if loaded) job counts — as a tract-list table so the
-    // user can audit which tracts the buffer actually clips.
+    // K — Per-tract breakdown for the PMA Site Summary. Each tract's
+    // _bufferShare is the tract-polygon ∩ buffer area share when the
+    // lightweight PMA geometry artifact is available, with bbox fallback
+    // for offline sessions. We surface those shares — plus per-tract
+    // population, household, and (via LODES C000 if loaded) job counts —
+    // as a tract-list table so the user can audit which tracts the buffer
+    // actually clips.
     var lodesIdx = (window.LodesCommute && typeof window.LodesCommute.getTractJobs === 'function')
       ? window.LodesCommute : null;
     var bufferTotalPop = 0, bufferTotalHh = 0, bufferTotalJobs = 0;
@@ -3457,7 +3571,7 @@
         var rows = details.slice(0, 30).map(function (d) {
           var sharePct = (d.share * 100).toFixed(0) + '%';
           var bboxBadge = d.bboxSource === 'tiger2020'
-            ? '<span title="Real TIGER 2020 polygon bbox" style="font-size:.7rem;color:var(--good,#047857);">●</span>'
+            ? '<span title="TIGER tract geometry available" style="font-size:.7rem;color:var(--good,#047857);">●</span>'
             : '<span title="Centroid fallback — coarser estimate" style="font-size:.7rem;color:var(--warn,#d97706);">●</span>';
           return '<tr>' +
             '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span></td>' +
@@ -4226,6 +4340,7 @@
     return Promise.all([
       fetchFile('market/tract_centroids_co.json'),
       fetchFile('market/acs_tract_metrics_co.json'),
+      fetchFile('market/pma_tract_display_geometry.geojson'),
       (window.HudLihtc ? window.HudLihtc.load() : fetchFile('market/hud_lihtc_co.geojson')).catch(function (e) {
         return { _loadError: true, _missing: true, _msg: e && e.message };
       })
@@ -4258,7 +4373,18 @@
         }
       }
 
-      var lihtcData = results[2];
+      var geometryData = results[2];
+      if (geometryData && geometryData._loadError) {
+        tractGeometryIndex = null;
+        statusParts.push('PMA tract geometry missing — using bbox apportionment fallback.');
+      } else {
+        tractGeometryIndex = _indexTractGeometry(geometryData);
+        if (window.PMADataCache) {
+          window.PMADataCache.set('pmaTractGeometryIndex', tractGeometryIndex);
+        }
+      }
+
+      var lihtcData = results[3];
       if (lihtcData && lihtcData._loadError) {
         console.warn('[market-analysis] LIHTC data missing:', lihtcData._msg);
         lihtcFeatures = [];
@@ -4692,6 +4818,13 @@
     placeSiteMarker:         function (lat, lon) { return placeSiteMarker(lat, lon); },
     haversine:               haversine,
     tractInBuffer:           tractInBuffer,
+    tractBufferShare:        tractBufferShare,
+    _setTractGeometryIndexForTest: function (index) {
+      tractGeometryDisabledForTest = index === null;
+      tractGeometryIndex = index || null;
+    },
+    _polygonBufferShareFromGeometry: _polygonBufferShareFromGeometry,
+    _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
     computeCoverage:         computeCoverage,
     generatePmaPolygon:      generatePmaPolygon,

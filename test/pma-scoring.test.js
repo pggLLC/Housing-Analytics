@@ -594,6 +594,72 @@ test('market-analysis.js: tractInBuffer source uses bbox clamp logic', () => {
   assert(src.includes('nearestLon'), 'nearestLon clamping exists');
 });
 
+test('tractBufferShare uses polygon intersection before bbox fallback (#1232 PR B)', () => {
+  global.window = { PMAMarketScoring: Scoring };
+  global.document = {
+    addEventListener() {},
+    getElementById() { return null; },
+    querySelector() { return null; },
+    querySelectorAll() { return []; }
+  };
+  const modulePath = path.resolve(__dirname, '..', 'js', 'market-analysis.js');
+  delete require.cache[require.resolve(modulePath)];
+  require(modulePath);
+
+  const engine = global.window.PMAEngine;
+  assert(typeof engine.tractBufferShare === 'function', 'tractBufferShare is exposed for regression testing');
+  assert(typeof engine._setTractGeometryIndexForTest === 'function', 'test hook can inject tract geometry');
+  assert(typeof engine._polygonBufferShareFromGeometry === 'function', 'polygon intersection helper is exposed');
+
+  const siteLat = 39;
+  const siteLon = -105;
+  const miles = 1;
+  const tract = {
+    geoid: 'TESTPOLY',
+    lat: siteLat,
+    lon: siteLon,
+    bbox: [
+      siteLon - (2 / (69 * Math.cos(siteLat * Math.PI / 180))),
+      siteLat - (2 / 69),
+      siteLon + (2 / (69 * Math.cos(siteLat * Math.PI / 180))),
+      siteLat + (2 / 69)
+    ]
+  };
+  const narrowTractThroughSite = {
+    type: 'Polygon',
+    coordinates: [[
+      [siteLon - (0.25 / (69 * Math.cos(siteLat * Math.PI / 180))), tract.bbox[1]],
+      [siteLon + (0.25 / (69 * Math.cos(siteLat * Math.PI / 180))), tract.bbox[1]],
+      [siteLon + (0.25 / (69 * Math.cos(siteLat * Math.PI / 180))), tract.bbox[3]],
+      [siteLon - (0.25 / (69 * Math.cos(siteLat * Math.PI / 180))), tract.bbox[3]],
+      [siteLon - (0.25 / (69 * Math.cos(siteLat * Math.PI / 180))), tract.bbox[1]]
+    ]]
+  };
+
+  engine._setTractGeometryIndexForTest({ TESTPOLY: narrowTractThroughSite });
+  const polygonShare = engine.tractBufferShare(tract, siteLat, siteLon, miles);
+  const bboxShare = engine._bboxBufferShare(tract, siteLat, siteLon, miles);
+  assert(polygonShare > 0.45 && polygonShare < 0.55,
+    `polygon share reflects the narrow tract geometry (got ${polygonShare})`);
+  assert(Math.abs(polygonShare - bboxShare) > 0.02,
+    'polygon share is measurably different from bbox approximation');
+
+  engine._setTractGeometryIndexForTest(null);
+  const fallbackShare = engine.tractBufferShare(tract, siteLat, siteLon, miles);
+  assertClose(fallbackShare, bboxShare, 1e-12,
+    'missing geometry falls back to bbox approximation for offline resilience');
+});
+
+test('loadData fetches PMA tract display geometry for analytic apportionment', () => {
+  const src = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  assert(src.includes("fetchFile('market/pma_tract_display_geometry.geojson')"),
+    'loadData fetches lightweight PMA tract geometry');
+  assert(src.includes('_indexTractGeometry(geometryData)'),
+    'loadData indexes tract geometry for runAnalysis');
+  assert(src.includes("window.PMADataCache.set('pmaTractGeometryIndex'"),
+    'geometry index is cached for repeated runs');
+});
+
 test('build_public_market_data.py: _bbox function exists', () => {
   const src = fs.readFileSync(
     path.resolve(__dirname, '..', 'scripts', 'market', 'build_public_market_data.py'), 'utf8');
