@@ -15,11 +15,20 @@
 3. **Commute-shed ships first as a context overlay (D-lite), not an analytic
    extension**: the committed LODES surface cannot support per-site capture
    math (§5). D-full requires a new build artifact and separate approval.
-4. **Calibration is a hard gate**: C3 (enabling barrier-aware mode by default)
-   is blocked until at least one professional site-level PMA benchmark is in
-   hand (§6). Application market studies are not publicly published; the
-   likeliest source is owner-provided studies.
-5. Staged PRs C1 → C2 (flag off) → C3 (enable, disclosed) → D-lite → D-full (§9).
+4. **Calibration is a hard gate — and the first benchmark is in hand and
+   already reordered priorities**: the owner supplied the Fruita Mews II
+   study (CHFA-approved PMA; see CALIBRATION-FRUITA-MEWS-PMA-2026-07.md).
+   The tool's 3-mile buffer captures 2 of the professional PMA's 8 tracts
+   with zero false inclusions; the professional PMA is an asymmetric
+   commute-shaped polygon reaching ~12 miles to the economic hub; and the
+   professional explicitly found *no* inhibiting natural boundary despite
+   river/monument adjacency. Consequence: **commute-shed work (D) is the
+   primary realism gap for small-town sites and is promoted; barrier work
+   stays second-order**, with the M3 never-exclude posture directly
+   affirmed. C3 additionally requires a benchmark where barriers
+   observably bind (urban river/interstate site).
+5. Staged PRs C1 → D-lite (promoted) → C2 (flag off) → C3 (enable, gated) →
+   D-full (own decision record) (§9).
 
 Everything below is evidence for those five calls.
 
@@ -218,6 +227,11 @@ no invented thresholds. (Handoff rule honored verbatim.)
    branch — at least one of tests 1/3/4 must fail.
 
 ## 9. Recommended PR split
+
+*Amended 2026-07-18 after the Fruita benchmark (see calibration doc): D-lite
+moves ahead of C2 — it addresses the demonstrated first-order gap with
+committed data and no score change, while barrier work awaits a benchmark
+where barriers observably bind.*
 
 - **C1 — data completion + audit (no behavior change):** fix the U-route
   fetch, add linear hydrography, regenerate barriers with non-vacuousness
