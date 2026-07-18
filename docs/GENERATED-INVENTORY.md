@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T21:57:49.535Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T22:55:15.758Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1554 JSON files found.
+1555 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 747.5 KB | ✅ | — |
+| `data/_manifest.json` | 748.2 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 196.5 KB | ✅ | — |
+| `data/manifest.json` | 196.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1574,6 +1574,7 @@
 | `data/market/fmr_tract_map_co.json` | 101.2 KB | ✅ | — |
 | `data/market/food_access_co.json` | 431.7 KB | ✅ | — |
 | `data/market/freddie-mac-multifamily-outlook.json` | 3.6 KB | ✅ | — |
+| `data/market/hud_zip_tract_crosswalk_co.json` | 774.9 KB | ✅ | — |
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
@@ -1631,7 +1632,7 @@
 
 ## Test Files
 
-198 test files found.
+199 test files found.
 
 | File | Size |
 |------|------|
@@ -1717,6 +1718,7 @@
 | `test/homepage-job-routing.test.js` | 2.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
+| `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 14.0 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
@@ -1880,7 +1882,7 @@
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.6 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
-| `.github/workflows/fetch-fmr-data.yml` | 5.2 KB |
+| `.github/workflows/fetch-fmr-data.yml` | 6.5 KB |
 | `.github/workflows/fetch-fred-data.yml` | 14.0 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
