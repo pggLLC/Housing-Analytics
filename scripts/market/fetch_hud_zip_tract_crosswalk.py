@@ -143,6 +143,7 @@ def validate_rows(rows: list[dict]) -> None:
 def build_output(payload_meta: dict, rows: list[dict]) -> dict:
     year = str(payload_meta.get("year") or "").strip() or None
     quarter = str(payload_meta.get("quarter") or "").strip() or None
+    quarter_label = f"Q{quarter}" if quarter and quarter.isdigit() else quarter
     return {
         "meta": {
             "source": "HUD-USPS ZIP Code Crosswalk API",
@@ -157,7 +158,7 @@ def build_output(payload_meta: dict, rows: list[dict]) -> dict:
             "api_query": QUERY_STATE,
             "vintage_year": year,
             "vintage_quarter": quarter,
-            "as_of": f"{year}-{quarter}" if year and quarter else utc_today(),
+            "as_of": f"{year}-{quarter_label}" if year and quarter_label else utc_today(),
             "last_verified": utc_today(),
             "review_by": "2026-10-18",
             "row_count": len(rows),
