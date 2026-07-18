@@ -86,7 +86,7 @@ ENERGY_PROGRAM_IDS.forEach((id) => {
 });
 
 assert.strictEqual(programs['CEO-SOLAR-FOR-ALL'].available, null, 'Solar for All watch item cannot be treated as available subsidy');
-assert(programs['CEO-SOLAR-FOR-ALL'].relatedSourceUrls.includes('https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund'), 'Solar for All cites EPA GGRF status');
+assert(programs['CEO-SOLAR-FOR-ALL'].relatedSourceUrls.some((url) => url === 'https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund'), 'Solar for All cites EPA GGRF status');
 
 const homeCardIds = new Set((homeownership.programs || []).map((program) => program.id));
 Object.entries(OWNER_PROGRAM_TO_CARD).forEach(([programId, cardId]) => {
