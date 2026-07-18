@@ -2,10 +2,10 @@
   "schema": "homeownership-programs/v1",
   "meta": {
     "title": "Help for Homebuyers Program Watchlist",
-    "as_of": "2026-07-16",
-    "last_updated": "2026-07-16",
-    "last_verified": "2026-07-16",
-    "review_by": "2026-10-16",
+    "as_of": "2026-07-18",
+    "last_updated": "2026-07-18",
+    "last_verified": "2026-07-18",
+    "review_by": "2026-10-18",
     "methodology": "Consumer-facing watchlist of homebuyer and homeowner assistance programs. Dollar values are included only when visible on an official program page reviewed this session; otherwise benefit_amount remains null and the page renders VERIFY."
   },
   "programs": [
@@ -200,6 +200,63 @@
       "source_note": "119th Congress Neighborhood Homes Investment Act bill pages; proposed, not enacted.",
       "last_verified": "2026-07-16",
       "review_by": "2026-10-16"
+    },
+    {
+      "id": "colorado-wap-weatherization",
+      "name": "Colorado Weatherization Assistance Program",
+      "level": "colorado",
+      "kind": "grant",
+      "status": "active",
+      "plain_summary": "WAP can help income-qualified homeowners and renters reduce energy costs through local weatherization services. Colorado delivery runs through state and local providers, so eligibility and timing must be confirmed before a household plans work.",
+      "who_its_for": "Income-qualified Colorado households; renters generally need landlord permission.",
+      "what_its_worth": "VERIFY: services may be provided at no cost, but there is no single statewide dollar amount.",
+      "benefit_amount": null,
+      "benefit_unit": null,
+      "how_to_start": "Use DOE WAP guidance to identify the Colorado/local WAP administrator.",
+      "source_url": "https://www.energy.gov/cmei/scep/wap/how-apply-weatherization-assistance",
+      "source_note": "DOE says WAP is state/local administered and eligible households may apply through local providers; homeowners and renters can be eligible.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
+    },
+    {
+      "id": "colorado-home-energy-rebates-hear-homes",
+      "name": "Colorado Home Energy Rebates (HEAR / HOMES)",
+      "level": "colorado",
+      "kind": "grant",
+      "status": "VERIFY",
+      "plain_summary": "Colorado Home Energy Rebates may support efficient appliances and whole-home energy upgrades, but current Colorado phase availability must be checked before budgeting. Do not assume a rebate is available for a 2026 project.",
+      "who_its_for": "Colorado homeowners or renters considering eligible energy upgrades, subject to state program rules.",
+      "what_its_worth": "VERIFY: DOE describes statutory rebate caps, but current Colorado availability is not confirmed here.",
+      "benefit_amount": null,
+      "benefit_unit": null,
+      "how_to_start": "Check DOE rebate status and confirm Colorado availability with CEO/local implementers.",
+      "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "related_source_urls": [
+        "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
+      ],
+      "source_note": "DOE says rebates are state-administered and available only in select jurisdictions; Colorado launch details were verified from DOE materials, but current state availability is VERIFY.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
+    },
+    {
+      "id": "colorado-solar-for-all-watch",
+      "name": "Colorado Solar for All watch",
+      "level": "colorado",
+      "kind": "grant",
+      "status": "VERIFY",
+      "plain_summary": "Colorado Solar for All award is legally volatile. EPA now says it is no longer implementing Solar for All, so homeowners should not treat this as available funding without fresh official confirmation.",
+      "who_its_for": "Low-income households and disadvantaged communities only if an official Colorado program becomes available.",
+      "what_its_worth": "VERIFY: do not count a benefit amount until current legal/program status is confirmed.",
+      "benefit_amount": null,
+      "benefit_unit": null,
+      "how_to_start": "Check Colorado federal-funds and EPA GGRF status before making project assumptions.",
+      "source_url": "https://federalfunds.colorado.gov/solar-for-all",
+      "related_source_urls": [
+        "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund"
+      ],
+      "source_note": "Colorado award page and EPA current GGRF/Solar for All status page were reviewed; EPA describes Solar for All as no longer being implemented.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
     }
   ]
 }

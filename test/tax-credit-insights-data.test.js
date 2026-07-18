@@ -15,7 +15,7 @@ function assertIsoReviewDate(raw, label) {
 function assertOfficialHttps(url, label) {
   assert(/^https:\/\//.test(url), `${label} source_url uses https`);
   assert(
-    /^(https:\/\/(www\.)?(congress|federalregister|irs|govinfo)\.gov|https:\/\/www\.irs\.gov|https:\/\/leg\.colorado\.gov)/.test(url),
+    /^(https:\/\/(www\.)?(congress|federalregister|irs|govinfo|energy|epa)\.gov|https:\/\/www\.irs\.gov|https:\/\/leg\.colorado\.gov)/.test(url),
     `${label} legislation source_url is official government source: ${url}`
   );
 }
@@ -37,7 +37,9 @@ const requiredLegislation = [
   'cra-2025-rescission-npr',
   'ira-section-6418-transferability',
   'hb24-1175-local-government-rofr-rofo',
-  'nhia-119th-congress'
+  'nhia-119th-congress',
+  'ira-home-energy-rebates-colorado-watch',
+  'ggrf-solar-for-all-colorado-watch'
 ];
 const legislationIds = new Set(legislation.entries.map((entry) => entry.id));
 requiredLegislation.forEach((id) => assert(legislationIds.has(id), `required legislation entry present: ${id}`));
