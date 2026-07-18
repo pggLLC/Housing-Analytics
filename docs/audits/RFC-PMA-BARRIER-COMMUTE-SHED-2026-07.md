@@ -12,9 +12,14 @@
 2. **Adopt friction-downweighting (M3), reject exclusion-by-crossing (M2), defer
    graph connectivity (M1)**: cross-barrier tracts get a disclosed, bounded
    downweight — never silent exclusion — until crossing data exists (§3).
-3. **Commute-shed ships first as a context overlay (D-lite), not an analytic
-   extension**: the committed LODES surface cannot support per-site capture
-   math (§5). D-full requires a new build artifact and separate approval.
+3. **Commute-shed ships first as a context overlay (D-lite); D-full is
+   approved in principle as a user-selectable mode** (owner decision
+   2026-07-18): "commute-shaped PMA" becomes an explicit opt-in toggle,
+   default off, never the default geography — same rollout pattern as the
+   barrier flag. The committed LODES surface cannot support per-site capture
+   math (§5), so D-full still gates on the OD build artifact and a
+   calibration-grounded extension rule; the toggle framing lowers rollout
+   risk, not the honesty bar.
 4. **Calibration is a hard gate — and the first benchmark is in hand and
    already reordered priorities**: the owner supplied the Fruita Mews II
    study (CHFA-approved PMA; see CALIBRATION-FRUITA-MEWS-PMA-2026-07.md).
@@ -28,7 +33,7 @@
    affirmed. C3 additionally requires a benchmark where barriers
    observably bind (urban river/interstate site).
 5. Staged PRs C1 → D-lite (promoted) → C2 (flag off) → C3 (enable, gated) →
-   D-full (own decision record) (§9).
+   D-full (opt-in mode; evidence-gated, scope pre-approved) (§9).
 
 Everything below is evidence for those five calls.
 
@@ -155,11 +160,20 @@ committed data** for arbitrary sites.
   buffer, rendered as a labeled overlay ("LODES 2023 commute context — does
   not change PMA scores"). Ships with committed data; no capture threshold
   claimed, so none must be defended.
-- **D-full (separate approval): analytic extension.** Requires a new
-  build-step artifact — a tract-to-tract OD matrix for Colorado filtered to a
-  materiality floor — plus decisions on capture threshold, home-vs-workplace
-  anchoring, and barrier interaction. Not scoped further here; it should get
-  its own one-page decision record if the owner wants it after D-lite.
+- **D-full (approved in principle as a user-selectable mode, 2026-07-18):**
+  a "commute-shaped PMA" toggle, default off, buffer PMA always one click
+  back — the user chooses the professional-style geography explicitly, with
+  disclosure, rather than the tool changing anyone's default numbers. Two
+  hard requirements survive the toggle framing: (a) the extension rule must
+  be calibration-grounded — anchored to the professional-convergence target
+  and the documented 40–56% outside-PMA bracket (F-CAL-5/-7), never an
+  invented threshold — and requires the new build-step OD artifact (a
+  tract-to-tract matrix filtered to a materiality floor); (b) **every output
+  and export carries its mode label**, because demand counts and capture
+  rates mean different things under a buffer vs a commute-shaped PMA.
+  Remaining design decisions (home-vs-workplace anchoring, barrier
+  interaction, materiality floor) are settled in the D-full implementation
+  PR against those anchors — no separate scope approval needed.
 - Hard guard carried from the handoff: the synthetic-workplace and hull paths
   in pma-commuting.js are dead code for analysis; a test asserts shipped
   output cannot change when the synthetic path is force-enabled (§8).
@@ -246,8 +260,10 @@ where barriers observably bind.*
   label until one post-ship benchmark validation round.
 - **D-lite — commute context overlay:** independent of C2/C3; committed data
   only; test 6.
-- **D-full — analytic commute-shed:** separate decision record; not approved
-  by this RFC.
+- **D-full — commute-shaped PMA as opt-in mode:** scope pre-approved by the
+  owner (2026-07-18); ships only when the OD artifact exists and the
+  extension rule passes calibration QA against F-CAL-5/-7. Default remains
+  the circular buffer; mode labels on all outputs.
 
 ## 10. Owner decisions requested
 
@@ -255,5 +271,7 @@ where barriers observably bind.*
 2. Approve C1 data completion as a prerequisite (§2).
 3. Confirm you can provide 1–2 professional market studies as calibration
    artifacts (§6 path 1) — or direct the time-boxed council-packet hunt only.
-4. Approve D-lite as the only commute-shed work in this phase (§5).
+4. ~~Approve D-lite as the only commute-shed work in this phase~~ —
+   **decided 2026-07-18**: D-lite now; D-full approved in principle as a
+   user-selectable, default-off mode, evidence-gated per §5.
 5. Approve the staged split and the C3 hard gate (§6, §9).
