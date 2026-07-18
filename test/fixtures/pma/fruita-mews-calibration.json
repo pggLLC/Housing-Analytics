@@ -1,0 +1,47 @@
+{
+  "schema": "pma-calibration-fixture/v1",
+  "fixture_id": "fruita-mews-ii-professional-pma",
+  "production_use": false,
+  "purpose": "Non-production calibration fixture for issue #1232 C1. Do not use as a scoring input.",
+  "source_doc": "docs/audits/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md",
+  "recorded": "2026-07-18",
+  "site": {
+    "name": "Fruita Mews II",
+    "address": "1138 18 1/2 Road, Fruita, CO",
+    "lat": 39.166,
+    "lon": -108.708,
+    "county_fips": "08077",
+    "site_tract_geoid": "08077001503"
+  },
+  "professional_pma": {
+    "artifact_count": 2,
+    "status": "owner-provided, not publicly published",
+    "approved_by_chfa_review": true,
+    "tract_geoids_2020": [
+      "08077000900",
+      "08077001402",
+      "08077001403",
+      "08077001404",
+      "08077001502",
+      "08077001503",
+      "08077001504",
+      "08077001600"
+    ],
+    "notes": [
+      "Professional PMA reaches west Grand Junction as a commute/economic extension.",
+      "Professional study recorded no natural boundary that would inhibit relocation to the subject.",
+      "Fixture is evidence for calibration/testing only, not a production geography."
+    ]
+  },
+  "tool_buffer_current_main": {
+    "method": "centroid-inclusion 3-mile buffer",
+    "computed": "2026-07-18",
+    "tract_geoids": [
+      "08077001503",
+      "08077001504"
+    ],
+    "overlap_with_professional_count": 2,
+    "tool_only_count": 0,
+    "professional_only_count": 6
+  }
+}
