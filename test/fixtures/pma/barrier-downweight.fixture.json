@@ -1,0 +1,9 @@
+{
+  "schema": "pma-barrier-downweight-fixture/v1",
+  "fixture_id": "c2-placeholder-barrier-downweight",
+  "production_use": false,
+  "multiplier": 0.5,
+  "label": "placeholder",
+  "source": "docs/audits/RFC-PMA-BARRIER-COMMUTE-SHED-2026-07.md",
+  "note": "Placeholder only for C2 test-gated implementation. It is not a production calibration value and must remain default-off pending C3 calibration."
+}
