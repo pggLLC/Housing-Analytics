@@ -204,6 +204,8 @@
 
   var tractCentroids      = null;
   var tractGeometryIndex  = null;
+  var tractDisplayGeometryData = null;
+  var barrierAwareInputs  = null;
   var tractGeometryDisabledForTest = false;
   var acsMetrics          = null;
   var lihtcFeatures       = null;
@@ -2191,6 +2193,27 @@
     var bufTracts = analysisMethod === 'tract'
       ? tractsByGeoids(selectedTractGeoids)
       : tractsInBuffer(lat, lon, bufferMiles);
+    var barrierAwareContext = null;
+    function applyBarrierAware(tracts) {
+      var BA = window.PMABarrierAware;
+      if (!BA || !BA.isEnabled || !BA.isEnabled() || typeof BA.applyToTracts !== 'function') {
+        barrierAwareContext = BA && BA.getState ? BA.getState() : {
+          enabled: false,
+          available: false,
+          mode_label: 'Barrier-aware downweight off'
+        };
+        return tracts;
+      }
+      var applied = BA.applyToTracts(tracts, {
+        site: { lat: lat, lon: lon },
+        displayGeometry: tractDisplayGeometryData,
+        barrierData: barrierAwareInputs && barrierAwareInputs.barrierData,
+        fixture: barrierAwareInputs && barrierAwareInputs.fixture
+      });
+      barrierAwareContext = applied && applied.state ? applied.state : (BA.getState ? BA.getState() : null);
+      return applied && applied.tracts ? applied.tracts : tracts;
+    }
+    bufTracts = applyBarrierAware(bufTracts);
     var acs = aggregateAcs(bufTracts, acsIdx);
 
     // If no ACS matches (or no centroids found) try expanding to larger radii.
@@ -2200,6 +2223,7 @@
       for (var fi = 0; fi < fallbackSizes.length; fi++) {
         var fallbackMiles = fallbackSizes[fi];
         var fallbackTracts = tractsInBuffer(lat, lon, fallbackMiles);
+        fallbackTracts = applyBarrierAware(fallbackTracts);
         var fallbackAcs = aggregateAcs(fallbackTracts, acsIdx);
         if (fallbackAcs) {
           acs = fallbackAcs;
@@ -2406,6 +2430,11 @@
         geoid: t.geoid,
         countyName: t.county_name || (t.geoid.slice(2, 5) || ''),
         share: share,
+        barrierBadge: t._barrierBadge || null,
+        barrierAware: !!t._barrierAware,
+        barrierBaseShare: typeof t._bufferShareBase === 'number' ? t._bufferShareBase : null,
+        barrierMultiplier: typeof t._barrierMultiplier === 'number' ? t._barrierMultiplier : null,
+        barrierCrossings: t._barrierCrossings || null,
         bboxSource: t.bbox_source || (t.bbox ? 'unknown' : 'centroid'),
         pop: pop,
         households: hh,
@@ -2425,6 +2454,9 @@
       confidence: confidence,
       dolaContext: dolaEnrichment,
       amenities: _siteAmenities,
+      barrierAware: barrierAwareContext || (window.PMABarrierAware && window.PMABarrierAware.getState
+        ? window.PMABarrierAware.getState()
+        : { enabled: false, mode_label: 'Barrier-aware downweight off' }),
       _tractIds: bufTracts.map(function (t) { return t.geoid; }),
       // K — exposes the per-tract clip percentages for the breakdown card.
       bufferTractsDetail: bufferTractsDetail,
@@ -3615,13 +3647,29 @@
         var thStyle = 'text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;';
         var tdStyle = 'padding:5px 8px;border-bottom:1px solid color-mix(in oklab, var(--border) 50%, transparent 50%);font-size:.85rem;';
         var numStyle = tdStyle + 'text-align:right;font-variant-numeric:tabular-nums;';
+        var barrierState = result.barrierAware || {};
+        var barrierChip = '';
+        var escMini = function (s) {
+          return String(s == null ? '' : s).replace(/[&<>"']/g, function (ch) {
+            return ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[ch];
+          });
+        };
+        if (barrierState.enabled && barrierState.warning) {
+          barrierChip = '<span role="alert" style="font-size:.76rem;color:var(--warn,#d97706);border:1px solid var(--warn,#d97706);border-radius:999px;padding:2px 7px;">' +
+            escMini(barrierState.warning) + '</span>';
+        } else if (barrierState.enabled) {
+          barrierChip = '<span style="font-size:.76rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Barrier-aware beta</span>';
+        }
         var rows = details.slice(0, 30).map(function (d) {
           var sharePct = (d.share * 100).toFixed(0) + '%';
           var bboxBadge = d.bboxSource === 'tiger2020'
             ? '<span title="TIGER tract geometry available" style="font-size:.7rem;color:var(--good,#047857);">●</span>'
             : '<span title="Centroid fallback — coarser estimate" style="font-size:.7rem;color:var(--warn,#d97706);">●</span>';
+          var barrierBadge = d.barrierBadge
+            ? '<div style="margin-top:3px;font-size:.74rem;color:var(--warn,#d97706);">' + escMini(d.barrierBadge) + '</div>'
+            : '';
           return '<tr>' +
-            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span></td>' +
+            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span>' + barrierBadge + '</td>' +
             '<td style="' + numStyle + '">' + sharePct + '</td>' +
             '<td style="' + numStyle + '">' + (d.pop != null ? fmtInt(d.pop) : '—') + '</td>' +
             '<td style="' + numStyle + '">' + (d.households != null ? fmtInt(d.households) : '—') + '</td>' +
@@ -3637,7 +3685,8 @@
         bufferHost.innerHTML =
           '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
             '<h4 style="margin:0;font-size:.95rem;font-weight:700;">Tract-level breakdown</h4>' +
-            '<span style="font-size:.78rem;color:var(--muted);">Real polygon ●  ·  centroid fallback ●</span>' +
+            '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.78rem;color:var(--muted);">' +
+              barrierChip + '<span>Real polygon ●  ·  centroid fallback ●</span></span>' +
           '</div>' +
           '<p style="font-size:.8rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
             (isTractPicker
@@ -4028,6 +4077,10 @@
         boundaryMethod: 'circular buffer (screening simplification, not commuting-shed)',
         tractsInBuffer: r.tractCount,
         tractGeoids:    (r._tractIds || []).slice(0, 50),
+        barrierAware: r.barrierAware || {
+          enabled: false,
+          mode_label: 'Barrier-aware downweight off'
+        },
         commuteContextOverlay: r.commuteContextOverlay || {
           enabled: false,
           mode_label: 'Commute context overlay off'
@@ -4130,6 +4183,10 @@
       ['Longitude', s.longitude],
       ['Buffer (miles)', s.bufferMiles],
       ['Boundary Method', s.boundaryMethod],
+      ['Barrier-Aware Mode', s.barrierAware && s.barrierAware.mode_label],
+      ['Barrier-Aware Warning', s.barrierAware && s.barrierAware.warning],
+      ['Barrier Inventory Vintage', s.barrierAware && s.barrierAware.inventory_vintage],
+      ['Barrier Multiplier Source', s.barrierAware && s.barrierAware.multiplier_source],
       ['Commute Context Overlay', s.commuteContextOverlay && s.commuteContextOverlay.mode_label],
       ['Commute Context Disclosure', s.commuteContextOverlay && s.commuteContextOverlay.legend],
       ['ACS Tracts in Buffer', s.tractsInBuffer],
@@ -4399,7 +4456,11 @@
       fetchFile('market/pma_tract_display_geometry.geojson'),
       (window.HudLihtc ? window.HudLihtc.load() : fetchFile('market/hud_lihtc_co.geojson')).catch(function (e) {
         return { _loadError: true, _missing: true, _msg: e && e.message };
-      })
+      }),
+      (window.PMABarrierAware && window.PMABarrierAware.isEnabled && window.PMABarrierAware.isEnabled() &&
+       typeof window.PMABarrierAware.loadInputs === 'function'
+        ? window.PMABarrierAware.loadInputs()
+        : Promise.resolve(null))
     ]).then(function (results) {      var statusParts = [];
 
       var tractData = results[0];
@@ -4432,8 +4493,10 @@
       var geometryData = results[2];
       if (geometryData && geometryData._loadError) {
         tractGeometryIndex = null;
+        tractDisplayGeometryData = null;
         statusParts.push('PMA tract geometry missing — using bbox apportionment fallback.');
       } else {
+        tractDisplayGeometryData = geometryData;
         tractGeometryIndex = _indexTractGeometry(geometryData);
         if (window.PMADataCache) {
           window.PMADataCache.set('pmaTractGeometryIndex', tractGeometryIndex);
@@ -4441,6 +4504,7 @@
       }
 
       var lihtcData = results[3];
+      barrierAwareInputs = results[4] || null;
       if (lihtcData && lihtcData._loadError) {
         console.warn('[market-analysis] LIHTC data missing:', lihtcData._msg);
         lihtcFeatures = [];
