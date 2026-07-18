@@ -22,6 +22,40 @@ A higher score means **stronger market support** for an affordable housing proje
 
 ---
 
+## PMA Tract Apportionment
+
+PMA aggregation selects Colorado census tracts whose TIGER bbox intersects the
+selected buffer, then apportions count fields by the tract polygon's share
+inside the circular buffer. The analytic share is computed from
+`data/market/pma_tract_display_geometry.geojson`, a lightweight derivative of
+`data/market/tract_boundaries_co.geojson`: tract rings are projected to local
+miles around the site, clipped against a 72-segment circle, and divided by the
+tract's projected polygon area.
+
+This replaces the older bbox rectangle approximation. If the display geometry
+artifact is unavailable in an offline session, the PMA engine falls back to the
+bbox approximation and discloses a data warning instead of blocking the page.
+
+### 2026-07-17 Migration Impact
+
+The PR-B migration changed only the apportionment weights. It did not change which
+tracts are selected, score weights, thresholds, source vintages, or LIHTC supply
+logic. Representative 3-mile buffer checks run locally against
+`market-analysis.html` showed the following PMA score movement:
+
+| Site fixture | Market type | Old bbox score | New polygon score | Delta | Household delta |
+|---|---:|---:|---:|---:|---:|
+| Denver Civic Center | Urban core | 58 | 57 | -1 | -12,725 |
+| Lakewood / Belmar | Suburban | 65 | 62 | -3 | -12,621 |
+| Silt | Rural | 71 | 69 | -2 | -244 |
+| Breckenridge | Resort | 31 | 30 | -1 | -17 |
+
+The direction is mostly downward because rectangle intersections previously
+over-counted edge tracts. Resort/rural cases can move individual vacancy and
+workforce sub-scores when very large tracts are clipped more accurately.
+
+---
+
 ## Dimension Definitions
 
 ### 1. Demand (30%)
