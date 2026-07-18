@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-07-17T17:23:37.680Z",
+    "generated_at": "2026-07-18T05:15:49.417Z",
     "root": "data/",
-    "file_count": 1587,
-    "total_size_bytes": 295210059,
+    "file_count": 1588,
+    "total_size_bytes": 295259136,
     "kinds": {
-      "json": 1552,
+      "json": 1553,
       "geojson": 31,
       "csv": 4
     }
@@ -30391,6 +30391,23 @@
         "factors"
       ],
       "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "market/colorado-foreclosure-performance.json",
+      "kind": "json",
+      "size_bytes": 49077,
+      "mtime": "2026-07-18T05:08:59.867Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "series",
+        "summary"
+      ],
+      "key_count": 4,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
