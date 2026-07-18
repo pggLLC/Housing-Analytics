@@ -76,6 +76,7 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  var _softFundingStatus = null;
 
   // F218 — non-LIHTC affordable inventory cache (HUD MF, USDA RD, PBV-local,
   // preservation candidates). Pre-warmed at module init; consumed by
@@ -1275,6 +1276,7 @@
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
     renderPmaSiteSummary(result);
+    renderPmaFundingContext(result);
 
     // Fallback disclosure: warn when dimensions lack real data
     var _dimAvailCheck = result.dimensionDataAvailable || {};
@@ -3527,7 +3529,9 @@
 
       var fundTracker = window.SoftFundingTracker;
       if (fundTracker && typeof fundTracker.load === 'function' && results[4]) {
+        _softFundingStatus = results[4];
         fundTracker.load(results[4]);
+        if (lastResult) renderPmaFundingContext(lastResult);
       }
 
       var chfaPredictor = window.CHFAAwardPredictor;
@@ -3729,6 +3733,36 @@
         });
       }
     }
+  }
+
+  function _dominantCountyFromResult(result) {
+    var ids = (result && (result._tractIds || result.tractGeoids)) || [];
+    var counts = {};
+    ids.forEach(function (geoid) {
+      var fips = String(geoid || '').slice(0, 5);
+      if (/^08\d{3}$/.test(fips)) counts[fips] = (counts[fips] || 0) + 1;
+    });
+    var best = null;
+    Object.keys(counts).forEach(function (fips) {
+      if (!best || counts[fips] > counts[best]) best = fips;
+    });
+    return best;
+  }
+
+  function renderPmaFundingContext(result) {
+    var mount = document.getElementById('pmaFundingContextCard');
+    var renderer = window.FundingContextCard;
+    if (!mount || !renderer || typeof renderer.render !== 'function') return;
+    if (!result) {
+      mount.hidden = true;
+      return;
+    }
+    renderer.render(mount, _softFundingStatus, {
+      surface: 'pma',
+      countyFips: _dominantCountyFromResult(result),
+      executionType: '9%',
+      useCase: 'multifamily-new-construction'
+    });
   }
 
   function placeSiteMarker(lat, lon) {
@@ -4059,6 +4093,14 @@
     var dims = r.dimensions || {};
     var dimAvail = r.dimensionDataAvailable || {};
     var coverage = r.pmaDataCoverage || {};
+    var fundingContext = window.FundingContextCard && typeof window.FundingContextCard.buildContext === 'function'
+      ? window.FundingContextCard.buildContext(_softFundingStatus, {
+          surface: 'pma',
+          countyFips: _dominantCountyFromResult(r),
+          executionType: '9%',
+          useCase: 'multifamily-new-construction'
+        })
+      : null;
     return {
       exportedAt:  new Date().toISOString(),
       generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
@@ -4084,7 +4126,14 @@
         commuteContextOverlay: r.commuteContextOverlay || {
           enabled: false,
           mode_label: 'Commute context overlay off'
-        }
+        },
+        fundingContext: fundingContext ? {
+          mode_label: 'Jurisdiction funding context — disclosure only',
+          use_case: fundingContext.meta && fundingContext.meta.useCase,
+          program_count: fundingContext.programs.length,
+          program_ids: fundingContext.programs.map(function (p) { return p.id; }),
+          scoring_effect: 'none'
+        } : null
       },
       overall: {
         score:      r.overall,
@@ -4189,6 +4238,11 @@
       ['Barrier Multiplier Source', s.barrierAware && s.barrierAware.multiplier_source],
       ['Commute Context Overlay', s.commuteContextOverlay && s.commuteContextOverlay.mode_label],
       ['Commute Context Disclosure', s.commuteContextOverlay && s.commuteContextOverlay.legend],
+      ['Funding Context Mode', s.fundingContext && s.fundingContext.mode_label],
+      ['Funding Context Use Case', s.fundingContext && s.fundingContext.use_case],
+      ['Funding Context Program Count', s.fundingContext && s.fundingContext.program_count],
+      ['Funding Context Program IDs', s.fundingContext && (s.fundingContext.program_ids || []).join('; ')],
+      ['Funding Context Scoring Effect', s.fundingContext && s.fundingContext.scoring_effect],
       ['ACS Tracts in Buffer', s.tractsInBuffer],
       ['Tract GEOIDs (first 50)', (s.tractGeoids || []).join('; ')],
       ['', ''],

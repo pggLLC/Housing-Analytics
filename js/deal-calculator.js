@@ -20,6 +20,7 @@
   var EQUITY_PRICE_DEFAULT = _equityPricingDefaults.credit_9pct;
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
+  var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
   // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
@@ -241,6 +242,24 @@
     });
     document.querySelectorAll('[data-dc-mode="ownership"]').forEach(function (el) {
       el.hidden = !isOwnership;
+    });
+  }
+
+  function _fundingUseCaseForDealMode() {
+    return currentDealMode() === 'ownership' ? 'owner-occupied' : 'multifamily-new-construction';
+  }
+
+  function _renderFundingContextCard() {
+    var mount = document.getElementById('dc-funding-context-card');
+    var renderer = window.FundingContextCard;
+    if (!mount || !renderer || typeof renderer.render !== 'function') return;
+    renderer.render(mount, _softFundingStatus, {
+      surface: 'deal-calculator',
+      countyFips: _countyFips,
+      executionType: currentDealMode() === 'ownership'
+        ? 'non-LIHTC'
+        : (_activeCreditIs4Pct() ? '4%' : '9%'),
+      useCase: _fundingUseCaseForDealMode()
     });
   }
 
@@ -1241,6 +1260,7 @@
           </summary>
           <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
         </details>
+        <div id="dc-funding-context-card" data-funding-context-surface="deal-calculator" hidden style="margin-top:var(--sp3);"></div>
       </fieldset>
     </div>
 
@@ -1957,7 +1977,10 @@
     if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
     ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
       var el = document.getElementById(id);
-      if (el) el.addEventListener('change', recalculate);
+      if (el) el.addEventListener('change', function () {
+        _renderFundingContextCard();
+        recalculate();
+      });
     });
     // P7: BR-type selectors fire 'change' not 'input'
     ['dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60', 'dc-br-70', 'dc-br-80', 'dc-br-100'].forEach(function (id) {
@@ -2188,6 +2211,7 @@
           var eqInput = document.getElementById('dc-equity-price');
           if (eqInput) eqInput.value = newDefault.toFixed(2);
 
+          _renderFundingContextCard();
           recalculate();
         });
       }
@@ -3744,6 +3768,7 @@
         _runDealPredictor(fips);
         _renderCrossCountyDisclosure(fips);
         _renderHmdaContext(fips);
+        _renderFundingContextCard();
         // Q5: refresh ZORI market context for the new county.
         _renderZoriMarketContext(fips);
         recalculate();
@@ -3783,6 +3808,16 @@
         if (_countyFips) _renderPabNote(_countyFips);
       }
     }).catch(function () { /* generic PAB note remains */ });
+
+    fetch(_gapResolver('data/policy/soft-funding-status.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      _softFundingStatus = data;
+      _renderFundingContextCard();
+    }).catch(function () {
+      _softFundingStatus = null;
+      _renderFundingContextCard();
+    });
 
     // Q5: Load Zillow ZORI market-rent index. Soft-fail — when missing,
     // the achievable-rent cap toggle hides and the LIHTC ceiling is used.
