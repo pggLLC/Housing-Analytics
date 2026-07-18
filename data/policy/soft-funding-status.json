@@ -352,7 +352,7 @@
       "description": "Qualified Opportunity Zone (QOZ) capital gains deferral incentive under IRC §1400Z-2. Projects in designated OZ census tracts can attract equity from investors seeking capital gains tax deferral. Can be layered with LIHTC but complex structuring required. Not a direct funding program — availability depends on investor market.",
       "contactUrl": "https://www.cdfifund.gov/opportunity-zones",
       "adminEntity": "IRS/CDFI",
-      "note": "OZ designation expires 12/31/2028. Remaining deferral benefit diminishes each year. Projects must be in designated OZ tracts (see QCT/DDA overlay).",
+      "note": "2018 OZ designations remain relevant through 12/31/2028; OZ 2.0 creates decennial designation rounds beginning with the 2026-07-01 determination date. Rural sites should diligence whether a Qualified Rural Opportunity Fund structure applies; Public Law 119-21 §70421 adds a 30% five-year basis step-up for qualifying rural QROF investments. Projects must be in designated OZ tracts (see QCT/DDA overlay).",
       "isMarketSource": true
     },
     "NMTC-CO": {

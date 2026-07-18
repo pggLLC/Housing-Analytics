@@ -292,8 +292,8 @@
         'requires complex dual-structure legal arrangements.' +
       '</p>' +
       '<p style="font-size:.72rem;color:var(--muted);margin:0;line-height:1.4;">' +
-        '<strong>Note:</strong> OZ designation expires 12/31/2028. Remaining deferral benefit diminishes each year. ' +
-        'Consult specialized OZ legal counsel before structuring. OZ equity is market-dependent and not a guaranteed source.' +
+        '<strong>Note:</strong> The current 2018 OZ layer runs through 12/31/2028; OZ 2.0 creates decennial designation rounds. ' +
+        'Rural sites may warrant QROF review under Public Law 119-21 §70421. Consult specialized OZ legal counsel before structuring; OZ equity is market-dependent and not a guaranteed source.' +
       '</p>';
     mount.hidden = false;
   }
