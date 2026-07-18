@@ -2,16 +2,16 @@
  * js/pma-delineation.js
  * PMA and SMA boundary visualization on the Leaflet map.
  *
- * Renders the delineated Primary Market Area polygon (derived from the convex
- * hull of census tract centroids inside the buffer) and the Secondary Market
- * Area ring (~25 miles) on top of the existing market-analysis.js Leaflet map.
+ * Renders the delineated Primary Market Area as the actual included tract
+ * polygons and the Secondary Market Area ring (~25 miles) on top of the
+ * existing market-analysis.js Leaflet map.
  *
  * Uses industry-standard NH&RA / Novogradac terminology:
  *   PMA — Primary Market Area  (commuting + barrier + school-adjusted polygon)
  *   SMA — Secondary Market Area (~25 mile ring, wider competitive context)
  *
  * Public API (window.PMADelineation):
- *   renderPmaLayer(map, lat, lon, bufferMiles, tractCentroids)
+ *   renderPmaLayer(map, lat, lon, bufferMiles, includedTracts)
  *   renderSmaLayer(map, lat, lon, show)
  *   renderCommutingBoundary(map, boundaryGeoJSON)
  *   removeAllBoundaries(map)
@@ -32,53 +32,16 @@
   var PMA_BORDER_COLOR     = '#096e65';
   var SMA_COLOR            = '#64748b';   // slate / muted
   var COMMUTING_COLOR      = '#1d4ed8';   // blue (LODES data)
-  var MIN_CONVEX_HULL_PTS  = 3;
+  var PMA_TRACT_GEOMETRY_URL = 'data/market/pma_tract_display_geometry.geojson';
 
   /* ── Layer state ──────────────────────────────────────────────────── */
-  var _pmaPolygonLayer  = null;   // convex-hull polygon of buffer tracts
+  var _pmaPolygonLayer  = null;   // included-tract polygon fills
   var _pmaRingLayer     = null;   // dashed buffer ring (always shown)
   var _smaLayer         = null;   // Secondary Market Area ring
   var _commutingLayer   = null;   // commuting-based boundary polygon
-  var _lastPmaPolygon   = null;   // GeoJSON Feature for export
-
-  /* ── Convex hull (Andrew's monotone chain) ────────────────────────── */
-
-  function _cross(O, A, B) {
-    return (A[0] - O[0]) * (B[1] - O[1]) - (A[1] - O[1]) * (B[0] - O[0]);
-  }
-
-  /**
-   * Compute convex hull of 2-D points using Andrew's monotone chain.
-   * @param {Array<[number,number]>} points  — [lon, lat] pairs
-   * @returns {Array<[number,number]>} — hull vertices (counter-clockwise, closed)
-   */
-  function _convexHull(points) {
-    var pts = points.slice().sort(function (a, b) {
-      return a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1];
-    });
-    var n = pts.length;
-    if (n < MIN_CONVEX_HULL_PTS) return pts.concat([pts[0]]);
-
-    var lower = [];
-    for (var i = 0; i < n; i++) {
-      while (lower.length >= 2 && _cross(lower[lower.length - 2], lower[lower.length - 1], pts[i]) <= 0) {
-        lower.pop();
-      }
-      lower.push(pts[i]);
-    }
-    var upper = [];
-    for (var j = n - 1; j >= 0; j--) {
-      while (upper.length >= 2 && _cross(upper[upper.length - 2], upper[upper.length - 1], pts[j]) <= 0) {
-        upper.pop();
-      }
-      upper.push(pts[j]);
-    }
-    lower.pop();
-    upper.pop();
-    var hull = lower.concat(upper);
-    hull.push(hull[0]);  // close the ring
-    return hull;
-  }
+  var _lastPmaPolygon   = null;   // GeoJSON FeatureCollection for export
+  var _tractGeometryPromise = null;
+  var _tractGeometryCache   = null;
 
   /* ── Haversine distance (miles) ───────────────────────────────────── */
 
@@ -92,31 +55,6 @@
              Math.cos(_toRad(lat1)) * Math.cos(_toRad(lat2)) *
              Math.sin(dO / 2) * Math.sin(dO / 2);
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
-
-  /* ── Generate PMA polygon GeoJSON ────────────────────────────────── */
-
-  /**
-   * Build a convex-hull GeoJSON polygon from a list of tract centroid objects.
-   * @param {{lat:number, lon:number}[]} tracts
-   * @returns {object|null} GeoJSON Polygon geometry or null
-   */
-  function generatePmaPolygon(tracts) {
-    if (!tracts || tracts.length < MIN_CONVEX_HULL_PTS) return null;
-    var pts = tracts
-      .filter(function (t) { return typeof t.lat === 'number' && typeof t.lon === 'number'; })
-      .map(function (t) { return [t.lon, t.lat]; });
-    if (pts.length < MIN_CONVEX_HULL_PTS) return null;
-
-    var hull = _convexHull(pts);
-    return {
-      type: 'Feature',
-      properties: { label: 'PMA Boundary', type: 'pma' },
-      geometry: {
-        type: 'Polygon',
-        coordinates: [hull]
-      }
-    };
   }
 
   /**
@@ -133,6 +71,106 @@
     return tractList.filter(function (t) {
       return typeof t.lat === 'number' && typeof t.lon === 'number' &&
              hav(lat, lon, t.lat, t.lon) <= miles;
+    });
+  }
+
+  function _fetchJSON(url) {
+    var fetcher = window.fetchWithBase || window.fetch;
+    if (typeof fetcher !== 'function') return Promise.reject(new Error('fetch unavailable'));
+    return fetcher.call(window, url).then(function (res) {
+      if (!res || !res.ok) throw new Error('fetch failed: ' + url);
+      return res.json();
+    });
+  }
+
+  function _featureGeoid(feature) {
+    var p = feature && feature.properties;
+    return p && (p.GEOID || p.geoid || p.GEOID20 || p.tract_geoid);
+  }
+
+  function _tractGeoid(tract) {
+    return tract && (tract.geoid || tract.GEOID || tract.GEOID20 || tract.tract_geoid);
+  }
+
+  function _tractShare(tract) {
+    var raw = tract && (tract._bufferShare != null ? tract._bufferShare : tract.share);
+    var n = Number(raw);
+    if (!isFinite(n)) return 1;
+    return Math.max(0.08, Math.min(1, n));
+  }
+
+  function _loadTractGeometry() {
+    if (_tractGeometryCache) return Promise.resolve(_tractGeometryCache);
+    if (_tractGeometryPromise) return _tractGeometryPromise;
+    _tractGeometryPromise = _fetchJSON(PMA_TRACT_GEOMETRY_URL).then(function (gj) {
+      var index = {};
+      (gj && gj.features || []).forEach(function (feature) {
+        var geoid = _featureGeoid(feature);
+        if (geoid) index[String(geoid)] = feature;
+      });
+      _tractGeometryCache = { geojson: gj, index: index };
+      return _tractGeometryCache;
+    });
+    return _tractGeometryPromise;
+  }
+
+  function _featureCollectionForTracts(tracts, geometryIndex) {
+    var features = [];
+    (tracts || []).forEach(function (tract) {
+      var geoid = _tractGeoid(tract);
+      var source = geoid ? geometryIndex[String(geoid)] : null;
+      if (!source) return;
+      var copy = {
+        type: 'Feature',
+        properties: Object.assign({}, source.properties || {}, {
+          GEOID: String(geoid),
+          pma_weight: _tractShare(tract)
+        }),
+        geometry: source.geometry
+      };
+      features.push(copy);
+    });
+    return {
+      type: 'FeatureCollection',
+      properties: { label: 'PMA Included Tracts', type: 'pma-tract-display' },
+      features: features
+    };
+  }
+
+  function _renderIncludedTracts(map, tracts, bMiles) {
+    if (!tracts || !tracts.length) return Promise.resolve(null);
+    var L = window.L;
+    return _loadTractGeometry().then(function (geometry) {
+      var featureCollection = _featureCollectionForTracts(tracts, geometry.index);
+      if (!featureCollection.features.length) return null;
+
+      _lastPmaPolygon = featureCollection;
+      _pmaPolygonLayer = L.geoJSON(featureCollection, {
+        style: function (feature) {
+          var weight = feature && feature.properties ? Number(feature.properties.pma_weight) : 1;
+          if (!isFinite(weight)) weight = 1;
+          return {
+            color:       PMA_BORDER_COLOR,
+            weight:      0,
+            opacity:     0,
+            fillColor:   PMA_COLOR,
+            fillOpacity: Math.max(0.06, Math.min(0.28, 0.06 + weight * 0.18))
+          };
+        },
+        interactive: true
+      }).addTo(map)
+        .bindTooltip(
+          '<strong>Primary Market Area (PMA)</strong><br>' +
+          featureCollection.features.length + ' included census tracts · ' + bMiles + ' mi buffer',
+          { sticky: true }
+        );
+
+      console.log('[PMADelineation] PMA tract display rendered: ' +
+        featureCollection.features.length + ' included tracts');
+      return featureCollection;
+    }).catch(function (err) {
+      console.warn('[PMADelineation] PMA tract display skipped:', err && err.message ? err.message : err);
+      return null;
     });
   }
 
@@ -156,19 +194,19 @@
   /* ── Public render functions ──────────────────────────────────────── */
 
   /**
-   * Render the PMA polygon and dashed buffer ring on the map.
-   * The polygon is derived from the convex hull of tract centroids inside
-   * `bufferMiles`; if fewer than 3 centroids are available, only the ring
-   * is shown.
+   * Render the PMA included-tract fills and dashed buffer ring on the map.
+   * The tract display uses the same tract set the PMA engine aggregated; if
+   * that set is unavailable, it falls back to the engine's current buffer
+   * filter. PMA scores are unchanged by this display-only layer.
    *
    * @param {L.Map}   map
    * @param {number}  lat
    * @param {number}  lon
    * @param {number}  bufferMiles
-   * @param {object[]} [tractCentroidsOverride] — optional pre-filtered list;
+   * @param {object[]} [includedTractsOverride] — optional pre-filtered list;
    *                    if omitted, reads from PMAEngine._state or data cache.
    */
-  function renderPmaLayer(map, lat, lon, bufferMiles, tractCentroidsOverride) {
+  function renderPmaLayer(map, lat, lon, bufferMiles, includedTractsOverride) {
     var L = window.L;
     if (!L || !map || typeof lat !== 'number' || typeof lon !== 'number') return;
 
@@ -191,8 +229,8 @@
 
     // 2. Build tract list — use override, or fetch from PMAEngine/PMADataCache
     var tractList = null;
-    if (Array.isArray(tractCentroidsOverride) && tractCentroidsOverride.length > 0) {
-      tractList = tractCentroidsOverride;
+    if (Array.isArray(includedTractsOverride) && includedTractsOverride.length > 0) {
+      tractList = includedTractsOverride;
     } else if (window.PMADataCache && window.PMADataCache.has('tractCentroids')) {
       var cached = window.PMADataCache.get('tractCentroids');
       tractList  = (cached && cached.tracts) ? cached.tracts : (Array.isArray(cached) ? cached : null);
@@ -200,33 +238,12 @@
 
     if (!tractList || tractList.length === 0) return;
 
-    // 3. Filter to buffer and build convex hull polygon
-    var inBuffer = _tractsInRadius(tractList, lat, lon, bMiles);
-    if (inBuffer.length < MIN_CONVEX_HULL_PTS) return;
-
-    var feature = generatePmaPolygon(inBuffer);
-    if (!feature) return;
-
-    _lastPmaPolygon = feature;
-
-    _pmaPolygonLayer = L.geoJSON(feature, {
-      style: {
-        color:       PMA_BORDER_COLOR,
-        weight:      2,
-        dashArray:   '7 4',
-        fillColor:   PMA_COLOR,
-        fillOpacity: 0.07
-      },
-      interactive: true
-    }).addTo(map)
-      .bindTooltip(
-        '<strong>Primary Market Area (PMA)</strong><br>' +
-        inBuffer.length + ' census tracts · ' + bMiles + ' mi buffer',
-        { sticky: true }
-      );
-
-    console.log('[PMADelineation] PMA polygon rendered: ' + inBuffer.length +
-      ' tracts, hull points=' + (feature.geometry.coordinates[0].length - 1));
+    // 3. Render the actual included tract polygons. If we were handed the
+    // full centroid cache instead of an included set, filter it first.
+    var inBuffer = Array.isArray(includedTractsOverride) && includedTractsOverride.length > 0
+      ? includedTractsOverride
+      : _tractsInRadius(tractList, lat, lon, bMiles);
+    return _renderIncludedTracts(map, inBuffer, bMiles);
   }
 
   /**
@@ -291,7 +308,7 @@
   }
 
   /**
-   * Return the last computed PMA polygon as a GeoJSON Feature, or null.
+   * Return the last rendered PMA tract FeatureCollection, or null.
    * Useful for export.
    */
   function getLastPmaPolygon() {
@@ -341,7 +358,8 @@
     renderSmaLayer:         renderSmaLayer,
     renderCommutingBoundary: renderCommutingBoundary,
     removeAllBoundaries:    removeAllBoundaries,
-    generatePmaPolygon:     generatePmaPolygon,
+    _featureCollectionForTracts: _featureCollectionForTracts,
+    _tractsInRadius:        _tractsInRadius,
     getLastPmaPolygon:      getLastPmaPolygon
   };
 

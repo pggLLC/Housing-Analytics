@@ -2336,7 +2336,7 @@
     (function () {
       var delineation = window.PMADelineation;
       if (!delineation) return;
-      delineation.renderPmaLayer(map, lat, lon, effectiveBuffer);
+      delineation.renderPmaLayer(map, lat, lon, effectiveBuffer, bufTracts);
       var smaCheck = document.getElementById('pmaSmaToggle');
       if (smaCheck && smaCheck.checked) {
         delineation.renderSmaLayer(map, lat, lon, true);
