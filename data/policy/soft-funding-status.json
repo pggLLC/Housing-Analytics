@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-04-07",
-  "vintage": "2026-Q2",
-  "note": "Updated quarterly by admin. Contact CHFA, DOH, or county housing offices to verify availability before advising clients.",
+  "lastUpdated": "2026-07-18",
+  "vintage": "2026-Q3",
+  "note": "Updated quarterly by admin. Energy-retrofit entries were fetch-verified against official federal or Colorado pages on 2026-07-18; entries marked VERIFY are volatile or not confirmed as currently open and must not be counted as committed gap financing.",
   "programs": {
     "CHFA-HTF": {
       "name": "CHFA Housing Trust Fund",
@@ -11,7 +11,10 @@
       "capacity": 5000000,
       "deadline": "2026-09-30",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 750000,
       "description": "CHFA HTF provides gap financing for affordable multifamily projects. Funds are competitive statewide.",
       "contactUrl": "https://www.chfainfo.com/",
@@ -31,7 +34,10 @@
       "capacity": 15000000,
       "deadline": "2026-12-31",
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 3000000,
       "description": "Below-market first mortgage financing for affordable housing. Available year-round with rolling applications.",
       "contactUrl": "https://www.chfainfo.com/",
@@ -51,7 +57,10 @@
       "capacity": null,
       "deadline": null,
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 2000000,
       "description": "Federal U.S. Treasury CDFI Fund program re-granted by CHFA to Colorado affordable-housing projects for gap financing, predevelopment, and acquisition. Awarded to CHFA on a periodic NOFA cycle (most recent CHFA award: 2023, ~$10M). Exact available dollars vary by award cycle; verify current balance with CHFA before underwriting. Layers with LIHTC equity and first mortgage.",
       "contactUrl": "https://www.chfainfo.com/rental-housing/multifamily-lending/capital-magnet-fund-cmf",
@@ -71,7 +80,11 @@
       "capacity": 3000000,
       "deadline": "2026-06-30",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": 500000,
       "description": "State housing trust fund administered by DOLA. Rural areas receive priority weighting.",
       "contactUrl": "https://cdola.colorado.gov/",
@@ -91,7 +104,10 @@
       "capacity": 0,
       "deadline": null,
       "competitiveness": "low",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 0,
       "description": "Not currently available. Previous round closed. Watch for new HUD allocations.",
       "contactUrl": "https://cdola.colorado.gov/",
@@ -105,7 +121,10 @@
       "capacity": 12000000,
       "deadline": "2026-09-15",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 1500000,
       "description": "City of Denver AHTF — largest local fund in state. Strong preference for deep affordability (30% AMI).",
       "contactUrl": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability"
@@ -118,7 +137,10 @@
       "capacity": 3500000,
       "deadline": "2026-07-31",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 600000,
       "description": "Boulder County HTF — strong local funding base. Priority: workforce and deep affordability.",
       "contactUrl": "https://www.bouldercounty.org/housing/"
@@ -131,7 +153,10 @@
       "capacity": 6000000,
       "deadline": "2026-11-30",
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 800000,
       "description": "Federal HOME funds administered by DOLA. Typically layered with LIHTC. Annual allocations.",
       "contactUrl": "https://cdola.colorado.gov/",
@@ -153,7 +178,11 @@
       "loiDeadline": "2026-09-15",
       "deadline": "2026-10-31",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": 1000000,
       "description": "Colorado Division of Housing (DOH) trust fund for gap financing. Supports new construction, acquisition/rehab, and preservation. DOH administers separately from CHFA — different application cycle. A Letter of Intent (LOI) is required ~45 days before the full application; LOI screens project scope, jurisdiction support, and threshold alignment.",
       "contactUrl": "https://doh.colorado.gov/",
@@ -168,7 +197,11 @@
       "loiDeadline": "2026-07-01",
       "deadline": "2026-08-15",
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": 500000,
       "description": "DOH development grants for predevelopment, acquisition, and infrastructure related to affordable housing. Can be layered with LIHTC and other state sources. LOI submittal opens the NOFA cycle ~6 weeks before full applications close.",
       "contactUrl": "https://doh.colorado.gov/",
@@ -183,7 +216,11 @@
       "loiDeadline": "2026-08-15",
       "deadline": "2026-09-30",
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": 400000,
       "description": "DOH grants for permanent supportive housing and homeless prevention projects. Requires service partnership with local continuum of care. LOI required ~45 days before the full application.",
       "contactUrl": "https://doh.colorado.gov/",
@@ -205,7 +242,10 @@
       "capacity": 5000000,
       "deadline": "2026-12-31",
       "competitiveness": "high",
-      "eligibleExecution": ["9%", "4%"],
+      "eligibleExecution": [
+        "9%",
+        "4%"
+      ],
       "maxPerProject": 750000,
       "description": "Federal National Housing Trust Fund allocated to Colorado, administered by CHFA. Exclusively targets extremely low income households (30% AMI). Strong layering source with 9% LIHTC.",
       "contactUrl": "https://www.chfainfo.com/",
@@ -228,7 +268,11 @@
       "capacity": 30000000,
       "deadline": "2026-12-31",
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": 2000000,
       "description": "State funds from Proposition 123 (2022 ballot measure) dedicating TABOR surplus to affordable housing. Administered by DOLA. Jurisdictions must opt in. Supports land banking, gap financing, and rental assistance. First full-year allocation cycle.",
       "contactUrl": "https://cdola.colorado.gov/prop123",
@@ -250,7 +294,9 @@
       "capacity": 10000000,
       "deadline": "2026-12-31",
       "competitiveness": "low",
-      "eligibleExecution": ["non-LIHTC"],
+      "eligibleExecution": [
+        "non-LIHTC"
+      ],
       "maxPerProject": 1500000,
       "description": "Dedicated Prop 123 subprogram for land acquisition and banking for future affordable housing development. Can reduce TDC in future LIHTC applications by removing land cost.",
       "contactUrl": "https://cdola.colorado.gov/prop123",
@@ -271,7 +317,9 @@
       "capacity": 450000000,
       "deadline": "2026-12-31",
       "competitiveness": "moderate",
-      "eligibleExecution": ["4%"],
+      "eligibleExecution": [
+        "4%"
+      ],
       "maxPerProject": null,
       "description": "Colorado's annual Private Activity Bond volume cap. Required for 4% LIHTC deals — project must use at least 50% PAB financing to qualify for automatic 4% credits. Cap is allocated by CHFA on first-come basis with quarterly review. When cap is exhausted, 4% deals cannot proceed until next calendar year.",
       "contactUrl": "https://www.chfainfo.com/",
@@ -295,7 +343,11 @@
       "capacity": null,
       "deadline": null,
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": null,
       "description": "Qualified Opportunity Zone (QOZ) capital gains deferral incentive under IRC §1400Z-2. Projects in designated OZ census tracts can attract equity from investors seeking capital gains tax deferral. Can be layered with LIHTC but complex structuring required. Not a direct funding program — availability depends on investor market.",
       "contactUrl": "https://www.cdfifund.gov/opportunity-zones",
@@ -311,7 +363,9 @@
       "capacity": null,
       "deadline": null,
       "competitiveness": "high",
-      "eligibleExecution": ["non-LIHTC"],
+      "eligibleExecution": [
+        "non-LIHTC"
+      ],
       "maxPerProject": 5000000,
       "description": "Federal NMTC program provides 39% tax credit over 7 years for investments in low-income communities. Colorado CDEs include Colorado Growth and Revitalization Fund and Colorado Enterprise Fund. Can be combined with LIHTC but dual-credit structures are complex and require specialized legal counsel.",
       "contactUrl": "https://www.cdfifund.gov/programs-training/programs/new-markets-tax-credit",
@@ -327,13 +381,157 @@
       "capacity": null,
       "deadline": null,
       "competitiveness": "moderate",
-      "eligibleExecution": ["9%", "4%", "non-LIHTC"],
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
       "maxPerProject": null,
       "description": "Municipal TIF districts can provide gap financing for affordable housing through property tax increment capture. Availability varies by municipality — Denver, Aurora, Colorado Springs, Lakewood, and Fort Collins have active URA/TIF programs. Requires municipal approval and urban renewal authority designation.",
       "contactUrl": null,
       "adminEntity": "Municipal URA",
       "note": "Check with local urban renewal authority for active TIF districts. Not all municipalities have enabling legislation.",
       "isMarketSource": true
+    },
+    "CEO-WAP": {
+      "name": "Weatherization Assistance Program (Colorado / DOE WAP)",
+      "county": "All",
+      "status": "active",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "moderate",
+      "eligibleExecution": [
+        "non-LIHTC"
+      ],
+      "useCases": [
+        "owner-occupied",
+        "multifamily-retrofit"
+      ],
+      "maxPerProject": null,
+      "description": "Income-qualified weatherization services administered through state and local WAP providers. DOE guidance confirms WAP is state/local administered and open to eligible homeowners and renters; no universal Colorado project-dollar amount is published for underwriting.",
+      "contactUrl": "https://www.energy.gov/cmei/scep/wap/how-apply-weatherization-assistance",
+      "relatedSourceUrls": [
+        "https://www.energy.gov/cmei/scep/wap/weatherization-program-notices-and-memorandums"
+      ],
+      "adminEntity": "DOE / Colorado Energy Office / local WAP providers",
+      "source_note": "DOE WAP pages verified 2026-07-18; Program Year 2026 guidance is published, but household/project awards vary by local provider.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18",
+      "warning": "Screening context only. Verify local provider eligibility, landlord permission for renters, and current provider capacity before advising a household or underwriting a rehab scope."
+    },
+    "CEO-IRA-HOME-ENERGY-REBATES": {
+      "name": "Colorado Home Energy Rebates (HEAR / HOMES)",
+      "county": "All",
+      "status": "VERIFY",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "high",
+      "eligibleExecution": [
+        "non-LIHTC"
+      ],
+      "useCases": [
+        "owner-occupied",
+        "multifamily-retrofit"
+      ],
+      "maxPerProject": null,
+      "description": "DOE describes Home Energy Rebates as state-administered and available only in select jurisdictions. Colorado launch materials say HEAR began through WAP with broader direct-consumer and multifamily HOMES phases planned; current Colorado availability could not be fetch-verified on an accessible official CEO page this session.",
+      "contactUrl": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "relatedSourceUrls": [
+        "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
+      ],
+      "adminEntity": "DOE / Colorado Energy Office",
+      "source_note": "DOE program page verified 2026-07-18; Colorado CEO status page was blocked by CDN/WAF, so this entry remains VERIFY rather than active.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18",
+      "warning": "VERIFY before use. Federal IRA rebate implementation is volatile and Colorado phase availability was not independently confirmed on an accessible current official state page."
+    },
+    "CEO-SOLAR-FOR-ALL": {
+      "name": "Colorado Solar for All / GGRF watch",
+      "county": "All",
+      "status": "VERIFY",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "high",
+      "eligibleExecution": [
+        "non-LIHTC"
+      ],
+      "useCases": [
+        "owner-occupied",
+        "multifamily-retrofit"
+      ],
+      "maxPerProject": null,
+      "description": "Colorado official federal-funds page records the original Solar for All award and planning intent, but EPA now states the Greenhouse Gas Reduction Fund authority and Solar for All implementation have been terminated/rescinded. Treat as a watch item, not available funding.",
+      "contactUrl": "https://federalfunds.colorado.gov/solar-for-all",
+      "relatedSourceUrls": [
+        "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund"
+      ],
+      "adminEntity": "EPA / Colorado Energy Office",
+      "source_note": "Colorado award page and EPA GGRF status page verified 2026-07-18; EPA states Solar for All is no longer being implemented.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18",
+      "warning": "Do not count as available funding without fresh official confirmation; GGRF/Solar for All is rescission/litigation exposed."
+    },
+    "CEO-BUILDING-ELECTRIFICATION-GRANTS": {
+      "name": "CEO building electrification / high-efficiency heating grants",
+      "county": "All",
+      "status": "VERIFY",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "high",
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
+      "useCases": [
+        "multifamily-retrofit",
+        "multifamily-new-construction"
+      ],
+      "maxPerProject": null,
+      "description": "Colorado HB22-1362 created CEO-administered building electrification and high-efficiency electric heating/appliance grant authority for eligible entities including housing developers. Current open-round dollars were not fetch-verified on an accessible official CEO page this session.",
+      "contactUrl": "https://www.leg.colorado.gov/bills/HB22-1362",
+      "adminEntity": "Colorado Energy Office",
+      "source_note": "Colorado General Assembly enacted-bill page verified 2026-07-18; current CEO grant-round availability remains VERIFY because the program page was not fetch-accessible.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18",
+      "warning": "Statutory program authority only. Verify any current NOFA, eligible uses, deadlines, and stacking rules before underwriting."
+    },
+    "CEO-LBD-SHOWCASE": {
+      "name": "Large Building Decarbonization Showcase Grant Program",
+      "county": "All",
+      "status": "active-watch",
+      "available": null,
+      "awarded": null,
+      "capacity": null,
+      "deadline": null,
+      "competitiveness": "high",
+      "eligibleExecution": [
+        "9%",
+        "4%",
+        "non-LIHTC"
+      ],
+      "useCases": [
+        "multifamily-retrofit"
+      ],
+      "maxPerProject": null,
+      "description": "Colorado announced a first 2026 LBD Showcase award round for large-building efficiency and electrification projects, including affordable senior housing, and anticipated another implementation round in summer 2026. Current remaining funds and application window require program-page verification.",
+      "contactUrl": "https://www.colorado.gov/governor/news/polis-administration-announces-funding-support-large-building-energy-efficiency-and",
+      "relatedSourceUrls": [
+        "https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule"
+      ],
+      "adminEntity": "Colorado Energy Office",
+      "source_note": "Official Governor/CEO release and CDPHE Building Performance Standards page verified 2026-07-18.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18",
+      "warning": "Context only. Verify current LBD NOFA status and project eligibility before assuming availability."
     }
   },
   "pabVolumeCap": {
@@ -346,8 +544,17 @@
     "lastUpdated": "2026-04-07",
     "note": "Colorado 2026 PAB volume cap. Updated quarterly from CHFA bond allocation reports. Projects must apply for PAB allocation before requesting 4% LIHTC determination.",
     "quarters": [
-      { "q": "Q1", "committed": 95000000, "projects": 4 },
-      { "q": "Q2", "committed": 70000000, "projects": 3, "note": "Partial — through April 7" }
+      {
+        "q": "Q1",
+        "committed": 95000000,
+        "projects": 4
+      },
+      {
+        "q": "Q2",
+        "committed": 70000000,
+        "projects": 3,
+        "note": "Partial — through April 7"
+      }
     ]
   }
 }

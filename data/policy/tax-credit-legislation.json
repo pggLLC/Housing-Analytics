@@ -2,10 +2,10 @@
   "schema": "tax-credit-legislation/v1",
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
-    "as_of": "2026-07-15",
-    "last_updated": "2026-07-15",
-    "last_verified": "2026-07-15",
-    "review_by": "2026-10-15",
+    "as_of": "2026-07-18",
+    "last_updated": "2026-07-18",
+    "last_verified": "2026-07-18",
+    "review_by": "2026-10-18",
     "methodology": "Curated federal tax-credit policy entries. Legislative status source_url fields are limited to official federal sources; market impact text is directional and should be re-reviewed quarterly."
   },
   "entries": [
@@ -157,6 +157,38 @@
       "source_note": "119th Congress House and Senate Neighborhood Homes Investment Act bill pages.",
       "last_verified": "2026-07-15",
       "review_by": "2026-10-15"
+    },
+    {
+      "id": "ira-home-energy-rebates-colorado-watch",
+      "title": "Colorado IRA Home Energy Rebates availability watch",
+      "scope": "homebuyer",
+      "status": "rule-pending",
+      "effective_date": null,
+      "sunset_date": null,
+      "pricing_impact": "Colorado HEAR/HOMES rebates may affect owner retrofit affordability only when a current state phase is open. Current availability should be verified before assuming subsidy.",
+      "source_url": "https://www.energy.gov/cmei/scep/home-energy-rebates-program",
+      "related_source_urls": [
+        "https://content.govdelivery.com/accounts/USDOESCEP/bulletins/3bf14ad"
+      ],
+      "source_note": "DOE Home Energy Rebates program page verified 2026-07-18; state-administered availability is selective and Colorado current status remains VERIFY in the soft-funding file.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
+    },
+    {
+      "id": "ggrf-solar-for-all-colorado-watch",
+      "title": "Colorado Solar for All / GGRF rescission watch",
+      "scope": "homebuyer",
+      "status": "rule-pending",
+      "effective_date": null,
+      "sunset_date": null,
+      "pricing_impact": "Solar for All should not be counted as available household funding while EPA describes GGRF authority and Solar for All implementation as terminated/rescinded.",
+      "source_url": "https://www.epa.gov/aboutepa/greenhouse-gas-reduction-fund",
+      "related_source_urls": [
+        "https://federalfunds.colorado.gov/solar-for-all"
+      ],
+      "source_note": "EPA GGRF status page verified 2026-07-18; Colorado award page retained only as historical award/planning context.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
     }
   ]
 }

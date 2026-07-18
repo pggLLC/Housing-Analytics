@@ -67,15 +67,18 @@ console.log('='.repeat(38));
     'colorado-homestead-exemption',
     'federal-25c-energy-efficient-home-improvement',
     'federal-25d-residential-clean-energy',
-    'neighborhood-homes-investment-act'
+    'neighborhood-homes-investment-act',
+    'colorado-wap-weatherization',
+    'colorado-home-energy-rebates-hear-homes',
+    'colorado-solar-for-all-watch'
   ];
   const ids = new Set(data.programs.map((program) => program.id));
   required.forEach((id) => assert(ids.has(id), `required program present: ${id}`));
 
   const allowedLevels = new Set(['federal', 'colorado', 'metro']);
   const allowedKinds = new Set(['tax-credit', 'grant', 'dpa-loan', 'property-tax-relief']);
-  const allowedStatuses = new Set(['active', 'expired', 'proposed']);
-  const allowedHosts = /^(www\.)?(chfainfo\.com|metro-dpa\.com|chaconline\.org|irs\.gov|congress\.gov|dpt\.colorado\.gov)$/;
+  const allowedStatuses = new Set(['active', 'expired', 'proposed', 'VERIFY']);
+  const allowedHosts = /^(www\.)?(chfainfo\.com|metro-dpa\.com|chaconline\.org|irs\.gov|congress\.gov|dpt\.colorado\.gov|energy\.gov|epa\.gov)$|^(federalfunds\.colorado\.gov|content\.govdelivery\.com)$/;
 
   data.programs.forEach((program) => {
     assert(program.id && program.name, `${program.id || 'program'} has id and name`);
