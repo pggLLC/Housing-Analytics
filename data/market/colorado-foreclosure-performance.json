@@ -1,0 +1,2108 @@
+{
+  "schema": "colorado-foreclosure-performance/v1",
+  "meta": {
+    "as_of": "2026-06-26",
+    "data_through": "2026Q1",
+    "geography": "Colorado statewide",
+    "source": "FHFA National Mortgage Database (NMDB) Residential Mortgage Performance Statistics",
+    "source_url": "https://www.fhfa.gov/document/d/nmdb/nmdb-mortgage-performance-statistics-states-quarterly.zip",
+    "source_landing_url": "https://www.fhfa.gov/data/nmdb",
+    "dictionary_url": "https://www.fhfa.gov/document/d/nmdb/nmdb-aggregate-statistics-data-dictionary-technical-notes-2026q1.pdf",
+    "source_release_date": "2026-06-26",
+    "last_verified": "2026-07-17",
+    "review_by": "2026-10-17",
+    "next_expected_update": "2026-Q3",
+    "methodology": "DOLA Division of Housing public-trustee county NED reports were preferred, but no current fetchable county-level foreclosure report was found on the current DOH Publications and Reporting or DOLA Data and Reports pages during verification. This fallback uses FHFA NMDB state-level quarterly Residential Mortgage Performance Statistics for Colorado, All Mortgages. PFORECL is a percent of active loans in foreclosure, bankruptcy, or deed-in-lieu process; it is not a foreclosure-start or filing-count series.",
+    "verification_notes": [
+      {
+        "source": "DOLA Division of Housing Publications and Reporting",
+        "url": "https://doh.colorado.gov/publications-and-reporting",
+        "result": "fetchable page; no current foreclosure/NED county report link found in the listed publications sections"
+      },
+      {
+        "source": "DOLA Data and Reports",
+        "url": "https://cdola.colorado.gov/data-and-reports",
+        "result": "fetchable page; links to Division of Housing reports/data explorer but no public-trustee NED artifact located during implementation verification"
+      },
+      {
+        "source": "FHFA NMDB Aggregate Statistics",
+        "url": "https://www.fhfa.gov/data/nmdb",
+        "result": "fetchable official page exposing Residential Mortgage Performance Statistics state quarterly CSV ZIP through 2026Q1"
+      }
+    ]
+  },
+  "series": {
+    "foreclosure_process_pct": {
+      "series_id": "PFORECL",
+      "label": "Loans in foreclosure, bankruptcy, or deed-in-lieu process",
+      "units": "percent of active loans",
+      "cadence": "quarterly",
+      "points": [
+        {
+          "period": "2002Q1",
+          "year": 2002,
+          "quarter": 1,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q2",
+          "year": 2002,
+          "quarter": 2,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q3",
+          "year": 2002,
+          "quarter": 3,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q4",
+          "year": 2002,
+          "quarter": 4,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q1",
+          "year": 2003,
+          "quarter": 1,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q2",
+          "year": 2003,
+          "quarter": 2,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q3",
+          "year": 2003,
+          "quarter": 3,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q4",
+          "year": 2003,
+          "quarter": 4,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q1",
+          "year": 2004,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q2",
+          "year": 2004,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q3",
+          "year": 2004,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q4",
+          "year": 2004,
+          "quarter": 4,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q1",
+          "year": 2005,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q2",
+          "year": 2005,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q3",
+          "year": 2005,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q4",
+          "year": 2005,
+          "quarter": 4,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q1",
+          "year": 2006,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q2",
+          "year": 2006,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q3",
+          "year": 2006,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q4",
+          "year": 2006,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q1",
+          "year": 2007,
+          "quarter": 1,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q2",
+          "year": 2007,
+          "quarter": 2,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q3",
+          "year": 2007,
+          "quarter": 3,
+          "value_pct": 1.4,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q4",
+          "year": 2007,
+          "quarter": 4,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q1",
+          "year": 2008,
+          "quarter": 1,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q2",
+          "year": 2008,
+          "quarter": 2,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q3",
+          "year": 2008,
+          "quarter": 3,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q4",
+          "year": 2008,
+          "quarter": 4,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q1",
+          "year": 2009,
+          "quarter": 1,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q2",
+          "year": 2009,
+          "quarter": 2,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q3",
+          "year": 2009,
+          "quarter": 3,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q4",
+          "year": 2009,
+          "quarter": 4,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q1",
+          "year": 2010,
+          "quarter": 1,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q2",
+          "year": 2010,
+          "quarter": 2,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q3",
+          "year": 2010,
+          "quarter": 3,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q4",
+          "year": 2010,
+          "quarter": 4,
+          "value_pct": 2.8,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q1",
+          "year": 2011,
+          "quarter": 1,
+          "value_pct": 2.8,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q2",
+          "year": 2011,
+          "quarter": 2,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q3",
+          "year": 2011,
+          "quarter": 3,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q4",
+          "year": 2011,
+          "quarter": 4,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q1",
+          "year": 2012,
+          "quarter": 1,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q2",
+          "year": 2012,
+          "quarter": 2,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q3",
+          "year": 2012,
+          "quarter": 3,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q4",
+          "year": 2012,
+          "quarter": 4,
+          "value_pct": 1.7,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q1",
+          "year": 2013,
+          "quarter": 1,
+          "value_pct": 1.6,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q2",
+          "year": 2013,
+          "quarter": 2,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q3",
+          "year": 2013,
+          "quarter": 3,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q4",
+          "year": 2013,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q1",
+          "year": 2014,
+          "quarter": 1,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q2",
+          "year": 2014,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q3",
+          "year": 2014,
+          "quarter": 3,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q4",
+          "year": 2014,
+          "quarter": 4,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q1",
+          "year": 2015,
+          "quarter": 1,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q2",
+          "year": 2015,
+          "quarter": 2,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q3",
+          "year": 2015,
+          "quarter": 3,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q4",
+          "year": 2015,
+          "quarter": 4,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q1",
+          "year": 2016,
+          "quarter": 1,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q2",
+          "year": 2016,
+          "quarter": 2,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q3",
+          "year": 2016,
+          "quarter": 3,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q4",
+          "year": 2016,
+          "quarter": 4,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q1",
+          "year": 2017,
+          "quarter": 1,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q2",
+          "year": 2017,
+          "quarter": 2,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q3",
+          "year": 2017,
+          "quarter": 3,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q4",
+          "year": 2017,
+          "quarter": 4,
+          "value_pct": 0.2,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q1",
+          "year": 2018,
+          "quarter": 1,
+          "value_pct": 0.2,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q2",
+          "year": 2018,
+          "quarter": 2,
+          "value_pct": 0.2,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q3",
+          "year": 2018,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q4",
+          "year": 2018,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q1",
+          "year": 2019,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q2",
+          "year": 2019,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q3",
+          "year": 2019,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q4",
+          "year": 2019,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q1",
+          "year": 2020,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q2",
+          "year": 2020,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q3",
+          "year": 2020,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q4",
+          "year": 2020,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q1",
+          "year": 2021,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q2",
+          "year": 2021,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q3",
+          "year": 2021,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q4",
+          "year": 2021,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q1",
+          "year": 2022,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q2",
+          "year": 2022,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q3",
+          "year": 2022,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q4",
+          "year": 2022,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q1",
+          "year": 2023,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q2",
+          "year": 2023,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q3",
+          "year": 2023,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q4",
+          "year": 2023,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q1",
+          "year": 2024,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q2",
+          "year": 2024,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q3",
+          "year": 2024,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q4",
+          "year": 2024,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q1",
+          "year": 2025,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q2",
+          "year": 2025,
+          "quarter": 2,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q3",
+          "year": 2025,
+          "quarter": 3,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q4",
+          "year": 2025,
+          "quarter": 4,
+          "value_pct": 0.1,
+          "suppressed": false
+        },
+        {
+          "period": "2026Q1",
+          "year": 2026,
+          "quarter": 1,
+          "value_pct": 0.1,
+          "suppressed": false
+        }
+      ]
+    },
+    "serious_delinquency_pct": {
+      "series_id": "P90DL",
+      "label": "Loans 90+ days delinquent",
+      "units": "percent of active loans",
+      "cadence": "quarterly",
+      "points": [
+        {
+          "period": "2002Q1",
+          "year": 2002,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q2",
+          "year": 2002,
+          "quarter": 2,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q3",
+          "year": 2002,
+          "quarter": 3,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q4",
+          "year": 2002,
+          "quarter": 4,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q1",
+          "year": 2003,
+          "quarter": 1,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q2",
+          "year": 2003,
+          "quarter": 2,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q3",
+          "year": 2003,
+          "quarter": 3,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q4",
+          "year": 2003,
+          "quarter": 4,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q1",
+          "year": 2004,
+          "quarter": 1,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q2",
+          "year": 2004,
+          "quarter": 2,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q3",
+          "year": 2004,
+          "quarter": 3,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q4",
+          "year": 2004,
+          "quarter": 4,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q1",
+          "year": 2005,
+          "quarter": 1,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q2",
+          "year": 2005,
+          "quarter": 2,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q3",
+          "year": 2005,
+          "quarter": 3,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q4",
+          "year": 2005,
+          "quarter": 4,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q1",
+          "year": 2006,
+          "quarter": 1,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q2",
+          "year": 2006,
+          "quarter": 2,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q3",
+          "year": 2006,
+          "quarter": 3,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q4",
+          "year": 2006,
+          "quarter": 4,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q1",
+          "year": 2007,
+          "quarter": 1,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q2",
+          "year": 2007,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q3",
+          "year": 2007,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q4",
+          "year": 2007,
+          "quarter": 4,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q1",
+          "year": 2008,
+          "quarter": 1,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q2",
+          "year": 2008,
+          "quarter": 2,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q3",
+          "year": 2008,
+          "quarter": 3,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q4",
+          "year": 2008,
+          "quarter": 4,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q1",
+          "year": 2009,
+          "quarter": 1,
+          "value_pct": 2,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q2",
+          "year": 2009,
+          "quarter": 2,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q3",
+          "year": 2009,
+          "quarter": 3,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q4",
+          "year": 2009,
+          "quarter": 4,
+          "value_pct": 2.9,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q1",
+          "year": 2010,
+          "quarter": 1,
+          "value_pct": 2.8,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q2",
+          "year": 2010,
+          "quarter": 2,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q3",
+          "year": 2010,
+          "quarter": 3,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q4",
+          "year": 2010,
+          "quarter": 4,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q1",
+          "year": 2011,
+          "quarter": 1,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q2",
+          "year": 2011,
+          "quarter": 2,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q3",
+          "year": 2011,
+          "quarter": 3,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q4",
+          "year": 2011,
+          "quarter": 4,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q1",
+          "year": 2012,
+          "quarter": 1,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q2",
+          "year": 2012,
+          "quarter": 2,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q3",
+          "year": 2012,
+          "quarter": 3,
+          "value_pct": 1.7,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q4",
+          "year": 2012,
+          "quarter": 4,
+          "value_pct": 1.6,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q1",
+          "year": 2013,
+          "quarter": 1,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q2",
+          "year": 2013,
+          "quarter": 2,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q3",
+          "year": 2013,
+          "quarter": 3,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q4",
+          "year": 2013,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q1",
+          "year": 2014,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q2",
+          "year": 2014,
+          "quarter": 2,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q3",
+          "year": 2014,
+          "quarter": 3,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q4",
+          "year": 2014,
+          "quarter": 4,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q1",
+          "year": 2015,
+          "quarter": 1,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q2",
+          "year": 2015,
+          "quarter": 2,
+          "value_pct": 0.8,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q3",
+          "year": 2015,
+          "quarter": 3,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q4",
+          "year": 2015,
+          "quarter": 4,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q1",
+          "year": 2016,
+          "quarter": 1,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q2",
+          "year": 2016,
+          "quarter": 2,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q3",
+          "year": 2016,
+          "quarter": 3,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q4",
+          "year": 2016,
+          "quarter": 4,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q1",
+          "year": 2017,
+          "quarter": 1,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q2",
+          "year": 2017,
+          "quarter": 2,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q3",
+          "year": 2017,
+          "quarter": 3,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q4",
+          "year": 2017,
+          "quarter": 4,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q1",
+          "year": 2018,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q2",
+          "year": 2018,
+          "quarter": 2,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q3",
+          "year": 2018,
+          "quarter": 3,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q4",
+          "year": 2018,
+          "quarter": 4,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q1",
+          "year": 2019,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q2",
+          "year": 2019,
+          "quarter": 2,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q3",
+          "year": 2019,
+          "quarter": 3,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q4",
+          "year": 2019,
+          "quarter": 4,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q1",
+          "year": 2020,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q2",
+          "year": 2020,
+          "quarter": 2,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q3",
+          "year": 2020,
+          "quarter": 3,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q4",
+          "year": 2020,
+          "quarter": 4,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q1",
+          "year": 2021,
+          "quarter": 1,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q2",
+          "year": 2021,
+          "quarter": 2,
+          "value_pct": 0.2,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q3",
+          "year": 2021,
+          "quarter": 3,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q4",
+          "year": 2021,
+          "quarter": 4,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q1",
+          "year": 2022,
+          "quarter": 1,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q2",
+          "year": 2022,
+          "quarter": 2,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q3",
+          "year": 2022,
+          "quarter": 3,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q4",
+          "year": 2022,
+          "quarter": 4,
+          "value_pct": 0.3,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q1",
+          "year": 2023,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q2",
+          "year": 2023,
+          "quarter": 2,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q3",
+          "year": 2023,
+          "quarter": 3,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q4",
+          "year": 2023,
+          "quarter": 4,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q1",
+          "year": 2024,
+          "quarter": 1,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q2",
+          "year": 2024,
+          "quarter": 2,
+          "value_pct": 0.4,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q3",
+          "year": 2024,
+          "quarter": 3,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q4",
+          "year": 2024,
+          "quarter": 4,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q1",
+          "year": 2025,
+          "quarter": 1,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q2",
+          "year": 2025,
+          "quarter": 2,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q3",
+          "year": 2025,
+          "quarter": 3,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q4",
+          "year": 2025,
+          "quarter": 4,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2026Q1",
+          "year": 2026,
+          "quarter": 1,
+          "value_pct": 0.7,
+          "suppressed": false
+        }
+      ]
+    },
+    "early_delinquency_pct": {
+      "series_id": "P3089DL",
+      "label": "Loans 30-89 days delinquent",
+      "units": "percent of active loans",
+      "cadence": "quarterly",
+      "points": [
+        {
+          "period": "2002Q1",
+          "year": 2002,
+          "quarter": 1,
+          "value_pct": 1.6,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q2",
+          "year": 2002,
+          "quarter": 2,
+          "value_pct": 1.6,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q3",
+          "year": 2002,
+          "quarter": 3,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2002Q4",
+          "year": 2002,
+          "quarter": 4,
+          "value_pct": 2,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q1",
+          "year": 2003,
+          "quarter": 1,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q2",
+          "year": 2003,
+          "quarter": 2,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q3",
+          "year": 2003,
+          "quarter": 3,
+          "value_pct": 2,
+          "suppressed": false
+        },
+        {
+          "period": "2003Q4",
+          "year": 2003,
+          "quarter": 4,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q1",
+          "year": 2004,
+          "quarter": 1,
+          "value_pct": 1.7,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q2",
+          "year": 2004,
+          "quarter": 2,
+          "value_pct": 1.8,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q3",
+          "year": 2004,
+          "quarter": 3,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2004Q4",
+          "year": 2004,
+          "quarter": 4,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q1",
+          "year": 2005,
+          "quarter": 1,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q2",
+          "year": 2005,
+          "quarter": 2,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q3",
+          "year": 2005,
+          "quarter": 3,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2005Q4",
+          "year": 2005,
+          "quarter": 4,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q1",
+          "year": 2006,
+          "quarter": 1,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q2",
+          "year": 2006,
+          "quarter": 2,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q3",
+          "year": 2006,
+          "quarter": 3,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2006Q4",
+          "year": 2006,
+          "quarter": 4,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q1",
+          "year": 2007,
+          "quarter": 1,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q2",
+          "year": 2007,
+          "quarter": 2,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q3",
+          "year": 2007,
+          "quarter": 3,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2007Q4",
+          "year": 2007,
+          "quarter": 4,
+          "value_pct": 2.6,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q1",
+          "year": 2008,
+          "quarter": 1,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q2",
+          "year": 2008,
+          "quarter": 2,
+          "value_pct": 2.4,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q3",
+          "year": 2008,
+          "quarter": 3,
+          "value_pct": 2.5,
+          "suppressed": false
+        },
+        {
+          "period": "2008Q4",
+          "year": 2008,
+          "quarter": 4,
+          "value_pct": 2.9,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q1",
+          "year": 2009,
+          "quarter": 1,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q2",
+          "year": 2009,
+          "quarter": 2,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q3",
+          "year": 2009,
+          "quarter": 3,
+          "value_pct": 2.8,
+          "suppressed": false
+        },
+        {
+          "period": "2009Q4",
+          "year": 2009,
+          "quarter": 4,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q1",
+          "year": 2010,
+          "quarter": 1,
+          "value_pct": 2.5,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q2",
+          "year": 2010,
+          "quarter": 2,
+          "value_pct": 2.5,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q3",
+          "year": 2010,
+          "quarter": 3,
+          "value_pct": 2.7,
+          "suppressed": false
+        },
+        {
+          "period": "2010Q4",
+          "year": 2010,
+          "quarter": 4,
+          "value_pct": 2.5,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q1",
+          "year": 2011,
+          "quarter": 1,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q2",
+          "year": 2011,
+          "quarter": 2,
+          "value_pct": 2.3,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q3",
+          "year": 2011,
+          "quarter": 3,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2011Q4",
+          "year": 2011,
+          "quarter": 4,
+          "value_pct": 2.2,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q1",
+          "year": 2012,
+          "quarter": 1,
+          "value_pct": 2,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q2",
+          "year": 2012,
+          "quarter": 2,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q3",
+          "year": 2012,
+          "quarter": 3,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2012Q4",
+          "year": 2012,
+          "quarter": 4,
+          "value_pct": 2.1,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q1",
+          "year": 2013,
+          "quarter": 1,
+          "value_pct": 1.9,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q2",
+          "year": 2013,
+          "quarter": 2,
+          "value_pct": 1.7,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q3",
+          "year": 2013,
+          "quarter": 3,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2013Q4",
+          "year": 2013,
+          "quarter": 4,
+          "value_pct": 1.7,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q1",
+          "year": 2014,
+          "quarter": 1,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q2",
+          "year": 2014,
+          "quarter": 2,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q3",
+          "year": 2014,
+          "quarter": 3,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2014Q4",
+          "year": 2014,
+          "quarter": 4,
+          "value_pct": 1.5,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q1",
+          "year": 2015,
+          "quarter": 1,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q2",
+          "year": 2015,
+          "quarter": 2,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q3",
+          "year": 2015,
+          "quarter": 3,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2015Q4",
+          "year": 2015,
+          "quarter": 4,
+          "value_pct": 1.4,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q1",
+          "year": 2016,
+          "quarter": 1,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q2",
+          "year": 2016,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q3",
+          "year": 2016,
+          "quarter": 3,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2016Q4",
+          "year": 2016,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q1",
+          "year": 2017,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q2",
+          "year": 2017,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q3",
+          "year": 2017,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2017Q4",
+          "year": 2017,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q1",
+          "year": 2018,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q2",
+          "year": 2018,
+          "quarter": 2,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q3",
+          "year": 2018,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2018Q4",
+          "year": 2018,
+          "quarter": 4,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q1",
+          "year": 2019,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q2",
+          "year": 2019,
+          "quarter": 2,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q3",
+          "year": 2019,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2019Q4",
+          "year": 2019,
+          "quarter": 4,
+          "value_pct": 1.4,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q1",
+          "year": 2020,
+          "quarter": 1,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q2",
+          "year": 2020,
+          "quarter": 2,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q3",
+          "year": 2020,
+          "quarter": 3,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2020Q4",
+          "year": 2020,
+          "quarter": 4,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q1",
+          "year": 2021,
+          "quarter": 1,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q2",
+          "year": 2021,
+          "quarter": 2,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q3",
+          "year": 2021,
+          "quarter": 3,
+          "value_pct": 0.5,
+          "suppressed": false
+        },
+        {
+          "period": "2021Q4",
+          "year": 2021,
+          "quarter": 4,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q1",
+          "year": 2022,
+          "quarter": 1,
+          "value_pct": 0.6,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q2",
+          "year": 2022,
+          "quarter": 2,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q3",
+          "year": 2022,
+          "quarter": 3,
+          "value_pct": 0.7,
+          "suppressed": false
+        },
+        {
+          "period": "2022Q4",
+          "year": 2022,
+          "quarter": 4,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q1",
+          "year": 2023,
+          "quarter": 1,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q2",
+          "year": 2023,
+          "quarter": 2,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q3",
+          "year": 2023,
+          "quarter": 3,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2023Q4",
+          "year": 2023,
+          "quarter": 4,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q1",
+          "year": 2024,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q2",
+          "year": 2024,
+          "quarter": 2,
+          "value_pct": 0.9,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q3",
+          "year": 2024,
+          "quarter": 3,
+          "value_pct": 1.1,
+          "suppressed": false
+        },
+        {
+          "period": "2024Q4",
+          "year": 2024,
+          "quarter": 4,
+          "value_pct": 1.4,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q1",
+          "year": 2025,
+          "quarter": 1,
+          "value_pct": 1.3,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q2",
+          "year": 2025,
+          "quarter": 2,
+          "value_pct": 1,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q3",
+          "year": 2025,
+          "quarter": 3,
+          "value_pct": 1.2,
+          "suppressed": false
+        },
+        {
+          "period": "2025Q4",
+          "year": 2025,
+          "quarter": 4,
+          "value_pct": 1.4,
+          "suppressed": false
+        },
+        {
+          "period": "2026Q1",
+          "year": 2026,
+          "quarter": 1,
+          "value_pct": 1.1,
+          "suppressed": false
+        }
+      ]
+    }
+  },
+  "summary": {
+    "latest_period": "2026Q1",
+    "latest_foreclosure_process_pct": 0.1,
+    "latest_serious_delinquency_pct": 0.7,
+    "peak_foreclosure_process_pct": 2.8,
+    "peak_foreclosure_process_period": "2010Q4",
+    "avg_2019_foreclosure_process_pct": 0.1,
+    "foreclosure_process_vs_2019_delta_pct_points": 0,
+    "risk_label": "Low statewide mortgage-distress signal",
+    "interpretation": "Colorado remains low on the FHFA foreclosure-process measure, while serious delinquency is the better near-term lead indicator in this fallback dataset. This is statewide mortgage performance, not county public-trustee filings."
+  }
+}

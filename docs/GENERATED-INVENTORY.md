@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T12:16:09.645Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T12:54:44.627Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.1 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 131.5 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1553 JSON files found.
+1554 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 747.3 KB | ✅ | — |
+| `data/_manifest.json` | 747.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1564,6 +1564,7 @@
 | `data/market/co-adaptive-reuse-references.json` | 13.6 KB | ✅ | — |
 | `data/market/co-urban-renewal-authorities.json` | 11.9 KB | ✅ | — |
 | `data/market/colorado-equity-pricing-factors.json` | 5.2 KB | ✅ | — |
+| `data/market/colorado-foreclosure-performance.json` | 47.9 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
@@ -1630,7 +1631,7 @@
 
 ## Test Files
 
-189 test files found.
+190 test files found.
 
 | File | Size |
 |------|------|
@@ -1682,6 +1683,7 @@
 | `test/file-manifest.test.js` | 2.9 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
