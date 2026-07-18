@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T15:52:42.398Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T20:11:15.045Z. Do not edit by hand.
 
 ---
 
@@ -51,7 +51,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 138.3 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 138.5 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1631,7 +1631,7 @@
 
 ## Test Files
 
-196 test files found.
+197 test files found.
 
 | File | Size |
 |------|------|
@@ -1687,6 +1687,7 @@
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 403 B |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
+| `test/funding-context-card.test.js` | 7.4 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
