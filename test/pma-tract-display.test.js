@@ -70,6 +70,7 @@ async function main() {
   assert.equal(display.type, 'FeatureCollection', 'display geometry is GeoJSON FeatureCollection');
   assert.equal(display.meta.source, 'data/market/tract_boundaries_co.geojson', 'display geometry records canonical source');
   assert.equal(display.meta.generated_by, 'scripts/market-analysis/build_pma_tract_display_geometry.mjs', 'display geometry records generator');
+  assert(display.meta.point_on_surface.includes('Computed at build time'), 'display geometry records point_on_surface derivation');
   assert.equal(
     display.meta.source_sha256,
     crypto.createHash('sha256').update(fs.readFileSync(sourcePath, 'utf8')).digest('hex'),
@@ -84,6 +85,13 @@ async function main() {
   assert.equal(displayGeoids.size, sourceGeoids.size, 'display geometry GEOID set size matches source');
   for (const geoid of sourceGeoids) {
     assert(displayGeoids.has(geoid), `display geometry includes source tract ${geoid}`);
+  }
+  for (const feature of display.features) {
+    const point = feature.properties && feature.properties.point_on_surface;
+    assert(point, `display geometry includes point_on_surface for ${geoidOf(feature)}`);
+    assert(Number.isFinite(point.lon), `point_on_surface.lon is numeric for ${geoidOf(feature)}`);
+    assert(Number.isFinite(point.lat), `point_on_surface.lat is numeric for ${geoidOf(feature)}`);
+    assert(typeof point.method === 'string' && point.method.length > 0, `point_on_surface method is labeled for ${geoidOf(feature)}`);
   }
 
   const sourceText = fs.readFileSync(modulePath, 'utf8');
