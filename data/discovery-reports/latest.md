@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-17T09:01:58.007Z
+**Scan timestamp:** 2026-07-18T08:29:54.095Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1590 |
-| New (unregistered) | 1559 |
+| Files scanned | 1592 |
+| New (unregistered) | 1561 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -54,7 +54,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (234 KB)
+- `data/discovery-reports/latest.json` (235 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
@@ -1496,6 +1496,7 @@
 - `data/market/climate_hazards_co.json` (3 KB)
 - `data/market/co-adaptive-reuse-references.json` (14 KB)
 - `data/market/co-urban-renewal-authorities.json` (12 KB)
+- `data/market/colorado-equity-pricing-factors.json` (5 KB)
 - `data/market/commuting_co.geojson` (569 KB)
 - `data/market/data_quality_report.json` (11 KB)
 - `data/market/dola_demographics_co.json` (24 KB)
@@ -1522,6 +1523,7 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (77195 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
+- `data/market/pma_tract_display_geometry.geojson` (942 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/schools_co.geojson` (1214 KB)
@@ -1551,7 +1553,7 @@
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy/tax-credit-legislation.json` (7 KB)
+- `data/policy/tax-credit-legislation.json` (9 KB)
 - `data/policy_briefs.json` (164 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
