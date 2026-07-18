@@ -33,6 +33,7 @@ const requiredLegislation = [
   'obbba-lihtc-ceiling-12pct',
   'obbba-lihtc-bond-25pct-test',
   'obbba-25c-25d-termination',
+  'obbba-70421-oz-permanent',
   'obbba-45y-48e-wind-solar-deadlines',
   'cra-2025-rescission-npr',
   'ira-section-6418-transferability',
@@ -46,7 +47,7 @@ requiredLegislation.forEach((id) => assert(legislationIds.has(id), `required leg
 
 legislation.entries.forEach((entry) => {
   assert(entry.id && entry.title, `${entry.id || 'entry'} has id and title`);
-  assert(['lihtc', 'nmtc', 'htc', 'itc-ptc', 'cra', 'homebuyer'].includes(entry.scope), `${entry.id} scope allowed`);
+  assert(['lihtc', 'nmtc', 'htc', 'itc-ptc', 'cra', 'homebuyer', 'oz'].includes(entry.scope), `${entry.id} scope allowed`);
   assert(['enacted', 'proposed', 'rule-pending', 'phased-out', 'expired'].includes(entry.status), `${entry.id} status allowed`);
   assert(entry.pricing_impact && entry.pricing_impact.length <= 280, `${entry.id} pricing impact is present and concise`);
   assertOfficialHttps(entry.source_url, entry.id);

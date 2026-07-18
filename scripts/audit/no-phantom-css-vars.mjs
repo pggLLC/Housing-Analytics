@@ -32,7 +32,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '.
 
 const SKIP_DIRS = new Set([
   '.git', '.claude', 'node_modules', 'archive', '.next', '.cache',
-  'data', 'tests', 'logs', 'tmp', 'old_files', 'screenshots',
+  'data', 'dist', 'audit-report', '.pytest_cache', 'tests', 'logs', 'tmp', 'old_files', 'screenshots',
   'subagents', 'workflows', 'docs'
 ]);
 

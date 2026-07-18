@@ -75,6 +75,23 @@
       "review_by": "2026-10-15"
     },
     {
+      "id": "obbba-70421-oz-permanent",
+      "title": "Permanent renewal and enhancement of Opportunity Zones",
+      "scope": "oz",
+      "status": "enacted",
+      "effective_date": "2025-07-04",
+      "sunset_date": null,
+      "pricing_impact": "Makes OZ rounds permanent with the first decennial determination date on 2026-07-01. Rural QROF investments can receive a 30% five-year basis step-up, improving rural LIHTC+OZ pairing context.",
+      "source_url": "https://www.govinfo.gov/app/details/PLAW-119publ21",
+      "related_source_urls": [
+        "https://home.treasury.gov/policy-issues/tax-policy/data-transparency/qualified-opportunity-zones",
+        "https://www.irs.gov/credits-deductions/businesses/opportunity-zones"
+      ],
+      "source_note": "Public Law 119-21, section 70421, permanent renewal and enhancement of Opportunity Zones; Treasury QOZ data transparency page verified for the 2026-07-01 designation cycle.",
+      "last_verified": "2026-07-18",
+      "review_by": "2026-10-18"
+    },
+    {
       "id": "obbba-25c-25d-termination",
       "title": "Termination of 25C and 25D household clean-energy credits",
       "scope": "homebuyer",
