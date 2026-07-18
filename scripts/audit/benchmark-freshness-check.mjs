@@ -13,6 +13,7 @@
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
  *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
  *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
+ *   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -85,6 +86,11 @@ const BENCHMARK_FILES = [
     label: 'LIHTC predictor assumptions',
     reviewByPaths: ['meta.review_by'],
   },
+  {
+    file: 'data/market/colorado-foreclosure-performance.json',
+    label: 'Colorado foreclosure performance',
+    reviewByPaths: ['meta.review_by'],
+  },
 ];
 
 const MONTHS = ['january','february','march','april','may','june','july',
@@ -141,7 +147,9 @@ function valuesAtPath(root, pathExpr) {
   return values.filter((value) => value != null && value !== '');
 }
 
-const now = new Date();
+const now = process.env.BENCHMARK_FRESHNESS_NOW
+  ? parseWhen(process.env.BENCHMARK_FRESHNESS_NOW) || new Date(process.env.BENCHMARK_FRESHNESS_NOW)
+  : new Date();
 const warnings = [];
 let checked = 0;
 
