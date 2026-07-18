@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T20:11:15.045Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T21:57:49.535Z. Do not edit by hand.
 
 ---
 
@@ -1606,8 +1606,8 @@
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 24.5 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 10.6 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1631,7 +1631,7 @@
 
 ## Test Files
 
-197 test files found.
+198 test files found.
 
 | File | Size |
 |------|------|
@@ -1733,6 +1733,7 @@
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
+| `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/pages-availability-check.js` | 14.7 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
