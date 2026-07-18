@@ -102,6 +102,29 @@ assert(dealRenderWindow.includes('function _renderFundingContextCard'), 'Deal fu
 assert(!/PMA_WEIGHTS|weights\s*=|overall\s*=/.test(marketRenderWindow), 'PMA funding render does not alter scoring weights/results');
 assert(!/gap\s*=|tdc\s*=|equity\s*=|mortgage\s*=/.test(dealRenderWindow), 'Deal funding render does not alter underwriting variables');
 
+// Behavioral non-scored contract: the source-regex checks above are shallow
+// (a mutation like `window.PMAMarketScoring.WEIGHTS.demand = 0.99` slips past
+// them — caught in QA of #1250). Execute the PMA render path against the real
+// scoring module and assert the scoring constants are byte-identical after.
+{
+  const scoringSrc = fs.readFileSync(path.join(root, 'js', 'market-analysis-scoring.js'), 'utf8');
+  const behaviorDom = new JSDOM('<div id="pmaFundingContextCard"></div>', { url: 'http://127.0.0.1/market-analysis.html', runScripts: 'outside-only' });
+  const w = behaviorDom.window;
+  w.eval(scoringSrc);
+  w.eval(fs.readFileSync(path.join(root, 'js', 'components', 'funding-context-card.js'), 'utf8'));
+  const before = JSON.stringify({
+    weights: w.PMAMarketScoring.WEIGHTS,
+    risk: w.PMAMarketScoring.RISK || null
+  });
+  // Execute the extracted PMA render-path body with the card component live.
+  w.eval('(function(){ ' + marketRenderWindow.replace(/^function renderPmaFundingContext/, 'var renderPmaFundingContext = function renderPmaFundingContext') + '\n if (typeof renderPmaFundingContext === "function") { try { renderPmaFundingContext({ countyFips: "08077", countyName: "Mesa County" }); } catch (_) {} } })();');
+  const after = JSON.stringify({
+    weights: w.PMAMarketScoring.WEIGHTS,
+    risk: w.PMAMarketScoring.RISK || null
+  });
+  assert.strictEqual(after, before, 'executing the PMA funding render path leaves scoring constants byte-identical');
+}
+
 const packageJson = fs.readFileSync(path.join(root, 'package.json'), 'utf8');
 assert(packageJson.includes('test:funding-context-card'), 'npm script exists');
 assert(packageJson.includes('npm run test:funding-context-card'), 'test:ci includes funding context guard');
