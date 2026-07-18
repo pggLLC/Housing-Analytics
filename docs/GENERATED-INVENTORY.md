@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T12:54:44.627Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T13:33:44.171Z. Do not edit by hand.
 
 ---
 
@@ -72,7 +72,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 747.7 KB | ✅ | — |
+| `data/_manifest.json` | 747.5 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1631,7 +1631,7 @@
 
 ## Test Files
 
-190 test files found.
+192 test files found.
 
 | File | Size |
 |------|------|
@@ -1683,6 +1683,7 @@
 | `test/file-manifest.test.js` | 2.9 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
@@ -1738,10 +1739,11 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 5.0 KB |
+| `test/pma-barrier-data.test.js` | 4.9 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 31.4 KB |
-| `test/pma-tract-display.test.js` | 6.4 KB |
+| `test/pma-tract-display.test.js` | 7.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
