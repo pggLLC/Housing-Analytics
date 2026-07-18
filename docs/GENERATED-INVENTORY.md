@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T14:47:37.103Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T15:52:42.398Z. Do not edit by hand.
 
 ---
 
@@ -1597,7 +1597,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
-| `data/policy/homeownership-programs.json` | 12.6 KB | ✅ | — |
+| `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
@@ -1606,8 +1606,8 @@
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
-| `data/policy/soft-funding-status.json` | 17.0 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 8.9 KB | ✅ | — |
+| `data/policy/soft-funding-status.json` | 24.5 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 10.6 KB | ✅ | — |
 | `data/policy_briefs.json` | 163.9 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1631,7 +1631,7 @@
 
 ## Test Files
 
-195 test files found.
+196 test files found.
 
 | File | Size |
 |------|------|
@@ -1676,6 +1676,7 @@
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
 | `test/developer-geoids.test.js` | 6.6 KB |
+| `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
@@ -1711,7 +1712,7 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
-| `test/homeownership-programs.test.js` | 6.3 KB |
+| `test/homeownership-programs.test.js` | 6.5 KB |
 | `test/homepage-job-routing.test.js` | 2.8 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
@@ -1769,7 +1770,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/tax-credit-equity-markets.test.js` | 7.1 KB |
-| `test/tax-credit-insights-data.test.js` | 4.3 KB |
+| `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
