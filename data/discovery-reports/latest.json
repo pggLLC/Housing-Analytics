@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-07-17T09:01:58.007Z",
-  "totalScanned": 1590,
-  "newSourceCount": 1559,
+  "scanTimestamp": "2026-07-18T08:29:54.095Z",
+  "totalScanned": 1592,
+  "newSourceCount": 1561,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 764492,
+      "sizeBytes": 765230,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -248,7 +248,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 239969,
+      "sizeBytes": 240446,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8899,6 +8899,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/colorado-equity-pricing-factors.json",
+      "sizeBytes": 5360,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/market/commuting_co.geojson",
       "sizeBytes": 582520,
       "inDataManifest": false,
@@ -9032,7 +9038,7 @@
     },
     {
       "path": "data/market/novogradac-equity-pricing.json",
-      "sizeBytes": 5071,
+      "sizeBytes": 5307,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9053,6 +9059,12 @@
       "sizeBytes": 2888,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/market/pma_tract_display_geometry.geojson",
+      "sizeBytes": 964352,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/market/qct_dda_designations_co.json",
@@ -9082,7 +9094,7 @@
       "path": "data/market/tax-credit-transfer-pricing.json",
       "sizeBytes": 3439,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
@@ -9178,7 +9190,7 @@
       "path": "data/policy/homeownership-programs.json",
       "sizeBytes": 12936,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-policy-scorecard.json",
@@ -9230,9 +9242,9 @@
     },
     {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 7419,
+      "sizeBytes": 9116,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs.json",
@@ -9242,7 +9254,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20135,
+      "sizeBytes": 20131,
       "inDataManifest": false,
       "inFilesManifest": true
     },
