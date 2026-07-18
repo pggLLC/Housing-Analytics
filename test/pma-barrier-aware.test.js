@@ -71,7 +71,11 @@ const baseTracts = [
 const pointIndex = {
   'glenwood-cross': { lon: 1, lat: 0 },
   'glenwood-same-side': { lon: 0.25, lat: 0 },
-  'dillon-water': { lon: 1, lat: 0.8 },
+  // Inside the reservoir polygon but short of I-70 (x=0.5): the site line
+  // touches ONLY the water barrier, so this fixture isolates the polygon
+  // branch — QA found the previous point (1, 0.8) also crossed I-70,
+  // letting the water logic go untested.
+  'dillon-water': { lon: 0.4, lat: 0.5 },
   'denver-bridge': { lon: -1, lat: 0 }
 };
 const barriers = {
