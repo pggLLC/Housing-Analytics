@@ -17,15 +17,13 @@ function latestPoints(key) {
 }
 
 function extractDeepDiveChartScript() {
-  const scripts = [];
-  const re = /<script(?:\s[^>]*)?>([\s\S]*?)<\/script\s*>/gi;
-  let match;
-  while ((match = re.exec(html))) {
-    if (match[1].includes('safeChart("foreclosure-chart"') ||
-        match[1].includes('colorado-foreclosure-performance.json')) {
-      scripts.push(match[1]);
-    }
-  }
+  // Extract via DOM instead of a script-tag regex (CodeQL js/bad-tag-filter;
+  // same fix pattern as the tracker test in #1220).
+  const dom = new JSDOM(html, { url: 'http://127.0.0.1/colorado-deep-dive.html', runScripts: 'outside-only' });
+  const scripts = Array.from(dom.window.document.querySelectorAll('script:not([src])'))
+    .map((node) => node.textContent)
+    .filter((text) => text.includes('safeChart("foreclosure-chart"') ||
+                      text.includes('colorado-foreclosure-performance.json'));
   assert.strictEqual(scripts.length, 1, 'exactly one foreclosure chart render script found');
   return scripts[0];
 }
@@ -64,8 +62,11 @@ async function renderForeclosureChart(foreclosureData) {
   assert(/^\d{4}-\d{2}-\d{2}$/.test(data.meta.review_by), 'review_by is ISO formatted');
   assert(data.meta.verification_notes.some((note) => /DOLA/.test(note.source) && /no current foreclosure\/NED county report/.test(note.result)), 'DOLA verification disposition is documented');
 
-  assert(!html.includes('data:[70, 55, 62, 68]'), 'old hardcoded foreclosure index is absent');
-  assert(!html.includes('data:[70,55,62,68]'), 'old hardcoded foreclosure index is absent without spaces');
+  assert(!/\[\s*70\s*,\s*55\s*,\s*62\s*,\s*68\s*\]/.test(html),
+    'old hardcoded foreclosure index is absent in any spacing variant');
+  const chartScript = extractDeepDiveChartScript();
+  assert(chartScript.includes('colorado-foreclosure-performance.json'),
+    'foreclosure chart sources its data from the committed JSON artifact');
   assert(!/ATTOM Foreclosure Data|monthly filing count|56% of pre-pandemic/.test(html), 'stale ATTOM filing copy is absent');
   assert(html.includes('data/market/colorado-foreclosure-performance.json'), 'page fetches foreclosure JSON artifact');
   assert(html.includes('FHFA NMDB Residential Mortgage Performance Statistics'), 'page labels source as FHFA NMDB');
