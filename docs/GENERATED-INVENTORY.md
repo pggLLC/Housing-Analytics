@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T14:05:37.875Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T14:47:37.103Z. Do not edit by hand.
 
 ---
 
@@ -1631,7 +1631,7 @@
 
 ## Test Files
 
-193 test files found.
+195 test files found.
 
 | File | Size |
 |------|------|
@@ -1683,6 +1683,7 @@
 | `test/file-manifest.test.js` | 2.9 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
+| `test/fixtures/pma/barrier-downweight.fixture.json` | 403 B |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -1739,6 +1740,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 5.0 KB |
+| `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 4.9 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
