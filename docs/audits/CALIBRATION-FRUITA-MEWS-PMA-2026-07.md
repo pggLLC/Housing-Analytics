@@ -3,16 +3,18 @@
 **Companion to:** RFC-PMA-BARRIER-COMMUTE-SHED-2026-07.md (§6, benchmark path 1)
 **Recorded:** 2026-07-18 by Claude QA from an owner-provided review artifact.
 
-## Benchmark artifact
+## Benchmark artifacts (two, independent firms, same site)
 
 Market Study of The Fruita Mews II, Kinetic Valuation Group (Amanda Baker MAI /
 Brent Griffiths MAI), effective 2026-01-29, prepared to CHFA's Market Study
 Guide for a 40-unit 9% LIHTC application at 1138 18 1/2 Road, Fruita, Mesa
 County (site census tract 15.03). PMA reviewed and **approved by CHFA's
 collateral/review appraiser**. Owner-provided PDF (not publicly published);
-retained in the owner's application files. A second artifact (the 2022 Phase I
-study) exists but sits behind a macOS-restricted Dropbox path; add it to this
-record when copied to a readable location.
+retained in the owner's application files.
+
+**Artifact 2:** Rental Market Study, The Fruita Mews (Phase I), Prior &
+Associates (Thad Rahn / Josh Roberts), effective 2022-01-05, revised
+2022-01-26, same site. Independent firm from Artifact 1. Owner-provided.
 
 ## Professional PMA (verbatim facts)
 
@@ -34,6 +36,42 @@ record when copied to a readable location.
   the study infers in-migration "9 percent to 56 percent."
 - SMA = Mesa County. PMA totals used in demand: 995 qualifying renter
   households across 30–80% AMI bands; overall penetration 13.9%.
+
+## Artifact 2 — professional PMA (verbatim facts, 2022)
+
+- **Composition:** "Fruita, Mack, Loma, Redlands, Appleton and northwestern
+  Grand Junction." 45,285 inhabitants, ~440 square miles.
+- **Named boundaries:** North — Mesa County line; **South — Colorado River /
+  Colorado National Monument**; **East — 25 Road / South 5th Street**,
+  explicitly because areas east "associate more with central Grand Junction
+  which has different commuting patterns and socioeconomic characteristics";
+  West — Mesa County line.
+- **Tracts (2010 vintage):** 9.00, 14.02, 14.03, 14.04, 15.01, 15.02, 16.00 —
+  identical to Artifact 1's set modulo the 2020 census split of 15.01 into
+  15.03/15.04.
+- **Supplemental demand:** a 40% outside-PMA factor, grounded in the PMA's
+  one LIHTC property drawing >25% of tenants from outside.
+
+## Cross-artifact findings
+
+- **F-CAL-5 — professional convergence.** Two independent firms, four years
+  apart, drew the same PMA (modulo tract-split). Professional delineation at
+  this site is stable and reproducible — a legitimate algorithmic target,
+  not one analyst's taste.
+- **F-CAL-6 — how professionals actually use barriers.** The 2022 study
+  *names* the river/Monument as the southern boundary — but that edge runs
+  through uninhabited monument land (nothing excluded), and the analytically
+  live eastern edge is a **commuting/socioeconomic line through the middle of
+  Grand Junction** (25 Rd/S 5th), not a physical feature. Reconciled with
+  Artifact 1's "no inhibiting natural boundaries": barriers serve as polygon
+  edges of convenience across empty land; populated-tract exclusion decisions
+  are made on commute/socio structure. This sharpens F-CAL-2 and confirms the
+  C3 gate: neither artifact shows barriers *binding* — that benchmark is
+  still outstanding and must come from a different site type.
+- **F-CAL-7 — in-migration prediction vs observation.** 2022 predicted ~40%
+  outside-PMA demand; 2024–26 Phase I leasing observed 56% (Artifact 1). Any
+  D-full capture threshold must treat outside-PMA demand of 40–56% as the
+  professionally documented range at this site.
 
 ## Tool output at the same site (computed 2026-07-18, current main)
 
