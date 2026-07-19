@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-07-19T11:57:30.088Z",
+    "generated_at": "2026-07-19T17:42:04.935Z",
     "root": "data/",
-    "file_count": 1592,
-    "total_size_bytes": 249000478,
+    "file_count": 1593,
+    "total_size_bytes": 253436023,
     "kinds": {
-      "json": 1557,
+      "json": 1558,
       "geojson": 31,
       "csv": 4
     }
@@ -14,8 +14,8 @@
     {
       "path": "_qa-status.json",
       "kind": "json",
-      "size_bytes": 6298,
-      "mtime": "2026-07-18T14:06:34.528Z",
+      "size_bytes": 6383,
+      "mtime": "2026-07-19T17:33:14.860Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-07-19T05:37:16.752Z",
+      "mtime": "2026-07-19T17:33:14.860Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30035,8 +30035,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 201771,
-      "mtime": "2026-07-19T11:56:49.771Z",
+      "size_bytes": 202039,
+      "mtime": "2026-07-19T17:41:59.422Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31213,6 +31213,22 @@
       "size_bytes": 47360222,
       "mtime": "2026-07-19T11:56:12.779Z",
       "note": "too-large-to-parse"
+    },
+    {
+      "path": "market/travel_time_matrix_co.json",
+      "kind": "json",
+      "size_bytes": 4435192,
+      "mtime": "2026-07-19T17:39:27.508Z",
+      "shape": "object",
+      "keys": [
+        "hubs",
+        "meta",
+        "tracts"
+      ],
+      "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
     },
     {
       "path": "market/utility_capacity_co.geojson",

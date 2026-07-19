@@ -33,6 +33,11 @@ const ALLOW_LIST = new Set([
   // params like states/counties/years/actions_taken). The endpoint is
   // healthy; the URL sweep just doesn't pass query params.
   "https://ffiec.cfpb.gov/v2/data-browser-api/view/aggregations",
+  // OSRM Table API base — returns 400 to a bare GET by design (requires
+  // coordinate path segments + sources/destinations params). Recorded in
+  // travel_time_matrix_co.json meta as the routing endpoint; healthy when
+  // called with parameters (verified via live route re-queries 2026-07-19).
+  "https://router.project-osrm.org/table/v1/driving",
   // Known sources that frequently block CI user-agents.
   // Polymarket sits behind Cloudflare and drops datacenter connections
   // outright (no HTTP status), so the sweep can't classify it as WAF —
