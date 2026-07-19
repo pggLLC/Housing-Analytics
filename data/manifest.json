@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-19T04:54:23.176044Z",
+  "generated": "2026-07-19T05:17:07.612695Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 766173
+      "bytes": 766595
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7604,7 +7604,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7680,6 +7680,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 698
+    },
+    "data/market/redfin_place_market_tracker_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1568714
     },
     "data/market/reference-projects.json": {
       "featureCount": 0,
