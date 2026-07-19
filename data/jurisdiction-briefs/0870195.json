@@ -427,7 +427,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-19T04:24:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -436,7 +436,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-19T04:24:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -571,7 +571,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-19T04:24:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -580,7 +580,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-19T04:24:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -589,7 +589,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-13T18:42:58Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-19T04:24:51Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
