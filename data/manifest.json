@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-18T22:28:55.546773Z",
+  "generated": "2026-07-19T04:26:28.043494Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4469,27 +4469,27 @@
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50054
+      "bytes": 50052
     },
     "data/hna/ranking-scenarios/commuter-pressure.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50074
+      "bytes": 50072
     },
     "data/hna/ranking-scenarios/large-gap.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50065
+      "bytes": 50063
     },
     "data/hna/ranking-scenarios/rate-sensitive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50074
+      "bytes": 50072
     },
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 50076
+      "bytes": 50074
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -7784,7 +7784,7 @@
     "data/policy/housing-policy-scorecard.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 183418
+      "bytes": 183420
     },
     "data/policy/jchs-state-of-nations-housing.json": {
       "featureCount": 0,
