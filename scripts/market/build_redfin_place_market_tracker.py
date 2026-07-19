@@ -22,7 +22,7 @@ import sys
 import tempfile
 import urllib.request
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -45,6 +45,10 @@ MIN_MONTHS = 12
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).date().isoformat()
+
+
+def review_by(days: int = 90) -> str:
+    return (datetime.now(timezone.utc).date() + timedelta(days=days)).isoformat()
 
 
 def clean_number(raw):
@@ -293,7 +297,7 @@ def build_artifact() -> dict:
             "state_fips": "08",
             "as_of": as_of,
             "last_verified": utc_today(),
-            "review_by": "2026-10-18",
+            "review_by": review_by(),
             "latest_redfin_updated": latest_source_updated,
             "period_duration_days": 90,
             "months_retained": KEEP_MONTHS,
