@@ -24,7 +24,7 @@ import math
 import tempfile
 import zipfile
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 try:
@@ -58,6 +58,10 @@ WEB_MERCATOR_RADIUS = 6378137.0
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def review_by(days: int = 90) -> str:
+    return (datetime.now(timezone.utc).date() + timedelta(days=days)).isoformat()
 
 
 def log(msg: str, level: str = "INFO") -> None:
@@ -175,7 +179,7 @@ def build_opportunity_zones() -> dict:
             "vintage": "2018 designations (Notice 2018-48, amplified by Notice 2019-42)",
             "generated": generated,
             "last_verified": generated[:10],
-            "review_by": "2026-10-18",
+            "review_by": review_by(),
             "feature_count": len(co_features),
             "designated_count": len(co_features),
             "note": "Rebuild via scripts/market/fetch_opportunity_zones.py",
