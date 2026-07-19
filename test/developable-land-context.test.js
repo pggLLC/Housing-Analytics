@@ -38,6 +38,8 @@ assert.equal(doc.meta.source_status.nlcd.status, 'not_included_without_local_ras
 assert.equal(doc.meta.source_status.comap.status, 'verified_excluded_restricted_redistribution');
 assert(doc.meta.source_status.comap.license_note.includes('prohibit redistribution'), 'COMaP restriction is disclosed');
 assert(doc.meta.limitations.some((line) => /#1238 disclosed-migration protocol/.test(line)), 'scoring migration limitation is pinned');
+assert(doc.meta.limitations.some((line) => /understate protection by 50\+ points in alpine counties \(San Juan, Mineral\)/.test(line)),
+  'quantified centroid-allocation limitation is pinned');
 
 assert.equal(tracts.length, 1447, 'tract coverage matches Colorado tract boundary artifact');
 assert.equal(doc.meta.tract_count, tracts.length, 'tract_count matches rows');

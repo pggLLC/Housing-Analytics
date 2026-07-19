@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-19T11:28:35.529515Z",
+  "generated": "2026-07-19T11:57:37.160665Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 240775
+      "bytes": 241428
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -7529,7 +7529,7 @@
     "data/market/developable_land_context_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1433788
+      "bytes": 1434048
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
@@ -7854,7 +7854,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20131
+      "bytes": 20132
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,

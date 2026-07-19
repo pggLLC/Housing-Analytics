@@ -362,6 +362,7 @@ def build(offline_padus: Path | None = None):
             "limitations": [
                 "First-pass context-only indicator; not a buildable-parcel analysis and not a regulatory entitlement screen.",
                 "PAD-US is centroid-allocated by source acres rather than polygon-overlaid, so large multi-tract holdings may be approximate.",
+                "County spot checks show centroid allocation can understate protection by 50+ points in alpine counties (San Juan, Mineral); per-tract shares must not be displayed to users without polygon-overlay validation per the #1238 disclosed-migration protocol.",
                 "COMaP and NLCD are tracked as source statuses pending a license-clean/local derived summary path.",
                 "Any scoring use must go through the #1238 disclosed-migration protocol.",
             ],
