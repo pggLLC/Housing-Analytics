@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-18T08:29:54.095Z
+**Scan timestamp:** 2026-07-19T09:00:22.575Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1592 |
-| New (unregistered) | 1561 |
+| Files scanned | 1596 |
+| New (unregistered) | 1565 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (747 KB)
+- `data/_manifest.json` (749 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -1497,6 +1497,7 @@
 - `data/market/co-adaptive-reuse-references.json` (14 KB)
 - `data/market/co-urban-renewal-authorities.json` (12 KB)
 - `data/market/colorado-equity-pricing-factors.json` (5 KB)
+- `data/market/colorado-foreclosure-performance.json` (48 KB)
 - `data/market/commuting_co.geojson` (569 KB)
 - `data/market/data_quality_report.json` (11 KB)
 - `data/market/dola_demographics_co.json` (24 KB)
@@ -1504,6 +1505,7 @@
 - `data/market/employment_centers_co.geojson` (756 KB)
 - `data/market/environmental_constraints_co.geojson` (499 KB)
 - `data/market/epa_sld_co.json` (716 KB)
+- `data/market/fhfa_hpi_subcounty_co.json` (514 KB)
 - `data/market/flood_zones_co.geojson` (27894 KB)
 - `data/market/flood_zones_co.json` (605 KB)
 - `data/market/fmr_co.json` (22 KB)
@@ -1513,19 +1515,21 @@
 - `data/market/hospitals_co.geojson` (74 KB)
 - `data/market/housing_policy_jurisdictions_co.geojson` (1195 KB)
 - `data/market/hud_egis_co.geojson` (55 KB)
+- `data/market/hud_zip_tract_crosswalk_co.json` (775 KB)
 - `data/market/inclusionary_zoning_co.json` (7 KB)
 - `data/market/landuse_zoning_proxy_co.geojson` (7017 KB)
 - `data/market/lihtc-equity-pricing-history.json` (2 KB)
 - `data/market/lodes_co.json` (663 KB)
 - `data/market/lodes_od_arcs_co.geojson` (124 KB)
-- `data/market/natural_barriers_co.geojson` (11094 KB)
+- `data/market/natural_barriers_co.geojson` (28406 KB)
 - `data/market/novogradac-equity-pricing.json` (5 KB)
 - `data/market/opportunity_insights_co.json` (163 KB)
-- `data/market/opportunity_zones_co.geojson` (77195 KB)
+- `data/market/opportunity_zones_co.geojson` (10358 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (942 KB)
+- `data/market/pma_tract_display_geometry.geojson` (1053 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
+- `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
@@ -1544,7 +1548,7 @@
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
-- `data/policy/homeownership-programs.json` (13 KB)
+- `data/policy/homeownership-programs.json` (16 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
 - `data/policy/jurisdiction-housing-progress.json` (34 KB)
@@ -1552,8 +1556,8 @@
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
-- `data/policy/soft-funding-status.json` (17 KB)
-- `data/policy/tax-credit-legislation.json` (9 KB)
+- `data/policy/soft-funding-status.json` (25 KB)
+- `data/policy/tax-credit-legislation.json` (12 KB)
 - `data/policy_briefs.json` (164 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
@@ -1571,7 +1575,7 @@
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
 - `data/url-health.json` (396 KB)
-- `data/zillow/median_list_price_metro.csv` (822 KB)
-- `data/zillow/zhvi_metro.csv` (4323 KB)
-- `data/zillow/zori_metro.csv` (1003 KB)
+- `data/zillow/median_list_price_metro.csv` (830 KB)
+- `data/zillow/zhvi_metro.csv` (4340 KB)
+- `data/zillow/zori_metro.csv` (1014 KB)
 - `config/data-discovery-config.json` (1 KB)

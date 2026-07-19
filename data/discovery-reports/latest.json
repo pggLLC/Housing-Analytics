@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-07-18T08:29:54.095Z",
-  "totalScanned": 1592,
-  "newSourceCount": 1561,
+  "scanTimestamp": "2026-07-19T09:00:22.575Z",
+  "totalScanned": 1596,
+  "newSourceCount": 1565,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 765230,
+      "sizeBytes": 766974,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -248,7 +248,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 240446,
+      "sizeBytes": 240775,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5252,31 +5252,31 @@
     },
     {
       "path": "data/hna/ranking-scenarios/balanced.json",
-      "sizeBytes": 50054,
+      "sizeBytes": 50052,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/commuter-pressure.json",
-      "sizeBytes": 50074,
+      "sizeBytes": 50072,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/large-gap.json",
-      "sizeBytes": 50065,
+      "sizeBytes": 50063,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rate-sensitive.json",
-      "sizeBytes": 50074,
+      "sizeBytes": 50072,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rural-lens.json",
-      "sizeBytes": 50076,
+      "sizeBytes": 50074,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8902,7 +8902,13 @@
       "path": "data/market/colorado-equity-pricing-factors.json",
       "sizeBytes": 5360,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/colorado-foreclosure-performance.json",
+      "sizeBytes": 49077,
+      "inDataManifest": false,
+      "inFilesManifest": true
     },
     {
       "path": "data/market/commuting_co.geojson",
@@ -8943,6 +8949,12 @@
     {
       "path": "data/market/epa_sld_co.json",
       "sizeBytes": 733069,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/fhfa_hpi_subcounty_co.json",
+      "sizeBytes": 526405,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9001,6 +9013,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/hud_zip_tract_crosswalk_co.json",
+      "sizeBytes": 793484,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/inclusionary_zoning_co.json",
       "sizeBytes": 6912,
       "inDataManifest": false,
@@ -9032,7 +9050,7 @@
     },
     {
       "path": "data/market/natural_barriers_co.geojson",
-      "sizeBytes": 11359847,
+      "sizeBytes": 29087494,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9050,7 +9068,7 @@
     },
     {
       "path": "data/market/opportunity_zones_co.geojson",
-      "sizeBytes": 79047286,
+      "sizeBytes": 10606819,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9062,9 +9080,9 @@
     },
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
-      "sizeBytes": 964352,
+      "sizeBytes": 1078508,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/market/qct_dda_designations_co.json",
@@ -9075,6 +9093,12 @@
     {
       "path": "data/market/qct_dda_designations_co_normalized.json",
       "sizeBytes": 698,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/redfin_place_market_tracker_co.json",
+      "sizeBytes": 1568714,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9134,7 +9158,7 @@
     },
     {
       "path": "data/market/zillow_co_metros.json",
-      "sizeBytes": 107505,
+      "sizeBytes": 107987,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9188,13 +9212,13 @@
     },
     {
       "path": "data/policy/homeownership-programs.json",
-      "sizeBytes": 12936,
+      "sizeBytes": 16701,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/housing-policy-scorecard.json",
-      "sizeBytes": 183418,
+      "sizeBytes": 183420,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9236,13 +9260,13 @@
     },
     {
       "path": "data/policy/soft-funding-status.json",
-      "sizeBytes": 17388,
+      "sizeBytes": 25351,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 9116,
+      "sizeBytes": 11882,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9254,7 +9278,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20131,
+      "sizeBytes": 20132,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9350,19 +9374,19 @@
     },
     {
       "path": "data/zillow/median_list_price_metro.csv",
-      "sizeBytes": 841931,
+      "sizeBytes": 850309,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zhvi_metro.csv",
-      "sizeBytes": 4427173,
+      "sizeBytes": 4444528,
       "inDataManifest": false,
       "inFilesManifest": false
     },
     {
       "path": "data/zillow/zori_metro.csv",
-      "sizeBytes": 1027223,
+      "sizeBytes": 1038495,
       "inDataManifest": false,
       "inFilesManifest": false
     },
