@@ -67,6 +67,13 @@ for (const row of tracts) {
     assert(route.distance_miles > 0, `${row.geoid}/${hubId} distance miles are positive`);
     assert(route.distance_miles >= route.straight_line_miles * 0.65, `${row.geoid}/${hubId} route distance is plausible after OSRM road snapping`);
   }
+  // Denormalized nearest_hub must agree with the per-hub matrix — the
+  // fixture assertions read nearest_hub, so drift between the two would
+  // otherwise go undetected.
+  const routedHubs = Object.entries(row.hubs || {}).filter(([, r]) => r.status === 'routed' && Number.isFinite(r.drive_minutes));
+  const [argminId, argminRoute] = routedHubs.reduce((best, cur) => (cur[1].drive_minutes < best[1].drive_minutes ? cur : best));
+  assert.equal(row.nearest_hub.hub_id, argminId, `${row.geoid} nearest_hub matches the hub matrix argmin`);
+  assert(Math.abs(row.nearest_hub.drive_minutes - argminRoute.drive_minutes) <= 0.05, `${row.geoid} nearest_hub minutes match the hub matrix`);
 }
 
 const denver = doc.tracts['08031004102'];
