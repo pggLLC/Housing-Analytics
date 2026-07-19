@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-19T05:17:07.612695Z",
+  "generated": "2026-07-19T11:28:35.529515Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 766595
+      "bytes": 766974
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7525,6 +7525,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 10836
+    },
+    "data/market/developable_land_context_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1433788
     },
     "data/market/dola_demographics_co.json": {
       "featureCount": 64,
