@@ -1,15 +1,15 @@
 {
-  "generated": "2026-07-19T11:57:37.160665Z",
+  "generated": "2026-07-19T17:41:59.417040Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 766974
+      "bytes": 767351
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6298
+      "bytes": 6383
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -7725,6 +7725,11 @@
       "featureCount": 1703,
       "placeholder": false,
       "bytes": 47360222
+    },
+    "data/market/travel_time_matrix_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4435192
     },
     "data/market/utility_capacity_co.geojson": {
       "featureCount": 351,
