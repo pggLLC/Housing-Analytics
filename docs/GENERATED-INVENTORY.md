@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-18T22:55:15.758Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-19T05:03:36.076Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1555 JSON files found.
+1556 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 748.2 KB | ✅ | — |
+| `data/_manifest.json` | 748.6 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 196.8 KB | ✅ | — |
+| `data/manifest.json` | 196.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1569,6 +1569,7 @@
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
+| `data/market/fhfa_hpi_subcounty_co.json` | 514.1 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
 | `data/market/fmr_tract_map_co.json` | 101.2 KB | ✅ | — |
@@ -1589,7 +1590,7 @@
 | `data/market/tract_centroids_co.json` | 344.9 KB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
-| `data/market/zillow_co_metros.json` | 105.0 KB | ✅ | — |
+| `data/market/zillow_co_metros.json` | 105.5 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
@@ -1632,7 +1633,7 @@
 
 ## Test Files
 
-199 test files found.
+200 test files found.
 
 | File | Size |
 |------|------|
@@ -1682,6 +1683,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 3.4 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
+| `test/fhfa-hpi-subcounty.test.js` | 6.8 KB |
 | `test/file-manifest.test.js` | 2.9 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
