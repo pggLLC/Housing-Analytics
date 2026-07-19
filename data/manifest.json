@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-19T04:39:56.649988Z",
+  "generated": "2026-07-19T04:54:23.176044Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7550,6 +7550,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 733069
+    },
+    "data/market/fhfa_hpi_subcounty_co.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 526405
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
