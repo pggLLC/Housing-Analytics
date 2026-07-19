@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-19T12:02:41.297Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-19T12:05:45.514Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1557 JSON files found.
+1558 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 749.0 KB | ✅ | — |
+| `data/_manifest.json` | 749.4 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 197.0 KB | ✅ | — |
+| `data/manifest.json` | 197.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1566,6 +1566,7 @@
 | `data/market/colorado-equity-pricing-factors.json` | 5.2 KB | ✅ | — |
 | `data/market/colorado-foreclosure-performance.json` | 47.9 KB | ✅ | — |
 | `data/market/data_quality_report.json` | 10.6 KB | ✅ | — |
+| `data/market/developable_land_context_co.json` | 1.37 MB | ✅ | — |
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
@@ -1634,7 +1635,7 @@
 
 ## Test Files
 
-201 test files found.
+202 test files found.
 
 | File | Size |
 |------|------|
@@ -1677,6 +1678,7 @@
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
+| `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
