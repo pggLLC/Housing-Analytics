@@ -16,6 +16,7 @@
  *   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
  *   - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
  *   - data/market/fhfa_hpi_subcounty_co.json (FHFA tract-derived sub-county HPI)
+ *   - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -103,6 +104,11 @@ const BENCHMARK_FILES = [
     label: 'FHFA tract-derived sub-county HPI',
     reviewByPaths: ['meta.review_by'],
     staleAfterDays: 400,
+  },
+  {
+    file: 'data/market/redfin_place_market_tracker_co.json',
+    label: 'Redfin ZIP-derived place market tracker',
+    reviewByPaths: ['meta.review_by'],
   },
 ];
 
