@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-07-19T04:54:15.842Z",
+    "generated_at": "2026-07-19T05:17:00.197Z",
     "root": "data/",
-    "file_count": 1590,
-    "total_size_bytes": 246529925,
+    "file_count": 1591,
+    "total_size_bytes": 247565637,
     "kinds": {
-      "json": 1555,
+      "json": 1556,
       "geojson": 31,
       "csv": 4
     }
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-07-18T22:56:13.755Z",
+      "mtime": "2026-07-19T05:06:26.565Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30035,8 +30035,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 201501,
-      "mtime": "2026-07-19T04:54:05.112Z",
+      "size_bytes": 201632,
+      "mtime": "2026-07-19T04:54:23.185Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30067,7 +30067,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1346881,
-      "mtime": "2026-07-14T12:02:35.356Z",
+      "mtime": "2026-07-19T05:06:26.570Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30725,8 +30725,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1529920,
-      "mtime": "2026-07-19T04:53:43.319Z",
+      "size_bytes": 996787,
+      "mtime": "2026-07-19T05:06:26.573Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -31031,6 +31031,21 @@
         "tracts"
       ],
       "key_count": 3,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "market/redfin_place_market_tracker_co.json",
+      "kind": "json",
+      "size_bytes": 1568714,
+      "mtime": "2026-07-19T05:15:03.403Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "places"
+      ],
+      "key_count": 2,
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
