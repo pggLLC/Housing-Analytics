@@ -17,6 +17,7 @@
  *   - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
  *   - data/market/fhfa_hpi_subcounty_co.json (FHFA tract-derived sub-county HPI)
  *   - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
+ *   - data/market/developable_land_context_co.json (tract developable-land context)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -108,6 +109,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/redfin_place_market_tracker_co.json',
     label: 'Redfin ZIP-derived place market tracker',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/developable_land_context_co.json',
+    label: 'Colorado tract developable-land context',
     reviewByPaths: ['meta.review_by'],
   },
 ];
