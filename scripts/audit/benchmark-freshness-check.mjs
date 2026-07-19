@@ -15,6 +15,7 @@
  *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
  *   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
  *   - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
+ *   - data/market/fhfa_hpi_subcounty_co.json (FHFA tract-derived sub-county HPI)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -32,7 +33,7 @@
  *   1. `review_by` dates (when present in meta or entries) have not passed.
  *   2. `meta.next_expected_update` (when present) has not passed.
  *   3. `meta.as_of` (falling back to `meta.vintage`) is not older than
- *      STALE_AFTER_DAYS (60 — both sources publish roughly quarterly).
+ *      STALE_AFTER_DAYS (60 by default; annual sources can declare a longer cadence).
  *
  * Date parsing accepts, in order:
  *   - ISO dates ("2026-07-01")
@@ -97,6 +98,12 @@ const BENCHMARK_FILES = [
     label: 'HUD-USPS ZIP-to-tract crosswalk',
     reviewByPaths: ['meta.review_by'],
   },
+  {
+    file: 'data/market/fhfa_hpi_subcounty_co.json',
+    label: 'FHFA tract-derived sub-county HPI',
+    reviewByPaths: ['meta.review_by'],
+    staleAfterDays: 400,
+  },
 ];
 
 const MONTHS = ['january','february','march','april','may','june','july',
@@ -159,7 +166,7 @@ const now = process.env.BENCHMARK_FRESHNESS_NOW
 const warnings = [];
 let checked = 0;
 
-for (const { file, label, reviewByPaths = [] } of BENCHMARK_FILES) {
+for (const { file, label, reviewByPaths = [], staleAfterDays = STALE_AFTER_DAYS } of BENCHMARK_FILES) {
   let parsed;
   let meta;
   try {
@@ -195,9 +202,9 @@ for (const { file, label, reviewByPaths = [] } of BENCHMARK_FILES) {
     warnings.push(`${label}: no parseable as_of/vintage in meta (${JSON.stringify(asOfRaw)})`);
   } else {
     const age = daysBetween(asOf, now);
-    if (age > STALE_AFTER_DAYS) {
+    if (age > staleAfterDays) {
       warnings.push(
-        `${label}: snapshot is ${age} days old (as_of ${asOfRaw}, threshold ${STALE_AFTER_DAYS}d) — ` +
+        `${label}: snapshot is ${age} days old (as_of ${asOfRaw}, threshold ${staleAfterDays}d) — ` +
         `re-capture from the source cited in ${file}`);
     }
   }
