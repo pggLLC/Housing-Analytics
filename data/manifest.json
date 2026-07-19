@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-19T04:29:13.162169Z",
+  "generated": "2026-07-19T04:29:51.084592Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7599,7 +7599,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996787
+      "bytes": 1529920
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
