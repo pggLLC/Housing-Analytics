@@ -17,7 +17,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -42,6 +42,10 @@ MIN_CO_TRACTS = 1_000
 
 def utc_today() -> str:
     return datetime.now(timezone.utc).date().isoformat()
+
+
+def review_by(days: int = 90) -> str:
+    return (datetime.now(timezone.utc).date() + timedelta(days=days)).isoformat()
 
 
 def normalize_digits(raw: object, width: int) -> str:
@@ -160,7 +164,7 @@ def build_output(payload_meta: dict, rows: list[dict]) -> dict:
             "vintage_quarter": quarter,
             "as_of": f"{year}-{quarter_label}" if year and quarter_label else utc_today(),
             "last_verified": utc_today(),
-            "review_by": "2026-10-18",
+            "review_by": review_by(),
             "row_count": len(rows),
             "zip_count": len({row["zip"] for row in rows}),
             "tract_count": len({row["tract"] for row in rows}),
