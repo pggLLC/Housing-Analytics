@@ -338,6 +338,47 @@
     return name + ' County';
   }
 
+  function countyLabelFromFips(fips) {
+    if (!fips) return null;
+    if (state.geoConfig && Array.isArray(state.geoConfig.counties)) {
+      for (var i = 0; i < state.geoConfig.counties.length; i++) {
+        var c = state.geoConfig.counties[i];
+        if (c && (c.fips === fips || c.geoid === fips)) {
+          return c.label || (c.name ? formatCountyName(c.name) : null);
+        }
+      }
+    }
+    for (var j = 0; j < CO_COUNTIES.length; j++) {
+      if (CO_COUNTIES[j].fips === fips) return formatCountyName(CO_COUNTIES[j].name);
+    }
+    return null;
+  }
+
+  function findPlaceByGeoid(geoid) {
+    if (!state.geoConfig || !geoid) return null;
+    var rows = (state.geoConfig.places || []).concat(state.geoConfig.cdps || []);
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i] && rows[i].geoid === geoid) return rows[i];
+    }
+    return null;
+  }
+
+  function findSelectedPlaceRecord(cityName) {
+    if (!cityName) return null;
+    if (state.selectedCity && typeof state.selectedCity === 'object' && state.selectedCity.geoid) {
+      return findPlaceByGeoid(state.selectedCity.geoid) || state.selectedCity;
+    }
+    if (state.selectedCity && typeof state.selectedCity === 'string' && state.geoConfig) {
+      var stripped = function (s) { return String(s || '').replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase(); };
+      var target = stripped(cityName);
+      var rows = (state.geoConfig.places || []).concat(state.geoConfig.cdps || []);
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i] && rows[i].geoid && stripped(rows[i].label) === target) return rows[i];
+      }
+    }
+    return null;
+  }
+
   function filterCounties(query) {
     var q = (query || '').toLowerCase().trim();
     if (!q) { return CO_COUNTIES.slice(); }  // all 64 when empty
@@ -576,6 +617,7 @@
     // Then set the city name in the field + state.
     el.citySearch.value = match.name;
     selectCity(match.name);
+    state.selectedCity = match;
     el.sjActionNote.textContent = 'Ready: ' + match.name +
       (countyFips ? ' (auto-set ' + (state.selectedCounty ? state.selectedCounty.name + ' County)' : 'county)') : ')') +
       '. Click Continue.';
@@ -768,26 +810,33 @@
           global.WorkflowState.newProject(countyName + ' Analysis');
         }
         var payload = {
+          geoType: 'county',
+          geoid: fips,
+          name: countyName,
+          countyFips: fips,
+          countyName: countyName,
           fips: fips,
-          name: countyName
+          type: 'county',
+          displayName: null,
+          placeGeoid: null
         };
         if (cityName) {
-          payload.type        = 'city';
-          payload.displayName = cityName;
-          // Look up geoid from geo-config for reliable HNA matching
-          if (state.geoConfig) {
-            var allP = (state.geoConfig.places || []).concat(state.geoConfig.cdps || []);
-            var stripSuffix = function (s) { return s.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase(); };
-            var target = stripSuffix(cityName);
-            for (var i = 0; i < allP.length; i++) {
-              if (stripSuffix(allP[i].label) === target) {
-                payload.placeGeoid = allP[i].geoid;
-                break;
-              }
-            }
+          var place = findSelectedPlaceRecord(cityName);
+          if (place && place.geoid) {
+            var placeCountyFips = place.containingCounty || place.county_fips || fips;
+            var placeCountyName = countyLabelFromFips(placeCountyFips) || countyName;
+            payload = {
+              geoType: place.type === 'cdp' ? 'cdp' : 'place',
+              geoid: place.geoid,
+              name: place.label || place.name || cityName,
+              countyFips: placeCountyFips,
+              countyName: placeCountyName,
+              fips: placeCountyFips,
+              type: 'city',
+              displayName: place.label || place.name || cityName,
+              placeGeoid: place.geoid
+            };
           }
-        } else {
-          payload.type = 'county';
         }
         global.WorkflowState.setJurisdiction(payload);
       } catch (e) {

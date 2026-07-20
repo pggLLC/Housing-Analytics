@@ -68,8 +68,9 @@
   function _defaultSteps() {
     return {
       jurisdiction: {
-        fips: null, name: null, type: null, geoid: null,
-        displayName: null, amiArea: null, lat: null, lon: null,
+        geoType: null, geoid: null, name: null, countyFips: null, countyName: null,
+        fips: null, type: null, displayName: null, placeGeoid: null,
+        amiArea: null, lat: null, lon: null,
         population: null, mhi: null, completedAt: null
       },
       hsa: {

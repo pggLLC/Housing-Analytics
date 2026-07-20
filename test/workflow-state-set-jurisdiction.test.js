@@ -14,7 +14,7 @@
  *
  * What it asserts:
  *   - setJurisdiction auto-creates a project when none is active
- *   - getJurisdiction returns the fips/name the caller set
+ *   - getJurisdiction returns the canonical geo tuple plus legacy fields
  *   - completedSteps after setJurisdiction includes 'jurisdiction'
  *   - isStepComplete('jurisdiction') is true
  *   - A subsequent setStep('hsa', ...) writes to the SAME project
@@ -62,10 +62,13 @@ test('setJurisdiction auto-creates an active project when none exists', function
   reset();
   const before = WorkflowState.getActiveProject();
   WorkflowState.setJurisdiction({
-    fips:  '08001',
-    name:  'Adams County',
-    type:  'county',
+    geoType: 'county',
     geoid: '08001',
+    name: 'Adams County',
+    countyFips: '08001',
+    countyName: 'Adams County',
+    fips: '08001',
+    type: 'county',
   });
   const after = WorkflowState.getActiveProject();
   assert(after != null, 'getActiveProject() returns a project after setJurisdiction');
@@ -79,22 +82,53 @@ test('setJurisdiction auto-creates an active project when none exists', function
 test('getJurisdiction returns the fips and name the caller set', function () {
   reset();
   WorkflowState.setJurisdiction({
-    fips:  '08031',
-    name:  'Denver County',
-    type:  'county',
+    geoType: 'county',
     geoid: '08031',
+    name: 'Denver County',
+    countyFips: '08031',
+    countyName: 'Denver County',
+    fips: '08031',
+    type: 'county',
   });
   const j = WorkflowState.getJurisdiction();
+  assert(j.geoType === 'county', 'geoType persists as county');
+  assert(j.geoid === '08031', 'geoid persists as 08031');
   assert(j.fips === '08031', 'fips persists as 08031');
   assert(j.name === 'Denver County', 'name persists as Denver County');
+  assert(j.countyFips === '08031', 'countyFips persists as 08031');
+  assert(j.countyName === 'Denver County', 'countyName persists as Denver County');
   assert(typeof j.completedAt === 'string' && j.completedAt.length > 0,
     'completedAt is set to a non-empty timestamp');
+});
+
+test('setJurisdiction preserves place/CDP identity while keeping legacy fields', function () {
+  reset();
+  WorkflowState.setJurisdiction({
+    geoType: 'cdp',
+    geoid: '0800320',
+    name: 'Acres Green (CDP)',
+    countyFips: '08035',
+    countyName: 'Douglas County',
+    fips: '08035',
+    type: 'city',
+    displayName: 'Acres Green (CDP)',
+    placeGeoid: '0800320',
+  });
+  const j = WorkflowState.getJurisdiction();
+  assert(j.geoType === 'cdp', 'authoritative geoType preserves CDP');
+  assert(j.geoid === '0800320', 'authoritative geoid preserves CDP GEOID');
+  assert(j.name === 'Acres Green (CDP)', 'authoritative name is the CDP name');
+  assert(j.countyFips === '08035', 'containing county FIPS persists separately');
+  assert(j.countyName === 'Douglas County', 'containing county name persists separately');
+  assert(j.type === 'city', 'legacy type remains populated for back-compat');
+  assert(j.placeGeoid === '0800320', 'legacy placeGeoid remains populated');
 });
 
 test('jurisdiction step counts as complete after setJurisdiction', function () {
   reset();
   WorkflowState.setJurisdiction({
-    fips: '08013', name: 'Boulder County', type: 'county', geoid: '08013',
+    geoType: 'county', geoid: '08013', name: 'Boulder County',
+    countyFips: '08013', countyName: 'Boulder County', fips: '08013', type: 'county',
   });
   const p = WorkflowState.getProgress();
   assert(p.completedSteps.indexOf('jurisdiction') !== -1,
@@ -107,7 +141,8 @@ test('jurisdiction step counts as complete after setJurisdiction', function () {
 test('only one project is auto-created; subsequent setStep writes to it', function () {
   reset();
   WorkflowState.setJurisdiction({
-    fips: '08041', name: 'El Paso County', type: 'county', geoid: '08041',
+    geoType: 'county', geoid: '08041', name: 'El Paso County',
+    countyFips: '08041', countyName: 'El Paso County', fips: '08041', type: 'county',
   });
   const pid1 = WorkflowState.getActiveProject()._meta.projectId;
   // Simulate finishing the HSA step

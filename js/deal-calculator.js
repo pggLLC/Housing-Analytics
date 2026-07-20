@@ -1028,6 +1028,8 @@
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
             <option value="">Default (Denver MSA)</option>
           </select>
+          <span id="dc-jurisdiction-context" hidden
+            style="display:block;margin-top:0.35rem;font-size:var(--tiny);color:var(--muted);"></span>
         </label>
         <!-- Site coords → county auto-detect (PR #794+1). Useful when the
              site is in a cross-county place (Erie, Aurora, Longmont) and
@@ -3391,6 +3393,59 @@
     if (!_amiGapPlaceData || !_amiGapPlaceData.places || !placeGeoid) return null;
     return _amiGapPlaceData.places[placeGeoid] || null;
   }
+
+  function _workflowJurisdictionContext() {
+    try {
+      var project = window.WorkflowState && window.WorkflowState.getActiveProject && window.WorkflowState.getActiveProject();
+      var jx = project && (project.jurisdiction || (project.steps && project.steps.jurisdiction));
+      if (!jx) return null;
+      if (jx.geoType && jx.geoid) {
+        return {
+          geoType: jx.geoType,
+          geoid: jx.geoid,
+          name: jx.name || jx.displayName || null,
+          countyFips: jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null),
+          countyName: jx.countyName || (jx.geoType === 'county' ? jx.name : null),
+          placeGeoid: jx.placeGeoid || (/^\d{7}$/.test(jx.geoid) ? jx.geoid : null)
+        };
+      }
+      if (jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) {
+        return {
+          geoType: 'place',
+          geoid: jx.placeGeoid,
+          name: jx.displayName || jx.name || null,
+          countyFips: jx.countyFips || jx.fips || null,
+          countyName: jx.countyName || jx.name || null,
+          placeGeoid: jx.placeGeoid
+        };
+      }
+      if (jx.countyFips || jx.fips) {
+        return {
+          geoType: 'county',
+          geoid: jx.countyFips || jx.fips,
+          name: jx.countyName || jx.name || null,
+          countyFips: jx.countyFips || jx.fips,
+          countyName: jx.countyName || jx.name || null
+        };
+      }
+    } catch (_) {}
+    return null;
+  }
+
+  function _renderJurisdictionContext(ctx) {
+    var el = document.getElementById('dc-jurisdiction-context');
+    if (!el) return;
+    if (!ctx || (ctx.geoType !== 'place' && ctx.geoType !== 'cdp') || !ctx.name) {
+      el.hidden = true;
+      el.textContent = '';
+      return;
+    }
+    var countyName = ctx.countyName || 'selected county';
+    el.textContent = 'Analyzing ' + ctx.name + ', ' + countyName + ' County context for HUD AMI/FMR inputs.';
+    el.textContent = el.textContent.replace(/ County County context/, ' County context');
+    el.hidden = false;
+  }
+
   // Derive the "units needed" trio (30/50/60% AMI) from either schema.
   //   county file: gap_units_minus_households_le_ami_pct (units − households,
   //                negative when there's a shortfall) — abs gives units needed
@@ -3698,17 +3753,19 @@
           return false;
         };
         var _fallbackCounty = function () {
-          // Pre-select jurisdiction county so user doesn't re-enter it.
-          // WorkflowState / select-jurisdiction.js / HNA all write the
-          // county FIPS to `jx.fips` — the legacy `jx.countyFips` field
-          // doesn't exist anywhere in the schema, so this lookup silently
-          // returned undefined and the county dropdown never auto-selected
-          // the user's project jurisdiction.
+          // Pre-select the jurisdiction county so user doesn't re-enter it.
+          // GEO-1 writes a canonical countyFips for place/CDP selections;
+          // legacy projects may still only have fips.
           var fips = null;
+          var workflowCtx = _workflowJurisdictionContext();
+          _renderJurisdictionContext(workflowCtx);
+          if (workflowCtx && workflowCtx.countyFips) fips = workflowCtx.countyFips;
           try {
-            var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-            var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-            if (_jx && _jx.fips) fips = _jx.fips;
+            if (!fips) {
+              var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+              var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+              if (_jx && _jx.fips) fips = _jx.fips;
+            }
           } catch (_) {}
           if (!fips) {
             try {
@@ -3720,6 +3777,7 @@
         };
         if (window.JurisdictionUrlContext && typeof window.JurisdictionUrlContext.resolve === 'function') {
           window.JurisdictionUrlContext.resolve().then(function (ctx) {
+            _renderJurisdictionContext(ctx);
             if (!_selectCounty(ctx && (ctx.countyFips || (/^\d{5}$/.test(ctx.fips || '') ? ctx.fips : null)))) {
               _fallbackCounty();
             }
@@ -5406,6 +5464,8 @@
     getZoriCountyRent:          getZoriCountyRent,
     getZoriPerBrRent:           getZoriPerBrRent,
     getEquityPricingDefaults:   function () { return Object.assign({}, _equityPricingDefaults); },
+    renderJurisdictionContextForTest: _renderJurisdictionContext,
+    workflowJurisdictionContextForTest: _workflowJurisdictionContext,
     _setZoriDataForTest:        function (d) { _zoriData = d; },
     _setAmiLimitsForTest:       function (limits, byBr, fips) {
       _amiLimits = limits || null;

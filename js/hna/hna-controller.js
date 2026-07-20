@@ -3519,39 +3519,37 @@
       restoredGeoId   = urlGeoid;
     }
 
+    function _selectValueForGeoType(geoType) {
+      return geoType === 'cdp' ? 'place' : geoType;
+    }
+
+    function _workflowSelectionFromJurisdiction(jx) {
+      if (!jx) return null;
+      if (jx.geoType && jx.geoid) {
+        return {
+          geoType: _selectValueForGeoType(jx.geoType),
+          geoid: jx.geoid,
+          sourceGeoType: jx.geoType,
+          countyFips: jx.countyFips || null,
+          countyName: jx.countyName || null
+        };
+      }
+      if (jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) {
+        return { geoType: 'place', geoid: jx.placeGeoid, sourceGeoType: 'place', countyFips: jx.fips || jx.countyFips || null };
+      }
+      if (jx.fips || jx.countyFips) {
+        return { geoType: 'county', geoid: jx.fips || jx.countyFips, sourceGeoType: 'county', countyFips: jx.fips || jx.countyFips };
+      }
+      return null;
+    }
+
     // Priority 1: WorkflowState (set by select-jurisdiction.html)
     if (!restoredGeoType && window.WorkflowState && typeof window.WorkflowState.getJurisdiction === 'function') {
       const jx = window.WorkflowState.getJurisdiction();
-      if (jx && jx.fips) {
-        if (jx.type === 'city' && jx.displayName) {
-          // City/town selection — find its GEOID in geo-config places
-          if (jx.placeGeoid) {
-            // Direct geoid from selector — most reliable
-            restoredGeoType = 'place';
-            restoredGeoId   = jx.placeGeoid;
-          } else {
-            // Fallback: name matching
-            const cfg = window.__HNA_GEO_CONFIG;
-            const allPlaces = [...(cfg?.places || []), ...(cfg?.cdps || [])];
-            const stripSuffix = s => s.replace(/\s*\((?:city|town|CDP)\)/i, '').toLowerCase();
-            const targetName = stripSuffix(jx.displayName);
-            const nameMatch = allPlaces.find(p =>
-              stripSuffix(p.label) === targetName
-            );
-            if (nameMatch) {
-              restoredGeoType = 'place';
-              restoredGeoId   = nameMatch.geoid;
-            } else {
-              // City not in geo-config — fall back to its containing county
-              restoredGeoType = 'county';
-              restoredGeoId   = jx.fips;
-            }
-          }
-        } else {
-          // County selection
-          restoredGeoType = 'county';
-          restoredGeoId   = jx.fips;
-        }
+      const wfSelection = _workflowSelectionFromJurisdiction(jx);
+      if (wfSelection && wfSelection.geoType && wfSelection.geoid) {
+        restoredGeoType = wfSelection.geoType;
+        restoredGeoId   = wfSelection.geoid;
       }
     }
 
@@ -3563,16 +3561,7 @@
       restoredGeoId   = urlGeoid;
     }
 
-    // Priority 3: SiteState.getGeography (sub-county selection from comparative analysis)
-    if (!restoredGeoType && window.SiteState && typeof window.SiteState.getGeography === 'function') {
-      const geo = window.SiteState.getGeography();
-      if (geo && geo.geoid) {
-        restoredGeoType = (geo.type === 'cdp') ? 'place' : (geo.type || 'place');
-        restoredGeoId   = geo.geoid;
-      }
-    }
-
-    // Priority 4: SiteState.getCounty (legacy fallback)
+    // Priority 3: SiteState.getCounty (legacy fallback)
     if (!restoredGeoType && window.SiteState && typeof window.SiteState.getCounty === 'function') {
       const county = window.SiteState.getCounty();
       if (county && county.fips) {
@@ -3611,6 +3600,13 @@
     // (and every other workflow step) stays in sync. Without this, HNA
     // is read-only — the user picks Adams on HNA, then revisits Select
     // Jurisdiction and the old/default selection is still showing.
+    function _countyLabelFromFips(fips) {
+      if (!fips) return null;
+      const cfg = window.__HNA_GEO_CONFIG || {};
+      const county = (cfg.counties || []).find(c => c && (c.geoid === fips || c.fips === fips));
+      return county ? (county.label || county.name || null) : null;
+    }
+
     function _syncJurisdictionToWorkflowState() {
       if (_regionFromCurrentSelect() || (window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked)) return;
       var gt = window.HNAState.els.geoType.value;
@@ -3618,28 +3614,48 @@
       if (!gid) return;
       var selOpt = window.HNAState.els.geoSelect.options[window.HNAState.els.geoSelect.selectedIndex];
       var label = selOpt ? selOpt.textContent : gid;
+      var subtype = selOpt ? selOpt.getAttribute('data-subtype') : null;
+      var realGeoType = gt === 'place' ? (subtype || 'place') : gt;
       try {
         if (window.WorkflowState && typeof window.WorkflowState.setJurisdiction === 'function') {
-          // Workflow-state convention from select-jurisdiction.js: place
-          // selections use type='city' with placeGeoid; county selections
-          // use type='county' with fips. Match it so the restoration logic
-          // (Priority 1 in update() init) reads it back cleanly next time.
           var payload;
-          if (gt === 'county') {
-            payload = { type: 'county', fips: gid, name: label, geoid: gid };
-          } else if (gt === 'state') {
-            payload = { type: 'state', fips: '08', name: 'Colorado', geoid: '08' };
-          } else {
-            // place / cdp — restoration code expects 'city' + placeGeoid +
-            // displayName + a containing-county fips for legacy fallbacks.
-            var contextCounty = window.HNAUtils.countyFromGeoid(gt, gid);
+          if (realGeoType === 'county') {
             payload = {
+              geoType: 'county',
+              geoid: gid,
+              name: label,
+              countyFips: gid,
+              countyName: label,
+              fips: gid,
+              type: 'county',
+              displayName: null,
+              placeGeoid: null
+            };
+          } else if (realGeoType === 'state') {
+            payload = {
+              geoType: 'state',
+              geoid: '08',
+              name: 'Colorado',
+              countyFips: null,
+              countyName: null,
+              fips: '08',
+              type: 'state',
+              displayName: null,
+              placeGeoid: null
+            };
+          } else {
+            var contextCounty = window.HNAUtils.countyFromGeoid(realGeoType, gid);
+            var contextCountyName = _countyLabelFromFips(contextCounty);
+            payload = {
+              geoType: realGeoType,
+              geoid: gid,
+              name: label,
+              countyFips: contextCounty,
+              countyName: contextCountyName,
+              fips: contextCounty,
               type: 'city',
               displayName: label,
-              placeGeoid: gid,
-              geoid: gid,
-              fips: contextCounty || '08',
-              name: label,
+              placeGeoid: gid
             };
           }
           window.WorkflowState.setJurisdiction(payload);

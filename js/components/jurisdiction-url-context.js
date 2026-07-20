@@ -67,6 +67,18 @@
       var project = global.WorkflowState && global.WorkflowState.getActiveProject && global.WorkflowState.getActiveProject();
       var jx = project && (project.jurisdiction || (project.steps && project.steps.jurisdiction));
       if (!jx) return null;
+      if (jx.geoType && jx.geoid) {
+        return {
+          fips: jx.geoid,
+          geoid: jx.geoid,
+          geoType: jx.geoType,
+          countyFips: jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null),
+          displayName: jx.name || jx.displayName || jx.countyName || null,
+          countyName: jx.countyName || (jx.geoType === 'county' ? jx.name : null),
+          placeGeoid: jx.placeGeoid || (/^\d{7}$/.test(jx.geoid) ? jx.geoid : null),
+          source: 'workflow'
+        };
+      }
       if (jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) {
         return {
           fips: jx.placeGeoid,

@@ -483,6 +483,53 @@ document.addEventListener('DOMContentLoaded', function () {
     return geo;
   }
 
+  var _hcaGeoConfigPromise = null;
+  function _loadHcaGeoConfig() {
+    if (_hcaGeoConfigPromise) return _hcaGeoConfigPromise;
+    _hcaGeoConfigPromise = fetch('data/hna/geo-config.json')
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .catch(function () { return null; });
+    return _hcaGeoConfigPromise;
+  }
+
+  function _findConfigRow(cfg, type, geoid) {
+    var rows = type === 'county' ? (cfg && cfg.counties) :
+      (type === 'cdp' ? (cfg && cfg.cdps) : (cfg && cfg.places));
+    if (!Array.isArray(rows)) return null;
+    for (var i = 0; i < rows.length; i++) {
+      if (rows[i] && rows[i].geoid === geoid) return rows[i];
+    }
+    return null;
+  }
+
+  function _countyLabel(cfg, countyFips) {
+    var county = _findConfigRow(cfg, 'county', countyFips);
+    return county ? (county.label || county.name || null) : null;
+  }
+
+  function _canonicalSelectionFromGeo(geo, cfg) {
+    var geoType = geo.type === 'cdp' ? 'cdp' : (geo.type === 'place' ? 'place' : 'county');
+    var geoid = geo.fips || null;
+    var row = _findConfigRow(cfg, geoType, geoid);
+    var countyFips = geoType === 'county' ? geoid : (row && (row.containingCounty || row.county_fips)) || null;
+    var countyName = geoType === 'county' ? (geo.name || _countyLabel(cfg, geoid)) : _countyLabel(cfg, countyFips);
+    var name = (row && (row.label || row.name)) || geo.name || null;
+    return {
+      geoType: geoType,
+      geoid: geoid,
+      name: name,
+      countyFips: countyFips,
+      countyName: countyName,
+      fips: geoType === 'county' ? geoid : countyFips,
+      type: geoType === 'county' ? 'county' : 'city',
+      displayName: geoType === 'county' ? null : name,
+      placeGeoid: geoType === 'county' ? null : geoid
+    };
+  }
+
   function injectSelectionCard(panel) {
     if (!panel || !panel.innerHTML.trim()) return;
     if (document.getElementById('hcaSelectJurisdictionCard')) return;
@@ -508,50 +555,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('hcaSelectJurisdictionBtn').addEventListener('click', function () {
       var btn = this;
-      // Set in WorkflowState and SiteState
-      try {
-        if (window.WorkflowState) {
-          WorkflowState.setJurisdiction({
-            fips:        geoFips || null,
-            name:        geoName,
-            countyName:  geoName,
-            countyFips:  geoFips || null,
-            type:        geoType || 'county'
-          });
-        }
-      } catch (_) {}
-      try {
-        if (window.SiteState && geoFips) {
-          SiteState.setCounty(geoFips, geoName);
-          // For sub-county geographies (place/CDP), also set geography
-          // so HNA controller can restore the specific jurisdiction.
-          if (geoType === 'place' || geoType === 'cdp') {
-            SiteState.setGeography(geoFips, geoName, geoType);
+      _loadHcaGeoConfig().then(function (cfg) {
+        var canonical = _canonicalSelectionFromGeo(geo, cfg);
+        try {
+          if (window.WorkflowState) WorkflowState.setJurisdiction(canonical);
+        } catch (_) {}
+        try {
+          if (window.SiteState && canonical.countyFips) {
+            SiteState.setCounty(canonical.countyFips, canonical.countyName || null);
           }
-        }
-      } catch (_) {}
+        } catch (_) {}
 
-      btn.textContent = '✓ Jurisdiction Set';
-      btn.classList.add('done');
-      btn.disabled = true;
+        btn.textContent = '✓ Jurisdiction Set';
+        btn.classList.add('done');
+        btn.disabled = true;
 
-      var confirm = document.createElement('div');
-      confirm.className = 'hca-select-jurisdiction__confirm';
-      // Fix #6: redirect to HNA with ?fips=&auto=1 so the geography auto-selects.
-      // For sub-county, also pass geoType and geoid so the HNA page picks up the exact jurisdiction.
-      var targetUrl = 'housing-needs-assessment.html';
-      if (geoFips) {
-        targetUrl += '?fips=' + encodeURIComponent(geoFips) + '&auto=1';
-        if (geoType && geoType !== 'county') {
-          targetUrl += '&geoType=' + encodeURIComponent(geoType) + '&geoid=' + encodeURIComponent(geoFips);
+        var confirm = document.createElement('div');
+        confirm.className = 'hca-select-jurisdiction__confirm';
+        var targetUrl = 'housing-needs-assessment.html';
+        if (canonical.geoid) {
+          targetUrl += '?fips=' + encodeURIComponent(canonical.geoid) + '&auto=1';
+          targetUrl += '&geoType=' + encodeURIComponent(canonical.geoType) + '&geoid=' + encodeURIComponent(canonical.geoid);
         }
-      }
-      confirm.innerHTML = '✓ Working jurisdiction set to ' + geoName + '. ' +
-        'Redirecting to Housing Needs Assessment&hellip;';
-      card.appendChild(confirm);
-      setTimeout(function () {
-        window.location.href = targetUrl;
-      }, 900);
+        confirm.innerHTML = '✓ Working jurisdiction set to ' + (canonical.name || geoName) + '. ' +
+          'Redirecting to Housing Needs Assessment&hellip;';
+        card.appendChild(confirm);
+        setTimeout(function () {
+          window.location.href = targetUrl;
+        }, 900);
+      });
     });
   }
 

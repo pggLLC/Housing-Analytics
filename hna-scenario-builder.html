@@ -726,19 +726,65 @@
     var banner = document.getElementById('sbJurisdictionBanner');
     var nameEl = document.getElementById('sbJurisdictionName');
     if (!banner || !nameEl) return;
-    var countyName = null;
+    var displayName = null;
     try {
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
-      if (jx) countyName = jx.name || jx.countyName || null;
+      if (jx) {
+        var countyName = jx.countyName || ((jx.geoType === 'county' || jx.type === 'county') ? jx.name : null);
+        if ((jx.geoType === 'place' || jx.geoType === 'cdp') && jx.name) {
+          displayName = jx.name + (countyName ? ', ' + countyName : '');
+        } else {
+          displayName = countyName || jx.name || null;
+        }
+      }
     } catch (_) {}
-    if (!countyName) {
-      try { var sc = window.SiteState && window.SiteState.getCounty(); if (sc && sc.name) countyName = sc.name; } catch (_) {}
+    if (!displayName) {
+      try { var sc = window.SiteState && window.SiteState.getCounty(); if (sc && sc.name) displayName = sc.name; } catch (_) {}
     }
-    if (countyName) {
-      nameEl.textContent = /county$/i.test(countyName) ? countyName : countyName + ' County';
+    if (displayName) {
+      nameEl.textContent = displayName;
       banner.removeAttribute('hidden');
     }
+  }
+
+  function preselectFromWorkflowState() {
+    var sbSel = document.getElementById('sbGeoSelect');
+    if (!sbSel) return;
+    try {
+      var urlParams = new URLSearchParams(window.location.search || '');
+      if (urlParams.get('geoid')) return;
+    } catch (_) {}
+
+    var targetGeoid = null;
+    try {
+      var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
+      if (_jx && _jx.geoType && _jx.geoid) {
+        targetGeoid = _jx.geoid;
+      } else if (_jx && (_jx.placeGeoid || _jx.fips || _jx.countyFips)) {
+        targetGeoid = _jx.placeGeoid || _jx.fips || _jx.countyFips;
+      }
+    } catch (_) {}
+    if (!targetGeoid) {
+      try {
+        var _sc = window.SiteState && window.SiteState.getCounty();
+        if (_sc && _sc.fips) targetGeoid = _sc.fips;
+      } catch (_) {}
+    }
+    if (!targetGeoid) return;
+
+    var attempts = 0;
+    (function applySelection() {
+      attempts += 1;
+      var opt = sbSel.querySelector('option[value="' + targetGeoid + '"]');
+      if (opt) {
+        sbSel.value = targetGeoid;
+        sbSel.dispatchEvent(new Event('change', { bubbles: true }));
+        return;
+      }
+      if (attempts < 40) setTimeout(applySelection, 100);
+    }());
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -754,23 +800,9 @@
         { heading: 'Scenario & Credit Concepts' });
     }
 
-    // Fix #9: pre-select county from WorkflowState / SiteState
-    var sbSel = document.getElementById('sbGeoSelect');
-    if (sbSel) {
-      var _jxFips = null;
-      try {
-        var _proj = window.WorkflowState && window.WorkflowState.getActiveProject();
-        var _jx   = _proj && (_proj.jurisdiction || (_proj.steps && _proj.steps.jurisdiction));
-        if (_jx && (_jx.fips || _jx.countyFips)) _jxFips = _jx.fips || _jx.countyFips;
-      } catch (_) {}
-      if (!_jxFips) {
-        try {
-          var _sc = window.SiteState && window.SiteState.getCounty();
-          if (_sc && _sc.fips) _jxFips = _sc.fips;
-        } catch (_) {}
-      }
-      if (_jxFips) sbSel.value = _jxFips;
-    }
+    // Fix #9 / GEO-1: pre-select the canonical WorkflowState tuple first,
+    // including place/CDP GEOIDs; fall back to legacy county FIPS.
+    preselectFromWorkflowState();
 
     // #10 Export panel
     if (window.ExportPanel) ExportPanel.render('exportPanelMount-sb', 'scenario');
