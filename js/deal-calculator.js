@@ -23,10 +23,12 @@
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
+  var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
+  var MIDDLE_INCOME_AMI_BANDS = { 110: true, 120: true };
   // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
-  // Used for the "achievable-rent cap" toggle that under-writes 70/80/100% AMI
-  // units at min(LIHTC ceiling, market rent) in weak markets where the LIHTC
-  // ceiling on workforce tiers exceeds what the local market will actually
+  // Used for the "achievable-rent cap" toggle that under-writes 70%-120% AMI
+  // units at min(planning ceiling, market rent) in weak markets where higher-AMI
+  // ceilings exceed what the local market will actually
   // pay. See docs/MARKET-RENT-AND-KALSHI.md for the rationale.
   var _zoriData = null;     // cached zori_rents_co.json
   // F96 — Triangulation sources for the achievable-rent cap. ZORI is the
@@ -360,26 +362,26 @@
   // -------------------------------------------------------------------
   // Rent-achievability check (pure function, testable)
   //
-  // Compares the LIHTC rent ceiling at each AMI tier to HUD FMR 2BR
+  // Compares the gross rent/planning ceiling at each AMI tier to HUD FMR 2BR
   // for the selected county. Answers the banker/syndicator question:
   // "will the LIHTC ceiling rents actually clear the market, or is
   //  the proforma over-stated because the ceiling is above market?"
   //
   // Status thresholds (rule-of-thumb for banker review):
-  //   gap ≤ 0     clear       — LIHTC ceiling at/below market, achievable
+  //   gap ≤ 0     clear       — ceiling at/below market, achievable
   //   gap ≤ $50   tight       — close to market, thin buffer
   //   gap ≤ $200  concerning  — ceiling meaningfully above market
   //   gap > $200  misaligned  — proforma at ceiling likely overstates revenue
   //
-  // Positive gap = LIHTC ceiling > market rent (concerning).
-  // Negative gap = LIHTC ceiling < market rent (good — ceiling is binding).
+  // Positive gap = ceiling > market rent (concerning).
+  // Negative gap = ceiling < market rent (good — ceiling is binding).
   //
   // Uses HUD FMR 2BR as the market benchmark because most LIHTC projects
   // are 2BR-dominated. A future refinement could weight by the project's
   // actual bedroom mix.
   //
   // Inputs:
-  //   amiLimits — { 30: 931, 40: 1241, 50: 1551, 60: 1862 } monthly $USD
+  //   amiLimits — { 30: 931, 40: 1241, ..., 120: 3723 } monthly $USD
   //   fmr       — { efficiency, one_br, two_br, three_br, four_br } monthly $USD
   //
   // Returns null when data isn't available (county not selected, FMR 2BR
@@ -398,7 +400,7 @@
       return 'misaligned';
     }
 
-    var tiers = [30, 40, 50, 60]
+    var tiers = DEAL_AMI_BANDS
       .filter(function (p) { return typeof inputs.amiLimits[p] === 'number' && inputs.amiLimits[p] > 0; })
       .map(function (pct) {
         var ceiling = inputs.amiLimits[pct];
@@ -414,6 +416,18 @@
 
     if (tiers.length === 0) return null;
     return { tiers: tiers, fmr: fmr };
+  }
+
+  function isLihtcCreditEligiblePct(pct) {
+    return Number(pct) <= 60;
+  }
+
+  function amiBandLabelHtml(pct) {
+    if (isLihtcCreditEligiblePct(pct)) return pct + '% AMI';
+    if (MIDDLE_INCOME_AMI_BANDS[pct]) {
+      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
+    }
+    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce; not LIHTC-credit-eligible)</span>';
   }
 
   // -------------------------------------------------------------------
@@ -707,7 +721,7 @@
         '3br':    (il50_4p) * 1.04,               // 4.5 person ≈ il50_4 × 1.04 (HUD adjustment factor proxy)
         '4br':    il50_4p * 1.10                  // 6 person ≈ il50_4 × 1.10 (HUD adjustment factor proxy)
       };
-      [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
+      DEAL_AMI_BANDS.forEach(function (pct) {
         var tier_factor = pct / 50;
         computedByBr[pct] = {};
         Object.keys(il50ByBr).forEach(function (br) {
@@ -721,7 +735,7 @@
       // Fallback: if IL data is missing (rare), use the prior 4-person
       // AMI approach so we don't silently zero out rents.
       var ami4 = +il.ami_4person;
-      [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
+      DEAL_AMI_BANDS.forEach(function (pct) {
         var v = Math.round((ami4 * (pct / 100) * burden) / 12);
         computed[pct] = v;
         computedByBr[pct] = { studio: v, '1br': v, '2br': v, '3br': v, '4br': v };
@@ -866,6 +880,7 @@
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
             <option value="80" selected>80% AMI</option>
             <option value="100">100% AMI</option>
+            <option value="110">110% AMI</option>
             <option value="120">120% AMI</option>
           </select>
         </label>
@@ -885,9 +900,11 @@
           </div>
           <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
             Tiers ≤60% AMI generate LIHTC equity; tiers above 60% are workforce or
-            market-rate units that don't qualify for tax credits. Mixed-income deals
-            (some tiers above 60%) use IRC §42(c)(1)(B) applicable fraction —
-            eligible basis is prorated by LIHTC unit share. See live calculation below.
+            market-rate planning units that do not qualify for federal LIHTC credits.
+            110% and 120% AMI are middle-income planning bands for CHFA MIHTC/TOC
+            and Prop 123 context only. Mixed-income deals use IRC §42(c)(1)(B)
+            applicable fraction — eligible basis is prorated by LIHTC unit share.
+            See live calculation below.
           </div>
           <div id="dc-ami-prefill-meta" hidden
             style="font-size:.75rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .55rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);line-height:1.45;"></div>
@@ -901,12 +918,10 @@
             <span>AMI tier</span><span style="text-align:center;">Units</span><span>Bedrooms</span>
           </div>
           <div id="dc-ami-rows" style="display:grid;grid-template-columns:1fr 70px 100px;gap:0.4rem 0.5rem;align-items:center;">
-            ${[30, 40, 50, 60, 70, 80, 100].map(pct => {
-              var lihtcEligible = pct <= 60;
+            ${DEAL_AMI_BANDS.map(pct => {
+              var lihtcEligible = isLihtcCreditEligiblePct(pct);
               var defaultUnits = lihtcEligible ? 15 : 0;
-              var tierLabel = lihtcEligible
-                ? pct + '% AMI'
-                : pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce)</span>';
+              var tierLabel = amiBandLabelHtml(pct);
               var brOptions = [
                 ['studio', 'Studio'], ['1br', '1BR'],
                 ['2br', '2BR (default)'], ['3br', '3BR'], ['4br', '4BR']
@@ -930,11 +945,11 @@
             `;}).join('')}
           </div>
 
-          <!-- Q5: Achievable-rent cap toggle (CHFA QAP "min(LIHTC, market)" rule)
-               In weak markets, the LIHTC ceiling for 70/80/100% AMI tiers
+          <!-- Q5: Achievable-rent cap toggle (CHFA QAP "min(ceiling, market)" rule)
+               In weak markets, the planning ceiling for 70%-120% AMI tiers
                often exceeds what the local market will actually pay. CHFA's
                QAP requires underwriting at min(ceiling, market). When ON,
-               this caps the 70/80/100% AMI per-unit rents at the per-BR
+               this caps the 70%-120% AMI per-unit rents at the per-BR
                ZORI estimate so the proforma doesn't overstate revenue. -->
           <div id="dc-achievable-cap-wrap"
             style="margin-top:.65rem;padding:.55rem .65rem;border:1px solid var(--border);
@@ -944,11 +959,11 @@
                 style="width:1rem;height:1rem;margin-top:.18rem;flex:0 0 auto;cursor:pointer;"
                 aria-describedby="dc-achievable-cap-help">
               <span style="flex:1 1 auto;min-width:0;">
-                <strong>Cap 70/80/100% AMI rents at market (ZORI)</strong>
+                <strong>Cap 70%-120% AMI rents at market (ZORI)</strong>
                 <span id="dc-achievable-cap-help"
                   style="display:block;font-size:var(--tiny);color:var(--muted);line-height:1.45;margin-top:.15rem;">
-                  In soft markets the LIHTC ceiling on workforce tiers often exceeds achievable
-                  rent. When checked, 70/80/100% AMI rents underwrite at
+                  In soft markets the ceiling on workforce and middle-income tiers often exceeds achievable
+                  rent. When checked, 70%-120% AMI rents underwrite at
                   <strong>min(ceiling, ZORI market rent)</strong> per CHFA QAP. ≤60% AMI tiers
                   are unaffected — those ceilings rarely exceed market.
                 </span>
@@ -1321,13 +1336,18 @@
               allowance, published per-jurisdiction by HUD or the local PHA.
               The pro forma below uses gross rent as a conservative ceiling;
               real underwriting subtracts UA.
+              <br>
+              <strong>Middle-income bands:</strong> 110% and 120% AMI are shown
+              as planning bands for CHFA MIHTC/TOC and Prop 123 context. They
+              are not federal LIHTC-credit-eligible and are excluded from
+              qualified basis and annual credit calculations.
             </p>
           </div>
 
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">2. Annual gross rents</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              gross_rents = Σ<sub>tier ∈ {30,40,50,60}</sub> ( units_at_tier × ceiling<sub>tier</sub> × 12 )
+              gross_rents = Σ<sub>tier ∈ {30,40,50,60,70,80,100,110,120}</sub> ( units_at_tier × ceiling<sub>tier</sub> × 12 )
             </code>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
               Sums the rent rolls for each AMI-tier checkbox you've enabled. Driven by the unit-mix inputs above.
@@ -1406,6 +1426,7 @@
             </code>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
               Credit rate: 9 % (competitive) or ≈ 4 % (4-percent / PAB-backed). Equity price ($/credit) is an input — confirm with your syndicator. Standard amortization over 10 years.
+              Units at 70%, 80%, 100%, 110%, and 120% AMI can contribute rent in the pro forma, but only ≤60% AMI rows contribute federal LIHTC qualified basis in this screening model.
             </p>
           </div>
 
@@ -1955,17 +1976,13 @@
 
     // Attach event listeners
     const ids = ['dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
-      'dc-chk-30', 'dc-chk-40', 'dc-chk-50', 'dc-chk-60',
-      'dc-chk-70', 'dc-chk-80', 'dc-chk-100',
-      'dc-units-30', 'dc-units-40', 'dc-units-50', 'dc-units-60',
-      'dc-units-70', 'dc-units-80', 'dc-units-100',
-      // P7: per-AMI-tier BR-type selectors
-      'dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60',
-      'dc-br-70', 'dc-br-80', 'dc-br-100',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       // (Per-tranche fields wired below via renderSoftTranches.)
     ];
+    DEAL_AMI_BANDS.forEach(function (pct) {
+      ids.push('dc-chk-' + pct, 'dc-units-' + pct, 'dc-br-' + pct);
+    });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
@@ -1983,7 +2000,7 @@
       });
     });
     // P7: BR-type selectors fire 'change' not 'input'
-    ['dc-br-30', 'dc-br-40', 'dc-br-50', 'dc-br-60', 'dc-br-70', 'dc-br-80', 'dc-br-100'].forEach(function (id) {
+    DEAL_AMI_BANDS.map(function (pct) { return 'dc-br-' + pct; }).forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', recalculate);
     });
@@ -2388,7 +2405,9 @@
     var impactMode = totalGrant > 0 ? 'grant' : 'loan';
 
     // Rent income — sum checked AMI-tier units. Track LIHTC-eligible
-    // (≤60% AMI) vs market/workforce (70/80/100% AMI) unit counts
+    // (≤60% AMI) vs workforce/middle-income (70%-120% AMI) unit counts.
+    // Higher-AMI rows can add rent and unit mix context, but never federal
+    // LIHTC qualified basis or credits.
     // separately so we can apply the IRC §42(c)(1)(B) "applicable
     // fraction" to eligible basis for mixed-income deals.
     var annualRents = 0;
@@ -2402,14 +2421,14 @@
     // ceiling × 12. Falls back to the legacy flat _amiLimits[pct] (= 2BR
     // default) if the BR breakdown isn't available yet.
     //
-    // Q5: When the "achievable-rent cap" toggle is ON, the 70/80/100% AMI
-    // workforce tiers underwrite at min(LIHTC ceiling, ZORI market). The
+    // Q5: When the "achievable-rent cap" toggle is ON, the 70%-120% AMI
+    // workforce/middle-income tiers underwrite at min(ceiling, ZORI market). The
     // 30-60% AMI LIHTC ceilings rarely exceed market and are not capped.
     var capChk = document.getElementById('dc-achievable-cap');
     var capOn = !!(capChk && capChk.checked);
     var perBrMarket = (capOn && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
     var capBindings = [];   // tiers where the cap actually reduced revenue
-    [30, 40, 50, 60, 70, 80, 100].forEach(function (pct) {
+    DEAL_AMI_BANDS.forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
       var brSel = document.getElementById('dc-br-' + pct);
@@ -2435,8 +2454,8 @@
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
         if (chk.checked) {
-          if (pct <= 60) lihtcUnits  += u;
-          else           marketUnits += u;
+          if (isLihtcCreditEligiblePct(pct)) lihtcUnits  += u;
+          else                               marketUnits += u;
         }
       }
     });
@@ -2471,7 +2490,7 @@
           ' total = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
           'Eligible basis prorated to ' + fmt(eligibleBasis) +
           ' (vs ' + fmt(eligibleBasisRaw) + ' if 100% LIHTC). ' +
-          'Market-rate units generate rent but no tax credits per IRC §42(c)(1)(B).';
+          'Workforce and middle-income units generate rent but no federal LIHTC tax credits per IRC §42(c)(1)(B).';
         afNoteEl.hidden = false;
       } else {
         afNoteEl.hidden = true;
@@ -2741,7 +2760,7 @@
         }
         // Workforce/market tiers above 60% → flag achievable-rent risk
         var hasWorkforceUnits = false;
-        [70, 80, 100].forEach(function (pct) {
+        DEAL_AMI_BANDS.filter(function (pct) { return pct > 60; }).forEach(function (pct) {
           var inp = document.getElementById('dc-units-' + pct);
           if (inp && (parseInt(inp.value, 10) || 0) > 0) hasWorkforceUnits = true;
         });
@@ -2750,7 +2769,7 @@
           if (capChk && !capChk.checked) {
             levers.push(
               '<strong>Workforce / market-rate units in the mix.</strong> ' +
-              'The LIHTC ceiling for 70/80/100% AMI often exceeds achievable market rent — toggle "Cap 70/80/100% AMI rents at market (ZORI)" above to underwrite at min(ceiling, market) per CHFA QAP guidance.'
+              'The planning ceiling for 70%-120% AMI often exceeds achievable market rent — toggle "Cap 70%-120% AMI rents at market (ZORI)" above to underwrite at min(ceiling, market) per CHFA QAP guidance.'
             );
           }
         }
@@ -3398,7 +3417,7 @@
   // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
   // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
   // for the selected jurisdiction. Prefers place-level gap when available,
-  // falls back to county-level. Workforce/market tiers (70/80/100% AMI) are
+  // falls back to county-level. Workforce/middle-income tiers (70%-120% AMI) are
   // left untouched — the prefill targets the LIHTC pool only.
   function _prefillAmiFromGap() {
     var metaEl = document.getElementById('dc-ami-prefill-meta');
@@ -3457,7 +3476,7 @@
         '<strong>Allocated ' + totalUnits + ' units</strong> proportional to the documented gap in ' + label +
         ' (' + (kind === 'place' ? 'place-level' : 'county-level') + '): ' +
         pct30 + '% at 30% AMI · ' + pct50 + '% at 50% AMI · ' + pct60 + '% at 60% AMI. ' +
-        'Workforce/market tiers (70/80/100%) left unchanged — adjust manually for mixed-income deals.';
+        'Workforce/middle-income tiers (70%-120%) left unchanged — adjust manually for mixed-income deals.';
     }
   }
 
@@ -3751,13 +3770,13 @@
           if (_amiLimits) {
             // P6: surface the \u00a742 / CHFA methodology basis so reviewers see
             // we're not using ami_4person \u00d7 pct (a common but wrong shortcut).
-            noteEl.innerHTML = '<strong>2BR LIHTC gross rent ceiling (\u00a742 / CHFA):</strong> ' +
-              [30, 40, 50, 60].map(function (p) {
+            noteEl.innerHTML = '<strong>2BR gross rent ceilings (\u00a742 / CHFA methodology):</strong> ' +
+              DEAL_AMI_BANDS.map(function (p) {
                 return p + '% AMI = $' + _amiLimits[p].toLocaleString();
               }).join(' \u2022 ') +
               '<br><span style="opacity:.85;">Formula: 50% AMI 3-person \u00d7 (tier \u00f7 50) \u00d7 ' +
               Math.round((+_constants.rentBurdenPct) * 100) + '% \u00f7 12.&nbsp;' +
-              'Imputed household = 1.5 \u00d7 bedrooms; 2BR = 3-person. Subtract utility allowance for net rent.</span>';
+              'Imputed household = 1.5 \u00d7 bedrooms; 2BR = 3-person. 110%/120% are middle-income planning bands, not LIHTC-credit-eligible. Subtract utility allowance for net rent.</span>';
             noteEl.style.color = '';
           } else {
             noteEl.textContent = 'Select a county above to load HUD-published AMI rent limits for that county.';
@@ -4095,7 +4114,7 @@
   }
 
   /**
-   * Q5: After recalculate() runs, surface which 70/80/100% AMI rows actually
+   * Q5: After recalculate() runs, surface which 70%-120% AMI rows actually
    * had their rents reduced by the market cap. Empty array → cap not binding.
    */
   function _renderAchievableCapStatus(capOn, perBrMarket, bindings) {
@@ -4121,7 +4140,7 @@
     }
     if (!bindings || bindings.length === 0) {
       el.innerHTML = headBits.join(' ') +
-        '. <span style="color:var(--accent,#096e65);">Cap not binding</span> — LIHTC ceilings on 70/80/100% AMI ' +
+        '. <span style="color:var(--accent,#096e65);">Cap not binding</span> — planning ceilings on 70%-120% AMI ' +
         'are already at or below ZORI market for the selected BR types. Rent roll unchanged.';
       el.style.color = 'var(--muted)';
       return;
@@ -5381,11 +5400,18 @@
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
     computeRentAchievability:   computeRentAchievability,
+    getAmiBands:                function () { return DEAL_AMI_BANDS.slice(); },
+    isLihtcCreditEligiblePct:   isLihtcCreditEligiblePct,
     /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */
     getZoriCountyRent:          getZoriCountyRent,
     getZoriPerBrRent:           getZoriPerBrRent,
     getEquityPricingDefaults:   function () { return Object.assign({}, _equityPricingDefaults); },
     _setZoriDataForTest:        function (d) { _zoriData = d; },
+    _setAmiLimitsForTest:       function (limits, byBr, fips) {
+      _amiLimits = limits || null;
+      _amiLimitsByBr = byBr || null;
+      _countyFips = fips || null;
+    },
     DEFAULT_CONSTANTS:          DEFAULT_CONSTANTS,
     /* Test helpers — mutate the live constants and read back */
     _getConstants:              function () { return Object.assign({}, _constants); },
