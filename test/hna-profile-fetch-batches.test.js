@@ -1,6 +1,8 @@
 'use strict';
 
 const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
 const { JSDOM } = require('jsdom');
 
 console.log('\nHNA ACS profile fetch batching tests');
@@ -61,8 +63,46 @@ window.fetchWithTimeout = async function (url) {
 
 require('../js/hna/hna-controller.js');
 
+function countExtendedBatchVars(source, batchName) {
+  const start = source.indexOf('var ' + batchName + ' = [');
+  assert(start >= 0, batchName + ' is declared in fetchAcsExtended');
+  const end = source.indexOf('];', start);
+  assert(end > start, batchName + ' declaration closes');
+  return Array.from(source.slice(start, end).matchAll(/'((?:DP|B|S)\d{2,5}_[A-Z0-9]+(?:PE|E)?)'/g)).length;
+}
+
 (async function run() {
   assert.strictEqual(typeof window.__HNA_fetchAcsProfileForTest, 'function', 'fetchAcsProfile test hook is exposed');
+  assert.strictEqual(typeof window.__HNA_buildCensusUrlForTest, 'function', 'guarded Census URL builder test hook is exposed');
+  assert.throws(
+    () => window.__HNA_buildCensusUrlForTest(
+      'https://api.census.gov/data/2024/acs/acs5/profile',
+      Array.from({ length: 51 }, (_, i) => 'DP99_' + String(i + 1).padStart(4, '0') + 'E'),
+      'county:031',
+      'state:08',
+      null,
+      'over-limit test',
+      false
+    ),
+    /exceeds 50 variables/,
+    'shared Census URL builder rejects any get= request above the Census 50-variable cap'
+  );
+  const okUrl = window.__HNA_buildCensusUrlForTest(
+    'https://api.census.gov/data/2024/acs/acs5/profile',
+    Array.from({ length: 50 }, (_, i) => 'DP98_' + String(i + 1).padStart(4, '0') + 'E'),
+    'county:031',
+    'state:08',
+    null,
+    'limit test',
+    false
+  );
+  assert(new URL(okUrl).searchParams.get('get').split(',').length === 50, 'shared Census URL builder allows exactly 50 variables');
+
+  const controllerSource = fs.readFileSync(path.join(__dirname, '..', 'js/hna/hna-controller.js'), 'utf8');
+  ['batchA', 'batchB', 'batchC', 'batchD'].forEach((batchName) => {
+    assert(countExtendedBatchVars(controllerSource, batchName) <= 40, 'fetchAcsExtended ' + batchName + ' keeps headroom at <=40 variables');
+  });
+
   requestedUrls.length = 0;
   const profile = await window.__HNA_fetchAcsProfileForTest('county', '08031');
 
