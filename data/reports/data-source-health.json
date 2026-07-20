@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-12T15:01:20Z",
+  "generated_at": "2026-07-19T15:00:26Z",
   "registry": "data/source-registry.json",
   "summary": {
     "total": 13,
@@ -23,8 +23,8 @@
       "parser_note": "xlsx workbook structure ok",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "bls-qcew-county-annual",
@@ -38,8 +38,8 @@
       "parser_note": "csv header ok (38 columns)",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "dola-county-profiles",
@@ -53,8 +53,8 @@
       "parser_note": "csv header ok (17 columns)",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "dola-county-components",
@@ -68,8 +68,8 @@
       "parser_note": "csv header ok (10 columns)",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "dola-county-sya",
@@ -83,8 +83,8 @@
       "parser_note": "csv header ok (9 columns)",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "dola-muni-pop-housing",
@@ -98,8 +98,8 @@
       "parser_note": "csv header ok (15 columns)",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "census-acs5-profile",
@@ -113,8 +113,8 @@
       "parser_note": "json object shape ok",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "census-tigerweb-counties",
@@ -128,8 +128,8 @@
       "parser_note": "json object shape ok",
       "expected_cadence_days": 30,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "hud-qct-2026",
@@ -143,8 +143,8 @@
       "parser_note": "json object shape ok",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "hud-dda-2026",
@@ -158,8 +158,8 @@
       "parser_note": "json object shape ok",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "lehd-lodes8-co-od",
@@ -173,8 +173,8 @@
       "parser_note": "text shape ok",
       "expected_cadence_days": 365,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "zillow-research-data",
@@ -185,11 +185,11 @@
       "status": "ok",
       "http_status": 200,
       "parser_ok": true,
-      "parser_note": "csv header ok (146 columns)",
+      "parser_note": "csv header ok (147 columns)",
       "expected_cadence_days": 30,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     },
     {
       "id": "redfin-data-center",
@@ -203,8 +203,8 @@
       "parser_note": "text shape ok",
       "expected_cadence_days": 30,
       "last_ok": "2026-06-26T00:00:00Z",
-      "age_days": 16,
-      "checked_at": "2026-07-12T15:01:20Z"
+      "age_days": 23,
+      "checked_at": "2026-07-19T15:00:26Z"
     }
   ]
 }
