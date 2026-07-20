@@ -66,12 +66,18 @@
 
 - **Chart population: 20/20 charts pass against production** (chart-population-audit, report `audit-report/chart-population/2026-07-20T07-35-48-043Z.json`) — every audited canvas renders with data, including the Scenario Builder and colorado-deep-dive sets.
 - **Source/link health: 13/13 OK** in the 2026-07-20 weekly source-health snapshot (0 dead, 0 blocked, 0 stale, 0 parse errors) — the snapshot refresh is sitting in cron PR #1261. Historical context stands: url-health "broken" over-reporting was WAF false-positives; genuine dead links were healed in #1015/F35 and local-resources links are durable searches by design.
-- The offline repo-link-audit script wedged with zero output after 20+ minutes when run over the full 537-file set and was killed — worth a hygiene look someday, but the two signals above cover the review's needs. (M7 closed.)
+- **Repo link audit (completed on rerun): 57,590 local links across 32,046 files — 54,373 OK, 2,008 "missing," triaged as follows.** 1,504 are stale `.claude/worktrees` session copies (the scanner shouldn't walk `.claude/` — hygiene fix for the script) and most of the rest are `dist/` duplicates of one real finding, promoted to **M8** below. *Correction for the record:* the first run of this audit was killed on a wrong "wedged" diagnosis — the script buffers all output until completion, so 20 minutes of silence was normal; the rerun completed and surfaced M8, which the substituted signals had missed. (M7 closed.)
+
+### M8 (High, found by the completed link audit) — methodology links 404 on production
+
+Every one of the **483 place pages** links `../docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md`, and the **LIHTC Opportunity Finder** links `docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md` — but the public build strips `docs/`, so both **404 on the live site** (probed 2026-07-20). `config/data-discovery-config.json` is the same class (folds into M3). Fix: either publish the two methodology docs in the public build (they are public-safe method documentation) or rewrite the links to an in-app methodology page; either way, add a build-time guard that no served HTML links a stripped path — that guard would have caught this class at #1072-time.
 
 ## 4. Suggested fix-lane sequencing after the walk
 
-1. **M1** Census 54-var split (one PR, mechanical, provable both directions).
-2. **M2+M4** light-mode contrast + the one ARIA critical (one PR: add light-mode overrides for `mf-stat__*`, `cd-kpi-value`, yardi/JCHS callouts, leaflet controls, chart-loading-overlay; fix `aria-required-children` on housing-legislation-2026; extend runtime-contrast CI assertions to pin the fixed pages at 0).
-3. **M3** Data Trust Center silent degradation for stripped internal artifacts.
-4. Whatever the owner walk itself surfaces (this manifest leaves room — annotate per page as you go).
+1. **M8** methodology-link 404s (user-visible on all 483 place pages + the Opportunity Finder; smallest fix with the widest reach) + the stripped-path build guard.
+2. **M1** Census 54-var split (one PR, mechanical, provable both directions).
+3. **M2+M4** light-mode contrast + the one ARIA critical (one PR: add light-mode overrides for `mf-stat__*`, `cd-kpi-value`, yardi/JCHS callouts, leaflet controls, chart-loading-overlay; fix `aria-required-children` on housing-legislation-2026; extend runtime-contrast CI assertions to pin the fixed pages at 0).
+4. **M3** Data Trust Center silent degradation for stripped internal artifacts (now includes `config/data-discovery-config.json`).
+5. Audit-script hygiene: repo-link-audit should skip `.claude/` and stream per-directory progress.
+6. Whatever the owner walk itself surfaces (this manifest leaves room — annotate per page as you go).
 
