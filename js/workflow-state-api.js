@@ -56,6 +56,55 @@
   // Event dispatcher
   var _dispatch = I._dispatch;
 
+  var CANONICAL_GEO_TYPES = { state: true, county: true, place: true, cdp: true };
+
+  function _geoTypeFromLegacy(data) {
+    if (!data) return null;
+    var raw = data.geoType || null;
+    if (!raw) {
+      if (data.type === 'state') raw = 'state';
+      else if (data.type === 'county') raw = 'county';
+      else if (data.type === 'cdp') raw = 'cdp';
+      else if (data.placeGeoid) raw = 'place';
+      else if (data.fips && String(data.fips).length === 2) raw = 'state';
+      else if (data.fips || data.countyFips) raw = 'county';
+    }
+    raw = raw ? String(raw).toLowerCase() : null;
+    if (raw === 'city' || raw === 'town') raw = 'place';
+    return CANONICAL_GEO_TYPES[raw] ? raw : null;
+  }
+
+  function _normalizeJurisdiction(data) {
+    var src = data || {};
+    var geoType = _geoTypeFromLegacy(src);
+    var geoid = src.geoid || src.placeGeoid || null;
+    if (!geoid && geoType === 'county') geoid = src.countyFips || src.fips || null;
+    if (!geoid && geoType === 'state') geoid = src.fips || '08';
+
+    var countyFips = src.countyFips || null;
+    if (!countyFips && geoType === 'county') countyFips = geoid || src.fips || null;
+    if (!countyFips && (geoType === 'place' || geoType === 'cdp') && src.fips && String(src.fips).length === 5) {
+      countyFips = src.fips;
+    }
+
+    var name = src.name || src.displayName || src.countyName || null;
+    var countyName = src.countyName || (geoType === 'county' ? name : null);
+    var legacyFips = geoType === 'county' ? geoid : (geoType === 'state' ? (src.fips || geoid || '08') : (countyFips || src.fips || null));
+
+    var payload = _deepMerge(src, {
+      geoType: geoType,
+      geoid: geoid,
+      name: name,
+      countyFips: countyFips,
+      countyName: countyName,
+      fips: legacyFips,
+      type: src.type || (geoType === 'place' || geoType === 'cdp' ? 'city' : geoType),
+      displayName: (geoType === 'place' || geoType === 'cdp') ? (src.displayName || name) : (src.displayName || null),
+      placeGeoid: (geoType === 'place' || geoType === 'cdp') ? (src.placeGeoid || geoid) : (src.placeGeoid || null)
+    });
+    return payload;
+  }
+
   /* ══════════════════════════════════════════════════════════════════════════
    * Public API — window.WorkflowState
    * ══════════════════════════════════════════════════════════════════════════ */
@@ -316,13 +365,15 @@
           : null;
         WorkflowState.newProject(projName);
       }
-      var payload = _deepMerge(data, { completedAt: new Date().toISOString() });
+      var payload = _deepMerge(_normalizeJurisdiction(data), { completedAt: new Date().toISOString() });
       WorkflowState.setStep('jurisdiction', payload);
 
       // Backward-compat sync to SiteState
       try {
-        if (global.SiteState && global.SiteState.setCounty && data.fips) {
-          global.SiteState.setCounty(data.fips, data.name || null);
+        if (global.SiteState && global.SiteState.setCounty) {
+          var syncFips = payload.geoType === 'county' ? payload.geoid : payload.countyFips;
+          var syncName = payload.geoType === 'county' ? payload.name : payload.countyName;
+          if (syncFips) global.SiteState.setCounty(syncFips, syncName || null);
         }
       } catch (e) {
         console.warn('[WorkflowState] SiteState.setCounty sync failed:', e);
