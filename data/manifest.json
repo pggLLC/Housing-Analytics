@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T05:42:39.169028Z",
+  "generated": "2026-07-20T07:57:28.896261Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7339,7 +7339,7 @@
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 222650
+      "bytes": 222686
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -7609,7 +7609,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996787
+      "bytes": 1529920
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
