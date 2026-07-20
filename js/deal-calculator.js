@@ -427,7 +427,7 @@
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
       return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
     }
-    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce; not LIHTC-credit-eligible)</span>';
+    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce; not counted in credit basis here — 70/80 can qualify only under §42 income averaging, which this calculator does not model)</span>';
   }
 
   // -------------------------------------------------------------------
