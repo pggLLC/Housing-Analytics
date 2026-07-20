@@ -123,6 +123,13 @@ test('housing legislation page renders watchlist statuses without passage heuris
   const html = fs.readFileSync(path.join(root, 'housing-legislation-2026.html'), 'utf8');
   check(!/awaiting further Senate action/i.test(html), 'housing legislation source no longer says awaiting further Senate action');
   check(!/conference committee/i.test(html), 'housing legislation source no longer says conference committee');
+  const sourceDom = new JSDOM(html);
+  const statusList = sourceDom.window.document.getElementById('bill-status-cards');
+  check(statusList && statusList.getAttribute('role') === 'list', 'watchlist source has role=list');
+  check(
+    statusList && Array.from(statusList.children).every((child) => child.getAttribute('role') === 'listitem'),
+    'watchlist role=list has only required listitem children before hydration'
+  );
   const trackerSrc = fs.readFileSync(path.join(root, 'js', 'legislative-tracker.js'), 'utf8');
   const dom = new JSDOM(html, {
     url: 'http://127.0.0.1/housing-legislation-2026.html',

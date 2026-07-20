@@ -75,6 +75,9 @@
 .cd-kpi-yellow .cd-kpi-value { color: var(--warn); }
 .cd-kpi-red    { border-color: #ef4444; }
 .cd-kpi-red    .cd-kpi-value { color: var(--bad); }
+html.light-mode .cd-kpi-green  .cd-kpi-value { color: #047857; }
+html.light-mode .cd-kpi-yellow .cd-kpi-value { color: #92400e; }
+html.light-mode .cd-kpi-red    .cd-kpi-value { color: #b91c1c; }
 @media (prefers-color-scheme: dark) {
   .cd-kpi-green  .cd-kpi-value { color: #86efac; }
   .cd-kpi-yellow .cd-kpi-value { color: #fcd34d; }

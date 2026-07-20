@@ -679,7 +679,7 @@
         <div class="drh-stat-card">
           <div class="drh-stat-label">Registry Sources</div>
           <div class="drh-stat-value" id="drhStatTotal">—</div>
-          <div class="drh-stat-sub" title="Curated entries in js/data-source-inventory.js — the canonical list of upstream data feeds. Distinct from the larger 'Monitored Files' figure on the Overview tab, which also includes derived files tracked in DATA-MANIFEST.json.">in DataSourceInventory</div>
+          <div class="drh-stat-sub" title="Curated entries in js/data-source-inventory.js — the canonical list of upstream data feeds. Distinct from the larger 'Monitored Files' figure on the Overview tab, which can also include derived files when the public manifest carries source metadata.">in DataSourceInventory</div>
         </div>
         <div class="drh-stat-card">
           <div class="drh-stat-label">Current</div>
@@ -725,7 +725,7 @@
         <div class="drh-kpi-grid">
           <div class="drh-kpi">
             <div class="drh-kpi-val" id="drhOvTotal">—</div>
-            <div class="drh-kpi-lbl" title="Sources tracked by the freshness monitor — DataSourceInventory entries plus any additional file paths in DATA-MANIFEST.json. Will be greater than the 'Registry Sources' figure in the top stats bar when derived/aggregated files are tracked alongside upstream feeds.">Monitored Files</div>
+            <div class="drh-kpi-lbl" title="Sources tracked by the freshness monitor — DataSourceInventory entries plus any additional public manifest source metadata. Will be greater than the 'Registry Sources' figure in the top stats bar when derived/aggregated files are tracked alongside upstream feeds.">Monitored Files</div>
           </div>
           <div class="drh-kpi drh-kpi--good">
             <div class="drh-kpi-val" id="drhOvCurrent">—</div>
@@ -759,8 +759,8 @@
             This is the single place to answer "can I trust this data?" — <strong>Sources</strong> shows
             where every dataset comes from, <strong>Quality</strong> shows current freshness status,
             and <strong>QA Coverage</strong> shows whether the data passed automated structural checks
-            and whether your place uses precise or estimated methodology. Automated daily scans detect
-            new or unregistered data files and surface them in the <strong>Pending Discovery</strong> tab
+            and whether your place uses precise or estimated methodology. Browser-side scans detect
+            new or unregistered public data files and surface them in the <strong>Pending Discovery</strong> tab
             for administrator review.
           </p>
         </div>
@@ -768,9 +768,7 @@
         <div class="card" style="padding:1rem;">
           <h3 style="margin:0 0 .75rem;">Raw Files</h3>
           <ul style="font-size:.88rem;margin:0;padding-left:1.2rem;line-height:2;">
-            <li><a href="DATA-MANIFEST.json" target="_blank" rel="noopener">DATA-MANIFEST.json ↗</a></li>
             <li><a href="data/manifest.json" target="_blank" rel="noopener">data/manifest.json ↗</a></li>
-            <li><a href="config/data-discovery-config.json" target="_blank" rel="noopener">Discovery config ↗</a></li>
           </ul>
           <p style="font-size:.78rem;color:var(--muted);margin:.75rem 0 0;">
             More detailed, maintainer-oriented views (API key setup, raw pipeline logs) are linked
@@ -869,7 +867,7 @@
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;">
           <h2 style="margin:0;">Pending Discovery</h2>
           <span style="font-size:.82rem;color:var(--muted);">
-            Files detected but not yet registered in DATA-MANIFEST.json.
+            Public files detected but not yet registered in the browser-side inventory.
             Approve to download a manifest patch file.
           </span>
         </div>
@@ -900,12 +898,12 @@
         <div class="drh-admin-section">
           <h3>Discovery Configuration</h3>
           <p style="font-size:.85rem;color:var(--muted);margin:0 0 .75rem;">
-            Edit <code>config/data-discovery-config.json</code> to customise scan directories,
-            ignore patterns, notification settings, and approval workflow.
+            Discovery configuration is maintainer-only in the public build; public visitors
+            can run the scan against the shipped file manifest without loading private audit artifacts.
           </p>
-          <a class="drh-btn drh-btn--outline" href="config/data-discovery-config.json" target="_blank" rel="noopener" style="display:inline-block;width:auto;text-decoration:none;">
-            📄 View config ↗
-          </a>
+          <span class="drh-btn drh-btn--outline" aria-disabled="true" style="display:inline-block;width:auto;">
+            Public manifest only
+          </span>
         </div>
 
         <div class="drh-admin-section">
