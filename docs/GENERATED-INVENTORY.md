@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T21:02:51.127Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T23:12:30.199Z. Do not edit by hand.
 
 ---
 
@@ -1651,7 +1651,7 @@
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/caching.test.js` | 7.3 KB |
-| `test/canonical-geography-contract.test.js` | 6.0 KB |
+| `test/canonical-geography-contract.test.js` | 6.2 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
@@ -1679,7 +1679,7 @@
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-workflow-prefill.test.js` | 1.9 KB |
+| `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
@@ -1821,7 +1821,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-state-set-jurisdiction.test.js` | 6.6 KB |
+| `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
