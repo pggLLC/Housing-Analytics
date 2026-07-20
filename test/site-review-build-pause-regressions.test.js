@@ -28,13 +28,15 @@ const insights = read('insights.html');
 assert.doesNotMatch(insights, /id="jchsCoNarrative"[^>]*color:var\(--muted\)/, 'JCHS narrative block is not muted in light mode');
 
 const complianceCss = read('css/pages/compliance-dashboard.css');
-assertIncludes(complianceCss, '.cd-kpi-yellow .cd-kpi-value { color: #92400e; }', 'compliance KPI warning values use accessible light-mode color');
-assertIncludes(complianceCss, '.cd-kpi-red    .cd-kpi-value { color: #b91c1c; }', 'compliance KPI red values use accessible light-mode color');
-assertIncludes(complianceCss, '.cd-kpi-green  .cd-kpi-value { color: #047857; }', 'compliance KPI green values use accessible light-mode color');
+assertIncludes(complianceCss, '.cd-kpi-yellow .cd-kpi-value { color: var(--warn); }', 'compliance KPI warning values keep theme-token default');
+assertIncludes(complianceCss, 'html.light-mode .cd-kpi-yellow .cd-kpi-value { color: #92400e; }', 'compliance KPI warning values scope the accessible hard color to light mode');
+assertIncludes(complianceCss, 'html.light-mode .cd-kpi-red    .cd-kpi-value { color: #b91c1c; }', 'compliance KPI red values scope the accessible hard color to light mode');
+assertIncludes(complianceCss, 'html.light-mode .cd-kpi-green  .cd-kpi-value { color: #047857; }', 'compliance KPI green values scope the accessible hard color to light mode');
 
 const pagesCss = read('css/pages.css');
-assertIncludes(pagesCss, 'background: #e6f3f1;', 'shared kicker uses a solid light-mode background axe can resolve');
-assertIncludes(pagesCss, '.tag-green  { background: #e6f4ee;            color: #065f46       !important; }', 'shared tag-green uses solid accessible light-mode colors');
+assertIncludes(pagesCss, 'html.light-mode .kicker { color: #054a42; background: #e6f3f1; }', 'shared kicker scopes the solid AA pair to light mode');
+assertIncludes(pagesCss, '.tag-green  { background: var(--good-dim);    color: var(--good)    !important; }', 'shared tag-green keeps theme-token default');
+assertIncludes(pagesCss, 'html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }', 'shared tag-green scopes the solid AA pair to light mode');
 
 const hnaRenderers = read('js/hna/hna-renderers.js');
 assertIncludes(hnaRenderers, 'background:rgba(var(--bg-rgb,255,255,255),0.92)', 'HNA chart loading overlay uses a high-opacity backdrop');
@@ -43,8 +45,10 @@ assertIncludes(hnaRenderers, 'color:var(--text-strong);font-weight:600', 'HNA ch
 const siteTheme = read('css/site-theme.css');
 assertIncludes(siteTheme, '.leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text-strong) !important;', 'Leaflet zoom controls use text-strong on card');
 assert.match(siteTheme, /\.leaflet-tooltip,[\s\S]*?\.leaflet-bar a\s*\{[\s\S]*?color: var\(--text-strong\) !important;/, 'Leaflet generic controls use text-strong on card');
-assertIncludes(siteTheme, '.tag.tag-green { background: #e6f4ee; color: #065f46 !important; }', 'shared green tags use an accessible light-mode color');
+assertIncludes(siteTheme, '.tag.tag-green { background: var(--good-dim); color: var(--good) !important; }', 'shared green tags keep theme-token default');
+assertIncludes(siteTheme, 'html.light-mode .tag.tag-green { background: #e6f4ee; color: #065f46 !important; }', 'shared green tags scope the solid AA pair to light mode');
 assertIncludes(siteTheme, 'html.dark-mode .kicker { color: var(--accent) !important; }', 'kickers retain an explicit dark-mode color');
+assertIncludes(siteTheme, 'html.light-mode .kicker { color: #054a42 !important; background: #e6f3f1; }', 'kickers scope the solid AA pair to light mode');
 
 const fetchErrorSurface = read('js/components/fetch-error-surface.js');
 assertIncludes(fetchErrorSurface, "warn:  { bg: 'var(--warn-dim,#3f2a1a)',  fg: 'var(--warn,#fbbf24)'", 'fetch-error raw links use theme-aware warning foreground');

@@ -114,13 +114,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  /* Darker than --accent (#096e65 → #054a42) on a solid pale teal
-     background so axe and browsers resolve the same AA color pair. */
+  /* Default/dark mode keeps the theme-token pair; light mode gets a
+     solid AA pair below so axe and browsers resolve the same colors. */
   color: #054a42;
-  background: #e6f3f1;
+  background: var(--accent-dim);
   border-radius: 99px;
   padding: 0.22rem 0.75rem;
 }
+html.light-mode .kicker { color: #054a42; background: #e6f3f1; }
 
 /* ================================================================
    TAG / BADGE
@@ -149,8 +150,8 @@
 .tag-orange { background: var(--accent2-dim); color: var(--text-strong) !important; }
 html.dark-mode .tag-orange { color: var(--accent2) !important; }
 .tag-teal   { background: var(--accent-dim);  color: var(--accent)  !important; }
-.tag-green  { background: #e6f4ee;            color: #065f46       !important; }
-html.dark-mode .tag-green { background: var(--good-dim); color: var(--good) !important; }
+.tag-green  { background: var(--good-dim);    color: var(--good)    !important; }
+html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
 .tag-blue   { background: var(--info-dim);    color: var(--info)    !important; }
 .tag-red    { background: var(--bad-dim);     color: var(--bad)     !important; }
 .tag-gold   { background: var(--warn-dim);    color: var(--warn)    !important; }
