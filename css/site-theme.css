@@ -1178,6 +1178,8 @@ html.light-mode .kicker { color: var(--accent) !important; }
 .pill.warn   { background: var(--warn-dim);   border-color: color-mix(in srgb, var(--warn) 30%, transparent);  color: var(--warn) !important; }
 .pill.good   { background: var(--good-dim);   border-color: color-mix(in srgb, var(--good) 30%, transparent);  color: var(--good) !important; }
 .pill.bad    { background: var(--bad-dim);    border-color: color-mix(in srgb, var(--bad) 30%, transparent);   color: var(--bad) !important; }
+.tag.tag-green { background: #e6f4ee; color: #065f46 !important; }
+html.dark-mode .tag.tag-green { color: var(--good) !important; }
 
 /* ================================================================
    14. TOOLBAR
@@ -1210,6 +1212,7 @@ details[open] > summary::after { transform: rotate(90deg); }
    #096e65 which measured 4.46:1 against the 10%-accent tinted bg
    (axe-core reported in #675). #054a42 gives ~7:1 with headroom. */
 .kicker { font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #054a42 !important; font-size: 0.71rem; margin-bottom: 6px; display: block; }
+html.dark-mode .kicker { color: var(--accent) !important; }
 /* F129 — intro `<p class="sub">` was capped at 72ch (≈ 720px wide)
    which created a narrow text band with conspicuous empty space on the
    right at common viewport widths (1280/1440/1600px). Bumped to 95ch
@@ -1255,7 +1258,7 @@ details[open] > summary::after { transform: rotate(90deg); }
   .leaflet-container.leaflet-grab,
   .leaflet-container.leaflet-crosshair { pointer-events: auto; }
 }
-.leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text) !important; border-color: var(--border) !important; }
+.leaflet-control-zoom a, .leaflet-control-zoom a:hover { background: var(--card) !important; color: var(--text-strong) !important; border-color: var(--border) !important; }
 /* F128 + F131 — Leaflet's CSS hardcodes background:#fff and color:#333 on
    every control surface AND every popup / tooltip wrapper. In dark mode
    our `strong { color: var(--text) !important }` (and any --accent /
@@ -1273,7 +1276,7 @@ details[open] > summary::after { transform: rotate(90deg); }
 .leaflet-tooltip,
 .leaflet-bar a {
   background: var(--card) !important;
-  color: var(--text) !important;
+  color: var(--text-strong) !important;
   border-color: var(--border) !important;
 }
 .leaflet-control-layers label,
@@ -1283,7 +1286,7 @@ details[open] > summary::after { transform: rotate(90deg); }
 .leaflet-popup-content *,
 .leaflet-tooltip,
 .leaflet-tooltip * {
-  color: var(--text) !important;
+  color: var(--text-strong) !important;
 }
 .leaflet-control-attribution a:hover { color: var(--link-hover) !important; }
 /* F173/F175 — overflow-wrap: anywhere shrinks Leaflet tooltips to ~11px

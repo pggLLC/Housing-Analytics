@@ -100,7 +100,7 @@
       // and .map-reset-btn / .dqs-* (data-quality summary chips). All have
       // explicit theme-aware CSS pairs and the heuristic was patching them
       // against a sampled bg that didn't match the real rendered bg.
-      if (el.matches('.dark-mode-toggle, .btn, .btn-primary, .help-trigger, .map-reset-btn, .dqs-source-count, [data-no-contrast-guard]')) continue;
+      if (el.matches('.dark-mode-toggle, .btn, .btn-primary, .kicker, .tag, .chart-source, .chart-source *, .fes-error, .fes-error *, .help-trigger, .map-reset-btn, .dqs-source-count, [data-no-contrast-guard]')) continue;
       // F251 — exclusion must extend to descendants. Without this, a link
       // inside a <span data-no-contrast-guard> would still get patched
       // and could end up with a stale fg against a freshly-walked bg
