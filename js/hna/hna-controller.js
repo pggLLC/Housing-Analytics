@@ -1422,55 +1422,60 @@
     // types; the actual structure-type codes are 0007E-0014E. Same
     // for tenure: 0046E/0047E are the COUNT codes (preferred for
     // chart rendering); the PE-suffixed versions are percentages.
-    const vars = [
-      // DP05 population
-      'DP05_0001E',
-      // DP02 households
-      'DP02_0001E',
-      // DP03 income
-      'DP03_0062E',
-      // DP04 housing — occupancy + tenure + key metrics
-      'DP04_0001E',  // Total housing units
-      'DP04_0002E',  // Occupied housing units (count)
-      'DP04_0003E',  // Vacant housing units (count)
-      'DP04_0046E',  // Owner-occupied (count)  ← needed by chartTenure
-      'DP04_0046PE', // Owner-occupied (%)
-      'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
-      'DP04_0047PE', // Renter-occupied (%)
-      'DP04_0089E',  // Median home value (owner-occupied)
-      // F160 — Owner-occupied home value distribution (DP04_0080-0088).
-      // Used by chartHomeValue to render the bracket breakdown
-      // (<$50K / $50-100K / $100-150K / $150-200K / $200-300K /
-      // $300-500K / $500K-1M / $1M+). Without these the HNA only
-      // shows the median, which hides the underlying skew.
-      'DP04_0080E',  // Owner-occupied units (total — denominator)
-      'DP04_0081E',  // Less than $50,000
-      'DP04_0082E',  // $50,000 to $99,999
-      'DP04_0083E',  // $100,000 to $149,999
-      'DP04_0084E',  // $150,000 to $199,999
-      'DP04_0085E',  // $200,000 to $299,999
-      'DP04_0086E',  // $300,000 to $499,999
-      'DP04_0087E',  // $500,000 to $999,999
-      'DP04_0088E',  // $1,000,000 or more
-      'DP04_0134E',  // Median gross rent
-      // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
-      'DP04_0007E', // 1-unit detached
-      'DP04_0008E', // 1-unit attached
-      'DP04_0009E', // 2 units
-      'DP04_0010E', // 3 or 4 units
-      'DP04_0011E', // 5 to 9 units
-      'DP04_0012E', // 10 to 19 units
-      'DP04_0013E', // 20 or more units
-      'DP04_0014E', // Mobile home
-      // Rent burden bins (GRAPI), ACS 2023+ DP04 profile codes.
-      // DP04_0141PE = 30-34.9%; DP04_0142PE = 35%+.
-      'DP04_0137PE', // <15%
-      'DP04_0138PE', // 15-19.9%
-      'DP04_0139PE', // 20-24.9%
-      'DP04_0140PE', // 25-29.9%
-      'DP04_0141PE', // 30-34.9%
-      'DP04_0142PE', // 35%+
+    const profileVarBatches = [
+      [
+        // DP05 population
+        'DP05_0001E',
+        // DP02 households
+        'DP02_0001E',
+        // DP03 income
+        'DP03_0062E',
+      ],
+      [
+        // DP04 housing — occupancy + tenure + key metrics
+        'DP04_0001E',  // Total housing units
+        'DP04_0002E',  // Occupied housing units (count)
+        'DP04_0003E',  // Vacant housing units (count)
+        'DP04_0046E',  // Owner-occupied (count)  ← needed by chartTenure
+        'DP04_0046PE', // Owner-occupied (%)
+        'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
+        'DP04_0047PE', // Renter-occupied (%)
+        'DP04_0089E',  // Median home value (owner-occupied)
+        // F160 — Owner-occupied home value distribution (DP04_0080-0088).
+        // Used by chartHomeValue to render the bracket breakdown
+        // (<$50K / $50-100K / $100-150K / $150-200K / $200-300K /
+        // $300-500K / $500K-1M / $1M+). Without these the HNA only
+        // shows the median, which hides the underlying skew.
+        'DP04_0080E',  // Owner-occupied units (total — denominator)
+        'DP04_0081E',  // Less than $50,000
+        'DP04_0082E',  // $50,000 to $99,999
+        'DP04_0083E',  // $100,000 to $149,999
+        'DP04_0084E',  // $150,000 to $199,999
+        'DP04_0085E',  // $200,000 to $299,999
+        'DP04_0086E',  // $300,000 to $499,999
+        'DP04_0087E',  // $500,000 to $999,999
+        'DP04_0088E',  // $1,000,000 or more
+        'DP04_0134E',  // Median gross rent
+        // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
+        'DP04_0007E', // 1-unit detached
+        'DP04_0008E', // 1-unit attached
+        'DP04_0009E', // 2 units
+        'DP04_0010E', // 3 or 4 units
+        'DP04_0011E', // 5 to 9 units
+        'DP04_0012E', // 10 to 19 units
+        'DP04_0013E', // 20 or more units
+        'DP04_0014E', // Mobile home
+        // Rent burden bins (GRAPI), ACS 2023+ DP04 profile codes.
+        // DP04_0141PE = 30-34.9%; DP04_0142PE = 35%+.
+        'DP04_0137PE', // <15%
+        'DP04_0138PE', // 15-19.9%
+        'DP04_0139PE', // 20-24.9%
+        'DP04_0140PE', // 25-29.9%
+        'DP04_0141PE', // 30-34.9%
+        'DP04_0142PE', // 35%+
+      ],
     ];
+    const vars = profileVarBatches.flat();
 
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
@@ -1483,42 +1488,54 @@
     const inParam = geoType === 'state' ? null : `state:${window.HNAUtils.STATE_FIPS_CO}`;
     const key = window.HNAUtils.censusKey();
 
-    function buildUrl(year, dataset){
+    function buildUrl(year, dataset, batchVars){
       const base = `https://api.census.gov/data/${year}/${dataset}`;
       // Build query string manually to keep literal colons in the Census API
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
+      let qs = `get=${encodeURIComponent(batchVars.join(',') + ',NAME')}&for=${forParam}`;
       if (inParam) qs += `&in=${inParam}`;
       if (key) qs += `&key=${encodeURIComponent(key)}`;
       return `${base}?${qs}`;
     }
 
-    const url1 = buildUrl(window.HNAUtils.ACS_YEAR_PRIMARY,  'acs/acs1/profile');
-    let r = await _fetchCensusUrl(url1, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + window.HNAUtils.ACS_YEAR_PRIMARY);
+    async function fetchMergedProfile(year, dataset, seriesLabel) {
+      const out = {};
+      for (let i = 0; i < profileVarBatches.length; i++) {
+        const batchVars = profileVarBatches[i];
+        const url = buildUrl(year, dataset, batchVars);
+        const resp = await _fetchCensusUrl(url, seriesLabel + ' profile ' + geoType + ':' + geoid + ' y=' + year + ' batch=' + (i + 1));
+        if (!resp || !resp.ok) return null;
+        let arr;
+        try { arr = await resp.json(); } catch (_) { return null; }
+        if (!Array.isArray(arr) || arr.length < 2 || !Array.isArray(arr[0]) || !Array.isArray(arr[1])) return null;
+        const header = arr[0];
+        const row = arr[1];
+        header.forEach((h, idx) => { out[h] = row[idx]; });
+      }
+      return out;
+    }
+
+    let out = await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile', 'ACS1');
     let usedYear = window.HNAUtils.ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
-    let url2 = null;
-    if (!r || !r.ok){
+    if (!out){
       // Probe vintages newest-first for ACS 1-year
-      r = null;
       for (const v of window.HNAUtils.ACS_VINTAGES) {
-        const u = buildUrl(v, 'acs/acs1/profile');
-        const resp = await _fetchCensusUrl(u, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+        const merged = await fetchMergedProfile(v, 'acs/acs1/profile', 'ACS1');
+        if (merged){ out = merged; usedYear = v; usedSeries = 'acs1'; break; }
       }
     }
-    if (!r || !r.ok){
+    if (!out){
       if (window.HNAUtils.DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 profile');
       // Try ACS 5-year vintage probe
       for (const v of window.HNAUtils.ACS_VINTAGES) {
-        url2 = buildUrl(v, 'acs/acs5/profile');
-        const resp = await _fetchCensusUrl(url2, 'ACS5 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+        const merged = await fetchMergedProfile(v, 'acs/acs5/profile', 'ACS5');
+        if (merged){ out = merged; usedYear = v; usedSeries = 'acs5'; break; }
       }
     }
-    if (!r || !r.ok){
+    if (!out){
       if (window.HNAUtils.DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS5 profile exhausted for ' + geoType + ':' + geoid + '; falling back to B-series');
       // ACS profile/subject tables may not support this geography or these
       // variable codes for the requested year.  Fall back to ACS 5-year
@@ -1526,11 +1543,6 @@
       // uses stable variable codes.
       return await fetchAcs5BSeries(geoType, geoid);
     }
-    const arr = await r.json();
-    const header = arr[0];
-    const row = arr[1];
-    const out = {};
-    header.forEach((h,i)=>{out[h]=row[i];});
     out._acsYear = usedYear;
     out._acsSeries = usedSeries;
     return out;
@@ -3771,6 +3783,7 @@
   window.__HNA_renderEconomicIndicators = window.HNARenderers.renderEconomicIndicators;
   window.__HNA_renderFmrPanel          = window.HNARenderers.renderFmrPanel;
   window.__HNA_renderChasAffordabilityGap = window.HNARenderers.renderChasAffordabilityGap;
+  window.__HNA_fetchAcsProfileForTest = fetchAcsProfile;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
