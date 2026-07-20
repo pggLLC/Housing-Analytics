@@ -1,9 +1,5 @@
 # `scripts/audit/benchmark-freshness-check.mjs`
 
-## Symbols
-
-### `parseWhen(raw)`
-
 scripts/audit/benchmark-freshness-check.mjs — F(#1147)
 
 Why this exists
@@ -12,6 +8,17 @@ The Deal Calculator cites two static market-benchmark snapshots:
 
   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
+  - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
+  - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
+  - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
+  - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
+  - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
+  - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
+  - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
+  - data/market/fhfa_hpi_subcounty_co.json (FHFA tract-derived sub-county HPI)
+  - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
+  - data/market/developable_land_context_co.json (tract developable-land context)
+  - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
 
 Each was added in a one-time commit and has no refresh workflow. The UI
 discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -26,9 +33,10 @@ update cadence*; staleness here is advisory. Warn-only, always exits 0,
 and deliberately NOT part of test:ci.
 
 What it checks, per file:
-  1. `meta.next_expected_update` (when present) has not passed.
-  2. `meta.as_of` (falling back to `meta.vintage`) is not older than
-     STALE_AFTER_DAYS (60 — both sources publish roughly quarterly).
+  1. `review_by` dates (when present in meta or entries) have not passed.
+  2. `meta.next_expected_update` (when present) has not passed.
+  3. `meta.as_of` (falling back to `meta.vintage`) is not older than
+     STALE_AFTER_DAYS (60 by default; annual sources can declare a longer cadence).
 
 Date parsing accepts, in order:
   - ISO dates ("2026-07-01")
@@ -39,30 +47,10 @@ Date parsing accepts, in order:
 Usage:
   node scripts/audit/benchmark-freshness-check.mjs
   npm run audit:benchmark-freshness
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+## Symbols
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+### `parseWhen(raw)`
 
-const STALE_AFTER_DAYS = 60;
-
-const BENCHMARK_FILES = [
-  {
-    file: 'data/market/novogradac-equity-pricing.json',
-    label: 'Novogradac LIHTC equity pricing',
-  },
-  {
-    file: 'data/market/freddie-mac-multifamily-outlook.json',
-    label: 'Freddie Mac multifamily outlook',
-  },
-];
-
-const MONTHS = ['january','february','march','april','may','june','july',
-                'august','september','october','november','december'];
-
-/**
 Best-effort parse of a "when" string into a Date, or null.
 Order: ISO date → "Month YYYY" → "YYYY-Qn" (end of quarter).

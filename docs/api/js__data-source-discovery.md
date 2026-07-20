@@ -16,7 +16,7 @@ Fetch a small portion of a JSON file to compute a hash for change detection.
 
 ### `buildManifestIndex(manifest)`
 
-Build a map of file_path → entry from DATA-MANIFEST.json for fast lookup.
+Build a map of file_path → entry from the public manifest for fast lookup.
 @param {object} manifest
 @returns {object}
 

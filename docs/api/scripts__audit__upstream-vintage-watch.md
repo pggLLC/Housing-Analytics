@@ -1,9 +1,5 @@
 # `scripts/audit/upstream-vintage-watch.mjs`
 
-## Symbols
-
-### `watchHudChas()`
-
 scripts/audit/upstream-vintage-watch.mjs
 
 Watches external data publishers for new vintage releases. Runs weekly
@@ -47,53 +43,11 @@ Usage
 -----
   node scripts/audit/upstream-vintage-watch.mjs
   node scripts/audit/upstream-vintage-watch.mjs --json
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+## Symbols
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..', '..');
-const OUT_FILE = path.join(ROOT, 'data', 'audit', 'upstream-vintage-watch.json');
+### `watchHudChas()`
 
-const JSON_OUT = process.argv.includes('--json');
-
-const USER_AGENT = 'HousingAnalytics/1.0 upstream-vintage-watch.mjs';
-
-// ── HTTP helpers ────────────────────────────────────────────────────
-
-async function httpGetText(url, timeoutMs = 30000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const res = await fetch(url, {
-      headers: { 'User-Agent': USER_AGENT },
-      signal: controller.signal,
-    });
-    if (!res.ok) {
-      // HUD's CDN gates direct fetches behind a WAF challenge — 202 and
-      // empty body for unauthenticated bots. Treat as "endpoint live but
-      // unscrapeable" rather than a hard failure.
-      if (res.status === 202) {
-        return { status: 202, text: '', wafGated: true };
-      }
-      throw new Error(`HTTP ${res.status}`);
-    }
-    return { status: res.status, text: await res.text(), wafGated: false };
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-async function httpGetJson(url, timeoutMs = 30000) {
-  const r = await httpGetText(url, timeoutMs);
-  return JSON.parse(r.text);
-}
-
-// ── Source watchers ─────────────────────────────────────────────────
-
-/**
 HUD CHAS vintage detection — scrapes the dataset listing page for
 download links matching `<startYear>thru<endYear>-140-csv.zip` pattern.
 Returns the latest year-range found.

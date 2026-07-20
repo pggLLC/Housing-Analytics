@@ -1,9 +1,5 @@
 # `scripts/augment_lihtc_by_geometry.mjs`
 
-## Symbols
-
-### `_pointInPolygon(lng, lat, rings)`
-
 F191 — Augment ranking-index.json with LIHTC counts via point-in-
 polygon attribution (closes future-work item 4: CDP coverage).
 
@@ -33,20 +29,5 @@ geometric count is more accurate for CDPs (counts properties whose
 coordinates fall inside the CDP boundary).
 
 Idempotent.
-/
 
-import { promises as fs } from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname  = path.dirname(__filename);
-const REPO_ROOT  = path.resolve(__dirname, '..');
-
-const RI_PATH     = path.join(REPO_ROOT, 'data', 'hna', 'ranking-index.json');
-const CHFA_PATH   = path.join(REPO_ROOT, 'data', 'affordable-housing', 'lihtc', 'chfa-properties.json');
-const PLACES_PATH = path.join(REPO_ROOT, 'data', 'co-place-boundaries.geojson');
-
-/* Ray-casting point-in-polygon. Accepts a polygon as an array of
-rings (each ring is an array of [lng, lat] pairs). Handles holes
-via even-odd rule across all rings.
+_No documented symbols — module has a file-header comment only._

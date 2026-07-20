@@ -1,9 +1,5 @@
 # `scripts/generate-api-docs.mjs`
 
-## Symbols
-
-### `walk(dir, exts, out = [])`
-
 scripts/generate-api-docs.mjs — auto-generate docs/api/ from JSDoc.
 
 Partial closeout of #652 (auto-generate API reference for js/ and scripts/).
@@ -30,35 +26,12 @@ What it does:
 Usage:
   npm run docs:api
   node scripts/generate-api-docs.mjs --quiet
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+## Symbols
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT      = path.resolve(__dirname, '..');
-const OUT_DIR   = path.join(ROOT, 'docs', 'api');
+### `walk(dir, exts, out = [])`
 
-const SCAN_ROOTS = [
-  { dir: 'js',      exts: ['.js']        },
-  { dir: 'scripts', exts: ['.mjs', '.js'] },
-];
-const SKIP_PATTERNS = [
-  /\.min\.js$/i,
-  /\/vendor\//i,
-  /\/node_modules\//i,
-  /\/\.git\//i,
-  /-placeholder\.\w+$/i,
-  /\.template$/i,
-];
-
-function parseArgs() {
-  const args = process.argv.slice(2);
-  return { quiet: args.includes('--quiet') };
-}
-
-/** Walk a directory collecting files that match the allowed extensions.
+Walk a directory collecting files that match the allowed extensions.
 
 ### `extract(source, relPath)`
 
@@ -67,39 +40,7 @@ Returns { header, symbols: [{ name, kind, jsdoc, signature }] }.
 
 ### `cleanCommentBody(body)`
 
-... */ block in the file, before any
-  // non-comment, non-strict-pragma code.
-  const headerMatch = source.match(/^\s*(?:\/\/[^\n]*\n|\s)*\/\*\*([\s\S]*?)\*\//);
-  const header      = headerMatch ? cleanCommentBody(headerMatch[1]) : null;
-  const afterHeader = headerMatch ? source.slice(headerMatch.index + headerMatch[0].length) : source;
-
-  // Per-symbol JSDoc: a /** ... */ block directly preceding one of:
-  //   function name(
-  //   async function name(
-  //   const|let|var name =
-  //   class name
-  // Scan from after the file header so the header doesn't get captured
-  // as the first symbol's JSDoc. We require ≤4 whitespace/indent chars
-  // between the closing */ and the declaration keyword so distant
-  // floating JSDocs aren't mis-attributed to later code.
-  const symbolRx = /\/\*\*([\s\S]*?)\*\/\s{0,4}(?:export\s+)?(async\s+)?(function|const|let|var|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/g;
-  const symbols  = [];
-  let m;
-  while ((m = symbolRx.exec(afterHeader)) !== null) {
-    const body      = cleanCommentBody(m[1]);
-    const kind      = m[3];
-    const name      = m[4];
-    // Find the declaration position in the original source for signature capture
-    const declPos   = (headerMatch ? headerMatch.index + headerMatch[0].length : 0)
-                      + m.index + m[0].length - name.length;
-    const signature = extractSignature(source, declPos);
-    symbols.push({ name, kind, jsdoc: body, signature });
-  }
-
-  return { header, symbols };
-}
-
-/** Remove leading " * " from a JSDoc block body.
+Remove leading " * " from a JSDoc block body.
 
 ### `extractSignature(source, startIdx)`
 

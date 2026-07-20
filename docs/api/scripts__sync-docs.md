@@ -1,9 +1,5 @@
 # `scripts/sync-docs.mjs`
 
-## Symbols
-
-### `DEPRECATED_DOCS`
-
 sync-docs.mjs — Unified audit, quarantine-candidate report, and doc updater
 - Generates docs/GENERATED-INVENTORY.md
 - Reports unreferenced js/css/scripts files to data/audit/quarantine-candidates.json
@@ -12,7 +8,7 @@ sync-docs.mjs — Unified audit, quarantine-candidate report, and doc updater
   ephemeral CI runner is silent permanent deletion: it destroyed
   scripts/hna/build_place_projections.py minutes after PR #1040 merged,
   because nothing referenced that filename yet. See PR #1044.)
-- Rewrites _audit/ to _audit/ everywhere
+- Rewrites _tobedeleted/ to _audit/ everywhere
 - Updates "Actionable Recommendations" in key doc files
 
 Also refreshes the auto-sync banner in every deprecated/superseded doc so
@@ -22,117 +18,12 @@ Banner blocks are delimited by HTML comments:
 
 Usage: node scripts/sync-docs.mjs
 npm script: "docs:sync"
-/
 
-import { readFileSync, writeFileSync, statSync, readdirSync, existsSync, mkdirSync } from 'fs';
-import { join, relative, extname, basename, dirname } from 'path';
-import { glob } from 'glob';
+## Symbols
 
-const ROOT = new URL('..', import.meta.url).pathname.replace(/\/$/, '');
-const OUT = join(ROOT, 'docs', 'GENERATED-INVENTORY.md');
-const now = new Date().toISOString();
+### `DEPRECATED_DOCS`
 
-const JS_DIR = join(ROOT, 'js');
-const CSS_DIR = join(ROOT, 'css');
-const SCRIPTS_DIR = join(ROOT, 'scripts');
-const DOCS_DIR = join(ROOT, 'docs');
-const AUDIT_DIR = join(ROOT, '_audit');
-
-// 1. ==== Inventory functions (your original code, unchanged below) ====
-
-function fmtSize(bytes) {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-}
-
-function safeReadJson(filePath) {
-  try {
-    const raw = readFileSync(filePath, 'utf8');
-    const parsed = JSON.parse(raw);
-    return { ok: true, parsed };
-  } catch {
-    return { ok: false, parsed: null };
-  }
-}
-
-function extractTitle(html) {
-  const m = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-  return m ? m[1].trim() : '(no title)';
-}
-
-function featureCount(parsed) {
-  if (parsed && parsed.type === 'FeatureCollection' && Array.isArray(parsed.features)) {
-    return parsed.features.length;
-  }
-  return null;
-}
-
-function checkGitignore() {
-  const gitignorePath = join(ROOT, '.gitignore');
-  if (!existsSync(gitignorePath)) return { exists: false, entries: [] };
-  const lines = readFileSync(gitignorePath, 'utf8').split('\n').map(l => l.trim()).filter(Boolean);
-  const required = ['js/config.local.js', '.env', '.env.local', 'node_modules/'];
-  const missing = required.filter(r => !lines.some(l => l === r || l.startsWith(r)));
-  return { exists: true, lines, missing };
-}
-
-async function scanHtmlPages() {
-  const files = await glob('*.html', { cwd: ROOT, absolute: false });
-  files.sort();
-  const rows = [];
-  for (const f of files) {
-    const fullPath = join(ROOT, f);
-    const html = readFileSync(fullPath, 'utf8');
-    const title = extractTitle(html);
-    const size = fmtSize(statSync(fullPath).size);
-    rows.push(`| \`${f}\` | ${title} | ${size} |`);
-  }
-  const markdown = [
-    '## Root HTML Pages',
-    '',
-    `${files.length} pages found.`,
-    '',
-    '| File | Title | Size |',
-    '|------|-------|------|',
-    ...rows,
-  ].join('\n');
-  return { markdown, count: files.length };
-}
-
-async function scanDataFiles() {
-  const files = await glob('data/**/*.json', { cwd: ROOT, absolute: false });
-  files.sort();
-  const rows = [];
-  for (const f of files) {
-    const fullPath = join(ROOT, f);
-    const size = fmtSize(statSync(fullPath).size);
-    const { ok, parsed } = safeReadJson(fullPath);
-    const validJson = ok ? '✅' : '❌';
-    const fc = ok ? featureCount(parsed) : null;
-    const features = fc !== null ? `${fc} features` : (ok ? '—' : 'invalid JSON');
-    rows.push(`| \`${f}\` | ${size} | ${validJson} | ${features} |`);
-  }
-  const markdown = [
-    '## Data Files (`data/**/*.json`)',
-    '',
-    `${files.length} JSON files found.`,
-    '',
-    '| File | Size | Valid JSON | Notes |',
-    '|------|------|-----------|-------|',
-    ...rows,
-  ].join('\n');
-  return { markdown, count: files.length };
-}
-
-async function scanTestFiles() {
-  const testDirs = ['test', 'tests'];
-  const rows = [];
-  let total = 0;
-  for (const dir of testDirs) {
-    const abs = join(ROOT, dir);
-    if (!existsSync(abs)) continue;
-    const files = await glob(`${dir}/**/*`, { cwd: ROOT, absolute: false, nodir: true });
+/*`, { cwd: ROOT, absolute: false, nodir: true });
     files.sort();
     for (const f of files) {
       const size = fmtSize(statSync(join(ROOT, f)).size);
@@ -275,14 +166,14 @@ function writeQuarantineReport(candidates) {
   writeFileSync(QUARANTINE_REPORT, JSON.stringify(payload, null, 2) + '\n');
 }
 
-// Update all _audit/ to _audit/
+// Update all _tobedeleted/ to _audit/
 function rewriteReferences(rootDirs) {
   for (const dir of rootDirs) {
     if (!existsSync(dir)) continue;
     for (const f of findFiles(dir, ['.js', '.css', '.md', '.html', '.yml', '.yaml'])) {
       const content = readFileSync(f, 'utf8');
-      if (content.includes('_audit')) {
-        const updated = content.replace(/_audit/g, '_audit');
+      if (content.includes('_tobedeleted')) {
+        const updated = content.replace(/_tobedeleted/g, '_audit');
         writeFileSync(f, updated);
       }
     }

@@ -1,9 +1,5 @@
 # `scripts/audit/qa-status-generator.mjs`
 
-## Symbols
-
-### `tryRun(cmd)`
-
 scripts/audit/qa-status-generator.mjs
 
 Generates `data/_qa-status.json` — a single canonical snapshot of the
@@ -28,24 +24,11 @@ Exit codes:
 Usage:
   node scripts/audit/qa-status-generator.mjs
   node scripts/audit/qa-status-generator.mjs --quiet
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
+## Symbols
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..', '..');
-const OUT_FILE = path.join(ROOT, 'data', '_qa-status.json');
+### `tryRun(cmd)`
 
-const QUIET = process.argv.includes('--quiet');
-
-function log(...args) {
-  if (!QUIET) console.log(...args);
-}
-
-/**
 Run a shell command, capture stdout, and return {success, output, error}.
 Doesn't throw — failures are part of the QA report, not a generator error.
 

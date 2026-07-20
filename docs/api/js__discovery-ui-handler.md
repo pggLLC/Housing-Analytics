@@ -6,7 +6,7 @@
 
 Render the monitoring status badge in #drhMonitorBadge.
 @param {object|null} report — result from DataSourceDiscovery.getLastReport()
-@param {number}       pendingCount
+@param {number|string|null} pendingCount
 @param {string}       [state]  'scanning' shows a spinner-style hint
                                while a fresh scan is in flight; default
                                renders the cached/most-recent report.

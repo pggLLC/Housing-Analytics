@@ -101,32 +101,6 @@ not-burdened renter share to actual ≤60% AMI renter share by county group.
 
 ### `calculateBaseline(profile, countyFips)`
 
-Estimate count of 60% AMI rental units from ACS profile data.
-Uses ACS DP04 GRAPI bins as a proxy:
-  - Total renter-occupied units (DP04_0047E count, or derived from tenure pct)
-  - Affordability proxy: units paying < 30% income (not rent-burdened) as a proxy for
-    units affordable at ≤60% AMI.  This is an approximation — true 60% AMI counts
-    require ACS B25106 cross-tabulations not in the DP04 profile.
-
-ACS DP04 fields used (canonical 2023 codes):
-  DP04_0001E  - Total housing units
-  DP04_0002E  - Occupied housing units (NOT 0003E — that's vacant)
-  DP04_0047E  - Renter-occupied (count, preferred)
-  DP04_0047PE - Renter-occupied (%)
-  DP04_0137PE - GRAPI <15%
-  DP04_0138PE - GRAPI 15-19.9%
-  DP04_0139PE - GRAPI 20-24.9%  (not burdened)
-
-Legacy pre-2020 DP04 profiles used DP04_0144PE/0145PE/0146PE for
-those same not-burdened bins. Current ACS profiles use those slots for
-different GRAPI bins or do not expose them, so the legacy keys are only
-consulted when the current 0137-0139 keys are entirely absent.
-
-@param {object} profile - ACS profile (DP04 fields)
-@returns {{baseline60Ami, totalRentals, pctOfStock, method}|null}
-/
-
-  /**
 @param {object} profile - ACS profile (DP04 fields)
 @param {string} [countyFips] - 5-digit county FIPS for regional AMI factor lookup
 
@@ -191,77 +165,6 @@ Returns an object: { target, observedActive, source } where
 
 ### `isSmallGeography(profile)`
 
-renderProjectionChart — draw a line chart of projected population for one
-scenario over a custom year range.
-
-@param {string}   geoid    - 5-digit county FIPS (or place FIPS)
-@param {string}   scenario - 'baseline' | 'low_growth' | 'high_growth'
-@param {number}   years    - projection horizon (e.g. 10)
-@param {Object}   opts
-@param {Element}  opts.canvas  - <canvas> element to draw on
-@param {Array}    opts.basePopSeries  - [{year, population}, ...] from loaded projections
-/
-
-
-  window.HNAUtils = {
-    // constants
-    STATE_FIPS_CO,
-    ACS_VINTAGES,
-    ACS_YEAR_PRIMARY,
-    ACS_YEAR_FALLBACK,
-    DEBUG_HNA,
-    DEFAULTS,
-    AFFORD,
-    FEATURED,
-    PATHS,
-    SOURCES,
-    GITHUB_PAGES_BASE,
-    NAICS_LABELS,
-    WAGE_BAND_ANNUAL,
-    PROP123_MUNICIPALITY_THRESHOLD,
-    PROP123_COUNTY_THRESHOLD,
-    PROP123_GROWTH_RATE,
-    LIHTC_FALLBACK_CO,
-    QCT_FALLBACK_CO,
-    DDA_FALLBACK_CO,
-    CO_DDA,
-    BOUNDARY_STYLES,
-    PROJECTION_SCENARIOS,
-    AMI_TIER_LABELS,
-    AMI_TIER_COLORS,
-    // functions
-    redactKey,
-    fmtNum,
-    fmtMoney,
-    fmtPct,
-    censusSourceUrl,
-    srcLink,
-    safeNum,
-    homeValueInfo,
-    homeValueSourceText,
-    computeIncomeNeeded,
-    computeActiveMarketTargetVacancy,
-    rentBurden30Plus,
-    calculateJobMetrics,
-    parseIndustries,
-    calculateWageDistribution,
-    calculateBaseline,
-    calculateGrowthTarget,
-    checkFastTrackEligibility,
-    calculateFastTrackTimeline,
-    getJurisdictionComplianceStatus,
-    generateComplianceReport,
-    lihtcSourceInfo,
-    lihtcPopupHtml,
-    countyFromGeoid,
-    ensureGeographyRegistry,
-    censusKey,
-    lihtcFallbackForCounty,
-    isSmallGeography,
-    getSmallGeoWarning,
-  };
-
-  /**
 Check if a geography has small population where ACS estimates
 may have high margins of error (30-50% for geographies <5,000).
 @param {object} profile - ACS profile data

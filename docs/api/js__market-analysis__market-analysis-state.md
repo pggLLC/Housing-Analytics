@@ -6,40 +6,6 @@ Exposes window.MAState with get/set/subscribe.
 
 ## Symbols
 
-### `_state`
-
-Selected site coordinates and buffer radius. */
-    site: {
-      lat:         null,
-      lon:         null,
-      bufferMiles: 5
-    },
-    /** Aggregated ACS metrics object (null until computed). */
-    acs:       null,
-    /** Array of LIHTC GeoJSON features inside the buffer. */
-    lihtc:     [],
-    /** Scoring result returned by SiteSelectionScore.computeScore(). */
-    scores:    null,
-    /** Per-section data payloads used by MARenderers. */
-    sections: {
-      demand:       null,
-      supply:       null,
-      subsidy:      null,
-      feasibility:  null,
-      access:       null,
-      policy:       null,
-      opportunities: null
-    },
-    /** True while any async data operation is in flight. */
-    loading:   false,
-    /** Non-null error string when the last operation failed. */
-    error:     null,
-    /** True once all required data has been successfully loaded. */
-    dataReady: false
-  };
-
-  /* ── Private module state ─────────────────────────────────────────
-
 ### `_deepClone(obj)`
 
 Shallow-clone a plain object one level deep.

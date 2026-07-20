@@ -1,9 +1,5 @@
 # `scripts/kalshi/fetch_kalshi_prediction_markets.js`
 
-## Symbols
-
-### `MARKET_CONFIG`
-
 fetch_kalshi_prediction_markets.js
 Fetches housing-related prediction market data from Kalshi and writes
 data/kalshi/prediction-market.json for use by the Economic Dashboard.
@@ -33,22 +29,11 @@ Output schema (data/kalshi/prediction-market.json):
 }
 On API failure the file is written with "error" and empty "items" so the
 dashboard can fall back gracefully to its built-in mock data.
-/
 
-'use strict';
+## Symbols
 
-const crypto = require('crypto');
-const fs     = require('fs');
-const path   = require('path');
-const https  = require('https');
+### `MARKET_CONFIG`
 
-// ---------------------------------------------------------------------------
-// Configuration — fill in series_ticker / event_ticker values once known.
-// The `seriesTicker` or `eventTicker` field is used to search Kalshi markets.
-// Leave a field null to skip that metric; the script will warn but continue.
-// ---------------------------------------------------------------------------
-
-/**
 @typedef {Object} MetricConfig
 @property {string}      metric        — stable camelCase key used in JSON output
 @property {string}      label         — human-readable label for the UI

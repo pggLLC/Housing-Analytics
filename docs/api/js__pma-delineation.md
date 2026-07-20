@@ -16,7 +16,7 @@ Public API (window.PMADelineation):
   renderSmaLayer(map, lat, lon, show)
   renderCommutingBoundary(map, boundaryGeoJSON)
   removeAllBoundaries(map)
-  getLastPmaPolygon() → GeoJSON FeatureCollection or null
+  getLastPmaPolygon() → GeoJSON Feature or null
 
 All functions are null-safe and degrade silently when Leaflet (window.L)
 is not yet available.

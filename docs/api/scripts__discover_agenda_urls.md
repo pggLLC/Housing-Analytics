@@ -1,9 +1,5 @@
 # `scripts/discover_agenda_urls.mjs`
 
-## Symbols
-
-### `slugify(name)`
-
 discover_agenda_urls.mjs  (F169a, 2026-06-04)
 
 Probes likely council-agenda URL patterns (Civic Plus / Granicus /
@@ -31,31 +27,5 @@ CLI:
 Exit codes:
   0 — completed (regardless of how many matches found)
   2 — script-level failure
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..');
-const LOCAL_RESOURCES = path.join(ROOT, 'data', 'hna', 'local-resources.json');
-const CENTROIDS = path.join(ROOT, 'data', 'co-place-centroids.json');
-const OUTPUT_PATH = path.join(ROOT, 'data', 'agenda-url-discovery-report.json');
-const NOW = new Date().toISOString();
-
-const TIMEOUT_MS = 8_000;
-const CONCURRENCY = 4;          // Be polite to .gov sites
-const USER_AGENT =
-  'CohoAgendaDiscoveryBot/1.0 (+https://github.com/pggLLC/Housing-Analytics)';
-
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes('--dry') || args.includes('--dry-run');
-const LIMIT = (() => {
-  const i = args.indexOf('--limit');
-  if (i < 0) return Infinity;
-  const n = parseInt(args[i + 1], 10);
-  return Number.isFinite(n) && n > 0 ? n : Infinity;
-})();
-
-/* ── Slug helpers ───────────────────────────────────────────────────
+_No documented symbols — module has a file-header comment only._

@@ -66,9 +66,10 @@ Exposed as window.LIHTCDealPredictor (browser) and module.exports (Node/test).
 
 ### `_loadAssumptions()`
 
-Load constants from data/policy/lihtc-assumptions.json (once, cached).
-Overrides DEFAULT_ASSUMPTIONS where the JSON provides values.
-Falls back silently to hardcoded defaults on fetch failure.
+Load non-pricing assumptions from data/policy/lihtc-assumptions.json and
+current equity pricing from data/market/novogradac-equity-pricing.json.
+The assumptions file may document synced fallback pricing, but it must not
+override the centralized constants or the Novogradac benchmark.
 
 ### `_HARD_COST_MULTIPLIERS_BY_FIPS`
 

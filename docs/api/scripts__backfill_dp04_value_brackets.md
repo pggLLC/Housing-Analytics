@@ -1,9 +1,5 @@
 # `scripts/backfill_dp04_value_brackets.mjs`
 
-## Symbols
-
-### `sleep`
-
 Backfill DP04_0080E .. DP04_0088E (home-value brackets) into
 data/hna/summary/*.json acsProfile blocks. F160 home-value-distribution
 chart needs every bracket; today most summary files only carry the
@@ -20,41 +16,12 @@ merges the values back into acsProfile (no other fields touched).
 
 Polite batching: max 4 concurrent requests, one retry on transient
 error, summary report at end.
-/
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+## Symbols
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const REPO_ROOT = path.resolve(__dirname, "..");
-const SUMMARY_DIR = path.join(REPO_ROOT, "data", "hna", "summary");
+### `sleep`
 
-const DRY_RUN = process.argv.includes("--dry");
-const CENSUS_API_KEY = process.env.CENSUS_API_KEY;
-if (!CENSUS_API_KEY) {
-  throw new Error(
-    "CENSUS_API_KEY is required. Set it in the environment before running."
-  );
-}
-
-const VARS = [
-  "DP04_0080E",
-  "DP04_0081E",
-  "DP04_0082E",
-  "DP04_0083E",
-  "DP04_0084E",
-  "DP04_0085E",
-  "DP04_0086E",
-  "DP04_0087E",
-  "DP04_0088E",
-];
-const SENTINEL = "DP04_0083E"; // used to detect already-filled files
-const ACS_BASE = "https://api.census.gov/data/2023/acs/acs5/profile";
-const MAX_CONCURRENT = 4;
-
-/** Sleep helper.
+Sleep helper.
 
 ### `resolveGeo(record)`
 
