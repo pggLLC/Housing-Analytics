@@ -500,6 +500,7 @@
   }
 
   async function updateCombined(region) {
+    updateScenarioBuilderLink(null);
     window.HNARenderers.showAllChartsLoading();
     window.HNARenderers.clearStats();
     const members = region ? (region.members || []) : (window.HNAState.state.combinedMembers || []);
@@ -541,6 +542,7 @@
   }
 
   async function updateRegionalComparison(region) {
+    updateScenarioBuilderLink(null);
     window.HNARenderers.showAllChartsLoading();
     window.HNARenderers.clearStats();
     const members = region ? (region.members || []) : (window.HNAState.state.combinedMembers || []);
@@ -2618,6 +2620,22 @@
     if (el && meta) el.textContent = meta.description;
   }
 
+  function updateScenarioBuilderLink(selection){
+    const link = document.getElementById('scenarioBuilderLink');
+    if (!link) return;
+    const geoType = selection && selection.geoType;
+    const geoid = selection && selection.geoid;
+    if (!geoType || !geoid || geoType === 'combined' || geoType === 'regional-comparison') {
+      link.setAttribute('href', 'hna-scenario-builder.html');
+      return;
+    }
+    const params = new URLSearchParams();
+    params.set('geoType', geoType);
+    params.set('geoid', geoid);
+    params.set('auto', '1');
+    link.setAttribute('href', 'hna-scenario-builder.html?' + params.toString());
+  }
+
 
   function wireScenarioControls(){
     const scenarioSel = document.getElementById('projScenario');
@@ -2840,6 +2858,7 @@
     window.HNARenderers.showAllChartsLoading();
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
+    updateScenarioBuilderLink({ geoType, geoid });
     const selectedRegion = _regionFromCurrentSelect();
     const combineOn = !!(window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked);
     if (selectedRegion) {
