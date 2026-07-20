@@ -170,6 +170,24 @@ test('legacy city payload coerces into canonical place tuple', function () {
   assert(j.placeGeoid === '0812345', 'legacy placeGeoid remains populated');
 });
 
+test('explicit geoType city coerces to place (not dropped to null)', function () {
+  reset();
+  // A caller passing geoType:'city' directly must land on canonical 'place' —
+  // without the city/town coercion in _geoTypeFromLegacy this normalizes to
+  // null and the tuple silently loses its geography type.
+  WorkflowState.setJurisdiction({
+    geoType: 'city',
+    geoid: '0812345',
+    name: 'Some Town',
+    countyFips: '08059',
+    countyName: 'Boulder',
+  });
+  const j = WorkflowState.getJurisdiction();
+  assert(j.geoType === 'place', 'explicit geoType city coerces to canonical place');
+  assert(j.geoid === '0812345', 'geoid survives coercion');
+  assert(j.countyFips === '08059', 'county context survives coercion');
+});
+
 test('jurisdiction step counts as complete after setJurisdiction', function () {
   reset();
   WorkflowState.setJurisdiction({
