@@ -1173,11 +1173,12 @@
           </div>
         </div>
         <p>
-          Cohort-component forward projections under three growth scenarios, aligned with
+          Read-only cohort-component projections under fixed low, baseline, and high growth scenarios, aligned with
           <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DLG final HNA methodology and displacement risk assessment guidance (opens in new tab)">DLG HNA methodology</a>.
-          Adjust scenario assumptions and switch views to compare population, household formation,
-          and housing demand by affordability tier. Sensitivity bands share the observed base year
-          and scale only the projected growth increment.
+          The comparison charts keep a shared observed base year and scale only the projected growth increment from
+          DOLA-aligned assumptions. To model custom fertility, migration, or mortality assumptions, use the dedicated
+          <a id="scenarioBuilderLink" href="hna-scenario-builder.html" style="color:var(--accent);font-weight:700">Scenario Builder &rarr;</a>
+          for the selected geography.
         </p>
 
         <!-- Scenario selector row -->
@@ -1261,60 +1262,6 @@
             <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
           </div>
         </div>
-
-        <!-- Projection assumption sliders (demographic rates) -->
-        <details style="margin-top:16px">
-          <summary style="cursor:pointer;font-weight:700;font-size:.92rem;padding:6px 0">
-            ⚙️ Override projection assumptions
-          </summary>
-          <div class="chart-card" style="padding:12px;margin-top:10px;background:rgba(255,255,255,.04)">
-            <p style="margin:0 0 10px;font-size:.85rem;color:var(--muted)">
-              Adjust the demographic rate assumptions for the selected scenario.
-              Changes apply immediately to all projection charts.
-              These parameters follow the DLG cohort-component model methodology.
-            </p>
-            <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
-              <div class="span-4">
-                <label for="scenFertility" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                  Fertility rate multiplier
-                  <span style="font-size:.78rem;font-weight:400"> (1.0 = baseline ACS rates)</span>
-                </label>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <input id="scenFertility" type="range" min="0.5" max="2.0" step="0.01" value="1.0" class="scenario-range" aria-label="Fertility rate multiplier (1.0 is baseline)" />
-                  <div id="scenFertilityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
-                </div>
-              </div>
-              <div class="span-4">
-                <label for="scenMigration" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                  Net migration (persons/year)
-                  <span style="font-size:.78rem;font-weight:400"> (baseline: 500/yr avg)</span>
-                </label>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <input id="scenMigration" type="range" min="-500" max="3000" step="50" value="500" class="scenario-range" aria-label="Annual net migration (baseline is 500 persons per year)" />
-                  <div id="scenMigrationVal" style="min-width:48px;text-align:right;color:var(--text);font-weight:700">500</div>
-                </div>
-              </div>
-              <div class="span-4">
-                <label for="scenMortality" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">
-                  Mortality rate multiplier
-                  <span style="font-size:.78rem;font-weight:400"> (1.0 = standard life-table)</span>
-                </label>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <input id="scenMortality" type="range" min="0.8" max="1.2" step="0.01" value="1.0" class="scenario-range" aria-label="Mortality rate multiplier (1.0 is standard life-table)" />
-                  <div id="scenMortalityVal" style="min-width:40px;text-align:right;color:var(--text);font-weight:700">1.00</div>
-                </div>
-              </div>
-            </div>
-            <div style="margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-              <button id="btnSaveCustomScenario" class="control" style="padding:8px 16px;font-size:.88rem;cursor:pointer;min-height:44px">
-                💾 Save as custom scenario
-              </button>
-              <button id="btnResetScenarioDefaults" class="control" style="padding:8px 16px;font-size:.88rem;cursor:pointer;min-height:44px;background:var(--bg2)">
-                ↺ Reset to scenario defaults
-              </button>
-            </div>
-          </div>
-        </details>
 
         <!-- Scenario summary note -->
         <div id="scenarioNeedSummary" class="scenario-need-summary" style="display:none" role="region" aria-label="Scenario comparison summary">

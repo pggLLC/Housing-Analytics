@@ -500,6 +500,7 @@
   }
 
   async function updateCombined(region) {
+    updateScenarioBuilderLink(null);
     window.HNARenderers.showAllChartsLoading();
     window.HNARenderers.clearStats();
     const members = region ? (region.members || []) : (window.HNAState.state.combinedMembers || []);
@@ -541,6 +542,7 @@
   }
 
   async function updateRegionalComparison(region) {
+    updateScenarioBuilderLink(null);
     window.HNARenderers.showAllChartsLoading();
     window.HNARenderers.clearStats();
     const members = region ? (region.members || []) : (window.HNAState.state.combinedMembers || []);
@@ -2599,23 +2601,27 @@
   }
 
 
-  function getScenarioRateOverrides(){
-    const fertility  = parseFloat((document.getElementById('scenFertility')  || {}).value);
-    const migration  = parseFloat((document.getElementById('scenMigration')  || {}).value);
-    const mortality  = parseFloat((document.getElementById('scenMortality')  || {}).value);
-    return {
-      fertilityMultiplier: Number.isFinite(fertility)  ? fertility  : 1.0,
-      netMigrationAnnual:  Number.isFinite(migration)  ? migration  : 500,
-      mortalityMultiplier: Number.isFinite(mortality)  ? mortality  : 1.0,
-    };
-  }
-
-
   function updateScenarioDescription(){
     const sc   = getSelectedScenario();
     const meta = window.HNAUtils.PROJECTION_SCENARIOS[sc];
     const el   = document.getElementById('scenarioDescription');
     if (el && meta) el.textContent = meta.description;
+  }
+
+  function updateScenarioBuilderLink(selection){
+    const link = document.getElementById('scenarioBuilderLink');
+    if (!link) return;
+    const geoType = selection && selection.geoType;
+    const geoid = selection && selection.geoid;
+    if (!geoType || !geoid || geoType === 'combined' || geoType === 'regional-comparison') {
+      link.setAttribute('href', 'hna-scenario-builder.html');
+      return;
+    }
+    const params = new URLSearchParams();
+    params.set('geoType', geoType);
+    params.set('geoid', geoid);
+    params.set('auto', '1');
+    link.setAttribute('href', 'hna-scenario-builder.html?' + params.toString());
   }
 
 
@@ -2626,97 +2632,8 @@
         const sc   = scenarioSel.value;
         const meta = window.HNAUtils.PROJECTION_SCENARIOS[sc];
         if (!meta) return;
-        // Pre-populate sliders with scenario defaults
-        const defaults = {
-          baseline:   { fertility: 1.0,  migration: 500,  mortality: 1.0  },
-          low_growth: { fertility: 0.90, migration: 250,  mortality: 1.02 },
-          high_growth:{ fertility: 1.05, migration: 1000, mortality: 0.98 },
-        };
-        const d = defaults[sc] || defaults.baseline;
-        const fEl = document.getElementById('scenFertility');
-        const mEl = document.getElementById('scenMigration');
-        const rEl = document.getElementById('scenMortality');
-        if (fEl){ fEl.value = d.fertility;  _updateSliderLabel('scenFertilityVal',  d.fertility.toFixed(2)); }
-        if (mEl){ mEl.value = d.migration;  _updateSliderLabel('scenMigrationVal',  Math.round(d.migration)); }
-        if (rEl){ rEl.value = d.mortality;  _updateSliderLabel('scenMortalityVal',  d.mortality.toFixed(2)); }
         updateScenarioDescription();
         // Re-render the projection charts if data is loaded
-        if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
-      });
-    }
-
-    // Slider live-update labels
-    // Debounce timer: chart re-renders are deferred 300 ms so rapid slider
-    // drags don't trigger a repaint on every pixel move (performance).
-    let _sliderDebounce = null;
-    [
-      ['scenFertility', 'scenFertilityVal', v => Number(v).toFixed(2)],
-      ['scenMigration', 'scenMigrationVal', v => Math.round(Number(v)).toLocaleString()],
-      ['scenMortality', 'scenMortalityVal', v => Number(v).toFixed(2)],
-    ].forEach(([sliderId, labelId, fmt]) => {
-      const slider = document.getElementById(sliderId);
-      if (slider){
-        slider.addEventListener('input', () => {
-          _updateSliderLabel(labelId, fmt(slider.value));
-          // Debounce chart re-render to avoid rapid repaints on slider drag
-          clearTimeout(_sliderDebounce);
-          _sliderDebounce = setTimeout(() => {
-            if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
-          }, 300);
-        });
-      }
-    });
-
-    // Save custom scenario button
-    const saveBtn = document.getElementById('btnSaveCustomScenario');
-    if (saveBtn){
-      saveBtn.addEventListener('click', () => {
-        const overrides = getScenarioRateOverrides();
-        const name = 'Custom: f×' + overrides.fertilityMultiplier.toFixed(2) +
-                     ' mig ' + Math.round(overrides.netMigrationAnnual) +
-                     ' mort×' + overrides.mortalityMultiplier.toFixed(2);
-        window.HNAUtils.PROJECTION_SCENARIOS['custom'] = {
-          label:       'Custom',
-          description: name,
-          color:       '#9c27b0',
-        };
-        const sel = document.getElementById('projScenario');
-        if (sel){
-          // Add custom option if not already present
-          if (!sel.querySelector('option[value="custom"]')){
-            const opt = document.createElement('option');
-            opt.value = 'custom';
-            opt.textContent = 'Custom';
-            sel.appendChild(opt);
-          }
-          sel.value = 'custom';
-        }
-        updateScenarioDescription();
-        if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
-        if (typeof window.__announceUpdate === 'function') {
-          window.__announceUpdate('Custom scenario saved: ' + name);
-        }
-      });
-    }
-
-    // Reset to scenario defaults button
-    const resetBtn = document.getElementById('btnResetScenarioDefaults');
-    if (resetBtn){
-      resetBtn.addEventListener('click', () => {
-        const sc = getSelectedScenario();
-        const defaults = {
-          baseline:   { fertility: 1.0,  migration: 500,  mortality: 1.0  },
-          low_growth: { fertility: 0.90, migration: 250,  mortality: 1.02 },
-          high_growth:{ fertility: 1.05, migration: 1000, mortality: 0.98 },
-          custom:     { fertility: 1.0,  migration: 500,  mortality: 1.0  },
-        };
-        const d = defaults[sc] || defaults.baseline;
-        const fEl = document.getElementById('scenFertility');
-        const mEl = document.getElementById('scenMigration');
-        const rEl = document.getElementById('scenMortality');
-        if (fEl){ fEl.value = d.fertility;  _updateSliderLabel('scenFertilityVal',  d.fertility.toFixed(2)); }
-        if (mEl){ mEl.value = d.migration;  _updateSliderLabel('scenMigrationVal',  Math.round(d.migration).toLocaleString()); }
-        if (rEl){ rEl.value = d.mortality;  _updateSliderLabel('scenMortalityVal',  d.mortality.toFixed(2)); }
         if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
       });
     }
@@ -2823,12 +2740,6 @@
     }
   }
 
-
-  function _updateSliderLabel(labelId, text){
-    const el = document.getElementById(labelId);
-    if (el) el.textContent = text;
-  }
-
   // ---------------------------------------------------------------------------
   // End demographic projection helpers
   // ---------------------------------------------------------------------------
@@ -2840,6 +2751,7 @@
     window.HNARenderers.showAllChartsLoading();
     const geoType = window.HNAState.els.geoType.value;
     const geoid = window.HNAState.els.geoSelect.value;
+    updateScenarioBuilderLink({ geoType, geoid });
     const selectedRegion = _regionFromCurrentSelect();
     const combineOn = !!(window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked);
     if (selectedRegion) {
