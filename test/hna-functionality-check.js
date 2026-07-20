@@ -917,6 +917,24 @@ test('HTML: non-functional scenario override controls are removed from HNA', () 
     assert(!html.includes('Reset to scenario defaults'), 'old reset copy is removed');
 });
 
+test('JS: non-functional scenario override handlers are removed from HNA', () => {
+    [
+        'getScenarioRateOverrides',
+        '_updateSliderLabel',
+        '_sliderDebounce',
+        'scenFertility',
+        'scenFertilityVal',
+        'scenMigration',
+        'scenMigrationVal',
+        'scenMortality',
+        'scenMortalityVal',
+        'btnSaveCustomScenario',
+        'btnResetScenarioDefaults',
+    ].forEach(token => {
+        assert(!js.includes(token), `${token} dead handler code is absent from HNA JS`);
+    });
+});
+
 test('JS: scenario builder link carries selected geography', () => {
     assert(js.includes('function updateScenarioBuilderLink'), 'scenario builder link updater exists');
     assert(js.includes("params.set('geoType', geoType)"), 'scenario builder link includes geoType');
@@ -924,6 +942,22 @@ test('JS: scenario builder link carries selected geography', () => {
     assert(js.includes("params.set('auto', '1')"), 'scenario builder link includes auto=1');
     assert(js.includes("link.setAttribute('href', 'hna-scenario-builder.html?' + params.toString())"),
         'scenario builder link writes parameterized href');
+});
+
+test('Scenario Builder: consumes HNA CTA geography URL params', () => {
+    const builderHtml = fs.readFileSync(path.join(ROOT, 'hna-scenario-builder.html'), 'utf8');
+    assert(builderHtml.includes('new URLSearchParams(window.location.search || \'\')'),
+        'Scenario Builder reads URLSearchParams from location.search');
+    assert(builderHtml.includes("urlParams.get('geoType')"),
+        'Scenario Builder reads geoType URL parameter');
+    assert(builderHtml.includes("urlParams.get('geoid')"),
+        'Scenario Builder reads geoid URL parameter');
+    assert(builderHtml.includes('geoIndex[requestedGeoid]'),
+        'Scenario Builder resolves place/CDP params through geoIndex');
+    assert(builderHtml.includes('select.value = requestedGeoid'),
+        'Scenario Builder writes URL geoid into sbGeoSelect');
+    assert(builderHtml.includes("urlParams.get('auto') === '1'") && builderHtml.includes('loadBtn.click()'),
+        'Scenario Builder honors auto=1 via the Load Geography Data button path');
 });
 
 test('JS: scenario fallback sensitivity scales growth from the shared observed base year', () => {
@@ -1047,13 +1081,6 @@ test('JS: btnExportScenario is wired to exportScenarioCSV', () => {
     assert(
         js.includes('btnExportScenario') && js.includes('exportScenarioCSV'),
         'Export button is referenced and exportScenarioCSV is called'
-    );
-});
-
-test('JS: slider debouncing uses setTimeout (performance)', () => {
-    assert(
-        js.includes('_sliderDebounce') && js.includes('clearTimeout(_sliderDebounce)'),
-        'Slider input debounce uses clearTimeout/_sliderDebounce pattern'
     );
 });
 
