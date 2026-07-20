@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T05:24:08.749Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T06:02:38.525Z. Do not edit by hand.
 
 ---
 
@@ -39,9 +39,9 @@
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 41.4 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.8 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 230.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1707,7 +1707,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
-| `test/hna-functionality-check.js` | 58.3 KB |
+| `test/hna-functionality-check.js` | 60.8 KB |
 | `test/hna-home-value-cascade.test.js` | 10.1 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
@@ -1731,7 +1731,7 @@
 | `test/integration/hna-ranking.test.js` | 11.2 KB |
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
-| `test/integration/projections.test.js` | 15.3 KB |
+| `test/integration/projections.test.js` | 15.7 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 24.5 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
