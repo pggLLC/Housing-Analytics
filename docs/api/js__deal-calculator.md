@@ -88,7 +88,7 @@ Render AMI gap info panel when a county is selected.
   // F257 — "Pre-fill from local need" handler. Allocates the LIHTC-eligible
   // tier inputs (30/50/60% AMI) proportionally to the documented gap counts
   // for the selected jurisdiction. Prefers place-level gap when available,
-  // falls back to county-level. Workforce/market tiers (70/80/100% AMI) are
+  // falls back to county-level. Workforce/middle-income tiers (70%-120% AMI) are
   // left untouched — the prefill targets the LIHTC pool only.
   function _prefillAmiFromGap() {
     var metaEl = document.getElementById('dc-ami-prefill-meta');
@@ -147,7 +147,7 @@ Render AMI gap info panel when a county is selected.
         '<strong>Allocated ' + totalUnits + ' units</strong> proportional to the documented gap in ' + label +
         ' (' + (kind === 'place' ? 'place-level' : 'county-level') + '): ' +
         pct30 + '% at 30% AMI · ' + pct50 + '% at 50% AMI · ' + pct60 + '% at 60% AMI. ' +
-        'Workforce/market tiers (70/80/100%) left unchanged — adjust manually for mixed-income deals.';
+        'Workforce/middle-income tiers (70%-120%) left unchanged — adjust manually for mixed-income deals.';
     }
   }
 
@@ -237,7 +237,7 @@ Shows median rent + vacancy when both are available.
 
 ### `_renderAchievableCapStatus(capOn, perBrMarket, bindings)`
 
-Q5: After recalculate() runs, surface which 70/80/100% AMI rows actually
+Q5: After recalculate() runs, surface which 70%-120% AMI rows actually
 had their rents reduced by the market cap. Empty array → cap not binding.
 
 ### `_wireCountyDetect(countySel)`

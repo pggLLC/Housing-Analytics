@@ -7,7 +7,7 @@ All rate-sensitive defaults should live here so they can be updated
 once when market conditions change, rather than scattered across
 6+ files.
 
-Last reviewed: 2026-04-05
+Last reviewed: 2026-07-15
 Sources noted inline.
 
 _No documented symbols — module has a file-header comment only._

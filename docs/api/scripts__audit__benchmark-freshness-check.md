@@ -12,6 +12,17 @@ The Deal Calculator cites two static market-benchmark snapshots:
 
   - data/market/novogradac-equity-pricing.json   (LIHTC equity pricing)
   - data/market/freddie-mac-multifamily-outlook.json (rates/cap-rate outlook)
+  - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
+  - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
+  - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
+  - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
+  - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
+  - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
+  - data/market/hud_zip_tract_crosswalk_co.json (HUD-USPS ZIP-to-tract crosswalk)
+  - data/market/fhfa_hpi_subcounty_co.json (FHFA tract-derived sub-county HPI)
+  - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
+  - data/market/developable_land_context_co.json (tract developable-land context)
+  - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
 
 Each was added in a one-time commit and has no refresh workflow. The UI
 discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -26,9 +37,10 @@ update cadence*; staleness here is advisory. Warn-only, always exits 0,
 and deliberately NOT part of test:ci.
 
 What it checks, per file:
-  1. `meta.next_expected_update` (when present) has not passed.
-  2. `meta.as_of` (falling back to `meta.vintage`) is not older than
-     STALE_AFTER_DAYS (60 — both sources publish roughly quarterly).
+  1. `review_by` dates (when present in meta or entries) have not passed.
+  2. `meta.next_expected_update` (when present) has not passed.
+  3. `meta.as_of` (falling back to `meta.vintage`) is not older than
+     STALE_AFTER_DAYS (60 by default; annual sources can declare a longer cadence).
 
 Date parsing accepts, in order:
   - ISO dates ("2026-07-01")
@@ -57,6 +69,62 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/freddie-mac-multifamily-outlook.json',
     label: 'Freddie Mac multifamily outlook',
+  },
+  {
+    file: 'data/market/tax-credit-transfer-pricing.json',
+    label: 'Tax-credit transfer pricing',
+    reviewByPaths: ['meta.review_by', 'markets[].review_by'],
+  },
+  {
+    file: 'data/market/colorado-equity-pricing-factors.json',
+    label: 'Colorado LIHTC equity pricing factors',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/policy/tax-credit-legislation.json',
+    label: 'Tax-credit legislation watchlist',
+    reviewByPaths: ['meta.review_by', 'entries[].review_by'],
+  },
+  {
+    file: 'data/policy/homeownership-programs.json',
+    label: 'Homeownership programs watchlist',
+    reviewByPaths: ['meta.review_by', 'programs[].review_by'],
+  },
+  {
+    file: 'data/policy/lihtc-assumptions.json',
+    label: 'LIHTC predictor assumptions',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/colorado-foreclosure-performance.json',
+    label: 'Colorado foreclosure performance',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/hud_zip_tract_crosswalk_co.json',
+    label: 'HUD-USPS ZIP-to-tract crosswalk',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/fhfa_hpi_subcounty_co.json',
+    label: 'FHFA tract-derived sub-county HPI',
+    reviewByPaths: ['meta.review_by'],
+    staleAfterDays: 400,
+  },
+  {
+    file: 'data/market/redfin_place_market_tracker_co.json',
+    label: 'Redfin ZIP-derived place market tracker',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/developable_land_context_co.json',
+    label: 'Colorado tract developable-land context',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/travel_time_matrix_co.json',
+    label: 'Colorado tract-to-regional-hub travel-time matrix',
+    reviewByPaths: ['meta.review_by'],
   },
 ];
 

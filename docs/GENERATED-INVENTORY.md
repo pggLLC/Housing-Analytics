@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T07:29:32.568Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T08:57:33.411Z. Do not edit by hand.
 
 ---
 
@@ -1630,7 +1630,7 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 396.0 KB | ✅ | — |
+| `data/url-health.json` | 405.9 KB | ✅ | — |
 
 ---
 

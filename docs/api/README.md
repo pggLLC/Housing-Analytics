@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-07-13. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-07-20. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -87,11 +87,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`place-profile-help.js`](./js__place-profile-help.md) | js/place-profile-help. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
+| [`pma-barrier-aware.js`](./js__pma-barrier-aware.md) | js/pma-barrier-aware. | 0 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 10 |
+| [`pma-commute-context.js`](./js__pma-commute-context.md) | js/pma-commute-context. | 0 |
 | [`pma-commuting.js`](./js__pma-commuting.md) | js/pma-commuting. | 7 |
 | [`pma-competitive-set.js`](./js__pma-competitive-set.md) | js/pma-competitive-set. | 6 |
 | [`pma-confidence.js`](./js__pma-confidence.md) | js/pma-confidence. | 7 |
-| [`pma-delineation.js`](./js__pma-delineation.md) | js/pma-delineation. | 7 |
+| [`pma-delineation.js`](./js__pma-delineation.md) | js/pma-delineation. | 5 |
 | [`pma-employment-centers.js`](./js__pma-employment-centers.md) | js/pma-employment-centers. | 5 |
 | [`pma-infrastructure.js`](./js__pma-infrastructure.md) | js/pma-infrastructure. | 8 |
 | [`pma-justification.js`](./js__pma-justification.md) | js/pma-justification. | 6 |
@@ -156,6 +158,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`equity-forecast-panel.js`](./js__components__equity-forecast-panel.md) | js/components/equity-forecast-panel. | 0 |
 | [`export-panel.js`](./js__components__export-panel.md) | export-panel. | 1 |
 | [`fetch-error-surface.js`](./js__components__fetch-error-surface.md) | fetch-error-surface. | 0 |
+| [`funding-context-card.js`](./js__components__funding-context-card.md) | js/components/funding-context-card. | 0 |
+| [`homeownership-programs.js`](./js__components__homeownership-programs.md) | js/components/homeownership-programs. | 0 |
 | [`hos-renderer.js`](./js__components__hos-renderer.md) | js/components/hos-renderer. | 0 |
 | [`housing-type-need.js`](./js__components__housing-type-need.md) | js/components/housing-type-need. | 0 |
 | [`inline-glossary.js`](./js__components__inline-glossary.md) | inline-glossary. | 0 |
@@ -188,6 +192,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`subject-project.js`](./js__components__subject-project.md) | js/components/subject-project. | 0 |
 | [`subject-rent-comparison.js`](./js__components__subject-rent-comparison.md) | js/components/subject-rent-comparison. | 0 |
 | [`tax-abatement.js`](./js__components__tax-abatement.md) | js/components/tax-abatement. | 0 |
+| [`tax-credit-equity-markets.js`](./js__components__tax-credit-equity-markets.md) | js/components/tax-credit-equity-markets. | 0 |
 | [`tornado-sensitivity.js`](./js__components__tornado-sensitivity.md) | js/components/tornado-sensitivity. | 0 |
 | [`vacancy-context.js`](./js__components__vacancy-context.md) | js/components/vacancy-context. | 1 |
 | [`watchlist.js`](./js__components__watchlist.md) | _no header_ | 3 |
@@ -272,6 +277,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | Module | Summary | Symbols |
 |---|---|---:|
 | [`augment_lihtc_by_geometry.mjs`](./scripts__augment_lihtc_by_geometry.md) | _no header_ | 1 |
+| [`augment-local-resources.js`](./scripts__augment-local-resources.md) | _no header_ | 1 |
 | [`backfill_dp04_value_brackets.mjs`](./scripts__backfill_dp04_value_brackets.md) | _no header_ | 6 |
 | [`build_rent_burden_crosscheck.mjs`](./scripts__build_rent_burden_crosscheck.md) | _no header_ | 1 |
 | [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | _no header_ | 5 |
@@ -307,6 +313,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`data-freshness-check.mjs`](./scripts__audit__data-freshness-check.md) | _no header_ | 1 |
 | [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | _no header_ | 1 |
 | [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | _no header_ | 1 |
+| [`pages-deploy-watchdog.mjs`](./scripts__audit__pages-deploy-watchdog.md) | _no header_ | 1 |
 | [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | _no header_ | 3 |
 | [`refresh-external-references.mjs`](./scripts__audit__refresh-external-references.md) | _no header_ | 1 |
 | [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | _no header_ | 1 |

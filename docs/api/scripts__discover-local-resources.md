@@ -52,6 +52,12 @@ const NOW = new Date().toISOString();
 const TIMEOUT_MS = 8_000;
 const CONCURRENCY = 4;       // Be polite — these are .gov sites
 const LIMIT_DEFAULT = 30;
+const DENIED_CANDIDATE_HOSTS = new Set([
+  // #1194: wrong-state/squatter domain that recurred for Greenwood Village.
+  // Official city site is https://www.greenwoodvillage.com/.
+  'townofgreenwood.org',
+  'www.townofgreenwood.org',
+]);
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
