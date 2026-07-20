@@ -96,6 +96,8 @@ async function main() {
 
   const selector = read('js/jurisdiction-selector.js');
   assert(selector.includes('findPlaceByGeoid'), 'selector resolves places/CDPs by registry geoid');
+  assert(selector.includes('countyFips: placeCountyFips'), 'selector place payload stores non-null countyFips from registry');
+  assert(selector.includes('fips: placeCountyFips'), 'selector place payload keeps legacy fips aligned to containing county');
   assert(!/stripSuffix\(allP\[i\]\.label\)\s*===\s*target/.test(execOnly(selector)),
     'selector no longer relies on final label-string matching in handleContinue');
 
