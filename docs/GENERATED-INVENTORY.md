@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T19:30:38.501Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T21:02:51.127Z. Do not edit by hand.
 
 ---
 
@@ -38,8 +38,8 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.1 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.8 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-206 test files found.
+207 test files found.
 
 | File | Size |
 |------|------|
@@ -1651,6 +1651,7 @@
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/caching.test.js` | 7.3 KB |
+| `test/canonical-geography-contract.test.js` | 6.0 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
@@ -1678,7 +1679,7 @@
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
-| `test/deal-calc-workflow-prefill.test.js` | 2.2 KB |
+| `test/deal-calc-workflow-prefill.test.js` | 1.9 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
@@ -1820,7 +1821,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-state-set-jurisdiction.test.js` | 5.1 KB |
+| `test/workflow-state-set-jurisdiction.test.js` | 6.6 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 3.0 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
