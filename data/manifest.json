@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-19T17:41:59.417040Z",
+  "generated": "2026-07-20T05:42:39.169028Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 767351
+      "bytes": 767738
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 209094
+      "bytes": 189097
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7854,7 +7854,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 167795
+      "bytes": 153203
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
