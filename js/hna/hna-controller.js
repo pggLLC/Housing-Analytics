@@ -1357,11 +1357,42 @@
     }
   }
 
+  function _assertCensusGetVariableLimit(vars, contextLabel) {
+    const count = Array.isArray(vars)
+      ? vars.filter(Boolean).length
+      : String(vars || '').split(',').filter(Boolean).length;
+    if (count > 50) {
+      throw new Error('[HNA] Census get= request exceeds 50 variables (' + count + ') for ' + (contextLabel || 'Census API'));
+    }
+  }
+
+  function _censusGetVarsFromUrl(url) {
+    try {
+      const parsed = new URL(url);
+      const get = parsed.searchParams.get('get');
+      if (!get) return null;
+      return get.split(',').filter(Boolean);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function _buildCensusUrl(base, vars, forParam, inParam, key, contextLabel, encodeGeo) {
+    _assertCensusGetVariableLimit(vars, contextLabel);
+    let qs = 'get=' + encodeURIComponent(vars.join(','));
+    qs += '&for=' + (encodeGeo ? encodeURIComponent(forParam) : forParam);
+    if (inParam) qs += '&in=' + (encodeGeo ? encodeURIComponent(inParam) : inParam);
+    if (key) qs += '&key=' + encodeURIComponent(key);
+    return base + '?' + qs;
+  }
+
   // Fetch a Census API URL with timeout/retry (via fetchWithTimeout) and
   // detailed error logging.  Handles transient HTTP errors (408, 429, 5xx)
   // by waiting and retrying once.  Returns the Response object on any HTTP
   // reply (callers check resp.ok), or null on unrecoverable network failure.
   async function _fetchCensusUrl(url, contextLabel) {
+    const getVars = _censusGetVarsFromUrl(url);
+    if (getVars) _assertCensusGetVariableLimit(getVars, contextLabel);
     const safeUrl = window.HNAUtils.redactKey(url);
     const label = contextLabel || 'Census API';
     const TRANSIENT = new Set([408, 429, 500, 502, 503, 504]);
@@ -1422,55 +1453,60 @@
     // types; the actual structure-type codes are 0007E-0014E. Same
     // for tenure: 0046E/0047E are the COUNT codes (preferred for
     // chart rendering); the PE-suffixed versions are percentages.
-    const vars = [
-      // DP05 population
-      'DP05_0001E',
-      // DP02 households
-      'DP02_0001E',
-      // DP03 income
-      'DP03_0062E',
-      // DP04 housing — occupancy + tenure + key metrics
-      'DP04_0001E',  // Total housing units
-      'DP04_0002E',  // Occupied housing units (count)
-      'DP04_0003E',  // Vacant housing units (count)
-      'DP04_0046E',  // Owner-occupied (count)  ← needed by chartTenure
-      'DP04_0046PE', // Owner-occupied (%)
-      'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
-      'DP04_0047PE', // Renter-occupied (%)
-      'DP04_0089E',  // Median home value (owner-occupied)
-      // F160 — Owner-occupied home value distribution (DP04_0080-0088).
-      // Used by chartHomeValue to render the bracket breakdown
-      // (<$50K / $50-100K / $100-150K / $150-200K / $200-300K /
-      // $300-500K / $500K-1M / $1M+). Without these the HNA only
-      // shows the median, which hides the underlying skew.
-      'DP04_0080E',  // Owner-occupied units (total — denominator)
-      'DP04_0081E',  // Less than $50,000
-      'DP04_0082E',  // $50,000 to $99,999
-      'DP04_0083E',  // $100,000 to $149,999
-      'DP04_0084E',  // $150,000 to $199,999
-      'DP04_0085E',  // $200,000 to $299,999
-      'DP04_0086E',  // $300,000 to $499,999
-      'DP04_0087E',  // $500,000 to $999,999
-      'DP04_0088E',  // $1,000,000 or more
-      'DP04_0134E',  // Median gross rent
-      // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
-      'DP04_0007E', // 1-unit detached
-      'DP04_0008E', // 1-unit attached
-      'DP04_0009E', // 2 units
-      'DP04_0010E', // 3 or 4 units
-      'DP04_0011E', // 5 to 9 units
-      'DP04_0012E', // 10 to 19 units
-      'DP04_0013E', // 20 or more units
-      'DP04_0014E', // Mobile home
-      // Rent burden bins (GRAPI), ACS 2023+ DP04 profile codes.
-      // DP04_0141PE = 30-34.9%; DP04_0142PE = 35%+.
-      'DP04_0137PE', // <15%
-      'DP04_0138PE', // 15-19.9%
-      'DP04_0139PE', // 20-24.9%
-      'DP04_0140PE', // 25-29.9%
-      'DP04_0141PE', // 30-34.9%
-      'DP04_0142PE', // 35%+
+    const profileVarBatches = [
+      [
+        // DP05 population
+        'DP05_0001E',
+        // DP02 households
+        'DP02_0001E',
+        // DP03 income
+        'DP03_0062E',
+      ],
+      [
+        // DP04 housing — occupancy + tenure + key metrics
+        'DP04_0001E',  // Total housing units
+        'DP04_0002E',  // Occupied housing units (count)
+        'DP04_0003E',  // Vacant housing units (count)
+        'DP04_0046E',  // Owner-occupied (count)  ← needed by chartTenure
+        'DP04_0046PE', // Owner-occupied (%)
+        'DP04_0047E',  // Renter-occupied (count) ← needed by chartTenure
+        'DP04_0047PE', // Renter-occupied (%)
+        'DP04_0089E',  // Median home value (owner-occupied)
+        // F160 — Owner-occupied home value distribution (DP04_0080-0088).
+        // Used by chartHomeValue to render the bracket breakdown
+        // (<$50K / $50-100K / $100-150K / $150-200K / $200-300K /
+        // $300-500K / $500K-1M / $1M+). Without these the HNA only
+        // shows the median, which hides the underlying skew.
+        'DP04_0080E',  // Owner-occupied units (total — denominator)
+        'DP04_0081E',  // Less than $50,000
+        'DP04_0082E',  // $50,000 to $99,999
+        'DP04_0083E',  // $100,000 to $149,999
+        'DP04_0084E',  // $150,000 to $199,999
+        'DP04_0085E',  // $200,000 to $299,999
+        'DP04_0086E',  // $300,000 to $499,999
+        'DP04_0087E',  // $500,000 to $999,999
+        'DP04_0088E',  // $1,000,000 or more
+        'DP04_0134E',  // Median gross rent
+        // DP04 housing — structure type (UNITS IN STRUCTURE), ACS 2023
+        'DP04_0007E', // 1-unit detached
+        'DP04_0008E', // 1-unit attached
+        'DP04_0009E', // 2 units
+        'DP04_0010E', // 3 or 4 units
+        'DP04_0011E', // 5 to 9 units
+        'DP04_0012E', // 10 to 19 units
+        'DP04_0013E', // 20 or more units
+        'DP04_0014E', // Mobile home
+        // Rent burden bins (GRAPI), ACS 2023+ DP04 profile codes.
+        // DP04_0141PE = 30-34.9%; DP04_0142PE = 35%+.
+        'DP04_0137PE', // <15%
+        'DP04_0138PE', // 15-19.9%
+        'DP04_0139PE', // 20-24.9%
+        'DP04_0140PE', // 25-29.9%
+        'DP04_0141PE', // 30-34.9%
+        'DP04_0142PE', // 35%+
+      ],
     ];
+    const vars = profileVarBatches.flat();
 
     const forParam = geoType === 'county'
       ? `county:${geoid.slice(2,5)}`
@@ -1483,42 +1519,51 @@
     const inParam = geoType === 'state' ? null : `state:${window.HNAUtils.STATE_FIPS_CO}`;
     const key = window.HNAUtils.censusKey();
 
-    function buildUrl(year, dataset){
+    function buildUrl(year, dataset, batchVars){
       const base = `https://api.census.gov/data/${year}/${dataset}`;
       // Build query string manually to keep literal colons in the Census API
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
-      if (inParam) qs += `&in=${inParam}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      return `${base}?${qs}`;
+      return _buildCensusUrl(base, batchVars.concat('NAME'), forParam, inParam, key, 'ACS profile ' + geoType + ':' + geoid + ' y=' + year, false);
     }
 
-    const url1 = buildUrl(window.HNAUtils.ACS_YEAR_PRIMARY,  'acs/acs1/profile');
-    let r = await _fetchCensusUrl(url1, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + window.HNAUtils.ACS_YEAR_PRIMARY);
+    async function fetchMergedProfile(year, dataset, seriesLabel) {
+      const out = {};
+      for (let i = 0; i < profileVarBatches.length; i++) {
+        const batchVars = profileVarBatches[i];
+        const url = buildUrl(year, dataset, batchVars);
+        const resp = await _fetchCensusUrl(url, seriesLabel + ' profile ' + geoType + ':' + geoid + ' y=' + year + ' batch=' + (i + 1));
+        if (!resp || !resp.ok) return null;
+        let arr;
+        try { arr = await resp.json(); } catch (_) { return null; }
+        if (!Array.isArray(arr) || arr.length < 2 || !Array.isArray(arr[0]) || !Array.isArray(arr[1])) return null;
+        const header = arr[0];
+        const row = arr[1];
+        header.forEach((h, idx) => { out[h] = row[idx]; });
+      }
+      return out;
+    }
+
+    let out = await fetchMergedProfile(window.HNAUtils.ACS_YEAR_PRIMARY, 'acs/acs1/profile', 'ACS1');
     let usedYear = window.HNAUtils.ACS_YEAR_PRIMARY;
     let usedSeries = 'acs1';
-    let url2 = null;
-    if (!r || !r.ok){
+    if (!out){
       // Probe vintages newest-first for ACS 1-year
-      r = null;
       for (const v of window.HNAUtils.ACS_VINTAGES) {
-        const u = buildUrl(v, 'acs/acs1/profile');
-        const resp = await _fetchCensusUrl(u, 'ACS1 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs1'; break; }
+        const merged = await fetchMergedProfile(v, 'acs/acs1/profile', 'ACS1');
+        if (merged){ out = merged; usedYear = v; usedSeries = 'acs1'; break; }
       }
     }
-    if (!r || !r.ok){
+    if (!out){
       if (window.HNAUtils.DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS1 exhausted for ' + geoType + ':' + geoid + '; trying ACS5 profile');
       // Try ACS 5-year vintage probe
       for (const v of window.HNAUtils.ACS_VINTAGES) {
-        url2 = buildUrl(v, 'acs/acs5/profile');
-        const resp = await _fetchCensusUrl(url2, 'ACS5 profile ' + geoType + ':' + geoid + ' y=' + v);
-        if (resp && resp.ok){ r = resp; usedYear = v; usedSeries = 'acs5'; break; }
+        const merged = await fetchMergedProfile(v, 'acs/acs5/profile', 'ACS5');
+        if (merged){ out = merged; usedYear = v; usedSeries = 'acs5'; break; }
       }
     }
-    if (!r || !r.ok){
+    if (!out){
       if (window.HNAUtils.DEBUG_HNA) console.warn('[HNA] fetchAcsProfile: ACS5 profile exhausted for ' + geoType + ':' + geoid + '; falling back to B-series');
       // ACS profile/subject tables may not support this geography or these
       // variable codes for the requested year.  Fall back to ACS 5-year
@@ -1526,11 +1571,6 @@
       // uses stable variable codes.
       return await fetchAcs5BSeries(geoType, geoid);
     }
-    const arr = await r.json();
-    const header = arr[0];
-    const row = arr[1];
-    const out = {};
-    header.forEach((h,i)=>{out[h]=row[i];});
     out._acsYear = usedYear;
     out._acsSeries = usedSeries;
     return out;
@@ -1558,10 +1598,7 @@
     const key = window.HNAUtils.censusKey();
     function buildUrl(year) {
       const base = 'https://api.census.gov/data/' + year + '/acs/acs5';
-      let qs = 'get=' + encodeURIComponent(vars.join(','));
-      qs += '&for=' + forParam + '&in=' + inParam;
-      if (key) qs += '&key=' + encodeURIComponent(key);
-      return base + '?' + qs;
+      return _buildCensusUrl(base, vars, forParam, inParam, key, 'ACS5 B01001 ' + geoType + ':' + geoid + ' y=' + year, false);
     }
     // Try primary then fall back through known vintages
     let resp = null;
@@ -1634,11 +1671,7 @@
     const inParam = geoType === 'state' ? null : ('state:' + window.HNAUtils.STATE_FIPS_CO);
     function buildUrl(year) {
       const base = 'https://api.census.gov/data/' + year + '/acs/acs5';
-      let qs = 'get=' + encodeURIComponent(vars.join(','));
-      qs += '&for=' + forParam;
-      if (inParam) qs += '&in=' + inParam;
-      if (key) qs += '&key=' + encodeURIComponent(key);
-      return base + '?' + qs;
+      return _buildCensusUrl(base, vars, forParam, inParam, key, 'ACS5 B25009 ' + geoType + ':' + geoid + ' y=' + year, false);
     }
     let resp = null;
     const years = [window.HNAUtils.ACS_YEAR_PRIMARY].concat(window.HNAUtils.ACS_VINTAGES || []);
@@ -1719,10 +1752,7 @@
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
       // For state-level queries omit the &in= parameter (it is not needed).
-      let qs = `get=${encodeURIComponent(bVars.join(',') + ',NAME')}&for=${forParam}`;
-      if (!isState) qs += `&in=state:${window.HNAUtils.STATE_FIPS_CO}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      const u = `${base}?${qs}`;
+      const u = _buildCensusUrl(base, bVars.concat('NAME'), forParam, isState ? null : `state:${window.HNAUtils.STATE_FIPS_CO}`, key, 'ACS5 B-series ' + geoType + ':' + geoid + ' y=' + v, false);
       const resp = await _fetchCensusUrl(u, 'ACS5 B-series ' + geoType + ':' + geoid + ' y=' + v);
       if (resp && resp.ok){ bResp = resp; bYear = v; break; }
     }
@@ -1837,10 +1867,7 @@
       // geography parameters (for= and in=). URLSearchParams encodes ':' as
       // '%3A', which the Census API does not decode, causing it to report
       // "ambiguous geography" errors for county-level queries.
-      let qs = `get=${encodeURIComponent(vars.join(',') + ',NAME')}&for=${forParam}`;
-      if (inParam) qs += `&in=${inParam}`;
-      if (key) qs += `&key=${encodeURIComponent(key)}`;
-      return `${base}?${qs}`;
+      return _buildCensusUrl(base, vars.concat('NAME'), forParam, inParam, key, 'ACS S0801 ' + geoType + ':' + geoid + ' y=' + year, false);
     }
 
     // ACS 1-year data is not published for geographic units with fewer than
@@ -2031,10 +2058,12 @@
    * (the income bracket field that gates all extended chart rendering).
    */
   async function fetchAcsExtended(geoType, geoid) {
-    // Split into two batches to stay well under the ACS profile API's 50-variable limit.
-    // Batch A: Housing + income vars (DP03 + DP04) — 41 variables
-    // Batch B: Special needs population vars (DP05 + DP02) — 9 variables
-    // Each batch is fetched independently; a failure in one does not prevent the other
+    // Split into batches with headroom under the ACS profile API's 50-variable limit.
+    // Batch A: Income + core housing detail — 34 variables
+    // Batch B: Home-value, burden, tenure, and special-needs vars — 29 variables
+    // Batch C: Household composition, occupation, labor, and education vars — 31 variables
+    // Batch D: Race / ethnicity vars — 10 variables
+    // Each batch is fetched independently; a failure in one does not prevent the others
     // from returning data, so charts that depend on only one batch still render.
 
     var batchA = [
@@ -2053,6 +2082,9 @@
       // Structure type (ACS 2023: DP04_0007E=1-unit detached … DP04_0014E=mobile home)
       'DP04_0007E','DP04_0008E','DP04_0009E','DP04_0010E',
       'DP04_0011E','DP04_0012E','DP04_0013E','DP04_0014E',
+    ];
+
+    var batchB = [
       // F160 — Owner-occupied home value distribution (chartHomeValue).
       // DP04_0080E = total; 0081E-0088E = bracket counts (<\$50K → \$1M+).
       // The median (DP04_0089E) is in primary fetch; brackets ride here so
@@ -2074,9 +2106,6 @@
       // path gets the full tenure picture without waiting for the next
       // CHAS/ACS data-refresh cron to regenerate every summary file.
       'DP04_0002E','DP04_0003E','DP04_0046E',
-    ];                                                        // 44 variables (still <50 ACS limit)
-
-    var batchB = [
       // Special needs population (renderSpecialNeedsPanel)
       'DP05_0016E', // 75–84 years (used to compute 75+ aggregate)
       'DP05_0017E', // 85 years and over
@@ -2087,6 +2116,9 @@
       'DP02_0009E', // male single-parent HH
       'DP02_0013E', // female single-parent HH
       'DP02_0072E', // with a disability
+    ];
+
+    var batchC = [
       // F169 — Household composition + occupation + labor-force status.
       // Powers the "Household composition, occupation & labor force"
       // panel: household type (married / cohabiting / single parent /
@@ -2129,6 +2161,9 @@
       'DP02_0066E', // Graduate or professional degree
       'DP02_0067E', // HS grad or higher (count)
       'DP02_0068E', // Bachelor's or higher (count)
+    ];
+
+    var batchD = [
       // F170 — Race / ethnicity (DP05 — all "alone" categories):
       'DP05_0033E', // Total population (RACE denominator)
       'DP05_0035E', // Two or more races
@@ -2140,7 +2175,7 @@
       'DP05_0074E', // Some Other Race alone
       'DP05_0090E', // Hispanic or Latino (any race)
       'DP05_0096E', // Not Hispanic, White alone
-    ];                                                        // 50 variables
+    ];
 
     var forParam = geoType === 'county'
       ? 'county:' + geoid.slice(2, 5)
@@ -2154,10 +2189,7 @@
 
     function buildUrl(yr, vars) {
       var base = 'https://api.census.gov/data/' + yr + '/acs/acs5/profile';
-      var qs   = 'get=' + encodeURIComponent(vars.join(',')) + '&for=' + forParam;
-      if (inParam) qs += '&in=' + inParam;
-      if (key)     qs += '&key=' + encodeURIComponent(key);
-      return base + '?' + qs;
+      return _buildCensusUrl(base, vars, forParam, inParam, key, 'ACS5 extended ' + geoType + ':' + geoid + ' y=' + yr, false);
     }
 
     // Fetch one batch; returns a flat {varCode: value} object or {} on failure.
@@ -2181,19 +2213,21 @@
       }
     }
 
-    // Run both batches concurrently; merge results (batchB wins on any overlap — none expected).
+    // Run batches concurrently; later batches win on any overlap — none expected.
     var results = await Promise.all([
       fetchBatch(batchA, 'A (housing+income)'),
-      fetchBatch(batchB, 'B (special-needs pop)'),
+      fetchBatch(batchB, 'B (home+burden+special-needs)'),
+      fetchBatch(batchC, 'C (household+education)'),
+      fetchBatch(batchD, 'D (race+ethnicity)'),
     ]);
-    return Object.assign({}, results[0], results[1]);
+    return Object.assign({}, results[0], results[1], results[2], results[3]);
   }
 
 
   async function fetchAcs5Trend(year, geoType, geoid){
     // Minimal ACS5 profile pull used for trend estimates (population + households).
     // This is only used for municipal scaling and headship trend when user selects "Trend".
-    const vars = ['DP05_0001E','DP02_0001E'].join(',');
+    const vars = ['DP05_0001E','DP02_0001E'];
     const key = window.HNAUtils.censusKey();
     const stateF = geoid.slice(0,2);
     const code = geoid.slice(2);
@@ -2202,13 +2236,12 @@
     const forPart = (geoType==='county') ? `county:${code}` : `place:${code}`;
     const inPart = `state:${stateF}`;
 
-    const keySuffix = key ? '&key=' + encodeURIComponent(key) : '';
-    const url = `${dataset}?get=${encodeURIComponent(vars)}&for=${encodeURIComponent(forPart)}&in=${encodeURIComponent(inPart)}` + keySuffix;
+    const url = _buildCensusUrl(dataset, vars, forPart, inPart, key, 'ACS5 trend ' + geoType + ':' + geoid + ' y=' + year, true);
     const r = await fetch(url);
     if (!r.ok){
       // For CDPs, ACS5 profile may not support CDP geography; fall back to B-series.
       if (geoType === 'cdp'){
-        const bUrl = `https://api.census.gov/data/${year}/acs/acs5?get=${encodeURIComponent('B01003_001E,B11001_001E,NAME')}&for=` + encodeURIComponent('place:' + code) + `&in=${encodeURIComponent(inPart)}` + keySuffix;
+        const bUrl = _buildCensusUrl(`https://api.census.gov/data/${year}/acs/acs5`, ['B01003_001E','B11001_001E','NAME'], 'place:' + code, inPart, key, 'ACS5 trend B-series ' + geoType + ':' + geoid + ' y=' + year, true);
         const rb = await fetch(bUrl);
         if (!rb.ok) throw new Error(`ACS5 trend HTTP ${rb.status}`);
         const jb = await rb.json();
@@ -3771,6 +3804,8 @@
   window.__HNA_renderEconomicIndicators = window.HNARenderers.renderEconomicIndicators;
   window.__HNA_renderFmrPanel          = window.HNARenderers.renderFmrPanel;
   window.__HNA_renderChasAffordabilityGap = window.HNARenderers.renderChasAffordabilityGap;
+  window.__HNA_fetchAcsProfileForTest = fetchAcsProfile;
+  window.__HNA_buildCensusUrlForTest = _buildCensusUrl;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);

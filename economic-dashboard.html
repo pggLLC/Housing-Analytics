@@ -624,10 +624,10 @@ document.addEventListener('DOMContentLoaded', function () {
     multifamily units nationally. Cross-check against the Apartment List + Zillow ZORI panels
     above — divergence usually signals one source has stale data.
   </p>
-  <div id="yardiNational" style="background:var(--surface-2,#f7f7f9);padding:var(--sp3);border-radius:var(--radius);margin-bottom:var(--sp3);font-size:.88rem;line-height:1.6;color:var(--muted);">Loading national…</div>
+  <div id="yardiNational" style="background:var(--surface-2,#f7f7f9);padding:var(--sp3);border-radius:var(--radius);margin-bottom:var(--sp3);font-size:.88rem;line-height:1.6;color:var(--text);">Loading national…</div>
   <h3 style="margin:0 0 var(--sp2);">Colorado metros</h3>
   <div id="yardiCoMetros" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--sp3);"></div>
-  <div id="yardiImplications" style="margin-top:var(--sp3);padding:var(--sp3);border-left:3px solid var(--accent);background:var(--surface-2,#f7f7f9);font-size:.85rem;line-height:1.6;"></div>
+  <div id="yardiImplications" style="margin-top:var(--sp3);padding:var(--sp3);border-left:3px solid var(--accent);background:var(--surface-2,#f7f7f9);font-size:.85rem;line-height:1.6;color:var(--text);"></div>
   <p id="yardiUpdated" style="font-size:.74rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
   <script>
   /* F238 — Yardi Matrix national + CO metro rent benchmarks.
@@ -648,7 +648,7 @@ document.addEventListener('DOMContentLoaded', function () {
           // can diverge 5-25% in tight markets and the silent mismatch
           // erodes trust when a planner toggles between pages.
           natEl.innerHTML =
-            '<strong style="color:var(--text);">National:</strong> ' +
+            '<strong style="color:var(--text-strong);">National:</strong> ' +
             '<strong style="color:var(--accent);">+' + (nat.asking_rent_yoy_pct || 0).toFixed(1) + '%</strong> YoY asking-rent growth · ' +
             '<strong style="color:var(--accent);">' + (nat.occupancy_pct || 0).toFixed(1) + '%</strong> occupancy · ' +
             'median <strong>asking</strong> rent $' + (nat.median_asking_rent_all_br || 0).toLocaleString() +
@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function () {
           Object.keys(metros).forEach(function (key) {
             var m = metros[key];
             var label = METRO_LABELS[key] || key.replace(/_/g, ' ');
-            var growthColor = m.asking_rent_yoy_pct >= 1.5 ? 'var(--good)' : (m.asking_rent_yoy_pct < 1 ? 'var(--warn)' : 'var(--accent)');
+            var growthColor = m.asking_rent_yoy_pct >= 1.5 ? 'var(--good)' : (m.asking_rent_yoy_pct < 1 ? '#92400e' : 'var(--accent)');
             html += '<div style="padding:var(--sp3);background:var(--surface,#fff);border:1px solid var(--border);border-radius:var(--radius);">' +
               '<div style="font-weight:600;font-size:.95rem;margin-bottom:var(--sp2);color:var(--text-strong);">' + label + '</div>' +
               '<div style="font-size:.83rem;line-height:1.6;color:var(--muted);">' +
@@ -689,8 +689,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (implEl && j.lihtc_dev_implications) {
           var impl = j.lihtc_dev_implications;
           implEl.innerHTML =
-            '<strong style="color:var(--text);">For LIHTC underwriting:</strong> ' + (impl.what_this_says_for_underwriting || '') +
-            '<br><br><strong style="color:var(--text);">Rent growth assumption:</strong> ' + (impl.rent_growth_assumption || '');
+            '<strong style="color:var(--text-strong);">For LIHTC underwriting:</strong> ' + (impl.what_this_says_for_underwriting || '') +
+            '<br><br><strong style="color:var(--text-strong);">Rent growth assumption:</strong> ' + (impl.rent_growth_assumption || '');
         }
         // Update timestamp
         var updEl = document.getElementById('yardiUpdated');

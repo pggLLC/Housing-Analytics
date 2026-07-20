@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-20T07:57:28.896261Z",
+  "generated": "2026-07-20T10:45:39.580035Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -209,7 +209,7 @@
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 15366
+      "bytes": 15327
     },
     "data/co-demographics.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 241428
+      "bytes": 241750
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4084,7 +4084,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28451
+      "bytes": 25430
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -7859,7 +7859,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20132
+      "bytes": 20136
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -7944,7 +7944,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 405528
+      "bytes": 415646
     }
   }
 }

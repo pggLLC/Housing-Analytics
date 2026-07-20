@@ -1,11 +1,164 @@
 {
   "meta": {
-    "generated": "2026-07-20T04:34:51Z",
+    "generated": "2026-07-20T10:57:19Z",
     "feed_count": 6,
-    "alert_count": 271,
+    "alert_count": 297,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Rep. Case introduces bill to boost transit-oriented affordable housing - Maui Now",
+      "date": "2026-07-19T18:00:00Z",
+      "source": "Maui Now",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNZTBKU1RDV1FmWUkxMHg0SWRDZVVITm9CXzJCaVdRdzFuNWhsYVl2RkEtMEhTYkpWaFpSMGlvRE5xV09DVG55dzljQ09zMFkybUwzWlVrT0ZFM0ZFZUNpS0lVRlpQWnpJTFdzUlRoeGtkdWdGZ1d2ZHl2a2hkckJEQVV5dDVlOE51R2hqcndEaTlQSDdOaXRHS2QzU2pld2xIMzg4?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Rep. Case introduces bill to boost transit-oriented affordable housing \u00a0\u00a0 Maui Now"
+    },
+    {
+      "title": "Cost of housing, healthcare among Coloradans\u2019 top worries, new survey shows - Colorado Newsline",
+      "date": "2026-07-17T18:21:52Z",
+      "source": "Colorado Newsline",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1BUU54em05b29lcnNVV2tKc3h0ZklVa1pZMHFsaE1FeS1WUGZoaDNLVVkxRjZBb2NoaHBsWDdwMmQ3VXRoMXpNRW9HcWZnYVY4eDZTbktsLWI5d2l4dndtM0lEbmxjYzJCc2RBOWM1Y1R1YWVtYXE2bXRlcmtLejg?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Cost of housing, healthcare among Coloradans\u2019 top worries, new survey shows \u00a0\u00a0 Colorado Newsline"
+    },
+    {
+      "title": "Three-quarters of Coloradans are worried they can\u2019t afford to live here, poll finds - The Denver Post",
+      "date": "2026-07-17T10:00:54Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQY1dUYUhjMDQ4S1JTeTdVbWt5dHdBZlpjdFVIUVYyTXF3OWxyaE9iZ0tPNVkwMDZvZDlNOXR4WGl3NnoxVWtLZENrcmR0MGQ5Uks4TUw4ZGFud2g3RVlfYXhETjdPNTZfZ09jNlFqZ051bkZvcFRoTTJia0FIQnBQT01XdXV4NkpoTjB4MTRJNU1sam1vWUM2d1B2T0c4cEst?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Three-quarters of Coloradans are worried they can\u2019t afford to live here, poll finds \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Greystone\u2019s new $137M fund lands as LIHTC investment rises - HousingWire",
+      "date": "2026-07-16T21:24:52Z",
+      "source": "HousingWire",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1fRk42SEZLaDF1SWhWbWJwek5RMDFoUzBNdTc5OEpjNGYxZG1rdXdjX0FrZnRidy0xeG1vekl5Y25CRmNQdXJoT1k5ZjI2Qk1oclNDMXhhMm5nZldIUzlXQXJSS1E0b29BeUZtZzRlRWE3Rjg?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Greystone\u2019s new $137M fund lands as LIHTC investment rises \u00a0\u00a0 HousingWire"
+    },
+    {
+      "title": "Safehold Announces New Affordable Housing Ground Leases in Ventura County and San Diego County California - Yield PRO",
+      "date": "2026-07-16T18:32:22Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9iWjkxMEZWS0RaTi12elhxaGEtLWtOZkxETEY2MlhPOWJYMFVPSjNqREktS1hkTVcwZU1TM3VrRTZ3MldyQkpoQWo2dGhJOFJhVU85UXVGN2RDekcwcU85Q2lWTGd1VElwLXVyaE82WkQxUQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Safehold Announces New Affordable Housing Ground Leases in Ventura County and San Diego County California \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Greystone Closes $137 Million LIHTC Fund to Finance Nearly 2,000 Affordable Housing Units - citybiz",
+      "date": "2026-07-16T16:14:23Z",
+      "source": "citybiz",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNZWxpXzNRcVlLM0dDREZpRkJpTjg3b3I4Si1OY21kd1dkVXBEZ2VsSUl1QmowaDlsNC1YZE1nMWIxSXpFSWxvRTB3SWVqVk5YVFpIekpLejZqMXQ0d2d5NHF4VFhrNmEzSW14al9ZQzN6UmhTNTFNekVCQU1LWlBNamhwZ3BjVUNHY0tUamY2c0hZbVpWQlRIYTVrb0wtZ0JCOUtnOWplS1I3a0VGREZ3eF84MmVUc3VpZVRWZTAxdTlsYUlG?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Greystone Closes $137 Million LIHTC Fund to Finance Nearly 2,000 Affordable Housing Units \u00a0\u00a0 citybiz"
+    },
+    {
+      "title": "As Colorado invests in modular housing, a new player offers innovation on a shoestring - The Denver Post",
+      "date": "2026-07-16T12:00:42Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9FRFdJd1pPSDVaazFpczRYV2pHa3UxODc4XzEtdmpQcnlQOUFaSVl4R1JhQkxmSHdnVGtIcDR1Ri02RVJCSDhCVk1ndjJNcl9aRDAwV1c2MmRXOTM2eEpOR0M4RlNkck9ORldxUXRSdFBQS29MamFreXcyUHJaUQ?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "As Colorado invests in modular housing, a new player offers innovation on a shoestring \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "A low-income housing program is pouring big money into housing many Oregonians can\u2019t afford - Street Roots",
+      "date": "2026-07-15T22:38:05Z",
+      "source": "Street Roots",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOcnVxb2oyUEkxVVRZNTZCUHJfQk9nSy1CVTNRZVJjV01IckZkeE8yVFRsVXlUNUZPT05rU2kyOGU3eXhUYXZ5ZU55NzlXM1pjWk91dERERGFkU0V4RVBLS2ZKUm9XaHcxeEpRQlJYb29pX29udWZCZFJqZjl1aVZkQVV0UG9kM1c4TXFIZWZ2RTNvLU9DdDI4eG55Z01FUjh5Nkk2N0tvQTVZSkxFYkNYT3BxcldEZWk2dWxFc2lRbFNqaHltZWhrWGZLWDlrTG1LeXhQZnRiOHg3RGc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "A low-income housing program is pouring big money into housing many Oregonians can\u2019t afford \u00a0\u00a0 Street Roots"
+    },
+    {
+      "title": "Safehold secures ground leases for 570 affordable housing units in Southern California - The Business Journals",
+      "date": "2026-07-15T22:25:00Z",
+      "source": "The Business Journals",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOR0pmNXJsM2c1NWdTeGlmN1h4NUdJc2lnaU41TnJ5WTFBZ0pfUGlPem1YT2JmZGZrNURoWHlsOXF2QjE3VzAzMnlmZVAxamttMS1qZmtITnpzZkNVbGNxSkVCa2xqSjJTdlBFSXZJRVZZZDhvVGFYWnE3bmNRVjRfLTJ0T29Vd3FzcmU5a3VackVfbndDUnYtTWx6dzdkbVI3Y3U1MDEyNA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Safehold secures ground leases for 570 affordable housing units in Southern California \u00a0\u00a0 The Business Journals"
+    },
+    {
+      "title": "Five Points affordable housing building honors Dr. Justina Ford - Rocky Mountain PBS",
+      "date": "2026-07-15T12:01:11Z",
+      "source": "Rocky Mountain PBS",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOWDdEVEh6OEROcERDZUhfdVVrTzE3Z0NJeHNaa1hQVTRHeVNIU1kyNkdDOTU5Mnh0eXJaTjc2VHBQUFhkNzE0bW94MzZua01YeHVGTGpIdGd4THl5TEVodGZ0N2tQUFE1enVFVmFDUE5jelBTaXVqa3oyQ2Y1UzF4V0RSY0RYMUtfRUF5YkdYcmhGTEhESmRBbVZwa1ItU09PVWc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Five Points affordable housing building honors Dr. Justina Ford \u00a0\u00a0 Rocky Mountain PBS"
+    },
+    {
+      "title": "Ground leases taking root in affordable housing deals as costs rise - HousingWire",
+      "date": "2026-07-14T18:42:23Z",
+      "source": "HousingWire",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPTUo2X0hzY056MjFtZ3pDZUtsclZ3MHRFQ3Ftb041UUpFdExzLTh1ZklyMFVfejhKUG41YmhjODZ2ak1Ua0ktYVY0ZGdhVWI5RUs4N1FUUHRUbEFCa21KRnh1bGpHYW1MdTV3Z1pFMzdLSjdENzN5aFVDR3hqRkdyQlk0UzM4QjhkWlMwZV94YVludkIwUGgwMGU3RXZqQzIwLWJuU2lfbGQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Ground leases taking root in affordable housing deals as costs rise \u00a0\u00a0 HousingWire"
+    },
+    {
+      "title": "The \u201cROAD to Housing Act\u2019s\u201d Possible Impact on Affordable Housing Investment - Propmodo",
+      "date": "2026-07-14T00:42:10Z",
+      "source": "Propmodo",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQem9CS1EwTktIMl81RWpkNWthMVZ6VS1DSGI2OE1LcmlFWnBzMTJISDNpU093MXZQdXBnMmhYVm9FTEtlaGxBUFMxbFM1WmZQTU96Nk9mLWROdUVlck9NdHAybGp6a3lIalhZSDNRakk2cEp0UU4zUDd2ampBaHdySy1lanJCOXFhNGlFLXdhaVRhNzJXakZJTE1Cbw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "The \u201cROAD to Housing Act\u2019s\u201d Possible Impact on Affordable Housing Investment \u00a0\u00a0 Propmodo"
+    },
+    {
+      "title": "Preserving Affordable Housing - EIN News",
+      "date": "2026-07-13T23:41:31Z",
+      "source": "EIN News",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNWGdyLV8wdl9uSjdZNmltUllqVTdtTlNfM2FhVWFWejVlQTh1cU1udlg1alBJUENRU2NxZEtiNENVZVNUNFpRMnR2WS1ZTnRpVDVlRkprRDZMRnZiaXBFTzhLR0dWamVVdDJQMzRHNUppbkV0WjYyNjFQWUFXNk5TZNIBgAFBVV95cUxNWGdyLV8wdl9uSjdZNmltUllqVTdtTlNfM2FhVWFWejVlQTh1cU1udlg1alBJUENRU2NxZEtiNENVZVNUNFpRMnR2WS1ZTnRpVDVlRkprRDZMRnZiaXBFTzhLR0dWamVVdDJQMzRHNUppbkV0WjYyNjFQWUFXNk5TZA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Preserving Affordable Housing \u00a0\u00a0 EIN News"
+    },
+    {
+      "title": "This State Is the Country\u2019s Best-kept Secret for Affordable Mountain Homes\u2014and No, It\u2019s Not Colorado or Montana - Travel + Leisure",
+      "date": "2026-07-13T16:04:09Z",
+      "source": "Travel + Leisure",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNTkdRZ3JUbWlmbUZ0a1BJdzhNNVVPMDBtd1RNVDdTQ3BpOFdHNDNRdnAtOFNSb2JGLUM4MjZjOWlrSFJKVnFSdl9Gb3V1RWpaYmZic2dHTVlrZ0NEcmU3WTVQWFp3Sm5fTDlzVTR0QmR2VUhZaF9heFU2dU5hbjJibHh2RWppQVF4QnViRQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "This State Is the Country\u2019s Best-kept Secret for Affordable Mountain Homes\u2014and No, It\u2019s Not Colorado or Montana \u00a0\u00a0 Travel + Leisure"
+    },
+    {
+      "title": "Business Insider: Affordable Housing & Businesses - FOX21 News Colorado",
+      "date": "2026-07-13T14:59:57Z",
+      "source": "FOX21 News Colorado",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOUVRKWTFXYWpyMXNwYmtwTWt3dFhvODc5MzZURlJTM3ZRbG9CeFlhSERHTzJSM1VrWkFzd0NMT2l3Q18tdF80WXNRQlBMZVh4YmZNT3hNbGdublNxNGN1N0pxcXkyNXppa18yTXlNZXFZWWhIYVFOVHphSUlsSjlHUU45RnJSeVdQVEJZcW80TXAyQQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Business Insider: Affordable Housing & Businesses \u00a0\u00a0 FOX21 News Colorado"
+    },
+    {
+      "title": "Business Insider: Affordable housing & impacts on economics - FOX21 News Colorado",
+      "date": "2026-07-13T14:00:28Z",
+      "source": "FOX21 News Colorado",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPdDFLR3dzcTZFeTRqM2tVWWs2UVkyZzhDSW9BRVNTTDRVOVFuM2prTGhuenBlMHZCRmdRd1lSa2RsTkUzaVNRTnhKY0NTcXJ1bEFwV1p1Tmd3THpIQUJibWRwbUdqSDE3V3A3TWdDUkY4NWxmZkZGV3RmNW56elFJZFNkSlNvd2xMNlI3ZFNzZ2RwY3VjMjdOWWUtdXQzTHhJYlHSAacBQVVfeXFMUDRaNW1nNF91ZklGVzNaUVYzc1NEendJbWlwX3VUamYzbjRNQXJCalhDWjFVbVlPTHlSSnQtR3pRX19FWXBMUEgxeVE3MVVaWXNQSWxOZ2JfUHJPOFdtTy1lVGtZUnV3dmdnc29wU3VZYjNiTGN3TThsZVA1US1kdjBSVWt2a0s3VmhjX0RaSjIxbmJoUDBDNGY1X2JGS0hTTzJ6NXdGRUU?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Business Insider: Affordable housing & impacts on economics \u00a0\u00a0 FOX21 News Colorado"
+    },
+    {
+      "title": "Concord Summit Capital Arranges $115.5M Construction Loan for Colorado Development - Multifamily & Affordable Housing Business",
+      "date": "2026-07-13T12:40:00Z",
+      "source": "Multifamily & Affordable Housing Business",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOVk1MRXFsSl8zcnJXQU40eDJaNi1KWEREeWlIZHRoUmpXWmxod01TX2V4Y1JQUjJyeGlka0c1OENvcnh1eUlDVU91b1dmbHpXUlQtNWZUMUJjOXFZQ0Fmb0VPM1VLbDZmcVdmQVpETTJCMElJNWdIY0ZoQUxMZGxkVGlZZ2VhZXFPaG93ZkZZeTBVc3FzME95Z0pWczBlZS1HeU81Ukl2TGUtSC1KX2RrYW5RdHc1amdHdUNSTUxzVmM?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Concord Summit Capital Arranges $115.5M Construction Loan for Colorado Development \u00a0\u00a0 Multifamily & Affordable Housing Business"
+    },
     {
       "title": "WNC & Associates Closes $210 Million Fund to Support Investments in Over 2,000 Affordable Housing - MultifamilyBiz",
       "date": "2026-07-13T10:03:47Z",
@@ -115,6 +268,24 @@
       "summary": "Bozeman project aims to add 296 workforce housing units \u00a0\u00a0 Fairfield Sun Times"
     },
     {
+      "title": "Monarch Private Capital Closes LIHTC Investment in ElevenEleven, Delivering 102 Affordable Homes in San Francisco - GlobeNewswire",
+      "date": "2026-07-07T12:00:00Z",
+      "source": "GlobeNewswire",
+      "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOdWZtQmdNRmxBQ2RFbkp0cEFtWS1hNFZubW43d0tFRV9VUjhtWHg5MlZpSlNLRWxoNUVCQV8yRHZXU1k1bHgxVGw2NGhjNkFNelhWVHpINGE3b1JvTVIwUkNQOUhDVzBuVGwtdE9iWWIwblRWZ0hOcWVRUURxeWV3eWx1YmFMQVhfcnl0T2hzMjh5MlkyWjI0Y2d6aDg2UUNoUHBnWGVMb1pBZ01ONzg0TTU3UGZXdEpEZlVfQ1oyUWx5clBBdEpQTHBVVGI3T1dROGtFM3ZSWHk2Umg1dldJaDMyMlF6T3JBbThrMFVKUkxpMldvVy0ydHdabUd3ckZRQUZZVEdqQWM0cjFmRHFVaVpB?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Monarch Private Capital Closes LIHTC Investment in ElevenEleven, Delivering 102 Affordable Homes in San Francisco \u00a0\u00a0 GlobeNewswire"
+    },
+    {
+      "title": "Urbana getting state tax credit toward creating affordable housing - WCIA.com",
+      "date": "2026-07-07T07:00:00Z",
+      "source": "WCIA.com",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPR0JpWDZSOGxpcm91aXNOZERqQ0RUTVRvSm1pYjV0UWxwUmRhcXNsNEc1Um0wS0ptLVFZMlc0eVFxaWlFNi1XVl8xNWl5MFgxY1c3YUtpWVJkTXBzN1l6Sy02Ymp3UFBzZ0hoeEwydm5sYW9ueDVlaDlZQVlsTkhDa29LS25WSi1CX0UtOEUxblo1UXp6RzB0ZUV5cjFVQnR6bWl5NFhrUdIBrAFBVV95cUxPM1NubnFVS1JlNy1maDhxeURYd2paZ1c4dDVNUmFMR21sZ3ducmFRTGVWWkZKd1R0SXRGbkFodkNnU0Q0UnR5bHhrRGVzdGdnV1pHUnd0Uy1WUHJZelppVlJXUTNMczNYUEZKWnlaN2FxSmtVM1k3WUtLNmp6V1hROTFoaERXdGZ6aFFqa3NOQUwwalpBLVNvX1BZdUFTX1drbXoybHJodmVPX095?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Urbana getting state tax credit toward creating affordable housing \u00a0\u00a0 WCIA.com"
+    },
+    {
       "title": "Social Housing in America: Gaining Steam or Running Out of Track? - Tax Credit Advisor",
       "date": "2026-07-06T16:00:00Z",
       "source": "Tax Credit Advisor",
@@ -160,6 +331,15 @@
       "summary": "Legislature OKs low-income housing credit, limits on corporate homebuyers in affordability push \u00a0\u00a0 Crain's Detroit"
     },
     {
+      "title": "Colorado high school students begin Habitat for Humanity build in the classroom - CBS News",
+      "date": "2026-07-03T07:00:00Z",
+      "source": "CBS News",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQaTdmcnd3UDlzdm1lZnNzbHFEeVRVaTZaS2F3bS1VaURtR0todURVdE50cWIwejFzNG91NXAtcEtLMmVHWUN4UmFyZnlDUG5HeWdXRWhMa2UydzJHZGZnb09mWUU1RVV2bzJIOWpqZlhxRlZMelFoWUVfQk5oQlhJc25Kb0lVeHhaSFU4dktxckdWWUh1S19LWjF3TlFvNWFBS0xrMDlHQjBkQlVXY284WWQ0SQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado high school students begin Habitat for Humanity build in the classroom \u00a0\u00a0 CBS News"
+    },
+    {
       "title": "Denver completes Capitol Hill affordable housing property deal - The Business Journals",
       "date": "2026-07-01T13:56:00Z",
       "source": "The Business Journals",
@@ -167,6 +347,15 @@
       "topic": "affordable_housing",
       "region": "Denver",
       "summary": "Denver completes Capitol Hill affordable housing property deal \u00a0\u00a0 The Business Journals"
+    },
+    {
+      "title": "Affordable Housing Financing Is Overpriced, But It Doesn\u2019t Have to Be - Shelterforce",
+      "date": "2026-06-30T17:09:47Z",
+      "source": "Shelterforce",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPRlNyREJFUFFqSzJLbHNmakRlV0dDV1Z5WEktTHR1LXNqUEpYbDZSaG9kM2hVTjhVVFJfR0p2UlFMUEZMa0NvOVF3dUYxOTZEZkotQVFCZzFjMFU5eVFtWnYxYUYzZXhwb29VOVhsdE83SDY4WHFTT1ZVU0hoSjBSbFZ0QWM4M3BNTXVOckNwQmtPSjJQYzRjV0huRFIxRUVNY0MxLVJraw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Affordable Housing Financing Is Overpriced, But It Doesn\u2019t Have to Be \u00a0\u00a0 Shelterforce"
     },
     {
       "title": "Nonprofit group aims to turn notorious Edge at Lowry apartments into affordable housing - Sentinel Colorado",
@@ -241,6 +430,15 @@
       "summary": "PNC Fund to Support More Than 1,700 Affordable Homes \u00a0\u00a0 Affordable Housing Finance"
     },
     {
+      "title": "This Month\u2019s Big Story: \u2018Affording Colorado\u2019 - KKTV",
+      "date": "2026-06-26T07:00:00Z",
+      "source": "KKTV",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9JTGlCZ1JGcXBPTmR3cldwSkZ3dTRja05xYnJBR3pPNktCMWh0QXoxQ1RJUV90d1lxZEI4QXNOY3B1bGxNU1V2U3ZvRWZjUHFhWU9QTUw2dEhiSTc0Ujh1UWFiVXE2Q0hwdENFeHdTMG5LbXFHNVBoVlJ0QXdBQdIBkgFBVV95cUxQSUpKcnZzOGRjWE1tWTh1NjR4aTJwc2t3dHVLZXR1SDFSamxpOEphTHN2N2tPYndSZTJDLXhiU2psYl9aYmM4emlSTUJ1QkdBRXF6NFZJZzl4ZmFCdk9NX2NhR1lub0k2ZEdfczJ2eUFGYjA3V0NKRTJUeHhZZzJvTTYwUjMtMkY4ZnZSbEZzeEMwZw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "This Month\u2019s Big Story: \u2018Affording Colorado\u2019 \u00a0\u00a0 KKTV"
+    },
+    {
       "title": "Modular apartments could help solve Denver's affordable housing crisis - CBS News",
       "date": "2026-06-26T00:29:00Z",
       "source": "CBS News",
@@ -284,6 +482,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Can a giant robot glue gun help solve Colorado\u2019s housing crisis? \u00a0\u00a0 The Colorado Sun"
+    },
+    {
+      "title": "Health in All Policies: How Social Connection Is Linked to Affordability - Colorado Health Institute",
+      "date": "2026-06-24T07:00:00Z",
+      "source": "Colorado Health Institute",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPRDZjR1RRVE5Xend2ZkVkRTlRckNJdWozV3dMdWZGX0pwMzdBWTBlay1QZFdibnZDM1AxSVpuWVBqUEppcVJaeVU3b0JHUXdyUnR0eW5CemY5TVBBek5UU0hweHM5NXZWeDhLZGFhNjZnMG9oWWpGZFNIeVNHUWlxVUxLQzlER0JSQTNGdDVXTXBjc1ZvRllteEIyZGVEU29sR0F1eV8wUF9JZEk?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Health in All Policies: How Social Connection Is Linked to Affordability \u00a0\u00a0 Colorado Health Institute"
     },
     {
       "title": "New ROAD to Housing Act would reshape affordable housing - Nixon Peabody",
@@ -374,6 +581,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure \u00a0\u00a0 Tax Credit Advisor"
+    },
+    {
+      "title": "Michigan backs 13 housing developments with $19 million in tax credits - Midland Daily News",
+      "date": "2026-06-22T07:00:00Z",
+      "source": "Midland Daily News",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNZmw2MlBNOHdpREhEeE5IX1o2bFJ3dWxnYVpJeDRYR3hMQmFKaTZvb2JVODI3enJMVlFRR2JTNUx6TFRCdjVvbDVDZzY3cENFUTZKSE5XYksxdFkxWlFCeHNwdllvUjNSSFdrWklPWTNPUEVjSVNHVEVmcGU5ZERJYlhvNWt0MmRsRzBTZVpJMkY2QQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Michigan backs 13 housing developments with $19 million in tax credits \u00a0\u00a0 Midland Daily News"
     },
     {
       "title": "Denver rolls out 90-day review for affordable housing - City and County of Denver",
@@ -601,6 +817,15 @@
       "summary": "Undecided in the Democratic primary for governor? We found some daylight between Phil Weiser and Michael Bennet. (Editorial) \u00a0\u00a0 The Denver Post"
     },
     {
+      "title": "PNC Bank closes $251.4 million affordable housing fund - HousingWire",
+      "date": "2026-06-17T07:00:00Z",
+      "source": "HousingWire",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQLXZRSldHbnVldDNfcXNIYzJIREl6a0tOSC1vU2xvUDBjdEVaNnJtU3pySjBiWG91NUd3ckxJREZWd0t2NVlFUjZISFcxRU5OcXFLUG84QjE5U0EteTNKTk5SQmsxcEtkOF9FMGhzbDk4MFFxZWZnMVFWT09qS2tqSXE2N3pROGVwanlnTzQ1SU13SWstaUE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "PNC Bank closes $251.4 million affordable housing fund \u00a0\u00a0 HousingWire"
+    },
+    {
       "title": "PNC Multifamily Capital Announces $251.4 Million Fund, Expanding Access to Affordable Housing Nationwide - PR Newswire",
       "date": "2026-06-17T07:00:00Z",
       "source": "PR Newswire",
@@ -763,6 +988,15 @@
       "summary": "One tax credit enabled 70K affordable homes in Tennessee. Here's how \u00a0\u00a0 The Tennessean"
     },
     {
+      "title": "One tax credit enabled 70K affordable homes in Tennessee. Here's how - Yahoo",
+      "date": "2026-06-12T07:00:00Z",
+      "source": "Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNYmJrX2xPVFJtcmJkVEJJUnQxbmotc0U0WXhEQUFPYkpyYU43THI3TFFONlF5Q04wSDBKdFlTcTBJdmhkQk9oM3VFTEdUSEtUYXExU3VvUmpUSjNGdE9fNjBQOGh2SkhEd0htTklVRS1YQXh2ZzV3ckVheS02eEFTOXJfdlplTzEtTVBGYzJRRQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "One tax credit enabled 70K affordable homes in Tennessee. Here's how \u00a0\u00a0 Yahoo"
+    },
+    {
       "title": "Business Spotlight: Navigating the Valley \u2014 A First-Time Buyer\u2019s Guide - Gunnison Country Times",
       "date": "2026-06-12T06:00:00Z",
       "source": "Gunnison Country Times",
@@ -779,6 +1013,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "How would Weiser, Bottoms, Bennet, Kirkmeyer address Colorado's affordability problem? | Paula Noonan \u00a0\u00a0 Colorado Politics"
+    },
+    {
+      "title": "Candidate Q&A: Democratic state legislative primaries - Colorado Newsline",
+      "date": "2026-06-11T07:00:00Z",
+      "source": "Colorado Newsline",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxORWQ3SHNxOXYxam5ZNk1jdHpYbWo1OUxtM2VMeEVOS1Z1djhub0FaeXVSbWkyZUFzb3EwMGVyWDJxVTVmWW5KNjRPaTg2MWdOY2dxTXR1eUszdXpzVzd2M1d5VW9GY25oOG54R2tnZ0hGa0dOaGd0UzdUUzkyN0kyQk5YXzBTNk9yU2Rqd2JPcmZqSmJRSjJJ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Candidate Q&A: Democratic state legislative primaries \u00a0\u00a0 Colorado Newsline"
     },
     {
       "title": "Construction underway on downtown Golden\u2019s affordable condos - Golden Transcript",
@@ -860,6 +1103,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Analysis: Colorado kids challenged by lack of affordable housing, insurance \u00a0\u00a0 Kiowa County Press"
+    },
+    {
+      "title": "City Council approves $9.5 Million in federal funding to develop 126 affordable housing units - The City of Asheville - The City of Asheville (.gov)",
+      "date": "2026-06-09T07:00:00Z",
+      "source": "The City of Asheville (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPN0VDRGVlRVA3YXZmTkhEam1kVDlzTGVMMXQ5MVk5X3Fsb29UdUlGUVJkQlJuREFLbjlTaEJicV9VQzhuSWRqcFVjZWxZVkV1U3FIQmhkWVdmSlB6enlQWGIzUHlicENxX2pYRzNEUnZLY1FUemZONU9YdXhXV1BzU3AxWVZsWE1QMUktdFlJRzdvWVZ4QUVIeGVVUDFYV1VkMWI0RTVhb2xLMURGVkd0Z0lUNjduR0ZkOHd2eEhCRm5ZWFIx?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "City Council approves $9.5 Million in federal funding to develop 126 affordable housing units - The City of Asheville \u00a0\u00a0 The City of Asheville (.gov)"
     },
     {
       "title": "Should European housing politics be Americanized? - Works in Progress Magazine",
@@ -977,6 +1229,15 @@
       "topic": "affordable_housing",
       "region": "Colorado Springs",
       "summary": "Local development in Colorado Springs funded by Governor Polis to support affordable housing \u00a0\u00a0 KKTV"
+    },
+    {
+      "title": "California wanted to punish ICE-linked companies. Affordable housing could be the victim - San Francisco Chronicle",
+      "date": "2026-06-05T07:00:00Z",
+      "source": "San Francisco Chronicle",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNU3lVSVNyZlZiQ3Zvamtua1AxTFlnVG1jZEtFUGRHVzlJYWJycWVOUkJmWlhZWHNZMGdFNU1YSkkwbnl5QVVFc2dhd0M3YWFDU0tDNUtZSWE4ZzY0YjNGNFUzaWNZbGlBUUZjUGx0d2tLVlhBVnEyY3REYnBLUFFsemRLVFN2WWVBMkx5RkdaZ3hyVU5wbTRPNkU1MWhsTG0tMzRSb2FsOG1idw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "California wanted to punish ICE-linked companies. Affordable housing could be the victim \u00a0\u00a0 San Francisco Chronicle"
     },
     {
       "title": "Walker & Dunlop Announces Newly Listed 5-Property Low Income Tax Credit Portfolio with 311 Total Units in Northern California - Yield PRO",
@@ -1204,6 +1465,15 @@
       "summary": "Affordable senior housing project envisions apartments, new senior center in southeast Colorado Springs \u00a0\u00a0 Colorado Springs Gazette"
     },
     {
+      "title": "Enclave Estates at Magnolia to build 60 affordable houses with tax credit award - Magnolia Banner News",
+      "date": "2026-06-01T07:00:00Z",
+      "source": "Magnolia Banner News",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNWnR4VXdZTVZ5ckZ6c0hIM0M4aTdQbVE1TFE4WFY5TVhhS0Q0eTBXMGxtdVNmVzdma2d2VHU3VHJoNkxxTEhYV3o5ajR4MGdveFN4XzJJemQzajRkQ01HMDJ3VDd6eGFuSEVQY2poWElZU3A5TDZMcXd3UnB5YzFDUTF4emxhQkEtSUVyZmhMVG96SS04RXFr?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Enclave Estates at Magnolia to build 60 affordable houses with tax credit award \u00a0\u00a0 Magnolia Banner News"
+    },
+    {
       "title": "New VHFA awards will build and preserve 241 affordable apartments across Vermont - Vermont Business Magazine",
       "date": "2026-06-01T07:00:00Z",
       "source": "Vermont Business Magazine",
@@ -1382,6 +1652,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "JOINT RELEASE: Signed! Bill to Reduce Housing Costs, Save Coloradans Money \u00a0\u00a0 Colorado Senate Democrats"
+    },
+    {
+      "title": "Developing Low-Income Senior Housing in Fast-Growing Crestview, Florida - HUD User (.gov)",
+      "date": "2026-05-28T07:00:00Z",
+      "source": "HUD User (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9SSk9DSkxCdzB6eFRZVXlmRmgzNDZuUW1oaGtRYlpvS0NNZlIxTS1QMGR5ME9wWUNUUDlFcU9CSEhnQjNEaF8wVXVGaEZ0LTcxbjBfdGtpQjBaQjYtZlNDaFFjcFRLU2dUT3VyRkJ4NEVPNFp4MVNVV013?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Developing Low-Income Senior Housing in Fast-Growing Crestview, Florida \u00a0\u00a0 HUD User (.gov)"
     },
     {
       "title": "Arkansas awarded $13M to create nearly 700 affordable housing units - KNWA FOX24",
@@ -1841,6 +2120,15 @@
       "topic": "general",
       "region": "Colorado Springs",
       "summary": "What does it mean to be short 27,000 housing units in Colorado Springs? \u00a0\u00a0 Colorado Public Radio"
+    },
+    {
+      "title": "Controversial proposal to develop land next to school takes step forward - KKTV",
+      "date": "2026-05-13T07:00:00Z",
+      "source": "KKTV",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPdmkxSkMwZmlVaEZNZlhQdm5ORFlSUVRJT2Z6cExjbl92SjJXQzZUamdIcE1MRms5Mm9TcFV3eXE0R01TVFRLNHBTQ2J0MkZPdWhFVXcxZ1MzZm8xRk5kN0h6YnpielU5azhRREw4NFZxdUoyOUVMMWk1Q0UxVFJlMTdFMmhlVXNCWVZ1OGxVQjlVYS1xdWsyN0I3Q0lfSmRY0gG0AUFVX3lxTE4tQUtNQ296YmFKQTBDekczUVJNbHZmUFQtZFpaVU9aODVJcFpuemdOUXdTU1JXdFQ1d1ZVX3dGcl9UelRoNWxwcGFhN2tXcXhyNUdmTzBJZDU1TEJ6TTZkODY3QUtjWTlKdzhmUXUzbHVLTzJmcTNIbHZrcldLVGQ1QnJsSXM0Wmhib0dLVTNyQWtwMjVpSXBGWnJCVzlnVzlId1BUZnY5bmxBYVFDeExsamg4Mw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Controversial proposal to develop land next to school takes step forward \u00a0\u00a0 KKTV"
     },
     {
       "title": "Michael Bennet puts housing costs at center of gubernatorial bid - Colorado Public Radio",
@@ -2390,60 +2678,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado\u2019s mayors are asking Polis not to cut voter-approved funding for housing (Opinion) \u00a0\u00a0 Daily Camera"
-    },
-    {
-      "title": "Governor Mills Signs Legislation Extending Maine's Affordable Housing Tax Credit | Office of Governor Janet T. Mills - Maine.gov",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "Maine.gov",
-      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOSS15OTktS1JlWG1jZ2M4LVMwTjRZS1ZDMjFsTXRWS1BiZXJPQlh3QlUtZEkwSkVfMDMwZXBBUjdSR2VwSjlIclhlWGxZb0FoOFNRclhmUjA3SlV1d2k5WEZRVVlSczA1MXkwWUw5bzlfR0NJX2xiMGkzRzZFQURlWGlDNXBvQV9GVkFIdG1hNUZUUHI4RlBUQkFUenVyUmVCTGs3TWVwRUdfaFFpTVZPWDdyb0FRaURiV2JhQ0hrSVhsZmFoeEltVXZzRQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Governor Mills Signs Legislation Extending Maine's Affordable Housing Tax Credit | Office of Governor Janet T. Mills \u00a0\u00a0 Maine.gov"
-    },
-    {
-      "title": "Dallas City Council set to vote on low-income housing proposal Wednesday - Dallas News",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "Dallas News",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNTEpULUUxbFRfc0hEVXpKaVhpMWJvSmo2Tm9Bc2p1MVpueExQUnBHYUVtSUZXR3ltcGJMNjU1SnU2LUM5U0w2LUJvWW1qUlZhSXVUcVhsd3lHbkVLYS12VFRrdHR3b0FIc05XeE41eXQyLUVNU3Y3V1lONXJ1YVpNSnNWdUZhNDV5aFVmS3IyUHc2SFlfdkZBSDYzMmlFeHZqSUU5VUJOWXpwMEVaMzhlcA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Dallas City Council set to vote on low-income housing proposal Wednesday \u00a0\u00a0 Dallas News"
-    },
-    {
-      "title": "Maine's affordable housing extension: Gov. Janet Mills signs bill - newscentermaine.com",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "newscentermaine.com",
-      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxPbl9RSGVCTTFDQU9OdkRHNE5ZZlZZemxINU9aNWE5RGp3ZWtpdzlLbV9qLTJkam9LWUdjS0FKdjNzWC1ZYVFRX0tNMmJ2LTUxX21PTGF0ZFhzb2Z3SzFVVTNWUFFTeURTdXByVVlQbEM4OWdkb2l3ekRGMjZ3aTg5OE9mWERVSjh1N1M3TWxhZ1hkZFZGR0ZPNWpWOUtnM2RtT1BTWUw0UzZ2ajlKZl8waUxZenMwazJ6aVpqRnN5dEVtemQxSnhJaUROUjc5c0VxUVFPQThHNjcwSlE0S0w3SzFjOWtwVlBSYWo4a253?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Maine's affordable housing extension: Gov. Janet Mills signs bill \u00a0\u00a0 newscentermaine.com"
-    },
-    {
-      "title": "Building next to Coors Field for sale - KUSA.com",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "KUSA.com",
-      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNSGJnbHRBa2R3dlJ0WHo4eEd6elh0bWM1azc0WDQ2Ri1abk9lOFZJcDduTWgtSzAyQk0zUmZpS01FNC1nbUp4YkN6QmZLVHJ3eHRGRkJybzljdVVvUkFhU0R4OWNmdnpTb0JHa0dQMUtabHh5QXBhMkEtelZXN3FUc05wMDJJb0VfSURsaWRoc3c5NGZKSDIyTTBoNmFNV3VBaFBpeWtCRVRDSTh2UDBJZDBibVRzM0xlUEdmM1lCTTFDcjJYa05ORmUyX05Ya2M?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "Building next to Coors Field for sale \u00a0\u00a0 KUSA.com"
-    },
-    {
-      "title": "In new affordability push, Colorado Democrats look to shrink the single-family home - KUNC",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "KUNC",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbk00VXNkM21XVENtWFJXeW96cUZDRlpuMmJSZkJQTmwyVl85Z3NrUnZQLTlsVXVPNDdKbXdJdHE0dkFSWE5nREl3RHRSSDE3YVFqZFdYdjJabkNPTkNuM2pwRWZHbUlnV2ZpYnZsbGNxN0ViNHNDaW5pRDR0VjF5UC1QZ1JZTjJxY2lWRnN0eXVEUktXNDFDOWk0LVF6c3llbUJZLW9OdUliVmw3VE56ZHZqTmpmV2hyT0RsbnNSMi0?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "In new affordability push, Colorado Democrats look to shrink the single-family home \u00a0\u00a0 KUNC"
-    },
-    {
-      "title": "Maine lawmakers extend tax credit that will keep thousands of apartments affordable - Bangor Daily News",
-      "date": "2026-04-21T07:00:00Z",
-      "source": "Bangor Daily News",
-      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPSmtMa3NTRGx1c2JhOERrUXZqY2FxOVplZzlmUk1Ba0QtaGc3WEtmY2ZDZFFsMzZqT3lkZC1sR3kzOExDdTBfa01xWjVFZ1F0cGJJcjN6QUZzSURIZ3RwMzVMSGZPb2tKSUx1RFM0Y1Fya3o2Q0pfeWloSzljNUppZHBidnUxZlE2dXdjR1AwOEY2OWVVU1RGbDhYWDhNS25pcFVWUHc3YV9oU0VuclI4QVdPUFpfS1ZjZVhyU2FmQUVKUQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Maine lawmakers extend tax credit that will keep thousands of apartments affordable \u00a0\u00a0 Bangor Daily News"
     }
   ]
 }

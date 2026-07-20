@@ -73,6 +73,12 @@ const REQUIRED_PUBLIC_FILES = new Set([
   'data/hna/ranking-index.json'
 ]);
 
+const SERVED_LINK_GUARD_EXEMPT_PATHS = new Set([]);
+
+const SERVED_LINK_GUARD_SKIP_HTML = new Set([
+  'places/_template.html'
+]);
+
 const BLOCKED_PATHS = [
   '.git',
   '.github',
@@ -131,9 +137,14 @@ function isBlocked(relPath) {
   return BLOCKED_PATHS.some((blocked) => posix === blocked || posix.startsWith(`${blocked}/`));
 }
 
+function isPublicDocPath(relPath) {
+  const posix = toPosix(relPath);
+  return PUBLIC_DOCS.has(posix) || posix === 'docs/methodology' || posix.startsWith('docs/methodology/');
+}
+
 async function copyRecursive(srcRel, destRel = srcRel) {
   if (isBlocked(srcRel)) return;
-  if (toPosix(srcRel).startsWith('docs/') && !PUBLIC_DOCS.has(toPosix(srcRel)) && !toPosix(srcRel).startsWith('docs/methodology/')) {
+  if (toPosix(srcRel).startsWith('docs/') && !isPublicDocPath(srcRel)) {
     return;
   }
 
@@ -188,6 +199,7 @@ async function main() {
   await generateSearchIndex();
   await injectStructuredData();
   await generateSitemap();
+  await validateServedHtmlLinks();
 
   console.log(`Built public site artifact at ${path.relative(ROOT, DIST)}/`);
 }
@@ -389,6 +401,85 @@ async function generateSearchIndex() {
   } catch (err) {
     console.warn(`search-index generation skipped: ${err.message}`);
   }
+}
+
+function isSkippableHref(href) {
+  if (!href) return true;
+  const trimmed = href.trim();
+  if (!trimmed || trimmed.startsWith('#')) return true;
+  if (trimmed.includes('{{') || trimmed.includes('${')) return true;
+  if (/^(?:mailto|tel|sms|javascript|data|blob):/i.test(trimmed)) return true;
+  if (trimmed.startsWith('//')) return true;
+  return false;
+}
+
+function safeDecodePathname(pathname) {
+  try {
+    return decodeURIComponent(pathname);
+  } catch (_) {
+    return pathname;
+  }
+}
+
+async function distTargetExists(relPath) {
+  const normalized = toPosix(path.normalize(relPath)).replace(/^(\.\.\/)+/, '');
+  if (!normalized || normalized === '.') return true;
+  const candidates = [normalized];
+  if (normalized.endsWith('/')) candidates.push(`${normalized}index.html`);
+  if (!path.extname(normalized)) candidates.push(`${normalized}/index.html`);
+  for (const candidate of candidates) {
+    if (await existsInDist(candidate)) return true;
+  }
+  return false;
+}
+
+async function validateServedHtmlLinks() {
+  const domain = await publicDomain();
+  const siteOrigin = `https://${domain}`;
+  const missing = [];
+  const hrefRe = /\bhref\s*=\s*["']([^"']+)["']/gi;
+
+  async function walk(rel = '') {
+    const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
+    for (const entry of entries) {
+      const childRel = rel ? `${rel}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) {
+        await walk(childRel);
+        continue;
+      }
+      if (!entry.name.endsWith('.html') || SERVED_LINK_GUARD_SKIP_HTML.has(toPosix(childRel))) continue;
+      const html = await readFile(path.join(DIST, childRel), 'utf8');
+      const baseUrl = `${siteOrigin}/${toPosix(childRel)}`;
+      let match;
+      while ((match = hrefRe.exec(html)) !== null) {
+        const href = (match[1] || '').trim();
+        if (isSkippableHref(href)) continue;
+        let url;
+        try {
+          url = new URL(href, baseUrl);
+        } catch (_) {
+          missing.push(`${toPosix(childRel)} -> ${href} (invalid URL)`);
+          continue;
+        }
+        if (url.origin !== siteOrigin) continue;
+        const relTarget = safeDecodePathname(url.pathname).replace(/^\/+/, '') || 'index.html';
+        if (SERVED_LINK_GUARD_EXEMPT_PATHS.has(relTarget)) continue;
+        if (!await distTargetExists(relTarget)) {
+          missing.push(`${toPosix(childRel)} -> ${href} (missing ${relTarget})`);
+        }
+      }
+    }
+  }
+
+  await walk('');
+  if (missing.length) {
+    throw new Error(
+      'Public build contains served HTML links to files absent from dist/:\n' +
+      missing.slice(0, 100).map((m) => `  - ${m}`).join('\n') +
+      (missing.length > 100 ? `\n  ... ${missing.length - 100} more` : '')
+    );
+  }
+  console.log('Validated served HTML links against public build output.');
 }
 
 async function existsInDist(relPath) {

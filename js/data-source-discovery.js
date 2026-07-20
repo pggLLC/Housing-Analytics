@@ -1,13 +1,12 @@
 // js/data-source-discovery.js
 // Automated data source discovery — scans known paths and compares against
-// DATA-MANIFEST.json to surface new or unregistered data files.
+// the public file manifest to surface new or unregistered data files.
 // Exposed as window.DataSourceDiscovery.
 
 (function () {
   'use strict';
 
-  var CONFIG_PATH  = 'config/data-discovery-config.json';
-  var MANIFEST_PATH = 'DATA-MANIFEST.json';
+  var MANIFEST_PATH = 'data/manifest.json';
   var REPORT_KEY   = 'drh_last_discovery_report';
 
   // ── Utility helpers ──────────────────────────────────────────────────────
@@ -79,8 +78,7 @@
     'data/policy/chfa-awards-historical.json',
     'data/policy/county-ownership.json',
     'data/amenities/grocery_co.geojson',
-    'data/hna/chas_affordability_gap.json',
-    CONFIG_PATH
+    'data/hna/chas_affordability_gap.json'
   ];
 
   // ── Main discovery logic ─────────────────────────────────────────────────
@@ -115,7 +113,7 @@
   }
 
   /**
-   * Build a map of file_path → entry from DATA-MANIFEST.json for fast lookup.
+   * Build a map of file_path → entry from the public manifest for fast lookup.
    * @param {object} manifest
    * @returns {object}
    */
@@ -126,6 +124,17 @@
       var s = sources[i];
       if (s.file_path) index[s.file_path] = s;
     }
+    var files = manifest.files || {};
+    Object.keys(files).forEach(function (filePath) {
+      if (!index[filePath]) {
+        index[filePath] = {
+          file_path: filePath,
+          source_name: filePath,
+          status: 'tracked',
+          last_update: manifest.generated || null
+        };
+      }
+    });
     return index;
   }
 
@@ -207,6 +216,24 @@
 
           return report;
         });
+      })
+      .catch(function () {
+        var report = {
+          scanTimestamp:  nowISO(),
+          scanDurationMs: Date.now() - scanStart,
+          totalProbed:    0,
+          existingCount:  0,
+          newSourceCount: 0,
+          missingCount:   0,
+          newSources: [],
+          knownSources: [],
+          missingRegistered: [],
+          degraded: true
+        };
+        try {
+          sessionStorage.setItem(REPORT_KEY, JSON.stringify(report));
+        } catch (_) { /* quota exceeded — skip */ }
+        return report;
       });
   }
 
