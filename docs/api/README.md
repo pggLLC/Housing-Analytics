@@ -15,7 +15,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`cache-manager.js`](./js__cache-manager.md) | js/cache-manager. | 1 |
 | [`census-geo.js`](./js__census-geo.md) | Census snapshot (ACS Profile) with geography dropdowns for: | 0 |
 | [`census-stats.js`](./js__census-stats.md) | census-stats. | 0 |
-| [`chart-fix.js`](./js__chart-fix.md) | chart-fix. | 1 |
+| [`chart-fix.js`](./js__chart-fix.md) | chart-fix. | 0 |
 | [`chas-tier-shares.js`](./js__chas-tier-shares.md) | chas-tier-shares. | 2 |
 | [`chfa-award-predictor.js`](./js__chfa-award-predictor.md) | js/chfa-award-predictor. | 9 |
 | [`chfa-pma-checklist.js`](./js__chfa-pma-checklist.md) | _no header_ | 19 |
@@ -58,7 +58,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`housing-need-projector.js`](./js__housing-need-projector.md) | housing-need-projector. | 10 |
 | [`housing-needs-assessment.js`](./js__housing-needs-assessment.md) | js/housing-needs-assessment. | 0 |
 | [`housing-outcome-score.js`](./js__housing-outcome-score.md) | js/housing-outcome-score. | 6 |
-| [`housing-predictions.js`](./js__housing-predictions.md) | housing-predictions. | 4 |
+| [`housing-predictions.js`](./js__housing-predictions.md) | housing-predictions. | 3 |
 | [`ic-summary.js`](./js__ic-summary.md) | ic-summary. | 0 |
 | [`iframe-spinner.js`](./js__iframe-spinner.md) | js/iframe-spinner. | 2 |
 | [`jurisdiction-selector.js`](./js__jurisdiction-selector.md) | jurisdiction-selector. | 0 |
@@ -72,7 +72,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`market-analysis-cache-fix.js`](./js__market-analysis-cache-fix.md) | js/market-analysis-cache-fix. | 13 |
 | [`market-analysis-enhancements.js`](./js__market-analysis-enhancements.md) | js/market-analysis-enhancements. | 4 |
 | [`market-analysis-scoring.js`](./js__market-analysis-scoring.md) | _no header_ | 1 |
-| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 15 |
+| [`market-analysis.js`](./js__market-analysis.md) | js/market-analysis. | 14 |
 | [`market-data-quality.js`](./js__market-data-quality.md) | js/market-data-quality. | 0 |
 | [`market-health-composite.js`](./js__market-health-composite.md) | market-health-composite. | 1 |
 | [`market-intelligence.js`](./js__market-intelligence.md) | js/market-intelligence. | 0 |
@@ -113,7 +113,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`rent-vs-buy-breakeven.js`](./js__rent-vs-buy-breakeven.md) | rent-vs-buy-breakeven. | 1 |
 | [`scroll-fix.js`](./js__scroll-fix.md) | js/scroll-fix. | 0 |
 | [`site-search.js`](./js__site-search.md) | js/site-search. | 0 |
-| [`site-state.js`](./js__site-state.md) | site-state. | 1 |
+| [`site-state.js`](./js__site-state.md) | site-state. | 0 |
 | [`soft-funding-tracker.js`](./js__soft-funding-tracker.md) | js/soft-funding-tracker. | 12 |
 | [`state-allocations-historical.js`](./js__state-allocations-historical.md) | _no header_ | 4 |
 | [`temporal-dashboard.js`](./js__temporal-dashboard.md) | _no header_ | 2 |
@@ -129,8 +129,8 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`analytics-charts.js`](./js__analytics__analytics-charts.md) | js/analytics/analytics-charts. | 4 |
 | [`comparison-panel.js`](./js__analytics__comparison-panel.md) | js/analytics/comparison-panel. | 1 |
 | [`filtered-export.js`](./js__analytics__filtered-export.md) | js/analytics/filtered-export. | 1 |
-| [`metric-calculator.js`](./js__analytics__metric-calculator.md) | js/analytics/metric-calculator. | 2 |
-| [`query-builder.js`](./js__analytics__query-builder.md) | js/analytics/query-builder. | 2 |
+| [`metric-calculator.js`](./js__analytics__metric-calculator.md) | js/analytics/metric-calculator. | 1 |
+| [`query-builder.js`](./js__analytics__query-builder.md) | js/analytics/query-builder. | 1 |
 
 ## `js/comparative-analysis/`
 
@@ -242,7 +242,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 47 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 46 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 17 |
 
@@ -252,7 +252,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 |---|---|---:|
 | [`housing-needs-fit-analyzer.js`](./js__market-analysis__housing-needs-fit-analyzer.md) | js/market-analysis/housing-needs-fit-analyzer. | 1 |
 | [`market-analysis-controller.js`](./js__market-analysis__market-analysis-controller.md) | js/market-analysis/market-analysis-controller. | 37 |
-| [`market-analysis-state.js`](./js__market-analysis__market-analysis-state.md) | js/market-analysis/market-analysis-state. | 7 |
+| [`market-analysis-state.js`](./js__market-analysis__market-analysis-state.md) | js/market-analysis/market-analysis-state. | 6 |
 | [`market-analysis-utils.js`](./js__market-analysis__market-analysis-utils.md) | js/market-analysis/market-analysis-utils. | 9 |
 | [`market-report-renderers.js`](./js__market-analysis__market-report-renderers.md) | js/market-analysis/market-report-renderers. | 25 |
 | [`site-comparison.js`](./js__market-analysis__site-comparison.md) | js/market-analysis/site-comparison. | 1 |
@@ -276,52 +276,85 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`augment_lihtc_by_geometry.mjs`](./scripts__augment_lihtc_by_geometry.md) | _no header_ | 1 |
-| [`augment-local-resources.js`](./scripts__augment-local-resources.md) | _no header_ | 1 |
-| [`backfill_dp04_value_brackets.mjs`](./scripts__backfill_dp04_value_brackets.md) | _no header_ | 6 |
-| [`build_rent_burden_crosscheck.mjs`](./scripts__build_rent_burden_crosscheck.md) | _no header_ | 1 |
-| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | _no header_ | 5 |
+| [`augment_lihtc_by_geometry.mjs`](./scripts__augment_lihtc_by_geometry.md) | F191 — Augment ranking-index. | 0 |
+| [`augment_ranking_index_recency.mjs`](./scripts__augment_ranking_index_recency.md) | F179 — Augment ranking-index. | 0 |
+| [`augment-local-resources.js`](./scripts__augment-local-resources.md) | augment-local-resources. | 1 |
+| [`backfill_dp04_value_brackets.mjs`](./scripts__backfill_dp04_value_brackets.md) | Backfill DP04_0080E . | 6 |
+| [`backfill_hna_extended_acs_cache.mjs`](./scripts__backfill_hna_extended_acs_cache.md) | Backfill extended ACS profile variables into data/hna/summary/*. | 0 |
+| [`backfill_hna_household_occupation.mjs`](./scripts__backfill_hna_household_occupation.md) | F169 — Backfill ACS DP02 / DP03 / DP05 variables that power the new | 0 |
+| [`build_article_indicator_geojson.mjs`](./scripts__build_article_indicator_geojson.md) | F208 — Join the article's county-indicator CSV with the county | 0 |
+| [`build_rent_burden_crosscheck.mjs`](./scripts__build_rent_burden_crosscheck.md) | F207b — Build the CHAS rent-burden crosscheck JSON. | 0 |
+| [`build-affordable-housing-properties.js`](./scripts__build-affordable-housing-properties.md) | build-affordable-housing-properties. | 5 |
 | [`contrast-audit.js`](./scripts__contrast-audit.md) | scripts/contrast-audit. | 0 |
-| [`discover_agenda_urls.mjs`](./scripts__discover_agenda_urls.md) | _no header_ | 1 |
-| [`discover-local-resources.mjs`](./scripts__discover-local-resources.md) | _no header_ | 1 |
+| [`coverage-audit.js`](./scripts__coverage-audit.md) | coverage-audit. | 0 |
+| [`discover_agenda_urls.mjs`](./scripts__discover_agenda_urls.md) | discover_agenda_urls. | 0 |
+| [`discover-local-resources.mjs`](./scripts__discover-local-resources.md) | discover-local-resources. | 0 |
+| [`enrich_lihtc_award_year.mjs`](./scripts__enrich_lihtc_award_year.md) | F188 — Enrich LIHTC records with CHFA's AwardYear / YR_ALLOC. | 0 |
 | [`fetch-car-showingtime.mjs`](./scripts__fetch-car-showingtime.md) | Fetch Colorado Association of REALTORS county market stats from ShowingTime. | 0 |
-| [`fetch-chfa-lihtc.js`](./scripts__fetch-chfa-lihtc.md) | _no header_ | 18 |
-| [`fetch-chfa-preservation.js`](./scripts__fetch-chfa-preservation.md) | _no header_ | 1 |
+| [`fetch-chfa-lihtc.js`](./scripts__fetch-chfa-lihtc.md) | fetch-chfa-lihtc. | 18 |
+| [`fetch-chfa-preservation.js`](./scripts__fetch-chfa-preservation.md) | fetch-chfa-preservation. | 1 |
+| [`fetch-co-place-centroids.mjs`](./scripts__fetch-co-place-centroids.md) | fetch-co-place-centroids. | 0 |
 | [`fetch-county-demographics.js`](./scripts__fetch-county-demographics.md) | scripts/fetch-county-demographics. | 1 |
-| [`fetch-hud-multifamily.js`](./scripts__fetch-hud-multifamily.md) | _no header_ | 1 |
-| [`fetch-usda-rural-housing.js`](./scripts__fetch-usda-rural-housing.md) | _no header_ | 1 |
-| [`fetch-zillow.js`](./scripts__fetch-zillow.md) | _no header_ | 5 |
-| [`generate-api-docs.mjs`](./scripts__generate-api-docs.md) | _no header_ | 5 |
-| [`generate-test-coverage.mjs`](./scripts__generate-test-coverage.md) | _no header_ | 1 |
-| [`normalize-dda.js`](./scripts__normalize-dda.md) | _no header_ | 2 |
-| [`refresh-data-pipeline.js`](./scripts__refresh-data-pipeline.md) | _no header_ | 3 |
-| [`scrape_agenda_items.mjs`](./scripts__scrape_agenda_items.md) | _no header_ | 1 |
-| [`split-lihtc-by-county.js`](./scripts__split-lihtc-by-county.md) | _no header_ | 1 |
-| [`sync-docs.mjs`](./scripts__sync-docs.md) | _no header_ | 3 |
-| [`validate_hna_pages.js`](./scripts__validate_hna_pages.md) | _no header_ | 1 |
+| [`fetch-hud-multifamily.js`](./scripts__fetch-hud-multifamily.md) | fetch-hud-multifamily. | 1 |
+| [`fetch-kalshi.js`](./scripts__fetch-kalshi.md) | fetch-kalshi. | 0 |
+| [`fetch-pab-allocations.mjs`](./scripts__fetch-pab-allocations.md) | fetch-pab-allocations. | 0 |
+| [`fetch-usda-rural-housing.js`](./scripts__fetch-usda-rural-housing.md) | fetch-usda-rural-housing. | 1 |
+| [`fetch-zillow.js`](./scripts__fetch-zillow.md) | fetch-zillow. | 5 |
+| [`fix-advocacy-mismatches.js`](./scripts__fix-advocacy-mismatches.md) | fix-advocacy-mismatches. | 0 |
+| [`generate-api-docs.mjs`](./scripts__generate-api-docs.md) | scripts/generate-api-docs. | 5 |
+| [`generate-brief-metric-digest-sections.mjs`](./scripts__generate-brief-metric-digest-sections.md) | Add or refresh the Metric Digest section in curated jurisdiction briefs. | 0 |
+| [`generate-test-coverage.mjs`](./scripts__generate-test-coverage.md) | scripts/generate-test-coverage. | 1 |
+| [`normalize-dda.js`](./scripts__normalize-dda.md) | normalize-dda. | 2 |
+| [`normalize-lihtc-to-hud-schema.js`](./scripts__normalize-lihtc-to-hud-schema.md) | scripts/normalize-lihtc-to-hud-schema. | 0 |
+| [`refresh-data-pipeline.js`](./scripts__refresh-data-pipeline.md) | scripts/refresh-data-pipeline. | 3 |
+| [`scrape_agenda_items.mjs`](./scripts__scrape_agenda_items.md) | scrape_agenda_items. | 0 |
+| [`seed-county-employers.js`](./scripts__seed-county-employers.md) | seed-county-employers. | 0 |
+| [`seed-local-resources-expansion.js`](./scripts__seed-local-resources-expansion.md) | seed-local-resources-expansion. | 0 |
+| [`split-lihtc-by-county.js`](./scripts__split-lihtc-by-county.md) | split-lihtc-by-county. | 1 |
+| [`stamp_lihtc_provenance.mjs`](./scripts__stamp_lihtc_provenance.md) | F189 + F190 — Stamp LIHTC provenance + lock in F185 validation. | 0 |
+| [`sync-docs.mjs`](./scripts__sync-docs.md) | sync-docs. | 3 |
+| [`tag_chfa_preservation_lihtc.mjs`](./scripts__tag_chfa_preservation_lihtc.md) | F184 — Tag CHFA preservation records as LIHTC across the affordable- | 0 |
+| [`validate_and_correct_f184_tags.mjs`](./scripts__validate_and_correct_f184_tags.md) | F185 — Validate + correct the F184 bulk LIHTC tagging. | 0 |
+| [`validate_hna_pages.js`](./scripts__validate_hna_pages.md) | scripts/validate_hna_pages. | 1 |
+| [`validate-advocacy-roster.js`](./scripts__validate-advocacy-roster.md) | validate-advocacy-roster. | 0 |
+| [`validate-all-rosters.js`](./scripts__validate-all-rosters.md) | validate-all-rosters. | 0 |
 | [`validate-critical-data.js`](./scripts__validate-critical-data.md) | _no header_ | 1 |
-| [`validate.js`](./scripts__validate.md) | _no header_ | 1 |
+| [`validate-hna-lehd.js`](./scripts__validate-hna-lehd.md) | scripts/validate-hna-lehd. | 0 |
+| [`validate-schemas.js`](./scripts__validate-schemas.md) | scripts/validate-schemas. | 0 |
+| [`validate.js`](./scripts__validate.md) | validate. | 0 |
 
 ## `scripts/audit/`
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`benchmark-freshness-check.mjs`](./scripts__audit__benchmark-freshness-check.md) | _no header_ | 1 |
+| [`a11y-audit.mjs`](./scripts__audit__a11y-audit.md) | scripts/audit/a11y-audit. | 0 |
+| [`a11y-debug.mjs`](./scripts__audit__a11y-debug.md) | One-off detail dumper for color-contrast violations — writes axe's computed | 0 |
+| [`benchmark-freshness-check.mjs`](./scripts__audit__benchmark-freshness-check.md) | scripts/audit/benchmark-freshness-check. | 1 |
+| [`build-data-manifest.mjs`](./scripts__audit__build-data-manifest.md) | build-data-manifest. | 0 |
 | [`chart-population-audit.mjs`](./scripts__audit__chart-population-audit.md) | chart-population-audit. | 0 |
 | [`console-error-reporter.mjs`](./scripts__audit__console-error-reporter.md) | console-error-reporter. | 1 |
 | [`core-rendered-smoke.mjs`](./scripts__audit__core-rendered-smoke.md) | core-rendered-smoke. | 0 |
-| [`data-freshness-check.mjs`](./scripts__audit__data-freshness-check.md) | _no header_ | 1 |
-| [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | _no header_ | 1 |
-| [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | _no header_ | 1 |
-| [`pages-deploy-watchdog.mjs`](./scripts__audit__pages-deploy-watchdog.md) | _no header_ | 1 |
-| [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | _no header_ | 3 |
-| [`refresh-external-references.mjs`](./scripts__audit__refresh-external-references.md) | _no header_ | 1 |
-| [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | _no header_ | 1 |
+| [`data-freshness-check.mjs`](./scripts__audit__data-freshness-check.md) | data-freshness-check. | 1 |
+| [`data-inventory.mjs`](./scripts__audit__data-inventory.md) | scripts/audit/data-inventory. | 1 |
+| [`data-sentinels-check.mjs`](./scripts__audit__data-sentinels-check.md) | data-sentinels-check. | 1 |
+| [`duplicate-artifact-scan.mjs`](./scripts__audit__duplicate-artifact-scan.md) | scripts/audit/duplicate-artifact-scan. | 0 |
+| [`heal-local-resource-links.mjs`](./scripts__audit__heal-local-resource-links.md) | heal-local-resource-links. | 0 |
+| [`inline-contrast-check.mjs`](./scripts__audit__inline-contrast-check.md) | F122 + F127 — accent-contrast check | 0 |
+| [`inline-heading-typography.mjs`](./scripts__audit__inline-heading-typography.md) | F124 — inline-heading-typography | 0 |
+| [`no-phantom-css-vars.mjs`](./scripts__audit__no-phantom-css-vars.md) | no-phantom-css-vars. | 0 |
+| [`pages-deploy-watchdog.mjs`](./scripts__audit__pages-deploy-watchdog.md) | Detect GitHub Pages deploys that are missing, failed, or stuck behind a | 0 |
+| [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | scripts/audit/qa-status-generator. | 3 |
+| [`refresh-external-references.mjs`](./scripts__audit__refresh-external-references.md) | scripts/audit/refresh-external-references. | 1 |
+| [`refresh-inventory-mtimes.mjs`](./scripts__audit__refresh-inventory-mtimes.md) | refresh-inventory-mtimes. | 0 |
+| [`repo-link-audit.mjs`](./scripts__audit__repo-link-audit.md) | Repo-wide link audit. | 0 |
+| [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | F128 — Runtime contrast scanner. | 0 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |
 | [`site-audit.mjs`](./scripts__audit__site-audit.md) | site-audit. | 2 |
-| [`upstream-vintage-watch.mjs`](./scripts__audit__upstream-vintage-watch.md) | _no header_ | 3 |
-| [`url-health-sweep.mjs`](./scripts__audit__url-health-sweep.md) | _no header_ | 2 |
-| [`verify-opportunity-finder.mjs`](./scripts__audit__verify-opportunity-finder.md) | _no header_ | 1 |
+| [`source-url-sweep.mjs`](./scripts__audit__source-url-sweep.md) | source-url-sweep. | 0 |
+| [`sync-manifest-mtimes.mjs`](./scripts__audit__sync-manifest-mtimes.md) | sync-manifest-mtimes. | 0 |
+| [`upstream-vintage-watch.mjs`](./scripts__audit__upstream-vintage-watch.md) | scripts/audit/upstream-vintage-watch. | 3 |
+| [`url-health-sweep.mjs`](./scripts__audit__url-health-sweep.md) | url-health-sweep. | 0 |
+| [`verify-opportunity-finder.mjs`](./scripts__audit__verify-opportunity-finder.md) | verify-opportunity-finder. | 0 |
 
 ## `scripts/contrast-audit/`
 
@@ -329,11 +362,25 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 |---|---|---:|
 | [`run.js`](./scripts__contrast-audit__run.md) | scripts/contrast-audit/run. | 1 |
 
+## `scripts/hna/`
+
+| Module | Summary | Symbols |
+|---|---|---:|
+| [`build_home_value_cascade.mjs`](./scripts__hna__build_home_value_cascade.md) | Build current-market median home value display fields for HNA places and | 0 |
+| [`build_jurisdiction_metrics_digest.mjs`](./scripts__hna__build_jurisdiction_metrics_digest.md) | Build per-jurisdiction metric digests for future brief generation. | 0 |
+| [`stamp_home_value_cascade.mjs`](./scripts__hna__stamp_home_value_cascade.md) | Re-stamp HNA summary files with committed median home value cascade values. | 0 |
+
 ## `scripts/kalshi/`
 
 | Module | Summary | Symbols |
 |---|---|---:|
-| [`fetch_kalshi_prediction_markets.js`](./scripts__kalshi__fetch_kalshi_prediction_markets.md) | _no header_ | 5 |
+| [`fetch_kalshi_prediction_markets.js`](./scripts__kalshi__fetch_kalshi_prediction_markets.md) | fetch_kalshi_prediction_markets. | 5 |
+
+## `scripts/market/`
+
+| Module | Summary | Symbols |
+|---|---|---:|
+| [`rebuild_tract_centroids_from_boundaries.mjs`](./scripts__market__rebuild_tract_centroids_from_boundaries.md) | Rebuild data/market/tract_centroids_co. | 0 |
 
 ## `scripts/monitoring/`
 

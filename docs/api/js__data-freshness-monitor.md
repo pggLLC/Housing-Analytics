@@ -4,7 +4,7 @@
 
 ### `runFreshnessCheck()`
 
-Fetch all sources from DataSourceInventory + DATA-MANIFEST.json,
+Fetch all sources from DataSourceInventory + the public file manifest,
 compute freshness for each, and return a structured report.
 @returns {Promise<FreshnessReport>}
 

@@ -76,7 +76,7 @@ async function walk(dir, exts, out = []) {
 function extract(source, relPath) {
   // File-header comment: first /** ... */ block in the file, before any
   // non-comment, non-strict-pragma code.
-  const headerMatch = source.match(/^\s*(?:\/\/[^\n]*\n|\s)*\/\*\*([\s\S]*?)\*\//);
+  const headerMatch = source.match(/^\s*(?:#![^\n]*\n)?(?:\/\/[^\n]*\n|\s)*\/\*\*((?:(?!\*\/)[\s\S])*?)\*\//);
   const header      = headerMatch ? cleanCommentBody(headerMatch[1]) : null;
   const afterHeader = headerMatch ? source.slice(headerMatch.index + headerMatch[0].length) : source;
 
@@ -89,7 +89,7 @@ function extract(source, relPath) {
   // as the first symbol's JSDoc. We require ≤4 whitespace/indent chars
   // between the closing */ and the declaration keyword so distant
   // floating JSDocs aren't mis-attributed to later code.
-  const symbolRx = /\/\*\*([\s\S]*?)\*\/\s{0,4}(?:export\s+)?(async\s+)?(function|const|let|var|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/g;
+  const symbolRx = /\/\*\*((?:(?!\*\/)[\s\S])*?)\*\/\s{0,4}(?:export\s+)?(async\s+)?(function|const|let|var|class)\s+([A-Za-z_$][A-Za-z0-9_$]*)/g;
   const symbols  = [];
   let m;
   while ((m = symbolRx.exec(afterHeader)) !== null) {

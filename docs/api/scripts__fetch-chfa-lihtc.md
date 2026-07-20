@@ -1,9 +1,5 @@
 # `scripts/fetch-chfa-lihtc.js`
 
-## Symbols
-
-### `WHERE_ALTERNATIVES`
-
 fetch-chfa-lihtc.js
 Fetches Colorado LIHTC property data from the CHFA ArcGIS FeatureServer and
 saves it as data/chfa-lihtc.json (GeoJSON FeatureCollection) for use by
@@ -49,29 +45,12 @@ because they require live data to be useful:
 
 Without these files the affected panels show a placeholder / warning message
 rather than crashing, but real data is needed for a fully functional site.
-/
 
-'use strict';
+## Symbols
 
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+### `WHERE_ALTERNATIVES`
 
-// ---------------------------------------------------------------------------
-// Configuration — loaded from lihtc-co-query.json
-// ---------------------------------------------------------------------------
-
-const QUERY_CONFIG = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'lihtc-co-query.json'), 'utf8')
-);
-
-const CHFA_HOST = QUERY_CONFIG.host;
-const CHFA_BASE = QUERY_CONFIG.basePath;
-const CHFA_LAYERS_PATH = QUERY_CONFIG.layersPath + '?f=json';
-const DATA_DIR = path.resolve(__dirname, '..', 'data');
-const OUTPUT_FILE = path.join(__dirname, '..', QUERY_CONFIG.outputFile);
-
-/** Fallback WHERE clauses to probe when the primary clause returns 0 features.
+Fallback WHERE clauses to probe when the primary clause returns 0 features.
 
 ### `PAGE_SIZE`
 

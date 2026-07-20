@@ -1,9 +1,5 @@
 # `scripts/normalize-dda.js`
 
-## Symbols
-
-### `extractFips(ddaCode)`
-
 normalize-dda.js
 Post-processes data/dda-colorado.json to normalise the HUD DDA schema so it
 matches the field names expected by the front-end rendering code
@@ -27,18 +23,11 @@ DDA_CODE format for county-based DDAs:
 
 Run:  node scripts/normalize-dda.js
 Also called automatically by .github/workflows/cache-hud-gis-data.yml during CI.
-/
 
-'use strict';
+## Symbols
 
-const fs   = require('fs');
-const path = require('path');
+### `extractFips(ddaCode)`
 
-const DATA_DIR   = path.resolve(__dirname, '..', 'data');
-const DDA_FILE   = path.join(DATA_DIR, 'dda-colorado.json');
-const CO_STATEFP = '08';
-
-/**
 Extract the 5-digit state+county FIPS code from a county-based DDA_CODE.
 Returns null for codes that are not in the expected NCNTY format.
 

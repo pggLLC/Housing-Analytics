@@ -81,10 +81,6 @@ DataService as a fallback.  Returns null if unavailable.
 
 ### `_aggregateNearestAcs(lat, lon, bufferMiles, excludedGeoids)`
 
-Aggregate ACS metrics for tracts within buffer distance of a site.
-Used as last-resort fallback when PMAEngine hasn't run.
-/
-  /**
 @param {number} lat
 @param {number} lon
 @param {number} bufferMiles

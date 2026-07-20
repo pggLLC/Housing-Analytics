@@ -1,9 +1,5 @@
 # `scripts/discover-local-resources.mjs`
 
-## Symbols
-
-### `slugify(name)`
-
 discover-local-resources.mjs  (F15b, 2026-05-27)
 
 Active-discovery half of the freshness loop. Companion to:
@@ -38,32 +34,5 @@ CLI:
 Exit codes:
   0 — completed (regardless of how many candidates found)
   2 — script-level failure
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, '..');
-const OUTPUT_PATH = path.join(ROOT, 'data', 'hna', 'local-resources-candidates.json');
-const NOW = new Date().toISOString();
-
-const TIMEOUT_MS = 8_000;
-const CONCURRENCY = 4;       // Be polite — these are .gov sites
-const LIMIT_DEFAULT = 30;
-const DENIED_CANDIDATE_HOSTS = new Set([
-  // #1194: wrong-state/squatter domain that recurred for Greenwood Village.
-  // Official city site is https://www.greenwoodvillage.com/.
-  'townofgreenwood.org',
-  'www.townofgreenwood.org',
-]);
-
-const args = process.argv.slice(2);
-const DRY_RUN = args.includes('--dry-run');
-const LIMIT = (() => {
-  const i = args.indexOf('--limit');
-  return i >= 0 ? parseInt(args[i + 1], 10) || LIMIT_DEFAULT : LIMIT_DEFAULT;
-})();
-
-/* ── Place name → URL-slug heuristic ────────────────────────────────
+_No documented symbols — module has a file-header comment only._

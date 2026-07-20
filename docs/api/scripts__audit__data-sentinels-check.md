@@ -1,9 +1,5 @@
 # `scripts/audit/data-sentinels-check.mjs`
 
-## Symbols
-
-### `SENTINELS`
-
 data-sentinels-check.mjs — verify critical data artifacts haven't
 regressed in row count. Partial closeout of issue #657 (row-count
 sentinels) from epic #447.
@@ -35,16 +31,11 @@ Exit codes:
   0  — every sentinel passed
   1  — at least one sentinel regressed below floor
   2  — internal script error (e.g. a configured file is missing)
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+## Symbols
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT      = path.resolve(__dirname, '..', '..');
+### `SENTINELS`
 
-/**
 Sentinel configuration. Each entry describes one artifact and how to
 count its rows. The `expect` counter receives the parsed JSON (or the
 list of filenames for directory artifacts) and returns an integer.

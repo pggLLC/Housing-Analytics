@@ -1,9 +1,5 @@
 # `scripts/build-affordable-housing-properties.js`
 
-## Symbols
-
-### `derivePrograms(typeOfCredits)`
-
 build-affordable-housing-properties.js
 
 Combines the source-specific affordable-housing datasets into a single
@@ -51,30 +47,11 @@ Output schema (per property):
   }
 
 Run:  node scripts/build-affordable-housing-properties.js
-/
 
-'use strict';
+## Symbols
 
-const fs = require('fs');
-const path = require('path');
+### `derivePrograms(typeOfCredits)`
 
-const ROOT = path.resolve(__dirname, '..');
-const LIHTC_PATH         = path.join(ROOT, 'data/affordable-housing/lihtc/chfa-properties.json');
-const PRESERVATION_PATH  = path.join(ROOT, 'data/affordable-housing/preservation/chfa-preservation.json');
-const HUD_MF_PATH        = path.join(ROOT, 'data/affordable-housing/preservation/hud-multifamily-assisted.json');
-const USDA_RD_PATH       = path.join(ROOT, 'data/affordable-housing/preservation/usda-rural-housing.json');
-const LOCAL_PHA_DIR      = path.join(ROOT, 'data/affordable-housing/local-pha-roster');
-const OUT_PATH           = path.join(ROOT, 'data/affordable-housing/properties.json');
-const MANIFEST_PATH      = path.join(ROOT, 'data/affordable-housing/properties-manifest.json');
-
-const crypto = require('crypto');
-
-function readJson(p) {
-  if (!fs.existsSync(p)) return null;
-  return JSON.parse(fs.readFileSync(p, 'utf-8'));
-}
-
-/**
 Derive program_type array from a CHFA LIHTC project's TypeOfCredits string.
 Returns an array — a single project may belong to multiple program types
 (e.g., "9% and State and TOC" → 9%, state-paired, TOC).

@@ -1,9 +1,5 @@
 # `scripts/audit/benchmark-freshness-check.mjs`
 
-## Symbols
-
-### `parseWhen(raw)`
-
 scripts/audit/benchmark-freshness-check.mjs — F(#1147)
 
 Why this exists
@@ -51,86 +47,10 @@ Date parsing accepts, in order:
 Usage:
   node scripts/audit/benchmark-freshness-check.mjs
   npm run audit:benchmark-freshness
-/
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+## Symbols
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+### `parseWhen(raw)`
 
-const STALE_AFTER_DAYS = 60;
-
-const BENCHMARK_FILES = [
-  {
-    file: 'data/market/novogradac-equity-pricing.json',
-    label: 'Novogradac LIHTC equity pricing',
-  },
-  {
-    file: 'data/market/freddie-mac-multifamily-outlook.json',
-    label: 'Freddie Mac multifamily outlook',
-  },
-  {
-    file: 'data/market/tax-credit-transfer-pricing.json',
-    label: 'Tax-credit transfer pricing',
-    reviewByPaths: ['meta.review_by', 'markets[].review_by'],
-  },
-  {
-    file: 'data/market/colorado-equity-pricing-factors.json',
-    label: 'Colorado LIHTC equity pricing factors',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/policy/tax-credit-legislation.json',
-    label: 'Tax-credit legislation watchlist',
-    reviewByPaths: ['meta.review_by', 'entries[].review_by'],
-  },
-  {
-    file: 'data/policy/homeownership-programs.json',
-    label: 'Homeownership programs watchlist',
-    reviewByPaths: ['meta.review_by', 'programs[].review_by'],
-  },
-  {
-    file: 'data/policy/lihtc-assumptions.json',
-    label: 'LIHTC predictor assumptions',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/market/colorado-foreclosure-performance.json',
-    label: 'Colorado foreclosure performance',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/market/hud_zip_tract_crosswalk_co.json',
-    label: 'HUD-USPS ZIP-to-tract crosswalk',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/market/fhfa_hpi_subcounty_co.json',
-    label: 'FHFA tract-derived sub-county HPI',
-    reviewByPaths: ['meta.review_by'],
-    staleAfterDays: 400,
-  },
-  {
-    file: 'data/market/redfin_place_market_tracker_co.json',
-    label: 'Redfin ZIP-derived place market tracker',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/market/developable_land_context_co.json',
-    label: 'Colorado tract developable-land context',
-    reviewByPaths: ['meta.review_by'],
-  },
-  {
-    file: 'data/market/travel_time_matrix_co.json',
-    label: 'Colorado tract-to-regional-hub travel-time matrix',
-    reviewByPaths: ['meta.review_by'],
-  },
-];
-
-const MONTHS = ['january','february','march','april','may','june','july',
-                'august','september','october','november','december'];
-
-/**
 Best-effort parse of a "when" string into a Date, or null.
 Order: ISO date → "Month YYYY" → "YYYY-Qn" (end of quarter).
