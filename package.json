@@ -159,7 +159,7 @@
     "playwright": "^1.58.2",
     "proxy-agent": "^8.0.2",
     "puppeteer": "^25.3.0",
-    "stylelint": "^17.14.0",
+    "stylelint": "^17.14.1",
     "stylelint-config-recommended": "^18.0.0",
     "wcag-contrast": "^3.0.0"
   },
