@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T13:38:44.111Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T17:07:10.862Z. Do not edit by hand.
 
 ---
 
@@ -14,7 +14,7 @@
 | `about.html` | About | Colorado Affordable Housing Data Reference | 14.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
-| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.1 KB |
+| `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
@@ -28,7 +28,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
-| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
+| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
@@ -38,7 +38,7 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.2 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 32.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 42.8 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.3 KB |
@@ -1623,7 +1623,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 19.3 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 19.6 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-205 test files found.
+206 test files found.
 
 | File | Size |
 |------|------|
@@ -1668,7 +1668,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 4.1 KB |
-| `test/data-trust-center-badges.test.js` | 3.9 KB |
+| `test/data-trust-center-badges.test.js` | 4.3 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
@@ -1774,6 +1774,7 @@
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
+| `test/site-review-build-pause-regressions.test.js` | 6.3 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
@@ -1791,7 +1792,7 @@
 | `test/test_environmental_screening.js` | 11.7 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
-| `test/test_legislative_tracker.js` | 8.4 KB |
+| `test/test_legislative_tracker.js` | 8.9 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
