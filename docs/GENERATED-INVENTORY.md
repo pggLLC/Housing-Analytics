@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T12:19:31.838Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T13:38:44.111Z. Do not edit by hand.
 
 ---
 
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-204 test files found.
+205 test files found.
 
 | File | Size |
 |------|------|
@@ -1715,6 +1715,7 @@
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 15.0 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
+| `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
