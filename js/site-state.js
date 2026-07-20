@@ -1,7 +1,7 @@
 /**
  * site-state.js — Shared site state manager for COHO Analytics
  *
- * Provides persistent county / geography / PMA context across pages via
+ * Provides persistent county / PMA context across pages via
  * localStorage, with a subscribe/event pattern for reactive updates and
  * automatic DOM wiring through [data-state-key] attributes.
  *
@@ -101,16 +101,14 @@
 
   /* ── Context banner ──────────────────────────────────────────────────────
    * Pages that include an element with id="siteStateContextBanner" will
-   * receive an auto-populated county / geography breadcrumb.
+   * receive an auto-populated county breadcrumb.
    */
   function _updateContextBanner() {
     var banner = document.getElementById('siteStateContextBanner');
     if (!banner) return;
     var county = _get('county');
-    var geo    = _get('geography');
     var parts  = [];
     if (county && county.name) parts.push(county.name);
-    if (geo    && geo.name)    parts.push(geo.name);
     if (parts.length === 0) {
       banner.hidden = true;
       return;
@@ -155,25 +153,6 @@
       storageClear('county');
       _state.county = null;
       _notify('county', null);
-      _updateContextBanner();
-    },
-
-    /* ── Geography (sub-county: place / CDP / tract) ─────────────────────── */
-
-    setGeography: function (geoid, name, geoType) {
-      var value = { geoid: geoid || null, name: name || null, type: geoType || null };
-      _set('geography', value);
-      _updateContextBanner();
-    },
-
-    getGeography: function () {
-      return _get('geography') || null;
-    },
-
-    clearGeography: function () {
-      storageClear('geography');
-      _state.geography = null;
-      _notify('geography', null);
       _updateContextBanner();
     },
 
@@ -251,7 +230,7 @@
   };
 
   /* ── Bootstrap: load persisted state and wire DOM on DOMContentLoaded ── */
-  var PERSISTENT_KEYS = ['county', 'geography', 'pmaResults', 'awardContext'];
+  var PERSISTENT_KEYS = ['county', 'pmaResults', 'awardContext'];
   PERSISTENT_KEYS.forEach(function (k) { _get(k); });
 
   function _bootstrap() {
