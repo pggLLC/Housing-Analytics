@@ -134,7 +134,7 @@
             <div style="font-size:.68rem; color: var(--muted); margin-top:.25rem;"><span style="color:var(--good);font-weight:700;">DATA</span> · HUD AHAR via JCHS</div>
           </div>
         </div>
-        <div id="jchsCoNarrative" style="background:var(--surface-2,#f7f7f9);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);font-size:.85rem;line-height:1.55;color:var(--muted);">Loading Colorado context…</div>
+        <div id="jchsCoNarrative" style="background:var(--surface-2,#f7f7f9);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);font-size:.85rem;line-height:1.55;color:var(--text);">Loading Colorado context…</div>
         <a href="https://www.jchs.harvard.edu/state-nations-housing-2026" target="_blank" rel="noopener" class="btn">Read full JCHS report ↗</a>
         <a href="data/policy/jchs-state-of-nations-housing.json" target="_blank" rel="noopener" class="btn" style="margin-left:var(--sp2);background:var(--surface-2,#f7f7f9);color:var(--text);">View underlying data</a>
         <script>
@@ -164,7 +164,7 @@
                   var nar = document.getElementById('jchsCoNarrative');
                   if (nar) {
                     nar.innerHTML =
-                      '<strong style="color:var(--text);">Colorado context:</strong> ' +
+                      '<strong style="color:var(--text-strong);">Colorado context:</strong> ' +
                       j.colorado_context.narrative;
                   }
                 }

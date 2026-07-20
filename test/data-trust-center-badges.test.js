@@ -16,15 +16,11 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 
 const hubHtml = read('data-review-hub.html');
 const handlerJs = read('js/discovery-ui-handler.js');
+const discoveryJs = read('js/data-source-discovery.js');
+const freshnessJs = read('js/data-freshness-monitor.js');
 const manifest = JSON.parse(read('data/manifest.json'));
-const quarantine = JSON.parse(read('data/audit/quarantine-candidates.json'));
 
 assert.ok(Date.parse(manifest.generated), 'data/manifest.json exposes an ISO generated timestamp');
-assert.equal(
-  typeof quarantine.count,
-  'number',
-  'data/audit/quarantine-candidates.json exposes a numeric pending-candidate count'
-);
 
 const badgeStart = hubHtml.indexOf('id="drhMonitorBadge"');
 assert.notEqual(badgeStart, -1, 'Data Trust Center includes the monitoring badge');
@@ -34,7 +30,12 @@ assert.match(badgeHtml, /drhLastScanBadge/, 'badge exposes a last-scan target fo
 assert.match(badgeHtml, /drhPendingBadge/, 'badge exposes a pending-count target for runtime hydration');
 
 assert.match(handlerJs, /data\/manifest\.json/, 'runtime badge reads the generated data manifest');
-assert.match(handlerJs, /data\/audit\/quarantine-candidates\.json/, 'runtime badge reads quarantine candidate count');
+assert.doesNotMatch(handlerJs, /data\/audit\/quarantine-candidates\.json/, 'runtime badge does not fetch private quarantine candidates');
+assert.match(discoveryJs, /var MANIFEST_PATH = 'data\/manifest\.json'/, 'browser discovery uses the public manifest');
+assert.doesNotMatch(discoveryJs, /DATA-MANIFEST\.json|data-discovery-config\.json|CONFIG_PATH/, 'browser discovery avoids private maintainer artifacts');
+assert.match(freshnessJs, /var MANIFEST_PATH\s+= 'data\/manifest\.json'/, 'freshness monitor uses the public manifest');
+assert.doesNotMatch(freshnessJs, /var MANIFEST_PATH\s+= 'DATA-MANIFEST\.json'/, 'freshness monitor no longer fetches the private root manifest');
+assert.doesNotMatch(hubHtml, /href="DATA-MANIFEST\.json"|href="config\/data-discovery-config\.json"/, 'public hub does not link stripped maintainer-only artifacts');
 
 async function runRenderedBadgeCheck() {
   const dom = new JSDOM(
@@ -60,12 +61,6 @@ async function runRenderedBadgeCheck() {
         json: () => Promise.resolve({ generated: '2026-07-17T09:11:02.408815Z' })
       });
     }
-    if (assetPath === 'data/audit/quarantine-candidates.json') {
-      return Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ count: 3, candidates: [{ path: 'data/example.json' }] })
-      });
-    }
     return Promise.reject(new Error(`Unexpected fetch in badge test: ${assetPath}`));
   };
 
@@ -78,12 +73,12 @@ async function runRenderedBadgeCheck() {
   const badgeText = window.document.getElementById('drhMonitorBadge').textContent.replace(/\s+/g, ' ').trim();
   assert.ok(fetched.includes('data/manifest.json'), 'render path fetched data/manifest.json');
   assert.ok(
-    fetched.includes('data/audit/quarantine-candidates.json'),
-    'render path fetched quarantine candidate count'
+    !fetched.includes('data/audit/quarantine-candidates.json'),
+    'render path never fetched private quarantine candidates'
   );
   assert.match(badgeText, /Last inventory:/, 'manifest-backed badge labels the generated inventory timestamp');
   assert.match(badgeText, /(Jul|2026)/, 'rendered badge includes a real date from the manifest timestamp');
-  assert.match(badgeText, /Pending:\s*3/, 'rendered badge includes the real pending candidate count');
+  assert.match(badgeText, /Pending:\s*(?:Loading…|n\/a)/, 'rendered badge degrades pending count without a private artifact fetch');
   assert.ok(!badgeText.includes('—'), 'rendered badge never includes the placeholder dash');
 }
 

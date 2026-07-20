@@ -8,7 +8,6 @@
   'use strict';
 
   var MANIFEST_URL = 'data/manifest.json';
-  var QUARANTINE_CANDIDATES_URL = 'data/audit/quarantine-candidates.json';
 
   // ── Utility ──────────────────────────────────────────────────────────────
 
@@ -61,24 +60,16 @@
   }
 
   function loadBadgeBaseline() {
-    return Promise.all([
-      fetchJson(MANIFEST_URL),
-      fetchJson(QUARANTINE_CANDIDATES_URL)
-    ]).then(function (results) {
-      var manifest = results[0];
-      var quarantine = results[1];
+    return fetchJson(MANIFEST_URL).then(function (manifest) {
       var report = manifest && manifest.generated
         ? {
           scanTimestamp: manifest.generated,
           scanSource:    'manifest'
         }
         : null;
-      var pendingCount = quarantine && Number.isFinite(Number(quarantine.count))
-        ? Number(quarantine.count)
-        : null;
       return {
         report:       report,
-        pendingCount: pendingCount
+        pendingCount: null
       };
     });
   }

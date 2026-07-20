@@ -291,7 +291,7 @@
       overlay.setAttribute('aria-hidden', 'true');
       overlay.style.cssText =
         'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;' +
-        'background:rgba(var(--bg-rgb,255,255,255),0.7);z-index:2;font-size:.8rem;color:var(--muted);';
+        'background:rgba(var(--bg-rgb,255,255,255),0.92);z-index:2;font-size:.8rem;color:var(--text-strong);font-weight:600;';
       overlay.textContent = 'Loading…';
       box.style.position = 'relative';
       box.appendChild(overlay);

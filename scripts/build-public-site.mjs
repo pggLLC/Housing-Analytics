@@ -73,12 +73,7 @@ const REQUIRED_PUBLIC_FILES = new Set([
   'data/hna/ranking-index.json'
 ]);
 
-const SERVED_LINK_GUARD_EXEMPT_PATHS = new Set([
-  // #1271 is scoped to methodology links. These Data Trust Center links are a
-  // separately tracked cleanup and should not block this deployment guard.
-  'DATA-MANIFEST.json',
-  'config/data-discovery-config.json'
-]);
+const SERVED_LINK_GUARD_EXEMPT_PATHS = new Set([]);
 
 const SERVED_LINK_GUARD_SKIP_HTML = new Set([
   'places/_template.html'

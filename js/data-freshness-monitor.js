@@ -10,7 +10,7 @@
 
   var REPORT_KEY      = 'drh_freshness_report';
   var MS_PER_DAY      = 86400000;
-  var MANIFEST_PATH   = 'DATA-MANIFEST.json';
+  var MANIFEST_PATH   = 'data/manifest.json';
 
   // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -120,7 +120,7 @@
   // ── Run full freshness scan ──────────────────────────────────────────────
 
   /**
-   * Fetch all sources from DataSourceInventory + DATA-MANIFEST.json,
+   * Fetch all sources from DataSourceInventory + the public file manifest,
    * compute freshness for each, and return a structured report.
    * @returns {Promise<FreshnessReport>}
    */
@@ -135,7 +135,7 @@
       }
     }
 
-    // 2. Augment from DATA-MANIFEST.json for sources not in the inventory
+    // 2. Augment from manifest sources when the public build includes them.
     return fetch(resolvePath(MANIFEST_PATH))
       .then(function (r) { return r.ok ? r.json() : { sources: [] }; })
       .then(function (manifest) {
@@ -144,7 +144,7 @@
         for (var k = 0; k < sourceReports.length; k++) {
           seen[sourceReports[k].file] = true;
         }
-        // DATA-MANIFEST.json uses its own update_method vocabulary
+        // Manifest source entries use their own update_method vocabulary
         // (cached / manual / live / ci_workflow / daily / weekly / …).
         // Map all of these onto the FREQ_DAYS schema so the manifest-only
         // entries don't all collapse into 'Unknown' just because of a

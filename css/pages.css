@@ -114,14 +114,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  /* Darker than --accent (#096e65 → #054a42) so the tiny uppercase
-     text clears 4.5:1 against --accent-dim's tinted backdrop —
-     --accent alone was ~5.8:1 which axe flagged at this font size. */
+  /* Default/dark mode keeps the theme-token pair; light mode gets a
+     solid AA pair below so axe and browsers resolve the same colors. */
   color: #054a42;
   background: var(--accent-dim);
   border-radius: 99px;
   padding: 0.22rem 0.75rem;
 }
+html.light-mode .kicker { color: #054a42; background: #e6f3f1; }
 
 /* ================================================================
    TAG / BADGE
@@ -151,6 +151,7 @@
 html.dark-mode .tag-orange { color: var(--accent2) !important; }
 .tag-teal   { background: var(--accent-dim);  color: var(--accent)  !important; }
 .tag-green  { background: var(--good-dim);    color: var(--good)    !important; }
+html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
 .tag-blue   { background: var(--info-dim);    color: var(--info)    !important; }
 .tag-red    { background: var(--bad-dim);     color: var(--bad)     !important; }
 .tag-gold   { background: var(--warn-dim);    color: var(--warn)    !important; }
