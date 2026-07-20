@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T06:02:38.525Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T06:52:30.664Z. Do not edit by hand.
 
 ---
 
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-203 test files found.
+204 test files found.
 
 | File | Size |
 |------|------|
@@ -1674,6 +1674,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
+| `test/deal-calc-ami-bands.test.js` | 5.6 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 6.3 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
