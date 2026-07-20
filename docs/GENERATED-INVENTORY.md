@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T07:29:32.568Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T12:19:31.838Z. Do not edit by hand.
 
 ---
 
@@ -86,7 +86,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 184.7 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 202.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -121,7 +121,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 235.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 236.1 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -879,7 +879,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 27.8 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 24.8 KB | ✅ | — |
 | `data/hna/local-resources.json` | 172.2 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 704.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
@@ -1613,7 +1613,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 149.6 KB | ✅ | — |
+| `data/policy_briefs.json` | 162.3 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1630,7 +1630,7 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 396.0 KB | ✅ | — |
+| `data/url-health.json` | 405.9 KB | ✅ | — |
 
 ---
 
