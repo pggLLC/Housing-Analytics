@@ -3435,13 +3435,14 @@
   function _renderJurisdictionContext(ctx) {
     var el = document.getElementById('dc-jurisdiction-context');
     if (!el) return;
-    if (!ctx || (ctx.geoType !== 'place' && ctx.geoType !== 'cdp') || !ctx.name) {
+    var placeName = ctx && (ctx.name || ctx.displayName);
+    if (!ctx || (ctx.geoType !== 'place' && ctx.geoType !== 'cdp') || !placeName) {
       el.hidden = true;
       el.textContent = '';
       return;
     }
     var countyName = ctx.countyName || 'selected county';
-    el.textContent = 'Analyzing ' + ctx.name + ', ' + countyName + ' County context for HUD AMI/FMR inputs.';
+    el.textContent = 'Analyzing ' + placeName + ', ' + countyName + ' County context for HUD AMI/FMR inputs.';
     el.textContent = el.textContent.replace(/ County County context/, ' County context');
     el.hidden = false;
   }

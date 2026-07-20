@@ -86,6 +86,9 @@
     if (!countyFips && (geoType === 'place' || geoType === 'cdp') && src.fips && String(src.fips).length === 5) {
       countyFips = src.fips;
     }
+    if ((geoType === 'place' || geoType === 'cdp') && !countyFips && global.console && typeof global.console.warn === 'function') {
+      global.console.warn('[WorkflowState] Missing county context for ' + geoType + ' jurisdiction ' + (geoid || src.name || src.displayName || '(unknown)'));
+    }
 
     var name = src.name || src.displayName || src.countyName || null;
     var countyName = src.countyName || (geoType === 'county' ? name : null);

@@ -73,6 +73,7 @@
           geoid: jx.geoid,
           geoType: jx.geoType,
           countyFips: jx.countyFips || (jx.geoType === 'county' ? jx.geoid : null),
+          name: jx.name || jx.displayName || null,
           displayName: jx.name || jx.displayName || jx.countyName || null,
           countyName: jx.countyName || (jx.geoType === 'county' ? jx.name : null),
           placeGeoid: jx.placeGeoid || (/^\d{7}$/.test(jx.geoid) ? jx.geoid : null),
