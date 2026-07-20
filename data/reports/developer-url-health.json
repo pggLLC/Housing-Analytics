@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at_utc": "2026-07-13T17:14:09Z",
-    "total_urls": 395,
-    "broken_count": 52,
-    "warning_count": 31,
+    "generated_at_utc": "2026-07-20T16:26:00Z",
+    "total_urls": 396,
+    "broken_count": 49,
+    "warning_count": 35,
     "ok_count": 312,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
@@ -16,21 +16,19 @@
       ]
     },
     {
+      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
+      "status": 502,
+      "found_in": [
+        "policy-progress / Denver / dedicated_income"
+      ]
+    },
+    {
       "url": "https://greeleyschools.org/",
       "status": 0,
       "found_in": [
         "local-resources / county:08123/majorEmployers[3]",
         "local-resources / place:0832155/majorEmployers[4]",
         "local-resources / place:0832155/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://hrwc.net/",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08029/advocacy[0]",
-        "local-resources / county:08085/advocacy[0]",
-        "local-resources / county:08091/advocacy[0]"
       ]
     },
     {
@@ -143,6 +141,21 @@
       ]
     },
     {
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development",
+      "status": 502,
+      "found_in": [
+        "policy-progress / Denver / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08031/contacts[0]",
+        "policy-progress / Denver / land_banking"
+      ]
+    },
+    {
       "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
       "status": 404,
       "found_in": [
@@ -156,24 +169,6 @@
       "found_in": [
         "local-resources / place:0842110/majorEmployers[1]",
         "local-resources / place:0842110/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://www.evrazna.com/",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08101/majorEmployers[0]",
-        "local-resources / place:0862000/majorEmployers[0]"
-      ]
-    },
-    {
-      "url": "https://www.foothillsunitedway.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08019/advocacy[0]",
-        "local-resources / county:08047/advocacy[0]",
-        "local-resources / county:08059/advocacy[1]",
-        "local-resources / county:08093/advocacy[0]"
       ]
     },
     {
@@ -212,14 +207,6 @@
         "local-resources / county:08059/majorEmployers[5]",
         "local-resources / place:0884440/hospital",
         "local-resources / place:0884440/majorEmployers[0]"
-      ]
-    },
-    {
-      "url": "https://www.memorialregionalhealth.com/",
-      "status": 0,
-      "found_in": [
-        "local-resources / place:0817760/hospital",
-        "local-resources / place:0817760/majorEmployers[0]"
       ]
     },
     {
@@ -325,13 +312,6 @@
       ]
     },
     {
-      "url": "https://www.sanjuancountycolorado.us/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08111/housingAuthority[0]"
-      ]
-    },
-    {
       "url": "https://www.ssrsd.org/",
       "status": 0,
       "found_in": [
@@ -359,7 +339,7 @@
     },
     {
       "url": "https://www.townofpagosasprings.com/",
-      "status": 0,
+      "status": 502,
       "found_in": [
         "local-resources / county:08007/majorEmployers[4]",
         "local-resources / place:0856860/majorEmployers[3]"
@@ -396,15 +376,6 @@
       ]
     },
     {
-      "url": "https://www.vailgov.com/government/departments/housing",
-      "status": 404,
-      "found_in": [
-        "local-resources / place:0680930/housingLead",
-        "local-resources / place:0680930/housingPlans[0]",
-        "local-resources / place:0880040/housingLead"
-      ]
-    },
-    {
       "url": "https://www.whitewave.com/",
       "status": 0,
       "found_in": [
@@ -420,6 +391,20 @@
     }
   ],
   "warnings": [
+    {
+      "url": "https://greccio.org/",
+      "status": 429,
+      "found_in": [
+        "local-resources / place:0816000/advocacy[1]"
+      ]
+    },
+    {
+      "url": "https://www.brightonhousingauthority.org/",
+      "status": 429,
+      "found_in": [
+        "policy-progress / Brighton / land_banking"
+      ]
+    },
     {
       "url": "https://www.buckley.spaceforce.mil/",
       "status": 403,
@@ -455,6 +440,14 @@
       ]
     },
     {
+      "url": "https://www.chaffeehousing.org/",
+      "status": 429,
+      "found_in": [
+        "local-resources / county:08015/advocacy[0]",
+        "local-resources / county:08015/housingAuthority[0]"
+      ]
+    },
+    {
       "url": "https://www.cityofsalida.com/",
       "status": 403,
       "found_in": [
@@ -476,6 +469,14 @@
         "policy-progress / Englewood / dedicated_income",
         "policy-progress / Englewood / land_banking",
         "policy-progress / Englewood / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.evrazna.com/",
+      "status": 429,
+      "found_in": [
+        "local-resources / county:08101/majorEmployers[0]",
+        "local-resources / place:0862000/majorEmployers[0]"
       ]
     },
     {
@@ -635,6 +636,8 @@
       "url": "https://www.vail.gov/government/departments/housing",
       "status": 403,
       "found_in": [
+        "local-resources / place:0880040/housingLead",
+        "local-resources / place:0880040/housingPlans[0]",
         "policy-progress / Vail / dedicated_income",
         "policy-progress / Vail / hna",
         "policy-progress / Vail / tap_fee_reduction"
