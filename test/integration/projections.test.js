@@ -245,21 +245,27 @@ test('HNA HTML: household demand chart canvas present', () => {
     'chartHouseholdDemand canvas present');
 });
 
-test('HNA HTML: demographic rate sliders present', () => {
-  assert(hnaHtml.includes('id="scenFertility"'),  'fertility rate slider present');
-  assert(hnaHtml.includes('id="scenMigration"'),  'migration rate slider present');
-  assert(hnaHtml.includes('id="scenMortality"'),  'mortality rate slider present');
+test('HNA HTML: demographic rate sliders removed from read-only scenario section', () => {
+  assert(!hnaHtml.includes('id="scenFertility"'),  'fertility rate slider removed');
+  assert(!hnaHtml.includes('id="scenMigration"'),  'migration rate slider removed');
+  assert(!hnaHtml.includes('id="scenMortality"'),  'mortality rate slider removed');
 });
 
-test('HNA HTML: slider value display elements present', () => {
-  assert(hnaHtml.includes('id="scenFertilityVal"'), 'fertility value display present');
-  assert(hnaHtml.includes('id="scenMigrationVal"'), 'migration value display present');
-  assert(hnaHtml.includes('id="scenMortalityVal"'), 'mortality value display present');
+test('HNA HTML: slider value display elements removed from read-only scenario section', () => {
+  assert(!hnaHtml.includes('id="scenFertilityVal"'), 'fertility value display removed');
+  assert(!hnaHtml.includes('id="scenMigrationVal"'), 'migration value display removed');
+  assert(!hnaHtml.includes('id="scenMortalityVal"'), 'mortality value display removed');
 });
 
-test('HNA HTML: save custom scenario button present', () => {
-  assert(hnaHtml.includes('id="btnSaveCustomScenario"'),
-    'btnSaveCustomScenario button present');
+test('HNA HTML: custom scenario buttons removed and Scenario Builder CTA present', () => {
+  assert(!hnaHtml.includes('id="btnSaveCustomScenario"'),
+    'btnSaveCustomScenario button removed');
+  assert(!hnaHtml.includes('id="btnResetScenarioDefaults"'),
+    'btnResetScenarioDefaults button removed');
+  assert(hnaHtml.includes('id="scenarioBuilderLink"'),
+    'scenarioBuilderLink CTA present');
+  assert(hnaHtml.includes('href="hna-scenario-builder.html"'),
+    'scenarioBuilderLink has safe default href');
 });
 
 test('Projection snapshots: directory and baseline snapshot exist', () => {

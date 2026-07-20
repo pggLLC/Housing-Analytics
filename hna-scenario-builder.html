@@ -381,6 +381,7 @@
       var loadBtn  = document.getElementById('sbLoadCounty');
       var statusEl = document.getElementById('sbGeoStatus');
       var root     = (window.__REPO_ROOT || '');
+      var urlParams = new URLSearchParams(window.location.search || '');
 
       // Lookup of GEOID → { name, type, containingCounty, population } so the
       // click handler can resolve a place's containing county + share factor
@@ -448,6 +449,7 @@
           // F154 — Hand the freshly-populated set to the combobox so the
           // type-to-filter dropdown has something to search against.
           mountCombobox(counties, places, cdps);
+          applyUrlGeographyParams();
         })
         .catch(function (err) {
           select.innerHTML = '<option value="">— Failed to load geographies —</option>';
@@ -574,6 +576,32 @@
           e.preventDefault();
           pick(li.dataset.geoid);
         });
+      }
+
+      function applyUrlGeographyParams() {
+        var requestedGeoType = urlParams.get('geoType');
+        var requestedGeoid = urlParams.get('geoid');
+        if (!requestedGeoType || !requestedGeoid) return;
+
+        var entry = geoIndex[requestedGeoid];
+        if (!entry && requestedGeoType !== 'county') return;
+        if (entry && requestedGeoType !== 'county' && entry.type !== requestedGeoType) return;
+
+        select.value = requestedGeoid;
+        if (select.value !== requestedGeoid) return;
+        select.dispatchEvent(new Event('change', { bubbles: true }));
+
+        var input = document.getElementById('sbGeoSearch');
+        var selectedEl = document.getElementById('sbGeoSelected');
+        var displayType = requestedGeoType === 'county' ? 'County' :
+          (requestedGeoType === 'cdp' ? 'CDP / Unincorporated' : 'Incorporated Place');
+        var displayName = entry ? entry.name : (select.options[select.selectedIndex] && select.options[select.selectedIndex].text);
+        if (input && displayName) input.value = displayName;
+        if (selectedEl && displayName) selectedEl.textContent = 'Selected: ' + displayName + ' (' + displayType + ')';
+
+        if (urlParams.get('auto') === '1' && loadBtn) {
+          loadBtn.click();
+        }
       }
 
       loadBtn.addEventListener('click', function () {
