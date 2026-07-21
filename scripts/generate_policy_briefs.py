@@ -32,6 +32,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ALERTS_FILE = REPO_ROOT / 'data' / 'alerts' / 'alerts_archive.json'
+TOOL_WATCH_FILE = REPO_ROOT / 'data' / 'policy' / 'tool-watch.json'
 OUT_FILE = REPO_ROOT / 'data' / 'policy_briefs.json'
 BRIEFS_MAX = int(os.environ.get('BRIEFS_MAX', '20'))
 
@@ -44,6 +45,7 @@ TOPIC_LABELS: dict[str, str] = {
     'market': 'Housing Market',
     'policy': 'Housing Policy',
     'construction': 'Construction & Permitting',
+    'tool_watch': 'Tool Evaluations',
     'general': 'General',
 }
 
@@ -55,6 +57,7 @@ RELATED_DATA_MAP: dict[str, str] = {
     'zoning': 'data/policy/prop123_jurisdictions.json',
     'policy': 'data/policy/prop123_jurisdictions.json',
     'construction': 'data/market/hud_lihtc_co.geojson',
+    'tool_watch': 'data/policy/tool-watch.json',
     'homelessness': 'data/market/acs_tract_metrics_co.json',
     'general': 'data/market/acs_tract_metrics_co.json',
 }
@@ -78,6 +81,40 @@ def group_alerts_by_topic(alerts: list[dict]) -> dict[str, list[dict]]:
         topic = alert.get('topic', 'general')
         groups.setdefault(topic, []).append(alert)
     return groups
+
+
+def tool_watch_alerts() -> list[dict]:
+    """Convert curated tool-watch entries into brief-source alert records."""
+    data = load_json_safe(TOOL_WATCH_FILE)
+    if not isinstance(data, dict):
+        return []
+    entries = data.get('entries') or []
+    meta = data.get('meta') or {}
+    alerts: list[dict] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        title = entry.get('title') or entry.get('tool_name') or ''
+        source_url = entry.get('source_url') or ''
+        if not title or not source_url:
+            continue
+        vendor = entry.get('vendor') or 'Tool source'
+        alerts.append({
+            'topic': 'tool_watch',
+            'title': title,
+            'source': vendor,
+            'url': source_url,
+            'date': entry.get('last_verified') or meta.get('last_verified') or meta.get('as_of') or '',
+            'region': 'National tool evaluation',
+            'tool_name': entry.get('tool_name') or title,
+            'vendor': vendor,
+            'category': entry.get('category') or '',
+            'status': entry.get('status') or '',
+            'capability_summary': entry.get('capability_summary') or '',
+            'relevance_to_coho': entry.get('relevance_to_coho') or '',
+            'source_note': entry.get('source_note') or '',
+        })
+    return alerts
 
 
 def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
@@ -117,6 +154,50 @@ def build_rule_based_brief(topic: str, alerts: list[dict]) -> dict:
         'articles': articles,
         'alert_count': len(alerts),
         'regions': regions,
+        'generated': utc_now(),
+    }
+
+
+def build_tool_watch_brief(alerts: list[dict]) -> dict:
+    """Generate the recurring affordable-housing tool-evaluation brief."""
+    recent = sorted(alerts, key=lambda a: a.get('date') or '', reverse=True)
+    vendors = sorted({a.get('vendor') for a in recent if a.get('vendor')})
+    tools = [a.get('tool_name') or a.get('title') for a in recent if a.get('tool_name') or a.get('title')]
+    categories = sorted({str(a.get('category') or '').replace('_', ' ') for a in recent if a.get('category')})
+    articles = []
+    for a in recent:
+        title = a.get('title') or a.get('tool_name') or ''
+        if not title:
+            continue
+        art = {
+            'title': title,
+            'source': a.get('source') or a.get('vendor') or '',
+            'link': a.get('url') or a.get('link') or '',
+            'date': (a.get('date') or '')[:10],
+        }
+        if art['link']:
+            articles.append(art)
+
+    return {
+        'title': f'Affordable Housing Tool Evaluations — {datetime.now(timezone.utc).strftime("%B %Y")}',
+        'policy_topic': 'Tool Evaluations',
+        'is_tool_evaluation': True,
+        'summary': (
+            f'The current tool watch tracks {len(recent)} affordable-housing analysis tool(s) '
+            f'across {", ".join(vendors) if vendors else "verified public and vendor sources"}. '
+            'Use these entries as evaluation prompts for COHO feature parity, source transparency, '
+            'and underwriting workflow fit; they are not policy updates or endorsements.'
+        ),
+        'implications': (
+            f'Current comparison areas include {", ".join(categories[:5]) if categories else "rent limits, income limits, and QCT/DDA screening"}. '
+            f'Priority tools to re-check this cycle: {", ".join(tools[:4])}. '
+            'Before changing COHO behavior, verify each cited source directly and document any bot-blocked vendor pages.'
+        ),
+        'related_data': RELATED_DATA_MAP.get('tool_watch', ''),
+        'sources': vendors[:5],
+        'articles': articles,
+        'alert_count': len(recent),
+        'regions': ['National tool evaluation'],
         'generated': utc_now(),
     }
 
@@ -216,6 +297,10 @@ def main() -> int:
     if not alerts:
         print('ℹ No alerts found. Run fetch_google_alerts.py first.', file=sys.stderr)
 
+    tool_alerts = tool_watch_alerts()
+    if tool_alerts:
+        alerts.extend(tool_alerts)
+
     print(f'Generating policy briefs from {len(alerts)} alert(s)…')
     groups = group_alerts_by_topic(alerts)
 
@@ -227,7 +312,9 @@ def main() -> int:
     for topic, topic_alerts in sorted_topics[:BRIEFS_MAX]:
         print(f'  Topic: {topic} ({len(topic_alerts)} alerts)')
         brief = None
-        if api_key:
+        if topic == 'tool_watch':
+            brief = build_tool_watch_brief(topic_alerts)
+        elif api_key:
             brief = generate_llm_brief(topic, topic_alerts, api_key)
             if brief is not None:
                 llm_used = True
