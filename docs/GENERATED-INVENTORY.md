@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T04:13:47.894Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T12:58:53.123Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-208 test files found.
+209 test files found.
 
 | File | Size |
 |------|------|
@@ -1774,6 +1774,7 @@
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
+| `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/site-review-build-pause-regressions.test.js` | 6.3 KB |
