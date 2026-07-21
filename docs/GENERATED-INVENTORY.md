@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T16:06:50.404Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T18:56:51.305Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 50.0 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 50.2 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.8 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1560 JSON files found.
+1561 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 750.2 KB | ✅ | — |
+| `data/_manifest.json` | 750.8 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1614,7 +1614,8 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
-| `data/policy_briefs.json` | 162.3 KB | ✅ | — |
+| `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
+| `data/policy_briefs.json` | 164.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1637,7 +1638,7 @@
 
 ## Test Files
 
-210 test files found.
+211 test files found.
 
 | File | Size |
 |------|------|
@@ -1802,6 +1803,7 @@
 | `test/test_public_land_overlay.js` | 9.3 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
+| `test/tool-watch.test.js` | 4.3 KB |
 | `test/travel-time-matrix.test.js` | 6.8 KB |
 | `test/unit-mix-validation.test.js` | 3.9 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
