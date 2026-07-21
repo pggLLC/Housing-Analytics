@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-20T23:12:30.199Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T00:13:20.336Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1668,7 +1668,7 @@
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
-| `test/data-scope.test.js` | 4.1 KB |
+| `test/data-scope.test.js` | 6.4 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
@@ -1687,7 +1687,7 @@
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
-| `test/fetch-error-surface.test.js` | 3.4 KB |
+| `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 6.8 KB |
 | `test/file-manifest.test.js` | 2.9 KB |
@@ -1710,7 +1710,7 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 60.8 KB |
-| `test/hna-home-value-cascade.test.js` | 10.1 KB |
+| `test/hna-home-value-cascade.test.js` | 10.5 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
@@ -1759,7 +1759,7 @@
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
-| `test/pma-scoring.test.js` | 31.4 KB |
+| `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-tract-display.test.js` | 7.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
