@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T00:13:20.336Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T00:47:10.451Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.8 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 227.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1636,7 +1636,7 @@
 
 ## Test Files
 
-207 test files found.
+208 test files found.
 
 | File | Size |
 |------|------|
@@ -1740,6 +1740,7 @@
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
+| `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
