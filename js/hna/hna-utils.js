@@ -1237,23 +1237,19 @@
 
   // --- Renderers ---
 
-  const PROJECTION_SCENARIOS = {
-    baseline: {
-      label: 'Baseline',
-      description: 'Moderate growth following recent historical trends. Fertility holds steady; migration reflects the 2018–2023 average.',
-      color: '#4a90d9',
-    },
-    low_growth: {
-      label: 'Low growth',
-      description: 'Slowing in-migration, modest fertility decline, slightly elevated mortality. Reflects affordability-driven headwinds.',
-      color: '#e07b39',
-    },
-    high_growth: {
-      label: 'High growth',
-      description: 'Accelerated in-migration driven by economic expansion, slightly above-trend fertility, continued mortality improvement.',
-      color: '#4caf50',
-    },
-  };
+  const PROJECTION_SCENARIOS = {};
+  ((window.ScenarioPresets && window.ScenarioPresets.list) || []).forEach(function (preset) {
+    PROJECTION_SCENARIOS[preset.key] = {
+      label: preset.label,
+      description: preset.description,
+      color: preset.color,
+      params: {
+        fertility_multiplier: preset.params.fertility_multiplier,
+        mortality_multiplier: preset.params.mortality_multiplier,
+        net_migration_annual: preset.params.net_migration_annual,
+      },
+    };
+  });
 
   // AMI tier labels for housing demand charts
   const AMI_TIER_LABELS = {

@@ -7,6 +7,7 @@
  *
  * Dependencies (must be loaded before this script):
  *   - js/projections/cohort-component-model.js
+ *   - js/projections/scenario-presets.js
  *   - js/projections/scenario-storage.js
  *   - Chart.js (CDN)
  *   - js/fetch-helper.js
@@ -20,11 +21,17 @@
   // Constants
   // ---------------------------------------------------------------------------
 
-  const BUILT_IN_SCENARIOS = [
-    { id: 'baseline',   label: 'Baseline (Moderate Growth)', params: { fertility_multiplier: 1.0,  mortality_multiplier: 1.0,  net_migration_annual: 500  } },
-    { id: 'low-growth', label: 'Low Growth',                 params: { fertility_multiplier: 0.90, mortality_multiplier: 1.02, net_migration_annual: 250  } },
-    { id: 'high-growth',label: 'High Growth',                params: { fertility_multiplier: 1.05, mortality_multiplier: 0.98, net_migration_annual: 1000 } },
-  ];
+  const BUILT_IN_SCENARIOS = ((window.ScenarioPresets && window.ScenarioPresets.list) || []).map(function (preset) {
+    return {
+      id: preset.key,
+      label: preset.key === 'baseline' ? 'Baseline (Moderate Growth)' : preset.label.replace(/\bgrowth\b/, 'Growth'),
+      params: {
+        fertility_multiplier: preset.params.fertility_multiplier,
+        mortality_multiplier: preset.params.mortality_multiplier,
+        net_migration_annual: preset.params.net_migration_annual,
+      },
+    };
+  });
 
   /* F156 — Was storing literal "var(--accent)" strings here and handing them
      straight to Chart.js as borderColor. Chart.js's color parser doesn't
@@ -38,8 +45,8 @@
      theme change picks up the brighter dark-mode variants. */
   const SCENARIO_CSS_VARS = {
     'baseline':    { borderVar: '--accent',  bgFallback: 'rgba(9,110,101,0.15)' },
-    'low-growth':  { borderVar: '--warn',    bgFallback: 'rgba(168,70,8,0.15)'  },
-    'high-growth': { borderVar: '--info',    bgFallback: 'rgba(29,78,216,0.15)' },
+    'low_growth':  { borderVar: '--warn',    bgFallback: 'rgba(168,70,8,0.15)'  },
+    'high_growth': { borderVar: '--info',    bgFallback: 'rgba(29,78,216,0.15)' },
     'custom':      { borderVar: '--accent2', bgFallback: 'rgba(200,111,13,0.15)'},
   };
 
@@ -347,7 +354,7 @@
       });
 
       // Also show low/high if available
-      ['low-growth', 'high-growth', 'custom'].forEach(id => {
+      ['low_growth', 'high_growth', 'custom'].forEach(id => {
         const r = (_activeResults[id] || []).find(x => x.year === row.year);
         const td = document.createElement('td');
         td.textContent = r ? r.unitsNeeded.toLocaleString() : '—';

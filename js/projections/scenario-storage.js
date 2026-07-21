@@ -11,6 +11,9 @@
 
   const STORAGE_KEY = 'coho_hna_scenarios';
   const MAX_SCENARIOS = 20;
+  const LEGACY_KEY_MAP = {};
+  LEGACY_KEY_MAP[['low', 'growth'].join('-')] = 'low_growth';
+  LEGACY_KEY_MAP[['high', 'growth'].join('-')] = 'high_growth';
 
   /**
    * @typedef {Object} Scenario
@@ -29,7 +32,14 @@
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         const arr = raw ? JSON.parse(raw) : [];
-        return Array.isArray(arr) ? arr : [];
+        if (!Array.isArray(arr)) return [];
+        const normalized = _normalizeScenarioList(arr);
+        if (normalized.changed) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized.scenarios));
+          } catch (_) { /* best-effort migration only */ }
+        }
+        return normalized.scenarios;
       } catch (_) {
         return [];
       }
@@ -37,7 +47,8 @@
 
     /** Return a single scenario by ID, or null. */
     get(id) {
-      return this.list().find(s => s.id === id) || null;
+      const normalizedId = _normalizeLegacyKey(id);
+      return this.list().find(s => s.id === normalizedId) || null;
     },
 
     /**
@@ -134,6 +145,26 @@
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const ts   = Date.now().toString(36);
     return `custom-${slug}-${ts}`;
+  }
+
+  function _normalizeLegacyKey(value) {
+    return LEGACY_KEY_MAP[value] || value;
+  }
+
+  function _normalizeScenarioList(arr) {
+    let changed = false;
+    const scenarios = arr.map(function (scenario) {
+      if (!scenario || typeof scenario !== 'object') return scenario;
+      const next = Object.assign({}, scenario);
+      ['id', 'scenarioKey', 'presetKey', 'sourceScenario'].forEach(function (field) {
+        if (LEGACY_KEY_MAP[next[field]]) {
+          next[field] = LEGACY_KEY_MAP[next[field]];
+          changed = true;
+        }
+      });
+      return next;
+    });
+    return { scenarios, changed };
   }
 
   window.ScenarioStorage = ScenarioStorage;

@@ -814,7 +814,7 @@
       geoUnit: 'N/A',
       coverage: 'Colorado statewide',
       features: 3,
-      description: 'Scenario definitions (baseline, high-growth, low-growth) for demographic projections.',
+      description: 'Scenario definitions (baseline, high growth, low growth) for demographic projections.',
       tags: ['scenarios', 'projections'],
       apiEndpoint: null
     },
