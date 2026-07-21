@@ -43,6 +43,28 @@ assert.deepEqual(
   'canonical scenario keys use underscores',
 );
 
+assert.deepEqual(
+  Object.fromEntries(canonical.map(preset => [preset.key, preset.params])),
+  {
+    baseline: {
+      fertility_multiplier: 1.0,
+      mortality_multiplier: 1.0,
+      net_migration_annual: 500,
+    },
+    low_growth: {
+      fertility_multiplier: 0.90,
+      mortality_multiplier: 1.02,
+      net_migration_annual: 250,
+    },
+    high_growth: {
+      fertility_multiplier: 1.05,
+      mortality_multiplier: 0.98,
+      net_migration_annual: 1000,
+    },
+  },
+  'canonical ScenarioPresets params preserve the approved numeric triples',
+);
+
 for (const preset of canonical) {
   assert.deepEqual(
     hna[preset.key].params,
