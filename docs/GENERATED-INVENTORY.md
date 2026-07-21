@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T12:58:53.123Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T16:06:50.404Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1559 JSON files found.
+1560 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 749.7 KB | ✅ | — |
+| `data/_manifest.json` | 750.2 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1580,6 +1580,7 @@
 | `data/market/inclusionary_zoning_co.json` | 6.8 KB | ✅ | — |
 | `data/market/lihtc-equity-pricing-history.json` | 2.3 KB | ✅ | — |
 | `data/market/lodes_co.json` | 662.6 KB | ✅ | — |
+| `data/market/lodes_tract_od_co.json` | 14.09 MB | ✅ | — |
 | `data/market/novogradac-equity-pricing.json` | 5.2 KB | ✅ | — |
 | `data/market/opportunity_insights_co.json` | 163.3 KB | ✅ | — |
 | `data/market/parcel_aggregates_co.json` | 2.8 KB | ✅ | — |
@@ -1636,7 +1637,7 @@
 
 ## Test Files
 
-209 test files found.
+210 test files found.
 
 | File | Size |
 |------|------|
@@ -1740,6 +1741,7 @@
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
+| `test/lodes-tract-od.test.js` | 5.2 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
@@ -1909,7 +1911,7 @@
 | `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 7.5 KB |
-| `.github/workflows/rebuild-place-od-flows.yml` | 3.8 KB |
+| `.github/workflows/rebuild-place-od-flows.yml` | 4.1 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
