@@ -70,6 +70,15 @@
   /* ── Element references ─────────────────────────────────────────── */
   function $id(id) { return document.getElementById(id); }
 
+  function _dataScopeBadge(scope, options) {
+    if (window.DataScope && typeof window.DataScope.scopeBadge === 'function') {
+      return window.DataScope.scopeBadge(scope, options || {});
+    }
+    return scope === 'county'
+      ? '<span class="ds-pill ds-pill--county" style="display:inline-block;padding:1px 6px;border-radius:3px;font-size:.68rem;font-weight:600;line-height:1.3;background:var(--warn-dim,#3f2a1a);color:var(--warn,#fbbf24);border:1px solid var(--warn,#fbbf24);">county-scope</span>'
+      : '';
+  }
+
   /* ── Internal state ─────────────────────────────────────────────── */
   // CHFA tightening (2026-06-11): default to Tract picker. CHFA Market
   // Study Guide (Appendix A, 2025-26 QAP) does not allow radius boundaries
@@ -294,11 +303,32 @@
     var renderer = window.LIHTCConceptCardRenderer;
     if (renderer && typeof renderer.render === 'function') {
       renderer.render(card, rec, hnsFit);
+      _renderDealHandoffScopeNote(card, dealInputs);
       return;
     }
 
     // Fallback: inline renderer (kept in sync with LIHTCConceptCardRenderer)
     _drawConceptCard(card, rec, hnsFit);
+    _renderDealHandoffScopeNote(card, dealInputs);
+  }
+
+  function _renderDealHandoffScopeNote(card, dealInputs) {
+    if (!card || !dealInputs) return;
+    var parts = [];
+    if (dealInputs.countyAffordabilityGap != null) {
+      parts.push('county affordability gap');
+    }
+    if (dealInputs.chfaHistoricalAwards != null) {
+      parts.push('CHFA award count');
+    }
+    if (!parts.length) return;
+    var note = document.createElement('p');
+    note.className = 'pma-deal-handoff-scope-note';
+    note.style.cssText = 'margin:.5rem 0 0;font-size:.76rem;color:var(--text-muted,#aaa);line-height:1.4;';
+    note.innerHTML = '<strong>Deal handoff inputs:</strong> ' + _esc(parts.join(' and ')) + ' ' +
+      _dataScopeBadge('county', { inline: true }) +
+      ' <span style="color:var(--text-muted,#aaa)">County-scope context; not site- or place-specific.</span>';
+    card.appendChild(note);
   }
 
   function _drawConceptCard(card, rec, hnsFit) {

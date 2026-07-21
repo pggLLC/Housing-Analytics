@@ -1401,6 +1401,11 @@
       rentPressure:    '⚠ Verify: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR</a> (lags ~18 mo) · spot-check vs. current market rents',
       marketTightness: '⚠ Verify: ACS 5-yr vacancy (lags ~18 mo) · does not reflect buildable-land constraints'
     };
+    function _scopeBadge(scope, options) {
+      return (window.DataScope && typeof window.DataScope.scopeBadge === 'function')
+        ? window.DataScope.scopeBadge(scope, options || {})
+        : '';
+    }
     var listEl = el('pmaDimList');
     if (listEl) {
       listEl.innerHTML = dimNames.map(function (k, i) {
@@ -1432,6 +1437,11 @@
         var verifyHint = (hasData && dimVerify[k])
           ? '<span class="kpi-source kpi-verify" style="display:block;margin-top:.25rem;font-size:.68rem">' + dimVerify[k] + '</span>'
           : '';
+        if (k === 'captureRisk' && result.captureDenominator && result.captureDenominator.source === 'chas_lihtc_eligible') {
+          verifyHint += '<span class="kpi-source kpi-scope" style="display:block;margin-top:.2rem;font-size:.68rem">' +
+            'CHAS denominator scope ' + _scopeBadge('county', { inline: true }) +
+            ' county income mix scaled to PMA buffer.</span>';
+        }
         // Tooltip uses the site-wide .info-tooltip pattern (<details>/<summary>)
         // instead of native HTML title attrs — title attrs don't show on touch
         // devices and a parent <li> title silently masks a nested span's title.
