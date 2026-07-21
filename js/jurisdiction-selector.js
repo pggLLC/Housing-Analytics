@@ -105,9 +105,15 @@
 
       /* Responsive */
       '@media(max-width:768px){',
-      '.sj-paths{grid-template-columns:1fr;grid-template-rows:auto auto auto;}',
+      '.sj-paths{box-sizing:border-box;width:100%;max-width:100%;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto;overflow-x:clip;}',
+      '.sj-path,.sj-divider{box-sizing:border-box;max-width:100%;min-width:0;}',
       '.sj-divider{padding-top:0;}',
       '.sj-recent__list{grid-template-columns:1fr;}',
+      '.workflow-progress{box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow:hidden;}',
+      '.workflow-progress__steps{box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}',
+      '.workflow-progress__steps::-webkit-scrollbar{display:none;}',
+      '.workflow-progress__steps .wf-step{flex:0 0 58px !important;min-width:58px !important;}',
+      '.workflow-progress__steps .wf-step-connector{flex:0 0 12px !important;min-width:12px !important;}',
       '}'
     ].join('');
 

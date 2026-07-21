@@ -30,6 +30,7 @@
     "test:inline-heading-typography": "node scripts/audit/inline-heading-typography.mjs",
     "test:phantom-css-vars": "node scripts/audit/no-phantom-css-vars.mjs",
     "test:mobile-overflow-containment": "node test/mobile-overflow-containment.test.js",
+    "test:rendered-mobile-overflow": "node scripts/audit/rendered-mobile-overflow-npm.mjs",
     "test:data-scope": "node test/data-scope.test.js",
     "test:data-map-coverage": "node test/data-map-coverage.test.js",
     "test:file-manifest": "node test/file-manifest.test.js",

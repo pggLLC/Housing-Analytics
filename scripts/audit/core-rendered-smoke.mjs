@@ -28,7 +28,7 @@ const PAGE_TIMEOUT_MS = Number.parseInt(process.env.PAGE_TIMEOUT_MS || '45000', 
 const SETTLE_MS = Number.parseInt(process.env.SETTLE_MS || '3500', 10);
 const VIEWPORTS = [
   { name: 'desktop', width: 1366, height: 900 },
-  { name: 'mobile', width: 390, height: 844 },
+  { name: 'mobile', width: 375, height: 844 },
 ];
 
 const FLOWS = [
@@ -57,10 +57,22 @@ const FLOWS = [
     requiredSelectors: ['#lofTable', '#lofTableBody'],
   },
   {
+    name: 'Select Jurisdiction',
+    path: '/select-jurisdiction.html',
+    mustContain: ['Where are you working?', 'Select Jurisdiction'],
+    requiredSelectors: ['#workflowProgress', '#sjKnowPath'],
+  },
+  {
     name: 'PMA',
     path: '/market-analysis.html',
     mustContain: ['Public Market Analysis', 'screening tool'],
     requiredSelectors: ['#pmaMap', '.pma-intro-text'],
+  },
+  {
+    name: 'Deal Calculator',
+    path: '/deal-calculator.html',
+    mustContain: ['Deal Calculator', 'Project Inputs'],
+    requiredSelectors: ['#dealCalcMount', '#dc-calc-grid', '#dc-inputs-col'],
   },
   {
     name: 'Data Trust Center',
