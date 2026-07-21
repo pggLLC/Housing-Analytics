@@ -19,6 +19,7 @@
  *   - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
  *   - data/market/developable_land_context_co.json (tract developable-land context)
  *   - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
+ *   - data/market/lodes_tract_od_co.json (LODES tract-to-tract OD matrix)
  *
  * Each was added in a one-time commit and has no refresh workflow. The UI
  * discloses the vintage honestly (shows `as_of` inline, links the source,
@@ -120,6 +121,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/market/travel_time_matrix_co.json',
     label: 'Colorado tract-to-regional-hub travel-time matrix',
+    reviewByPaths: ['meta.review_by'],
+  },
+  {
+    file: 'data/market/lodes_tract_od_co.json',
+    label: 'Colorado LODES tract-to-tract OD matrix',
     reviewByPaths: ['meta.review_by'],
   },
 ];

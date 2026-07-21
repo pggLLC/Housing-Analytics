@@ -1,9 +1,11 @@
-name: Rebuild Place-OD Flows
+name: Rebuild Place and Tract OD Flows
 
-# Monthly rebuild of data/hna/place-od-flows.json — block-classified LEHD
-# LODES origin-destination flows aggregated to place. Consumed by HNA
-# (F46), OF detail (F58), PMA jurisdiction-context card (F63), Compare
-# (F69), and OF same-character peer picker (F71).
+# Monthly rebuild of block-classified LEHD LODES origin-destination flows:
+# - data/hna/place-od-flows.json, aggregated to place and consumed by HNA /
+#   OF / PMA context surfaces.
+# - data/market/lodes_tract_od_co.json, exact tract-to-tract context substrate
+#   for the future D-full commute-shaped PMA mode. Context-only; no scoring
+#   consumer is wired by this workflow.
 #
 # LODES releases new OD files annually around mid-summer. A monthly run
 # is enough cadence to pick up new vintages without burning bandwidth on
@@ -18,13 +20,14 @@ on:
     branches: ['main']
     paths:
       - 'scripts/hna/build_place_od_flows.py'
+      - 'scripts/hna/build_tract_od_matrix.py'
       - '.github/workflows/rebuild-place-od-flows.yml'
   workflow_dispatch:
     inputs:
       year:
-        description: 'LODES OD year (e.g. 2022, 2023)'
+        description: 'LODES OD year (e.g. 2023, 2022)'
         required: false
-        default: '2022'
+        default: '2023'
 
 permissions:
   contents: write
@@ -54,21 +57,22 @@ jobs:
 
       - name: Build place-OD flows
         env:
-          YEAR: ${{ inputs.year || '2022' }}
+          YEAR: ${{ inputs.year || '2023' }}
         run: |
           python scripts/hna/build_place_od_flows.py --year "$YEAR"
+          python scripts/hna/build_tract_od_matrix.py --year "$YEAR"
 
       - name: Commit refreshed flows
         id: data-commit
         run: |
           echo "pushed=false" >> "$GITHUB_OUTPUT"
-          if git diff --quiet data/hna/place-od-flows.json; then
+          if git diff --quiet data/hna/place-od-flows.json data/market/lodes_tract_od_co.json; then
             echo "Block-OD flows unchanged — nothing to commit."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/hna/place-od-flows.json
+          git add data/hna/place-od-flows.json data/market/lodes_tract_od_co.json
           # F158 — Same YAML block-scalar bug as F157 on sync-data-mtimes:
           # the multi-line `git commit -m "…"` quoted string continued
           # below the `run: |` block's indentation envelope, so YAML treated
@@ -80,9 +84,10 @@ jobs:
           {
             printf 'chore(data): rebuild place-OD flows (block-classified LEHD LODES)\n\n'
             printf 'Automated by .github/workflows/rebuild-place-od-flows.yml — keeps the\n'
-            printf 'block-OD aggregate that backs HNA / OF / PMA / Compare commute panels\n'
-            printf 'fresh against the latest LODES vintage.\n\n'
-            printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR_RANGE:-unknown}"
+            printf 'block-OD aggregates that back HNA / OF / PMA / Compare commute panels\n'
+            printf 'and the context-only tract OD artifact fresh against the latest LODES\n'
+            printf 'vintage.\n\n'
+            printf 'Source: LODES OD %s, downloaded by build_place_od_flows.py.\n' "${YEAR:-unknown}"
           } > "$msg"
           git commit -F "$msg"
           rm -f "$msg"
@@ -100,4 +105,4 @@ jobs:
               workflow_id: 'deploy.yml',
               ref: 'main'
             });
-            core.notice('Dispatched deploy.yml for place-OD flows commit.');
+            core.notice('Dispatched deploy.yml for OD flow data commit.');
