@@ -1,11 +1,60 @@
 {
   "meta": {
     "generated": "2026-07-20T10:57:40Z",
-    "brief_count": 7,
-    "source_alerts": 297,
-    "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode)."
+    "brief_count": 8,
+    "source_alerts": 302,
+    "methodology": "Policy briefs generated using GPT-4o-mini (LLM-assisted mode). Tool-watch briefs are generated from curated tool-watch JSON entries."
   },
   "briefs": [
+    {
+      "title": "Affordable Housing Tool Evaluations \u2014 July 2026",
+      "policy_topic": "Tool Evaluations",
+      "is_tool_evaluation": true,
+      "summary": "The current tool watch tracks 5 affordable-housing analysis tools across HUD USER and Novogradac. Use these entries as evaluation prompts for COHO feature parity, source transparency, and underwriting workflow fit; they are not policy updates or endorsements.",
+      "implications": "Current comparison areas include income limits, rent limits, rent-market benchmarks, and QCT/DDA screening. Priority tools to re-check this cycle: Novogradac Rent & Income Limit Calculator, Novogradac Qualified Census Tract Estimator, HUD USER QCT/DDA resources, and HUD USER rent/income-limit datasets. Before changing COHO behavior, verify each cited source directly and document any bot-blocked vendor pages.",
+      "related_data": "data/policy/tool-watch.json",
+      "sources": [
+        "HUD USER",
+        "Novogradac"
+      ],
+      "articles": [
+        {
+          "title": "HUD USER Income Limits data and query resources",
+          "source": "HUD USER",
+          "link": "https://www.huduser.gov/portal/datasets/il.html",
+          "date": "2026-07-21"
+        },
+        {
+          "title": "HUD USER Fair Market Rents data and query resources",
+          "source": "HUD USER",
+          "link": "https://www.huduser.gov/portal/datasets/fmr.html",
+          "date": "2026-07-21"
+        },
+        {
+          "title": "HUD USER QCT/DDA data and locator resources",
+          "source": "HUD USER",
+          "link": "https://www.huduser.gov/portal/datasets/qct.html",
+          "date": "2026-07-21"
+        },
+        {
+          "title": "Novogradac Qualified Census Tract Estimator",
+          "source": "Novogradac",
+          "link": "https://www.novoco.com/products/qualified-census-tract-estimator",
+          "date": "2026-07-21"
+        },
+        {
+          "title": "Novogradac Rent & Income Limit Calculator",
+          "source": "Novogradac",
+          "link": "https://www.novoco.com/products/rent-income-limit-calculator",
+          "date": "2026-07-21"
+        }
+      ],
+      "alert_count": 5,
+      "regions": [
+        "National tool evaluation"
+      ],
+      "generated": "2026-07-21T16:25:00Z"
+    },
     {
       "title": "Enhancing Affordable Housing Strategies in Colorado: Lessons from Recent Initiatives",
       "policy_topic": "Affordable Housing",
