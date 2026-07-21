@@ -28,6 +28,14 @@ const moduleSrc = fs.readFileSync(
   path.join(__dirname, '..', 'js', 'components', 'fetch-error-surface.js'),
   'utf8'
 );
+const hnaControllerSrc = fs.readFileSync(
+  path.join(__dirname, '..', 'js', 'hna', 'hna-controller.js'),
+  'utf8'
+);
+const hnaHtml = fs.readFileSync(
+  path.join(__dirname, '..', 'housing-needs-assessment.html'),
+  'utf8'
+);
 const win = { console: { warn: () => {} } };
 new Function('window', 'console', moduleSrc)(win, win.console);
 const FES = win.FetchErrorSurface;
@@ -99,6 +107,14 @@ run('renders View raw file link when url provided', () => {
 run('null target is a no-op (does not throw)', () => {
   FES.render(null, { source: 'test', error: 'test' });
   // No assertion needed — just must not throw
+});
+
+run('HNA profile-fetch failure path invokes FetchErrorSurface', () => {
+  assert.ok(hnaHtml.includes('js/components/fetch-error-surface.js'), 'HNA page loads FetchErrorSurface');
+  assert.ok(hnaControllerSrc.includes('hnaProfileFetchError'), 'HNA creates a dedicated profile fetch-error target');
+  assert.ok(/FetchErrorSurface\.render\(fetchErrorTarget/.test(hnaControllerSrc), 'HNA profile failure calls FetchErrorSurface.render');
+  assert.ok(hnaControllerSrc.includes("source: 'Census ACS profile'"), 'HNA failure surface labels the failing source');
+  assert.ok(hnaControllerSrc.includes('Download Debug Log'), 'HNA keeps the existing support debug-log link');
 });
 
 console.log('Done.');

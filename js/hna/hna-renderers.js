@@ -15,6 +15,19 @@
     return U().homeValueInfo ? U().homeValueInfo(profile) : { value: null, display: null, sourceLabel: 'ACS DP04_0089E', asOf: null };
   }
 
+  function dataScopeBadge(scope, options) {
+    if (window.DataScope && typeof window.DataScope.scopeBadge === 'function') {
+      return window.DataScope.scopeBadge(scope, options || {});
+    }
+    return '';
+  }
+
+  function chasTierSourceLabel(source) {
+    if (source === 'place-chas') return 'TIGER place-CHAS';
+    if (source === 'county-chas') return 'County CHAS Table 7';
+    return 'CO statewide baseline — low confidence';
+  }
+
   /**
    * escHtml — escape a string for safe insertion into innerHTML.
    * @param {*} v - value to escape
@@ -491,6 +504,11 @@
             ? `Median HH income is $${fmtNum(Math.round(gap))} below what's needed.`
             : 'Median income meets or exceeds the income needed.';
       }
+    }
+    const incomeNeedSrc = document.getElementById('statIncomeNeedSrc');
+    if (incomeNeedSrc) {
+      const sourceText = U().homeValueSourceText ? U().homeValueSourceText(homeInfo) : homeInfo.sourceText;
+      incomeNeedSrc.textContent = (sourceText || 'Home-value source unavailable') + ' · Freddie Mac PMMS';
     }
 
     // Commute (S0801 mean travel time C01_046E)
@@ -3793,9 +3811,7 @@
             tooltip: {
               callbacks: {
                 label: ctx => `${ctx.dataset.label}: ${fmtNum(ctx.parsed.y)}`,
-                footer: () => 'Source: ' + (tierMeta.source === 'place-chas' ? 'TIGER place-CHAS' :
-                                              tierMeta.source === 'county-chas' ? 'County CHAS Table 7' :
-                                              'CO statewide baseline'),
+                footer: () => 'Source: ' + chasTierSourceLabel(tierMeta.source),
               },
             },
           },
@@ -3805,6 +3821,18 @@
           },
         },
       });
+      const caption = document.getElementById('householdDemandScopeCaption');
+      if (caption) {
+        const scope = tierMeta.source === 'place-chas'
+          ? 'place'
+          : (tierMeta.source === 'county-chas' ? 'county' : 'scaled');
+        caption.innerHTML = 'AMI tier shares source: ' + escHtml(chasTierSourceLabel(tierMeta.source)) +
+          dataScopeBadge(scope, { countyName: tierMeta.source === 'county-chas' ? escHtml(tierMeta.name) : null, inline: true }) +
+          (tierMeta.source === 'statewide-heuristic'
+            ? ' <span style="font-weight:600;color:var(--warn,#d97706)">CO statewide baseline — low confidence</span>'
+            : '');
+        caption.hidden = false;
+      }
     }
 
     // Render data quality badge for current geography

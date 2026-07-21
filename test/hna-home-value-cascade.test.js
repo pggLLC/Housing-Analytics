@@ -54,6 +54,8 @@ assert(hnaUtils.includes('function homeValueInfo'), 'HNA utils should expose the
 assert(/function homeValueInfo\(profile\) \{\n\s+return U\(\)\.homeValueInfo/.test(hnaRenderers), 'HNA renderers should delegate to the shared home-value cascade helper');
 assert(/function renderAffordChart[\s\S]*homeValueInfo\(profile\)/.test(hnaRenderers), 'Affordability chart should use the home-value cascade helper');
 assert(/function renderWageAffordability[\s\S]*homeValueInfo\(profile\)/.test(hnaRenderers), 'Wage affordability panel should use the home-value cascade helper');
+assert(/statIncomeNeedSrc[\s\S]*homeValueSourceText[\s\S]*Freddie Mac PMMS/.test(hnaRenderers), 'Income-needed sublabel should consume shared homeValueInfo sourceText plus PMMS assumptions');
+assert(!/ACS DP04_0089E median home value · <a href="https:\/\/www\.freddiemac\.com\/pmms"/.test(fs.readFileSync(path.join(ROOT, 'housing-needs-assessment.html'), 'utf8')), 'Income-needed card must not carry the old hard-coded ACS home-value source label');
 assert(!/function renderAffordChart[\s\S]{0,900}safeNum\(profile\.DP04_0089E\) \|\| 0/.test(hnaRenderers), 'Affordability chart should not fall back to raw DP04 directly');
 assert(!/function renderWageAffordability[\s\S]{0,900}profile && profile\.DP04_0089E/.test(hnaRenderers), 'Wage affordability panel should not read raw DP04 directly');
 assert(/geoType === 'place' \|\| geoType === 'cdp' \|\| geoType === 'county'/.test(hnaController), 'Controller should lazy-load home-value cascade for county ownership views');
