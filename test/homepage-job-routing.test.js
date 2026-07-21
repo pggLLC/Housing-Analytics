@@ -12,6 +12,7 @@ const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
 const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const navigation = fs.readFileSync(path.join(ROOT, 'js', 'navigation.js'), 'utf8');
 
 function pos(needle) {
   const idx = index.indexOf(needle);
@@ -53,11 +54,37 @@ for (const href of [
 
 assert(
   index.includes('Public datasets are sourced and monitored') &&
+  index.includes('what each dataset includes') &&
   index.includes('href="data-review-hub.html"'),
   'homepage data snapshot must use narrowed trust language and link Data Trust Center'
 );
 assert(!index.includes('every stat is sourced'), 'homepage must not overclaim that every stat is sourced');
 assert(!index.includes('docs/demo-mode-audit.csv'), 'homepage trust claim must not point public readers to the old demo-mode audit');
+
+assert(
+  index.includes('freshness, sources, how we check the data, and limitations'),
+  'homepage Data Trust Center route must use public wording for data checks'
+);
+assert(
+  navigation.includes('Start here · sources, freshness, how we check the data, and discovery'),
+  'navigation Data Trust Center description must avoid maintainer QA vocabulary'
+);
+assert(
+  navigation.includes('Browse every dataset with previews'),
+  'navigation File Browser description must use public dataset-browsing language'
+);
+assert(
+  navigation.includes('Auto-generated summaries — always check the linked source'),
+  'navigation Housing News description must use public caution language'
+);
+for (const oldPhrase of [
+  'QA coverage',
+  'Inspect every JSON / GeoJSON / CSV in data/ with schema previews',
+  'Machine-summarized headlines (not editorially reviewed)'
+]) {
+  assert(!index.includes(oldPhrase), `homepage must not include old maintainer wording: ${oldPhrase}`);
+  assert(!navigation.includes(oldPhrase), `navigation must not include old maintainer wording: ${oldPhrase}`);
+}
 
 const leadMatch = index.match(/<p class="home-opening__lead">([\s\S]*?)<\/p>/);
 assert(leadMatch, 'homepage hero lead copy must exist');

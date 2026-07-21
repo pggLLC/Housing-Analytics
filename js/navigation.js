@@ -72,15 +72,15 @@
       // docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
-        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Start here · sources, freshness, QA coverage, and discovery" },
-        { label: "File Browser",          href: "data-explorer.html",             desc: "Inspect every JSON / GeoJSON / CSV in data/ with schema previews" },
+        { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Start here · sources, freshness, how we check the data, and discovery" },
+        { label: "File Browser",          href: "data-explorer.html",             desc: "Browse every dataset with previews" },
         { label: "Data Map",              href: "data-map-browser.html",          desc: "Interactive map of every geographic dataset — LIHTC, QCT/DDA, OZ, amenities, flood zones", isNew: true },
       ]
     },
     {
       label: "Insights",
       items: [
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Machine-summarized headlines (not editorially reviewed)" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Auto-generated summaries — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
