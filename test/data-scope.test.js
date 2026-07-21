@@ -12,6 +12,11 @@ const moduleSrc = fs.readFileSync(
   path.join(__dirname, '..', 'js', 'components', 'data-scope.js'),
   'utf8'
 );
+const hnaRenderersSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'hna', 'hna-renderers.js'), 'utf8');
+const hnaControllerSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'hna', 'hna-controller.js'), 'utf8');
+const pmaUiSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'pma-ui-controller.js'), 'utf8');
+const marketAnalysisSrc = fs.readFileSync(path.join(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+const hnaHtml = fs.readFileSync(path.join(__dirname, '..', 'housing-needs-assessment.html'), 'utf8');
 const win = { console: { warn: () => {} } };
 new Function('window', 'console', moduleSrc)(win, win.console);
 const DataScope = win.DataScope;
@@ -98,6 +103,28 @@ run('guardCountyOnly identifies a dataset with no 7-digit keys', () => {
   assert.strictEqual(DataScope.guardCountyOnly({ '0815700': {}, '08015': {} }), false);
   assert.strictEqual(DataScope.guardCountyOnly({}), false);
   assert.strictEqual(DataScope.guardCountyOnly(null), false);
+});
+
+run('HNA household-demand chart visibly invokes DataScope.scopeBadge', () => {
+  assert.ok(hnaHtml.includes('id="householdDemandScopeCaption"'), 'HNA has a visible household-demand source caption');
+  assert.ok(hnaRenderersSrc.includes('householdDemandScopeCaption'), 'renderer targets the visible household-demand source caption');
+  assert.ok(/DataScope\.scopeBadge\(scope/.test(hnaRenderersSrc), 'renderer calls DataScope.scopeBadge for CHAS tier scope');
+  assert.ok(hnaRenderersSrc.includes('CO statewide baseline — low confidence'), 'statewide heuristic is labeled low confidence wherever surfaced');
+});
+
+run('HNA county-scaled projection charts visibly invoke DataScope.scopeBadge', () => {
+  assert.ok(hnaHtml.includes('id="projectionScopeBadge"'), 'HNA has a visible projection scope chip target');
+  assert.ok(hnaControllerSrc.includes('projectionScopeBadge'), 'controller targets the projection scope chip');
+  assert.ok(/DataScope\.scopeBadge\(scope/.test(hnaControllerSrc), 'controller calls DataScope.scopeBadge for county-scaled projections');
+  assert.ok(hnaControllerSrc.includes('DOLA county forecast scaled to selected place/CDP'), 'projection scope text discloses county scaling');
+});
+
+run('PMA deal handoff and capture-risk surfaces invoke DataScope.scopeBadge', () => {
+  assert.ok(pmaUiSrc.includes('pma-deal-handoff-scope-note'), 'PMA deal handoff renders a scope note');
+  assert.ok(pmaUiSrc.includes('county affordability gap') && pmaUiSrc.includes('CHFA award count'), 'PMA handoff names both county-level inputs');
+  assert.ok(/DataScope\.scopeBadge\(scope/.test(pmaUiSrc), 'PMA handoff calls DataScope.scopeBadge');
+  assert.ok(marketAnalysisSrc.includes('CHAS denominator scope'), 'PMA capture risk displays denominator scope');
+  assert.ok(/DataScope\.scopeBadge\(scope/.test(marketAnalysisSrc), 'PMA capture-risk disclosure calls DataScope.scopeBadge');
 });
 
 console.log('Done.');

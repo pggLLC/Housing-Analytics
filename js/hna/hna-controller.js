@@ -2029,6 +2029,8 @@
       if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = '—';
       if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = '—';
       if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
+      const projectionScopeBadge = document.getElementById('projectionScopeBadge');
+      if (projectionScopeBadge) { projectionScopeBadge.textContent = ''; projectionScopeBadge.hidden = true; }
       clearProductionVsNeed();
       // Show a visible notice in the scenario section so users know charts are unavailable
       const scenNote = document.getElementById('scenarioProjectionsNote');
@@ -2500,6 +2502,26 @@
       }
     } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection)) {
       projectionMethodNote = ' Need is scaled from the containing county DOLA projection.';
+    }
+    const projectionScopeBadge = document.getElementById('projectionScopeBadge');
+    if (projectionScopeBadge) {
+      if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection)) {
+        const countyName = selection.contextCounty || countyFips5;
+        const scope = usedPlaceProjection ? 'scaled' : 'county';
+        projectionScopeBadge.innerHTML = (usedPlaceProjection
+          ? 'Place-level projection inputs: '
+          : 'Projection source: ') +
+          (window.DataScope && window.DataScope.scopeBadge
+            ? window.DataScope.scopeBadge(scope, { countyName: countyName, inline: true })
+            : '') +
+          (usedPlaceProjection
+            ? ' DOLA county forecast blended with local ACS/BPS shares.'
+            : ' DOLA county forecast scaled to selected place/CDP.');
+        projectionScopeBadge.hidden = false;
+      } else {
+        projectionScopeBadge.textContent = '';
+        projectionScopeBadge.hidden = true;
+      }
     }
 
     // Net migration scaled for places/CDPs (share of county base).
@@ -2984,9 +3006,20 @@
       dlLink.style.cssText = 'color:inherit;text-decoration:underline';
       dlLink.textContent = 'Download Debug Log';
       window.HNAState.els.banner.textContent = '';
+      const fetchErrorTarget = document.createElement('div');
+      fetchErrorTarget.id = 'hnaProfileFetchError';
       window.HNAState.els.banner.appendChild(msgSpan);
       window.HNAState.els.banner.appendChild(dlLink);
+      window.HNAState.els.banner.appendChild(fetchErrorTarget);
       window.HNAState.els.banner.classList.add('show');
+      if (window.FetchErrorSurface && typeof window.FetchErrorSurface.render === 'function') {
+        window.FetchErrorSurface.render(fetchErrorTarget, {
+          source: 'Census ACS profile',
+          url: 'https://api.census.gov/data.html',
+          error: new Error('No ACS Census profile data returned for ' + geoType + ':' + geoid),
+          severity: 'error'
+        });
+      }
     }
 
     // F192 + F195 — Resolve contextCounty BEFORE the `if (profile)` block
