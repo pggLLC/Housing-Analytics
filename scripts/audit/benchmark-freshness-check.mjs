@@ -11,6 +11,7 @@
  *   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
  *   - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
  *   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
+ *   - data/policy/tool-watch.json (affordable-housing analysis tool watchlist)
  *   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
  *   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
  *   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
@@ -80,6 +81,11 @@ const BENCHMARK_FILES = [
   {
     file: 'data/policy/tax-credit-legislation.json',
     label: 'Tax-credit legislation watchlist',
+    reviewByPaths: ['meta.review_by', 'entries[].review_by'],
+  },
+  {
+    file: 'data/policy/tool-watch.json',
+    label: 'Affordable-housing tool watchlist',
     reviewByPaths: ['meta.review_by', 'entries[].review_by'],
   },
   {

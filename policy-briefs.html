@@ -578,6 +578,7 @@
         // The federal allowlist now also requires actual federal-policy
         // KEYWORDS (HUD, Congress, etc.), not just being a trade publication.
         function _isRelevantArticle(a) {
+          if (brief.is_tool_evaluation) return true;
           var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
           // 1) Explicit other-state markers → EXCLUDE FIRST. A Pasadena, CA
           // story has "Colorado Boulevard" in the address — the word "colorado"
@@ -895,6 +896,7 @@
           // national-policy stories belong on this page; other-state
           // stories don't. Same rule order as render-time _isRelevantArticle.
           function _isRelevant(a) {
+            if (a && a.is_tool_evaluation) return true;
             var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
             if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) return true;
             if (/\b(federal|congress|congressional|senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|tax credit advisor|affordable housing finance|housingwire|yield pro|shelterforce|novogradac|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) return true;
@@ -902,6 +904,7 @@
             return true; // default include — assume national context
           }
           list = list.filter(function (b) {
+            if (b.is_tool_evaluation) return true;
             var arts = Array.isArray(b.articles) ? b.articles : [];
             if (!arts.length) {
               // No articles at all — keep the brief if its title/regions
