@@ -348,7 +348,7 @@
         <span id="decisionAffordabilityRead">Loading</span>
       </a>
       <a class="hna-decision-tile" href="#statUnitsNeed" data-decision-key="production">
-        <span class="hna-decision-label">Production gap</span>
+        <span class="hna-decision-label">20-yr production need</span>
         <strong id="decisionProductionValue">—</strong>
         <span id="decisionProductionRead">Loading</span>
       </a>
@@ -1134,9 +1134,9 @@
 
       <!-- Housing Gap Summary -->
       <div class="chart-card span-12">
-        <h2>Housing Gap &amp; Affordability Analysis</h2>
-        <p>Estimated number of households by income tier and cost burden — the foundation of any housing needs assessment. Identifies the gap between affordable units needed and those available.</p>
-        <div id="housingGapSummary"><p style="color:var(--muted)">Select a geography to view housing gap analysis.</p></div>
+        <h2>Current rental gap &amp; affordability</h2>
+        <p>Today's renter-household shortfall by income tier and cost burden — distinct from the 20-year production outlook in the projections section below.</p>
+        <div id="housingGapSummary"><p style="color:var(--muted)">Select a geography to view current rental gap analysis.</p></div>
         <details class="accordion-section" style="margin-top:12px">
           <summary>How this estimate combines cost burden, AMI gap, and projections</summary>
           <div style="margin-top:10px">
@@ -1222,7 +1222,7 @@
             <span>🏠 Households</span>
           </label>
           <label class="proj-view-label">
-            <input type="radio" name="projViewToggle" value="demand" aria-label="Housing demand by AMI tier view">
+            <input type="radio" name="projViewToggle" value="demand" aria-label="Projected housing demand (20-yr) by AMI tier view">
             <span>📊 Housing demand</span>
           </label>
         </div>
@@ -1595,7 +1595,7 @@
           <span class="pill" id="projectionGeoPill" style="display:none"></span>
         </div>
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
-          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and current housing gap.
+          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and the current rental gap.
           <span data-edu="dola_projections"></span>
         </p>
         <!-- Projection table — rendered by HousingNeedProjector -->
@@ -1654,6 +1654,11 @@
         <p style="color:var(--muted);font-size:.85rem;margin:0 0 .65rem;line-height:1.5">
           This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
         </p>
+        <div class="stats stats--ownership" aria-label="Current ownership need summary" style="margin:.35rem 0 .65rem;">
+          <div class="stat"><div class="k">Current ownership need</div><div class="v" id="statOwnGap">—</div><div class="s">Tenure strategy screen</div></div>
+          <div class="stat"><div class="k">Moderate-income renter base</div><div class="v" id="statOwnGapModerateRenters">—</div><div class="s">51–100% HAMFI renters</div></div>
+          <div class="stat"><div class="k">Owner cost-burden context</div><div class="v" id="statOwnGapOwnerBurden">—</div><div class="s">Current owners</div></div>
+        </div>
         <div id="hnaAffordableOwnershipNeed">
           <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
         </div>

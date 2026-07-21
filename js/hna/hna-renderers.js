@@ -4816,6 +4816,9 @@
     if (!container) return;
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
       container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      _combinedSetText('statOwnGap', 'Unavailable');
+      _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
+      _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
       updateDecisionStrip({
         ownership: { value: 'Unavailable', read: 'Verify locally', href: '#affordable-ownership-need-section', tone: 'unavailable' },
         confidence: { value: 'Unavailable', read: 'Ownership data missing', href: '#affordable-ownership-need-section', tone: 'unavailable' },
@@ -4824,6 +4827,9 @@
     }
     if (!result || result.dataQuality === 'Unavailable') {
       container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      _combinedSetText('statOwnGap', 'Unavailable');
+      _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
+      _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
       updateDecisionStrip({
         ownership: { value: 'Unavailable', read: 'Verify locally', href: '#affordable-ownership-need-section', tone: 'unavailable' },
         confidence: { value: 'Unavailable', read: 'Ownership data missing', href: '#affordable-ownership-need-section', tone: 'unavailable' },
@@ -4835,6 +4841,9 @@
     var owner = result.ownershipPressure || { inputs: {} };
     var fit = result.ownershipFit || { inputs: {} };
     var source = (rental.inputs && rental.inputs.source) || 'CHAS';
+    _combinedSetText('statOwnGap', result.tenureMixRecommendation || 'Verify locally');
+    _combinedSetText('statOwnGapModerateRenters', _ownFmtNum(result.moderateIncomeRenterHouseholds));
+    _combinedSetText('statOwnGapOwnerBurden', _ownFmtNum(result.ownerCostBurdened));
     var cards = [
       {
         title: 'Rental Pressure',
@@ -6015,7 +6024,7 @@
             'Annual total units permitted at the county level. Vintages 2020-2024 cached in <code>data/co-housing-costs/permits_county.parquet</code>.</p>' +
           '<p style="margin:0 0 .5rem;"><strong>Caveat:</strong> The current cached BPS slice publishes total units only — structure-type breakdown (1-unit / 2-4 / 5+) is not included. ' +
             'To get the structure breakdown, ingest the raw monthly BPS files (the Census API publishes by structure type at jurisdiction level).</p>' +
-          '<p style="margin:0;"><strong>Compare to need:</strong> if the jurisdiction has a 1,000-unit housing gap (see the Housing Gap Summary panel below) ' +
+          '<p style="margin:0;"><strong>Compare to need:</strong> if the jurisdiction has a 1,000-unit current rental gap (see the Current rental gap & affordability panel below) ' +
             'and is permitting only 200 units/year, that\'s ~5 years just to catch up — assuming everything permitted is affordable, which it isn\'t. ' +
             'For affordable LIHTC permitting specifically, see the Prop 123 compliance section.</p>' +
         '</div></details>';
