@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T00:47:10.451Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T02:36:10.881Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.3 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1913,7 +1913,7 @@
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
-| `.github/workflows/site-audit.yml` | 2.4 KB |
+| `.github/workflows/site-audit.yml` | 2.5 KB |
 | `.github/workflows/source-liveness-weekly.yml` | 1.3 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 3.7 KB |
