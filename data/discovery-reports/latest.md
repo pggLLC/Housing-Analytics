@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-20T09:48:26.063Z
+**Scan timestamp:** 2026-07-21T09:21:20.855Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (185 KB)
+- `data/alerts/alerts_archive.json` (202 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -811,7 +811,7 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (28 KB)
+- `data/hna/local-resources-candidates.json` (25 KB)
 - `data/hna/local-resources.json` (172 KB)
 - `data/hna/ownership-need.json` (704 KB)
 - `data/hna/permits.json` (243 KB)
@@ -1560,7 +1560,7 @@
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/tax-credit-legislation.json` (12 KB)
-- `data/policy_briefs.json` (150 KB)
+- `data/policy_briefs.json` (162 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
@@ -1570,7 +1570,7 @@
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (19 KB)
+- `data/reports/developer-url-health.json` (20 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
