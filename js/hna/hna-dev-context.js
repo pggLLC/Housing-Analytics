@@ -160,8 +160,8 @@
     /* ── DOLA forecast sensitivity ── */
     'DOLA forecast': {
       why: 'DOLA publishes three scenarios (baseline / low / high). The range between low and high is the honesty test — wider bands mean more demand uncertainty.',
-      demand: 'When even the low-growth scenario shows positive household formation > current housing inventory growth rate, demand is structurally present even in a downturn.',
-      project: 'Underwriting is typically stress-tested against the LOW-growth scenario. CHFA underwriters and DOH gap-funders look at this; deals that pencil in DOLA low-growth are much more likely to fund.',
+      demand: 'When even the low growth scenario shows positive household formation > current housing inventory growth rate, demand is structurally present even in a downturn.',
+      project: 'Underwriting is typically stress-tested against the LOW growth scenario. CHFA underwriters and DOH gap-funders look at this; deals that pencil in DOLA low growth are much more likely to fund.',
     },
 
     /* ── Housing need summary ── */
@@ -246,7 +246,7 @@
     /* ── Scenario-based demographic projections ── */
     'Scenario-based demographic projections': {
       why: 'Three-scenario projections (baseline / low / high) test a project under different futures. Underwriters care about the LOW-growth case because that is the stress condition.',
-      demand: 'When even the low-growth scenario shows positive household formation above current permitting pace, demand is structural even in a downturn — projects are more durable.',
+      demand: 'When even the low growth scenario shows positive household formation above current permitting pace, demand is structural even in a downturn — projects are more durable.',
       project: 'Underwriting is typically stress-tested against the LOW scenario for safety. A deal that pencils there survives a recession; running baseline + high then sizes the upside. CHFA + DOH gap funders look for this discipline.',
     },
 
