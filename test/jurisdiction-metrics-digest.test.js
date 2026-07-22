@@ -196,6 +196,17 @@ test('county ownership metrics are labeled county-level', () => {
   assert.strictEqual(digest.metrics.ownership_need_affordability_classification.geography_level, 'county');
 });
 
+test('ownership digest builder consumes FHFA-backed county home-value cascade rows', () => {
+  const builder = fs.readFileSync(BUILDER, 'utf8');
+  assert.ok(builder.includes("entry.type === 'county' && homeValueCascade?.counties"), 'county cascade branch must be wired');
+  const cascade = readJson(HOME_VALUE_CASCADE_PATH);
+  const garfield = cascade.counties?.['08045'];
+  assert.ok(garfield, 'missing Garfield County cascade row');
+  assert.strictEqual(garfield.source, 'fhfa_county_hpi_anchor');
+  assert.strictEqual(garfield.confidence, 'medium');
+  assert.strictEqual(garfield.fhfa_hpi?.source_level, 'fhfa_county_direct');
+});
+
 test('home-value review flags suppress downstream affordability classification', () => {
   const cascade = readJson(HOME_VALUE_CASCADE_PATH);
   const ownership = readJson(OWNERSHIP_PATH);

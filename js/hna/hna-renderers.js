@@ -5016,6 +5016,7 @@
         countyFallback: countyFallback,
         amiGapEntry: amiGapEntry,
         homeValueEntry: homeValueEntry,
+        ownerValueSupplyProfile: profile,
         assumptions: afford ? {
           pmms30YearRate: afford.rateAnnual,
           termYears: afford.termYears,

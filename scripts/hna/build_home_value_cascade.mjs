@@ -23,6 +23,8 @@ const REGISTRY = path.join(ROOT, 'data', 'hna', 'geography-registry.json');
 const SUMMARY_DIR = path.join(ROOT, 'data', 'hna', 'summary');
 const OUT = path.join(ROOT, 'data', 'hna', 'home-value-cascade.json');
 const CROSSWALK_OUT = path.join(ROOT, 'data', 'hna', 'zhvi-place-crosswalk.json');
+const FHFA_HPI = path.join(ROOT, 'data', 'market', 'fhfa_hpi_subcounty_co.json');
+const ACS_HOME_VALUE_MIDPOINT_YEAR = 2022;
 
 function readJson(file) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -112,10 +114,29 @@ async function loadZhviRows() {
   return { byKey, latestAsOf: month.key, coRows };
 }
 
-function buildCountyAcsRows(registry) {
+function buildCountyAcsRows(registry, fhfaDoc) {
   const counties = {};
   let acsCount = 0;
   let missingCount = 0;
+  let fhfaCount = 0;
+  const latestYear = Number(fhfaDoc?.meta?.latest_year) || Number(String(fhfaDoc?.meta?.as_of || '').slice(0, 4)) || null;
+
+  function countyHpiAdjustment(fhfa) {
+    const latest = Number(fhfa?.hpi_latest);
+    const base10 = Number(fhfa?.hpi_10y_base);
+    if (!Number.isFinite(latest) || latest <= 0 || !Number.isFinite(base10) || base10 <= 0 || !Number.isFinite(latestYear)) return null;
+    const baseYear = latestYear - 10;
+    if (ACS_HOME_VALUE_MIDPOINT_YEAR <= baseYear || ACS_HOME_VALUE_MIDPOINT_YEAR >= latestYear) return null;
+    const yearsFromMidpoint = latestYear - ACS_HOME_VALUE_MIDPOINT_YEAR;
+    const annualizedRatio = Math.pow(latest / base10, 1 / (latestYear - baseYear));
+    const adjustmentFactor = Math.pow(annualizedRatio, yearsFromMidpoint);
+    if (!Number.isFinite(adjustmentFactor) || adjustmentFactor <= 0) return null;
+    return {
+      factor: adjustmentFactor,
+      midpoint_hpi_estimate: latest / adjustmentFactor,
+      method: `ACS 2020-2024 5-year midpoint (${ACS_HOME_VALUE_MIDPOINT_YEAR}) adjusted to FHFA ${latestYear} using county 10-year HPI CAGR`,
+    };
+  }
 
   for (const county of (registry.geographies || []).filter((geo) => geo.type === 'county').sort((a, b) => a.geoid.localeCompare(b.geoid))) {
     const summaryPath = path.join(SUMMARY_DIR, `${county.geoid}.json`);
@@ -123,24 +144,44 @@ function buildCountyAcsRows(registry) {
     const profile = summary && summary.acsProfile || {};
     const acsValue = Number(profile.DP04_0089E);
     const hasValue = Number.isFinite(acsValue) && acsValue > 0;
+    const fhfa = fhfaDoc && fhfaDoc.counties && fhfaDoc.counties[county.geoid] || null;
+    const hasFhfa = !!(fhfa && Number.isFinite(Number(fhfa.hpi_latest)));
+    const adjustment = hasFhfa ? countyHpiAdjustment(fhfa) : null;
+    const hasAdjustedFhfa = hasValue && !!adjustment;
+    const value = hasAdjustedFhfa ? Math.round(acsValue * adjustment.factor) : (hasValue ? acsValue : null);
     counties[county.geoid] = {
-      value: hasValue ? acsValue : null,
-      source: 'acs_raw',
-      as_of: 'ACS 2020-2024 5-year',
-      confidence: hasValue ? 'low' : 'missing',
+      value,
+      source: hasAdjustedFhfa ? 'fhfa_county_hpi_anchor' : 'acs_raw',
+      as_of: hasAdjustedFhfa ? `ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI ${fhfaDoc.meta && fhfaDoc.meta.as_of || ''}`.trim() : 'ACS 2020-2024 5-year',
+      confidence: hasValue ? (hasAdjustedFhfa ? 'medium' : 'low') : 'missing',
       geography_level: 'county',
+      acs_raw_value: hasValue ? acsValue : null,
+      fhfa_hpi: hasAdjustedFhfa ? {
+        source_level: fhfa.source_level,
+        hpi_latest: fhfa.hpi_latest,
+        hpi_10y_base: fhfa.hpi_10y_base,
+        change_10y: fhfa.change_10y,
+        acs_midpoint_year: ACS_HOME_VALUE_MIDPOINT_YEAR,
+        midpoint_hpi_estimate: Number(adjustment.midpoint_hpi_estimate.toFixed(4)),
+        adjustment_factor: Number(adjustment.factor.toFixed(6)),
+        adjustment_method: adjustment.method,
+        as_of: fhfaDoc.meta && fhfaDoc.meta.as_of,
+        source_url: fhfaDoc.meta && fhfaDoc.meta.county_source_url,
+      } : null,
     };
     if (hasValue) acsCount += 1;
     else missingCount += 1;
+    if (hasAdjustedFhfa) fhfaCount += 1;
   }
 
-  return { counties, acsCount, missingCount };
+  return { counties, acsCount, missingCount, fhfaCount };
 }
 
 async function main() {
   const centroids = readJson(CENTROIDS).byGeoid || {};
   const placeCounties = readJson(PLACE_COUNTIES).places || {};
   const registry = readJson(REGISTRY);
+  const fhfaDoc = fs.existsSync(FHFA_HPI) ? readJson(FHFA_HPI) : null;
   const countyNames = countyNamesByFips(registry);
   const hasCityZhvi = fs.existsSync(ZHVI_CSV);
   const existing = fs.existsSync(OUT) ? readJson(OUT) : {};
@@ -219,7 +260,7 @@ async function main() {
     places[geoid] = display;
   }
 
-  const countyRows = buildCountyAcsRows(registry);
+  const countyRows = buildCountyAcsRows(registry, fhfaDoc);
 
   fs.writeFileSync(OUT, JSON.stringify({
     meta: {
@@ -229,6 +270,7 @@ async function main() {
         zhvi_city_csv: 'https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv',
         zhvi_county_csv: null,
         acs_raw: 'ACS DP04_0089E, 2020-2024 5-year',
+        fhfa_county_hpi: fhfaDoc && fhfaDoc.meta ? fhfaDoc.meta.county_source_url : null,
       },
       latest_zhvi_month: latestAsOf,
       colorado_zhvi_rows: coRows,
@@ -237,6 +279,7 @@ async function main() {
         acs_raw: acsCount,
         total: zhviCount + acsCount,
         counties: {
+          fhfa_county_hpi_anchor: countyRows.fhfaCount,
           acs_raw: countyRows.acsCount,
           missing: countyRows.missingCount,
           total: Object.keys(countyRows.counties).length,

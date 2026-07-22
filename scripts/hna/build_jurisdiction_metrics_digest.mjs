@@ -586,6 +586,10 @@ function reviewFlagSet(reviewFlags) {
 }
 
 function homeValueEntry(entry, summary, homeValueCascade, flaggedHomeValues) {
+  if (entry.type === 'county' && homeValueCascade?.counties) {
+    const rec = homeValueCascade.counties[String(entry.geoid)];
+    if (rec) return { geography_level: 'county', ...rec };
+  }
   if (entry.type !== 'county' && homeValueCascade?.places) {
     if (flaggedHomeValues.has(String(entry.geoid))) return null;
     const rec = homeValueCascade.places[String(entry.geoid)];

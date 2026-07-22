@@ -14,6 +14,7 @@ const hnaNarratives = fs.readFileSync(path.join(ROOT, 'js/hna/hna-narratives.js'
 const hnaRenderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
 const hnaController = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
 const ownershipNeed = fs.readFileSync(path.join(ROOT, 'js/hna/hna-ownership-need.js'), 'utf8');
+const homeValueBuilder = fs.readFileSync(path.join(ROOT, 'scripts/hna/build_home_value_cascade.mjs'), 'utf8');
 
 assert(fruitaHomeValue, 'Fruita summary should be stamped with median_home_value');
 assert.equal(fruitaHomeValue.source, 'zhvi', 'Fruita should use Zillow ZHVI as the display home value');
@@ -26,14 +27,23 @@ assert(flags.some((row) => row.geoid === '0803620' && row.ratio > 3), 'Aspen sho
 assert.equal(cascade.meta.counts.total, 482, 'home-value cascade should cover all Colorado places in the public HNA set');
 assert.equal(cascade.meta.counts.counties.total, 64, 'home-value cascade should cover all Colorado counties');
 assert.equal(cascade.meta.counts.counties.acs_raw, 64, 'county home values should be populated from committed ACS summaries when no county ZHVI CSV exists');
+assert.equal(cascade.meta.counts.counties.fhfa_county_hpi_anchor, 64, 'county rows with FHFA coverage should carry FHFA HPI anchors');
 
 for (const geoid of ['08097', '08045']) {
   const row = cascade.counties && cascade.counties[geoid];
   const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary', `${geoid}.json`), 'utf8')).acsProfile;
   assert(row, `${geoid}: county cascade row should exist`);
   assert.equal(row.geography_level, 'county', `${geoid}: county cascade row should be labeled county`);
-  assert.equal(row.source, 'acs_raw', `${geoid}: county cascade row should use ACS fallback in this repo state`);
-  assert.equal(row.value, profile.DP04_0089E, `${geoid}: county cascade should match summary DP04_0089E`);
+  assert.equal(row.source, 'fhfa_county_hpi_anchor', `${geoid}: county cascade row should use the committed FHFA county anchor`);
+  assert.equal(row.confidence, 'medium', `${geoid}: FHFA county anchor should upgrade confidence above raw ACS`);
+  assert.equal(row.acs_raw_value, profile.DP04_0089E, `${geoid}: county cascade should retain the ACS dollar-value floor`);
+  assert.notEqual(row.value, row.acs_raw_value, `${geoid}: FHFA county anchor should shift the ACS midpoint value toward current dollars`);
+  assert(row.value > row.acs_raw_value, `${geoid}: spot-check county HPI adjustment should move the value upward`);
+  assert.ok(row.fhfa_hpi && row.fhfa_hpi.source_level === 'fhfa_county_direct', `${geoid}: county cascade should carry direct FHFA HPI provenance`);
+  assert.equal(row.fhfa_hpi.acs_midpoint_year, 2022, `${geoid}: adjustment should document the ACS 5-year midpoint`);
+  assert(row.fhfa_hpi.adjustment_factor > 1, `${geoid}: adjustment factor should be non-vacuous`);
+  assert(row.fhfa_hpi.adjustment_method.includes('10-year HPI CAGR'), `${geoid}: adjustment method should disclose the midpoint estimate`);
+  assert.ok(row.fhfa_hpi.source_url && row.fhfa_hpi.source_url.includes('fhfa.gov'), `${geoid}: FHFA county source URL should be official`);
 }
 
 const adjustedSummaries = fs.readdirSync(path.join(ROOT, 'data/hna/summary'))
@@ -61,6 +71,10 @@ assert(!/function renderWageAffordability[\s\S]{0,900}profile && profile\.DP04_0
 assert(/geoType === 'place' \|\| geoType === 'cdp' \|\| geoType === 'county'/.test(hnaController), 'Controller should lazy-load home-value cascade for county ownership views');
 assert(/geoType === 'county'[\s\S]{0,220}homeValueData\.counties/.test(hnaRenderers), 'Ownership renderer should read county cascade rows before profile fallback');
 assert(/Object\.assign\(\{ geography_level: 'county' \}, countyRec\)/.test(hnaRenderers), 'Ownership renderer should mark county home-value rows as county inputs');
+assert(hnaUtils.includes("display.source === 'fhfa_county_hpi_anchor'"), 'HNA utils should label FHFA county HPI anchors');
+assert(hnaRenderers.includes('ownerValueSupplyProfile: profile'), 'Ownership renderer should pass the loaded ACS profile for B25075 owner-value supply');
+assert(ownershipNeed.includes('function ownerValueSupplySeries'), 'Ownership module should expose B25075 owner-value supply');
+assert(homeValueBuilder.includes("data', 'market', 'fhfa_hpi_subcounty_co.json"), 'home-value cascade builder should consume the committed FHFA sub-county HPI artifact');
 
 const ownershipCtx = { window: {} };
 vm.createContext(ownershipCtx);
@@ -82,6 +96,7 @@ for (const [geoid, label] of [['08097', 'Pitkin County'], ['08045', 'Garfield Co
   assert(result.affordabilityTest, `${label}: county ownership computation should render an affordability classification`);
   assert(['priced-out', 'stretch'].includes(result.affordabilityTest.classification), `${label}: resort-area county value should classify as priced-out or stretch`);
   assert.equal(result.affordabilityTest.medianHomeValue, cascade.counties[geoid].value, `${label}: computation should use the county cascade value`);
+  assert.equal(cascade.counties[geoid].source, 'fhfa_county_hpi_anchor', `${label}: county cascade should use FHFA-primary owner decision C1 default`);
 }
 
 const context = {
