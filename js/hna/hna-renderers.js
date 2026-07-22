@@ -4955,6 +4955,7 @@
 
     container.innerHTML =
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
+      '<div id="hnaOwnershipDecisionChain" style="margin:1rem 0;"></div>' +
       '<div style="overflow-x:auto;margin-top:.75rem;">' +
         '<table style="width:100%;border-collapse:collapse;font-size:.8rem;" aria-label="Tenure strategy indicators">' +
           '<thead><tr>' +
@@ -4970,6 +4971,11 @@
         '<p style="font-size:.8rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
         (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.78rem;line-height:1.45;">' + caveats + '</ul>' : '') +
       '</details>';
+    if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
+      window.OwnershipDecisionChain.render(document.getElementById('hnaOwnershipDecisionChain'), result, {
+        dealCalculator: window.__DealCalc,
+      });
+    }
   }
 
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
