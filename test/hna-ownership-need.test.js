@@ -107,6 +107,49 @@ const amiGap = {
   gap_units_minus_households_le_ami_pct: { 80: 120 },
 };
 
+function entryForRenterPressure(renterCb30Share, renterCb50Share, renterShare) {
+  const totalHouseholds = 10000;
+  const renter = Math.round(totalHouseholds * renterShare);
+  return fixtureEntry({
+    renter,
+    owner: totalHouseholds - renter,
+    renterCb30: Math.round(renter * renterCb30Share),
+    renterCb50: Math.round(renter * renterCb50Share),
+    modRenter: Math.max(1, Math.round(renter * 0.20)),
+    ownerCb30: 100,
+    ownerCb50: 40,
+    modOwnerCb: 40,
+  });
+}
+
+function entryForOwnershipPressure(ownerCb30Share, ownerCb50Share, moderateOwnerCbShare) {
+  return fixtureEntry({
+    renter: 1000,
+    owner: 1000,
+    renterCb30: 100,
+    renterCb50: 40,
+    modRenter: 150,
+    ownerCb30: Math.round(1000 * ownerCb30Share),
+    ownerCb50: Math.round(1000 * ownerCb50Share),
+    modOwner: 1000,
+    modOwnerCb: Math.round(1000 * moderateOwnerCbShare),
+  });
+}
+
+function entryForOwnershipFit(moderateRenterHouseholds, moderateRenterShare) {
+  const renter = Math.round(moderateRenterHouseholds / moderateRenterShare);
+  return fixtureEntry({
+    renter,
+    owner: 1000,
+    renterCb30: Math.round(renter * 0.20),
+    renterCb50: Math.round(renter * 0.06),
+    modRenter: moderateRenterHouseholds,
+    ownerCb30: 100,
+    ownerCb50: 40,
+    modOwnerCb: 40,
+  });
+}
+
 console.log('Affordable Ownership Need — unit tests');
 
 test('null/missing entry returns unavailable without NaN or undefined', () => {
@@ -292,15 +335,58 @@ test('copy contains screening framing and avoids banned phrases', () => {
   ].forEach(phrase => assert.equal(src.includes(phrase), false, phrase + ' should be absent'));
 });
 
-test('EPS Phase II benchmark remains documented before ownership roadmap expansion', () => {
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterCb30Share), [0.35, 0.42, 0.47]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterCb50Share), [0.15, 0.21, 0.24]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.rentalPressure.renterShare), [0.24, 0.28, 0.32]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.ownerCb30Share), [0.19, 0.21, 0.25]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.ownerCb50Share), [0.08, 0.09, 0.10]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipPressure.moderateOwnerCbShare), [0.18, 0.29, 0.36]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipFit.moderateRenterHouseholds), [200, 500, 1400]);
-  assert.deepStrictEqual(Array.from(Ownership.CONSTANTS.ownershipFit.moderateRenterShare), [0.30, 0.33, 0.36]);
+test('ownership screening tiers flip at the EPS benchmark threshold boundaries', () => {
+  [
+    ['rentalPressure', 'Low', 'Moderate',
+      entryForRenterPressure(0.349, 0.149, 0.239),
+      entryForRenterPressure(0.351, 0.151, 0.241)],
+    ['rentalPressure', 'Moderate', 'High',
+      entryForRenterPressure(0.419, 0.209, 0.279),
+      entryForRenterPressure(0.421, 0.211, 0.281)],
+    ['rentalPressure', 'High', 'Very High',
+      entryForRenterPressure(0.469, 0.239, 0.319),
+      entryForRenterPressure(0.471, 0.241, 0.321)],
+    ['ownershipPressure', 'Low', 'Moderate',
+      entryForOwnershipPressure(0.189, 0.079, 0.179),
+      entryForOwnershipPressure(0.191, 0.081, 0.181)],
+    ['ownershipPressure', 'Moderate', 'High',
+      entryForOwnershipPressure(0.209, 0.089, 0.289),
+      entryForOwnershipPressure(0.211, 0.091, 0.291)],
+    ['ownershipPressure', 'High', 'Very High',
+      entryForOwnershipPressure(0.249, 0.099, 0.359),
+      entryForOwnershipPressure(0.251, 0.101, 0.361)],
+    ['ownershipFit', 'Low', 'Moderate',
+      entryForOwnershipFit(199, 0.299),
+      entryForOwnershipFit(201, 0.301)],
+    ['ownershipFit', 'Moderate', 'High',
+      entryForOwnershipFit(499, 0.329),
+      entryForOwnershipFit(501, 0.331)],
+    ['ownershipFit', 'High', 'Very High',
+      entryForOwnershipFit(1399, 0.359),
+      entryForOwnershipFit(1401, 0.361)],
+  ].forEach(([field, belowTier, aboveTier, belowEntry, aboveEntry]) => {
+    const below = compute({ placeChasEntry: belowEntry, amiGapEntry: amiGap });
+    const above = compute({ placeChasEntry: aboveEntry, amiGapEntry: amiGap });
+    assert.equal(below[field].tier, belowTier, `${field} below-boundary fixture stays ${belowTier}`);
+    assert.equal(above[field].tier, aboveTier, `${field} above-boundary fixture becomes ${aboveTier}`);
+  });
+
+  const belowFit = compute({
+    placeChasEntry: entryForOwnershipPressure(0.251, 0.101, 0.361),
+    amiGapEntry: amiGap,
+  });
+  assert.notEqual(belowFit.tenureMixRecommendation, 'Ownership-supportive strategy');
+
+  const fitModerate = entryForOwnershipFit(201, 0.301);
+  fitModerate.summary.owner_cb30_count = 251;
+  fitModerate.summary.owner_cb30_share = 0.251;
+  fitModerate.summary.owner_cb50_count = 101;
+  fitModerate.summary.owner_cb50_share = 0.101;
+  fitModerate.owner_hh_by_ami['51to80'] = band(600, 217, 20);
+  fitModerate.owner_hh_by_ami['81to100'] = band(400, 144, 5);
+  const aboveFit = compute({ placeChasEntry: fitModerate, amiGapEntry: amiGap });
+  assert.equal(aboveFit.tenureMixRecommendation, 'Ownership-supportive strategy',
+    'recommendation flips once the moderate-income renter base crosses the fit boundary');
 
   const benchmark = fs.readFileSync(path.join(ROOT, 'docs/audits/OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md'), 'utf8');
   const methodology = fs.readFileSync(path.join(ROOT, 'docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md'), 'utf8');
