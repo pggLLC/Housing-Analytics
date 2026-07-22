@@ -9,6 +9,10 @@ const root = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'deal-calculator.html'), 'utf8');
 const dcSrc = fs.readFileSync(path.join(root, 'js', 'deal-calculator.js'), 'utf8');
 const shareSrc = fs.readFileSync(path.join(root, 'js', 'deal-calculator-share.js'), 'utf8');
+const developerFundingPath = path.join(root, 'data', 'policy', 'developer-ownership-funding.json');
+const consumerHomeownershipPath = path.join(root, 'data', 'policy', 'homeownership-programs.json');
+const developerFunding = JSON.parse(fs.readFileSync(developerFundingPath, 'utf8'));
+const consumerHomeownership = JSON.parse(fs.readFileSync(consumerHomeownershipPath, 'utf8'));
 
 function assertIncludes(haystack, needle, message) {
   assert(haystack.includes(needle), message + ' - missing "' + needle + '"');
@@ -26,10 +30,37 @@ assert(hnaIdx < dcIdx, 'HNA ownership need module loads before deal-calculator.j
 assertIncludes(dcSrc, 'For-Sale Ownership Feasibility', 'ownership feasibility panel label is present');
 assertIncludes(dcSrc, 'dc-sale-target-ami', 'ownership AMI target selector is present');
 assertIncludes(dcSrc, 'HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice', 'helper uses shared HNA maxAffordablePrice path');
+assertIncludes(dcSrc, 'data/policy/developer-ownership-funding.json', 'Deal Calculator loads developer ownership funding dataset');
 assertIncludes(dcSrc, 'data-dc-mode="rental"', 'rental-only sections are marked for mode switching');
 assertIncludes(dcSrc, 'data-dc-mode="ownership"', 'ownership-only sections are marked for mode switching');
+assertIncludes(dcSrc, 'dc-own-funding-stack', 'ownership mode renders the developer funding stack surface');
 assertIncludes(shareSrc, "'dc-sale-target-ami'", 'ownership AMI target round-trips through share/export keys');
 assertIncludes(shareSrc, "'dc-mode-rental'", 'deal mode radio round-trips through share/export keys');
+
+assert.strictEqual(developerFunding.schema, 'developer-ownership-funding/v1', 'developer funding stack schema is versioned');
+assert.strictEqual(consumerHomeownership.schema, 'homeownership-programs/v1', 'consumer homeownership schema remains separate');
+assert.strictEqual(developerFunding.meta.consumer_dataset, 'data/policy/homeownership-programs.json', 'developer dataset documents consumer-data separation');
+assert(!dcSrc.includes('data/policy/homeownership-programs.json'), 'Deal Calculator ownership stack does not consume consumer homebuyer cards');
+const developerPrograms = developerFunding.programs || [];
+assert(developerPrograms.length >= 3, 'developer ownership funding starter set is non-vacuous');
+['deed-restriction-buydown', 'inclusionary-requirement', 'dpa-layering'].forEach(type => {
+  assert(developerPrograms.some(program => program.program_type === type), 'starter set includes ' + type);
+});
+developerPrograms.forEach(program => {
+  assert(program.id && program.name, 'program has id and name');
+  assert(program.source_url && /^https:\/\//.test(program.source_url), program.id + ' has verified HTTPS source_url');
+  const host = new URL(program.source_url).hostname;
+  assert(!/example\./.test(host), program.id + ' source_url is not a placeholder host');
+  assert(program.last_verified && /^\d{4}-\d{2}-\d{2}$/.test(program.last_verified), program.id + ' has ISO last_verified');
+  assert(program.review_by && /^\d{4}-\d{2}-\d{2}$/.test(program.review_by), program.id + ' has ISO review_by');
+  const hasAmount = program.max_amount != null || program.max_percent != null;
+  if (hasAmount) {
+    assert(program.source_url && program.source_note && !/VERIFY amount/i.test(program.source_note), program.id + ' amount has a source note');
+  } else {
+    assert.strictEqual(program.render_value, 'VERIFY', program.id + ' with unknown amount renders VERIFY');
+    assert.strictEqual(program.apply_to_gap, false, program.id + ' unknown amount is not counted toward the gap');
+  }
+});
 
 const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
   url: 'http://localhost/deal-calculator.html'
@@ -83,13 +114,68 @@ const result = dc.computeForSaleFeasibility({
   tdc: 20000000,
   units: 40,
   ami4Person: 100000,
-  targetAmiPct: 0.80
+  targetAmiPct: 0.80,
+  developerFundingPrograms: developerFunding
 });
 assert.strictEqual(result.status, 'ok', 'valid ownership inputs compute');
 assert.strictEqual(result.maxAffordableSalePrice, expectedPrice80, 'max sale price matches HNA ownership helper');
 assert.strictEqual(result.tdcPerUnit, 500000, 'development cost per unit is TDC / units');
 assert.strictEqual(result.subsidyGapPerUnit, Math.max(0, 500000 - expectedPrice80), 'subsidy gap per unit is cost less max sale price');
 assert.strictEqual(result.totalSubsidyGap, result.subsidyGapPerUnit * 40, 'total gap multiplies per-unit gap by units');
+assert(result.developerFundingStack, 'computeForSaleFeasibility maps a developer funding stack');
+assert(result.developerFundingStack.appliedAmountPerUnit <= result.subsidyGapPerUnit, 'developer stack never applies more than the computed gap');
+assert.strictEqual(
+  result.developerFundingStack.residualGapPerUnit,
+  Math.max(0, result.subsidyGapPerUnit - result.developerFundingStack.appliedAmountPerUnit),
+  'developer stack residual equals gap minus applied sources'
+);
+assert(result.developerFundingStack.verifySources.some(source => source.displayAmount === 'VERIFY'), 'unknown program terms are disclosed as VERIFY');
+
+const fixturePrograms = [
+  {
+    id: 'fixture-fixed',
+    name: 'Fixture fixed source',
+    status: 'active',
+    program_type: 'dpa-layering',
+    apply_to_gap: true,
+    amount_type: 'fixed_dollar_cap',
+    max_amount: 20000,
+    source_url: 'https://www.chfainfo.com/homeownership/down-payment-assistance'
+  },
+  {
+    id: 'fixture-buydown',
+    name: 'Fixture buy-down source',
+    status: 'active',
+    program_type: 'deed-restriction-buydown',
+    apply_to_gap: true,
+    amount_type: 'percent_purchase_price',
+    max_percent: 0.2,
+    basis: 'development_cost_per_unit',
+    source_url: 'https://www.wmrhousing.org/gooddeeds'
+  },
+  {
+    id: 'fixture-verify',
+    name: 'Fixture VERIFY source',
+    status: 'active',
+    program_type: 'inclusionary-requirement',
+    apply_to_gap: false,
+    render_value: 'VERIFY',
+    source_url: 'https://aspen.gov/1384/2022-Residential-Building-Regulations-Up'
+  }
+];
+const mappedResult = dc.computeForSaleFeasibility({
+  tdc: 500000,
+  units: 1,
+  ami4Person: 90000,
+  targetAmiPct: 0.80,
+  maxAffordablePrice: function () { return 350000; },
+  developerFundingPrograms: fixturePrograms
+});
+assert.strictEqual(mappedResult.subsidyGapPerUnit, 150000, 'fixture creates a known ownership gap');
+assert.strictEqual(mappedResult.developerFundingStack.appliedAmountPerUnit, 120000, 'fixture applied sources sum in declared order');
+assert.strictEqual(mappedResult.developerFundingStack.residualGapPerUnit, 30000, 'fixture residual is gap minus applied sources');
+assert.strictEqual(mappedResult.developerFundingStack.appliedTotal, 120000, 'fixture total applied uses unit count');
+assert.strictEqual(mappedResult.developerFundingStack.verifySources.length, 1, 'fixture VERIFY source is disclosed and not applied');
 
 let spyCalls = 0;
 const spyResult = dc.computeForSaleFeasibility({
@@ -109,5 +195,34 @@ assert.strictEqual(spyResult.subsidyGapPerUnit, 25000, 'spy proves gap uses maxA
 
 const missingAmi = dc.computeForSaleFeasibility({ tdc: 1000000, units: 4, targetAmiPct: 0.80 });
 assert.strictEqual(missingAmi.status, 'missing-ami', 'missing AMI does not fabricate a sale price');
+
+window.HudFmr = {
+  getIncomeLimitsByFips: function () {
+    return { ami_4person: 100000 };
+  },
+  getFmrByFips: function () {
+    return { studio: 900, '1br': 1100, '2br': 1300, '3br': 1700, '4br': 2000 };
+  },
+  getGrossRentLimit: function (_fips, pct) {
+    return { '2br': Math.round(100000 * (pct / 100) * 0.30 / 12) };
+  },
+  isLoaded: function () {
+    return true;
+  },
+  getAllCounties: function () {
+    return [{ fips: '08031', name: 'Denver County' }];
+  }
+};
+dc._setDeveloperOwnershipFundingForTest(developerFunding);
+dc._setAmiLimitsForTest(null, null, '08031');
+document.getElementById('dc-tdc').value = '20000000';
+document.getElementById('dc-units').value = '40';
+document.getElementById('dc-sale-target-ami').value = '80';
+dc.recalculate();
+const stackText = document.getElementById('dc-own-funding-stack').textContent;
+assert(stackText.includes('Developer ownership funding stack - screening only'), 'rendered stack is developer-facing and screening-only');
+assert(stackText.includes('Residual after mapped stack'), 'rendered stack discloses residual after applied sources');
+assert(stackText.includes('VERIFY before counting toward the gap'), 'rendered stack discloses unknown program terms as VERIFY');
+assert(stackText.includes('C3 owner confirmation requested'), 'rendered stack flags C3 for owner confirmation');
 
 console.log('All Deal Calculator for-sale ownership feasibility tests passed.');

@@ -21,6 +21,7 @@
   var _amiGapData = null;       // cached co_ami_gap_by_county.json
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
+  var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
   var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
@@ -184,7 +185,7 @@
     var maxSalePrice = maxAffordablePrice(ami4Person, targetAmiPct, input.assumptions);
     var rawGapPerUnit = tdcPerUnit - maxSalePrice;
     var subsidyGapPerUnit = Math.max(0, rawGapPerUnit);
-    return {
+    var result = {
       status: 'ok',
       targetAmiPct: targetAmiPct,
       ami4Person: ami4Person,
@@ -195,6 +196,132 @@
       totalSubsidyGap: subsidyGapPerUnit * units,
       surplusPerUnit: Math.max(0, -rawGapPerUnit)
     };
+    result.developerFundingStack = computeDeveloperOwnershipFundingStack(result, {
+      units: units,
+      programs: input.developerFundingPrograms
+    });
+    return result;
+  }
+
+  function _developerFundingPrograms(programs) {
+    if (Array.isArray(programs)) return programs;
+    if (programs && Array.isArray(programs.programs)) return programs.programs;
+    if (_developerOwnershipFunding && Array.isArray(_developerOwnershipFunding.programs)) {
+      return _developerOwnershipFunding.programs;
+    }
+    return [];
+  }
+
+  function _developerFundingAmountPerUnit(program, feasibility) {
+    if (!program || program.apply_to_gap !== true) return null;
+    var amountType = String(program.amount_type || '');
+    if (amountType === 'fixed_dollar_cap') {
+      var maxAmount = +program.max_amount;
+      return isFinite(maxAmount) && maxAmount > 0 ? maxAmount : null;
+    }
+    if (amountType === 'percent_purchase_price') {
+      var pct = +program.max_percent;
+      var basis = String(program.basis || '');
+      var basisValue = basis === 'max_affordable_sale_price'
+        ? +feasibility.maxAffordableSalePrice
+        : +feasibility.tdcPerUnit;
+      if (isFinite(pct) && pct > 0 && isFinite(basisValue) && basisValue > 0) {
+        return pct * basisValue;
+      }
+    }
+    return null;
+  }
+
+  function computeDeveloperOwnershipFundingStack(feasibility, options) {
+    var opts = options || {};
+    var units = +opts.units;
+    if (!isFinite(units) || units <= 0) units = 0;
+    var gap = Math.max(0, +((feasibility || {}).subsidyGapPerUnit) || 0);
+    var remaining = gap;
+    var appliedTotal = 0;
+    var programs = _developerFundingPrograms(opts.programs);
+    var appliedSources = [];
+    var verifySources = [];
+
+    programs.forEach(function (program) {
+      if (!program || String(program.status || '').toLowerCase() !== 'active') return;
+      var amount = _developerFundingAmountPerUnit(program, feasibility || {});
+      if (!isFinite(amount) || amount <= 0) {
+        verifySources.push({
+          id: program.id || '',
+          name: program.name || program.id || 'Program',
+          programType: program.program_type || '',
+          displayAmount: program.render_value || 'VERIFY',
+          sourceUrl: program.source_url || '',
+          note: program.screening_note || ''
+        });
+        return;
+      }
+      var applied = Math.min(remaining, amount);
+      remaining = Math.max(0, remaining - applied);
+      appliedTotal += applied;
+      appliedSources.push({
+        id: program.id || '',
+        name: program.name || program.id || 'Program',
+        programType: program.program_type || '',
+        availableAmountPerUnit: amount,
+        appliedAmountPerUnit: applied,
+        sourceUrl: program.source_url || '',
+        note: program.screening_note || ''
+      });
+    });
+
+    return {
+      label: 'Developer ownership funding stack - screening only',
+      ownerDecision: 'C3 starter set - owner confirmation needed',
+      appliedAmountPerUnit: appliedTotal,
+      appliedTotal: appliedTotal * units,
+      residualGapPerUnit: remaining,
+      residualTotalGap: remaining * units,
+      appliedSources: appliedSources,
+      verifySources: verifySources,
+      sourceCount: programs.length
+    };
+  }
+
+  function renderDeveloperOwnershipFundingStack(stack) {
+    var mount = document.getElementById('dc-own-funding-stack');
+    if (!mount) return;
+    function fmt(n) {
+      return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : 'VERIFY';
+    }
+    while (mount.firstChild) mount.removeChild(mount.firstChild);
+    var title = document.createElement('p');
+    title.style.cssText = 'margin:.55rem 0 .2rem;font-weight:700;font-size:var(--tiny);color:var(--text);';
+    title.textContent = 'Developer ownership funding stack - screening only';
+    mount.appendChild(title);
+
+    if (!stack || !stack.sourceCount) {
+      var empty = document.createElement('p');
+      empty.style.cssText = 'margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+      empty.textContent = 'Developer stack sources unavailable; verify local tools before treating the residual as final.';
+      mount.appendChild(empty);
+      return;
+    }
+
+    var list = document.createElement('ul');
+    list.style.cssText = 'margin:.2rem 0 .35rem;padding-left:1rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+    (stack.appliedSources || []).forEach(function (source) {
+      var li = document.createElement('li');
+      li.textContent = source.name + ': ' + fmt(source.appliedAmountPerUnit) + ' / unit applied';
+      list.appendChild(li);
+    });
+    (stack.verifySources || []).forEach(function (source) {
+      var li = document.createElement('li');
+      li.textContent = source.name + ': VERIFY before counting toward the gap';
+      list.appendChild(li);
+    });
+    mount.appendChild(list);
+
+    var residual = document.createElement('p');
+    residual.style.cssText = 'margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+    residual.textContent = 'Residual after mapped stack: ' + fmt(stack.residualGapPerUnit) + ' / unit. C3 owner confirmation requested; no unverified amount is counted.';
+    mount.appendChild(residual);
   }
 
   function renderForSaleFeasibility(result) {
@@ -219,6 +346,7 @@
           ? 'Ownership affordability helper unavailable; reload the page before relying on this mode.'
           : 'Enter total development cost and units to size the ownership gap.');
       setText('dc-own-note', message);
+      renderDeveloperOwnershipFundingStack(null);
       return;
     }
     setText('dc-own-cost-per-unit', fmt(result.tdcPerUnit));
@@ -229,6 +357,7 @@
       ? 'Screening result: no per-unit subsidy gap at this AMI under the shared HNA PITI assumptions.'
       : 'Formula: development cost per unit minus max affordable sale price from the HNA ownership module.';
     setText('dc-own-note', note);
+    renderDeveloperOwnershipFundingStack(result.developerFundingStack);
   }
 
   function currentDealMode() {
@@ -1506,6 +1635,11 @@
           <p id="dc-own-note" style="margin:.45rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
             Select a county to load HUD AMI and price the ownership affordability limit.
           </p>
+          <div id="dc-own-funding-stack" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+            <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+              Developer ownership funding stack loads after source data.
+            </p>
+          </div>
         </div>
 
         <!-- F257-6 — Development budget breakdown (typical shares). The
@@ -2370,7 +2504,8 @@
       tdc: tdc,
       units: units,
       ami4Person: getCurrentAmi4Person(),
-      targetAmiPct: saleTargetAmiPct
+      targetAmiPct: saleTargetAmiPct,
+      developerFundingPrograms: _developerOwnershipFunding
     }));
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
@@ -3895,6 +4030,16 @@
     }).catch(function () {
       _softFundingStatus = null;
       _renderFundingContextCard();
+    });
+
+    fetch(_gapResolver('data/policy/developer-ownership-funding.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      _developerOwnershipFunding = data && Array.isArray(data.programs) ? data : null;
+      if (currentDealMode() === 'ownership') recalculate();
+    }).catch(function () {
+      _developerOwnershipFunding = null;
+      if (currentDealMode() === 'ownership') recalculate();
     });
 
     // Q5: Load Zillow ZORI market-rent index. Soft-fail — when missing,
@@ -5456,6 +5601,7 @@
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
+    computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
     computeRentAchievability:   computeRentAchievability,
@@ -5467,6 +5613,7 @@
     getEquityPricingDefaults:   function () { return Object.assign({}, _equityPricingDefaults); },
     renderJurisdictionContextForTest: _renderJurisdictionContext,
     workflowJurisdictionContextForTest: _workflowJurisdictionContext,
+    _setDeveloperOwnershipFundingForTest: function (d) { _developerOwnershipFunding = d || null; },
     _setZoriDataForTest:        function (d) { _zoriData = d; },
     _setAmiLimitsForTest:       function (limits, byBr, fips) {
       _amiLimits = limits || null;
