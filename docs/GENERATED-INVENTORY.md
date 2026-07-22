@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T04:45:24.947Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T11:41:13.518Z. Do not edit by hand.
 
 ---
 
@@ -121,7 +121,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 236.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 236.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.23 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -201,7 +201,7 @@
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
-| `data/hna/home-value-cascade.json` | 92.2 KB | ✅ | — |
+| `data/hna/home-value-cascade.json` | 130.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0800320.json` | 28.8 KB | ✅ | — |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 197.3 KB | ✅ | — |
+| `data/manifest.json` | 197.5 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1713,11 +1713,11 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 60.8 KB |
-| `test/hna-home-value-cascade.test.js` | 10.5 KB |
+| `test/hna-home-value-cascade.test.js` | 12.5 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
-| `test/hna-ownership-need.test.js` | 15.0 KB |
+| `test/hna-ownership-need.test.js` | 17.6 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
@@ -1739,7 +1739,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/jurisdiction-metrics-digest.test.js` | 24.5 KB |
+| `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
