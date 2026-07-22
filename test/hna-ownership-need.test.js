@@ -241,6 +241,39 @@ test('B25075 owner-value supply series is non-vacuous and labeled', () => {
   assert.equal(Ownership.ownerValueSupplySeries(empty), null, 'empty owner-value bins must not produce a supply series');
 });
 
+test('current price-band screen recomputes from CHAS demand and B25075 supply', () => {
+  const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/08045.json'), 'utf8')).acsProfile;
+  const countyChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/chas_affordability_gap.json'), 'utf8')).counties['08045'];
+  const amiGap = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_county.json'), 'utf8')).counties
+    .find((row) => row.fips === '08045');
+  const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
+  const out = compute({
+    countyChasEntry: countyChas,
+    geographyId: '08045',
+    geographyName: 'Garfield County',
+    geoLevel: 'county',
+    amiGapEntry: amiGap,
+    homeValueEntry: cascade.counties['08045'],
+    ownerValueSupplyProfile: profile,
+  });
+  const screen = out.priceBandScreen;
+  assert.ok(screen, 'Garfield County should produce a price-band screen');
+  assert.equal(screen.label, Ownership.PRICE_BAND_SCREEN_LABEL);
+  assert.equal(screen.label, 'potential buyer pool (moderate-income renter households) - not committed demand');
+  assert.equal(screen.screeningOnly, true);
+  assert.equal(screen.noConversionMultiplierApplied, true);
+  assert.equal(screen.totalPotentialBuyerPoolHouseholds, out.moderateIncomeRenterHouseholds);
+  assert.equal(JSON.stringify(screen.rows.map((row) => row.key)), JSON.stringify(['lte80', '81to100', '101to120']));
+  assert.equal(JSON.stringify(screen.rows.map((row) => row.maxAffordablePrice)), JSON.stringify([283024, 353780, 424536]));
+  assert.equal(JSON.stringify(screen.rows.map((row) => row.potentialBuyerPoolHouseholds)), JSON.stringify([1945, 848, 0]));
+  assert.equal(JSON.stringify(screen.rows.map((row) => row.ownerValueSupplyUnits)), JSON.stringify([3183.7, 1229.6, 1486.3]));
+  assert.equal(JSON.stringify(screen.rows.map((row) => row.currentGapHouseholds)), JSON.stringify([0, 0, 0]));
+  assert.equal(JSON.stringify(screen.rows[0].demandSourceBands), JSON.stringify(['51to80']));
+  assert.equal(JSON.stringify(screen.rows[1].demandSourceBands), JSON.stringify(['81to100']));
+  assert.equal(JSON.stringify(screen.rows[2].demandSourceBands), JSON.stringify([]));
+  assert.ok(screen.caveat.includes('Screening estimate only'));
+});
+
 test('county affordability classification uses FHFA-backed county cascade anchor', () => {
   const countyChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/chas_affordability_gap.json'), 'utf8')).counties;
   const gaps = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_county.json'), 'utf8')).counties;
@@ -279,6 +312,7 @@ test('deep affordability recommendation requires rate, count, and total-househol
 test('copy contains screening framing and avoids banned phrases', () => {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-ownership-need.js'), 'utf8').toLowerCase();
   assert.ok(src.includes('screening estimate'));
+  assert.ok(src.includes('potential buyer pool (moderate-income renter households) - not committed demand'));
   [
     'qualified ' + 'buyer',
     'qualified ' + 'buyers',
@@ -289,6 +323,10 @@ test('copy contains screening framing and avoids banned phrases', () => {
     'absorption ' + ('fore' + 'cast'),
     'homeownership ' + 'prediction',
     'fore' + 'cast',
+    'time-' + 'phased',
+    'time ' + 'phasing',
+    'capture ' + 'rate',
+    'capture ' + 'rates',
   ].forEach(phrase => assert.equal(src.includes(phrase), false, phrase + ' should be absent'));
 });
 
