@@ -13,6 +13,7 @@ const builder = fs.readFileSync(path.join(ROOT, 'scripts', 'hna', 'build_tract_o
 const freshnessSrc = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'benchmark-freshness-check.mjs'), 'utf8');
 const scoringSource = fs.readFileSync(path.join(ROOT, 'js', 'market-analysis-scoring.js'), 'utf8');
 const pmaSource = fs.readFileSync(path.join(ROOT, 'js', 'market-analysis.js'), 'utf8');
+const commuteShapedSource = fs.readFileSync(path.join(ROOT, 'js', 'pma-commute-shaped.js'), 'utf8');
 
 assert(doc.meta, 'artifact exposes meta');
 assert.equal(doc.meta.source, 'LEHD LODES8 Origin-Destination (OD Main, All Jobs)');
@@ -76,7 +77,9 @@ assert(builder.includes('DEFAULT_COVERAGE_FLOOR = 0.95'), 'builder pins the cove
 assert(builder.includes('FALLBACK_COVERAGE_FLOOR = 0.90'), 'builder discloses the 90% size fallback path');
 assert(freshnessSrc.includes('data/market/lodes_tract_od_co.json'), 'benchmark freshness audit includes tract OD artifact');
 
-assert(!scoringSource.includes('lodes_tract_od_co.json'), 'tract OD artifact is not wired into PMA scoring in D-F1');
-assert(!pmaSource.includes('lodes_tract_od_co.json'), 'tract OD artifact is not wired into shipped PMA runtime in D-F1');
+assert(!scoringSource.includes('lodes_tract_od_co.json'), 'tract OD artifact is not wired into PMA scoring');
+assert(!pmaSource.includes('lodes_tract_od_co.json'), 'tract OD artifact is not fetched by default PMA runtime');
+assert(commuteShapedSource.includes('data/market/lodes_tract_od_co.json'), 'D-F2 commute-shaped module is the intentional OD artifact consumer');
+assert(commuteShapedSource.includes('Commute-shaped PMA (beta)'), 'OD consumer is labeled as the opt-in beta mode');
 
 console.log(`lodes-tract-od: PASS (${pairs.length} retained pairs, ${(retainedShare * 100).toFixed(2)}% coverage)`);

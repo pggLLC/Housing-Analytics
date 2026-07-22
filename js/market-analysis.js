@@ -21,6 +21,7 @@
   /* ── Constants ─────────────────────────────────────────────────── */
   var BUFFER_OPTIONS   = [3, 5, 10, 15]; // miles
   var PMAScoring = window.PMAMarketScoring;
+  var COMMUTE_SHAPED_MODULE_SRC = 'js/pma-commute-shaped.js';
 
   /**
    * Get county-specific 4-person AMI from HudFmr connector. Returns null
@@ -77,6 +78,7 @@
   ];
   var lastResult   = null;
   var _softFundingStatus = null;
+  var _commuteShapedLoadPromise = null;
 
   // F218 — non-LIHTC affordable inventory cache (HUD MF, USDA RD, PBV-local,
   // preservation candidates). Pre-warmed at module init; consumed by
@@ -293,6 +295,79 @@
       if (geoid && feature.geometry) index[String(geoid)] = feature.geometry;
     });
     return index;
+  }
+
+  function _boundaryForTracts(tracts) {
+    if (!tractGeometryIndex || !tracts || !tracts.length) return null;
+    var features = [];
+    tracts.forEach(function (t) {
+      var geoid = t && (t.geoid || t.GEOID || t.GEOID20 || t.tract_geoid);
+      var geom = geoid && tractGeometryIndex[String(geoid)];
+      if (geom) {
+        features.push({
+          type: 'Feature',
+          properties: { geoid: String(geoid) },
+          geometry: geom
+        });
+      }
+    });
+    return features.length ? { type: 'FeatureCollection', features: features } : null;
+  }
+
+  function _commuteShapedToggle() {
+    return document.getElementById('pmaCommuteShapedToggle');
+  }
+
+  function _setCommuteShapedWarning(message) {
+    var warn = document.getElementById('pmaCommuteShapedWarning');
+    if (!warn) return;
+    warn.hidden = !message;
+    warn.textContent = message || '';
+  }
+
+  function _isCommuteShapedRequested() {
+    var cb = _commuteShapedToggle();
+    return !!(cb && cb.checked);
+  }
+
+  function _loadCommuteShapedModule() {
+    if (window.PMACommuteShaped) return Promise.resolve(window.PMACommuteShaped);
+    if (_commuteShapedLoadPromise) return _commuteShapedLoadPromise;
+    _commuteShapedLoadPromise = new Promise(function (resolve, reject) {
+      if (typeof document === 'undefined' || !document.createElement) {
+        reject(new Error('Document unavailable'));
+        return;
+      }
+      var script = document.createElement('script');
+      script.src = COMMUTE_SHAPED_MODULE_SRC;
+      script.defer = true;
+      script.onload = function () {
+        if (window.PMACommuteShaped) resolve(window.PMACommuteShaped);
+        else reject(new Error('Commute-shaped PMA module unavailable'));
+      };
+      script.onerror = function () { reject(new Error('Commute-shaped PMA module failed to load')); };
+      document.head.appendChild(script);
+    });
+    return _commuteShapedLoadPromise;
+  }
+
+  function _commuteShapedOffState() {
+    return {
+      enabled: false,
+      available: !!window.PMACommuteShaped,
+      blocked: false,
+      mode_label: 'Circular buffer PMA',
+      scoring_effect: 'off'
+    };
+  }
+
+  function _blockCommuteShaped(message) {
+    var cb = _commuteShapedToggle();
+    if (cb) {
+      cb.checked = false;
+      cb.disabled = true;
+    }
+    _setCommuteShapedWarning(message || 'Commute-shaped PMA data unavailable — circular-buffer PMA in use');
   }
 
   function _projectLonLat(coord, originLat, originLon) {
@@ -2226,6 +2301,47 @@
       return applied && applied.tracts ? applied.tracts : tracts;
     }
     bufTracts = applyBarrierAware(bufTracts);
+    var commuteShapedContext = _commuteShapedOffState();
+    if (_isCommuteShapedRequested()) {
+      if (!window.PMACommuteShaped) {
+        _setCommuteShapedWarning('Loading commute-shaped PMA data…');
+        _loadCommuteShapedModule().then(function (mod) {
+          return mod && typeof mod.loadInputs === 'function' ? mod.loadInputs() : null;
+        }).then(function () {
+          runAnalysis(lat, lon, options);
+        }).catch(function (err) {
+          _blockCommuteShaped((err && err.message) || 'Commute-shaped PMA module unavailable');
+          runAnalysis(lat, lon, options);
+        });
+        return;
+      }
+      var CS = window.PMACommuteShaped;
+      var csState = CS && CS.getState ? CS.getState() : null;
+      if (CS && typeof CS.loadInputs === 'function' && (!csState || (!csState.available && !csState.blocked))) {
+        _setCommuteShapedWarning('Loading commute-shaped PMA data…');
+        CS.loadInputs().then(function () {
+          runAnalysis(lat, lon, options);
+        }).catch(function (err) {
+          _blockCommuteShaped((err && err.message) || 'Commute-shaped PMA data unavailable');
+          runAnalysis(lat, lon, options);
+        });
+        return;
+      }
+      if (CS && typeof CS.applyToTracts === 'function') {
+        var shaped = CS.applyToTracts(bufTracts, {
+          site: { lat: lat, lon: lon }
+        });
+        commuteShapedContext = shaped && shaped.state ? shaped.state : (CS.getState ? CS.getState() : _commuteShapedOffState());
+        if (commuteShapedContext && commuteShapedContext.enabled && shaped && Array.isArray(shaped.tracts)) {
+          bufTracts = shaped.tracts;
+          _setCommuteShapedWarning('');
+        } else if (commuteShapedContext && commuteShapedContext.blocked) {
+          _blockCommuteShaped(commuteShapedContext.warning);
+        }
+      }
+    } else {
+      _setCommuteShapedWarning('');
+    }
     var acs = aggregateAcs(bufTracts, acsIdx);
 
     // If no ACS matches (or no centroids found) try expanding to larger radii.
@@ -2236,6 +2352,15 @@
         var fallbackMiles = fallbackSizes[fi];
         var fallbackTracts = tractsInBuffer(lat, lon, fallbackMiles);
         fallbackTracts = applyBarrierAware(fallbackTracts);
+        if (_isCommuteShapedRequested() && window.PMACommuteShaped && typeof window.PMACommuteShaped.applyToTracts === 'function') {
+          var fallbackShaped = window.PMACommuteShaped.applyToTracts(fallbackTracts, {
+            site: { lat: lat, lon: lon }
+          });
+          if (fallbackShaped && fallbackShaped.state) commuteShapedContext = fallbackShaped.state;
+          if (commuteShapedContext && commuteShapedContext.enabled && Array.isArray(fallbackShaped.tracts)) {
+            fallbackTracts = fallbackShaped.tracts;
+          }
+        }
         var fallbackAcs = aggregateAcs(fallbackTracts, acsIdx);
         if (fallbackAcs) {
           acs = fallbackAcs;
@@ -2259,8 +2384,11 @@
       return;
     }
 
-    var nearbyLihtc = selectedTractBoundary
-      ? lihtcInBoundary(selectedTractBoundary)
+    var commuteShapedBoundary = commuteShapedContext && commuteShapedContext.enabled
+      ? _boundaryForTracts(bufTracts)
+      : null;
+    var nearbyLihtc = (commuteShapedBoundary || selectedTractBoundary)
+      ? lihtcInBoundary(commuteShapedBoundary || selectedTractBoundary)
       : lihtcInBuffer(lat, lon, effectiveBuffer);
     if (lihtcLoadError) {
       showEmpty('pmaScoreWrap',
@@ -2447,6 +2575,11 @@
         barrierBaseShare: typeof t._bufferShareBase === 'number' ? t._bufferShareBase : null,
         barrierMultiplier: typeof t._barrierMultiplier === 'number' ? t._barrierMultiplier : null,
         barrierCrossings: t._barrierCrossings || null,
+        commuteShapedExtension: !!t._commuteShapedExtension,
+        commuteShapedBadge: t._commuteShapeBadge || null,
+        commuteFlowJobs: t._commuteFlowJobs || null,
+        commuteOrientationShare: typeof t._commuteOrientationShare === 'number' ? t._commuteOrientationShare : null,
+        commuteDriveMinutes: typeof t._commuteDriveMinutes === 'number' ? t._commuteDriveMinutes : null,
         bboxSource: t.bbox_source || (t.bbox ? 'unknown' : 'centroid'),
         pop: pop,
         households: hh,
@@ -2469,6 +2602,7 @@
       barrierAware: barrierAwareContext || (window.PMABarrierAware && window.PMABarrierAware.getState
         ? window.PMABarrierAware.getState()
         : { enabled: false, mode_label: 'Barrier-aware downweight off' }),
+      commuteShapedPma: commuteShapedContext,
       _tractIds: bufTracts.map(function (t) { return t.geoid; }),
       // K — exposes the per-tract clip percentages for the breakdown card.
       bufferTractsDetail: bufferTractsDetail,
@@ -3584,8 +3718,12 @@
 
     // Boundary description
     var bufferMi = result.bufferMiles != null ? +result.bufferMiles : null;
+    var commuteShaped = result.commuteShapedPma || null;
     setSum('pmaSumBoundary',
-      result.boundaryMethod === 'tract-picker'
+      commuteShaped && commuteShaped.enabled
+        ? commuteShaped.mode_label + ' · ' + (commuteShaped.seed_tract_count || 0) +
+          ' seed + ' + (commuteShaped.extension_tract_count || 0) + ' extended tracts'
+        : result.boundaryMethod === 'tract-picker'
         ? 'Selected whole census tracts'
         : bufferMi != null
           ? bufferMi.toFixed(1) + '-mile circular buffer'
@@ -3674,6 +3812,10 @@
         } else if (barrierState.enabled) {
           barrierChip = '<span style="font-size:.76rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Barrier-aware beta</span>';
         }
+        var shapedState = result.commuteShapedPma || {};
+        var shapedChip = shapedState.enabled
+          ? '<span style="font-size:.76rem;color:var(--accent,#2563eb);border:1px solid var(--accent,#2563eb);border-radius:999px;padding:2px 7px;">Commute-shaped PMA beta</span>'
+          : '';
         var rows = details.slice(0, 30).map(function (d) {
           var sharePct = (d.share * 100).toFixed(0) + '%';
           var bboxBadge = d.bboxSource === 'tiger2020'
@@ -3682,8 +3824,14 @@
           var barrierBadge = d.barrierBadge
             ? '<div style="margin-top:3px;font-size:.74rem;color:var(--warn,#d97706);">' + escMini(d.barrierBadge) + '</div>'
             : '';
+          var commuteBadge = d.commuteShapedBadge
+            ? '<div style="margin-top:3px;font-size:.74rem;color:var(--accent,#2563eb);">' +
+              escMini(d.commuteShapedBadge) +
+              (d.commuteDriveMinutes != null ? ' · nearest hub ' + (+d.commuteDriveMinutes).toFixed(0) + ' min' : '') +
+              '</div>'
+            : '';
           return '<tr>' +
-            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span>' + barrierBadge + '</td>' +
+            '<td style="' + tdStyle + '">' + bboxBadge + ' ' + d.geoid + ' <span style="color:var(--muted);font-size:.78rem;">' + (d.countyName || '') + '</span>' + barrierBadge + commuteBadge + '</td>' +
             '<td style="' + numStyle + '">' + sharePct + '</td>' +
             '<td style="' + numStyle + '">' + (d.pop != null ? fmtInt(d.pop) : '—') + '</td>' +
             '<td style="' + numStyle + '">' + (d.households != null ? fmtInt(d.households) : '—') + '</td>' +
@@ -3700,15 +3848,17 @@
           '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;flex-wrap:wrap;gap:6px;">' +
             '<h4 style="margin:0;font-size:.95rem;font-weight:700;">Tract-level breakdown</h4>' +
             '<span style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.78rem;color:var(--muted);">' +
-              barrierChip + '<span>Real polygon ●  ·  centroid fallback ●</span></span>' +
+              barrierChip + shapedChip + '<span>Real polygon ●  ·  centroid fallback ●</span></span>' +
           '</div>' +
           '<p style="font-size:.8rem;color:var(--muted);margin:0 0 8px;line-height:1.45;">' +
-            (isTractPicker
+            (shapedState.enabled
+              ? 'Commute-shaped PMA beta starts with the circular-buffer tracts and adds whole tracts supported by LODES 2023 OD flow evidence. '
+              : isTractPicker
               ? details.length + ' selected whole tract' + (details.length === 1 ? '' : 's') + ' define this PMA. Counts below are full-tract ACS aggregates. '
               : details.length + ' tract' + (details.length === 1 ? '' : 's') + ' clip the ' +
                 (result.bufferMiles ? result.bufferMiles.toFixed(1) : '?') + '-mi buffer. ' +
                 'Counts below are apportioned by each tract’s polygon-clip share. ') +
-            (isTractPicker ? 'Selected tract totals: ' : 'Buffer totals: ') + fmtInt(totals.pop || 0) + ' pop · ' +
+            (shapedState.enabled ? 'Commute-shaped PMA totals: ' : isTractPicker ? 'Selected tract totals: ' : 'Buffer totals: ') + fmtInt(totals.pop || 0) + ' pop · ' +
             fmtInt(totals.households || 0) + ' HH' +
             (hasJobs ? ' · ' + fmtInt(totals.jobs || 0) + ' jobs' : '') + '.' +
           '</p>' +
@@ -3716,7 +3866,7 @@
             '<table style="width:100%;border-collapse:collapse;">' +
               '<thead style="position:sticky;top:0;background:var(--card);"><tr>' +
                 '<th style="' + thStyle + '">Tract GEOID · County</th>' +
-                '<th style="' + thStyle + 'text-align:right;">Clip %</th>' +
+                '<th style="' + thStyle + 'text-align:right;">' + (shapedState.enabled ? 'Weight' : 'Clip %') + '</th>' +
                 '<th style="' + thStyle + 'text-align:right;">Pop</th>' +
                 '<th style="' + thStyle + 'text-align:right;">HH</th>' +
                 (hasJobs ? '<th style="' + thStyle + 'text-align:right;">Jobs</th>' : '') +
@@ -4089,6 +4239,35 @@
     btn.addEventListener('click', _runAnalysisWithAck);
   }
 
+  function bindCommuteShapedToggle() {
+    var cb = _commuteShapedToggle();
+    if (!cb) return;
+    cb.addEventListener('change', function () {
+      if (!cb.checked) {
+        _setCommuteShapedWarning('');
+        if (siteLatLng) runAnalysis(siteLatLng.lat, siteLatLng.lon);
+        return;
+      }
+      _setCommuteShapedWarning('Loading commute-shaped PMA data…');
+      _loadCommuteShapedModule().then(function (mod) {
+        return mod && typeof mod.loadInputs === 'function' ? mod.loadInputs() : null;
+      }).then(function () {
+        var st = window.PMACommuteShaped && window.PMACommuteShaped.getState
+          ? window.PMACommuteShaped.getState()
+          : null;
+        if (st && st.blocked) {
+          _blockCommuteShaped(st.warning);
+        } else {
+          _setCommuteShapedWarning('');
+        }
+        if (siteLatLng) runAnalysis(siteLatLng.lat, siteLatLng.lon);
+      }).catch(function (err) {
+        _blockCommuteShaped((err && err.message) || 'Commute-shaped PMA data unavailable');
+        if (siteLatLng) runAnalysis(siteLatLng.lat, siteLatLng.lon);
+      });
+    });
+  }
+
   /* ── CSV / JSON export ───────────────────────────────────────────── */
   /**
    * Serialize the last PMA analysis result into a structured object
@@ -4114,7 +4293,7 @@
     return {
       exportedAt:  new Date().toISOString(),
       generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
-      disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. Buffer-based, not commuting-shed. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
+      disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. The default mode is circular buffer; commute-shaped PMA is beta and opt-in. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
       vintages: {
         acs:  'ACS 5-Year 2020-2024',
         chas: 'HUD CHAS 2018-2022',
@@ -4126,7 +4305,17 @@
         latitude:    r.lat,
         longitude:   r.lon,
         bufferMiles: bufferM,
-        boundaryMethod: 'circular buffer (screening simplification, not commuting-shed)',
+        boundaryMethod: r.commuteShapedPma && r.commuteShapedPma.enabled
+          ? 'commute-shaped PMA beta (LODES OD workplace-anchored extension)'
+          : 'circular buffer (screening simplification)',
+        pmaMode: r.commuteShapedPma && r.commuteShapedPma.enabled
+          ? r.commuteShapedPma.mode_label
+          : 'Circular buffer PMA',
+        commuteShapedPma: r.commuteShapedPma || {
+          enabled: false,
+          mode_label: 'Circular buffer PMA',
+          scoring_effect: 'off'
+        },
         tractsInBuffer: r.tractCount,
         tractGeoids:    (r._tractIds || []).slice(0, 50),
         barrierAware: r.barrierAware || {
@@ -4241,7 +4430,12 @@
       ['Latitude', s.latitude],
       ['Longitude', s.longitude],
       ['Buffer (miles)', s.bufferMiles],
+      ['PMA Mode', s.pmaMode],
       ['Boundary Method', s.boundaryMethod],
+      ['Commute-Shaped PMA', s.commuteShapedPma && s.commuteShapedPma.mode_label],
+      ['Commute-Shaped Disclosure', s.commuteShapedPma && s.commuteShapedPma.disclosure],
+      ['Commute-Shaped Extension Tracts', s.commuteShapedPma && (s.commuteShapedPma.extension_tracts || []).join('; ')],
+      ['Commute-Shaped Calibration Source', s.commuteShapedPma && s.commuteShapedPma.calibration_source],
       ['Barrier-Aware Mode', s.barrierAware && s.barrierAware.mode_label],
       ['Barrier-Aware Warning', s.barrierAware && s.barrierAware.warning],
       ['Barrier Inventory Vintage', s.barrierAware && s.barrierAware.inventory_vintage],
@@ -4430,6 +4624,9 @@
       ['lat', r.lat],
       ['lon', r.lon],
       ['buffer_miles', r.bufferMiles],
+      ['pma_mode', r.commuteShapedPma && r.commuteShapedPma.enabled ? r.commuteShapedPma.mode_label : 'Circular buffer PMA'],
+      ['commute_shaped_disclosure', r.commuteShapedPma ? (r.commuteShapedPma.disclosure || '') : ''],
+      ['commute_shaped_extension_tracts', r.commuteShapedPma ? ((r.commuteShapedPma.extension_tracts || []).join(';')) : ''],
       ['commute_context_overlay', r.commuteContextOverlay ? r.commuteContextOverlay.mode_label : 'Commute context overlay off'],
       ['commute_context_disclosure', r.commuteContextOverlay ? r.commuteContextOverlay.legend : ''],
       ['tract_count', r.tractCount],
@@ -4767,6 +4964,7 @@
     initLayerToggles();
     bindBufferSelect();
     bindRunBtn();
+    bindCommuteShapedToggle();
     bindPmaExportButtons();
     bindAmiInputs();
     bindExport();
