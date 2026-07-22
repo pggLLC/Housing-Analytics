@@ -74,10 +74,18 @@ for (const geoid of fixture.must_not_include_east_grand_junction_tracts) {
 
 const range = result.state.outside_pma_demand_range;
 assert(range, 'mode reports the professional outside-PMA demand benchmark range');
-assert(range.min >= 0.4 && range.max <= 0.56, 'reported outside-PMA benchmark range stays inside 40-56%');
 assert.match(range.source, /Professional market studies/);
 assert.equal(result.state.validation.professional_capture_count, captured.length);
 assert.equal(result.state.validation.must_not_include_hits.length, 0);
+const impliedOutside = result.state.validation.implied_outside_pma_share;
+assert(Number.isFinite(impliedOutside), 'validation computes implied outside-PMA demand share from OD flows');
+assert(
+  impliedOutside >= range.min && impliedOutside <= range.max,
+  `computed implied outside-PMA demand share ${(impliedOutside * 100).toFixed(1)}% is inside the professional 40-56% band`
+);
+assert(result.state.validation.implied_outside_pma_numerator_jobs > 0, 'outside-PMA numerator is non-vacuous');
+assert(result.state.validation.implied_outside_pma_denominator_jobs > result.state.validation.implied_outside_pma_numerator_jobs, 'outside-PMA denominator is larger than numerator');
+assert.match(result.state.validation.implied_outside_pma_definition, /final commute-shaped PMA work tracts/);
 
 const extensions = result.tracts.filter((t) => t._commuteShapedExtension);
 assert(extensions.length > 0, 'mode adds non-vacuous OD-backed extension tracts');

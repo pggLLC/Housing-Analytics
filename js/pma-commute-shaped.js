@@ -242,7 +242,7 @@
     var calibration = options.calibration || null;
     var validation = null;
     if (calibration && Array.isArray(calibration.professional_tracts)) {
-      validation = validateCalibration(seed.map(tractId), tracts.map(tractId), calibration);
+      validation = validateCalibration(seed.map(tractId), tracts.map(tractId), calibration, odDoc);
     }
 
     return {
@@ -280,7 +280,32 @@
     };
   }
 
-  function validateCalibration(seedIds, modeIds, calibration) {
+  function computeImpliedOutsidePmaShare(odDoc, modeIds) {
+    var mode = {};
+    (modeIds || []).forEach(function (g) {
+      var geoid = normalizeGeoid(g);
+      if (geoid) mode[geoid] = true;
+    });
+    var totalInflow = 0;
+    var outsideInflow = 0;
+    (odDoc && odDoc.pairs || []).forEach(function (row) {
+      if (!Array.isArray(row) || row.length < 3) return;
+      var home = normalizeGeoid(row[0]);
+      var work = normalizeGeoid(row[1]);
+      var jobs = Math.round(+row[2] || 0);
+      if (!home || !work || jobs <= 0 || !mode[work]) return;
+      totalInflow += jobs;
+      if (!mode[home]) outsideInflow += jobs;
+    });
+    return {
+      implied_outside_pma_share: totalInflow > 0 ? outsideInflow / totalInflow : null,
+      implied_outside_pma_numerator_jobs: outsideInflow,
+      implied_outside_pma_denominator_jobs: totalInflow,
+      implied_outside_pma_definition: 'OD worker-flow into final commute-shaped PMA work tracts from home tracts outside the final PMA divided by total OD inflow into those work tracts'
+    };
+  }
+
+  function validateCalibration(seedIds, modeIds, calibration, odDoc) {
     var pro = {};
     (calibration.professional_tracts || []).forEach(function (g) { pro[g] = true; });
     var mode = {};
@@ -290,12 +315,17 @@
     Object.keys(pro).forEach(function (g) { union[g] = true; });
     Object.keys(mode).forEach(function (g) { union[g] = true; });
     var mustNot = (calibration.must_not_include_east_grand_junction_tracts || []).filter(function (g) { return mode[g]; });
+    var outside = computeImpliedOutsidePmaShare(odDoc, modeIds);
     return {
       professional_capture_count: captures.length,
       professional_total: Object.keys(pro).length,
       jaccard: Object.keys(union).length ? captures.length / Object.keys(union).length : 0,
       must_not_include_hits: mustNot,
       benchmark_outside_pma_demand_range: calibration.outside_pma_demand_range || null,
+      implied_outside_pma_share: outside.implied_outside_pma_share,
+      implied_outside_pma_numerator_jobs: outside.implied_outside_pma_numerator_jobs,
+      implied_outside_pma_denominator_jobs: outside.implied_outside_pma_denominator_jobs,
+      implied_outside_pma_definition: outside.implied_outside_pma_definition,
       seed_overlap_count: (seedIds || []).filter(function (g) { return pro[g]; }).length
     };
   }
