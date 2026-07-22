@@ -3630,8 +3630,10 @@
    * @param {string}  countyFips5
    * @param {object}  t          - Chart theme
    */
-  function _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t) {
+  function _renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, opts) {
     const fmtNum = window.HNAUtils.fmtNum;
+    const customScenario = opts && opts.customScenario && opts.customScenario.active ? opts.customScenario : null;
+    const customScenarioLabel = 'Custom (Scenario Builder) · 20-yr cohort model';
 
     // ── Chart 1: chartScenarioComparison — multi-scenario population trends ──
     // ID drift fix: HTML canvas is "chartScenarioComparison"; this code
@@ -3665,6 +3667,18 @@
           { label: 'Growth +15%', data: _scenarioGrowthSensitivitySeries(baseline, 1.15), borderColor: t.c6, borderWidth: 2, borderDash: [4,4], pointRadius: 0, tension: 0.25 }
         );
       }
+      if (customScenario && Array.isArray(customScenario.series) && customScenario.series.length) {
+        datasets.push({
+          label: customScenarioLabel,
+          data: customScenario.series.map(d => d.population || d.pop || 0),
+          borderColor: customScenario.color || '#a855f7',
+          backgroundColor: 'transparent',
+          borderWidth: 2.5,
+          borderDash: [8, 4],
+          pointRadius: 2,
+          tension: 0.25,
+        });
+      }
       makeChart(compCanvas.getContext('2d'), {
         type: 'line',
         data: { labels: years, datasets },
@@ -3690,8 +3704,18 @@
       const scenarios = window.HNAUtils.PROJECTION_SCENARIOS || {};
       const meta = scenarios[scenarioSel] || { label: 'Baseline (DOLA)', color: t.c1 };
       let series = popSel;
+      let detailLabel = meta.label || scenarioSel;
+      let detailColor = meta.color || t.c1;
+      let detailDash = [];
+      let detailFill = true;
       if (proj.scenarios && proj.scenarios[scenarioSel]) {
         series = proj.scenarios[scenarioSel].map(d => d.population || d.pop || 0);
+      } else if (customScenario && scenarioSel === customScenario.key) {
+        series = customScenario.series.map(d => d.population || d.pop || 0);
+        detailLabel = customScenarioLabel;
+        detailColor = customScenario.color || '#a855f7';
+        detailDash = [8, 4];
+        detailFill = false;
       } else if (scenarioSel === 'low_growth') {
         series = _scenarioGrowthSensitivitySeries(popSel, 0.85);
       } else if (scenarioSel === 'high_growth') {
@@ -3702,12 +3726,13 @@
         data: {
           labels: years,
           datasets: [{
-            label: meta.label || scenarioSel,
+            label: detailLabel,
             data: series,
-            borderColor: meta.color || t.c1,
-            backgroundColor: (meta.color || t.c1) + '22',
-            fill: true,
+            borderColor: detailColor,
+            backgroundColor: detailColor + '22',
+            fill: detailFill,
             borderWidth: 2,
+            borderDash: detailDash,
             pointRadius: 3,
             tension: 0.25,
           }],

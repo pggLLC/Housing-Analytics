@@ -2632,10 +2632,60 @@
 
     // ---- Scenario comparison charts (5–10 year horizon section) ----
     try {
-      window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t);
+      const selectedScenario = getSelectedScenario();
+      const customScenario = await buildScenarioBuilderOverlay(
+        selectedScenario,
+        proj,
+        popSel,
+        years,
+        baseYear,
+        countyFips5,
+        selection,
+        baseUnits,
+        headship0,
+        targetVac
+      );
+      window.HNARenderers._renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, {
+        customScenario: customScenario,
+      });
+      const builtInSeries = {};
+      const scenarios = window.HNAUtils.PROJECTION_SCENARIOS || {};
+      Object.keys(scenarios).forEach(function (key) {
+        let series = [];
+        if (proj.scenarios && proj.scenarios[key]) {
+          series = proj.scenarios[key].map(function (d, idx) {
+            return { year: years[idx], population: d.population || d.pop || 0 };
+          });
+        } else if (key === 'low_growth') {
+          series = _scenarioGrowthSensitivitySeriesForExport(popSel, 0.85, years);
+        } else if (key === 'high_growth') {
+          series = _scenarioGrowthSensitivitySeriesForExport(popSel, 1.15, years);
+        } else {
+          series = (popSel || []).map(function (p, idx) { return { year: years[idx], population: p }; });
+        }
+        builtInSeries[key] = series;
+      });
+      if (customScenario && customScenario.series) builtInSeries[customScenario.key] = customScenario.series;
+      window.HNAState.state.lastScenarioSeries = builtInSeries;
     } catch(scErr) {
       console.error('[HNA] _renderScenarioSection failed:', scErr);
     }
+  }
+
+  function _scenarioGrowthSensitivitySeriesForExport(baseline, growthFactor, years){
+    const series = Array.isArray(baseline) ? baseline : [];
+    const p0 = series.find(v => v != null && Number.isFinite(Number(v)));
+    if (p0 == null || !Number.isFinite(Number(growthFactor))) {
+      return series.map(function (_, idx) { return { year: years[idx], population: null }; });
+    }
+    const base = Number(p0);
+    return series.map(function (p, idx) {
+      const value = Number(p);
+      return {
+        year: years[idx],
+        population: Number.isFinite(value) ? base + (growthFactor * (value - base)) : null,
+      };
+    });
   }
 
   /**
@@ -2648,6 +2698,55 @@
   const scenarioState = {
     current: 'baseline',
   };
+  const SCENARIO_BUILDER_PREFIX = 'builder:';
+  const SCENARIO_BUILDER_LABEL = 'Custom (Scenario Builder) · 20-yr cohort model';
+
+  function scenarioBuilderKey(id){
+    return SCENARIO_BUILDER_PREFIX + String(id || '');
+  }
+
+  function scenarioBuilderIdFromKey(key){
+    const raw = String(key || '');
+    return raw.indexOf(SCENARIO_BUILDER_PREFIX) === 0 ? raw.slice(SCENARIO_BUILDER_PREFIX.length) : null;
+  }
+
+  function listScenarioBuilderRecords(){
+    if (!window.ScenarioStorage || typeof window.ScenarioStorage.list !== 'function') return [];
+    try {
+      return window.ScenarioStorage.list().filter(function (rec) {
+        return rec && rec.id && rec.name && rec.parameters;
+      });
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function getScenarioBuilderRecord(key){
+    const id = scenarioBuilderIdFromKey(key);
+    if (!id) return null;
+    if (window.ScenarioStorage && typeof window.ScenarioStorage.get === 'function') {
+      try {
+        const rec = window.ScenarioStorage.get(id);
+        if (rec) return rec;
+      } catch (_) { /* fall through to list lookup */ }
+    }
+    return listScenarioBuilderRecords().find(function (rec) { return rec.id === id; }) || null;
+  }
+
+  function syncScenarioBuilderOptions(){
+    const scenarioSel = document.getElementById('projScenario');
+    if (!scenarioSel) return;
+    scenarioSel.querySelectorAll('option[data-scenario-builder-option="true"]').forEach(function (opt) {
+      opt.remove();
+    });
+    listScenarioBuilderRecords().forEach(function (rec) {
+      const opt = document.createElement('option');
+      opt.value = scenarioBuilderKey(rec.id);
+      opt.textContent = String(rec.name) + ' (Scenario Builder)';
+      opt.dataset.scenarioBuilderOption = 'true';
+      scenarioSel.appendChild(opt);
+    });
+  }
 
 
   function getSelectedScenario(){
@@ -2658,9 +2757,112 @@
 
   function updateScenarioDescription(){
     const sc   = getSelectedScenario();
-    const meta = window.HNAUtils.PROJECTION_SCENARIOS[sc];
+    const custom = getScenarioBuilderRecord(sc);
+    const meta = custom ? null : window.HNAUtils.PROJECTION_SCENARIOS[sc];
     const el   = document.getElementById('scenarioDescription');
-    if (el && meta) el.textContent = meta.description;
+    if (el && custom) {
+      el.textContent = String(custom.name) + ' from Scenario Builder. Custom cohort-component projection; not a DOLA-aligned preset.';
+    } else if (el && meta) {
+      el.textContent = meta.description;
+    }
+  }
+
+  function setCustomScenarioDisclosure(customMeta){
+    const el = document.getElementById('customScenarioDisclosure');
+    if (!el) return;
+    if (!customMeta || !customMeta.active) {
+      el.textContent = '';
+      el.hidden = true;
+      return;
+    }
+    el.textContent = 'Custom Scenario Builder line shown with a cohort-component model and current HNA base data; built-in scenarios remain DOLA-aligned. The custom line is truncated to the chart year range with no extrapolated tail.';
+    el.hidden = false;
+  }
+
+  function scaleDolaSyaData(dolaData, scaleFactor, selection, countyFips5){
+    if (!dolaData || !Number.isFinite(scaleFactor) || scaleFactor === 1) return dolaData;
+    const scaled = Object.assign({}, dolaData, {
+      geoid: selection && selection.geoid,
+      placeName: selection && selection.label,
+      downscaledFromCounty: countyFips5,
+      scaleFactor: scaleFactor,
+    });
+    if (Array.isArray(dolaData.male)) scaled.male = dolaData.male.map(function (v) { return v * scaleFactor; });
+    if (Array.isArray(dolaData.female)) scaled.female = dolaData.female.map(function (v) { return v * scaleFactor; });
+    if (Array.isArray(dolaData.pyramid)) {
+      scaled.pyramid = dolaData.pyramid.map(function (row) {
+        return Object.assign({}, row, {
+          male: (row.male || 0) * scaleFactor,
+          female: (row.female || 0) * scaleFactor,
+        });
+      });
+    }
+    return scaled;
+  }
+
+  async function buildScenarioBuilderOverlay(selectedKey, proj, popSel, years, baseYear, countyFips5, selection, baseUnits, headship0, targetVac){
+    const rec = getScenarioBuilderRecord(selectedKey);
+    if (!rec) {
+      setCustomScenarioDisclosure(null);
+      return null;
+    }
+    if (!window.CohortComponentModel || typeof window.CohortComponentModel !== 'function') {
+      setCustomScenarioDisclosure(null);
+      return null;
+    }
+    let dolaData = null;
+    if (window.HNAState.state.lastDolaSya && window.HNAState.state.lastDolaFips === countyFips5) {
+      dolaData = window.HNAState.state.lastDolaSya;
+    } else if (countyFips5) {
+      try {
+        dolaData = await loadJson(window.HNAUtils.PATHS.dolaSya(countyFips5));
+      } catch (_) {
+        dolaData = null;
+      }
+    }
+    if (!dolaData) {
+      setCustomScenarioDisclosure(null);
+      return null;
+    }
+
+    const countyBase = window.HNAUtils.safeNum((proj && proj.population_dola && proj.population_dola[0]) || null);
+    const selectedBase = window.HNAUtils.safeNum((popSel && popSel[0]) || null);
+    const isSubCounty = selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection);
+    const scaleFactor = isSubCounty && countyBase && selectedBase
+      ? Math.min(1, Math.max(0.0001, selectedBase / countyBase))
+      : 1;
+    const scopedDola = scaleDolaSyaData(dolaData, scaleFactor, selection, countyFips5);
+    const basePopulation = window.CohortComponentModel.buildBasePopFromDola(scopedDola);
+    const chartEndYear = years && years.length ? Number(years[years.length - 1]) : (baseYear + 20);
+    const requestedEnd = Number(rec.targetYear || rec.horizonEndYear || rec.endYear || 2050);
+    const targetYear = Number.isFinite(requestedEnd) ? Math.min(requestedEnd, 2050) : 2050;
+    const model = new window.CohortComponentModel({
+      basePopulation: basePopulation,
+      baseYear: baseYear || 2024,
+      targetYear: targetYear,
+      scenario: rec.parameters || {},
+      headshipRate: headship0 || 0.38,
+      vacancyTarget: targetVac || 0.05,
+      baseUnits: baseUnits || 0,
+    });
+    const projected = model.project();
+    const allowedYears = new Set((years || []).map(function (y) { return Number(y); }));
+    const series = projected
+      .filter(function (row) { return allowedYears.has(Number(row.year)) && Number(row.year) <= chartEndYear; })
+      .map(function (row) {
+        return { year: row.year, population: row.totalPopulation, pop: row.totalPopulation };
+      });
+    const meta = {
+      active: true,
+      key: selectedKey,
+      id: rec.id,
+      name: rec.name,
+      label: SCENARIO_BUILDER_LABEL,
+      color: '#a855f7',
+      series: series,
+    };
+    setCustomScenarioDisclosure(meta);
+    return meta;
   }
 
   function updateScenarioBuilderLink(selection){
@@ -2683,14 +2885,16 @@
   function wireScenarioControls(){
     const scenarioSel = document.getElementById('projScenario');
     if (scenarioSel){
+      syncScenarioBuilderOptions();
       scenarioSel.addEventListener('change', () => {
         const sc   = scenarioSel.value;
-        const meta = window.HNAUtils.PROJECTION_SCENARIOS[sc];
+        const meta = window.HNAUtils.PROJECTION_SCENARIOS[sc] || getScenarioBuilderRecord(sc);
         if (!meta) return;
         updateScenarioDescription();
         // Re-render the projection charts if data is loaded
         if (window.HNAState.state.lastProj && window.HNAState.state.current){ applyAssumptions(window.HNAState.state.lastProj, window.HNAState.state.current); }
       });
+      scenarioSel.addEventListener('focus', syncScenarioBuilderOptions);
     }
 
     // View toggle (population / household / housing demand)
@@ -2764,6 +2968,8 @@
     // Build header row
     const header = ['Year', ...scenarios.map(sc => {
       const meta = (window.HNAUtils && window.HNAUtils.PROJECTION_SCENARIOS[sc]) || {};
+      const custom = getScenarioBuilderRecord(sc);
+      if (custom) return SCENARIO_BUILDER_LABEL;
       return meta.label || sc;
     })];
 
@@ -3350,6 +3556,8 @@
       try{
         dola = await loadJson(window.HNAUtils.PATHS.dolaSya('08'));
         cacheFlags.dola = true;
+        window.HNAState.state.lastDolaSya = dola;
+        window.HNAState.state.lastDolaFips = '08';
       }catch(e){
         console.warn(e);
       }
@@ -3366,6 +3574,8 @@
       try{
         dola = await loadJson(window.HNAUtils.PATHS.dolaSya(contextCounty));
         cacheFlags.dola = true;
+        window.HNAState.state.lastDolaSya = dola;
+        window.HNAState.state.lastDolaFips = contextCounty;
       }catch(e){
         console.warn(e);
       }
