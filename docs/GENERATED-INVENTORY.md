@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T14:12:29.083Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T14:37:28.552Z. Do not edit by hand.
 
 ---
 
@@ -1663,7 +1663,7 @@
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 11.1 KB |
 | `test/co-lihtc-map.test.js` | 8.2 KB |
-| `test/colorado-equity-pricing-factors.test.js` | 6.2 KB |
+| `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
@@ -1719,7 +1719,7 @@
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
-| `test/hna-ownership-need.test.js` | 17.6 KB |
+| `test/hna-ownership-need.test.js` | 20.5 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
@@ -1764,7 +1764,7 @@
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
 | `test/place-pages.test.js` | 5.0 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
-| `test/pma-barrier-data.test.js` | 4.9 KB |
+| `test/pma-barrier-data.test.js` | 6.4 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
