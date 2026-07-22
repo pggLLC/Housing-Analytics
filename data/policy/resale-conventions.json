@@ -1,0 +1,60 @@
+{
+  "schema": "ownership-resale-conventions/v1",
+  "meta": {
+    "title": "Ownership Resale Convention Watchlist",
+    "audience": "affordable ownership developers",
+    "as_of": "2026-07-22",
+    "last_verified": "2026-07-22",
+    "review_by": "2026-10-20",
+    "default_convention": "fixed_simple",
+    "owner_decision": "C4 resolved: pluggable resaleConvention, WMRHC default, owner confirms convention set.",
+    "methodology": "Screening-only resale convention set for deed-restricted and shared-equity ownership. Resale caps are compared with today's AMI-affordable price from HNAOwnershipNeed.maxAffordablePrice. Future AMI or CPI paths are not estimated.",
+    "source_verification_note": "Every convention must retain a verified HTTPS source_url. Parameters marked VERIFY are shown as requiring confirmation and must not be treated as final underwriting terms."
+  },
+  "conventions": [
+    {
+      "id": "fixed_simple",
+      "label": "Fixed simple appreciation",
+      "default": true,
+      "type": "fixed_simple",
+      "source_program": "WMRHC Good Deeds",
+      "source_url": "https://www.wmrhousing.org/gooddeeds",
+      "last_verified": "2026-07-22",
+      "parameter_status": "verified",
+      "annual_rate": 0.03,
+      "rate_label": "3% simple interest annually, not compounding",
+      "calculation_note": "Purchase price increases by the verified simple annual rate times years held.",
+      "screening_note": "Default convention. Confirm deed-restriction terms, capital-improvement credits, and closing-cost treatment before underwriting."
+    },
+    {
+      "id": "lesser_of_fixed_cpi",
+      "label": "Lesser of fixed cap or CPI",
+      "default": false,
+      "type": "lesser_of_fixed_cpi",
+      "source_program": "APCHA Employee Housing Regulations",
+      "source_url": "https://www.apcha.org/sitepages/pid4.php",
+      "last_verified": "2026-07-22",
+      "parameter_status": "VERIFY",
+      "annual_rate": "VERIFY",
+      "fixed_rate_upper_bound": 0.03,
+      "cpi_leg": "VERIFY",
+      "rate_label": "VERIFY exact APCHA cap in current regulation PDF",
+      "calculation_note": "Screening computation uses the fixed leg only as a conservative upper bound; realized cap may be lower if CPI is below the cap. No CPI path is estimated.",
+      "screening_note": "Verify the governing deed restriction and current APCHA regulation before relying on a rate."
+    },
+    {
+      "id": "shared_appreciation",
+      "label": "Shared-appreciation CLT",
+      "default": false,
+      "type": "shared_appreciation",
+      "source_program": "Elevation Community Land Trust",
+      "source_url": "https://elevationclt.org/about/",
+      "last_verified": "2026-07-22",
+      "parameter_status": "VERIFY_PRIMARY_DOC",
+      "appreciation_share": 0.25,
+      "share_label": "25% homeowner share - VERIFY against primary land-lease or pricing document",
+      "calculation_note": "Purchase price plus homeowner share of user-supplied or historical market appreciation, plus entered selling costs.",
+      "screening_note": "Elevation's public page confirms a shared-equity resale formula; the 25% share needs primary document confirmation before underwriting."
+    }
+  ]
+}
