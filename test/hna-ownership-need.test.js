@@ -225,6 +225,46 @@ test('max-price math matches hand-computed PITI case', () => {
   assert.equal(max80, 289983);
 });
 
+test('B25075 owner-value supply series is non-vacuous and labeled', () => {
+  const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/08045.json'), 'utf8')).acsProfile;
+  const series = Ownership.ownerValueSupplySeries(profile);
+  assert.ok(series, 'Garfield County B25075 supply series should compute');
+  assert.equal(series.source, 'ACS B25075');
+  assert.equal(series.sourceLabel, 'ACS B25075 owner-occupied units by value');
+  assert.equal(series.dataQuality, 'High');
+  assert.equal(series.bands.length, Ownership.OWNER_VALUE_BINS.length);
+  assert.ok(series.totalOwnerOccupiedUnits > 10000, 'Garfield owner-occupied denominator is non-vacuous');
+  assert.ok(series.summedBandUnits > 10000, 'Garfield owner-value bins are non-vacuous');
+  assert.ok(series.bands.some((band) => band.code === 'B25075_023E' && band.ownerOccupiedUnits > 0), 'high-value owner band is populated');
+  const empty = { B25075_001E: profile.B25075_001E };
+  Ownership.OWNER_VALUE_BINS.forEach((bin) => { empty[bin[0]] = 0; });
+  assert.equal(Ownership.ownerValueSupplySeries(empty), null, 'empty owner-value bins must not produce a supply series');
+});
+
+test('county affordability classification uses FHFA-backed county cascade anchor', () => {
+  const countyChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/chas_affordability_gap.json'), 'utf8')).counties;
+  const gaps = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_county.json'), 'utf8')).counties;
+  const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
+  const geoid = '08045';
+  const gap = gaps.find((row) => row.fips === geoid);
+  assert.equal(cascade.counties[geoid].source, 'fhfa_county_hpi_anchor');
+  assert.equal(cascade.counties[geoid].confidence, 'medium');
+  assert.ok(cascade.counties[geoid].fhfa_hpi && cascade.counties[geoid].fhfa_hpi.source_level === 'fhfa_county_direct');
+  const out = compute({
+    geographyId: geoid,
+    geographyName: 'Garfield County',
+    geoLevel: 'county',
+    countyChasEntry: countyChas[geoid],
+    amiGapEntry: gap,
+    homeValueEntry: cascade.counties[geoid],
+    ownerValueSupplyProfile: JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/08045.json'), 'utf8')).acsProfile,
+  });
+  assert.ok(out.affordabilityTest, 'F4 county-null benchmark is resolved for Garfield County');
+  assert.ok(['market-attainable', 'stretch', 'priced-out'].includes(out.affordabilityTest.classification));
+  assert.equal(out.affordabilityTest.medianHomeValue, cascade.counties[geoid].value);
+  assert.ok(out.ownerValueSupply && out.ownerValueSupply.totalOwnerOccupiedUnits > 0, 'county ownership result carries B25075 supply context');
+});
+
 test('deep affordability recommendation requires rate, count, and total-household share', () => {
   const tinyBand = fixtureEntry({ renter: 9000, owner: 878, renterCb30: 500, renterCb50: 130, modRenter: 1800 });
   tinyBand.renter_hh_by_ami.lte30 = band(150, 140, 130);

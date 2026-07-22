@@ -361,6 +361,7 @@
     if (display) {
       if (display.source === 'zhvi') sourceLabel = 'Zillow ZHVI city index';
       else if (display.source === 'county_zhvi_adjusted') sourceLabel = 'County-adjusted Zillow/ACS estimate';
+      else if (display.source === 'fhfa_county_hpi_anchor') sourceLabel = 'ACS DP04_0089E + FHFA county HPI anchor';
       else if (display.source === 'acs_raw') sourceLabel = 'ACS DP04_0089E raw floor';
       else sourceLabel = display.source || sourceLabel;
     }

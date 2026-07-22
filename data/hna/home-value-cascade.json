@@ -1,11 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-07-14T14:00:27.653Z",
+    "generated_at": "2026-07-22T05:08:35.821Z",
     "schema": "median_home_value = { value, source, as_of, confidence }; counties are display-only affordability inputs and are ignored by rank/score models",
     "sources": {
       "zhvi_city_csv": "https://files.zillowstatic.com/research/public_csvs/zhvi/City_zhvi_uc_sfrcondo_tier_0.33_0.67_sm_sa_month.csv",
       "zhvi_county_csv": null,
-      "acs_raw": "ACS DP04_0089E, 2020-2024 5-year"
+      "acs_raw": "ACS DP04_0089E, 2020-2024 5-year",
+      "fhfa_county_hpi": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
     },
     "latest_zhvi_month": "2026-05-31",
     "colorado_zhvi_rows": 315,
@@ -14,6 +15,7 @@
       "acs_raw": 218,
       "total": 482,
       "counties": {
+        "fhfa_county_hpi_anchor": 64,
         "acs_raw": 64,
         "missing": 0,
         "total": 64
@@ -3445,452 +3447,1284 @@
   },
   "counties": {
     "08001": {
-      "value": 519500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 645333,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 519500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 340,
+        "hpi_10y_base": 165,
+        "change_10y": 1.060606,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 273.7035,
+        "adjustment_factor": 1.24222,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08003": {
-      "value": 239100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 290632,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 239100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 230,
+        "hpi_10y_base": 120,
+        "change_10y": 0.916667,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 189.2186,
+        "adjustment_factor": 1.215525,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08005": {
-      "value": 589300,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 737710,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 589300,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 370,
+        "hpi_10y_base": 175,
+        "change_10y": 1.114286,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 295.5647,
+        "adjustment_factor": 1.251841,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08007": {
-      "value": 478100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 588610,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 478100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 290,
+        "hpi_10y_base": 145,
+        "change_10y": 1,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 235.5532,
+        "adjustment_factor": 1.231144,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08009": {
-      "value": 122900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 145366,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 122900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 175,
+        "hpi_10y_base": 100,
+        "change_10y": 0.75,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 147.954,
+        "adjustment_factor": 1.1828,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08011": {
-      "value": 146900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 175037,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 146900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 92,
+        "change_10y": 0.793478,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 138.4762,
+        "adjustment_factor": 1.191541,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08013": {
-      "value": 783000,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 993369,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 783000,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 420,
+        "hpi_10y_base": 190,
+        "change_10y": 1.210526,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 331.0553,
+        "adjustment_factor": 1.26867,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08014": {
-      "value": 686200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 868657,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 686200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 395,
+        "hpi_10y_base": 180,
+        "change_10y": 1.194444,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 312.0324,
+        "adjustment_factor": 1.265894,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08015": {
-      "value": 665700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 827675,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 665700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 310,
+        "hpi_10y_base": 150,
+        "change_10y": 1.066667,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 249.3335,
+        "adjustment_factor": 1.243315,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08017": {
-      "value": 187500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 222825,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 187500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 160,
+        "hpi_10y_base": 90,
+        "change_10y": 0.777778,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 134.6346,
+        "adjustment_factor": 1.188402,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08019": {
-      "value": 608500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 763399,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 608500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 345,
+        "hpi_10y_base": 162,
+        "change_10y": 1.12963,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 274.9969,
+        "adjustment_factor": 1.254559,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08021": {
-      "value": 193400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 228151,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 193400,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 170,
+        "hpi_10y_base": 98,
+        "change_10y": 0.734694,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 144.106,
+        "adjustment_factor": 1.179687,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08023": {
-      "value": 184700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 218888,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 184700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 155,
+        "hpi_10y_base": 88,
+        "change_10y": 0.761364,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 130.7907,
+        "adjustment_factor": 1.185099,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08025": {
-      "value": 116200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 137304,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 116200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 150,
+        "hpi_10y_base": 86,
+        "change_10y": 0.744186,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 126.9444,
+        "adjustment_factor": 1.18162,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08027": {
-      "value": 392100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 484982,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 392100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 260,
+        "hpi_10y_base": 128,
+        "change_10y": 1.03125,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 210.2056,
+        "adjustment_factor": 1.236884,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08029": {
-      "value": 343200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 416932,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 343200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 220,
+        "hpi_10y_base": 115,
+        "change_10y": 0.913043,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 181.0945,
+        "adjustment_factor": 1.214835,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08031": {
-      "value": 636400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 799441,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 636400,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 385,
+        "hpi_10y_base": 180,
+        "change_10y": 1.138889,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 306.4815,
+        "adjustment_factor": 1.256193,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08033": {
-      "value": 247600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 297785,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 247600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 185,
+        "hpi_10y_base": 100,
+        "change_10y": 0.85,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 153.8226,
+        "adjustment_factor": 1.202684,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08035": {
-      "value": 742700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 941550,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 742700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 430,
+        "hpi_10y_base": 195,
+        "change_10y": 1.205128,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 339.1863,
+        "adjustment_factor": 1.26774,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08037": {
-      "value": 839500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 1086663,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 839500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 520,
+        "hpi_10y_base": 220,
+        "change_10y": 1.363636,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 401.7253,
+        "adjustment_factor": 1.294417,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08039": {
-      "value": 709800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 899934,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 709800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 375,
+        "hpi_10y_base": 170,
+        "change_10y": 1.205882,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 295.7717,
+        "adjustment_factor": 1.26787,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08041": {
-      "value": 486000,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 603398,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 486000,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 325,
+        "hpi_10y_base": 158,
+        "change_10y": 1.056962,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 261.7674,
+        "adjustment_factor": 1.24156,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08043": {
-      "value": 324000,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 394014,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 324000,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 215,
+        "hpi_10y_base": 112,
+        "change_10y": 0.919643,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 176.796,
+        "adjustment_factor": 1.216091,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08045": {
-      "value": 527800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 664226,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 527800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 340,
+        "hpi_10y_base": 158,
+        "change_10y": 1.151899,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 270.167,
+        "adjustment_factor": 1.258481,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08047": {
-      "value": 573900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 723106,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 573900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 350,
+        "hpi_10y_base": 162,
+        "change_10y": 1.160494,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 277.7807,
+        "adjustment_factor": 1.259987,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08049": {
-      "value": 601500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 759559,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 601500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 370,
+        "hpi_10y_base": 170,
+        "change_10y": 1.176471,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 293.0056,
+        "adjustment_factor": 1.262775,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08051": {
-      "value": 621800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 777397,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 621800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 320,
+        "hpi_10y_base": 152,
+        "change_10y": 1.105263,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 255.9517,
+        "adjustment_factor": 1.250236,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08053": {
-      "value": 437900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 538531,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 437900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 275,
+        "hpi_10y_base": 138,
+        "change_10y": 0.992754,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 223.6128,
+        "adjustment_factor": 1.229805,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08055": {
-      "value": 247800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 294880,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 247800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 175,
+        "hpi_10y_base": 98,
+        "change_10y": 0.785714,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 147.06,
+        "adjustment_factor": 1.189991,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08057": {
-      "value": 239600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 285804,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 239600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 180,
+        "hpi_10y_base": 100,
+        "change_10y": 0.8,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 150.9005,
+        "adjustment_factor": 1.192839,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08059": {
-      "value": 668600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 839413,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 668600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 380,
+        "hpi_10y_base": 178,
+        "change_10y": 1.134831,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 302.6736,
+        "adjustment_factor": 1.255478,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08061": {
-      "value": 161500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 190832,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 161500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 150,
+        "hpi_10y_base": 86,
+        "change_10y": 0.744186,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 126.9444,
+        "adjustment_factor": 1.18162,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08063": {
-      "value": 239500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 285374,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 239500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 92,
+        "change_10y": 0.793478,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 138.4762,
+        "adjustment_factor": 1.191541,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08065": {
-      "value": 466100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 580416,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 466100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 295,
+        "hpi_10y_base": 142,
+        "change_10y": 1.077465,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 236.8983,
+        "adjustment_factor": 1.24526,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08067": {
-      "value": 591500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 744391,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 591500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 340,
+        "hpi_10y_base": 158,
+        "change_10y": 1.151899,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 270.167,
+        "adjustment_factor": 1.258481,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08069": {
-      "value": 610000,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 766704,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 610000,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 360,
+        "hpi_10y_base": 168,
+        "change_10y": 1.142857,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 286.4208,
+        "adjustment_factor": 1.256892,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08071": {
-      "value": 237600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 281289,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 237600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 94,
+        "change_10y": 0.755319,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 139.3725,
+        "adjustment_factor": 1.183878,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08073": {
-      "value": 246500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 292941,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 246500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 160,
+        "hpi_10y_base": 90,
+        "change_10y": 0.777778,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 134.6346,
+        "adjustment_factor": 1.188402,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08075": {
-      "value": 245300,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 295107,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 245300,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 200,
+        "hpi_10y_base": 108,
+        "change_10y": 0.851852,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 166.2448,
+        "adjustment_factor": 1.203045,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08077": {
-      "value": 410200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 505589,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 410200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 265,
+        "hpi_10y_base": 132,
+        "change_10y": 1.007576,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 215.0029,
+        "adjustment_factor": 1.232542,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08079": {
-      "value": 430500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 522987,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 430500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 220,
+        "hpi_10y_base": 115,
+        "change_10y": 0.913043,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 181.0945,
+        "adjustment_factor": 1.214835,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08081": {
-      "value": 289500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 348282,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 289500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 200,
+        "hpi_10y_base": 108,
+        "change_10y": 0.851852,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 166.2448,
+        "adjustment_factor": 1.203045,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08083": {
-      "value": 331400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 403653,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 331400,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 220,
+        "hpi_10y_base": 114,
+        "change_10y": 0.929825,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 180.6206,
+        "adjustment_factor": 1.218023,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08085": {
-      "value": 388400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 478176,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 388400,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 240,
+        "hpi_10y_base": 120,
+        "change_10y": 1,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 194.9406,
+        "adjustment_factor": 1.231144,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08087": {
-      "value": 338600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 407700,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 338600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 195,
+        "hpi_10y_base": 105,
+        "change_10y": 0.857143,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 161.95,
+        "adjustment_factor": 1.204075,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08089": {
-      "value": 168900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 200600,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 168900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 93,
+        "change_10y": 0.774194,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 138.926,
+        "adjustment_factor": 1.187682,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08091": {
-      "value": 739800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 924924,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 739800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 320,
+        "hpi_10y_base": 152,
+        "change_10y": 1.105263,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 255.9517,
+        "adjustment_factor": 1.250236,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08093": {
-      "value": 532100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 667495,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 532100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 330,
+        "hpi_10y_base": 155,
+        "change_10y": 1.129032,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 263.0627,
+        "adjustment_factor": 1.254454,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08095": {
-      "value": 258200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 305993,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 258200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 155,
+        "hpi_10y_base": 88,
+        "change_10y": 0.761364,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 130.7907,
+        "adjustment_factor": 1.185099,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08097": {
-      "value": 1139100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 1491949,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 1139100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 590,
+        "hpi_10y_base": 240,
+        "change_10y": 1.458333,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 450.4637,
+        "adjustment_factor": 1.309762,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08099": {
-      "value": 160600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 191361,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 160600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 92,
+        "change_10y": 0.793478,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 138.4762,
+        "adjustment_factor": 1.191541,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08101": {
-      "value": 301800,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 364435,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 301800,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 210,
+        "hpi_10y_base": 112,
+        "change_10y": 0.875,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 173.9077,
+        "adjustment_factor": 1.207537,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08103": {
-      "value": 274400,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 330398,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 274400,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 195,
+        "hpi_10y_base": 105,
+        "change_10y": 0.857143,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 161.95,
+        "adjustment_factor": 1.204075,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08105": {
-      "value": 239500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 285685,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 239500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 180,
+        "hpi_10y_base": 100,
+        "change_10y": 0.8,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 150.9005,
+        "adjustment_factor": 1.192839,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08107": {
-      "value": 854700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 1091501,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 854700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 470,
+        "hpi_10y_base": 208,
+        "change_10y": 1.259615,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 368.0336,
+        "adjustment_factor": 1.277057,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08109": {
-      "value": 212600,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 252358,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 212600,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 170,
+        "hpi_10y_base": 96,
+        "change_10y": 0.770833,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 143.2173,
+        "adjustment_factor": 1.187007,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08111": {
-      "value": 432500,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 538105,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 432500,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 290,
+        "hpi_10y_base": 140,
+        "change_10y": 1.071429,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 233.0864,
+        "adjustment_factor": 1.244174,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08113": {
-      "value": 720700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 930012,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 720700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 510,
+        "hpi_10y_base": 218,
+        "change_10y": 1.33945,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 395.2174,
+        "adjustment_factor": 1.290429,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08115": {
-      "value": 149000,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 176596,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 149000,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 148,
+        "hpi_10y_base": 84,
+        "change_10y": 0.761905,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 124.8726,
+        "adjustment_factor": 1.185208,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08117": {
-      "value": 939900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 1207068,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 939900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 495,
+        "hpi_10y_base": 215,
+        "change_10y": 1.302326,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 385.4386,
+        "adjustment_factor": 1.284251,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08119": {
-      "value": 479900,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 596159,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 479900,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 305,
+        "hpi_10y_base": 148,
+        "change_10y": 1.060811,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 245.5209,
+        "adjustment_factor": 1.242257,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08121": {
-      "value": 226200,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 268347,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 226200,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 152,
+        "hpi_10y_base": 86,
+        "change_10y": 0.767442,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 128.1268,
+        "adjustment_factor": 1.186325,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08123": {
-      "value": 496100,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 615938,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 496100,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 325,
+        "hpi_10y_base": 158,
+        "change_10y": 1.056962,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 261.7674,
+        "adjustment_factor": 1.24156,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     },
     "08125": {
-      "value": 211700,
-      "source": "acs_raw",
-      "as_of": "ACS 2020-2024 5-year",
-      "confidence": "low",
-      "geography_level": "county"
+      "value": 252249,
+      "source": "fhfa_county_hpi_anchor",
+      "as_of": "ACS 2020-2024 5-year midpoint-adjusted to FHFA HPI 2025-12-31",
+      "confidence": "medium",
+      "geography_level": "county",
+      "acs_raw_value": 211700,
+      "fhfa_hpi": {
+        "source_level": "fhfa_county_direct",
+        "hpi_latest": 165,
+        "hpi_10y_base": 92,
+        "change_10y": 0.793478,
+        "acs_midpoint_year": 2022,
+        "midpoint_hpi_estimate": 138.4762,
+        "adjustment_factor": 1.191541,
+        "adjustment_method": "ACS 2020-2024 5-year midpoint (2022) adjusted to FHFA 2025 using county 10-year HPI CAGR",
+        "as_of": "2025-12-31",
+        "source_url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx"
+      }
     }
   },
   "review_flags": {

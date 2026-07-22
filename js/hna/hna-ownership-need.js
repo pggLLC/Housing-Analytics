@@ -10,6 +10,34 @@
 
   var BANDS = ['lte30', '31to50', '51to80', '81to100', '100plus'];
   var MODERATE_BANDS = ['51to80', '81to100'];
+  var OWNER_VALUE_BINS = [
+    ['B25075_002E', 0, 9999],
+    ['B25075_003E', 10000, 14999],
+    ['B25075_004E', 15000, 19999],
+    ['B25075_005E', 20000, 24999],
+    ['B25075_006E', 25000, 29999],
+    ['B25075_007E', 30000, 34999],
+    ['B25075_008E', 35000, 39999],
+    ['B25075_009E', 40000, 49999],
+    ['B25075_010E', 50000, 59999],
+    ['B25075_011E', 60000, 69999],
+    ['B25075_012E', 70000, 79999],
+    ['B25075_013E', 80000, 89999],
+    ['B25075_014E', 90000, 99999],
+    ['B25075_015E', 100000, 124999],
+    ['B25075_016E', 125000, 149999],
+    ['B25075_017E', 150000, 174999],
+    ['B25075_018E', 175000, 199999],
+    ['B25075_019E', 200000, 249999],
+    ['B25075_020E', 250000, 299999],
+    ['B25075_021E', 300000, 399999],
+    ['B25075_022E', 400000, 499999],
+    ['B25075_023E', 500000, 749999],
+    ['B25075_024E', 750000, 999999],
+    ['B25075_025E', 1000000, 1499999],
+    ['B25075_026E', 1500000, 1999999],
+    ['B25075_027E', 2000000, null],
+  ];
 
   var CONSTANTS = {
     rentalPressure: {
@@ -116,6 +144,50 @@
     if (geoLevel === 'state') return 'state-CHAS';
     if (geoLevel === 'combined') return 'combined-CHAS';
     return geoLevel === 'county' ? 'county-CHAS' : 'place-CHAS';
+  }
+
+  function ownerValueBandLabel(lower, upper) {
+    function fmt(v) {
+      if (v >= 1000000) return '$' + (v / 1000000) + 'M';
+      return '$' + Math.round(v / 1000) + 'k';
+    }
+    return upper == null ? fmt(lower) + '+' : fmt(lower) + '-' + fmt(upper);
+  }
+
+  function ownerValueSupplySeries(profile, options) {
+    profile = profile && profile.acsProfile ? profile.acsProfile : (profile || {});
+    options = options || {};
+    var total = num(profile.B25075_001E);
+    var bands = [];
+    var finiteBins = 0;
+    var sum = 0;
+    OWNER_VALUE_BINS.forEach(function (bin) {
+      var value = num(profile[bin[0]]);
+      if (value != null) {
+        finiteBins += 1;
+        sum += value;
+      }
+      bands.push({
+        code: bin[0],
+        lower: bin[1],
+        upper: bin[2],
+        label: ownerValueBandLabel(bin[1], bin[2]),
+        ownerOccupiedUnits: value,
+      });
+    });
+    if ((total == null || total <= 0) && sum > 0) total = sum;
+    if (!total || !finiteBins || sum <= 0) return null;
+    var dataQuality = finiteBins === OWNER_VALUE_BINS.length ? 'High' : 'Medium';
+    if (Math.abs(sum - total) > Math.max(25, total * 0.05)) dataQuality = 'Medium';
+    return {
+      source: 'ACS B25075',
+      sourceLabel: 'ACS B25075 owner-occupied units by value',
+      asOf: options.asOf || (profile._acsYear ? 'ACS ' + profile._acsYear + ' 5-year' : 'ACS 2020-2024 5-year'),
+      dataQuality: dataQuality,
+      totalOwnerOccupiedUnits: round(total, 1),
+      summedBandUnits: round(sum, 1),
+      bands: bands,
+    };
   }
 
   function normalizeChas(input) {
@@ -329,6 +401,9 @@
     ) / 2;
     var fitTier = tierFromScore(fitScore);
     var homeTest = affordabilityTest(input.amiGapEntry, input.homeValueEntry, input.assumptions);
+    var ownerValueSupply = input.ownerValueSupply || ownerValueSupplySeries(input.ownerValueSupplyProfile || input.acsProfile || input.profile, {
+      asOf: input.ownerValueSupplyAsOf,
+    });
     if (homeTest && homeTest.classification === 'market-attainable') {
       fitTier = capTier(fitTier, 'Moderate');
       caveats.push('Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.');
@@ -397,6 +472,7 @@
         },
       },
       affordabilityTest: homeTest,
+      ownerValueSupply: ownerValueSupply,
       tenureMixRecommendation: recommendation,
       recommendationDetail: detail,
       existingRentalGap: rentalGap(input.amiGapEntry),
@@ -409,6 +485,8 @@
     computeOwnershipNeed: computeOwnershipNeed,
     maxAffordablePrice: maxAffordablePrice,
     monthlyMortgageFactor: monthlyMortgageFactor,
+    ownerValueSupplySeries: ownerValueSupplySeries,
+    OWNER_VALUE_BINS: OWNER_VALUE_BINS,
     CONSTANTS: CONSTANTS,
   };
 }());
