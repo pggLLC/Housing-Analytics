@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T02:48:55.265Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T04:08:10.122Z. Do not edit by hand.
 
 ---
 
@@ -51,7 +51,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 138.5 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 138.8 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1638,7 +1638,7 @@
 
 ## Test Files
 
-212 test files found.
+214 test files found.
 
 | File | Size |
 |------|------|
@@ -1696,6 +1696,7 @@
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 403 B |
+| `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/funding-context-card.test.js` | 7.4 KB |
@@ -1743,7 +1744,7 @@
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
-| `test/lodes-tract-od.test.js` | 5.2 KB |
+| `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
@@ -1762,6 +1763,7 @@
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 4.9 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
+| `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
@@ -1805,7 +1807,7 @@
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
-| `test/travel-time-matrix.test.js` | 6.8 KB |
+| `test/travel-time-matrix.test.js` | 7.2 KB |
 | `test/unit-mix-validation.test.js` | 3.9 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
