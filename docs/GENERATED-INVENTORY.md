@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T15:19:19.259Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T17:20:41.608Z. Do not edit by hand.
 
 ---
 
@@ -1640,7 +1640,7 @@
 
 ## Test Files
 
-215 test files found.
+216 test files found.
 
 | File | Size |
 |------|------|
@@ -1719,7 +1719,7 @@
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
-| `test/hna-ownership-need.test.js` | 20.5 KB |
+| `test/hna-ownership-need.test.js` | 22.1 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
@@ -1753,6 +1753,7 @@
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
+| `test/ownership-decision-chain.test.js` | 5.9 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 14.7 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
