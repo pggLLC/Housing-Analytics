@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T13:05:27.484Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T14:12:29.083Z. Do not edit by hand.
 
 ---
 
@@ -1701,7 +1701,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
-| `test/funding-context-card.test.js` | 7.4 KB |
+| `test/funding-context-card.test.js` | 7.5 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
