@@ -1,0 +1,45 @@
+{
+  "production_use": "beta",
+  "context_only": true,
+  "not_scoring_input": false,
+  "mode_label": "Commute-shaped PMA (beta)",
+  "calibration_source": "Fruita Mews II (KVG 2026 / Prior 2022)",
+  "calibration_note": "One-site beta calibration. Thresholds reproduce the Fruita professional PMA acceptance gate and must not be treated as a statewide validated standard until a second professional benchmark passes unchanged.",
+  "params": {
+    "minimum_jobs_to_seed_work_tracts": 50,
+    "minimum_orientation_share": 0.028
+  },
+  "fruita_acceptance": {
+    "site": {
+      "lat": 39.166,
+      "lon": -108.708,
+      "site_tract": "08077001503"
+    },
+    "seed_buffer_tracts": [
+      "08077001503",
+      "08077001504"
+    ],
+    "professional_tracts": [
+      "08077000900",
+      "08077001402",
+      "08077001403",
+      "08077001404",
+      "08077001502",
+      "08077001503",
+      "08077001504",
+      "08077001600"
+    ],
+    "must_not_include_east_grand_junction_tracts": [
+      "08077001002",
+      "08077001302",
+      "08077001304"
+    ],
+    "minimum_professional_captures": 6,
+    "minimum_jaccard": 0.6,
+    "outside_pma_demand_range": {
+      "min": 0.4,
+      "max": 0.56,
+      "source": "Professional market studies: Prior 2022 predicted about 40% outside-PMA demand; KVG 2026 observed 56% outside-PMA applications."
+    }
+  }
+}
