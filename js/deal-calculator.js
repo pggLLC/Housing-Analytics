@@ -22,6 +22,7 @@
   var _amiGapPlaceData = null;  // F45: cached co_ami_gap_by_place.json
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
+  var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
   var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
@@ -200,7 +201,31 @@
       units: units,
       programs: input.developerFundingPrograms
     });
+    result.ownershipResale = computeOwnershipResale(result, input);
     return result;
+  }
+
+  function computeOwnershipResale(feasibility, input) {
+    var resale = window.OwnershipResale;
+    if (!resale || typeof resale.evaluateAll !== 'function') return null;
+    var conventions = input && input.resaleConventions ? input.resaleConventions : _resaleConventions;
+    var purchasePrice = +(input && input.resalePurchasePrice);
+    if (!isFinite(purchasePrice) || purchasePrice <= 0) purchasePrice = +(feasibility && feasibility.maxAffordableSalePrice);
+    return {
+      label: 'Resale convention screen - screening only',
+      ownerDecision: 'C4 resolved: pluggable, WMRHC default - owner confirms convention set',
+      rows: resale.evaluateAll(conventions, {
+        purchasePrice: purchasePrice,
+        holdingPeriodYears: input && input.resaleHoldingYears,
+        remainingPrincipal: input && input.resaleRemainingPrincipal,
+        sellingCosts: input && input.resaleSellingCosts,
+        marketAppreciation: input && input.resaleMarketAppreciation,
+        ami4Person: feasibility && feasibility.ami4Person,
+        targetAmiPct: feasibility && feasibility.targetAmiPct,
+        assumptions: input && input.assumptions,
+        maxAffordablePrice: input && input.maxAffordablePrice
+      })
+    };
   }
 
   function _developerFundingPrograms(programs) {
@@ -324,6 +349,44 @@
     mount.appendChild(residual);
   }
 
+  function renderOwnershipResaleScreen(screen) {
+    var mount = document.getElementById('dc-own-resale-screen');
+    if (!mount) return;
+    function fmt(n) {
+      return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : 'VERIFY';
+    }
+    while (mount.firstChild) mount.removeChild(mount.firstChild);
+    var title = document.createElement('p');
+    title.style.cssText = 'margin:.55rem 0 .2rem;font-weight:700;font-size:var(--tiny);color:var(--text);';
+    title.textContent = 'Resale convention screen - screening only';
+    mount.appendChild(title);
+
+    if (!screen || !Array.isArray(screen.rows) || !screen.rows.length) {
+      var empty = document.createElement('p');
+      empty.style.cssText = 'margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+      empty.textContent = 'Resale conventions unavailable; confirm deed restriction terms before relying on this ownership mode.';
+      mount.appendChild(empty);
+      return;
+    }
+
+    var list = document.createElement('ul');
+    list.style.cssText = 'margin:.2rem 0 .35rem;padding-left:1rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+    screen.rows.forEach(function (row) {
+      var li = document.createElement('li');
+      var verify = row.verifyParameter ? ' · VERIFY parameter' : '';
+      li.textContent = row.label + ': max resale ' + fmt(row.maxResalePrice) +
+        ' · equity ' + fmt(row.ownerGrossEquity) + ' · ' + row.preservationLabel +
+        verify + ' · source: ' + row.sourceProgram;
+      list.appendChild(li);
+    });
+    mount.appendChild(list);
+
+    var note = document.createElement('p');
+    note.style.cssText = 'margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+    note.textContent = "Measured against today's AMI-affordable price. C4 resolved: pluggable, WMRHC default - owner confirms convention set.";
+    mount.appendChild(note);
+  }
+
   function renderForSaleFeasibility(result) {
     result = result || {};
     function fmt(n) {
@@ -347,6 +410,7 @@
           : 'Enter total development cost and units to size the ownership gap.');
       setText('dc-own-note', message);
       renderDeveloperOwnershipFundingStack(null);
+      renderOwnershipResaleScreen(null);
       return;
     }
     setText('dc-own-cost-per-unit', fmt(result.tdcPerUnit));
@@ -358,6 +422,7 @@
       : 'Formula: development cost per unit minus max affordable sale price from the HNA ownership module.';
     setText('dc-own-note', note);
     renderDeveloperOwnershipFundingStack(result.developerFundingStack);
+    renderOwnershipResaleScreen(result.ownershipResale);
   }
 
   function currentDealMode() {
@@ -1635,6 +1700,25 @@
           <p id="dc-own-note" style="margin:.45rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
             Select a county to load HUD AMI and price the ownership affordability limit.
           </p>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.55rem;font-size:var(--tiny);">
+            <label>Holding period (years)
+              <input id="dc-own-resale-years" type="number" min="0" step="1" value="5" style="width:100%;margin-top:.15rem;">
+            </label>
+            <label>Est. remaining principal
+              <input id="dc-own-resale-principal" type="number" min="0" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
+            </label>
+            <label>Selling costs
+              <input id="dc-own-resale-costs" type="number" min="0" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
+            </label>
+            <label>Shared-appreciation assumption
+              <input id="dc-own-resale-appreciation" type="number" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
+            </label>
+          </div>
+          <div id="dc-own-resale-screen" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+            <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+              Resale convention screen loads after source data.
+            </p>
+          </div>
           <div id="dc-own-funding-stack" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
             <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
               Developer ownership funding stack loads after source data.
@@ -2114,6 +2198,8 @@
     const ids = ['dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
+      'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
+      'dc-own-resale-appreciation',
       // (Per-tranche fields wired below via renderSoftTranches.)
     ];
     DEAL_AMI_BANDS.forEach(function (pct) {
@@ -2505,7 +2591,12 @@
       units: units,
       ami4Person: getCurrentAmi4Person(),
       targetAmiPct: saleTargetAmiPct,
-      developerFundingPrograms: _developerOwnershipFunding
+      developerFundingPrograms: _developerOwnershipFunding,
+      resaleConventions: _resaleConventions,
+      resaleHoldingYears: safeVal('dc-own-resale-years') || 5,
+      resaleRemainingPrincipal: safeVal('dc-own-resale-principal') || 0,
+      resaleSellingCosts: safeVal('dc-own-resale-costs') || 0,
+      resaleMarketAppreciation: safeVal('dc-own-resale-appreciation') || 0
     }));
     var equityPrice = safeVal('dc-equity-price');
     if (!isFinite(equityPrice) || equityPrice <= 0) equityPrice = EQUITY_PRICE_DEFAULT;
@@ -4039,6 +4130,16 @@
       if (currentDealMode() === 'ownership') recalculate();
     }).catch(function () {
       _developerOwnershipFunding = null;
+      if (currentDealMode() === 'ownership') recalculate();
+    });
+
+    fetch(_gapResolver('data/policy/resale-conventions.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      _resaleConventions = data && Array.isArray(data.conventions) ? data : null;
+      if (currentDealMode() === 'ownership') recalculate();
+    }).catch(function () {
+      _resaleConventions = null;
       if (currentDealMode() === 'ownership') recalculate();
     });
 
@@ -5601,6 +5702,7 @@
     /* Exposed for testing — pure functions, no DOM access */
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
+    computeOwnershipResale:     computeOwnershipResale,
     computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
@@ -5614,6 +5716,7 @@
     renderJurisdictionContextForTest: _renderJurisdictionContext,
     workflowJurisdictionContextForTest: _workflowJurisdictionContext,
     _setDeveloperOwnershipFundingForTest: function (d) { _developerOwnershipFunding = d || null; },
+    _setResaleConventionsForTest: function (d) { _resaleConventions = d || null; },
     _setZoriDataForTest:        function (d) { _zoriData = d; },
     _setAmiLimitsForTest:       function (limits, byBr, fips) {
       _amiLimits = limits || null;
