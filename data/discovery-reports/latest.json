@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-07-21T09:21:20.855Z",
-  "totalScanned": 1598,
-  "newSourceCount": 1567,
+  "scanTimestamp": "2026-07-22T09:20:32.227Z",
+  "totalScanned": 1600,
+  "newSourceCount": 1569,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 767740,
+      "sizeBytes": 768825,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9055,6 +9055,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/lodes_tract_od_co.json",
+      "sizeBytes": 14776234,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/market/natural_barriers_co.geojson",
       "sizeBytes": 29087494,
       "inDataManifest": false,
@@ -9283,14 +9289,20 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/tool-watch.json",
+      "sizeBytes": 4840,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 166203,
+      "sizeBytes": 168621,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20144,
+      "sizeBytes": 20123,
       "inDataManifest": false,
       "inFilesManifest": true
     },
