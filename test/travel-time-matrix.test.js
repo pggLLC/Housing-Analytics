@@ -14,6 +14,7 @@ const builder = fs.readFileSync(path.join(ROOT, 'scripts', 'market', 'build_trav
 const freshnessSrc = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'benchmark-freshness-check.mjs'), 'utf8');
 const scoringSource = fs.readFileSync(path.join(ROOT, 'js', 'market-analysis-scoring.js'), 'utf8');
 const pmaSource = fs.readFileSync(path.join(ROOT, 'js', 'market-analysis.js'), 'utf8');
+const commuteShapedSource = fs.readFileSync(path.join(ROOT, 'js', 'pma-commute-shaped.js'), 'utf8');
 
 assert(doc.meta, 'artifact exposes meta');
 assert.equal(doc.meta.source, 'OpenStreetMap-derived Colorado tract-to-regional-hub travel-time matrix');
@@ -97,6 +98,8 @@ assert(!JSON.stringify(doc).toLowerCase().includes('google'), 'artifact does not
 assert(freshnessSrc.includes('data/market/travel_time_matrix_co.json'), 'benchmark freshness audit includes travel-time matrix');
 
 assert(!scoringSource.includes('travel_time_matrix_co.json'), 'travel-time matrix is not wired into scoring');
-assert(!pmaSource.includes('travel_time_matrix_co.json'), 'travel-time matrix is not wired into shipped PMA runtime');
+assert(!pmaSource.includes('travel_time_matrix_co.json'), 'travel-time matrix is not fetched by default PMA runtime');
+assert(commuteShapedSource.includes('data/market/travel_time_matrix_co.json'), 'D-F2 commute-shaped module is the intentional travel-time consumer');
+assert(commuteShapedSource.includes('same') || commuteShapedSource.includes('nearestHub'), 'travel-time consumer uses hub/basin gating');
 
 console.log(`travel-time-matrix: PASS (${tracts.length} tracts x ${hubs.length} hubs, ${doc.meta.routed_pair_count} routed pairs)`);
