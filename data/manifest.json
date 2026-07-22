@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-21T09:28:29.249190Z",
+  "generated": "2026-07-22T09:27:44.220519Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 767740
+      "bytes": 768825
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 241750
+      "bytes": 242051
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -304,7 +304,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1293689
+      "bytes": 1294106
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7641,6 +7641,11 @@
       "placeholder": false,
       "bytes": 127193
     },
+    "data/market/lodes_tract_od_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 14776234
+    },
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
       "placeholder": false,
@@ -7851,15 +7856,20 @@
       "placeholder": false,
       "bytes": 11882
     },
+    "data/policy/tool-watch.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4840
+    },
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 166203
+      "bytes": 168621
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20144
+      "bytes": 20123
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
