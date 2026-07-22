@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-21T09:21:20.855Z
+**Scan timestamp:** 2026-07-22T09:20:32.227Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1598 |
-| New (unregistered) | 1567 |
+| Files scanned | 1600 |
+| New (unregistered) | 1569 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (750 KB)
+- `data/_manifest.json` (751 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -1522,6 +1522,7 @@
 - `data/market/lihtc-equity-pricing-history.json` (2 KB)
 - `data/market/lodes_co.json` (663 KB)
 - `data/market/lodes_od_arcs_co.geojson` (124 KB)
+- `data/market/lodes_tract_od_co.json` (14430 KB)
 - `data/market/natural_barriers_co.geojson` (28406 KB)
 - `data/market/novogradac-equity-pricing.json` (5 KB)
 - `data/market/opportunity_insights_co.json` (163 KB)
@@ -1560,7 +1561,8 @@
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/tax-credit-legislation.json` (12 KB)
-- `data/policy_briefs.json` (162 KB)
+- `data/policy/tool-watch.json` (5 KB)
+- `data/policy_briefs.json` (165 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
