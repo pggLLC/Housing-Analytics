@@ -634,6 +634,17 @@ test('HNA executive decision strip mirrors detailed renderer values', () => {
     ownershipPressure: { tier: 'Moderate', inputs: { ownerCostBurdenedShare: 0.23, moderateIncomeOwnerCostBurdenedShare: 0.06 } },
     ownershipFit: { tier: 'Moderate', inputs: { moderateIncomeRenterShare: 0.13 } },
     affordabilityTest: { medianHomeValue: 350000, classification: 'constrained', source: 'fixture home values' },
+    priceBandScreen: {
+      label: 'potential buyer pool (moderate-income renter households) - not committed demand',
+      method: 'CURRENT_SCREEN',
+      sourceLabel: 'HUD CHAS + ACS B25075 owner-occupied units by value + HNA maxAffordablePrice',
+      caveat: 'Screening estimate only; 101-120% AMI is shown as a middle-income price/supply band.',
+      rows: [
+        { key: 'lte80', label: 'Up to 80% AMI affordable price', maxAffordablePrice: 280000, potentialBuyerPoolHouseholds: 45, ownerValueSupplyUnits: 22, currentGapHouseholds: 23 },
+        { key: '81to100', label: '81-100% AMI affordable price', maxAffordablePrice: 350000, potentialBuyerPoolHouseholds: 30, ownerValueSupplyUnits: 15, currentGapHouseholds: 15 },
+        { key: '101to120', label: '101-120% AMI middle-income price', maxAffordablePrice: 420000, potentialBuyerPoolHouseholds: 0, ownerValueSupplyUnits: 10, currentGapHouseholds: 0 },
+      ],
+    },
     caveats: [],
   });
   dom.window.HNARenderers.renderHnaScorecardPanel('08009');
@@ -643,6 +654,11 @@ test('HNA executive decision strip mirrors detailed renderer values', () => {
   assert.equal(doc.getElementById('decisionProductionValue').textContent, doc.getElementById('statUnitsNeed').textContent, 'production tile mirrors unit-need stat');
   assert.equal(doc.getElementById('decisionOwnershipValue').textContent, 'Rental plus shared-equity ownership', 'ownership tile mirrors ownership recommendation');
   assert.equal(doc.getElementById('decisionConfidenceValue').textContent, 'High', 'confidence tile mirrors ownership data-quality field');
+  const ownershipHtml = doc.getElementById('hnaAffordableOwnershipNeed').textContent;
+  assert.ok(ownershipHtml.includes('Current for-sale price-band screen'), 'renders current price-band screen');
+  assert.ok(ownershipHtml.includes('potential buyer pool (moderate-income renter households) - not committed demand'), 'renders C2 potential-buyer framing');
+  assert.ok(ownershipHtml.includes('101-120% AMI middle-income price'), 'renders middle-income price band');
+  assert.ok(ownershipHtml.includes('Screening estimate only'), 'price-band screen carries screening caveat');
   const needValue = doc.getElementById('decisionNeedValue').textContent;
   assert.match(needValue, /^\d+\/100$/, 'need tile renders scorecard composite');
   assert.ok(doc.getElementById('hnaScorecardPanel').textContent.includes(needValue.replace('/100', '')), 'scorecard panel contains same composite score');
