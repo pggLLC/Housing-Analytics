@@ -308,6 +308,35 @@ test('county affordability classification uses FHFA-backed county cascade anchor
   assert.ok(out.ownerValueSupply && out.ownerValueSupply.totalOwnerOccupiedUnits > 0, 'county ownership result carries B25075 supply context');
 });
 
+test('price-band screen binds AMI ceiling labels to maxAffordablePrice helper', () => {
+  const countyChas = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/chas_affordability_gap.json'), 'utf8')).counties;
+  const gaps = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/co_ami_gap_by_county.json'), 'utf8')).counties;
+  const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
+  const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/08045.json'), 'utf8')).acsProfile;
+  const geoid = '08045';
+  const gap = gaps.find((row) => row.fips === geoid);
+  const out = compute({
+    geographyId: geoid,
+    geographyName: 'Garfield County',
+    geoLevel: 'county',
+    countyChasEntry: countyChas[geoid],
+    amiGapEntry: gap,
+    homeValueEntry: cascade.counties[geoid],
+    ownerValueSupplyProfile: profile,
+  });
+  assert.ok(out.priceBandScreen, 'price-band screen is present');
+  assert.equal(out.priceBandScreen.label, Ownership.PRICE_BAND_SCREEN_LABEL);
+  assert.equal(out.priceBandScreen.noConversionMultiplierApplied, true, 'potential buyer pool applies no renter-to-buyer conversion multiplier');
+  assert(out.priceBandScreen.rows.length >= 3, 'price-band rows are non-vacuous');
+  out.priceBandScreen.rows.forEach((row) => {
+    assert.equal(
+      row.maxAffordablePrice,
+      Ownership.maxAffordablePrice(gap.ami_4person, row.amiCeiling / 100),
+      row.key + ' maxAffordablePrice follows its displayed AMI ceiling'
+    );
+  });
+});
+
 test('deep affordability recommendation requires rate, count, and total-household share', () => {
   const tinyBand = fixtureEntry({ renter: 9000, owner: 878, renterCb30: 500, renterCb50: 130, modRenter: 1800 });
   tinyBand.renter_hh_by_ami.lte30 = band(150, 140, 130);
@@ -332,6 +361,10 @@ test('copy contains screening framing and avoids banned phrases', () => {
     'absorption ' + ('fore' + 'cast'),
     'homeownership ' + 'prediction',
     'fore' + 'cast',
+    'time-' + 'phasing',
+    'time ' + 'phasing',
+    'capture ' + 'rate',
+    'capture ' + 'rates',
   ].forEach(phrase => assert.equal(src.includes(phrase), false, phrase + ' should be absent'));
 });
 
