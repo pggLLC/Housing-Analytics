@@ -10,6 +10,7 @@
 
   var BANDS = ['lte30', '31to50', '51to80', '81to100', '100plus'];
   var MODERATE_BANDS = ['51to80', '81to100'];
+  var PRICE_BAND_SCREEN_LABEL = 'potential buyer pool (moderate-income renter households) - not committed demand';
   var OWNER_VALUE_BINS = [
     ['B25075_002E', 0, 9999],
     ['B25075_003E', 10000, 14999],
@@ -309,6 +310,78 @@
     };
   }
 
+  function supplyUnitsInPriceRange(ownerValueSupply, lowerExclusive, upperInclusive) {
+    if (!ownerValueSupply || !Array.isArray(ownerValueSupply.bands)) return null;
+    var total = 0;
+    var sawAny = false;
+    ownerValueSupply.bands.forEach(function (band) {
+      var units = num(band.ownerOccupiedUnits);
+      if (units == null || units <= 0) return;
+      var lower = num(band.lower);
+      var upper = num(band.upper);
+      if (lower == null) return;
+      if (upper == null) {
+        if (upperInclusive == null || lower <= upperInclusive) {
+          total += units;
+          sawAny = true;
+        }
+        return;
+      }
+      var overlapLower = Math.max(lower, Math.floor(cleanNumber(lowerExclusive)) + 1);
+      var overlapUpper = upperInclusive == null ? upper : Math.min(upper, Math.floor(upperInclusive));
+      if (overlapUpper < overlapLower) return;
+      var width = upper - lower + 1;
+      if (width <= 0) return;
+      total += units * ((overlapUpper - overlapLower + 1) / width);
+      sawAny = true;
+    });
+    return sawAny ? round(total, 1) : null;
+  }
+
+  function priceBandDemandScreen(amiGapEntry, ownerValueSupply, chas, assumptions) {
+    var ami = num(amiGapEntry && amiGapEntry.ami_4person);
+    if (!ami || !ownerValueSupply || !chas) return null;
+    var max80 = maxAffordablePrice(ami, 0.80, assumptions);
+    var max100 = maxAffordablePrice(ami, 1.00, assumptions);
+    var max120 = maxAffordablePrice(ami, 1.20, assumptions);
+    if (!max80 || !max100 || !max120) return null;
+
+    var configs = [
+      { key: 'lte80', label: 'Up to 80% AMI affordable price', amiCeiling: 80, lowerPriceExclusive: 0, upperPrice: max80, demandBands: ['51to80'] },
+      { key: '81to100', label: '81-100% AMI affordable price', amiCeiling: 100, lowerPriceExclusive: max80, upperPrice: max100, demandBands: ['81to100'] },
+      { key: '101to120', label: '101-120% AMI middle-income price', amiCeiling: 120, lowerPriceExclusive: max100, upperPrice: max120, demandBands: [] },
+    ];
+
+    return {
+      label: PRICE_BAND_SCREEN_LABEL,
+      method: 'CURRENT_SCREEN',
+      screeningOnly: true,
+      noConversionMultiplierApplied: true,
+      totalPotentialBuyerPoolHouseholds: round(sumBands(chas.renterBands, MODERATE_BANDS, 'total'), 1),
+      sourceLabel: chas.source + ' + ' + ownerValueSupply.sourceLabel + ' + HNA maxAffordablePrice',
+      dataQuality: ownerValueSupply.dataQuality === 'High' && chas.source ? 'High' : 'Medium',
+      caveat: 'Screening estimate only; 101-120% AMI is shown as a middle-income price/supply band, but the CHAS ownership-fit count only isolates 51-100% HAMFI renters.',
+      rows: configs.map(function (cfg) {
+        var demand = sumBands(chas.renterBands, cfg.demandBands, 'total');
+        var supply = supplyUnitsInPriceRange(ownerValueSupply, cfg.lowerPriceExclusive, cfg.upperPrice);
+        return {
+          key: cfg.key,
+          label: cfg.label,
+          amiCeiling: cfg.amiCeiling,
+          priceRange: {
+            lowerExclusive: cfg.lowerPriceExclusive,
+            upperInclusive: cfg.upperPrice,
+          },
+          maxAffordablePrice: cfg.upperPrice,
+          potentialBuyerPoolHouseholds: round(demand, 1),
+          ownerValueSupplyUnits: supply,
+          currentGapHouseholds: supply == null ? null : round(Math.max(0, demand - supply), 1),
+          demandSourceBands: cfg.demandBands.slice(),
+        };
+      }),
+    };
+  }
+
   function rentalGap(amiGapEntry) {
     var gaps = amiGapEntry && amiGapEntry.gap_units_minus_households_le_ami_pct;
     if (!gaps) return null;
@@ -404,6 +477,7 @@
     var ownerValueSupply = input.ownerValueSupply || ownerValueSupplySeries(input.ownerValueSupplyProfile || input.acsProfile || input.profile, {
       asOf: input.ownerValueSupplyAsOf,
     });
+    var priceBandScreen = priceBandDemandScreen(input.amiGapEntry, ownerValueSupply, chas, input.assumptions);
     if (homeTest && homeTest.classification === 'market-attainable') {
       fitTier = capTier(fitTier, 'Moderate');
       caveats.push('Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.');
@@ -473,6 +547,7 @@
       },
       affordabilityTest: homeTest,
       ownerValueSupply: ownerValueSupply,
+      priceBandScreen: priceBandScreen,
       tenureMixRecommendation: recommendation,
       recommendationDetail: detail,
       existingRentalGap: rentalGap(input.amiGapEntry),
@@ -484,9 +559,11 @@
   window.HNAOwnershipNeed = {
     computeOwnershipNeed: computeOwnershipNeed,
     maxAffordablePrice: maxAffordablePrice,
+    priceBandDemandScreen: priceBandDemandScreen,
     monthlyMortgageFactor: monthlyMortgageFactor,
     ownerValueSupplySeries: ownerValueSupplySeries,
     OWNER_VALUE_BINS: OWNER_VALUE_BINS,
+    PRICE_BAND_SCREEN_LABEL: PRICE_BAND_SCREEN_LABEL,
     CONSTANTS: CONSTANTS,
   };
 }());

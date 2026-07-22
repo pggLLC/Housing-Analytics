@@ -4749,6 +4749,43 @@
     '</tr>';
   }
 
+  function _ownRenderPriceBandScreen(screen) {
+    if (!screen || !Array.isArray(screen.rows) || !screen.rows.length) return '';
+    var rows = screen.rows.map(function (row) {
+      var supply = row.ownerValueSupplyUnits == null ? 'Unavailable' : _ownFmtNum(row.ownerValueSupplyUnits);
+      var gap = row.currentGapHouseholds == null ? 'Unavailable' : _ownFmtNum(row.currentGapHouseholds);
+      var demand = row.potentialBuyerPoolHouseholds == null ? 'Unavailable' : _ownFmtNum(row.potentialBuyerPoolHouseholds);
+      return '<tr>' +
+        '<th scope="row" style="text-align:left;padding:.45rem .5rem;border-top:1px solid var(--border);font-weight:700;">' + escHtml(row.label) + '</th>' +
+        '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);">' + escHtml(_ownFmtMoney(row.maxAffordablePrice)) + '</td>' +
+        '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);">' + escHtml(demand) + '</td>' +
+        '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);">' + escHtml(supply) + '</td>' +
+        '<td style="padding:.45rem .5rem;border-top:1px solid var(--border);font-weight:700;">' + escHtml(gap) + '</td>' +
+      '</tr>';
+    }).join('');
+    return '<div style="border:1px solid var(--border);border-radius:6px;padding:.85rem;margin:.85rem 0 1rem;background:var(--card);">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;flex-wrap:wrap;margin-bottom:.45rem;">' +
+        '<div>' +
+          '<h3 style="font-size:.98rem;margin:0 0 .2rem;">Current for-sale price-band screen</h3>' +
+          '<p style="margin:0;color:var(--muted);font-size:.8rem;line-height:1.45;">' + escHtml(screen.label) + '. Screening-only caveat applies.</p>' +
+        '</div>' +
+        _ownPill(screen.sourceLabel || 'Ownership data', screen.method || 'CURRENT_SCREEN') +
+      '</div>' +
+      '<div style="overflow-x:auto;">' +
+        '<table style="width:100%;border-collapse:collapse;font-size:.8rem;" aria-label="Current for-sale price-band screen">' +
+          '<thead><tr>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Affordable price band</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Ceiling price</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Potential buyer pool</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Owner-value supply</th>' +
+            '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Current gap</th>' +
+          '</tr></thead><tbody>' + rows + '</tbody>' +
+        '</table>' +
+      '</div>' +
+      (screen.caveat ? '<p style="margin:.55rem 0 0;color:var(--muted);font-size:.76rem;line-height:1.45;">' + escHtml(screen.caveat) + '</p>' : '') +
+    '</div>';
+  }
+
   function _ownFindCountyAmiGap(data, fips) {
     if (!data || !fips) return null;
     var counties = data.counties || data;
@@ -4955,6 +4992,7 @@
 
     container.innerHTML =
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
+      _ownRenderPriceBandScreen(result.priceBandScreen) +
       '<div style="overflow-x:auto;margin-top:.75rem;">' +
         '<table style="width:100%;border-collapse:collapse;font-size:.8rem;" aria-label="Tenure strategy indicators">' +
           '<thead><tr>' +
