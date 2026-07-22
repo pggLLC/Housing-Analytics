@@ -1,3 +1,5 @@
+> ⚠️ **PARTIALLY SUPERSEDED (2026-07-22).** This is a point-in-time scope. OWN-1 shipped in #1291 (2026-07-22): the §0 "current state" table is now stale — counties are FHFA-anchored (not null) and B25075 owner-value supply is wired (not "only a test"). OWN-1/2/3/4 have PRs (#1291/#1292/#1293/#1294); only OWN-5 (chain assembly) remains. Treat the PR-package sequence and owner decisions as current; treat the §0 status table as historical.
+
 # Scoping — Ownership Analysis Decision Chain (#1167)
 
 **Audience:** for-sale / ownership affordable-housing developers (deed-restricted for-sale, townhomes/condos, community land trusts, employer/for-sale workforce housing).

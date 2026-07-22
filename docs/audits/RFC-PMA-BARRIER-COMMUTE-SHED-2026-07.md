@@ -1,3 +1,5 @@
+> ⚠️ **STATUS SUPERSEDED (2026-07-22).** "awaiting owner sign-off" below is historical. The owner-approved commute-shed path shipped: the OD materiality artifact (#1286) and the opt-in commute-shaped PMA beta mode (#1289) are merged. Barrier work C3 (enable downweighting) and D-F3 (promote D-full from beta) remain evidence-gated on a second professional benchmark. The methodology decisions in this RFC stand as the record; the status line does not.
+
 # RFC — Barrier-Aware PMA and Commute-Shed Delineation
 
 **Issue:** #1232 (final phase) · **Handoff honored:** CODEX-HANDOFF-PMA-BARRIER-COMMUTE-SHED-RFC-2026-07.md
