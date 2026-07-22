@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-21T18:56:51.305Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T02:48:55.265Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.1 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1638,7 +1638,7 @@
 
 ## Test Files
 
-211 test files found.
+212 test files found.
 
 | File | Size |
 |------|------|
@@ -1722,6 +1722,7 @@
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
+| `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
