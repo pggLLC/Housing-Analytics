@@ -28,7 +28,7 @@ function makeDom() {
     <p id="customScenarioDisclosure" hidden></p>
     <canvas id="chartScenarioComparison"></canvas>
     <canvas id="chartProjectionDetail"></canvas>
-  `, { url: 'https://coho.test/housing-needs-assessment.html' });
+  `, { url: 'http://127.0.0.1/housing-needs-assessment.html' });
 }
 
 function installDomGlobals(dom, charts) {
