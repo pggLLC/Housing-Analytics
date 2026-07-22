@@ -1,3 +1,5 @@
+> ⚠️ **IMPLEMENTED (2026-07-22).** This handoff is delivered: D-F1 (OD artifact `data/market/lodes_tract_od_co.json`) merged in #1286, and D-F2 (the opt-in commute-shaped PMA beta mode `js/pma-commute-shaped.js`) merged in #1289. Retained as the design record. D-F3 (remove the beta label / promote from opt-in) remains evidence-gated on a second professional benchmark; not scheduled.
+
 # Codex Handoff — D-full: Commute-Shaped PMA (Opt-in Mode)
 
 **Refs:** #1232 (RFC-PMA-BARRIER-COMMUTE-SHED-2026-07.md §5/§9), CALIBRATION-FRUITA-MEWS-PMA-2026-07.md, #1242 (travel-time matrix, merged in #1262)
