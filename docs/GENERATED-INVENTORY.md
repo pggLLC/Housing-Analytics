@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T12:09:52.731Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-22T12:49:36.756Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.3 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.4 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 228.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 32.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1562 JSON files found.
+1563 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 751.4 KB | ✅ | — |
+| `data/_manifest.json` | 752.1 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1612,6 +1612,7 @@
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
+| `data/policy/resale-conventions.json` | 3.1 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
@@ -1639,7 +1640,7 @@
 
 ## Test Files
 
-214 test files found.
+215 test files found.
 
 | File | Size |
 |------|------|
@@ -1752,6 +1753,7 @@
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
+| `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 14.7 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
