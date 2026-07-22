@@ -27,6 +27,21 @@ function roundedShare(part, whole) {
   return Number((part / whole).toFixed(4));
 }
 
+function countyInsuranceHazardSignal(countyFips, hazardsUsed) {
+  return (hazardsUsed || []).reduce((score, hazardKey) => {
+    const hazard = climate.hazard_summary && climate.hazard_summary[hazardKey];
+    const highRiskCounties = hazard && Array.isArray(hazard.key_counties_high_risk)
+      ? hazard.key_counties_high_risk
+      : [];
+    return score + (highRiskCounties.includes(countyFips) ? 1 : 0);
+  }, 0);
+}
+
+function countyInsuranceContextFactor(countyFips, hazardsUsed) {
+  const signal = countyInsuranceHazardSignal(countyFips, hazardsUsed);
+  return Number((1 + signal * 0.05).toFixed(2));
+}
+
 console.log('\nColorado equity-pricing factor tests');
 console.log('='.repeat(44));
 
@@ -67,8 +82,22 @@ assert.equal(insurance.formula, null, 'insurance factor is prose, not a formula'
 assert.equal(insurance.data_pointer, 'data/market/climate_hazards_co.json', 'insurance factor points to local climate hazard data');
 assert(insurance.hazards_used.includes('hail_risk'), 'insurance factor uses hail risk');
 assert(insurance.hazards_used.includes('wildfire_risk'), 'insurance factor uses wildfire risk');
-assert.equal(climate.hazard_summary.hail_risk.level, 'high', 'climate data has hail risk context');
-assert.equal(climate.hazard_summary.wildfire_risk.level, 'very_high', 'climate data has wildfire risk context');
+const highHazardCounty = '08059';
+const lowHazardCounty = '08051';
+assert.equal(countyInsuranceHazardSignal(highHazardCounty, insurance.hazards_used), 2,
+  'Jefferson County is flagged by both insurance-relevant hazards');
+assert.equal(countyInsuranceHazardSignal(lowHazardCounty, insurance.hazards_used), 0,
+  'Gunnison County is not flagged by the insurance-relevant hazard set');
+assert(
+  countyInsuranceContextFactor(highHazardCounty, insurance.hazards_used) >
+    countyInsuranceContextFactor(lowHazardCounty, insurance.hazards_used),
+  'hazards_used drives a differentiated insurance context output between high- and low-hazard counties'
+);
+assert.notEqual(
+  countyInsuranceContextFactor(highHazardCounty, insurance.hazards_used),
+  countyInsuranceContextFactor(highHazardCounty, ['hail_risk']),
+  'wildfire_risk contributes to the high-hazard county output, not just a stored severity string'
+);
 assert.match(insurance.source_url, /^https:\/\/doi\.colorado\.gov\//, 'insurance source is Colorado DOI');
 
 const pabFactor = factors.factors.pab_volume_cap_pressure;
