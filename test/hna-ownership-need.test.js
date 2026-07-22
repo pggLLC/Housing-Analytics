@@ -265,6 +265,13 @@ test('current price-band screen recomputes from CHAS demand and B25075 supply', 
   assert.equal(screen.totalPotentialBuyerPoolHouseholds, out.moderateIncomeRenterHouseholds);
   assert.equal(JSON.stringify(screen.rows.map((row) => row.key)), JSON.stringify(['lte80', '81to100', '101to120']));
   assert.equal(JSON.stringify(screen.rows.map((row) => row.maxAffordablePrice)), JSON.stringify([283024, 353780, 424536]));
+  screen.rows.forEach((row) => {
+    assert.equal(
+      row.maxAffordablePrice,
+      Ownership.maxAffordablePrice(amiGap.ami_4person, row.amiCeiling / 100),
+      `${row.key} maxAffordablePrice must match its displayed AMI ceiling`
+    );
+  });
   assert.equal(JSON.stringify(screen.rows.map((row) => row.potentialBuyerPoolHouseholds)), JSON.stringify([1945, 848, 0]));
   assert.equal(JSON.stringify(screen.rows.map((row) => row.ownerValueSupplyUnits)), JSON.stringify([3183.7, 1229.6, 1486.3]));
   assert.equal(JSON.stringify(screen.rows.map((row) => row.currentGapHouseholds)), JSON.stringify([0, 0, 0]));
