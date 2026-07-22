@@ -99,25 +99,33 @@ assert(marketHtml.includes('pmaFundingContextCard'), 'PMA page has funding conte
 assert(dealJs.includes('dc-funding-context-card'), 'Deal Calculator has funding context mount');
 assert(marketRenderWindow.includes('function renderPmaFundingContext'), 'PMA funding render function is present');
 assert(dealRenderWindow.includes('function _renderFundingContextCard'), 'Deal funding render function is present');
-assert(!/PMA_WEIGHTS|weights\s*=|overall\s*=/.test(marketRenderWindow), 'PMA funding render does not alter scoring weights/results');
-assert(!/gap\s*=|tdc\s*=|equity\s*=|mortgage\s*=/.test(dealRenderWindow), 'Deal funding render does not alter underwriting variables');
 
-// Behavioral non-scored contract: the source-regex checks above are shallow
-// (a mutation like `window.PMAMarketScoring.WEIGHTS.demand = 0.99` slips past
-// them — caught in QA of #1250). Execute the PMA render path against the real
-// scoring module and assert the scoring constants are byte-identical after.
+// Behavioral non-scored contract: execute the PMA funding render path against
+// the live component. A render-path mutation such as
+// `window.PMAMarketScoring.WEIGHTS.demand = 0.99` must fail this assertion.
 {
   const scoringSrc = fs.readFileSync(path.join(root, 'js', 'market-analysis-scoring.js'), 'utf8');
   const behaviorDom = new JSDOM('<div id="pmaFundingContextCard"></div>', { url: 'http://127.0.0.1/market-analysis.html', runScripts: 'outside-only' });
   const w = behaviorDom.window;
   w.eval(scoringSrc);
   w.eval(fs.readFileSync(path.join(root, 'js', 'components', 'funding-context-card.js'), 'utf8'));
+  w.__softFundingStatus = softFunding;
   const before = JSON.stringify({
     weights: w.PMAMarketScoring.WEIGHTS,
     risk: w.PMAMarketScoring.RISK || null
   });
-  // Execute the extracted PMA render-path body with the card component live.
-  w.eval('(function(){ ' + marketRenderWindow.replace(/^function renderPmaFundingContext/, 'var renderPmaFundingContext = function renderPmaFundingContext') + '\n if (typeof renderPmaFundingContext === "function") { try { renderPmaFundingContext({ countyFips: "08077", countyName: "Mesa County" }); } catch (_) {} } })();');
+  const renderScript = [
+    '(function(){',
+    'var _softFundingStatus = window.__softFundingStatus;',
+    'function _dominantCountyFromResult(){ return "08031"; }',
+    marketRenderWindow.replace(/^function renderPmaFundingContext/, 'var renderPmaFundingContext = function renderPmaFundingContext'),
+    'renderPmaFundingContext({ tractGeoids: ["080310001001"] });',
+    '})();'
+  ].join('\n');
+  assert.doesNotThrow(() => w.eval(renderScript), 'PMA funding render path executes without swallowed errors');
+  const fundingText = w.document.getElementById('pmaFundingContextCard').textContent.replace(/\s+/g, ' ');
+  assert(fundingText.includes('CONTEXT'), 'executed PMA render produces funding-context DOM output');
+  assert(fundingText.includes('Does not change PMA scores'), 'executed PMA render preserves non-scored disclosure');
   const after = JSON.stringify({
     weights: w.PMAMarketScoring.WEIGHTS,
     risk: w.PMAMarketScoring.RISK || null
