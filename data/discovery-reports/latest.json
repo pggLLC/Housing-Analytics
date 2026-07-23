@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-07-22T09:20:32.227Z",
-  "totalScanned": 1600,
-  "newSourceCount": 1569,
+  "scanTimestamp": "2026-07-23T09:16:52.620Z",
+  "totalScanned": 1602,
+  "newSourceCount": 1571,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 768825,
+      "sizeBytes": 770148,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -248,7 +248,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 241750,
+      "sizeBytes": 242051,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -722,7 +722,7 @@
     },
     {
       "path": "data/hna/home-value-cascade.json",
-      "sizeBytes": 94441,
+      "sizeBytes": 133277,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9058,7 +9058,7 @@
       "path": "data/market/lodes_tract_od_co.json",
       "sizeBytes": 14776234,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/market/natural_barriers_co.geojson",
@@ -9229,6 +9229,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/developer-ownership-funding.json",
+      "sizeBytes": 4576,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/policy/homeownership-programs.json",
       "sizeBytes": 16701,
       "inDataManifest": false,
@@ -9271,6 +9277,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/resale-conventions.json",
+      "sizeBytes": 3187,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
       "path": "data/policy/research-orgs-housing.json",
       "sizeBytes": 7859,
       "inDataManifest": false,
@@ -9292,7 +9304,7 @@
       "path": "data/policy/tool-watch.json",
       "sizeBytes": 4840,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy_briefs.json",
@@ -9302,7 +9314,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20123,
+      "sizeBytes": 20136,
       "inDataManifest": false,
       "inFilesManifest": true
     },
