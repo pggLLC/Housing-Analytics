@@ -2804,6 +2804,9 @@
     if (!L) { console.error('[market-analysis] Leaflet not available'); return; }
 
     map = L.map('pmaMap', { zoomControl: true, maxBoundsViscosity: 1.0 }).setView([39.5501, -105.7821], 7);
+    if (window.MapPanes && typeof window.MapPanes.ensureStack === 'function') {
+      window.MapPanes.ensureStack(map);
+    }
     if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.5501, -105.7821], zoom: 7 }); }
     // Expose map so the page's inline jurisdiction logic can flyTo county centroids (#13)
     window._cohoMap = map;
@@ -3073,6 +3076,7 @@
     // County boundaries — added to map by default (visible on load)
     if (countyGj && Array.isArray(countyGj.features) && countyGj.features.length > 0) {
       countyLayer = L.geoJSON(countyGj, {
+        pane: 'fillsPane',
         style: OVERLAY_STYLES.county,
         onEachFeature: function (f, layer) {
           var name = (f.properties && (f.properties.NAME || f.properties.NAMELSAD)) || 'County';
@@ -3086,6 +3090,7 @@
     // QCTs
     if (qctGj && Array.isArray(qctGj.features) && qctGj.features.length > 0) {
       qctLayer = L.geoJSON(qctGj, {
+        pane: 'fillsPane',
         style: OVERLAY_STYLES.qct,
         onEachFeature: function (f, layer) {
           var id = (f.properties && (f.properties.GEOID || f.properties.geoid)) || '';
@@ -3098,6 +3103,7 @@
     // DDAs
     if (ddaGj && Array.isArray(ddaGj.features) && ddaGj.features.length > 0) {
       ddaLayer = L.geoJSON(ddaGj, {
+        pane: 'fillsPane',
         style: OVERLAY_STYLES.dda,
         onEachFeature: function (f, layer) {
           var p = f.properties || {};
@@ -3115,6 +3121,7 @@
         pointToLayer: function (f, latlng) {
           var inProp123 = isInProp123Jurisdiction(f);
           return window.L.circleMarker(latlng, {
+            pane: 'pointsPane',
             radius: 5,
             color: inProp123 ? '#7c3aed' : '#0a7e74',
             fillColor: inProp123 ? '#7c3aed' : '#0a7e74',
@@ -3402,10 +3409,11 @@
                 console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
                 return;
               }
-              var opts = {};
+              var opts = { pane: 'fillsPane' };
               if (cfg.pointStyle) {
                 opts.pointToLayer = function (feature, latlng) {
                   var ps = Object.assign({}, cfg.pointStyle);
+                  ps.pane = 'pointsPane';
                   var fp = feature.properties || {};
 
                   // Dynamic styling for walkability (green gradient by score)
@@ -3941,6 +3949,7 @@
     if (todMarkers) map.removeLayer(todMarkers);
 
     siteMarker = L.circleMarker([lat, lon], {
+      pane: 'pointsPane',
       radius: 8, color: 'var(--accent)', fillColor: 'var(--accent)',
       fillOpacity: 0.9, weight: 2
     }).addTo(map);
@@ -4043,6 +4052,7 @@
         if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
           count++;
           L.circleMarker([ll.lat, ll.lng], {
+            pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
             weight: 2, fillOpacity: 0.9
           }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
@@ -4061,6 +4071,7 @@
           nearby.forEach(function (a) {
             count++;
             L.circleMarker([a.lat, a.lon], {
+              pane: 'pointsPane',
               radius: 7, fillColor: '#facc15', color: '#0ea5e9',
               weight: 2, fillOpacity: 0.9
             }).bindTooltip(a.name || 'Transit stop', { sticky: true, className: 'pma-tooltip' })
@@ -5062,7 +5073,7 @@
 
       _mapLayers['commutingFlows'] = L.geoJSON(
         { type: 'FeatureCollection', features: filtered },
-        opts
+        Object.assign({ pane: 'fillsPane' }, opts)
       );
 
       // Only add to map if checkbox is checked
@@ -5086,6 +5097,7 @@
       if (cfg && cfg.pointStyle) {
         opts.pointToLayer = function (feature, latlng) {
           var ps = Object.assign({}, cfg.pointStyle);
+          ps.pane = 'pointsPane';
           var fp = feature.properties || {};
           var zp = fp.zone_proxy || '';
           ps.fillColor = zp === 'multifamily_residential' ? '#10b981'
@@ -5095,6 +5107,7 @@
           return L.circleMarker(latlng, ps);
         };
       }
+      opts.pane = 'fillsPane';
       opts.onEachFeature = function (feature, layer) {
         var p = feature.properties || {};
         var tip = '<b>' + (p.address || p.zone_proxy || 'Parcel').replace(/_/g, ' ') + '</b>' +
