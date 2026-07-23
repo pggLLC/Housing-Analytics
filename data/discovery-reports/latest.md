@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-22T09:20:32.227Z
+**Scan timestamp:** 2026-07-23T09:16:52.620Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1600 |
-| New (unregistered) | 1569 |
+| Files scanned | 1602 |
+| New (unregistered) | 1571 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (751 KB)
+- `data/_manifest.json` (752 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -133,7 +133,7 @@
 - `data/hna/dola_sya/08125.json` (2 KB)
 - `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (120 KB)
-- `data/hna/home-value-cascade.json` (92 KB)
+- `data/hna/home-value-cascade.json` (130 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0800320.json` (29 KB)
@@ -1551,6 +1551,7 @@
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
+- `data/policy/developer-ownership-funding.json` (4 KB)
 - `data/policy/homeownership-programs.json` (16 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
@@ -1558,6 +1559,7 @@
 - `data/policy/lihtc-assumptions.json` (4 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
+- `data/policy/resale-conventions.json` (3 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/tax-credit-legislation.json` (12 KB)
