@@ -587,7 +587,7 @@ function main() {
         'Regenerate via: node scripts/build-affordable-housing-properties.js',
         'A property may have multiple program_type values (e.g. ["lihtc-9pct","lihtc-state-paired"]).',
         'preservation-candidate records are source-feed membership from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration and risk_status), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
-        'Many properties overlap across sources (e.g. a Section-8 LIHTC property in CHFA LIHTC + CHFA Preservation + HUD MF). Current build keeps all records; consumers can dedupe by address + city.',
+        'Records are deduplicated across sources by normalized name + city; total_records reflects the deduped set. Records missing a usable name or city cannot be safely keyed and are retained individually (see the __nokey__ path in dedupeProperties), so a small number of cross-source duplicates without name/city may remain.',
         'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
         'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
       ]
