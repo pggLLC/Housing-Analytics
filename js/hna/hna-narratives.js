@@ -417,25 +417,24 @@
     }
     if (ctx.medianHomeVal != null && !(ctx.medianHomeValueInfo && ctx.medianHomeValueInfo.suppressIncomeToOwn)) {
       var incomeNeededHome = _incomeNeededForHomeValue(ctx.medianHomeVal);
+      var homeClause = '.';
       if (incomeNeededHome != null) {
-        var homeClause = '';
         if (ctx.medianIncome != null) {
           var diff2 = incomeNeededHome - ctx.medianIncome;
           homeClause = diff2 > 0
             ? ', roughly ' + _fmtMoney(diff2) + ' above the local median.'
             : ', within reach of the local median.';
-        } else {
-          homeClause = '.';
         }
-        var homeSourceText = ctx.medianHomeValueInfo && ctx.medianHomeValueInfo.sourceText
-          ? ctx.medianHomeValueInfo.sourceText
-          : 'home-value cascade';
-        parts.push(
-          '<strong>Median home value ' + _fmtMoney(ctx.medianHomeVal) + ' (' + _esc(homeSourceText) + ')</strong> ' +
-          'requires roughly ' + _fmtMoney(incomeNeededHome) + ' in income to afford the mortgage at current rates' +
-          homeClause
-        );
+        homeClause = ' requires roughly ' + _fmtMoney(incomeNeededHome) +
+          ' in income to afford the mortgage at current rates' + homeClause;
       }
+      var homeSourceText = ctx.medianHomeValueInfo && ctx.medianHomeValueInfo.sourceText
+        ? ctx.medianHomeValueInfo.sourceText
+        : 'home-value cascade';
+      parts.push(
+        '<strong>Median home value ' + _fmtMoney(ctx.medianHomeVal) + ' (' + _esc(homeSourceText) + ')</strong>' +
+        homeClause
+      );
     }
     // FHFA caveat — the ACS 2020-2024 home value lags the live market.
     // When 10-year HPI change > 50%, surface it as a stale-vintage warning.

@@ -103,6 +103,30 @@ assert(fruita.narrative.includes(expectedIncomeText), 'narrative income-needed m
 assert(!fruitaAffordability.includes(money(Math.round(fruita.raw * 0.20))), 'takeaway does not render raw ACS x 0.20 income shortcut');
 assert(!fruita.narrative.includes(money(Math.round(fruita.raw * 0.20))), 'narrative does not render raw ACS x 0.20 income shortcut');
 
+{
+  // Regression: re-nesting the value display under the PITI verdict conditional must fail here.
+  const originalIncomeNeeded = window.HNAOwnershipNeed.incomeNeededForHomeValue;
+  const profile = profileFor('0828745');
+  const info = window.HNAUtils.homeValueInfo(profile);
+  window.HNAOwnershipNeed.incomeNeededForHomeValue = function () { return null; };
+  try {
+    window.HNAState.state.lastProfile = profile;
+    window.HNAState.state.lastLabel = 'Fruita';
+    window.HNAState.state.contextCounty = null;
+    const ctx = window.HnaSectionTakeaways.gatherCtx();
+    const homeTakeaway = window.HnaSectionTakeaways.takeaways['Home value'](ctx);
+    const affordabilityTakeaway = window.HnaSectionTakeaways.takeaways['Homeownership affordability'](ctx);
+    const narrative = window.HNANarratives.buildExecutiveSummary(profile, 'Fruita');
+    [homeTakeaway, affordabilityTakeaway, narrative].forEach((html, idx) => {
+      assert(html && html.includes(money(info.value)), 'PITI-null surface #' + idx + ' still renders resolved home value');
+      assert(html.includes(info.sourceText), 'PITI-null surface #' + idx + ' still renders resolved source text');
+    });
+    assert(!narrative.includes('requires roughly'), 'PITI-null narrative omits the purchase-income verdict clause');
+  } finally {
+    window.HNAOwnershipNeed.incomeNeededForHomeValue = originalIncomeNeeded;
+  }
+}
+
 const comparisonMetrics = window.HNAComparison._comparisonMetrics;
 const vacancyMetric = comparisonMetrics.find((m) => m.id === 'vacancy_rate');
 assert(vacancyMetric, 'comparison metrics include vacancy rate');

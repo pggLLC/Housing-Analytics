@@ -390,9 +390,13 @@
     // rather than the value distribution. Both can fire on the same page when
     // the h2s are distinct, but only one per chart-card (idempotence guard).
     'Homeownership affordability': function (c) {
-      if (c.medianHome == null || c.medianHhInc == null) return null;
+      if (c.medianHome == null) return null;
       var incomeNeeded = _incomeNeededForHomeValue(c.medianHome);
-      if (incomeNeeded == null) return null;
+      if (incomeNeeded == null || c.medianHhInc == null) {
+        var sourceText = c.medianHomeValueInfo && c.medianHomeValueInfo.sourceText ? c.medianHomeValueInfo.sourceText : 'home-value source';
+        return '<strong>Median home value ' + _fmtMoney(c.medianHome) + ' (' + _esc(sourceText) + ')</strong>. ' +
+          'Purchase-income affordability is not calculable from the available PITI assumptions.';
+      }
       var ratio = (incomeNeeded / c.medianHhInc);
       var gap = incomeNeeded - c.medianHhInc;
       var framing = ratio >= 1.5
