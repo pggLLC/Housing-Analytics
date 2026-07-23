@@ -32,6 +32,18 @@
   function _fmtPct(n, d) { if (n == null || !isFinite(n)) return null; return n.toFixed(d != null ? d : 1) + '%'; }
   function _fmtMoney(n) { if (n == null || !isFinite(n)) return null; return '$' + Math.round(n).toLocaleString('en-US'); }
   function _fmtInt(n)   { if (n == null || !isFinite(n)) return null; return Math.round(n).toLocaleString('en-US'); }
+  function _homeValueInfo(profile) {
+    if (window.HNAUtils && typeof window.HNAUtils.homeValueInfo === 'function') {
+      return window.HNAUtils.homeValueInfo(profile);
+    }
+    return { value: null, sourceText: 'home-value cascade unavailable' };
+  }
+  function _incomeNeededForHomeValue(value) {
+    if (window.HNAOwnershipNeed && typeof window.HNAOwnershipNeed.incomeNeededForHomeValue === 'function') {
+      return window.HNAOwnershipNeed.incomeNeededForHomeValue(value);
+    }
+    return null;
+  }
 
   // ── Context assembly ────────────────────────────────────────────
   // Returns a single object holding every field the takeaways need,
@@ -54,7 +66,8 @@
     var p = profile;
     ctx.pop          = _safeNum(p.DP05_0001E);
     ctx.medianRent   = _safeNum(p.DP04_0134E);
-    ctx.medianHome   = _safeNum(p.DP04_0089E);
+    ctx.medianHomeValueInfo = _homeValueInfo(p);
+    ctx.medianHome   = ctx.medianHomeValueInfo.value;
     ctx.medianHhInc  = _safeNum(p.DP03_0062E);
     ctx.pctOwner     = _safeNum(p.DP04_0046PE);
     ctx.pctRenter    = _safeNum(p.DP04_0047PE);
@@ -220,17 +233,18 @@
       var caveat = '';
       if (c.hpiChange10y != null && c.hpiChange10y > 0.5) {
         var hpi = (c.hpiChange10y * 100).toFixed(0);
-        caveat = ' County-level FHFA HPI shows home prices rose ' + hpi + '% over the last decade, so today\'s market median runs materially above this ACS figure.';
+        caveat = ' County-level FHFA HPI shows home prices rose ' + hpi + '% over the last decade; verify current listings before sizing a project.';
       }
-      var incomeNeeded = Math.round(c.medianHome * 0.20);
+      var incomeNeeded = _incomeNeededForHomeValue(c.medianHome);
       var gapClause = '';
-      if (c.medianHhInc != null) {
+      if (c.medianHhInc != null && incomeNeeded != null) {
         var diff = incomeNeeded - c.medianHhInc;
         gapClause = diff > 0
           ? ', requiring ' + _fmtMoney(incomeNeeded) + ' in income (about ' + _fmtMoney(Math.abs(diff)) + ' above the local median)'
           : ', within reach of the local median income';
       }
-      return '<strong>Median home value ' + _fmtMoney(c.medianHome) + ' (ACS 2020–2024)</strong>' + gapClause + '.' + caveat;
+      var sourceText = c.medianHomeValueInfo && c.medianHomeValueInfo.sourceText ? c.medianHomeValueInfo.sourceText : 'home-value source';
+      return '<strong>Median home value ' + _fmtMoney(c.medianHome) + ' (' + _esc(sourceText) + ')</strong>' + gapClause + '.' + caveat;
     },
 
     // Income distribution
@@ -377,9 +391,8 @@
     // the h2s are distinct, but only one per chart-card (idempotence guard).
     'Homeownership affordability': function (c) {
       if (c.medianHome == null || c.medianHhInc == null) return null;
-      // 20% down / 30-yr / ~7% / PITI rule of thumb — income to afford = home value * 0.20
-      // (rough proxy; matches the figure shown in the section)
-      var incomeNeeded = Math.round(c.medianHome * 0.20);
+      var incomeNeeded = _incomeNeededForHomeValue(c.medianHome);
+      if (incomeNeeded == null) return null;
       var ratio = (incomeNeeded / c.medianHhInc);
       var gap = incomeNeeded - c.medianHhInc;
       var framing = ratio >= 1.5

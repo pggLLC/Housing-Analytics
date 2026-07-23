@@ -21,7 +21,7 @@
     { key: "DP05_0001E",  label: "Population",              fmt: formatNumber,   table: "DP05" },
     { key: "DP03_0062E",  label: "Median household income", fmt: formatCurrency, table: "DP03" },
     { key: "DP04_0134E",  label: "Median gross rent",       fmt: formatCurrency, table: "DP04" },
-    { key: "DP04_0089E",  label: "Median home value",       fmt: formatCurrency, table: "DP04" },
+    { key: "DP04_0089E",  label: "Median home value — ACS estimate (may lag current market)", fmt: formatCurrency, table: "DP04" },
     { key: "DP03_0099PE", label: "Uninsured rate",          fmt: formatPct,      table: "DP03" },
     { key: "DP02_0067PE", label: "Bachelor's degree+",      fmt: formatPct,      table: "DP02" },
     { key: "DP03_0009PE", label: "Unemployment rate",       fmt: formatPct,      table: "DP03" },
