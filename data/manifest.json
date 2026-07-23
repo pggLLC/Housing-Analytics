@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-22T09:27:44.220519Z",
+  "generated": "2026-07-23T09:24:50.916447Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 768825
+      "bytes": 770148
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 242051
+      "bytes": 242365
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -304,7 +304,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1294106
+      "bytes": 1294466
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -694,7 +694,7 @@
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 94441
+      "bytes": 133277
     },
     "data/hna/jurisdiction-metrics-digest/08001.json": {
       "featureCount": 0,
@@ -7801,6 +7801,11 @@
       "placeholder": false,
       "bytes": 6253
     },
+    "data/policy/developer-ownership-funding.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4576
+    },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7841,6 +7846,11 @@
       "placeholder": false,
       "bytes": 72403
     },
+    "data/policy/resale-conventions.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3187
+    },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7869,7 +7879,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20123
+      "bytes": 20136
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
