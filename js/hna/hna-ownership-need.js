@@ -310,6 +310,23 @@
     };
   }
 
+  function incomeNeededForHomeValue(homeValue, assumptions) {
+    var target = num(homeValue);
+    if (!target || target <= 0) return null;
+    var lo = 1;
+    var hi = 250000;
+    while (maxAffordablePrice(hi, 1.00, assumptions) < target && hi < 5000000) {
+      hi *= 2;
+    }
+    if (hi >= 5000000 && maxAffordablePrice(hi, 1.00, assumptions) < target) return null;
+    for (var i = 0; i < 32; i++) {
+      var mid = (lo + hi) / 2;
+      if (maxAffordablePrice(mid, 1.00, assumptions) >= target) hi = mid;
+      else lo = mid;
+    }
+    return round(hi, 0);
+  }
+
   function supplyUnitsInPriceRange(ownerValueSupply, lowerExclusive, upperInclusive) {
     if (!ownerValueSupply || !Array.isArray(ownerValueSupply.bands)) return null;
     var total = 0;
@@ -571,6 +588,7 @@
   window.HNAOwnershipNeed = {
     computeOwnershipNeed: computeOwnershipNeed,
     maxAffordablePrice: maxAffordablePrice,
+    incomeNeededForHomeValue: incomeNeededForHomeValue,
     monthlyMortgageFactor: monthlyMortgageFactor,
     ownerValueSupplySeries: ownerValueSupplySeries,
     priceBandDemandScreen: priceBandDemandScreen,
