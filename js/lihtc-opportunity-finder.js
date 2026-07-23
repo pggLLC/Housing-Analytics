@@ -4901,6 +4901,12 @@
           '<span><strong>DDA county</strong> <span class="lof-legend-sub">— high-cost rural county, +30% basis</span></span>' +
         '</div>' +
 
+        '<div class="lof-legend-group-label">Opportunity Zones (2018)</div>' +
+        '<div class="lof-legend-row">' +
+          '<span class="lof-legend-sw" style="background:#5eead4;opacity:.75;border:1px solid #0d9488"></span>' +
+          '<span><strong>OZ tract</strong> <span class="lof-legend-sub">— 2018 designation, capital-gains deferral (off by default; not a LIHTC basis boost)</span></span>' +
+        '</div>' +
+
         '<div class="lof-legend-group-label">Existing LIHTC properties</div>' +
         '<div class="lof-legend-row">' +
           '<span class="lof-legend-dot" style="background:#16a34a"></span>' +
