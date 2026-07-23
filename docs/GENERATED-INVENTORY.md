@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-23T17:53:29.790Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-23T19:26:58.975Z. Do not edit by hand.
 
 ---
 
@@ -1640,7 +1640,7 @@
 
 ## Test Files
 
-216 test files found.
+217 test files found.
 
 | File | Size |
 |------|------|
@@ -1748,6 +1748,7 @@
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
+| `test/metric-truth-crosssurface.test.js` | 7.5 KB |
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
