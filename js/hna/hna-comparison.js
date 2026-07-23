@@ -22,6 +22,15 @@
   var _countyNames = {};    // county geoid → county name
   var _ready = false;
 
+  function _esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // ── Persistence ────────────────────────────────────────────────────
 
   function _persist() {
@@ -371,7 +380,7 @@
     { id: 'population',         label: 'Population',             unit: 'integer',  lowerBetter: false },
     { id: 'median_hh_income',   label: 'Median HH Income',       unit: 'dollars',  lowerBetter: false },
     { id: 'pct_renters',        label: '% Renters',              unit: 'percent',  lowerBetter: false },
-    { id: 'vacancy_rate',       label: 'Rental Vacancy Rate',    unit: 'percent',  lowerBetter: false },
+    { id: 'vacancy_rate',       label: 'Adjusted Active-Market Vacancy Rate', unit: 'percent',  lowerBetter: false },
     { id: 'pct_multifamily',    label: '% Multifamily (5+ unit)', unit: 'percent', lowerBetter: false },
     { id: 'pct_sf_detached',    label: '% Single-Family Detached', unit: 'percent', lowerBetter: false },
     { id: 'gross_rent_median',  label: 'Median Gross Rent',      unit: 'dollars',  lowerBetter: true  },
@@ -467,6 +476,16 @@
     if (unit === 'dollars') return '$' + n.toLocaleString('en-US');
     if (unit === 'score')   return n.toFixed(1);
     return n.toLocaleString('en-US');
+  }
+
+  function _homeValueInfo(profile) {
+    if (window.HNAUtils && typeof window.HNAUtils.homeValueInfo === 'function') {
+      return window.HNAUtils.homeValueInfo(profile || {});
+    }
+    return {
+      value: null,
+      sourceText: 'home-value cascade unavailable',
+    };
   }
 
   function _deltaText(a, b, unit, lowerBetter) {
@@ -784,8 +803,10 @@
     var pA = summaryA ? summaryA.acsProfile || {} : {};
     var pB = summaryB ? summaryB.acsProfile || {} : {};
 
-    var homeValA = pA.DP04_0089E != null ? +pA.DP04_0089E : null;
-    var homeValB = pB.DP04_0089E != null ? +pB.DP04_0089E : null;
+    var homeInfoA = _homeValueInfo(pA);
+    var homeInfoB = _homeValueInfo(pB);
+    var homeValA = homeInfoA && homeInfoA.value != null ? +homeInfoA.value : null;
+    var homeValB = homeInfoB && homeInfoB.value != null ? +homeInfoB.value : null;
     var incomeA  = pA.DP03_0062E != null ? +pA.DP03_0062E : null;
     var incomeB  = pB.DP03_0062E != null ? +pB.DP03_0062E : null;
     var ownerPctA = pA.DP04_0046PE != null ? +pA.DP04_0046PE : null;
@@ -815,7 +836,14 @@
     if (!homeValA && !homeValB) return '';
 
     var html = '<div class="hca-cp-section hca-cp-homeownership">';
-    html += '<h4 class="hca-cp-section__title">Homeownership Affordability <span class="hca-cp-source">ACS 2024 DP04 · Freddie Mac PMMS · HUD CHAS owner-side fallback</span></h4>';
+    html += '<h4 class="hca-cp-section__title">Homeownership Affordability <span class="hca-cp-source">Resolved home-value cascade · Freddie Mac PMMS · HUD CHAS owner-side fallback</span></h4>';
+    html += '<div class="hca-cp-owner-fallback-note" role="note" style="' +
+      'margin:0 0 .5rem;padding:.4rem .6rem;border-left:3px solid var(--accent);' +
+      'border-radius:0 4px 4px 0;background:color-mix(in oklab,var(--card) 80%,var(--accent) 20%);' +
+      'font-size:.76rem;line-height:1.4;color:var(--text);">' +
+      '<strong>Home value source:</strong> A=' + _esc(homeInfoA && homeInfoA.sourceText ? homeInfoA.sourceText : 'unavailable') +
+      ' · B=' + _esc(homeInfoB && homeInfoB.sourceText ? homeInfoB.sourceText : 'unavailable') + '.' +
+    '</div>';
 
     // If owner cost burden fell back to CHAS for either side (because
     // ACS SMOCAPI bins are suppressed for small places/CDPs), surface
@@ -1220,6 +1248,9 @@
         '</div>' +
       '</div>';
     });
+    html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);line-height:1.5;">' +
+      '<strong>Adjusted active-market vacancy:</strong> ranking inputs start from ACS rental vacancy, apply the seasonal/short-term-rental adjustment used in the ranking index, and floor implausibly low active-market readings before comparison.' +
+      '</p>';
     if (sawSuppressedVacancy || sawLowVacancy) {
       html += '<p style="margin:.4rem 0 0;font-size:.74rem;color:var(--muted);line-height:1.5;">';
       if (sawSuppressedVacancy) {
@@ -1398,7 +1429,10 @@
     getState: function () { return { a: _compA, b: _compB, countyFilter: _countyFilter }; },
     /* Exposed for testing — pure functions, no DOM access */
     _scopeBadge: _scopeBadge,
-    _scopeNote:  _scopeNote
+    _scopeNote:  _scopeNote,
+    _buildHomeownershipSection: _buildHomeownershipSection,
+    _homeValueInfo: _homeValueInfo,
+    _comparisonMetrics: COMPARISON_METRICS
   };
 
   // Auto-init after DOMContentLoaded

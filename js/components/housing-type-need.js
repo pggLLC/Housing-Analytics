@@ -174,7 +174,10 @@
       ? (crowd_101_150 || 0) + (crowd_150p || 0) : null;
 
     // Home value
-    var medHomeVal = num(p.DP04_0089E);
+    var homeInfo = root.HNAUtils && typeof root.HNAUtils.homeValueInfo === 'function'
+      ? root.HNAUtils.homeValueInfo(p)
+      : { value: null };
+    var medHomeVal = num(homeInfo && homeInfo.value);
 
     return {
       pop: pop,
