@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-24T12:04:52.182Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-24T12:22:32.748Z. Do not edit by hand.
 
 ---
 
@@ -338,7 +338,7 @@
 | `data/hna/jurisdiction-metrics-digest/0812450.json` | 28.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812460.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812470.json` | 28.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/08125.json` | 28.7 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/08125.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812635.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812815.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812855.json` | 28.7 KB | ✅ | — |
