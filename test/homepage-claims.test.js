@@ -50,9 +50,21 @@ assert(
   /ACS B25070|HUD CHAS/.test(lead),
   'hero renter cost-burden sentence must carry an ACS/CHAS source reference'
 );
+// Owner-selected framing: statewide cost burden across BOTH tenures, not the
+// supply-gap figure. Verified against data/hna/chas_affordability_gap.json
+// (HUD CHAS 2018-2022): 363,912 renter + 329,976 owner = 693,888 burdened
+// households, 30.5% of the 2,277,884-household CHAS universe. The percentage
+// must come from CHAS's own denominator -- dividing by the ACS DP02_0001E
+// household total (2,479,892) yields a wrong 28.0% and mixes vintages.
 assert(
-  lead.includes('146,000') && lead.includes('at or below 40% AMI') && lead.includes('data/co_ami_gap_by_county.json'),
-  'hero shortage claim must use the verified owner-supplied 146,000 <=40% AMI rental framing'
+  lead.includes('694,000') &&
+  /nearly 1 in 3/i.test(lead) &&
+  lead.includes('data/hna/chas_affordability_gap.json'),
+  'hero cost-burden claim must use the verified 694,000 / nearly-1-in-3 HUD CHAS framing'
+);
+assert(
+  /HUD CHAS 2018/.test(lead),
+  'hero cost-burden claim must disclose the CHAS 2018-2022 vintage inline'
 );
 
 const routes = htmlBlock('<nav class="home-job-routes"', '</nav>');
