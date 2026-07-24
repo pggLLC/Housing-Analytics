@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-23T09:24:50.916447Z",
+  "generated": "2026-07-24T09:22:28.036426Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -59,7 +59,7 @@
     "data/affordable-housing/properties.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1567784
+      "bytes": 1567913
     },
     "data/affordable-housing/property-aliases.json": {
       "featureCount": 0,
@@ -289,7 +289,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 242365
+      "bytes": 242363
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -304,7 +304,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1294466
+      "bytes": 1294910
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7879,7 +7879,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20136
+      "bytes": 20121
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
