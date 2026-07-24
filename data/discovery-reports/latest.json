@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-23T09:16:52.620Z",
+  "scanTimestamp": "2026-07-24T09:13:40.439Z",
   "totalScanned": 1602,
   "newSourceCount": 1571,
   "existingCount": 30,
@@ -74,7 +74,7 @@
     },
     {
       "path": "data/affordable-housing/properties.json",
-      "sizeBytes": 1567784,
+      "sizeBytes": 1567913,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -248,7 +248,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 242051,
+      "sizeBytes": 242365,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9232,7 +9232,7 @@
       "path": "data/policy/developer-ownership-funding.json",
       "sizeBytes": 4576,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy/homeownership-programs.json",
@@ -9280,7 +9280,7 @@
       "path": "data/policy/resale-conventions.json",
       "sizeBytes": 3187,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/policy/research-orgs-housing.json",
@@ -9314,7 +9314,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20136,
+      "sizeBytes": 20121,
       "inDataManifest": false,
       "inFilesManifest": true
     },
