@@ -2604,6 +2604,7 @@
       var activeScore = _activeScore(op);
       var color = activeScore >= 70 ? '#16a34a' : activeScore >= 50 ? '#f59e0b' : '#94a3b8';
       var marker = window.L.circleMarker([lat, lng], {
+        pane: 'pointsPane',
         radius: 6 + Math.round(activeScore / 25),
         color: '#fff', weight: 1.5,
         fillColor: color, fillOpacity: 0.9
@@ -4593,6 +4594,9 @@
       minZoom: 6,                 // can't zoom out past full CO view
       maxZoom: 14
     }).setView([39.0, -105.5], 7);
+    if (window.MapPanes && typeof window.MapPanes.ensureStack === 'function') {
+      window.MapPanes.ensureStack(state.map);
+    }
     // Expose for debugging / inspection (tests + DevTools)
     window.__lofMap = state.map;
     window.__lofState = state;
@@ -4703,6 +4707,7 @@
     // market-analysis.html ship.
     if (state.countyBoundaries && Array.isArray(state.countyBoundaries.features)) {
       var countyOverlay = window.L.geoJSON(state.countyBoundaries, {
+        pane: 'fillsPane',
         style: {
           color: '#64748b', weight: 0.8, opacity: 0.55,
           fillOpacity: 0, interactive: false
@@ -4726,6 +4731,7 @@
       // F12: bumped visibility to match QCT clarity. Was weight:1.2/
       // fillOpacity:0.10/opacity:0.60 — too faint at state-level zoom.
       var poly = window.L.polygon(rings, {
+        pane: 'fillsPane',
         color: '#2563eb', weight: 1.6, fillColor: '#60a5fa',
         fillOpacity: 0.22, opacity: 0.85, interactive: true
       });
@@ -4757,6 +4763,7 @@
         // and users reported QCTs looked like "strange dots" (faint outlines
         // at state-level zoom). Now solid orange shading clearly visible.
         var poly = window.L.polygon(rings, {
+          pane: 'fillsPane',
           color: '#ea580c', weight: 1.2, fillColor: '#fb923c',
           fillOpacity: 0.30, opacity: 0.85, interactive: true
         });
@@ -4787,6 +4794,7 @@
           var p = (f.properties || {});
           if (p.designated === false) return;
           var poly = window.L.polygon(rings, {
+            pane: 'fillsPane',
             color: '#0d9488', weight: 1.0, fillColor: '#5eead4',
             fillOpacity: 0.22, opacity: 0.75, interactive: true
           });
@@ -4826,6 +4834,7 @@
       var cat = _lihtcCreditCategory(props);
       var color = colorByCat[cat] || colorByCat.other;
       var marker = window.L.circleMarker([lat, lng], {
+        pane: 'pointsPane',
         radius: 5,
         color: '#fff',
         weight: 1.2,
