@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-23T09:16:52.620Z
+**Scan timestamp:** 2026-07-24T09:13:40.439Z
 
 ## Summary
 
@@ -54,7 +54,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (236 KB)
+- `data/discovery-reports/latest.json` (237 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (3 KB)
 - `data/glossary.json` (14 KB)
