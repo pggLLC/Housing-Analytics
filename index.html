@@ -45,12 +45,13 @@
     <!-- ── 1. Opening ── -->
     <section class="home-opening" aria-labelledby="home-heading">
       <div class="home-container">
-        <span class="home-opening__eyebrow">Colorado Housing Tax Credit Educational Guide</span>
         <h1 id="home-heading">Housing with dignity starts with clear data, thoughtful planning, and better decisions about the places people call home.</h1>
         <p class="home-opening__lead">
           Across Colorado, roughly half of renters now spend more than 30% of every paycheck
-          on rent, and the state is short roughly a quarter&#8209;million homes for the
-          residents who need them most. This site draws together the public sources
+          on rent (<a href="https://data.census.gov/table/ACSDT5Y2023.B25070" target="_blank" rel="noopener">ACS B25070</a>), and the state is short about
+          <strong>146,000</strong> rental homes affordable to the lowest-income renters
+          (at or below 40% AMI, <a href="data/co_ami_gap_by_county.json">AMI Gap</a>).
+          This site draws together the public sources
           anyone can read &mdash; ACS, HUD CHAS, CHFA, and DOLA &mdash; so residents,
           councils, housing authorities, planners, and financing partners can look at the
           same picture and reach the same conclusions about where new homes will fit.
@@ -121,6 +122,15 @@
             <span class="home-job-route__links">
               <a href="lihtc-opportunity-finder.html">Opportunity Finder</a>
               <a href="preservation.html">Preservation</a>
+            </span>
+          </div>
+          <div class="home-job-route">
+            <span class="home-job-route__kicker">Plan ownership</span>
+            <strong>Screen affordable for-sale options</strong>
+            <span>Review deed-restricted for-sale, CLT, and workforce ownership context.</span>
+            <span class="home-job-route__links">
+              <a href="housing-needs-assessment.html#affordable-ownership-need-section">Ownership Need</a>
+              <a href="deal-calculator.html">Deal Calculator</a>
             </span>
           </div>
           <div class="home-job-route">
@@ -377,6 +387,12 @@
                point, so reporting it as a "CO at a Glance" stat was
                misleading and wasted a card slot that could show a
                genuinely local metric. -->
+
+          <div class="home-snapshot__item" role="listitem">
+            <span class="home-snapshot__key">CO Households (total)</span>
+            <span class="home-snapshot__val" id="snapHouseholds">—</span>
+            <span class="home-snapshot__note"><a href="data/hna/summary/08.json">ACS DP02_0001E</a> · statewide summary, ACS 2024</span>
+          </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO rental deficit ≤30% AMI</span>

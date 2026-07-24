@@ -76,6 +76,14 @@
       })
       .catch(function () {});
 
+    DS.getJSON(DS.baseData('hna/summary/08.json'))
+      .then(function (data) {
+        var profile = data && data.acsProfile;
+        var households = profile && profile.DP02_0001E;
+        setText('snapHouseholds', fmtInt(Number(households)));
+      })
+      .catch(function () {});
+
     DS.getJSON(DS.baseData('hna/projections/08.json'))
       .then(function (data) {
         var need = data && data.housing_need && data.housing_need.incremental_units_needed_dola;
