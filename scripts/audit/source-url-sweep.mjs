@@ -28,6 +28,19 @@ const TIMEOUT_MS = 10_000;
 const CONCURRENT = 8;
 
 const ALLOW_LIST = new Set([
+  // Bot-blocked / transient hosts verified live in a real browser during the
+  // 2026-07-20 weekly sweep triage (#1268). All returned 200 (or a Cloudflare
+  // bot-gate for congress.gov) with a browser UA; none are genuinely dead.
+  // Keep in sync with url-health-sweep.mjs.
+  'https://cdphe.colorado.gov/air-pollution/building-performance-standard-rule',
+  'https://dpt.colorado.gov/property-tax-exemption-for-senior-citizens-and-veterans-with-a-disability',
+  'https://federalfunds.colorado.gov/solar-for-all',
+  'https://www.aspendailynews.com/news/aspen-voters-approve-tax-on-strs/article_38fb65be-5fd1-11ed-a044-07397408fcc4.html',
+  'https://www.colorado.gov/governor/news/polis-administration-announces-funding-support-large-building-energy-efficiency-and',
+  'https://www.congress.gov/bill/119th-congress/house-bill/2854',
+  'https://www.congress.gov/bill/119th-congress/senate-bill/1686',
+  'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query',
+  'https://www.townofpagosasprings.com/AgendaCenter',
   "https://overpass-api.de/api/interpreter", // POST-only API
   // CFPB HMDA Data Browser API — returns 400 to bare GET (requires query
   // params like states/counties/years/actions_taken). The endpoint is
