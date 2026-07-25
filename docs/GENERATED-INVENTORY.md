@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-25T11:40:26.930Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-25T18:30:19.026Z. Do not edit by hand.
 
 ---
 
@@ -1870,7 +1870,7 @@
 
 ## GitHub Actions Workflows
 
-68 workflow files found.
+67 workflow files found.
 
 | File | Size |
 |------|------|
@@ -1892,7 +1892,7 @@
 | `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.4 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
-| `.github/workflows/contrast-audit.yml` | 10.5 KB |
+| `.github/workflows/contrast-audit.yml` | 10.9 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
@@ -1922,7 +1922,6 @@
 | `.github/workflows/market_data_build.yml` | 13.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
-| `.github/workflows/place-pages-fresh.yml` | 1.3 KB |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 7.5 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.1 KB |
