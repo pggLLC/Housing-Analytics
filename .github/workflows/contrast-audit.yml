@@ -7,6 +7,15 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    # Contrast can only change when something renderable changes: stylesheets,
+    # markup, or the JS that injects inline colors. Data-, test-, script-, and
+    # docs-only PRs cannot affect contrast, so they skip this ~6-min audit.
+    # push (main) + the weekly cron still run it unfiltered, so main is always
+    # fully covered regardless of how a change reaches it.
+    paths:
+      - 'css/**'
+      - '**/*.html'
+      - 'js/**'
   workflow_dispatch:
 
 permissions:
