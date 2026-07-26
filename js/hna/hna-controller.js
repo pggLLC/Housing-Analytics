@@ -2518,8 +2518,11 @@
         incUnits = placeInc;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
-        const permitText = sh.permit == null ? 'permit share unavailable' : `permit share ${(sh.permit * 100).toFixed(1)}%`;
-        projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and ${permitText} from Census BPS ${sh.permit_window || '2020-2024'}.`;
+        if (sh.permit == null) {
+          projectionMethodNote = ` Place-level projection uses ACS household share only (${((sh.household || 0) * 100).toFixed(1)}%); Census BPS permit data unavailable for this place.`;
+        } else {
+          projectionMethodNote = ` Place-level projection uses a 50/50 blend of ACS household share (${((sh.household || 0) * 100).toFixed(1)}%) and permit share ${(sh.permit * 100).toFixed(1)}% from Census BPS ${sh.permit_window || '2020-2024'}.`;
+        }
       }
     } else if (selection && selection.geoType !== 'county' && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection)) {
       projectionMethodNote = ' Need is scaled from the containing county DOLA projection.';
@@ -2577,7 +2580,18 @@
     window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
-    window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote);
+    let countyDolaReconciliationNote = '';
+    if (selection && selection.geoType !== 'place' && selection.geoType !== 'cdp' && !_isMultiJurisdictionSelection(selection)) {
+      const dolaSeries = proj?.housing_need?.incremental_units_needed_dola;
+      if (Array.isArray(dolaSeries) && dolaSeries.length) {
+        const dolaIdx = idx >= 0 ? idx : dolaSeries.length - 1;
+        const dolaInc = window.HNAUtils.safeNum(dolaSeries[dolaIdx]);
+        if (dolaInc !== null) {
+          countyDolaReconciliationNote = ` DOLA's county forecast projects about ${window.HNAUtils.fmtNum(Math.round(dolaInc))} additional units by ${endYear} using its components-of-change model; the figure above is modeled from your selected horizon and target-vacancy assumptions and may differ.`;
+        }
+      }
+    }
+    window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
