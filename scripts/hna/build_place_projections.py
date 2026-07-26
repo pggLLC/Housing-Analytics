@@ -190,9 +190,7 @@ def main() -> int:
         place_permits = series_sum((places_permits.get(geoid) or {}).get("units_total") or [], permit_years, WINDOW_YEARS)
         permit_denominator = sum(county_permit_totals.get(fips) or 0 for fips in member_counties)
         permit_share = place_permits / permit_denominator if permit_denominator > 0 else None
-        if geoid not in places_permits or (
-            place_permits == 0 and (place.get("type") == "cdp" or place_hh < 500)
-        ):
+        if geoid not in places_permits or place_permits == 0:
             permit_share = None
 
         blended_share = household_share if permit_share is None else (0.5 * household_share + 0.5 * permit_share)
