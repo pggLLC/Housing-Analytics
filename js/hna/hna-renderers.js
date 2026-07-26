@@ -171,6 +171,25 @@
     return charts[id];
   }
 
+  function setChartScopeNote(canvasId, message) {
+    const canvas = document.getElementById(canvasId);
+    const box = canvas && canvas.closest ? canvas.closest('.chart-box') : null;
+    const parent = box && box.parentElement;
+    if (!parent) return;
+    let note = parent.querySelector('[data-hna-chart-scope-note="' + canvasId + '"]');
+    if (!message) {
+      if (note) note.remove();
+      return;
+    }
+    if (!note) {
+      note = document.createElement('p');
+      note.setAttribute('data-hna-chart-scope-note', canvasId);
+      note.style.cssText = 'font-size:.78rem;color:var(--muted);margin:6px 0 0;font-style:italic;';
+      box.insertAdjacentElement('afterend', note);
+    }
+    note.textContent = message;
+  }
+
   /* ──────────────────────────────────────────────────────────────
      F216 — Axis-label helpers + pie-slice % overlay plugin.
 
@@ -1699,9 +1718,15 @@
       }
     }
 
+    const isPlace = cur.geoType === 'place' || cur.geoType === 'cdp';
+    const placeDolaScopeNote = isPlace
+      ? 'County data shown for this place: DOLA single-year-of-age projections are county-level; place ACS bars are shown where available.'
+      : '';
+    setChartScopeNote('chartPyramid', placeDolaScopeNote);
+    setChartScopeNote('chartSenior', placeDolaScopeNote);
+
     // F185 — Disclosure: surface what each series came from.
     if (noteEl) {
-      const isPlace = cur.geoType === 'place' || cur.geoType === 'cdp';
       if (isPlace && placeCoh && _rawPlaceLabel) {
         const yr = placeCoh.year || 'ACS 5-year';
         noteEl.innerHTML =
@@ -3642,6 +3667,8 @@
     const fmtNum = window.HNAUtils.fmtNum;
     const customScenario = opts && opts.customScenario && opts.customScenario.active ? opts.customScenario : null;
     const customScenarioLabel = 'Custom (Scenario Builder) · 20-yr cohort model';
+    const selectedGeoType = S().els && S().els.geoType ? S().els.geoType.value : 'county';
+    const isSubCountySelection = selectedGeoType === 'place' || selectedGeoType === 'cdp';
 
     // ── Chart 1: chartScenarioComparison — multi-scenario population trends ──
     // ID drift fix: HTML canvas is "chartScenarioComparison"; this code
@@ -3806,6 +3833,9 @@
         },
       });
     }
+    setChartScopeNote('chartProjectedHH', isSubCountySelection
+      ? 'County data shown for this place: DOLA household projections are county-level and are scaled to the selected place/CDP using local shares.'
+      : '');
 
     // ── Chart 4: chartHouseholdDemand — projected demand by AMI tier ─────────
     // Apportions household growth across CHAS-derived AMI tier shares so
@@ -3819,7 +3849,7 @@
     const dmdCanvas = document.getElementById('chartHouseholdDemand');
     if (dmdCanvas && proj && proj.housing_need && proj.housing_need.households_dola) {
       const hhSeries = proj.housing_need.households_dola;
-      const geoType = S().els && S().els.geoType ? S().els.geoType.value : 'county';
+      const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
       const tierMeta = (window.ChasTierShares
@@ -3867,9 +3897,12 @@
         caption.hidden = false;
       }
     }
+    setChartScopeNote('chartHouseholdDemand', isSubCountySelection
+      ? 'County data shown for this place: DOLA household projections are county-level; AMI tier shares use place CHAS where available, otherwise county context.'
+      : '');
 
     // Render data quality badge for current geography
-    const geoType = S().els && S().els.geoType ? S().els.geoType.value : 'county';
+    const geoType = selectedGeoType;
     const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
     renderScenarioDataQuality(geoType, geoid);
   }
@@ -4734,8 +4767,8 @@
   }
 
   function _ownPill(text, method) {
-    var source = String(text || 'source');
-    var isCountyFallback = /county-CHAS fallback/i.test(source);
+    var source = _ownSourceWithVintage(text);
+    var isCountyFallback = /county-CHAS(?: 2018[–-]2022)? fallback/i.test(source);
     var bg = isCountyFallback ? 'rgba(217,119,6,.12)' : 'rgba(4,120,87,.12)';
     var border = isCountyFallback ? 'rgba(217,119,6,.45)' : 'rgba(4,120,87,.45)';
     var color = isCountyFallback ? 'var(--warn,#d97706)' : 'var(--good,#047857)';
@@ -4746,6 +4779,22 @@
       'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
       'background:' + bg + ';border:1px solid ' + border + ';color:' + color + ';">' +
       escHtml(source) + (method ? ' · ' + escHtml(method) : '') + '</span>';
+  }
+
+  function _ownSourceWithVintage(text) {
+    var source = String(text || 'source');
+    if (/CHAS/i.test(source) && !/2018[–-]2022/.test(source)) {
+      if (/^CHAS$/i.test(source)) return 'HUD CHAS 2018–2022';
+      source = source.replace(/HUD CHAS/i, 'HUD CHAS 2018–2022');
+      if (!/HUD CHAS 2018[–-]2022/i.test(source)) {
+        source = source.replace(/CHAS/i, 'CHAS 2018–2022');
+      }
+    }
+    if (/Census BPS/i.test(source) && !/2020[–-]2024/.test(source)) {
+      if (/^Census BPS$/i.test(source)) return 'Census BPS 2020–2024';
+      source += ' 2020–2024';
+    }
+    return source;
   }
 
   function _ownMetricRow(label, value, source, method, interpretation) {
@@ -4941,7 +4990,7 @@
       ) : '',
       _ownMetricRow('Moderate-income owner cost-burdened households', _ownFmtNum(result.moderateIncomeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.moderateIncomeOwnerCostBurdenedShare) + ')', source, 'DERIVED', 'Owner pressure in the 51-100% HAMFI bands.'),
       _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'MODELED' : 'VERIFY', home ? ('Modeled as ' + home.classification + ' at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
-      _ownMetricRow('Existing rental gap', result.existingRentalGap == null ? 'Unavailable' : _ownFmtNum(result.existingRentalGap) + ' units at or below 80% AMI', 'AMI gap data', result.existingRentalGap == null ? 'VERIFY' : 'DERIVED', 'Rental supply context; not an ownership count.'),
+      _ownMetricRow('Rental supply context (not an ownership metric)', result.existingRentalGap == null ? 'Unavailable' : _ownFmtNum(result.existingRentalGap) + ' units at or below 80% AMI', 'AMI gap data', result.existingRentalGap == null ? 'VERIFY' : 'DERIVED', 'Rental supply context; not an ownership count.'),
     ].join('');
 
     var caveats = (result.caveats || []).map(function (c) {
@@ -7832,7 +7881,7 @@
     if (statusEl) {
       statusEl.textContent = tigerSource
         ? `Source: HUD CHAS 2018-2022 + TIGER 2024 spatial join — ${sourceLabel} (place-level).`
-        : `Source: HUD CHAS — ${sourceLabel}.`;
+        : `Source: HUD CHAS 2018–2022 — ${sourceLabel}.`;
     }
   }
 

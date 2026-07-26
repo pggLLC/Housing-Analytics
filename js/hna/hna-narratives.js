@@ -441,8 +441,8 @@
     if (ctx.hpiChange10y != null && ctx.hpiChange10y > 0.5 && ctx.medianHomeVal != null) {
       var hpiPct = (ctx.hpiChange10y * 100).toFixed(0);
       parts.push(
-        '<em>Caveat:</em> ACS lags the live market by 2–3 years; FHFA reports county-level home prices ' +
-        'rose ' + hpiPct + '% over the past decade, so the current market median is materially above the ACS figure.'
+        '<em>Caveat:</em> FHFA reports county-level home prices rose ' + hpiPct +
+        '% over the past decade; the ACS home-value distribution shown below reflects 2020–2024 and sits below this current-market figure.'
       );
     }
     if (!parts.length) return null;

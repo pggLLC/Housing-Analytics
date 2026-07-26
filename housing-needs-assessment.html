@@ -539,7 +539,7 @@
              defensive fallback to HUD CHAS when ACS data isn't available. -->
         <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
-            <h3 style="margin:0;">Affordability Gap by AMI Tier</h3>
+            <h3 style="margin:0;">Rental Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
           <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need affordable rental units</strong> at each income band. Both card rows below count <em>renter households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B25118 renter-household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback. Owner households are excluded — the rental gap counts only households competing for rental units.</p>
@@ -802,13 +802,14 @@
       <div class="chart-card span-12">
         <h2 id="hnaH2HomeValue">Home value distribution</h2>
         <p>Owner-occupied housing units by reported value bracket (Census ACS DP04). The median alone hides the underlying skew — this distribution shows whether the market is thin at lower price points or top-heavy with $1M+ inventory.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-vintage="ACS 2020–2024" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
+        <p style="font-size:var(--tiny);color:var(--muted);margin:.2rem 0 .6rem;">The headline median home value is Zillow ZHVI (current typical value, all homes); the distribution below is the ACS 2020–2024 owner-reported value — a different measure and vintage, so the bars center below the headline.</p>
+        <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
       </div>
 
       <div class="chart-card span-6">
         <h2>Homeownership affordability</h2>
         <p>Annual household income required to <strong>buy</strong> the typical home (not rent it) under a 30-yr fixed mortgage at today's rate, holding the full monthly PITI payment — Principal &amp; Interest, property Tax, Insurance, and PMI — to no more than 30% of gross income. Compare against the local median household income bar to see the gap.</p>
-        <div class="chart-box" data-source="ACS 5-Year DP04 (home value) + DP03 (income) + mortgage assumptions below" data-vintage="ACS 2020–2024" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Income required to buy typical home vs. median household income"></canvas></div>
+        <div class="chart-box" data-source="Home value: Zillow ZHVI cascade (headline) + income: ACS 5-Year DP03 + mortgage assumptions below" data-source-url="https://www.zillow.com/research/data/" data-vintage="ACS 2020–2024" data-source-type="modeled"><canvas id="chartAfford" role="img" aria-label="Income required to buy typical home vs. median household income"></canvas></div>
         <details style="margin-top:10px">
           <summary>How this is calculated</summary>
           <div id="affordAssumptions" style="margin-top:8px;color:var(--muted)">—</div>
@@ -842,7 +843,7 @@
           <span id="chasApproxHint" class="data-approx-hint" hidden title="When a place or CDP is selected, CHAS tiers are scaled from the containing county — the selected geography may not have its own CHAS breakdown. See comparative-analysis detail panel for full disclaimer.">(county-approx)</span>
         </h2>
         <p>Renter households by income tier (% of Area Median Income) showing not-burdened, moderately burdened (30–50% of income), and severely burdened (&gt;50%) households. Source: HUD Comprehensive Housing Affordability Strategy (CHAS).
-          <br><span style="font-size:var(--tiny);color:var(--muted)"><strong>Why only 4 tiers?</strong> HUD CHAS Table 9 publishes income at four bands only (≤30 / 31–50 / 51–80 / 81–100% AMI) — finer 10% increments aren't in the source dataset. For a 7-band breakdown of <em>unit shortfall</em> (renter households needing vs. units available at each tier), see the <a href="#hnaGapCoveragePanel" style="color:var(--accent)">Affordability Gap by AMI Tier</a> panel above, which derives renter-household counts from ACS B25118 × HUD income limits.</span>
+          <br><span style="font-size:var(--tiny);color:var(--muted)"><strong>Why only 4 tiers?</strong> HUD CHAS Table 9 publishes income at four bands only (≤30 / 31–50 / 51–80 / 81–100% AMI) — finer 10% increments aren't in the source dataset. For a 7-band breakdown of <em>unit shortfall</em> (renter households needing vs. units available at each tier), see the <a href="#hnaGapCoveragePanel" style="color:var(--accent)">Rental Affordability Gap by AMI Tier</a> panel above, which derives renter-household counts from ACS B25118 × HUD income limits.</span>
           <br><span data-methodology-key="ami-chas-acs-difference" style="font-size:var(--tiny);color:var(--muted)">Counts here use HUD CHAS 2018–2022 with size-adjusted income limits (HAMFI); they run below the ACS-based demand headline, especially in student-heavy markets. See methodology.</span>
         </p>
         <div class="chart-box" data-source="HUD CHAS 2018-2022" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022" data-source-type="raw"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
