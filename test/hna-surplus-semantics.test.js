@@ -69,8 +69,7 @@ function makeHtml() {
           <a data-decision-key="land"><span id="decisionLandValue"></span><span id="decisionLandRead"></span></a>
           <a data-decision-key="confidence"><span id="decisionConfidenceValue"></span><span id="decisionConfidenceRead"></span></a>
         </nav>
-        <div id="statBaseUnits"></div>
-        <div id="statBaseUnitsSrc"></div>
+        <div class="stat"><div class="k">Current housing units</div><div id="statBaseUnits"></div><div id="statBaseUnitsSrc"></div></div>
         <div id="statTargetVac"></div>
         <div id="statUnitsNeed"></div>
         <div id="statNetMig"></div>
@@ -246,6 +245,9 @@ async function main() {
   assert(!document.getElementById('needNote').textContent.includes('net new total units'), 'surplus note should not reuse net-new wording');
   assert(!document.getElementById('statBaseUnitsSrc').textContent.toLowerCase().includes('requirement'), 'base-units label should not say requirement');
   assert(document.getElementById('statBaseUnitsSrc').textContent.includes('Current total housing units (DP04)'), 'base-units label should describe current housing stock');
+  const statBaseUnitsTitle = document.getElementById('statBaseUnits').closest('.stat').querySelector('.k').textContent.trim();
+  assert.equal(statBaseUnitsTitle, 'Current housing units', 'base-units card title should read Current housing units');
+  assert(!statBaseUnitsTitle.toLowerCase().includes('requirement'), 'base-units card title should not say requirement');
   assertNoRawSurplusNegative(document.body.textContent);
 
   const report = window.__HNA_buildReportData();
