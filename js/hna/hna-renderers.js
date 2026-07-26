@@ -63,7 +63,7 @@
 
   function _decisionTone(read) {
     const t = String(read || '').toLowerCase();
-    if (/unavailable|not available/.test(t)) return 'unavailable';
+    if (/unavailable|not available|\bna\b|n\/a/.test(t)) return 'unavailable';
     if (/high data|ready|available|lower|low/.test(t)) return 'ready';
     if (/highest|high|acute|limited/.test(t)) return 'high';
     if (/elevated|moderate|verify|medium|gap remains/.test(t)) return 'moderate';
