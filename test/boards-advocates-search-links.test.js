@@ -37,8 +37,10 @@ window.HNAState = {
     current: { NAME: 'Fruita city, Colorado' }, // has NO geoLabel, like production
     localResources: {
       'place:0828745': {
-        housingPlans: [{ name: 'Comprehensive Plan', url: 'https://www.fruita.org/comprehensive-plan' }],
-        advocacy: [{ name: 'Placeholder Advocate', url: 'https://example.org' }]
+        // Loopback fixture URLs only — the source-url-sweep probes URLs in
+        // changed files and skips localhost, so real hosts must not appear.
+        housingPlans: [{ name: 'Comprehensive Plan', url: 'http://localhost/fruita/comprehensive-plan' }],
+        advocacy: [{ name: 'Placeholder Advocate', url: 'http://localhost/advocate' }]
       }
     }
   }
