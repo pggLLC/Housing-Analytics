@@ -351,6 +351,7 @@
       housingStock: {
         baselineUnits:       _elText('statBaseUnits'),
         targetVacancyRate:   _elText('statTargetVac'),
+        unitsNeededLabel:    'Net new units needed (negative = surplus)',
         unitsNeeded:         _elText('statUnitsNeed'),
         netMigration:        _elText('statNetMig'),
         // Structure-type composition (% of structures) + vacancy
@@ -607,7 +608,7 @@
       ['% Multifamily (5+ unit structures)',     fmtPct(d.housingStock.pctMultifamily)],
       ['% Single-Family Detached',               fmtPct(d.housingStock.pctSfDetached)],
       ['% 2-4 Unit Structures',                  fmtPct(d.housingStock.pct2to4Units)],
-      ['Estimated Units Needed (20-year)',       d.housingStock.unitsNeeded],
+      ['Net new units needed (negative = surplus)', d.housingStock.unitsNeeded],
       ['Net Migration (20-year)',                d.housingStock.netMigration],
       ['Projected Population (20-year)',         fmtNum(d.housingStock.population20yr)],
       ['', ''],
@@ -993,7 +994,7 @@
       drawStatGrid([
         { label: 'Baseline housing units',  value: data.housingStock.baselineUnits || _elText('statBaseUnits'), sub: 'DP04 total' },
         { label: 'Target vacancy rate',     value: data.housingStock.targetVacancyRate || _elText('statTargetVac'), sub: 'Policy target' },
-        { label: 'Units needed',            value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: 'Gap to target' },
+        { label: 'Net new units needed',    value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: 'Negative = surplus' },
         { label: '% multifamily',           value: data.housingStock.pctMultifamily != null ? data.housingStock.pctMultifamily + '%' : null, sub: 'DP04 structure' },
         { label: '% single-family detached', value: data.housingStock.pctSfDetached != null ? data.housingStock.pctSfDetached + '%' : null, sub: 'DP04 structure' },
         { label: 'Renters cost-burdened ≥30%', value: data.snapshot.rentBurden30Plus, sub: 'CHAS or DP04' },
