@@ -3,7 +3,7 @@
     "generated_at": "2026-07-26T09:14:19.661Z",
     "root": "data/",
     "file_count": 1598,
-    "total_size_bytes": 268809784,
+    "total_size_bytes": 268810521,
     "kinds": {
       "json": 1563,
       "geojson": 31,
@@ -31903,7 +31903,7 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 3044,
+      "size_bytes": 3781,
       "mtime": "2026-07-26T12:11:10.314Z",
       "shape": "object",
       "keys": [

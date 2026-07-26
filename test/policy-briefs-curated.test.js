@@ -18,8 +18,16 @@ assert.ok(hpop, 'HPOP research brief must be present');
 assert.strictEqual(hpop.is_curated, true, 'HPOP brief must be marked curated');
 assert.strictEqual(hpop.source_reviewed, true, 'HPOP brief must be marked source-reviewed');
 assert.match(hpop.summary, /53% of U\.S\. adults/);
-assert.match(hpop.summary, /13\.9% of adults/);
-assert.match(hpop.summary, /adults under 35, HPOP was 22%/);
+// Corrected per source review (2026-07): the unverifiable "13.9%" figure was
+// replaced with the verified ~12-point HPOP↔owner-occupancy gap, and the
+// under-35 sentence now flags person-based vs household-based measures.
+assert.match(hpop.summary, /about 12 points below/);
+assert.match(hpop.summary, /adults under 35, HPOP was about 22%/);
+assert.doesNotMatch(hpop.summary, /13\.9% of adults/, 'unverifiable 13.9% figure removed');
+// Colorado detail (verified against Minneapolis Fed hpop_current.xlsx, 2024).
+assert.match(hpop.summary, /Colorado, 2024 HPOP was 57\.2%/);
+assert.match(hpop.summary, /Pueblo \(41\.5%\)/);
+assert.match(hpop.summary, /not published for counties or places/);
 assert.ok(
   hpop.articles.some((article) =>
     article.link === 'https://www.minneapolisfed.org/article/2026/new-homeownership-measure-puts-people-first'
