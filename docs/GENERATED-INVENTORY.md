@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-26T16:18:12.812Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-26T17:56:21.995Z. Do not edit by hand.
 
 ---
 
@@ -954,7 +954,7 @@
 | `data/hna/projections/08121.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
-| `data/hna/projections/places.json` | 826.3 KB | ✅ | — |
+| `data/hna/projections/places.json` | 826.4 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 1.64 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.9 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.9 KB | ✅ | — |
@@ -1641,7 +1641,7 @@
 
 ## Test Files
 
-224 test files found.
+225 test files found.
 
 | File | Size |
 |------|------|
@@ -1725,6 +1725,7 @@
 | `test/hna-ownership-need.test.js` | 22.1 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
+| `test/hna-projection-integrity.test.js` | 7.3 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
