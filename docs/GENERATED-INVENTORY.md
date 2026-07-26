@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-26T12:21:22.192Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-26T13:24:17.273Z. Do not edit by hand.
 
 ---
 
@@ -55,7 +55,7 @@
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 50.2 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 51.6 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 16.8 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1563 JSON files found.
+1564 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 752.1 KB | ✅ | — |
+| `data/_manifest.json` | 752.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1618,6 +1618,7 @@
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 164.7 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1640,7 +1641,7 @@
 
 ## Test Files
 
-222 test files found.
+223 test files found.
 
 | File | Size |
 |------|------|
@@ -1779,6 +1780,7 @@
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-tract-display.test.js` | 7.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
+| `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
