@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "updated": "2026-07-26T00:00:00Z",
+    "brief_count": 1,
+    "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
+  },
+  "briefs": [
+    {
+      "id": "minneapolis-fed-hpop-2026",
+      "title": "New person-based measure estimates 53% of U.S. adults own their home",
+      "policy_topic": "Homeownership & Household Formation",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "The Federal Reserve Bank of Minneapolis proposes the Homeowners-to-Population Ratio (HPOP), a person-based complement to the household-based owner-occupancy rate. Using American Community Survey microdata, HPOP classifies adult reference persons and their spouses or unmarried partners in owner-occupied homes as homeowners. For 2024, the researchers estimate that 53% of U.S. adults were homeowners, compared with an owner-occupancy rate of roughly 65%. They also estimate that 13.9% of adults lived in owner-occupied homes without being classified as homeowners under HPOP. Among adults under 35, HPOP was 22%, compared with a 37% owner-occupancy rate for households headed by someone under 35.",
+      "implications": "For COHO, HPOP should complement—not replace—the owner-occupancy rate. It can add person-level context to developer-oriented ownership analysis, including co-resident adults, delayed household formation, and disparities by age and demographic group. HPOP does not verify deed title for every adult, prove that co-resident adults will form separate households, or guarantee future rental demand. Local application should pair available state or metro HPOP estimates with household formation, cost burden, income, tenure, and supply data.",
+      "related_data": "https://www.minneapolisfed.org/community-development-and-engagement/data-and-resources/homeowners-to-population-data",
+      "sources": [
+        "Federal Reserve Bank of Minneapolis",
+        "U.S. Census Bureau"
+      ],
+      "articles": [
+        {
+          "title": "New homeownership measure puts people first",
+          "source": "Federal Reserve Bank of Minneapolis",
+          "link": "https://www.minneapolisfed.org/article/2026/new-homeownership-measure-puts-people-first",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "Homeowners-to-Population Data and methodology",
+          "source": "Federal Reserve Bank of Minneapolis",
+          "link": "https://www.minneapolisfed.org/community-development-and-engagement/data-and-resources/homeowners-to-population-data",
+          "date": "2026-07-15"
+        },
+        {
+          "title": "Housing Vacancy Survey definitions",
+          "source": "U.S. Census Bureau",
+          "link": "https://www.census.gov/housing/hvs/definitions.pdf",
+          "date": ""
+        }
+      ],
+      "alert_count": 3,
+      "regions": [
+        "United States",
+        "National"
+      ],
+      "generated": "2026-07-26T00:00:00Z"
+    }
+  ]
+}
