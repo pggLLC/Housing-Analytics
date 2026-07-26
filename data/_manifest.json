@@ -2,10 +2,10 @@
   "meta": {
     "generated_at": "2026-07-26T09:14:19.661Z",
     "root": "data/",
-    "file_count": 1597,
-    "total_size_bytes": 268806740,
+    "file_count": 1598,
+    "total_size_bytes": 268810521,
     "kinds": {
-      "json": 1562,
+      "json": 1563,
       "geojson": 31,
       "csv": 4
     }
@@ -31898,6 +31898,34 @@
         "alert_count",
         "regions",
         "generated"
+      ]
+    },
+    {
+      "path": "policy_briefs_curated.json",
+      "kind": "json",
+      "size_bytes": 3781,
+      "mtime": "2026-07-26T12:11:10.314Z",
+      "shape": "object",
+      "keys": [
+        "meta",
+        "briefs"
+      ],
+      "key_count": 2,
+      "primary_array_key": "briefs",
+      "primary_array_length": 1,
+      "primary_array_first_keys": [
+        "id",
+        "title",
+        "policy_topic",
+        "is_curated",
+        "source_reviewed",
+        "summary",
+        "implications",
+        "related_data",
+        "sources",
+        "articles",
+        "alert_count",
+        "regions"
       ]
     },
     {
