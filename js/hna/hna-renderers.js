@@ -2701,10 +2701,18 @@
     // any direct URLs the curated record has. Matches the F35 pattern:
     // search > deep link, because deep-linked agenda PDFs rot fast.
     //
-    // The jurisdiction display name comes from the geo-config-derived
-    // label set on S().state.current.geoLabel (HNA controller sets this
-    // when a geography is selected); fall back to the lr-record name.
-    const jurisName = (S().state && S().state.current && S().state.current.geoLabel)
+    // The jurisdiction display name is the label the HNA controller records
+    // on selection (S().state.lastGeoLabel, e.g. "Fruita (city)"). The old
+    // code read S().state.current.geoLabel, which is never assigned
+    // (state.current is the ACS profile), so jurisName was always null for
+    // any jurisdiction without a curated housingLead — collapsing the board
+    // search links to a bare https://www.google.com/ and dropping the
+    // advocate/faith search links entirely. Strip the (city)/(town)/(CDP)
+    // parenthetical so the search query is the clean jurisdiction name.
+    const _rawGeoLabel = (S().state && S().state.lastGeoLabel) || null;
+    const jurisName = (_rawGeoLabel
+        ? _rawGeoLabel.replace(/\s*\((?:city|town|CDP)\)\s*$/i, '').trim()
+        : null)
       || (r.housingLead && r.housingLead.name && r.housingLead.name.replace(/\b(Housing|Authority|Division|Department|City of|Town of|County)\b/g, '').trim())
       || null;
     const govDomain = _deriveGovDomain(r);
