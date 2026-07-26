@@ -2367,6 +2367,27 @@
     }
   }
 
+  function formatIncrementalUnitsDisplay(incUnits) {
+    if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
+    const rounded = Math.round(Number(incUnits));
+    if (rounded < 0) {
+      return `Estimated surplus of ${window.HNAUtils.fmtNum(Math.abs(rounded))} units (excess capacity)`;
+    }
+    return window.HNAUtils.fmtNum(rounded);
+  }
+
+  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote) {
+    if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) {
+      return 'Projections loaded, but could not compute housing need (missing households/headship).';
+    }
+    const display = formatIncrementalUnitsDisplay(incUnits);
+    const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
+    if (Number(incUnits) < 0) {
+      return `Vacancy-based summary: ${display} by ${endYear}, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+    }
+    return `Vacancy-based summary: ${display} net new total units by ${endYear}, after subtracting the current housing stock, to house projected households at a ${vacancy} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`;
+  }
+
 
   async function applyAssumptions(proj, selection){
     if (!proj) return;
@@ -2538,13 +2559,14 @@
 
     // Update cards
     window.HNAState.els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
-    window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? `Total units to house current households at ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy` : 'Current requirement';
+    window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? 'Current total housing units (DP04)' : 'Current housing stock';
     window.HNAState.els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
-    window.HNAState.els.statUnitsNeed.textContent = incUnits !== null ? window.HNAUtils.fmtNum(Math.round(incUnits)) : '—';
+    const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
+    window.HNAState.els.statUnitsNeed.textContent = incUnitsDisplay;
     if (window.HNARenderers.updateDecisionStrip) {
       window.HNARenderers.updateDecisionStrip({
         production: {
-          value: incUnits !== null ? window.HNAUtils.fmtNum(Math.round(incUnits)) : '—',
+          value: incUnitsDisplay,
           read: incUnits !== null && Number.isFinite(Number(incUnits))
             ? (incUnits > 0 ? 'Gap remains' : (incUnits === 0 ? 'At target' : 'Surplus'))
             : 'Unavailable',
@@ -2555,9 +2577,7 @@
     window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
-    window.HNAState.els.needNote.textContent = (incUnits !== null)
-      ? `Vacancy-based summary: ${window.HNAUtils.fmtNum(Math.round(incUnits))} net new total units by ${endYear}, after subtracting the current requirement, to house projected households at a ${window.HNAUtils.fmtPct(targetVac*100)} target vacancy.${projectionMethodNote} This is separate from the income-targeted affordable rental deficit above.`
-      : 'Projections loaded, but could not compute housing need (missing households/headship).';
+    window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
