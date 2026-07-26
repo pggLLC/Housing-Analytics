@@ -3,7 +3,7 @@
     "generated_at": "2026-07-26T09:14:19.661Z",
     "root": "data/",
     "file_count": 1598,
-    "total_size_bytes": 268810521,
+    "total_size_bytes": 268810612,
     "kinds": {
       "json": 1563,
       "geojson": 31,
@@ -18380,7 +18380,7 @@
     {
       "path": "hna/projections/places.json",
       "kind": "json",
-      "size_bytes": 846135,
+      "size_bytes": 846226,
       "mtime": "2026-07-26T09:14:04.550Z",
       "shape": "object",
       "keys": [
