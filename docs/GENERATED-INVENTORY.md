@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-26T21:56:08.021Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T00:58:39.346Z. Do not edit by hand.
 
 ---
 
@@ -1611,7 +1611,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
-| `data/policy/prop123_jurisdictions.json` | 70.7 KB | ✅ | — |
+| `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 3.1 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
@@ -1641,7 +1641,7 @@
 
 ## Test Files
 
-226 test files found.
+227 test files found.
 
 | File | Size |
 |------|------|
@@ -1784,6 +1784,7 @@
 | `test/pma-tract-display.test.js` | 7.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
+| `test/policy-data-currency.test.js` | 3.1 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
