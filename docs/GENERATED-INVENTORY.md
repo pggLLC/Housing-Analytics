@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T00:58:39.346Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T02:04:37.422Z. Do not edit by hand.
 
 ---
 
@@ -1641,7 +1641,7 @@
 
 ## Test Files
 
-227 test files found.
+228 test files found.
 
 | File | Size |
 |------|------|
@@ -1780,6 +1780,7 @@
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
+| `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-tract-display.test.js` | 7.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
