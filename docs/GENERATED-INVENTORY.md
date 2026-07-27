@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T02:04:37.422Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T09:51:21.718Z. Do not edit by hand.
 
 ---
 
@@ -86,7 +86,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 202.4 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 211.8 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1549,7 +1549,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 197.8 KB | ✅ | — |
+| `data/manifest.json` | 197.9 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1617,7 +1617,7 @@
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 164.7 KB | ✅ | — |
+| `data/policy_briefs.json` | 172.0 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1635,7 +1635,7 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 405.9 KB | ✅ | — |
+| `data/url-health.json` | 399.9 KB | ✅ | — |
 
 ---
 
