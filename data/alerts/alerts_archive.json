@@ -1,11 +1,20 @@
 {
   "meta": {
-    "generated": "2026-07-27T04:35:14Z",
+    "generated": "2026-07-27T11:30:04Z",
     "feed_count": 6,
-    "alert_count": 310,
+    "alert_count": 312,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Why Colorado is poised to lead the federal real estate pivot - The Denver Post",
+      "date": "2026-07-27T10:00:11Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5WRmxJQkJtU2cwSHo5NFpQeHpHdFotaVR1MEpaNVVNc1dVVTRRX1FXa1dhMHZzem9xeHpqNHowS2drS19CZjZZUWRvWGVkV28tSGFGV2Vtck45VXViTjkxQXMwN0RGeFZHZU1HZXBhd0xrR3FWb1dkdm41WQ?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Why Colorado is poised to lead the federal real estate pivot \u00a0\u00a0 The Denver Post"
+    },
     {
       "title": "Boulder Ranks Last in Colorado for First-Time Homebuyers - aboutboulder.com",
       "date": "2026-07-26T19:41:28Z",
@@ -86,6 +95,24 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado housing laws take effect, expanding tools for affordable and workforce housing \u00a0\u00a0 Colorado Politics"
+    },
+    {
+      "title": "Laws to Make Housing More Affordable and Ensure Quality Drinking Water Go Into Effect - Colorado Senate Democrats",
+      "date": "2026-07-22T17:00:24Z",
+      "source": "Colorado Senate Democrats",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOcHZfQlVSYmUwRnB5cFJ5UDNNeElEYnhhZHQzUUdQTVNpdTJBRzdIRzhneEM3X3d0WVUyT3p6aVZKXzd3eUxPanJ3d2JSeVREc3l1SnBXTHBDejYxYUZpOENfcnBaLXFpZUx1X0ZHYk1SOV9rVUpOR25RMG51cjJNNzFXMk94enk5MjdOc042MEN5M3ZhVEdMcTFfWDNGWlYyWm5XUDZkUXJNX1k2VGotYjlMdTNYTUQwMWF4Xw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Laws to Make Housing More Affordable and Ensure Quality Drinking Water Go Into Effect \u00a0\u00a0 Colorado Senate Democrats"
+    },
+    {
+      "title": "Roberts Resorts Acquires Colorado Manufactured Housing Community, Expands Portfolio - citybiz",
+      "date": "2026-07-22T15:08:23Z",
+      "source": "citybiz",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOdURxSGlQT2JrbGM5T1pYNDRROElMbXdCb2FtTGYwcHh5SGJuMGpaOE1KQnQta3BuaXhEUTFoaWJFQTlXaVJQWk9KX0hyUE1jLVMyM3JId3IxQ3pTQ29tZ014NGZSNGVDdWhKNGtKNk92a1lhS19Nd2E2UlVMODZEdG1fZ21odDNKLUhrVnJXYkZoOHJXQmM5UXdfcmN6MkQxTDN4RHVVa3dFcTE2M291eU1zWlltRDFaSzJBbGlR?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Roberts Resorts Acquires Colorado Manufactured Housing Community, Expands Portfolio \u00a0\u00a0 citybiz"
     },
     {
       "title": "Whitmer signs bills aimed at expanding housing access in Michigan - Detroit Free Press",
@@ -2786,15 +2813,6 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Design Commission to Continue Hearing on Proposed 212-Unit Affordable Housing Project on East Colorado Boulevard \u2013 Pasadena Now \u00a0\u00a0 Pasadena Now"
-    },
-    {
-      "title": "Colorado\u2019s unprecedented AI law can\u2019t be enforced yet, judge rules - Colorado Politics",
-      "date": "2026-04-28T07:00:00Z",
-      "source": "Colorado Politics",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOc0IwZlZSVllqd3lVTmJwYUFtWkU0MnBYUHhoN1VqQ2tQZ2dLZ2thZGdQcmxaT3dSLUhYeHFIaXROQ3QtS2FETmhHa1RnQy1SZ2tRWEpZeGxEU1hQOEx5Yzh3c3JkZ21ZTWV4VXVWbmozb29WcVNhVVJHUU9LS091eEhwMnBZUXo2NHZoczBJRFNEWHZBaHdpNmVPc0l4MFMwQVZ6VVVpdThtMlNz?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s unprecedented AI law can\u2019t be enforced yet, judge rules \u00a0\u00a0 Colorado Politics"
     }
   ]
 }
