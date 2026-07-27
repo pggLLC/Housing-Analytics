@@ -2,7 +2,7 @@
  * js/data-connectors/hud-fmr.js
  * HUD Fair Market Rents (FMR) and Income Limits connector.
  *
- * Loads FY2025 FMR and HUD income limits for all 64 Colorado counties from the
+ * Loads FY2026 FMR and HUD income limits for all 64 Colorado counties from the
  * prebuilt static file at data/hud-fmr-income-limits.json.
  *
  * Exposes window.HudFmr with methods for use in HNA, market-analysis, and
@@ -257,7 +257,7 @@
     var html = '<table style="width:100%;border-collapse:collapse;font-size:var(--small);">' +
       '<thead><tr>' +
         '<th style="text-align:left;padding:3px 6px;border-bottom:1px solid var(--border);">Bedroom Size</th>' +
-        '<th style="text-align:right;padding:3px 6px;border-bottom:1px solid var(--border);">FY2025 FMR / mo</th>' +
+        '<th style="text-align:right;padding:3px 6px;border-bottom:1px solid var(--border);">FY2026 FMR / mo</th>' +
       '</tr></thead><tbody>';
     for (var i = 0; i < rows.length; i++) {
       html += '<tr>' +

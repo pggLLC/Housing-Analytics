@@ -837,7 +837,7 @@
         });
       }
 
-      // F10: Build per-county market-capture lookup from HUD FY2025 FMR + IL data.
+      // F10: Build per-county market-capture lookup from HUD FMR FY2026 + IL FY2025 data.
       // LIHTC §42 max rent at 60% AMI for 2BR = (60%-AMI 3-person income × 30%) / 12.
       // 60% AMI 3-person = il50_3person × 1.2 (HUD scales 50→60 linearly).
       // FMR 2BR is the HUD "market rent" proxy used by LIHTC underwriting.
@@ -3570,7 +3570,7 @@
               : '<span style="color:var(--warn);font-weight:700">−$' + Math.abs(op.market.captureAdvantage) + '/mo</span>' +
                 ' <span class="lof-pill lof-pill--urgent">LIHTC above market — needs deeper AMI mix (40-50%) or extra soft debt to pencil</span>'
             ) +
-            (op.market.fmrAreaName ? '<br><span style="color:var(--muted);font-size:.76rem">FMR area: ' + escHtml(op.market.fmrAreaName) + ' · source: HUD FY2025 FMR + Income Limits</span>' : '')
+            (op.market.fmrAreaName ? '<br><span style="color:var(--muted);font-size:.76rem">FMR area: ' + escHtml(op.market.fmrAreaName) + ' · source: HUD FMR FY2026 + Income Limits FY2025</span>' : '')
           : '<span style="color:var(--muted)">No FMR/IL data on file for this county.</span>'
         ) +
       '</dd>' +
