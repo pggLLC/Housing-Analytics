@@ -1,6 +1,6 @@
 {
   "meta": {
-    "source": "HUD FMR and Income Limits (FY2025)",
+    "source": "HUD FMR and Income Limits (FY2026)",
     "url_fmr": "https://www.huduser.gov/portal/datasets/fmr.html",
     "url_il": "https://www.huduser.gov/portal/datasets/il.html",
     "fiscal_year": 2026,
@@ -8,7 +8,7 @@
     "state_fips": "08",
     "generated": "2026-07-04T19:31:38Z",
     "county_count": 64,
-    "note": "FY2025 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py. Income limits restored from the last known-good per-county HUD AMI values committed at 85bb0cd99 after the 2026-06-05 refresh flattened the county IL path."
+    "note": "FY2026 Fair Market Rents and Income Limits for Colorado counties. Includes 60% AMI affordable rent calculations for LIHTC use. Refresh annually with scripts/fetch_fmr_api.py. Income limits restored from the last known-good per-county HUD AMI values committed at 85bb0cd99 after the 2026-06-05 refresh flattened the county IL path."
   },
   "counties": [
     {
