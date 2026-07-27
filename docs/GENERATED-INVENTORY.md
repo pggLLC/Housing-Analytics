@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T11:15:09.532Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T11:57:16.645Z. Do not edit by hand.
 
 ---
 
@@ -51,7 +51,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -86,7 +86,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 211.8 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 213.1 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1617,7 +1617,7 @@
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 172.0 KB | ✅ | — |
+| `data/policy_briefs.json` | 172.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1641,7 +1641,7 @@
 
 ## Test Files
 
-229 test files found.
+230 test files found.
 
 | File | Size |
 |------|------|
@@ -1780,6 +1780,7 @@
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
+| `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
