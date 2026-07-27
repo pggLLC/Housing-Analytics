@@ -52,7 +52,7 @@ FY       = 2026
 # from the 4-person AMI (approximate statutory factors).
 _SIZE_FACTORS = {1: 0.70, 2: 0.80, 3: 0.90, 4: 1.00}
 
-# Colorado FMR area metro assignments (FY2025): county FIPS → area name & code
+# Colorado FMR area metro assignments (FY2026): county FIPS → area name & code
 _METRO_AREAS: dict = {
     'Denver-Aurora-Lakewood HUD Metro FMR Area': {
         'code': 'METRO19740CO',
@@ -635,7 +635,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
 
     return {
         'meta': {
-            'source':      'HUD FMR and Income Limits (FY2025)',
+            'source':      'HUD FMR and Income Limits (FY2026)',
             'url_fmr':     'https://www.huduser.gov/portal/datasets/fmr.html',
             'url_il':      'https://www.huduser.gov/portal/datasets/il.html',
             'fiscal_year': FY,
@@ -643,7 +643,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             'state_fips':  '08',
             'generated':   generated,
             'county_count': len(counties),
-            'note':        ('FY2025 Fair Market Rents and Income Limits for Colorado counties. '
+            'note':        ('FY2026 Fair Market Rents and Income Limits for Colorado counties. '
                             'Includes 60% AMI affordable rent calculations for LIHTC use. '
                             'Refresh annually with scripts/fetch_fmr_api.py.'),
         },
@@ -677,7 +677,7 @@ def main() -> int:
                   f'{str(_resp)[:120] if _resp else "no response"}', file=sys.stderr)
 
     if not fmr_data:
-        print('✗ HUD FMR API returned no usable data for FY2026 or FY2025.',
+        print('✗ HUD FMR API returned no usable data for the current or previous fiscal year.',
               file=sys.stderr)
         if not token:
             print('', file=sys.stderr)
@@ -744,7 +744,7 @@ def main() -> int:
     tract_map = build_tract_fmr_map(combined['counties'])
     tract_map_output = {
         'meta': {
-            'source':      'HUD FMR Area cross-reference by Colorado county (FY2025)',
+            'source':      'HUD FMR Area cross-reference by Colorado county (FY2026)',
             'state':       'Colorado',
             'state_fips':  '08',
             'generated':   generated,

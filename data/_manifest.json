@@ -3,7 +3,7 @@
     "generated_at": "2026-07-26T09:14:19.661Z",
     "root": "data/",
     "file_count": 1598,
-    "total_size_bytes": 268810612,
+    "total_size_bytes": 268810861,
     "kinds": {
       "json": 1563,
       "geojson": 31,
@@ -31719,7 +31719,7 @@
     {
       "path": "policy/prop123_jurisdictions.json",
       "kind": "json",
-      "size_bytes": 72403,
+      "size_bytes": 72652,
       "mtime": "2026-07-26T09:14:05.036Z",
       "shape": "object",
       "keys": [
