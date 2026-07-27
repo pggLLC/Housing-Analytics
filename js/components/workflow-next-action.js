@@ -145,6 +145,7 @@
     var currentDone = completed.indexOf(currentStep) !== -1;
     var completedCount = completed.length;
     var nextIncomplete = null;
+    var priorIncompleteIsAdvisoryOnly = currentStep === 'market';
     for (var ni = 0; ni < STEP_KEYS.length; ni++) {
       if (completed.indexOf(STEP_KEYS[ni]) === -1) {
         nextIncomplete = STEP_KEYS[ni];
@@ -186,7 +187,7 @@
       actionUrl   = STEP_URLS[nextKey];
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
-    } else if (!currentDone && firstIncompleteBeforeCurrent) {
+    } else if (!currentDone && firstIncompleteBeforeCurrent && !priorIncompleteIsAdvisoryOnly) {
       // State 1: Prior steps incomplete
       var priorKey = firstIncompleteBeforeCurrent;
       icon    = '\u26A0\uFE0F';  // warning
