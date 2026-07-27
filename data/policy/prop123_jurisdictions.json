@@ -1,7 +1,7 @@
 {
   "updated": "2026-01-15",
   "source_url": "https://cdola.colorado.gov/commitment-filings",
-  "note": "Local government Proposition 123 affordable housing commitments filed with DOLA. 217 jurisdictions have filed commitments projecting 22,988 new affordable units by end of 2026. The Town of Silverton became the first jurisdiction to fully meet its commitment. Verify current status at source_url.",
+  "note": "Local government Proposition 123 affordable housing commitments filed with DOLA. 217 jurisdictions have filed commitments projecting 22,988 new affordable units by end of 2026. The Town of Silverton became the first jurisdiction to fully meet its commitment. Verify current status at source_url. HB26-1313 (signed 2026-05-26, effective 2026-08-12) replaces the 3% annual-growth eligibility requirement with permit-and-job-growth targets beginning the 3-year cycle on 2027-01-01; the required_commitment values below describe the current cycle.",
   "total_projected_units": 22988,
   "fast_track_count": 91,
   "commitment_met_count": 1,
