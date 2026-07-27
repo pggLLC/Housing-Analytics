@@ -80,7 +80,7 @@ const input = document.getElementById('dc-equity-price');
 const rate9 = document.getElementById('dc-rate-9');
 const rate4 = document.getElementById('dc-rate-4');
 assert(input && rate9 && rate4, 'pricing input and rate toggles render');
-assert.strictEqual(input.value, '0.90', 'markup starts from legacy static value before benchmark helper');
+assert.strictEqual(input.value, '0.86', 'markup starts from current benchmark value before benchmark helper');
 
 Predictor._resetPricingDefaultsForTest();
 assert.deepStrictEqual(dc.getEquityPricingDefaults(), constants, 'calculator fallback defaults match financial constants without benchmark');
