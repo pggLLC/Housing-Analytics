@@ -102,6 +102,53 @@ test('isLoaded() before load()', function () {
   assert(typeof module_.isLoaded() === 'boolean', 'isLoaded returns boolean');
 });
 
+/* ── assess() before load(): async-race guard ────────────────────── */
+test('assess() before load() returns a pending (non-low) flood state', function () {
+  // Regression: the primary FEMA geojson (~28MB) loads asynchronously,
+  // so assess() can fire before load() runs. Without a guard, an empty
+  // flood layer produced a confident false "Zone X / low" result. A
+  // fresh (unloaded) module instance must instead report a pending
+  // state that does NOT assert "low" flood risk.
+  const freshPath = path.resolve(__dirname, '..', 'js', 'environmental-screening');
+  delete require.cache[require.resolve(freshPath)];
+  const fresh = require(freshPath);
+
+  assert(fresh.isLoaded() === false, 'fresh instance is not loaded');
+  var r = fresh.assess(37.41995, -108.6345, 1.0);   // real Zone-A point
+  assert(r.floodZone.riskLevel !== 'low',
+    'flood riskLevel is not falsely "low" before load (got "' + r.floodZone.riskLevel + '")');
+  assert(r.floodZone.riskLevel === 'unknown',
+    'flood riskLevel is "unknown" (pending) before load');
+  assert(/loading/i.test(r.floodZone.narrative),
+    'flood narrative signals data still loading');
+
+  // Restore the cached (shared) instance for the remaining tests.
+  delete require.cache[require.resolve(freshPath)];
+});
+
+/* ── _assessFlood: lowercase `sfha` schema ───────────────────────── */
+test('assess() resolves sfha from lowercase boolean schema', function () {
+  // The full statewide NFHL file uses `{FLD_ZONE, sfha:true}` (lowercase
+  // boolean), while the legacy stub uses `SFHA_TF:'T'`. assess() must
+  // read SFHA from both — regression where `SFHA_TF === 'T'` alone left
+  // sfha always false against the real data.
+  var lowerOnly = {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: { FLD_ZONE: 'AE', sfha: true },   // no SFHA_TF key
+      geometry: { type: 'Polygon', coordinates: [[[-105, 39], [-104, 39], [-104, 40], [-105, 40], [-105, 39]]] }
+    }]
+  };
+  module_.load(lowerOnly, epaData);
+  var r = module_.assess(39.5, -104.5, 1.0);
+  assert(r.floodZone.zone === 'AE', 'matched the lowercase-sfha feature (Zone AE)');
+  assert(r.floodZone.sfha === true, 'sfha resolves true from lowercase `sfha:true`');
+
+  // Restore the standard fixtures so downstream tests are unaffected.
+  module_.load(floodGeoJSON, epaData);
+});
+
 /* ── load() ─────────────────────────────────────────────────────── */
 test('load() with flood + EPA data', function () {
   return module_.load(floodGeoJSON, epaData).then(function () {
