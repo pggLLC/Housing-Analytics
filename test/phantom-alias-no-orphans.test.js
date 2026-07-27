@@ -8,6 +8,7 @@ const rankingPath = path.join(root, 'data/hna/ranking-index.json');
 const ownershipNeedPath = path.join(root, 'data/hna/ownership-need.json');
 const summaryDir = path.join(root, 'data/hna/summary');
 const digestDir = path.join(root, 'data/hna/jurisdiction-metrics-digest');
+const briefsDir = path.join(root, 'data/jurisdiction-briefs');
 
 const aliasesDoc = JSON.parse(fs.readFileSync(aliasPath, 'utf8'));
 const rankingsDoc = JSON.parse(fs.readFileSync(rankingPath, 'utf8'));
@@ -38,5 +39,30 @@ for (const geoid of aliasGeoids) {
 const centralCityRows = rankings.filter((row) => String(row.geoid).padStart(7, '0') === '0812900');
 assert.equal(centralCityRows.length, 1, 'canonical Central City row 0812900 should exist exactly once');
 assert.match(String(centralCityRows[0].name || centralCityRows[0].label || ''), /Central/i);
+
+const rankingByGeoid = new Map(rankings.map((row) => [String(row.geoid).padStart(7, '0'), row]));
+const briefScorePattern = /overall housing-need score of ([0-9]+(?:\.[0-9]+)?)/g;
+
+for (const entry of fs.readdirSync(briefsDir, { withFileTypes: true })) {
+  if (!entry.isFile() || entry.name.startsWith('_') || !entry.name.endsWith('.json')) continue;
+
+  const geoid = entry.name.replace(/\.json$/, '').padStart(7, '0');
+  const briefText = fs.readFileSync(path.join(briefsDir, entry.name), 'utf8');
+  const matches = [...briefText.matchAll(briefScorePattern)];
+  if (!matches.length) continue;
+
+  const ranking = rankingByGeoid.get(geoid);
+  assert.ok(ranking, `brief ${entry.name} embeds an HNA score but has no ranking-index row`);
+  const expected = Number(ranking.metrics && ranking.metrics.overall_need_score);
+  assert.ok(Number.isFinite(expected), `ranking-index row ${geoid} has a numeric overall_need_score`);
+
+  for (const match of matches) {
+    const actual = Number(match[1]);
+    assert.ok(
+      Math.abs(actual - expected) <= 0.05,
+      `brief ${entry.name} score ${actual} must match ranking-index overall_need_score ${expected}`,
+    );
+  }
+}
 
 console.log('phantom-alias-no-orphans: PASS');
