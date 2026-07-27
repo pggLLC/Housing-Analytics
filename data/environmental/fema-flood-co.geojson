@@ -79,24 +79,6 @@
           [-105.1011, 40.1672]
         ]]
       }
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "FLD_ZONE": "VE",
-        "ZONE_SUBTY": "COASTAL HIGH HAZARD AREA",
-        "SFHA_TF": "T",
-        "county_fips": "08059",
-        "county": "Jefferson"
-      },
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [-105.1547, 39.7285], [-105.1400, 39.7285],
-          [-105.1400, 39.7340], [-105.1547, 39.7340],
-          [-105.1547, 39.7285]
-        ]]
-      }
     }
   ]
 }
