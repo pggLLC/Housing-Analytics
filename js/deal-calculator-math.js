@@ -17,7 +17,13 @@
     return (monthlyRate * factor / (factor - 1)) * 12;
   }
 
+  function computeApplicableFraction(lihtcUnits, totalUnits) {
+    if (!(totalUnits > 0)) return 1.0;
+    return Math.min(1, lihtcUnits / totalUnits);
+  }
+
   return {
-    mortgageConstant: mortgageConstant
+    mortgageConstant: mortgageConstant,
+    computeApplicableFraction: computeApplicableFraction
   };
 }));

@@ -134,8 +134,8 @@ async function main() {
   const with120 = readOutputs();
 
   assert(with120.rents > baseline.rents, '120% AMI row contributes rent/income');
-  assert(with120.basis < baseline.basis, '120% AMI row stays outside LIHTC basis and lowers applicable fraction');
-  assert(with120.credits < baseline.credits, '120% AMI row stays outside federal LIHTC credits');
+  assert.strictEqual(with120.basis, baseline.basis, '120% AMI row stays outside LIHTC basis; total residential units already set applicable fraction');
+  assert.strictEqual(with120.credits, baseline.credits, '120% AMI row stays outside federal LIHTC credits');
 
   console.log('All Deal Calculator AMI band tests passed.');
 }
