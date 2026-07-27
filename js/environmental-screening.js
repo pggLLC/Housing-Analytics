@@ -114,6 +114,22 @@
 
   /* ── Flood zone assessment ──────────────────────────────────────── */
   function _assessFlood(lat, lon) {
+    // Guard against the async load race: the primary FEMA geojson
+    // (~28MB) loads after page init, so assess() can be called before
+    // load() has populated _floodFeatures. Without this guard an empty
+    // flood layer would yield a confident false "Zone X / low" result.
+    // Return an explicit pending state so the UI does not assert
+    // "no flood risk" — the caller re-runs the screen once data loads.
+    if (!_loaded) {
+      return {
+        zone:         'Unknown',
+        riskLevel:    'unknown',
+        sfha:         false,
+        year100Flood: false,
+        narrative:    'Flood data still loading — flood risk not yet assessed.'
+      };
+    }
+
     var matched = null;
     for (var i = 0; i < _floodFeatures.length; i++) {
       var f = _floodFeatures[i];
@@ -136,7 +152,12 @@
     }
 
     var zone    = matched.FLD_ZONE || 'X';
-    var sfha    = matched.SFHA_TF === 'T';
+    // SFHA flag differs by source schema: the full statewide NFHL file
+    // (data/market/flood_zones_co.geojson) uses a lowercase boolean
+    // `sfha`, while the legacy stub (data/environmental/fema-flood-co.geojson)
+    // uses `SFHA_TF:'T'`. Read robustly from both so the flag isn't
+    // silently always-false against the real data.
+    var sfha    = matched.SFHA_TF === 'T' || matched.sfha === true || matched.sfha === 'T';
     var isHigh  = HIGH_RISK_ZONES.indexOf(zone) !== -1;
     var isMod   = MOD_RISK_ZONES.indexOf(zone) !== -1 || zone === 'X500';
     var risk    = isHigh ? 'high' : (isMod ? 'moderate' : 'low');
