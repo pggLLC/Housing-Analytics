@@ -1978,7 +1978,7 @@
           ⚠ LIHTC rent ceilings assume 4-person AMI (HUD standard); actual per-bedroom limits vary ±10%. HUD FMR is the 40th-percentile
           market rent for the area and lags ~18 mo. For a binding market-rent test, commission a rent comparability study
           before closing. Source:
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2025</a>.
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>.
         </p>
       </fieldset>
 

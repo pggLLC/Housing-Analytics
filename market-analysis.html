@@ -280,10 +280,10 @@
       if (window.DataQualitySummary) {
         window.DataQualitySummary.render('pmaDataQualitySummary', {
           sources: [
-            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2024', coverage: '~1,500 CO tracts' },
+            { name: 'Census ACS Tract Metrics', status: 'primary', vintage: '2023', coverage: '~1,500 CO tracts' },
             { name: 'CHFA LIHTC Projects', status: 'primary', vintage: '2025', coverage: '926 projects statewide (1987–2025)', note: 'Live from CHFA HousingTaxCreditProperties_view; refreshed weekly via CI' },
             { name: 'HUD QCT/DDA Overlays', status: 'primary', vintage: '2025', coverage: '224 QCT tracts + DDA areas' },
-            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025', coverage: 'All CO counties' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2025', coverage: 'All CO counties' },
             { name: 'FEMA Flood Zones', status: 'cached', vintage: '2026 (NFHL current effective)', coverage: 'Colorado', note: 'Polygon SFHA high-risk zones only (A/AE/AO/AH); Zone X/D moderate-low not included' },
             { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
             { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2023', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
@@ -749,12 +749,12 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
               <div class="pma-stat-label">Capture rate (existing)</div>
-              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
               <div class="pma-stat-label">Renter households</div>
-              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
+              <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
