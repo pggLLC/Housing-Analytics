@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T15:24:59.434Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T17:31:00.427Z. Do not edit by hand.
 
 ---
 
@@ -1628,7 +1628,7 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 19.6 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 21.7 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
@@ -1820,7 +1820,7 @@
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_chfa_award_predictor.js` | 14.6 KB |
-| `test/test_environmental_screening.js` | 11.7 KB |
+| `test/test_environmental_screening.js` | 14.1 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
