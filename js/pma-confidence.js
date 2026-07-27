@@ -110,10 +110,11 @@
     return Math.min(100, Math.round((tractCount / CONFIG.TARGET_ACS_TRACTS) * 100));
   }
 
-  /* ── Factor 5: Buffer proximity (tracts in buffer) ─────────────── */
+  /* ── Factor 5: Buffer coverage (effective tracts in buffer) ────── */
   /**
-   * How many tracts fall within the analysis buffer.
-   * Very few buffer tracts → unreliable local aggregate.
+   * Area-weighted buffer coverage as effective tract-equivalents.
+   * Very little effective coverage → unreliable local aggregate.
+   * Raw tract count is still accepted as a backward-compatible fallback.
    * @param {number} bufferTractCount
    * @returns {number} 0–100
    */
@@ -136,7 +137,8 @@
    * @param {Array}  params.acsTracts      - Loaded ACS tract records
    * @param {number} params.lihtcCount     - Number of LIHTC features loaded
    * @param {number} params.centroidCount  - Number of tract centroids loaded
-   * @param {number} params.bufferTracts   - Number of tracts within the analysis buffer
+   * @param {number} params.bufferTracts   - Raw number of tracts within the analysis buffer
+   * @param {number} [params.effectiveBufferTracts] - Area-weighted tract-equivalent coverage; falls back to bufferTracts when absent
    * @param {number} [params.acsVintage]   - ACS data vintage year (e.g. 2022)
    * @returns {{ score: number, level: string, color: string, factors: object }}
    */
@@ -145,6 +147,7 @@
     var acsTracts     = params.acsTracts     || [];
     var lihtcCount    = params.lihtcCount    || 0;
     var bufferTracts  = params.bufferTracts  || 0;
+    var effectiveBufferTracts = (params.effectiveBufferTracts != null) ? params.effectiveBufferTracts : null;
     var acsVintage    = params.acsVintage    || CONFIG.TARGET_ACS_VINTAGE;
 
     var W = CONFIG.WEIGHTS;
@@ -154,7 +157,7 @@
       freshness:     scoreFreshness(acsVintage),
       lihtcCoverage: scoreLihtcCoverage(lihtcCount),
       sampleSize:    scoreSampleSize(acsTracts.length),
-      bufferDepth:   scoreBufferDepth(bufferTracts)
+      bufferDepth:   scoreBufferDepth(effectiveBufferTracts != null ? effectiveBufferTracts : bufferTracts)
     };
 
     var score = Math.round(
@@ -206,7 +209,7 @@
       '  |  Freshness: ' + result.factors.freshness + '%' +
       '  |  LIHTC coverage: ' + result.factors.lihtcCoverage + '%' +
       '  |  Sample size: ' + result.factors.sampleSize + '%' +
-      '  |  Buffer depth: ' + result.factors.bufferDepth + '%'
+      '  |  Buffer coverage: ' + result.factors.bufferDepth + '%'
     );
   }
 
