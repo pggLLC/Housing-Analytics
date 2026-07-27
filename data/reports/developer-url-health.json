@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-07-20T16:26:00Z",
+    "generated_at_utc": "2026-07-27T17:00:07Z",
     "total_urls": 396,
-    "broken_count": 49,
-    "warning_count": 35,
-    "ok_count": 312,
+    "broken_count": 53,
+    "warning_count": 40,
+    "ok_count": 303,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -16,10 +16,22 @@
       ]
     },
     {
-      "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee",
-      "status": 502,
+      "url": "https://coloradomtn.edu/",
+      "status": 0,
       "found_in": [
-        "policy-progress / Denver / dedicated_income"
+        "local-resources / county:08045/majorEmployers[5]",
+        "local-resources / county:08065/majorEmployers[2]",
+        "local-resources / place:0812045/majorEmployers[3]",
+        "local-resources / place:0830780/majorEmployers[1]",
+        "local-resources / place:0831660/majorEmployers[1]",
+        "local-resources / place:0844320/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://craighospital.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0824785/majorEmployers[1]"
       ]
     },
     {
@@ -32,10 +44,38 @@
       ]
     },
     {
+      "url": "https://jobs.vailresortscareers.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08037/majorEmployers[0]",
+        "local-resources / county:08117/majorEmployers[0]",
+        "local-resources / place:0804110/majorEmployers[0]",
+        "local-resources / place:0808400/majorEmployers[0]",
+        "local-resources / place:0870525/majorEmployers[0]",
+        "local-resources / place:0880040/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://mountainfamilycenter.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08049/advocacy[0]"
+      ]
+    },
+    {
       "url": "https://mwhsolutions.org/",
       "status": 0,
       "found_in": [
         "local-resources / place:0843000/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://pagosaspringsmedicalcenter.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08007/majorEmployers[0]",
+        "local-resources / place:0856860/hospital",
+        "local-resources / place:0856860/majorEmployers[0]"
       ]
     },
     {
@@ -138,13 +178,6 @@
         "local-resources / county:08083/majorEmployers[2]",
         "local-resources / place:0817375/majorEmployers[1]",
         "local-resources / place:0817375/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development",
-      "status": 502,
-      "found_in": [
-        "policy-progress / Denver / tap_fee_reduction"
       ]
     },
     {
@@ -339,7 +372,7 @@
     },
     {
       "url": "https://www.townofpagosasprings.com/",
-      "status": 502,
+      "status": 0,
       "found_in": [
         "local-resources / county:08007/majorEmployers[4]",
         "local-resources / place:0856860/majorEmployers[3]"
@@ -355,16 +388,24 @@
     },
     {
       "url": "https://www.trinidadco.com/community-development",
-      "status": 0,
+      "status": 404,
       "found_in": [
         "local-resources / county:08071/housingLead"
       ]
     },
     {
       "url": "https://www.trinidadco.com/housing",
-      "status": 0,
+      "status": 404,
       "found_in": [
         "local-resources / county:08071/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.utemountainutetribe.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08083/majorEmployers[1]",
+        "local-resources / place:0817375/majorEmployers[2]"
       ]
     },
     {
@@ -392,10 +433,17 @@
   ],
   "warnings": [
     {
-      "url": "https://greccio.org/",
+      "url": "https://lovelandhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://posadapueblo.org/",
       "status": 429,
       "found_in": [
-        "local-resources / place:0816000/advocacy[1]"
+        "local-resources / place:0862000/advocacy[0]"
       ]
     },
     {
@@ -460,6 +508,14 @@
       "status": 429,
       "found_in": [
         "local-resources / place:0845970/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.denverhousing.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08031/housingAuthority[0]",
+        "local-resources / place:0820000/housingAuthority[0]"
       ]
     },
     {
@@ -617,6 +673,13 @@
       ]
     },
     {
+      "url": "https://www.stvrainhabitat.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0807850/advocacy[1]"
+      ]
+    },
+    {
       "url": "https://www.suncor.com/",
       "status": 403,
       "found_in": [
@@ -630,6 +693,13 @@
       "found_in": [
         "local-resources / county:08117/majorEmployers[5]",
         "local-resources / place:0808400/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.upstatecolorado.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/_employers_source"
       ]
     },
     {
@@ -670,7 +740,16 @@
       "found_in": [
         "local-resources / county:08123/housingPlans[0]"
       ]
+    },
+    {
+      "url": "https://yvha.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0874090/housingAuthority[0]",
+        "local-resources / place:0874090/housingLead",
+        "policy-progress / Steamboat Springs / land_banking"
+      ]
     }
   ],
-  "ok_count": 312
+  "ok_count": 303
 }
