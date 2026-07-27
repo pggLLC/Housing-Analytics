@@ -77,6 +77,12 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  // Re-render hook for the LIHTC concept card's constraint screening.
+  // Set on each runAnalysis() so the async flood-zone loader (see
+  // loadOverlays) can re-run the environmental screen once the ~28MB
+  // FEMA geojson resolves — the first analysis may screen against an
+  // empty flood layer. Mirrors the softFunding re-render pattern.
+  var _rerenderConcept = null;
   var _softFundingStatus = null;
   var _commuteShapedLoadPromise = null;
 
@@ -2699,65 +2705,79 @@
       }
 
       // ── Phase 2.1: Constraint screening ─────────────────────────
-      var constraints = {};
+      // Wrapped so it can be re-run once the async flood-zone data
+      // finishes loading. The primary FEMA geojson (~28MB) frequently
+      // resolves AFTER the first analysis, so the first pass may screen
+      // the environmental constraints against an empty flood layer
+      // (EnvironmentalScreening returns a 'pending' flood state until
+      // then). loadOverlays() invokes _rerenderConcept after load() so
+      // the card refreshes with the real flood zone — mirrors the
+      // softFunding re-render pattern below.
+      function buildAndRenderConcept() {
+        var constraints = {};
 
-      // Environmental screening
-      var envScreening = window.EnvironmentalScreening;
-      if (envScreening && typeof envScreening.assess === 'function') {
-        constraints.environmental = envScreening.assess(lat, lon, 1.0);
+        // Environmental screening
+        var envScreening = window.EnvironmentalScreening;
+        if (envScreening && typeof envScreening.assess === 'function') {
+          constraints.environmental = envScreening.assess(lat, lon, 1.0);
+        }
+
+        // Public land overlay
+        var landOverlay = window.PublicLandOverlay;
+        if (landOverlay && typeof landOverlay.assess === 'function') {
+          var geoid = (pma && pma.geoid) || (dealInputs && dealInputs.geoid) || null;
+          var countyFips = geoid ? String(geoid).substring(0, 5) : null;
+          constraints.publicLand = landOverlay.assess(lat, lon, countyFips);
+        }
+
+        // Soft funding tracker
+        var fundTracker = window.SoftFundingTracker;
+        if (fundTracker && typeof fundTracker.check === 'function') {
+          var fundFips = (dealInputs && dealInputs.geoid) || null;
+          var fundYear = new Date().getFullYear();
+          constraints.softFunding = fundTracker.check(fundFips, fundYear);
+        }
+
+        // CHFA award predictor
+        var chfaPredictor = window.CHFAAwardPredictor;
+        if (chfaPredictor && typeof chfaPredictor.predict === 'function') {
+          var siteContext = {
+            pmaScore:            pma && pma.pma_score,
+            isQct:               dealInputs.isQct || false,
+            isDda:               dealInputs.isDda || false,
+            totalUndersupply:    dealInputs.totalUndersupply || 0,
+            ami30UnitsNeeded:    dealInputs.ami30UnitsNeeded || 0,
+            localSoftFunding:    dealInputs.softFundingAvailable || 0,
+            hasHnaData:          !!needProfile,
+            publicLandOpportunity: constraints.publicLand ? constraints.publicLand.opportunity : 'none'
+          };
+          constraints.chfaCompetitiveness = chfaPredictor.predict(rec, siteContext);
+        }
+
+        // Use the full renderer when available (preferred path)
+        var renderer = window.LIHTCConceptCardRenderer;
+        if (renderer && typeof renderer.render === 'function') {
+          renderer.render(card, rec, hnsFit, constraints);
+          return;
+        }
+
+        // Fallback: simple summary (shown only when the renderer script has not loaded)
+        var badge = rec.confidenceBadge || '';
+        card.hidden = false;
+        card.innerHTML = '<p style="margin:0;"><strong>' + badge + ' ' +
+          rec.recommendedExecution + ' ' + _cap(rec.conceptType) + ' Housing</strong> — ' +
+          rec.confidence + ' confidence</p>' +
+          '<p style="margin:.4rem 0 0;font-size:.85rem;">' +
+          (rec.keyRationale[0] ? rec.keyRationale[0] : '') + '</p>';
+        var liveRegion = document.getElementById('lihtcConceptLiveRegion');
+        if (liveRegion) {
+          liveRegion.textContent = 'Concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing, ' + rec.confidence + ' confidence.';
+        }
       }
 
-      // Public land overlay
-      var landOverlay = window.PublicLandOverlay;
-      if (landOverlay && typeof landOverlay.assess === 'function') {
-        var geoid = (pma && pma.geoid) || (dealInputs && dealInputs.geoid) || null;
-        var countyFips = geoid ? String(geoid).substring(0, 5) : null;
-        constraints.publicLand = landOverlay.assess(lat, lon, countyFips);
-      }
-
-      // Soft funding tracker
-      var fundTracker = window.SoftFundingTracker;
-      if (fundTracker && typeof fundTracker.check === 'function') {
-        var fundFips = (dealInputs && dealInputs.geoid) || null;
-        var fundYear = new Date().getFullYear();
-        constraints.softFunding = fundTracker.check(fundFips, fundYear);
-      }
-
-      // CHFA award predictor
-      var chfaPredictor = window.CHFAAwardPredictor;
-      if (chfaPredictor && typeof chfaPredictor.predict === 'function') {
-        var siteContext = {
-          pmaScore:            pma && pma.pma_score,
-          isQct:               dealInputs.isQct || false,
-          isDda:               dealInputs.isDda || false,
-          totalUndersupply:    dealInputs.totalUndersupply || 0,
-          ami30UnitsNeeded:    dealInputs.ami30UnitsNeeded || 0,
-          localSoftFunding:    dealInputs.softFundingAvailable || 0,
-          hasHnaData:          !!needProfile,
-          publicLandOpportunity: constraints.publicLand ? constraints.publicLand.opportunity : 'none'
-        };
-        constraints.chfaCompetitiveness = chfaPredictor.predict(rec, siteContext);
-      }
-
-      // Use the full renderer when available (preferred path)
-      var renderer = window.LIHTCConceptCardRenderer;
-      if (renderer && typeof renderer.render === 'function') {
-        renderer.render(card, rec, hnsFit, constraints);
-        return;
-      }
-
-      // Fallback: simple summary (shown only when the renderer script has not loaded)
-      var badge = rec.confidenceBadge || '';
-      card.hidden = false;
-      card.innerHTML = '<p style="margin:0;"><strong>' + badge + ' ' +
-        rec.recommendedExecution + ' ' + _cap(rec.conceptType) + ' Housing</strong> — ' +
-        rec.confidence + ' confidence</p>' +
-        '<p style="margin:.4rem 0 0;font-size:.85rem;">' +
-        (rec.keyRationale[0] ? rec.keyRationale[0] : '') + '</p>';
-      var liveRegion = document.getElementById('lihtcConceptLiveRegion');
-      if (liveRegion) {
-        liveRegion.textContent = 'Concept recommendation: ' + rec.recommendedExecution + ' ' + rec.conceptType + ' housing, ' + rec.confidence + ' confidence.';
-      }
+      // Expose for the async flood-data re-render, then render now.
+      _rerenderConcept = buildAndRenderConcept;
+      buildAndRenderConcept();
     }());
 
     // ── Delegate to MAController to populate the 8 report sections ──
@@ -3680,6 +3700,11 @@
           })
           .then(function (floodGeoJSON) {
             envScreening.load(floodGeoJSON, results[3]);
+            // Re-run the concept-card constraint screening now that the
+            // flood features are available — the first analysis may have
+            // screened against an empty (still-loading) flood layer.
+            // Mirrors the softFunding re-render above.
+            if (typeof _rerenderConcept === 'function') _rerenderConcept();
           });
       }
 
