@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-20T09:48:59.691Z",
+  "generatedAt": "2026-07-27T10:32:02.321Z",
   "limit": 30,
   "placesChecked": 30,
-  "placesWithCandidates": 20,
-  "placesWithoutCandidates": 10,
+  "placesWithCandidates": 21,
+  "placesWithoutCandidates": 9,
   "candidates": {
     "place:0885485": {
       "name": "Windsor",
@@ -390,6 +390,22 @@
           "status": 200,
           "title": "Planning &amp; Development - Town of Evans",
           "hasHousingKeyword": true,
+          "looksLikeColorado": false
+        }
+      ]
+    },
+    "place:0819150": {
+      "name": "Dakota Ridge",
+      "county_fips": "08059",
+      "households": 1741,
+      "slug": "dakota ridge",
+      "candidateUrls": [
+        {
+          "url": "https://www.dakotaridge.org/",
+          "type": "base",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
@@ -818,11 +834,6 @@
       "geoid": "0814587",
       "name": "Cimarron Hills",
       "slug": "cimarron hills"
-    },
-    {
-      "geoid": "0819150",
-      "name": "Dakota Ridge",
-      "slug": "dakota ridge"
     },
     {
       "geoid": "0869810",
