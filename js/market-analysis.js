@@ -2475,12 +2475,16 @@
     if (CONF) {
       var acsVintage = (acsMetrics && acsMetrics.meta && acsMetrics.meta.vintage) ||
                        (acsMetrics && acsMetrics.meta && acsMetrics.meta.year)    || 2022;
+      var _effectiveBufferTracts = bufTracts.reduce(function (s, t) {
+        return s + (typeof t._bufferShare === 'number' ? t._bufferShare : 1);
+      }, 0);
       confidence = CONF.compute({
-        acsTracts:    (acsMetrics && acsMetrics.tracts) || [],
-        lihtcCount:   (lihtcFeatures || []).length,
+        acsTracts:            (acsMetrics && acsMetrics.tracts) || [],
+        lihtcCount:           (lihtcFeatures || []).length,
         centroidCount: ((tractCentroids && tractCentroids.tracts) || tractCentroids || []).length,
-        bufferTracts:  bufTracts.length,
-        acsVintage:    acsVintage
+        bufferTracts:         bufTracts.length,
+        effectiveBufferTracts: _effectiveBufferTracts,
+        acsVintage:           acsVintage
       });
       lastConfidence = confidence;
       CONF.renderConfidenceBadge('pmaHeuristicConfidence', confidence);
@@ -3752,7 +3756,7 @@
     var acs = result.acs || {};
     var totalHh = (acs.total_hh != null) ? +acs.total_hh : null;
     var renterHh = (acs.renter_hh != null) ? +acs.renter_hh : null;
-    setSum('pmaSumUnits',  totalHh  != null ? fmtInt(totalHh)  + ' households' : '—');
+    setSum('pmaSumUnits',  totalHh  != null ? '≈ ' + fmtInt(totalHh)  + ' households' : '—');
     setSum('pmaSumRenters', renterHh != null
       ? fmtInt(renterHh) + ' renter households'
         + (totalHh > 0 ? ' (' + Math.round((renterHh / totalHh) * 100) + '% of total)' : '')
