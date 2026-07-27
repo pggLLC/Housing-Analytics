@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T11:15:09.532Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T15:24:59.434Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 134.9 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
@@ -50,8 +50,8 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -86,7 +86,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 211.8 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 213.1 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1617,7 +1617,7 @@
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 11.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 172.0 KB | ✅ | — |
+| `data/policy_briefs.json` | 172.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.7 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1641,7 +1641,7 @@
 
 ## Test Files
 
-229 test files found.
+233 test files found.
 
 | File | Size |
 |------|------|
@@ -1670,6 +1670,7 @@
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
+| `test/cross-surface-vintage-labels.test.js` | 4.2 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
@@ -1682,7 +1683,8 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
-| `test/deal-calc-ami-bands.test.js` | 5.6 KB |
+| `test/deal-calc-ami-bands.test.js` | 5.7 KB |
+| `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 12.5 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
@@ -1734,6 +1736,7 @@
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
+| `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
 | `test/homeownership-programs.test.js` | 6.5 KB |
 | `test/homepage-claims.test.js` | 3.1 KB |
@@ -1780,6 +1783,7 @@
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
+| `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |

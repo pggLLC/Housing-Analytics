@@ -1541,7 +1541,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
           <ul style="margin:.5rem 0;padding-left:1.4rem;">
             <li><strong>ACS 5-year tract-level estimates</strong> — American Community Survey (U.S. Census Bureau), 2023 5-year estimates. Fields used: median gross rent, median household income, cost burden rate. 1,447 Colorado census tracts.</li>
             <li><strong>CHAS data (HUD)</strong> — HUD Comprehensive Housing Affordability Strategy, 2018–2022 5-year estimates (most recent release, Dec 2025). County-level counts of renter households by AMI tier and cost-burden status.</li>
-            <li><strong>AMI gap calculations</strong> — Derived from HUD Fair Market Rents (FY2025) and Area Median Income income limits, compared against ACS-estimated household income distributions. Gap = affordable units supply minus households at each AMI threshold.</li>
+            <li><strong>AMI gap calculations</strong> — Derived from HUD income limits (FY2025) and ACS-estimated 2024 household income distributions. Gap = affordable units supply minus households at each AMI threshold.</li>
             <li><strong>County boundaries</strong> — U.S. Census Bureau TIGER/Line 2024 county boundary files for Colorado.</li>
           </ul>
           <p id="affGeoDataVintage" style="margin:.5rem 0 0;"></p>
@@ -1759,7 +1759,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         try { new Chart(el, cfg); } catch(e) { console.warn("Chart failed", id, e); }
       }
       // AMI need chart — now reads real statewide totals from
-      // data/co_ami_gap_by_county.json (HUD 2025 income limits × ACS 2023
+      // data/co_ami_gap_by_county.json (HUD 2025 income limits × ACS 2024
       // 5-year HH distribution). Previously hard-coded "(index)" values
       // with no source and no Y-axis unit. Loads JSON, plots cumulative
       // HHs vs. priced-affordable units at each AMI tier in thousands.
@@ -1832,7 +1832,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
             var note = document.createElement('p');
             note.style.cssText = 'font-size:.72rem;color:var(--muted,rgba(255,255,255,.6));margin:.4rem 0 0;line-height:1.45;';
             note.innerHTML =
-              'Source: HUD 2025 income limits × ACS 2023 5-year household distribution ' +
+              'Source: HUD 2025 income limits × ACS 2024 5-year household distribution ' +
               '(<code>data/co_ami_gap_by_county.json</code>, statewide aggregate). ' +
               'Vintage: ' + (d.meta && d.meta.generated_at ? d.meta.generated_at.slice(0,10) : '—') + '. ' +
               'Counts are <em>cumulative</em>: ≤ 60% AMI includes all households ≤ 60% (not just the 50–60% band).';

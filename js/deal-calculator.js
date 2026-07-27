@@ -894,7 +894,7 @@
     //
     // For 1BR / 3BR we linear-interp between adjacent person sizes;
     // for 4BR (6 person) we don't have il50_5/il50_6 in the cached IL
-    // file, so we approximate using il50_4 × 1.04 (3BR) and × 1.10 (4BR)
+    // file, so we approximate using il50_4 × 1.04 (3BR) and × 1.16 (4BR)
     // following HUD's published 8%/4% adjustment factors. Best-effort
     // until the IL refresh includes 5-8 person.
     var il50_1p = +il.il50_1person;
@@ -913,7 +913,7 @@
         '1br':    (il50_1p + il50_2p) / 2,        // 1.5 person interp
         '2br':    il50_3p,                        // 3 person
         '3br':    (il50_4p) * 1.04,               // 4.5 person ≈ il50_4 × 1.04 (HUD adjustment factor proxy)
-        '4br':    il50_4p * 1.10                  // 6 person ≈ il50_4 × 1.10 (HUD adjustment factor proxy)
+        '4br':    il50_4p * 1.16                  // 6 person ≈ il50_4 × 1.16 (HUD adjustment factor proxy)
       };
       DEAL_AMI_BANDS.forEach(function (pct) {
         var tier_factor = pct / 50;
@@ -1859,7 +1859,7 @@
           <dt style="color:var(--muted);">Annual Debt Service</dt>
           <dd id="dc-r-ads" style="font-weight:700;text-align:right;">—</dd>
 
-          <dt style="color:var(--muted);"><abbr data-glossary="DSCR">DSCR</abbr> (stabilized)</dt>
+          <dt style="color:var(--muted);">Senior <abbr data-glossary="DSCR">DSCR</abbr> (1st mortgage, stabilized)</dt>
           <dd id="dc-r-dscr-base" style="font-weight:700;text-align:right;">—</dd>
         </dl>
         <p id="dc-dscr-target-note" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp1);margin-bottom:var(--sp2);">—</p>
@@ -1978,7 +1978,7 @@
           ⚠ LIHTC rent ceilings assume 4-person AMI (HUD standard); actual per-bedroom limits vary ±10%. HUD FMR is the 40th-percentile
           market rent for the area and lags ~18 mo. For a binding market-rent test, commission a rent comparability study
           before closing. Source:
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2025</a>.
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>.
         </p>
       </fieldset>
 
@@ -2151,7 +2151,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp2) var(--sp3);">
         <label style="display:block;">
           <span style="color:var(--muted);">Credit Pricing ($/credit)</span>
-          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.90"
+          <input id="dc-equity-price" type="number" min="0.50" max="1.20" step="0.01" value="0.86"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.35rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
           <!-- F230 — Novogradac equity pricing benchmark button. Populated
                by _initNovogradacBenchmark() below from data/market/novogradac-equity-pricing.json -->
@@ -2580,6 +2580,10 @@
       if (!el) return NaN;
       return parseFloat(el.value);
     }
+    function vacFrac() {
+      var v = safeVal('dc-vacancy');
+      return (Number.isFinite(v) ? v : 7) / 100;
+    }
 
     var tdc = safeVal('dc-tdc') || 0;
     var units = safeVal('dc-units') || 0;
@@ -2695,10 +2699,7 @@
     // qualified basis = eligible basis × min(unit fraction, floor-area fraction).
     // We don't track floor area separately, so use the unit fraction.
     // For pure-LIHTC deals (no market units), this is 1.0.
-    var totalLihtcEligibleAndMarket = lihtcUnits + marketUnits;
-    var applicableFraction = totalLihtcEligibleAndMarket > 0
-      ? lihtcUnits / totalLihtcEligibleAndMarket
-      : 1.0;
+    var applicableFraction = window.DealCalculatorMath.computeApplicableFraction(lihtcUnits, units);
 
     // LIHTC credit calculations — grants reduce eligible basis per
     // §42(d)(5)(A); applicable fraction prorates basis when market-rate
@@ -2708,17 +2709,17 @@
     var annualCredits    = eligibleBasis * _creditRate;
     var equity           = annualCredits * CREDIT_YEARS * equityPrice;
 
-    // Surface the applicable-fraction math when market units present
+    // Surface the applicable-fraction math when mixed-income or unrestricted units are present.
     var afNoteEl = document.getElementById('dc-applicable-fraction-note');
     if (afNoteEl) {
-      if (marketUnits > 0 && lihtcUnits > 0) {
+      if (lihtcUnits < units && lihtcUnits > 0) {
         afNoteEl.innerHTML =
           '<strong style="color:var(--accent,#096e65);">Mixed-income deal:</strong> ' +
-          lihtcUnits + ' LIHTC units / ' + totalLihtcEligibleAndMarket +
-          ' total = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
+          lihtcUnits + ' LIHTC units / ' + units +
+          ' total residential = applicable fraction <strong>' + (applicableFraction * 100).toFixed(1) + '%</strong>. ' +
           'Eligible basis prorated to ' + fmt(eligibleBasis) +
           ' (vs ' + fmt(eligibleBasisRaw) + ' if 100% LIHTC). ' +
-          'Workforce and middle-income units generate rent but no federal LIHTC tax credits per IRC §42(c)(1)(B).';
+          'Market-rate and unrestricted units generate rent but no federal LIHTC credits per IRC §42(c)(1)(B).';
         afNoteEl.hidden = false;
       } else {
         afNoteEl.hidden = true;
@@ -2811,7 +2812,7 @@
     var netPropTax = null;
     var taxSavings = 0;
     if (autoNoi && autoNoi.checked) {
-      var vacancyPct = (safeVal('dc-vacancy') || 5) / 100;
+      var vacancyPct = vacFrac();
       // Do NOT silently substitute Denver-MSA defaults (450/350/900) when
       // any of these fields are blank — they vary materially across CO
       // counties (rural opex often $250-350/mo vs. $450 Denver). A blank
@@ -2878,7 +2879,7 @@
     if (dscrAutoMode) {
       stress = computeDscrStressScenarios({
         annualRents:      annualRents,
-        vacancyPct:       (safeVal('dc-vacancy') || 5) / 100,
+        vacancyPct:       vacFrac(),
         annualOpex:       annualOpex       || 0,
         annualRepReserve: annualRepReserve || 0,
         netPropTax:       netPropTax       || 0,
@@ -3065,7 +3066,7 @@
     var targetNote = document.getElementById('dc-dscr-target-note');
     if (targetNote) {
       if (baseDSCR != null && isFinite(baseDSCR)) {
-        targetNote.textContent = 'Sized to target DCR ' + dcr.toFixed(2) + 'x · the stress table below shows how DSCR moves if rents, vacancy, or operating costs shift.';
+        targetNote.textContent = 'Sized to target DCR ' + dcr.toFixed(2) + 'x · reflects senior mortgage coverage only; all-in coverage including soft debt is shown in the pro forma. The stress table below shows how DSCR moves if rents, vacancy, or operating costs shift.';
       } else {
         targetNote.textContent = 'Enter NOI (or enable auto-compute) and mortgage terms to see DSCR.';
       }
@@ -3373,7 +3374,7 @@
       if (annualRents > 0 && tdc > 0) {
         var rentMult = Math.pow(1 + rentGrowth, holdYears - 1);
         var expMult  = Math.pow(1 + expGrowth,  holdYears - 1);
-        var vacPct   = (safeVal('dc-vacancy') || 5) / 100;
+        var vacPct   = vacFrac();
         var grossN   = annualRents * rentMult;
         var egiN     = grossN * (1 - vacPct);
         var opexN    = (annualOpex || 0) * expMult;
@@ -3420,7 +3421,7 @@
         for (var y = 1; y <= holdYears; y++) {
           var rm = Math.pow(1 + rentGrowth, y - 1);
           var em = Math.pow(1 + expGrowth,  y - 1);
-          var vp = (safeVal('dc-vacancy') || 5) / 100;
+          var vp = vacFrac();
           var noiY = annualRents * rm * (1 - vp) -
                      (annualOpex || 0) * em -
                      (annualRepReserve || 0) * em -
@@ -3457,7 +3458,7 @@
         for (var yr = 1; yr <= holdYears; yr++) {
           var rmY = Math.pow(1 + rentGrowth, yr - 1);
           var emY = Math.pow(1 + expGrowth,  yr - 1);
-          var vpY = (safeVal('dc-vacancy') || 5) / 100;
+          var vpY = vacFrac();
           var noiY2 = annualRents * rmY * (1 - vpY) -
                       (annualOpex || 0) * emY -
                       (annualRepReserve || 0) * emY -
@@ -3524,7 +3525,7 @@
       try {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
-        var vu  = safeVal('dc-vacancy') || 7;
+        var vu  = vacFrac() * 100;
         var ou  = safeVal('dc-opex') || 450;
         var u   = units || 60;
         var acr = annualCredits || 0;

@@ -32,6 +32,11 @@
   function _fmtPct(n, d) { if (n == null || !isFinite(n)) return null; return n.toFixed(d != null ? d : 1) + '%'; }
   function _fmtMoney(n) { if (n == null || !isFinite(n)) return null; return '$' + Math.round(n).toLocaleString('en-US'); }
   function _fmtInt(n)   { if (n == null || !isFinite(n)) return null; return Math.round(n).toLocaleString('en-US'); }
+  function _chasFallbackNote(c) {
+    if (!c || c.chasSourceIsPlace !== false) return '';
+    return ' <span class="hna-takeaway-disclosure" style="color:var(--muted);font-style:italic;font-weight:400">' +
+      '(county-level CHAS — place-level cost-burden data unavailable for this jurisdiction)</span>';
+  }
   function _homeValueInfo(profile) {
     if (window.HNAUtils && typeof window.HNAUtils.homeValueInfo === 'function') {
       return window.HNAUtils.homeValueInfo(profile);
@@ -295,7 +300,7 @@
             : 'a renter market where some share carries burden across all income bands');
       return '<strong>' + _fmtPct(c.renterCb30) + ' of renters are cost-burdened</strong>' +
         (c.renterCb50 != null ? ' (' + _fmtPct(c.renterCb50) + ' severely)' : '') +
-        ', with ' + leadFraming + '.';
+        ', with ' + leadFraming + '.' + _chasFallbackNote(c);
     },
 
     // Cost burden by AMI tier (HUD CHAS)
@@ -308,7 +313,7 @@
       var trail = lines.length > 1
         ? ', falling to ' + lines.slice(1).join(' and ')
         : '';
-      return lines[0] + trail + ' — affordability stress concentrates sharply at the lowest income tiers.';
+      return lines[0] + trail + ' — affordability stress concentrates sharply at the lowest income tiers.' + _chasFallbackNote(c);
     },
 
     // 20-year outlook / population projection
@@ -382,7 +387,7 @@
           : 'a relatively contained homeowner cost-burden picture';
       return '<strong>' + _fmtPct(c.ownerCb30) + ' of homeowners spend ≥30% of income on housing</strong> — ' +
         framing + '. Driven by mortgage + taxes + insurance + utilities — preservation programs and ' +
-        'property-tax relief move this number more than new construction does.';
+        'property-tax relief move this number more than new construction does.' + _chasFallbackNote(c);
     },
 
     // F223 — Homeownership affordability (matches h2 "Homeownership affordability").
