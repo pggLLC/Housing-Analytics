@@ -1,10 +1,10 @@
 {
-  "generated": "2026-07-26T09:14:18.106139Z",
+  "generated": "2026-07-27T05:53:43.398528Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 770148
+      "bytes": 770766
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 207225
+      "bytes": 216849
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -4099,7 +4099,7 @@
     "data/hna/permits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 249058
+      "bytes": 249061
     },
     "data/hna/place-chas-coverage-stats.json": {
       "featureCount": 0,
@@ -4459,7 +4459,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 846135
+      "bytes": 846226
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
@@ -7339,7 +7339,7 @@
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 222686
+      "bytes": 222713
     },
     "data/jurisdiction-briefs/_schema.json": {
       "featureCount": 0,
@@ -7844,7 +7844,7 @@
     "data/policy/prop123_jurisdictions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 72403
+      "bytes": 72652
     },
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
@@ -7874,7 +7874,12 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 168621
+      "bytes": 176108
+    },
+    "data/policy_briefs_curated.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 3781
     },
     "data/polymarket-data.json": {
       "featureCount": 0,
