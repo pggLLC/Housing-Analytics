@@ -172,7 +172,7 @@
     "test:boards-advocates-search-links": "node test/boards-advocates-search-links.test.js"
   },
   "dependencies": {
-    "jsdom": "^29.1.1"
+    "jsdom": "^30.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
