@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-27T17:31:00.427Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T00:48:01.975Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1564 JSON files found.
+1562 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 752.7 KB | ✅ | — |
+| `data/_manifest.json` | 751.8 KB | ✅ | — |
 | `data/_qa-status.json` | 6.2 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -343,7 +343,6 @@
 | `data/hna/jurisdiction-metrics-digest/0812815.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812855.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812900.json` | 28.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0812910.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812945.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813460.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813590.json` | 28.8 KB | ✅ | — |
@@ -487,7 +486,7 @@
 | `data/hna/jurisdiction-metrics-digest/0837600.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837655.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837820.json` | 28.8 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837875.json` | 28.7 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837875.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838370.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838425.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838480.json` | 28.6 KB | ✅ | — |
@@ -511,7 +510,7 @@
 | `data/hna/jurisdiction-metrics-digest/0840900.json` | 28.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841010.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841065.json` | 28.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0841560.json` | 28.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0841560.json` | 28.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841835.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842000.json` | 28.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842055.json` | 28.7 KB | ✅ | — |
@@ -528,7 +527,7 @@
 | `data/hna/jurisdiction-metrics-digest/0844100.json` | 28.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844265.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844270.json` | 28.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0844320.json` | 28.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0844320.json` | 28.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844375.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844595.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0844695.json` | 28.6 KB | ✅ | — |
@@ -730,7 +729,7 @@
 | `data/hna/jurisdiction-metrics-digest/0882900.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883120.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883175.json` | 28.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0883230.json` | 28.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0883230.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883450.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883500.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0883835.json` | 28.8 KB | ✅ | — |
@@ -881,7 +880,7 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 25.1 KB | ✅ | — |
 | `data/hna/local-resources.json` | 172.2 KB | ✅ | — |
-| `data/hna/ownership-need.json` | 704.1 KB | ✅ | — |
+| `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
@@ -956,11 +955,11 @@
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/places.json` | 826.4 KB | ✅ | — |
 | `data/hna/ranking-index.json` | 1.64 MB | ✅ | — |
-| `data/hna/ranking-scenarios/balanced.json` | 48.9 KB | ✅ | — |
-| `data/hna/ranking-scenarios/commuter-pressure.json` | 48.9 KB | ✅ | — |
-| `data/hna/ranking-scenarios/large-gap.json` | 48.9 KB | ✅ | — |
-| `data/hna/ranking-scenarios/rate-sensitive.json` | 48.9 KB | ✅ | — |
-| `data/hna/ranking-scenarios/rural-lens.json` | 48.9 KB | ✅ | — |
+| `data/hna/ranking-scenarios/balanced.json` | 48.8 KB | ✅ | — |
+| `data/hna/ranking-scenarios/commuter-pressure.json` | 48.8 KB | ✅ | — |
+| `data/hna/ranking-scenarios/large-gap.json` | 48.8 KB | ✅ | — |
+| `data/hna/ranking-scenarios/rate-sensitive.json` | 48.8 KB | ✅ | — |
+| `data/hna/ranking-scenarios/rural-lens.json` | 48.8 KB | ✅ | — |
 | `data/hna/scenarios/baseline.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/high-growth.json` | 1.3 KB | ✅ | — |
 | `data/hna/scenarios/low-growth.json` | 1.3 KB | ✅ | — |
@@ -1106,7 +1105,6 @@
 | `data/hna/summary/0812815.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0812855.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0812900.json` | 3.9 KB | ✅ | — |
-| `data/hna/summary/0812910.json` | 3.6 KB | ✅ | — |
 | `data/hna/summary/0812945.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0813460.json` | 3.8 KB | ✅ | — |
 | `data/hna/summary/0813590.json` | 4.1 KB | ✅ | — |
@@ -1641,7 +1639,7 @@
 
 ## Test Files
 
-233 test files found.
+234 test files found.
 
 | File | Size |
 |------|------|
@@ -1770,6 +1768,7 @@
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 14.7 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
+| `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
