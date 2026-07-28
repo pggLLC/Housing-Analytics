@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T11:59:13.615Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T12:29:26.998Z. Do not edit by hand.
 
 ---
 
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-237 test files found.
+238 test files found.
 
 | File | Size |
 |------|------|
@@ -1771,6 +1771,7 @@
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/pipeline-guards-a1.test.js` | 2.2 KB |
+| `test/pipeline-guards-a2.test.js` | 4.2 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
