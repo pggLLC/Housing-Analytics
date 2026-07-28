@@ -3,6 +3,8 @@
 // Source: Federal Reserve Economic Data (FRED)
 // Version: 1.0 - February 2026
 
+const STALE_MONTHS = 15;
+
 const FREDCommodities = {
     // Data loaded from data/fred-data.json (fetched by GitHub Action)
     
@@ -13,13 +15,6 @@ const FREDCommodities = {
             category: 'Steel & Metal',
             impact: 'Structural framing, rebar',
             share: '12-15%'
-        },
-        steelRebar: {
-            id: 'WPU10170503',
-            name: 'Steel Reinforcing Bar',
-            category: 'Steel & Metal',
-            impact: 'Concrete reinforcement',
-            share: '8-10%'
         },
         copperWireCable: {
             id: 'PCU33142033142012',
@@ -161,12 +156,33 @@ const FREDCommodities = {
         const yearAgo = parseFloat(observations[12].value);
         return ((latest - yearAgo) / yearAgo * 100).toFixed(2);
     },
+
+    _parseDate(value) {
+        if (!value) return null;
+        const parsed = new Date(value);
+        return Number.isNaN(parsed.getTime()) ? null : parsed;
+    },
+
+    _monthsBetween(laterDate, earlierDate) {
+        return ((laterDate.getFullYear() - earlierDate.getFullYear()) * 12)
+            + (laterDate.getMonth() - earlierDate.getMonth());
+    },
+
+    _isSeriesStale(observations, updated) {
+        const latestObservation = this._parseDate(observations && observations[0] && observations[0].date);
+        const dataUpdated = this._parseDate(updated);
+        if (!latestObservation || !dataUpdated) return false;
+        return this._monthsBetween(dataUpdated, latestObservation) > STALE_MONTHS;
+    },
     
     async getAllCommodities() {
+        const fredData = await this._loadData();
+        const updated = fredData && fredData.updated;
         const results = {};
         for (const [key, series] of Object.entries(this.series)) {
             const observations = await this.fetchSeries(series.id);
             if (observations && observations.length > 0) {
+                if (this._isSeriesStale(observations, updated)) continue;
                 results[key] = {
                     ...series,
                     current: parseFloat(observations[0].value),
