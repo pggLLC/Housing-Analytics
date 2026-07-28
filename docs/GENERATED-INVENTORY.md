@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T00:48:01.975Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T03:27:43.462Z. Do not edit by hand.
 
 ---
 
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-234 test files found.
+235 test files found.
 
 | File | Size |
 |------|------|
@@ -1801,6 +1801,7 @@
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
+| `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
