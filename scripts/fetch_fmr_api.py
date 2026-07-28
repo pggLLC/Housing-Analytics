@@ -156,6 +156,7 @@ _CO_COUNTY_NAMES_FULL: dict[str, str] = {
 }
 
 _CO_STATEWIDE_DEFAULT_AMI = 107200
+_MAX_STATEWIDE_DEFAULT_AMI_COUNTIES = 5
 MIN_DISTINCT_CO_AMI_VALUES = 10
 
 
@@ -444,6 +445,13 @@ def assert_distinct_county_amis(counties: list) -> None:
         for county in counties
     ]
     distinct = {value for value in ami_values if value > 0}
+    at_default = sum(1 for value in ami_values if value == _CO_STATEWIDE_DEFAULT_AMI)
+    if at_default > _MAX_STATEWIDE_DEFAULT_AMI_COUNTIES:
+        raise ValueError(
+            f'HUD income limits look flattened: {at_default} counties pinned to the '
+            f'statewide default AMI {_CO_STATEWIDE_DEFAULT_AMI} '
+            f'(max allowed {_MAX_STATEWIDE_DEFAULT_AMI_COUNTIES}).'
+        )
     if len(ami_values) != 64 or len(distinct) < MIN_DISTINCT_CO_AMI_VALUES:
         raise ValueError(
             'HUD income limits failed Colorado county distinctness guard: '

@@ -166,7 +166,10 @@ def main() -> int:
             # Try to derive containing county from the first tract (first 5 chars)
             county_fips = None
             for entry in tract_list:
-                tid = entry.get("geoid") if isinstance(entry, dict) else entry
+                if isinstance(entry, dict):
+                    tid = entry.get("tract_geoid") or entry.get("geoid")
+                else:
+                    tid = entry
                 if tid and len(tid) >= 5:
                     county_fips = tid[:5]
                     break
@@ -180,13 +183,23 @@ def main() -> int:
     else:
         print(f"WARN: no {PLACE_MEMB_IN} — place aggregates skipped", file=sys.stderr)
 
+    existing_generated_at = None
+    if OUT.exists():
+        try:
+            existing_generated_at = (
+                json.loads(OUT.read_text()).get("meta") or {}
+            ).get("generated_at_utc")
+        except (json.JSONDecodeError, OSError):
+            existing_generated_at = None
+
     output = {
         "meta": {
             "source": "Census American Community Survey 5-yr (table B25064 median gross rent)",
             "derived_from": str(TRACTS_IN.relative_to(REPO_ROOT)),
             "method": "Renter-HH-weighted mean of tract medians (standard approximation)",
             "vintage": tracts_data.get("meta", {}).get("vintage", "ACS 5-yr (see tract source)"),
-            "generated_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+            "generated_at_utc": existing_generated_at
+            or datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
             "scope": f"Colorado: {len(counties_out)} of 64 counties, {len(places_out)} of 482 places",
             "notes": (
                 "ACS B25064 is the always-available baseline for CO median rent. "
