@@ -23,6 +23,7 @@ import io
 import json
 import os
 import sys
+import time
 import urllib.request
 import urllib.error
 from datetime import datetime, timezone
@@ -386,6 +387,24 @@ def main():
 
     if not data_year:
         result["meta"]["error"] = "API returned no parseable data — county list only"
+
+    all_stub = bool(counties) and all((c or {}).get("_noData") for c in counties.values())
+    if all_stub and OUT_FILE.exists():
+        try:
+            prior = json.loads(OUT_FILE.read_text())
+        except (json.JSONDecodeError, OSError):
+            prior = {}
+        prior_real = any(
+            not (c or {}).get("_noData")
+            for c in (prior.get("counties") or {}).values()
+        )
+        if prior_real:
+            print(
+                "ERROR: DOLA fetch produced only _noData stubs; refusing to "
+                "overwrite existing good file.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
 
     # Write output
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
