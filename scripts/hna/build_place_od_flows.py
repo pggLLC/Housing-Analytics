@@ -70,6 +70,7 @@ OUT_PATH = REPO / "data/hna/place-od-flows.json"
 
 OD_URL_TMPL = "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/co_od_main_JT00_{year}.csv.gz"
 XWALK_URL   = "https://lehd.ces.census.gov/data/lodes/LODES8/co/co_xwalk.csv.gz"
+MIN_OD_PLACES = 100
 
 
 def _download(url: str, dest: Path, refetch: bool) -> Path:
@@ -203,6 +204,13 @@ def main():
         },
         "places": out_places,
     }
+    if len(out_places) < MIN_OD_PLACES:
+        print(
+            f"[lodes-od] ERROR: only {len(out_places)} places (min {MIN_OD_PLACES}); "
+            f"refusing to overwrite {OUT_PATH.name}.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with OUT_PATH.open("w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, sort_keys=False)

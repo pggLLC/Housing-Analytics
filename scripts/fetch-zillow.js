@@ -297,6 +297,15 @@ function loadCache(key) {
         records: filtered,
       };
 
+      if (filtered.length === 0) {
+        const cached = loadCache(dataset.key);
+        if (cached && Array.isArray(cached.records) && cached.records.length > 0) {
+          console.warn(`  Zillow success path produced 0 Colorado rows for "${dataset.label}" (schema drift?). Falling back to cache.`);
+          saveJson(dataset.key, { ...cached, fetchedAt: new Date().toISOString(), source: 'cache' });
+          continue;
+        }
+      }
+
       saveJson(dataset.key, payload);
     }
 

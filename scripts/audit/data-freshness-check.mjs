@@ -60,6 +60,7 @@ const TIMESTAMP_FIELDS = [
   'updated',
   'generated',
   'generatedAt',
+  'fetchedAt',
   'last_updated',
   'lastUpdated',
   'timestamp',
@@ -116,7 +117,7 @@ async function checkOne(entry) {
   // Prefer an in-file timestamp when available.
   let recordedTs = null;
   let source     = 'mtime';
-  if (entry.file.endsWith('.json')) {
+  if (entry.file.endsWith('.json') || entry.file.endsWith('.geojson')) {
     const data = await readJsonSafe(entry.file);
     const found = findTimestamp(data);
     if (found) {
