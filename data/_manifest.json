@@ -2,8 +2,8 @@
   "meta": {
     "generated_at": "2026-07-27T11:19:07.392Z",
     "root": "data/",
-    "file_count": 1598,
-    "total_size_bytes": 268822382,
+    "file_count": 1596,
+    "total_size_bytes": 268789248,
     "kinds": {
       "json": 1563,
       "geojson": 31,
@@ -5537,25 +5537,6 @@
       "path": "hna/jurisdiction-metrics-digest/0812900.json",
       "kind": "json",
       "size_bytes": 29516,
-      "mtime": "2026-07-27T11:18:54.539Z",
-      "shape": "object",
-      "keys": [
-        "schema",
-        "generated_from",
-        "geography",
-        "metric_count",
-        "min_rate_denominator",
-        "metrics"
-      ],
-      "key_count": 6,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
-    },
-    {
-      "path": "hna/jurisdiction-metrics-digest/0812910.json",
-      "kind": "json",
-      "size_bytes": 29420,
       "mtime": "2026-07-27T11:18:54.539Z",
       "shape": "object",
       "keys": [
@@ -21345,25 +21326,6 @@
       "kind": "json",
       "size_bytes": 4033,
       "mtime": "2026-07-27T11:18:54.669Z",
-      "shape": "object",
-      "keys": [
-        "updated",
-        "geo",
-        "acsProfile",
-        "acsS0801",
-        "acsB08301",
-        "source"
-      ],
-      "key_count": 6,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
-    },
-    {
-      "path": "hna/summary/0812910.json",
-      "kind": "json",
-      "size_bytes": 3714,
-      "mtime": "2026-07-27T11:18:54.670Z",
       "shape": "object",
       "keys": [
         "updated",

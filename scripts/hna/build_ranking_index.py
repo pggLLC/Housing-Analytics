@@ -131,6 +131,14 @@ def _load_json(path: str) -> dict | list | None:
         return None
 
 
+_alias_doc = _load_json(os.path.join(ROOT, "data", "hna", "place-phantom-aliases.json")) or {}
+PHANTOM_ALIAS_GEOIDS = set(str(k).zfill(7) for k in (_alias_doc.get("aliases", {}) or {}))
+
+
+def is_phantom_alias_geoid(geoid: str) -> bool:
+    return str(geoid).zfill(7) in PHANTOM_ALIAS_GEOIDS
+
+
 # ---------------------------------------------------------------------------
 # Load cross-reference datasets
 # ---------------------------------------------------------------------------
@@ -288,6 +296,8 @@ def load_county_populations() -> dict[str, int]:
         if not fname.endswith(".json"):
             continue
         fips = fname[:-5]
+        if is_phantom_alias_geoid(fips):
+            continue
         # Only 5-digit county FIPS files (e.g. 08013.json)
         if len(fips) != 5:
             continue
@@ -309,6 +319,8 @@ def load_summary_populations() -> dict[str, int]:
         if not fname.endswith(".json"):
             continue
         geoid = fname[:-5]
+        if is_phantom_alias_geoid(geoid):
+            continue
         data = _load_json(os.path.join(summary_dir, fname))
         if data and isinstance(data, dict):
             pop = safe_float(data.get("acsProfile", {}).get("DP05_0001E"))
@@ -1358,6 +1370,8 @@ def build(out_path: str | None = None) -> None:
 
     for path in all_files:
         geoid = os.path.basename(path).replace(".json", "")
+        if is_phantom_alias_geoid(geoid):
+            continue
         summary = _load_json(path)
         if not summary:
             continue
