@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T16:31:11.752Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T17:54:06.159Z. Do not edit by hand.
 
 ---
 
@@ -35,7 +35,7 @@
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.5 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-241 test files found.
+242 test files found.
 
 | File | Size |
 |------|------|
@@ -1794,6 +1794,7 @@
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
+| `test/polymarket-resolved.test.js` | 2.9 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
