@@ -237,10 +237,10 @@
 
   function _compRow(i) {
     return '<div class="lvt-comp-row" data-comp="' + i + '">' +
-      '<input type="text" class="lvt-input lvt-comp-addr" placeholder="Address / description" style="flex:2;">' +
-      '<input type="number" class="lvt-input lvt-comp-acres" placeholder="Acres" step="0.1" min="0" style="flex:.7;">' +
-      '<input type="number" class="lvt-input lvt-comp-price" placeholder="Sale price ($)" step="10000" min="0" style="flex:1;">' +
-      '<input type="text" class="lvt-input lvt-comp-date" placeholder="Date (YYYY)" style="flex:.6;">' +
+      '<input type="text" class="lvt-input lvt-comp-addr" aria-label="Comparable sale address or description" placeholder="Address / description" style="flex:2;">' +
+      '<input type="number" class="lvt-input lvt-comp-acres" aria-label="Comparable sale acres" placeholder="Acres" step="0.1" min="0" style="flex:.7;">' +
+      '<input type="number" class="lvt-input lvt-comp-price" aria-label="Comparable sale price" placeholder="Sale price ($)" step="10000" min="0" style="flex:1;">' +
+      '<input type="text" class="lvt-input lvt-comp-date" aria-label="Comparable sale date" placeholder="Date (YYYY)" style="flex:.6;">' +
       '</div>';
   }
 
@@ -351,10 +351,14 @@
       var maxVal = Math.max(band.seller, band.market, band.developer, band.publicPartner || 0) || 1;
       var _bar = function (val, label, color) {
         var pct = Math.round((val / maxVal) * 100);
+        var onColor = color.indexOf('--bad') !== -1 ? 'var(--on-bad)' :
+          color.indexOf('--warn') !== -1 ? 'var(--on-warn)' :
+          color.indexOf('--accent') !== -1 ? 'var(--on-accent)' :
+          color.indexOf('--good') !== -1 ? 'var(--on-good)' : 'var(--text)';
         return '<div class="lvt-band-row">' +
           '<div class="lvt-band-label">' + label + '</div>' +
           '<div class="lvt-band-bar-bg">' +
-            '<div class="lvt-band-bar" style="width:' + pct + '%;background:' + color + ';">' + _fmt(val) + '</div>' +
+            '<div class="lvt-band-bar" style="width:' + pct + '%;background:' + color + ';color:' + onColor + ';">' + _fmt(val) + '</div>' +
           '</div>' +
         '</div>';
       };

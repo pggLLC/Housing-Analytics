@@ -127,8 +127,12 @@
     var conf  = val('confidence', 'medium');
     var clazz = val('classification', 'C');
 
-    function selectHtml(name, options, current) {
-      return '<select class="pab-form__select" name="' + name + '">' +
+    function fieldId(name) {
+      return 'pab-field-' + String(name).replace(/[^a-z0-9_-]/gi, '-');
+    }
+
+    function selectHtml(name, options, current, label) {
+      return '<select class="pab-form__select" id="' + fieldId(name) + '" name="' + name + '" aria-label="' + _esc(label) + '">' +
         options.map(function (o) {
           var sel = (o === current) ? ' selected' : '';
           return '<option value="' + _esc(o) + '"' + sel + '>' + _esc(o) + '</option>';
@@ -140,48 +144,48 @@
       '<div class="pab-form" data-pab-form>' +
         '<div class="pab-form__grid">' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Jurisdiction</label>' +
-            '<input class="pab-form__input" name="jurisdiction" value="' + _esc(val('jurisdiction', opts.jurisdiction || '')) + '" required>' +
+            '<label class="pab-form__label" for="pab-field-jurisdiction">Jurisdiction</label>' +
+            '<input class="pab-form__input" id="pab-field-jurisdiction" name="jurisdiction" value="' + _esc(val('jurisdiction', opts.jurisdiction || '')) + '" required>' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">GEOID</label>' +
-            '<input class="pab-form__input" name="geoid" value="' + _esc(val('geoid', opts.geoid || '')) + '" required>' +
+            '<label class="pab-form__label" for="pab-field-geoid">GEOID</label>' +
+            '<input class="pab-form__input" id="pab-field-geoid" name="geoid" value="' + _esc(val('geoid', opts.geoid || '')) + '" required>' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Stage</label>' +
-            selectHtml('stage', window.PipelineStore.STAGES, stage) +
+            '<label class="pab-form__label" for="pab-field-stage">Stage</label>' +
+            selectHtml('stage', window.PipelineStore.STAGES, stage, 'Stage') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">IOI score</label>' +
-            '<input class="pab-form__input" type="number" min="0" max="100" name="ioi_score" value="' + _esc(val('ioi_score', '')) + '">' +
+            '<label class="pab-form__label" for="pab-field-ioi_score">IOI score</label>' +
+            '<input class="pab-form__input" id="pab-field-ioi_score" type="number" min="0" max="100" name="ioi_score" value="' + _esc(val('ioi_score', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Confidence</label>' +
-            selectHtml('confidence', window.PipelineStore.CONFIDENCES, conf) +
+            '<label class="pab-form__label" for="pab-field-confidence">Confidence</label>' +
+            selectHtml('confidence', window.PipelineStore.CONFIDENCES, conf, 'Confidence') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Classification</label>' +
-            selectHtml('classification', window.PipelineStore.CLASSIFICATIONS, clazz) +
+            '<label class="pab-form__label" for="pab-field-classification">Classification</label>' +
+            selectHtml('classification', window.PipelineStore.CLASSIFICATIONS, clazz, 'Classification') +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Product type</label>' +
-            '<input class="pab-form__input" name="product_type" value="' + _esc(val('product_type', '')) + '" placeholder="9% LIHTC / Workforce / ...">' +
+            '<label class="pab-form__label" for="pab-field-product_type">Product type</label>' +
+            '<input class="pab-form__input" id="pab-field-product_type" name="product_type" value="' + _esc(val('product_type', '')) + '" placeholder="9% LIHTC / Workforce / ...">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Last update</label>' +
-            '<input class="pab-form__input" type="date" name="last_update" value="' + _esc(val('last_update', _todayIso())) + '">' +
+            '<label class="pab-form__label" for="pab-field-last_update">Last update</label>' +
+            '<input class="pab-form__input" id="pab-field-last_update" type="date" name="last_update" value="' + _esc(val('last_update', _todayIso())) + '">' +
           '</div>' +
           '<div class="pab-form__field pab-form__row">' +
-            '<label class="pab-form__label">Next action</label>' +
-            '<input class="pab-form__input" name="next_action" value="' + _esc(val('next_action', '')) + '">' +
+            '<label class="pab-form__label" for="pab-field-next_action">Next action</label>' +
+            '<input class="pab-form__input" id="pab-field-next_action" name="next_action" value="' + _esc(val('next_action', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field">' +
-            '<label class="pab-form__label">Next action due</label>' +
-            '<input class="pab-form__input" type="date" name="next_action_due" value="' + _esc(val('next_action_due', '')) + '">' +
+            '<label class="pab-form__label" for="pab-field-next_action_due">Next action due</label>' +
+            '<input class="pab-form__input" id="pab-field-next_action_due" type="date" name="next_action_due" value="' + _esc(val('next_action_due', '')) + '">' +
           '</div>' +
           '<div class="pab-form__field pab-form__row">' +
-            '<label class="pab-form__label">Notes</label>' +
-            '<textarea class="pab-form__textarea" name="notes">' + _esc(val('notes', '')) + '</textarea>' +
+            '<label class="pab-form__label" for="pab-field-notes">Notes</label>' +
+            '<textarea class="pab-form__textarea" id="pab-field-notes" name="notes">' + _esc(val('notes', '')) + '</textarea>' +
           '</div>' +
         '</div>' +
         '<div class="pab-form__actions">' +

@@ -1994,7 +1994,7 @@ html.dark-mode .wf-next-action--skipped .wf-next-action__cta {
 }
 .wf-next-action--skipped .wf-next-action__cta:hover {
   background: color-mix(in oklab, var(--warn) 85%, #000);
-  color: #fff;
+  color: var(--on-warn);
 }
 /* Variant: complete (celebration) */
 .wf-next-action--complete .wf-next-action__inner {
@@ -2203,7 +2203,7 @@ html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4
 .lvt-band-row { display: flex; align-items: center; gap: .5rem; }
 .lvt-band-label { font-size: .72rem; color: var(--muted); min-width: 140px; text-align: right; }
 .lvt-band-bar-bg { flex: 1; height: 26px; background: var(--bg2); border-radius: 4px; overflow: hidden; }
-.lvt-band-bar { height: 100%; display: flex; align-items: center; padding: 0 8px; font-size: .72rem; font-weight: 700; color: #fff; border-radius: 4px; min-width: fit-content; white-space: nowrap; }
+.lvt-band-bar { height: 100%; display: flex; align-items: center; padding: 0 8px; font-size: .72rem; font-weight: 700; border-radius: 4px; min-width: fit-content; white-space: nowrap; }
 .lvt-band-note { font-size: .78rem; color: var(--muted); margin-top: .5rem; font-style: italic; }
 .lvt-disclaimer { margin-top: 1rem; padding: .6rem .8rem; background: color-mix(in srgb, var(--warn) 8%, transparent); border: 1px solid color-mix(in srgb, var(--warn) 20%, transparent); border-radius: 6px; font-size: .75rem; line-height: 1.5; color: var(--text); }
 @media(max-width:600px) { .lvt-comp-row { flex-direction: column; } .lvt-band-label { min-width: 100px; font-size: .65rem; } }
