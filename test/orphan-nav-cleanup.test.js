@@ -27,6 +27,10 @@ const sitemap = read('sitemap.html');
 
 assertRedirect(lihtcDashboard, 'lihtc-allocations.html', 'LIHTC-dashboard.html');
 assertRedirect(complianceDashboard, 'data-review-hub.html', 'compliance-dashboard.html');
+assert(lihtcDashboard.includes('<main id="main-content"'), 'LIHTC redirect stub keeps a main landmark');
+assert(lihtcDashboard.includes('aria-live="polite"'), 'LIHTC redirect stub keeps an aria-live status region');
+assert(complianceDashboard.includes('<main id="main-content"'), 'compliance redirect stub keeps a main landmark');
+assert(complianceDashboard.includes('aria-live="polite"'), 'compliance redirect stub keeps an aria-live status region');
 assert(/dashboard has been retired/i.test(complianceDashboard), 'retired dashboard note is present');
 assert(!sitemap.includes('href="compliance-dashboard.html"'), 'retired compliance dashboard is absent from sitemap');
 
