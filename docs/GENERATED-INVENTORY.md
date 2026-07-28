@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T14:42:41.343Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T14:53:38.489Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 99.8 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.4 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.0 KB |
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-238 test files found.
+239 test files found.
 
 | File | Size |
 |------|------|
@@ -1798,6 +1798,7 @@
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
+| `test/public-facing-numbers.test.js` | 3.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
