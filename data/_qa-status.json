@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-07-27T15:14:59.211Z",
+  "generated_at": "2026-07-28T14:39:23.696Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
     "bounds": "pass",
-    "freshness": "pass",
+    "freshness": "fail",
     "plausibility": "pass"
   },
   "layers": {
@@ -15,20 +15,20 @@
     },
     "sentinel": {
       "status": "pass",
-      "output_tail": "  OK         547 / floor   540  HNA ranking entries                       data/hna/ranking-index.json\n  OK         547 / floor   540  HNA per-geography summary files           data/hna/summary\n  OK         926 / floor   500  HUD LIHTC project features                data/market/hud_lihtc_co.geojson\n  OK        1447 / floor  1300  ACS census-tract metric rows              data/market/acs_tract_metrics_co.json\n  OK          64 / floor    64  Colorado county demographic entries       data/co-county-demographics.json\n\nSummary: 5 ok, 0 below floor, 0 missing (of 5)\n",
+      "output_tail": "  OK         546 / floor   540  HNA ranking entries                       data/hna/ranking-index.json\n  OK         546 / floor   540  HNA per-geography summary files           data/hna/summary\n  OK         926 / floor   500  HUD LIHTC project features                data/market/hud_lihtc_co.geojson\n  OK        1447 / floor  1300  ACS census-tract metric rows              data/market/acs_tract_metrics_co.json\n  OK          64 / floor    64  Colorado county demographic entries       data/co-county-demographics.json\n\nSummary: 5 ok, 0 below floor, 0 missing (of 5)\n",
       "error": null
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4574 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 16 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 9 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4566 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 16 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 10 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
       "error": null
     },
     "freshness": {
-      "status": "pass",
+      "status": "fail",
       "files": [
         {
           "status": "OK",
-          "ageDays": 0.2,
+          "ageDays": 0.8,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,44 +42,44 @@
         },
         {
           "status": "OK",
-          "ageDays": 7.4,
+          "ageDays": 8.4,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 0.6,
+          "ageDays": 1.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 22.8,
+          "ageDays": 23.8,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 78.5,
+          "ageDays": 79.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
         },
         {
           "status": "OK",
-          "ageDays": 0,
+          "ageDays": 1.3,
           "slaDays": 95,
-          "source": "mtime",
+          "source": "field:fetchedAt",
           "file": "data/market/hud_lihtc_co.geojson"
         },
         {
-          "status": "OK",
-          "ageDays": 0,
+          "status": "STALE",
+          "ageDays": 137.6,
           "slaDays": 95,
-          "source": "mtime",
+          "source": "field:meta.generated",
           "file": "data/market/nhpd_co.geojson"
         },
         {
@@ -98,30 +98,30 @@
         },
         {
           "status": "OK",
-          "ageDays": 0,
+          "ageDays": 81.3,
           "slaDays": 400,
-          "source": "mtime",
+          "source": "field:meta.generated",
           "file": "data/market/cdphe_county_boundaries_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 0,
+          "ageDays": 2.4,
           "slaDays": 95,
-          "source": "mtime",
+          "source": "field:meta.generated",
           "file": "data/market/transit_routes_co.geojson"
         }
       ],
-      "ok": 12,
-      "stale": 0,
+      "ok": 11,
+      "stale": 1,
       "missing": 0
     },
     "plausibility": {
       "status": "pass",
       "passed": 18,
       "failed": 0,
-      "output_tail": "..................                                                       [100%]\nWCAG COMPLIANCE SCORE: 100%\n18 passed, 501 deselected in 3.54s\n"
+      "output_tail": "..................                                                       [100%]\nWCAG COMPLIANCE SCORE: 100%\n18 passed, 501 deselected in 3.21s\n"
     }
   },
   "qa_doc": "docs/CONTRIBUTING.md#qaqc-layers",
-  "overall": "ok"
+  "overall": "warn"
 }
