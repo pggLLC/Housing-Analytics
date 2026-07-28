@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-27T10:30:50.980Z
+**Scan timestamp:** 2026-07-28T09:29:28.889Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1603 |
-| New (unregistered) | 1572 |
+| Files scanned | 1601 |
+| New (unregistered) | 1570 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (753 KB)
+- `data/_manifest.json` (752 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (212 KB)
+- `data/alerts/alerts_archive.json` (213 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -56,7 +56,7 @@
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
 - `data/discovery-reports/latest.json` (237 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
-- `data/environmental/fema-flood-co.geojson` (3 KB)
+- `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/glossary.json` (14 KB)
 - `data/hmda/co-county-aggregates.json` (241 KB)
 - `data/hmda/co-state-trends.json` (4 KB)
@@ -275,7 +275,6 @@
 - `data/hna/jurisdiction-metrics-digest/0812815.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0812855.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0812900.json` (29 KB)
-- `data/hna/jurisdiction-metrics-digest/0812910.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0812945.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0813460.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/0813590.json` (29 KB)
@@ -813,7 +812,7 @@
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (25 KB)
 - `data/hna/local-resources.json` (172 KB)
-- `data/hna/ownership-need.json` (704 KB)
+- `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1592 KB)
@@ -887,7 +886,7 @@
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
 - `data/hna/projections/places.json` (826 KB)
-- `data/hna/ranking-index.json` (1682 KB)
+- `data/hna/ranking-index.json` (1678 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
 - `data/hna/ranking-scenarios/large-gap.json` (49 KB)
@@ -1041,7 +1040,6 @@
 - `data/hna/summary/0812815.json` (4 KB)
 - `data/hna/summary/0812855.json` (4 KB)
 - `data/hna/summary/0812900.json` (4 KB)
-- `data/hna/summary/0812910.json` (4 KB)
 - `data/hna/summary/0812945.json` (4 KB)
 - `data/hna/summary/0813460.json` (4 KB)
 - `data/hna/summary/0813590.json` (4 KB)
@@ -1564,7 +1562,7 @@
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/tax-credit-legislation.json` (12 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (172 KB)
+- `data/policy_briefs.json` (173 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
@@ -1575,7 +1573,7 @@
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (20 KB)
+- `data/reports/developer-url-health.json` (22 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
