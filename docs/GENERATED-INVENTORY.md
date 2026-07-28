@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T03:27:43.462Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T11:59:13.615Z. Do not edit by hand.
 
 ---
 
@@ -121,7 +121,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 236.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 236.5 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.24 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -1547,8 +1547,8 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 197.9 KB | ✅ | — |
-| `data/market/acs_median_rent_co.json` | 81.5 KB | ✅ | — |
+| `data/manifest.json` | 197.7 KB | ✅ | — |
+| `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-235 test files found.
+237 test files found.
 
 | File | Size |
 |------|------|
@@ -1770,6 +1770,7 @@
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
+| `test/pipeline-guards-a1.test.js` | 2.2 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
@@ -1821,6 +1822,7 @@
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_chfa_award_predictor.js` | 14.6 KB |
 | `test/test_environmental_screening.js` | 14.1 KB |
+| `test/test_fmr_flatten_guard.py` | 1.2 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
