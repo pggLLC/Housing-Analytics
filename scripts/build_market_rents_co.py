@@ -47,6 +47,7 @@ ZORI_CITY_URL = "https://files.zillowstatic.com/research/public_csvs/zori/City_z
 ZORI_COUNTY_URL = "https://files.zillowstatic.com/research/public_csvs/zori/County_zori_uc_sfrcondomfr_sm_sa_month.csv"
 
 CO_STATE = "CO"
+MIN_ZORI_COUNTIES = 20
 
 
 def _fetch(url: str) -> str:
@@ -224,6 +225,10 @@ def main() -> int:
         "cities": co_cities,
         "counties": co_counties,
     }
+
+    if (statewide_median is None or len(co_counties) < MIN_ZORI_COUNTIES) and OUT.exists():
+        print("ERROR: ZORI parse yielded too few CO records (schema drift?); retaining existing file.", file=sys.stderr)
+        return 1
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(output, indent=2) + "\n")

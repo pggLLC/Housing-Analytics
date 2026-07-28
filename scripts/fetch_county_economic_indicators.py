@@ -492,6 +492,10 @@ def main() -> int:
     # ── BLS LAUS (5-year employment growth, replaces broken QCEW) ────────────
     laus_emp_growth = fetch_laus_employment_growth(county_fips)
 
+    if not laus_ur and not laus_emp_growth and OUT_FILE.exists():
+        _warn("BLS LAUS returned no data for any county; retaining existing file")
+        return 0
+
     # ── Assemble output ───────────────────────────────────────────────────────
     counties_out: dict[str, dict] = {}
     for county_name in sorted(county_fips.keys()):
