@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T14:53:38.489Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T15:20:18.611Z. Do not edit by hand.
 
 ---
 
@@ -49,7 +49,7 @@
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.1 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.8 KB |
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-239 test files found.
+240 test files found.
 
 | File | Size |
 |------|------|
@@ -1752,6 +1752,7 @@
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
+| `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
