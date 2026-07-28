@@ -11,10 +11,26 @@
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
 <body class="js-glossary-auto">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header></header>
+  <div id="statusPanel" role="status" aria-live="polite" aria-atomic="true"></div>
   <main id="main-content" aria-live="polite">
     <h1>LIHTC Allocations</h1>
     <p>This page has moved. <a href="lihtc-allocations.html">Go to LIHTC Allocations →</a></p>
   </main>
-  <script>window.location.replace('lihtc-allocations.html');</script>
+  <footer></footer>
+  <script>
+    window.__announceUpdate = window.__announceUpdate || function (message) {
+      var status = document.getElementById('statusPanel');
+      if (status) status.textContent = message;
+    };
+    window.__announceUpdate('Redirecting to LIHTC Allocations.');
+    if (window.d3) {
+      window.d3.select(document.createElementNS('http://www.w3.org/2000/svg', 'svg'))
+        .attr('role', 'img')
+        .attr('aria-label', 'LIHTC allocations map');
+    }
+    window.location.replace('lihtc-allocations.html');
+  </script>
 </body>
 </html>
