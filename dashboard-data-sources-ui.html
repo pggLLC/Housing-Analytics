@@ -384,7 +384,7 @@
             (isExpanded ? '▲ Hide' : '▼ Details') +
           '</button>' +
           (s.apiEndpoint ? ' <button class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" data-action="check-api" data-id="' + esc(s.id) + '">🔌 API</button>' : '') +
-          (s.url ? ' <a href="' + esc(s.url) + '" target="_blank" rel="noopener" class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem">🔗</a>' : '') +
+          (s.url ? ' <a href="' + esc(s.url) + '" target="_blank" rel="noopener" class="dd-btn" style="padding:.2rem .5rem;font-size:.72rem" aria-label="Open source">🔗</a>' : '') +
         '</td>' +
         '</tr>' +
         '<tr id="' + expandId + '" class="dd-expand-row ' + (isExpanded ? 'open' : '') + '" aria-hidden="' + !isExpanded + '">' +

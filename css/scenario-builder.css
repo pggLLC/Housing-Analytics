@@ -351,7 +351,7 @@
 
 .btn-danger:hover {
   background: var(--bad);
-  color: #fff;
+  color: var(--on-bad);
 }
 
 .btn-sm {
