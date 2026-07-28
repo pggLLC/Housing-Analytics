@@ -2388,7 +2388,7 @@
       "geoid": "0874375",
       "name": "Strasburg (CDP)",
       "type": "cdp",
-      "containingCounty": "08005",
+      "containingCounty": "08001",
       "hasHnaSummary": true,
       "hasRanking": true,
       "projectionMode": "place_permit_blend"
