@@ -74,6 +74,7 @@ KNOWN_BAD_MAPPINGS: dict[str, dict] = {
     #   → "Logan County (part), Sterling city, Colorado"  (08075)
     "0873935": {"county_fips": "08075", "name": "Sterling (city)"},
     "0869985": {"county_fips": "08075", "name": "Sterling (city)"},  # duplicate registry entry
+    "0874375": {"county_fips": "08001", "name": "Strasburg (CDP)"},
 }
 
 
@@ -269,9 +270,9 @@ def main() -> int:
 
     if args.apply and mismatches:
         # Write updated registry
-        registry["generated"] = utc_now()
         with open(GEO_REGISTRY, "w", encoding="utf-8") as f:
             json.dump(registry, f, indent=2)
+            f.write("\n")
         print(f"\n✓ Updated {GEO_REGISTRY} ({len(mismatches)} mappings corrected)")
 
         # Also rebuild place_county_lookup.json from the fixed registry
@@ -282,13 +283,16 @@ def main() -> int:
                 cc = str(g.get("containingCounty", "")).zfill(5)
                 if geoid and cc and cc != "00000":
                     lookup[geoid] = cc
+        existing_meta = {}
+        if os.path.exists(PLACE_COUNTY_CACHE):
+            try:
+                with open(PLACE_COUNTY_CACHE, "r", encoding="utf-8") as f:
+                    existing_meta = (json.load(f).get("meta") or {})
+            except Exception:  # noqa: BLE001
+                existing_meta = {}
         cache_payload = {
             "meta": {
-                "generated_at": utc_now(),
-                "source": (
-                    "Rebuilt from geography-registry.json after "
-                    "fix_place_county_mappings.py audit/correction"
-                ),
+                **existing_meta,
                 "count": len(lookup),
             },
             "places": lookup,
@@ -296,6 +300,7 @@ def main() -> int:
         os.makedirs(os.path.dirname(PLACE_COUNTY_CACHE), exist_ok=True)
         with open(PLACE_COUNTY_CACHE, "w", encoding="utf-8") as f:
             json.dump(cache_payload, f, indent=2, sort_keys=True)
+            f.write("\n")
         print(f"✓ Rebuilt {PLACE_COUNTY_CACHE} ({len(lookup)} place mappings)")
 
     return 0 if not mismatches or args.apply else 1
