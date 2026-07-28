@@ -76,9 +76,9 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   if (window.PageContext) PageContext.render('pageContext', {
-    what: 'Ranks all 547 Colorado geographies (64 counties, 273 places, 210 CDPs) by a weighted housing need score: 50% affordability gap, 30% cost burden, 20% in-commuter pressure. Includes a policy scorecard showing which jurisdictions have supportive housing environments.',
+    what: 'Ranks all 546 Colorado geographies (64 counties, 272 places, 210 CDPs) by a composite housing need score: 55% community need + 45% opportunity. Community need blends the unit gap at ≤30% AMI, cost burden, affordability intensity, future pressure, and overcrowding; in-commuter pressure is an augment-only multiplier, not a standalone weight. Includes a policy scorecard showing which jurisdictions have supportive housing environments.',
     why: 'Developers choosing between potential sites need a comparative framework. Policymakers allocating resources need to prioritize. This ranking helps both audiences identify where need is greatest and where local conditions support development.',
-    not: 'Rankings use percentile scoring across all 547 geographies, mixing large cities with small CDPs. A high percentile rank for a 500-person CDP may reflect noise, not signal. The 50/30/20 weights are defensible but not the only valid weighting. Place-level gaps are scaled from county data (proxy).',
+    not: 'Rankings use percentile scoring across all 546 geographies, mixing large cities with small CDPs. A high percentile rank for a 500-person CDP may reflect noise, not signal. The 55% community-need / 45% opportunity weighting is defensible but not the only valid weighting. Place-level gaps are scaled from county data (proxy).',
     nextSteps: [
       { label: 'Select Jurisdiction', href: 'select-jurisdiction.html', desc: 'Choose a geography to analyze in depth' },
       { label: 'Housing Needs Assessment', href: 'housing-needs-assessment.html', desc: 'Full HNA for a selected geography' }
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="hca-how-to__metrics">
           <strong>Key metrics explained:</strong>
           <dl>
-            <dt>Need Score</dt><dd>Composite index (0-100): 50% unit gap at 30% AMI, 30% renter cost-burden rate, 20% in-commuter pressure</dd>
+            <dt>Need Score</dt><dd>Composite index (0-100): 55% community need + 45% opportunity. Community need blends the unit gap at ≤30% AMI, cost burden, affordability intensity, future pressure, and overcrowding; in-commuter pressure is an augment-only multiplier, not a standalone weight.</dd>
             <dt>Unit Gap</dt><dd>Estimated deficit of affordable rental units at a given AMI threshold (from HUD CHAS data)</dd>
             <dt>% Rent Burdened</dt><dd>Share of renter households paying 30%+ of income on housing costs</dd>
             <dt>In-Commuters</dt><dd>Workers employed in the jurisdiction but living elsewhere (demand signal for local housing)</dd>
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <p class="hca-footnote">
       Rankings derived from ACS 5-year estimates, DOLA county population projections,
       HUD CHAS cost-burden data, LEHD commuting flows, and AMI gap modeling.
-      <strong>Overall Need Score</strong> weights: 50% unit gap (30% AMI), 30% cost-burden rate, 20% in-commuter pressure.
+      <strong>Overall Need Score</strong> is a composite index (0–100): 55% community need + 45% opportunity. Community need blends the unit gap at ≤30% AMI, cost burden, affordability intensity, future pressure, and overcrowding; in-commuter pressure is an augment-only multiplier, not a standalone weight.
       Underserved AMI tiers are those with &lt;75% market coverage and a deficit &gt;100 units.
       Incorporated place values are scaled by population share within their containing county.
       <strong>Housing Commitment</strong> scores are derived from DOLA Proposition 123 filings, local housing authority
