@@ -377,7 +377,7 @@
   // -------------------------------------------------------------------------
 
   const METRIC_COLUMNS = [
-    { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score',       tip: 'Composite index (0-100): 50% unit gap at 30% AMI, 30% cost-burden rate, 20% in-commuter pressure' },
+    { id: 'overall_need_score',         label: 'Overall Need\nScore',       mobileLabel: 'Need Score',       tip: 'Composite index (0-100): 55% community need + 45% opportunity. Community need blends the unit gap at <=30% AMI, cost burden, affordability intensity, future pressure, and overcrowding; in-commuter pressure is an augment-only multiplier, not a standalone weight.' },
     { id: 'commitment_score',           label: 'Housing\nCommitment',       mobileLabel: 'Commitment', isScorecard: true, tip: 'Policy commitment scorecard: housing authority, inclusionary zoning, Prop 123, housing plans, etc.' },
     { id: 'housing_gap_units',          label: 'Units Needed\n(30% AMI)',   mobileLabel: 'Units Needed',     tip: 'Estimated deficit of affordable rental units at 30% of Area Median Income: renter households below the threshold minus units priced affordable to them (ACS B25118 + B25063 vs HUD limits)' },
     { id: 'pct_cost_burdened',          label: '% Rent\nBurdened',          mobileLabel: '% Rent Burdened',  tip: 'Share of renter households paying 30%+ of income on housing costs (ACS GRAPI)' },
