@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T17:54:06.159Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T19:03:14.102Z. Do not edit by hand.
 
 ---
 
@@ -34,7 +34,7 @@
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
-| `developer.html` | Developer Home — COHO | 13.5 KB |
+| `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
@@ -1639,10 +1639,11 @@
 
 ## Test Files
 
-242 test files found.
+243 test files found.
 
 | File | Size |
 |------|------|
+| `test/a11y-contrast-labels.test.js` | 3.6 KB |
 | `test/acs-etl.test.js` | 25.3 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
