@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T15:20:18.611Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T16:31:11.752Z. Do not edit by hand.
 
 ---
 
@@ -21,7 +21,7 @@
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.1 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.0 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-240 test files found.
+241 test files found.
 
 | File | Size |
 |------|------|
@@ -1704,6 +1704,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
+| `test/fred-commodities-config.test.js` | 2.5 KB |
 | `test/funding-context-card.test.js` | 7.5 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
@@ -1931,7 +1932,7 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.6 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 6.5 KB |
-| `.github/workflows/fetch-fred-data.yml` | 14.0 KB |
+| `.github/workflows/fetch-fred-data.yml` | 14.4 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
