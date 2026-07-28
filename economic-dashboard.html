@@ -384,8 +384,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </summary>
 <div class="section-body">
 <p class="section-desc">
-  Live prediction market prices from <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> — crowd-consensus probabilities for economic outcomes that directly affect Colorado real estate, construction costs, and housing affordability.
-  Prices reflect real-money positions and update continuously.
+  Prediction-market prices from <a href="https://polymarket.com" target="_blank" rel="noopener">Polymarket</a> — crowd-consensus probabilities for economic outcomes that directly affect Colorado real estate, construction costs, and housing affordability.
+  Open-market prices update continuously; settled markets are labeled.
 </p>
 <div class="hp-disclaimer" style="margin-bottom:1rem;">
   <strong>Not financial advice.</strong> Prediction market prices represent crowd consensus, not forecasts. Use alongside FRED data above for context on rate environment, inflation trajectory, and recession risk when assessing Colorado housing deals.
@@ -571,6 +571,16 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 </details>
+<style>
+  .pm-settled {
+    color: var(--muted) !important;
+    font-style: italic;
+    font-weight: 600;
+  }
+  .hp-prob-row.pm-settled {
+    opacity: .72;
+  }
+</style>
 
 <!-- ══════════════════════════════════════════════════════════════
      METHODOLOGY & SOURCES (bottom of page)
@@ -1424,6 +1434,14 @@ function getKey(){ return CONFIG_KEY || ""; }
     return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
   }
 
+  function pmIsResolved(prices) {
+    if (!Array.isArray(prices) || prices.length < 2) return false;
+    var nums = prices.map(Number).filter(function(n) { return !isNaN(n); });
+    if (nums.length < 2) return false;
+    var max = Math.max.apply(null, nums), min = Math.min.apply(null, nums);
+    return max >= 0.999 && min <= 0.001;
+  }
+
   function parseMarkets(event) {
     if (!event || !event.markets) return [];
     return event.markets.map(function(m) {
@@ -1432,9 +1450,15 @@ function getKey(){ return CONFIG_KEY || ""; }
       return {
         question: m.question || '',
         prob: parseFloat(prices[0]) || 0,
+        prices: prices,
+        resolved: pmIsResolved(prices),
         volume: parseFloat(m.volume) || 0
       };
     }).sort(function(a, b) { return b.prob - a.prob; });
+  }
+
+  function pmEventIsResolved(markets) {
+    return Array.isArray(markets) && markets.length > 0 && markets.every(function(m) { return m.resolved; });
   }
 
   function renderBrackets(containerId, brackets) {
@@ -1444,13 +1468,28 @@ function getKey(){ return CONFIG_KEY || ""; }
     var html = '';
     brackets.forEach(function(b) {
       var isTop = b.prob === maxProb;
-      html += '<div class="hp-prob-row">' +
+      html += '<div class="hp-prob-row' + (b.resolved ? ' pm-settled' : '') + '">' +
         '<span class="hp-prob-label" title="' + b.label + '">' + b.label + '</span>' +
         '<div class="hp-bar-wrap"><div class="hp-bar hp-bar--market" style="width:' + (maxProb > 0 ? (b.prob / maxProb * 100) : 0) + '%;' + (isTop ? '' : 'opacity:.6;') + '"></div></div>' +
-        '<span class="hp-prob-pct" style="' + (isTop ? 'color:var(--color-primary,#1a73e8);' : '') + '">' + pct(b.prob) + '</span>' +
+        '<span class="hp-prob-pct" style="' + (isTop && !b.resolved ? 'color:var(--color-primary,#1a73e8);' : '') + '">' + (b.resolved ? 'Settled' : pct(b.prob)) + '</span>' +
         '</div>';
     });
     el.innerHTML = html;
+  }
+
+  function markSettledValue(id, noteId, note) {
+    var el = document.getElementById(id);
+    if (el) {
+      el.textContent = 'Settled';
+      el.classList.add('pm-settled');
+    }
+    if (noteId) {
+      var noteEl = document.getElementById(noteId);
+      if (noteEl) {
+        noteEl.textContent = note || 'Market settled';
+        noteEl.classList.add('pm-settled');
+      }
+    }
   }
 
   // Load from cached JSON, falling back to live API per-event
@@ -1505,6 +1544,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       // ── Recession ──
       if (recession) {
         var rm = parseMarkets(recession);
+        var recessionResolved = pmEventIsResolved(rm);
         var rYes = rm.length ? rm[0].prob : 0;
         // Find Yes market specifically
         if (recession.markets) {
@@ -1517,16 +1557,23 @@ function getKey(){ return CONFIG_KEY || ""; }
         }
         var totalVol = 0;
         if (recession.markets) recession.markets.forEach(function(m) { totalVol += parseFloat(m.volume) || 0; });
-        setText('pm-recession', pct(rYes));
-        setText('pm-recession-vol', fmtVol(totalVol) + ' volume');
-        setText('pm-co-recession', pct(rYes));
+        if (recessionResolved) {
+          markSettledValue('pm-recession', 'pm-recession-vol', 'Settled · ' + fmtVol(totalVol) + ' volume');
+          markSettledValue('pm-co-recession');
+        } else {
+          setText('pm-recession', pct(rYes));
+          setText('pm-recession-vol', fmtVol(totalVol) + ' volume');
+          setText('pm-co-recession', pct(rYes));
+        }
         var recEl = document.getElementById('pm-co-recession');
-        if (recEl) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
+        if (recEl && !recessionResolved) recEl.style.color = rYes > 0.4 ? 'var(--bad,#c62828)' : rYes > 0.25 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
 
         // Detail card
         var recDetail = document.getElementById('pm-recession-detail');
         if (recDetail) {
-          recDetail.innerHTML =
+          recDetail.innerHTML = recessionResolved
+            ? '<div class="pm-settled">Settled</div><div style="font-size:.75rem;color:var(--muted);margin-top:.35rem;">Vol: ' + fmtVol(totalVol) + '</div>'
+            :
             '<div class="hp-odds-row">' +
               '<div class="hp-odds-yes"><span class="hp-odds-pct">' + pct(rYes) + '</span><span class="hp-odds-lbl">Yes</span></div>' +
               '<div class="hp-odds-sep">|</div>' +
@@ -1540,13 +1587,16 @@ function getKey(){ return CONFIG_KEY || ""; }
       // ── Fed April ──
       if (fedApril) {
         var faBrackets = parseMarkets(fedApril);
+        var faResolved = pmEventIsResolved(faBrackets);
         var noChange = faBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
-        if (noChange) {
+        if (faResolved) {
+          markSettledValue('pm-fed-april', 'pm-fed-april-vol', 'Settled · ' + fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
+        } else if (noChange) {
           setText('pm-fed-april', pct(noChange.prob));
           setText('pm-fed-april-vol', fmtVol(faBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
         }
         renderBrackets('pm-fed-april-detail', faBrackets.map(function(b) {
-          return { label: b.question.replace(/Fed decision in April:\s*/i, '').replace(/\?$/, ''), prob: b.prob };
+          return { label: b.question.replace(/Fed decision in April:\s*/i, '').replace(/\?$/, ''), prob: b.prob, resolved: b.resolved };
         }));
       }
 
@@ -1560,7 +1610,7 @@ function getKey(){ return CONFIG_KEY || ""; }
           setText('pm-fed-cuts-prob', pct(topCut.prob) + ' probability');
         }
         renderBrackets('pm-fed-cuts-detail', fcBrackets.slice(0, 8).map(function(b) {
-          return { label: b.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim(), prob: b.prob };
+          return { label: b.question.replace(/Will there be exactly /i, '').replace(/ Federal Reserve.*$/i, '').replace(/\?$/, '').trim(), prob: b.prob, resolved: b.resolved };
         }));
       }
 
@@ -1568,34 +1618,42 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (inflation) {
         var infBrackets = parseMarkets(inflation);
         var gt4 = infBrackets.find(function(b) { return b.question.indexOf('4%') !== -1 || b.question.indexOf('4 %') !== -1; });
-        if (gt4) {
-          setText('pm-inflation', pct(gt4.prob));
+        var liveInflation = (gt4 && !gt4.resolved) ? gt4 : infBrackets.find(function(b) { return !b.resolved; });
+        if (liveInflation) {
+          setText('pm-inflation', pct(liveInflation.prob));
           setText('pm-inflation-vol', fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
-          setText('pm-co-cost', gt4.prob > 0.5 ? 'High' : 'Moderate');
+          setText('pm-co-cost', liveInflation.prob > 0.5 ? 'High' : 'Moderate');
           var costEl = document.getElementById('pm-co-cost');
-          if (costEl) costEl.style.color = gt4.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
+          if (costEl) costEl.style.color = liveInflation.prob > 0.5 ? 'var(--bad,#c62828)' : 'var(--warn,#e65100)';
+        } else if (gt4) {
+          markSettledValue('pm-inflation', 'pm-inflation-vol', 'Settled · ' + fmtVol(infBrackets.reduce(function(s, b) { return s + b.volume; }, 0)) + ' volume');
+          markSettledValue('pm-co-cost');
         }
         renderBrackets('pm-inflation-detail', infBrackets.slice(0, 7).map(function(b) {
-          return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob };
+          return { label: b.question.replace(/Will inflation /i, '').replace(/ in 2026\??/i, '').trim(), prob: b.prob, resolved: b.resolved };
         }));
       }
 
       // ── GDP ──
       if (gdp) {
         var gdpBrackets = parseMarkets(gdp);
-        if (gdpBrackets.length) {
+        if (pmEventIsResolved(gdpBrackets)) {
+          markSettledValue('pm-gdp', 'pm-gdp-prob', 'Market settled');
+        } else if (gdpBrackets.length) {
           setText('pm-gdp', gdpBrackets[0].question.substring(0, 15));
           setText('pm-gdp-prob', pct(gdpBrackets[0].prob) + ' probability');
         }
         renderBrackets('pm-gdp-detail', gdpBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob };
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
         }));
       }
 
       // ── US Home Value ──
       if (usHome) {
         var homeBrackets = parseMarkets(usHome);
-        if (homeBrackets.length) {
+        if (pmEventIsResolved(homeBrackets)) {
+          markSettledValue('pm-home', 'pm-home-prob', 'Parcl April market settled');
+        } else if (homeBrackets.length) {
           setText('pm-home', homeBrackets[0].question.substring(0, 20));
           setText('pm-home-prob', pct(homeBrackets[0].prob) + ' probability');
 
@@ -1613,7 +1671,7 @@ function getKey(){ return CONFIG_KEY || ""; }
           if (ratioEl) ratioEl.style.color = ratio > 35 ? 'var(--bad,#c62828)' : ratio > 28 ? 'var(--warn,#e65100)' : 'var(--good,#2e7d32)';
         }
         renderBrackets('pm-home-detail', homeBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob };
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
         }));
       }
 
@@ -1621,7 +1679,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (laHome) {
         var laBrackets = parseMarkets(laHome);
         renderBrackets('pm-la-detail', laBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob };
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
         }));
       }
 
@@ -1629,7 +1687,7 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (unemp) {
         var unBrackets = parseMarkets(unemp);
         renderBrackets('pm-unemp-detail', unBrackets.map(function(b) {
-          return { label: b.question, prob: b.prob };
+          return { label: b.question, prob: b.prob, resolved: b.resolved };
         }));
       }
 
@@ -1637,7 +1695,12 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (fedJune) {
         var fjBrackets = parseMarkets(fedJune);
         var fjNoChange = fjBrackets.find(function(b) { return b.question.toLowerCase().indexOf('no change') !== -1; });
-        if (fjNoChange) {
+        if (pmEventIsResolved(fjBrackets)) {
+          markSettledValue('pm-fed-june-yes');
+          markSettledValue('pm-fed-june-no');
+          var fjSettledBar = document.getElementById('pm-fed-june-bar');
+          if (fjSettledBar) fjSettledBar.style.width = '0%';
+        } else if (fjNoChange) {
           setText('pm-fed-june-yes', pct(fjNoChange.prob));
           setText('pm-fed-june-no', pct(1 - fjNoChange.prob));
           var fjBar = document.getElementById('pm-fed-june-bar');
@@ -1648,7 +1711,12 @@ function getKey(){ return CONFIG_KEY || ""; }
       // ── Chicago ──
       if (chicago) {
         var chiBrackets = parseMarkets(chicago);
-        if (chiBrackets.length) {
+        if (pmEventIsResolved(chiBrackets)) {
+          markSettledValue('pm-chi-top');
+          setText('pm-chi-lbl', 'settled');
+          var chiSettledBar = document.getElementById('pm-chi-bar');
+          if (chiSettledBar) chiSettledBar.style.width = '0%';
+        } else if (chiBrackets.length) {
           setText('pm-chi-top', pct(chiBrackets[0].prob));
           setText('pm-chi-lbl', chiBrackets[0].question.substring(0, 15));
           var chiBar = document.getElementById('pm-chi-bar');
@@ -1660,7 +1728,11 @@ function getKey(){ return CONFIG_KEY || ""; }
       if (techLayoffs) {
         var tlBrackets = parseMarkets(techLayoffs);
         var tlUp = tlBrackets.find(function(b) { return b.question.toLowerCase().indexOf('up') !== -1; });
-        if (tlUp) {
+        if (pmEventIsResolved(tlBrackets)) {
+          markSettledValue('pm-layoffs', 'pm-layoffs-vol', 'Settled');
+          var tlSettledBar = document.getElementById('pm-layoffs-bar');
+          if (tlSettledBar) tlSettledBar.style.width = '0%';
+        } else if (tlUp) {
           setText('pm-layoffs', pct(tlUp.prob));
           setText('pm-layoffs-vol', fmtVol(tlUp.volume));
           var tlBar = document.getElementById('pm-layoffs-bar');
@@ -1681,7 +1753,10 @@ function getKey(){ return CONFIG_KEY || ""; }
 
   function setText(id, text) {
     var el = document.getElementById(id);
-    if (el) el.textContent = text;
+    if (el) {
+      el.classList.remove('pm-settled');
+      el.textContent = text;
+    }
   }
 
   // Bind refresh button and auto-load
