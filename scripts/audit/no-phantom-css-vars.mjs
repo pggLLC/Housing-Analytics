@@ -51,7 +51,6 @@ const EXEMPT_PREFIXES = [
   '--chart-',       // chart.js
   '--mapbox-',      // mapbox-gl
   '--bs-',          // Bootstrap leftovers
-  '--mcm-',         // MCM design tokens (defined in inline <style> in some pages)
 ];
 
 function walk(dir, out = []) {

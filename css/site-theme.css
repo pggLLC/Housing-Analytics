@@ -2255,3 +2255,29 @@ html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4
 @media(max-width:480px){
   .data-reliability-badge,.freshness-badge{font-size:.72rem;padding:.2rem .5rem;}
 }
+
+/* ── MCM (mid-century modern) palette — used by lihtc-guide-for-stakeholders.html ──
+   graphite/slate are fixed dark panel backgrounds; beige is the light text that sits ON
+   those panels; mustard is fixed-bright because it is only used as headings on graphite;
+   teal + burnt-orange are theme-adaptive because they are used as links/accents on the
+   page background (dark enough for light bg, bright enough for dark bg). Verified ≥4.5:1
+   for every text usage in both themes. */
+:root {
+  --mcm-graphite:     #2b2926;
+  --mcm-slate:        #37414a;
+  --mcm-beige:        #ece0cc;
+  --mcm-mustard:      #e0b24a;
+  --mcm-teal:         #0f766e;
+  --mcm-burnt-orange: #b5502a;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --mcm-teal: #5ccfc4; --mcm-burnt-orange: #e0895a; }
+}
+:root[data-theme="light"] { --mcm-teal: #0f766e; --mcm-burnt-orange: #b5502a; }
+:root[data-theme="dark"]  { --mcm-teal: #5ccfc4; --mcm-burnt-orange: #e0895a; }
+
+/* MCM beige is a light-on-dark token; inside light .chart-card containers it must fall back to
+   the theme body color so list text stays legible (the graphite/slate panels keep true beige). */
+.chart-card > ul[style*="--mcm-beige"],
+.chart-card > ol[style*="--mcm-beige"],
+.chart-card > p[style*="--mcm-beige"] { color: var(--text) !important; }
