@@ -369,9 +369,8 @@
 
   function renderSupplyKpis(data) {
     if (!data) return;
-    // FRED series: PERMIT5 = 5+ unit permits, PERMIT = total permits
-    // Also accept legacy Colorado-specific series names for backward compatibility
-    var permits = data.PERMIT5 || data.PERMIT || data.COBPPRIV5F || data.COBPPRIV || null;
+    // FRED series: prefer Colorado permits before national permit context.
+    var permits = data.COBPPRIV || data.COBPPRIV5F || data.PERMIT5 || data.PERMIT || null;
     var latestPermit = permits && Array.isArray(permits.observations)
       ? permits.observations[permits.observations.length - 1] : null;
     var prevPermit = permits && Array.isArray(permits.observations) && permits.observations.length > 12
@@ -659,7 +658,7 @@
         msgEl.style.cssText = 'text-align:center;padding:3rem 1rem;';
         ctx.parentNode.appendChild(msgEl);
       }
-      msgEl.textContent = 'County-level permit data not available via FRED. Supply KPIs above reflect statewide series.';
+      msgEl.textContent = 'County-level permit data not available via FRED. Permits reflect the statewide Colorado series (COBPPRIV).';
       return;
     }
 
@@ -668,7 +667,7 @@
     if (msgEl) msgEl.remove();
 
     var fred = currentData.fred;
-    var obs = fred && (fred.PERMIT5 || fred.PERMIT || fred.COBPPRIV5F || fred.COBPPRIV);
+    var obs = fred && (fred.COBPPRIV || fred.COBPPRIV5F || fred.PERMIT5 || fred.PERMIT);
     var observations = obs && Array.isArray(obs.observations) ? obs.observations.slice(-24) : [];
     var labels = observations.map(function (o) { return o.date ? o.date.slice(0, 7) : ''; });
     var values = observations.map(function (o) { return Number(o.value) || 0; });
@@ -683,7 +682,7 @@
       data: {
         labels: labels,
         datasets: [{
-          label: 'Multifamily Permits (5+ units)',
+          label: 'CO Building Permits (monthly)',
           data: values,
           borderColor: 'rgba(14,165,160,1)',
           backgroundColor: 'rgba(14,165,160,0.12)',
