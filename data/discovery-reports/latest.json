@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-07-28T09:29:28.889Z",
+  "scanTimestamp": "2026-07-29T09:31:12.252Z",
   "totalScanned": 1601,
   "newSourceCount": 1570,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6383,
+      "sizeBytes": 6455,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -248,7 +248,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 242511,
+      "sizeBytes": 242198,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8804,7 +8804,7 @@
     },
     {
       "path": "data/market/acs_median_rent_co.json",
-      "sizeBytes": 83497,
+      "sizeBytes": 84901,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9158,7 +9158,7 @@
     },
     {
       "path": "data/market/yardi-matrix-national-multifamily.json",
-      "sizeBytes": 3897,
+      "sizeBytes": 3877,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9308,7 +9308,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20131,
+      "sizeBytes": 20128,
       "inDataManifest": false,
       "inFilesManifest": true
     },
