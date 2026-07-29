@@ -14,6 +14,28 @@
   <link rel="stylesheet" href="css/site-theme.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .lihtc-role-card,
+    [style*="background: var(--mcm-graphite)"],
+    [style*="background: var(--mcm-slate)"] {
+      color: var(--mcm-beige) !important;
+    }
+    .lihtc-role-card :is(h1, h2, h3, h4, h5, h6, p, li, td, th, span, strong, b, abbr, .data-source),
+    [style*="background: var(--mcm-graphite)"] :is(h1, h2, h3, h4, h5, h6, p, li, td, th, span, strong, b, abbr, .data-source),
+    [style*="background: var(--mcm-slate)"] :is(h1, h2, h3, h4, h5, h6, p, li, td, th, span, strong, b, abbr, .data-source) {
+      color: var(--mcm-beige) !important;
+    }
+    .lihtc-role-card :is(strong, b),
+    [style*="background: var(--mcm-graphite)"] :is(strong, b),
+    [style*="background: var(--mcm-slate)"] :is(strong, b) {
+      color: var(--mcm-mustard) !important;
+    }
+    .lihtc-role-card a,
+    [style*="background: var(--mcm-graphite)"] a,
+    [style*="background: var(--mcm-slate)"] a {
+      color: #5ccfc4 !important;
+    }
+  </style>
     <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/fetch-helper.js"></script>
