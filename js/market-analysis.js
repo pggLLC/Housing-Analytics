@@ -4911,7 +4911,11 @@
       if (tsEl) {
         var generated = (tractData && tractData.meta && tractData.meta.generated) || null;
         if (generated) {
-          tsEl.textContent = 'Data as of ' + generated;
+          var generatedDate = new Date(generated);
+          var generatedLabel = isNaN(generatedDate.getTime())
+            ? generated
+            : generatedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+          tsEl.textContent = 'Data as of ' + generatedLabel;
         } else {
           tsEl.textContent = 'Data as of ' + new Date().toLocaleDateString();
         }

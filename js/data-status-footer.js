@@ -153,9 +153,10 @@
     var updateKey    = body.getAttribute('data-page-update-key');
     var staticDate   = body.getAttribute('data-page-last-updated');
     var sourceStr    = body.getAttribute('data-page-source');
+    var resolvedUpdateKey = updateKey || (staticDate ? 'manifest' : null);
 
     // If neither key nor static date is provided, skip
-    if (!updateKey && !staticDate) return;
+    if (!resolvedUpdateKey && !staticDate) return;
 
     function render(dateStr) {
       var bar = buildStatusBar(dateStr, sourceStr);
@@ -168,8 +169,8 @@
       }
     }
 
-    if (updateKey) {
-      fetchTimestamp(updateKey, function (dateStr) {
+    if (resolvedUpdateKey) {
+      fetchTimestamp(resolvedUpdateKey, function (dateStr) {
         render(dateStr || (staticDate ? formatDate(staticDate) : null));
       });
     } else {
