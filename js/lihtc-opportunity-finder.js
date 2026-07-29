@@ -3005,7 +3005,20 @@
     });
   }
 
-  function _loadRedevData(onArrival) {
+  // Shared, deduped lazy loader for the 10 MB Opportunity-Zones GeoJSON.
+  // Fetched at most once; all consumers (map OZ layer, F236 detail panel,
+  // F240 redev filter) share the same promise/cache so it never double-fetches.
+  function _ensureOzData() {
+    if (_redev.oz) return Promise.resolve(_redev.oz);
+    if (_redev._ozPromise) return _redev._ozPromise;
+    _redev._ozPromise = fetch('data/market/opportunity_zones_co.geojson')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { _redev.oz = j || { features: [] }; return _redev.oz; })
+      .catch(function () { _redev.oz = { features: [] }; return _redev.oz; });
+    return _redev._ozPromise;
+  }
+
+  function _loadRedevData(onArrival, opts) {
     var fired = function () { if (typeof onArrival === 'function') onArrival(); };
     if (!_redev.ura && !_redev.uraLoading) {
       _redev.uraLoading = true;
@@ -3023,13 +3036,11 @@
         .catch(function () { _redev.reuse = { patterns: {} }; })
         .then(function () { _redev.reuseLoading = false; fired(); });
     }
-    if (!_redev.oz && !_redev.ozLoading) {
-      _redev.ozLoading = true;
-      fetch('data/market/opportunity_zones_co.geojson')
-        .then(function (r) { return r.ok ? r.json() : null; })
-        .then(function (j) { _redev.oz = j || { features: [] }; })
-        .catch(function () { _redev.oz = { features: [] }; })
-        .then(function () { _redev.ozLoading = false; fired(); });
+    // OZ is 10 MB — only load it when a consumer actually needs it. The boot
+    // pass sets skipOz so it fetches just URA + reuse (for the civic boost);
+    // OZ arrives on demand (redev filter toggled, detail panel, or map layer).
+    if (!(opts && opts.skipOz) && !_redev.oz) {
+      _ensureOzData().then(function () { fired(); });
     }
   }
 
@@ -4782,33 +4793,42 @@
     var ozLayer = window.L.layerGroup();
     state.layers.oz = ozLayer;
     overlays['Opportunity Zones (teal, OZ)'] = ozLayer;
-    fetch('data/market/opportunity_zones_co.geojson')
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (ozFc) {
-        if (!ozFc || !ozFc.features) return;
-        // Cache in _redev.oz so F236 detail panel + F240 filter share it
-        _redev.oz = ozFc;
-        ozFc.features.forEach(function (f) {
-          var rings = _geomToLeafletRings(f.geometry);
-          if (!rings) return;
-          var p = (f.properties || {});
-          if (p.designated === false) return;
-          var poly = window.L.polygon(rings, {
-            pane: 'fillsPane',
-            color: '#0d9488', weight: 1.0, fillColor: '#5eead4',
-            fillOpacity: 0.22, opacity: 0.75, interactive: true
+    // Lazy: the 10 MB OZ GeoJSON is fetched only when the user turns the
+    // (default-off) OZ overlay on — via the map 'overlayadd' event below —
+    // instead of eagerly on page load. Deduped through _ensureOzData().
+    var _ozLayerPopulated = false;
+    function _populateOzLayer() {
+      if (_ozLayerPopulated) return;
+      _ozLayerPopulated = true;
+      _ensureOzData()
+        .then(function (ozFc) {
+          if (!ozFc || !ozFc.features) { _ozLayerPopulated = false; return; }
+          ozFc.features.forEach(function (f) {
+            var rings = _geomToLeafletRings(f.geometry);
+            if (!rings) return;
+            var p = (f.properties || {});
+            if (p.designated === false) return;
+            var poly = window.L.polygon(rings, {
+              pane: 'fillsPane',
+              color: '#0d9488', weight: 1.0, fillColor: '#5eead4',
+              fillOpacity: 0.22, opacity: 0.75, interactive: true
+            });
+            poly.bindTooltip('OZ tract ' + escHtml(p.geoid || '—') + ' · ' +
+              'federal capital-gains deferral · stacks with LIHTC + state credit (2018 designation, expires 12/31/2028)',
+              { sticky: true });
+            ozLayer.addLayer(poly);
           });
-          poly.bindTooltip('OZ tract ' + escHtml(p.geoid || '—') + ' · ' +
-            'federal capital-gains deferral · stacks with LIHTC + state credit (2018 designation, expires 12/31/2028)',
-            { sticky: true });
-          ozLayer.addLayer(poly);
+          // Trigger any pending op stamping now that OZ data is in
+          _stampRedevOnOps();
+        })
+        .catch(function (err) {
+          _ozLayerPopulated = false;
+          console.warn('[OF] OZ overlay fetch failed:', err);
         });
-        // Trigger any pending op stamping now that OZ data is in
-        _stampRedevOnOps();
-      })
-      .catch(function (err) {
-        console.warn('[OF] OZ overlay fetch failed:', err);
-      });
+    }
+    state.map.on('overlayadd', function (e) {
+      if (e.layer === ozLayer) _populateOzLayer();
+    });
 
     // ── LIHTC properties (CHFA, ON by default) ──────────────────────────
     // Renders all 926 CHFA-tracked LIHTC properties (1987–2025) as small
@@ -5007,10 +5027,11 @@
         _populateFilterDropdowns();
         _wireFilters();
         _initMapOverlays();
-        // F240/F241: eagerly load URA + adaptive-reuse data so the filter +
-        // civic boost are immediately available without waiting for first
-        // detail click. OZ data is loaded by _initMapOverlays() above.
-        _loadRedevData(function () { _stampRedevOnOps(); _refresh(); });
+        // F240/F241: eagerly load the small URA + adaptive-reuse data so the
+        // civic boost is immediately available. The 10 MB OZ GeoJSON is NOT
+        // loaded here (skipOz) — it arrives lazily when the user toggles the
+        // OZ map layer, opens a redev detail panel, or enables the redev filter.
+        _loadRedevData(function () { _stampRedevOnOps(); _refresh(); }, { skipOz: true });
         setStatus('Ranked ' + state.opportunities.length +
           ' Colorado jurisdictions with QCT and/or DDA designations · click a row for project history.');
         _refresh();
