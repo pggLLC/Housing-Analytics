@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-28T19:03:14.102Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T00:43:23.867Z. Do not edit by hand.
 
 ---
 
@@ -10,7 +10,7 @@
 
 | File | Title | Size |
 |------|-------|------|
-| `LIHTC-dashboard.html` | LIHTC Dashboard | COHO Analytics | 54.9 KB |
+| `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | Colorado Affordable Housing Data Reference | 14.8 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
@@ -20,7 +20,7 @@
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
-| `compliance-dashboard.html` | Compliance Dashboard | COHO Analytics | 19.3 KB |
+| `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.0 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
@@ -47,7 +47,7 @@
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 34.0 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
-| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.9 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.6 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 51.3 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
@@ -61,7 +61,7 @@
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.1 KB |
-| `sitemap.html` | Sitemap | COHO Analytics | 9.2 KB |
+| `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
 
 ---
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-243 test files found.
+244 test files found.
 
 | File | Size |
 |------|------|
@@ -1767,6 +1767,7 @@
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
+| `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 14.7 KB |
@@ -1816,7 +1817,7 @@
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
-| `test/smoke.test.js` | 9.9 KB |
+| `test/smoke.test.js` | 9.8 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
