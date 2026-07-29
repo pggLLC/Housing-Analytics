@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T11:45:10.638Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T12:05:50.918Z. Do not edit by hand.
 
 ---
 
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-247 test files found.
+248 test files found.
 
 | File | Size |
 |------|------|
@@ -1692,6 +1692,7 @@
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 999 B |
 | `test/developer-geoids.test.js` | 6.6 KB |
+| `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
