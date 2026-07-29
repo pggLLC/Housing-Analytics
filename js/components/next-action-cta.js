@@ -123,6 +123,7 @@
       '.naca-btn:hover { background: var(--accent); color: var(--on-accent, #fff);',
       '  border-color: var(--accent); transform: translateY(-1px); text-decoration: none; }',
       '@media (max-width: 700px) { .naca-strip { padding: 8px 12px; }',
+      '  :root, html.dark-mode { --workflow-mobile-bottom-cta-offset: 156px; }',
       '  .naca-strip__inner { gap: 6px; } .naca-btn { padding: 4px 8px; font-size: .78rem; } }'
     ].join('\n');
     document.head.appendChild(s);

@@ -28,6 +28,17 @@ assert(indexHtml.includes(`ranks all ${rankingCount} Colorado`), 'homepage compa
 assert(!/all\s+645\s+Colorado\s+jurisdictions/.test(indexHtml), 'homepage no longer uses stale 645 jurisdiction count');
 assert(!/ranks\s+all\s+547\s+Colorado/.test(indexHtml), 'homepage no longer uses stale 547 ranking count');
 
+const lofHtml = read('lihtc-opportunity-finder.html');
+assert(
+  !/\b547\b[^.\n]{0,80}\bjurisdictions\b|\bjurisdictions\b[^.\n]{0,80}\b547\b/.test(lofHtml),
+  'Opportunity Finder no longer uses stale 547 jurisdiction scorecard count'
+);
+assert(
+  lofHtml.includes(`policy scorecard (${rankingCount} Colorado jurisdictions × 7`) &&
+    lofHtml.includes(`Housing policy scorecard — ${rankingCount} jurisdictions × 7`),
+  'Opportunity Finder policy scorecard count matches canonical ranking count'
+);
+
 const lihtc = readJson('data/chfa-lihtc.json');
 const dataQualitySrc = read('js/data-quality-check.js');
 const coverageMatch = dataQualitySrc.match(/coverageLabel:\s*"(\d+)\s+placed-in-service CO LIHTC projects"/);
