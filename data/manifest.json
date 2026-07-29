@@ -1,5 +1,5 @@
 {
-  "generated": "2026-07-28T09:37:02.439442Z",
+  "generated": "2026-07-29T09:38:57.159097Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6383
+      "bytes": 6455
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -304,7 +304,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1295713
+      "bytes": 1300401
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7424,7 +7424,7 @@
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 83497
+      "bytes": 84901
     },
     "data/market/acs_tract_metrics_co.json": {
       "featureCount": 0,
@@ -7744,7 +7744,7 @@
     "data/market/yardi-matrix-national-multifamily.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3897
+      "bytes": 3877
     },
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
@@ -7874,7 +7874,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20131
+      "bytes": 20128
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
