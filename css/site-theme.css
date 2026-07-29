@@ -110,6 +110,7 @@
   --border-strong:rgba(13,31,53,.20);
   --link:         #005a9c;
   --link-hover:   #004880;
+  --workflow-mobile-bottom-cta-offset: 0px;
 
   /* Accent colors */
   --accent:       #096e65;
@@ -1656,6 +1657,7 @@ html.dark-mode {
   --border-strong: rgba(90,150,210,.22);
   --link:          #5ecbcc;
   --link-hover:    #7dd8d9;
+  --workflow-mobile-bottom-cta-offset: 0px;
   --accent:        #0fd4cf;
   --accent-dim:    rgba(15,212,207,.12);
   --on-accent:     #0a0f1d; /* F122 — see top of file for paired-token rationale */
@@ -1736,6 +1738,14 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .dark-mode-toggle:focus-visible {
   outline: none;
   box-shadow: var(--focus-ring), var(--shadow);
+}
+
+@media (max-width: 700px) {
+  .dark-mode-toggle {
+    bottom: calc(var(--workflow-mobile-bottom-cta-offset, 0px) + env(safe-area-inset-bottom, 0px) + 1.25rem);
+    left: 1.25rem;
+    right: auto;
+  }
 }
 
 /* ----------------------------------------------------------------

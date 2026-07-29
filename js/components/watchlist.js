@@ -169,9 +169,9 @@
           ' padding: 6px 10px; font-size: .78rem;' +
         '}' +
         '@media (max-width: 700px) {' +
-          // Clear typical footer link cluster (~50-90px); auto-shrink the
+          // Clear the wrapped mobile footer CTA; auto-shrink the
           // collapsed chip so it doesn't visually compete with content.
-          '#coho-watchlist-panel { bottom: 76px !important; right: 12px !important; }' +
+          '#coho-watchlist-panel { bottom: calc(var(--workflow-mobile-bottom-cta-offset, 76px) + env(safe-area-inset-bottom, 0px) + 12px) !important; right: 12px !important; }' +
           '#coho-watchlist-panel > details:not([open]) > summary {' +
             ' padding: 5px 9px; font-size: .72rem;' +
           '}' +
