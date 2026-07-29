@@ -69,11 +69,6 @@ const PAGES = [
     tsId:       'deepDiveDataTimestamp',
   },
   {
-    html:       'LIHTC-dashboard.html',
-    jsScript:   null,
-    tsId:       'lihtcDataTimestamp',
-  },
-  {
     html:       'economic-dashboard.html',
     jsScript:   null,
     tsId:       'economicDataTimestamp',
@@ -178,7 +173,6 @@ test('housing-needs-assessment.css has new section styles', () => {
 test('data-freshness.js is included in all main dashboards', () => {
   const dashboards = [
     'dashboard.html',
-    'LIHTC-dashboard.html',
     'economic-dashboard.html',
     'colorado-deep-dive.html',
     'housing-needs-assessment.html',
