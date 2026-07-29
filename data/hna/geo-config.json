@@ -499,7 +499,7 @@
     {
       "geoid": "0806255",
       "label": "Berthoud (town)",
-      "containingCounty": "08123"
+      "containingCounty": "08069"
     },
     {
       "geoid": "0806530",
@@ -574,7 +574,7 @@
       "type": "place",
       "geoid": "0809555",
       "label": "Brush (city)",
-      "containingCounty": "08049"
+      "containingCounty": "08087"
     },
     {
       "geoid": "0810105",
@@ -906,7 +906,7 @@
       "type": "place",
       "geoid": "0827810",
       "label": "Fort Morgan (city)",
-      "containingCounty": "08049"
+      "containingCounty": "08087"
     },
     {
       "geoid": "0827865",
@@ -1200,7 +1200,7 @@
       "type": "place",
       "geoid": "0843110",
       "label": "Lamar (city)",
-      "containingCounty": "08071"
+      "containingCounty": "08099"
     },
     {
       "geoid": "0843550",
@@ -1684,7 +1684,7 @@
       "type": "place",
       "geoid": "0873935",
       "label": "Sterling (city)",
-      "containingCounty": "08121"
+      "containingCounty": "08075"
     },
     {
       "geoid": "0874485",
@@ -1790,7 +1790,7 @@
       "type": "place",
       "geoid": "0883835",
       "label": "Westminster (city)",
-      "containingCounty": "08059"
+      "containingCounty": "08001"
     },
     {
       "geoid": "0884440",
