@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-28T09:29:28.889Z
+**Scan timestamp:** 2026-07-29T09:31:12.252Z
 
 ## Summary
 
@@ -1480,7 +1480,7 @@
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
-- `data/market/acs_median_rent_co.json` (82 KB)
+- `data/market/acs_median_rent_co.json` (83 KB)
 - `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (0 KB)
 - `data/market/cde_schools_co.json` (10 KB)
