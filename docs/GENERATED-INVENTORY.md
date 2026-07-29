@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T13:40:31.068Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T16:00:51.706Z. Do not edit by hand.
 
 ---
 
@@ -51,7 +51,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.0 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.9 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -1809,7 +1809,7 @@
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
-| `test/public-facing-numbers.test.js` | 3.1 KB |
+| `test/public-facing-numbers.test.js` | 3.6 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
