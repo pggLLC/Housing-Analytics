@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T01:57:06.747Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T11:17:36.381Z. Do not edit by hand.
 
 ---
 
@@ -1639,7 +1639,7 @@
 
 ## Test Files
 
-245 test files found.
+246 test files found.
 
 | File | Size |
 |------|------|
@@ -1758,6 +1758,7 @@
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | 3.0 KB |
 | `test/local-resources-discovery.test.js` | 2.0 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
+| `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
