@@ -423,6 +423,23 @@ function initPolicyPanel(panelId) {
   var _affGeoInit = false;
   var _affGeoMaps = [];   /* Leaflet map instances for invalidateSize on tab re-show */
 
+  /* Defer a heavy render until its target element scrolls into view. The
+     affordability-ratio choropleth pulls a ~16 MB tract-boundary GeoJSON and
+     sits below the fold, so its fetch should not sit on the tab's critical
+     path. Falls back to running immediately when the element is missing or
+     IntersectionObserver is unavailable. Mirrors the co-ami-gap.js pattern. */
+  function deferUntilVisible(elId, fn) {
+    var el = document.getElementById(elId);
+    if (!el || !('IntersectionObserver' in window)) { fn(); return; }
+    var obs = new IntersectionObserver(function (entries, observer) {
+      if (entries[0].isIntersecting) {
+        observer.disconnect();
+        fn();
+      }
+    }, { rootMargin: '200px' });
+    obs.observe(el);
+  }
+
   function initAffordabilityGeoPanel(panelId) {
     if (_affGeoInit) return;
     _affGeoInit = true;
@@ -667,9 +684,14 @@ function initPolicyPanel(panelId) {
       });
     }
 
-    /* Boot all three sections */
+    /* Boot the three sections. renderRatioMap pulls a ~16 MB tract-boundary
+       GeoJSON for a choropleth that sits below the fold, so defer that fetch
+       until the map scrolls into view; the lighter burden map + gap table
+       render right away. */
     requestAnimationFrame(function () {
-      try { renderRatioMap();  } catch (e) { handleDataError('aff-ratio-map', e); }
+      deferUntilVisible('affRatioMap', function () {
+        try { renderRatioMap(); } catch (e) { handleDataError('aff-ratio-map', e); }
+      });
       try { renderBurdenMap(); } catch (e) { handleDataError('aff-burden-map', e); }
       try { renderGapTable();  } catch (e) { handleDataError('aff-gap-table', e); }
       clearLoadingState(panelId);
