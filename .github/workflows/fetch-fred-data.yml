@@ -142,7 +142,7 @@ jobs:
             "CES2000000003": "Construction Avg Hourly Earnings",
 
             # ── Colorado-specific series ──────────────────────────
-            "LAUST080000000000003": "CO Unemployment Rate (BLS)",
+            "COUR": "CO Unemployment Rate (Colorado, SA)",
             "COCONS": "CO Construction Employment",
             "COPOP": "CO Population",
             "MEHOINUSCOA646N": "CO Median Household Income",
