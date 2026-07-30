@@ -1,0 +1,98 @@
+{
+  "brief_geoid": "0822035",
+  "brief_jurisdiction": "City of Durango",
+  "audited_at": "2026-07-30",
+  "audit_method": "direct WebFetch and direct URL fetch, 2026-07-30. Each cited narrative source URL was fetched directly and its article text read; no WebSearch snippets were used to establish verdicts. Two WAF-gated hosts (CHFA multifamily-ehub, laplatahousing.colorado.gov) return 403 to WebFetch/curl and were read by direct browser render of the same URL. All 30 kind:data sources auto-verify against data/hna/jurisdiction-metrics-digest/0822035.json.",
+  "rows": [
+    {
+      "section_id": "espero-supportive-housing",
+      "paragraph_index": 0,
+      "source_id": "s-espero-sw",
+      "source_url": "https://swhousingsolutions.com/projects/espero-apartments/",
+      "verdict": "supported",
+      "supporting_quote": "40 units of Supportive Housing in Durango located on property at 1051 Avenida del Sol … Housing Solutions and BlueLine Development built Espero Apartments, the region's first permanent supportive housing project. Espero opened in the Fall of 2021.",
+      "notes": "Direct browser render of the project page (2026-07-30). 'first residents moved in late October 2021' confirmed by direct WebFetch of the same URL."
+    },
+    {
+      "section_id": "espero-supportive-housing",
+      "paragraph_index": 0,
+      "source_id": "s-espero-chfa",
+      "source_url": "https://multifamily-ehub.chfainfo.com/espero-apartments-durango",
+      "verdict": "supported",
+      "supporting_quote": "All 40 units within the building offer Supportive Housing for individuals and families who have previously experienced homelessness and live with a disabling condition. … Units (#) 40 (all one-bedroom apartments)",
+      "notes": "CHFA case study; direct browser render (WAF blocks curl/WebFetch), 2026-07-30."
+    },
+    {
+      "section_id": "espero-supportive-housing",
+      "paragraph_index": 1,
+      "source_id": "s-espero-chfa",
+      "source_url": "https://multifamily-ehub.chfainfo.com/espero-apartments-durango",
+      "verdict": "supported",
+      "supporting_quote": "BlueLine and Housing Solutions obtained a low-cost, long-term land lease from the City of Durango. The property is situated as part of the city's social services campus, near downtown Durango. … Housing Tax Credit (HTC) Deal Type: Federal 9 percent Housing Tax Credits … Total Development Cost: $10,052,873 (2021)",
+      "notes": "CHFA case study; direct browser render, 2026-07-30."
+    },
+    {
+      "section_id": "espero-supportive-housing",
+      "paragraph_index": 1,
+      "source_id": "s-espero-sw",
+      "source_url": "https://swhousingsolutions.com/projects/espero-apartments/",
+      "verdict": "supported",
+      "supporting_quote": "Housing Solutions for the Southwest is partnering with BlueLine Development to build this project. The capital for this project came through the award of Low-Income Tax Credits from CHFA and grant funding from the Colorado Division of Housing. In addition, AXIS Health System and Manna Soup Kitchen provide services onsite in partnership with the Housing Solutions Team.",
+      "notes": "Direct browser render of the project page, 2026-07-30."
+    },
+    {
+      "section_id": "city-housing-policy",
+      "paragraph_index": 0,
+      "source_id": "s-durango-ihsd",
+      "source_url": "https://www.durangoco.gov/877/Housing-Innovations",
+      "verdict": "supported",
+      "supporting_quote": "The Innovative Housing Solutions Division creates and administers community housing initiatives … Directs, plans, and coordinates the City of Durango's Housing Program … across seven strategic areas: new development, housing preservation, adaptive reuse, policy/code reform, housing programs, land acquisition, and funding sources.",
+      "notes": "Direct WebFetch of the city page, 2026-07-30."
+    },
+    {
+      "section_id": "city-housing-policy",
+      "paragraph_index": 1,
+      "source_id": "s-durango-ihsd",
+      "source_url": "https://www.durangoco.gov/877/Housing-Innovations",
+      "verdict": "supported",
+      "supporting_quote": "Affordable Housing Fee Offset: up to $15,000 per set aside unit(s) constructed in rental development or $18,000 per set aside unit(s) constructed in for-sale developments … mirrors the Fair Share Ordinance for fee refunds and waivers … Pre-Development Catalyst Fund, a public-private partnership to create seed funding to support below-market housing development in La Plata County.",
+      "notes": "Direct WebFetch of the city page, 2026-07-30."
+    },
+    {
+      "section_id": "county-lodgers-tax",
+      "paragraph_index": 0,
+      "source_id": "s-lodgers-herald",
+      "source_url": "https://www.durangoherald.com/articles/voters-overwhelmingly-approve-la-plata-county-lodgers-tax-reallocation/",
+      "verdict": "supported",
+      "supporting_quote": "With 81% of ballots counted, approximately 69% of voters approved Ballot Issue 1A … the county has broad discretion to use an estimated $700,000 in any number of ways related to workforce housing and child care.",
+      "notes": "Direct WebFetch of the Durango Herald article (2024 election), 2026-07-30."
+    },
+    {
+      "section_id": "regional-housing-authority",
+      "paragraph_index": 0,
+      "source_id": "s-rha",
+      "source_url": "https://laplatahousing.colorado.gov/",
+      "verdict": "supported",
+      "supporting_quote": "The Regional Housing Alliance of La Plata County is a Multi-Jurisdictional Regional Housing Authority (RHA) created in 2004 by an Intergovernmental Agreement (IGA) between La Plata County, City of Durango, Town of Ignacio, and Town of Bayfield. The RHA is governed by a 9-member Board of Directors with two representatives from each of the parties to the IGA and one at large member appointed by the Board.",
+      "notes": "RHA official site; direct browser render (WAF blocks WebFetch), 2026-07-30."
+    },
+    {
+      "section_id": "regional-housing-authority",
+      "paragraph_index": 1,
+      "source_id": "s-sw-solutions",
+      "source_url": "https://swhousingsolutions.com/",
+      "verdict": "supported",
+      "supporting_quote": "Serving Archuleta, Dolores, La Plata, Montezuma, and San Juan Counties Since 1981. … Housing Solutions works to create new construction of affordable housing for seniors, families, and persons with disabilities including rental apartments and single-family homes.",
+      "notes": "Direct browser render of the homepage, 2026-07-30."
+    }
+  ],
+  "dropped_rows": [],
+  "summary": {
+    "total_rows": 9,
+    "supported": 9,
+    "partial": 0,
+    "unsupported": 0,
+    "inaccessible": 0
+  },
+  "strip_summary": "Brief authored 2026-07-30 with verified primary/press sources only (no kind:search placeholders). Held at published:false pending owner review."
+}

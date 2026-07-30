@@ -1,0 +1,457 @@
+{
+  "geoid": "0822035",
+  "jurisdiction": "City of Durango",
+  "scope": "place",
+  "containing_county_fips": "08067",
+  "last_curated": "2026-07-30",
+  "curator": "claude-draft",
+  "published": false,
+  "summary": "Draft brief for City of Durango (pending curator review). Durango's verified affordable-housing record is anchored by Espero Apartments — a 40-unit permanent supportive-housing development — the City's Innovative Housing Solutions Division and Fair Share fee-offset policy, the 2024 La Plata County lodgers-tax reallocation to workforce housing, and regional capacity through the Regional Housing Alliance of La Plata County and Housing Solutions for the Southwest.",
+  "sections": [
+    {
+      "id": "espero-supportive-housing",
+      "heading": "Espero Apartments",
+      "paragraphs": [
+        {
+          "text": "Espero Apartments, at 1051 Avenida del Sol, is the region's first permanent supportive-housing development, built for individuals and families who have experienced homelessness and live with a disabling condition. All 40 one-bedroom units opened in the fall of 2021, with the first residents moving in during late October 2021.",
+          "cites": [
+            "s-espero-sw",
+            "s-espero-chfa"
+          ]
+        },
+        {
+          "text": "The project was developed by Housing Solutions for the Southwest in partnership with BlueLine Development, financed with federal 9% Low-Income Housing Tax Credits awarded by CHFA plus a Colorado Division of Housing grant, and built on a low-cost, long-term land lease from the City of Durango on the city's downtown social-services campus. Its total development cost was $10,052,873, and AXIS Health System and Manna Soup Kitchen provide services on site.",
+          "cites": [
+            "s-espero-chfa",
+            "s-espero-sw"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "city-housing-policy",
+      "heading": "City housing policy & funding",
+      "paragraphs": [
+        {
+          "text": "The City of Durango's Innovative Housing Solutions Division directs, plans, and coordinates the city's housing program across seven strategic areas: new development, housing preservation, adaptive reuse, policy and code reform, housing programs, land acquisition, and funding sources.",
+          "cites": [
+            "s-durango-ihsd"
+          ]
+        },
+        {
+          "text": "The city's Affordable Housing Fee Offset program, which mirrors its Fair Share Ordinance, waives development fees of up to $15,000 per income-restricted unit in rental developments and up to $18,000 per income-restricted unit in for-sale developments. The division also participates in the Pre-Development Catalyst Fund, a public-private partnership that seeds below-market housing development in the region.",
+          "cites": [
+            "s-durango-ihsd"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "county-lodgers-tax",
+      "heading": "County lodgers-tax reallocation for housing",
+      "paragraphs": [
+        {
+          "text": "In November 2024, La Plata County voters approved Ballot Issue 1A by roughly 69% to 31%, authorizing the county to redirect up to 70% of its lodgers-tax revenue — an estimated $700,000 a year — away from tourism marketing and toward workforce housing and child care.",
+          "cites": [
+            "s-lodgers-herald"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "regional-housing-authority",
+      "heading": "Housing authority & regional context",
+      "paragraphs": [
+        {
+          "text": "The Regional Housing Alliance of La Plata County is a multi-jurisdictional regional housing authority created in 2004 by an intergovernmental agreement among La Plata County, the City of Durango, the Town of Ignacio, and the Town of Bayfield. It is governed by a nine-member board — two representatives from each party plus one at-large member — and its mission is to support the preservation, rehabilitation, and development of affordable and attainable workforce housing across the region.",
+          "cites": [
+            "s-rha"
+          ]
+        },
+        {
+          "text": "Housing Solutions for the Southwest is a nonprofit affordable-housing organization that has served Archuleta, Dolores, La Plata, Montezuma, and San Juan counties since 1981. It creates new construction of affordable housing for seniors, families, and people with disabilities, including rental apartments and single-family homes.",
+          "cites": [
+            "s-sw-solutions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metric-digest",
+      "heading": "Metric Digest",
+      "paragraphs": [
+        {
+          "text": "The housing-needs digest ranks the City of Durango #60 statewide with an overall housing-need score of 74.4. It counts a shortfall of 754 units affordable at or below 30% AMI — equal to 60.8% of the 1,240 lowest-income households — and finds 53.3% of renter households cost-burdened, with 1.5% of occupied units overcrowded.",
+          "cites": [
+            "d-rank",
+            "d-score",
+            "d-gap",
+            "d-gaprate",
+            "d-lowinc",
+            "d-burden",
+            "d-overcrowd"
+          ]
+        },
+        {
+          "text": "On the market side, the digest reports a ZHVI home-value estimate of $758,990 and a median gross rent of $1,636. 47% of households rent, and 24.5% of the housing stock is multifamily.",
+          "cites": [
+            "d-zhvi",
+            "d-rent",
+            "d-renters",
+            "d-mf"
+          ]
+        },
+        {
+          "text": "Durango's population is 19,411. LEHD commuting data show 9,551 in-commuters and a 64.6% commute ratio, and the county-context projection points to 713 additional units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "cites": [
+            "d-pop",
+            "d-incommute",
+            "d-commuteratio",
+            "d-future"
+          ]
+        },
+        {
+          "text": "Workforce-housing pressure scores 74.7. A worker earning the containing county's estimated wage faces an ownership affordability gap of $130,040 and a rent affordability gap of $10,440. Opportunity and walkability score 63.8 and 42.7. County-context ACS cohorts show median gross rent up 89.4% and median household income up 47.1% from 2009 to 2024, alongside a 39.5% county service-sector employment share; these county-context figures are economic context, not place-level observations.",
+          "cites": [
+            "d-wf",
+            "d-owngap",
+            "d-rentgap",
+            "d-opp",
+            "d-walk",
+            "d-rentchg",
+            "d-incchg",
+            "d-service"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tenure-strategy-screening",
+      "heading": "Tenure strategy screening",
+      "paragraphs": [
+        {
+          "text": "The Affordable Ownership Need screening module recommends Deep affordability priority for City of Durango. It classifies rental pressure as Very High, ownership pressure as Moderate, and identifies 1,271 moderate-income renter households as the ownership-fit base.",
+          "cites": [
+            "own1",
+            "own2",
+            "own3",
+            "own4"
+          ]
+        },
+        {
+          "text": "The same screening run counts 1,982 renter households and 997 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "cites": [
+            "own5",
+            "own6"
+          ]
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s-espero-sw",
+      "label": "Espero Apartments — Housing Solutions for the Southwest",
+      "url": "https://swhousingsolutions.com/projects/espero-apartments/",
+      "kind": "primary",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "s-espero-chfa",
+      "label": "Espero Apartments case study — CHFA Colorado Multifamily Affordable Housing Electrification Hub",
+      "url": "https://multifamily-ehub.chfainfo.com/espero-apartments-durango",
+      "kind": "primary",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "s-durango-ihsd",
+      "label": "Innovative Housing Solutions Division — City of Durango",
+      "url": "https://www.durangoco.gov/877/Housing-Innovations",
+      "kind": "primary",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "s-lodgers-herald",
+      "label": "Voters overwhelmingly approve La Plata County lodgers tax reallocation — The Durango Herald",
+      "url": "https://www.durangoherald.com/articles/voters-overwhelmingly-approve-la-plata-county-lodgers-tax-reallocation/",
+      "kind": "press",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "s-rha",
+      "label": "Regional Housing Alliance of La Plata County — official site (La Plata Housing Authority)",
+      "url": "https://laplatahousing.colorado.gov/",
+      "kind": "primary",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "s-sw-solutions",
+      "label": "Housing Solutions for the Southwest — official site",
+      "url": "https://swhousingsolutions.com/",
+      "kind": "primary",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-rank",
+      "label": "Ranking index rank - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "rank",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-score",
+      "label": "Overall housing-need score - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overall_need_score",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-gap",
+      "label": "Deep-affordability housing gap units - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_units",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-gaprate",
+      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_rate_lte30",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-lowinc",
+      "label": "Lowest-income households (<=30% AMI) - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "low_income_households_lte30",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-burden",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_cost_burdened",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-overcrowd",
+      "label": "Occupied-household overcrowding rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overcrowding_rate",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-zhvi",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "median_home_value",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-rent",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "gross_rent_median",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-renters",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_renters",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-mf",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_multifamily",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-pop",
+      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "population",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-incommute",
+      "label": "In-commuters - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "in_commuters",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-commuteratio",
+      "label": "Commute ratio - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "commute_ratio",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-future",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_needed_20yr",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-wf",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "workforce_housing_pressure_score",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-owngap",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_ownership_gap_dollars",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-rentgap",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_rent_gap_dollars",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-opp",
+      "label": "Opportunity score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "opportunity_score",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-walk",
+      "label": "Walkability score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "walkability_score",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-rentchg",
+      "label": "County rent change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_rent_change_2009_2024_pct",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-incchg",
+      "label": "County income change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "d-service",
+      "label": "County service-sector employment share - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_service_sector_share_pct",
+      "accessed": "2026-07-30"
+    },
+    {
+      "id": "own1",
+      "label": "Affordable Ownership Need recommendation",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_recommendation",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own2",
+      "label": "Affordable Ownership Need rental pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_rental_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own3",
+      "label": "Affordable Ownership Need ownership pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_ownership_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own4",
+      "label": "Affordable Ownership Need moderate-income renter households",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_moderate_income_renter_households",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own5",
+      "label": "Affordable Ownership Need renter cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_renter_cost_burdened",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own6",
+      "label": "Affordable Ownership Need owner cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_owner_cost_burdened",
+      "accessed": "2026-07-07"
+    }
+  ],
+  "_meta_population_at_draft": 19411
+}
