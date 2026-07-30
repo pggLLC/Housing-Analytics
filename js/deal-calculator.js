@@ -619,9 +619,9 @@
   function amiBandLabelHtml(pct) {
     if (isLihtcCreditEligiblePct(pct)) return pct + '% AMI';
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
-      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
+      return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
     }
-    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;">(market/workforce; not counted in credit basis here — 70/80 can qualify only under §42 income averaging, which this calculator does not model)</span>';
+    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted in credit basis here — 70/80 can qualify only under §42 income averaging, which this calculator does not model)</span>';
   }
 
   // -------------------------------------------------------------------
@@ -1108,10 +1108,10 @@
                Default 2BR for every tier (matches the old single-rent
                behavior). For mixed deals (typical: 30% at 1BR, 60% at
                2BR, 80% at 3BR), change the dropdown per tier. -->
-          <div style="display:grid;grid-template-columns:1fr 70px 100px;gap:0.25rem 0.5rem;font-size:var(--tiny);color:var(--muted);margin-bottom:.2rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 70px 100px;gap:0.25rem 0.5rem;font-size:var(--tiny);color:var(--muted);margin-bottom:.2rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">
             <span>AMI tier</span><span style="text-align:center;">Units</span><span>Bedrooms</span>
           </div>
-          <div id="dc-ami-rows" style="display:grid;grid-template-columns:1fr 70px 100px;gap:0.4rem 0.5rem;align-items:center;">
+          <div id="dc-ami-rows" style="display:grid;grid-template-columns:minmax(0,1fr) 70px 100px;gap:0.4rem 0.5rem;align-items:center;">
             ${DEAL_AMI_BANDS.map(pct => {
               var lihtcEligible = isLihtcCreditEligiblePct(pct);
               var defaultUnits = lihtcEligible ? 15 : 0;
@@ -1124,7 +1124,7 @@
                 return '<option value="' + b[0] + '"' + sel + '>' + b[1] + '</option>';
               }).join('');
               return `
-              <label style="display:flex;align-items:center;gap:0.4rem;min-height:44px;font-size:var(--small);white-space:nowrap;">
+              <label style="display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem;min-height:44px;font-size:var(--small);white-space:normal;min-width:0;">
                 <input id="dc-chk-${pct}" type="checkbox" ${lihtcEligible ? 'checked' : ''} style="width:16px;height:16px;">
                 ${tierLabel}
               </label>
