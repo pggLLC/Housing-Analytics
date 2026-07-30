@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-30T13:52:23.085Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-30T14:06:05.130Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1562 JSON files found.
+1566 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 751.8 KB | ✅ | — |
+| `data/_manifest.json` | 754.3 KB | ✅ | — |
 | `data/_qa-status.json` | 6.3 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1517,9 +1517,11 @@
 | `data/jurisdiction-briefs/0803620.json` | 26.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0810105.json` | 2.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 27.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0816000.json` | 24.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0817375.json` | 22.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0818310.json` | 2.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 15.7 KB | ✅ | — |
@@ -1527,6 +1529,8 @@
 | `data/jurisdiction-briefs/0864255.json` | 18.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 30.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0873825.json` | 3.0 KB | ✅ | — |
+| `data/jurisdiction-briefs/0876795.json` | 2.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 24.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 217.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
