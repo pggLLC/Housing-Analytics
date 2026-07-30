@@ -64,7 +64,10 @@ jobs:
         run: |
           # Scan up to 100 open issues for the title marker. Client-side
           # jq filter via env.MARKER survives special chars (brackets).
-          MARKER="${ISSUE_TITLE_MARKER}" \
+          # `export` is required: a `VAR=val prefix` before an assignment (not a
+          # command) never reaches the child's environment, so gh's jq saw
+          # env.MARKER == null and opened a duplicate issue every run. Export fixes it.
+          export MARKER="${ISSUE_TITLE_MARKER}"
           number=$(gh issue list --state open --limit 100 --json number,title \
             --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
             || true)
