@@ -1,0 +1,72 @@
+{
+  "geoid": "0873825",
+  "jurisdiction": "City of Steamboat Springs",
+  "scope": "place",
+  "containing_county_fips": "08107",
+  "last_curated": "2026-07-30",
+  "curator": "auto-draft",
+  "published": false,
+  "summary": "Skeleton brief for City of Steamboat Springs \u2014 auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
+  "sections": [
+    {
+      "id": "lihtc-history",
+      "heading": "CHFA LIHTC award history",
+      "paragraphs": [
+        {
+          "text": "Skeleton placeholder. Research CHFA Round One and Round Two Housing Tax Credit award announcements (2022-2026) for any City of Steamboat Springs project awards or denials. Verify against the CHFA awards index at chfainfo.com/rental-housing/housing-credit/awards and the per-round narrative PDFs.",
+          "cites": [
+            "s1"
+          ],
+          "needs_source": true
+        }
+      ]
+    },
+    {
+      "id": "local-funding-and-policy",
+      "heading": "Local funding & policy",
+      "paragraphs": [
+        {
+          "text": "Skeleton placeholder. Research the housing fund, dedicated revenue streams (lodging / STR / sales tax / mill levy), recent housing-strategic-plan adoptions, inclusionary ordinances, fee waivers, and council resolutions specific to City of Steamboat Springs.",
+          "cites": [
+            "s2"
+          ],
+          "needs_source": true
+        }
+      ]
+    },
+    {
+      "id": "regional-housing-authority",
+      "heading": "Housing authority & regional context",
+      "paragraphs": [
+        {
+          "text": "Skeleton placeholder. Identify the public housing authority serving City of Steamboat Springs (municipal, county, or regional) plus any coalition memberships (e.g. WMRHC, CHA, APCHA, etc.). Document the authority's voucher inventory and any project-based vouchers committed to local LIHTC pipeline.",
+          "cites": [
+            "s3"
+          ],
+          "needs_source": true
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "label": "CHFA Housing Tax Credit awards \u2014 search scoped to 'Steamboat Springs'",
+      "url": "https://www.google.com/search?q=site%3Achfainfo.com+%22Steamboat+Springs%22+%22housing+tax+credit%22",
+      "kind": "search"
+    },
+    {
+      "id": "s2",
+      "label": "City of Steamboat Springs affordable-housing fund / STR / lodging-tax search",
+      "url": "https://www.google.com/search?q=%22Steamboat+Springs%22+Colorado+%22affordable+housing%22+%28%22housing+fund%22+OR+%22short-term+rental%22+OR+%22lodging+tax%22+OR+%22mill+levy%22%29",
+      "kind": "search"
+    },
+    {
+      "id": "s3",
+      "label": "City of Steamboat Springs housing authority / regional coalition search",
+      "url": "https://www.google.com/search?q=%22Steamboat+Springs%22+Colorado+%28%22housing+authority%22+OR+%22housing+coalition%22+OR+%22deed+restriction%22%29",
+      "kind": "search"
+    }
+  ],
+  "_meta_population_at_draft": 13433
+}
