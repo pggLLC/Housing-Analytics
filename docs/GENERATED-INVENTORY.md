@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-29T22:59:15.243Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-30T13:50:41.099Z. Do not edit by hand.
 
 ---
 
@@ -1617,7 +1617,7 @@
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 172.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.7 KB | ✅ | — |
+| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
