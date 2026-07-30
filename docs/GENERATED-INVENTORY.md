@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-30T13:50:41.099Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-07-30T13:52:23.085Z. Do not edit by hand.
 
 ---
 
@@ -1519,7 +1519,7 @@
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 27.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0816000.json` | 24.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0817375.json` | 22.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0817375.json` | 22.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 15.7 KB | ✅ | — |
@@ -1537,7 +1537,7 @@
 | `data/jurisdiction-briefs/_verified/08097.json` | 21.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0812045.json` | 14.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0816000.json` | 14.1 KB | ✅ | — |
-| `data/jurisdiction-briefs/_verified/0817375.json` | 13.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/_verified/0817375.json` | 13.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0820000.json` | 19.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0827425.json` | 20.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0828745.json` | 3.7 KB | ✅ | — |
@@ -1925,10 +1925,10 @@
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.7 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-freshness-check.yml` | 6.4 KB |
+| `.github/workflows/data-freshness-check.yml` | 6.8 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
-| `.github/workflows/data-sentinels-check.yml` | 5.8 KB |
+| `.github/workflows/data-sentinels-check.yml` | 6.0 KB |
 | `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
 | `.github/workflows/developer-url-health.yml` | 2.6 KB |
