@@ -75,7 +75,12 @@ jobs:
           # 5 piled up from before the auto-close logic was correct),
           # each green run only closed one. Issues #744–748 piled up that
           # way — a recovery should now close ALL of them in one pass.
-          MARKER="${ISSUE_TITLE_MARKER}" \
+          # NOTE: `export` is required. A `VAR=val prefix` before an assignment
+          # (not a command) does NOT place VAR in the child process environment,
+          # so gh's jq saw `env.MARKER == null`, `contains(null)` errored, the
+          # filter fell through `|| true` to empty, and every stale run opened a
+          # brand-new duplicate issue (see #1347/#1357/#1359). Export fixes it.
+          export MARKER="${ISSUE_TITLE_MARKER}"
           numbers=$(gh issue list --state open --limit 100 --json number,title \
             --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | join(" ")' \
             || true)

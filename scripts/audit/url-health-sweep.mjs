@@ -154,7 +154,17 @@ const ALLOW_LIST = new Set([
   'https://polymarket.com/event/us-recession-by-end-of-2026',
   'https://polymarket.com/event/what-will-the-median-home-value-in-chicago-be-on-april-30',
   'https://polymarket.com/event/what-will-the-median-home-value-in-the-los-angeles-metro-area-be-on-april-30',
-  'https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-april-30'
+  'https://polymarket.com/event/what-will-the-median-home-value-in-the-us-be-on-april-30',
+  // Bot-blocked / transient hosts verified live in a real browser during the
+  // 2026-07-30 weekly sweep triage (#1326). All returned 200 with a browser UA
+  // (novoco Cloudflare-gates CI but both tool pages render live); none are dead.
+  // Keep in sync with source-url-sweep.mjs.
+  'https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/',
+  'https://www.chaffeecountytimes.com/news/chaffee-county-rejects-lodging-tax/article_53e3089a-a079-48b4-a8c8-9c5c0e76db4b.html',
+  'https://www.deltaschools.com/',
+  'https://www.novoco.com/products/novogradac-qualified-census-tract-estimator',
+  'https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rent-income-limit-calculator',
+  'https://www.purgatory.ski/'
 ]);
 
 /* ── URL collection ───────────────────────────────────────────────── */

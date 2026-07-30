@@ -259,6 +259,14 @@ const ALLOW_LIST = new Set([
   "https://www.novoco.com/rss.xml",
   "https://www.hudexchange.info/feed/",
   "https://leg.colorado.gov/rss.xml",
+  // Bot-blocked / transient hosts verified live in a real browser during the
+  // 2026-07-30 weekly sweep triage (#1326). Keep in sync with url-health-sweep.mjs.
+  "https://andthewest.stanford.edu/2019/astride-two-wests-colorado-county-faces-a-tricky-economic-balance/",
+  "https://www.chaffeecountytimes.com/news/chaffee-county-rejects-lodging-tax/article_53e3089a-a079-48b4-a8c8-9c5c0e76db4b.html",
+  "https://www.deltaschools.com/",
+  "https://www.novoco.com/products/novogradac-qualified-census-tract-estimator",
+  "https://www.novoco.com/resource-centers/affordable-housing-tax-credits/rent-income-limit-calculator",
+  "https://www.purgatory.ski/",
 ]);
 
 const SKIP_PATTERNS = [
