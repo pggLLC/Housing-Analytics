@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-30T09:24:03.462Z
+**Scan timestamp:** 2026-07-31T09:35:45.616Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1601 |
-| New (unregistered) | 1570 |
+| Files scanned | 1607 |
+| New (unregistered) | 1576 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (752 KB)
+- `data/_manifest.json` (756 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -1451,16 +1451,21 @@
 - `data/jurisdiction-briefs/0803620.json` (27 KB)
 - `data/jurisdiction-briefs/08045.json` (29 KB)
 - `data/jurisdiction-briefs/08097.json` (28 KB)
+- `data/jurisdiction-briefs/0810105.json` (3 KB)
 - `data/jurisdiction-briefs/0812045.json` (27 KB)
 - `data/jurisdiction-briefs/0816000.json` (24 KB)
 - `data/jurisdiction-briefs/0817375.json` (23 KB)
+- `data/jurisdiction-briefs/0818310.json` (3 KB)
 - `data/jurisdiction-briefs/0820000.json` (29 KB)
+- `data/jurisdiction-briefs/0822035.json` (19 KB)
 - `data/jurisdiction-briefs/0827425.json` (29 KB)
 - `data/jurisdiction-briefs/0828745.json` (16 KB)
 - `data/jurisdiction-briefs/0830780.json` (28 KB)
 - `data/jurisdiction-briefs/0864255.json` (19 KB)
 - `data/jurisdiction-briefs/0867280.json` (25 KB)
 - `data/jurisdiction-briefs/0870195.json` (30 KB)
+- `data/jurisdiction-briefs/0873825.json` (3 KB)
+- `data/jurisdiction-briefs/0876795.json` (3 KB)
 - `data/jurisdiction-briefs/_candidates.json` (25 KB)
 - `data/jurisdiction-briefs/_liveness.json` (217 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
@@ -1473,6 +1478,7 @@
 - `data/jurisdiction-briefs/_verified/0816000.json` (14 KB)
 - `data/jurisdiction-briefs/_verified/0817375.json` (14 KB)
 - `data/jurisdiction-briefs/_verified/0820000.json` (20 KB)
+- `data/jurisdiction-briefs/_verified/0822035.json` (7 KB)
 - `data/jurisdiction-briefs/_verified/0827425.json` (20 KB)
 - `data/jurisdiction-briefs/_verified/0828745.json` (4 KB)
 - `data/jurisdiction-briefs/_verified/0830780.json` (20 KB)
