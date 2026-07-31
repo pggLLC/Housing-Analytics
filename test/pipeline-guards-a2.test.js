@@ -71,6 +71,15 @@ assert(
   'freshness check parses .geojson files for in-file timestamps',
 );
 assert(freshnessSrc.includes("'fetchedAt'"), 'freshness check recognizes fetchedAt timestamps');
+assert(
+  /data\/market\/nhpd_co\.geojson[\s\S]*warnOnly:\s*true/.test(freshnessSrc),
+  'freshness check keeps NHPD in SLA reporting but marks it warnOnly while the source remains registration-gated',
+);
+assert(
+  freshnessSrc.includes('const blockingStale = stale.filter(r => !r.warnOnly);') &&
+    freshnessSrc.includes('if (blockingStale.length) process.exit(1);'),
+  'freshness check only fails CI for blocking stale files',
+);
 
 const TIMESTAMP_FIELDS = [
   'updated',

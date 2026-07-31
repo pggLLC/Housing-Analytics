@@ -44,7 +44,10 @@ const SLA_CONFIG = [
   { file: 'data/hud-fmr-income-limits.json',                slaDays: 400, cadence: 'annual (HUD FMR release)' },
   { file: 'data/hna/chas_affordability_gap.json',           slaDays: 400, cadence: 'annual (HUD CHAS release)' },
   { file: 'data/market/hud_lihtc_co.geojson',               slaDays: 95,  cadence: 'quarterly (HUD LIHTC DB)' },
-  { file: 'data/market/nhpd_co.geojson',                    slaDays: 95,  cadence: 'quarterly (NHPD export)' },
+  // NHPD now requires account registration and the repo currently ships a
+  // stub fixture. Keep surfacing age drift in reports, but do not fail CI
+  // until we have a reliable automated refresh path again.
+  { file: 'data/market/nhpd_co.geojson',                    slaDays: 95,  cadence: 'quarterly (NHPD export)', warnOnly: true },
   { file: 'data/co_ami_gap_by_county.json',                 slaDays: 95,  cadence: 'quarterly (AMI gap build)' },
   { file: 'data/co_ami_gap_by_place.json',                  slaDays: 95,  cadence: 'quarterly (matches county counterpart; underlying ACS + HUD income limits refresh annually)' },
   { file: 'data/market/cdphe_county_boundaries_co.geojson', slaDays: 400, cadence: 'annual (CDPHE boundary refresh)' },
@@ -140,7 +143,9 @@ async function checkOne(entry) {
 
 function format(result) {
   if (!result.present) return `MISSING       ${result.file}  (SLA ${result.slaDays}d)`;
-  const badge = result.stale ? 'STALE   ' : '  OK    ';
+  const badge = result.stale
+    ? (result.warnOnly ? 'WARN    ' : 'STALE   ')
+    : '  OK    ';
   const age   = `${String(result.ageDays).padStart(5)}d`;
   const sla   = `SLA ${result.slaDays}d`;
   const src   = result.source === 'mtime' ? 'mtime' : `field:${result.source}`;
@@ -154,15 +159,19 @@ async function main() {
     results.push(await checkOne(entry));
   }
 
-  const missing = results.filter(r => !r.present);
-  const stale   = results.filter(r => r.present && r.stale);
-  const ok      = results.filter(r => r.present && !r.stale);
+  const missing       = results.filter(r => !r.present);
+  const stale         = results.filter(r => r.present && r.stale);
+  const blockingStale = stale.filter(r => !r.warnOnly);
+  const warningStale  = stale.filter(r => r.warnOnly);
+  const ok            = results.filter(r => r.present && !r.stale);
 
   if (json) {
     console.log(JSON.stringify({
       checkedAt:   new Date().toISOString(),
       total:       results.length,
       ok:          ok.length,
+      blockingStale: blockingStale.length,
+      warningStale:  warningStale.length,
       stale:       stale.length,
       missing:     missing.length,
       results,
@@ -172,12 +181,16 @@ async function main() {
       for (const r of results) console.log(format(r));
       console.log('');
     }
-    console.log(`Summary: ${ok.length} ok, ${stale.length} stale, ${missing.length} missing (of ${results.length})`);
+    console.log(
+      `Summary: ${ok.length} ok, ${blockingStale.length} blocking stale, ${warningStale.length} warning stale, ${missing.length} missing (of ${results.length})`,
+    );
 
     if (stale.length) {
       console.log('\nStale files (past SLA):');
       for (const r of stale) {
-        console.log(`  [${r.ageDays}d past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`);
+        console.log(
+          `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays}d past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`,
+        );
       }
     }
     if (missing.length) {
@@ -189,7 +202,7 @@ async function main() {
   // Missing = internal-config error (file was in SLA list but isn't on disk).
   if (missing.length) process.exit(2);
   // Stale = operational failure; CI should fail.
-  if (stale.length) process.exit(1);
+  if (blockingStale.length) process.exit(1);
   process.exit(0);
 }
 
