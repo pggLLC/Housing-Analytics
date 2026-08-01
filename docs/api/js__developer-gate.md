@@ -26,6 +26,4 @@ TO CHANGE THE PASSWORD
   3. Replace PASSWORD_HASH below with the new hash.
   4. Commit + push.
 
-DEFAULT PASSWORD: salida2026
-
 _No documented symbols — module has a file-header comment only._

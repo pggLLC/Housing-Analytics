@@ -9,7 +9,7 @@ session that has this repo as its working directory.
 
 ---
 
-Full stabilization + audit pass on the jurisdictional briefs feature. No Cloudflare migration in this session — keep the existing salida2026 password gate as UI gating. Eight phases, each ending in a commit + push.
+Full stabilization + audit pass on the jurisdictional briefs feature. No Cloudflare migration in this session — keep the existing configured password gate as UI gating. Eight phases, each ending in a commit + push.
 
 TOOL NOTES (read before starting; pick the closest equivalent in your environment).
 - "Direct URL fetch" below means: pull the actual article HTML/text via HTTP (Claude Code: WebFetch; OpenAI Codex: built-in browse / shell `curl`; Cursor: chat web tool; generic: Python `urllib.request`). NEVER substitute a search-engine summary, snippet, or paraphrase. Carbondale's repair dropped from 75% supported under WebSearch snippets to 24% under direct URL fetch.
@@ -67,7 +67,7 @@ Edit js/components/jurisdiction-brief.js in two places:
 Commit: `feat(briefs): "report inaccuracy" affordance + as-of disclaimer`. Push.
 
 PHASE 6 — Usability audit (includes verifying the new affordances).
-Boot: `npx http-server . -p 8765 --silent` (fallback per TOOL NOTES). Open http://localhost:8765/indibuild-brief.html?geoid=0812045. Enter password `salida2026`. Verify on Carbondale:
+Boot: `npx http-server . -p 8765 --silent` (fallback per TOOL NOTES). Open http://localhost:8765/indibuild-brief.html?geoid=0812045. Enter the configured developer-gate password. Verify on Carbondale:
 - Header strip: freshness chip, ↻ Update brief, 🚩 Report inaccuracy, as-of disclaimer all render in BOTH light and dark mode, all readable, no contrast regressions.
 - Summary + all sections + all sources render in order.
 - Source-list contrast readable in both modes (this was a 2026-06-12 regression — the `.dark-mode` selectors weren't matching the prefers-color-scheme media query).

@@ -34,7 +34,7 @@ Safe to remove:
 
 Review carefully before removing:
 - `test/` and `tools/` (keep if used by workflows)
-- `cloudflare-worker/` and `serverless/` (keep if you still deploy workers)
+- `serverless/` (keep if you still deploy workers)
 
 ## 4) High-impact cleanup opportunities
 - **Duplicate dashboards / variants**: if you have `economic-dashboard-2.html` / `economic-dashboard-3.html` etc in other branches/zips, consider consolidating.

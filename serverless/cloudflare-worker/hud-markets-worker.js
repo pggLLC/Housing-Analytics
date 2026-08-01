@@ -10,7 +10,7 @@
  * Env vars (Cloudflare Worker secrets/vars):
  * - HUD_USER_TOKEN         (required)  HUD USER API Bearer token
  * - CO_DEMO_CACHE_SECONDS  (optional)  Cache TTL in seconds; default 604800 (7 days)
- * - CORS_ORIGIN            (optional)  CORS allowed origin; default "*"
+ * - CORS_ORIGIN            (optional)  CORS allowed origin; default "https://cohoanalytics.com"
  *
  * Query params:
  * - state=CO  (default "CO") — two-letter state abbreviation
@@ -196,7 +196,7 @@ const FALLBACK_MARKETS = [
 function buildHeaders(cacheTtl, corsOrigin) {
   return {
     "content-type": "application/json; charset=utf-8",
-    "access-control-allow-origin": corsOrigin || "https://pggllc.github.io",
+    "access-control-allow-origin": corsOrigin || "https://cohoanalytics.com",
     "vary": "Origin",
     "access-control-allow-methods": "GET, OPTIONS",
     "access-control-allow-headers": "Content-Type",
@@ -290,7 +290,7 @@ export default {
     const cacheTtl = Number(env.CO_DEMO_CACHE_SECONDS || DEFAULT_CACHE_SECONDS);
     // Default to the production GitHub Pages origin; set CORS_ORIGIN env var
     // to override (or to "*" only when intentional).
-    const corsOrigin = env.CORS_ORIGIN || "https://pggllc.github.io";
+    const corsOrigin = env.CORS_ORIGIN || "https://cohoanalytics.com";
 
     // Check Cloudflare edge cache
     const cacheKey = new Request(url.toString(), request);

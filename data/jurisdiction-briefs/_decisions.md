@@ -45,7 +45,7 @@ available at the time the question was asked).
 
 **Effect:** I initially built a separate `?dev=1` / localStorage gate
 on the brief component. **This was the wrong reading** — the right
-"login" was the existing `salida2026` password on `indibuild-brief.html`
+"login" was the existing configured password on `indibuild-brief.html`
 (the Developer Tools section). Superseded by the 2026-06-12 decision
 below.
 
@@ -57,7 +57,7 @@ below.
 
 **Question:** Where should the briefs render?
 
-**Picked:** *"Only on indibuild-brief.html (Developer Tools, salida2026
+**Picked:** *"Only on indibuild-brief.html (Developer Tools, configured
 gate)."*
 
 **Effect:** Reverted the `?dev=1` localStorage flag and the brief
@@ -88,8 +88,7 @@ without auth, or just the rendering?
 repo."*
 
 **Effect:** No encryption of the brief content. The static JSON
-remains fetchable, but the renderer is gated by the `salida2026`
-password.
+remains fetchable, but the renderer is gated by the configured password.
 
 ### Carbondale repair sequence
 

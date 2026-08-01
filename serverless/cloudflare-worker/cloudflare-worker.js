@@ -12,7 +12,7 @@
  * - CENSUS_API_KEY         (required for /co-ami-gap — the Census API rejects keyless requests)
  * - CO_DEMO_CACHE_SECONDS  (optional, cache TTL for demographics/markets; default 604800)
  * - CORS_ORIGIN            (optional, CORS allowed origin; default
- *                          "https://pggllc.github.io". Set to "*" only when
+ *                          "https://cohoanalytics.com". Set to "*" only when
  *                          deliberately exposing the API to the open web.)
  *
  * To deploy this unified worker instead of individual workers, set the `main`
@@ -54,7 +54,7 @@ export default {
         {
           headers: {
             "content-type": "application/json; charset=utf-8",
-            "access-control-allow-origin": env.CORS_ORIGIN || "https://pggllc.github.io",
+            "access-control-allow-origin": env.CORS_ORIGIN || "https://cohoanalytics.com",
             "vary": "Origin"
           }
         }

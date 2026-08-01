@@ -53,7 +53,7 @@ is always operational.
 | Variable | Required | Default | Description |
 |---|---|---|---|
 | `CO_DEMO_CACHE_SECONDS` | No | `604800` | Edge cache TTL in seconds (7 days) |
-| `CORS_ORIGIN` | No | `*` | Value for `Access-Control-Allow-Origin` header |
+| `CORS_ORIGIN` | No | `https://cohoanalytics.com` | Value for `Access-Control-Allow-Origin` header |
 
 No API key is required — the CO SDO data portal is publicly accessible.
 
@@ -108,7 +108,7 @@ Falls back to embedded data when the HUD API is unavailable.
 |---|---|---|---|
 | `HUD_USER_TOKEN` | **Yes** | — | HUD USER API Bearer token |
 | `CO_DEMO_CACHE_SECONDS` | No | `604800` | Edge cache TTL in seconds |
-| `CORS_ORIGIN` | No | `*` | Value for `Access-Control-Allow-Origin` header |
+| `CORS_ORIGIN` | No | `https://cohoanalytics.com` | Value for `Access-Control-Allow-Origin` header |
 
 ---
 
@@ -154,7 +154,7 @@ echo "YOUR_CENSUS_KEY_HERE" | wrangler secret put CENSUS_API_KEY
 wrangler secret put CO_DEMO_CACHE_SECONDS   # enter value when prompted
 
 # Optional: restrict CORS to a specific origin
-wrangler secret put CORS_ORIGIN             # e.g. https://your-site.com
+wrangler secret put CORS_ORIGIN             # https://cohoanalytics.com in production
 ```
 
 ---
@@ -252,5 +252,5 @@ print('✅ hud-markets OK — usedFallback:', d.get('usedFallback'))
 | `"usedFallback": true` on every request | CO SDO or HUD API unreachable from the worker | Check network / firewall; data is still served from fallback |
 | `{"ok":false,"error":"Missing HUD_USER_TOKEN secret"}` | Secret not set | Run `wrangler secret put HUD_USER_TOKEN` |
 | `HUD API 401` in worker logs | Token expired or invalid | Obtain a new token at [huduser.gov](https://www.huduser.gov/portal/home.html) |
-| CORS errors in browser | `CORS_ORIGIN` set to wrong value | Set to `*` or your exact origin (e.g. `https://yourdomain.com`) |
+| CORS errors in browser | `CORS_ORIGIN` set to wrong value | Set it to the exact production origin (`https://cohoanalytics.com`) |
 | Stale data after a code change | Old response in edge cache | Purge via Cloudflare dashboard → Caching → Purge Everything |
