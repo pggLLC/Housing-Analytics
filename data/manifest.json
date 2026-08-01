@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T18:03:05.410682Z",
+  "generated": "2026-08-01T18:04:18.914175Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7589,7 +7589,7 @@
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
       "placeholder": false,
-      "bytes": 28563340
+      "bytes": 6136866
     },
     "data/market/flood_zones_co.json": {
       "featureCount": 0,
