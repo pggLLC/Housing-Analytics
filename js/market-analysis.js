@@ -3393,18 +3393,34 @@
                   '&bboxSR=4326&imageSR=4326&size=' + tileSize.x + ',' + tileSize.y +
                   '&format=png32&transparent=true&layers=show:' + (cfg.tileLayers || '0') + '&f=image';
               };
+              function loadStaticFallback() {
+                if (!cfg.src) return;
+                var url = (DS && typeof DS.baseData === 'function') ? DS.baseData(cfg.src) : ('data/' + cfg.src);
+                var fetchPromise = (DS && typeof DS.getJSON === 'function')
+                  ? DS.getJSON(url)
+                  : fetch(url).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+                fetchPromise.then(function (gj) {
+                  if (!gj || !gj.features || !gj.features.length) throw new Error('empty response');
+                  var fallback = L.geoJSON(gj, { pane: 'fillsPane', style: cfg.style });
+                  _mapLayers[key] = fallback;
+                  if (cb.checked) fallback.addTo(map);
+                  _showLayerToast('⚠ ' + (cfg.tileLabel || key) + ' live service down — loaded cached data', true);
+                }).catch(function (err) {
+                  console.warn('[market-analysis] Static fallback failed for "' + key + '":', err);
+                  cb.checked = false;
+                  _showLayerToast('⚠ ' + (cfg.tileLabel || key) + ' data unavailable', true);
+                });
+              }
               // Detect errors (service down)
-              layer.on('tileerror', function (e) {
+              layer.on('tileerror', function () {
                 if (!layer._errorShown) {
                   layer._errorShown = true;
-                  _showLayerToast('⚠ ' + (cfg.tileLabel || key) + ' service unavailable — try again later', true);
-                  // Disable checkbox and show status
-                  cb.checked = false;
-                  if (_mapLayers[key] && map.hasLayer(_mapLayers[key])) map.removeLayer(_mapLayers[key]);
+                  if (map.hasLayer(layer)) map.removeLayer(layer);
+                  loadStaticFallback();
                 }
               });
               layer.on('load', function () {
-                if (!layer._loadShown) {
+                if (!layer._loadShown && !layer._errorShown) {
                   layer._loadShown = true;
                   _showLayerToast('✓ ' + (cfg.tileLabel || key) + ' loaded', false);
                 }

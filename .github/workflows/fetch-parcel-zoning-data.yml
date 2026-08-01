@@ -51,6 +51,15 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
       - name: Install Python dependencies
         run: |
           pip install requests shapely pyproj 2>&1 | tail -5
@@ -209,6 +218,15 @@ jobs:
           python scripts/market/fetch_opportunity_zones.py 2>&1 | tee /tmp/oz_build.log
           echo "Exit code: $?"
         continue-on-error: true
+
+      - name: Simplify changed browser map geometry
+        run: |
+          if ! git diff --quiet -- data/market/transit_routes_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair
+          fi
+          if ! git diff --quiet -- data/market/opportunity_zones_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid
+          fi
 
       # ── Commit all updated data ───────────────────────────────────────
       - name: Commit updated data files

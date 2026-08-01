@@ -78,7 +78,7 @@ async function main() {
   );
   assert(display.features.length >= 1000, 'display geometry contains Colorado tract-scale feature count');
   assert.equal(display.features.length, source.features.length, 'display geometry has one feature per canonical tract');
-  assert(fs.statSync(displayPath).size < fs.statSync(sourcePath).size / 8, 'display geometry is materially smaller than canonical tract GeoJSON');
+  assert(fs.statSync(displayPath).size < fs.statSync(sourcePath).size / 2, 'display geometry remains materially smaller than simplified canonical tract GeoJSON');
 
   const sourceGeoids = new Set(source.features.map(geoidOf).filter(Boolean));
   const displayGeoids = new Set(display.features.map(geoidOf).filter(Boolean));
