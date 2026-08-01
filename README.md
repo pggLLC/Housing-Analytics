@@ -75,18 +75,6 @@ See also:
 | `about.html` | About the project and methodology |
 | `og-card.html` | Open Graph card preview |
 
-### Archived Pages
-
-The following pages have been moved to `archive/` and are no longer linked in the main navigation:
-
-| Page | Reason |
-|------|--------|
-| `archive/dashboard.html` | Superseded by specialized dashboard pages |
-| `archive/dashboard-data-quality.html` | Internal QA tool, not user-facing |
-| `archive/dashboard-data-sources-ui.html` | Replaced by `data-status.html` |
-| `archive/census-dashboard.html` | Subsumed by Housing Needs Assessment tool |
-| `archive/construction-commodities.html` | Incomplete; data available in Economic Dashboard |
-
 ## Project Structure
 
 ```
