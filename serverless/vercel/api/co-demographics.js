@@ -94,7 +94,7 @@ export default async function handler(req, res) {
   const cacheTtl = Number(process.env.CO_DEMO_CACHE_SECONDS || DEFAULT_CACHE_SECONDS);
 
   // CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "https://cohoanalytics.com");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   if (req.method === "OPTIONS") return res.status(204).end();
 
