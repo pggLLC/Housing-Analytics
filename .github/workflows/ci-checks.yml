@@ -20,6 +20,9 @@ jobs:
       - name: Verify README inventory
         run: node scripts/compute-inventory.mjs
 
+      - name: Enforce tracked data-file size ceilings
+        run: node scripts/check-data-file-sizes.mjs
+
       - name: Verify critical artifacts exist
         shell: bash
         run: |
