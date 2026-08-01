@@ -328,12 +328,10 @@ The following directories contain additional files that were only partially enum
 | `scripts/` | Python ETL scripts for HNA, demographic projections, economic indicators, LIHTC, and data build pipelines |
 | `data/` | Cached JSON data artifacts (FRED series, ACS tables, LIHTC/CHFA data, AMI gap, HNA outputs, market data) |
 | `serverless/` | Serverless function handlers (likely Netlify or Vercel) |
-| `cloudflare-worker/` | Cloudflare Worker source (`cloudflare-worker.js`) with CORS headers and `ctx.waitUntil` cache pattern |
+| `serverless/cloudflare-worker/` | Cloudflare Worker sources, including the unified router (`cloudflare-worker.js`), with CORS headers and `ctx.waitUntil` cache patterns |
 | `assets/` | Images, icons, fonts, and static media |
 | `maps/` | GeoJSON boundary files and map tile references |
 
 ## Actionable Recommendations
 
 - Docs and site-audit pipeline are automatically updated after every merge.
-
-## 
