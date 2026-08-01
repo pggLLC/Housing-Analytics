@@ -17,6 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify README inventory
+        run: node scripts/compute-inventory.mjs
+
       - name: Verify critical artifacts exist
         shell: bash
         run: |
@@ -302,7 +305,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Python test dependencies
-        run: pip install pytest python-dateutil
+        run: pip install pytest python-dateutil jsonschema
 
       - name: Run pytest suite
         run: pytest tests/ -v --tb=short

@@ -92,8 +92,8 @@ deep-linked primary, secondary, or press source.
 Briefs are internal underwriting context and only render on
 [`indibuild-brief.html`](../../indibuild-brief.html) — the Jurisdiction
 Briefs page in the Developer Tools section of the navigation. That page
-is gated by [`js/indibuild-gate.js`](../../js/indibuild-gate.js) (the
-`salida2026` password prompt, `sessionStorage['ib-auth-v1']`, 12-hour
+is gated by [`js/indibuild-gate.js`](../../js/indibuild-gate.js) (a
+configured password prompt, `sessionStorage['ib-auth-v1']`, 12-hour
 session). Public-facing tools — HNA Local Resources panel, PMA tool —
 do **not** mount the brief component. The brief JSON is plain (not
 encrypted), so the password gate is UI-level, not security.

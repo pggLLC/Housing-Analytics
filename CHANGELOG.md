@@ -161,12 +161,12 @@ Created a new statewide **Comparative HNA Needs Ranking Page** (`hna-comparative
 **Date:** March 2026
 
 ### Summary
-Updated all stale markdown files to reflect the current state of the repository as of March 2026. Fixed incorrect `js/config.js` claims across `README.md`, `DATA-SOURCES.md`, and `SETUP-DATA-SOURCES.md` (config.js IS committed with empty placeholders; local overrides use `js/config.local.js`). Updated Live Pages table in `README.md` to 29 pages. Fixed `chfa-lihtc.json` status to 716 features ✅. Replaced idealized folder tree in `docs/GIS_DATA_MODEL.md` §1 with actual flat layout. Removed stale hardcoded AMI figure from `docs/PMA_SCORING.md`. Fixed API key security issue in `docs/QUICK-REFERENCE.md`. Added archive/deprecation notices to `docs/repo-audit.md` and `docs/implementation-status.md`. Added cross-reference notes to `docs/data-sources-audit.md` and `docs/data-architecture.md`. Created `scripts/sync-docs.mjs` and `.github/workflows/docs-sync.yml` for automated inventory.
+Updated all stale markdown files to reflect the current state of the repository as of March 2026. Fixed incorrect `js/config.js` claims across `README.md`, `DATA-SOURCES.md`, and `SETUP-DATA-SOURCES.md` (config.js IS committed with empty placeholders; local overrides use `js/config.local.js`). Updated Live Pages table in `README.md` to 29 pages. Fixed `chfa-lihtc.json` status to 926 project features ✅. Replaced idealized folder tree in `docs/GIS_DATA_MODEL.md` §1 with actual flat layout. Removed stale hardcoded AMI figure from `docs/PMA_SCORING.md`. Fixed API key security issue in `docs/QUICK-REFERENCE.md`. Added archive/deprecation notices to `docs/repo-audit.md` and `docs/implementation-status.md`. Added cross-reference notes to `docs/data-sources-audit.md` and `docs/data-architecture.md`. Created `scripts/sync-docs.mjs` and `.github/workflows/docs-sync.yml` for automated inventory.
 
 ### Changed Files
 
 - `README.md` — Fixed config.js claims; updated Live Pages table (17 → 29 pages)
-- `DATA-SOURCES.md` — Fixed config.js claims; updated `chfa-lihtc.json` to 716 features ✅; added cross-reference to `SITE_AUDIT_GIS.md`
+- `DATA-SOURCES.md` — Fixed config.js claims; updated `chfa-lihtc.json` to 926 project features ✅; added cross-reference to `SITE_AUDIT_GIS.md`
 - `SETUP-DATA-SOURCES.md` — Fixed config.js model in FRED section
 - `docs/GIS_DATA_MODEL.md` — Replaced §1 folder tree with actual flat `data/` layout
 - `docs/PMA_SCORING.md` — Removed stale "$95K/2022" AMI figure; linked to HUD Income Limits
@@ -194,15 +194,15 @@ Added `docs/SITE-DESIGN-AUDIT.md` — a comprehensive UX/design audit with 28 ac
 
 ---
 
-## GIS Data Fixes — chfa-lihtc.json 716 Features, County Boundaries
+## GIS Data Fixes — chfa-lihtc.json 926 Project Features, County Boundaries
 **Date:** March 2026
 
 ### Summary
-Fixed `data/chfa-lihtc.json` — CI workflow now returns 716 CHFA LIHTC features (previously returning 0 due to ArcGIS query parameter error). Fixed Colorado county boundary data. Updated `docs/SITE_AUDIT_GIS.md` to reflect current data status. All GIS layers now load correctly.
+Fixed `data/chfa-lihtc.json` — CI workflow now returns 926 CHFA LIHTC project features (previously returning 0 due to ArcGIS query parameter error). Fixed Colorado county boundary data. Updated `docs/SITE_AUDIT_GIS.md` to reflect current data status. All GIS layers now load correctly.
 
 ### Changed Files
 
-- `data/chfa-lihtc.json` — Now populated with 716 features
+- `data/chfa-lihtc.json` — Now populated with 926 project features
 - `scripts/fetch-chfa-lihtc.js` — Fixed ArcGIS query to include `outSR=4326`
 - `docs/SITE_AUDIT_GIS.md` — Updated status for CHFA LIHTC and county boundaries
 

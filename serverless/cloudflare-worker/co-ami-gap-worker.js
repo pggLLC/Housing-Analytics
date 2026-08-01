@@ -107,7 +107,7 @@ const RENT_BINS = [
 
 // Default to the production GitHub Pages origin instead of wildcard.
 // Override per-call by passing { "access-control-allow-origin": "..." } in headers.
-const DEFAULT_CORS_ORIGIN = "https://pggllc.github.io";
+const DEFAULT_CORS_ORIGIN = "https://cohoanalytics.com";
 
 function jsonResponse(obj, headers = {}) {
   return new Response(JSON.stringify(obj), {

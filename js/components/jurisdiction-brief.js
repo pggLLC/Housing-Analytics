@@ -373,7 +373,7 @@
 
   // Auth note: the brief renderer itself has NO auth gate. The component
   // is only loaded on developer-brief.html, which is protected by
-  // js/developer-gate.js (the salida2026 password). The `published === true`
+  // js/developer-gate.js (the configured developer password). The `published === true`
   // check below stays — unpublished skeletons never reach the user UI even
   // for authenticated visitors.
 

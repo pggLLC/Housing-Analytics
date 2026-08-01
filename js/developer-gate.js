@@ -24,13 +24,12 @@
  *   2. Run:  node -e "console.log(require('crypto').createHash('sha256').update('YOUR-PASSWORD').digest('hex'))"
  *   3. Replace PASSWORD_HASH below with the new hash.
  *   4. Commit + push.
- *
- * DEFAULT PASSWORD: salida2026
+ * Real fix: replace this UI-only gate with Cloudflare Access; see docs/CLOUDFLARE-SETUP.md.
  */
 (function () {
   'use strict';
 
-  // SHA-256 of "salida2026". Change after first use.
+  // SHA-256 password hash. Rotate it after first use.
   const PASSWORD_HASH = '029fb5d4a8a29de1c16bcb718162284a45adf69fc12916613f28b2d037a19119';
   const STORAGE_KEY = 'ib-auth-v1';
   const SESSION_DURATION_MS = 12 * 60 * 60 * 1000; // 12 hours

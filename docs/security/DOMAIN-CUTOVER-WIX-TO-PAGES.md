@@ -85,8 +85,8 @@ need no change.
 
 ### 5. ⚠️ Fix Worker CORS (or data panels break)
 
-The public Worker APIs default to allowing CORS only from `https://pggllc.github.io`. **At or
-before cutover**, set `CORS_ORIGIN=https://cohoanalytics.com` on:
+The public Worker APIs default to allowing CORS only from `https://cohoanalytics.com`. Keep
+the deployed `CORS_ORIGIN=https://cohoanalytics.com` environment value on:
 
 - `co-ami-gap` — `serverless/cloudflare-worker/co-ami-gap-worker.js`
 - `colorado-demographics` — `serverless/cloudflare-worker/colorado-demographics-worker.js`

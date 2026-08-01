@@ -162,7 +162,7 @@ When adding a new data workflow:
 2. Use `ctx.waitUntil()` for any Cloudflare Worker cache writes (not `await cache.put()`)
 3. Add the new data file to `DATA-MANIFEST.json`
 4. Update this document with the new workflow's schedule and purpose
-5. Add a row to the `/health` route list in `cloudflare-worker/worker.js`
+5. Add a row to the `/health` route list in `serverless/cloudflare-worker/cloudflare-worker.js`
 
 ---
 

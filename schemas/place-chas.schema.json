@@ -58,6 +58,39 @@
         "place_area_sqm":   { "type": "number",  "minimum": 0 },
         "coverage_share":   { "type": "number",  "minimum": 0, "maximum": 1.0001 },
         "low_confidence":   { "type": "boolean" },
+        "acs_anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "applied":          { "type": "boolean" },
+            "acs_occupied_hh":  { "type": ["number", "null"] },
+            "base_hh":          { "type": "number" },
+            "superseded_by":    { "type": "string" },
+            "factor":           { "type": "number" },
+            "base_hh_before":   { "type": "number" }
+          }
+        },
+        "tenure_anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "applied":                { "type": "boolean" },
+            "source":                 { "type": "string" },
+            "renter_scale":           { "type": "number" },
+            "owner_scale":            { "type": "number" },
+            "acs_renter_hh":          { "type": ["number", "null"] },
+            "acs_owner_hh":           { "type": ["number", "null"] },
+            "base_renter_hh_before":  { "type": "number" },
+            "base_owner_hh_before":   { "type": "number" },
+            "renter_share_before":    { "type": "number" },
+            "renter_share_after":     { "type": "number" },
+            "rates_preserved":        { "type": "boolean" },
+            "status":                 { "type": "string" },
+            "reason":                 { "type": "string" },
+            "base_renter_hh":         { "type": "number" },
+            "base_owner_hh":          { "type": "number" }
+          }
+        },
         "source": {
           "type": "string",
           "enum": ["population-apportionment", "area-apportionment", "rate-only-fallback"],
