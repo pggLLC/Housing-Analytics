@@ -92,6 +92,15 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
       - name: Install Python dependencies
         run: pip install tenacity
 
@@ -187,6 +196,22 @@ jobs:
             python scripts/market/bbox_fix.py data/market/tract_centroids_co.json
           else
             echo "tract_centroids_co.json not found — skipping"
+          fi
+
+      - name: Simplify changed browser map geometry
+        run: |
+          if ! git diff --quiet -- data/market/transit_routes_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/transit_routes_co.geojson --keep 1.5 --fields agency,route_type,shape_id --no-repair
+          fi
+          if ! git diff --quiet -- data/market/flood_zones_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/flood_zones_co.geojson --keep 5 --fields FLD_ZONE,risk_category,sfha
+          fi
+          if ! git diff --quiet -- data/market/tract_boundaries_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/tract_boundaries_co.geojson --keep 20 --fields GEOID,AREALAND,AREAWATER
+            node scripts/market-analysis/build_pma_tract_display_geometry.mjs
+          fi
+          if ! git diff --quiet -- data/market/opportunity_zones_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/opportunity_zones_co.geojson --keep 20 --fields county_fips,designated,geoid
           fi
 
       - name: Validate artifact completeness

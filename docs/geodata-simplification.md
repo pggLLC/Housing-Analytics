@@ -19,3 +19,28 @@ Top-level `meta`/`metadata` provenance objects are preserved by the wrapper even
 though mapshaper operates on the FeatureCollection geometry and properties.
 Simplification settings and measured results are recorded by the wrapper so the
 same command can be used in refresh pipelines.
+
+## Sprint 3A results
+
+| Layer | Setting | After | Features retained |
+|---|---:|---:|---:|
+| Transit routes | 1.5%, no intersection repair | 4,878,138 B | 1,703 / 1,703 |
+| Natural barriers | 5% | 10,799,317 B | 43,599 / 43,599 |
+| Flood zones | 5% | 6,136,866 B | 12,537 / 12,537 |
+| Tract boundaries | 20% | 3,501,244 B | 1,447 / 1,447 |
+| Opportunity zones | 20% | 851,407 B | 126 / 126 |
+| Land-use zoning proxy | 100% (point coordinates unchanged) | 4,902,125 B | 28,715 / 28,715 |
+| CDPHE county boundaries | 20% | 1,186,881 B | 64 / 64 |
+
+Mapshaper rejected 846 already-degenerate natural-barrier geometries and 5,694
+flood geometries. The wrapper restored those source geometries verbatim rather
+than removing their features. That feature-preservation requirement sets the
+current 10.80 MB and 6.14 MB floors for those two layers; the CI guard gives
+them explicit temporary ceilings instead of silently accepting arbitrary
+growth.
+
+The scheduled parcel/zoning, market-data, and CDPHE workflows run these same
+commands only when their generator changes a target. `natural_barriers_co` and
+`landuse_zoning_proxy_co` have no committing or scheduled generator today, so
+there is no cron path to update; future automation for either file must invoke
+the wrapper before committing.

@@ -29,10 +29,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install Node dependencies
+        run: npm ci
+
       - name: Fetch CDPHE county boundaries
         run: |
           echo "── Fetching CDPHE county boundaries ──"
           python3 scripts/market/fetch_cdphe_county_boundaries.py
+
+      - name: Simplify changed browser map geometry
+        run: |
+          if ! git diff --quiet -- data/market/cdphe_county_boundaries_co.geojson; then
+            node scripts/simplify-geojson.mjs --input data/market/cdphe_county_boundaries_co.geojson --keep 20 --fields county_fips5,county_name
+          fi
 
       - name: Plausibility check (matches TIGER)
         run: |
