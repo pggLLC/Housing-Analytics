@@ -447,3 +447,8 @@ Example: `https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?aud
 MIT © COHO Analytics
 
 This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.
+
+## Actionable Recommendations
+
+- Docs and site-audit pipeline are automatically updated after every merge.
+

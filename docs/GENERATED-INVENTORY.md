@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-01T14:42:04.442Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-01T15:38:41.582Z. Do not edit by hand.
 
 ---
 
@@ -11,7 +11,7 @@
 | File | Title | Size |
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
-| `about.html` | About | Colorado Affordable Housing Data Reference | 14.8 KB |
+| `about.html` | About | COHO Analytics | 14.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
@@ -1923,7 +1923,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
-| `.github/workflows/ci-checks.yml` | 11.4 KB |
+| `.github/workflows/ci-checks.yml` | 11.5 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
 | `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.4 KB |
