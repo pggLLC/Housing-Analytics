@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // test/data-trust-center.test.js
 //
-// Phase 2.1 (docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md): asserts
+// Consolidation regression coverage: asserts
 // data-review-hub.html is consolidated into a "Data Trust Center" with
 // Sources / Quality / QA Coverage tabs, that the QA Coverage tab actually
 // carries the 5-layer status + place-coverage panels (not just links out),

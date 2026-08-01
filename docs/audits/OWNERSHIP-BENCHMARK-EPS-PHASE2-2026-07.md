@@ -6,7 +6,7 @@ study before the ownership analysis carries more weight. Benchmark source:
 EPS "Regional Housing Needs Assessment — Draft Phase II Report" (June 16,
 2026, EPS #243156), covering Pitkin County, Garfield County, and 9
 municipalities. This mirrors the rental-side benchmarking discipline
-(see `docs/audits/HNA-BENCHMARK-RATIOS-2026-07-08.md` and the 5-report
+(see the owner-local internal audit archive and the 5-report
 comparison of 2026-07-04).
 
 **Method**: ran the real `computeOwnershipNeed()` (vm-loaded, same as its

@@ -6,7 +6,7 @@ Copy this into Claude when you want an independent QA/QC pass.
 You are doing a QA/QC review of the Housing Analytics repo after a repo-wide link audit stabilization pass.
 
 Repository context:
-- Main audit report: docs/audits/REPO-LINK-AUDIT-2026-06-13.md
+- Main audit report: retained in the owner's internal archive
 - Machine-readable audit data: data/reports/repo-link-audit.json
 - Audit runner: scripts/audit/repo-link-audit.mjs
 - Live GitHub Pages fallback URL: https://pggllc.github.io/Housing-Analytics/

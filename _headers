@@ -1,3 +1,6 @@
+# INERT ON GITHUB PAGES: this is Netlify/Cloudflare Pages `_headers` syntax.
+# It is retained only for a possible future hosting migration.
+
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff

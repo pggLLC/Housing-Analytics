@@ -245,7 +245,7 @@
 | `DEPLOYMENT-GUIDE.txt` | ✅ Implemented | Deployment guide |
 | `HOUSING-NEEDS-ASSESSMENT-USER-GUIDE.md` | ✅ Implemented | HNA user guide |
 | `SETUP-DATA-SOURCES.md` | ✅ Implemented | Data source setup instructions |
-| `TEST-CHECKLIST.md` | ✅ Implemented | Manual test checklist |
+| `docs/TEST-CHECKLIST.md` | ✅ Implemented | Manual test checklist |
 | `CHANGELOG.md` | ✅ Implemented | Change log |
 | `COPILOT_PR_CHECK_PROMPT.md` | ✅ Implemented | Copilot PR review prompt |
 | `CHANGED_FILES.txt` | 📦 Legacy | Process artifact; safe to remove if no longer used |
@@ -331,9 +331,3 @@ The following directories contain additional files that were only partially enum
 | `serverless/cloudflare-worker/` | Cloudflare Worker sources, including the unified router (`cloudflare-worker.js`), with CORS headers and `ctx.waitUntil` cache patterns |
 | `assets/` | Images, icons, fonts, and static media |
 | `maps/` | GeoJSON boundary files and map tile references |
-
-## Actionable Recommendations
-
-- Docs and site-audit pipeline are automatically updated after every merge.
-
-## 
