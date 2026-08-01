@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T15:15:43.024848Z",
+  "generated": "2026-08-01T18:09:09.296478Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7494,7 +7494,7 @@
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 5999267
+      "bytes": 1186881
     },
     "data/market/chas_co.json": {
       "featureCount": 0,
@@ -7589,7 +7589,7 @@
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
       "placeholder": false,
-      "bytes": 28563340
+      "bytes": 6136866
     },
     "data/market/flood_zones_co.json": {
       "featureCount": 0,
@@ -7649,7 +7649,7 @@
     "data/market/landuse_zoning_proxy_co.geojson": {
       "featureCount": 28715,
       "placeholder": false,
-      "bytes": 7185121
+      "bytes": 4902125
     },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,
@@ -7674,7 +7674,7 @@
     "data/market/natural_barriers_co.geojson": {
       "featureCount": 43599,
       "placeholder": false,
-      "bytes": 29087494
+      "bytes": 10799317
     },
     "data/market/nhpd_co.geojson": {
       "featureCount": 20,
@@ -7694,7 +7694,7 @@
     "data/market/opportunity_zones_co.geojson": {
       "featureCount": 126,
       "placeholder": false,
-      "bytes": 10606819
+      "bytes": 851407
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
@@ -7704,7 +7704,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 1078508
+      "bytes": 1052464
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7744,7 +7744,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 17250210
+      "bytes": 3501244
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
@@ -7754,7 +7754,7 @@
     "data/market/transit_routes_co.geojson": {
       "featureCount": 1703,
       "placeholder": false,
-      "bytes": 47360222
+      "bytes": 4878138
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
