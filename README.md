@@ -17,13 +17,6 @@ COHO Analytics is a static web application providing comprehensive data insights
 - **Legislative Tracker** — AHCIA, CRA expansion, housing policy updates
 - **Regional Analysis** — Multifamily trends, CRA footprints, national allocation maps
 
-## What's Next?
-
-For the current prioritized work queue, see:
-- [`docs/NEXT-STEPS.md`](docs/NEXT-STEPS.md)
-
-When choosing the next issue, start with the **P0** and **P1** items listed there, then proceed in the documented execution order.
-
 ## Feature guides
 
 Reference documentation for each of the four analysis modules. Each guide covers what the module does, its inputs, methodology with code anchors, output interpretation, and known limitations.
@@ -39,7 +32,13 @@ See also:
 - [`docs/reports/test-coverage.md`](docs/reports/test-coverage.md) — weekly test-assertion coverage report
 - [`docs/reports/a11y-baseline-2026.md`](docs/reports/a11y-baseline-2026.md) — WCAG 2.1 AA baseline
 
-## Live Pages (38 total)
+## Repository inventory
+
+Current tracked inventory: **53 top-level / 547 total HTML pages**, **67 workflows**, **257 JavaScript files under `js/`**, and **547 geographies** (**64 counties / 273 places / 210 CDPs**).
+
+Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
+
+## Live Pages (53 top-level)
 
 | Page | Description |
 |------|-------------|
@@ -48,7 +47,7 @@ See also:
 | `lihtc-allocations.html` | LIHTC state allocation maps and data — consolidated from former LIHTC-dashboard + state-allocation-map pages |
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
-| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 271 places, 211 CDPs) |
+| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 547 geographies (64 counties, 273 places, 210 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `deal-calculator.html` | LIHTC Feasibility Calculator — 4% vs 9% credit sizing, sources & uses, first mortgage |
@@ -80,7 +79,7 @@ See also:
 ```
 Housing-Analytics/
 ├── index.html                     # Entry point
-├── *.html                         # 38 page files (see Live Pages above)
+├── *.html                         # 53 top-level page files (see Live Pages above)
 │
 ├── css/                           # 16 stylesheets (no build step)
 │   ├── site-theme.css             # Design tokens, dark/light mode, typography
@@ -100,7 +99,7 @@ Housing-Analytics/
 │   ├── predictions-dashboard.css  # Economic dashboard prediction layout
 │   └── colorado-regional-predictions.css # Regional predictions grid
 │
-├── js/                            # 136 JavaScript modules (ES5 IIFEs, no build step)
+├── js/                            # 257 JavaScript files (ES5 IIFEs, no build step)
 │   ├── config/
 │   │   └── financial-constants.js # Centralized COHO_DEFAULTS (credit rates, equity, AMI)
 │   ├── data-connectors/           # External data source adapters
@@ -139,7 +138,7 @@ Housing-Analytics/
 │   ├── hud-fmr-income-limits.json # HUD FMR and income limits
 │   ├── manifest.json              # Data pipeline build manifest
 │   ├── hna/                       # Housing Needs Assessment data
-│   │   ├── geo-config.json        # 546 geographies (counties, places, CDPs)
+│   │   ├── geo-config.json        # 547 geographies (64 counties, 273 places, 210 CDPs)
 │   │   ├── ranking-index.json     # Statewide needs ranking
 │   │   ├── local-resources.json   # Housing authorities, nonprofits, plans
 │   │   └── summary/              # Per-jurisdiction JSON profiles (546 files)
@@ -169,14 +168,14 @@ Housing-Analytics/
 │   ├── unit/                      # Module-level tests
 │   └── smoke-market-analysis.js   # 185 smoke checks
 │
-└── .github/workflows/             # 37 CI/CD workflows
+└── .github/workflows/             # 67 CI/CD workflows
     ├── deploy.yml                 # GitHub Pages deploy
     ├── ci-checks.yml              # Schema validation + artifact checks
     ├── build-hna-data.yml         # HNA data pipeline
     ├── market_data_build.yml      # Market data pipeline
     ├── site-audit.yml             # Playwright site audit
     ├── accessibility.yml          # WCAG contrast/a11y audit
-    └── ...                        # 31 additional data + monitoring workflows
+    └── ...                        # Additional data + monitoring workflows
 ```
 
 ## Market Analysis Tool — Phase 2
@@ -332,7 +331,7 @@ verified Kalshi series or event tickers for each housing metric.
 1. Fork / push this repo to GitHub
 2. Go to **Settings → Pages**
 3. Source: `Deploy from a branch` → `main` / `/ (root)`
-4. The GitHub Actions workflows (37 in `.github/workflows/`) handle deploy, data refresh, audits, and monitoring automatically
+4. The 67 GitHub Actions workflows in `.github/workflows/` handle deploy, data refresh, audits, and monitoring automatically
 
 ### Local Development
 
@@ -448,9 +447,3 @@ Example: `https://pggllc.github.io/Housing-Analytics/economic-dashboard.html?aud
 MIT © COHO Analytics
 
 This tool is provided for educational and research purposes. All economic data is sourced from public federal and state databases. This is not investment advice.
-
-## Actionable Recommendations
-
-- Docs and site-audit pipeline are automatically updated after every merge.
-
-## 

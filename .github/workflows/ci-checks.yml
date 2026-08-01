@@ -17,6 +17,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify README inventory
+        run: node scripts/compute-inventory.mjs
+
       - name: Verify critical artifacts exist
         shell: bash
         run: |
