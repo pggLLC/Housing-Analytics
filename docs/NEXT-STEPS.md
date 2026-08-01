@@ -53,7 +53,7 @@ Validate and document:
    - Boulder city label variants
 3. Add accessibility contrast checks for the Pipeline Log presentation.
 
-**Exit criteria:** CI checks fail on regression + docs updated in `TESTING.md`.
+**Exit criteria:** CI checks fail on regression + docs updated in `docs/TESTING.md`.
 
 ---
 

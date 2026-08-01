@@ -13,12 +13,12 @@
 #   scripts/handoff-audit.sh --first-session 0820000   # include context preamble
 #
 # Source of truth for the prompt text is
-# docs/codex-audits/HANDOFF-PROMPTS.md — keep them in sync.
+# internal/codex-audits/HANDOFF-PROMPTS.md — keep them in sync.
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-PACKAGES_DIR="$ROOT/docs/codex-audits"
+PACKAGES_DIR="$ROOT/internal/codex-audits"
 
 usage() {
   cat <<EOF
@@ -53,7 +53,7 @@ check_geoid() {
 oneliner() {
   local g="$1"
   cat <<EOF
-Open docs/codex-audits/$g.md and complete the source-first audit
+Open internal/codex-audits/$g.md and complete the source-first audit
 exactly as described in that file. Use WebFetch (not WebSearch) for
 every cited URL. When the verification report is clean and the
 validator exits 0, set published: true on the brief, commit, push, and
@@ -73,7 +73,7 @@ follow-up direct-WebFetch re-audit found that only 24% of cite-pairs
 in that brief were actually supported. Every brief in the batch is
 now quarantined (published: false).
 
-Per-brief audit packages have been pre-built at docs/codex-audits/.
+Per-brief audit packages have been pre-built at internal/codex-audits/.
 Each package is self-contained — the brief content, the row-by-row
 verification plan, the exact WebFetch prompt to use, the verification
 report schema, the decision rules, and the validator + commit steps
@@ -84,7 +84,7 @@ WebSearch). Then either republish it (if clean) or strip it to
 verified content like the gold-standard Carbondale brief was.
 
 Read docs/JURISDICTION-BRIEFS-HANDOFF.md first for context, then open
-docs/codex-audits/$g.md and follow that file step by step. Use
+internal/codex-audits/$g.md and follow that file step by step. Use
 data/jurisdiction-briefs/_verified/0812045.json as the reference
 example of a clean verification report. Commit and push when done.
 EOF
@@ -96,7 +96,7 @@ bulk_mode() {
 You're picking up a jurisdictional housing-history briefs feature in
 this repo, post-fabrication-incident. Read
 docs/JURISDICTION-BRIEFS-HANDOFF.md, then work through each package
-under docs/codex-audits/ (excluding README.md and HANDOFF-PROMPTS.md)
+under internal/codex-audits/ (excluding README.md and HANDOFF-PROMPTS.md)
 in order of fewest cite-pairs first: 0864255, 08045, 0803455, 08097,
 0817375, 0816000, 0867280, 0830780, 0827425, 0820000.
 

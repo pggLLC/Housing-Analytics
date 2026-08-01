@@ -5,7 +5,7 @@ scripts/build-codex-audit-package.py
 Generates a self-contained audit package for a code-review agent
 ("Codex") to walk one brief through the source-first verification +
 rewrite workflow. Each package is a single markdown file at
-`docs/codex-audits/<geoid>.md` that contains:
+`internal/codex-audits/<geoid>.md` that contains:
 
   - The brief content inlined verbatim
   - Per-paragraph (claim, source URL) enumeration
@@ -37,7 +37,7 @@ from pathlib import Path
 ROOT      = Path(__file__).resolve().parent.parent
 BRIEFS    = ROOT / "data" / "jurisdiction-briefs"
 VERIFIED  = BRIEFS / "_verified"
-PACKAGES  = ROOT / "docs" / "codex-audits"
+PACKAGES  = ROOT / "internal" / "codex-audits"
 
 
 def _is_quarantined(geoid):

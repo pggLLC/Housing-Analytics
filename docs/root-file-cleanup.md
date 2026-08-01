@@ -35,12 +35,12 @@ exists to preserve any existing bookmarks or links.
 
 ---
 
-### `TEST-CHECKLIST.md`
+### `docs/TEST-CHECKLIST.md`
 
-**Decision: Keep at root**
+**Decision: Keep under `docs/`**
 
 This is a detailed manual smoke-test checklist for deployment verification.
-While `docs/TESTING_GUIDE.md` covers broader testing, `TEST-CHECKLIST.md` is
+While `docs/TESTING_GUIDE.md` covers broader testing, `docs/TEST-CHECKLIST.md` is
 a concise, page-by-page QA checklist intended for quick use during deployment.
 It is complementary, not redundant.
 
@@ -80,12 +80,12 @@ Standard project README. Required at repository root.
 |------|----------|--------|
 | `HOUSING-NEEDS-ASSESSMENT-USER-GUIDE.md` | ✅ Kept | Unique tool-specific guide, not duplicated in docs/ |
 | `SETUP-DATA-SOURCES.md` | ✅ Kept (stub) | Redirect stub for backwards compatibility |
-| `TEST-CHECKLIST.md` | ✅ Kept | Concise deployment smoke-test checklist |
+| `docs/TEST-CHECKLIST.md` | ✅ Kept | Concise deployment smoke-test checklist |
 | `DATA-MANIFEST.json` | ✅ Kept | Data-source inventory distinct from data/manifest.json |
 | `CHANGELOG.md` | ✅ Kept | Standard changelog location |
 | `README.md` | ✅ Kept | Required README |
 
-No root files were moved to `_audit/` because none were determined to be
+No other root files were moved to `_audit/` because none were determined to be
 clearly redundant or superseded. Earlier cleanup (prior PR) already moved the
 truly redundant root files (`CHANGED_FILES.txt`, `DEPLOYMENT-GUIDE.txt`,
 `DATA-SOURCES.md`) to `_audit/`.

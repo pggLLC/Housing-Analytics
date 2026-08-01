@@ -226,29 +226,10 @@ row is `unsupported` or `inaccessible`.
 ### High priority — direct-WebFetch audit of the 10 quarantined briefs
 
 The 7 WebSearch-based reports on disk are indicative, not authoritative.
-Per-brief audit packages are pre-built and waiting in
-[`docs/codex-audits/`](codex-audits/) — one self-contained markdown
-file per brief, each with the brief content inlined, the verification
-plan tabled, the exact WebFetch prompts ready to copy, the verification
-report schema, the decision rules, and the validator + commit steps.
-
-| GEOID | Jurisdiction | Cite-pairs | Package |
-|---|---|---|---|
-| 0803620 | City of Aspen | 25 | [codex-audits/0803620.md](codex-audits/0803620.md) |
-| 08045 | Garfield County | 22 | [codex-audits/08045.md](codex-audits/08045.md) |
-| 08097 | Pitkin County | 25 | [codex-audits/08097.md](codex-audits/08097.md) |
-| 0816000 | City of Colorado Springs | 27 | [codex-audits/0816000.md](codex-audits/0816000.md) |
-| 0817375 | City of Cortez | 26 | [codex-audits/0817375.md](codex-audits/0817375.md) |
-| 0820000 | City of Denver | 37 | [codex-audits/0820000.md](codex-audits/0820000.md) |
-| 0827425 | City of Fort Collins | 33 | [codex-audits/0827425.md](codex-audits/0827425.md) |
-| 0830780 | City of Glenwood Springs | 30 | [codex-audits/0830780.md](codex-audits/0830780.md) |
-| 0864255 | City of Rifle | 21 | [codex-audits/0864255.md](codex-audits/0864255.md) |
-| 0867280 | City of Salida | 27 | [codex-audits/0867280.md](codex-audits/0867280.md) |
-
-**273 cite-pairs total.** Each package is self-contained — the agent
-working a package does NOT need to load other docs at runtime; the
-brief content, verification plan, WebFetch prompts, schema, and steps
-are all inlined.
+Per-brief audit packages are owner-local engineering material under the
+gitignored `internal/codex-audits/` directory. Each package remains
+self-contained with the brief content, verification plan, prompts, schema,
+decision rules, and validator steps.
 
 Regenerate packages after editing a brief:
 ```bash
