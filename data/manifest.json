@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T18:05:21.171982Z",
+  "generated": "2026-08-01T18:06:12.403581Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7694,7 +7694,7 @@
     "data/market/opportunity_zones_co.geojson": {
       "featureCount": 126,
       "placeholder": false,
-      "bytes": 10606819
+      "bytes": 851407
     },
     "data/market/parcel_aggregates_co.json": {
       "featureCount": 8,
