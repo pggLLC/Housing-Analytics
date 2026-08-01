@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-01T15:38:41.582Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-01T19:03:49.439Z. Do not edit by hand.
 
 ---
 
@@ -1923,7 +1923,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.8 KB |
-| `.github/workflows/ci-checks.yml` | 11.5 KB |
+| `.github/workflows/ci-checks.yml` | 11.6 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
 | `.github/workflows/codeql.yml` | 1.2 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.4 KB |
@@ -1943,7 +1943,7 @@
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
-| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.3 KB |
+| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.8 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.6 KB |
@@ -1952,10 +1952,10 @@
 | `.github/workflows/fetch-fred-data.yml` | 14.4 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 10.2 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 10.9 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.4 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
-| `.github/workflows/market_data_build.yml` | 13.6 KB |
+| `.github/workflows/market_data_build.yml` | 14.9 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
