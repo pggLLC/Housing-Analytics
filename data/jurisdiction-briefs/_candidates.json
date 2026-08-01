@@ -385,13 +385,6 @@
       "priority": 20178
     },
     {
-      "geoid": "0822035",
-      "name": "Durango (city)",
-      "type": "place",
-      "population": 19411,
-      "priority": 19411
-    },
-    {
       "geoid": "0839855",
       "name": "Johnstown (town)",
       "type": "place",
@@ -488,20 +481,6 @@
       "type": "county",
       "population": 13900,
       "priority": 13900
-    },
-    {
-      "geoid": "0828745",
-      "name": "Fruita (city)",
-      "type": "place",
-      "population": 13691,
-      "priority": 13691
-    },
-    {
-      "geoid": "0873825",
-      "name": "Steamboat Springs (city)",
-      "type": "place",
-      "population": 13433,
-      "priority": 13433
     },
     {
       "geoid": "0812387",
@@ -987,13 +966,6 @@
       "priority": 3061
     },
     {
-      "geoid": "0810105",
-      "name": "Buena Vista (town)",
-      "type": "place",
-      "population": 3010,
-      "priority": 3010
-    },
-    {
       "geoid": "0871755",
       "name": "Snowmass Village (town)",
       "type": "place",
@@ -1125,13 +1097,6 @@
       "type": "place",
       "population": 2185,
       "priority": 2185
-    },
-    {
-      "geoid": "0876795",
-      "name": "Telluride (town)",
-      "type": "place",
-      "population": 2160,
-      "priority": 2160
     },
     {
       "geoid": "0812855",
