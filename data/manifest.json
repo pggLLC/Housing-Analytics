@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T18:08:50.668879Z",
+  "generated": "2026-08-01T18:09:09.296478Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7494,7 +7494,7 @@
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 5999267
+      "bytes": 1186881
     },
     "data/market/chas_co.json": {
       "featureCount": 0,
