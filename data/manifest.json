@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-01T18:06:12.403581Z",
+  "generated": "2026-08-01T18:08:50.668879Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7649,7 +7649,7 @@
     "data/market/landuse_zoning_proxy_co.geojson": {
       "featureCount": 28715,
       "placeholder": false,
-      "bytes": 7185121
+      "bytes": 4902125
     },
     "data/market/lihtc-equity-pricing-history.json": {
       "featureCount": 0,

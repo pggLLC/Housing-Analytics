@@ -23,6 +23,7 @@ const inputArg = value('--input');
 const keep = Number(value('--keep'));
 const fields = String(value('--fields') || '').split(',').map((field) => field.trim()).filter(Boolean);
 const noRepair = args.includes('--no-repair');
+const dropEmpty = args.includes('--drop-empty');
 if (!inputArg) usage('--input is required');
 if (!Number.isFinite(keep) || keep <= 0 || keep > 100) usage('--keep must be greater than 0 and at most 100');
 if (!fields.length) usage('--fields must contain at least one property name');
@@ -103,7 +104,9 @@ try {
       restoredDegenerateGeometries += 1;
     }
     feature.properties = Object.fromEntries(
-      Object.entries(feature.properties || {}).filter(([field]) => fields.includes(field)),
+      Object.entries(feature.properties || {}).filter(([field, fieldValue]) => (
+        fields.includes(field) && (!dropEmpty || fieldValue !== '')
+      )),
     );
     const extra = Object.keys(feature.properties || {}).filter((field) => !fields.includes(field));
     if (extra.length) throw new Error(`field-pruning guard failed: ${extra.join(', ')}`);
@@ -127,6 +130,7 @@ try {
     featuresAfter: simplified.features.length,
     restoredDegenerateGeometries,
     fields,
+    dropEmpty,
     bytesBefore: originalBytes,
     bytesAfter: finalBytes,
   }, null, 2));
