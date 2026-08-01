@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-07-31T09:35:45.616Z
+**Scan timestamp:** 2026-08-01T08:59:06.561Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1607 |
-| New (unregistered) | 1576 |
+| Files scanned | 1608 |
+| New (unregistered) | 1577 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -39,6 +39,7 @@
 - `data/car-market-report-2026-05.json` (64 KB)
 - `data/car-market-report-2026-06.json` (64 KB)
 - `data/car-market-report-2026-07.json` (2 KB)
+- `data/car-market-report-2026-08.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (9 KB)

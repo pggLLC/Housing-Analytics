@@ -1,7 +1,7 @@
 {
-  "scanTimestamp": "2026-07-31T09:35:45.616Z",
-  "totalScanned": 1607,
-  "newSourceCount": 1576,
+  "scanTimestamp": "2026-08-01T08:59:06.561Z",
+  "totalScanned": 1608,
+  "newSourceCount": 1577,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
@@ -157,6 +157,12 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/car-market-report-2026-08.json",
+      "sizeBytes": 2312,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/census-multifamily-co.json",
       "sizeBytes": 118702,
       "inDataManifest": false,
@@ -248,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 242198,
+      "sizeBytes": 243139,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8632,7 +8638,7 @@
       "path": "data/jurisdiction-briefs/0810105.json",
       "sizeBytes": 2967,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/0812045.json",
@@ -8656,7 +8662,7 @@
       "path": "data/jurisdiction-briefs/0818310.json",
       "sizeBytes": 2989,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/0820000.json",
@@ -8668,7 +8674,7 @@
       "path": "data/jurisdiction-briefs/0822035.json",
       "sizeBytes": 19217,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/0827425.json",
@@ -8710,13 +8716,13 @@
       "path": "data/jurisdiction-briefs/0873825.json",
       "sizeBytes": 3034,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/0876795.json",
       "sizeBytes": 2945,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/_candidates.json",
@@ -8794,7 +8800,7 @@
       "path": "data/jurisdiction-briefs/_verified/0822035.json",
       "sizeBytes": 6809,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/jurisdiction-briefs/_verified/0827425.json",
@@ -9344,7 +9350,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20058,
+      "sizeBytes": 20081,
       "inDataManifest": false,
       "inFilesManifest": true
     },
