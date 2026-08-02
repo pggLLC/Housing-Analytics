@@ -6,7 +6,7 @@
   "last_curated": "2026-07-30",
   "curator": "auto-draft",
   "published": false,
-  "summary": "Skeleton brief for City of Steamboat Springs — auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
+  "summary": "Skeleton brief for City of Steamboat Springs \u2014 auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
   "sections": [
     {
       "id": "lihtc-history",
@@ -46,34 +46,12 @@
           "needs_source": true
         }
       ]
-    },
-    {
-      "id": "tenure-strategy-screening",
-      "heading": "Tenure strategy screening",
-      "paragraphs": [
-        {
-          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for City of Steamboat Springs. It classifies rental pressure as Very High, ownership pressure as Very High, and identifies 850 moderate-income renter households as the ownership-fit base.",
-          "cites": [
-            "own1",
-            "own2",
-            "own3",
-            "own4"
-          ]
-        },
-        {
-          "text": "The same screening run counts 1,042 renter households and 1,296 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
-          "cites": [
-            "own5",
-            "own6"
-          ]
-        }
-      ]
     }
   ],
   "sources": [
     {
       "id": "s1",
-      "label": "CHFA Housing Tax Credit awards — search scoped to 'Steamboat Springs'",
+      "label": "CHFA Housing Tax Credit awards \u2014 search scoped to 'Steamboat Springs'",
       "url": "https://www.google.com/search?q=site%3Achfainfo.com+%22Steamboat+Springs%22+%22housing+tax+credit%22",
       "kind": "search"
     },
@@ -88,60 +66,6 @@
       "label": "City of Steamboat Springs housing authority / regional coalition search",
       "url": "https://www.google.com/search?q=%22Steamboat+Springs%22+Colorado+%28%22housing+authority%22+OR+%22housing+coalition%22+OR+%22deed+restriction%22%29",
       "kind": "search"
-    },
-    {
-      "id": "own1",
-      "label": "Affordable Ownership Need recommendation",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_recommendation",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own2",
-      "label": "Affordable Ownership Need rental pressure tier",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_rental_pressure_tier",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own3",
-      "label": "Affordable Ownership Need ownership pressure tier",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_ownership_pressure_tier",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own4",
-      "label": "Affordable Ownership Need moderate-income renter households",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_moderate_income_renter_households",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own5",
-      "label": "Affordable Ownership Need renter cost burdened households",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_renter_cost_burdened",
-      "accessed": "2026-07-07"
-    },
-    {
-      "id": "own6",
-      "label": "Affordable Ownership Need owner cost burdened households",
-      "url": "data/hna/jurisdiction-metrics-digest/0873825.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "ownership_need_owner_cost_burdened",
-      "accessed": "2026-07-07"
     }
   ],
   "_meta_population_at_draft": 13433
