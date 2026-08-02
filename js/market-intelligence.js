@@ -152,6 +152,29 @@
         };
       });
       return countyAcsCache;
+    }).catch(function () {
+      // Census API unavailable — fall back to pre-built county demographics file
+      return fetchJSON(resolveData('co-county-demographics.json')).then(function (json) {
+        countyAcsCache = {};
+        var counties = (json && json.counties) ? json.counties : json;
+        if (!counties || typeof counties !== 'object') return countyAcsCache;
+        Object.keys(counties).forEach(function (name) {
+          var c = counties[name];
+          if (!c) return;
+          var thu = Number(c.total_housing_units) || 0;
+          countyAcsCache[name] = {
+            cost_burden_share: c.cost_burdened_pct != null ? Number(c.cost_burdened_pct) / 100 : null,
+            severe_burden_share: c.severely_burdened_pct != null ? Number(c.severely_burdened_pct) / 100 : null,
+            household_count: c.households != null ? Number(c.households) : null,
+            overcrowding_rate: thu > 0 && c.overcrowded != null ? Number(c.overcrowded) / thu : null,
+            vacancy_rate: c.vacancy_rate != null ? Number(c.vacancy_rate) / 100 : null,
+            median_gross_rent_current: c.median_gross_rent != null ? Number(c.median_gross_rent) : null,
+            median_gross_rent_prior: null,
+            ami_estimate: c.median_household_income != null ? Number(c.median_household_income) : null
+          };
+        });
+        return countyAcsCache;
+      });
     });
   }
 
@@ -507,7 +530,7 @@
       buildDemandChart();
       buildSupplyChart();
       buildLihtcTrendChart();
-      setStatus('Census API unavailable for ' + selectedCounty + ' County.', true);
+      setStatus('County demographic data unavailable for ' + selectedCounty + ' County.', true);
     });
   }
 
