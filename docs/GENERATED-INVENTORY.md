@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-02T11:36:41.882Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-02T11:45:26.212Z. Do not edit by hand.
 
 ---
 
@@ -1646,7 +1646,7 @@
 
 ## Test Files
 
-251 test files found.
+252 test files found.
 
 | File | Size |
 |------|------|
@@ -1761,6 +1761,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
+| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.6 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
@@ -1783,7 +1784,7 @@
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
-| `test/pages-availability-check.js` | 14.7 KB |
+| `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
@@ -1936,7 +1937,7 @@
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.0 KB |
-| `.github/workflows/data-source-monitoring.yml` | 12.5 KB |
+| `.github/workflows/data-source-monitoring.yml` | 13.1 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
 | `.github/workflows/developer-url-health.yml` | 2.6 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 2.9 KB |
@@ -1952,10 +1953,10 @@
 | `.github/workflows/fetch-fred-data.yml` | 14.4 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 10.9 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 11.6 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.4 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
-| `.github/workflows/market_data_build.yml` | 14.9 KB |
+| `.github/workflows/market_data_build.yml` | 15.0 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 6.5 KB |
@@ -1971,7 +1972,7 @@
 | `.github/workflows/sync-data-mtimes.yml` | 3.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 1.7 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 2.3 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 5.9 KB |
 | `.github/workflows/url-health-weekly.yml` | 4.8 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.2 KB |
