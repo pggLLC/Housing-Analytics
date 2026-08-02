@@ -87,6 +87,7 @@ jobs:
         if: github.event_name == 'schedule'
         run: |
           echo "pushed=false" >> "$GITHUB_OUTPUT"
+          echo "pushed_sha=" >> "$GITHUB_OUTPUT"
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/_qa-status.json
@@ -107,19 +108,57 @@ jobs:
           git rebase --autostash origin/main
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
+          # Capture the exact SHA that was pushed so the dispatch step can
+          # verify GitHub's API reflects it before firing workflow_dispatch.
+          echo "pushed_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Trigger Pages deploy
         if: github.event_name == 'schedule' && steps.data-commit.outputs.pushed == 'true'
         uses: actions/github-script@v9
+        env:
+          PUSHED_SHA: ${{ steps.data-commit.outputs.pushed_sha }}
         with:
           script: |
+            // Race-condition guard (F-WD-01): git push completes on the runner
+            // in ~2 s, but GitHub's distributed ref store can take several more
+            // seconds to propagate the update.  If createWorkflowDispatch is
+            // called before the API reflects the new HEAD it resolves
+            // `ref: 'main'` to the stale SHA, so deploy.yml runs for the old
+            // commit and the watchdog correctly flags the gap.
+            // Fix: poll the branch API until it returns the expected pushed SHA
+            // (up to 30 s), then dispatch.
+            const pushedSha = process.env.PUSHED_SHA;
+            const maxWaitMs = 30000;
+            const pollIntervalMs = 3000;
+            const deadline = Date.now() + maxWaitMs;
+
+            let currentSha = null;
+            while (Date.now() < deadline) {
+              const { data: branch } = await github.rest.repos.getBranch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: 'main',
+              });
+              currentSha = branch.commit.sha;
+              if (currentSha === pushedSha) break;
+              core.info(`Waiting for GitHub API to reflect pushed SHA ${pushedSha} (currently ${currentSha})…`);
+              await new Promise(resolve => setTimeout(resolve, pollIntervalMs));
+            }
+
+            if (currentSha !== pushedSha) {
+              core.warning(
+                `GitHub API HEAD (${currentSha}) still does not match pushed SHA ` +
+                `(${pushedSha}) after ${maxWaitMs / 1000}s; dispatching anyway.`
+              );
+            }
+
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'deploy.yml',
-              ref: 'main'
+              ref: 'main',
             });
-            core.notice('Dispatched deploy.yml for qa-status commit.');
+            core.notice(`Dispatched deploy.yml for qa-status commit ${pushedSha}.`);
 
       - name: Post status as PR comment
         if: github.event_name == 'pull_request'
