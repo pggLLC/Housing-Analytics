@@ -177,6 +177,11 @@ test('Deploy workflow: deploy.yml exists and is properly configured', () => {
 test('Deploy watchdog: automation commits cannot silently miss Pages deploy', () => {
     const archiveYml = '.github/workflows/archive-audit-post-merge.yml';
     const watchdogYml = '.github/workflows/pages-deploy-watchdog.yml';
+    const skipCiDeployWorkflows = [
+        '.github/workflows/fetch-parcel-zoning-data.yml',
+        '.github/workflows/update-co-housing-costs.yml',
+        '.github/workflows/data-source-monitoring.yml',
+    ];
     assert(fileExists(archiveYml), 'archive-audit-post-merge.yml exists');
     assert(fileExists(watchdogYml), 'pages-deploy-watchdog.yml exists');
 
@@ -193,6 +198,15 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
     assert(watchdogScript.includes('stale-active-run'), 'Pages deploy watchdog fails stale active runs');
     assert(watchdogScript.includes("run.status !== 'completed'"), 'Pages deploy watchdog does not accept pending runs forever');
     assert(watchdogScript.includes('head_sha === headSha'), 'Pages deploy watchdog compares deploy run SHA to main HEAD');
+
+    for (const workflowPath of skipCiDeployWorkflows) {
+        assert(fileExists(workflowPath), `${workflowPath} exists`);
+        const workflow = fs.readFileSync(path.join(ROOT, workflowPath), 'utf8');
+        assert(workflow.includes('[skip ci]'), `${workflowPath} uses [skip ci] commits`);
+        assert(workflow.includes('actions: write'), `${workflowPath} can dispatch downstream workflows`);
+        assert(workflow.includes("workflow_id: 'deploy.yml'"), `${workflowPath} dispatches deploy.yml after pushing`);
+        assert(workflow.includes("if: steps.data-commit.outputs.pushed == 'true'"), `${workflowPath} only dispatches when it pushed a commit`);
+    }
 });
 
 test('robots.txt: public crawler policy does not pretend to protect private paths', () => {
