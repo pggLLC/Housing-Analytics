@@ -143,7 +143,7 @@
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
     "test:ranking-scenarios": "node test/ranking-scenarios.test.js",
     "test:hna-home-values": "node test/hna-home-value-cascade.test.js",
-    "test:jurisdiction-metrics-digest": "node test/jurisdiction-metrics-digest.test.js",
+    "test:jurisdiction-metrics-digest": "node test/jurisdiction-metrics-digest.test.js && node test/jurisdiction-brief-metric-digest-sections.test.mjs",
     "test:car-showingtime": "node test/car-showingtime-fetcher.test.mjs",
     "test:hna-car-loader": "node test/hna-car-loader.test.js",
     "test:nodemailer-v9": "node test/nodemailer-v9-smoke.test.js",
