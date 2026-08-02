@@ -1136,6 +1136,15 @@
                 style="padding:0.35rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
                 ${brOptions}
               </select>
+              <div style="grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.35rem;padding:0.2rem 0 0.35rem;">
+                ${['1br', '2br', '3br', '4br'].map(function (br) {
+                  return '<label style="display:block;">' +
+                    '<span style="display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:0.12rem;text-transform:uppercase;letter-spacing:.04em;">' + br + ' units</span>' +
+                    '<input id="dc-units-' + pct + '-' + br + '" type="number" min="0" step="1" value="0" aria-label="' + br + ' units at ' + pct + '% AMI" ' +
+                    'style="width:100%;padding:0.35rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);text-align:right;">' +
+                  '</label>';
+                }).join('')}
+              </div>
             `;}).join('')}
           </div>
 
@@ -2204,6 +2213,9 @@
     ];
     DEAL_AMI_BANDS.forEach(function (pct) {
       ids.push('dc-chk-' + pct, 'dc-units-' + pct, 'dc-br-' + pct);
+      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+        ids.push('dc-units-' + pct + '-' + br);
+      });
     });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
@@ -2660,29 +2672,66 @@
     var capOn = !!(capChk && capChk.checked);
     var perBrMarket = (capOn && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
     var capBindings = [];   // tiers where the cap actually reduced revenue
+    function _nonNegInt(v) {
+      var n = parseInt(v, 10);
+      return isFinite(n) && n > 0 ? n : 0;
+    }
+    function _tierSplitCounts(pct) {
+      var out = { '1br': 0, '2br': 0, '3br': 0, '4br': 0, total: 0 };
+      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+        var el = document.getElementById('dc-units-' + pct + '-' + br);
+        var n = _nonNegInt(el && el.value);
+        out[br] = n;
+        out.total += n;
+      });
+      return out;
+    }
     DEAL_AMI_BANDS.forEach(function (pct) {
       var chk = document.getElementById('dc-chk-' + pct);
       var uInput = document.getElementById('dc-units-' + pct);
       var brSel = document.getElementById('dc-br-' + pct);
       if (chk && uInput) {
-        var u = parseInt(uInput.value, 10) || 0;
+        var split = _tierSplitCounts(pct);
+        var hasSplit = split.total > 0;
+        var u = hasSplit ? split.total : _nonNegInt(uInput.value);
         var br = (brSel && brSel.value) || '2br';
         if (chk.checked) {
-          var perUnitRent = 0;
-          if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][br]) {
-            perUnitRent = _amiLimitsByBr[pct][br];
-          } else if (_amiLimits && _amiLimits[pct]) {
-            perUnitRent = _amiLimits[pct];  // legacy 2BR fallback
-          }
-          // Q5: apply market-rent cap only to workforce tiers (pct ≥ 70)
-          if (capOn && perBrMarket && pct >= 70) {
-            var mkt = perBrMarket[br];
-            if (typeof mkt === 'number' && mkt > 0 && mkt < perUnitRent) {
-              capBindings.push({ pct: pct, br: br, ceiling: perUnitRent, market: mkt, units: u });
-              perUnitRent = mkt;
+          if (hasSplit) {
+            ['1br', '2br', '3br', '4br'].forEach(function (splitBr) {
+              var splitUnits = split[splitBr];
+              if (!splitUnits) return;
+              var splitRent = 0;
+              if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][splitBr]) {
+                splitRent = _amiLimitsByBr[pct][splitBr];
+              } else if (_amiLimits && _amiLimits[pct]) {
+                splitRent = _amiLimits[pct];
+              }
+              if (capOn && perBrMarket && pct >= 70) {
+                var splitMkt = perBrMarket[splitBr];
+                if (typeof splitMkt === 'number' && splitMkt > 0 && splitMkt < splitRent) {
+                  capBindings.push({ pct: pct, br: splitBr, ceiling: splitRent, market: splitMkt, units: splitUnits });
+                  splitRent = splitMkt;
+                }
+              }
+              annualRents += splitUnits * splitRent * 12;
+            });
+          } else {
+            var perUnitRent = 0;
+            if (_amiLimitsByBr && _amiLimitsByBr[pct] && _amiLimitsByBr[pct][br]) {
+              perUnitRent = _amiLimitsByBr[pct][br];
+            } else if (_amiLimits && _amiLimits[pct]) {
+              perUnitRent = _amiLimits[pct];  // legacy 2BR fallback
             }
+            // Q5: apply market-rent cap only to workforce tiers (pct ≥ 70)
+            if (capOn && perBrMarket && pct >= 70) {
+              var mkt = perBrMarket[br];
+              if (typeof mkt === 'number' && mkt > 0 && mkt < perUnitRent) {
+                capBindings.push({ pct: pct, br: br, ceiling: perUnitRent, market: mkt, units: u });
+                perUnitRent = mkt;
+              }
+            }
+            annualRents += u * perUnitRent * 12;
           }
-          annualRents += u * perUnitRent * 12;
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
         if (chk.checked) {
@@ -2990,8 +3039,10 @@
         // Workforce/market tiers above 60% → flag achievable-rent risk
         var hasWorkforceUnits = false;
         DEAL_AMI_BANDS.filter(function (pct) { return pct > 60; }).forEach(function (pct) {
+          var split = _tierSplitCounts(pct);
           var inp = document.getElementById('dc-units-' + pct);
-          if (inp && (parseInt(inp.value, 10) || 0) > 0) hasWorkforceUnits = true;
+          var tierUnits = split.total > 0 ? split.total : _nonNegInt(inp && inp.value);
+          if (tierUnits > 0) hasWorkforceUnits = true;
         });
         if (hasWorkforceUnits) {
           var capChk = document.getElementById('dc-achievable-cap');
@@ -3738,6 +3789,10 @@
       var inp = document.getElementById('dc-units-' + pct);
       if (chk) chk.checked = units > 0;
       if (inp) inp.value = String(units);
+      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+        var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
+        if (splitInp) splitInp.value = '0';
+      });
     }
     _setRow(30, u30);
     _setRow(40, 0);
@@ -3747,6 +3802,10 @@
     [30, 40, 50, 60].forEach(function (pct) {
       var inp = document.getElementById('dc-units-' + pct);
       if (inp) inp.dispatchEvent(new Event('input', { bubbles: true }));
+      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+        var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
+        if (splitInp) splitInp.dispatchEvent(new Event('input', { bubbles: true }));
+      });
       var chk = document.getElementById('dc-chk-' + pct);
       if (chk) chk.dispatchEvent(new Event('change', { bubbles: true }));
     });
