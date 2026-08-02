@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-01T08:59:06.561Z",
+  "scanTimestamp": "2026-08-02T09:03:52.063Z",
   "totalScanned": 1608,
   "newSourceCount": 1577,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 773757,
+      "sizeBytes": 774249,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6456,
+      "sizeBytes": 6259,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -254,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 243139,
+      "sizeBytes": 243285,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4832,7 +4832,7 @@
     },
     {
       "path": "data/hna/place-od-flows.json",
-      "sizeBytes": 82696,
+      "sizeBytes": 82733,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8882,7 +8882,7 @@
     },
     {
       "path": "data/market/cdphe_county_boundaries_co.geojson",
-      "sizeBytes": 5999267,
+      "sizeBytes": 1186881,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8996,7 +8996,7 @@
     },
     {
       "path": "data/market/flood_zones_co.geojson",
-      "sizeBytes": 28563340,
+      "sizeBytes": 6136866,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9062,7 +9062,7 @@
     },
     {
       "path": "data/market/landuse_zoning_proxy_co.geojson",
-      "sizeBytes": 7185121,
+      "sizeBytes": 4902125,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9092,7 +9092,7 @@
     },
     {
       "path": "data/market/natural_barriers_co.geojson",
-      "sizeBytes": 29087494,
+      "sizeBytes": 10799317,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9110,7 +9110,7 @@
     },
     {
       "path": "data/market/opportunity_zones_co.geojson",
-      "sizeBytes": 10606819,
+      "sizeBytes": 851407,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9122,7 +9122,7 @@
     },
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
-      "sizeBytes": 1078508,
+      "sizeBytes": 1052464,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9164,13 +9164,13 @@
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
-      "sizeBytes": 17250210,
+      "sizeBytes": 3501244,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/market/transit_routes_co.geojson",
-      "sizeBytes": 47360222,
+      "sizeBytes": 4877911,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9350,7 +9350,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20081,
+      "sizeBytes": 20073,
       "inDataManifest": false,
       "inFilesManifest": true
     },
