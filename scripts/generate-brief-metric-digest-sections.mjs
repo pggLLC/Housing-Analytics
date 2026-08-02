@@ -8,7 +8,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const BRIEFS_DIR = path.join(ROOT, "data", "jurisdiction-briefs");
@@ -55,6 +55,20 @@ function metric(digest, field) {
   return value;
 }
 
+function housingGapRateText(digest) {
+  const value = digest.metrics && digest.metrics.housing_gap_rate_lte30;
+  if (value && value.value !== null && value.value !== undefined) {
+    return `equal to ${valueText(digest, "housing_gap_rate_lte30", "pct")} of <=30% AMI households.`;
+  }
+
+  if (value && value.denominator_floor_applied && value.denominator !== null && value.denominator !== undefined) {
+    const floor = value.min_denominator ?? 50;
+    return `The deep-affordability gap rate is suppressed because only ${num(value.denominator)} <=30% AMI households are observed, below the digest's ${num(floor)}-household reporting floor.`;
+  }
+
+  return "A stable deep-affordability gap rate is unavailable in the digest.";
+}
+
 function num(value, digits = 0) {
   return Number(value).toLocaleString("en-US", {
     minimumFractionDigits: digits,
@@ -83,7 +97,7 @@ function sourceFor(geoid, id, field, label) {
   };
 }
 
-function sectionFor(brief, digest) {
+export function sectionFor(brief, digest) {
   const jurisdiction = brief.jurisdiction || digest.geography.name;
   return {
     id: "metric-digest",
@@ -93,8 +107,8 @@ function sectionFor(brief, digest) {
         text:
           `The metric digest ranks ${jurisdiction} at #${valueText(digest, "rank")} ` +
           `with an overall housing-need score of ${valueText(digest, "overall_need_score", "score")}. ` +
-          `It identifies ${valueText(digest, "housing_gap_units")} deeply affordable units missing at <=30% AMI, ` +
-          `equal to ${valueText(digest, "housing_gap_rate_lte30", "pct")} of <=30% AMI households. ` +
+          `It identifies ${valueText(digest, "housing_gap_units")} deeply affordable units missing at <=30% AMI. ` +
+          `${housingGapRateText(digest)} ` +
           `${valueText(digest, "pct_cost_burdened", "pct")} of renter households are cost burdened, ` +
           `and ${valueText(digest, "overcrowding_rate", "pct")} of occupied households are overcrowded.`,
         cites: ["d1", "d2", "d3", "d4", "d5", "d6"],
@@ -170,4 +184,6 @@ function main() {
   console.log(`[metric-digest-briefs] updated ${files.length} brief(s)`);
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}
