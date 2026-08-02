@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-01T19:03:49.439Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-02T11:24:42.517Z. Do not edit by hand.
 
 ---
 
@@ -1533,10 +1533,10 @@
 | `data/jurisdiction-briefs/0870195.json` | 30.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0873825.json` | 3.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 2.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/_candidates.json` | 24.7 KB | ✅ | — |
+| `data/jurisdiction-briefs/_candidates.json` | 23.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 217.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
-| `data/jurisdiction-briefs/_stale.json` | 70 B | ✅ | — |
+| `data/jurisdiction-briefs/_stale.json` | 2.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0803620.json` | 20.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/08045.json` | 13.2 KB | ✅ | — |
