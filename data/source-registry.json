@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T00:00:00Z",
+  "generated_at": "2026-08-02T00:00:00Z",
   "sources": [
     {
       "id": "fhfa-county-hpi",
@@ -141,7 +141,7 @@
       "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1?f=json",
       "kind": "json_object",
       "expected_cadence_days": 30,
-      "last_ok": "2026-06-26T00:00:00Z",
+      "last_ok": "2026-08-02T00:00:00Z",
       "parser": {
         "required_keys": [
           "name",
@@ -198,7 +198,7 @@
       "url": "https://files.zillowstatic.com/research/public_csvs/zori/County_zori_uc_sfrcondomfr_sm_sa_month.csv",
       "kind": "csv",
       "expected_cadence_days": 30,
-      "last_ok": "2026-06-26T00:00:00Z",
+      "last_ok": "2026-08-02T00:00:00Z",
       "parser": {
         "required_columns": [
           "RegionID",
@@ -217,7 +217,7 @@
       "url": "https://www.redfin.com/news/data-center/",
       "kind": "text",
       "expected_cadence_days": 30,
-      "last_ok": "2026-06-26T00:00:00Z",
+      "last_ok": "2026-08-02T00:00:00Z",
       "parser": {
         "contains": "Data Center"
       }

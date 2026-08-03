@@ -43,3 +43,4 @@ jobs:
           add-paths: |
             data/jurisdiction-briefs/_liveness.json
             data/reports/data-source-health.json
+            data/source-registry.json

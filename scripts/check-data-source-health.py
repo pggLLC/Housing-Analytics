@@ -191,8 +191,20 @@ def main() -> int:
             'checked_at': iso(now),
         })
 
+    # Update last_ok in registry for successfully-validated sources and persist.
+    now_iso = iso(now)
+    updated_registry = False
+    for entry in registry.get('sources', []):
+        matching = next((r for r in records if r['id'] == entry.get('id')), None)
+        if matching and matching['status'] in ('ok', 'stale') and matching['parser_ok']:
+            entry['last_ok'] = now_iso
+            updated_registry = True
+    if updated_registry:
+        registry['generated_at'] = now_iso
+        registry_path.write_text(json.dumps(registry, indent=2) + '\n')
+
     report = {
-        'generated_at': iso(now),
+        'generated_at': now_iso,
         'registry': str(registry_path.relative_to(ROOT)) if registry_path.is_relative_to(ROOT) else str(registry_path),
         'summary': {'total': len(records), **counts},
         'records': records,
