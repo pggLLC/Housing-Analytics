@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-02T09:03:52.063Z
+**Scan timestamp:** 2026-08-03T10:30:54.848Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (213 KB)
+- `data/alerts/alerts_archive.json` (216 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -1467,10 +1467,10 @@
 - `data/jurisdiction-briefs/0870195.json` (30 KB)
 - `data/jurisdiction-briefs/0873825.json` (3 KB)
 - `data/jurisdiction-briefs/0876795.json` (3 KB)
-- `data/jurisdiction-briefs/_candidates.json` (25 KB)
+- `data/jurisdiction-briefs/_candidates.json` (24 KB)
 - `data/jurisdiction-briefs/_liveness.json` (217 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
-- `data/jurisdiction-briefs/_stale.json` (0 KB)
+- `data/jurisdiction-briefs/_stale.json` (2 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (177 KB)
 - `data/jurisdiction-briefs/_verified/0803620.json` (20 KB)
 - `data/jurisdiction-briefs/_verified/08045.json` (13 KB)
@@ -1569,7 +1569,7 @@
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/tax-credit-legislation.json` (12 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (173 KB)
+- `data/policy_briefs.json` (175 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
