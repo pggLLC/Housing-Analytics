@@ -1,10 +1,10 @@
 {
-  "generated": "2026-08-02T09:10:07.121757Z",
+  "generated": "2026-08-03T05:45:18.127882Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 774249
+      "bytes": 774281
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 218174
+      "bytes": 221239
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7354,7 +7354,7 @@
     "data/jurisdiction-briefs/_candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25243
+      "bytes": 24507
     },
     "data/jurisdiction-briefs/_liveness.json": {
       "featureCount": 0,
@@ -7369,7 +7369,7 @@
     "data/jurisdiction-briefs/_stale.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 70
+      "bytes": 2182
     },
     "data/jurisdiction-briefs/_verification-plan.json": {
       "featureCount": 0,
@@ -7899,7 +7899,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 177074
+      "bytes": 179674
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
