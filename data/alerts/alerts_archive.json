@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated": "2026-08-03T04:27:53Z",
+    "generated": "2026-08-03T11:31:02Z",
     "feed_count": 6,
-    "alert_count": 316,
+    "alert_count": 312,
     "max_age_days": 90
   },
   "alerts": [
@@ -2813,42 +2813,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado state lawmakers abandon efforts to legalize smaller lots for single-family homes \u00a0\u00a0 KUNC"
-    },
-    {
-      "title": "Code Changes and Faster Approvals - City of Loveland",
-      "date": "2026-05-05T07:00:00Z",
-      "source": "City of Loveland",
-      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1kY3dIV1l6R2N1UFh6ak8ycFlWYlIzeHkzVjZhZkpBQzFhYk9BM0NfYlRoM011WlBOVThGTjFxVnFFSlN2R1ZLemF1MlNuelBSZ0owbVNsN2JZbVpIeG13X0w0S1BHNGRVd2lzZUxiWTNPUQ?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "Code Changes and Faster Approvals \u00a0\u00a0 City of Loveland"
-    },
-    {
-      "title": "Governor Moore Approves Affordable Housing Plan to Guide More Than $300 Million in Investments - The Office of Governor Wes Moore (.gov)",
-      "date": "2026-05-05T07:00:00Z",
-      "source": "The Office of Governor Wes Moore (.gov)",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOYlhYODIzZWFRWlJpTW9NNDFPMC1tbzJ2cTJ2NElfa0JsMDB3dWNWS0EzUnlHOFNBME8yN0hnRi1iMkpmN2NTelpDaEdzdHE5ZmR3bTdtVWY0cXdOX19ZOC0xaFo3dmFBdGlOazUzT1pEcEp2RUQ0S0RwMnVqcF9KSTRCbGFZUGQxcTg2QTVzSS0zaVNDNW5PWG1ETklSMjU5NFNMTXhGaU1ZM29QTlY4YXA5RHZUMjBYd09oTmNYNmJNZFotZFZaQWJIWkE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Governor Moore Approves Affordable Housing Plan to Guide More Than $300 Million in Investments \u00a0\u00a0 The Office of Governor Wes Moore (.gov)"
-    },
-    {
-      "title": "Report: Northern Colorado faces severe housing shortage - Loveland Reporter-Herald",
-      "date": "2026-05-05T07:00:00Z",
-      "source": "Loveland Reporter-Herald",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPX0hrdzgyWnJGOFRMWHdoS1J4LWVWLWVrekxQRUlsNzZONE9vWUExYzZpSUpLanRkRFk3ZDEzQlNkRjdfTmxNQVFqRHB1YmsxWmZyeVZFeUdBUlpmRkhZcnNybkNYOFZGQ2gtMzh2cVMtNERRekxNb3BPZWpHYUVoQ2swbDNXU0NYcGxDZA?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Report: Northern Colorado faces severe housing shortage \u00a0\u00a0 Loveland Reporter-Herald"
-    },
-    {
-      "title": "Colorado state lawmakers abandon efforts to legalize smaller lots for single-family homes - The Colorado Sun",
-      "date": "2026-05-05T07:00:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPbHZ1Zkw2NktBcFdyWHIwMVpITXVGRnFhZ01sV0ppT2xqTERZRHhqdm5uajZ0dUtjdnM4eXNzTkl3aXJHUWtyUUV4WEZKRWJ2aWgzcGhzR0lnMkhqOG90eTh5cmpiR0hodUUyMEZjRjdPb0lGN1U5VDJ6eVNPQUxqZUhUYUNuMmRrT2lKUUNNenVZOUVmVWlsdF8tNW5peVZ2?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado state lawmakers abandon efforts to legalize smaller lots for single-family homes \u00a0\u00a0 The Colorado Sun"
     }
   ]
 }
