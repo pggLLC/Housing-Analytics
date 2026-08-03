@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-03T09:55:04.249947Z",
+  "generated": "2026-08-03T10:53:27.615944Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 243280
+      "bytes": 243282
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4084,7 +4084,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25730
+      "bytes": 28493
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -7909,7 +7909,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20073
+      "bytes": 20065
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
