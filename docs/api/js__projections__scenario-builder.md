@@ -8,6 +8,7 @@ Reads DOLA SYA data for the selected county/municipality as the base population.
 
 Dependencies (must be loaded before this script):
   - js/projections/cohort-component-model.js
+  - js/projections/scenario-presets.js
   - js/projections/scenario-storage.js
   - Chart.js (CDN)
   - js/fetch-helper.js
