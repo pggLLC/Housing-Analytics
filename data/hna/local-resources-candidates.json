@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-07-27T10:32:02.321Z",
+  "generatedAt": "2026-08-03T10:31:43.961Z",
   "limit": 30,
   "placesChecked": 30,
-  "placesWithCandidates": 21,
-  "placesWithoutCandidates": 9,
+  "placesWithCandidates": 20,
+  "placesWithoutCandidates": 10,
   "candidates": {
     "place:0885485": {
       "name": "Windsor",
@@ -376,20 +376,119 @@
       "slug": "evans",
       "candidateUrls": [
         {
-          "url": "https://townofevansny.gov/",
+          "url": "https://www.townofevans.org/",
           "type": "base",
-          "status": 200,
-          "title": "Town of Evans",
+          "status": 202,
+          "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://townofevansny.gov/departments/community-development/",
+          "url": "https://www.townofevans.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/community-development",
           "type": "subpath",
           "subpath": "departments/community-development",
-          "status": 200,
-          "title": "Planning &amp; Development - Town of Evans",
-          "hasHousingKeyword": true,
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]
@@ -801,22 +900,6 @@
           "looksLikeColorado": true
         }
       ]
-    },
-    "place:0827700": {
-      "name": "Fort Lupton",
-      "county_fips": "08123",
-      "households": 817,
-      "slug": "fort lupton",
-      "candidateUrls": [
-        {
-          "url": "https://www.fortluptonco.gov/",
-          "type": "base",
-          "status": 200,
-          "title": "Fort Lupton, CO - Official Website | Official Website",
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        }
-      ]
     }
   },
   "notFound": [
@@ -859,6 +942,11 @@
       "geoid": "0869645",
       "name": "Sheridan",
       "slug": "sheridan"
+    },
+    {
+      "geoid": "0827700",
+      "name": "Fort Lupton",
+      "slug": "fort lupton"
     },
     {
       "geoid": "0816110",
