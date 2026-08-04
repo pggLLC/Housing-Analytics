@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-03T10:30:54.848Z",
+  "scanTimestamp": "2026-08-04T09:31:47.821Z",
   "totalScanned": 1608,
   "newSourceCount": 1577,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 774281,
+      "sizeBytes": 774392,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 221239,
+      "sizeBytes": 218588,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -254,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 243280,
+      "sizeBytes": 243282,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4790,7 +4790,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 25730,
+      "sizeBytes": 28493,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9338,7 +9338,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 179674,
+      "sizeBytes": 177319,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9350,7 +9350,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20065,
+      "sizeBytes": 20077,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9404,7 +9404,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 22258,
+      "sizeBytes": 20423,
       "inDataManifest": false,
       "inFilesManifest": true
     },
