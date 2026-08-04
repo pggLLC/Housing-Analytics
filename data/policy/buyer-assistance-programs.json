@@ -1,0 +1,41 @@
+{
+  "schema": "buyer-assistance-programs/v1",
+  "meta": {
+    "as_of": "2026-08-04",
+    "lane": "buyer",
+    "commitment_note": "General program availability is context only. Only an awarded or committed project-specific record may count toward closing a gap."
+  },
+  "programs": [
+    {
+      "id": "hrwc-deferred-second",
+      "provider": "Housing Resources of Western Colorado",
+      "provider_url": "https://hrwco.org/",
+      "side": "buyer",
+      "funding_type": "deferred_loan",
+      "capital_stack_category": "C_buyer_gap",
+      "max_assistance": null,
+      "interest_rate": 0,
+      "monthly_payment": 0,
+      "repayment_triggers": ["sale", "mortgage_payoff", "non_owner_occupancy"],
+      "lien_priority": "subordinate",
+      "term_years": null,
+      "appreciation_share": null,
+      "recapture_amount": null,
+      "forgiveness": null,
+      "eligible_income_ami_max": null,
+      "eligible_geography": ["08029", "08045", "08077", "08085"],
+      "geography_label": "Delta, Garfield, Mesa, and Montrose counties",
+      "homebuyer_education_required": true,
+      "primary_residence_required": true,
+      "lender_combination_rules": "VERIFY with Housing Resources and the first-mortgage lender.",
+      "commitment_status": "available",
+      "apply_to_gap": false,
+      "project_specific_commitments": [],
+      "source_url": "https://hrwco.org/programs/homebuyers/",
+      "source_note": "Official page fetched 2026-08-04. It verifies 0% interest, no monthly payment, eligible property types, four-county availability, and repayment at mortgage payoff, sale, or change in primary residence. It does not publish an across-program maximum, term, AMI ceiling, appreciation, forgiveness, or lender-combination terms; those fields remain null and VERIFY.",
+      "last_verified": "2026-08-04",
+      "classification": "observed",
+      "verify": true
+    }
+  ]
+}

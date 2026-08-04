@@ -188,6 +188,14 @@ const ALLOW_LIST = new Set([
   // Colorado Association of Realtors — Akamai bot protection (403),
   // accessible to real browsers. Verified manually 2026-05-24.
   "https://www.coloradorealtors.com/market-trends/",
+  // FHLBank Topeka HSP page — the WAF returns HTTP 500 (not 403) to
+  // GitHub Actions IPs, so it lands in the hard 5XX bucket instead of the
+  // soft WAF bucket. Accessible to real clients: verified 2026-08-04 with
+  // four consecutive HTTP 200s from a residential IP (plain curl AND
+  // browser UA), page states the $15,000 HSP grant figure cited by
+  // data/policy/developer-ownership-funding.json. Same
+  // WAF-masquerading-as-server-error pattern as the 415 cases above.
+  "https://www.fhlbtopeka.com/services-and-programs/community/turnkey/hsp",
   // UCLA Lewis Center for Regional Policy Studies — returns HTTP 415
   // (Unsupported Media Type) to CI user-agents; accessible to real
   // browsers and was returning 200 on 2026-06-08 per url-health.json.
