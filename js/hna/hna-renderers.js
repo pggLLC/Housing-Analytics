@@ -5035,6 +5035,49 @@
     }
   }
 
+  var _ownershipStrategyDocsPromise = null;
+  function _ownershipStrategyDocs() {
+    if (_ownershipStrategyDocsPromise) return _ownershipStrategyDocsPromise;
+    var paths = [
+      'data/policy/developer-ownership-funding.json',
+      'data/policy/buyer-assistance-programs.json',
+      'data/policy/stewardship-providers.json',
+      'data/policy/county-ownership.json',
+      'data/policy/jurisdiction-housing-progress.json',
+      'data/hna/local-resources.json',
+    ];
+    _ownershipStrategyDocsPromise = Promise.all(paths.map(function (path) {
+      return fetch(path).then(function (response) {
+        if (!response.ok) throw new Error(path + ' returned ' + response.status);
+        return response.json();
+      });
+    })).then(function (docs) {
+      return { developerFunding: docs[0], buyerAssistance: docs[1], stewardshipProviders: docs[2], countyOwnership: docs[3], progress: docs[4], localResources: docs[5] };
+    });
+    return _ownershipStrategyDocsPromise;
+  }
+
+  function _renderOwnershipStrategyFromState(result, geoType, geoid, label, contextCounty) {
+    var mount = document.getElementById('hnaOwnershipStrategy');
+    if (!mount || !window.HNAOwnershipStrategy || !window.OwnershipFinance) return;
+    _ownershipStrategyDocs().then(function (datasets) {
+      var incomeLimits = window.HudFmr && typeof window.HudFmr.getIncomeLimitsByFips === 'function'
+        ? window.HudFmr.getIncomeLimitsByFips(contextCounty || geoid) : null;
+      var ami4Person = incomeLimits && (incomeLimits.ami_4person || incomeLimits.ami_4 || incomeLimits.ami);
+      window.HNAOwnershipStrategy.render(mount, {
+        geo: { type: geoType === 'county' ? 'county' : geoType === 'cdp' ? 'cdp' : 'place', geoid: String(geoid), countyGeoid: String(contextCounty || geoid), name: label },
+        ami4Person: Number(ami4Person),
+        ownershipNeedResult: result,
+        engine: window.OwnershipFinance,
+        homeValueCascade: S() && S().state && S().state.homeValueCascade,
+        datasets: datasets,
+      });
+    }).catch(function (error) {
+      console.warn('[HNA] ownership strategy data unavailable', error);
+      mount.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership strategy data not available for this jurisdiction.</p>';
+    });
+  }
+
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
     try {
       var container = document.getElementById('hnaAffordableOwnershipNeed');
@@ -5092,6 +5135,7 @@
         } : null,
       });
       renderAffordableOwnershipNeed(result, { permitContext: permitContext });
+      _renderOwnershipStrategyFromState(result, geoType, geoid, label, contextCounty);
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
       var container = document.getElementById('hnaAffordableOwnershipNeed');
