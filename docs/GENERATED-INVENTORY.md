@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T12:21:07.802Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T14:56:58.697Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 134.9 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.4 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.5 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1569 JSON files found.
+1570 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 756.2 KB | ✅ | — |
+| `data/_manifest.json` | 756.8 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1605,6 +1605,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
+| `data/policy/affordability-models.json` | 8.5 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
@@ -1646,7 +1647,7 @@
 
 ## Test Files
 
-252 test files found.
+253 test files found.
 
 | File | Size |
 |------|------|
@@ -1783,6 +1784,7 @@
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
+| `test/ownership-finance.test.js` | 22.3 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
