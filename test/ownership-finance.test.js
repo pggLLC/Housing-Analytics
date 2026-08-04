@@ -272,6 +272,196 @@ test('package.json wires test:ownership-finance into test:ci', () => {
   assert(pkg.scripts['test:ci'].includes('test:ownership-finance'), 'wired into test:ci');
 });
 
+// ---- Codex QA corrections (PR #1388 re-review) ----
+
+console.log('\n  -- Codex QA corrections --');
+
+test('C1: modelId string is a working third argument (repro: conventional_dti !== 289983)', () => {
+  const viaId = engine.maxAffordablePrice(100000, 0.80, 'conventional_dti');
+  assert.notEqual(viaId, 289983, 'model id must not silently fall back to the default model');
+  const viaComparator = engine.compareModels(100000, 0.80, ['conventional_dti'])[0].maxPrice;
+  assert.equal(viaId, viaComparator, 'direct model-id call matches the comparator');
+  // { modelId, ...overrides } form: overrides win over model params
+  const withHoa = engine.maxAffordablePrice(100000, 0.80, { modelId: 'conventional_dti', hoaMonthly: 300 });
+  assert(withHoa < viaId, 'override merges on top of the model');
+  assert.throws(() => engine.maxAffordablePrice(100000, 0.80, 'no_such_model'), /unknown model/);
+});
+
+test('C1: Node lazily loads the production registry (no setRegistry call needed)', () => {
+  const enginePath = require.resolve(path.join(ROOT, 'js/hna/ownership-finance.js'));
+  const cached = require.cache[enginePath];
+  delete require.cache[enginePath];
+  try {
+    const fresh = require(enginePath);
+    assert.equal(fresh.getRegistry(), null, 'fresh instance starts with no registry');
+    const price = fresh.maxAffordablePrice(100000, 0.80, 'conventional_dti');
+    assert(Number.isFinite(price) && price !== 289983, 'model id works via lazy require of ' + fresh.REGISTRY_PATH);
+    assert(fresh.getRegistry(), 'registry auto-loaded');
+  } finally {
+    require.cache[enginePath] = cached;
+  }
+});
+
+test('C2: deal-calculator.js prefers the shared engine in its resolution chain', () => {
+  const dcSrc = fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8');
+  const chainIdx = dcSrc.indexOf('window.OwnershipFinance && window.OwnershipFinance.maxAffordablePrice');
+  const kernelIdx = dcSrc.indexOf('window.HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice');
+  assert(chainIdx >= 0, 'engine appears in the chain');
+  assert(chainIdx < kernelIdx, 'engine is preferred over the kernel fallback');
+});
+
+function loadHnaUtils(withEngine) {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
+  const win = withEngine ? { OwnershipFinance: engine } : {};
+  const documentStub = {
+    readyState: 'complete',
+    getElementById: () => null,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    addEventListener: () => {},
+    createElement: () => ({ style: {}, appendChild: () => {}, setAttribute: () => {} }),
+  };
+  const sandbox = {
+    window: win, document: documentStub, console,
+    fetch: () => Promise.resolve({ ok: false, json: () => Promise.resolve({}) }),
+    localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    navigator: {}, Math, Number, Object, Array, JSON, Promise, isFinite, setTimeout, clearTimeout,
+    URLSearchParams, URL, Date, RegExp, String, parseFloat, parseInt, Map, Set,
+    location: { search: '', href: '', pathname: '/' },
+  };
+  sandbox.window.document = documentStub;
+  vm.runInNewContext(src, sandbox);
+  return win.HNAUtils;
+}
+
+test('C2: HNAUtils.computeIncomeNeeded delegates to the engine with EXACT parity', () => {
+  const utilsWith = loadHnaUtils(true);
+  const utilsWithout = loadHnaUtils(false);
+  [250000, 486295, 750000].forEach((price) => {
+    const a = utilsWith.computeIncomeNeeded(price);
+    const b = utilsWithout.computeIncomeNeeded(price);
+    assert(Math.abs(a.annualIncome - b.annualIncome) < 1e-6, `annualIncome parity at ${price}`);
+    assert(Math.abs(a.payment - b.payment) < 1e-6, `payment parity at ${price}`);
+    assert(Math.abs(a.components.pAndI - b.components.pAndI) < 1e-6, `pAndI parity at ${price}`);
+    assert.equal(a.down, b.down);
+    assert.equal(a.loan, b.loan);
+  });
+  // and the delegated path really is the engine's closed form
+  const viaEngine = engine.incomeRequiredForPrice(486295, { pmiLtvGate: true });
+  assert(Math.abs(utilsWith.computeIncomeNeeded(486295).annualIncome - viaEngine.annualIncome) < 1e-6);
+});
+
+function loadPanel(withEngine, fredRate) {
+  const src = fs.readFileSync(path.join(ROOT, 'js/affordability-metrics-panel.js'), 'utf8');
+  const win = withEngine ? { OwnershipFinance: engine } : {};
+  const documentStub = {
+    readyState: 'complete',
+    getElementById: () => null,
+    addEventListener: () => {},
+    querySelectorAll: () => [],
+  };
+  const sandbox = {
+    window: win, document: documentStub, console,
+    fetch: () => Promise.resolve({ ok: false, json: () => Promise.resolve(null) }),
+    Math, Number, Object, Array, JSON, Promise, isFinite, setTimeout,
+  };
+  vm.runInNewContext(src, sandbox);
+  return win.AffordabilityMetrics;
+}
+
+test('C2: affordability panel sources required_hhi_for_home from the engine when present', () => {
+  const rec = { median_home_price: 500000, median_hh_income: 90000 };
+  const withEngine = loadPanel(true).compute(rec, 1750);
+  const withoutEngine = loadPanel(false).compute(rec, 1750);
+  const expected = engine.incomeRequiredForPrice(500000, { rateAnnual: withEngine.mortgage_rate / 100 }).annualIncome;
+  assert(Math.abs(withEngine.required_hhi_for_home - expected) < 1e-6, 'engine path used');
+  // legacy proxy (P&I × 1.25 / 0.30) still works engine-less and differs by design
+  assert(Number.isFinite(withoutEngine.required_hhi_for_home));
+  assert.notEqual(Math.round(withEngine.required_hhi_for_home), Math.round(withoutEngine.required_hhi_for_home),
+    'engine component model deliberately replaces the ×1.25 proxy');
+});
+
+test('C2: colorado-deep-dive.html loads the engine before the panel', () => {
+  const html = fs.readFileSync(path.join(ROOT, 'colorado-deep-dive.html'), 'utf8');
+  const engineIdx = html.indexOf('js/hna/ownership-finance.js');
+  const panelIdx = html.indexOf('js/affordability-metrics-panel.js');
+  assert(engineIdx >= 0 && engineIdx < panelIdx);
+});
+
+test('C3: custom model with aggressive OVERRIDES gets the risk disclosure (resolved-assumption ranking)', () => {
+  const results = engine.compareModels(100000, 1.0, ['custom'], {
+    overrides: { frontEndRatio: 0.60, downPaymentRate: 0 },
+  });
+  assert.equal(results[0].riskDisclosureRequired, true,
+    'permissiveness must be judged on resolved assumptions, not static registry params');
+  assert(results[0].riskDisclosure && results[0].riskDisclosure.length > 0);
+  // and mild custom overrides stay un-flagged
+  const mild = engine.compareModels(100000, 1.0, ['custom'], {
+    overrides: { frontEndRatio: 0.28, downPaymentRate: 0.15 },
+  });
+  assert.equal(mild[0].riskDisclosureRequired, false);
+});
+
+test('C4: compareModels returns the signed gap against a target price', () => {
+  const target = 486295;
+  const results = engine.compareModels(97600, 1.0, ['conservative_screening', 'conventional_dti'], {
+    targetPrice: target,
+  });
+  const cons = results.find((r) => r.modelId === 'conservative_screening');
+  const dti = results.find((r) => r.modelId === 'conventional_dti');
+  assert.equal(cons.targetPrice, target);
+  assert.equal(cons.gapVsTargetPrice, cons.maxPrice - target, 'signed: negative = shortfall');
+  assert(cons.gapVsTargetPrice < 0, 'conservative buyer falls short of the Fruita median');
+  assert.equal(cons.subsidyNeededPerUnit, target - cons.maxPrice);
+  assert(dti.gapVsTargetPrice > 0, 'permissive model shows headroom (positive)');
+  assert.equal(dti.subsidyNeededPerUnit, 0);
+  // no target → null, not 0
+  const noTarget = engine.compareModels(97600, 1.0, ['conservative_screening'])[0];
+  assert.equal(noTarget.gapVsTargetPrice, null);
+  assert.equal(noTarget.subsidyNeededPerUnit, null);
+});
+
+test('C5: negative income inputs return null, never 0', () => {
+  assert.equal(engine.maxAffordablePrice(-100000, 0.80), null);
+  assert.equal(engine.maxAffordablePrice(100000, -0.80), null);
+  assert.equal(engine.computeBuyerCapacity(-1, 1), null);
+  const kernel = loadHnaKernel(true);
+  assert.equal(kernel.maxAffordablePrice(-100000, 0.80), null, 'delegated kernel path agrees');
+});
+
+test('C6: engine DEFAULTS match kernel CONSTANTS.affordabilityAssumptions field-by-field', () => {
+  const kernel = loadHnaKernel(false);
+  const k = kernel.CONSTANTS.affordabilityAssumptions;
+  assert.equal(engine.DEFAULTS.rateAnnual, k.pmms30YearRate, 'rateAnnual vs pmms30YearRate');
+  assert.equal(engine.DEFAULTS.termYears, k.termYears, 'termYears');
+  assert.equal(engine.DEFAULTS.frontEndRatio, k.frontEndRatio, 'frontEndRatio');
+  assert.equal(engine.DEFAULTS.downPaymentRate, k.downPaymentRate, 'downPaymentRate');
+  assert.equal(engine.DEFAULTS.propertyTaxRate, k.propertyTaxRate, 'propertyTaxRate');
+  assert.equal(engine.DEFAULTS.insuranceRate, k.insuranceRate, 'insuranceRate');
+  assert.equal(engine.DEFAULTS.pmiRate, k.pmiRate, 'pmiRate');
+});
+
+test('C7: USDA front-end cap (29%) binds — housing budget is capped below the 41% back-end', () => {
+  const capped = engine.maxAffordablePrice(97600, 1.0, 'usda_rd');
+  const uncapped = engine.maxAffordablePrice(97600, 1.0, {
+    modelId: 'usda_rd', frontEndRatioCap: null,
+  });
+  assert(capped < uncapped, 'cap lowers the max price');
+  // 29/41: capped budget ratio ≈ 29/41 of uncapped (fee terms identical)
+  assert(Math.abs(capped / uncapped - 0.29 / 0.41) < 0.001, '29/41 ratio reflected');
+});
+
+test('C7: FHA/USDA upfront fees are financed into the loan (lower price, larger loan share)', () => {
+  const fhaWith = engine.computeBuyerCapacity(97600, 1.0, 'fha_insured');
+  const fhaWithout = engine.computeBuyerCapacity(97600, 1.0, { modelId: 'fha_insured', mipUpfrontPct: 0 });
+  assert(fhaWith.maxPrice < fhaWithout.maxPrice, 'upfront MIP reduces buying power');
+  assert(fhaWith.maxLoan > fhaWith.maxPrice * (1 - 0.035), 'financed fee makes loan exceed price×(1−down)');
+  const usdaWith = engine.computeBuyerCapacity(97600, 1.0, 'usda_rd');
+  const usdaWithout = engine.computeBuyerCapacity(97600, 1.0, { modelId: 'usda_rd', guaranteeFeeUpfrontPct: 0 });
+  assert(usdaWith.maxPrice < usdaWithout.maxPrice, 'upfront guarantee fee reduces buying power');
+  assert(usdaWith.maxLoan > usdaWith.maxPrice, '0-down USDA loan exceeds price once the fee is financed');
+});
+
 console.log('\nOwnership finance: ' + passed + ' passed, ' + failed + ' failed');
 console.log('='.repeat(50));
 if (failed > 0) process.exit(1);
