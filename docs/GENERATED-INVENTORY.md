@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T21:41:13.980Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T22:34:17.120Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1571 JSON files found.
+1573 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 757.3 KB | ✅ | — |
+| `data/_manifest.json` | 758.6 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -880,7 +880,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 27.8 KB | ✅ | — |
-| `data/hna/local-resources.json` | 172.2 KB | ✅ | — |
+| `data/hna/local-resources.json` | 175.0 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1606,10 +1606,11 @@
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 8.5 KB | ✅ | — |
+| `data/policy/buyer-assistance-programs.json` | 1.8 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 4.5 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 18.2 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
@@ -1622,6 +1623,7 @@
 | `data/policy/resale-conventions.json` | 3.1 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
+| `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 173.2 KB | ✅ | — |
@@ -1648,7 +1650,7 @@
 
 ## Test Files
 
-256 test files found.
+259 test files found.
 
 | File | Size |
 |------|------|
@@ -1664,6 +1666,7 @@
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
+| `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.2 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
@@ -1787,6 +1790,7 @@
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
 | `test/ownership-finance.test.js` | 22.3 KB |
+| `test/ownership-funding-schema.test.js` | 4.6 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
@@ -1843,6 +1847,7 @@
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
+| `test/stewardship-providers.test.js` | 3.8 KB |
 | `test/tax-credit-equity-markets.test.js` | 7.1 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
