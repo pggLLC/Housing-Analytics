@@ -242,7 +242,7 @@
   }
 
   function _developerFundingAmountPerUnit(program, feasibility) {
-    if (!program || program.apply_to_gap !== true) return null;
+    if (!program || (program.apply_to_gap !== true && program.screening_apply !== true)) return null;
     var amountType = String(program.amount_type || '');
     if (amountType === 'fixed_dollar_cap') {
       var maxAmount = +program.max_amount;
@@ -295,6 +295,7 @@
         programType: program.program_type || '',
         availableAmountPerUnit: amount,
         appliedAmountPerUnit: applied,
+        screeningOnly: program.apply_to_gap !== true,
         sourceUrl: program.source_url || '',
         note: program.screening_note || ''
       });
@@ -337,7 +338,8 @@
     list.style.cssText = 'margin:.2rem 0 .35rem;padding-left:1rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
     (stack.appliedSources || []).forEach(function (source) {
       var li = document.createElement('li');
-      li.textContent = source.name + ': ' + fmt(source.appliedAmountPerUnit) + ' / unit applied';
+      li.textContent = source.name + (source.screeningOnly ? ' (potential — not committed)' : '') +
+        ': ' + fmt(source.appliedAmountPerUnit) + ' / unit applied';
       list.appendChild(li);
     });
     (stack.verifySources || []).forEach(function (source) {

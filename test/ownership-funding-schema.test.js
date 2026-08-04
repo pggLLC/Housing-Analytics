@@ -20,8 +20,15 @@ function validateProgram(program) {
   assert(CATEGORIES.has(program.capital_stack_category));
   assert(CYCLES.has(program.application_cycle));
   assert(STATUSES.has(program.commitment_status));
+  assert.equal(typeof program.screening_apply, 'boolean');
   assert(Array.isArray(program.stacking_constraints));
   if (program.apply_to_gap) assert(['awarded', 'committed'].includes(program.commitment_status));
+  if (program.screening_apply) {
+    assert(program.amount_type);
+    assert(program.max_amount !== null || program.max_percent !== null);
+    assert(/^https:\/\//.test(program.source_url));
+    assert(/^\d{4}-\d{2}-\d{2}$/.test(program.last_verified));
+  }
   AMOUNTS.forEach((field) => {
     if (!Object.prototype.hasOwnProperty.call(program, field)) return;
     assert(program[field] === null || (typeof program[field] === 'number' && Number.isFinite(program[field])), field);
@@ -43,9 +50,16 @@ function validateProgram(program) {
 assert.equal(data.schema, 'developer-ownership-funding/v1');
 assert.equal(data.meta.schema_version, 2);
 assert.match(data.meta.deferral_note, /carrying-cost benefit, not a TDC reduction/);
+assert.match(data.meta.methodology, /screening_apply.*potential.*never counted as committed funding; apply_to_gap.*requires awarded or committed/i);
 data.programs.forEach(validateProgram);
+assert.deepEqual(data.programs.filter((program) => program.screening_apply).map((program) => program.id), [
+  'wmrhc-good-deeds-buydown',
+  'chfa-dpa-layering',
+]);
 assert.equal(hasRank(data), false);
 assert.throws(() => validateProgram(Object.assign({}, data.programs[0], { commitment_status: 'available', apply_to_gap: true })));
+assert.throws(() => validateProgram(Object.assign({}, data.programs[1], { screening_apply: true })));
+assert.throws(() => validateProgram(Object.assign({}, data.programs[0], { commitment_status: 'available', apply_to_gap: true, screening_apply: true })));
 assert.throws(() => validateProgram(Object.assign({}, data.programs[0], {
   max_per_project: 100000, source_url: null, last_verified: null,
 })));
