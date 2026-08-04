@@ -142,7 +142,7 @@
     var bands = supply && supply.bands || [];
     var pool = vm.ownership.priceBandScreen && vm.ownership.priceBandScreen.rows || [];
     var supplyBody = bands.length
-      ? '<p><strong>' + number(bands.reduce(function (sum, band) { return sum + (Number(band.units) || 0); }, 0)) + '</strong> owner units across existing value bands. ' + pill('Jurisdiction owner stock', vm.geo.type) + '</p>' : '<p>' + MISSING + '</p>';
+      ? '<p><strong>' + number(bands.reduce(function (sum, band) { return sum + (Number(band.ownerOccupiedUnits) || 0); }, 0)) + '</strong> owner units across existing value bands. ' + pill('Jurisdiction owner stock', vm.geo.type) + '</p>' : '<p>' + MISSING + '</p>';
     supplyBody += pool.length ? '<ul>' + pool.map(function (row) { return '<li>' + esc(row.label || row.priceBand || 'Price band') + ': potential buyer pool ' + number(row.potentialBuyerPoolHouseholds) + ' households; ' + number(row.ownerValueSupplyUnits) + ' owner units. Potential buyer pool — not committed demand.</li>'; }).join('') + '</ul>' : '<p>Potential buyer pool: ' + MISSING + '</p>';
     var funding = vm.developerPrograms.concat(vm.buyerPrograms);
     var fundingBody = funding.length ? '<p><strong>Available is context, never money.</strong></p><ul>' + funding.map(function (program) {

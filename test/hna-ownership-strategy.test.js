@@ -18,12 +18,22 @@ const countyOwnership = require('../data/policy/county-ownership.json');
 const progress = require('../data/policy/jurisdiction-housing-progress.json');
 
 Finance.setRegistry(models);
+global.window = { OwnershipFinance: Finance };
+require('../js/hna/hna-ownership-need.js');
+const HNAOwnershipNeed = global.window.HNAOwnershipNeed;
+const ownerValueProfile = { B25075_001E: 100 };
+HNAOwnershipNeed.OWNER_VALUE_BINS.forEach((band) => { ownerValueProfile[band[0]] = 0; });
+ownerValueProfile[HNAOwnershipNeed.OWNER_VALUE_BINS[0][0]] = 40;
+ownerValueProfile[HNAOwnershipNeed.OWNER_VALUE_BINS[1][0]] = 60;
+const realOwnerValueSupply = HNAOwnershipNeed.ownerValueSupplySeries(ownerValueProfile);
+assert(realOwnerValueSupply, 'real ownerValueSupplySeries fixture is available');
+assert.equal(realOwnerValueSupply.summedBandUnits, 100);
 assert.deepEqual(Strategy.TIERS, [0.60, 0.80, 1.00, 1.20]);
 const datasets = { developerFunding, buyerAssistance, stewardshipProviders, countyOwnership, progress, localResources };
 const ownership = {
   tenureMixRecommendation: 'Mixed tenure strategy',
   recommendationDetail: 'Retain the existing computed recommendation.',
-  ownerValueSupply: { bands: [{ label: 'Under $300k', units: 42 }, { label: '$300k–$500k', units: 81 }] },
+  ownerValueSupply: realOwnerValueSupply,
   priceBandScreen: { rows: [{ label: '$250k–$350k', potentialBuyerPoolHouseholds: 90, ownerValueSupplyUnits: 42 }] },
 };
 function input(geo, ami) {
@@ -67,6 +77,7 @@ assert(fruitaHtml.includes('Proposition 123: Committed'));
 assert(fruitaHtml.includes('Housing Resources of Western Colorado'));
 assert(fruitaHtml.includes('Available is context, never money.'));
 assert(fruitaHtml.includes('status: available'));
+assert(fruitaHtml.includes('<strong>100</strong> owner units across existing value bands.'));
 assert(!/applied|counted position/i.test(fruitaHtml));
 assert(!/% of households|households[^<]{0,40}priced out/i.test(fruitaHtml));
 
