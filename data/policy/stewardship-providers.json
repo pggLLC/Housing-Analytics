@@ -1,0 +1,34 @@
+{
+  "schema": "stewardship-providers/v1",
+  "meta": {
+    "as_of": "2026-08-04",
+    "no_stewardship_flag": "Permanent ownership stewardship capacity not established",
+    "commitment_note": "An available provider is context and is not a project commitment."
+  },
+  "providers": [
+    {
+      "id": "hrwc",
+      "name": "Housing Resources of Western Colorado",
+      "url": "https://hrwco.org/",
+      "geography_served": ["western_colorado"],
+      "counties_served": ["08007", "08029", "08033", "08037", "08045", "08051", "08053", "08067", "08077", "08083", "08085", "08091", "08097", "08107", "08113"],
+      "roles": [
+        "homebuyer_education", "counseling", "credit_readiness", "dpa_origination",
+        "loan_servicing", "owner_occupancy_monitoring", "resale_administration",
+        "foreclosure_intervention", "program_stewardship"
+      ],
+      "programs": ["hrwc-deferred-second"],
+      "commitment_status": "available",
+      "apply_to_gap": false,
+      "role_evidence": {
+        "verified": ["homebuyer_education", "counseling", "credit_readiness", "dpa_origination", "foreclosure_intervention"],
+        "verify_with_provider": ["loan_servicing", "owner_occupancy_monitoring", "resale_administration", "program_stewardship"]
+      },
+      "source_url": "https://hrwco.org/programs/",
+      "source_note": "Official service-area page fetched 2026-08-04. It verifies the 15-county Western Slope service area and education, counseling, lending, and foreclosure services. Project-specific servicing, monitoring, resale administration, and stewardship roles remain VERIFY until contracted.",
+      "last_verified": "2026-08-04",
+      "classification": "observed",
+      "verify": true
+    }
+  ]
+}
