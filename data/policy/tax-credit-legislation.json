@@ -3,7 +3,7 @@
   "meta": {
     "title": "Tax Credit Legislation Watchlist",
     "as_of": "2026-07-18",
-    "last_updated": "2026-07-18",
+    "last_updated": "2026-08-03",
     "last_verified": "2026-07-18",
     "review_by": "2026-10-18",
     "methodology": "Curated federal tax-credit policy entries. Legislative status source_url fields are limited to official federal sources; market impact text is directional and should be re-reviewed quarterly."
@@ -158,6 +158,19 @@
       "source_note": "Colorado General Assembly HB24-1175 enacted summary. HB23-1190 is related prior-session ROFR legislation but was vetoed and did not become law.",
       "last_verified": "2026-07-17",
       "review_by": "2026-10-17"
+    },
+    {
+      "id": "hb26-1065-transit-housing-investment-zones",
+      "title": "Colorado Transit and Housing Investment Zones affordable-housing credit",
+      "scope": "lihtc",
+      "status": "enacted",
+      "effective_date": "2026-05-27",
+      "sunset_date": "2063-12-31",
+      "pricing_impact": "State income tax credit for housing in OEDIT-designated transit/housing zones. CHFA may allocate up to $8.33M annually in 2027-2033, claimable for each of six credit years (seven cohorts; $350M total through 2038), to governmental/quasi-governmental owners that may sell credits.",
+      "source_url": "https://leg.colorado.gov/bills/HB26-1065",
+      "source_note": "Colorado General Assembly HB26-1065, Transit and Housing Investment Zones (Transit Investment Area Act); signed and effective 2026-05-27 under the act's safety clause, credit allocated by CHFA 2027-2033, act repealed 2063-12-31. Pairs a state sales-tax-increment financing tool (OEDIT/Economic Development Commission approves max 3 projects/yr, 6 total, up to $75M diverted/yr) with the housing credit. The enacted text and LLS 26-0227 fiscal note contain no rural credit set-aside, bonus, or enhanced credit; statewide geographic equity is instead a criterion for prioritizing otherwise-qualified transit investment projects. Credit administration (CHFA QAP scoring/allocation mechanics) is not yet determined — the QAP is in draft; monitor draft-to-final for changes before relying on the credit's allocation terms.",
+      "last_verified": "2026-08-03",
+      "review_by": "2026-11-03"
     },
     {
       "id": "nhia-119th-congress",
