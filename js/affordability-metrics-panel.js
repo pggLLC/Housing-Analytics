@@ -89,15 +89,25 @@
     var p_i  = (home && hhi)  ? home / hhi          : null;
     var p_r  = (home && rent) ? home / (rent * 12)  : null;
     // Affordability rate: HHs whose income >= mortgage threshold.
-    // Threshold: monthly PITI = 30% of HHI. Using current 30-yr rate (_fredRate)
-    //   monthlyPI = home * (r/12) * (1+r/12)^360 / ((1+r/12)^360 - 1)
-    var monthlyRate = (_fredRate / 100) / 12;
-    var monthlyPI = home * monthlyRate * Math.pow(1 + monthlyRate, 360) /
-                    (Math.pow(1 + monthlyRate, 360) - 1);
-    // PITI ≈ monthly P+I × 1.25 (taxes + insurance)
-    var monthlyPITI = monthlyPI * 1.25;
-    var annualPITI  = monthlyPITI * 12;
-    var requiredHHI = annualPITI / 0.30;
+    // Threshold: monthly PITI = 30% of HHI at the current 30-yr rate (_fredRate).
+    // Shared-engine delegation (PR #1388): OwnershipFinance's closed-form
+    // component model (real tax/ins/PMI at 10% down) replaces the legacy
+    // PITI ≈ P&I × 1.25 proxy; the proxy remains as an engine-less fallback.
+    var requiredHHI;
+    var engine = typeof window !== 'undefined' && window.OwnershipFinance;
+    if (engine && typeof engine.incomeRequiredForPrice === 'function' && home > 0) {
+      var engineReq = engine.incomeRequiredForPrice(home, { rateAnnual: (_fredRate / 100) });
+      requiredHHI = engineReq ? engineReq.annualIncome : null;
+    }
+    if (requiredHHI == null) {
+      var monthlyRate = (_fredRate / 100) / 12;
+      var monthlyPI = home * monthlyRate * Math.pow(1 + monthlyRate, 360) /
+                      (Math.pow(1 + monthlyRate, 360) - 1);
+      // PITI ≈ monthly P+I × 1.25 (taxes + insurance) — legacy proxy
+      var monthlyPITI = monthlyPI * 1.25;
+      var annualPITI  = monthlyPITI * 12;
+      requiredHHI = annualPITI / 0.30;
+    }
     // Affordability rate is hard to compute without HH income distribution;
     // proxy via county median income ratio: if median HHI >= required, ~50%
     // can afford (median split); else proportionally less.

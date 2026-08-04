@@ -1138,6 +1138,34 @@
     const V = Number(homeValue);
     if (!Number.isFinite(V) || V <= 0) return null;
 
+    // Shared-engine delegation (PR #1388): OwnershipFinance's closed-form
+    // incomeRequiredForPrice is the exact algebraic counterpart of this
+    // computation; the legacy math below remains as an identical fallback
+    // for engine-less contexts (parity-tested in test/ownership-finance.test.js).
+    const engine = typeof window !== 'undefined' && window.OwnershipFinance;
+    if (engine && typeof engine.incomeRequiredForPrice === 'function') {
+      const r = engine.incomeRequiredForPrice(V, {
+        rateAnnual: AFFORD.rateAnnual,
+        termYears: AFFORD.termYears,
+        downPaymentRate: AFFORD.downPaymentPct,
+        propertyTaxRate: AFFORD.propertyTaxPctAnnual,
+        insuranceRate: AFFORD.insurancePctAnnual,
+        pmiRate: AFFORD.pmiPctAnnual,
+        frontEndRatio: AFFORD.paymentToIncome,
+        pmiLtvGate: true,
+      });
+      if (r) {
+        return {
+          homeValue: r.homeValue,
+          down: r.down,
+          loan: r.loan,
+          payment: r.payment,
+          annualIncome: r.annualIncome,
+          components: { pAndI: r.components.pAndI, tax: r.components.tax, ins: r.components.ins, pmi: r.components.pmi }
+        };
+      }
+    }
+
     const down = V * AFFORD.downPaymentPct;
     const loan = V - down;
 

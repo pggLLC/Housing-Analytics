@@ -170,7 +170,11 @@
     var units = +input.units;
     var ami4Person = +input.ami4Person;
     var targetAmiPct = +input.targetAmiPct;
+    // Shared-engine delegation (PR #1388): prefer the authoritative
+    // OwnershipFinance engine; the HNA kernel remains the fallback and both
+    // produce identical values under default assumptions (parity-tested).
     var maxAffordablePrice = input.maxAffordablePrice ||
+      (window.OwnershipFinance && window.OwnershipFinance.maxAffordablePrice) ||
       (window.HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice);
     if (!isFinite(targetAmiPct) || targetAmiPct <= 0) targetAmiPct = 0.80;
     if (!isFinite(tdc) || tdc <= 0 || !isFinite(units) || units <= 0) {
