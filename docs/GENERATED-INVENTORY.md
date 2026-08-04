@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T14:56:58.697Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T16:03:43.737Z. Do not edit by hand.
 
 ---
 
@@ -1647,7 +1647,7 @@
 
 ## Test Files
 
-253 test files found.
+254 test files found.
 
 | File | Size |
 |------|------|
@@ -1830,6 +1830,7 @@
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
+| `test/shared-equity-lifecycle.test.js` | 16.7 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
