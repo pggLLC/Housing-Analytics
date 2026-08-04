@@ -56,13 +56,38 @@
     "housingAuthority": [
       {
         "name": "Grand Junction Housing Authority",
-        "url": "https://www.gjha.org/"
+        "url": "https://www.gjha.org/",
+        "structure_type": "municipal",
+        "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
+        "taxing_authority": false,
+        "bonding_authority": null,
+        "powers": ["property_management", "housing_program_administration", "land_ownership"],
+        "capacity_tier": "active_developer",
+        "activity_evidence": {"recent_projects": ["GJHA-owned and managed affordable communities"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "stewardship_capacity": "not_established_for_permanent_ownership",
+        "capacity_source": "https://www.gjha.org/",
+        "capacity_last_verified": "2026-08-04",
+        "classification": "observed",
+        "verify": true
       },
       {
         "name": "Fruita Housing Authority",
-        "url": "https://www.fruita.org/694/Fruita-Housing-Authority"
+        "url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+        "structure_type": "municipal",
+        "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
+        "taxing_authority": false,
+        "bonding_authority": null,
+        "powers": ["partnership_coordination", "tax_abatement_programming", "land_ownership"],
+        "capacity_tier": "administrative",
+        "activity_evidence": {"recent_projects": ["Fruita Mews special limited partnership with IndiBuild"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "stewardship_capacity": "not_established_for_permanent_ownership",
+        "capacity_source": "https://www.fruita.org/m/newsflash/home/detail/27",
+        "capacity_last_verified": "2026-08-04",
+        "classification": "observed",
+        "verify": true
       }
     ],
+    "stewardship_providers": [{"provider_id": "hrwc"}],
     "advocacy": [
       {
         "name": "Grand Valley Catholic Outreach",
@@ -161,9 +186,22 @@
     "housingAuthority": [
       {
         "name": "Fruita Housing Authority",
-        "url": "https://www.fruita.org/694/Fruita-Housing-Authority"
+        "url": "https://www.fruita.org/694/Fruita-Housing-Authority",
+        "structure_type": "municipal",
+        "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
+        "taxing_authority": false,
+        "bonding_authority": null,
+        "powers": ["partnership_coordination", "tax_abatement_programming", "land_ownership"],
+        "capacity_tier": "administrative",
+        "activity_evidence": {"recent_projects": ["Fruita Mews special limited partnership with IndiBuild"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "stewardship_capacity": "not_established_for_permanent_ownership",
+        "capacity_source": "https://www.fruita.org/m/newsflash/home/detail/27",
+        "capacity_last_verified": "2026-08-04",
+        "classification": "observed",
+        "verify": true
       }
     ],
+    "stewardship_providers": [{"provider_id": "hrwc"}],
     "advocacy": [
       {
         "name": "HomewardBound of the Grand Valley",
@@ -171,23 +209,25 @@
       }
     ],
     "hospital": {
-      "name": "Vail Health Eagle / Eagle Care Clinic",
-      "url": "https://www.vailhealth.org/"
+      "name": "Family Health West",
+      "url": "https://fhw.org/patient-resources/about-fhw/",
+      "source_note": "Official Fruita hospital and regional health-care network page; fetched 2026-08-04."
     },
     "majorEmployers": [
       {
-        "name": "Eagle County Government",
-        "url": "https://www.eaglecounty.us/",
-        "note": "County runs Vail Valley workforce-housing programs"
+        "name": "Family Health West",
+        "url": "https://fhw.org/patient-resources/about-fhw/",
+        "note": "Official source identifies a Fruita-based hospital and regional health-care network; fetched 2026-08-04."
       },
       {
-        "name": "Vail Health (Edwards campus)",
-        "url": "https://www.vailhealth.org/"
+        "name": "City of Fruita",
+        "url": "https://www.fruita.org/",
+        "note": "Official municipal site; fetched 2026-08-04."
       },
       {
-        "name": "Eagle County School District",
-        "url": "https://www.eagleschools.net/",
-        "note": "Runs teacher workforce housing"
+        "name": "Mesa County Valley School District 51",
+        "url": "https://www.d51schools.org/",
+        "note": "Official page reports approximately 3,500 staff and identifies District 51 as Mesa County's largest employer; fetched 2026-08-04."
       }
     ]
   },
