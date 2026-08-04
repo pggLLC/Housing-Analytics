@@ -263,6 +263,15 @@
   }
 
   function maxAffordablePrice(ami4Person, amiPct, assumptions) {
+    // Phase 1 delegation: prefer the shared OwnershipFinance engine when it
+    // is loaded (browser pages load it first); the internal math below is an
+    // identical fallback so vm-loaded tests and engine-less contexts are
+    // byte-for-byte unchanged. Parity is asserted by test/ownership-finance.test.js.
+    var engine = typeof window !== 'undefined' && window.OwnershipFinance;
+    if (engine && typeof engine.maxAffordablePrice === 'function') {
+      return engine.maxAffordablePrice(ami4Person, amiPct,
+        Object.assign({}, CONSTANTS.affordabilityAssumptions, assumptions || {}));
+    }
     assumptions = Object.assign({}, CONSTANTS.affordabilityAssumptions, assumptions || {});
     var income = cleanNumber(ami4Person) * amiPct;
     if (!income) return null;

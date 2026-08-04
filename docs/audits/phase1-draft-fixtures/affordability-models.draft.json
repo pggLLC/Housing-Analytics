@@ -1,0 +1,135 @@
+{
+  "_DRAFT": "PLANNING FIXTURE — not wired to production. Phase 0 artifact for review. Destination when built: data/policy/affordability-models.json. Every unverified rate is marked verify:true and must be dated against a source before production use.",
+  "schema": "affordability-models/v1-draft",
+  "meta": {
+    "title": "Homeownership Affordability Model Registry (user-selectable)",
+    "as_of": "2026-08-04",
+    "default_model": "conservative_screening",
+    "guardrail": "\"Best outcome\" means best-matched to the actual buyer, product, and lender — NOT the model that shrinks the gap on paper. The engine must never auto-select the most permissive model and must attach the buyer-risk disclosure to any permissive result. A more permissive model shows more buying power by transferring risk to the buyer (higher payment burden, thinner equity, higher default exposure) and may fail a real lender/appraiser.",
+    "household_size_note": "Income is AMI adjusted by household size via HUD income limits by size (getIncomeLimits). household_size_default=4 preserves the current kernel output (backward-compat golden fixture maxAffordablePrice(100000,0.80)===289983). Smaller buyer households (typical of 1-2BR townhomes) have lower income limits, which increases the gap — do not leave this at 4 for a townhome study.",
+    "price_measure_note": "Compare against a jurisdiction-scoped, product-appropriate price: value (ZHVI/ACS B25077), closed sale (Redfin median_sale_price / CAR), or list (Redfin sale_to_list). For Fruita these converge ~ $486k-$494k; never substitute county for place, and never use an unsourced figure."
+  },
+  "models": [
+    {
+      "id": "conservative_screening",
+      "label": "Conservative screening (default)",
+      "default": true,
+      "params": {
+        "rateAnnual": 0.065, "rate_as_of": "shared HNA AFFORD assumption",
+        "termYears": 30, "downPaymentPct": 0.10,
+        "housingRatioType": "front", "housingRatio": 0.30,
+        "propertyTaxRate": 0.0065, "insuranceRate": 0.0035,
+        "pmiRate": 0.005, "pmiLtvGate": false,
+        "hoaMonthly": 0, "groundRentMonthly": 0, "borrowerMonthlyDebt": 0,
+        "household_size_default": 4
+      },
+      "implications": {
+        "who_it_fits": "Early planning and below-market for-sale screening.",
+        "gap_direction": "Most conservative — largest gap. Reproduces today's kernel.",
+        "buyer_risk": "Low-risk framing; may understate real buying power for a strong buyer.",
+        "lender_appraisal_acceptance": "Not a specific loan product; a planning proxy.",
+        "when_not_to_use": "When you know the actual first-mortgage product — use that model instead."
+      },
+      "source": "js/hna/hna-ownership-need.js CONSTANTS.affordabilityAssumptions / HNAUtils.AFFORD",
+      "last_verified": "2026-08-04", "classification": "modeled", "verify": false
+    },
+    {
+      "id": "first_time_buyer",
+      "label": "First-time buyer (low down + DPA)",
+      "params": {
+        "rateAnnual": 0.065, "termYears": 30, "downPaymentPct": 0.05,
+        "housingRatioType": "front", "housingRatio": 0.30,
+        "propertyTaxRate": 0.0065, "insuranceRate": 0.0085,
+        "pmiRate": 0.005, "pmiLtvGate": true,
+        "hoaMonthly": 0, "groundRentMonthly": 0, "borrowerMonthlyDebt": 0,
+        "household_size_default": 4
+      },
+      "implications": {
+        "who_it_fits": "First-time buyers pairing a low down payment with down-payment assistance.",
+        "gap_direction": "Lower cash to close, but PMI and full price financed raise monthly cost.",
+        "buyer_risk": "Thin equity at purchase; PMI until 20% equity; sensitive to price declines.",
+        "lender_appraisal_acceptance": "Common conventional 97/95 LTV path; verify PMI + DPA layering.",
+        "when_not_to_use": "When the buyer can put 20% down."
+      },
+      "source": "docs/AFFORDABILITY-METHODOLOGY.md (5% down scenario)", "last_verified": "2026-08-04",
+      "classification": "modeled", "verify": true
+    },
+    {
+      "id": "conventional_dti",
+      "label": "Conventional lender DTI (20% down / 43% back-end)",
+      "params": {
+        "rateAnnual": 0.065, "termYears": 30, "downPaymentPct": 0.20,
+        "housingRatioType": "back", "housingRatio": 0.43,
+        "propertyTaxRate": 0.0065, "insuranceRate": 0.0085,
+        "pmiRate": 0.0, "pmiLtvGate": true,
+        "hoaMonthly": 0, "groundRentMonthly": 0, "borrowerMonthlyDebt": 0,
+        "household_size_default": 4
+      },
+      "implications": {
+        "who_it_fits": "Move-up buyers with 20% down and little other debt.",
+        "gap_direction": "Most permissive — smallest gap. RISK-TRANSFER WARNING REQUIRED.",
+        "buyer_risk": "43% back-end DTI is a heavy payment burden; assumes no other debt (rarely true). Do NOT present a permissive result as 'affordable' without this disclosure.",
+        "lender_appraisal_acceptance": "Standard conforming underwriting; back-end DTI includes ALL debt — the tool must collect borrower debt or the result is optimistic.",
+        "when_not_to_use": "Screening/planning, or any buyer with existing debt not entered."
+      },
+      "source": "docs/AFFORDABILITY-METHODOLOGY.md (Fannie/Freddie 43% back-end)", "last_verified": "2026-08-04",
+      "classification": "modeled", "verify": true
+    },
+    {
+      "id": "fha_insured",
+      "label": "Federal FHA-insured (3.5% down)",
+      "params": {
+        "rateAnnual": 0.065, "termYears": 30, "downPaymentPct": 0.035,
+        "housingRatioType": "back", "housingRatio": 0.45,
+        "propertyTaxRate": 0.0065, "insuranceRate": 0.0085,
+        "mipUpfrontPct": 0.0175, "mipAnnualPct": 0.0055, "pmiLtvGate": false,
+        "hoaMonthly": 0, "groundRentMonthly": 0, "borrowerMonthlyDebt": 0,
+        "household_size_default": 4
+      },
+      "implications": {
+        "who_it_fits": "Credit-constrained first-time buyers (Federal Housing Administration loan — NOT the Fruita Housing Authority).",
+        "gap_direction": "Very low cash to close; MIP raises monthly cost and does not fall off.",
+        "buyer_risk": "Lifetime MIP; leasehold/CLT eligibility rules apply.",
+        "lender_appraisal_acceptance": "Verify current MIP and FHA leasehold/resale-restriction rules for the chosen land structure.",
+        "when_not_to_use": "When conventional or USDA is a better fit."
+      },
+      "source": "HUD FHA — VERIFY current MIP schedule", "last_verified": null,
+      "classification": "modeled", "verify": true
+    },
+    {
+      "id": "usda_rd",
+      "label": "USDA Rural Development (0% down, income-limited)",
+      "params": {
+        "rateAnnual": 0.065, "termYears": 30, "downPaymentPct": 0.0,
+        "housingRatioType": "back", "housingRatio": 0.41, "frontEndRatioCap": 0.29,
+        "propertyTaxRate": 0.0065, "insuranceRate": 0.0085,
+        "guaranteeFeeUpfrontPct": 0.01, "guaranteeFeeAnnualPct": 0.0035,
+        "hoaMonthly": 0, "groundRentMonthly": 0, "borrowerMonthlyDebt": 0,
+        "household_size_default": 4,
+        "income_limit_note": "Hard income cap (RD income limits), site rural-eligibility, and resale-restriction compatibility apply."
+      },
+      "implications": {
+        "who_it_fits": "Income-eligible buyers in USDA-eligible rural areas — Fruita/Mesa is likely eligible (VERIFY the specific site).",
+        "gap_direction": "0% down removes the cash barrier; strict income caps limit who qualifies.",
+        "buyer_risk": "No equity cushion at purchase; guarantee fee adds cost.",
+        "lender_appraisal_acceptance": "Verify site eligibility, income limits, and ground-lease/resale-restriction compatibility with RD.",
+        "when_not_to_use": "Non-rural sites or above the income cap."
+      },
+      "source": "USDA RD 502 Direct/Guaranteed — VERIFY current limits + Fruita site eligibility", "last_verified": null,
+      "classification": "modeled", "verify": true
+    },
+    {
+      "id": "custom",
+      "label": "Custom (user sets all parameters)",
+      "params": { "household_size_default": 4 },
+      "implications": {
+        "who_it_fits": "Advanced users / underwriters modeling a specific product.",
+        "gap_direction": "Depends entirely on entered assumptions.",
+        "buyer_risk": "User-owned; the tool still shows the risk disclosure if the entered ratios are aggressive.",
+        "lender_appraisal_acceptance": "User responsibility.",
+        "when_not_to_use": "When a named product model already fits."
+      },
+      "source": "user-entered", "last_verified": null, "classification": "user_entered", "verify": true
+    }
+  ]
+}
