@@ -1,0 +1,110 @@
+{
+  "schema": "land-disposition-models/v1",
+  "meta": {
+    "as_of": "2026-08-04",
+    "note": "Comparison inputs only; the tool presents labeled trade-offs for human review.",
+    "source_verification_note": "Legal, tax, lender, and appraisal treatments are VERIFY until confirmed by the named validator.",
+    "tax_semantics_sources": [
+      "docs/methodology/HOUSING-AUTHORITY-STRUCTURES-AND-POWERS.md",
+      "docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md"
+    ]
+  },
+  "models": [
+    {
+      "id": "model_a_public_land_retention",
+      "label": "Public land retention (99-year ground lease / CLT-style)",
+      "price_includes_land": false,
+      "property_tax_treatment": "exempt_while_authority_owns",
+      "benefit_basis": "full_land_value",
+      "assessments": {
+        "appraised_value_treatment": {"value": "leasehold_interest", "verify": true, "validator": "appraiser"},
+        "buyer_mortgageability": {"value": "lender_program_dependent", "verify": true, "validator": "lender"},
+        "property_tax_implication": {"value": "exemption_ends_on_fee_simple_sale", "verify": true, "validator": "assessor", "note": "Improvements-basis treatment while the authority owns the land requires county-assessor and counsel confirmation."},
+        "ground_rent_burden": {"value": "buyer_monthly_obligation", "verify": true, "validator": "administrator"},
+        "future_affordability": {"value": "lease_controls_required", "verify": true, "validator": "attorney"},
+        "public_control": {"value": "land_title_retained", "verify": true, "validator": "attorney"},
+        "foreclosure_exposure": {"value": "leasehold_and_lender_terms_apply", "verify": true, "validator": "lender"},
+        "resale_administration": {"value": "ongoing_steward_review", "verify": true, "validator": "administrator"},
+        "steward_replaceability": {"value": "document_dependent", "verify": true, "validator": "attorney"},
+        "public_subsidy_preservation": {"value": "land_value_retained", "verify": true, "validator": "administrator"},
+        "administrative_cost": {"value": "ongoing_high_touch", "verify": true, "validator": "administrator"},
+        "buyer_acceptance": {"value": "ground_lease_familiarity_dependent", "verify": true, "validator": "administrator"},
+        "legal_document_complexity": {"value": "ground_lease_and_resale_controls", "verify": true, "validator": "attorney"},
+        "failure_risk": {"value": "steward_capacity_and_lease_enforcement", "verify": true, "validator": "administrator"},
+        "initial_benefit": {"value": "land_value_excluded", "verify": true, "validator": "appraiser"}
+      }
+    },
+    {
+      "id": "model_b_discounted_lot_covenant",
+      "label": "Discounted lot sale with covenant",
+      "price_includes_land": true,
+      "property_tax_treatment": "fee_simple_taxable",
+      "benefit_basis": "discount_share",
+      "assessments": {
+        "appraised_value_treatment": {"value": "fee_simple_with_covenant", "verify": true, "validator": "appraiser"},
+        "buyer_mortgageability": {"value": "covenant_lender_review", "verify": true, "validator": "lender"},
+        "property_tax_implication": {"value": "fee_simple_taxable_restricted_basis_possible", "verify": true, "validator": "assessor", "note": "Any restricted-value assessment requires county-assessor confirmation."},
+        "ground_rent_burden": {"value": "none", "verify": true, "validator": "administrator"},
+        "future_affordability": {"value": "covenant_controls_required", "verify": true, "validator": "attorney"},
+        "public_control": {"value": "covenant_enforcement_only", "verify": true, "validator": "attorney"},
+        "foreclosure_exposure": {"value": "covenant_survival_document_dependent", "verify": true, "validator": "lender"},
+        "resale_administration": {"value": "covenant_compliance_review", "verify": true, "validator": "administrator"},
+        "steward_replaceability": {"value": "assignment_document_dependent", "verify": true, "validator": "attorney"},
+        "public_subsidy_preservation": {"value": "discount_recovery_terms_required", "verify": true, "validator": "administrator"},
+        "administrative_cost": {"value": "ongoing_moderate_touch", "verify": true, "validator": "administrator"},
+        "buyer_acceptance": {"value": "fee_simple_with_restrictions", "verify": true, "validator": "administrator"},
+        "legal_document_complexity": {"value": "sale_covenant_and_resale_controls", "verify": true, "validator": "attorney"},
+        "failure_risk": {"value": "covenant_enforcement_and_recovery", "verify": true, "validator": "administrator"},
+        "initial_benefit": {"value": "entered_land_discount", "verify": true, "validator": "appraiser"}
+      }
+    },
+    {
+      "id": "model_c_full_sale_deed_restriction",
+      "label": "Full land sale with deed restriction",
+      "price_includes_land": true,
+      "property_tax_treatment": "fee_simple_taxable",
+      "benefit_basis": "write_down_share",
+      "assessments": {
+        "appraised_value_treatment": {"value": "fee_simple_deed_restricted", "verify": true, "validator": "appraiser"},
+        "buyer_mortgageability": {"value": "deed_restriction_lender_review", "verify": true, "validator": "lender"},
+        "property_tax_implication": {"value": "fee_simple_taxable_restricted_basis_possible", "verify": true, "validator": "assessor", "note": "The buyer pays property tax; any restricted-value assessment requires county-assessor confirmation."},
+        "ground_rent_burden": {"value": "none", "verify": true, "validator": "administrator"},
+        "future_affordability": {"value": "deed_controls_required", "verify": true, "validator": "attorney"},
+        "public_control": {"value": "deed_enforcement_only", "verify": true, "validator": "attorney"},
+        "foreclosure_exposure": {"value": "restriction_survival_document_dependent", "verify": true, "validator": "lender"},
+        "resale_administration": {"value": "deed_compliance_review", "verify": true, "validator": "administrator"},
+        "steward_replaceability": {"value": "assignment_document_dependent", "verify": true, "validator": "attorney"},
+        "public_subsidy_preservation": {"value": "write_down_recovery_terms_required", "verify": true, "validator": "administrator"},
+        "administrative_cost": {"value": "ongoing_moderate_touch", "verify": true, "validator": "administrator"},
+        "buyer_acceptance": {"value": "fee_simple_with_restrictions", "verify": true, "validator": "administrator"},
+        "legal_document_complexity": {"value": "deed_restriction_and_resale_controls", "verify": true, "validator": "attorney"},
+        "failure_risk": {"value": "deed_enforcement_and_recovery", "verify": true, "validator": "administrator"},
+        "initial_benefit": {"value": "entered_write_down_only", "verify": true, "validator": "appraiser"}
+      }
+    },
+    {
+      "id": "model_d_master_ground_lease",
+      "label": "Master ground lease to a steward",
+      "price_includes_land": false,
+      "property_tax_treatment": "exempt_while_authority_owns",
+      "benefit_basis": "full_land_value",
+      "assessments": {
+        "appraised_value_treatment": {"value": "leasehold_under_master_lease", "verify": true, "validator": "appraiser"},
+        "buyer_mortgageability": {"value": "master_lease_lender_review", "verify": true, "validator": "lender"},
+        "property_tax_implication": {"value": "exemption_ends_on_fee_simple_sale", "verify": true, "validator": "assessor", "note": "Improvements-basis treatment while the authority owns the land requires county-assessor and counsel confirmation."},
+        "ground_rent_burden": {"value": "buyer_monthly_obligation", "verify": true, "validator": "administrator"},
+        "future_affordability": {"value": "master_lease_controls_required", "verify": true, "validator": "attorney"},
+        "public_control": {"value": "land_title_retained_steward_delegated", "verify": true, "validator": "attorney"},
+        "foreclosure_exposure": {"value": "master_and_home_lease_terms_apply", "verify": true, "validator": "lender"},
+        "resale_administration": {"value": "steward_operated_review", "verify": true, "validator": "administrator"},
+        "steward_replaceability": {"value": "master_lease_remedy_dependent", "verify": true, "validator": "attorney"},
+        "public_subsidy_preservation": {"value": "land_value_retained", "verify": true, "validator": "administrator"},
+        "administrative_cost": {"value": "delegated_with_public_oversight", "verify": true, "validator": "administrator"},
+        "buyer_acceptance": {"value": "ground_lease_familiarity_dependent", "verify": true, "validator": "administrator"},
+        "legal_document_complexity": {"value": "master_lease_home_lease_and_controls", "verify": true, "validator": "attorney"},
+        "failure_risk": {"value": "steward_capacity_and_master_lease_remedies", "verify": true, "validator": "administrator"},
+        "initial_benefit": {"value": "land_value_excluded", "verify": true, "validator": "appraiser"}
+      }
+    }
+  ]
+}
