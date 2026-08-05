@@ -532,6 +532,21 @@ async function checkUrl(url) {
     return { url, status: "ALLOW", http: null, message: "allow-listed" };
   }
 
+  // Self-domain URLs (production site) are healthy iff the corresponding
+  // file exists in this repo — the deployed page IS the repo file. Probing
+  // production for a page that ships in the same PR is a guaranteed 404
+  // (chicken-and-egg: first hit adding for-sale-market-study.html, #1405).
+  const selfPrefix = "https://cohoanalytics.com/";
+  if (url.startsWith(selfPrefix)) {
+    const rel = url.slice(selfPrefix.length).split(/[?#]/)[0] || "index.html";
+    try {
+      await fs.access(path.join(ROOT, rel));
+      return { url, status: "SELF", http: null, message: "self-domain — repo file exists" };
+    } catch {
+      return { url, status: "FAIL", http: 404, message: "self-domain — no matching repo file" };
+    }
+  }
+
   const ac = new AbortController();
   const timeout = setTimeout(() => ac.abort(), TIMEOUT_MS);
   try {
