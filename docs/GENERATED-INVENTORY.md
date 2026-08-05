@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T05:35:34.691Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T11:54:53.575Z. Do not edit by hand.
 
 ---
 
@@ -122,7 +122,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 237.6 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 238.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fred-data.json` | 1.25 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
@@ -1554,7 +1554,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 198.5 KB | ✅ | — |
+| `data/manifest.json` | 199.0 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1610,7 +1610,7 @@
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 18.2 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 18.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
@@ -1650,7 +1650,7 @@
 
 ## Test Files
 
-260 test files found.
+261 test files found.
 
 | File | Size |
 |------|------|
@@ -1699,6 +1699,7 @@
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 12.5 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
+| `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
@@ -1791,7 +1792,7 @@
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
 | `test/ownership-finance.test.js` | 22.3 KB |
-| `test/ownership-funding-schema.test.js` | 4.6 KB |
+| `test/ownership-funding-schema.test.js` | 5.5 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
