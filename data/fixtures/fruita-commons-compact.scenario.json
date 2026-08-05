@@ -1,0 +1,70 @@
+{
+  "schema": "project-scenario/v1",
+  "meta": {
+    "name": "Fruita Commons — baseline",
+    "status": "hypothesis_to_test",
+    "as_of": "2026-08-05",
+    "classification_note": "Every modeled project value carries an explicit classification.",
+    "owner_inputs_pending": ["tdc_build_up", "land_value", "phasing", "hrwc_terms", "development_partner", "lender"]
+  },
+  "jurisdiction": { "place_geoid": "0828745", "county_fips": "08077", "name": "Fruita" },
+  "partners": [
+    { "role": "land_owner", "name": "Fruita Housing Authority", "provider_id": null, "is_commitment": false, "classification": "user_entered" },
+    { "role": "steward", "name": null, "provider_id": "hrwc", "is_commitment": false, "classification": "user_entered", "note": "candidate only — general availability, no project commitment" },
+    { "role": "developer", "name": null, "provider_id": null, "is_commitment": false, "verify": true, "owner_input_required": true, "classification": "not_available", "note": "no development agreement exists; Fruita Mews partnership is capacity evidence, not a commitment" },
+    { "role": "lender", "name": null, "provider_id": null, "is_commitment": false, "verify": true, "owner_input_required": true, "classification": "not_available" }
+  ],
+  "local_baseline": {
+    "ami_4person": { "value": 97600, "classification": "observed", "source": "data/co_ami_gap_by_county.json (HUD)" },
+    "home_value": { "value": 486295, "classification": "observed", "source": "data/hna/home-value-cascade.json (Fruita place ZHVI)", "as_of": "2026-05-31" },
+    "median_sale_price": { "value": 489439, "classification": "observed", "source": "data/market/redfin_place_market_tracker_co.json (Redfin closed sales)" }
+  },
+  "program": {
+    "variant_note": { "value": "Lower-cost compact mix shifts units toward smaller one- and two-bedroom homes.", "classification": "modeled" },
+    "total_units": { "value": 50, "classification": "user_entered" },
+    "unit_mix": [
+      { "bedrooms": 1, "count": 12, "sqft_range": [650, 750], "flex_accessible": true, "classification": "modeled" },
+      { "bedrooms": 2, "count": 26, "sqft_range": [800, 950], "flex_accessible": false, "classification": "modeled" },
+      { "bedrooms": 3, "count": 10, "sqft_range": [1050, 1200], "flex_accessible": false, "classification": "modeled" },
+      { "bedrooms": 4, "count": 2, "sqft_range": [1250, 1400], "flex_accessible": true, "classification": "modeled" }
+    ],
+    "ami_mix": [
+      { "band": [0.70, 0.80], "count": 10, "representative_bedrooms": 1, "classification": "user_entered" },
+      { "band": [0.80, 0.90], "count": 15, "representative_bedrooms": 2, "classification": "user_entered" },
+      { "band": [0.90, 1.00], "count": 15, "representative_bedrooms": 3, "classification": "user_entered" },
+      { "band": [1.00, 1.20], "count": 10, "representative_bedrooms": 4, "classification": "user_entered" }
+    ],
+    "tenure_form": { "value": "townhome", "classification": "user_entered" }
+  },
+  "land": {
+    "owner": "Fruita Housing Authority",
+    "disposition_model": "model_a_public_land_retention",
+    "hypothesis_to_test": true,
+    "land_value_per_unit": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
+  },
+  "costs": {
+    "tdc": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "hard_cost": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "soft_cost": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "developer_fee": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "contingency": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "sales_cost": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" },
+    "financing_cost": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
+  },
+  "carrying": {
+    "hoa_monthly": { "range": [175, 225], "higher_cost_scenario": 300, "classification": "user_entered" },
+    "property_tax": { "treatment": "from_land_disposition_model", "classification": "derived" }
+  },
+  "assistance_ranges": [
+    { "band": [0.70, 0.80], "range": [75000, 110000], "is_commitment": false, "classification": "user_entered" },
+    { "band": [0.80, 0.90], "range": [50000, 85000], "is_commitment": false, "classification": "user_entered" },
+    { "band": [0.90, 1.00], "range": [25000, 60000], "is_commitment": false, "classification": "user_entered" },
+    { "band": [1.00, 1.20], "range": [0, 35000], "is_commitment": false, "classification": "user_entered" }
+  ],
+  "stewardship": {
+    "candidate_provider_id": "hrwc",
+    "is_commitment": false,
+    "terms": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
+  },
+  "phasing": { "value": null, "verify": true, "owner_input_required": true, "classification": "not_available" }
+}
