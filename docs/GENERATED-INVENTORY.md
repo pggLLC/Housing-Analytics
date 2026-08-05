@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T12:24:48.664Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T12:39:59.291Z. Do not edit by hand.
 
 ---
 
@@ -68,11 +68,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1573 JSON files found.
+1577 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 758.6 KB | ✅ | — |
+| `data/_manifest.json` | 761.4 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -124,6 +124,10 @@
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
 | `data/discovery-reports/latest.json` | 238.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
+| `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
+| `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
+| `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
+| `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.25 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
@@ -1650,7 +1654,7 @@
 
 ## Test Files
 
-261 test files found.
+262 test files found.
 
 | File | Size |
 |------|------|
@@ -1824,6 +1828,7 @@
 | `test/polymarket-resolved.test.js` | 2.9 KB |
 | `test/preservation.test.js` | 16.7 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
+| `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
