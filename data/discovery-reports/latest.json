@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-08-04T09:31:47.821Z",
-  "totalScanned": 1608,
-  "newSourceCount": 1577,
+  "scanTimestamp": "2026-08-05T09:28:44.222Z",
+  "totalScanned": 1612,
+  "newSourceCount": 1581,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 774392,
+      "sizeBytes": 776843,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4796,7 +4796,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 176383,
+      "sizeBytes": 179229,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9241,6 +9241,18 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/affordability-models.json",
+      "sizeBytes": 8737,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/buyer-assistance-programs.json",
+      "sizeBytes": 1884,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/chfa-awards-historical.json",
       "sizeBytes": 10935,
       "inDataManifest": false,
@@ -9260,7 +9272,7 @@
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 4576,
+      "sizeBytes": 18659,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9285,6 +9297,12 @@
     {
       "path": "data/policy/jurisdiction-housing-progress.json",
       "sizeBytes": 35179,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/land-disposition-models.json",
+      "sizeBytes": 9103,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9325,8 +9343,14 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/policy/stewardship-providers.json",
+      "sizeBytes": 1718,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/policy/tax-credit-legislation.json",
-      "sizeBytes": 11882,
+      "sizeBytes": 13451,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9350,7 +9374,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20077,
+      "sizeBytes": 20052,
       "inDataManifest": false,
       "inFilesManifest": true
     },
