@@ -75,9 +75,9 @@
     var stage = funnelResult.stages && funnelResult.stages.find(function (item) { return item.id === 'contract_fallout'; });
     return stage && finite(stage.share) ? stage.share : null;
   }
-  function grossFigure(closings, fallout) {
-    if (fallout === null || fallout >= 1) return unavailableFigure('One minus the Phase-6 contract_fallout stage share');
-    return figure(closings / (1 - fallout), 1 - fallout, 'One minus the Phase-6 contract_fallout stage share');
+  function grossFigure(closings, survivalShare) {
+    if (survivalShare === null || survivalShare === 0) return unavailableFigure('the Phase-6 contract_fallout survival share');
+    return figure(closings / survivalShare, survivalShare, 'the Phase-6 contract_fallout survival share');
   }
   function scenarioUnitsByAmi(scenarioDoc) {
     var out = {};
@@ -145,7 +145,7 @@
       classification: 'modeled',
       monthlyClosings: monthly,
       annualClosings: annual,
-      grossContractsNeeded: unavailable ? unavailableFigure('One minus the Phase-6 contract_fallout stage share') : grossFigure(total, fallout),
+      grossContractsNeeded: unavailable ? unavailableFigure('the Phase-6 contract_fallout survival share') : grossFigure(total, fallout),
       annualCaptureRate: annualCapture,
       totalProjectPenetration: unavailable ? unavailableFigure('Phase-6 modeled effective demand') : funnelResult.effectiveDemand === 0
         ? figure(NOT_AVAILABLE, 0, 'Phase-6 modeled effective demand', ZERO_POOL)
