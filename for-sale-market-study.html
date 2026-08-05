@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65">
+  <title>For-Sale Market Study Screening | COHO Analytics</title>
+  <meta name="description" content="Compare for-sale project scenarios, land structures, shared-equity conventions, resale settlements, effective demand, and capture scenarios.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/hna/ownership-finance.js"></script>
+  <script defer src="js/hna/hna-ownership-need.js"></script>
+  <script defer src="js/project-market-study/project-scenario.js"></script>
+  <script defer src="js/project-market-study/shared-equity-lifecycle.js"></script>
+  <script defer src="js/project-market-study/resale-waterfall.js"></script>
+  <script defer src="js/project-market-study/effective-demand.js"></script>
+  <script defer src="js/project-market-study/forsale-capture.js"></script>
+  <script>
+    window.marketStudyLandModelsReady = fetch('data/policy/land-disposition-models.json')
+      .then(function (response) { return response.json(); })
+      .then(function (dataset) { window.LandDispositionModels = dataset; });
+  </script>
+  <style>
+    .ms-shell { max-width: 1400px; margin: 0 auto; padding: 28px 18px 56px; }
+    .ms-hero { margin-bottom: 22px; }
+    .ms-hero p { max-width: 76ch; color: var(--muted); line-height: 1.55; }
+    .ms-section { margin-top: 18px; min-width: 0; overflow: hidden; }
+    .ms-section h2 { margin-top: 0; }
+    .ms-section select, .ms-section input { min-height: 44px; border: 1px solid var(--border); border-radius: 4px; background: var(--card); color: var(--text); padding: 7px 9px; }
+    .ms-grid, .ms-card-grid, .ms-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .ms-subcard { min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; background: var(--bg2); }
+    .ms-subcard h3 { margin-top: 0; }
+    .ms-table-wrap { width: 100%; overflow-x: auto; margin: 12px 0; }
+    .ms-table-wrap table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    .ms-table-wrap th, .ms-table-wrap td { padding: 8px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+    .ms-table-wrap th { background: var(--bg2); }
+    .ms-pill, .ms-verify { display: inline-flex; min-height: 24px; align-items: center; border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; background: var(--card); color: var(--text); font-size: .75rem; font-weight: 700; }
+    .ms-verify { border-color: var(--accent); color: var(--accent); }
+    .ms-caveat { color: var(--muted); font-size: .86rem; }
+    .ms-unavailable { color: var(--muted); font-weight: 700; }
+    .ms-finding { color: var(--accent); }
+    .ms-denominator { display: block; color: var(--muted); font-size: .76rem; margin-top: 2px; }
+    .ms-warning { display: block; margin: 12px 0; border: 2px solid var(--accent); border-radius: var(--radius); padding: 12px; background: var(--bg2); color: var(--text); }
+    .ms-share-input { width: 100px; }
+    .ms-footer-note { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--muted); line-height: 1.55; }
+    @media (max-width: 700px) { .ms-shell { padding-inline: 12px; } .ms-grid, .ms-card-grid, .ms-controls { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body data-page-last-updated="2026-08-05" data-page-source="Project Scenario · policy datasets · HNA ownership screen">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header"></header>
+  <main id="main-content" class="ms-shell">
+    <header class="ms-hero">
+      <p><a href="housing-needs-assessment.html">Housing Needs Assessment</a> / <a href="deal-calculator.html">Deal Calculator</a></p>
+      <h1>For-Sale Market Study <span class="ms-pill">screening</span></h1>
+      <p>Compare project hypotheses and engine outputs in dataset and specification order. The honest default retains unresolved funnel assumptions as labeled unavailability and shows what evidence is needed.</p>
+    </header>
+    <div id="marketStudyMount" aria-live="polite">
+      <div class="ms-warning">Loading real project fixtures and policy datasets…</div>
+    </div>
+    <footer class="ms-footer-note">
+      <strong>Standing disclosure:</strong> This is a screening estimate, not a completed market study. Verification parties include the project owner, broker, lender, appraiser, assessor, attorney, steward, administrator, and a professional market analyst. Methods are exposed through classification pills, evidence-basis text, engine denominators, policy-source links, and caveats; no displayed scenario is a prediction.
+    </footer>
+  </main>
+  <footer class="site-footer"></footer>
+  <script>
+    window.MARKET_STUDY_SCENARIO_FILES = [
+      'fruita-commons.scenario.json',
+      'fruita-commons-compact.scenario.json',
+      'fruita-commons-family.scenario.json',
+      'fruita-commons-broad-income.scenario.json'
+    ];
+    document.addEventListener('DOMContentLoaded', function () {
+      window.marketStudyLandModelsReady.then(function () {
+        var landScript = document.createElement('script');
+        landScript.src = 'js/project-market-study/land-disposition.js';
+        landScript.onload = function () {
+          var pageScript = document.createElement('script');
+          pageScript.src = 'js/project-market-study/market-study-page.js';
+          pageScript.onload = function () { window.MarketStudyPage.init(); };
+          document.body.appendChild(pageScript);
+        };
+        document.body.appendChild(landScript);
+      }).catch(function (error) {
+        document.getElementById('marketStudyMount').innerHTML = '<div class="ms-warning" role="alert">not_available — policy dataset could not be loaded: ' + error.message + '</div>';
+      });
+    });
+  </script>
+</body>
+</html>
