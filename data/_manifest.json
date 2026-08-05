@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-08-05T11:46:21.796Z",
+    "generated_at": "2026-08-05T12:26:15.283Z",
     "root": "data/",
-    "file_count": 1607,
-    "total_size_bytes": 155063606,
+    "file_count": 1611,
+    "total_size_bytes": 155084196,
     "kinds": {
-      "json": 1572,
+      "json": 1576,
       "geojson": 31,
       "csv": 4
     }
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 6259,
-      "mtime": "2026-08-05T11:45:34.491Z",
+      "mtime": "2026-08-05T12:25:57.243Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-08-05T11:45:34.776Z",
+      "mtime": "2026-08-05T12:25:57.400Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -733,7 +733,7 @@
       "path": "census-multifamily-co.json",
       "kind": "json",
       "size_bytes": 118702,
-      "mtime": "2026-08-05T11:45:34.777Z",
+      "mtime": "2026-08-05T12:25:57.244Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -847,7 +847,7 @@
       "path": "co-county-demographics.json",
       "kind": "json",
       "size_bytes": 24155,
-      "mtime": "2026-08-05T11:45:34.777Z",
+      "mtime": "2026-08-05T12:25:57.245Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1213,7 +1213,7 @@
       "path": "discovery-reports/latest.json",
       "kind": "json",
       "size_bytes": 243908,
-      "mtime": "2026-08-05T11:45:34.778Z",
+      "mtime": "2026-08-05T12:25:57.246Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -1279,10 +1279,134 @@
       "geometry_type": "Polygon"
     },
     {
+      "path": "fixtures/fruita-commons-broad-income.scenario.json",
+      "kind": "json",
+      "size_bytes": 5332,
+      "mtime": "2026-08-05T12:25:57.247Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "jurisdiction",
+        "partners",
+        "local_baseline",
+        "program",
+        "land",
+        "costs",
+        "carrying",
+        "assistance_ranges",
+        "stewardship",
+        "phasing"
+      ],
+      "key_count": 12,
+      "primary_array_key": "partners",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "provider_id",
+        "is_commitment",
+        "classification"
+      ]
+    },
+    {
+      "path": "fixtures/fruita-commons-compact.scenario.json",
+      "kind": "json",
+      "size_bytes": 5130,
+      "mtime": "2026-08-05T12:25:57.248Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "jurisdiction",
+        "partners",
+        "local_baseline",
+        "program",
+        "land",
+        "costs",
+        "carrying",
+        "assistance_ranges",
+        "stewardship",
+        "phasing"
+      ],
+      "key_count": 12,
+      "primary_array_key": "partners",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "provider_id",
+        "is_commitment",
+        "classification"
+      ]
+    },
+    {
+      "path": "fixtures/fruita-commons-family.scenario.json",
+      "kind": "json",
+      "size_bytes": 5122,
+      "mtime": "2026-08-05T12:25:57.248Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "jurisdiction",
+        "partners",
+        "local_baseline",
+        "program",
+        "land",
+        "costs",
+        "carrying",
+        "assistance_ranges",
+        "stewardship",
+        "phasing"
+      ],
+      "key_count": 12,
+      "primary_array_key": "partners",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "provider_id",
+        "is_commitment",
+        "classification"
+      ]
+    },
+    {
+      "path": "fixtures/fruita-commons.scenario.json",
+      "kind": "json",
+      "size_bytes": 5006,
+      "mtime": "2026-08-05T12:25:57.248Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "jurisdiction",
+        "partners",
+        "local_baseline",
+        "program",
+        "land",
+        "costs",
+        "carrying",
+        "assistance_ranges",
+        "stewardship",
+        "phasing"
+      ],
+      "key_count": 12,
+      "primary_array_key": "partners",
+      "primary_array_length": 4,
+      "primary_array_first_keys": [
+        "role",
+        "name",
+        "provider_id",
+        "is_commitment",
+        "classification"
+      ]
+    },
+    {
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1308241,
-      "mtime": "2026-08-05T11:45:34.781Z",
+      "mtime": "2026-08-05T12:25:57.251Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1316,7 +1440,7 @@
       "path": "hmda/co-county-aggregates.json",
       "kind": "json",
       "size_bytes": 246619,
-      "mtime": "2026-08-05T11:45:34.782Z",
+      "mtime": "2026-08-05T12:25:57.253Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1331,7 +1455,7 @@
       "path": "hmda/co-state-trends.json",
       "kind": "json",
       "size_bytes": 3693,
-      "mtime": "2026-08-05T11:45:34.782Z",
+      "mtime": "2026-08-05T12:25:57.254Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -16604,7 +16728,7 @@
       "path": "hna/local-resources.json",
       "kind": "json",
       "size_bytes": 179229,
-      "mtime": "2026-08-05T11:45:34.493Z",
+      "mtime": "2026-08-05T12:25:57.255Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -30196,7 +30320,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 203820,
-      "mtime": "2026-08-05T11:45:34.783Z",
+      "mtime": "2026-08-05T12:25:57.256Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31593,7 +31717,7 @@
       "path": "multifamily-inventory-co.json",
       "kind": "json",
       "size_bytes": 92896,
-      "mtime": "2026-08-05T11:45:34.784Z",
+      "mtime": "2026-08-05T12:25:57.257Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31643,7 +31767,7 @@
       "path": "policy/affordability-models.json",
       "kind": "json",
       "size_bytes": 8737,
-      "mtime": "2026-08-05T11:45:34.493Z",
+      "mtime": "2026-08-05T12:25:57.257Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -31669,7 +31793,7 @@
       "path": "policy/buyer-assistance-programs.json",
       "kind": "json",
       "size_bytes": 1884,
-      "mtime": "2026-08-05T11:45:34.494Z",
+      "mtime": "2026-08-05T12:25:57.258Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -31769,7 +31893,7 @@
       "path": "policy/developer-ownership-funding.json",
       "kind": "json",
       "size_bytes": 19246,
-      "mtime": "2026-08-05T11:45:34.495Z",
+      "mtime": "2026-08-05T12:25:57.258Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -31878,7 +32002,7 @@
       "path": "policy/land-disposition-models.json",
       "kind": "json",
       "size_bytes": 9103,
-      "mtime": "2026-08-05T11:45:34.496Z",
+      "mtime": "2026-08-05T12:25:57.259Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32058,7 +32182,7 @@
       "path": "policy/stewardship-providers.json",
       "kind": "json",
       "size_bytes": 1718,
-      "mtime": "2026-08-05T11:45:34.496Z",
+      "mtime": "2026-08-05T12:25:57.259Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32087,7 +32211,7 @@
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
       "size_bytes": 13451,
-      "mtime": "2026-08-05T11:45:34.496Z",
+      "mtime": "2026-08-05T12:25:57.260Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32198,7 +32322,7 @@
       "path": "polymarket-data.json",
       "kind": "json",
       "size_bytes": 20052,
-      "mtime": "2026-08-05T11:45:34.785Z",
+      "mtime": "2026-08-05T12:25:57.260Z",
       "shape": "object",
       "keys": [
         "updated",
