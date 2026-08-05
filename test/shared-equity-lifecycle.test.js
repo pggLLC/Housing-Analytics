@@ -408,11 +408,22 @@ test('percent/decimal guard rejects whole-percent rate input', () => {
   })), /decimal rate/);
 });
 
-test('package.json wires the lifecycle suite immediately after ownership finance', () => {
+test('package.json wires the lifecycle suite after ownership finance and before ownership resale', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
   assert(pkg.scripts['test:shared-equity-lifecycle']);
   const chain = pkg.scripts['test:ci'];
-  assert(chain.includes('test:ownership-finance && npm run test:shared-equity-lifecycle && npm run test:ownership-resale'));
+  // Ordering, not adjacency: later phases legitimately insert their suites
+  // (resale-waterfall, land-disposition, Phase-3 datasets) between the
+  // lifecycle and ownership-resale. The original exact-adjacency assertion
+  // could only be satisfied together with the Phase-2b ordering test by
+  // duplicating the trio at the end of test:ci, running three suites twice
+  // per CI pass.
+  assert(chain.indexOf('test:ownership-finance') !== -1, 'ownership-finance wired');
+  assert(chain.indexOf('test:shared-equity-lifecycle') !== -1, 'lifecycle wired');
+  assert(chain.indexOf('test:ownership-finance') < chain.indexOf('test:shared-equity-lifecycle'),
+    'lifecycle runs after ownership finance');
+  assert(chain.indexOf('test:shared-equity-lifecycle') < chain.indexOf('test:ownership-resale'),
+    'lifecycle runs before ownership resale');
 });
 
 console.log('\nShared-equity lifecycle: ' + passed + ' passed, ' + failed + ' failed');
