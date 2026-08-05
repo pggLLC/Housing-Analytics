@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T11:54:53.575Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T12:24:48.664Z. Do not edit by hand.
 
 ---
 
@@ -1839,7 +1839,7 @@
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
-| `test/shared-equity-lifecycle.test.js` | 16.7 KB |
+| `test/shared-equity-lifecycle.test.js` | 17.4 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
