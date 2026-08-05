@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-04T09:31:47.821Z
+**Scan timestamp:** 2026-08-05T09:28:44.222Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1608 |
-| New (unregistered) | 1577 |
+| Files scanned | 1612 |
+| New (unregistered) | 1581 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (756 KB)
+- `data/_manifest.json` (759 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -812,7 +812,7 @@
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (28 KB)
-- `data/hna/local-resources.json` (172 KB)
+- `data/hna/local-resources.json` (175 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
@@ -1553,21 +1553,25 @@
 - `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/pipeline/content.json` (34 KB)
+- `data/policy/affordability-models.json` (9 KB)
+- `data/policy/buyer-assistance-programs.json` (2 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
-- `data/policy/developer-ownership-funding.json` (4 KB)
+- `data/policy/developer-ownership-funding.json` (18 KB)
 - `data/policy/homeownership-programs.json` (16 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
 - `data/policy/jurisdiction-housing-progress.json` (34 KB)
+- `data/policy/land-disposition-models.json` (9 KB)
 - `data/policy/lihtc-assumptions.json` (4 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
 - `data/policy/resale-conventions.json` (3 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
-- `data/policy/tax-credit-legislation.json` (12 KB)
+- `data/policy/stewardship-providers.json` (2 KB)
+- `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy_briefs.json` (173 KB)
 - `data/policy_briefs_curated.json` (4 KB)
