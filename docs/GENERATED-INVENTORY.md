@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T13:29:45.059Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T14:18:11.445Z. Do not edit by hand.
 
 ---
 
@@ -1654,7 +1654,7 @@
 
 ## Test Files
 
-263 test files found.
+264 test files found.
 
 | File | Size |
 |------|------|
@@ -1725,6 +1725,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
+| `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 2.5 KB |
 | `test/funding-context-card.test.js` | 7.5 KB |
 | `test/geo-config-county-consistency.test.js` | 2.1 KB |
