@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-04T22:34:17.120Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T05:35:34.691Z. Do not edit by hand.
 
 ---
 
@@ -41,7 +41,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.1 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1650,7 +1650,7 @@
 
 ## Test Files
 
-259 test files found.
+260 test files found.
 
 | File | Size |
 |------|------|
@@ -1740,6 +1740,7 @@
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.1 KB |
+| `test/hna-ownership-strategy.test.js` | 7.3 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 7.3 KB |

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-08-04T09:39:09.258644Z",
+  "generated": "2026-08-05T09:37:34.256478Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 774392
+      "bytes": 776843
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 243282
+      "bytes": 243908
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -309,7 +309,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1307783
+      "bytes": 1308241
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4089,7 +4089,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 176383
+      "bytes": 179229
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7811,6 +7811,16 @@
       "placeholder": false,
       "bytes": 34942
     },
+    "data/policy/affordability-models.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 8737
+    },
+    "data/policy/buyer-assistance-programs.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1884
+    },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7829,7 +7839,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4576
+      "bytes": 18659
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -7850,6 +7860,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 35179
+    },
+    "data/policy/land-disposition-models.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9103
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -7886,10 +7901,15 @@
       "placeholder": false,
       "bytes": 25351
     },
+    "data/policy/stewardship-providers.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 1718
+    },
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11882
+      "bytes": 13451
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
@@ -7909,7 +7929,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20077
+      "bytes": 20052
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
