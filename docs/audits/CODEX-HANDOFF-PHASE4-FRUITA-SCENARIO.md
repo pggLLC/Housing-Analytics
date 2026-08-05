@@ -97,3 +97,41 @@ One branch, one PR, squash. PR description: schema decisions made, the pinned de
 3. Fixture-leak, stale-figure, and hypothesis-discipline rules hold under QA's sabotage (inject a leak, a stale figure, an `is_commitment: true`, a count mismatch, a null-without-verify — each must fail).
 4. `not_available` semantics verified (no zeros from missing TDC).
 5. Allowlist + manifest + README + regression green; full `test:ci` green.
+
+---
+
+## AMENDMENT v1.1 (2026-08-05) — generic `partners` block
+
+**Status: part of the spec.** If implementation is already in flight, incorporate before opening the PR; Claude QA judges against the amended spec. Rationale: the schema must serve **any** housing authority / development partner / steward combination (refinement §17 names developer, lender, steward, administrator roles in the recommendation output) — partner identities are data, never code. Fruita HA / HRWC are seed values; **Indibuild is NOT assumed** — no development agreement exists.
+
+### Schema addition (top-level, optional array)
+```jsonc
+"partners": [
+  { "role": "land_owner",  "name": "Fruita Housing Authority", "provider_id": null,
+    "is_commitment": false, "classification": "user_entered" },
+  { "role": "steward",     "name": null, "provider_id": "hrwc",
+    "is_commitment": false, "classification": "user_entered",
+    "note": "candidate only — general availability, no project commitment" },
+  { "role": "developer",   "name": null, "provider_id": null, "is_commitment": false,
+    "verify": true, "owner_input_required": true, "classification": "not_available",
+    "note": "no development agreement exists; Fruita Mews partnership is capacity evidence, not a commitment" },
+  { "role": "lender",      "name": null, "provider_id": null, "is_commitment": false,
+    "verify": true, "owner_input_required": true, "classification": "not_available" }
+]
+```
+
+### Validator rules (add to `validate`)
+- `role ∈ {developer, steward, lender, counselor, administrator, land_owner, broker}`; unknown role rejected.
+- **`is_commitment` must be `false` on every partner** (same hypothesis discipline as assistance/stewardship — no commitments exist in this phase); `true` rejected.
+- At most one `land_owner`.
+- When `provider_id` is non-null AND the caller passes a `registries` argument (`{ stewardshipProviders }`), the id must resolve — unresolvable id rejected; without `registries` the check is skipped (module stays pure).
+- Each partner entry carries `classification`; `null` name+provider_id requires `verify: true`.
+- `partners` may be absent or empty (valid — roles unknown is a first-class state).
+
+### Fixture + test additions
+- Baseline fixture: the four entries above verbatim (developer/lender null — **owner inputs**, now part of `meta.owner_inputs_pending` as `development_partner` and `lender`). Variants inherit unchanged.
+- Tests: unknown role rejected; `is_commitment: true` rejected; two land_owners rejected; `provider_id: "hrwc"` resolves against the real `stewardship-providers.json`; a bogus id fails when registries passed; null-name-without-verify rejected.
+- QA sabotage will additionally inject `{"role":"developer","name":"Indibuild","is_commitment":true}` — must fail (the named-partner-as-commitment trap).
+
+### Acceptance criteria — append
+6. `partners` block present in the baseline fixture per the amendment; validator enforces all five rules; the Indibuild-as-commitment sabotage fails.
