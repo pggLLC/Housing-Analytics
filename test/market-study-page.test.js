@@ -97,6 +97,14 @@ const fixedCard = defaultDom.mount.querySelector('[data-convention="fixed_simple
 assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('scenario, not a prediction'));
 assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('VERIFY parameter'));
 
+// S4 default uses a real lifecycle year-result; public-source recovery must
+// survive that interface and render the Phase-2b worked-reference totals.
+const defaultSettlement = Waterfall.settle(base.selectedConvention.results[base.selectedYear], Page.WATERFALL_INPUTS);
+assert.equal(defaultSettlement.publicSubsidyRetainedInHome, 20000);
+assert.equal(defaultSettlement.publicSubsidyRecapturedAtSale, 80000);
+assert(text(defaultDom.mount.querySelector('#ms-s4')).includes('$20,000'));
+assert(text(defaultDom.mount.querySelector('#ms-s4')).includes('$80,000'));
+
 // S4: inject the documented worked example, still produced by the real engine,
 // and pin its settlement outputs in the rendered DOM.
 const workedYear = {

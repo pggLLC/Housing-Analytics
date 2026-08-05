@@ -7,6 +7,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const lifecycle = require(path.join(ROOT, 'js/project-market-study/shared-equity-lifecycle.js'));
 const finance = require(path.join(ROOT, 'js/hna/ownership-finance.js'));
+const waterfall = require(path.join(ROOT, 'js/project-market-study/resale-waterfall.js'));
 const conventions = require(path.join(ROOT, 'data/policy/resale-conventions.json'));
 
 let passed = 0;
@@ -230,6 +231,42 @@ test('forgivable subordinate debt is $0 owed at its term', () => {
   }));
   assert.equal(year(result, 5).subordinateBalances[0].balance, 30000);
   assert.equal(year(result, 10).subordinateBalances[0].balance, 0);
+});
+
+test('public-source flag survives normalization into the year result', () => {
+  const result = lifecycle.project(input({
+    subordinateDebt: [{
+      label: 'Public deferred assistance', principal: 50000, interestRate: 0,
+      structure: 'deferred', publicSource: true,
+    }],
+    horizons: [10],
+  }));
+  assert.strictEqual(year(result, 10).subordinateBalances[0].publicSource, true);
+});
+
+test('settle on real lifecycle output pins $20,000 retained and $80,000 recaptured', () => {
+  const result = lifecycle.project(input({
+    subordinateDebt: [{
+      label: 'Public deferred assistance', principal: 50000, interestRate: 0,
+      structure: 'deferred', publicSource: true,
+    }],
+    horizons: [10],
+  }));
+  const settlement = waterfall.settle(year(result, 10), {
+    sellingCostRate: 0.06,
+    returnOwnerDownPayment: true,
+    ownerDownPayment: 40000,
+    originalRestrictedPrice: 400000,
+    publicAppreciationShare: 0.25,
+    subsidyRecovery: { countSubordinatePublicSources: true, countAppreciationShare: true },
+    publicSubsidyAtClosing: 100000,
+    nextBuyerPricing: 'formula',
+    totalOwnerCashInvested: 50000,
+  });
+  // Public recovery = $50,000 subordinate payoff + 25% × ($520,000 − $400,000)
+  //                 = $50,000 + $30,000 = $80,000; retained = $100,000 − $80,000.
+  assert.equal(settlement.publicSubsidyRetainedInHome, 20000);
+  assert.equal(settlement.publicSubsidyRecapturedAtSale, 80000);
 });
 
 test('declining case flags negative equity and reports null owner return when proceeds are nonpositive', () => {
