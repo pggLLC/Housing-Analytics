@@ -63,15 +63,13 @@ assert.deepStrictEqual(result.scenarios.map((item) => item.selloutMonths), [24, 
 const thirty = scenarioAt(result, 30);
 // Hand derivation: 50 / 30 = 1.6666666666666667 for months 1-29; month
 // 30 absorbs 50 - sum(months 1-29). The first 12 months total 20 and the
-// full schedule totals exactly 50. Penetration = 50 / 34.3. Gross contracts
-// = 50 / (1 - the funnel stage's .10 share) = 55.55555555555556.
+// full schedule totals exactly 50. Penetration = 50 / 34.3.
 close(thirty.monthlyClosings[0], 50 / 30, 'month one');
 close(sum(thirty.monthlyClosings.slice(0, 12)), 20, 'year-one closings');
 assert.strictEqual(sum(thirty.monthlyClosings), 50);
 close(thirty.annualClosings[0], 20, 'annual closings');
 close(thirty.annualCaptureRate[0].value, 20 / 34.3, 'year-one capture');
 close(thirty.totalProjectPenetration.value, 50 / 34.3, 'penetration');
-close(thirty.grossContractsNeeded.value, 50 / 0.9, 'gross contracts');
 assert.deepStrictEqual(thirty.totalProjectPenetration.denominator, {
   value: funnel.effectiveDemand, basis: 'Phase-6 modeled effective demand', classification: 'modeled'
 });
@@ -79,6 +77,25 @@ assert.strictEqual(thirty.poolGrowthAnnual.share, null);
 assert.strictEqual(thirty.poolDepletionModeled, true);
 assert.strictEqual(thirty.annualCaptureRate[2].value, 'not_available');
 assert.strictEqual(thirty.annualCaptureRate[2].reason, 'pool_zero_see_data_limitations');
+
+const survivalAssumptions = assumptions();
+survivalAssumptions.contract_fallout.share = 0.85;
+survivalAssumptions.contract_fallout.sensitivity = { low: 0.8, base: 0.85, high: 0.9 };
+const survivalFunnel = realFunnel(survivalAssumptions);
+const survivalResult = ForsaleCapture.run(scenario, survivalFunnel, { selloutMonths: 30 });
+// Hand derivation from the real funnel stage: the 0.85 share is the fraction
+// of contracts that survive to closing, so 50 / 0.85 = 58.8235294117647.
+close(scenarioAt(survivalResult, 30).grossContractsNeeded.value, 50 / 0.85, 'gross contracts');
+assert.deepStrictEqual(scenarioAt(survivalResult, 30).grossContractsNeeded.denominator, {
+  value: 0.85, basis: 'the Phase-6 contract_fallout survival share', classification: 'modeled'
+});
+
+const zeroSurvival = clone(survivalFunnel);
+zeroSurvival.stages.find((stage) => stage.id === 'contract_fallout').share = 0;
+assert.strictEqual(
+  scenarioAt(ForsaleCapture.run(scenario, zeroSurvival, { selloutMonths: 30 }), 30).grossContractsNeeded.value,
+  'not_available'
+);
 
 // Hand derivation with 10% annual replenishment: year two starts with
 // 34.3 * 1.10 - 20 prior closings = 17.73 available households.
@@ -114,6 +131,10 @@ const falloutUnresolved = clone(funnel);
 falloutUnresolved.stages.find((stage) => stage.id === 'contract_fallout').share = null;
 const falloutResult = ForsaleCapture.run(scenario, falloutUnresolved, { selloutMonths: 30 });
 assert.strictEqual(scenarioAt(falloutResult, 30).grossContractsNeeded.value, 'not_available');
+assert.strictEqual(
+  scenarioAt(falloutResult, 30).grossContractsNeeded.denominator.basis,
+  'the Phase-6 contract_fallout survival share'
+);
 assert.strictEqual(sum(scenarioAt(falloutResult, 30).monthlyClosings), 50);
 
 const unresolvedAssumptions = assumptions();
