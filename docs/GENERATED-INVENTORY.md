@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-06T04:57:28.864Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-06T14:39:23.288Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 6.2 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 6.6 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
@@ -123,7 +123,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 238.2 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 238.8 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 2.7 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1559,7 +1559,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.0 KB | ✅ | — |
+| `data/manifest.json` | 199.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-265 test files found.
+266 test files found.
 
 | File | Size |
 |------|------|
@@ -1787,6 +1787,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
 | `test/market-study-page.test.js` | 12.6 KB |
+| `test/market-study-report.test.js` | 7.0 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
