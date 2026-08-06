@@ -170,6 +170,7 @@
         interestRate: decimalRate(item.interestRate, 'subordinateDebt[' + index + '].interestRate', 0, false),
         structure: item.structure,
         termYears: termYears,
+        publicSource: item.publicSource === true,
         classification: CLASSIFICATION,
         scenarioLabel: scenarioLabel,
       };
@@ -314,6 +315,7 @@
       structure: item.structure,
       balance: roundDollar(balance),
       monthlyPayment: roundDollar(payment),
+      publicSource: item.publicSource,
       classification: CLASSIFICATION,
       scenarioLabel: scenarioLabel,
     };

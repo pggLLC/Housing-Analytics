@@ -34,11 +34,11 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **53 top-level / 547 total HTML pages**, **67 workflows**, **265 JavaScript files under `js/`**, and **547 geographies** (**64 counties / 273 places / 210 CDPs**).
+Current tracked inventory: **54 top-level / 548 total HTML pages**, **67 workflows**, **266 JavaScript files under `js/`**, and **547 geographies** (**64 counties / 273 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
-## Live Pages (53 top-level)
+## Live Pages (54 top-level)
 
 | Page | Description |
 |------|-------------|
@@ -51,6 +51,7 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `deal-calculator.html` | LIHTC Feasibility Calculator — 4% vs 9% credit sizing, sources & uses, first mortgage |
+| `for-sale-market-study.html` | For-sale project comparison — program, land, shared equity, resale, demand funnel, and capture screening |
 | `select-jurisdiction.html` | Jurisdiction selector — routes to HNA, comparative analysis, or scenario builder |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide jurisdiction needs ranking with scorecard |
 | `hna-scenario-builder.html` | HNA Scenario Builder — what-if modeling for housing policy outcomes |
@@ -79,7 +80,7 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 ```
 Housing-Analytics/
 ├── index.html                     # Entry point
-├── *.html                         # 53 top-level page files (see Live Pages above)
+├── *.html                         # 54 top-level page files (see Live Pages above)
 │
 ├── css/                           # 16 stylesheets (no build step)
 │   ├── site-theme.css             # Design tokens, dark/light mode, typography
@@ -452,4 +453,4 @@ This tool is provided for educational and research purposes. All economic data i
 
 - Docs and site-audit pipeline are automatically updated after every merge.
 
-## 
+##
