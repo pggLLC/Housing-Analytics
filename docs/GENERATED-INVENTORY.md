@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-05T14:21:21.345Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-06T04:55:04.799Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-53 pages found.
+54 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -30,18 +30,19 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.6 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 6.2 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.5 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1654,7 +1655,7 @@
 
 ## Test Files
 
-264 test files found.
+265 test files found.
 
 | File | Size |
 |------|------|
@@ -1785,6 +1786,7 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
+| `test/market-study-page.test.js` | 12.6 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
@@ -1846,7 +1848,7 @@
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
-| `test/shared-equity-lifecycle.test.js` | 17.4 KB |
+| `test/shared-equity-lifecycle.test.js` | 18.9 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
