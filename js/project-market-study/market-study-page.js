@@ -8,21 +8,22 @@
     root && root.SharedEquityLifecycle,
     root && root.ResaleWaterfall,
     root && root.EffectiveDemand,
-    root && root.ForsaleCapture
+    root && root.ForsaleCapture,
+    root && root.MarketStudyReport
   );
   if (typeof module === 'object' && module.exports) {
     api = factory(
       require('./project-scenario.js'), require('../hna/ownership-finance.js'),
       require('./land-disposition.js'), require('./shared-equity-lifecycle.js'),
       require('./resale-waterfall.js'), require('./effective-demand.js'),
-      require('./forsale-capture.js')
+      require('./forsale-capture.js'), require('./market-study-report.js')
     );
     module.exports = api;
   }
   if (root) root.MarketStudyPage = api;
 }(typeof window !== 'undefined' ? window : this, function (
   ProjectScenario, OwnershipFinance, LandDisposition, SharedEquityLifecycle,
-  ResaleWaterfall, EffectiveDemand, ForsaleCapture
+  ResaleWaterfall, EffectiveDemand, ForsaleCapture, MarketStudyReport
 ) {
   'use strict';
 
@@ -220,6 +221,29 @@
       renderScenario(model, data), renderLand(model), renderConventions(model),
       renderSettlement(model), renderFunnel(model), renderCapture(model)
     ].join('');
+    var preview = mount.ownerDocument.getElementById('marketStudyReportPreview');
+    var download = mount.ownerDocument.getElementById('marketStudyReportDownload');
+    if (preview && download) {
+      var report = MarketStudyReport.buildReport(model, {
+        asOf: data.reportAsOf,
+        vintages: {
+          scenario: model.scenario.meta.as_of,
+          homeValue: model.scenario.local_baseline.home_value.as_of,
+          conventions: data.conventions.meta.as_of
+        },
+        requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS
+      });
+      preview.innerHTML = MarketStudyReport.renderReportPreview(report);
+      download.onclick = function () {
+        var blob = new Blob([MarketStudyReport.renderReportHtml(report)], { type: 'text/html;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var link = mount.ownerDocument.createElement('a');
+        link.href = url;
+        link.download = 'fruita-commons-market-study-screening-draft.html';
+        link.click();
+        URL.revokeObjectURL(url);
+      };
+    }
     return mount;
   }
 
@@ -274,6 +298,7 @@
       var scenarios = loaded.slice(0, files.length);
       return start(mount, {
         scenarios: scenarios, conventions: loaded[4],
+        reportAsOf: scenarios[0].meta.as_of,
         observed: observedFromData(scenarios[0], loaded[5], loaded[6], window.HNAOwnershipNeed)
       });
     }).catch(function (error) {
