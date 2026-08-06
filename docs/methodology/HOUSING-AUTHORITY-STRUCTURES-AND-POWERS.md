@@ -72,7 +72,7 @@ Every example below is already present in `data/hna/local-resources.json`.
 
 ## 4. What this means for Fruita Commons
 
-- **Fruita Housing Authority is a Type A municipal authority** — well-aligned to Fruita land and entitlement, but small; it delivered the LIHTC rental **Fruita Mews** as a limited partnership with a private developer (Indibuild), which is the normal way a small authority accesses developer capacity.
+- **Fruita Housing Authority is a Type A municipal authority** — well-aligned to Fruita land and entitlement, but small; it delivered the LIHTC rental **Fruita Mews** as a limited partnership with a private developer (named in the Fruita jurisdiction brief), which is the normal way a small authority accesses developer capacity.
 - **The land-retention hypothesis (Model A, 99-yr ground lease) is squarely within its powers** and is where its tax-exemption and land-contribution strengths are decisive.
 - **Capacity and stewardship are the open questions**, not powers. A small municipal authority may lack in-house master-developer or perpetual resale-administration capacity. Options the tool should surface: (a) partner with a **Type C/D regional or public-developer authority** (a Grand Valley/GJHA/Mesa arrangement) for bonding and scale; (b) contract stewardship to **HRWC** or a **CLT** (Type F); (c) use an LLC/nonprofit affiliate for the LIHTC-style GP role, as Housing Catalyst / Boulder Housing Partners do.
 - **"FHA" in this project = Fruita Housing Authority**, not the Federal Housing Administration mortgage — keep them separate in every output.
@@ -125,7 +125,7 @@ Extend the stewardship/housing-authority record in `data/hna/local-resources.jso
 
 ### Rule and output
 - Emit a **`capacity_tier` + `activity_evidence`** per authority; where the tier is nominal/dormant, fire the **"Permanent ownership stewardship capacity not established"** flag (§15 of the refinement) and recommend a capacity path: a **regional/multijurisdictional partner**, a **public-developer-affiliated authority** (Type D) as co-developer, or a **contracted steward** (HRWC / CLT).
-- **Fruita Housing Authority** is **Administrative/programmatic → active-via-partnership**: it delivered Fruita Mews as a limited partnership with a private developer (Indibuild), so it is *not* a paper entity, but its in-house master-developer and perpetual-stewardship capacity for a for-sale/CLT program is **unproven and must be verified** — the study should plan a capacity partner rather than assume the authority can steward 50 for-sale homes in perpetuity alone.
+- **Fruita Housing Authority** is **Administrative/programmatic → active-via-partnership**: it delivered Fruita Mews as a limited partnership with a private developer (named in the Fruita jurisdiction brief), so it is *not* a paper entity, but its in-house master-developer and perpetual-stewardship capacity for a for-sale/CLT program is **unproven and must be verified** — the study should plan a capacity partner rather than assume the authority can steward 50 for-sale homes in perpetuity alone.
 
 ### Schema addition (extends §5)
 ```jsonc
