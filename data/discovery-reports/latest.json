@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-08-05T09:28:44.222Z",
-  "totalScanned": 1612,
-  "newSourceCount": 1581,
+  "scanTimestamp": "2026-08-06T09:33:15.221Z",
+  "totalScanned": 1616,
+  "newSourceCount": 1585,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 776843,
+      "sizeBytes": 779670,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -254,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 243282,
+      "sizeBytes": 243908,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -269,6 +269,30 @@
       "sizeBytes": 2118,
       "inDataManifest": false,
       "inFilesManifest": true
+    },
+    {
+      "path": "data/fixtures/fruita-commons-broad-income.scenario.json",
+      "sizeBytes": 5332,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/fixtures/fruita-commons-compact.scenario.json",
+      "sizeBytes": 5130,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/fixtures/fruita-commons-family.scenario.json",
+      "sizeBytes": 5122,
+      "inDataManifest": false,
+      "inFilesManifest": false
+    },
+    {
+      "path": "data/fixtures/fruita-commons.scenario.json",
+      "sizeBytes": 5006,
+      "inDataManifest": false,
+      "inFilesManifest": false
     },
     {
       "path": "data/glossary.json",
@@ -9272,7 +9296,7 @@
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 18659,
+      "sizeBytes": 19246,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9374,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20052,
+      "sizeBytes": 20055,
       "inDataManifest": false,
       "inFilesManifest": true
     },

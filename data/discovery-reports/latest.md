@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-05T09:28:44.222Z
+**Scan timestamp:** 2026-08-06T09:33:15.221Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1612 |
-| New (unregistered) | 1581 |
+| Files scanned | 1616 |
+| New (unregistered) | 1585 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (759 KB)
+- `data/_manifest.json` (761 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -58,6 +58,10 @@
 - `data/discovery-reports/latest.json` (238 KB)
 - `data/environmental/epa-superfund-co.json` (3 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
+- `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
+- `data/fixtures/fruita-commons-compact.scenario.json` (5 KB)
+- `data/fixtures/fruita-commons-family.scenario.json` (5 KB)
+- `data/fixtures/fruita-commons.scenario.json` (5 KB)
 - `data/glossary.json` (14 KB)
 - `data/hmda/co-county-aggregates.json` (241 KB)
 - `data/hmda/co-state-trends.json` (4 KB)
@@ -1558,7 +1562,7 @@
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
 - `data/policy/county-ownership.json` (6 KB)
-- `data/policy/developer-ownership-funding.json` (18 KB)
+- `data/policy/developer-ownership-funding.json` (19 KB)
 - `data/policy/homeownership-programs.json` (16 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
