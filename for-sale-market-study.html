@@ -22,6 +22,7 @@
   <script defer src="js/project-market-study/resale-waterfall.js"></script>
   <script defer src="js/project-market-study/effective-demand.js"></script>
   <script defer src="js/project-market-study/forsale-capture.js"></script>
+  <script defer src="js/project-market-study/market-study-report.js"></script>
   <script>
     window.marketStudyLandModelsReady = fetch('data/policy/land-disposition-models.json')
       .then(function (response) { return response.json(); })
@@ -65,6 +66,11 @@
     <div id="marketStudyMount" aria-live="polite">
       <div class="ms-warning">Loading real project fixtures and policy datasets…</div>
     </div>
+    <section id="ms-s7" class="chart-card ms-section">
+      <h2>7. Report (screening draft)</h2>
+      <p><button id="marketStudyReportDownload" type="button">Download self-contained HTML</button></p>
+      <div id="marketStudyReportPreview" aria-live="polite"></div>
+    </section>
     <footer class="ms-footer-note">
       <strong>Standing disclosure:</strong> This is a screening estimate, not a completed market study. Verification parties include the project owner, broker, lender, appraiser, assessor, attorney, steward, administrator, and a professional market analyst. Methods are exposed through classification pills, evidence-basis text, engine denominators, policy-source links, and caveats; no displayed scenario is a prediction.
     </footer>
