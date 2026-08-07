@@ -159,12 +159,28 @@ assert(!text(defaultDom.mount.querySelector('#ms-s6')).includes('not_available: 
 // Entering a complete real assumption set recomputes S5/S6 through the engines.
 const interactive = dom();
 Page.start(interactive.mount, data);
+const typed = interactive.mount.querySelector('[data-stage-id="household_size_compatibility"]');
+typed.focus();
+typed.value = '0';
+typed.dispatchEvent(new interactive.window.Event('input', { bubbles: true }));
+typed.value = '0.8';
+typed.dispatchEvent(new interactive.window.Event('input', { bubbles: true }));
+assert.strictEqual(typed.isConnected, true);
+assert.strictEqual(interactive.window.document.activeElement, typed);
+assert.strictEqual(typed.value, '0.8');
+typed.dispatchEvent(new interactive.window.Event('change', { bubbles: true }));
+assert.strictEqual(interactive.mount.querySelector('[data-stage-id="household_size_compatibility"]').value, '0.8');
+assert.strictEqual(interactive.mount.querySelector('[data-stage-id="household_size_compatibility"]').placeholder, '0–1');
+assert(text(interactive.mount.querySelector('#ms-s5')).includes('(decimal share, e.g. 0.8 = 80%)'));
 const shares = {};
 EffectiveDemand.STAGE_IDS.forEach((id) => { shares[id] = id === 'contract_fallout' ? 0.85 : 0.8; });
 EffectiveDemand.STAGE_IDS.forEach((id) => {
   const input = interactive.mount.querySelector(`[data-stage-id="${id}"]`);
+  input.value = '0';
+  input.dispatchEvent(new interactive.window.Event('input', { bubbles: true }));
   input.value = String(shares[id]);
   input.dispatchEvent(new interactive.window.Event('input', { bubbles: true }));
+  input.dispatchEvent(new interactive.window.Event('change', { bubbles: true }));
 });
 const directResolved = Page.buildModel(data, { assumptions: shares });
 assert.strictEqual(typeof directResolved.funnel.effectiveDemand, 'number');
