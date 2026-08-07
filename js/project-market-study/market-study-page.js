@@ -194,9 +194,9 @@
     var rows = model.funnel.stages.map(function (stage) {
       if (stage.id === 'observed_base') return `<tr><td>${stage.id}</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage.classification)}</td></tr>`;
       var assumption = model.assumptions[stage.id];
-      return `<tr><td>${stage.id}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stage.id} share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage.classification)}</td></tr>`;
+      return `<tr><td>${stage.id}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stage.id} share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage.classification)}</td></tr>`;
     });
-    return `<section id="ms-s5" class="chart-card ms-section"><h2>5. Effective-demand funnel</h2>${caveat()}<p><strong>Owner inputs pending:</strong> session-only shares; reload clears every entry. No values are stored.</p><p><strong>Unresolved stages:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.join(', ') : 'none'}</p>${table(['Stage', 'Share / output', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
+    return `<section id="ms-s5" class="chart-card ms-section"><h2>5. Effective-demand funnel</h2>${caveat()}<p><strong>Owner inputs pending:</strong> session-only shares; reload clears every entry. No values are stored.</p><p><strong>Unresolved stages:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.join(', ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
   }
 
   function figure(value, kind) {
@@ -265,7 +265,7 @@
         options.year = Number(event.target.value); paint();
       });
       mount.querySelectorAll('.ms-share-input').forEach(function (input) {
-        input.addEventListener('input', function (event) {
+        input.addEventListener('change', function (event) {
           options.assumptions = options.assumptions || {};
           options.assumptions[event.target.dataset.stageId] = event.target.value === '' ? null : Number(event.target.value);
           paint();
