@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-06T09:33:15.221Z",
+  "scanTimestamp": "2026-08-07T08:04:18.802Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -254,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 243908,
+      "sizeBytes": 244576,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -274,25 +274,25 @@
       "path": "data/fixtures/fruita-commons-broad-income.scenario.json",
       "sizeBytes": 5332,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/fixtures/fruita-commons-compact.scenario.json",
       "sizeBytes": 5130,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/fixtures/fruita-commons-family.scenario.json",
       "sizeBytes": 5122,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/fixtures/fruita-commons.scenario.json",
       "sizeBytes": 5006,
       "inDataManifest": false,
-      "inFilesManifest": false
+      "inFilesManifest": true
     },
     {
       "path": "data/glossary.json",
@@ -4820,7 +4820,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 179229,
+      "sizeBytes": 179363,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20055,
+      "sizeBytes": 20041,
       "inDataManifest": false,
       "inFilesManifest": true
     },
