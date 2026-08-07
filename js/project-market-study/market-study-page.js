@@ -200,14 +200,11 @@
   }
 
   function figure(value, kind) {
-    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${display(value.denominator.value)} — ${value.denominator.basis}</span></span>`;
+    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${value.denominator.basis}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
-      var annual = Array.isArray(item.annualCaptureRate)
-        ? item.annualCaptureRate.map(function (rate) { return figure(rate, 'rate'); }).join('<br>')
-        : display(item.annualCaptureRate);
-      return `<tr><td>${item.scenarioLabel}</td><td>${display(item.monthlyClosings)}</td><td>${display(item.annualClosings)}</td><td>${annual}</td><td>${figure(item.totalProjectPenetration, 'rate')}</td><td>${figure(item.grossContractsNeeded)}</td><td>${String(item.poolDepletionModeled)}</td></tr>`;
+      return `<tr><td>${item.scenarioLabel}</td><td>${MarketStudyReport.formatSchedule(item.monthlyClosings, model.scenario.program.total_units.value)}</td><td>${MarketStudyReport.formatAnnualClosings(item.annualClosings)}</td><td>${MarketStudyReport.formatAnnualCapture(item.annualCaptureRate)}</td><td>${figure(item.totalProjectPenetration, 'rate')}</td><td>${figure(item.grossContractsNeeded)}</td><td>${String(item.poolDepletionModeled)}</td></tr>`;
     });
     var amiRows = Object.keys(model.capture.captureByAmiBand).map(function (key) {
       var item = model.capture.captureByAmiBand[key];
