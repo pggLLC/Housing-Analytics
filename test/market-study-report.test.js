@@ -83,9 +83,24 @@ EffectiveDemand.STAGE_IDS.forEach((id) => { shares[id] = id === 'contract_fallou
 const resolved = Page.buildModel(data, { assumptions: shares });
 const resolvedReport = Report.buildReport(resolved, meta);
 const thirty = resolved.capture.scenarios.find((item) => item.selloutMonths === 30);
-const denominator = thirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 3 });
+const denominator = thirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 });
 assert(Report.renderReportPreview(resolvedReport).includes(denominator));
 assert(Report.renderReportHtml(resolvedReport).includes(denominator));
+const resolvedPreview = Report.renderReportPreview(resolvedReport);
+const resolvedDom = new JSDOM(resolvedPreview);
+const captureSection = Array.from(resolvedDom.window.document.querySelectorAll('section')).find((section) => section.querySelector('h2') && section.querySelector('h2').textContent.startsWith('7. Capture scenarios'));
+const evenSchedule = '≈2.08 / month × 24 months (total 50)';
+assert.strictEqual(Report.formatSchedule(resolved.capture.scenarios.find((item) => item.selloutMonths === 24).monthlyClosings, 50), evenSchedule);
+assert(captureSection.innerHTML.includes(evenSchedule));
+assert(captureSection.innerHTML.includes('25 · 25'));
+assert(captureSection.innerHTML.includes('Year 1:'));
+assert(captureSection.innerHTML.includes('Year 2:'));
+assert(!/\d\.\d{4,}/.test(captureSection.innerHTML), 'report capture section must not expose floating-point noise');
+const pageDom = new JSDOM('<main><div id="mount"></div></main>');
+Page.render(pageDom.window.document.getElementById('mount'), resolved, data);
+const pageSchedule = pageDom.window.document.querySelector('#ms-s6 tbody tr td:nth-child(2)').textContent;
+const reportSchedule = captureSection.querySelector('tbody tr td:nth-child(2)').textContent;
+assert.strictEqual(pageSchedule, reportSchedule, 'page S6 and report §7 must use the identical shared schedule string');
 
 assert.equal(model.funnel.effectiveDemand, 'not_available');
 model.funnel.stages.forEach((stage) => assert(preview.includes(stage.basis)));

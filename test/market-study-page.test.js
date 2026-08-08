@@ -14,6 +14,7 @@ const Lifecycle = require('../js/project-market-study/shared-equity-lifecycle.js
 const Waterfall = require('../js/project-market-study/resale-waterfall.js');
 const EffectiveDemand = require('../js/project-market-study/effective-demand.js');
 const ForsaleCapture = require('../js/project-market-study/forsale-capture.js');
+const Report = require('../js/project-market-study/market-study-report.js');
 const conventions = require('../data/policy/resale-conventions.json');
 const landDataset = require('../data/policy/land-disposition-models.json');
 
@@ -187,9 +188,19 @@ assert.strictEqual(typeof directResolved.funnel.effectiveDemand, 'number');
 assert(text(interactive.mount.querySelector('#ms-s5')).includes(directResolved.funnel.effectiveDemand.toLocaleString('en-US', { maximumFractionDigits: 3 })));
 const directThirty = directResolved.capture.scenarios.find((item) => item.selloutMonths === 30);
 assert(text(interactive.mount.querySelector('#ms-s6')).includes(
-  directThirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 3 })
+  directThirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })
 ));
 assert(interactive.mount.querySelectorAll('#ms-s6 .ms-denominator').length > 0);
+const s6Html = interactive.mount.querySelector('#ms-s6').innerHTML;
+const evenSchedule = '≈2.08 / month × 24 months (total 50)';
+assert.strictEqual(Report.formatSchedule(directResolved.capture.scenarios.find((item) => item.selloutMonths === 24).monthlyClosings, 50), evenSchedule);
+assert.strictEqual(Report.formatSchedule([1, 1.2345, 47.7655], 50), 'total 50 — 1 · 1.23 · 47.77');
+assert(s6Html.includes(evenSchedule));
+assert(s6Html.includes('25 · 25'));
+assert.strictEqual(Report.formatAnnualCapture([{ value: 0.849, denominator: { value: 29.46 } }]), 'Year 1: 84.9% — pool 29.46');
+assert(s6Html.includes('Year 1:'));
+assert(s6Html.includes('Year 2:'));
+assert(!/\d\.\d{4,}/.test(s6Html), 'S6 must not expose floating-point noise');
 
 // A fresh render is session-clean: no assumption survives and no persistence API exists.
 const fresh = dom();

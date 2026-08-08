@@ -36,6 +36,31 @@
     if (kind === 'rate') return value.toLocaleString('en-US', { style: 'percent', maximumFractionDigits: 2 });
     return value.toLocaleString('en-US', { maximumFractionDigits: 3 });
   }
+  function rounded(value, digits) {
+    if (unavailable(value)) return 'not_available — owner input required';
+    return Number(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: digits });
+  }
+  function formatSchedule(values, total) {
+    if (!Array.isArray(values)) return display(values);
+    var even = values.length > 0 && values.every(function (value) {
+      return rounded(value, 2) === rounded(values[0], 2);
+    });
+    if (even) return '≈' + rounded(values[0], 2) + ' / month × ' + values.length + ' months (total ' + rounded(total, 2) + ')';
+    return 'total ' + rounded(total, 2) + ' — ' + values.map(function (value) { return rounded(value, 2); }).join(' · ');
+  }
+  function formatAnnualClosings(values) {
+    if (!Array.isArray(values)) return display(values);
+    return values.map(function (value) { return rounded(value, 2); }).join(' · ');
+  }
+  function formatDenominator(figure, kind) {
+    return display(figure.value, kind) + '<small>denominator: ' + rounded(figure.denominator.value, 2) + ' — ' + escape(figure.denominator.basis) + '</small>';
+  }
+  function formatAnnualCapture(values) {
+    if (!Array.isArray(values)) return display(values);
+    return values.map(function (entry, index) {
+      return 'Year ' + (index + 1) + ': ' + (unavailable(entry.value) ? display(entry.value) : entry.value.toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })) + ' — pool ' + rounded(entry.denominator.value, 2);
+    }).join('<br>');
+  }
   function badge(value) { return '<span class="classification">' + escape(value) + '</span>'; }
   function table(headers, rows) {
     return '<div class="table-wrap"><table><thead><tr>' + headers.map(function (item) {
@@ -47,10 +72,6 @@
       if (html.indexOf(entry) === -1) throw new Error('MarketStudyReport: required caveat missing: ' + entry);
     });
   }
-  function denominator(figure, kind) {
-    return display(figure.value, kind) + '<small>denominator: ' + display(figure.denominator.value) + ' — ' + escape(figure.denominator.basis) + '</small>';
-  }
-
   function buildReport(model, meta) {
     if (!model || !model.scenario || !model.derived || !model.funnel || !model.capture) {
       throw new Error('MarketStudyReport: a complete Phase-8 buildModel object is required');
@@ -109,12 +130,11 @@
     var demand = '<section><h2>6. Demand (screening)</h2><p><strong>Unresolved stages:</strong> ' + escape(model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.join(', ') : 'none') + '</p>' + table(['Stage', 'Share', 'Output', 'Protected label', 'Evidence basis', 'Classification'], funnelRows) + '<p><strong>' + BUYER_POOL + '</strong></p><p class="warning">' + G2 + '</p></section>';
 
     var captureRows = model.capture.scenarios.map(function (item) {
-      var annual = Array.isArray(item.annualCaptureRate) ? item.annualCaptureRate.map(function (entry) { return denominator(entry, 'rate'); }).join('<br>') : display(item.annualCaptureRate);
-      return '<tr><td>' + escape(item.scenarioLabel) + '</td><td>' + display(item.monthlyClosings) + '</td><td>' + display(item.annualClosings) + '</td><td>' + annual + '</td><td>' + denominator(item.totalProjectPenetration, 'rate') + '</td><td>' + denominator(item.grossContractsNeeded) + '</td><td>' + display(item.poolDepletionModeled) + '</td></tr>';
+      return '<tr><td>' + escape(item.scenarioLabel) + '</td><td>' + formatSchedule(item.monthlyClosings, model.scenario.program.total_units.value) + '</td><td>' + formatAnnualClosings(item.annualClosings) + '</td><td>' + formatAnnualCapture(item.annualCaptureRate) + '</td><td>' + formatDenominator(item.totalProjectPenetration, 'rate') + '</td><td>' + formatDenominator(item.grossContractsNeeded) + '</td><td>' + display(item.poolDepletionModeled) + '</td></tr>';
     });
     var captureBands = Object.keys(model.capture.captureByAmiBand).map(function (key) {
       var item = model.capture.captureByAmiBand[key];
-      return '<tr><td>' + escape(key) + '</td><td>' + display(item.numerator) + '</td><td>' + denominator(item, 'rate') + '</td><td>' + escape(item.reason || '') + '</td></tr>';
+      return '<tr><td>' + escape(key) + '</td><td>' + display(item.numerator) + '</td><td>' + formatDenominator(item, 'rate') + '</td><td>' + escape(item.reason || '') + '</td></tr>';
     });
     var capture = '<section><h2>7. Capture scenarios (screening)</h2>' + table(['Pace', 'Monthly closings', 'Annual closings', 'Annual capture and denominator', 'Project penetration and denominator', 'Gross contracts and denominator', 'Pool depletion modeled'], captureRows) + table(['AMI band', 'Scenario units', 'Capture and denominator', 'Data limitation'], captureBands) + '<p class="warning">' + escape(model.capture.competitiveSupplyNote) + '</p><p class="warning">' + escape(model.capture.captureHumilityCaveat) + '</p></section>';
 
@@ -136,5 +156,14 @@
     return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escape(report.title) + '</title><style>body{font:16px/1.5 system-ui,sans-serif;color:#172033;max-width:1100px;margin:auto;padding:28px}h1,h2,h3{line-height:1.2}section{border-top:1px solid #bac4d0;padding-top:18px;margin-top:24px}.banner,.warning{border:2px solid #8b4b00;background:#fff5df;padding:12px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%}th,td{border:1px solid #bac4d0;padding:7px;text-align:left;vertical-align:top}th{background:#eef2f6}.classification,.verify{display:inline-block;border:1px solid #52616f;border-radius:999px;padding:1px 7px;font-size:.8em}small{display:block}footer{border-top:3px solid #172033;margin-top:30px;padding-top:16px}@media print{body{max-width:none}.table-wrap{overflow:visible}}</style></head><body>' + content + '</body></html>';
   }
 
-  return { REQUIRED_CAVEATS: REQUIRED_CAVEATS, buildReport: buildReport, renderReportPreview: renderReportPreview, renderReportHtml: renderReportHtml };
+  return {
+    REQUIRED_CAVEATS: REQUIRED_CAVEATS,
+    formatSchedule: formatSchedule,
+    formatAnnualClosings: formatAnnualClosings,
+    formatAnnualCapture: formatAnnualCapture,
+    formatDenominator: formatDenominator,
+    buildReport: buildReport,
+    renderReportPreview: renderReportPreview,
+    renderReportHtml: renderReportHtml
+  };
 }));
