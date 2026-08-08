@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-07T14:04:24.942Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-08T09:37:17.868Z. Do not edit by hand.
 
 ---
 
@@ -1786,8 +1786,8 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
-| `test/market-study-page.test.js` | 13.6 KB |
-| `test/market-study-report.test.js` | 7.0 KB |
+| `test/market-study-page.test.js` | 14.4 KB |
+| `test/market-study-report.test.js` | 8.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 3.8 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
