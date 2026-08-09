@@ -55,12 +55,17 @@ function metric(digest, field) {
   return value;
 }
 
-function housingGapRateText(digest) {
+function gapRateIsAvailable(digest) {
   const value = digest.metrics && digest.metrics.housing_gap_rate_lte30;
-  if (value && value.value !== null && value.value !== undefined) {
-    return `equal to ${valueText(digest, "housing_gap_rate_lte30", "pct")} of <=30% AMI households.`;
+  return !!(value && value.value !== null && value.value !== undefined);
+}
+
+function housingGapRateText(digest) {
+  if (gapRateIsAvailable(digest)) {
+    return `The deep-affordability gap rate is ${valueText(digest, "housing_gap_rate_lte30", "pct")} of <=30% AMI households.`;
   }
 
+  const value = digest.metrics && digest.metrics.housing_gap_rate_lte30;
   if (value && value.denominator_floor_applied && value.denominator !== null && value.denominator !== undefined) {
     const floor = value.min_denominator ?? 50;
     return `The deep-affordability gap rate is suppressed because only ${num(value.denominator)} <=30% AMI households are observed, below the digest's ${num(floor)}-household reporting floor.`;
@@ -99,8 +104,7 @@ function sourceFor(geoid, id, field, label) {
 
 export function sectionFor(brief, digest) {
   const jurisdiction = brief.jurisdiction || digest.geography.name;
-  const gapRateValue = digest.metrics && digest.metrics.housing_gap_rate_lte30;
-  const gapRateAvailable = gapRateValue && gapRateValue.value !== null && gapRateValue.value !== undefined;
+  const gapRateAvailable = gapRateIsAvailable(digest);
   const para0Cites = ["d1", "d2", "d3", "d5", "d6"];
   if (gapRateAvailable) para0Cites.splice(3, 0, "d4");
   return {
@@ -173,8 +177,7 @@ function updateBrief(file) {
   brief.sources = (brief.sources || []).filter(
     (source) => !dataSourceIds.has(source.id) && !/^d-/.test(source.id)
   );
-  const gapRateValue = digest.metrics && digest.metrics.housing_gap_rate_lte30;
-  const gapRateAvailable = gapRateValue && gapRateValue.value !== null && gapRateValue.value !== undefined;
+  const gapRateAvailable = gapRateIsAvailable(digest);
   for (const [id, field, label] of DATA_SOURCES) {
     if (id === "d4" && !gapRateAvailable) continue;
     brief.sources.push(sourceFor(geoid, id, field, label));
