@@ -6,7 +6,7 @@
     "state": "Colorado",
     "state_fips": "08",
     "vintage": "2021-22",
-    "generated": "2026-08-02T05:44:12Z",
+    "generated": "2026-08-09T03:59:01Z",
     "feature_count": 1941,
     "coverage_pct": 100.0,
     "note": "Rebuild via scripts/market/fetch_schools.py"
