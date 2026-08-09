@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-08T07:50:58.206709Z",
+  "generated": "2026-08-09T02:45:01.355789Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6259
+      "bytes": 6264
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -162,9 +162,9 @@
       "bytes": 65589
     },
     "data/car-market-report-2026-07.json": {
-      "featureCount": 0,
+      "featureCount": 64,
       "placeholder": false,
-      "bytes": 2321
+      "bytes": 65603
     },
     "data/car-market-report-2026-08.json": {
       "featureCount": 0,
