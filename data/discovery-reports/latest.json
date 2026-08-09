@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-08T07:39:16.484Z",
+  "scanTimestamp": "2026-08-09T07:43:09.938Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6259,
+      "sizeBytes": 6264,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -152,7 +152,7 @@
     },
     {
       "path": "data/car-market-report-2026-07.json",
-      "sizeBytes": 2321,
+      "sizeBytes": 65603,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20052,
+      "sizeBytes": 20065,
       "inDataManifest": false,
       "inFilesManifest": true
     },
