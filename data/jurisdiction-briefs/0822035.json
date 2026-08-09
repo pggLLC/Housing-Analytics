@@ -77,55 +77,6 @@
       ]
     },
     {
-      "id": "metric-digest",
-      "heading": "Metric Digest",
-      "paragraphs": [
-        {
-          "text": "The housing-needs digest ranks the City of Durango #60 statewide with an overall housing-need score of 74.4. It counts a shortfall of 754 units affordable at or below 30% AMI — equal to 60.8% of the 1,240 lowest-income households — and finds 53.3% of renter households cost-burdened, with 1.5% of occupied units overcrowded.",
-          "cites": [
-            "d-rank",
-            "d-score",
-            "d-gap",
-            "d-gaprate",
-            "d-lowinc",
-            "d-burden",
-            "d-overcrowd"
-          ]
-        },
-        {
-          "text": "On the market side, the digest reports a ZHVI home-value estimate of $758,990 and a median gross rent of $1,636. 47% of households rent, and 24.5% of the housing stock is multifamily.",
-          "cites": [
-            "d-zhvi",
-            "d-rent",
-            "d-renters",
-            "d-mf"
-          ]
-        },
-        {
-          "text": "Durango's population is 19,411. LEHD commuting data show 9,551 in-commuters and a 64.6% commute ratio, and the county-context projection points to 713 additional units needed over 20 years, so that projection should be read as county context rather than a place trend.",
-          "cites": [
-            "d-pop",
-            "d-incommute",
-            "d-commuteratio",
-            "d-future"
-          ]
-        },
-        {
-          "text": "Workforce-housing pressure scores 74.7. A worker earning the containing county's estimated wage faces an ownership affordability gap of $130,040 and a rent affordability gap of $10,440. Opportunity and walkability score 63.8 and 42.7. County-context ACS cohorts show median gross rent up 89.4% and median household income up 47.1% from 2009 to 2024, alongside a 39.5% county service-sector employment share; these county-context figures are economic context, not place-level observations.",
-          "cites": [
-            "d-wf",
-            "d-owngap",
-            "d-rentgap",
-            "d-opp",
-            "d-walk",
-            "d-rentchg",
-            "d-incchg",
-            "d-service"
-          ]
-        }
-      ]
-    },
-    {
       "id": "tenure-strategy-screening",
       "heading": "Tenure strategy screening",
       "paragraphs": [
@@ -143,6 +94,59 @@
           "cites": [
             "own5",
             "own6"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metric-digest",
+      "heading": "Metric Digest",
+      "paragraphs": [
+        {
+          "text": "The metric digest ranks City of Durango at #60 with an overall housing-need score of 74.4. It identifies 754 deeply affordable units missing at <=30% AMI. equal to 60.8% of <=30% AMI households. 53.3% of renter households are cost burdened, and 1.5% of occupied households are overcrowded.",
+          "cites": [
+            "d1",
+            "d2",
+            "d3",
+            "d4",
+            "d5",
+            "d6"
+          ]
+        },
+        {
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $758,990 and median gross rent of $1,636. 47% of households rent, and 24.5% of the housing stock is multifamily.",
+          "cites": [
+            "d7",
+            "d8",
+            "d9",
+            "d10"
+          ]
+        },
+        {
+          "text": "Demographics and demand: the population metric is 19,411. LEHD-based commuting signals show 9,551 in-commuters and a commute ratio of 64.6%. The digest's county-context projection shows 713 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "cites": [
+            "d11",
+            "d12",
+            "d13",
+            "d14"
+          ]
+        },
+        {
+          "text": "Opportunity context: the digest gives an opportunity score of 63.8 and a walkability score of 42.7. These are current digest levels, not trends.",
+          "cites": [
+            "d15",
+            "d16"
+          ]
+        },
+        {
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 74.7. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $130,040 and a rent affordability gap of $10,440. The county-context service-sector employment share is 39.5%, and county-context ACS cohorts show median gross rent changed 89.4% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "cites": [
+            "d17",
+            "d18",
+            "d19",
+            "d20",
+            "d21",
+            "d22"
           ]
         }
       ]
@@ -189,213 +193,6 @@
       "label": "Housing Solutions for the Southwest — official site",
       "url": "https://swhousingsolutions.com/",
       "kind": "primary",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-rank",
-      "label": "Ranking index rank - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "rank",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-score",
-      "label": "Overall housing-need score - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "overall_need_score",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-gap",
-      "label": "Deep-affordability housing gap units - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "housing_gap_units",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-gaprate",
-      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "housing_gap_rate_lte30",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-lowinc",
-      "label": "Lowest-income households (<=30% AMI) - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "low_income_households_lte30",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-burden",
-      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "pct_cost_burdened",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-overcrowd",
-      "label": "Occupied-household overcrowding rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "overcrowding_rate",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-zhvi",
-      "label": "ZHVI market home-value estimate - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "median_home_value",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-rent",
-      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "gross_rent_median",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-renters",
-      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "pct_renters",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-mf",
-      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "pct_multifamily",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-pop",
-      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "population",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-incommute",
-      "label": "In-commuters - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "in_commuters",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-commuteratio",
-      "label": "Commute ratio - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "commute_ratio",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-future",
-      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "future_units_needed_20yr",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-wf",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "workforce_housing_pressure_score",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-owngap",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "wage_affordability_ownership_gap_dollars",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-rentgap",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "wage_affordability_rent_gap_dollars",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-opp",
-      "label": "Opportunity score - jurisdiction metrics digest (latest committed opportunity context)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "opportunity_score",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-walk",
-      "label": "Walkability score - jurisdiction metrics digest (latest committed opportunity context)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "walkability_score",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-rentchg",
-      "label": "County rent change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "county_trend_rent_change_2009_2024_pct",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-incchg",
-      "label": "County income change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "county_trend_income_change_2009_2024_pct",
-      "accessed": "2026-07-30"
-    },
-    {
-      "id": "d-service",
-      "label": "County service-sector employment share - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
-      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
-      "kind": "data",
-      "dataset": "jurisdiction-metrics-digest",
-      "field": "county_service_sector_share_pct",
       "accessed": "2026-07-30"
     },
     {
@@ -451,6 +248,204 @@
       "dataset": "jurisdiction-metrics-digest",
       "field": "ownership_need_owner_cost_burdened",
       "accessed": "2026-07-07"
+    },
+    {
+      "id": "d1",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "rank",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d2",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overall_need_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d3",
+      "label": "Deep-affordability housing gap units - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_units",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d4",
+      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_rate_lte30",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d5",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_cost_burdened",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d6",
+      "label": "Occupied-household overcrowding rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overcrowding_rate",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d7",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "median_home_value",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d8",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "gross_rent_median",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d9",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_renters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d10",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_multifamily",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d11",
+      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "population",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d12",
+      "label": "In-commuters - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "in_commuters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d13",
+      "label": "Commute ratio - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "commute_ratio",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d14",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_needed_20yr",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d15",
+      "label": "Opportunity score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "opportunity_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d16",
+      "label": "Walkability score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "walkability_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d17",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "workforce_housing_pressure_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d18",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_ownership_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d19",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_rent_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d20",
+      "label": "County service-sector employment share - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_service_sector_share_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d21",
+      "label": "County rent change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_rent_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d22",
+      "label": "County income change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0822035.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-03"
     }
   ],
   "_meta_population_at_draft": 19411

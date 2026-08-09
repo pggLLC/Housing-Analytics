@@ -99,6 +99,10 @@ function sourceFor(geoid, id, field, label) {
 
 export function sectionFor(brief, digest) {
   const jurisdiction = brief.jurisdiction || digest.geography.name;
+  const gapRateValue = digest.metrics && digest.metrics.housing_gap_rate_lte30;
+  const gapRateAvailable = gapRateValue && gapRateValue.value !== null && gapRateValue.value !== undefined;
+  const para0Cites = ["d1", "d2", "d3", "d5", "d6"];
+  if (gapRateAvailable) para0Cites.splice(3, 0, "d4");
   return {
     id: "metric-digest",
     heading: "Metric Digest",
@@ -111,7 +115,7 @@ export function sectionFor(brief, digest) {
           `${housingGapRateText(digest)} ` +
           `${valueText(digest, "pct_cost_burdened", "pct")} of renter households are cost burdened, ` +
           `and ${valueText(digest, "overcrowding_rate", "pct")} of occupied households are overcrowded.`,
-        cites: ["d1", "d2", "d3", "d4", "d5", "d6"],
+        cites: para0Cites,
       },
       {
         text:
@@ -166,8 +170,13 @@ function updateBrief(file) {
   brief.sections.push(sectionFor(brief, digest));
 
   const dataSourceIds = new Set(DATA_SOURCES.map(([id]) => id));
-  brief.sources = (brief.sources || []).filter((source) => !dataSourceIds.has(source.id));
+  brief.sources = (brief.sources || []).filter(
+    (source) => !dataSourceIds.has(source.id) && !/^d-/.test(source.id)
+  );
+  const gapRateValue = digest.metrics && digest.metrics.housing_gap_rate_lte30;
+  const gapRateAvailable = gapRateValue && gapRateValue.value !== null && gapRateValue.value !== undefined;
   for (const [id, field, label] of DATA_SOURCES) {
+    if (id === "d4" && !gapRateAvailable) continue;
     brief.sources.push(sourceFor(geoid, id, field, label));
   }
 
