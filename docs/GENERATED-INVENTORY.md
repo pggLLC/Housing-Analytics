@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-08T09:37:17.868Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-09T12:07:55.942Z. Do not edit by hand.
 
 ---
 
@@ -98,7 +98,7 @@
 | `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
 | `data/car-market-report-2026-05.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-06.json` | 64.1 KB | ✅ | — |
-| `data/car-market-report-2026-07.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-07.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-08.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
