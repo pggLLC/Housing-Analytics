@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-07-20. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-08-10. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -90,6 +90,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`pma-barrier-aware.js`](./js__pma-barrier-aware.md) | js/pma-barrier-aware. | 0 |
 | [`pma-barriers.js`](./js__pma-barriers.md) | js/pma-barriers. | 10 |
 | [`pma-commute-context.js`](./js__pma-commute-context.md) | js/pma-commute-context. | 0 |
+| [`pma-commute-shaped.js`](./js__pma-commute-shaped.md) | Commute-shaped PMA beta mode. | 0 |
 | [`pma-commuting.js`](./js__pma-commuting.md) | js/pma-commuting. | 7 |
 | [`pma-competitive-set.js`](./js__pma-competitive-set.md) | js/pma-competitive-set. | 6 |
 | [`pma-confidence.js`](./js__pma-confidence.md) | js/pma-confidence. | 7 |
@@ -241,10 +242,13 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
+| [`hna-ownership-strategy.js`](./js__hna__hna-ownership-strategy.md) | Tier-1 ownership strategy screening renderer. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
 | [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 46 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 17 |
+| [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |
+| [`ownership-finance.js`](./js__hna__ownership-finance.md) | js/hna/ownership-finance. | 9 |
 
 ## `js/market-analysis/`
 
@@ -258,12 +262,26 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`site-comparison.js`](./js__market-analysis__site-comparison.md) | js/market-analysis/site-comparison. | 1 |
 | [`site-selection-score.js`](./js__market-analysis__site-selection-score.md) | js/market-analysis/site-selection-score. | 15 |
 
+## `js/project-market-study/`
+
+| Module | Summary | Symbols |
+|---|---|---:|
+| [`effective-demand.js`](./js__project-market-study__effective-demand.md) | Pure screening-grade effective-demand funnel. | 0 |
+| [`forsale-capture.js`](./js__project-market-study__forsale-capture.md) | Pure for-sale capture, penetration, and phased-sales scenario arithmetic. | 0 |
+| [`land-disposition.js`](./js__project-market-study__land-disposition.md) | Structured land-control comparison for the Tier-2 project layer. | 0 |
+| [`market-study-page.js`](./js__project-market-study__market-study-page.md) | Display-only controller for the for-sale market-study comparison workflow. | 0 |
+| [`market-study-report.js`](./js__project-market-study__market-study-report.md) | Honest, self-contained screening-report assembly from a Phase-8 model. | 0 |
+| [`project-scenario.js`](./js__project-market-study__project-scenario.md) | Pure project-scenario/v1 loader, validator, derivation, and adapter. | 0 |
+| [`resale-waterfall.js`](./js__project-market-study__resale-waterfall.md) | Shared-equity closing snapshot and limited-pool resale distribution. | 0 |
+| [`shared-equity-lifecycle.js`](./js__project-market-study__shared-equity-lifecycle.md) | Shared-equity lifecycle scenario engine. | 0 |
+
 ## `js/projections/`
 
 | Module | Summary | Symbols |
 |---|---|---:|
 | [`cohort-component-model.js`](./js__projections__cohort-component-model.md) | cohort-component-model. | 1 |
 | [`scenario-builder.js`](./js__projections__scenario-builder.md) | scenario-builder. | 0 |
+| [`scenario-presets.js`](./js__projections__scenario-presets.md) | scenario-presets. | 0 |
 | [`scenario-storage.js`](./js__projections__scenario-storage.md) | scenario-storage. | 1 |
 
 ## `js/utils/`
@@ -346,6 +364,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | scripts/audit/qa-status-generator. | 3 |
 | [`refresh-external-references.mjs`](./scripts__audit__refresh-external-references.md) | scripts/audit/refresh-external-references. | 1 |
 | [`refresh-inventory-mtimes.mjs`](./scripts__audit__refresh-inventory-mtimes.md) | refresh-inventory-mtimes. | 0 |
+| [`rendered-mobile-overflow-npm.mjs`](./scripts__audit__rendered-mobile-overflow-npm.md) | Local convenience wrapper for the rendered mobile overflow smoke. | 0 |
 | [`repo-link-audit.mjs`](./scripts__audit__repo-link-audit.md) | Repo-wide link audit. | 0 |
 | [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | F128 — Runtime contrast scanner. | 0 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |

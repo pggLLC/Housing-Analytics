@@ -303,7 +303,7 @@ where county-level projection data is not applicable (e.g. full state view).
 renderProjectionChart — draw a population projection line chart.
 Called by external modules via window.__HNA_renderProjectionChart.
 
-### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t)`
+### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, opts)`
 
 _renderScenarioSection — render scenario comparison charts.
 @param {object} proj        - Projection data object
