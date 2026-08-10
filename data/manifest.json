@@ -1,10 +1,10 @@
 {
-  "generated": "2026-08-09T07:54:26.895655Z",
+  "generated": "2026-08-10T03:58:47.821445Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 779670
+      "bytes": 779715
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 218588
+      "bytes": 214501
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 177319
+      "bytes": 174045
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
