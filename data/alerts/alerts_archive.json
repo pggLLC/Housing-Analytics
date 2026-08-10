@@ -1,11 +1,110 @@
 {
   "meta": {
-    "generated": "2026-08-03T11:31:02Z",
+    "generated": "2026-08-10T03:09:46Z",
     "feed_count": 6,
-    "alert_count": 312,
+    "alert_count": 307,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "GJARA: Rent relief? Only if we build it - The Grand Junction Daily Sentinel",
+      "date": "2026-08-08T15:26:00Z",
+      "source": "The Grand Junction Daily Sentinel",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxONGdhUWEwN2xFMVNnTDAtN3NBa3N6RkZuTmVGRjNvQUZ6ck9oOUxhMkxVMWFCVDg4RWlITk5mOGd6UExuOE5oX0lseHZrejkxRkwyU2lrdXNyU2hvcVVsUWM2RTBwYWdOenpFZjhrSEl4MlBFVE9NM2tBMGVoZEMzNWZuVmlnLUZFTi10R2djdkJYV29LVk1HRmZONFJjcG9COVpBV2t1TFVpQ1RIQnpZRS1VXzZLY3duM2w4andybWozNWtrRjlFX204QTJRQdIB0wFBVV95cUxOclY5VU5GV2htSXhjTUszZlhaVFJra2MtMFRpYnZSUUE5bDNFZ0xRWkRDS0R6LXN4OEZhR2tQSVhURW9oMVZ2dG0xYWFfVkZZbTRKRmRCSEpTVkZxZHhCTm1TUU1BSkYxU2lFSXAycWtibXdYRlFWYWhFcWx5dEdGX3UxRE1KVmxPamV2OE14ekh5b3p6WHhKUEx2QUZSZXJ6ckhjb24xa2d0cVhYeDdPVUsxNXlYT1lMcFJHYk9TRVVzeHVoTlV3alVJcDI2VE1rWFNJ?oc=5",
+      "topic": "rent",
+      "region": "Grand Junction",
+      "summary": "GJARA: Rent relief? Only if we build it \u00a0\u00a0 The Grand Junction Daily Sentinel"
+    },
+    {
+      "title": "Broomfield could see more affordable housing with likely participation in next Proposition 123 funding round - Broomfield Enterprise",
+      "date": "2026-08-07T20:01:09Z",
+      "source": "Broomfield Enterprise",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeFAybEE1ODF1U3NLZnhIbTBKRERUMFZPTTJzWjNVY1p3MnNSV1BkV214NF9Va01vVmZicGR1djlIWHBsSDYxcWhqQk9IcTFzX3QtSG1CSU5ObloxRk5jejc4ekpZVkZvNWhBSnI4bHd5S01zWWdxeGFJWWduUmMta3RHQ0pTXzBPUHlJRUNYUDA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Broomfield could see more affordable housing with likely participation in next Proposition 123 funding round \u00a0\u00a0 Broomfield Enterprise"
+    },
+    {
+      "title": "Klobuchar, Gillibrand introduce bill to expand affordable, accessible housing through tax credits - Valley News Live",
+      "date": "2026-08-07T19:13:00Z",
+      "source": "Valley News Live",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPMDQ1Y3RWODc0c0tnYjJWa182WFJmMDVUejhuT2RIWGlrcklXU1gtNG1nS0JNMlhjTjhFbHd5di1WdTFfSHU4dlRWSFUtOFVPbkNBWXNBbnN3S3dreWY4bk9USTNfYy0zYXFpbmV0OEljOWViZmxrTXN0Qll6UlhxRTl3R2dodEFhajZ1NGhHTjJzVnRMVS1QYnd3a1ZYVDQ5MTEwODRKdnFaWWxBM0w4bXZnaXhTRnhSeHFFOE1feXRrSmZ4WjlNMHcwNE5odEFl0gHkAUFVX3lxTE9zYVRxVXo5TlIxbWJqUHUyNG40S19uVlBwbXNLaW5nc0cyemNSZzk0Q2VMOHZhalhja3lIZlY0aDFGalNuWHFOTUNlSDZSbElmbDh3anhaYlZTRHE1QzdzZ2FjVDJxamRPNmV3Snl0Z1dqQjNMVUpTWGNnUWo5MXNTckptYzFQZWhFNWlsa0ZjNzJ2anVBeFdHQ0NmdVJ3WS1QMmFsV3YwVXRMZjlSRkhhTW90dTMyUGJpV0RrMEtXNEc2U2xEYXF5N1NkNVRZeW1oZ2p3NHBMbmxJTXVULTV0eWN5dA?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Klobuchar, Gillibrand introduce bill to expand affordable, accessible housing through tax credits \u00a0\u00a0 Valley News Live"
+    },
+    {
+      "title": "Wellington Renews Proposition 123 Commitment, Advances Affordable Housing - North Forty News",
+      "date": "2026-08-07T18:17:12Z",
+      "source": "North Forty News",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNYkVLMzZvLWJQZF85VHNYUTJDYkVWbnBodmVnQXJWN2xUUkNwaEctY0hHaUd0YmdzclJsTHotMkRDREc2eV80dG1rQlo4c21qbkJLME9zZG1IVjYzYmJIV09qLXAyTDBsdTRvem9fUk5URkdBejljMlVzcFYxYjNRUjkzMk5QM1ItbjMxYmF3UFBXUXN3WjIwcVVCTHhqb0gydnF0cFNmdGlSMU1ZVW9mVE9za0Y?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Wellington Renews Proposition 123 Commitment, Advances Affordable Housing \u00a0\u00a0 North Forty News"
+    },
+    {
+      "title": "City of Hutchinson and Hutchinson Community Foundation Celebrate State Awards for Two Affordable Housing Developments - adastraradio.com",
+      "date": "2026-08-07T16:31:32Z",
+      "source": "adastraradio.com",
+      "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxNNV93VWtRM01RalJtaWx2dnJsVmZzRWhJbk5hR2tSb3lHcmptOGF6YmlBS21zTElmb2YxdVp5RHlFZUdUdERhb1ZpazBlTWVHZ2xkMGtwSE9fczl6aG90aWdPTWQ2S2ZOOHVkZHlUR2FmQVNBQ19Gc3dlYU9KMHpUYnlyckxfN0h3QW9RLVFtemR5eVRxellCa1ZrcXNNMnVNTUlvV1V6NmM3SkowMG90Mk9wSWFjUnNtUmRZQV9lS1EwVV81TTJrUHNVb2R4cmFWdkE1SDVINkNsMUVlWng1TEt5MDhZSjRBWHNzYzhZOGRwZw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "City of Hutchinson and Hutchinson Community Foundation Celebrate State Awards for Two Affordable Housing Developments \u00a0\u00a0 adastraradio.com"
+    },
+    {
+      "title": "Colorado teacher home loan program puts school fund money at risk in foreclosures - Rocky Mountain Voice",
+      "date": "2026-08-07T14:21:00Z",
+      "source": "Rocky Mountain Voice",
+      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPcHBoSEFaTFRhQlA2VFdSWWppME11c2YxUkZEZWdGMmh0X3dIdmtNWGRtazJsZl94X1BhM0h0OEJXQ2ZHelVBZzlQTThNM2Vfc0F1NzdpRmtoNEszOHQ1S3Z3V09lZjFPV25NY0V2cWVmSm5od09vN2VIaGVvNE1TR0FYQ1RhVEVKOUNkaTVVSE5SV2hveDNNYUVYT3YzSV9aVEtEc3dKcG8zbDVIQjNjeGxJdFpKN2ZiUF9YbENCUHowQQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado teacher home loan program puts school fund money at risk in foreclosures \u00a0\u00a0 Rocky Mountain Voice"
+    },
+    {
+      "title": "Two housing projects awarded state tax credits - Hutch Post",
+      "date": "2026-08-07T13:25:28Z",
+      "source": "Hutch Post",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9BVzZNZFZMVHBrUlNWbHpvR1RGQkw4VXJjQlZlNkdtQUdZQkNQVjZPdkZJdmMtWmp5d2pXMkNzUnRBbHV6YUNQY0Q3QlpxaWVlOEFPeTBFTnBrMmJNWVBZSVE3Sm14NkxwbTByUFZOM1dsZw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Two housing projects awarded state tax credits \u00a0\u00a0 Hutch Post"
+    },
+    {
+      "title": "Proposed CRA Changes Raise Alarms for Affordable Housing Industry - Affordable Housing Finance",
+      "date": "2026-08-06T20:17:10Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOWnpaRDRYVXdRS3FhRHN0YjVpdloxQ1BlVFpRMmxScFhKM2ZXRWRNdmd2TS14TVdlRlh2c2hXU1BDRWRXYmt3MFNCREdNYUtiV3ZBNTEwNGhZajlSbUVZMEtoTlZwSzZmRDBwR0lZVTNuS0RuZTBXZ0F4YjAxQUFEaW5ndXhrRjd4NUpBeUlQMTdwM01aZ0JQZFRjM09jX0NNUHhkNHlCbDUyMlpiN2VVLQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Proposed CRA Changes Raise Alarms for Affordable Housing Industry \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "Advocates and C4 receive funding from the Colorado Housing and Finance Authority - The Leadville Herald",
+      "date": "2026-08-06T12:00:00Z",
+      "source": "The Leadville Herald",
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxNQ25ucktjUUhLVG5BcTZBRmE2SFhwaUdlWkV1TGRKYmM2eG1BNXk1S0YxcmtCWk5rR0FKRXdNRjNDdy1YM25ieEdNMmQ2ZmVRTFdvNFZkYVRuQkVRYUtlQ210Ym9TVW5pc2lNQU5Vd1J6OWNfUDFxa3hoSHVjMlVVNktwZWNpcE5sTldES0tSNVljb2c2NmM5eGJZNUFNakpIbWZ6bk1YRnZLbFhxS2lCc0ozNk5SWDhYYUdXUUNtd09NYWhNdXFfZm5HQVpiY0VzMjYzM1NjZ0c5VjRlakRMY3Z5cTV5LTNtRjRHY1Z5d19iSFlYZXNZV0RaVQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Advocates and C4 receive funding from the Colorado Housing and Finance Authority \u00a0\u00a0 The Leadville Herald"
+    },
+    {
+      "title": "New affordable housing development coming to Lindbergh - AJC.com",
+      "date": "2026-08-06T11:55:47Z",
+      "source": "AJC.com",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxONmFvdkFtbDVYUlVLcDB4cHNienpyZFRQNUlpRkVEZDlYVUpDdkM4OWd2a096bW9jcmVMYjlQWFE0dVNsWkE0Mm0zSGJoRDR1cHRVckI0RDRVeF9DTWJxY1R5MG52WUEwV1Y4Qk1fcy15bUdtYm5XZzVpR09VSlItTHppZ3B6RGhmc25RdHE3QW45VERuMXd4WHl6WDZqMUJMTUMxN0FR?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "New affordable housing development coming to Lindbergh \u00a0\u00a0 AJC.com"
+    },
+    {
+      "title": "Pinnacle Advances Senior Housing Development - Affordable Housing Finance",
+      "date": "2026-08-05T19:24:53Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNdkJUV3FkMEFzX2pGcWNxdmlLb3p2WHFwdVV2THJwTVg2MXJLTk1qVjQzMG9uUm5XY29wajk3cThfY1A3RmJaajV1UDVEUVpCSXlZZVJGc2RXQ2lmaTBLRjE3WnpQUWVUMDBXRXdOaThueVhnLWpXdDZPUmFaYkNRaC1UVzhKVV90Q1E?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Pinnacle Advances Senior Housing Development \u00a0\u00a0 Affordable Housing Finance"
+    },
     {
       "title": "CHFA Announces 2026 Middle-income Housing Tax Credit Award - Mile High CRE",
       "date": "2026-07-30T15:34:31Z",
@@ -295,6 +394,15 @@
       "summary": "Sterling housing project is recipient of Proposition 123 funds \u00a0\u00a0 Sterling Journal-Advocate"
     },
     {
+      "title": "Greystone Real Estate Capital Closes Second LIHTC Fund - Affordable Housing Finance",
+      "date": "2026-07-21T07:00:00Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNbWN6aHZVcUJpREZkQlBVTEJuaXhwT0NsUmRjdDJHVDdjMlhLSG5ZdU9HclhHRWM1dlpLdTBjLUt4WWtrZGtsa3ZicERWM1J6MW1ObTVGQmVUMlJTVW4wOHpjeEVJaFRjOW16TWpnbHhUdjVUOWJPZmxuenFMZHlDYTFtUktKSldpLTlGSnVGLWx1TVJteWczZg?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Greystone Real Estate Capital Closes Second LIHTC Fund \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
       "title": "Affordable Housing Tax Credit Market Faces Equity Gap - Yahoo Finance",
       "date": "2026-07-21T04:05:47Z",
       "source": "Yahoo Finance",
@@ -320,6 +428,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "An Affordable Housing Owner\u2019s Guide to Hurricane Season \u00a0\u00a0 Tax Credit Advisor"
+    },
+    {
+      "title": "How AI is Transforming the LIHTC Equity Market - Tax Credit Advisor",
+      "date": "2026-07-20T07:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPZ0s0d0xMb3k2aG03Rmh1YUtBY2pPVHFjbEh5OXNIMmR1MV9GT0ZIMVp0VzlmWTJBeVg3eDJKeFFsYThlZXdaTDFROWJkTV92NHF6WGw3VUd2ZlBwbUdZaTRDRkZXUjExNUtfa2V1eHpHZEtQNmJsbVJ0NURyTzZzMFpsaS1DZEJnRWRwT1V4VzJnUQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "How AI is Transforming the LIHTC Equity Market \u00a0\u00a0 Tax Credit Advisor"
     },
     {
       "title": "Rep. Case introduces bill to boost transit-oriented affordable housing - Maui Now",
@@ -383,6 +500,15 @@
       "topic": "general",
       "region": "Denver",
       "summary": "As Colorado invests in modular housing, a new player offers innovation on a shoestring \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "OHFA Board Approves Financing for Six Housing Developments - The Ohio Housing Finance Agency (OHFA)",
+      "date": "2026-07-16T07:00:00Z",
+      "source": "The Ohio Housing Finance Agency (OHFA)",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5zdVpPQldxMmRwVXQzcDVfd1dRQlBCaTdQMHVYZk9rUFp5X0taV2NIYm5Qa3Nob2hYYlo5Szc4YS1xbDhIc0MyQWZrX0lqMlZndElzTGtBRTlnMGNfNVFaX2ZxTHFHSUMwdTc2RVNjR2VZdw?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "OHFA Board Approves Financing for Six Housing Developments \u00a0\u00a0 The Ohio Housing Finance Agency (OHFA)"
     },
     {
       "title": "A low-income housing program is pouring big money into housing many Oregonians can\u2019t afford - Street Roots",
@@ -799,6 +925,15 @@
       "summary": "PNC Fund to Support More Than 1,700 Affordable Homes \u00a0\u00a0 Affordable Housing Finance"
     },
     {
+      "title": "HUD Income and Rent Limits - RaleighNC.gov",
+      "date": "2026-06-26T07:00:00Z",
+      "source": "RaleighNC.gov",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQYXJ1eF9Ub0wyTGcwSlc4RGM2N3M1Z1loc0tuUHc5RDJGUTlXVTgyTFROV1VoZlVTMFhrU1Y1WVZFYy1WRXUtOHpJSFJ0R08xQ1djYkhTYUROTjlSMjFhOVJHQmVzTlVnV1BDdWd4bnNMckpMRWtDYkNnSHNEc3NfTUlJNXM5QjV5WGlOMVpaNGpsQ3RUclhj?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "HUD Income and Rent Limits \u00a0\u00a0 RaleighNC.gov"
+    },
+    {
       "title": "This Month\u2019s Big Story: \u2018Affording Colorado\u2019 - KKTV",
       "date": "2026-06-26T07:00:00Z",
       "source": "KKTV",
@@ -959,6 +1094,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure \u00a0\u00a0 Tax Credit Advisor"
+    },
+    {
+      "title": "Michigan backs 13 housing developments with $19 million in tax credits - Manistee News Advocate",
+      "date": "2026-06-22T07:00:00Z",
+      "source": "Manistee News Advocate",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNTDkxTXN0Q3RMZHNzMWVCQnhPNW1ESDVqWGN1Mi1GNGxxOXpYSWdmNnRRZnQ5QVNnRGwzVkpVeEhpbjladk1QTUgzeVlpQTJySDlfelhpZXhFb3ZaVS0tbjUzTmF6ampEd25GZTJpTDFhSU9GcHhRTE1hZzJ2aGl5MlZYLWh4R3hhRXgxQUY3cmkyTGVu?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Michigan backs 13 housing developments with $19 million in tax credits \u00a0\u00a0 Manistee News Advocate"
     },
     {
       "title": "Michigan backs 13 housing developments with $19 million in tax credits - Midland Daily News",
@@ -2624,195 +2768,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Colorado\u2019s fierce two-year fight over AI regulation ends with watered-down law, little fanfare \u00a0\u00a0 The Colorado Sun"
-    },
-    {
-      "title": "Gov. Polis recognizes Grand Junction for affordable housing progress - KJCT",
-      "date": "2026-05-12T00:40:00Z",
-      "source": "KJCT",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPMUpFUzliWlBaNV9iVGhjZk1KLWlZeG9DWWhIMjM2bUZ1bDh2ZWNjRFhrU2xsaTFUTUMzT01sLXV4V203NFhzZ1paemx0amR4NEtCVkV4ZFVuTUhFQzZmdHdWdkhYc0FpcUl0OTZZYTItVW1UdWRHRGM4QmwxRnZTcnZ5OW5kQ0VtN2NlZkdwQ2dFSUxOT0pRMVI3TGg4Z9IBsgFBVV95cUxOOC1BX3gxeV9oZ3V6MklrbE5XYWZmcVNOWGRkREp4TnAzMEpuUHQyNUExRm1lRjlxWmNLNktzUGN3WEV1UmVWNDBNR1FtQWo4UExkb0lJMndnZU5mYmhBbWtWSi16MFJjN3hqMTlabHJUc1VudFVMU0E4NDdkcGdubzBIM3A1M0lGenN4SlAza0NaeG40MnBhOGUxOEpHY1NFZFdqX0lnaXhHZU5Nc3hRWGlB?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Gov. Polis recognizes Grand Junction for affordable housing progress \u00a0\u00a0 KJCT"
-    },
-    {
-      "title": "Lawmakers Renew Push for Workforce Housing Tax Credit - Affordable Housing Finance",
-      "date": "2026-05-11T18:25:21Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOTWNjVlRmVEFqQk93Q3o3Y0FrVFFXcXVqenZUTGdnYlF0YWs2d2RjOHZUVEt4MTZwU2FLemdrZ3QzWWYzYlZ0bjlZZ2xJcGxlYUVadXZ4UDA1eDE3T1hEVGRzV2hua3ZobTBWS3kxZ3RlN01IQjFPVjZJMXR1c0xHbnhmbVg5M3dQV1pYVmVDQmt2SC01UkVnaU5DZ1Z4WHZD?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Lawmakers Renew Push for Workforce Housing Tax Credit \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Business Buzz: Colorado\u2019s energy paradox and 3D printing the future of housing - KUSA.com",
-      "date": "2026-05-11T18:22:00Z",
-      "source": "KUSA.com",
-      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxNanU5UVNiMm12WmpKTEhJRURtRjRSS3ZlT0Y4T1gxeUV5c2hCcU5fNDdhaFNCRnpTWHJjaHNaRkF3OTN0ZENRQUFTX3dieDRORG9mVTRYa04ybDhWR0xsUkJOaUVrT3ZtT1pmcG9WNzJpeGpydnkyaUtMaGdWaVdFTzJMa2tYRW1KaWUtclBEb0ZkbFRfNXdUbEw1aHNTZEJFUGxKaVoxNkNZb0kxLUU3azVXbEljY19UM3g1eHZHSGtSa25mWXZ3R0N6X01zdnBjQzI4OW1NQ3JPZUQtZ1dEZzh0SG53OFM0?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Business Buzz: Colorado\u2019s energy paradox and 3D printing the future of housing \u00a0\u00a0 KUSA.com"
-    },
-    {
-      "title": "LIHTC Enters a New Era After OBBB - Multifamily Executive",
-      "date": "2026-05-11T07:00:00Z",
-      "source": "Multifamily Executive",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOOFI4a3NHTTdWcXpUYk5mamJISm1STHFfUXBYeko3QnFhbHhMaEcxUEcwRnpxY0d2Z3hZWHRNNWpCU2ttM1VWckQ3QmR5TlFaYW9QWUJRamlBTW03VEtpYXBnZWdxbzhXSTA1MVRRZ1o2b2RselVmMkFDVEVqV0ZNMkE5bDNyOGNEcGxfa0Z3?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "LIHTC Enters a New Era After OBBB \u00a0\u00a0 Multifamily Executive"
-    },
-    {
-      "title": "New bill offers tax credits for middle-income housing - Multifamily Dive",
-      "date": "2026-05-11T07:00:00Z",
-      "source": "Multifamily Dive",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPVUh1T3hlc3pPT2E0VXlzQmQ4WHpxMk5HU0tFTGc5UG9lYlVnU0Jmb29sNGVXbGYtYzAwQnhJT05OdkE1VndwRzdDOFZmRGVTSmFvcjlpeTRvaFFUVk5MNjQ2TDg1SHFSZW9xY3FoMUM3Zlh3TW1vclRFYklxMDRpcUtjdV9BdmVJZXl6OUtR?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "New bill offers tax credits for middle-income housing \u00a0\u00a0 Multifamily Dive"
-    },
-    {
-      "title": "Gov. Polis recognizes Grand Junction for affordable housing progress - KKCO 11 News",
-      "date": "2026-05-11T07:00:00Z",
-      "source": "KKCO 11 News",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxObmdVelpya015a3Y4UlJ2TEtVRDBHa0tXTGdPempwUDlXVTd4NnhWbzlmN09RMi1EaWdQQzZDYW0zNUVXRUNjaktvS09YNExvX1dJTnk2S3BKSXp2WWZTZVFQRUFiV19PS2xwenZRcUFQcXFPeG5LWm05MTlvZmJ0bVJfT0diSExTUC1BUVpRMC12c2tOR04yOWVvR2FUVnY5eWpZbdIBuAFBVV95cUxObWlrVTRkUlZMQV9KdmxOdmp6NFh3QWdCLWM2ZnJPY0t5QWlQUWQwdDhETE5zTUx3NjVGZUtCelBQb256U3pURW1TalhIMDVlN1dpNGxwc09qTUE1R09EdUpCOFRTMElQV0hBdHVmYzhHU2hIS1JHU2MwNTNtN3VSbV9LeHJRSWVRcy1iTTktZUNUc1RhUndJQkNGdjlFbk14amQ2RlhVa3Itamk3T2VPNmJWTjQzcVFL?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Gov. Polis recognizes Grand Junction for affordable housing progress \u00a0\u00a0 KKCO 11 News"
-    },
-    {
-      "title": "Nurturing LIHTC\u2019s Next Great Generation - Tax Credit Advisor",
-      "date": "2026-05-11T07:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxORzY2cU4xZDY4MG1hYUhTT3U3bUZZcXVRQlA0OUVJcUdSS1A3X2E1Y25aLU5OODRQTmdiX2tQQk92RVVabEhaVjlidWJwa1RscEtXY2IzcUNiWHV2OUhkd2ZzTjZvVW1BcHNSM0dvM2xPcTZZOFlsa0g2YktlRjhHVWxPUEE1RFRaNkZhRXV3b2FJWmpCX2R4aQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Nurturing LIHTC\u2019s Next Great Generation \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Affordable Housing\u2019s Looming Senior Challenge: Caring for the \u2018Silver Tsunami\u2019 - Tax Credit Advisor",
-      "date": "2026-05-11T07:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1KclAxek0zS0UwTnF2Ull6aDh4a3hZdEpVZjRJR3NsbUpKY2JRbmQwdnRWaVFhU3E0Q3NnRTI2cUszbzZCLXV5SVhybGZBbkNlTTJCZmJyalRabzJ6Sk5saEc2V3pmWG9YVDRZMGdhVGxJdkF4cUQ1VTN1YnZYdw?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Affordable Housing\u2019s Looming Senior Challenge: Caring for the \u2018Silver Tsunami\u2019 \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Denver City Council to weigh affordable housing preservation - Denver Gazette",
-      "date": "2026-05-10T17:23:57Z",
-      "source": "Denver Gazette",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNX2RJUnVxdXJycXo2cEJMNTlPLW83eW9SNWtzcGZZdHhxNFR3Tk5OTElwMlM0SnFJS1g5cjBjMjRTdVp3SXQtN1BKWFE2VWJlWGt2QmJPR194WXc3UEkxSmY3Qk1helBsVm9ZNjBuSUhwVkY5X0NUQTlnNC1qNHlRV3duU25PY1Jlc3Vva0VvdEtqVk5SZV9jNEpVeEVNUGZaT3JWZg?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Denver City Council to weigh affordable housing preservation \u00a0\u00a0 Denver Gazette"
-    },
-    {
-      "title": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requirements - KKCO 11 News",
-      "date": "2026-05-08T22:54:00Z",
-      "source": "KKCO 11 News",
-      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNWHltXy1OSzlTS1E5Z1MwZFFwOENXTlg2RnFJWFpUOHk1aGR0WkRPR3pNNjg2WEl2V3ZmeHFZVE5waVdLTzZvRFM2dm5aYkE3Tm8zLUZCTWQyM1p0cWJielNvMTdCTEFVYk1oTnJseHd6TUV2QUpBUnc3Q0p3Qll1Q1YzVXJXSHFvQ1VyRHpXdlRLY2Z4RnhqZUFPREktdlJsWlo0WklkT25JWklGbThmZElmRW9qdTh0X2o1YV9QVGhndGx3TE01LTZobWNCeG9GdDBF0gHnAUFVX3lxTE9CX1FmRHVLQkFjVmRPcFo1M215NkNMWE9mQXNWaGxYREhhYmdxT0NEUXU2el82VjhoRTRWLXp5QTVLYVlzWG1idi1CbEhzM3FhNjRCRnlxX1pzc0pjQUowYUIzZzczUktVS0UwQWFlVHNmZkUwdjUyZ0tYWEFKOUJTRVdyY0NXUnAyejJlUUxjUmMxUFF1NHdhUlhpcDVDeWFhMFpaNnJoNGRWQWFjbGw1N3lJY3hEQWpqMzVyOEkzV1c1T0hXU2tYNFhYTDRkZlY1WmZyM2FQamh2RmhiVDZGQnZ5d3E5OA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requirements \u00a0\u00a0 KKCO 11 News"
-    },
-    {
-      "title": "Housing Trust Group and HFH Supportive Housing Celebrate Topping Off of $28M Affordable Senior Housing Community in Titusville Florida - Yield PRO",
-      "date": "2026-05-08T15:04:33Z",
-      "source": "Yield PRO",
-      "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFB1TEY4b05ydXJ0bUZHbTVkRWEtNGswaU10Zjk5MEZuUU1GcGE0SHhSX2tCMG5NMzU2c1dkSU5sSTRrLVRlV0VISnVmUS02T1Etb3NIcHRR?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "Housing Trust Group and HFH Supportive Housing Celebrate Topping Off of $28M Affordable Senior Housing Community in Titusville Florida \u00a0\u00a0 Yield PRO"
-    },
-    {
-      "title": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requiremen - KJCT",
-      "date": "2026-05-08T14:31:00Z",
-      "source": "KJCT",
-      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNS1otZWdPQ3o2V3ZsNW1uT3Mtb1VodjdGeXlhY0hfSE0zYkRZa0s1aThqNlNnM3I4VUJiazBpYzl2UG94Z0Q4cnhPdmIzVWpjNU4wMU9CZmJSQ1ZCSG9DMVdURERsRXRlbXhxRXRkV0ZTVnJHalJwZWFjOFZQSEY3TmExXy1Bb1lubHVUT2hhd3R6SUpvUF9oSll2VzZra2J1YWl6T2NacHY2R3pmNVVLLWxIT3dxNjd6RDJJYS1ES1ltTnZscDY5RDJORmlFYnM5M1E?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requiremen \u00a0\u00a0 KJCT"
-    },
-    {
-      "title": "Maryland Governor Approves 2026 QAP - Affordable Housing Finance",
-      "date": "2026-05-08T13:19:38Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE9sb0tYV2o0Qlh2aFd5NjF4dnVINUhiUmNzN2NKUGllMDhDNG83NEdtaGJsNkFuemdEZXRIWkFud1VXN0I1Z1pMZ1pMS1N0MDgtQnZLN2g3eFRDWGVHUld3dE5QSnhpUi1DUkFVaFpjSU9BYzdCRmZTcTRSRUdFVzA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Maryland Governor Approves 2026 QAP \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Rural mayors call on Arizona officials to create new affordable housing tax credit - KJZZ",
-      "date": "2026-05-08T12:00:00Z",
-      "source": "KJZZ",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOUkxrUWYxME5sNFh4RFB4bGxwUTUtYnU3b2tGYklFU2t4VEI4U1ctWmdhQkYwcGx6SmNYWDBPMWFIYXk1R19aQ1o1YlJhbkplcm43YmplMUw2QXZJS3IzekYwMGZLSVcyYWRzQjdjZWVHUEFhSWw3ZnowV0gwVDMzbnlfLXd5QmNnWThjUUphT1ZFR3dvWUpqLWZ4NFlqQlhrT1AtNTNUZURRX3g5VFVnRVgyNnJ1WURXajZRSXFPSEQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Rural mayors call on Arizona officials to create new affordable housing tax credit \u00a0\u00a0 KJZZ"
-    },
-    {
-      "title": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requirements - KJCT",
-      "date": "2026-05-08T07:00:00Z",
-      "source": "KJCT",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOWW1ENnJad3BiVnltTnd5VXRCUTkxNmg5NmRDNEc2N1JaTDQybkJIajRNbmVQeXNpeldaaTYwNVNPRVVZUW1yS215RmpPcVBpUi1wVW82THAxV3psQ19FYTVaRDQ4a1UwSk1jdDNLeG9IWkF1eXRCZmhyVDJGU1h0VG85dFZnLWdsTGxrQVdiSXNyMUlIcXJuMmlUUEROZUZzenpQSjE3YV9fb0d5dUNhcElLVVpqa19EckdLUnJIU3VJa0dOQS05b1NMQWTSAeABQVVfeXFMUDQ4TFRtd2M0cEJJbHNmenhZOF9qZ2duS20xWWxyMWZIakdhQXN2SU9FUDNNR0Q4QXBiS0RidzBjZThCa01CT2tldUt1RGRDMFR4YzJxd0drT1Y0NUlSUXFDUjdvN0NmVVZJcGFUWUtJZlA2TEVYZmdYQ2ZhZFQ1VmRncU5OWmhEQ3k4STlZYmtMYVNLbnV2MC1fdXRRMXBOY1ZHTTVWVDQzQ0hzU0E0RVVxY0V1MXpyOUg3TU5EY3hOTFJnRTZOOHd6alZXRUozTTNaeC0tYU40MC1OMGV1d1U?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requirements \u00a0\u00a0 KJCT"
-    },
-    {
-      "title": "Evergreen Real Estate Group opens 60-unit affordable housing in Rifle - ColoradoBiz",
-      "date": "2026-05-08T01:53:48Z",
-      "source": "ColoradoBiz",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQTUdycGVWQ1BBMFZyc1N6N1NlQmlLNTJFd3ZIZVRpWm1vX0RkRl95elBfLXNVSnNfMm5GZnFpck1pemZlOWVHc1NpX1F3WGI1RzR4aDhWSTYtUEZZSmxHUWZvdnFCSC1WOW15V2pKLWlMaTNpVkUzSDBpWU9CakFYVnl4QklEel9sSGlDUEl0WW1jTTF4VGc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Evergreen Real Estate Group opens 60-unit affordable housing in Rifle \u00a0\u00a0 ColoradoBiz"
-    },
-    {
-      "title": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requiremen - KKCO 11 News",
-      "date": "2026-05-08T00:13:00Z",
-      "source": "KKCO 11 News",
-      "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxNTVJnUHh0QzJJUXFvWC1VT1dyQVU4ZkZDck5OWXpWMWxuaXlwSHVjRlctclRHcnFQd2c4WE9CQmU4NVJzSnRJNlpVM2R4Y0JvSFVxV2YwNVRlYzQ5Z0ZjaGFqR3pVMGNDV0VZaWJaY0dwa3JNVWdaOGVFbXhQSkFWZHNNYlJwQWtScldGZTJVMUxMWHRabHVOeTJTVmcwdVQxZ1Y1Z05mTXdEY3dSck1idUR2cU01VjF6NDRrRjAxa3VmRXdVdkdVXzRtRDB1VWowalZnZTF3SUw?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Grand Junction becomes Colorado\u2019s largest city to meet Proposition 123 affordable housing requiremen \u00a0\u00a0 KKCO 11 News"
-    },
-    {
-      "title": "Grand Junction hits its Proposition 123 affordable housing goal - The Grand Junction Daily Sentinel",
-      "date": "2026-05-07T13:27:40Z",
-      "source": "The Grand Junction Daily Sentinel",
-      "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNOUt0X3JlVGdfem9yd19TR013dkFNOE1mWXN1TktWMjZwZXNuRXh3VC02ZXNzQjlDU3Naa0FYYUNBQUE0bWt6VU12R1EwR3lVZVVVZHpRbmFaa1YwQ0djOVl4aU8xWERCTEN5SGk0UWRfNC1iNk1aZkM0dWh5X3cxRFNOay1YR0paQlBZdm52a213SVNIR3RqRzhLQ1EwY1hibEMtRndZcUc2QzVGNHRkWGZOTmJ5ZGVObTdxSEtoaWl1eTh5RUpYZmx2VXpKQW93dnNOMmNwNUgxeVZ0RV9lLWxOMmwwSnJnY1B6SnMtcUxHYWg50gH6AUFVX3lxTE9oTUEwMVNFY2tqaXBqdHNiZ05pdHBva1czSUpkSnhEem5DLXFmenRCcTZ3WU1qb3RmWE5hRWRMNmtIZ2ZyZTRDR0F0RWJ3ZkMtRkZ1OXhBUjhVd21rRV8tMWROTUFDUWZlb1JkMjJwX21oNFR2UThJR2I5QkNHS05oT3JBNl9SdW53dGZuZ2ZLWW84Z0xneGkwRWV3OTIwTWpvWUlpcEJSV3pHQUxyNG9OMGphQ3hEeGt2WDNycDM4bGlUUlJZa1NURGo0R293YWRHWjZuX0g0NzVtMWRCQnZMNk0yVmswSTFvbC1QVUc1Y3BrcTJjVktBclE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Grand Junction hits its Proposition 123 affordable housing goal \u00a0\u00a0 The Grand Junction Daily Sentinel"
-    },
-    {
-      "title": "State zoning preemption tested as Colorado lot bills fail - HousingWire",
-      "date": "2026-05-06T21:29:11Z",
-      "source": "HousingWire",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1ySFpSSGkySWJ0eG1YMmFfT2R3bENscnVGQndIUlJBWXYwYnRfdVBxUGhvc2dRSWNQaHZWYWJtRXZUay1VZWNYUzY2dUlZUW92S1hhRjZDUTFYUC1IWkxRMEtybVp0bk40RzdiOUdmQW9SZzdlWGY5NU5rWQ?oc=5",
-      "topic": "zoning",
-      "region": "Statewide",
-      "summary": "State zoning preemption tested as Colorado lot bills fail \u00a0\u00a0 HousingWire"
-    },
-    {
-      "title": "Case Study: A River Runs Through It - Tax Credit Advisor",
-      "date": "2026-05-06T15:27:10Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQU3RFS0s4TFV2ZlRaaVQ2cnNiSlozaDhMLXM1X2ZXU1dmcUlWeWE4VS1YaFRkUmU1MHBzWGxDZE1KUzhNZjlWNy0ta2hqb1NjVXYzV01pTE9EY1NMZVVnMFE3M1k1dlpydFJ6V1ItUDJOUTU3dWYtODhLQ0xJSmFBWlRqdw?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Case Study: A River Runs Through It \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Colorado state lawmakers abandon efforts to legalize smaller lots for single-family homes - KUNC",
-      "date": "2026-05-05T20:20:00Z",
-      "source": "KUNC",
-      "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQcHljVmdsektuNjNKQ3ZRQllOVk1adFZxWktUZmlFZlExeEsySnIwQ0FOYWpaMHVab3FuN1cyb3hfT2MwNGsybnNra3BZZ3MtZ05ST0pmX2oxY0xibXc0TFJBQ1djbU1PVjBpZU9reE0tbnpQdjhBNHZsMlpmSlNuakhpZWVqdHdLbWUydXA0MmpqSmFKdVRDTDEwQUFGamdQV3RLcFZIYWI5YUQwcFJuV1dMVWRsdmN4ZzZSQndPdVpVYVY4aExvTDJR?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado state lawmakers abandon efforts to legalize smaller lots for single-family homes \u00a0\u00a0 KUNC"
     }
   ]
 }
