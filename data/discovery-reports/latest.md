@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-09T07:43:09.938Z
+**Scan timestamp:** 2026-08-10T08:19:36.898Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1531 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (213 KB)
+- `data/alerts/alerts_archive.json` (209 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -1577,7 +1577,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (173 KB)
+- `data/policy_briefs.json` (170 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
@@ -1594,7 +1594,7 @@
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (400 KB)
+- `data/url-health.json` (405 KB)
 - `data/zillow/median_list_price_metro.csv` (830 KB)
 - `data/zillow/zhvi_metro.csv` (4340 KB)
 - `data/zillow/zori_metro.csv` (1014 KB)
