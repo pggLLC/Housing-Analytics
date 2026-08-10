@@ -1,11 +1,20 @@
 {
   "meta": {
-    "generated": "2026-08-10T03:09:46Z",
+    "generated": "2026-08-10T09:38:13Z",
     "feed_count": 6,
-    "alert_count": 307,
+    "alert_count": 308,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Making Affordable Housing Affordable to Build - Governing",
+      "date": "2026-08-10T04:03:36Z",
+      "source": "Governing",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNWUI5TE5QcGFEeHVrQXN1V3ZPWmwzMS1ZdVJSbm9YR3lGY1V0S3BRYTgxbEMybm5BT0hhQXRkcU9OZXdJb2VyRkowTGFhN0pCYWNmYmtmbWZWYkhzeTJOT1BkQm1RVWlEUGYtNUd4dVhNSjEtVVAtbElSck5hS1VEREFsRQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Making Affordable Housing Affordable to Build \u00a0\u00a0 Governing"
+    },
     {
       "title": "GJARA: Rent relief? Only if we build it - The Grand Junction Daily Sentinel",
       "date": "2026-08-08T15:26:00Z",
@@ -2419,6 +2428,15 @@
       "summary": "Promoting and Preserving Access to Affordable Housing \u00a0\u00a0 micatholic.org"
     },
     {
+      "title": "Grand Junction hits its Proposition 123 affordable housing goal - gjsentinel.com",
+      "date": "2026-05-22T07:00:00Z",
+      "source": "gjsentinel.com",
+      "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNOUt0X3JlVGdfem9yd19TR013dkFNOE1mWXN1TktWMjZwZXNuRXh3VC02ZXNzQjlDU3Naa0FYYUNBQUE0bWt6VU12R1EwR3lVZVVVZHpRbmFaa1YwQ0djOVl4aU8xWERCTEN5SGk0UWRfNC1iNk1aZkM0dWh5X3cxRFNOay1YR0paQlBZdm52a213SVNIR3RqRzhLQ1EwY1hibEMtRndZcUc2QzVGNHRkWGZOTmJ5ZGVObTdxSEtoaWl1eTh5RUpYZmx2VXpKQW93dnNOMmNwNUgxeVZ0RV9lLWxOMmwwSnJnY1B6SnMtcUxHYWg50gH6AUFVX3lxTE9oTUEwMVNFY2tqaXBqdHNiZ05pdHBva1czSUpkSnhEem5DLXFmenRCcTZ3WU1qb3RmWE5hRWRMNmtIZ2ZyZTRDR0F0RWJ3ZkMtRkZ1OXhBUjhVd21rRV8tMWROTUFDUWZlb1JkMjJwX21oNFR2UThJR2I5QkNHS05oT3JBNl9SdW53dGZuZ2ZLWW84Z0xneGkwRWV3OTIwTWpvWUlpcEJSV3pHQUxyNG9OMGphQ3hEeGt2WDNycDM4bGlUUlJZa1NURGo0R293YWRHWjZuX0g0NzVtMWRCQnZMNk0yVmswSTFvbC1QVUc1Y3BrcTJjVktBclE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Grand Junction",
+      "summary": "Grand Junction hits its Proposition 123 affordable housing goal \u00a0\u00a0 gjsentinel.com"
+    },
+    {
       "title": "Affordable housing advocates hold out for a Hail Mary - Arizona Capitol Times",
       "date": "2026-05-22T07:00:00Z",
       "source": "Arizona Capitol Times",
@@ -2759,15 +2777,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Affordable housing build delivers near dead mall property \u00a0\u00a0 Urbanize Atlanta"
-    },
-    {
-      "title": "Colorado\u2019s fierce two-year fight over AI regulation ends with watered-down law, little fanfare - The Colorado Sun",
-      "date": "2026-05-12T07:00:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9mbUpWMWVFUEtZSUp4emRNVXNGUVJSVlJHSXVrZG91cWxWTFRianRuaDhJaEQ5b2ZCNXA2V1VXbmFEV3hGYzBGRzBnVzN1cVluWFRGQ3RuWDAtYm5yZ0JocjNsUEtXUGtpVXdfem5xdHZGSjZj?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s fierce two-year fight over AI regulation ends with watered-down law, little fanfare \u00a0\u00a0 The Colorado Sun"
     }
   ]
 }
