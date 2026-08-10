@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T07:49:45.956370Z",
+  "generated": "2026-08-10T08:50:13.152769Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4104,7 +4104,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28493
+      "bytes": 25396
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20065
+      "bytes": 20056
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
