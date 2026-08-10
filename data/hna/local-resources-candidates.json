@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T10:31:43.961Z",
+  "generatedAt": "2026-08-10T08:20:08.672Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 20,
@@ -376,135 +376,20 @@
       "slug": "evans",
       "candidateUrls": [
         {
-          "url": "https://www.townofevans.org/",
-          "type": "base",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/departments/community-development",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.townofevans.org/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 202,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        }
-      ]
-    },
-    "place:0819150": {
-      "name": "Dakota Ridge",
-      "county_fips": "08059",
-      "households": 1741,
-      "slug": "dakota ridge",
-      "candidateUrls": [
-        {
-          "url": "https://www.dakotaridge.org/",
+          "url": "https://townofevansny.gov/",
           "type": "base",
           "status": 200,
-          "title": null,
+          "title": "Town of Evans",
           "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://townofevansny.gov/departments/community-development/",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "Planning &amp; Development - Town of Evans",
+          "hasHousingKeyword": true,
           "looksLikeColorado": false
         }
       ]
@@ -532,10 +417,10 @@
       "slug": "fort morgan",
       "candidateUrls": [
         {
-          "url": "https://www.cityoffortmorgan.com/",
+          "url": "https://fortmorgan.org/",
           "type": "base",
           "status": 200,
-          "title": "Fort Morgan, CO | Official Website",
+          "title": "Fortmorgan",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
@@ -900,6 +785,22 @@
           "looksLikeColorado": true
         }
       ]
+    },
+    "place:0827700": {
+      "name": "Fort Lupton",
+      "county_fips": "08123",
+      "households": 817,
+      "slug": "fort lupton",
+      "candidateUrls": [
+        {
+          "url": "https://www.fortluptonco.gov/",
+          "type": "base",
+          "status": 200,
+          "title": "Fort Lupton, CO - Official Website | Official Website",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        }
+      ]
     }
   },
   "notFound": [
@@ -917,6 +818,11 @@
       "geoid": "0814587",
       "name": "Cimarron Hills",
       "slug": "cimarron hills"
+    },
+    {
+      "geoid": "0819150",
+      "name": "Dakota Ridge",
+      "slug": "dakota ridge"
     },
     {
       "geoid": "0869810",
@@ -942,11 +848,6 @@
       "geoid": "0869645",
       "name": "Sheridan",
       "slug": "sheridan"
-    },
-    {
-      "geoid": "0827700",
-      "name": "Fort Lupton",
-      "slug": "fort lupton"
     },
     {
       "geoid": "0816110",
