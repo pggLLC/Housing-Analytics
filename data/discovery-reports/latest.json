@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-10T08:19:36.898Z",
+  "scanTimestamp": "2026-08-11T08:00:59.071Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 214501,
+      "sizeBytes": 215500,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4814,7 +4814,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 28493,
+      "sizeBytes": 25396,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9386,7 +9386,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 174045,
+      "sizeBytes": 175251,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20056,
+      "sizeBytes": 20064,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9452,7 +9452,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 20423,
+      "sizeBytes": 19492,
       "inDataManifest": false,
       "inFilesManifest": true
     },
