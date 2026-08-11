@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10T08:50:13.152769Z",
+  "generated": "2026-08-11T08:09:43.217949Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 214501
+      "bytes": 215500
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -329,7 +329,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1309614
+      "bytes": 1309933
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 174045
+      "bytes": 175251
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20056
+      "bytes": 20064
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -7999,7 +7999,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20423
+      "bytes": 19492
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
