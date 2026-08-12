@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-11T08:00:59.071Z",
+  "scanTimestamp": "2026-08-12T08:07:27.578Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6264,
+      "sizeBytes": 6265,
       "inDataManifest": false,
       "inFilesManifest": true
     },
