@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T13:49:07.305Z",
+  "generated_at": "2026-08-13T13:49:38.017Z",
   "summary": {
     "schema": "pass",
     "sentinel": "pass",
@@ -20,7 +20,7 @@
     },
     "bounds": {
       "status": "pass",
-      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4566 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 16 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 25 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
+      "output_tail": "OK data/co-county-boundaries.json: 64 features\nOK data/boundaries/counties_co.geojson: 64 features\nOK data/qct-colorado.json: 224 features\nOK data/dda-colorado.json: 10 features\nCritical data validation passed.\nOK (market) data/market/acs_tract_metrics_co.json: 1447 features/records\nOK (market) data/market/tract_centroids_co.json: 1447 features/records\nOK (market) data/market/tract_boundaries_co.geojson: 1447 features/records\nOK (market) data/chfa-lihtc.json: 926 features/records\nOK (market) data/chfa-lihtc.json: max YR_PIS 2025\nOK (market) data/market/hud_lihtc_co.geojson: 926 features/records\n  (bounds) Checked 4566 values across 6 files\nAll numeric bound checks passed.\nOK data/hud-fmr-income-limits.json: 16 distinct counties[].income_limits.ami_4person values\nOK data/policy/soft-funding-status.json: lastUpdated=2026-07-18 age 26 days (SLA 90)\nOK url-health sweep coverage: data/policy/*.json is included in the weekly URL-health sweep.\nOK data/policy/soft-funding-status.json: 22/23 programs expose non-null contactUrl for weekly URL-health sweep coverage.\n",
       "error": null
     },
     "freshness": {
@@ -28,7 +28,7 @@
       "files": [
         {
           "status": "STALE",
-          "ageDays": 13.8,
+          "ageDays": 14.8,
           "slaDays": 9,
           "source": "field:metadata.generatedAt",
           "file": "data/hna/ranking-index.json"
@@ -42,35 +42,35 @@
         },
         {
           "status": "OK",
-          "ageDays": 23.3,
+          "ageDays": 24.3,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/acs_tract_metrics_co.json"
         },
         {
           "status": "OK",
-          "ageDays": 2.6,
+          "ageDays": 3.6,
           "slaDays": 16,
           "source": "field:updated",
           "file": "data/co-county-economic-indicators.json"
         },
         {
           "status": "OK",
-          "ageDays": 38.8,
+          "ageDays": 39.8,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hud-fmr-income-limits.json"
         },
         {
           "status": "OK",
-          "ageDays": 94.5,
+          "ageDays": 95.5,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/hna/chas_affordability_gap.json"
         },
         {
           "status": "OK",
-          "ageDays": 2.3,
+          "ageDays": 3.3,
           "slaDays": 95,
           "source": "field:fetchedAt",
           "file": "data/market/hud_lihtc_co.geojson"
@@ -91,14 +91,14 @@
         },
         {
           "status": "OK",
-          "ageDays": 96.3,
+          "ageDays": 97.3,
           "slaDays": 400,
           "source": "field:meta.generated",
           "file": "data/market/cdphe_county_boundaries_co.geojson"
         },
         {
           "status": "OK",
-          "ageDays": 3.4,
+          "ageDays": 4.4,
           "slaDays": 95,
           "source": "field:meta.generated",
           "file": "data/market/transit_routes_co.geojson"
