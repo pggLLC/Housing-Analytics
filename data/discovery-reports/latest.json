@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-13T08:10:02.262Z",
+  "scanTimestamp": "2026-08-14T08:05:26.353Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20081,
+      "sizeBytes": 20068,
       "inDataManifest": false,
       "inFilesManifest": true
     },
