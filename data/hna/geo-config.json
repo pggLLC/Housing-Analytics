@@ -643,11 +643,6 @@
     {
       "type": "place",
       "geoid": "0812900",
-      "label": "Central (city)",
-      "containingCounty": "08047"
-    },
-    {
-      "geoid": "0812900",
       "label": "Central City (city)",
       "containingCounty": "08047"
     },

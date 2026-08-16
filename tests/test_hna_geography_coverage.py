@@ -101,6 +101,32 @@ class TestNoDuplicateGEOIDs:
         dupes = [g for g in geoids if geoids.count(g) > 1]
         assert len(dupes) == 0, f'Duplicate county GEOIDs in geo-config: {set(dupes)}'
 
+    def test_no_duplicate_geoids_in_geo_config(self, geo_config):
+        """No GEOID may repeat across counties/places/cdps.
+
+        0812900 was listed twice ('Central (city)' and 'Central City
+        (city)'), so geo-config reported 547 geographies while only 546
+        unique ones existed — and only 546 were ever ranked.
+        """
+        geoids = [
+            g['geoid']
+            for key in ('counties', 'places', 'cdps')
+            for g in geo_config.get(key, [])
+        ]
+        dupes = {g for g in geoids if geoids.count(g) > 1}
+        assert len(dupes) == 0, f'Duplicate GEOIDs in geo-config: {dupes}'
+
+    def test_geo_config_matches_ranking_index_count(self, geo_config, ranking):
+        """geo-config's geography universe must match the ranking index."""
+        config_total = sum(
+            len(geo_config.get(key, [])) for key in ('counties', 'places', 'cdps')
+        )
+        ranked_total = len(ranking.get('rankings', []))
+        assert config_total == ranked_total, (
+            f'geo-config lists {config_total} geographies but ranking-index '
+            f'has {ranked_total} entries'
+        )
+
 
 class TestGeographyTypes:
     def test_all_types_valid_in_registry(self, registry):

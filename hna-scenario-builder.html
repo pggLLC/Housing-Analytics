@@ -129,7 +129,7 @@
         <div style="position:relative;min-width:320px;">
           <label for="sbGeoSearch" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County, municipality, or unincorporated community</label>
           <!-- F151 — Unified picker includes three tiers (Counties / Places /
-               CDPs). Total: 547 entries. F154 — type-to-filter combobox in
+               CDPs). Total: 546 entries. F154 — type-to-filter combobox in
                front of the native select. Input filters a dropdown list by
                substring (case-insensitive); clicking a result fires the
                select's change so all existing wiring still works. The
@@ -492,7 +492,7 @@
           var matched;
           if (!q) {
             // Empty query: show first 12 rows so the user gets feedback that
-            // they CAN search, without dumping all 547 entries into the DOM.
+            // they CAN search, without dumping all 546 entries into the DOM.
             matched = rows.slice(0, 12);
           } else {
             matched = rows.filter(function (r) { return r.name.toLowerCase().indexOf(q) !== -1; });

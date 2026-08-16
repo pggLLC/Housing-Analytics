@@ -33,7 +33,7 @@ The locator starts with **Colorado's full place inventory** from TIGER 2024:
 - 210 census-designated places (CDPs)
 - 64 counties (used as fallback geography for some signals)
 
-Total: 547 jurisdictions in `data/policy/housing-policy-scorecard.json`. The Opportunity Finder works against the 482 places with tract-membership data (`data/hna/place-tract-membership.json`).
+Total: 546 jurisdictions in `data/policy/housing-policy-scorecard.json`. The Opportunity Finder works against the 482 places with tract-membership data (`data/hna/place-tract-membership.json`).
 
 ### 2b. Per-deal-type universe filtering
 
@@ -233,7 +233,7 @@ dimensions = [
 **Why this shape**: A partnership is easier to build when a community has already articulated affordable-housing intent through its own adopted plans and dedicated revenue. The 7 dimensions are the standard civic-capacity indicators DOLA uses when reviewing Prop 123 eligibility. The score is bounded by known dimensions so partial civic-capacity records are not treated the same as complete records. It is a planning indicator, not a public judgment of any community.
 
 **Data sources**:
-- `data/policy/housing-policy-scorecard.json` — central scorecard with 547 jurisdictions × 7 dimensions
+- `data/policy/housing-policy-scorecard.json` — central scorecard with 546 jurisdictions × 7 dimensions
 - `data/policy/prop123_jurisdictions.json` — 217 commitments with filing dates + fast-track flags (joins by name to surface filing detail in UI)
 - `data/hna/local-resources.json` — actual URLs for housing lead, housing authorities, advocacy orgs, plans on file (sparse but rich where present)
 
@@ -496,7 +496,7 @@ Next planned: v2.0 after Sprint 1 remaining patches ship (ScoreResult contract s
 - `data/market/chas_tract_co.json` — HUD CHAS 2018–2022 (1,447 tracts)
 - `data/hna/place-tract-membership.json` — TIGER 2024 (482 places × tracts)
 - `data/co_ami_gap_by_place.json` — ACS + CHAS derived (482 places × 7 AMI bands)
-- `data/policy/housing-policy-scorecard.json` — composite (547 jurisdictions × 7 dimensions)
+- `data/policy/housing-policy-scorecard.json` — composite (546 jurisdictions × 7 dimensions)
 - `data/policy/prop123_jurisdictions.json` — DOLA Prop 123 filings (217 commitments)
 - `data/hna/local-resources.json` — housing lead / authority / advocacy URLs (68 records)
 - `data/market/nhpd_co.geojson` — National Housing Preservation Database (20 properties)

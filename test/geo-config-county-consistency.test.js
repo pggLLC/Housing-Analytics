@@ -6,6 +6,26 @@ const repoRoot = path.resolve(__dirname, '..');
 const geoConfig = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/hna/geo-config.json'), 'utf8'));
 const registry = JSON.parse(fs.readFileSync(path.join(repoRoot, 'data/hna/geography-registry.json'), 'utf8'));
 
+// A GEOID must appear exactly once across counties/places/cdps. 0812900 was
+// listed twice ("Central (city)" and "Central City (city)"), inflating the
+// advertised geography count to 547 against a 546-row ranking-index.
+const allRows = [
+  ...(geoConfig.counties || []),
+  ...(geoConfig.places || []),
+  ...(geoConfig.cdps || []),
+];
+const seen = new Map();
+const duplicates = [];
+for (const row of allRows) {
+  const geoid = String(row.geoid);
+  if (seen.has(geoid)) {
+    duplicates.push(`${geoid}: "${seen.get(geoid)}" / "${row.label}"`);
+  } else {
+    seen.set(geoid, row.label);
+  }
+}
+assert.deepEqual(duplicates, [], `duplicate GEOIDs in geo-config.json:\n${duplicates.join('\n')}`);
+
 const registryByGeoid = new Map(
   registry.geographies
     .filter((row) => row && row.type === 'place' && row.containingCounty)
