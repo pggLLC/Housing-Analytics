@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-07-29T19:20:00Z",
+    "ranking_index_generated_at": "2026-08-16T21:53:30Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
