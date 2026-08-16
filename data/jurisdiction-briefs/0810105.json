@@ -6,7 +6,7 @@
   "last_curated": "2026-07-30",
   "curator": "auto-draft",
   "published": false,
-  "summary": "Skeleton brief for Town of Buena Vista \u2014 auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
+  "summary": "Skeleton brief for Town of Buena Vista — auto-drafted on 2026-07-30, pending curator research. The renderer hides this brief until published is flipped to true (after every source is verified).",
   "sections": [
     {
       "id": "lihtc-history",
@@ -46,12 +46,87 @@
           "needs_source": true
         }
       ]
+    },
+    {
+      "id": "tenure-strategy-screening",
+      "heading": "Tenure strategy screening",
+      "paragraphs": [
+        {
+          "text": "The Affordable Ownership Need screening module recommends Rental + ownership mix for Town of Buena Vista. It classifies rental pressure as Very High, ownership pressure as Very High, and identifies 318 moderate-income renter households as the ownership-fit base.",
+          "cites": [
+            "own1",
+            "own2",
+            "own3",
+            "own4"
+          ]
+        },
+        {
+          "text": "The same screening run counts 552 renter households and 341 owner households as cost-burdened. This is a screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using it for a project decision.",
+          "cites": [
+            "own5",
+            "own6"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "metric-digest",
+      "heading": "Metric Digest",
+      "paragraphs": [
+        {
+          "text": "The metric digest ranks Town of Buena Vista at #92 with an overall housing-need score of 68.9. It identifies 83 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 80.6% of <=30% AMI households. 68% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "cites": [
+            "d1",
+            "d2",
+            "d3",
+            "d4",
+            "d5",
+            "d6"
+          ]
+        },
+        {
+          "text": "Market and supply context: the digest reports a ZHVI market estimate of $677,136 and median gross rent of $2,020. 54.1% of households rent, and 10.7% of the housing stock is multifamily.",
+          "cites": [
+            "d7",
+            "d8",
+            "d9",
+            "d10"
+          ]
+        },
+        {
+          "text": "Demographics and demand: the population metric is 3,010. LEHD-based commuting signals show 1,537 in-commuters and a commute ratio of 81.8%. The digest's county-context projection shows 101 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "cites": [
+            "d11",
+            "d12",
+            "d13",
+            "d14"
+          ]
+        },
+        {
+          "text": "Opportunity context: the digest gives an opportunity score of 44.1 and a walkability score of 35.0. These are current digest levels, not trends.",
+          "cites": [
+            "d15",
+            "d16"
+          ]
+        },
+        {
+          "text": "Economic and service-worker context: the digest reports a workforce-housing pressure score of 77.0. A worker earning the containing county's LEHD earnings-bin wage estimate faces an ownership affordability gap of $137,584 and a rent affordability gap of $53,300. The county-context service-sector employment share is 43.4%, and county-context ACS cohorts show median gross rent changed 81% from 2009 to 2024 while median household income changed 47.1%. These county-context figures are economic context, not place-level sector or wage observations.",
+          "cites": [
+            "d17",
+            "d18",
+            "d19",
+            "d20",
+            "d21",
+            "d22"
+          ]
+        }
+      ]
     }
   ],
   "sources": [
     {
       "id": "s1",
-      "label": "CHFA Housing Tax Credit awards \u2014 search scoped to 'Buena Vista'",
+      "label": "CHFA Housing Tax Credit awards — search scoped to 'Buena Vista'",
       "url": "https://www.google.com/search?q=site%3Achfainfo.com+%22Buena+Vista%22+%22housing+tax+credit%22",
       "kind": "search"
     },
@@ -66,6 +141,258 @@
       "label": "Town of Buena Vista housing authority / regional coalition search",
       "url": "https://www.google.com/search?q=%22Buena+Vista%22+Colorado+%28%22housing+authority%22+OR+%22housing+coalition%22+OR+%22deed+restriction%22%29",
       "kind": "search"
+    },
+    {
+      "id": "own1",
+      "label": "Affordable Ownership Need recommendation",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_recommendation",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own2",
+      "label": "Affordable Ownership Need rental pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_rental_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own3",
+      "label": "Affordable Ownership Need ownership pressure tier",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_ownership_pressure_tier",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own4",
+      "label": "Affordable Ownership Need moderate-income renter households",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_moderate_income_renter_households",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own5",
+      "label": "Affordable Ownership Need renter cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_renter_cost_burdened",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "own6",
+      "label": "Affordable Ownership Need owner cost burdened households",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "ownership_need_owner_cost_burdened",
+      "accessed": "2026-07-07"
+    },
+    {
+      "id": "d1",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "rank",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d2",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overall_need_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d3",
+      "label": "Deep-affordability housing gap units - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_units",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d4",
+      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_rate_lte30",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d5",
+      "label": "Renter cost-burden rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_cost_burdened",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d6",
+      "label": "Occupied-household overcrowding rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "overcrowding_rate",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d7",
+      "label": "ZHVI market home-value estimate - jurisdiction metrics digest (2026-05-31)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "median_home_value",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d8",
+      "label": "Median gross rent - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "gross_rent_median",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d9",
+      "label": "Renter household share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_renters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d10",
+      "label": "Multifamily housing-stock share - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "pct_multifamily",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d11",
+      "label": "Population - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "population",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d12",
+      "label": "In-commuters - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "in_commuters",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d13",
+      "label": "Commute ratio - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "commute_ratio",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d14",
+      "label": "Twenty-year future units needed - jurisdiction metrics digest (DOLA projection cache)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "future_units_needed_20yr",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d15",
+      "label": "Opportunity score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "opportunity_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d16",
+      "label": "Walkability score - jurisdiction metrics digest (latest committed opportunity context)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "walkability_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d17",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "workforce_housing_pressure_score",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d18",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_ownership_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d19",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-07-29T19:20:00Z)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "wage_affordability_rent_gap_dollars",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d20",
+      "label": "County service-sector employment share - jurisdiction metrics digest (LEHD LODES latest committed vintage)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_service_sector_share_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d21",
+      "label": "County rent change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_rent_change_2009_2024_pct",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d22",
+      "label": "County income change, ACS cohort trend - jurisdiction metrics digest (County housing-cost ACS cohorts 2009/2014/2024)",
+      "url": "data/hna/jurisdiction-metrics-digest/0810105.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "county_trend_income_change_2009_2024_pct",
+      "accessed": "2026-07-03"
     }
   ],
   "_meta_population_at_draft": 3010
