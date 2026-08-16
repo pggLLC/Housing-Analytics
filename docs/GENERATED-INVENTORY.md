@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T22:56:28.962Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T23:57:01.758Z. Do not edit by hand.
 
 ---
 
@@ -52,12 +52,12 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.5 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.9 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 51.6 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 16.8 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 17.1 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
@@ -84,7 +84,7 @@
 | `data/affordable-housing/preservation/hud-multifamily-assisted.json` | 191.1 KB | ✅ | 343 features |
 | `data/affordable-housing/preservation/usda-rural-housing.json` | 66.0 KB | ✅ | 116 features |
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
-| `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
+| `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 210.4 KB | ✅ | — |
@@ -1722,7 +1722,7 @@
 | `test/file-manifest.test.js` | 4.6 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
-| `test/fixtures/pma/barrier-downweight.fixture.json` | 403 B |
+| `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
@@ -1800,7 +1800,7 @@
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
 | `test/ownership-decision-chain.test.js` | 5.9 KB |
-| `test/ownership-finance.test.js` | 22.3 KB |
+| `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
@@ -1809,13 +1809,13 @@
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/pipeline-guards-a1.test.js` | 2.2 KB |
-| `test/pipeline-guards-a2.test.js` | 4.6 KB |
+| `test/pipeline-guards-a2.test.js` | 4.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
 | `test/place-chas-lookup.test.js` | 6.3 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
-| `test/place-pages.test.js` | 5.0 KB |
+| `test/place-pages.test.js` | 5.4 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
@@ -1823,7 +1823,7 @@
 | `test/pma-competitive-set.test.js` | 12.8 KB |
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
-| `test/pma-methodology-language.test.js` | 3.7 KB |
+| `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-tract-display.test.js` | 8.0 KB |
@@ -1831,14 +1831,14 @@
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
 | `test/polymarket-resolved.test.js` | 2.9 KB |
-| `test/preservation.test.js` | 16.7 KB |
+| `test/preservation.test.js` | 17.3 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
-| `test/public-facing-numbers.test.js` | 5.5 KB |
+| `test/public-facing-numbers.test.js` | 6.4 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
