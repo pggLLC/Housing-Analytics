@@ -75,7 +75,7 @@
 - `scripts/market/normalize_qct_dda_co.py` — Normalize QCT/DDA designations into map-ready county/tract format
 - `scripts/market/validate_qct_dda_co.py` — Schema validation for normalized QCT/DDA output
 - `data/market/qct_dda_designations_co_normalized.json` — Normalized QCT/DDA output (stub; rebuild after PR #422 firewall fix)
-- `COPILOT_IMPLEMENTATION_PLAN.md` — Strategic roadmap for Phases 3–5
+- `internal/COPILOT_IMPLEMENTATION_PLAN.md` — Strategic roadmap for Phases 3–5
 - `docs/PMA_DATA_SOURCES_COMPLETE.md` — Comprehensive Phase 3 data source reference
 - `docs/SITE_STATE_USAGE.md` — Developer guide for SiteState API
 - `docs/CHART_FIX_USAGE.md` — Developer guide for chart lifecycle manager with migration path

@@ -30,7 +30,7 @@ their currently-published county components-of-change product, which is
 also what data/hna/projections/*.json is itself built from) showed all
 64 counties matching exactly (0.0% diff, 0 warnings) -- the prior 12
 "warnings" were entirely an artifact of comparing against a stale
-benchmark, not real trajectory divergence. docs/audits/SDO-OUTLIERS-2026-07-08.md
+benchmark, not real trajectory divergence. internal/docs/audits/SDO-OUTLIERS-2026-07-08.md
 documents the (now superseded) prior analysis for historical reference.
 
 Usage:

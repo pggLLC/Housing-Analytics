@@ -227,7 +227,7 @@ row is `unsupported` or `inaccessible`.
 
 The 7 WebSearch-based reports on disk are indicative, not authoritative.
 Per-brief audit packages are pre-built and waiting in
-[`docs/codex-audits/`](codex-audits/) — one self-contained markdown
+[`internal/docs/codex-audits/`](../internal/docs/codex-audits/) — one self-contained markdown
 file per brief, each with the brief content inlined, the verification
 plan tabled, the exact WebFetch prompts ready to copy, the verification
 report schema, the decision rules, and the validator + commit steps.

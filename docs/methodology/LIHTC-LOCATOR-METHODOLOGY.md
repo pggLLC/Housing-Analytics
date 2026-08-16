@@ -549,7 +549,7 @@ ic-summary.html extended with: Anchor institutions (school + hospital + top 5 em
 11. Methodology footer covering the panel (F134)
 
 ### Related repo documentation
-- [`docs/audits/REPO-AUDIT-2026-05-25.md`](../audits/REPO-AUDIT-2026-05-25.md) — full repo audit with P0/P1 roadmap
-- [`docs/audits/PMA-METHODOLOGY-AUDIT.md`](../audits/PMA-METHODOLOGY-AUDIT.md) — PMA methodology audit
-- [`docs/audits/DEAL-CALCULATOR-AUDIT.md`](../audits/DEAL-CALCULATOR-AUDIT.md) — Deal Calculator audit
+- [`internal/docs/audits/REPO-AUDIT-2026-05-25.md`](../../internal/docs/audits/REPO-AUDIT-2026-05-25.md) — full repo audit with P0/P1 roadmap
+- [`internal/docs/audits/PMA-METHODOLOGY-AUDIT.md`](../../internal/docs/audits/PMA-METHODOLOGY-AUDIT.md) — PMA methodology audit
+- [`internal/docs/audits/DEAL-CALCULATOR-AUDIT.md`](../../internal/docs/audits/DEAL-CALCULATOR-AUDIT.md) — Deal Calculator audit
 - [`scripts/audit/verify-opportunity-finder.mjs`](../../scripts/audit/verify-opportunity-finder.mjs) — verification harness (28 checks)
