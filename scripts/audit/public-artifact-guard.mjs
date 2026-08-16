@@ -24,6 +24,7 @@ const FORBIDDEN_PATHS = [
   'audit-report',
   'archive',
   'private',
+  'internal',
   '__MACOSX',
   'indibuild.html',
   'indibuild-where.html',
