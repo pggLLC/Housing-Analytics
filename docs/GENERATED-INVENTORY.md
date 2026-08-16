@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-09T12:07:55.942Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T18:21:26.873Z. Do not edit by hand.
 
 ---
 
@@ -87,7 +87,7 @@
 | `data/affordable-housing/properties.json` | 1.50 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 213.5 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 210.4 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -205,7 +205,7 @@
 | `data/hna/dola_sya/08121.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
-| `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
+| `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 130.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 28.7 KB | ✅ | — |
@@ -884,7 +884,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 27.8 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 24.8 KB | ✅ | — |
 | `data/hna/local-resources.json` | 175.2 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
@@ -1520,24 +1520,24 @@
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803620.json` | 26.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0810105.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0810105.json` | 15.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 27.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0816000.json` | 24.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 24.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0817375.json` | 22.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/0818310.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0818310.json` | 15.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 29.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/0822035.json` | 18.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/0822035.json` | 18.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 15.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 28.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 18.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 30.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0873825.json` | 3.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0876795.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0873825.json` | 15.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0876795.json` | 15.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 23.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 217.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
@@ -1631,7 +1631,7 @@
 | `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 173.2 KB | ✅ | — |
+| `data/policy_briefs.json` | 171.1 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1642,14 +1642,14 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 19.9 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 19.0 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 399.8 KB | ✅ | — |
+| `data/url-health.json` | 404.8 KB | ✅ | — |
 
 ---
 
@@ -1729,7 +1729,7 @@
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 2.5 KB |
 | `test/funding-context-card.test.js` | 7.5 KB |
-| `test/geo-config-county-consistency.test.js` | 2.1 KB |
+| `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
@@ -1775,7 +1775,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.6 KB |
+| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
@@ -1826,7 +1826,7 @@
 | `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
-| `test/pma-tract-display.test.js` | 7.0 KB |
+| `test/pma-tract-display.test.js` | 8.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
@@ -1838,7 +1838,7 @@
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
-| `test/public-facing-numbers.test.js` | 3.6 KB |
+| `test/public-facing-numbers.test.js` | 5.5 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
@@ -1913,7 +1913,7 @@
 | `tests/test_fmr_parsing.py` | 5.5 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
-| `tests/test_hna_geography_coverage.py` | 8.1 KB |
+| `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 21.0 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |

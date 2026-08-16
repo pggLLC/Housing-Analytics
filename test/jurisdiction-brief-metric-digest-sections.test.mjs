@@ -42,5 +42,9 @@ test('available housing-gap rates still render the percent narrative', () => {
   const digest = readJson('data/hna/jurisdiction-metrics-digest/0870195.json');
   const section = sectionFor(brief, digest);
 
-  assert.ok(section.paragraphs[0].text.includes('equal to 81.7% of <=30% AMI households.'));
+  // #1411 made this a standalone sentence. It used to be appended after a
+  // period as a lowercase fragment ("...at <=30% AMI. equal to 81.7%..."),
+  // which read as a run-on; the suppressed-rate branch above already uses the
+  // sentence form, so both branches now match.
+  assert.ok(section.paragraphs[0].text.includes('The deep-affordability gap rate is 81.7% of <=30% AMI households.'));
 });

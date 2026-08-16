@@ -244,7 +244,7 @@ async function main() {
   // no neighborhood signal.
   //
   // Pre-build a place-array sorted by latitude so we can short-circuit
-  // distance checks. Walking 547 × 547 = 300k pairs is cheap enough that
+  // distance checks. Walking 546 × 546 = 300k pairs is cheap enough that
   // we don't bother with a real spatial index.
   const places = (ri.rankings || []).filter(e => e.geoid && e.type === 'place');
   // Pre-load centroid + metrics shortcuts onto each.

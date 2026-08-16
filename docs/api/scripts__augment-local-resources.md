@@ -7,7 +7,7 @@ entries for the top 15 CO cities. Run once after a fresh
 local-resources.json is published, or after adding more entries to the
 PLACE_ENTRIES table below.
 
-Before this script: only 3 of 547 places had place-level entries —
+Before this script: only 3 of 546 jurisdictions had place-level entries —
 Boulder city (one of CO's largest, with its own housing authority + comp
 plan + IZ ordinance) was falling back to Boulder County data. Now any
 city explicitly listed below gets its own block.

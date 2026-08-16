@@ -17,6 +17,12 @@ const workflowFiles = tracked.filter((file) =>
   /^\.github\/workflows\/[^/]+\.ya?ml$/.test(file)
 ).length;
 const jsFiles = tracked.filter((file) => /^js\/.*\.js$/.test(file)).length;
+const jsNonVendor = tracked.filter(
+  (file) => /^js\/.*\.js$/.test(file) && !file.startsWith("js/vendor/")
+).length;
+const docsFiles = tracked.filter((file) => /^docs\/.*\.md$/.test(file)).length;
+const dataFiles = tracked.filter((file) => file.startsWith("data/")).length;
+const scriptFiles = tracked.filter((file) => file.startsWith("scripts/")).length;
 
 const geoConfig = JSON.parse(
   readFileSync(path.join(repoRoot, "data/hna/geo-config.json"), "utf8")
@@ -26,13 +32,42 @@ const places = geoConfig.places.length;
 const cdps = geoConfig.cdps.length;
 const geographies = counties + places + cdps;
 
-const inventoryLine = `Current tracked inventory: **${topLevelHtml} top-level / ${htmlFiles.length} total HTML pages**, **${workflowFiles} workflows**, **${jsFiles} JavaScript files under \`js/\`**, and **${geographies} geographies** (**${counties} counties / ${places} places / ${cdps} CDPs**).`;
-const readme = readFileSync(path.join(repoRoot, "README.md"), "utf8");
+// geo-config rows and distinct geoids MUST now be the same number — GEOID
+// 0812900 was listed twice (547 rows / 546 geographies) until #1420, which is
+// why ranking-index.json carried 546 entries against a config claiming 547.
+// Both are still surfaced so a reintroduced duplicate shows up here as well as
+// in test/geo-config-county-consistency.test.js.
+const uniqueGeoids = new Set(
+  ["counties", "places", "cdps"].flatMap((key) =>
+    geoConfig[key].map((entry) => String(entry.geoid))
+  )
+).size;
 
-console.log(inventoryLine);
-if (!readme.includes(inventoryLine)) {
-  console.error("README inventory is stale. Replace its inventory line with the value above.");
-  process.exit(1);
+const chfa = JSON.parse(
+  readFileSync(path.join(repoRoot, "data/chfa-lihtc.json"), "utf8")
+);
+const chfaFeatures = (chfa.features ?? chfa).length;
+
+const inventoryLine = `Current tracked inventory: **${topLevelHtml} top-level / ${htmlFiles.length} total HTML pages**, **${workflowFiles} workflows**, **${jsFiles} JavaScript files under \`js/\`**, and **${geographies} geographies** (**${counties} counties / ${places} places / ${cdps} CDPs**).`;
+
+// AGENTS.md is what Codex and Copilot read before every task, so a stale count
+// there misdirects agents. It cites more metrics than the README, hence its own
+// line. Keep the two formats independent — do not merge them.
+const agentsLine = `Inventory (derived — run \`node scripts/compute-inventory.mjs\`): **${topLevelHtml}** top-level / **${htmlFiles.length}** total HTML · **${workflowFiles}** workflows · **${jsFiles}** client JS (**${jsNonVendor}** excl. \`vendor/\`) · **${scriptFiles}** build/fetch scripts · **${docsFiles}** \`docs/\` markdown · **${dataFiles}** data files · **${geographies}** geo-config rows / **${uniqueGeoids}** unique geographies (**${counties}** counties / **${places}** places / **${cdps}** CDPs) · **${chfaFeatures}** CHFA LIHTC features.`;
+
+const targets = [
+  { file: "README.md", line: inventoryLine },
+  { file: "AGENTS.md", line: agentsLine },
+];
+
+let stale = false;
+for (const { file, line } of targets) {
+  console.log(`${file}: ${line}`);
+  if (!readFileSync(path.join(repoRoot, file), "utf8").includes(line)) {
+    console.error(`${file} inventory is stale. Replace its inventory line with the value above.`);
+    stale = true;
+  }
 }
 
-console.log("README inventory is current.");
+if (stale) process.exit(1);
+console.log("README and AGENTS.md inventory are current.");
