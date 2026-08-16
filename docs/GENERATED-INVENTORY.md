@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T18:08:33.106Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T18:21:26.873Z. Do not edit by hand.
 
 ---
 
@@ -205,7 +205,7 @@
 | `data/hna/dola_sya/08121.json` | 1.7 KB | ✅ | — |
 | `data/hna/dola_sya/08123.json` | 2.1 KB | ✅ | — |
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
-| `data/hna/geo-config.json` | 64.0 KB | ✅ | — |
+| `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 130.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 28.7 KB | ✅ | — |
@@ -1729,7 +1729,7 @@
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 2.5 KB |
 | `test/funding-context-card.test.js` | 7.5 KB |
-| `test/geo-config-county-consistency.test.js` | 2.1 KB |
+| `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
@@ -1838,7 +1838,7 @@
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
-| `test/public-facing-numbers.test.js` | 3.6 KB |
+| `test/public-facing-numbers.test.js` | 5.5 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
@@ -1913,7 +1913,7 @@
 | `tests/test_fmr_parsing.py` | 5.5 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
 | `tests/test_hmda_data.py` | 6.6 KB |
-| `tests/test_hna_geography_coverage.py` | 8.1 KB |
+| `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 21.0 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
