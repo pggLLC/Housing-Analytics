@@ -388,6 +388,68 @@ function _normCity(s) {
   return String(s || '').toLowerCase().trim();
 }
 
+function _normAddress(s) {
+  return String(s || '')
+    .toLowerCase()
+    .replace(/[.,#’']/g, ' ')
+    .replace(/\b(north|south|east|west)\b/g, function (word) { return word[0]; })
+    .replace(/\b(street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|court|ct|lane|ln|highway|hwy|circle|cir|place|pl|terrace|ter|parkway|pkwy)\b/g, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function _normIdentityName(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function _mergePropertyGroup(group) {
+  if (group.length === 1) return group[0];
+
+  // Sort by source rank — canonical (best metadata) first.
+  group.sort((a, b) => _sourceRank(a.source) - _sourceRank(b.source));
+  const canonical = JSON.parse(JSON.stringify(group[0]));
+
+  const allPrograms = new Set();
+  group.forEach(r => (r.program_type || []).forEach(t => allPrograms.add(t)));
+  canonical.program_type = Array.from(allPrograms);
+
+  // Preserve the original attribution from every contributing source,
+  // including records that were already merged by an earlier dedupe pass.
+  canonical.merged_from = Array.from(new Set(group.flatMap(r =>
+    Array.isArray(r.merged_from) ? r.merged_from : (r.source ? [r.source] : [])
+  )));
+  canonical.source = canonical.merged_from.join(' + ');
+
+  const FILLABLE = [
+    'address', 'city', 'county_fips', 'state', 'zip',
+    'total_units', 'assisted_units', 'latest_year',
+    'lat', 'lng',
+    'subsidy_type', 'years_to_expiration', 'risk_status', 'restrictive_expiration',
+    'ra_units', 'hud_units', 'rental_designation',
+    'property_category', 'has_use_restriction', 'is_troubled',
+    'pha_administered_by', 'pbv_contract_sunset',
+    'compliance_status', 'project_type', 'type_of_credits',
+    'region', 'urban_rural',
+    'award_year', 'award_date', 'reservation_year', 'year_placed_in_service',
+    'notes'
+  ];
+  for (let i = 1; i < group.length; i++) {
+    const r = group[i];
+    FILLABLE.forEach(field => {
+      const cur = canonical[field];
+      const next = r[field];
+      const zeroIsValue = field === 'years_to_expiration';
+      const curEmpty = (cur == null || cur === '' || (!zeroIsValue && cur === 0) || cur === false);
+      const nextHasValue = (next != null && next !== '' && (zeroIsValue || next !== 0) && next !== false);
+      if (curEmpty && nextHasValue) canonical[field] = next;
+    });
+    ['senior_units','family_units','homeless_units','veteran_units','supportive_units']
+      .forEach(f => {
+        if ((r[f] || 0) > (canonical[f] || 0)) canonical[f] = r[f];
+      });
+  }
+  return canonical;
+}
+
 function dedupeProperties(records) {
   const groups = new Map();
   let nullKeyCount = 0;
@@ -405,63 +467,30 @@ function dedupeProperties(records) {
   });
 
   const merged = [];
-  let mergedCount = 0;
   groups.forEach(group => {
-    if (group.length === 1) { merged.push(group[0]); return; }
-
-    // Sort by source rank — canonical (best metadata) first.
-    group.sort((a, b) => _sourceRank(a.source) - _sourceRank(b.source));
-    const canonical = JSON.parse(JSON.stringify(group[0]));  // clone
-
-    // Union program_type across all members.
-    const allPrograms = new Set();
-    group.forEach(r => (r.program_type || []).forEach(t => allPrograms.add(t)));
-    canonical.program_type = Array.from(allPrograms);
-
-    // Track every contributing source for downstream transparency.
-    canonical.merged_from = group.map(r => r.source).filter(Boolean);
-    canonical.source = canonical.merged_from.join(' + ');
-
-    // Backfill nulls on the canonical record from non-canonical members.
-    // The list of fields covers the union of all per-source schemas.
-    const FILLABLE = [
-      'address', 'city', 'county_fips', 'state', 'zip',
-      'total_units', 'assisted_units', 'latest_year',
-      'lat', 'lng',
-      'subsidy_type', 'years_to_expiration', 'risk_status', 'restrictive_expiration',
-      'ra_units', 'hud_units', 'rental_designation',
-      'property_category', 'has_use_restriction', 'is_troubled',
-      'pha_administered_by', 'pbv_contract_sunset',
-      'compliance_status', 'project_type', 'type_of_credits',
-      'region', 'urban_rural',
-      'award_year', 'award_date', 'reservation_year', 'year_placed_in_service',
-      'notes'
-    ];
-    for (let i = 1; i < group.length; i++) {
-      const r = group[i];
-      FILLABLE.forEach(field => {
-        const cur = canonical[field];
-        const next = r[field];
-        const zeroIsValue = field === 'years_to_expiration';
-        const curEmpty = (cur == null || cur === '' || (!zeroIsValue && cur === 0) || cur === false);
-        const nextHasValue = (next != null && next !== '' && (zeroIsValue || next !== 0) && next !== false);
-        // Only fill if canonical is empty AND incoming has a value
-        if (curEmpty && nextHasValue) canonical[field] = next;
-      });
-      // Population-target units (max across members so a senior LIHTC
-      // record stays "senior" even if a generic preservation copy is 0).
-      ['senior_units','family_units','homeless_units','veteran_units','supportive_units']
-        .forEach(f => {
-          if ((r[f] || 0) > (canonical[f] || 0)) canonical[f] = r[f];
-        });
-    }
-    merged.push(canonical);
-    mergedCount += (group.length - 1);
+    merged.push(_mergePropertyGroup(group));
   });
 
-  console.log(`\n  Deduplication: ${records.length} raw → ${merged.length} unique (` +
-              `${mergedCount} duplicates collapsed)`);
-  return merged;
+  // A second pass catches records whose source omits city (common in HUD MF)
+  // but supplies the same normalized name and street address. This is the
+  // Independence Village failure mode: "225 North Coulson Street" vs
+  // "225 N COULSON". Name remains part of the key so distinct phases sharing
+  // an address are not collapsed.
+  const addressGroups = new Map();
+  let nullAddressKeyCount = 0;
+  merged.forEach(rec => {
+    const nm = _normIdentityName(rec.property_name);
+    const addr = _normAddress(rec.address);
+    const key = nm && addr ? nm + '|' + addr : '__noaddresskey__' + (++nullAddressKeyCount);
+    if (!addressGroups.has(key)) addressGroups.set(key, []);
+    addressGroups.get(key).push(rec);
+  });
+  const addressMerged = [];
+  addressGroups.forEach(group => addressMerged.push(_mergePropertyGroup(group)));
+
+  console.log(`\n  Deduplication: ${records.length} raw → ${addressMerged.length} unique (` +
+              `${records.length - addressMerged.length} duplicates collapsed)`);
+  return addressMerged;
 }
 
 function main() {
@@ -587,7 +616,7 @@ function main() {
         'Regenerate via: node scripts/build-affordable-housing-properties.js',
         'A property may have multiple program_type values (e.g. ["lihtc-9pct","lihtc-state-paired"]).',
         'preservation-candidate records are source-feed membership from 4 sources: CHFA Preservation (1,688 — no subsidy_type detail), HUD MF Assisted (343 — has subsidy_type detail), USDA Rural Housing (116 — has years_to_expiration and risk_status), Local PHA roster (curated PBV gap-fill — has pha_administered_by + pbv_contract_sunset).',
-        'Records are deduplicated across sources by normalized name + city; total_records reflects the deduped set. Records missing a usable name or city cannot be safely keyed and are retained individually (see the __nokey__ path in dedupeProperties), so a small number of cross-source duplicates without name/city may remain.',
+        'Records are deduplicated across sources first by normalized name + city, then by normalized name + address. Original source attributions are retained in merged_from. Records missing usable keys are retained individually.',
         'pbv-local records (Silt Senior Housing, etc.) cover gaps where a PHA runs a Project-Based Voucher contract that does not appear in any federal feed — these properties are invisible to CHFA + HUD MF + USDA RD ingest. Curate new records in data/affordable-housing/local-pha-roster/ per the README schema.',
         'Pure Prop 123 awards without LIHTC are not yet ingested — DOLA award page is bot-blocked. P1 backlog.'
       ]
