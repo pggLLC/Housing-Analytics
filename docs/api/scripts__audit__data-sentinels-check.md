@@ -21,8 +21,8 @@ For each configured artifact the script:
 Thresholds are deliberately set COMFORTABLY below the current row
 count — the sentinel catches sudden cratering, not normal drift. As
 of 2026-04-21 every artifact is well above its floor:
-  - ranking-index: 547 entries, floor 540
-  - HNA summary dir: 548 files, floor 540
+  - ranking-index: 546 entries, floor 540
+  - HNA summary dir: 546 files, floor 540
   - HUD LIHTC: 1000+ features, floor 500
   - ACS tract metrics: 1400+ tracts, floor 1300
   - CO county demographics: 64 counties, floor 64 (all CO counties)

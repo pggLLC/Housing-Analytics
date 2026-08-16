@@ -447,7 +447,7 @@ async function main() {
     { name: 'DDA county-FIPS count',  actual: ddaFips.size,   min: 8,   max: 15,  note: 'HUD 2025: 10 nonmetro CO counties' },
     { name: 'LIHTC project count',    actual: projects.length, min: 500, max: 1000, note: 'CHFA/HUD LIHTC, ~702 valid YR_PIS' },
     { name: 'Place-meta entries',     actual: Object.keys(placeMeta).length, min: 400, max: 600, note: 'CO geo-config' },
-    { name: 'Policy-scorecard entries', actual: Object.keys(policyScores).length, min: 500, max: 600, note: '~547 expected (counties + places + CDPs)' },
+    { name: 'Policy-scorecard entries', actual: Object.keys(policyScores).length, min: 500, max: 600, note: '~546 expected (counties + places + CDPs)' },
     { name: 'Local-resources entries', actual: Object.keys(localRes).length, min: 50, max: 1000, note: 'sparse — 64 counties + sample places' },
     { name: 'Prop 123 commitments',   actual: Object.keys(p123ByName).length, min: 150, max: 250, note: '~217 jurisdictions' }
   ];
