@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T21:01:51.560531Z",
+  "generated": "2026-08-16T21:55:04.856280Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4489,27 +4489,27 @@
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49963
+      "bytes": 49961
     },
     "data/hna/ranking-scenarios/commuter-pressure.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49983
+      "bytes": 49981
     },
     "data/hna/ranking-scenarios/large-gap.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49974
+      "bytes": 49972
     },
     "data/hna/ranking-scenarios/rate-sensitive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49983
+      "bytes": 49981
     },
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49985
+      "bytes": 49983
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -4854,7 +4854,7 @@
     "data/hna/summary/0806255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3733
+      "bytes": 4135
     },
     "data/hna/summary/08063.json": {
       "featureCount": 0,
@@ -5059,7 +5059,7 @@
     "data/hna/summary/0809555.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3685
+      "bytes": 4087
     },
     "data/hna/summary/08097.json": {
       "featureCount": 0,
@@ -5659,7 +5659,7 @@
     "data/hna/summary/0827810.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3750
+      "bytes": 4152
     },
     "data/hna/summary/0827865.json": {
       "featureCount": 0,
@@ -6119,7 +6119,7 @@
     "data/hna/summary/0843110.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3733
+      "bytes": 4135
     },
     "data/hna/summary/0843220.json": {
       "featureCount": 0,
@@ -6954,7 +6954,7 @@
     "data/hna/summary/0873935.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3802
+      "bytes": 4208
     },
     "data/hna/summary/0873943.json": {
       "featureCount": 0,
@@ -7184,7 +7184,7 @@
     "data/hna/summary/0883835.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3811
+      "bytes": 4207
     },
     "data/hna/summary/0884000.json": {
       "featureCount": 0,
