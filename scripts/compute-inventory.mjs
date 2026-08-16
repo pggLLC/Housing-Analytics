@@ -32,10 +32,11 @@ const places = geoConfig.places.length;
 const cdps = geoConfig.cdps.length;
 const geographies = counties + places + cdps;
 
-// geo-config rows and distinct geoids are NOT the same number: a duplicate row
-// makes the config total (547) exceed the number of real geographies (546),
-// which is why ranking-index.json carries 546 entries. Surface both so the
-// discrepancy stays visible instead of being silently rounded to one value.
+// geo-config rows and distinct geoids MUST now be the same number — GEOID
+// 0812900 was listed twice (547 rows / 546 geographies) until #1420, which is
+// why ranking-index.json carried 546 entries against a config claiming 547.
+// Both are still surfaced so a reintroduced duplicate shows up here as well as
+// in test/geo-config-county-consistency.test.js.
 const uniqueGeoids = new Set(
   ["counties", "places", "cdps"].flatMap((key) =>
     geoConfig[key].map((entry) => String(entry.geoid))

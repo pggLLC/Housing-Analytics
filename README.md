@@ -34,7 +34,7 @@ See also:
 
 ## Repository inventory
 
-Current tracked inventory: **54 top-level / 548 total HTML pages**, **67 workflows**, **267 JavaScript files under `js/`**, and **547 geographies** (**64 counties / 273 places / 210 CDPs**).
+Current tracked inventory: **54 top-level / 548 total HTML pages**, **67 workflows**, **267 JavaScript files under `js/`**, and **546 geographies** (**64 counties / 272 places / 210 CDPs**).
 
 Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs the same check and fails when this line drifts from the tracked files or geography registry.
 
@@ -47,7 +47,7 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 | `lihtc-allocations.html` | LIHTC state allocation maps and data — consolidated from former LIHTC-dashboard + state-allocation-map pages |
 | `regional.html` | Regional housing market analysis |
 | `colorado-deep-dive.html` | Colorado housing market deep dive — county-level maps, regional predictions, and market overview (tab) |
-| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 547 geographies (64 counties, 273 places, 210 CDPs) |
+| `housing-needs-assessment.html` | Housing Needs Assessment tool (Colorado-focused; Census + LEHD + DOLA/SDO) — 546 geographies (64 counties, 272 places, 210 CDPs) |
 | `market-analysis.html` | Primary Market Analysis (PMA) tool — site scoring, supply/demand, LIHTC concept recommendation with housing needs alignment |
 | `market-intelligence.html` | Market Intelligence dashboard — CAR data, FRED trends, rental metrics |
 | `deal-calculator.html` | LIHTC Feasibility Calculator — 4% vs 9% credit sizing, sources & uses, first mortgage |
@@ -139,7 +139,7 @@ Housing-Analytics/
 │   ├── hud-fmr-income-limits.json # HUD FMR and income limits
 │   ├── manifest.json              # Data pipeline build manifest
 │   ├── hna/                       # Housing Needs Assessment data
-│   │   ├── geo-config.json        # 547 geographies (64 counties, 273 places, 210 CDPs)
+│   │   ├── geo-config.json        # 546 geographies (64 counties, 272 places, 210 CDPs)
 │   │   ├── ranking-index.json     # Statewide needs ranking
 │   │   ├── local-resources.json   # Housing authorities, nonprofits, plans
 │   │   └── summary/              # Per-jurisdiction JSON profiles (546 files)
