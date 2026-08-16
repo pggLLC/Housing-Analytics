@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T22:27:31.485Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T22:56:28.962Z. Do not edit by hand.
 
 ---
 
@@ -1789,7 +1789,7 @@
 | `test/market-study-page.test.js` | 14.4 KB |
 | `test/market-study-report.test.js` | 8.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
-| `test/metric-semantics-wording.test.js` | 3.8 KB |
+| `test/metric-semantics-wording.test.js` | 4.2 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 7.5 KB |
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
