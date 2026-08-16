@@ -96,7 +96,7 @@ A good rule of thumb: if the output would still be *useful* with the missing ite
 ### Proposed migration order (tracked in #657)
 
 1. `scripts/fetch-county-demographics.js` — iterates 64 counties, well-scoped
-2. `scripts/hna/build_hna_data.py` — iterates 547 geographies
+2. `scripts/hna/build_hna_data.py` — iterates 546 geographies
 3. `scripts/market/fetch_*.py` (each)
 4. Eventually: all multi-item ETL scripts
 
