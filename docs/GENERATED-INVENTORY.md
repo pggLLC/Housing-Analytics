@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T21:08:33.346Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T22:27:31.485Z. Do not edit by hand.
 
 ---
 
@@ -1034,7 +1034,7 @@
 | `data/hna/summary/0806090.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/08061.json` | 3.8 KB | ✅ | — |
 | `data/hna/summary/0806172.json` | 4.0 KB | ✅ | — |
-| `data/hna/summary/0806255.json` | 3.6 KB | ✅ | — |
+| `data/hna/summary/0806255.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/08063.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/08065.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0806530.json` | 3.8 KB | ✅ | — |
@@ -1075,7 +1075,7 @@
 | `data/hna/summary/0809280.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/08093.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/08095.json` | 3.9 KB | ✅ | — |
-| `data/hna/summary/0809555.json` | 3.6 KB | ✅ | — |
+| `data/hna/summary/0809555.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/08097.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/08099.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/08101.json` | 4.0 KB | ✅ | — |
@@ -1195,7 +1195,7 @@
 | `data/hna/summary/0827425.json` | 4.2 KB | ✅ | — |
 | `data/hna/summary/0827535.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0827700.json` | 4.1 KB | ✅ | — |
-| `data/hna/summary/0827810.json` | 3.7 KB | ✅ | — |
+| `data/hna/summary/0827810.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0827865.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0827950.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0827975.json` | 3.9 KB | ✅ | — |
@@ -1287,7 +1287,7 @@
 | `data/hna/summary/0842330.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0842495.json` | 3.7 KB | ✅ | — |
 | `data/hna/summary/0843000.json` | 4.2 KB | ✅ | — |
-| `data/hna/summary/0843110.json` | 3.6 KB | ✅ | — |
+| `data/hna/summary/0843110.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0843220.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0843550.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0843605.json` | 4.0 KB | ✅ | — |
@@ -1454,7 +1454,7 @@
 | `data/hna/summary/0873715.json` | 4.3 KB | ✅ | — |
 | `data/hna/summary/0873825.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0873925.json` | 3.9 KB | ✅ | — |
-| `data/hna/summary/0873935.json` | 3.7 KB | ✅ | — |
+| `data/hna/summary/0873935.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0873943.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0874080.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0874275.json` | 3.8 KB | ✅ | — |
@@ -1500,7 +1500,7 @@
 | `data/hna/summary/0883230.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0883450.json` | 3.9 KB | ✅ | — |
 | `data/hna/summary/0883500.json` | 3.8 KB | ✅ | — |
-| `data/hna/summary/0883835.json` | 3.7 KB | ✅ | — |
+| `data/hna/summary/0883835.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0884000.json` | 3.8 KB | ✅ | — |
 | `data/hna/summary/0884042.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0884440.json` | 4.2 KB | ✅ | — |
