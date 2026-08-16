@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T17:42:39.732Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T18:08:33.106Z. Do not edit by hand.
 
 ---
 
@@ -1520,24 +1520,24 @@
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
-| `data/jurisdiction-briefs/0803620.json` | 26.6 KB | ✅ | — |
+| `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/08045.json` | 29.0 KB | ✅ | — |
 | `data/jurisdiction-briefs/08097.json` | 28.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0810105.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0810105.json` | 15.4 KB | ✅ | — |
 | `data/jurisdiction-briefs/0812045.json` | 27.2 KB | ✅ | — |
-| `data/jurisdiction-briefs/0816000.json` | 24.2 KB | ✅ | — |
+| `data/jurisdiction-briefs/0816000.json` | 24.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0817375.json` | 22.6 KB | ✅ | — |
-| `data/jurisdiction-briefs/0818310.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0818310.json` | 15.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/0820000.json` | 29.3 KB | ✅ | — |
-| `data/jurisdiction-briefs/0822035.json` | 18.8 KB | ✅ | — |
+| `data/jurisdiction-briefs/0822035.json` | 18.6 KB | ✅ | — |
 | `data/jurisdiction-briefs/0827425.json` | 29.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/0828745.json` | 15.7 KB | ✅ | — |
 | `data/jurisdiction-briefs/0830780.json` | 28.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0864255.json` | 18.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0867280.json` | 24.8 KB | ✅ | — |
 | `data/jurisdiction-briefs/0870195.json` | 30.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0873825.json` | 3.0 KB | ✅ | — |
-| `data/jurisdiction-briefs/0876795.json` | 2.9 KB | ✅ | — |
+| `data/jurisdiction-briefs/0873825.json` | 15.5 KB | ✅ | — |
+| `data/jurisdiction-briefs/0876795.json` | 15.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 23.9 KB | ✅ | — |
 | `data/jurisdiction-briefs/_liveness.json` | 217.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
@@ -1775,7 +1775,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.6 KB |
+| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
@@ -1826,7 +1826,7 @@
 | `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
-| `test/pma-tract-display.test.js` | 7.0 KB |
+| `test/pma-tract-display.test.js` | 8.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
