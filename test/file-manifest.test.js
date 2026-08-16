@@ -27,6 +27,35 @@ function readJson(rel) {
   assert.strictEqual(report.extra.length, 0, 'manifest has no extra stale file entries');
   assert.strictEqual(manifest.meta.file_count, manifest.files.length, 'meta.file_count matches files.length');
 
+  // Coverage alone does not catch a manifest that lists the right files with
+  // the WRONG sizes. On 2026-08-16, #1411 edited 18 jurisdiction briefs without
+  // running scripts/rebuild_manifest.py; every entry still existed, so coverage
+  // passed, while data/manifest.json under-reported two of them by ~12.5 KB
+  // each. Assert the recorded byte counts actually match what is on disk.
+  // NOTE: the two manifests have different shapes. data/_manifest.json (above)
+  // exposes `files` as an ARRAY of entries; data/manifest.json keys `files` as
+  // an OBJECT of path -> {bytes, ...}. Do not assume one shape for both.
+  // Audit outputs under */reports/ are rewritten BY this very test suite (the
+  // link audit inflates data/reports/repo-link-audit.json from ~2MB to ~11MB
+  // mid-run), so their on-disk size depends on whether their generator has run
+  // yet. Comparing those would make this assertion order-dependent and flaky.
+  // Skip them; they are regenerated artifacts, not hand-maintained data.
+  const CHURNS_DURING_TESTS = /(^|\/)(reports)\//;
+  const stale = [];
+  for (const [filePath, entry] of Object.entries(readJson('data/manifest.json').files ?? {})) {
+    if (typeof entry?.bytes !== 'number') continue;
+    if (CHURNS_DURING_TESTS.test(filePath)) continue;
+    const abs = path.join(ROOT, filePath);
+    if (!fs.existsSync(abs)) continue;
+    const actual = fs.statSync(abs).size;
+    if (actual !== entry.bytes) stale.push(`${filePath}: manifest=${entry.bytes} disk=${actual}`);
+  }
+  assert.strictEqual(
+    stale.length,
+    0,
+    `data/manifest.json byte counts are stale — run \`python scripts/rebuild_manifest.py\`:\n  ${stale.slice(0, 10).join('\n  ')}`
+  );
+
   const dropped = {
     ...manifest,
     files: manifest.files.slice(1),
