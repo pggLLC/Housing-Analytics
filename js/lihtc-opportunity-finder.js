@@ -1102,7 +1102,7 @@
   // Pull the local-resources record, trying place / cdp / county keys in turn.
   // Returns an object with a `_resolvedFrom` discriminator so the UI can
   // show 'via County' fallback notices when no place-level data exists.
-  // Out of 547 CO places, only ~17 currently have place-level entries
+  // Out of 546 CO jurisdictions, only ~17 currently have place-level entries
   // (Denver, Boulder, Aurora, Fort Collins, Colorado Springs, Pueblo,
   // Greeley, Longmont, Loveland, Lakewood, Grand Junction, Durango,
   // Steamboat, Aspen, Vail — see scripts/augment-local-resources.js).

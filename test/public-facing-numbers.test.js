@@ -16,6 +16,26 @@ const rankingIndex = readJson('data/hna/ranking-index.json');
 const rankingCount = rankingIndex.rankings.length;
 assert.equal(rankingIndex.metadata.totalEntries, rankingCount, 'ranking-index metadata total matches rows');
 
+// The geography universe is geo-config.json; ranking-index is derived from it.
+// These two drifted apart because geo-config carried a duplicate GEOID
+// (0812900 appeared as both "Central (city)" and "Central City (city)"), so
+// the site advertised 547 geographies while only 546 could ever be ranked.
+// Assert the invariant rather than blacklisting the stale number.
+const geoConfig = readJson('data/hna/geo-config.json');
+const geoConfigRows = [
+  ...(geoConfig.counties || []),
+  ...(geoConfig.places || []),
+  ...(geoConfig.cdps || []),
+];
+const geoConfigGeoids = geoConfigRows.map((row) => String(row.geoid));
+const duplicateGeoids = [...new Set(geoConfigGeoids.filter((id, i) => geoConfigGeoids.indexOf(id) !== i))];
+assert.deepEqual(duplicateGeoids, [], `geo-config.json has duplicate GEOIDs: ${duplicateGeoids.join(', ')}`);
+assert.equal(
+  geoConfigGeoids.length,
+  rankingCount,
+  `geo-config geography count ${geoConfigGeoids.length} matches ranking-index count ${rankingCount}`
+);
+
 const indexHtml = read('index.html');
 const jurisdictionTokens = [...indexHtml.matchAll(/\ball\s+(\d+)\s+Colorado\s+(?:jurisdictions|geographies)\b/g)]
   .map((m) => Number(m[1]));
@@ -26,13 +46,35 @@ for (const count of jurisdictionTokens) {
 assert(indexHtml.includes(`Explore all ${rankingCount} Colorado jurisdictions`), 'homepage hero link uses canonical jurisdiction count');
 assert(indexHtml.includes(`ranks all ${rankingCount} Colorado`), 'homepage comparative path uses canonical ranking count');
 assert(!/all\s+645\s+Colorado\s+jurisdictions/.test(indexHtml), 'homepage no longer uses stale 645 jurisdiction count');
-assert(!/ranks\s+all\s+547\s+Colorado/.test(indexHtml), 'homepage no longer uses stale 547 ranking count');
+
+// Every other surface that advertises the geography universe must agree with
+// the canonical count. (Previously only a stale-value blacklist guarded this,
+// which let 547 survive everywhere except index.html and the Finder.)
+for (const [relPath, pattern] of [
+  ['js/navigation.js', /Rank (\d+) geographies by housing need/],
+  ['select-jurisdiction.html', /Rank all (\d+) geographies by need/],
+  ['hna-comparative-analysis.html', /Ranks all (\d+) Colorado geographies/],
+  ['hna-comparative-analysis.html', /percentile scoring across all (\d+) geographies/],
+  ['hna-scenario-builder.html', /Total: (\d+) entries/],
+  ['hna-scenario-builder.html', /dumping all (\d+) entries into the DOM/],
+]) {
+  const match = read(relPath).match(pattern);
+  assert(match, `${relPath} exposes a geography count matching ${pattern}`);
+  assert.equal(
+    Number(match[1]),
+    rankingCount,
+    `${relPath} count ${match[1]} matches canonical ranking count ${rankingCount}`
+  );
+}
+
+const policyScorecard = readJson('data/policy/housing-policy-scorecard.json');
+assert.equal(
+  Object.keys(policyScorecard.scores).length,
+  rankingCount,
+  'policy scorecard covers the canonical geography universe'
+);
 
 const lofHtml = read('lihtc-opportunity-finder.html');
-assert(
-  !/\b547\b[^.\n]{0,80}\bjurisdictions\b|\bjurisdictions\b[^.\n]{0,80}\b547\b/.test(lofHtml),
-  'Opportunity Finder no longer uses stale 547 jurisdiction scorecard count'
-);
 assert(
   lofHtml.includes(`policy scorecard (${rankingCount} Colorado jurisdictions × 7`) &&
     lofHtml.includes(`Housing policy scorecard — ${rankingCount} jurisdictions × 7`),
