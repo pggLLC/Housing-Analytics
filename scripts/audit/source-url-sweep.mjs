@@ -314,6 +314,15 @@ const SKIP_PATTERNS = [
   /\{[a-z_][a-z_0-9-]*\}/i,
   /^https?:\/\/fonts\.googleapis\.com/i,
   /^https?:\/\/fonts\.gstatic\.com/i,
+  // Content-Security-Policy source expressions are not fetchable URLs. A CSP
+  // value is a single string of space-separated hosts split by `;` into
+  // directives, so extracting "URLs" from one yields two junk shapes:
+  //   - wildcard hosts:      https://*.arcgis.com
+  //   - directive fragments: https://server.arcgisonline.com;
+  // Neither can be probed. Skip a wildcard in the host position, and skip any
+  // URL carrying a `;` inside its authority (never legal in a hostname).
+  /^https?:\/\/\*\./i,
+  /^https?:\/\/[^/]*;/,
   // Example placeholders in documentation/comments are not real citations.
   /^https?:\/\/example\.(com|net|org)(\/|$)/i,
   /^https?:\/\/\.\.\.(\/|$)/i,
