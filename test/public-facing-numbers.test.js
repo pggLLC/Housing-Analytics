@@ -82,6 +82,19 @@ assert(
 );
 
 const lihtc = readJson('data/chfa-lihtc.json');
+const affordableProperties = readJson('data/affordable-housing/properties.json').properties;
+const normalizePropertyKey = (value) => String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const normalizedNameAddress = affordableProperties.map((property) =>
+  `${normalizePropertyKey(property.property_name)}|${normalizePropertyKey(property.address)}`
+).filter((key) => key !== '|');
+assert.equal(new Set(normalizedNameAddress).size, normalizedNameAddress.length, 'properties.json has no duplicate normalized name + address keys');
+const independence = affordableProperties.filter((property) => /independence village/i.test(property.property_name || ''));
+assert.equal(independence.length, 1, 'Independence Village is represented once');
+assert.deepEqual(
+  new Set(independence[0].merged_from),
+  new Set(['CHFA PreservationProperties_Layer_Final_view_new', 'HUD MULTIFAMILY_PROPERTIES_ASSISTED']),
+  'Independence Village retains both source attributions'
+);
 const dataQualitySrc = read('js/data-quality-check.js');
 const coverageMatch = dataQualitySrc.match(/coverageLabel:\s*"(\d+)\s+placed-in-service CO LIHTC projects"/);
 assert(coverageMatch, 'data quality check exposes CHFA LIHTC coverage label');
