@@ -287,7 +287,7 @@
             { name: 'FEMA Flood Zones', status: 'cached', vintage: '2026 (NFHL current effective)', coverage: 'Colorado', note: 'Polygon SFHA high-risk zones only (A/AE/AO/AH); Zone X/D moderate-low not included' },
             { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
             { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2023', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
-            { name: 'NHPD Preservation', status: 'stub', vintage: '—', coverage: '—', note: 'Loaded but not yet integrated into scoring' }
+            { name: 'NHPD Preservation', status: 'stub', vintage: '2026-03-13', coverage: 'Colorado stub snapshot', note: 'Registration-gated source; verify current subsidy status. Loaded but not integrated into scoring.' }
           ],
           limitations: 'PMA uses a circular buffer, not a professionally delineated market area. Amenity distances are point-based approximations. Employment detection requires 500+ job clusters (may fail in rural areas). Barrier analysis is heuristic only — the PMA boundary is not spatially modified.'
         });
@@ -977,6 +977,7 @@
           <!-- Subsidy expiry risk table (populated when NHPD data found) -->
           <div id="pmaSubsidyRiskWrap" hidden style="margin-top:.75rem;">
             <p style="font-size:.78em;font-weight:600;margin-bottom:.35rem;">⚠ At-risk subsidy properties near site:</p>
+            <p style="font-size:.74em;margin:0 0 .35rem;color:var(--muted);"><strong>NHPD snapshot vintage: 2026-03-13 (stub).</strong> Access is registration-gated; verify current subsidy status with NHPD.</p>
             <div id="pmaSubsidyRiskList" style="font-size:.78em;"></div>
           </div>
           <!-- Absorption risk card — proposed units vs total competitive set -->

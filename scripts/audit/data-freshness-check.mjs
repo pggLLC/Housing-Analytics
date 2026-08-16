@@ -47,7 +47,13 @@ const SLA_CONFIG = [
   // NHPD now requires account registration and the repo currently ships a
   // stub fixture. Keep surfacing age drift in reports, but do not fail CI
   // until we have a reliable automated refresh path again.
-  { file: 'data/market/nhpd_co.geojson',                    slaDays: 95,  cadence: 'quarterly (NHPD export)', warnOnly: true },
+  {
+    file: 'data/market/nhpd_co.geojson',
+    slaDays: 95,
+    cadence: 'quarterly (NHPD export)',
+    warnOnly: true,
+    exception: 'NHPD access is registration-gated; the shipped 2026-03-13 stub vintage is disclosed wherever rendered.',
+  },
   { file: 'data/co_ami_gap_by_county.json',                 slaDays: 95,  cadence: 'quarterly (AMI gap build)' },
   { file: 'data/co_ami_gap_by_place.json',                  slaDays: 95,  cadence: 'quarterly (matches county counterpart; underlying ACS + HUD income limits refresh annually)' },
   { file: 'data/market/cdphe_county_boundaries_co.geojson', slaDays: 400, cadence: 'annual (CDPHE boundary refresh)' },
@@ -191,6 +197,7 @@ async function main() {
         console.log(
           `  [${r.warnOnly ? 'warning' : 'blocking'} · ${r.ageDays}d past SLA of ${r.slaDays}d]  ${r.file}  (cadence: ${r.cadence})`,
         );
+        if (r.exception) console.log(`    exception: ${r.exception}`);
       }
     }
     if (missing.length) {
