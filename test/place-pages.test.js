@@ -33,6 +33,9 @@ function readRel(rel) {
 
 console.log('\n[test] Generator script + template');
 const generator = readRel('scripts/hna/build_place_pages.py');
+const template = readRel('places/_template.html');
+assert(template.includes("HUD program AMI is based on area median family income and HUD's income-limit methodology"), 'template defines HUD AMI from family income and income-limit methodology');
+assert(!template.includes("HUD's annual median household income for the area"), 'template does not equate HUD AMI with median household income');
 assert(/def generate_page/.test(generator),
   'generator has generate_page() function');
 assert(/def build_index/.test(generator),
