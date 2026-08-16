@@ -33,6 +33,12 @@ assert(!tabs.some((tab) => tab.method !== 'tract' && /^Tract-based\b/i.test(tab.
 assert(!html.includes('(CHFA submittal)'), 'Tract picker should not carry an uncaveated CHFA submittal badge');
 assert.match(byMethod.tract || '', /whole-tract/i, 'Tract picker still names the whole-tract shape');
 assert.match(byMethod.tract || '', /screening/i, 'Tract picker badge should remain caveated as screening');
+assert.match(html, /pre-selects whole census tracts within an approximately 4-mile ring as a starting set/, 'help modal explains the tract auto-selection ring');
+assert.match(html, /Add or remove individual tracts/, 'help modal explains tract curation');
+assert.match(html, /natural barriers, school districts, jurisdictional lines, or commute sheds/, 'help modal names boundary evidence');
+assert.match(html, /not an adjustable PMA radius/, 'help modal distinguishes the ring from an adjustable PMA radius');
+assert(!html.includes('defines a PMA radius around the site'), 'help modal no longer claims geocoding defines a PMA radius');
+assert(!html.includes('You can adjust the radius'), 'help modal no longer claims the PMA radius is adjustable');
 
 const radius = doc.querySelector('#pmaBufferSelect');
 assert(radius, 'buffer radius select exists');
