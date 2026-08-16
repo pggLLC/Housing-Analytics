@@ -209,17 +209,17 @@
     "jsdom": "^29.1.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.1",
     "chrome-launcher": "^1.2.1",
     "color": "^5.0.3",
     "glob": "^13.0.6",
     "lighthouse": "^13.4.1",
-    "mapshaper": "^0.7.50",
+    "mapshaper": "^0.7.51",
     "node-fetch": "^2.7.0",
-    "nodemailer": "^9.0.3",
+    "nodemailer": "^9.0.5",
     "playwright": "^1.58.2",
     "proxy-agent": "^8.0.2",
-    "puppeteer": "^25.3.0",
+    "puppeteer": "^25.5.0",
     "stylelint": "^17.14.1",
     "stylelint-config-recommended": "^18.0.0",
     "wcag-contrast": "^3.0.0"
