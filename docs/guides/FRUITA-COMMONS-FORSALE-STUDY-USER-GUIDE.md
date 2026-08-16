@@ -1,7 +1,7 @@
 # User Guide — CoHO Affordable-Homeownership Analysis & the Fruita Commons For-Sale Study
 
 **Audience:** housing authorities, affordable-ownership developers, program administrators, and planners (Fruita Housing Authority is the first user).
-**Companion to:** `docs/audits/SCOPING-FRUITA-COMMONS-FOR-SALE-MARKET-STUDY-2026-08.md` (audit) and `docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md` (revised plan).
+**Companion to:** `internal/docs/audits/SCOPING-FRUITA-COMMONS-FOR-SALE-MARKET-STUDY-2026-08.md` (audit) and `internal/docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md` (revised plan).
 **Status:** guide to the tool **as designed**. Some features described are planned (Phases 1–11); each section marks what exists today vs what is planned. All numbers are **screening estimates** — verify locally before any funding, pricing, or legal decision.
 
 ---

@@ -2,7 +2,7 @@
 
 **For:** Codex (independent QA reviewer)
 **Author of the PR under review:** Claude Code — **role-inverted for this PR**: Claude implemented, so Codex QAs. Do not trust the PR description or code comments; verify against the spec and by execution.
-**Spec of record (predates the implementation):** `docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md` §1 (multi-model directive + guardrails) and §10 (the exact Phase 1 prompt). The PR is judged against the spec, not against itself.
+**Spec of record (predates the implementation):** `internal/docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md` §1 (multi-model directive + guardrails) and §10 (the exact Phase 1 prompt). The PR is judged against the spec, not against itself.
 **Branch:** `feat/ownership-finance-engine` · PR: https://github.com/pggLLC/Housing-Analytics/pull/1388
 **Verdict required:** end with exactly one of **PASS**, **PASS WITH FIXES REQUIRED** (list them), or **FAIL** (with evidence).
 

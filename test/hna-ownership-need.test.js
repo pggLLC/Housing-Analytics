@@ -421,7 +421,7 @@ test('ownership screening tiers flip at the EPS benchmark threshold boundaries',
   assert.equal(aboveFit.tenureMixRecommendation, 'Ownership-supportive strategy',
     'recommendation flips once the moderate-income renter base crosses the fit boundary');
 
-  const benchmark = fs.readFileSync(path.join(ROOT, 'docs/audits/OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md'), 'utf8');
+  const benchmark = fs.readFileSync(path.join(ROOT, 'docs/benchmarks/OWNERSHIP-BENCHMARK-EPS-PHASE2-2026-07.md'), 'utf8');
   const methodology = fs.readFileSync(path.join(ROOT, 'docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md'), 'utf8');
   assert.ok(benchmark.includes('EPS #243156'));
   assert.match(benchmark, /June 16,\s+2026/);

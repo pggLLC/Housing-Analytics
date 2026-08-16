@@ -33,7 +33,7 @@ RELATED
   - js/lihtc-opportunity-finder.js   — the production rollup module
   - lihtc-opportunity-finder.html    — the UI consumer
   - test/qa-recent-changes.js        — broader QA harness (smoke / urls / schema)
-  - docs/audits/                     — methodology audit docs
+  - internal/docs/audits/            — methodology audit docs
 
 Updated 2026-05-25. Bump expectations only after intentional data-vintage
 advances (e.g. HUD's 2026 QCT list publishes — adjust QCT count expectation).

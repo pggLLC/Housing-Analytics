@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T22:40:26.163444Z",
+  "generated": "2026-08-16T23:34:48.492801Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -349,7 +349,7 @@
     "data/hna/benchmarks.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9360
+      "bytes": 9369
     },
     "data/hna/chas_affordability_gap.json": {
       "featureCount": 64,

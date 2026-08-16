@@ -41,7 +41,7 @@ Principle: small PRs, one behavior boundary at a time. Do not bundle IA redesign
 |---|---:|---|
 | DOLA warning deltas | P2 | Are 12 county +/-5% warnings acceptable under current projection method, or do inputs need refresh? |
 | HNA benchmark ratios | P2 | Which consultant deltas are expected method differences versus model drift? |
-| Public docs boundary | P2 | Should `docs/qa` and `docs/audits` remain public-facing, or be excluded/demoted? |
+| Public docs boundary | P2 | Should `docs/qa` and `internal/docs/audits` remain public-facing, or be excluded/demoted? |
 | Placeholder inventory | P2 | Which placeholders are acceptable public limitations vs unfinished product promises? |
 
 ## Revised IA Target
