@@ -87,7 +87,7 @@ for (const feature of display.features) {
 }
 
 assert.equal(fixture.production_use, false, 'Fruita calibration fixture is explicitly non-production');
-assert.equal(fixture.source_doc, 'internal/docs/audits/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md',
+assert.equal(fixture.source_doc, 'docs/benchmarks/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md',
   'Fruita fixture points to the calibration doc');
 
 const professionalSet = new Set(fixture.professional_pma.tract_geoids_2020);
