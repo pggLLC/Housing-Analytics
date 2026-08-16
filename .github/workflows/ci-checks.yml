@@ -17,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify README inventory
+      - name: Verify README + AGENTS.md inventory
         run: node scripts/compute-inventory.mjs
 
       - name: Enforce tracked data-file size ceilings
