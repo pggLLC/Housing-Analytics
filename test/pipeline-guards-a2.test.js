@@ -76,6 +76,11 @@ assert(
   'freshness check keeps NHPD in SLA reporting but marks it warnOnly while the source remains registration-gated',
 );
 assert(
+  freshnessSrc.includes("exception: 'NHPD access is registration-gated; the shipped 2026-03-13 stub vintage is disclosed wherever rendered.'") &&
+    freshnessSrc.includes('if (r.exception) console.log(`    exception: ${r.exception}`);'),
+  'freshness check documents and reports the NHPD stale-data exception',
+);
+assert(
   freshnessSrc.includes('const blockingStale = stale.filter(r => !r.warnOnly);') &&
     freshnessSrc.includes('if (blockingStale.length) process.exit(1);'),
   'freshness check only fails CI for blocking stale files',

@@ -376,6 +376,16 @@ test('preservation.html: includes required scripts', function () {
   assert(html.includes('js/data-service-portable.js'), 'includes data-service-portable.js');
 });
 
+test('NHPD rendering surfaces disclose the real stub vintage and gated-source limitation', function () {
+  const preservation = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
+  const market = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+  [preservation, market].forEach(function (surface) {
+    assert(surface.includes('2026-03-13'), 'surface discloses the checked-in NHPD vintage');
+    assert(surface.includes('registration-gated'), 'surface discloses the NHPD access limitation');
+    assert(/verify current subsidy status/i.test(surface), 'surface requires current-source verification');
+  });
+});
+
 test('preservation.html: accessibility — landmarks present', function () {
   const html = fs.readFileSync(path.join(ROOT, 'preservation.html'), 'utf8');
   assert(html.includes('<main'),       '<main> landmark present');
