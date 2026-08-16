@@ -552,5 +552,4 @@ ic-summary.html extended with: Anchor institutions (school + hospital + top 5 em
 - [`docs/audits/REPO-AUDIT-2026-05-25.md`](../audits/REPO-AUDIT-2026-05-25.md) — full repo audit with P0/P1 roadmap
 - [`docs/audits/PMA-METHODOLOGY-AUDIT.md`](../audits/PMA-METHODOLOGY-AUDIT.md) — PMA methodology audit
 - [`docs/audits/DEAL-CALCULATOR-AUDIT.md`](../audits/DEAL-CALCULATOR-AUDIT.md) — Deal Calculator audit
-- [`HANDOVER.md`](../../HANDOVER.md) — codex session handover summary
 - [`scripts/audit/verify-opportunity-finder.mjs`](../../scripts/audit/verify-opportunity-finder.mjs) — verification harness (28 checks)

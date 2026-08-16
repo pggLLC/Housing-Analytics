@@ -51,6 +51,7 @@ dist/
 # (its own README admitted "It is not secured"); see SECURITY note in PR.
 # Keep local copies if you need them; host them somewhere authenticated instead.
 private/
+internal/
 
 # IDE save-as / duplicate artifacts (macOS Finder + some editors create
 # "filename 2.ext" when re-saving; iCloud sync conflicts create "filename 3.ext",
