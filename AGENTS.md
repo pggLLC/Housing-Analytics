@@ -45,11 +45,12 @@ Notes on numbers that look like contradictions but aren't:
 Work that is **DONE — do not redo**:
 - `place-chas.json` schema validation. `node scripts/validate-schemas.js` passes **85/85**; `jsonschema` is installed at `ci-checks.yml:311`. (Older docs describe "482 errors" — that was fixed; the claim is stale.)
 - Remediation Batch 1A (#1367) and Batch 2 geometry simplification (#1370).
+- Security-headers runbook (#1421).
 - Ownership / for-sale build, Phases 0–9 (#1388–#1408).
 - README inventory line + its CI drift check.
 
 Work that is **OPEN**:
-- Remediation Batch 1B — security-headers runbook + relocating internal agent docs. PR #1368 went stale and conflicts; being re-cut against current `main`.
+- Remediation Batch 1B — relocating internal agent docs remains open; the security-headers runbook landed in #1421.
 - Credibility closeout, 6 items: BPS place/county contradiction (`js/hna/hna-renderers.js:6103,6115` contradicts `js/hna/hna-controller.js:2330` and `js/methodology-explainer.js:89`); AMI defined as median *household* income across 483 `places/*.html` (fix the generator, not the outputs); PMA help modal describing an adjustable radius (`market-analysis.html:1507-1508`, contradicting line 395); Independence Village duplicated in `data/affordable-housing/properties.json`; `ranking-index.json` past its 9-day freshness SLA; NHPD data past its 95-day threshold.
 
 Work that is **DEFERRED — do not start without owner sign-off**:
