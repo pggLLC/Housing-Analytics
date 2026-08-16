@@ -1,7 +1,7 @@
 /**
  * js/hna/ownership-finance.js
  * Authoritative homeownership affordability engine (Phase 1 of the
- * for-sale market-study plan — docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md).
+ * for-sale market-study plan — internal/docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md).
  *
  * Pure computation: no DOM. Dual export (window.OwnershipFinance +
  * module.exports), mirroring js/deal-calculator-math.js. The model registry

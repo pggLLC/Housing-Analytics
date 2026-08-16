@@ -69,7 +69,7 @@
       // and added a QA Coverage tab (5-layer status + place-level
       // methodology provenance) so the page answers "can I trust this
       // data?" without visiting 3 separate pages. See
-      // docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
+      // internal/docs/audits/CODEX-HANDOFF-AUDIT-PHASE2-2026-07.md item 2.1.
       label: "Data",
       items: [
         { label: "Data Trust Center",      href: "data-review-hub.html",           desc: "Start here · sources, freshness, how we check the data, and discovery" },

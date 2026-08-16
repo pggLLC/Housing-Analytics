@@ -4,7 +4,7 @@
  * test/ownership-finance.test.js
  * Phase 1 — shared homeownership affordability engine.
  *
- * Contract under test (docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md §10):
+ * Contract under test (internal/docs/audits/SCOPING-FRUITA-COMMONS-REVISION-2-2026-08.md §10):
  *  - golden backward-compat: maxAffordablePrice(100000, 0.80) === 289983
  *  - parity: hna-ownership-need.js with and without the engine present
  *    returns identical values across a grid (soft-delegation correctness)
