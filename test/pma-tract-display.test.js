@@ -78,7 +78,27 @@ async function main() {
   );
   assert(display.features.length >= 1000, 'display geometry contains Colorado tract-scale feature count');
   assert.equal(display.features.length, source.features.length, 'display geometry has one feature per canonical tract');
-  assert(fs.statSync(displayPath).size < fs.statSync(sourcePath).size / 2, 'display geometry remains materially smaller than simplified canonical tract GeoJSON');
+  // This used to assert display < source/2. That threshold encoded the
+  // generator's original premise — "avoid loading the 16MB canonical boundary
+  // file for every PMA run" — which stopped being true once the canonical was
+  // simplified (3.5MB -> 1.0MB). The derivative is now only ~5% smaller, so the
+  // ratio no longer measures anything real.
+  //
+  // Size was always a proxy. What actually justifies this artifact is that it
+  // carries fields the canonical does not: COUNTY and NAME denormalized in, and
+  // a precomputed point_on_surface that js/pma-barrier-aware.js depends on.
+  // Assert that contract directly — it catches a generator regression dropping
+  // point_on_surface, which the size check never would.
+  assert(
+    fs.statSync(displayPath).size <= fs.statSync(sourcePath).size,
+    'display geometry is no larger than the canonical source'
+  );
+  for (const key of ['GEOID', 'COUNTY', 'NAME', 'point_on_surface']) {
+    assert(
+      display.features.every((feature) => feature.properties?.[key] !== undefined),
+      `every display feature carries ${key} (consumers read it from this artifact, not the canonical source)`
+    );
+  }
 
   const sourceGeoids = new Set(source.features.map(geoidOf).filter(Boolean));
   const displayGeoids = new Set(display.features.map(geoidOf).filter(Boolean));
