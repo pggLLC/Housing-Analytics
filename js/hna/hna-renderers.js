@@ -6085,11 +6085,10 @@
    * parquet). Surfaces the relationship between permitting pace and the
    * jurisdiction's housing-gap need.
    *
-   * Caveat shown inline: Census BPS publishes total units only at the
-   * county-by-year level — structure-type breakdown (1-unit / 2-4 / 5+) is
-   * not exposed in the current parquet. To get structure breakdown you'd
-   * need to ingest the raw BPS file (cf. https://www.census.gov/construction/bps/).
-   * The summary table is the most accurate slice available now.
+   * Caveat shown inline: this panel uses the county-by-year trend slice.
+   * Census BPS also publishes place records for reporting jurisdictions;
+   * unincorporated areas and CDPs are county-permitted and legitimately have
+   * no place record.
    */
   function renderHousingTypePace(geoType, geoid, contextCounty) {
     var panel = document.getElementById('housingTypePacePanel');
@@ -6100,7 +6099,8 @@
 
     if (!countyFips) {
       panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
-        'BPS permits are published at the county level. Pick a county or ' +
+        'Census BPS publishes place-level permits for reporting jurisdictions; ' +
+        'unincorporated areas and CDPs are county-permitted. Pick a county or ' +
         'place inside a county to see permitting pace.</p>';
       return;
     }
@@ -6112,7 +6112,7 @@
       var scopeBanner = (geoType === 'place' && rec)
         ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:.78rem;line-height:1.4;color:var(--text);">' +
             '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
-            'Census Building Permits Survey publishes at the county level only; place-level permit counts must be pulled from the local building department.' +
+            'This panel shows county figures. Census BPS also publishes place-level permits for reporting jurisdictions; unincorporated areas and CDPs are county-permitted and legitimately have no place record.' +
           '</div>'
         : '';
       if (!permits || !permits.length) {
