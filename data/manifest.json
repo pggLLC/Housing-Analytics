@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T17:38:20.448679Z",
+  "generated": "2026-08-16T18:34:23.184462Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7284,92 +7284,92 @@
     "data/jurisdiction-briefs/0803620.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 27266
+      "bytes": 27292
     },
     "data/jurisdiction-briefs/08045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29648
+      "bytes": 29674
     },
     "data/jurisdiction-briefs/08097.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 28667
+      "bytes": 28693
     },
     "data/jurisdiction-briefs/0810105.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2967
+      "bytes": 15768
     },
     "data/jurisdiction-briefs/0812045.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 27804
+      "bytes": 27830
     },
     "data/jurisdiction-briefs/0816000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 24827
+      "bytes": 24853
     },
     "data/jurisdiction-briefs/0817375.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 23129
+      "bytes": 23155
     },
     "data/jurisdiction-briefs/0818310.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2989
+      "bytes": 15523
     },
     "data/jurisdiction-briefs/0820000.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29980
+      "bytes": 30006
     },
     "data/jurisdiction-briefs/0822035.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19217
+      "bytes": 19047
     },
     "data/jurisdiction-briefs/0827425.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29957
+      "bytes": 29983
     },
     "data/jurisdiction-briefs/0828745.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 16038
+      "bytes": 16064
     },
     "data/jurisdiction-briefs/0830780.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29169
+      "bytes": 29195
     },
     "data/jurisdiction-briefs/0864255.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 18949
+      "bytes": 18975
     },
     "data/jurisdiction-briefs/0867280.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25418
+      "bytes": 25444
     },
     "data/jurisdiction-briefs/0870195.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 30673
+      "bytes": 30699
     },
     "data/jurisdiction-briefs/0873825.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3034
+      "bytes": 15861
     },
     "data/jurisdiction-briefs/0876795.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2945
+      "bytes": 15472
     },
     "data/jurisdiction-briefs/_candidates.json": {
       "featureCount": 0,
@@ -7654,7 +7654,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7724,7 +7724,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 1052464
+      "bytes": 969599
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7764,7 +7764,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 3501244
+      "bytes": 1017562
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
