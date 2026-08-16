@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T17:49:50.436Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-16T18:08:33.106Z. Do not edit by hand.
 
 ---
 
@@ -1775,7 +1775,7 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.6 KB |
+| `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
@@ -1826,7 +1826,7 @@
 | `test/pma-methodology-language.test.js` | 3.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
-| `test/pma-tract-display.test.js` | 7.0 KB |
+| `test/pma-tract-display.test.js` | 8.0 KB |
 | `test/pma-transit.test.js` | 13.1 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
