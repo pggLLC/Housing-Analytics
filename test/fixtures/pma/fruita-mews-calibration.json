@@ -3,7 +3,7 @@
   "fixture_id": "fruita-mews-ii-professional-pma",
   "production_use": false,
   "purpose": "Non-production calibration fixture for issue #1232 C1. Do not use as a scoring input.",
-  "source_doc": "internal/docs/audits/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md",
+  "source_doc": "docs/benchmarks/CALIBRATION-FRUITA-MEWS-PMA-2026-07.md",
   "recorded": "2026-07-18",
   "site": {
     "name": "Fruita Mews II",
