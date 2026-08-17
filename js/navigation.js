@@ -5,10 +5,14 @@
  *
  * Information Architecture:
  * ─────────────────────────────────────────────────────────────────────────
- * SCOPING A PROJECT (primary workflow):
+ * SCOPING A RENTAL PROJECT (primary workflow):
  *   LIHTC Guide (start here) → Opportunity Finder (find a market) →
  *   Select Jurisdiction → HNA → Market Analysis → Scenario Builder →
  *   Deal Calculator
+ *
+ * SCOPING A FOR-SALE PROJECT (entry points):
+ *   Ownership Need, For-Sale Market Study, Deal Calculator,
+ *   Land Value & Negotiation
  *
  * EXPLORE (comparative & context):
  *   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,
@@ -25,7 +29,7 @@
 (function () {
   const GROUPS = [
     {
-      label: "Scoping a Project",
+      label: "Scoping a Rental Project",
       items: [
         { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
@@ -35,6 +39,15 @@
         { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
+      ]
+    },
+    {
+      label: "Scoping a For-Sale Project",
+      items: [
+        { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
+        { label: "For-Sale Market Study",    href: "for-sale-market-study.html", desc: "Demand, capture, absorption, land disposition" },
+        { label: "Deal Calculator",          href: "deal-calculator.html", desc: "For-sale feasibility and buyer cash requirements" },
+        { label: "Land Value & Negotiation", href: "land-value.html", desc: "Site economics — shared with the rental track" },
       ]
     },
     {
@@ -80,6 +93,7 @@
     {
       label: "Insights",
       items: [
+        { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Assistance programs for buyers" },
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Auto-generated summaries — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
