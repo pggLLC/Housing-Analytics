@@ -11,6 +11,7 @@ The Deal Calculator cites two static market-benchmark snapshots:
   - data/market/tax-credit-transfer-pricing.json (tax-credit transfer pricing)
   - data/market/colorado-equity-pricing-factors.json (CO-specific LIHTC pricing factors)
   - data/policy/tax-credit-legislation.json (tax-credit legislation watchlist)
+  - data/policy/tool-watch.json (affordable-housing analysis tool watchlist)
   - data/policy/homeownership-programs.json (consumer homebuyer program watchlist)
   - data/policy/lihtc-assumptions.json (predictor non-pricing assumptions)
   - data/market/colorado-foreclosure-performance.json (FHFA NMDB foreclosure performance)
@@ -19,6 +20,7 @@ The Deal Calculator cites two static market-benchmark snapshots:
   - data/market/redfin_place_market_tracker_co.json (Redfin ZIP-derived place market tracker)
   - data/market/developable_land_context_co.json (tract developable-land context)
   - data/market/travel_time_matrix_co.json (OSM-derived tract-to-regional-hub drive times)
+  - data/market/lodes_tract_od_co.json (LODES tract-to-tract OD matrix)
 
 Each was added in a one-time commit and has no refresh workflow. The UI
 discloses the vintage honestly (shows `as_of` inline, links the source,

@@ -303,7 +303,7 @@ where county-level projection data is not applicable (e.g. full state view).
 renderProjectionChart — draw a population projection line chart.
 Called by external modules via window.__HNA_renderProjectionChart.
 
-### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t)`
+### `_renderScenarioSection(proj, popSel, years, baseYear, countyFips5, t, opts)`
 
 _renderScenarioSection — render scenario comparison charts.
 @param {object} proj        - Projection data object
@@ -393,11 +393,10 @@ Census Building Permits Survey vintage range (2020-2024 in the current
 parquet). Surfaces the relationship between permitting pace and the
 jurisdiction's housing-gap need.
 
-Caveat shown inline: Census BPS publishes total units only at the
-county-by-year level — structure-type breakdown (1-unit / 2-4 / 5+) is
-not exposed in the current parquet. To get structure breakdown you'd
-need to ingest the raw BPS file (cf. https://www.census.gov/construction/bps/).
-The summary table is the most accurate slice available now.
+Caveat shown inline: this panel uses the county-by-year trend slice.
+Census BPS also publishes place records for reporting jurisdictions;
+unincorporated areas and CDPs are county-permitted and legitimately have
+no place record.
 
 ### `renderProp123BaselineAndFastTrack(profile, geoType, geoLabel)`
 
