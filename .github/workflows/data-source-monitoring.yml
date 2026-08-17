@@ -11,6 +11,7 @@ permissions:
   issues:   write
 
 concurrency:
+  # Serialize commits that include the shared data/manifest.json artifact.
   group: data-commits
   cancel-in-progress: false
 
