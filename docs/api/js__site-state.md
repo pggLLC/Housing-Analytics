@@ -2,7 +2,7 @@
 
 site-state.js — Shared site state manager for COHO Analytics
 
-Provides persistent county / geography / PMA context across pages via
+Provides persistent county / PMA context across pages via
 localStorage, with a subscribe/event pattern for reactive updates and
 automatic DOM wiring through [data-state-key] attributes.
 
