@@ -69,7 +69,8 @@ jobs:
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/url-health.json
+            python3 scripts/rebuild_manifest.py
+            git add data/url-health.json data/manifest.json
             git commit -m "chore(url-health): weekly sweep $(date -u +%Y-%m-%d)"
             git push
           fi
