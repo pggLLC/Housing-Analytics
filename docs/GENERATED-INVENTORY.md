@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-17T00:02:23.920Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-17T02:19:12.268Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.6 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 89.5 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 89.4 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 229.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -87,7 +87,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 210.4 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 204.6 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1631,7 +1631,7 @@
 | `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 171.1 KB | ✅ | — |
+| `data/policy_briefs.json` | 166.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-266 test files found.
+267 test files found.
 
 | File | Size |
 |------|------|
@@ -1686,7 +1686,7 @@
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
-| `test/cross-surface-vintage-labels.test.js` | 4.2 KB |
+| `test/cross-surface-vintage-labels.test.js` | 4.3 KB |
 | `test/daily-audit-system.js` | 16.7 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
@@ -1708,7 +1708,7 @@
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
-| `test/developer-brief-hna.test.js` | 999 B |
+| `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1.0 KB |
 | `test/econ-dash-series-labels.test.js` | 975 B |
@@ -1891,6 +1891,7 @@
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
+| `test/url-health-policy.test.mjs` | 3.2 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/wcag-pill-contrast.test.js` | 12.6 KB |
