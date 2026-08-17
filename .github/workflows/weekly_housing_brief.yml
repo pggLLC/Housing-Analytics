@@ -131,9 +131,11 @@ jobs:
           # private/ has been .gitignore'd since the Apr 19 security commit,
           # so the add was a no-op anyway, but leaving it implied this
           # workflow still ships a private brief. It doesn't.
+          python3 scripts/rebuild_manifest.py
           git add scripts/alert_feeds.txt
           git add data/alerts/alerts_archive.json
           git add data/policy_briefs.json
+          git add data/manifest.json
           git add robots.txt || true
 
           if git diff --cached --quiet; then
