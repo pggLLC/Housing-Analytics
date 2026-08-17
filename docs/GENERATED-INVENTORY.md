@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-17T02:19:12.268Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-17T19:50:05.708Z. Do not edit by hand.
 
 ---
 
@@ -73,7 +73,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 761.4 KB | ✅ | — |
+| `data/_manifest.json` | 761.5 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -87,7 +87,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 204.6 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 205.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -884,7 +884,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 24.8 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 28.2 KB | ✅ | — |
 | `data/hna/local-resources.json` | 175.2 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
@@ -1604,7 +1604,7 @@
 | `data/market/travel_time_matrix_co.json` | 4.23 MB | ✅ | — |
 | `data/market/walkability_scores_co.json` | 338.1 KB | ✅ | — |
 | `data/market/yardi-matrix-national-multifamily.json` | 3.8 KB | ✅ | — |
-| `data/market/zillow_co_metros.json` | 105.5 KB | ✅ | — |
+| `data/market/zillow_co_metros.json` | 106.0 KB | ✅ | — |
 | `data/market/zoning_compat_index_co.json` | 3.1 KB | ✅ | — |
 | `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
@@ -1631,7 +1631,7 @@
 | `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 166.4 KB | ✅ | — |
+| `data/policy_briefs.json` | 168.3 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1642,14 +1642,14 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 19.0 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 27.0 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 404.8 KB | ✅ | — |
+| `data/url-health.json` | 320.8 KB | ✅ | — |
 
 ---
 
@@ -1940,10 +1940,10 @@
 | `.github/workflows/archive-audit-post-merge.yml` | 4.2 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
 | `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.6 KB |
-| `.github/workflows/backfill-hna-household-occupation.yml` | 4.7 KB |
-| `.github/workflows/backfill-hna-value-brackets.yml` | 4.3 KB |
+| `.github/workflows/backfill-hna-household-occupation.yml` | 4.8 KB |
+| `.github/workflows/backfill-hna-value-brackets.yml` | 4.4 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.3 KB |
-| `.github/workflows/build-hna-data.yml` | 14.9 KB |
+| `.github/workflows/build-hna-data.yml` | 16.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.5 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.2 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
@@ -1951,7 +1951,7 @@
 | `.github/workflows/ci-checks.yml` | 11.6 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.6 KB |
 | `.github/workflows/codeql.yml` | 1.2 KB |
-| `.github/workflows/configure-alerts-feeds.yml` | 5.4 KB |
+| `.github/workflows/configure-alerts-feeds.yml` | 5.5 KB |
 | `.github/workflows/console-error-audit.yml` | 7.2 KB |
 | `.github/workflows/contrast-audit.yml` | 10.9 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
@@ -1961,47 +1961,47 @@
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.0 KB |
-| `.github/workflows/data-source-monitoring.yml` | 13.1 KB |
+| `.github/workflows/data-source-monitoring.yml` | 13.3 KB |
 | `.github/workflows/deploy.yml` | 2.6 KB |
-| `.github/workflows/developer-url-health.yml` | 2.6 KB |
+| `.github/workflows/developer-url-health.yml` | 2.7 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 2.9 KB |
-| `.github/workflows/discover-local-resources-weekly.yml` | 6.1 KB |
+| `.github/workflows/discover-local-resources-weekly.yml` | 6.2 KB |
 | `.github/workflows/docs-sync.yml` | 1.9 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
-| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.8 KB |
+| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.9 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.6 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.0 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 6.5 KB |
-| `.github/workflows/fetch-fred-data.yml` | 14.4 KB |
+| `.github/workflows/fetch-fred-data.yml` | 14.5 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
-| `.github/workflows/fetch-kalshi.yml` | 4.4 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 11.6 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 4.4 KB |
+| `.github/workflows/fetch-kalshi.yml` | 4.5 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 11.8 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 4.5 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
-| `.github/workflows/market_data_build.yml` | 15.0 KB |
-| `.github/workflows/pab-allocations-annual.yml` | 3.5 KB |
+| `.github/workflows/market_data_build.yml` | 15.2 KB |
+| `.github/workflows/pab-allocations-annual.yml` | 3.6 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
-| `.github/workflows/qa-status.yml` | 8.4 KB |
+| `.github/workflows/qa-status.yml` | 8.5 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 7.5 KB |
-| `.github/workflows/rebuild-place-od-flows.yml` | 4.1 KB |
+| `.github/workflows/rebuild-place-od-flows.yml` | 4.3 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
-| `.github/workflows/scrape-agenda-items.yml` | 2.8 KB |
+| `.github/workflows/scrape-agenda-items.yml` | 2.9 KB |
 | `.github/workflows/site-audit.yml` | 2.5 KB |
 | `.github/workflows/source-liveness-weekly.yml` | 1.3 KB |
 | `.github/workflows/source-url-sweep.yml` | 1.6 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 3.7 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.0 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.8 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 2.3 KB |
-| `.github/workflows/upstream-vintage-watch.yml` | 5.9 KB |
-| `.github/workflows/url-health-weekly.yml` | 4.8 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 2.4 KB |
+| `.github/workflows/upstream-vintage-watch.yml` | 6.0 KB |
+| `.github/workflows/url-health-weekly.yml` | 4.9 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.2 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 3.0 KB |
-| `.github/workflows/zillow-data-sync.yml` | 18.7 KB |
+| `.github/workflows/zillow-data-sync.yml` | 18.8 KB |
 
 ---
 

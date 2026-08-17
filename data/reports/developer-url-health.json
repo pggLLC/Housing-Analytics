@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-08-10T16:01:41Z",
+    "generated_at_utc": "2026-08-17T15:27:09Z",
     "total_urls": 398,
-    "broken_count": 47,
-    "warning_count": 36,
-    "ok_count": 315,
+    "broken_count": 48,
+    "warning_count": 71,
+    "ok_count": 279,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -13,13 +13,6 @@
       "status": 0,
       "found_in": [
         "local-resources / county:08015/_employers_source"
-      ]
-    },
-    {
-      "url": "https://coloradosprings.gov/community-development",
-      "status": 404,
-      "found_in": [
-        "local-resources / place:0816000/housingLead"
       ]
     },
     {
@@ -104,17 +97,18 @@
       ]
     },
     {
+      "url": "https://www.avrmc.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0842110/hospital",
+        "local-resources / place:0842110/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.boulderlabs.org/",
       "status": 0,
       "found_in": [
         "local-resources / county:08013/majorEmployers[7]"
-      ]
-    },
-    {
-      "url": "https://www.buildageneration.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08065/advocacy[0]"
       ]
     },
     {
@@ -141,11 +135,10 @@
       ]
     },
     {
-      "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
-      "status": 404,
+      "url": "https://www.dcedc.org/",
+      "status": 0,
       "found_in": [
-        "local-resources / county:08035/housingAuthority[0]",
-        "local-resources / county:08035/housingLead"
+        "local-resources / county:08035/_employers_source"
       ]
     },
     {
@@ -154,14 +147,6 @@
       "found_in": [
         "local-resources / place:0842110/majorEmployers[1]",
         "local-resources / place:0842110/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://www.evrazna.com/",
-      "status": 404,
-      "found_in": [
-        "local-resources / county:08101/majorEmployers[0]",
-        "local-resources / place:0862000/majorEmployers[0]"
       ]
     },
     {
@@ -210,11 +195,26 @@
       ]
     },
     {
+      "url": "https://www.montrosecounty.net/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08085/_employers_source"
+      ]
+    },
+    {
       "url": "https://www.morgancounty.com/housing-authority",
       "status": 0,
       "found_in": [
         "local-resources / county:08087/housingAuthority[0]",
         "local-resources / county:08087/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.msrhc.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / place:0878610/hospital",
+        "local-resources / place:0878610/majorEmployers[0]"
       ]
     },
     {
@@ -230,6 +230,13 @@
       "found_in": [
         "local-resources / county:08059/majorEmployers[3]",
         "local-resources / place:0830835/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.nwccog.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08057/housingAuthority[0]"
       ]
     },
     {
@@ -323,7 +330,7 @@
     },
     {
       "url": "https://www.townofpagosasprings.com/",
-      "status": 0,
+      "status": 502,
       "found_in": [
         "local-resources / county:08007/majorEmployers[4]",
         "local-resources / place:0856860/majorEmployers[3]"
@@ -376,10 +383,56 @@
   ],
   "warnings": [
     {
+      "url": "https://eph.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0825115/hospital",
+        "local-resources / place:0825115/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://lhaf.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0845970/housingAuthority[1]"
+      ]
+    },
+    {
       "url": "https://lovelandhousing.org/",
       "status": 403,
       "found_in": [
         "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://stmarygj.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08077/majorEmployers[0]"
+      ]
+    },
+    {
+      "url": "https://www.adams12.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08001/majorEmployers[0]",
+        "local-resources / place:0854330/schoolDistrict",
+        "local-resources / place:0877290/majorEmployers[1]",
+        "local-resources / place:0877290/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.arapahoegov.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08005/majorEmployers[2]"
+      ]
+    },
+    {
+      "url": "https://www.aumhc.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0804000/advocacy[0]"
       ]
     },
     {
@@ -407,6 +460,14 @@
       ]
     },
     {
+      "url": "https://www.carbondalegov.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0812045/housingLead",
+        "local-resources / place:0812045/majorEmployers[2]"
+      ]
+    },
+    {
       "url": "https://www.centennialco.gov/Government/City-Projects-and-Initiatives/Housing",
       "status": 403,
       "found_in": [
@@ -414,6 +475,35 @@
         "policy-progress / Centennial / hna",
         "policy-progress / Centennial / land_banking",
         "policy-progress / Centennial / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.chaffeecounty.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08015/majorEmployers[4]"
+      ]
+    },
+    {
+      "url": "https://www.chaffeehousing.org/",
+      "status": 429,
+      "found_in": [
+        "local-resources / county:08015/advocacy[0]",
+        "local-resources / county:08015/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.chfainfo.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / state:08/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+      "status": 403,
+      "found_in": [
+        "local-resources / state:08/housingPlans[1]"
       ]
     },
     {
@@ -425,8 +515,32 @@
       ]
     },
     {
-      "url": "https://www.crocs.com/",
+      "url": "https://www.co.laplata.co.us/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08067/majorEmployers[3]"
+      ]
+    },
+    {
+      "url": "https://www.crgov.com/",
       "status": 429,
+      "found_in": [
+        "local-resources / place:0812415/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.crgov.com/3212/CDBG",
+      "status": 429,
+      "found_in": [
+        "policy-progress / Castle Rock / dedicated_income",
+        "policy-progress / Castle Rock / hna",
+        "policy-progress / Castle Rock / land_banking",
+        "policy-progress / Castle Rock / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.crocs.com/",
+      "status": 403,
       "found_in": [
         "local-resources / place:0845970/majorEmployers[3]"
       ]
@@ -440,12 +554,56 @@
       ]
     },
     {
+      "url": "https://www.douglas.co.us/community-development/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08035/contacts[1]"
+      ]
+    },
+    {
+      "url": "https://www.douglas.co.us/community-development/housing/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08035/housingPlans[1]"
+      ]
+    },
+    {
+      "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08035/housingAuthority[0]",
+        "local-resources / county:08035/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.douglas.co.us/planning/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08035/contacts[0]"
+      ]
+    },
+    {
+      "url": "https://www.douglas.co.us/planning/comprehensive-master-plan/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08035/housingPlans[0]"
+      ]
+    },
+    {
       "url": "https://www.englewoodco.gov/government/city-departments/community-development/housing/affordable-housing-task-force",
       "status": 403,
       "found_in": [
         "policy-progress / Englewood / dedicated_income",
         "policy-progress / Englewood / land_banking",
         "policy-progress / Englewood / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.evrazna.com/",
+      "status": 429,
+      "found_in": [
+        "local-resources / county:08101/majorEmployers[0]",
+        "local-resources / place:0862000/majorEmployers[0]"
       ]
     },
     {
@@ -470,6 +628,22 @@
       "found_in": [
         "policy-progress / Fort Collins / hna",
         "policy-progress / Fort Collins / land_banking"
+      ]
+    },
+    {
+      "url": "https://www.fs.usda.gov/whiteriver",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08045/majorEmployers[9]"
+      ]
+    },
+    {
+      "url": "https://www.intermountainhealthcare.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08059/majorEmployers[5]",
+        "local-resources / place:0884440/hospital",
+        "local-resources / place:0884440/majorEmployers[0]"
       ]
     },
     {
@@ -524,6 +698,36 @@
       ]
     },
     {
+      "url": "https://www.longmontcolorado.gov/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0845970/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Longmont / hna",
+        "policy-progress / Longmont / land_banking",
+        "policy-progress / Longmont / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/grant-funding-information",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Longmont / dedicated_income"
+      ]
+    },
+    {
+      "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/housing-authority",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08013/housingAuthority[1]"
+      ]
+    },
+    {
       "url": "https://www.lovgov.org/",
       "status": 403,
       "found_in": [
@@ -547,10 +751,27 @@
       ]
     },
     {
+      "url": "https://www.memorialregionalhealth.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0817760/hospital",
+        "local-resources / place:0817760/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.montezumacounty.org/",
       "status": 403,
       "found_in": [
         "local-resources / county:08083/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.montrosehealth.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08085/majorEmployers[0]",
+        "local-resources / place:0851745/hospital",
+        "local-resources / place:0851745/majorEmployers[0]"
       ]
     },
     {
@@ -565,6 +786,24 @@
       "status": 403,
       "found_in": [
         "local-resources / place:0853395/housingLead"
+      ]
+    },
+    {
+      "url": "https://www.northglenn.org/",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Northglenn / dedicated_income",
+        "policy-progress / Northglenn / hna",
+        "policy-progress / Northglenn / land_banking",
+        "policy-progress / Northglenn / tap_fee_reduction"
+      ]
+    },
+    {
+      "url": "https://www.pvmc.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0808675/hospital",
+        "local-resources / place:0808675/majorEmployers[0]"
       ]
     },
     {
@@ -606,6 +845,50 @@
       "found_in": [
         "local-resources / county:08117/majorEmployers[5]",
         "local-resources / place:0808400/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.uchealth.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08031/majorEmployers[1]",
+        "local-resources / county:08041/majorEmployers[3]",
+        "local-resources / county:08069/majorEmployers[1]",
+        "local-resources / county:08107/majorEmployers[1]",
+        "local-resources / place:0804000/majorEmployers[2]",
+        "local-resources / place:0816000/majorEmployers[3]",
+        "local-resources / place:0820000/majorEmployers[1]",
+        "local-resources / place:0827425/majorEmployers[1]",
+        "local-resources / place:0846465/majorEmployers[0]",
+        "local-resources / place:0873825/majorEmployers[1]"
+      ]
+    },
+    {
+      "url": "https://www.uchealth.org/locations/uchealth-medical-center-of-the-rockies/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0846465/hospital"
+      ]
+    },
+    {
+      "url": "https://www.uchealth.org/locations/uchealth-memorial-hospital-central/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0816000/hospital"
+      ]
+    },
+    {
+      "url": "https://www.uchealth.org/locations/uchealth-poudre-valley-hospital/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0827425/hospital"
+      ]
+    },
+    {
+      "url": "https://www.uchealth.org/locations/uchealth-yampa-valley-medical-center/",
+      "status": 403,
+      "found_in": [
+        "local-resources / place:0873825/hospital"
       ]
     },
     {
@@ -664,5 +947,5 @@
       ]
     }
   ],
-  "ok_count": 315
+  "ok_count": 279
 }

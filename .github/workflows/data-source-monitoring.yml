@@ -10,6 +10,11 @@ permissions:
   actions: write
   issues:   write
 
+concurrency:
+  # Serialize commits that include the shared data/manifest.json artifact.
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   discover:
     name: Discover & Monitor Data Sources
@@ -263,7 +268,8 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add data/discovery-reports/latest.json data/discovery-reports/latest.md
+          python3 scripts/rebuild_manifest.py
+          git add data/discovery-reports/latest.json data/discovery-reports/latest.md data/manifest.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
