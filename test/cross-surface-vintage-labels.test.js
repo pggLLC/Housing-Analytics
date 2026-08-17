@@ -62,7 +62,8 @@ assertIncludes(lof, 'HUD QCT 2026', 'LIHTC Opportunity Finder QCT vintage');
 assertIncludes(lof, 'HUD DDA 2026', 'LIHTC Opportunity Finder DDA vintage');
 assertExcludes(lof, 'HUD QCT 2025', 'LIHTC Opportunity Finder stale QCT vintage');
 assertExcludes(lof, 'HUD DDA 2025', 'LIHTC Opportunity Finder stale DDA vintage');
-assertIncludes(lof, 'datasets/dda.html', 'LIHTC Opportunity Finder DDA source link');
+assertIncludes(lof, 'datasets/qct.html', 'LIHTC Opportunity Finder consolidated QCT/DDA source link');
+assertExcludes(lof, 'datasets/dda.html', 'LIHTC Opportunity Finder retired DDA source link');
 assertIncludes(
   lof,
   '2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2025)',
