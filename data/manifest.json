@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17T00:16:26.049020Z",
+  "generated": "2026-08-17T03:02:17.020538Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 215500
+      "bytes": 209543
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7804,7 +7804,7 @@
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 107987
+      "bytes": 108521
     },
     "data/market/zoning_compat_index_co.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 175251
+      "bytes": 170406
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
