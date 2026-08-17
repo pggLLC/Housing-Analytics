@@ -78,21 +78,25 @@ async function main() {
   );
   assert(display.features.length >= 1000, 'display geometry contains Colorado tract-scale feature count');
   assert.equal(display.features.length, source.features.length, 'display geometry has one feature per canonical tract');
-  // This used to assert display < source/2. That threshold encoded the
-  // generator's original premise — "avoid loading the 16MB canonical boundary
-  // file for every PMA run" — which stopped being true once the canonical was
-  // simplified (3.5MB -> 1.0MB). The derivative is now only ~5% smaller, so the
-  // ratio no longer measures anything real.
+  // Deliberately NO byte-size assertion here. Two have already been tried and
+  // both broke for the same reason:
+  //   1. `display < source/2` — encoded the generator's original premise
+  //      ("avoid loading the 16MB canonical for every PMA run"), invalidated
+  //      when the canonical was simplified 3.5MB -> 1.0MB.
+  //   2. `display <= source` — invalidated on 2026-08-17 when a further
+  //      simplification took the canonical to ~520KB while the display stayed
+  //      at ~604KB, turning main red with the artifact perfectly healthy.
   //
-  // Size was always a proxy. What actually justifies this artifact is that it
-  // carries fields the canonical does not: COUNTY and NAME denormalized in, and
-  // a precomputed point_on_surface that js/pma-barrier-aware.js depends on.
-  // Assert that contract directly — it catches a generator regression dropping
-  // point_on_surface, which the size check never would.
-  assert(
-    fs.statSync(displayPath).size <= fs.statSync(sourcePath).size,
-    'display geometry is no larger than the canonical source'
-  );
+  // Relative size is not a contract. The display legitimately runs LARGER than
+  // the canonical: it carries three extra properties on every one of ~1,447
+  // features (COUNTY, NAME, point_on_surface) while the canonical carries only
+  // GEOID/AREALAND/AREAWATER. Either file can be re-simplified independently,
+  // so any ordering between them is incidental.
+  //
+  // What actually justifies this artifact is the property contract below —
+  // js/pma-barrier-aware.js reads point_on_surface from here because the
+  // canonical does not have it. That is what a generator regression would
+  // break, and that is what these assertions catch.
   for (const key of ['GEOID', 'COUNTY', 'NAME', 'point_on_surface']) {
     assert(
       display.features.every((feature) => feature.properties?.[key] !== undefined),
