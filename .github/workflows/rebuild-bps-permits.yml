@@ -179,6 +179,10 @@ jobs:
           } > "$msg"
           git commit -F "$msg"
           rm -f "$msg"
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            git fetch origin main
+            git rebase --autostash origin/main
+          fi
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 

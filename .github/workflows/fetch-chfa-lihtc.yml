@@ -147,4 +147,8 @@ jobs:
           git --no-pager diff --stat HEAD~1 HEAD || true
 
           echo "── Pushing changes ──"
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            git fetch origin main
+            git rebase --autostash origin/main
+          fi
           git push origin HEAD:main

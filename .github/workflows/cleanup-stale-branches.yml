@@ -87,6 +87,10 @@ jobs:
             fi
 
             if [ "$DRY_RUN" = "false" ]; then
+              if [ "${{ github.ref_name }}" = "main" ]; then
+                git fetch origin main
+                git rebase --autostash origin/main
+              fi
               git push origin --delete "$branch" 2>&1 \
                 && echo "    ✓ deleted $branch" \
                 || echo "    ✗ failed to delete $branch"
