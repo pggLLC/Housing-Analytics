@@ -55,8 +55,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          python3 scripts/rebuild_manifest.py
           git add \
             data/co-housing-costs/ \
+            data/manifest.json \
             assets/co-housing-costs/ \
             || true
 

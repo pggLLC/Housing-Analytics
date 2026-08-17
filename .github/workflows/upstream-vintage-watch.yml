@@ -130,7 +130,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/audit/upstream-vintage-watch.json
+          python3 scripts/rebuild_manifest.py
+          git add data/audit/upstream-vintage-watch.json data/manifest.json
           git diff --cached --quiet || git commit -m "chore: refresh upstream-vintage-watch $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main || true` which
           # discards every change from origin/main and (with `|| true`) swallows

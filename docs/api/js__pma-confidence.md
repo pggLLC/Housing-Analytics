@@ -47,8 +47,9 @@ Adequate total statewide tract count enables stable aggregate statistics.
 
 ### `scoreBufferDepth(bufferTractCount)`
 
-How many tracts fall within the analysis buffer.
-Very few buffer tracts → unreliable local aggregate.
+Area-weighted buffer coverage as effective tract-equivalents.
+Very little effective coverage → unreliable local aggregate.
+Raw tract count is still accepted as a backward-compatible fallback.
 @param {number} bufferTractCount
 @returns {number} 0–100
 
@@ -60,7 +61,8 @@ Compute the overall heuristic confidence score (0–100).
 @param {Array}  params.acsTracts      - Loaded ACS tract records
 @param {number} params.lihtcCount     - Number of LIHTC features loaded
 @param {number} params.centroidCount  - Number of tract centroids loaded
-@param {number} params.bufferTracts   - Number of tracts within the analysis buffer
+@param {number} params.bufferTracts   - Raw number of tracts within the analysis buffer
+@param {number} [params.effectiveBufferTracts] - Area-weighted tract-equivalent coverage; falls back to bufferTracts when absent
 @param {number} [params.acsVintage]   - ACS data vintage year (e.g. 2022)
 @returns {{ score: number, level: string, color: string, factors: object }}
 
