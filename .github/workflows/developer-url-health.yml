@@ -58,7 +58,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/reports/developer-url-health.json
+          python3 scripts/rebuild_manifest.py
+          git add data/reports/developer-url-health.json data/manifest.json
           if ! git diff --cached --quiet; then
             git commit -m "chore(developer): weekly URL health audit"
             # F162 — Rebase before push; same race window F161b hit.

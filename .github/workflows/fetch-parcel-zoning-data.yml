@@ -235,12 +235,14 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          python3 scripts/rebuild_manifest.py
           git add data/market/parcel_aggregates_co.json \
                   data/market/zoning_compat_index_co.json \
                   data/market/transit_routes_co.geojson \
                   data/market/schools_co.geojson \
                   data/market/opportunity_zones_co.geojson \
-                  data/affordable-housing/regrid-parcels-by-place.json 2>/dev/null || true
+                  data/affordable-housing/regrid-parcels-by-place.json \
+                  data/manifest.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             echo "pushed=false" >> "$GITHUB_OUTPUT"

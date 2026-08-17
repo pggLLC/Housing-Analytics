@@ -64,7 +64,8 @@ jobs:
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/agenda-url-discovery-report.json
+          python3 scripts/rebuild_manifest.py
+          git add data/agenda-url-discovery-report.json data/manifest.json
           msg=$(mktemp)
           {
             printf 'chore(F169a): refresh agenda-url discovery report\n\n'
