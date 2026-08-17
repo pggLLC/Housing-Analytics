@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17T03:02:17.020538Z",
+  "generated": "2026-08-17T05:33:21.816657Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7654,7 +7654,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996787
+      "bytes": 1529920
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7824,7 +7824,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92896
+      "bytes": 92895
     },
     "data/pipeline/content.json": {
       "featureCount": 0,
