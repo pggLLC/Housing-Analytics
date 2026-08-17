@@ -279,6 +279,12 @@ const ALLOW_LIST = new Set([
 ]);
 
 const SKIP_PATTERNS = [
+  // Verified 2026-08-16: these agency pages return HTTP 403 even with a
+  // browser UA. Skip the exact true-WAF citations while retaining checks for
+  // all other DOL and USDA pages.
+  /^https:\/\/www\.dol\.gov\/general\/topic\/benefits-other\/?$/,
+  /^https:\/\/www\.rd\.usda\.gov\/programs-services\/single-family-housing-programs\/single-family-housing-direct-home-loans\/?$/,
+  /^https:\/\/www\.rd\.usda\.gov\/programs-services\/single-family-housing-programs\/single-family-housing-guaranteed-loan-program\/?$/,
   /^mailto:/i,
   /^tel:/i,
   /^javascript:/i,

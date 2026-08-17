@@ -51,4 +51,18 @@ for (const file of ['url-health-sweep.mjs', 'source-url-sweep.mjs']) {
     `${file} confirms every non-OK HEAD response with GET`);
 }
 
+const weeklySweep = fs.readFileSync(
+  path.join(ROOT, 'scripts/audit/url-health-sweep.mjs'), 'utf8');
+const sourceSweep = fs.readFileSync(
+  path.join(ROOT, 'scripts/audit/source-url-sweep.mjs'), 'utf8');
+for (const fragment of [
+  'dol\\.gov\\/general\\/topic\\/benefits-other',
+  'rd\\.usda\\.gov\\/programs-services\\/single-family-housing-programs\\/single-family-housing-direct-home-loans',
+  'rd\\.usda\\.gov\\/programs-services\\/single-family-housing-programs\\/single-family-housing-guaranteed-loan-program'
+]) {
+  const literal = fragment.replaceAll('\\.', '.').replaceAll('\\/', '/');
+  assert.ok(weeklySweep.includes(literal), `${literal} is allow-listed by the weekly sweep`);
+  assert.ok(sourceSweep.includes(fragment), `${literal} is skipped by the PR-time sweep`);
+}
+
 console.log('url-health-policy: PASS');
