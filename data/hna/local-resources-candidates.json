@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T08:20:08.672Z",
+  "generatedAt": "2026-08-17T07:42:29.916Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 20,
@@ -360,10 +360,118 @@
       "slug": "sterling",
       "candidateUrls": [
         {
-          "url": "https://sterling.org/",
+          "url": "https://www.cityofsterling.com/",
           "type": "base",
           "status": 200,
-          "title": "Landing",
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.cityofsterling.com/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 200,
+          "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
@@ -798,7 +906,7 @@
           "status": 200,
           "title": "Fort Lupton, CO - Official Website | Official Website",
           "hasHousingKeyword": false,
-          "looksLikeColorado": false
+          "looksLikeColorado": true
         }
       ]
     }

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-08-03T14:34:15Z",
+    "generated_at": "2026-08-17T12:38:56Z",
     "counts": {
       "places": 472,
       "cross_county_places": 26,
@@ -8138,7 +8138,7 @@
       "method": "county_projection_x_blended_share_v1"
     },
     "0812900": {
-      "name": "Central (city)",
+      "name": "Central City (city)",
       "containing_county": "08047",
       "cross_county": true,
       "years": [
