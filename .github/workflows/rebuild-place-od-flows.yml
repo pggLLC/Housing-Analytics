@@ -33,6 +33,10 @@ permissions:
   contents: write
   actions: write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   rebuild:
     runs-on: ubuntu-latest

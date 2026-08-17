@@ -10,6 +10,10 @@ permissions:
   actions: write
   issues:   write
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   discover:
     name: Discover & Monitor Data Sources
