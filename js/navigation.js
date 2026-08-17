@@ -93,6 +93,7 @@
     {
       label: "Insights",
       items: [
+        { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Assistance programs for buyers" },
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Auto-generated summaries — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
