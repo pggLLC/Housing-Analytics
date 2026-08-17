@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17T17:11:28.487584Z",
+  "generated": "2026-08-17T20:00:20.144909Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7724,7 +7724,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 969599
+      "bytes": 604220
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7764,7 +7764,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 1017562
+      "bytes": 520498
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
