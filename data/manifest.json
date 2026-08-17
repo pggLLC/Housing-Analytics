@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-17T00:16:26.049020Z",
+  "generated": "2026-08-17T08:30:43.114076Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 215500
+      "bytes": 209543
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 244573
+      "bytes": 244576
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4104,7 +4104,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25396
+      "bytes": 28912
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -7654,7 +7654,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 996787
+      "bytes": 1529920
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7804,7 +7804,7 @@
     "data/market/zillow_co_metros.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 107987
+      "bytes": 108521
     },
     "data/market/zoning_compat_index_co.json": {
       "featureCount": 0,
@@ -7824,7 +7824,7 @@
     "data/multifamily-inventory-co.json": {
       "featureCount": 56,
       "placeholder": false,
-      "bytes": 92896
+      "bytes": 92895
     },
     "data/pipeline/content.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 175251
+      "bytes": 170406
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20068
+      "bytes": 20069
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -8034,7 +8034,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 414478
+      "bytes": 328546
     }
   }
 }
