@@ -266,7 +266,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson
+          python3 scripts/rebuild_manifest.py
+          git add data/qct-colorado.json data/dda-colorado.json data/co-county-boundaries.json data/boundaries/counties_co.geojson data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to overlay cache files"
           else
