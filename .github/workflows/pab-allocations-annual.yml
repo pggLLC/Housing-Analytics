@@ -60,6 +60,10 @@ jobs:
             python3 scripts/rebuild_manifest.py
             git add data/policy/pab-allocations.json data/manifest.json
             git commit -m "chore(pab): annual volume-cap refresh $(date -u +%Y-%m-%d)"
+            if [ "${{ github.ref_name }}" = "main" ]; then
+              git fetch origin main
+              git rebase --autostash origin/main
+            fi
             git push
           fi
 

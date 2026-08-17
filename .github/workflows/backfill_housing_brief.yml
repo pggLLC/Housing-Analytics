@@ -49,5 +49,9 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "chore: GDELT backfill ${{ inputs.weeks }} weeks $(date -u '+%Y-%m-%d')"
+            if [ "${{ github.ref_name }}" = "main" ]; then
+              git fetch origin main
+              git rebase --autostash origin/main
+            fi
             git push
           fi
