@@ -25,6 +25,10 @@ permissions:
   issues: write
   pull-requests: write   # needed for gh pr create
 
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   # ── Stage 1: Health Check ───────────────────────────────────────────────────
   health-check:
