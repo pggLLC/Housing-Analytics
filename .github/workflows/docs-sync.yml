@@ -53,6 +53,10 @@ jobs:
           git checkout -b "$BRANCH"
           git add docs/
           git commit -m "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            git fetch origin main
+            git rebase --autostash origin/main
+          fi
           git push origin "$BRANCH"
 
           gh pr create \

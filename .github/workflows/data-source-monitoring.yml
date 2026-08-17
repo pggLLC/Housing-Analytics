@@ -276,6 +276,10 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "chore: update data discovery report [skip ci]"
+            if [ "${{ github.ref_name }}" = "main" ]; then
+              git fetch origin main
+              git rebase --autostash origin/main
+            fi
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
