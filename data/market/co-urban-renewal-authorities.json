@@ -31,7 +31,7 @@
     {
       "name": "Colorado Springs Urban Renewal Authority (CSURA)",
       "jurisdiction": "City of Colorado Springs",
-      "url": "https://coloradosprings.gov/community-development/urban-renewal",
+      "url": "https://csura.org/",
       "active_plans": ["South Nevada", "Copper Ridge", "City Auditorium / City Hall", "Hillside"],
       "annual_tif_revenue_estimate_M": 12,
       "housing_in_mission": true,
