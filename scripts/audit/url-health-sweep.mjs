@@ -86,6 +86,11 @@ const ALLOW_LIST = new Set([
   'https://www.cbre.com/insights',
   'https://www.ffiec.gov/craadweb/main.aspx',
   'https://www.dol.gov/agencies/whd/government-contracts/construction',
+  // Verified 2026-08-16: these agency pages return HTTP 403 even with the
+  // shared browser UA. They are true WAF bot-blocks, not missing pages.
+  'https://www.dol.gov/general/topic/benefits-other',
+  'https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-direct-home-loans',
+  'https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-guaranteed-loan-program',
   'https://cdola.colorado.gov/commitment-filings',
   'https://cdola.colorado.gov/housing',
   'https://cdola.colorado.gov/prop123',
