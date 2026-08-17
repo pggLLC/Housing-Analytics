@@ -1,15 +1,15 @@
 {
-  "generated": "2026-08-17T05:33:21.816657Z",
+  "generated": "2026-08-17T17:11:28.487584Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 779702
+      "bytes": 779733
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6266
+      "bytes": 6259
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 209543
+      "bytes": 210644
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -294,7 +294,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 244573
+      "bytes": 244576
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4104,7 +4104,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25396
+      "bytes": 28912
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -4479,7 +4479,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 846226
+      "bytes": 846231
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 170406
+      "bytes": 172367
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20068
+      "bytes": 20069
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -7999,7 +7999,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19492
+      "bytes": 27649
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
@@ -8034,7 +8034,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 414478
+      "bytes": 328546
     }
   }
 }
