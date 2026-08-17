@@ -1,8 +1,8 @@
 {
   "meta": {
-    "generated": "2026-08-17T02:18:23Z",
+    "generated": "2026-08-17T08:49:24Z",
     "feed_count": 6,
-    "alert_count": 299,
+    "alert_count": 300,
     "max_age_days": 90
   },
   "alerts": [
@@ -61,6 +61,15 @@
       "summary": "Congress just passed a housing law that rewards states for reform \u2014 here\u2019s why Colorado has a head start \u00a0\u00a0 The Conversation"
     },
     {
+      "title": "Colorado\u2019s small towns are matching big city home prices - The Denver Post",
+      "date": "2026-08-14T10:00:00Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNUEgwb2EwQUdJZlMwYURKZ0lWQzlmUjNtaTRtUHVuRm1NUnhNeFNRbWxtZlpuMThJb2M2cFJ2Y0x0LWNZSjJvRTRkOFdjSFR3US1CZ0ktM2otS2l4bEMwM0ZScl9wVGtvQUF2RlNiaGFqbjM2WVBBT09KcVlzcC1SWjRKU0NQcWNQelFhaE5qbUxlWUhu?oc=5",
+      "topic": "market",
+      "region": "Denver",
+      "summary": "Colorado\u2019s small towns are matching big city home prices \u00a0\u00a0 The Denver Post"
+    },
+    {
       "title": "Chapel Hill affordable housing development receives N.C. tax credit - The Daily Tar Heel",
       "date": "2026-08-14T07:00:00Z",
       "source": "The Daily Tar Heel",
@@ -113,6 +122,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "New Colorado rideshare safety provisions go into effect this month \u00a0\u00a0 Rocky Mountain PBS"
+    },
+    {
+      "title": "Opportunity Zones 2.0: A Once-in-a-Decade Housing Test - Tax Credit Advisor",
+      "date": "2026-08-10T16:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9oWThBWjFYTkROa2c5Nkt3S1paRVpfZG84YWtpUkF3ejV6dUE1VTIycmc1dHJrY3NVUEd1SWNtUkhybXQwT3hDdmlRamlEM0U2ZkZmMG9mWGZxbUhLUUIwaEllUGVsUWtiNFVfcWF5aC0yelVxTHh1LTJB?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Opportunity Zones 2.0: A Once-in-a-Decade Housing Test \u00a0\u00a0 Tax Credit Advisor"
     },
     {
       "title": "New plan would provide $10,000 credit for home upgrades: Who qualifies? - AL.com",
@@ -2653,6 +2671,15 @@
       "summary": "Ohio Housing Finance Agency Awards More Than $39.1 Million in Annual 9% Tax Credits for Affordable Housing in Ohio \u00a0\u00a0 The Ohio Housing Finance Agency (OHFA)"
     },
     {
+      "title": "Governor stays Current with Grand Junction's affordable housing expansion - The Grand Junction Daily Sentinel",
+      "date": "2026-05-20T07:00:00Z",
+      "source": "The Grand Junction Daily Sentinel",
+      "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxNM2VLSXlTcFY3WkFmX0t5SHBHYXJBQTNtUnhJRHBaOVFJZVk1NHFXTXpYTnhEbVl6S29qQU1VbE1jeDZaNWIySklkc2k2OUdDc1N0R3o0OVpER29EWV9ybHBqZ3Z6b0R5X3Y1Wmt0TS1pVU90TU1hU0cyZDBOTy0wWXFGdXZxOEgxX2tZbjhlNXBUSnhpVVQxdHU3WTdrZEk2ZzdJTnNIZ2U2V0ZpQ2xOWmpFNGxveVY2cFlqVEowSlFJeUhxeDdEdmpWM3IwNzFKTURYMHYwdVFST2o3WkFOVXFQT3lmTVd1VUlwS0NOZXJqTXFkT3JKT18xT3ZkcHF60gGGAkFVX3lxTE5xSVdORWRWck1QaFlpd3VuZUwxZWF5VEhKd0FWSUw4Y0I4WTJlUXQ1V2c4bjlSRGJXWjlpeWxiNVZIV2dMM01yYUdxeVk5UE9PdFJDU0FTZXdJN19xalZYX3F4MFU4OS05ZU93UFVEbk5Tc0FreUQxcjlXS3BqXy1MSk5LaWxpNTdySU9wTnNNQUhYbXAteGRSeDJLb1ZYYkliX2ZZRVpVVVl5VFZ2MHFiNUkzZ3cwcWV0SEp3NVIzN3h0X0s3VEZwWFhMVXZ2SF9fMGJsckZsWXJmMER2UU9VS1cxaDl3WExVQ2llS3dmMUVlclN1cUlMMXNsQ2pMOTNZZTFjVlE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Grand Junction",
+      "summary": "Governor stays Current with Grand Junction's affordable housing expansion \u00a0\u00a0 The Grand Junction Daily Sentinel"
+    },
+    {
       "title": "SPONSORED: What you\u2019re missing about housing \u2014 an open letter to all of Colorado\u2019s candidates for governor - Colorado Politics",
       "date": "2026-05-20T07:00:00Z",
       "source": "Colorado Politics",
@@ -2678,24 +2705,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "A new report measures affordability for housing in Colorado \u00a0\u00a0 KKTV"
-    },
-    {
-      "title": "The 6 biggest themes of Colorado\u2019s 2026 legislative session - The Colorado Sun",
-      "date": "2026-05-19T07:00:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNVDVTcTVYYkRVYV81bkZXRVR2YWl2UkVUVk5UVTlQYXZWRXNXMDdNSUNLblFmWm9tMjE1bUtVTzZJNXhpaVJtVlF6Z1F3SC1kcjdIMjdXYlo5OHNHUzdfTGdTUHdqODZXVnpnb3BwNHhUY1JvSFkwWWNMQ2IwWEFjUTBlclA2UjZnaUlIT1pSRWJDTWNBb0pn?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "The 6 biggest themes of Colorado\u2019s 2026 legislative session \u00a0\u00a0 The Colorado Sun"
-    },
-    {
-      "title": "After Aurora Housing Authority wins lawsuits, repeal measure introduced - Sentinel Colorado",
-      "date": "2026-05-19T07:00:00Z",
-      "source": "Sentinel Colorado",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxQSDdRZDQtemRZcTFETjBraFhiMWJ5QXgyTjg0bDdGZTd0b1o4d0c3aDhrNWNMb2pvMy1lWHRzRVJ2b1lRTkJfaTNvTmwtSXdLenVBWmJqdXBHYl9UTGllbWVORjY1eVphQWdJNGEzZ3FueGFkTDk2R1ZuWDc3YVhJaUh1YVRJX2dvRmtZTTFJN3NkdmlHNWdvRm9jemhhcG5PUTdycHF3eGJfZw?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "After Aurora Housing Authority wins lawsuits, repeal measure introduced \u00a0\u00a0 Sentinel Colorado"
     }
   ]
 }
