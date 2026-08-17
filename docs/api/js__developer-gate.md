@@ -25,5 +25,6 @@ TO CHANGE THE PASSWORD
   2. Run:  node -e "console.log(require('crypto').createHash('sha256').update('YOUR-PASSWORD').digest('hex'))"
   3. Replace PASSWORD_HASH below with the new hash.
   4. Commit + push.
+Real fix: replace this UI-only gate with Cloudflare Access; see docs/CLOUDFLARE-SETUP.md.
 
 _No documented symbols — module has a file-header comment only._

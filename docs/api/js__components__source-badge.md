@@ -12,10 +12,11 @@ Usage (declarative):
     <canvas id="myChart"></canvas>
   </div>
 
-data-source-type values: raw | transformed | modeled
+data-source-type values: raw | transformed | modeled | live
   raw         – data used exactly as published by the source
   transformed – aggregated, filtered, or joined from the source
   modeled     – output of a formula or model applied to source data
+  live        – live API data fetched at render time
 
 Or call imperatively from chart render code:
   SourceBadge.attach(element, { source: 'FRED CPIAUCSL', url: '...', vintage: '2024', sourceType: 'raw' });

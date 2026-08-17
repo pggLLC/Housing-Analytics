@@ -313,7 +313,8 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/market/bridge/*.json data/market/bridge_co_market_summary.json 2>/dev/null || true
+          python3 scripts/rebuild_manifest.py
+          git add data/market/bridge/*.json data/market/bridge_co_market_summary.json data/manifest.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No Bridge data changes to commit"
           else
