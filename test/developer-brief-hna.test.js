@@ -13,7 +13,7 @@ assert(html.includes('30% renter cost-burden rate'), 'brief must explain the cos
 assert(html.includes('20% in-commuter pressure'), 'brief must explain the commuter weighting');
 assert(html.includes('<strong>Summary analysis:</strong>'), 'brief must include a jurisdiction-specific HNA summary');
 assert(html.includes('not a funding award score'), 'brief must distinguish screening from award scoring');
-assert(!html.includes('https://cdola.colorado.gov/private-activity-bonds'),
+assert(!html.includes('cdola.colorado.gov/private-activity-bonds'),
   'brief must not link the retired DOLA PAB page');
 assert(html.includes('data-source-status="inactive"') && html.includes('source page retired'),
   'brief must visibly mark the retired DOLA PAB source inactive');
