@@ -49,6 +49,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { BROWSER_USER_AGENT, diffConfirmedSweeps } from './url-health-policy.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -85,6 +86,11 @@ const ALLOW_LIST = new Set([
   'https://www.cbre.com/insights',
   'https://www.ffiec.gov/craadweb/main.aspx',
   'https://www.dol.gov/agencies/whd/government-contracts/construction',
+  // Verified 2026-08-16: these agency pages return HTTP 403 even with the
+  // shared browser UA. They are true WAF bot-blocks, not missing pages.
+  'https://www.dol.gov/general/topic/benefits-other',
+  'https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-direct-home-loans',
+  'https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-guaranteed-loan-program',
   'https://cdola.colorado.gov/commitment-filings',
   'https://cdola.colorado.gov/housing',
   'https://cdola.colorado.gov/prop123',
@@ -292,18 +298,23 @@ async function probeUrl(url) {
   try {
     let res;
     try {
-      res = await fetch(url, { method: 'HEAD', redirect: 'follow', signal: ac.signal });
-      // Many servers reject HEAD with 405/403; retry GET with Range
-      if (res.status === 405 || res.status === 403) {
+      res = await fetch(url, {
+        method: 'HEAD', redirect: 'follow', signal: ac.signal,
+        headers: { 'User-Agent': BROWSER_USER_AGENT }
+      });
+      // Some otherwise-live servers reject or mishandle HEAD with statuses
+      // beyond 403/405 (FHLB Topeka returns 500). Confirm every non-OK HEAD
+      // with the existing lightweight GET path before calling it broken.
+      if (!res.ok) {
         res = await fetch(url, {
           method: 'GET', redirect: 'follow', signal: ac.signal,
-          headers: { Range: 'bytes=0-0' }
+          headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT }
         });
       }
     } catch (_) {
       res = await fetch(url, {
         method: 'GET', redirect: 'follow', signal: ac.signal,
-        headers: { Range: 'bytes=0-0' }
+        headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT }
       });
     }
     clearTimeout(timeout);
@@ -372,22 +383,6 @@ function mergeIntoCache(prev, results) {
   return { lastSweepAt: NOW, urlCount: results.length, byUrl };
 }
 
-function diffSweeps(prev, next) {
-  const newlyBroken = [];
-  const stillBroken = [];
-  const recovered = [];
-  for (const url of Object.keys(next.byUrl)) {
-    const a = prev.byUrl[url] || {};
-    const b = next.byUrl[url];
-    const wasOk = a.status === 'ok' || a.status === 'allow' || a.status === undefined;
-    const isOk  = b.status === 'ok' || b.status === 'allow';
-    if (wasOk && !isOk) newlyBroken.push({ url, status: b.status, httpStatus: b.httpStatus });
-    else if (!wasOk && !isOk && a.status !== undefined) stillBroken.push({ url, status: b.status, httpStatus: b.httpStatus, consecutiveFailures: b.consecutiveFailures });
-    else if (!wasOk && isOk) recovered.push({ url, httpStatus: b.httpStatus });
-  }
-  return { newlyBroken, stillBroken, recovered };
-}
-
 /* ── Main ─────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -415,7 +410,7 @@ async function main() {
   console.error(`[url-health] Probed ${results.length} URLs in ${(ms / 1000).toFixed(1)}s.`);
 
   const next = mergeIntoCache(prev, results);
-  const diff = diffSweeps(prev, next);
+  const diff = diffConfirmedSweeps(prev, next);
 
   const summary = {
     lastSweepAt: NOW,
@@ -425,6 +420,7 @@ async function main() {
       return a;
     }, {}),
     newlyBroken: diff.newlyBroken,
+    unconfirmed: diff.unconfirmed,
     stillBroken: diff.stillBroken.slice(0, 50),  // cap for readability
     recovered: diff.recovered
   };

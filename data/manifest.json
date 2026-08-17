@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T23:34:48.492801Z",
+  "generated": "2026-08-17T00:16:26.049020Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4109,7 +4109,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 179363
+      "bytes": 179361
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7549,7 +7549,7 @@
     "data/market/co-urban-renewal-authorities.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 12214
+      "bytes": 12169
     },
     "data/market/colorado-equity-pricing-factors.json": {
       "featureCount": 0,
@@ -8029,7 +8029,7 @@
     "data/tax-abatement-inventory.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21723
+      "bytes": 21685
     },
     "data/url-health.json": {
       "featureCount": 0,
