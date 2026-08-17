@@ -1,15 +1,15 @@
 {
-  "generated": "2026-08-17T08:30:43.114076Z",
+  "generated": "2026-08-17T14:55:55.998980Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 779702
+      "bytes": 779733
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6266
+      "bytes": 6259
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 209543
+      "bytes": 210644
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -4479,7 +4479,7 @@
     "data/hna/projections/places.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 846226
+      "bytes": 846231
     },
     "data/hna/ranking-index.json": {
       "featureCount": 0,
@@ -7939,7 +7939,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 170406
+      "bytes": 172367
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
