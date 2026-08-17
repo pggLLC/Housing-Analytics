@@ -20,6 +20,7 @@ import path from "node:path";
 import readline from "node:readline";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { BROWSER_USER_AGENT } from "./url-health-policy.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -278,6 +279,12 @@ const ALLOW_LIST = new Set([
 ]);
 
 const SKIP_PATTERNS = [
+  // Verified 2026-08-16: these agency pages return HTTP 403 even with a
+  // browser UA. Skip the exact true-WAF citations while retaining checks for
+  // all other DOL and USDA pages.
+  /^https:\/\/www\.dol\.gov\/general\/topic\/benefits-other\/?$/,
+  /^https:\/\/www\.rd\.usda\.gov\/programs-services\/single-family-housing-programs\/single-family-housing-direct-home-loans\/?$/,
+  /^https:\/\/www\.rd\.usda\.gov\/programs-services\/single-family-housing-programs\/single-family-housing-guaranteed-loan-program\/?$/,
   /^mailto:/i,
   /^tel:/i,
   /^javascript:/i,
@@ -566,13 +573,14 @@ async function checkUrl(url) {
         method: "HEAD",
         redirect: "follow",
         signal: ac.signal,
+        headers: { "User-Agent": BROWSER_USER_AGENT },
       });
-      if (res.status === 405 || res.status === 403) {
+      if (!res.ok) {
         res = await fetch(url, {
           method: "GET",
           redirect: "follow",
           signal: ac.signal,
-          headers: { Range: "bytes=0-0" },
+          headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT },
         });
       }
     } catch (_) {
@@ -580,7 +588,7 @@ async function checkUrl(url) {
         method: "GET",
         redirect: "follow",
         signal: ac.signal,
-        headers: { Range: "bytes=0-0" },
+        headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT },
       });
     }
 
