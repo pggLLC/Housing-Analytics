@@ -1,11 +1,128 @@
 {
   "meta": {
-    "generated": "2026-08-10T09:38:13Z",
+    "generated": "2026-08-17T02:18:23Z",
     "feed_count": 6,
-    "alert_count": 308,
+    "alert_count": 299,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing - RiverBender.com",
+      "date": "2026-08-16T13:30:00Z",
+      "source": "RiverBender.com",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOS0FmaGplOW1vY3JVaTRjZXB1T2pWaHcyOUY5ZkNNRktvNXpQeVdwZ3R1cGktOHYyM1dCVWw0QktRNDRGU2J5dmk2LWtZVUhackhIRFpqZTRaZUtzVWdBd2VGRkRtOXZmQ0JxVFM2cjAxOFhLTHBJSW1sUXREVnVHUXB2QjZzZzBqZVZuZk1QR014YVRCNE5TT2FLNXFoNTN1OGo0WE4yRTlYQQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Illinois Housing Development Authority Releases Plan To Create And Preserve Affordable Housing \u00a0\u00a0 RiverBender.com"
+    },
+    {
+      "title": "Affordable Housing Costs More to Build Than Market-Rate Housing \u2014 But It Doesn't Have To - Davis Vanguard",
+      "date": "2026-08-16T11:53:39Z",
+      "source": "Davis Vanguard",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5DSWlIT1VfbDliTlFoQm9VVHc2MWQ0MmlnUi05NldJeWVTekxZdzAteEJaS0d0TGlCbmpQcWtMSWhTQTdvaFZ3Q3ByRGZKcWhTb2dJV0RRX28wNUY3aThNYzdVSUZHTlhfaWphcTRaRWpya21IOWRj?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Affordable Housing Costs More to Build Than Market-Rate Housing \u2014 But It Doesn't Have To \u00a0\u00a0 Davis Vanguard"
+    },
+    {
+      "title": "Mystery buyer offers full $42.5 million for Colorado mobile home park as residents race to match - Yahoo",
+      "date": "2026-08-16T11:31:00Z",
+      "source": "Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOVWotQUJBcmFFLU1rLUJJNG0tTUdRVHVpNWlfMkF2X0pHR2JfdWd2aXF0aGU0cUlGT2JtRVl4UXdyQlhubElGQmdReGJlRW5hYWhGbDdkblJvcUtaeUlpaldZRnY3TUlQdW1PZUFZMDI2TV80WXFhbnBaeEg2MXhEdlJ5RnJXLXNQTGc?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Mystery buyer offers full $42.5 million for Colorado mobile home park as residents race to match \u00a0\u00a0 Yahoo"
+    },
+    {
+      "title": "Perspective: The bad policy behind Colorado\u2019s costly housing - Denver Gazette",
+      "date": "2026-08-16T11:03:18Z",
+      "source": "Denver Gazette",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOd2NqM3hLYW9hWFZsUHZEVUE2aGFFWm5QQjRtWk9maFJCemJYNTJ6NlFDd2FIUVBtRm5aVWw1Z2duS19HMW44UG1jb0VoNWQ1Mk1aY1licGdSY3ZUZkxoNDB6dUhnMWxTUUg3aTdrSVFkMDdkVjZjTXJ0SFlETm80cDc0NTZ6Q1lnN3NoUm1Mb3p6dkxsUEx2a0xOTnBYM1o3NkE?oc=5",
+      "topic": "general",
+      "region": "Denver",
+      "summary": "Perspective: The bad policy behind Colorado\u2019s costly housing \u00a0\u00a0 Denver Gazette"
+    },
+    {
+      "title": "Illinois housing authority releases new plan for affordable housing tax credits - whig.com",
+      "date": "2026-08-15T16:46:06Z",
+      "source": "whig.com",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNSklkM0ZpT3VzMVZxc25hOXZ4NGVRUE56dWZaTy1KR0Vzb0R4bjM0a0oxb0xOV0lmNnJyb3pHVm9EWHBfeldKNG9XTzNiTWRpbFNnSlJkRVpVXzFxZWtQTGhfc3NtYVh2c0xDVWJMQUU4RzhtTXpUbHU5NzV6SlNGc29rdHl4VnZfVmJVVFRqOVp3eFVOZWkyVk91b0dITXdtalJuX0N3aUE0U1dH?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Illinois housing authority releases new plan for affordable housing tax credits \u00a0\u00a0 whig.com"
+    },
+    {
+      "title": "Congress just passed a housing law that rewards states for reform \u2014 here\u2019s why Colorado has a head start - The Conversation",
+      "date": "2026-08-14T12:38:16Z",
+      "source": "The Conversation",
+      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQV0x3ekItUDBqbjNDZW03X0lNV0tzZDl4a0N0TU1mbkNqR0ppZklzNy1KeWdxOTRoTEpzYTUwbGQ5Y1VHLTQyMzhpQUFnOURxa3ZQeHgwS0lnLWM3bkJsRk9sOEo0VmdTUzk0Z0lDeHJsWThzTlBYc2FlZFFoWTJKWWd3Z0VCb0pRazNFXzRNZVFfMmZqYTJUSF9WOTU5YlU1WFo3MW9lSDkzSEU5UUh4UnlGU3lvX1pUcHV6djlHYUF6RnlYbnBpNml3d25POUt4S2c?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Congress just passed a housing law that rewards states for reform \u2014 here\u2019s why Colorado has a head start \u00a0\u00a0 The Conversation"
+    },
+    {
+      "title": "Chapel Hill affordable housing development receives N.C. tax credit - The Daily Tar Heel",
+      "date": "2026-08-14T07:00:00Z",
+      "source": "The Daily Tar Heel",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQUXZ1eFk0Nm91V2dwNlRYa3ZmQTNnemNGZTZNSlJoaTNtOWJxcXJDWlp5Vk5CdzNHbnRPdW0xWWVnT0R6WFhROHhaMWFZeVZtdjJMVDdOXzQwRkFDYkIxNEU2cS1EOHhUeUhZbjN0R3JNOURZVkkyM3l1WWtoamNWQk83OVQ2LW8?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Chapel Hill affordable housing development receives N.C. tax credit \u00a0\u00a0 The Daily Tar Heel"
+    },
+    {
+      "title": "Affordable Housing Often Costs More To Build Than Market\u2011Rate Housing. Colorado Is Closing the Gap. - Next City",
+      "date": "2026-08-13T14:20:00Z",
+      "source": "Next City",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNSzhvNm80NDhmbi1JOHplV1pCLXREZE9FdlNyWGtaNG0wSkdYUlp0SFVIcEkxdWtDcUY4QVpiOGZHWlp6WUN6bmNld3FOcmRvajNKRFhaNldOQmR4S3FpSE1tWXJDa3ppbTRpOEJiNWxCM01pdmxDUXliNEw3M25IV0ZPWVpaMG5BTFV6RTZITGw4VE0xNFplWQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Affordable Housing Often Costs More To Build Than Market\u2011Rate Housing. Colorado Is Closing the Gap. \u00a0\u00a0 Next City"
+    },
+    {
+      "title": "Colorado Springs mayor marks progress on homelessness plan, adds new team - Axios",
+      "date": "2026-08-12T22:00:02Z",
+      "source": "Axios",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOWGlTQllSUXNsTGg5Y2xRbnc2NzdxaXdQVEdBMl9nYVljdTAzS1YzbFdCeWdydEU2NlNnSXVSWTdLdG1zTE5ScFVTb2JWdENNWXVVRWE2eXc5QjYwRW9hRDR2aGtiS0FXVkZmQVRubUVkQkp5QkVsMFlCa3RpWmZ3cXBtQmJ0WElGbDMwcmltQkthUElkaEVIQUg0Y0x1TmlqTy1oSVJWNWhNR1otWjJpN21OaTkzMVZ3SnNWMHF6UQ?oc=5",
+      "topic": "homelessness",
+      "region": "Colorado Springs",
+      "summary": "Colorado Springs mayor marks progress on homelessness plan, adds new team \u00a0\u00a0 Axios"
+    },
+    {
+      "title": "Affordable housing, lured bears, bank scams: Scores of new Colorado laws take effect - The Denver Post",
+      "date": "2026-08-12T10:00:13Z",
+      "source": "The Denver Post",
+      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNa04tSnVRdWZVRm5ZTU5nenVfWko5by1Hb3dqaENsR0prUXF1Wk9WWURMQ3FCV0Q4d01aZHVCXzZKb1dtem1nTXVCUVhfdnA1UHlKeEljdkhqS2F3TkgyQmJTeEpxei1MaHRlY3FQc1ktRWV3Qk1uRzlqYWpqYWxCbw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "Affordable housing, lured bears, bank scams: Scores of new Colorado laws take effect \u00a0\u00a0 The Denver Post"
+    },
+    {
+      "title": "Colorado homes rank among least affordable - The Coloradoan",
+      "date": "2026-08-11T19:19:50Z",
+      "source": "The Coloradoan",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOeUFvamxpS0xGdnFuNXhjSzRYNGlIQUJzbGFRazAzanNheHVhZm1sZUpwbVd1RGxyU2VaZFl0b3Z2Y3lwZTA1T3NXSzZQdVZwS2xNc1UxOWZRVzZod3lVN3FpS2kxWW1lSjkwaUFBM2c4MFZ5ejR0UmVITTRHNmpwTnB1aDRiRTFvb3h6ZkRaUjVuLVUyc1F3Qmk2Z0JuYjBlMU1XSHRlaU9HZ00tNndmTnltdXF4MGxfTmR2YQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Colorado homes rank among least affordable \u00a0\u00a0 The Coloradoan"
+    },
+    {
+      "title": "New Colorado rideshare safety provisions go into effect this month - Rocky Mountain PBS",
+      "date": "2026-08-11T12:01:05Z",
+      "source": "Rocky Mountain PBS",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOLWoxNjNBY0JkTGhsTXlQaGhnbkc4bDRRSFNzUF94ekN0ajlzeHlsdGZ3SDlWZU14REllYllkdU5iNlh4RXhVTzFHY2owcWNaSUFzZUpaZ2JpSExWd0l6RmQ2T0Y5R3Bwc2s2d1gyVzFFOTVfV3RqaEdCaE11aFdGaXlyN1gwc2k5MUkwNERYMWRkS0dFVnZabzZVM1ZfYUJYMFUxU1Z4STBWeVNrc0FXYjlwbEV3cDg?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "New Colorado rideshare safety provisions go into effect this month \u00a0\u00a0 Rocky Mountain PBS"
+    },
+    {
+      "title": "New plan would provide $10,000 credit for home upgrades: Who qualifies? - AL.com",
+      "date": "2026-08-10T14:17:00Z",
+      "source": "AL.com",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNdXFWb2kwU3dDNjBkcWhReXF1UDFQUUxRNkRrY3ltc3gxWDBtQlFMel9PLThKQ2NGb1B6MF95YzF1N2RPMUtwUHlZSUI4THNmLXpvMDM1cUxUbWgteHFmUno5bW9IR0V0SURSeVpYU0dvX01wQXFIX3pkN2dLT0RWWWJPdnZGMXh3QWY5VHRlcm41aE5Cd0dfRlUtZC1ndFJMLW9adVNnMNIBuwFBVV95cUxQbjZrSTVLc3VJNXV3UVN0YVFMczF1clJscHZTUk9Ta0dud2Q2UC1LenlBT0lRbDdSWGtySnNiLUtKQkRmdEpjMF9tVFZ0QzFaTjEyeE4zZWtxTkVvdGYwenRJR29TYkRaYzN3S3QyQVdoM3Zrd1Jxa3Y3S0NSZkxycENXNFdmdUpNZEhjMklwOGV2RHQ0aVZrazJOUXVmUTVEMDFpa2VMWmJSMkNyYjlzUURHUEV4RjR1aE9v?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "New plan would provide $10,000 credit for home upgrades: Who qualifies? \u00a0\u00a0 AL.com"
+    },
     {
       "title": "Making Affordable Housing Affordable to Build - Governing",
       "date": "2026-08-10T04:03:36Z",
@@ -113,6 +230,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Pinnacle Advances Senior Housing Development \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "\u2018Out of Reach\u2019 Housing Report Places Colorado as 12th Least Affordable State - Colorado Times Recorder",
+      "date": "2026-08-03T22:21:25Z",
+      "source": "Colorado Times Recorder",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOSU1ZZEN6WnZ2emlwQ1JadXpjNDFJQXBjSXo0amp6VkExY19rM1ZQUV9vb1pkckZLMzlubFZXakd1VGl4dEVlckw4S1AtWWNfTGFINkZZU2lLNXJGMHBMaDh1M2phQ3IzU2I5UWQxaTFxOWxPYUtweENHdEF6aUhOY0hBQU0wQXk3ajlueHdsYmtJbWpQdEtXejQzU2NScXZQV1ZrTUpjY293N3VHcTVpemlSQlU5RkN5RW5sZ055bmU?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "\u2018Out of Reach\u2019 Housing Report Places Colorado as 12th Least Affordable State \u00a0\u00a0 Colorado Times Recorder"
     },
     {
       "title": "CHFA Announces 2026 Middle-income Housing Tax Credit Award - Mile High CRE",
@@ -754,6 +880,15 @@
       "summary": "Monarch Private Capital Closes LIHTC Investment in ElevenEleven, Delivering 102 Affordable Homes in San Francisco \u00a0\u00a0 GlobeNewswire"
     },
     {
+      "title": "How Affordable Family Housing Can Support PUSD Enrollment - ColoradoBoulevard.net",
+      "date": "2026-07-07T07:00:00Z",
+      "source": "ColoradoBoulevard.net",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNSVZ5emZyOHhqbVVGWUdzWFZhZk82ZlMtNTE3am9tQ1dsWkdYbEpEdk9ZMk1qcFBNUmhnT1FKSl9fNklROENkMFFWNURyZ0hlem11dUhVTEsxUlZNRmdMVUJianR6ektRczczMmo0UzB1cEhoWlgwMEUtcGtfOVV5RlRZT3c5Q1V2ZDlKQmhVa0kwUGNIOG5n?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "How Affordable Family Housing Can Support PUSD Enrollment \u00a0\u00a0 ColoradoBoulevard.net"
+    },
+    {
       "title": "Urbana getting state tax credit toward creating affordable housing - Yahoo",
       "date": "2026-07-07T07:00:00Z",
       "source": "Yahoo",
@@ -1105,6 +1240,15 @@
       "summary": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure \u00a0\u00a0 Tax Credit Advisor"
     },
     {
+      "title": "Denver rolls out 90-day review for affordable housing - City and County of Denver",
+      "date": "2026-06-22T07:00:00Z",
+      "source": "City and County of Denver",
+      "url": "https://news.google.com/rss/articles/CBMixgJBVV95cUxQczc3THphbnVSc0ZoZG1oUk9KVV8zbVpWZlJwa0UtMUk2U0Rhc0JvR3kwTEJEaDFvLXVBQWVfejBmNjJDTFFXanpOVXNBTFFXZ1k1Y3pzek9Ia0t2dlJ5OXFKQlVrdGJvVmpfLTlqX3Nwc04wTWs3d2pfc0RobkViVzlROHZGaGNfU19yMndKZGNHaWxhZVNhQjRqbnU5OUZ1UHduNGcyT0dncHpyRTFDWGZKZ3hNRUVwNC1GbnFnazlWdkJEQnY3eGZGNGxVT2RzRWRyNEc5c2Q0YkFZUlRKeXZGVXN0MnZwMk9pU2JvZHhuaXpFTEFlamdaUFNLcmsxTGYyTWJTbDR2MHRnTUpZNUhqbnl5Z3VJY2hNbWo2YTZBbUtNb3gzaTNLNHFHNkRuUlQ4VXNmazdiUU1IZTlKSFRZY3E5QQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "Denver rolls out 90-day review for affordable housing \u00a0\u00a0 City and County of Denver"
+    },
+    {
       "title": "Michigan backs 13 housing developments with $19 million in tax credits - Manistee News Advocate",
       "date": "2026-06-22T07:00:00Z",
       "source": "Manistee News Advocate",
@@ -1292,6 +1436,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Bay City housing development among projects receiving low-income tax credits \u00a0\u00a0 MLive.com"
+    },
+    {
+      "title": "How many people live in subsidized housing in Delta County, CO? - USAFacts",
+      "date": "2026-06-18T07:00:00Z",
+      "source": "USAFacts",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNb294Y0FzdHNMdXh0bFdqU2FMY21jSVhyQUppMGhhRWZ3TkIwMFFPOC1mTnJidWlpNWc3dG9ZaUJVSnYzcWZ6bG4yMk5OMFlmTWU5YjhGN0JaeVQ1eVZnYzVDdzdTXzl4aDRheXNGOHRuSWZHci1iQ0hvaXRCeWFRcDFtLVpFeWluM2lSSFB4LWZ0RFM0cGswckpkTQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "How many people live in subsidized housing in Delta County, CO? \u00a0\u00a0 USAFacts"
     },
     {
       "title": "Whitmer announces millions in tax credits for building 600 affordable rentals across state - MLive.com",
@@ -2032,6 +2185,15 @@
       "summary": "Affordable senior housing project envisions apartments, new senior center in southeast Colorado Springs \u00a0\u00a0 Colorado Springs Gazette"
     },
     {
+      "title": "Vibrant Bond Approved to Buy Old CDLE Office for Affordable Housing - City and County of Denver - City and County of Denver",
+      "date": "2026-06-01T07:00:00Z",
+      "source": "City and County of Denver",
+      "url": "https://news.google.com/rss/articles/CBMivAJBVV95cUxNSFVkRGJHR25VZEplY1YxMmFxMml5dWF5WGowQ0Z6c1FERVdBVlNYR1NWU0FSMVhnTEZINEtNMkt1a0FSQmRxOEFhdk1SOVlKMmt0OWRQREs2TjJMcDRzSldvd2VuUHlpQUppbTFiMDZNTXdhc3J5TmtlUjVJLV9yU3FOeW5GMzJlamVMQ3p5U0lPMmRyQ3dtN1ZGakR3UEFBNWQ0VXhwMmkwZTdCMzFzNzl2ZVZCQXkxcmpEOGpJNkk2TmQtWVRtVk9odFQ0S0NOM25OZ3Nvd0Y5cWJ0SVhlYV9mTEVzTVktRkYxTUtmVE1jaEVPSWFVQUVXdEJuZDBST1JDSU11U3FBa1hieHlfVVZkRElDNmRpWDdLdFZIV3VDZHgxMFp2ZmZmNnd0QkFVdnBDOXUxa05neWN5?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "Vibrant Bond Approved to Buy Old CDLE Office for Affordable Housing - City and County of Denver \u00a0\u00a0 City and County of Denver"
+    },
+    {
       "title": "Enclave Estates at Magnolia to build 60 affordable houses with tax credit award - Magnolia Banner News",
       "date": "2026-06-01T07:00:00Z",
       "source": "Magnolia Banner News",
@@ -2534,249 +2696,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "After Aurora Housing Authority wins lawsuits, repeal measure introduced \u00a0\u00a0 Sentinel Colorado"
-    },
-    {
-      "title": "AHF 50 Developers Break Ground on Nearly 45,000 Units in 2025 - Affordable Housing Finance",
-      "date": "2026-05-18T20:35:01Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBsaGdKblQwV2dsUjdxcEF1N1FUN2lZa1REVGIxVV8tZDBXRm1jcFBHa1Jrdzl2aS1mOUVpOXBiQVNMN0VTVEZnRUdlRG5pV2Z1Y0Fzb3BDT2V0TU5wWVp2TWNlUk9uMTQ5MUxVTGZlMA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "AHF 50 Developers Break Ground on Nearly 45,000 Units in 2025 \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Lending Momentum Builds for 2026 - Affordable Housing Finance",
-      "date": "2026-05-18T18:46:44Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFBHU0gxeGc0OVZPUGtHaVpCN2N2TFVzMExZUVFNdWs2aFhRZF9EbkYzaS1kMW9SRmc3aVd3a3JCenNrQjNOTlZ6RVBMQm1RZ2JwQjlnejdUTEhtSDdBWkRNdzk4RkZ0ZFM4QXR0Nm5WNG5FVGNUcFE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Lending Momentum Builds for 2026 \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "AHIC Recasts Liquidity Guidance for Larger LIHTC Deals - Tax Credit Advisor",
-      "date": "2026-05-18T07:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5sUk16TXJFamdaMEtqSjd0SnBiWFhIcGxCcTVsVW1uNTd5czRfTlRiWlpRMTJWTlA4U2NoQ19xNmZGWUJDOHYwZ2RvUTY2TW0yN1MtOS1DdzNuZW5aSnBWbVA2WWpKX0F3WXdiYTViTUp4Qkl2VTNILXYzVDA1QQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "AHIC Recasts Liquidity Guidance for Larger LIHTC Deals \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Rural Homes Colorado to build workforce housing for MV - The Telluride Times",
-      "date": "2026-05-17T09:00:00Z",
-      "source": "The Telluride Times",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPd25xdUZpN3BiUHVOLXctaVE2ejhrcjZZXzc5RmZTU2MzMXY1MWdtbk9xNUJOY3l6T1RQbWwtcDJjaGNMNnNyU1pyR3JnWEFiblZxR040Q05hZkgtSGQwdkIzc1dkSUtfV3JFNDA5Znh2ZjlsTC1QeUxPN2FkRl9FMUl4dU5jWUhmenNVeA?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Rural Homes Colorado to build workforce housing for MV \u00a0\u00a0 The Telluride Times"
-    },
-    {
-      "title": "Colorado Cost of Living: State is now 3rd most expensive in U.S., and residents feel the strain - Denver Gazette",
-      "date": "2026-05-16T23:54:14Z",
-      "source": "Denver Gazette",
-      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPUjhPMkVpdmxPV0V3UkQ3ZGxMVHBkbUhWRzgtaTVsQ0c4YWZzSW92RVFpTjE0NEx6RUduMDh1clVoRldHVk10NEJFX1dXclZYR3RWd3ZOMDE0cl9NdDBuUkF1WTJRellvOFpzZDBfakwtS3dvNzMtVGYtc3kyNmVLR1hwYm9ISW50bnluaU5MWmNWZ3ZSSDNTdFpsa21wQmRqU1EzNTZXanRlbnJBTFhsUXEtbnE0M1dwUFNhdm1wWW9PYzZjT2l4ek85VnFwY1U?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Colorado Cost of Living: State is now 3rd most expensive in U.S., and residents feel the strain \u00a0\u00a0 Denver Gazette"
-    },
-    {
-      "title": "op-ed: Keep housing affordable in Chaffee County - The Mountain Mail",
-      "date": "2026-05-16T23:00:00Z",
-      "source": "The Mountain Mail",
-      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQTnVseHI0N1NpRFdoU3JhYnM0SmJWVEprbVA2TTNmZ0lSVDc1d0t5cTdGV3dETVZtQWpzWjduMVVqbEhibGJURTFyVVlmZ3lKQlZVRXVLa2tqSEhPTjhZTTZIdzdUVGY4bXMwOUdNd1FPSFNpdlNoMWZNcml0ZmVwQnhaeWNlXzl1cU8tbHl3RUgwQ2R2SlJiZndPZGkzbHFUNG56WmczWWJwTFdqTmFLVUxkUGRFTkp4d1hHWUF1NW8?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "op-ed: Keep housing affordable in Chaffee County \u00a0\u00a0 The Mountain Mail"
-    },
-    {
-      "title": "Colorado Cost of Living: State is now 4th most expensive in U.S., and residents feel the strain - Denver Gazette",
-      "date": "2026-05-16T07:00:00Z",
-      "source": "Denver Gazette",
-      "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNeTJPSDJVTFJGbmVBVU0taVdoaE9JM2FmU3N2aThCX3ZjODVzTmJIRS1Vdl9hWXRmWkxjQVlfa0hZMnp1ZGJ4Uk5JSUpod3VZLW9kc21lc245U01TZTBXMkhxQ2tUNnotOTNZVEZTakNWZnhiU0g5TkJ6SUpuUFdjdDludFRqeHJBM2NhNlpHSklGWXk1d25oeDFYdkhyQjVKZW1PazFvZ3JJaXg2RWtHbWU1UUF6R3NzbHBUOTYtUTdaMnlwOXk3ZnNLcWhKQlU?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Colorado Cost of Living: State is now 4th most expensive in U.S., and residents feel the strain \u00a0\u00a0 Denver Gazette"
-    },
-    {
-      "title": "Colorado lawmakers debated education bills over teacher housing, state testing and more. Here\u2019s where they landed. - The Colorado Sun",
-      "date": "2026-05-15T09:58:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxObndDM0FTVDNBWXdCci1hd2tDZVRWUGtBdU5wbHN5SmVRZWVuWHc0UFRKNWhDR1JJb2dTdVc1NWhPNDNHYVI2ZE1ka0EtNFZNNXFENXRrWldVSDJBaElyQlZtS004VW5qTHNXNThrNklia25GbUxjZEJWdjVPWjlBSXpNRmh1eFU?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado lawmakers debated education bills over teacher housing, state testing and more. Here\u2019s where they landed. \u00a0\u00a0 The Colorado Sun"
-    },
-    {
-      "title": "Housing could be built at the former Budd Co. plant in North Philly under the latest Council proposal - Inquirer.com",
-      "date": "2026-05-15T07:00:00Z",
-      "source": "Inquirer.com",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOakllNTFTdVludHg1eGhoNk9KelVXVm1KR2dJMnhZS0Y2Ni1US2pkVVoweHY3azRLVDlXcmlqUTlUQWFHcW40SUZDOTNTd2dpUEdpY09zYVJ5b2FuYTJ5MHFMdVUxdXRRMDZkSFhFYi1xQmFoNExJV2lTMHRuLW9rTVB6ZElGTmJmR2NlSVh6eWdyNlZzVkdnMXdOX2ZCaHlNbXRtLTBLZXhEZw?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "Housing could be built at the former Budd Co. plant in North Philly under the latest Council proposal \u00a0\u00a0 Inquirer.com"
-    },
-    {
-      "title": "City of Boulder Partners with City of Lafayette to Expand Affordable Homeownership Program to Regional Model - City of Boulder (.gov)",
-      "date": "2026-05-15T07:00:00Z",
-      "source": "City of Boulder (.gov)",
-      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPU19uQTRnTzQ4a2QxUThheGlfMEF3cnBURnBKem1xWDBtVVBqeEFZVDg0RkFDVm8zN0lZTHpZb2ZKNXdiOVIwTlpfMGV3Nm11aExyaFlraUFVRWpiejFFRGU4aXZlRzdCWFNhYVdoem4xY2hFMUtnQU9LWTRnSHNYQ0ViWkhFdXFUbzhlbkJyVVBWSUU5TVNsRmRIVXJXX2RtN2JkN3U4R2FMMG9MaGlQd1ZRWHNDSkY1eFYyV1VrZlNadw?oc=5",
-      "topic": "general",
-      "region": "Boulder",
-      "summary": "City of Boulder Partners with City of Lafayette to Expand Affordable Homeownership Program to Regional Model \u00a0\u00a0 City of Boulder (.gov)"
-    },
-    {
-      "title": "Navigating LIHTC projects \u2018takes a village\u2019: Walker & Dunlop expert - Multifamily Dive",
-      "date": "2026-05-15T07:00:00Z",
-      "source": "Multifamily Dive",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNOVZDOE1tWFBoV0dFQkxoMGdFWXltMDNhTzNjNkxHTzJSOWg4Z3phVGg3UmJ2NzhxVkNEaHlWNVFFXzB5Q2pwb1VjYzQ4VzlYRWNQcVRlRVhZMElobXRqRUg1NDJfOHhvM2wzYUdSM05GYk4wYW9vSm1PUEoycExyVVNMRUdjdWdrallmN1BfaTY?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Navigating LIHTC projects \u2018takes a village\u2019: Walker & Dunlop expert \u00a0\u00a0 Multifamily Dive"
-    },
-    {
-      "title": "Colorado Gives Foundation awards housing grants, opens health grant applications - Jeffco Transcript",
-      "date": "2026-05-14T21:19:00Z",
-      "source": "Jeffco Transcript",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPcWpHaWVSUnhRZUNZaFJtbmNiRDZLOXVvRFpxbHBMQkZmeFBmRndzNUFsX1lUZmx5U1ZYMi1FZVNuYjNwTUZqXzQ5em9pNGJzR2lUaDJsTl9tZllkWDBpY2Joc2NXNUh0Qk1uakRQLVAzVVJ5aElqWkNOOV9RTzMzcWpzQWdTLVdpOEpzTUlfUnQ?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado Gives Foundation awards housing grants, opens health grant applications \u00a0\u00a0 Jeffco Transcript"
-    },
-    {
-      "title": "National affordable housing developer to bring 1,000 units to Oklahoma - The Oklahoman",
-      "date": "2026-05-14T10:19:00Z",
-      "source": "The Oklahoman",
-      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxONmhCUkRSdmJKSW9RUUg1RExrOE42ZW1WbEprV0E0bHJ5aXlxa0N4aE11XzBrVDBrbWRxNFhwTms5WnItR1NleTFha1lRb3BQTkljWGNidmNoRXJlQjFqUkF3b0JlVnVHRVA1NXN6Smhvd01wZV9YQWVUbElOYkNnYVRQLTBlVEJ0dVVkV0JWZ1JIdC1zXzQ1TmR3OTQwTThMakdQcEdnZkJnam9OdklQMnF2N1pqeHpLTVdDX1FpZy02MURGd1NZVS00UFlrdWRWZlpiODVMOA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "National affordable housing developer to bring 1,000 units to Oklahoma \u00a0\u00a0 The Oklahoman"
-    },
-    {
-      "title": "New Law Will Make Housing More Affordable - Colorado Senate Democrats",
-      "date": "2026-05-14T07:00:00Z",
-      "source": "Colorado Senate Democrats",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQeEkyaUZ5R1JSVnFMd2p4aGpwSmp0amQ0a01uZU5nb2VBT1YtbGJkZzEyNjR6bmU4dy1zbGVRQmJrVzJlZjFFVllyQi1CSnJkSmd6cExkcmhUV2V2MlpZRWlOWWNucW9IUFB3dzF1R2NPYjRubmZoUkVmVm1OaVA0NVF3?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "New Law Will Make Housing More Affordable \u00a0\u00a0 Colorado Senate Democrats"
-    },
-    {
-      "title": "101 bills that passed and failed in Colorado\u2019s legislature this year that you need to know about - The Colorado Sun",
-      "date": "2026-05-14T07:00:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNbGFEWjlKeW10aTltWWR5OW1OYlQ2SzNoYUZRTUwwX3h3U3BubUJoMktqanRWT1RhQWhGQjNkUDRXMVZBdWhjQmVfOU4yUkFibFdHSmIyZGhfTFQxSUJHM3NEa25ITUZWODBFckdJREJPbzBkdmdFdGlqM21DWG5DWDktbkI4QQ?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "101 bills that passed and failed in Colorado\u2019s legislature this year that you need to know about \u00a0\u00a0 The Colorado Sun"
-    },
-    {
-      "title": "Former Colorado Department of Labor and Employment building could be turned into affordable housing - CBS News",
-      "date": "2026-05-14T01:11:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOUk5URERibmJ1d216Z2pFUGlHMkFqaVlmeHVIaXhrLU5VMFZnOW4xdGZ4ZkhxdGh2Wmk0UkozYnVIUGhfUzRIMVdKT3VSZjBVY2hrME9LS3VnM005TzBFYUQwYks2aUc0UDZBZXBXM0JPLXgzQzdnT1V6OUtqSF9KV0Nwbms2eXI4NU12ZnBsbXU3eXdkcWFjZjVPMGRKeU1kVlBQTmM2NG5qekE3ekJTS1U3OTZxN2c2c21YNDZteUJFUjh5OG11U2xKVW5iUWZIaWpoVjRR?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Former Colorado Department of Labor and Employment building could be turned into affordable housing \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "City leaders working to address housing deficit - FOX21 News Colorado",
-      "date": "2026-05-13T23:31:59Z",
-      "source": "FOX21 News Colorado",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQVld5UlBvd09qNXRZVk9zZXU3QnZ5QlhKUm8wV1hjMkhObk5VZ3B1amVJOFZ1b2tlTmxKUEZ2TXhWdlM4X01ob1VrN1lUTzhKVHU3blVBbUNBRXZjcVl6R1RFZ3pZRjhSMkN6LWI1Z1ZCaVpjYU1TengySnVpcllZV2VJVW9PUdIBiwFBVV95cUxNM2FUdFdMQlE3ckdMNi00ZS1RbUFOUWRDc0YzNDJJNmpoc3hVTXU2RVc0XzRxUXZuTEV4M0UwNUpJSTdyZDRLZmhWUlVKR3ZCTDZIeHdzek5iVDhvTk5Idm5WLXlsRERvTHdmQzJKRmtQckJrODJBRE9GVnFoSjJiLXhaS0xyX0loTGFj?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "City leaders working to address housing deficit \u00a0\u00a0 FOX21 News Colorado"
-    },
-    {
-      "title": "Proposed Change to Rural Housing Program Would Address Looming Preservation Crisis - Shelterforce",
-      "date": "2026-05-13T14:45:54Z",
-      "source": "Shelterforce",
-      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPdW1XS3pDNnU4OXRQcjdtbkxWZnEyMzNxMHIzZzJxNDVYMkpIWTRjYVRLMFpqSjE4WVdMSUw3RUVCMFN0RlJMQS1JY0NHX3JNYW8wZnl5cTdHcFFzdnI2QkhPZEhOeTFBaVVyLURUSjlranV5bG1FdUU5WnlMbUN3Nl9NcFVNNGxzQ3dFZWhZVjJIY1dvN1dhRDNHbjk3TEVIU1lxWjcwMXRVUDQ2MHpRNEhweDlQcnBIVUdB?oc=5",
-      "topic": "homelessness",
-      "region": "Colorado",
-      "summary": "Proposed Change to Rural Housing Program Would Address Looming Preservation Crisis \u00a0\u00a0 Shelterforce"
-    },
-    {
-      "title": "Governor stays Current with Grand Junction's affordable housing expansion - The Grand Junction Daily Sentinel",
-      "date": "2026-05-13T13:30:59Z",
-      "source": "The Grand Junction Daily Sentinel",
-      "url": "https://news.google.com/rss/articles/CBMigAJBVV95cUxNM2VLSXlTcFY3WkFmX0t5SHBHYXJBQTNtUnhJRHBaOVFJZVk1NHFXTXpYTnhEbVl6S29qQU1VbE1jeDZaNWIySklkc2k2OUdDc1N0R3o0OVpER29EWV9ybHBqZ3Z6b0R5X3Y1Wmt0TS1pVU90TU1hU0cyZDBOTy0wWXFGdXZxOEgxX2tZbjhlNXBUSnhpVVQxdHU3WTdrZEk2ZzdJTnNIZ2U2V0ZpQ2xOWmpFNGxveVY2cFlqVEowSlFJeUhxeDdEdmpWM3IwNzFKTURYMHYwdVFST2o3WkFOVXFQT3lmTVd1VUlwS0NOZXJqTXFkT3JKT18xT3ZkcHF60gGGAkFVX3lxTE5xSVdORWRWck1QaFlpd3VuZUwxZWF5VEhKd0FWSUw4Y0I4WTJlUXQ1V2c4bjlSRGJXWjlpeWxiNVZIV2dMM01yYUdxeVk5UE9PdFJDU0FTZXdJN19xalZYX3F4MFU4OS05ZU93UFVEbk5Tc0FreUQxcjlXS3BqXy1MSk5LaWxpNTdySU9wTnNNQUhYbXAteGRSeDJLb1ZYYkliX2ZZRVpVVVl5VFZ2MHFiNUkzZ3cwcWV0SEp3NVIzN3h0X0s3VEZwWFhMVXZ2SF9fMGJsckZsWXJmMER2UU9VS1cxaDl3WExVQ2llS3dmMUVlclN1cUlMMXNsQ2pMOTNZZTFjVlE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Grand Junction",
-      "summary": "Governor stays Current with Grand Junction's affordable housing expansion \u00a0\u00a0 The Grand Junction Daily Sentinel"
-    },
-    {
-      "title": "What does it mean to be short 27,000 housing units in Colorado Springs? - Colorado Public Radio",
-      "date": "2026-05-13T10:02:58Z",
-      "source": "Colorado Public Radio",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPSnY2NzJsZTZGZFZNRDAxVy0yZVc1dTZqWm9zR08ySTJWZ1E5elVPa0RwMHowWXRCam5rdy1veXc1QU9KaDZfWWJ4RDhjbW5lbmpnZWVxX295RWZodHU0aTRwelpjOTQ0NmxQVFE2bmhpZ0hSQ294TWNFVnIwbFIxRjRR?oc=5",
-      "topic": "general",
-      "region": "Colorado Springs",
-      "summary": "What does it mean to be short 27,000 housing units in Colorado Springs? \u00a0\u00a0 Colorado Public Radio"
-    },
-    {
-      "title": "Controversial proposal to develop land next to school takes step forward - KKTV",
-      "date": "2026-05-13T07:00:00Z",
-      "source": "KKTV",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPdmkxSkMwZmlVaEZNZlhQdm5ORFlSUVRJT2Z6cExjbl92SjJXQzZUamdIcE1MRms5Mm9TcFV3eXE0R01TVFRLNHBTQ2J0MkZPdWhFVXcxZ1MzZm8xRk5kN0h6YnpielU5azhRREw4NFZxdUoyOUVMMWk1Q0UxVFJlMTdFMmhlVXNCWVZ1OGxVQjlVYS1xdWsyN0I3Q0lfSmRY0gG0AUFVX3lxTE4tQUtNQ296YmFKQTBDekczUVJNbHZmUFQtZFpaVU9aODVJcFpuemdOUXdTU1JXdFQ1d1ZVX3dGcl9UelRoNWxwcGFhN2tXcXhyNUdmTzBJZDU1TEJ6TTZkODY3QUtjWTlKdzhmUXUzbHVLTzJmcTNIbHZrcldLVGQ1QnJsSXM0Wmhib0dLVTNyQWtwMjVpSXBGWnJCVzlnVzlId1BUZnY5bmxBYVFDeExsamg4Mw?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "Controversial proposal to develop land next to school takes step forward \u00a0\u00a0 KKTV"
-    },
-    {
-      "title": "Michael Bennet puts housing costs at center of gubernatorial bid - Colorado Public Radio",
-      "date": "2026-05-13T07:00:00Z",
-      "source": "Colorado Public Radio",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNeUxvU3JJbUFIcW4yM3paRDRjTEVvRGNHTG5VZERLUTNPYXFIRDdsQWd5V1R2djZpeGJ2ampUYjN1N2F3OGtiN1BQOVdINjE1T2JIVG1yMnRMUjFVdUN2MGctM055cGpfRXpnRmF4VFBGTHUwandnbWVhUVVPbVRadUlXYWsxOXJTM2t4Zk1KVy1ScFJ4aU5ib0gwaw?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Michael Bennet puts housing costs at center of gubernatorial bid \u00a0\u00a0 Colorado Public Radio"
-    },
-    {
-      "title": "Colorado Revamps Landmark AI Law - Governing",
-      "date": "2026-05-13T04:09:58Z",
-      "source": "Governing",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBNM3RhYlROa09OdW1iQmdfakN2TEV5a1ZPbDQyUGtudlRLUEE1LUQxcGxiLWhlMUNCaUZ3WTFTZmc5bG1IZVdPM1lYcFFvd21yeTBMc182RDFGblN5T0c2dkpMUTVLaW53bEZ1SVNSS25USzg?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado Revamps Landmark AI Law \u00a0\u00a0 Governing"
-    },
-    {
-      "title": "Senate Approves Bill to Reduce Housing Costs and Save Coloradans Money - Colorado Senate Democrats",
-      "date": "2026-05-13T00:38:14Z",
-      "source": "Colorado Senate Democrats",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQV2h0LVNBWVdqYS11bFpPVEQ3dExiRWd6VGpudjRsdWxXdWlGVEIyeUs4b1pxN1Jsc1k3dUEtRlluQTJSdjFvQUN6WlRIelN3a2hROUtIVmtrQ2dDZTRLOUxud0J6cFJJaHVaZHRHRUR6RzhmLVBBRWJUcnZXblAwWXpqc25fc2JDY3p0dW4yQ0dERGEtTTg4SzZjRnFJc3RHdlBQQU1nLWw?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Senate Approves Bill to Reduce Housing Costs and Save Coloradans Money \u00a0\u00a0 Colorado Senate Democrats"
-    },
-    {
-      "title": "Affordable units in Denver more vacant than market-rate apartments - The Denver Post",
-      "date": "2026-05-12T21:30:11Z",
-      "source": "The Denver Post",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQdFN0enRRU25UeEJrOWFMWFJMTHBhN0NkMDVzdTcwc00wRkt2VUQzb2pCdmlxYWpmMjI1UWdVbHE2VDFtc0ZnZV9sNVRFRVdUZWdCSUM1V0FoTkNWQVEySDVGWnUyN3drWVloWEpDQ1o5ZEozeTlPQkJ0bjZfd2RrWTY3SGM3NVZZZ0ZOTw?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Affordable units in Denver more vacant than market-rate apartments \u00a0\u00a0 The Denver Post"
-    },
-    {
-      "title": "New look for big affordable housing complex at 2155 E. Colorado Blvd. in Pasadena - Urbanize LA",
-      "date": "2026-05-12T13:10:00Z",
-      "source": "Urbanize LA",
-      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQUk9JbDVlVzhkN2p6Tl9aQWY1R1BTUEZvTk1GVFJEQU4yOVNQclItOFlvY2tOVU5ocDNXQTYzU1RXS2Zkd0VqdXNwbjNpNmJGWXp1S3pJSHhVNkx2T01RRHA2ZEZKN3hGbnB6clUtVUFfSnBBOThuYUNnMzFTc1VJZUxYaDUtOHliVEFRZzRnbTdUWXU5akxVRF8ySkQzSHdf?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "New look for big affordable housing complex at 2155 E. Colorado Blvd. in Pasadena \u00a0\u00a0 Urbanize LA"
-    },
-    {
-      "title": "Affordable housing build delivers near dead mall property - Urbanize Atlanta",
-      "date": "2026-05-12T12:19:38Z",
-      "source": "Urbanize Atlanta",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQSjRHcUpuZWJMRTVRS3NiZGJnWFptc0g1Znhqb3VZNTdSdVlJUlJ3MnJaaUVhUndDRmFXZERrWmNmT3ZWVHg3STNwRFNJckx2dGtkdElhZVJZeXpwUEpuU1NBeTlUdHB4MEJoT1ZLRmZ5RW12RDhyNU9raWdaSU9lVEtORDBvUzNGWG85TGFFb09zZ0dqWXJNRlBQaUVzellucHZKa0lkUmU?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Affordable housing build delivers near dead mall property \u00a0\u00a0 Urbanize Atlanta"
     }
   ]
 }
