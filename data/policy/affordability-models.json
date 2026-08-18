@@ -6,7 +6,8 @@
     "default_model": "conservative_screening",
     "guardrail": "\"Best outcome\" means best-matched to the actual buyer, product, and lender \u2014 NOT the model that shrinks the gap on paper. The engine must never auto-select the most permissive model and must attach the buyer-risk disclosure to any permissive result. A more permissive model shows more buying power by transferring risk to the buyer (higher payment burden, thinner equity, higher default exposure) and may fail a real lender/appraiser.",
     "household_size_note": "Income is AMI adjusted by household size via HUD income limits by size (getIncomeLimits). household_size_default=4 preserves the current kernel output (backward-compat golden fixture maxAffordablePrice(100000,0.80)===289983). Smaller buyer households (typical of 1-2BR townhomes) have lower income limits, which increases the gap \u2014 do not leave this at 4 for a townhome study.",
-    "price_measure_note": "Compare against a jurisdiction-scoped, product-appropriate price: value (ZHVI/ACS B25077), closed sale (Redfin median_sale_price / CAR), or list (Redfin sale_to_list). For Fruita these converge ~ $486k-$494k; never substitute county for place, and never use an unsourced figure."
+    "price_measure_note": "Compare against a jurisdiction-scoped, product-appropriate price: value (ZHVI/ACS B25077), closed sale (Redfin median_sale_price / CAR), or list (Redfin sale_to_list). For Fruita these converge ~ $486k-$494k; never substitute county for place, and never use an unsourced figure.",
+    "jurisdiction_variance_note": "propertyTaxRate (0.0065) and rateAnnual (0.065) are statewide approximations requiring local verification; property-tax mill levies vary enormously by county and district. insuranceRate is not uniform across models: conservative_screening and prop123_dpa_eligibility use 0.0035, while first_time_buyer, conventional_dti, fha_insured, and usda_rd use 0.0085. Neither insurance figure reflects wildfire/WUI county pricing; disclose the model-specific figure and verify locally."
   },
   "models": [
     {
@@ -34,7 +35,7 @@
         "gap_direction": "Most conservative \u2014 largest gap. Reproduces today's kernel.",
         "buyer_risk": "Low-risk framing; may understate real buying power for a strong buyer.",
         "lender_appraisal_acceptance": "Not a specific loan product; a planning proxy.",
-        "when_not_to_use": "When you know the actual first-mortgage product \u2014 use that model instead."
+        "when_not_to_use": "When you know the actual first-mortgage product \u2014 use that model instead. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "js/hna/hna-ownership-need.js CONSTANTS.affordabilityAssumptions / HNAUtils.AFFORD",
       "last_verified": "2026-08-04",
@@ -64,7 +65,7 @@
         "gap_direction": "Lower cash to close, but PMI and full price financed raise monthly cost.",
         "buyer_risk": "Thin equity at purchase; PMI until 20% equity; sensitive to price declines.",
         "lender_appraisal_acceptance": "Common conventional 97/95 LTV path; verify PMI + DPA layering.",
-        "when_not_to_use": "When the buyer can put 20% down."
+        "when_not_to_use": "When the buyer can put 20% down. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "docs/AFFORDABILITY-METHODOLOGY.md (5% down scenario)",
       "last_verified": "2026-08-04",
@@ -94,7 +95,7 @@
         "gap_direction": "Most permissive \u2014 smallest gap. RISK-TRANSFER WARNING REQUIRED.",
         "buyer_risk": "43% back-end DTI is a heavy payment burden; assumes no other debt (rarely true). Do NOT present a permissive result as 'affordable' without this disclosure.",
         "lender_appraisal_acceptance": "Standard conforming underwriting; back-end DTI includes ALL debt \u2014 the tool must collect borrower debt or the result is optimistic.",
-        "when_not_to_use": "Screening/planning, or any buyer with existing debt not entered."
+        "when_not_to_use": "Screening/planning, or any buyer with existing debt not entered. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "docs/AFFORDABILITY-METHODOLOGY.md (Fannie/Freddie 43% back-end)",
       "last_verified": "2026-08-04",
@@ -125,7 +126,7 @@
         "gap_direction": "Very low cash to close; MIP raises monthly cost and does not fall off.",
         "buyer_risk": "Lifetime MIP; leasehold/CLT eligibility rules apply.",
         "lender_appraisal_acceptance": "Verify current MIP and FHA leasehold/resale-restriction rules for the chosen land structure.",
-        "when_not_to_use": "When conventional or USDA is a better fit."
+        "when_not_to_use": "When conventional or USDA is a better fit. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "HUD FHA \u2014 VERIFY current MIP schedule",
       "last_verified": null,
@@ -157,7 +158,7 @@
         "gap_direction": "0% down removes the cash barrier; strict income caps limit who qualifies.",
         "buyer_risk": "No equity cushion at purchase; guarantee fee adds cost.",
         "lender_appraisal_acceptance": "Verify site eligibility, income limits, and ground-lease/resale-restriction compatibility with RD.",
-        "when_not_to_use": "Non-rural sites or above the income cap."
+        "when_not_to_use": "Non-rural sites or above the income cap. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "USDA RD 502 Direct/Guaranteed \u2014 VERIFY current limits + Fruita site eligibility",
       "last_verified": null,
@@ -190,7 +191,7 @@
         "gap_direction": "Compare with conservative_screening (30% front-end) to see the eligibility-versus-affordability gap. The difference between the two is the useful output, not either number alone.",
         "buyer_risk": "The 38% front-end gate exceeds conventional (28%), USDA (29%), and FHA (31%) standards, so a household passing this gate may still fail underwriting for the underlying mortgage.",
         "lender_appraisal_acceptance": "SB26-040 raised the prior 35% threshold to 38% effective 2026-07-01. This program rule does not determine what a lender will write.",
-        "when_not_to_use": "Do not use as an affordability finding or mortgage-qualification result. The Division of Housing may modify the percentage by waiver where substantial housing need exists and a unit was marketed for at least 6 months without a purchaser, so 38% is a default with a documented exception path rather than a hard constant."
+        "when_not_to_use": "Do not use as an affordability finding or mortgage-qualification result. The Division of Housing may modify the percentage by waiver where substantial housing need exists and a unit was marketed for at least 6 months without a purchaser, so 38% is a default with a documented exception path rather than a hard constant. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation. amiCeilingPct records 120% as the statutory default, but rural resort communities may petition DOLA to use different AMI percentages; see https://cdola.colorado.gov/legal-requirements for the HB23-1304 petition process. The single amiCeilingPct parameter cannot express or compute both the statewide and local AMI eligibility pathways, so both must be evaluated outside this model."
       },
       "source": "https://leg.colorado.gov/bills/SB26-040",
       "source_note": "The enacted bill summary documents the 38% monthly-housing-cost gate, the statewide-or-local 120% AMI test, and the waiver path. The front-end characterization and 35%-to-38% change are also stated in the sponsor summary at https://www.senatedems.co/newsroom/legislation-to-create-more-affordable-home-ownership-opportunities-signed-into-law The enacted-text PDF was not retrievable during research and was not represented as directly reviewed.",
