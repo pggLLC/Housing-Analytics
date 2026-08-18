@@ -4,7 +4,37 @@ on:
   issue_comment:
     types: [created]
   workflow_run:
-    workflows: ["Daily Website Monitoring"]
+    workflows:
+      - Backfill HNA Extended ACS Cache
+      - Backfill HNA Household / Occupation / Labor Force
+      - Backfill HNA Home-Value Brackets
+      - Build HNA Data Cache
+      - Build Market Data
+      - Build Rent Burden Crosscheck
+      - Cache HUD GIS Overlay Data
+      - CAR Data Update
+      - Configure Alerts & Generate Policy Briefs
+      - Daily Website Monitoring
+      - Data Refresh Pipeline
+      - Data Source Monitoring
+      - a developer URL Health Monitor
+      - Discover Council Agenda URLs
+      - Fetch CDPHE County Boundaries
+      - Fetch Census ACS Data
+      - Fetch CHFA LIHTC Data
+      - Fetch County Demographics and Economic Data
+      - Fetch FRED Data
+      - Fetch HMDA Data
+      - Fetch HUD CHAS Affordability Data
+      - Fetch HUD FMR + Income Limits
+      - Fetch Kalshi Prediction Market Data
+      - Fetch Parcel & Zoning Data
+      - Fetch Polymarket Data
+      - Rebuild Place and Tract OD Flows
+      - Scrape Council Agenda Items
+      - Update CO Housing Costs Data
+      - Weekly Market Data Sync (Bridge + Zillow Research)
+      - Weekly Policy Briefs Update
     types: [completed]
 
 permissions:
@@ -18,7 +48,7 @@ jobs:
     # or from the chatgpt-codex-connector[bot] account.
     # Also fires automatically when the Daily Website Monitoring workflow completes.
     if: |
-      github.event_name == 'workflow_run' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.name == 'Daily Website Monitoring') ||
       (
         contains(github.event.comment.body, '@github-actions rebuild-market-data') &&
         (
@@ -72,3 +102,77 @@ jobs:
                 'Please check that the `GITHUB_TOKEN` has `actions: write` permission and that `market_data_build.yml` exists on the `main` branch. A repository owner can also trigger the build manually from the [Actions tab](https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/workflows/market_data_build.yml).',
               ].join('\n'),
             });
+
+  report-cancelled-schedule:
+    if: >-
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.event == 'schedule' &&
+      (github.event.workflow_run.conclusion == 'cancelled' ||
+       github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - name: Find existing tracking issue
+        id: find
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MARKER: "[workflow-fail:${{ github.event.workflow_run.name }}]"
+        run: |
+          number=$(gh issue list --state open --limit 100 --json number,title \
+            --jq '[.[] | select(.title | contains(env.MARKER)) | .number] | first // empty' \
+            2>/dev/null || true)
+          if [ -z "${number}" ]; then number=0; fi
+          echo "number=${number}" >> "$GITHUB_OUTPUT"
+
+      - name: Report cancelled scheduled run
+        if: github.event.workflow_run.conclusion == 'cancelled'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          EXISTING: ${{ steps.find.outputs.number }}
+        run: |
+          set -euo pipefail
+          marker="[workflow-fail:${WORKFLOW_NAME}]"
+          title="⚠️ ${marker} ${WORKFLOW_NAME} scheduled run cancelled"
+          body="**Workflow**: \`${WORKFLOW_NAME}\`
+          **Cancelled scheduled run**: ${RUN_URL}
+
+          A scheduled data workflow was cancelled before completion. Check the
+          shared \`data-commits\` queue for displacement or an operator cancellation.
+          Manual-dispatch cancellations are intentionally not reported by this monitor."
+          if [ "${EXISTING}" != "0" ]; then
+            gh issue comment "${EXISTING}" --body "${body}"
+          else
+            gh issue create --title "${title}" --body "${body}"
+          fi
+
+      - name: Close tracker after a successful scheduled run
+        if: >-
+          github.event.workflow_run.conclusion == 'success' &&
+          steps.find.outputs.number != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          EXISTING: ${{ steps.find.outputs.number }}
+        run: |
+          gh issue close "${EXISTING}" \
+            --comment "✅ Scheduled workflow recovered ([run](${RUN_URL})). Auto-closing."
+
+      - name: Post cancellation to Slack
+        if: >-
+          github.event.workflow_run.conclusion == 'cancelled' &&
+          env.SLACK_WEBHOOK_URL != ''
+        env:
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          payload=$(jq -n \
+            --arg workflow "${WORKFLOW_NAME}" \
+            --arg url "${RUN_URL}" \
+            '{text: ("⚠️ Scheduled workflow cancelled: " + $workflow + "\n" + $url)}')
+          if ! curl -fsS -X POST -H 'Content-Type: application/json' \
+               --data "${payload}" "${SLACK_WEBHOOK_URL}" >/dev/null 2>&1; then
+            echo "::warning::Slack webhook POST failed; the GitHub tracking issue is the primary signal."
+          fi
