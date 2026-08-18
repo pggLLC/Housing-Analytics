@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-18T13:09:39.776905Z",
+  "generated": "2026-08-18T22:36:26.304687Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -329,7 +329,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2518167
+      "bytes": 1312234
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4109,7 +4109,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 179361
+      "bytes": 178911
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
