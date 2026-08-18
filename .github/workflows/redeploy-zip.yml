@@ -11,6 +11,7 @@ permissions:
 jobs:
   validate-and-zip:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repo

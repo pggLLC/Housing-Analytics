@@ -34,6 +34,7 @@ jobs:
   health-check:
     name: Health Check — validate data source availability
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     outputs:
       tigerweb_ok: ${{ steps.check.outputs.tigerweb_ok }}
@@ -83,6 +84,7 @@ jobs:
   build:
     name: Fetch and build market data artifacts
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: health-check
 
     steps:
@@ -159,6 +161,7 @@ jobs:
   bbox-fix:
     name: Fix missing bbox fields in GeoJSON artifacts
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: build
 
     steps:
@@ -327,6 +330,7 @@ jobs:
   notify-failure:
     name: Notify on build failure
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: [health-check, build, bbox-fix]
     if: failure()
 
