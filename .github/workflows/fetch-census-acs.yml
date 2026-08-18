@@ -8,7 +8,7 @@ on:
     # picked up within 7 days, and the upstream-vintage-watch.yml workflow
     # provides additional cron-driven detection for major vintage drops.
     # See docs/cron-cadence-audit.md.
-    - cron: '30 6 * * 1'
+    - cron: '0 9 * * 1'
   workflow_dispatch:
 
 permissions:
