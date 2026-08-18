@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-18T10:20:00.306142Z",
+  "generated": "2026-08-18T10:32:41.656859Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7834,7 +7834,7 @@
     "data/policy/affordability-models.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 11210
+      "bytes": 13263
     },
     "data/policy/buyer-assistance-programs.json": {
       "featureCount": 0,
