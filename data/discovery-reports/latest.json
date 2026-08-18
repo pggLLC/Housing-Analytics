@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-17T07:41:29.125Z",
+  "scanTimestamp": "2026-08-18T07:27:27.941Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779702,
+      "sizeBytes": 779733,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6266,
+      "sizeBytes": 6259,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 209543,
+      "sizeBytes": 210644,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -254,7 +254,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244573,
+      "sizeBytes": 244576,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4814,7 +4814,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 25396,
+      "sizeBytes": 28912,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5264,7 +5264,7 @@
     },
     {
       "path": "data/hna/projections/places.json",
-      "sizeBytes": 846226,
+      "sizeBytes": 846231,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9146,7 +9146,7 @@
     },
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
-      "sizeBytes": 969599,
+      "sizeBytes": 604220,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9188,7 +9188,7 @@
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
-      "sizeBytes": 1017562,
+      "sizeBytes": 520498,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9266,7 +9266,7 @@
     },
     {
       "path": "data/policy/affordability-models.json",
-      "sizeBytes": 8737,
+      "sizeBytes": 11210,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9386,7 +9386,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 170406,
+      "sizeBytes": 172367,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20069,
+      "sizeBytes": 20062,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9452,7 +9452,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 19492,
+      "sizeBytes": 27649,
       "inDataManifest": false,
       "inFilesManifest": true
     },

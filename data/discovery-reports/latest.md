@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-17T07:41:29.125Z
+**Scan timestamp:** 2026-08-18T07:27:27.941Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (205 KB)
+- `data/alerts/alerts_archive.json` (206 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -815,7 +815,7 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (25 KB)
+- `data/hna/local-resources-candidates.json` (28 KB)
 - `data/hna/local-resources.json` (175 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
@@ -1537,14 +1537,14 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (831 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (947 KB)
+- `data/market/pma_tract_display_geometry.geojson` (590 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
-- `data/market/tract_boundaries_co.geojson` (994 KB)
+- `data/market/tract_boundaries_co.geojson` (508 KB)
 - `data/market/transit_routes_co.geojson` (4764 KB)
 - `data/market/travel_time_matrix_co.json` (4331 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
@@ -1557,7 +1557,7 @@
 - `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/pipeline/content.json` (34 KB)
-- `data/policy/affordability-models.json` (9 KB)
+- `data/policy/affordability-models.json` (11 KB)
 - `data/policy/buyer-assistance-programs.json` (2 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
@@ -1577,7 +1577,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (166 KB)
+- `data/policy_briefs.json` (168 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
@@ -1588,7 +1588,7 @@
 - `data/provenance/market-analysis.json` (2 KB)
 - `data/reports/a11y-baseline.json` (3 KB)
 - `data/reports/data-source-health.json` (8 KB)
-- `data/reports/developer-url-health.json` (19 KB)
+- `data/reports/developer-url-health.json` (27 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
 - `data/resort-workforce-housing-programs.json` (13 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
