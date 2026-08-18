@@ -193,7 +193,7 @@
         "when_not_to_use": "Do not use as an affordability finding or mortgage-qualification result. The Division of Housing may modify the percentage by waiver where substantial housing need exists and a unit was marketed for at least 6 months without a purchaser, so 38% is a default with a documented exception path rather than a hard constant."
       },
       "source": "https://leg.colorado.gov/bills/SB26-040",
-      "source_note": "The enacted bill summary documents the 38% monthly-housing-cost gate, the statewide-or-local 120% AMI test, and the waiver path. The front-end characterization and 35%-to-38% change are also stated in the sponsor summary at https://www.senatedems.co/newsroom/legislation-to-create-more-affordable-home-ownership-opportunities-signed-into-law. The enacted-text PDF was not retrievable during research and was not represented as directly reviewed.",
+      "source_note": "The enacted bill summary documents the 38% monthly-housing-cost gate, the statewide-or-local 120% AMI test, and the waiver path. The front-end characterization and 35%-to-38% change are also stated in the sponsor summary at https://www.senatedems.co/newsroom/legislation-to-create-more-affordable-home-ownership-opportunities-signed-into-law The enacted-text PDF was not retrievable during research and was not represented as directly reviewed.",
       "last_verified": null,
       "classification": "modeled",
       "verify": true
