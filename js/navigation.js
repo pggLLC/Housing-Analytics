@@ -29,25 +29,22 @@
 (function () {
   const GROUPS = [
     {
-      label: "Scoping a Rental Project",
+      label: "Scoping a Project",
       items: [
         { label: "The Affordable Housing Pipeline",  href: "pipeline.html", desc: "From housing need to housing built — our 8-step public methodology", isNew: true },
         { label: "LIHTC Guide",             href: "lihtc-guide-for-stakeholders.html", desc: "Start here — LIHTC basics for all audiences" },
+        { label: "— Rental (LIHTC) —", isHeader: true },
         { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
         { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence" },
         { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
-      ]
-    },
-    {
-      label: "Scoping a For-Sale Project",
-      items: [
+        { label: "— For-Sale / Ownership —", isHeader: true },
         { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
-        { label: "For-Sale Market Study",    href: "for-sale-market-study.html", desc: "Demand, capture, absorption, land disposition" },
-        { label: "Deal Calculator",          href: "deal-calculator.html", desc: "For-sale feasibility and buyer cash requirements" },
-        { label: "Land Value & Negotiation", href: "land-value.html", desc: "Site economics — shared with the rental track" },
+        { label: "For-Sale Market Study",    href: "for-sale-market-study.html",     desc: "Demand, capture, absorption, land disposition" },
+        { label: "For-Sale Feasibility",     href: "deal-calculator.html",           desc: "Buyer cash requirements in the Deal Calculator" },
+        { label: "Land Value & Negotiation", href: "land-value.html",                desc: "Site economics — serves both tracks" },
       ]
     },
     {
