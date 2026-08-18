@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-18T00:28:45.142Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-18T05:20:44.020Z. Do not edit by hand.
 
 ---
 
@@ -1610,7 +1610,7 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
-| `data/policy/affordability-models.json` | 8.5 KB | ✅ | — |
+| `data/policy/affordability-models.json` | 10.9 KB | ✅ | — |
 | `data/policy/buyer-assistance-programs.json` | 1.8 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
