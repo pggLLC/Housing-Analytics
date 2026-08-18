@@ -35,6 +35,7 @@ concurrency:
 jobs:
   cache-hud-gis:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository

@@ -57,6 +57,7 @@ jobs:
         )
       )
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Acknowledge trigger
         if: github.event_name == 'issue_comment'
@@ -110,6 +111,7 @@ jobs:
       (github.event.workflow_run.conclusion == 'cancelled' ||
        github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:

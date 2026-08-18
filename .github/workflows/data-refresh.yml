@@ -16,6 +16,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 75
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7

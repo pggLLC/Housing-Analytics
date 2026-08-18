@@ -17,6 +17,7 @@ jobs:
   triage:
     name: Triage Open Issues
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPO: pggLLC/Housing-Analytics

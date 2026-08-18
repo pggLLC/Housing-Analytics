@@ -26,6 +26,7 @@ jobs:
   sentinel-unit-tests:
     name: Sentinel normalization unit tests (Python)
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -45,6 +46,7 @@ jobs:
   sentinel-production-scan:
     name: Production JSON sentinel scan
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -61,6 +63,7 @@ jobs:
   hna-static-smoke:
     name: HNA page static smoke tests (Node.js)
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
