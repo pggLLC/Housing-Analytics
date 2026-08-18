@@ -165,6 +165,40 @@
       "verify": true
     },
     {
+      "id": "prop123_dpa_eligibility",
+      "label": "Prop 123 DPA eligibility gate (not an affordability finding)",
+      "default": false,
+      "params": {
+        "rateAnnual": 0.065,
+        "rate_as_of": "shared HNA AFFORD assumption",
+        "termYears": 30,
+        "downPaymentPct": 0.1,
+        "housingRatioType": "front",
+        "housingRatio": 0.38,
+        "propertyTaxRate": 0.0065,
+        "insuranceRate": 0.0035,
+        "pmiRate": 0.005,
+        "pmiLtvGate": false,
+        "hoaMonthly": 0,
+        "groundRentMonthly": 0,
+        "borrowerMonthlyDebt": 0,
+        "amiCeilingPct": 1.2,
+        "household_size_default": 4
+      },
+      "implications": {
+        "who_it_fits": "Prop 123 down-payment-assistance eligibility screening for households at or below 120% of either statewide or local AMI. This is an assistance-eligibility screen, not a burden or affordability test.",
+        "gap_direction": "Compare with conservative_screening (30% front-end) to see the eligibility-versus-affordability gap. The difference between the two is the useful output, not either number alone.",
+        "buyer_risk": "The 38% front-end gate exceeds conventional (28%), USDA (29%), and FHA (31%) standards, so a household passing this gate may still fail underwriting for the underlying mortgage.",
+        "lender_appraisal_acceptance": "SB26-040 raised the prior 35% threshold to 38% effective 2026-07-01. This program rule does not determine what a lender will write.",
+        "when_not_to_use": "Do not use as an affordability finding or mortgage-qualification result. The Division of Housing may modify the percentage by waiver where substantial housing need exists and a unit was marketed for at least 6 months without a purchaser, so 38% is a default with a documented exception path rather than a hard constant."
+      },
+      "source": "https://leg.colorado.gov/bills/SB26-040",
+      "source_note": "The enacted bill summary documents the 38% monthly-housing-cost gate, the statewide-or-local 120% AMI test, and the waiver path. The front-end characterization and 35%-to-38% change are also stated in the sponsor summary at https://www.senatedems.co/newsroom/legislation-to-create-more-affordable-home-ownership-opportunities-signed-into-law The enacted-text PDF was not retrievable during research and was not represented as directly reviewed.",
+      "last_verified": null,
+      "classification": "modeled",
+      "verify": true
+    },
+    {
       "id": "custom",
       "label": "Custom (user sets all parameters)",
       "params": {
