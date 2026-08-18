@@ -164,6 +164,13 @@ main {
   top: 100%;
   left: 0;
   min-width: 220px;
+  /* The "Scoping a Project" menu carries both the 8-step rental sequence and
+     the for-sale entry points, so it can exceed the viewport on shorter
+     screens. Without these two lines the lower section is rendered but
+     unreachable — no scroll, just clipped off the bottom of the page. */
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
