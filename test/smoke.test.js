@@ -150,7 +150,7 @@ test('fetch-helper.js exposes resolveAssetUrl and safeFetchJSON', () => {
 test('.github/workflows/car-data-update.yml has monthly schedule', () => {
   const wf = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'car-data-update.yml'), 'utf8');
   assert(wf.includes('schedule:'),      'car-data-update.yml has schedule trigger');
-  assert(wf.includes('0 4 1 * *'),      'schedule is 1st of month at 04:00 UTC');
+  assert(wf.includes('15 4 1 * *'),     'schedule is 1st of month at 04:15 UTC');
   assert(wf.includes('workflow_dispatch'), 'manual trigger is preserved');
 });
 
