@@ -19,6 +19,7 @@ jobs:
   discover:
     name: Discover & Monitor Data Sources
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       # ── Setup ───────────────────────────────────────────────────────────────

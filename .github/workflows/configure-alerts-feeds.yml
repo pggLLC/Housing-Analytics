@@ -26,6 +26,7 @@ concurrency:
 jobs:
   fetch-alerts-and-generate-briefs:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Checkout repository
