@@ -1,32 +1,129 @@
 # Codex Integration Guide (Browser-Only / No Terminal Required)
 
-This guide is for non-technical collaborators who use the GitHub website
-and Claude/Copilot chat interfaces — no terminal or command line needed.
+This guide addresses three structural problems in the Claude ↔ Codex workflow:
+
+1. **Claude has no memory between sessions** — it starts every chat fresh with no knowledge of what Codex is doing.
+2. **No standard handoff** — when Codex finishes a PR, Claude doesn't automatically know what to review or why.
+3. **No terminal access** — all coordination must happen through the GitHub web UI and chat interfaces.
+
+The fixes below are practical and app-based only.
 
 ---
 
-## Agent roles (quick reference)
+## Fix 1 — Use a pinned issue as the persistent task queue
 
-| Agent | What it does | How you trigger it |
-|---|---|---|
-| **Claude** | Reviews plans, audits PRs, answers questions | Copilot chat or GitHub Copilot workspace |
-| **Codex** | Implements code and docs changes, opens PRs | GitHub Copilot coding agent interface |
-| **You (owner)** | Files issues, signs off on plans, merges PRs | GitHub web UI |
+Because Claude starts every session fresh, you need one always-open place it can check.
 
-**Rule:** Claude reviews every Codex PR before you merge. Never merge without Claude's green light.
+### One-time setup (you, in the browser)
+
+1. Go to **https://github.com/pggLLC/Housing-Analytics/issues/new**
+2. Title: `Agent task queue — Claude/Codex coordination`
+3. Body: paste the template below
+4. Submit, then **pin the issue**: on the issue page → ⋯ menu → "Pin issue"
+
+This pinned issue becomes the shared memory between you, Claude, and Codex.
+
+#### Pinned task queue template
+
+```
+## Active Codex tasks
+<!-- Codex: add a line here when you open a PR -->
+<!-- Format: - [ ] PR #NNNN — branch-name — brief description -->
+
+## Completed (awaiting Claude review)
+<!-- Move items here when Codex opens the PR -->
+
+## Reviewed by Claude
+<!-- Move items here after Claude posts APPROVED -->
+
+## Merged
+<!-- Move items here after you merge -->
+
+## Notes
+<!-- Owner: leave sign-off comments here -->
+```
+
+**Start every Claude session by telling it:**
+> "Check the pinned issue in pggLLC/Housing-Analytics for the current task queue before doing anything."
 
 ---
 
-## Step-by-step: Full browser-only workflow
+## Fix 2 — Standard Codex PR comment (handoff to Claude)
 
-### Step 1 — File a GitHub issue (you)
+When Codex opens a PR, it should leave a comment that Claude can read immediately. Paste this into the Codex prompt every time (see Fix 3), and Claude will know exactly what to check.
 
-1. Go to: **https://github.com/pggLLC/Housing-Analytics/issues/new**
-2. Paste the issue template below (fill in the blanks).
-3. Click **"Submit new issue"**.
-4. Note the issue number (e.g. `#1452`).
+#### Standard Codex PR comment format
+```
+## Codex handoff note
+- Closes issue: #NNNN
+- Data files changed: yes / no
+- Manifest rebuild run: yes / no / n/a
+- npm test result: passed / not run
+- Governance rules checked: yes
+- Ready for Claude review: yes
+```
 
-#### Issue template
+---
+
+## Fix 3 — Copy-paste prompts (the only things you ever need to paste)
+
+### A. Start a new task — paste this to Claude
+
+```
+Check the pinned "Agent task queue" issue in pggLLC/Housing-Analytics for 
+current status.
+
+Then review GitHub issue #NNNN in pggLLC/Housing-Analytics.
+
+1. Read AGENTS.md and .github/copilot-instructions.md (18 governance rules).
+2. Confirm this is not on the DEFERRED list (if it is, stop and tell me).
+3. Propose a minimal plan. Docs-only = no manifest rebuild needed.
+   Data changes require: python scripts/rebuild_manifest.py 
+   then node scripts/validate-schemas.js
+4. Wait for my approval before proceeding.
+```
+
+### B. Hand off to Codex — paste this to the Copilot coding agent
+
+```
+Implement the plan for issue #NNNN in pggLLC/Housing-Analytics.
+
+When you open the PR:
+1. Leave the standard Codex handoff comment on the PR (see docs/CODEX-INTEGRATION-GUIDE.md).
+2. Update the pinned "Agent task queue" issue — move this task to "Completed (awaiting Claude review)".
+
+Constraints:
+- Branch + PR only. Never push to main. Do not merge.
+- If any file under data/ is changed, run:
+    python scripts/rebuild_manifest.py
+    node scripts/validate-schemas.js
+- Follow all 18 governance rules in .github/copilot-instructions.md.
+- Follow all hard constraints in AGENTS.md.
+- Run npm test before opening the PR.
+- Open the PR and stop.
+```
+
+### C. Ask Claude to review a Codex PR — paste this to Claude
+
+```
+Check the pinned "Agent task queue" issue in pggLLC/Housing-Analytics, 
+then review PR #NNNN.
+
+Check:
+1. Is the Codex handoff note present and complete?
+2. Does the diff follow all 18 governance rules (.github/copilot-instructions.md)?
+3. Does it follow AGENTS.md hard constraints?
+4. Were data files changed without a manifest rebuild?
+5. Does npm test pass (check CI status on the PR)?
+
+Respond with APPROVED or a numbered list of problems to fix.
+```
+
+---
+
+## Fix 4 — Issue template for recording problems
+
+Use this when something goes wrong and you need to log it.
 
 ```
 ## Summary
@@ -36,116 +133,31 @@ and Claude/Copilot chat interfaces — no terminal or command line needed.
 [What should have happened.]
 
 ## What actually happened
-[What went wrong. Paste any error message or link to a failed CI run.]
+[What went wrong. Paste any error or link to a failed CI run.]
 
-## Affected files or pages
+## Affected PR or branch (if known)
 - 
 
-## Agent context
-- Agent involved: Codex / Claude / both
-- Branch or PR (if known): 
-- Recent related PRs: #1447, #1448, #1449, #1450, #1451
+## Owner sign-off
+[ ] I approve this work starting immediately
+[ ] This needs discussion before starting
 
 ## Notes for Claude
-[Anything Claude should check first — e.g., "confirm this isn't already fixed",
-"check AGENTS.md constraint #N", "owner sign-off given in this comment".]
+[Anything relevant — e.g., "check if this is already fixed", 
+"this started after PR #NNNN merged".]
 ```
 
 ---
 
-### Step 2 — Ask Claude to analyze and plan (you)
+## Who does what — at a glance
 
-Open a Claude chat and paste this prompt (replace `#NNNN` with your issue number):
+| Step | Who | Tool |
+|---|---|---|
+| File issue or update task queue | You | GitHub web UI |
+| Analyze + plan | Claude | Copilot chat |
+| Sign off on plan | You | Reply in chat |
+| Implement + open PR | Codex | Copilot coding agent |
+| Review PR | Claude | Copilot chat (Prompt C above) |
+| Merge | You | GitHub web UI |
 
-```
-Review GitHub issue #NNNN in pggLLC/Housing-Analytics.
-
-1. Read AGENTS.md and the 18 governance rules (.github/copilot-instructions.md).
-2. Confirm the work is not in the DEFERRED list (requires owner sign-off if so).
-3. Propose a minimal plan to fix the issue. Docs-only changes do not need
-   manifest rebuild. Data changes require running:
-     python scripts/rebuild_manifest.py
-     node scripts/validate-schemas.js
-4. Wait for owner approval before proceeding.
-```
-
-Claude will either present a plan or tell you owner sign-off is needed first.
-
----
-
-### Step 3 — Approve the plan (you)
-
-Read Claude's plan. Reply:
-
-> "Approved — proceed."
-
-Or ask for changes before approving.
-
----
-
-### Step 4 — Claude or Codex implements
-
-**If Claude is handling it:** it will create files and open a PR automatically.
-
-**If you want Codex to implement** (paste into the Copilot coding agent interface):
-
-```
-Implement the plan for issue #NNNN in pggLLC/Housing-Analytics.
-
-Constraints:
-- Branch + PR only. Never push to main. Do not merge.
-- If any file under data/ is changed, run:
-    python scripts/rebuild_manifest.py
-    node scripts/validate-schemas.js
-- Follow all 18 governance rules in .github/copilot-instructions.md.
-- Follow all hard constraints in AGENTS.md.
-- Run npm test and confirm it passes before opening the PR.
-- Open the PR and stop.
-```
-
----
-
-### Step 5 — Claude reviews the Codex PR (you trigger this)
-
-Paste into a Claude chat (replace `#NNNN` with the PR number Codex opened):
-
-```
-Review PR #NNNN in pggLLC/Housing-Analytics.
-
-Check:
-1. Does it follow all 18 governance rules (.github/copilot-instructions.md)?
-2. Does it follow AGENTS.md hard constraints?
-3. Are there any data files changed that require manifest rebuild?
-4. Does npm test pass?
-
-Report: APPROVED or list specific problems.
-```
-
----
-
-### Step 6 — Merge (you, after Claude approves)
-
-1. Go to the PR on GitHub.
-2. Once Claude says **APPROVED** — click **"Merge pull request"**.
-3. Done ✅
-
----
-
-## Common mistakes to avoid
-
-| Mistake | What to do instead |
-|---|---|
-| Merging a Codex PR without Claude review | Always get Claude's APPROVED first |
-| Editing `places/*.html` by hand | Edit the template in `scripts/hna/build_place_pages.py` and rerun |
-| Changing data files without rebuilding manifest | Run `python scripts/rebuild_manifest.py` then `node scripts/validate-schemas.js` |
-| Starting DEFERRED work | Get explicit owner sign-off first (see AGENTS.md) |
-| Pushing directly to `main` | Always use a branch + PR |
-
----
-
-## Need help?
-
-If you're unsure whether something needs owner sign-off, ask Claude:
-
-> "Is issue #NNNN in pggLLC/Housing-Analytics deferred work per AGENTS.md?
-> Does it need owner sign-off before Codex can start?"
+**Hard rule: never merge a Codex PR without Claude's explicit APPROVED.**

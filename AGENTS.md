@@ -12,6 +12,8 @@ A public-interest **static site** for Colorado affordable-housing data, deployed
 
 **No two agents edit the same branch/files in the same window.** Implementation happens on branches, never on `main`.
 
+**Browser-only coordination (no terminal):** See [`docs/CODEX-INTEGRATION-GUIDE.md`](docs/CODEX-INTEGRATION-GUIDE.md) for copy-paste prompts, the pinned task queue setup, and the standard Codex→Claude handoff protocol.
+
 ## Hard constraints (do not violate)
 1. **Keep the configured developer gate.** The password check in `js/developer-gate.js` is *intentional* UI gating for `/developer*` pages, held in place until Cloudflare Access replaces it — it is a deliberate owner decision, not an oversight or a leaked credential. Do **not** delete the gate or its hash, and do not "helpfully" remove it as a security finding. You may remove the *plaintext password from comments and docs* — that is the only change allowed here. (Background lives in `internal/docs/codex-audits/PASTE-INTO-CODEX.md`, which is intentionally **not** tracked in this repo; you will not find it in a clone, and you do not need it — this rule is complete on its own.)
 2. **Obey `.github/copilot-instructions.md` (18 rules).** In particular: Colorado county FIPS are 5-digit strings (`"08001"`); any statewide file carries all **64** counties; required numeric fields are never null; `baseYear`/`pyramidYear` = `2024`.
