@@ -70,6 +70,19 @@ OUT = {
 # ============================================================================
 
 
+_HTTP_NO_CONTENT_COUNT = 0
+
+
+def _is_expected_acs1_no_content(url: str, status: int) -> bool:
+    """Return whether Census ACS1 reported its normal no-row response."""
+    parsed = urllib.parse.urlparse(url)
+    return (
+        status == 204
+        and parsed.hostname == 'api.census.gov'
+        and '/acs/acs1' in parsed.path
+    )
+
+
 def utc_now_z() -> str:
     """Return ISO 8601 UTC timestamp string ending with 'Z'."""
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
@@ -107,7 +120,15 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
                 body = r.read().decode('utf-8', errors='replace')
                 status = r.status
             elapsed = time.monotonic() - t0
-            print(f"← {status} OK  {len(body):,} bytes  {elapsed:.1f}s", file=sys.stderr)
+            if _is_expected_acs1_no_content(url, status):
+                # Census ACS1 returns 204 for geographies outside its
+                # publication universe. Callers deliberately retry ACS5, so
+                # keep one build-level count instead of emitting thousands of
+                # warnings for this expected no-row response.
+                global _HTTP_NO_CONTENT_COUNT
+                _HTTP_NO_CONTENT_COUNT += 1
+            else:
+                print(f"← {status} OK  {len(body):,} bytes  {elapsed:.1f}s", file=sys.stderr)
             return (status, body)
         except urllib.error.HTTPError as e:
             elapsed = time.monotonic() - t0
@@ -141,6 +162,8 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
 def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
     """Fetch URL and parse as JSON. Returns None on error."""
     status, text = http_get_text(url, timeout=timeout, retries=1)
+    if _is_expected_acs1_no_content(url, status):
+        return None
     if status != 200:
         print(f"⚠ Failed to fetch JSON from external source: HTTP {status}", file=sys.stderr)
         print(f"  Response preview: {redact(text)[:500]}", file=sys.stderr)
@@ -2679,6 +2702,10 @@ def _print_summary() -> None:
     key = census_key()
     key_status = f'set ({len(key)} chars)' if key else 'NOT SET — Census API calls will be unauthenticated'
     print(f"  ℹ CENSUS_API_KEY: {key_status}")
+    print(
+        f"  ℹ Expected ACS1 HTTP 204 no-content responses: {_HTTP_NO_CONTENT_COUNT} "
+        "(handled as no data so caller fallbacks can run)"
+    )
     print(f"── Done [{utc_now_z()}] ──\n")
 
 
