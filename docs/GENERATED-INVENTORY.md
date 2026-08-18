@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-18T00:22:02.579Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-18T00:28:45.142Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-267 test files found.
+268 test files found.
 
 | File | Size |
 |------|------|
@@ -1907,6 +1907,7 @@
 | `tests/economic_indicators_test.py` | 26.9 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
+| `tests/test_build_hna_data_http_204.py` | 2.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
