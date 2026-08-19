@@ -73,7 +73,7 @@ jobs:
 
       - name: Run core rendered smoke
         run: |
-          npx playwright install chromium --with-deps
+          npx playwright install chromium
           node scripts/audit/core-rendered-smoke.mjs
         env:
           AUDIT_BASE_URL: http://127.0.0.1:8080
