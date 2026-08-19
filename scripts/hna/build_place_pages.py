@@ -181,9 +181,12 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
       </div>
       <div class="place-card">
         <h2>Methodology</h2>
-        <div class="place-stat"><span class="label">CHAS source</span><span class="value" id="psSource">—</span></div>
+        <div class="place-stat"><span class="label">CHAS vintage</span><span class="value" id="psChasVintage">—</span></div>
+        <div class="place-stat"><span class="label">Spatial source</span><span class="value" id="psSource">—</span></div>
+        <div class="place-stat"><span class="label">Apportionment</span><span class="value" id="psChasMethod">—</span></div>
         <div class="place-stat"><span class="label">Underlying tracts</span><span class="value" id="psTracts">—</span></div>
         <div class="place-stat"><span class="label">Coverage</span><span class="value" id="psCoverage">—</span></div>
+        <p id="psChasWarning" class="place-explain" role="note" hidden></p>
       </div>
     </div>
 
@@ -239,9 +242,45 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
         setVc('psOwnOwnershipPressure', own.ownership_pressure_tier || 'Verify locally', tierClass(own.ownership_pressure_tier));
         setV('psOwnFitBase', fmt(own.moderate_income_renter_households) + ' renter HHs');
       })();
-      setV('psSource', data.source === 'rate-only-fallback' ? 'Rate-only fallback (tract rates)' : 'TIGER 2024 place-CHAS');
+      var chasMeta = data.chas_meta || {};
+      var chasMethods = {
+        'population-apportionment': {
+          label: 'Population-share',
+          detail: 'This record uses population-share apportionment.'
+        },
+        'area-apportionment': {
+          label: 'Area-share fallback',
+          detail: 'Population data was unavailable, so this record uses the less-reliable area-share fallback.'
+        },
+        'rate-only-fallback': {
+          label: 'Rate-only fallback',
+          detail: 'Tract CHAS rates were applied without household-count apportionment; this fallback estimate is less reliable.'
+        }
+      };
+      var chasMethod = chasMethods[data.source] || {
+        label: 'Method not available',
+        detail: 'Apportionment method is not available; verify this place estimate before use.'
+      };
+      var coverageThreshold = Number(chasMeta.coverage_warn_threshold);
+      var coverageShare = Number(data.coverage_share);
+      var lowCoverage = data.low_confidence === true ||
+        (Number.isFinite(coverageShare) && Number.isFinite(coverageThreshold) && coverageShare < coverageThreshold);
+      setV('psChasVintage', chasMeta.vintage_chas || 'Not available');
+      setV('psSource', 'TIGER 2024 tract join');
+      setV('psChasMethod', chasMethod.label);
       setV('psTracts', data.tract_count);
       setV('psCoverage', (data.coverage_share * 100).toFixed(1) + '%');
+      var chasWarning = document.getElementById('psChasWarning');
+      if (chasWarning) {
+        chasWarning.textContent = 'Place-level HUD CHAS ' + (chasMeta.vintage_chas || 'vintage not available') +
+          ' figures are apportioned from tract data, not measured directly. ' +
+          chasMethod.detail +
+          (lowCoverage
+            ? ' Low coverage: matched tracts cover ' + (coverageShare * 100).toFixed(1) +
+              '% of the place, below the ' + (coverageThreshold * 100).toFixed(0) + '% warning threshold.'
+            : '');
+        chasWarning.hidden = false;
+      }
       // Housing production vs need (Census BPS permits + DOLA projections).
       // Permits are place-level BPS only — a missing record (typical for
       // CDPs) must never be backfilled with county numbers.
@@ -388,6 +427,7 @@ def generate_page(
     registry: dict,
     county_names: dict,
     template: str,
+    place_chas_meta: dict | None = None,
     permits_doc: dict | None = None,
     ownership_doc: dict | None = None,
 ) -> str:
@@ -412,6 +452,11 @@ def generate_page(
 
     # Place data for the embedded JSON
     data_payload = dict(place_chas)
+    chas_meta = place_chas_meta or {}
+    data_payload['chas_meta'] = {
+        'vintage_chas': chas_meta.get('vintage_chas'),
+        'coverage_warn_threshold': chas_meta.get('coverage_warn_threshold'),
+    }
     data_payload['geoid'] = geoid
     data_payload['county_fips'] = county_fips
     data_payload['county_name'] = county_name
@@ -550,6 +595,7 @@ def main() -> int:
     for geoid, rec in places_items:
         html = generate_page(
             geoid, rec, cross_county_doc, registry, county_names, template,
+            place_chas_meta=place_chas_doc.get('meta') or {},
             permits_doc=permits_doc,
             ownership_doc=ownership_doc,
         )

@@ -5,14 +5,14 @@
  * produced by the TIGER spatial-join arc:
  *   PR-C1 — tract-level CHAS aggregations
  *   PR-C2 — TIGER place→tract spatial membership
- *   PR-C3 (this) — place-level CHAS via area-weighted apportionment
+ *   PR-C3 (this) — place-level CHAS via tract apportionment
  *
  * The dashboard previously inherited the place's "primary county"
  * CHAS rates, which was wrong for the 26 cross-county jurisdictions
  * (Aurora, Erie, Longmont, etc.). With this module, place-level CHAS
- * comes from summing the underlying tracts' CHAS counts weighted by
- * what fraction of each tract sits inside the place — accurate for
- * any place regardless of how many counties it spans.
+ * comes from summing the underlying tracts' CHAS counts using the
+ * population-share method documented in the data metadata. Records with
+ * missing population inputs retain an explicitly labeled area-share fallback.
  *
  * Public API
  * ----------
@@ -104,6 +104,62 @@
     return (_cache.places || {})[resolved] || null;
   }
 
+  /** Return the file-level methodology and vintage metadata used by every
+   * place record. The returned object is read-only by convention. */
+  function metadata() {
+    return (_cache && _cache.meta) || {};
+  }
+
+  /** Build display-only disclosure from the exact record and file metadata. */
+  function disclosure(geoid) {
+    var place = lookup(geoid);
+    if (!place) return null;
+    var meta = metadata();
+    var methods = {
+      'population-apportionment': {
+        label: 'Population-share',
+        fallback: false,
+        text: 'Population-share apportionment from tract-level CHAS; this is not a direct place measurement.',
+      },
+      'area-apportionment': {
+        label: 'Area-share fallback',
+        fallback: true,
+        text: 'Area-share fallback: population data was unavailable, so this place estimate is less reliable.',
+      },
+      'rate-only-fallback': {
+        label: 'Rate-only fallback',
+        fallback: true,
+        text: 'Rate-only fallback: tract CHAS rates were applied without household-count apportionment; this estimate is less reliable.',
+      },
+    };
+    var method = methods[place.source] || {
+      label: 'Method not available',
+      fallback: true,
+      text: 'Apportionment method is not available; verify this place estimate before use.',
+    };
+    var threshold = Number(meta.coverage_warn_threshold);
+    var coverage = Number(place.coverage_share);
+    var lowCoverage = place.low_confidence === true ||
+      (Number.isFinite(coverage) && Number.isFinite(threshold) && coverage < threshold);
+    var vintage = meta.vintage_chas || 'vintage not available';
+    var coverageWarning = lowCoverage
+      ? ' Low coverage: matched tracts cover ' + (coverage * 100).toFixed(1) +
+        '% of the place, below the ' + (threshold * 100).toFixed(0) + '% warning threshold.'
+      : '';
+    return {
+      vintage: vintage,
+      source: place.source || null,
+      methodLabel: method.label,
+      fallback: method.fallback,
+      areaFallback: place.source === 'area-apportionment',
+      rateOnlyFallback: place.source === 'rate-only-fallback',
+      lowCoverage: lowCoverage,
+      coverageShare: Number.isFinite(coverage) ? coverage : null,
+      coverageWarnThreshold: Number.isFinite(threshold) ? threshold : null,
+      text: 'HUD CHAS ' + vintage + ' place estimate. ' + method.text + coverageWarning,
+    };
+  }
+
   /** Given a place geoid + a county CHAS record (from data/market/chas_co.json),
    *  return a comparison object useful for surfacing the cross-county-line
    *  impact:
@@ -166,6 +222,8 @@
   window.PlaceChas = {
     init: init,
     lookup: lookup,
+    metadata: metadata,
+    disclosure: disclosure,
     resolveAlias: resolveAlias,
     compareToCounty: compareToCounty,
     formatComparison: formatComparison,
