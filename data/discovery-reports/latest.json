@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-18T07:27:27.941Z",
+  "scanTimestamp": "2026-08-19T08:07:18.773Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779733,
+      "sizeBytes": 779734,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6259,
+      "sizeBytes": 6260,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4820,7 +4820,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 179361,
+      "sizeBytes": 178911,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9146,7 +9146,7 @@
     },
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
-      "sizeBytes": 604220,
+      "sizeBytes": 509731,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9188,7 +9188,7 @@
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
-      "sizeBytes": 520498,
+      "sizeBytes": 421929,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9266,7 +9266,7 @@
     },
     {
       "path": "data/policy/affordability-models.json",
-      "sizeBytes": 11210,
+      "sizeBytes": 13263,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20062,
+      "sizeBytes": 20067,
       "inDataManifest": false,
       "inFilesManifest": true
     },
