@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-19T23:38:37.200Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-19T23:57:23.460Z. Do not edit by hand.
 
 ---
 
@@ -1985,7 +1985,7 @@
 | `.github/workflows/market_data_build.yml` | 15.4 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
-| `.github/workflows/qa-status.yml` | 8.5 KB |
+| `.github/workflows/qa-status.yml` | 10.0 KB |
 | `.github/workflows/rebuild-bps-permits.yml` | 7.6 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.4 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
