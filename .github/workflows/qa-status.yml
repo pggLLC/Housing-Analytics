@@ -92,6 +92,31 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
+          # Guard: rebuild_manifest.py walks the WHOLE tree and records
+          # os.path.getsize() for every data file, but the commit below stages
+          # only two of them. So any data file left modified on disk by an
+          # earlier step -- even transiently, even one this job has no business
+          # touching -- gets its size baked into the manifest while the file
+          # itself is never committed. The manifest and the tree then disagree
+          # permanently, and test:file-manifest fails on every subsequent PR.
+          #
+          # That happened on 2026-08-19: data/fred-data.json was recorded at
+          # 2,519,410 bytes (a pretty-printed size) while committed at
+          # 1,312,907, and main sat red for hours because data crons suppress
+          # CI on their own commits so nothing flagged it. See issue #1470.
+          #
+          # Fail loudly instead. The message names the offending file, which is
+          # the diagnostic that was missing last time -- the mutator was never
+          # identified.
+          unexpected="$(git status --porcelain -- data/ \
+            | grep -v ' data/_qa-status\.json$' \
+            | grep -v ' data/manifest\.json$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "::error::Unexpected modifications under data/ after rebuilding the manifest."
+            echo "::error::The manifest now records sizes for files this job will not commit."
+            echo "$unexpected"
+            exit 1
+          fi
           git add data/_qa-status.json data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to qa-status snapshot."
