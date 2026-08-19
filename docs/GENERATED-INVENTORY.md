@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-19T17:45:37.694Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-19T17:56:02.469Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-268 test files found.
+269 test files found.
 
 | File | Size |
 |------|------|
@@ -1736,6 +1736,7 @@
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-car-loader.test.js` | 4.1 KB |
+| `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
 | `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
@@ -1811,7 +1812,7 @@
 | `test/pipeline-guards-a1.test.js` | 2.2 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
-| `test/place-chas-lookup.test.js` | 6.3 KB |
+| `test/place-chas-lookup.test.js` | 6.5 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.4 KB |
