@@ -3558,6 +3558,68 @@
     return { horizon, targetVac, headshipMode };
   }
 
+  /**
+   * renderProjectionCalculationTrace — display the exact inputs already used
+   * by the projection result. Formatting only; no projection math lives here.
+   */
+  function renderProjectionCalculationTrace(trace) {
+    const el = document.getElementById('projectionCalculationTraceBody');
+    if (!el) return;
+    if (!trace || trace.available === false) {
+      el.textContent = trace && trace.message ? trace.message : 'Calculation trace is not available.';
+      return;
+    }
+    const num = function (v, digits) {
+      if (v == null || !Number.isFinite(Number(v))) return 'not available';
+      return Number(v).toLocaleString(undefined, {
+        minimumFractionDigits: digits || 0,
+        maximumFractionDigits: digits || 0,
+      });
+    };
+    const pct = function (v, digits) {
+      if (v == null || !Number.isFinite(Number(v))) return 'not available';
+      return num(Number(v) * 100, digits == null ? 1 : digits) + '%';
+    };
+    const row = function (label, value, note) {
+      return '<li><strong>' + escHtml(label) + ':</strong> ' + escHtml(value) +
+        (note ? '<br><span>' + escHtml(note) + '</span>' : '') + '</li>';
+    };
+    let rows = '';
+    if (trace.mode === 'place') {
+      rows += row('Result used by the headline', num(trace.incrementalUnits),
+        'Read directly from data/hna/projections/places.json for ' + trace.endYear + '.');
+      rows += row('ACS household share', pct(trace.householdShare, 3), 'ACS DP02 household counts.');
+      if (trace.permitShare == null) {
+        rows += row('Census BPS permit share', 'not available',
+          'The place result uses household share only; no 50/50 blend is applied.');
+      } else {
+        rows += row('Census BPS permit share', pct(trace.permitShare, 3), trace.permitWindow + ' permit series.');
+        rows += row('Allocation blend', '50% ACS household share + 50% BPS permit share',
+          'Stored blended share used: ' + pct(trace.blendedShare, 3) + '.');
+      }
+      rows += row('County projection provenance', trace.crossCounty
+        ? 'Combined-county denominators before the place share was applied'
+        : 'Containing-county DOLA/SDO projection before the place share was applied',
+        'Source result and shares are read from the same place-projection record used by the headline.');
+    } else {
+      rows += row('Projection provenance', trace.provenance, trace.provenanceNote);
+      rows += row('Projected population', num(trace.projectedPopulation),
+        'DOLA/SDO components-of-change forecast for ' + trace.endYear + '.');
+      rows += row('Headship rate', pct(trace.headshipRate, 3), trace.headshipModeLabel);
+      rows += row('Projected households', num(trace.projectedHouseholds, 1),
+        'Projected population × headship rate.');
+      rows += row('Target vacancy', pct(trace.targetVacancy, 3), 'Screening assumption selected above.');
+      rows += row('Total housing units required', num(trace.totalUnitsRequired, 1),
+        'Projected households ÷ (1 − target vacancy).');
+      rows += row('Existing housing stock', num(trace.existingHousingUnits), 'ACS DP04 value used by the calculation.');
+      rows += row('Incremental units used by the headline', num(trace.incrementalUnits),
+        'Total housing units required − existing housing stock.');
+    }
+    el.innerHTML = '<p style="margin:0 0 8px"><strong>Screening-grade estimate.</strong> ' +
+      'This trace documents the current public-data calculation; it is not a commissioned market study.</p>' +
+      '<ol style="margin:0;padding-left:22px">' + rows + '</ol>';
+  }
+
   // ---------------------------------------------------------------------------
   // Projections: data-quality indicator
   // ---------------------------------------------------------------------------
@@ -8455,6 +8517,7 @@
     // Assumptions
     getAssumptions,
     // Projections
+    renderProjectionCalculationTrace,
     renderScenarioDataQuality,
     clearProjectionsForStateLevel,
     renderProjectionChart,
