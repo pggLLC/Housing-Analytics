@@ -2397,6 +2397,9 @@
       if (window.HNAState.els.statBaseUnitsSrc) window.HNAState.els.statBaseUnitsSrc.textContent = unavailable;
       if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = 'Not available';
       if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = 'Not available';
+      if (window.HNARenderers.renderProjectionCalculationTrace) {
+        window.HNARenderers.renderProjectionCalculationTrace({ available: false, message: unavailable });
+      }
       return;
     }
 
@@ -2560,12 +2563,54 @@
       net20 = (net20!==null) ? (net20 * share0) : null;
     }
 
+    const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
+
     // Update cards
     window.HNAState.els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
     window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? 'Current total housing units (DP04)' : 'Current housing stock';
     window.HNAState.els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
     window.HNAState.els.statUnitsNeed.textContent = incUnitsDisplay;
+    if (window.HNARenderers.renderProjectionCalculationTrace) {
+      if (usedPlaceProjection) {
+        const placeShares = placeProjectionRec.shares || {};
+        window.HNARenderers.renderProjectionCalculationTrace({
+          available: incUnits !== null,
+          mode: 'place',
+          endYear,
+          incrementalUnits: incUnits,
+          householdShare: placeShares.household,
+          permitShare: placeShares.permit,
+          blendedShare: placeShares.blended,
+          permitWindow: placeShares.permit_window || '2020-2024',
+          crossCounty: placeProjectionRec.cross_county === true,
+        });
+      } else {
+        window.HNARenderers.renderProjectionCalculationTrace({
+          available: incUnits !== null,
+          mode: 'direct',
+          endYear,
+          provenance: selection && selection.geoType !== 'county' && selection.geoType !== 'state'
+            ? 'Containing-county DOLA/SDO forecast scaled to the selected place/CDP'
+            : (selection && selection.geoType === 'state'
+              ? 'Direct statewide DOLA/SDO projection'
+              : 'Direct county DOLA/SDO components-of-change projection'),
+          provenanceNote: selection && selection.geoType !== 'county' && selection.geoType !== 'state'
+            ? 'Fallback path uses current population share and recent relative growth; covered places use the stored place-projection path shown separately.'
+            : 'County source: SDO components-change-county.csv.',
+          projectedPopulation: popH,
+          headshipRate: hsH,
+          headshipModeLabel: headshipMode === 'trend'
+            ? 'Trend headship assumption used by the calculation.'
+            : 'Constant base-year headship rate used by the calculation.',
+          projectedHouseholds: hhH,
+          targetVacancy: targetVac,
+          totalUnitsRequired: needUnits,
+          existingHousingUnits: baseUnits,
+          incrementalUnits: incUnits,
+        });
+      }
+    }
     if (window.HNARenderers.updateDecisionStrip) {
       window.HNARenderers.updateDecisionStrip({
         production: {
@@ -2579,7 +2624,6 @@
     }
     window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
-    const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
     let countyDolaReconciliationNote = '';
     if (selection && selection.geoType !== 'place' && selection.geoType !== 'cdp' && !_isMultiJurisdictionSelection(selection)) {
       const dolaSeries = proj?.housing_need?.incremental_units_needed_dola;
