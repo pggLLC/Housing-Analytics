@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-18T07:27:27.941Z
+**Scan timestamp:** 2026-08-19T08:07:18.773Z
 
 ## Summary
 
@@ -1537,14 +1537,14 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (831 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (590 KB)
+- `data/market/pma_tract_display_geometry.geojson` (498 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
-- `data/market/tract_boundaries_co.geojson` (508 KB)
+- `data/market/tract_boundaries_co.geojson` (412 KB)
 - `data/market/transit_routes_co.geojson` (4764 KB)
 - `data/market/travel_time_matrix_co.json` (4331 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
@@ -1557,7 +1557,7 @@
 - `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/pipeline/content.json` (34 KB)
-- `data/policy/affordability-models.json` (11 KB)
+- `data/policy/affordability-models.json` (13 KB)
 - `data/policy/buyer-assistance-programs.json` (2 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
