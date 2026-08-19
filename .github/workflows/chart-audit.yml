@@ -69,7 +69,7 @@ jobs:
         run: npm ci
 
       - name: Install Playwright Chromium
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install chromium
 
       - name: Start local HTTP server
         run: npx http-server . -p 8080 --silent &
