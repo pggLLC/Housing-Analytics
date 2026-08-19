@@ -1079,8 +1079,16 @@
               <p style="margin:10px 0 0;color:var(--muted);font-size:.9rem">
                 Transparent HNA math: projected households = population × headship; total units required = households ÷ (1 − vacancy).
                 The summary's net-new units subtract the current requirement and are not income-targeted affordable deficits.
-                For municipalities/CDPs, projections scale from the containing county using current population share and recent relative growth.
+                For covered municipalities/CDPs, the headline uses the stored place projection built from county need and local ACS household/BPS permit shares; the trace labels any fallback method.
               </p>
+              <details id="projectionCalculationTrace" style="margin-top:12px">
+                <summary style="cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center">Show projection calculation trace</summary>
+                <p id="projectionCalculationMethod" style="margin:10px 0 0;color:var(--muted);font-size:.9rem">County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Covered place and CDP selections use the county projection downscaled by a 50/50 blend of ACS household share and 2020-2024 Census BPS permit share.</p>
+                <p id="projectionCalculationSources" style="margin:6px 0 0;color:var(--muted);font-size:.9rem">County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json, built from county projections, ACS DP02 household counts, and data/hna/permits.json. Cross-county municipalities use combined-county denominators before applying the blended share. Verified 2026-07-04 against SDO's official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties.</p>
+                <div id="projectionCalculationTraceBody" style="margin-top:10px;color:var(--muted);font-size:.9rem" aria-live="polite" aria-atomic="true">
+                  Select a geography to inspect the calculation.
+                </div>
+              </details>
             </div>
 
             <p id="needNote" style="margin-top:10px;color:var(--muted)">—</p>
