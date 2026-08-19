@@ -58,6 +58,13 @@ const ALLOW_LIST = new Set([
   // it fetches 200 from residential IPs. Verified 2026-07-18.
   "https://polymarket.com",
   "https://polymarket.com/",
+  // Yahoo Finance rate-limits datacenter IPs and drops the connection
+  // rather than returning a status, so it lands in the hard-failure
+  // bucket instead of the WAF bucket like the other bot-blocked hosts.
+  // Verified 2026-08-18: plain curl gets HTTP 429, a browser user-agent
+  // gets HTTP 200 — the host is healthy, the CI probe is throttled.
+  "https://finance.yahoo.com",
+  "https://finance.yahoo.com/",
   "https://www.novoco.com",
   "https://www.novoco.com/",
   "https://www.novoco.com/resource-centers/affordable-housing-tax-credits",
