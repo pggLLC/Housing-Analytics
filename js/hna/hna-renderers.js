@@ -28,6 +28,21 @@
     return 'CO statewide baseline — low confidence';
   }
 
+  function placeChasDisclosure(geoid) {
+    if (!window.PlaceChas || typeof window.PlaceChas.disclosure !== 'function') return null;
+    return window.PlaceChas.disclosure(geoid);
+  }
+
+  function placeChasDisclosureHtml(geoid) {
+    const disclosure = placeChasDisclosure(geoid);
+    if (!disclosure) return '';
+    const color = disclosure.fallback || disclosure.lowCoverage
+      ? 'var(--warn,#d97706)'
+      : 'var(--muted)';
+    return '<span class="place-chas-disclosure" style="color:' + color + '">' +
+      escHtml(disclosure.text) + '</span>';
+  }
+
   /**
    * escHtml — escape a string for safe insertion into innerHTML.
    * @param {*} v - value to escape
@@ -3955,6 +3970,9 @@
           dataScopeBadge(scope, { countyName: tierMeta.source === 'county-chas' ? escHtml(tierMeta.name) : null, inline: true }) +
           (tierMeta.source === 'statewide-heuristic'
             ? ' <span style="font-weight:600;color:var(--warn,#d97706)">CO statewide baseline — low confidence</span>'
+            : '') +
+          (tierMeta.source === 'place-chas'
+            ? '<br>' + placeChasDisclosureHtml(geoid)
             : '');
         caption.hidden = false;
       }
@@ -4378,7 +4396,7 @@
     const chasLabels  = ['Not burdened (<30%)', 'Moderate (30–50%)', 'Severe (>50%)'];
     const chasValues  = [notBurdened, moderate, severe];
 
-    _ensureOwnerCostBurdenFallbackNote(canvas, chasFromPlace);
+    _ensureOwnerCostBurdenFallbackNote(canvas, chasFromPlace ? profile._geoid : null);
 
     /* F209 — semantic palette for the 3-bin CHAS fallback. Keeps parity
        with the ACS 5-bin path: green = safe, amber = moderate burden,
@@ -4398,7 +4416,7 @@
   // Show a "showing CHAS aggregate (3-bin)" disclosure when the renderer
   // falls back from ACS SMOCAPI to HUD CHAS. Auto-removed when the ACS
   // path becomes available (after the ETL re-runs with PR #884's fix).
-  function _ensureOwnerCostBurdenFallbackNote(canvas, fromPlace) {
+  function _ensureOwnerCostBurdenFallbackNote(canvas, placeGeoid) {
     if (!canvas) return;
     let note = document.getElementById('ownerCostBurdenFallbackNote');
     if (!note) {
@@ -4418,8 +4436,8 @@
       'isn\'t in the cache yet for this geography. Showing HUD CHAS aggregate ' +
       'instead: not burdened (&lt;30%) · moderate (30-50%) · severe (&gt;50%). ' +
       'Will switch to the 5-bin ACS view after the next ETL data refresh.' +
-      (fromPlace
-        ? ' <span style="color:var(--text)">Place-level (TIGER population-apportioned from tract CHAS).</span>'
+      (placeGeoid
+        ? ' <span style="color:var(--text)">Place-level CHAS.</span> ' + placeChasDisclosureHtml(placeGeoid)
         : '');
   }
   function _maybeRemoveOwnerCostBurdenFallbackNote() {
@@ -4514,7 +4532,8 @@
           (_cbFromPlace ? 'Place-level HUD CHAS' : 'HUD CHAS county data') +
           ' flags <strong>' + fmtNum(Math.round(lte50Total)) + '</strong> renter households at ≤50% AMI ' +
           'paying ≥30% of income on housing — the cohort LIHTC at 60% AMI rents most directly serves. ' +
-          'Use the AMI tier chart below for the per-tier breakdown.'
+          'Use the AMI tier chart below for the per-tier breakdown.' +
+          (_cbFromPlace ? ' ' + placeChasDisclosureHtml(profile._geoid) : '')
         );
       }
     }
@@ -7765,13 +7784,10 @@
         intro.style.color = 'var(--good,#16a34a)';
         intro.textContent = '✓ Place-level CHAS (TIGER 2024).';
         noteEl.appendChild(intro);
-        noteEl.appendChild(document.createTextNode(
-          // F28: was "area-weighted" — now population-weighted so small towns
-          // in large rural tracts aren't collapsed (New Castle was 24 HH).
-          ' Computed by population-weighted apportionment of the census tracts inside ' + placeLabel + '. '
-          + 'Accurate even for jurisdictions that span county lines (Aurora, Erie, etc.) '
-          + 'where the primary-county fallback would mis-state burden rates.'
-        ));
+        const disclosure = placeChasDisclosure(selectedGeo.geoid);
+        noteEl.appendChild(document.createTextNode(' ' + (disclosure
+          ? disclosure.text
+          : 'Place-level CHAS methodology or vintage is not available.')));
         // F28-3: small-sample (wide ACS margin-of-error) flag for tiny places.
         try {
           const _pc = (window.PlaceChas && window.PlaceChas.lookup) ? window.PlaceChas.lookup(selectedGeo.geoid) : null;
@@ -7918,7 +7934,7 @@
         bg:     'rgba(22,163,74,.12)',
         border: 'rgba(22,163,74,.5)',
         color:  'var(--good,#16a34a)',
-        title:  'CHAS rates computed by area-weighted apportionment of underlying tracts inside the place. Accurate for cross-county jurisdictions.',
+        title:  'HUD CHAS 2018-2022 place estimate apportioned from underlying tracts. See the disclosure for the record-specific method.',
       },
       'county': {
         text:   'County',

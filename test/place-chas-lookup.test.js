@@ -35,7 +35,7 @@ console.log('\n[test] place-chas-lookup.js exposes expected API');
 const helperSrc = readRel('js/place-chas-lookup.js');
 assert(/window\.PlaceChas\s*=\s*\{/.test(helperSrc),
   'attaches PlaceChas to window');
-['init', 'lookup', 'resolveAlias', 'compareToCounty', 'formatComparison'].forEach((fn) => {
+['init', 'lookup', 'metadata', 'disclosure', 'resolveAlias', 'compareToCounty', 'formatComparison'].forEach((fn) => {
   assert(new RegExp('function\\s+' + fn + '\\s*\\(').test(helperSrc),
     'defines ' + fn + '() function');
 });
@@ -87,8 +87,10 @@ assert(typeof data.meta.vintage_chas === 'string',
   'meta.vintage_chas is string');
 assert(typeof data.meta.vintage_tiger === 'number',
   'meta.vintage_tiger is number');
-assert(/area-weighted/i.test(data.meta.method),
-  'meta.method describes area-weighted apportionment');
+assert(/Population-share apportionment/i.test(data.meta.method),
+  'meta.method describes population-share apportionment');
+assert(/Falls back to area-share/i.test(data.meta.method),
+  'meta.method preserves the documented area-share fallback');
 
 console.log('\n[test] Cross-county places present with TIGER-derived rates');
 // These places span multiple counties — their CHAS should now be
