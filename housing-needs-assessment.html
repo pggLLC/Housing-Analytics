@@ -156,6 +156,9 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/prop123-historical-tracker.js"></script>
+  <!-- Shared Prop 123 jurisdiction loader/lookup; the map-specific initializer
+       exits on this page, while HNA reuses its cached policy-data path. -->
+  <script defer src="js/prop123-map.js"></script>
   <!-- HNA modules — load order: projection presets/storage/model → utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/data-quality.js"></script>
   <script defer src="js/projections/scenario-presets.js"></script>
@@ -1397,6 +1400,11 @@
           housing progress. Jurisdictions must establish a baseline of 60% AMI rentals and commit to 3% annual growth.
           <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 page</a>
         </p>
+
+        <div id="prop123Relationship" class="baseline-card" style="margin-bottom:14px;">
+          <h3>Jurisdiction relationship to Prop 123</h3>
+          <p style="color:var(--muted);font-size:.9rem">Select a geography to view its filing status and fast-track designation.</p>
+        </div>
 
         <div class="prop123-cards-row">
           <!-- Baseline card -->

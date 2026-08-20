@@ -22,6 +22,8 @@
 (function () {
   'use strict';
 
+  var prop123ListPromise = null;
+
   function getConfig() { return (window.APP_CONFIG || {}); }
 
   var FETCH_TIMEOUT_MS = 20000;
@@ -70,6 +72,8 @@
   function normalizeName(s) {
     return (s || '')
       .toString()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
       .replace(/\s+/g, ' ')
       .replace(/[^\w\s\-\.&]/g, '')
@@ -108,12 +112,17 @@
   function escapeAttr(s) { return escapeHtml(s).replace(/"/g, '&quot;'); }
 
   async function loadProp123List() {
+    if (prop123ListPromise) return prop123ListPromise;
     const cfg = getConfig();
-    if (cfg.PROP123_API_URL) return fetchJSON(cfg.PROP123_API_URL);
+    if (cfg.PROP123_API_URL) {
+      prop123ListPromise = fetchJSON(cfg.PROP123_API_URL);
+      return prop123ListPromise;
+    }
     // Prefer DataService for portable path resolution (GitHub Pages subpath safe)
     if (window.DataService && typeof window.DataService.getJSON === 'function' &&
         typeof window.DataService.baseData === 'function') {
-      return window.DataService.getJSON(window.DataService.baseData('policy/prop123_jurisdictions.json'));
+      prop123ListPromise = window.DataService.getJSON(window.DataService.baseData('policy/prop123_jurisdictions.json'));
+      return prop123ListPromise;
     }
     // Legacy fallback: use fetchJSON with absolute path derived from script location
     const base = (function () {
@@ -128,7 +137,44 @@
       } catch (e) { /* ignore */ }
       return location.origin + location.pathname.replace(/\/[^/]*$/, '');
     }());
-    return fetchJSON(base + '/data/policy/prop123_jurisdictions.json');
+    prop123ListPromise = fetchJSON(base + '/data/policy/prop123_jurisdictions.json');
+    return prop123ListPromise;
+  }
+
+  function comparableName(s) {
+    return normalizeName((s || '').toString().replace(/\s+\([^)]*\)$/, ''))
+      .replace(/^(city and county|city|town|village) of\s+/, '')
+      .replace(/\s+county$/, '')
+      .replace(/^mt\.?\s+/, 'mount ')
+      .trim();
+  }
+
+  function findJurisdiction(payload, geoType, geoLabel) {
+    if (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || '')) return null;
+    var index = buildIndex(payload);
+    var wantedName = comparableName(geoLabel);
+    var wantedKind = geoType === 'county' ? 'county' : 'municipality';
+    var sameName = index.list.filter(function (record) {
+      return comparableName(record.name) === wantedName;
+    });
+    var sameKind = sameName.find(function (record) {
+      return classifyKind(record) === wantedKind;
+    });
+    if (sameKind) return sameKind;
+    // Denver and Broomfield are consolidated city/counties represented by
+    // one DOLA record but selectable in HNA as either a county or a place.
+    return sameName.length === 1 && /city\s*\/\s*county/i.test(sameName[0].type || '')
+      ? sameName[0]
+      : null;
+  }
+
+  function relationship(payload, geoType, geoLabel) {
+    var record = findJurisdiction(payload, geoType, geoLabel);
+    return {
+      record: record,
+      status: record ? record.status : 'Not committed',
+      fastTrack: record ? (record.fast_track === true ? 'Yes' : 'No') : 'Not committed'
+    };
   }
 
   function buildIndex(payload) {
@@ -319,6 +365,18 @@
     // Auto-load if checked
     if (toggle.checked) sync();
   }
+
+  // Shared loader/lookup used by the HNA. Keeping this API here means every
+  // surface follows the existing Prop 123 load path instead of implementing
+  // another fetch for the same policy file.
+  window.Prop123Jurisdictions = {
+    load: loadProp123List,
+    find: findJurisdiction,
+    relationship: relationship,
+    findLoaded: async function (geoType, geoLabel) {
+      return findJurisdiction(await loadProp123List(), geoType, geoLabel);
+    }
+  };
 
   document.addEventListener('DOMContentLoaded', init);
 })();
