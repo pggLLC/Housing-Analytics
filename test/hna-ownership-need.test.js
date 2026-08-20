@@ -335,6 +335,10 @@ test('price-band screen binds AMI ceiling labels to maxAffordablePrice helper', 
       row.key + ' maxAffordablePrice follows its displayed AMI ceiling'
     );
   });
+  const upper = out.priceBandScreen.rows.find((row) => row.key === '101to120');
+  assert.equal(upper.potentialBuyerPoolHouseholds, null, '101-120% potential buyer pool is not fabricated from CHAS');
+  assert.equal(upper.currentGapHouseholds, null, '101-120% current gap is not fabricated from CHAS');
+  assert.equal(upper.demandUnavailableReason, Ownership.CHAS_TOP_BAND_LIMIT, 'unmeasurable row carries the specific CHAS top-band reason');
 });
 
 test('deep affordability recommendation requires rate, count, and total-household share', () => {
