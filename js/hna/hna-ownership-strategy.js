@@ -11,7 +11,9 @@
 }(typeof window !== 'undefined' ? window : this, function () {
   'use strict';
 
-  var TIERS = [0.60, 0.80, 1.00, 1.20];
+  var BASE_TIERS = [0.60, 0.80, 1.00];
+  var DEFAULT_AMI_CEILING_PCT = 1.20;
+  var CEILING_OPTIONS = [0.80, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60];
   var MISSING = 'data not available for this jurisdiction';
   var NOT_TRACKED = 'not tracked for this jurisdiction';
   var VERIFY_PARTIES = 'Verify with developer discussions, lender, appraiser, broker, program administrator, and local jurisdiction before decision-grade use.';
@@ -26,6 +28,26 @@
     return '<span class="hna-own-strategy-pill" data-scope="' + esc(scope) + '" style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.72rem;font-weight:800;">' + esc(label) + '</span>';
   }
   function keyForGeo(geo) { return (geo.type === 'county' ? 'county:' : geo.type === 'cdp' ? 'cdp:' : 'place:') + geo.geoid; }
+
+  function amiCeilingModel(registry) {
+    return registry && registry.models && registry.models.find(function (row) {
+      return row && row.id === 'prop123_dpa_eligibility';
+    });
+  }
+
+  function defaultAmiCeilingPct(registry) {
+    var model = amiCeilingModel(registry);
+    var value = Number(model && model.params && model.params.amiCeilingPct);
+    return Number.isFinite(value) && value > 0 ? value : DEFAULT_AMI_CEILING_PCT;
+  }
+
+  function priceTiers(amiCeilingPct) {
+    var ceiling = Number(amiCeilingPct);
+    if (!Number.isFinite(ceiling) || ceiling <= 0) ceiling = DEFAULT_AMI_CEILING_PCT;
+    var tiers = BASE_TIERS.filter(function (tier) { return tier < ceiling; });
+    tiers.push(ceiling);
+    return tiers.filter(function (tier, index) { return tiers.indexOf(tier) === index; });
+  }
 
   function resolvePrice(geo, cascade) {
     if (!geo || !cascade) return null;
@@ -75,10 +97,14 @@
     var price = input.price || resolvePrice(geo, input.homeValueCascade);
     var target = price && Number.isFinite(price.value) ? price.value : null;
     var selectedModel = engine.getModel(modelId);
+    var registryCeiling = defaultAmiCeilingPct(registry);
+    var ceilingModel = amiCeilingModel(registry);
+    var enteredCeiling = Number(input.amiCeilingPct);
+    var amiCeilingPct = Number.isFinite(enteredCeiling) && enteredCeiling > 0 ? enteredCeiling : registryCeiling;
     var comparison = Number.isFinite(ami) && ami > 0
       ? engine.compareModels(ami, 1, [modelId], { overrides: { householdSize: householdSize }, targetPrice: target })[0]
       : null;
-    var ladder = TIERS.map(function (tier) {
+    var ladder = priceTiers(amiCeilingPct).map(function (tier) {
       var maxPrice = Number.isFinite(ami) && ami > 0
         ? engine.maxAffordablePrice(ami, tier, { modelId: modelId, householdSize: householdSize }) : null;
       var shortfall = target != null && maxPrice != null ? target - maxPrice : null;
@@ -104,6 +130,9 @@
       registry: registry,
       modelId: modelId,
       model: selectedModel,
+      amiCeilingPct: amiCeilingPct,
+      amiCeilingSource: Number.isFinite(enteredCeiling) && enteredCeiling > 0 ? 'user' : 'registry',
+      amiCeilingCaveat: ceilingModel && ceilingModel.implications && ceilingModel.implications.when_not_to_use || '',
       comparison: comparison,
       price: price,
       ladder: ladder,
@@ -130,6 +159,10 @@
     var pricePill = vm.price ? pill(vm.price.label, vm.price.scope) : pill('Place value unavailable', 'unavailable');
     var models = vm.registry && vm.registry.models || [];
     var options = models.map(function (model) { return '<option value="' + esc(model.id) + '"' + (model.id === vm.modelId ? ' selected' : '') + '>' + esc(model.label) + '</option>'; }).join('');
+    var ceilingValues = CEILING_OPTIONS.concat([vm.amiCeilingPct]).sort(function (a, b) { return a - b; }).filter(function (value, index, values) { return values.indexOf(value) === index; });
+    var ceilingOptions = ceilingValues.map(function (value) {
+      return '<option value="' + value + '"' + (value === vm.amiCeilingPct ? ' selected' : '') + '>' + Math.round(value * 100) + '% AMI</option>';
+    }).join('');
     var ladderRows = vm.ladder.map(function (row) {
       var state = row.clearsMedian === true ? 'market-attainable at this tier' : row.clearsMedian === false ? 'shortfall ' + money(row.shortfall) : MISSING;
       return '<tr><td>' + Math.round(row.tier * 100) + '% AMI</td><td>' + money(row.income) + '</td><td>' + money(row.maxPrice) + '</td><td>' + esc(state) + '</td><td>' + (row.clearsMedian == null ? 'Unavailable' : row.clearsMedian ? 'Yes' : 'No') + '</td></tr>';
@@ -143,7 +176,12 @@
     var pool = vm.ownership.priceBandScreen && vm.ownership.priceBandScreen.rows || [];
     var supplyBody = bands.length
       ? '<p><strong>' + number(bands.reduce(function (sum, band) { return sum + (Number(band.ownerOccupiedUnits) || 0); }, 0)) + '</strong> owner units across existing value bands. ' + pill('Jurisdiction owner stock', vm.geo.type) + '</p>' : '<p>' + MISSING + '</p>';
-    supplyBody += pool.length ? '<ul>' + pool.map(function (row) { return '<li>' + esc(row.label || row.priceBand || 'Price band') + ': potential buyer pool ' + number(row.potentialBuyerPoolHouseholds) + ' households; ' + number(row.ownerValueSupplyUnits) + ' owner units. Potential buyer pool — not committed demand.</li>'; }).join('') + '</ul>' : '<p>Potential buyer pool: ' + MISSING + '</p>';
+    supplyBody += pool.length ? '<ul>' + pool.map(function (row) {
+      var demand = row.demandUnavailableReason
+        ? esc(row.demandUnavailableReason)
+        : 'potential buyer pool ' + number(row.potentialBuyerPoolHouseholds) + ' households';
+      return '<li>' + esc(row.label || row.priceBand || 'Price band') + ': ' + demand + '; ' + number(row.ownerValueSupplyUnits) + ' owner units. Potential buyer pool — not committed demand.</li>';
+    }).join('') + '</ul>' : '<p>Potential buyer pool: ' + MISSING + '</p>';
     var funding = vm.developerPrograms.concat(vm.buyerPrograms);
     var fundingBody = funding.length ? '<p><strong>Available is context, never money.</strong></p><ul>' + funding.map(function (program) {
       var potential = program.screening_apply === true ? ' — potential — not committed' : '';
@@ -160,7 +198,9 @@
     return '<div class="hna-ownership-strategy" style="overflow-wrap:anywhere;min-width:0;">' +
       '<div style="display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:center;"><h3 style="margin:0;font-size:1.05rem;">Ownership Strategy</h3>' + geoPill + '</div>' +
       '<p style="color:var(--muted);line-height:1.45;">Tier-1 jurisdictional screening interface — screening estimate; not a completed project market study.</p>' +
-      '<div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;"><label>Model<select data-own-strategy-model style="display:block;max-width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);">' + options + '</select></label><label>Household size<select data-own-strategy-household style="display:block;background:var(--card);color:var(--text);border:1px solid var(--border);">' + [1,2,3,4,5,6,7,8].map(function (size) { return '<option' + (size === vm.householdSize ? ' selected' : '') + '>' + size + '</option>'; }).join('') + '</select></label></div>' +
+      '<div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;"><label>Model<select data-own-strategy-model style="display:block;max-width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);">' + options + '</select></label><label>Household size<select data-own-strategy-household style="display:block;background:var(--card);color:var(--text);border:1px solid var(--border);">' + [1,2,3,4,5,6,7,8].map(function (size) { return '<option' + (size === vm.householdSize ? ' selected' : '') + '>' + size + '</option>'; }).join('') + '</select></label><label>AMI price ceiling<select data-own-strategy-ami-ceiling style="display:block;min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--border);">' + ceilingOptions + '</select></label></div>' +
+      '<p data-own-strategy-ami-ceiling-note style="margin:.45rem 0;color:var(--muted);font-size:.8rem;line-height:1.45;"><strong>Price-only control.</strong> This changes modeled affordable-price thresholds; it does not create household-demand counts above 100% AMI because CHAS\'s 100plus band is unbounded. The statutory default is 120% AMI under SB26-040 (effective July 1, 2026). Rural resort communities may petition DOLA under HB23-1304 for a different percentage.</p>' +
+      (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:.8rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:.78rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + pill('Modeled', 'modeled') + '</p>' + risk +
       section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
       section('Local price and income required', '<p>Local price: <strong>' + money(vm.price && vm.price.value) + '</strong> ' + pricePill + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + pill('Modeled', 'modeled') + '</p>') +
@@ -179,12 +219,14 @@
       mount.innerHTML = renderHtml(vm);
       var model = mount.querySelector('[data-own-strategy-model]');
       var household = mount.querySelector('[data-own-strategy-household]');
+      var amiCeiling = mount.querySelector('[data-own-strategy-ami-ceiling]');
       if (model) model.addEventListener('change', function () { current.modelId = model.value; paint(); });
       if (household) household.addEventListener('change', function () { current.householdSize = Number(household.value); paint(); });
+      if (amiCeiling) amiCeiling.addEventListener('change', function () { current.amiCeilingPct = Number(amiCeiling.value); paint(); });
       return vm;
     }
     return paint();
   }
 
-  return { TIERS: TIERS.slice(), MISSING: MISSING, NOT_TRACKED: NOT_TRACKED, resolvePrice: resolvePrice, buildViewModel: buildViewModel, renderHtml: renderHtml, render: render };
+  return { TIERS: BASE_TIERS.concat([DEFAULT_AMI_CEILING_PCT]), MISSING: MISSING, NOT_TRACKED: NOT_TRACKED, defaultAmiCeilingPct: defaultAmiCeilingPct, priceTiers: priceTiers, resolvePrice: resolvePrice, buildViewModel: buildViewModel, renderHtml: renderHtml, render: render };
 }));
