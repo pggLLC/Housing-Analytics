@@ -6629,11 +6629,15 @@
       ? 'Source unavailable'
       : relationship.fastTrack;
     var record = relationship && relationship.record;
+    var rejectedSameNameRecord = relationship && relationship.rejectedSameNameRecord;
     var source = record && record.source_url
       ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'
+      : (rejectedSameNameRecord
+        ? 'Not committed — DOLA lists a filing under &ldquo;' + escHtml(rejectedSameNameRecord.name) +
+          '&rdquo;; this geography is an unincorporated CDP, which cannot file.'
       : (sourceLoaded === false
         ? 'The DOLA jurisdiction list could not be loaded.'
-        : 'No commitment filing appears in the DOLA jurisdiction list.');
+        : 'No commitment filing appears in the DOLA jurisdiction list.'));
 
     el.innerHTML =
       '<h3>Jurisdiction relationship to Prop 123</h3>' +
