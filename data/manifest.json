@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-19T17:06:40.320365Z",
+  "generated": "2026-08-20T06:35:09.852668Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7909,7 +7909,7 @@
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3187
+      "bytes": 6736
     },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
