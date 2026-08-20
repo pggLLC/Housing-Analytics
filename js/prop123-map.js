@@ -174,7 +174,8 @@
     if (!record && (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''))) {
       var wantedName = comparableName(geoLabel);
       rejectedSameNameRecord = buildIndex(payload).list.find(function (candidate) {
-        return comparableName(candidate.name) === wantedName;
+        return classifyKind(candidate) === 'municipality' &&
+          comparableName(candidate.name) === wantedName;
       }) || null;
     }
     return {

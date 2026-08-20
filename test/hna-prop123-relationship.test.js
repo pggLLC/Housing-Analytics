@@ -67,6 +67,10 @@ async function main() {
   assert.equal(glendaleCity.record.name, 'City of Glendale', 'the incorporated city still matches its DOLA filing');
   assert.equal(glendaleCity.status, 'Committed', 'the CDP guard does not refuse the incorporated city');
 
+  const arapahoeCdp = api.relationship(DATA, 'cdp', 'Arapahoe (CDP)');
+  assert.equal(arapahoeCdp.status, 'Not committed', 'a CDP sharing a county name remains explicitly Not committed');
+  assert.equal(arapahoeCdp.rejectedSameNameRecord, null, 'a same-name county filing does not trigger the CDP disclosure');
+
   const highlandsRanch = api.relationship(DATA, 'cdp', 'Highlands Ranch (CDP)');
   assert.equal(highlandsRanch.status, 'Not committed', 'Highlands Ranch remains Not committed under the CDP rule');
   assert.equal(highlandsRanch.record, null, 'Highlands Ranch does not inherit DOLA\'s anomalous municipal filing');
