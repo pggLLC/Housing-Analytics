@@ -127,9 +127,11 @@
       '<p>' + esc(priceBand && priceBand.label || 'potential buyer pool (moderate-income renter households) - not committed demand') + '</p>' +
       '<table><thead><tr><th>Band</th><th>Max price</th><th>Pool</th><th>Supply</th><th>Current gap</th></tr></thead><tbody>' +
       bandRows.map(function (row) {
+        var demandLabel = row.demandUnavailableReason || fmtNumber(row.potentialBuyerPoolHouseholds);
+        var gapLabel = row.demandUnavailableReason || fmtNumber(row.currentGapHouseholds);
         return '<tr><td>' + esc(row.label) + '</td><td>' + esc(fmtMoney(row.maxAffordablePrice)) + '</td><td>' +
-          esc(fmtNumber(row.potentialBuyerPoolHouseholds)) + '</td><td>' + esc(fmtNumber(row.ownerValueSupplyUnits)) + '</td><td>' +
-          esc(fmtNumber(row.currentGapHouseholds)) + '</td></tr>';
+          esc(demandLabel) + '</td><td>' + esc(fmtNumber(row.ownerValueSupplyUnits)) + '</td><td>' +
+          esc(gapLabel) + '</td></tr>';
       }).join('') +
       '</tbody></table>'));
 

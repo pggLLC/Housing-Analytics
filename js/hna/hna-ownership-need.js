@@ -11,6 +11,7 @@
   var BANDS = ['lte30', '31to50', '51to80', '81to100', '100plus'];
   var MODERATE_BANDS = ['51to80', '81to100'];
   var PRICE_BAND_SCREEN_LABEL = 'potential buyer pool (moderate-income renter households) - not committed demand';
+  var CHAS_TOP_BAND_LIMIT = 'Not derivable from CHAS — the top band (100plus) is unbounded above 100% AMI.';
   var OWNER_VALUE_BINS = [
     ['B25075_002E', 0, 9999],
     ['B25075_003E', 10000, 14999],
@@ -393,7 +394,8 @@
         demandBands: [],
       },
     ].map(function (row) {
-      var potentialBuyerPoolHouseholds = renterDemand(row.demandBands);
+      var hasDemandBands = row.demandBands.length > 0;
+      var potentialBuyerPoolHouseholds = hasDemandBands ? renterDemand(row.demandBands) : null;
       var ownerValueSupplyUnits = supplyUnitsInPriceRange(ownerValueSupply, row.lowerPriceExclusive, row.upperPrice);
       return Object.assign({}, row, {
         priceRange: {
@@ -403,7 +405,8 @@
         maxAffordablePrice: row.upperPrice,
         potentialBuyerPoolHouseholds: potentialBuyerPoolHouseholds,
         ownerValueSupplyUnits: ownerValueSupplyUnits,
-        currentGapHouseholds: potentialBuyerPoolHouseholds == null || ownerValueSupplyUnits == null ? null : Math.max(0, round(potentialBuyerPoolHouseholds - ownerValueSupplyUnits, 1)),
+        currentGapHouseholds: !hasDemandBands || potentialBuyerPoolHouseholds == null || ownerValueSupplyUnits == null ? null : Math.max(0, round(potentialBuyerPoolHouseholds - ownerValueSupplyUnits, 1)),
+        demandUnavailableReason: hasDemandBands ? null : CHAS_TOP_BAND_LIMIT,
         demandSourceBands: row.demandBands.slice(),
       });
     });
@@ -602,6 +605,7 @@
     ownerValueSupplySeries: ownerValueSupplySeries,
     priceBandDemandScreen: priceBandDemandScreen,
     PRICE_BAND_SCREEN_LABEL: PRICE_BAND_SCREEN_LABEL,
+    CHAS_TOP_BAND_LIMIT: CHAS_TOP_BAND_LIMIT,
     OWNER_VALUE_BINS: OWNER_VALUE_BINS,
     CONSTANTS: CONSTANTS,
   };
