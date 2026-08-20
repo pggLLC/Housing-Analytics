@@ -34,7 +34,10 @@ const ownership = {
   tenureMixRecommendation: 'Mixed tenure strategy',
   recommendationDetail: 'Retain the existing computed recommendation.',
   ownerValueSupply: realOwnerValueSupply,
-  priceBandScreen: { rows: [{ label: '$250k–$350k', potentialBuyerPoolHouseholds: 90, ownerValueSupplyUnits: 42 }] },
+  priceBandScreen: { rows: [
+    { label: '$250k–$350k', potentialBuyerPoolHouseholds: 90, ownerValueSupplyUnits: 42 },
+    { label: '101-120% AMI middle-income price', potentialBuyerPoolHouseholds: null, currentGapHouseholds: null, ownerValueSupplyUnits: 12, demandUnavailableReason: HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT },
+  ] },
 };
 function input(geo, ami) {
   return { geo, ami4Person: ami, ownershipNeedResult: ownership, engine: Finance, homeValueCascade: cascade, datasets };
@@ -51,12 +54,26 @@ assert.equal(fruita.price.value, cascade.places['0828745'].value);
 assert.equal(erie.price.value, cascade.places['0824950'].value);
 assert.equal(fruita.price.scope, 'place');
 assert.equal(erie.price.scope, 'place');
+const prop123Model = models.models.find((model) => model.id === 'prop123_dpa_eligibility');
+assert.equal(fruita.amiCeilingPct, prop123Model.params.amiCeilingPct, 'registry amiCeilingPct drives the default price bound');
+assert.equal(fruita.amiCeilingSource, 'registry');
+const changedRegistry = JSON.parse(JSON.stringify(models));
+changedRegistry.models.find((model) => model.id === 'prop123_dpa_eligibility').params.amiCeilingPct = 1.35;
+assert.equal(Strategy.defaultAmiCeilingPct(changedRegistry), 1.35, 'changing the registry parameter changes the resolved default');
 fruita.ladder.forEach((row) => assert.equal(row.maxPrice, Finance.maxAffordablePrice(100000, row.tier, { modelId: defaultModel.id, householdSize: 4 })));
 erie.ladder.forEach((row) => assert.equal(row.maxPrice, Finance.maxAffordablePrice(125000, row.tier, { modelId: defaultModel.id, householdSize: 4 })));
 
 const hh2 = Strategy.buildViewModel(Object.assign(input(fruitaGeo, 100000), { householdSize: 2 }));
 assert.notEqual(hh2.ladder[1].maxPrice, fruita.ladder[1].maxPrice);
 assert.equal(hh2.ladder[1].maxPrice, Finance.maxAffordablePrice(100000, 0.80, { modelId: defaultModel.id, householdSize: 2 }));
+
+const ceiling140 = Strategy.buildViewModel(Object.assign(input(fruitaGeo, 100000), { amiCeilingPct: 1.40 }));
+assert.equal(ceiling140.amiCeilingSource, 'user');
+assert.equal(ceiling140.ladder.at(-1).tier, 1.40, 'user ceiling becomes the top price tier');
+assert.equal(ceiling140.ladder.at(-1).maxPrice, Finance.maxAffordablePrice(100000, 1.40, { modelId: defaultModel.id, householdSize: 4 }));
+assert.notEqual(ceiling140.ladder.at(-1).maxPrice, fruita.ladder.at(-1).maxPrice, 'changed ceiling moves the modeled price threshold');
+assert.equal(ceiling140.ownership.priceBandScreen.rows[1].potentialBuyerPoolHouseholds, null, 'changed ceiling does not fabricate upper-band demand');
+assert.equal(ceiling140.ownership.priceBandScreen.rows[1].currentGapHouseholds, null, 'changed ceiling does not fabricate an upper-band gap');
 
 const permissive = Strategy.buildViewModel(Object.assign(input(fruitaGeo, 100000), { modelId: 'conventional_dti' }));
 assert.equal(permissive.comparison.riskDisclosureRequired, true);
@@ -96,6 +113,12 @@ assert(!/subsid/i.test(zeroHtml));
 assert(fruitaHtml.includes(ownership.tenureMixRecommendation));
 assert(fruitaHtml.includes(ownership.recommendationDetail));
 assert(fruitaHtml.includes('Potential buyer pool — not committed demand.'));
+assert(fruitaHtml.includes(HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT));
+assert(fruitaHtml.includes('Price-only control.'));
+assert(fruitaHtml.includes('does not create household-demand counts above 100% AMI'));
+assert(fruitaHtml.includes('SB26-040 (effective July 1, 2026)'));
+assert(fruitaHtml.includes('Rural resort communities may petition DOLA under HB23-1304'));
+assert(fruitaHtml.includes(prop123Model.implications.when_not_to_use), 'registry exception caveat is surfaced verbatim');
 assert(fruitaHtml.includes('screening estimate; not a completed project market study'));
 ['developer discussions', 'lender', 'appraiser', 'broker', 'program administrator', 'local jurisdiction'].forEach((party) => assert(fruitaHtml.includes(party)));
 
@@ -114,5 +137,10 @@ const select = mount.querySelector('[data-own-strategy-model]');
 select.value = 'conventional_dti';
 select.dispatchEvent(new dom.window.Event('change'));
 assert(mount.textContent.includes('Buyer-risk note:'));
+const ceilingSelect = mount.querySelector('[data-own-strategy-ami-ceiling]');
+ceilingSelect.value = '1.4';
+ceilingSelect.dispatchEvent(new dom.window.Event('change'));
+assert(mount.textContent.includes('140% AMI'), 'ceiling control repaints the price ladder at the selected bound');
+assert(mount.textContent.includes(HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT), 'ceiling control leaves the CHAS demand limitation visible');
 
 console.log('hna-ownership-strategy: PASS');
