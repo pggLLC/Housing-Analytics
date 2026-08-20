@@ -170,10 +170,18 @@
 
   function relationship(payload, geoType, geoLabel) {
     var record = findJurisdiction(payload, geoType, geoLabel);
+    var rejectedSameNameRecord = null;
+    if (!record && (geoType === 'cdp' || /\(cdp\)/i.test(geoLabel || ''))) {
+      var wantedName = comparableName(geoLabel);
+      rejectedSameNameRecord = buildIndex(payload).list.find(function (candidate) {
+        return comparableName(candidate.name) === wantedName;
+      }) || null;
+    }
     return {
       record: record,
       status: record ? record.status : 'Not committed',
-      fastTrack: record ? (record.fast_track === true ? 'Yes' : 'No') : 'Not committed'
+      fastTrack: record ? (record.fast_track === true ? 'Yes' : 'No') : 'Not committed',
+      rejectedSameNameRecord: rejectedSameNameRecord
     };
   }
 

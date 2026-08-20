@@ -12,7 +12,7 @@ const RENDERERS = path.join(ROOT, 'js/hna/hna-renderers.js');
 
 async function main() {
   const dom = new JSDOM('<!doctype html><div id="prop123Relationship"></div>', {
-    url: 'https://example.test/housing-needs-assessment.html',
+    url: 'http://127.0.0.1/housing-needs-assessment.html',
   });
   global.window = dom.window;
   global.document = dom.window.document;
@@ -35,10 +35,10 @@ async function main() {
   await Promise.all([api.load(), api.load()]);
   assert.equal(loads, 1, 'shared loader caches the existing data-service request');
 
-  assert.equal(DATA.jurisdictions.length, 217, 'real fixture contains the 217 filed jurisdictions');
-  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Committed').length, 216, '216 records remain Committed');
-  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Commitment Met').length, 1, 'one record remains Commitment Met');
-  assert.equal(DATA.jurisdictions.filter((row) => row.fast_track === true).length, 91, '91 records carry fast_track true');
+  assert.equal(DATA.jurisdictions.length, 217, 'real-data count is expected to drift; update this fixture pin when DOLA changes its filed jurisdictions');
+  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Committed').length, 216, 'Committed count is expected to drift; update this fixture pin when DOLA changes the data');
+  assert.equal(DATA.jurisdictions.filter((row) => row.status === 'Commitment Met').length, 1, 'Commitment Met count is expected to drift; update this fixture pin when DOLA changes the data');
+  assert.equal(DATA.jurisdictions.filter((row) => row.fast_track === true).length, 91, 'fast-track count is expected to drift; update this fixture pin when DOLA changes the data');
 
   const aurora = api.relationship(DATA, 'place', 'Aurora (city)');
   assert.equal(aurora.status, 'Committed', 'prefixed DOLA city name matches the HNA place label');
@@ -59,6 +59,19 @@ async function main() {
   assert.equal(absent.status, 'Not committed', 'absence means Not committed, never missing data');
   assert.equal(absent.fastTrack, 'Not committed', 'absence is explicit in the fast-track fact too');
 
+  const glendaleCdp = api.relationship(DATA, 'cdp', 'Glendale (CDP)');
+  assert.equal(glendaleCdp.record, null, 'a colliding CDP does not inherit a municipality filing');
+  assert.equal(glendaleCdp.status, 'Not committed', 'a colliding CDP remains explicitly Not committed');
+  assert.equal(glendaleCdp.rejectedSameNameRecord.name, 'City of Glendale', 'the rejected same-name filing is retained for disclosure');
+  const glendaleCity = api.relationship(DATA, 'place', 'Glendale (city)');
+  assert.equal(glendaleCity.record.name, 'City of Glendale', 'the incorporated city still matches its DOLA filing');
+  assert.equal(glendaleCity.status, 'Committed', 'the CDP guard does not refuse the incorporated city');
+
+  const highlandsRanch = api.relationship(DATA, 'cdp', 'Highlands Ranch (CDP)');
+  assert.equal(highlandsRanch.status, 'Not committed', 'Highlands Ranch remains Not committed under the CDP rule');
+  assert.equal(highlandsRanch.record, null, 'Highlands Ranch does not inherit DOLA\'s anomalous municipal filing');
+  assert.equal(highlandsRanch.rejectedSameNameRecord.name, 'City of Highlands Ranch', 'same-name DOLA anomaly is available to the renderer');
+
   delete require.cache[require.resolve(RENDERERS)];
   require(RENDERERS);
   window.HNARenderers.renderProp123Relationship(absent, 'Clifton (CDP)', true);
@@ -71,10 +84,16 @@ async function main() {
   assert(values.every((value) => value !== '—' && value !== ''), 'neither factual value renders as a dash or blank');
   assert(rendered.includes('not a ranking or recommendation'), 'relationship panel expressly disclaims ranking');
 
+  window.HNARenderers.renderProp123Relationship(highlandsRanch, 'Highlands Ranch (CDP)', true);
+  const highlandsRendered = relationshipEl.textContent.replace(/\s+/g, ' ').trim();
+  assert.equal(relationshipEl.querySelector('.metric-value').textContent, 'Not committed', 'same-name anomaly does not hedge the headline status');
+  assert(highlandsRendered.includes("DOLA lists a filing under \u201cCity of Highlands Ranch\u201d"), 'disclosure names the rejected DOLA filing');
+  assert(highlandsRendered.includes('unincorporated CDP, which cannot file'), 'disclosure explains why the same-name filing was rejected');
+
   const controller = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
   const html = fs.readFileSync(path.join(ROOT, 'housing-needs-assessment.html'), 'utf8');
   assert(html.includes('js/prop123-map.js'), 'HNA reuses the existing Prop 123 module');
-  assert(!controller.includes("loadJson('data/policy/prop123_jurisdictions.json')"), 'controller adds no fourth fetch path');
+  assert(!controller.includes('prop123_jurisdictions.json'), 'controller contains no fetch-like reference to the policy filename; the shared loader remains the only path');
 
   dom.window.close();
   console.log('hna-prop123-relationship: PASS');
