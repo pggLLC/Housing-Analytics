@@ -16,11 +16,14 @@ const buyerAssistance = require('../data/policy/buyer-assistance-programs.json')
 const stewardshipProviders = require('../data/policy/stewardship-providers.json');
 const countyOwnership = require('../data/policy/county-ownership.json');
 const progress = require('../data/policy/jurisdiction-housing-progress.json');
+const resaleConventions = require('../data/policy/resale-conventions.json');
 
 Finance.setRegistry(models);
 global.window = { OwnershipFinance: Finance };
 require('../js/hna/hna-ownership-need.js');
+require('../js/hna/ownership-resale.js');
 const HNAOwnershipNeed = global.window.HNAOwnershipNeed;
+const OwnershipResale = global.window.OwnershipResale;
 const ownerValueProfile = { B25075_001E: 100 };
 HNAOwnershipNeed.OWNER_VALUE_BINS.forEach((band) => { ownerValueProfile[band[0]] = 0; });
 ownerValueProfile[HNAOwnershipNeed.OWNER_VALUE_BINS[0][0]] = 40;
@@ -29,7 +32,7 @@ const realOwnerValueSupply = HNAOwnershipNeed.ownerValueSupplySeries(ownerValueP
 assert(realOwnerValueSupply, 'real ownerValueSupplySeries fixture is available');
 assert.equal(realOwnerValueSupply.summedBandUnits, 100);
 assert.deepEqual(Strategy.TIERS, [0.60, 0.80, 1.00, 1.20]);
-const datasets = { developerFunding, buyerAssistance, stewardshipProviders, countyOwnership, progress, localResources };
+const datasets = { developerFunding, buyerAssistance, stewardshipProviders, countyOwnership, progress, localResources, resaleConventions };
 const ownership = {
   tenureMixRecommendation: 'Mixed tenure strategy',
   recommendationDetail: 'Retain the existing computed recommendation.',
@@ -40,7 +43,7 @@ const ownership = {
   ] },
 };
 function input(geo, ami) {
-  return { geo, ami4Person: ami, ownershipNeedResult: ownership, engine: Finance, homeValueCascade: cascade, datasets };
+  return { geo, ami4Person: ami, ownershipNeedResult: ownership, engine: Finance, resaleEngine: OwnershipResale, homeValueCascade: cascade, datasets };
 }
 
 const defaultModel = Finance.recommendedModel();
@@ -108,7 +111,7 @@ const zeroGapCascade = { places: { '0800001': { value: 100000, source: 'fixture'
 const zeroGap = Strategy.buildViewModel(Object.assign(input({ type: 'place', geoid: '0800001', countyGeoid: '08001', name: 'Attainable' }, 100000), { homeValueCascade: zeroGapCascade, datasets: Object.assign({}, datasets, { developerFunding: { programs: [] }, buyerAssistance: { programs: [] } }) }));
 const zeroHtml = Strategy.renderHtml(zeroGap);
 assert(zeroHtml.includes('market-attainable at this tier'));
-assert(!/subsid/i.test(zeroHtml));
+assert(!/subsidy gap|subsidy required|needs subsidy/i.test(zeroHtml), 'zero-gap screen makes no subsidy-need claim while retaining the legal-gate subsidy selector');
 
 assert(fruitaHtml.includes(ownership.tenureMixRecommendation));
 assert(fruitaHtml.includes(ownership.recommendationDetail));
@@ -119,6 +122,8 @@ assert(fruitaHtml.includes('does not create household-demand counts above 100% A
 assert(fruitaHtml.includes('SB26-040 (effective July 1, 2026)'));
 assert(fruitaHtml.includes('Rural resort communities may petition DOLA under HB23-1304'));
 assert(fruitaHtml.includes(prop123Model.implications.when_not_to_use), 'registry exception caveat is surfaced verbatim');
+assert(fruitaHtml.includes('Resale mechanism comparison'));
+assert(fruitaHtml.includes('Fixed public-subsidy recapture'));
 assert(fruitaHtml.includes('screening estimate; not a completed project market study'));
 ['developer discussions', 'lender', 'appraiser', 'broker', 'program administrator', 'local jurisdiction'].forEach((party) => assert(fruitaHtml.includes(party)));
 
@@ -130,7 +135,7 @@ assert(page.includes('id="hnaOwnershipStrategy"'));
 assert(page.includes('js/hna/hna-ownership-strategy.js'));
 assert(!fs.readFileSync(path.join(ROOT, 'js/deal-calculator.js'), 'utf8').includes('HNAOwnershipStrategy'));
 
-const dom = new JSDOM('<div id="mount"></div>');
+const dom = new JSDOM('<div id="mount"></div>', { url: 'http://127.0.0.1/hna-ownership-strategy' });
 const mount = dom.window.document.getElementById('mount');
 Strategy.render(mount, input(fruitaGeo, 100000));
 const select = mount.querySelector('[data-own-strategy-model]');
@@ -142,5 +147,14 @@ ceilingSelect.value = '1.4';
 ceilingSelect.dispatchEvent(new dom.window.Event('change'));
 assert(mount.textContent.includes('140% AMI'), 'ceiling control repaints the price ladder at the selected bound');
 assert(mount.textContent.includes(HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT), 'ceiling control leaves the CHAS demand limitation visible');
+const subsidySelect = mount.querySelector('[data-resale-subsidy-type]');
+subsidySelect.value = 'home_development_subsidy';
+subsidySelect.dispatchEvent(new dom.window.Event('change'));
+assert.equal(mount.querySelector('[data-resale-mechanism] option[value="recapture"]').disabled, true, 'HNA selector disables recapture for HOME development subsidy');
+assert(mount.textContent.includes('24 CFR 92.254(a)(5)(ii)(A)(5)'), 'HNA selector renders the legal-gate citation');
+const refreshedSubsidy = mount.querySelector('[data-resale-subsidy-type]');
+refreshedSubsidy.value = 'other_public_subsidy';
+refreshedSubsidy.dispatchEvent(new dom.window.Event('change'));
+assert.equal(mount.querySelector('[data-resale-mechanism] option[value="recapture"]').disabled, false, 'HNA selector keeps recapture available for other public subsidy');
 
 console.log('hna-ownership-strategy: PASS');
