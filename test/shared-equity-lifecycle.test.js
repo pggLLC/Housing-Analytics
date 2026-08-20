@@ -426,10 +426,13 @@ test('fromConvention integrates all real conventions and preserves VERIFY discip
   });
   const apcha = lifecycle.fromConvention(conventions, 'lesser_of_fixed_cpi', input({ horizons: [10] }));
   const elevation = lifecycle.fromConvention(conventions, 'shared_appreciation', input({ horizons: [10] }));
+  const recapture = lifecycle.fromConvention(conventions, 'recapture', input({ horizons: [10] }));
   assert.equal(apcha.verifyParameter, true);
   assert(apcha.parameterCaveat);
   assert.equal(elevation.verifyParameter, true);
   assert(elevation.parameterCaveat);
+  assert.equal(year(recapture, 10).formulaResalePrice, year(recapture, 10).unrestrictedMarketValue);
+  assert.equal(recapture.formulaType, 'unrestricted_market');
 });
 
 test('public subsidy retention and recapture are reported separately', () => {

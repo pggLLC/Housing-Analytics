@@ -13,6 +13,7 @@ const developerFundingPath = path.join(root, 'data', 'policy', 'developer-owners
 const consumerHomeownershipPath = path.join(root, 'data', 'policy', 'homeownership-programs.json');
 const developerFunding = JSON.parse(fs.readFileSync(developerFundingPath, 'utf8'));
 const consumerHomeownership = JSON.parse(fs.readFileSync(consumerHomeownershipPath, 'utf8'));
+const resaleConventions = JSON.parse(fs.readFileSync(path.join(root, 'data', 'policy', 'resale-conventions.json'), 'utf8'));
 
 function assertIncludes(haystack, needle, message) {
   assert(haystack.includes(needle), message + ' - missing "' + needle + '"');
@@ -63,7 +64,7 @@ developerPrograms.forEach(program => {
 });
 
 const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
-  url: 'http://localhost/deal-calculator.html'
+  url: 'http://127.0.0.1/deal-calculator.html'
 });
 global.document = dom.window.document;
 global.window = dom.window;
@@ -72,6 +73,7 @@ global.Event = dom.window.Event;
 
 window.DealCalculatorMath = require('../js/deal-calculator-math.js');
 require('../js/hna/hna-ownership-need.js');
+require('../js/hna/ownership-resale.js');
 require('../js/deal-calculator.js');
 document.dispatchEvent(new Event('DOMContentLoaded', { bubbles: true }));
 
@@ -214,6 +216,7 @@ window.HudFmr = {
   }
 };
 dc._setDeveloperOwnershipFundingForTest(developerFunding);
+dc._setResaleConventionsForTest(resaleConventions);
 dc._setAmiLimitsForTest(null, null, '08031');
 document.getElementById('dc-tdc').value = '20000000';
 document.getElementById('dc-units').value = '40';
@@ -224,5 +227,16 @@ assert(stackText.includes('Developer ownership funding stack - screening only'),
 assert(stackText.includes('Residual after mapped stack'), 'rendered stack discloses residual after applied sources');
 assert(stackText.includes('VERIFY before counting toward the gap'), 'rendered stack discloses unknown program terms as VERIFY');
 assert(stackText.includes('C3 owner confirmation requested'), 'rendered stack flags C3 for owner confirmation');
+const resaleMount = document.getElementById('dc-own-resale-screen');
+assert.deepEqual(
+  Array.from(resaleMount.querySelectorAll('[data-resale-row]')).map((row) => row.getAttribute('data-resale-row')),
+  resaleConventions.conventions.map((row) => row.id),
+  'Deal Calculator renders every mechanism in declared order'
+);
+const resaleSubsidy = resaleMount.querySelector('[data-resale-subsidy-type]');
+resaleSubsidy.value = 'home_development_subsidy';
+resaleSubsidy.dispatchEvent(new Event('change', { bubbles: true }));
+assert.strictEqual(resaleMount.querySelector('option[value="recapture"]').disabled, true, 'Deal Calculator disables recapture for HOME development subsidy');
+assert(resaleMount.textContent.includes('24 CFR 92.254(a)(5)(ii)(A)(5)'), 'Deal Calculator shows the disabled-state citation');
 
 console.log('All Deal Calculator for-sale ownership feasibility tests passed.');

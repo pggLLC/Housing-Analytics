@@ -26,7 +26,7 @@
   var DEFAULT_HORIZONS = [5, 10, 20, 30];
   var FORMULA_TYPES = [
     'fixed_simple', 'fixed_compound', 'ami_indexed', 'cpi_indexed',
-    'lesser_of', 'shared_appreciation',
+    'lesser_of', 'shared_appreciation', 'unrestricted_market',
   ];
   var LESSER_LEGS = ['fixed', 'cpi', 'ami', 'appraisal'];
   var SUBORDINATE_STRUCTURES = ['deferred', 'amortizing', 'forgivable'];
@@ -292,6 +292,7 @@
       var chosen = formula.legs.reduce(function (minimum, leg) { return Math.min(minimum, values[leg]); }, Infinity);
       return { price: chosen, legs: values };
     }
+    if (formula.type === 'unrestricted_market') return { price: marketValue, legs: values };
     // Selling costs are excluded from this price cap. The HNA screen adds
     // costs as a screening artifact; this lifecycle formula follows the
     // stated owner-share definition directly.
@@ -515,6 +516,10 @@
         appreciationShare: convention.appreciation_share,
         appraisalCap: true,
       };
+    } else if (convention.type === 'recapture') {
+      // Recapture does not restrict the next sale price; repayment is a
+      // separate settlement instruction handled by the resale waterfall.
+      formula = { type: 'unrestricted_market', appraisalCap: false };
     } else {
       throw new Error('SharedEquityLifecycle.fromConvention: unsupported convention type "' + convention.type + '"');
     }

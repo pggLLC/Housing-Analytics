@@ -123,6 +123,20 @@
     var noSteward = datasets.stewardshipProviders && datasets.stewardshipProviders.meta && datasets.stewardshipProviders.meta.no_stewardship_flag;
     var county = datasets.countyOwnership && datasets.countyOwnership.counties && datasets.countyOwnership.counties[geo.countyGeoid || geo.geoid];
     var progress = datasets.progress && datasets.progress.by_geoid && datasets.progress.by_geoid[geo.geoid] || null;
+    var resaleComparison = input.resaleEngine && typeof input.resaleEngine.compareConventions === 'function'
+      ? input.resaleEngine.compareConventions(datasets.resaleConventions, {
+        purchasePrice: target,
+        holdingPeriodYears: 10,
+        remainingPrincipal: 0,
+        sellingCosts: 0,
+        cpiRateAnnual: 0.02,
+        recaptureAmount: 90000,
+        subsidyType: input.resaleSubsidyType || 'none',
+        selectedConventionId: input.resaleConventionId,
+        ami4Person: ami,
+        targetAmiPct: amiCeilingPct,
+        maxAffordablePrice: engine.maxAffordablePrice
+      }) : null;
     return {
       geo: geo,
       ami4Person: Number.isFinite(ami) ? ami : null,
@@ -147,6 +161,8 @@
       publicParcels: county && county.publicParcels || [],
       progress: progress,
       prop123: progress && progress.prop123 || local && local.prop123 || null,
+      resaleComparison: resaleComparison,
+      resaleEngine: input.resaleEngine || null,
     };
   }
 
@@ -195,6 +211,9 @@
     progressBody += '<ul><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — current-HNA review</li><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — Proposition 123 review</li><li>Status: unknown — local contribution documentation</li><li>Status: gap — decision-grade partner verification</li></ul>';
     var recommendation = vm.ownership.tenureMixRecommendation || MISSING;
     var detail = vm.ownership.recommendationDetail || MISSING;
+    var resaleBody = vm.resaleComparison && vm.resaleEngine && typeof vm.resaleEngine.renderComparisonHtml === 'function'
+      ? vm.resaleEngine.renderComparisonHtml(vm.resaleComparison)
+      : '<p>Resale mechanism comparison: ' + MISSING + '.</p>';
     return '<div class="hna-ownership-strategy" style="overflow-wrap:anywhere;min-width:0;">' +
       '<div style="display:flex;justify-content:space-between;gap:.6rem;flex-wrap:wrap;align-items:center;"><h3 style="margin:0;font-size:1.05rem;">Ownership Strategy</h3>' + geoPill + '</div>' +
       '<p style="color:var(--muted);line-height:1.45;">Tier-1 jurisdictional screening interface — screening estimate; not a completed project market study.</p>' +
@@ -206,6 +225,7 @@
       section('Local price and income required', '<p>Local price: <strong>' + money(vm.price && vm.price.value) + '</strong> ' + pricePill + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + pill('Modeled', 'modeled') + '</p>') +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
+      section('Resale mechanism comparison', resaleBody) +
       section('Funding-competitiveness checklist', progressBody) +
       section('Preliminary strategy', '<p><strong>' + esc(recommendation) + '</strong></p><p>' + esc(detail) + '</p><p>' + pill('Reused ownership-need result', 'derived') + '</p>') +
       section('Disclosure and verification', '<p><strong>Screening estimate; not a completed project market study.</strong> Figures show their source scope, model, or classification through pills and labels.</p><p>' + esc(VERIFY_PARTIES) + '</p>') + '</div>';
@@ -220,9 +240,13 @@
       var model = mount.querySelector('[data-own-strategy-model]');
       var household = mount.querySelector('[data-own-strategy-household]');
       var amiCeiling = mount.querySelector('[data-own-strategy-ami-ceiling]');
+      var resaleSubsidy = mount.querySelector('[data-resale-subsidy-type]');
+      var resaleMechanism = mount.querySelector('[data-resale-mechanism]');
       if (model) model.addEventListener('change', function () { current.modelId = model.value; paint(); });
       if (household) household.addEventListener('change', function () { current.householdSize = Number(household.value); paint(); });
       if (amiCeiling) amiCeiling.addEventListener('change', function () { current.amiCeilingPct = Number(amiCeiling.value); paint(); });
+      if (resaleSubsidy) resaleSubsidy.addEventListener('change', function () { current.resaleSubsidyType = resaleSubsidy.value; paint(); });
+      if (resaleMechanism) resaleMechanism.addEventListener('change', function () { current.resaleConventionId = resaleMechanism.value; paint(); });
       return vm;
     }
     return paint();
