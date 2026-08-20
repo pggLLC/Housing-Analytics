@@ -6618,6 +6618,41 @@
     }
   }
 
+  function renderProp123Relationship(relationship, geoLabel, sourceLoaded) {
+    var el = document.getElementById('prop123Relationship');
+    if (!el) return;
+
+    var status = sourceLoaded === false
+      ? 'Source unavailable'
+      : relationship.status;
+    var fastTrack = sourceLoaded === false
+      ? 'Source unavailable'
+      : relationship.fastTrack;
+    var record = relationship && relationship.record;
+    var rejectedSameNameRecord = relationship && relationship.rejectedSameNameRecord;
+    var source = record && record.source_url
+      ? '<a href="' + escHtml(record.source_url) + '" target="_blank" rel="noopener">DOLA filing source</a>'
+      : (rejectedSameNameRecord
+        ? 'Not committed — DOLA lists a filing under &ldquo;' + escHtml(rejectedSameNameRecord.name) +
+          '&rdquo;; this geography is an unincorporated CDP, which cannot file.'
+      : (sourceLoaded === false
+        ? 'The DOLA jurisdiction list could not be loaded.'
+        : 'No commitment filing appears in the DOLA jurisdiction list.'));
+
+    el.innerHTML =
+      '<h3>Jurisdiction relationship to Prop 123</h3>' +
+      '<p style="margin:0 0 10px;color:var(--muted);font-size:.88rem">' +
+        escHtml(geoLabel || 'Selected jurisdiction') +
+        ' — factual filing relationship only; this is not a ranking or recommendation.</p>' +
+      '<div class="metric-cards metric-cards-2">' +
+        '<div class="metric-card"><div class="metric-label">Commitment status</div>' +
+          '<div class="metric-value">' + escHtml(status) + '</div></div>' +
+        '<div class="metric-card"><div class="metric-label">Fast-track designation</div>' +
+          '<div class="metric-value">' + escHtml(fastTrack) + '</div></div>' +
+      '</div>' +
+      '<p style="margin:10px 0 0;color:var(--muted);font-size:.82rem">' + source + '</p>';
+  }
+
   function renderFastTrackCalculatorSection() {
     // Renders the Prop 123 / HB 22-1093 fast-track timeline calculator
     // output. Reads the form values, computes a permitting-duration
@@ -8569,6 +8604,7 @@
     renderCountyScopeNote: _renderCountyScopeNote,
     // Prop 123
     renderProp123Section,
+    renderProp123Relationship,
     renderProp123BaselineAndFastTrack,
     renderFastTrackCalculatorSection,
     renderHistoricalSection,

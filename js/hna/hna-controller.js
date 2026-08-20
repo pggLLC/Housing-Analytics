@@ -8,7 +8,7 @@
   'use strict';
 
   window.HNAState = {
-    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null, permitsDoc: null, combinedMembers: [], combinedRegions: null, combinedDatasets: null },
+    state: { current: null, lastProj: null, trendCache: {}, derived: null, prevProfile: {}, chasData: null, permitsDoc: null, combinedMembers: [], combinedRegions: null, combinedDatasets: null, prop123Jurisdictions: null },
     charts: {},
     map: null,
     boundaryLayer: null,
@@ -3607,6 +3607,19 @@
     // Prop 123 compliance section (uses ACS profile + geoType + county FIPS for regional factor)
     window.HNARenderers.renderProp123Section(profile, geoType, contextCounty);
 
+    // Prop 123 filing relationship is a direct lookup. A geography absent
+    // from DOLA's filing list is intentionally rendered as "Not committed".
+    if (window.HNARenderers.renderProp123Relationship) {
+      var prop123Relationship = window.Prop123Jurisdictions && window.HNAState.state.prop123Jurisdictions
+        ? window.Prop123Jurisdictions.relationship(window.HNAState.state.prop123Jurisdictions, geoType, label)
+        : { status: 'Not committed', fastTrack: 'Not committed', record: null };
+      window.HNARenderers.renderProp123Relationship(
+        prop123Relationship,
+        label,
+        window.HNAState.state.prop123Jurisdictions !== null
+      );
+    }
+
     // Prop 123 baseline + fast-track eligibility cards. These containers
     // shipped with "Select a geography…" placeholders and no renderer —
     // even after the user picked one they sat on the placeholder text.
@@ -3753,6 +3766,13 @@
     try{ window.__HNA_LOCAL_RESOURCES = await loadJson(window.HNAUtils.PATHS.localResources); }catch(_){ window.__HNA_LOCAL_RESOURCES = {}; }
     try{ window.HNAState.state.derived = await loadJson(window.HNAUtils.PATHS.derived); }catch(_){ window.HNAState.state.derived = null; }
     try{ window.HNAState.state.combinedRegions = await loadJson('data/hna/combined-regions.json'); }catch(_){ window.HNAState.state.combinedRegions = { regions: [] }; }
+    try {
+      window.HNAState.state.prop123Jurisdictions = window.Prop123Jurisdictions
+        ? await window.Prop123Jurisdictions.load()
+        : null;
+    } catch (_) {
+      window.HNAState.state.prop123Jurisdictions = null;
+    }
 
     // Load the full geography registry (513 places + CDPs with their
     // containing-county FIPS) so countyFromGeoid resolves correctly for
