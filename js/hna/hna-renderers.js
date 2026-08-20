@@ -5126,6 +5126,7 @@
       'data/policy/county-ownership.json',
       'data/policy/jurisdiction-housing-progress.json',
       'data/hna/local-resources.json',
+      'data/policy/resale-conventions.json',
     ];
     _ownershipStrategyDocsPromise = Promise.all(paths.map(function (path) {
       return fetch(path).then(function (response) {
@@ -5133,7 +5134,7 @@
         return response.json();
       });
     })).then(function (docs) {
-      return { developerFunding: docs[0], buyerAssistance: docs[1], stewardshipProviders: docs[2], countyOwnership: docs[3], progress: docs[4], localResources: docs[5] };
+      return { developerFunding: docs[0], buyerAssistance: docs[1], stewardshipProviders: docs[2], countyOwnership: docs[3], progress: docs[4], localResources: docs[5], resaleConventions: docs[6] };
     });
     return _ownershipStrategyDocsPromise;
   }
@@ -5150,6 +5151,7 @@
         ami4Person: Number(ami4Person),
         ownershipNeedResult: result,
         engine: window.OwnershipFinance,
+        resaleEngine: window.OwnershipResale,
         homeValueCascade: S() && S().state && S().state.homeValueCascade,
         datasets: datasets,
       });
