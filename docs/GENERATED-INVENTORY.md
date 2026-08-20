@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-19T23:57:23.460Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-20T06:01:08.744Z. Do not edit by hand.
 
 ---
 
@@ -1748,8 +1748,8 @@
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
-| `test/hna-ownership-need.test.js` | 22.1 KB |
-| `test/hna-ownership-strategy.test.js` | 7.3 KB |
+| `test/hna-ownership-need.test.js` | 22.5 KB |
+| `test/hna-ownership-strategy.test.js` | 9.7 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
@@ -1800,7 +1800,7 @@
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
-| `test/ownership-decision-chain.test.js` | 5.9 KB |
+| `test/ownership-decision-chain.test.js` | 6.0 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
 | `test/ownership-resale.test.js` | 7.1 KB |
