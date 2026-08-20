@@ -1,5 +1,5 @@
 {
-  "schema": "ownership-resale-conventions/v1",
+  "schema": "ownership-resale-conventions/v2",
   "meta": {
     "title": "Ownership Resale Convention Watchlist",
     "audience": "affordable ownership developers",
@@ -7,8 +7,8 @@
     "last_verified": "2026-07-22",
     "review_by": "2026-10-20",
     "default_convention": "fixed_simple",
-    "owner_decision": "C4 resolved: pluggable resaleConvention, WMRHC default, owner confirms convention set.",
-    "methodology": "Screening-only resale convention set for deed-restricted and shared-equity ownership. Resale caps are compared with today's AMI-affordable price from HNAOwnershipNeed.maxAffordablePrice. Future AMI or CPI paths are not estimated.",
+    "owner_decision": "D-4 resolved: compare all mechanisms in declared order and let the user select; no ranking.",
+    "methodology": "Screening-only comparison for deed-restricted, shared-equity, and recapture ownership mechanisms. Every mechanism is evaluated against the same user-visible appreciation scenarios. Results are not ranked because the mechanisms optimize different objectives.",
     "source_verification_note": "Every convention must retain a verified HTTPS source_url. Parameters marked VERIFY are shown as requiring confirmation and must not be treated as final underwriting terms."
   },
   "conventions": [
@@ -17,10 +17,15 @@
       "label": "Fixed simple appreciation",
       "default": true,
       "type": "fixed_simple",
+      "objective": "Deed-restricted owner return that does not fall with the modeled market scenario; verify appraisal and deed limits.",
       "source_program": "WMRHC Good Deeds",
       "source_url": "https://www.wmrhousing.org/gooddeeds",
+      "source": "WMRHC Good Deeds program page",
+      "source_note": "Official WMRHC program page previously verified for the 3% simple annual convention. Project-specific deed terms, improvement credits, and closing-cost treatment still require administrator and counsel review.",
       "last_verified": "2026-07-22",
       "parameter_status": "verified",
+      "classification": "modeled",
+      "verify": false,
       "annual_rate": 0.03,
       "rate_label": "3% simple interest annually, not compounding",
       "calculation_note": "Purchase price increases by the verified simple annual rate times years held.",
@@ -31,10 +36,15 @@
       "label": "Lesser of fixed cap or CPI",
       "default": false,
       "type": "lesser_of_fixed_cpi",
+      "objective": "Limits resale growth to the lesser governing rate, preserving affordability while retaining a documented owner-return formula.",
       "source_program": "APCHA Employee Housing Regulations",
       "source_url": "https://www.apcha.org/sitepages/pid4.php",
+      "source": "APCHA Employee Housing Regulations program page",
+      "source_note": "Official APCHA program page previously verified. The current primary regulation PDF and exact CPI/fixed-cap terms were not retrieved, so the comparison uses the entered CPI rate subject to the verified 3% screening upper bound.",
       "last_verified": "2026-07-22",
       "parameter_status": "VERIFY",
+      "classification": "modeled",
+      "verify": true,
       "annual_rate": "VERIFY",
       "fixed_rate_upper_bound": 0.03,
       "cpi_leg": "VERIFY",
@@ -47,14 +57,46 @@
       "label": "Shared-appreciation CLT",
       "default": false,
       "type": "shared_appreciation",
+      "objective": "Preserves affordability in the unit by limiting the homeowner to a share of market appreciation.",
       "source_program": "Elevation Community Land Trust",
       "source_url": "https://elevationclt.org/about/",
+      "source": "Elevation Community Land Trust public page",
+      "source_note": "Official Elevation CLT public page confirms a shared-equity model. A primary ground-lease or resale-pricing document was not retrieved, so the 25% homeowner share remains a screening input requiring verification.",
       "last_verified": "2026-07-22",
       "parameter_status": "VERIFY_PRIMARY_DOC",
+      "classification": "modeled",
+      "verify": true,
       "appreciation_share": 0.25,
       "share_label": "25% homeowner share - VERIFY against primary land-lease or pricing document",
       "calculation_note": "Purchase price plus homeowner share of user-supplied or historical market appreciation, plus entered selling costs.",
       "screening_note": "Elevation's public page confirms a shared-equity resale formula; the 25% share needs primary document confirmation before underwriting."
+    },
+    {
+      "id": "recapture",
+      "label": "Fixed public-subsidy recapture",
+      "default": false,
+      "type": "recapture",
+      "objective": "Returns fixed public dollars at sale while the next buyer pays the modeled unrestricted market price and the owner retains remaining equity.",
+      "source_program": "HOME resale and recapture requirements",
+      "source_url": "https://www.ecfr.gov/current/title-24/subtitle-A/part-92/subpart-F/section-92.254",
+      "source": "24 CFR 92.254(a)(5), eCFR",
+      "source_note": "The current eCFR text for 24 CFR 92.254(a)(5)(ii) was reviewed 2026-08-20. It permits recapture of direct HOME homebuyer assistance subject to net-proceeds limits, but requires resale when HOME assistance is used only for development subsidy. The $90,000 amount is a screening default, not a regulatory amount; verify the participating jurisdiction's HUD-approved consolidated-plan terms and recorded instrument.",
+      "last_verified": "2026-08-20",
+      "parameter_status": "VERIFY_PROGRAM_TERMS",
+      "classification": "modeled",
+      "verify": true,
+      "default_recapture_amount": 90000,
+      "rate_label": "Fixed screening recovery amount, limited by net sale proceeds",
+      "calculation_note": "The next buyer pays the modeled unrestricted market value. Public recovery is the lesser of the entered recapture amount and net proceeds after superior debt and selling costs.",
+      "screening_note": "Recapture preserves public dollars rather than keeping the unit price-restricted. Verify the participating jurisdiction's approved recapture method, affordability period, lien priority, and net-proceeds rule.",
+      "legal_gates": [
+        {
+          "subsidy_type": "home_development_subsidy",
+          "disabled": true,
+          "reason": "Unavailable for HOME development subsidy — 24 CFR 92.254(a)(5)(ii)(A)(5) requires the resale option when HOME assistance is used only for development subsidy.",
+          "citation": "24 CFR 92.254(a)(5)(ii)(A)(5)"
+        }
+      ]
     }
   ]
 }
