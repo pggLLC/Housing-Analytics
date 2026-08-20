@@ -99,6 +99,7 @@ const text = mount.textContent;
 ].forEach((needle) => {
   assert(text.includes(needle), 'rendered chain includes "' + needle + '"');
 });
+assert(text.includes(window.HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT), 'decision chain explains why 101-120% demand is not derivable from CHAS');
 
 const stageEls = Array.from(document.querySelectorAll('[data-own-chain-stage]'));
 assert.equal(stageEls.length, 5, 'rendered DOM has one stage per decision step');
