@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-20T06:11:24.926Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-20T14:26:15.517Z. Do not edit by hand.
 
 ---
 
@@ -1625,7 +1625,7 @@
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
-| `data/policy/resale-conventions.json` | 3.1 KB | ✅ | — |
+| `data/policy/resale-conventions.json` | 6.6 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
@@ -1702,7 +1702,7 @@
 | `test/deal-calc-ami-bands.test.js` | 5.7 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
-| `test/deal-calc-for-sale-feasibility.test.js` | 12.5 KB |
+| `test/deal-calc-for-sale-feasibility.test.js` | 13.5 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
@@ -1749,7 +1749,7 @@
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
-| `test/hna-ownership-strategy.test.js` | 9.7 KB |
+| `test/hna-ownership-strategy.test.js` | 11.1 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
@@ -1804,7 +1804,7 @@
 | `test/ownership-decision-chain.test.js` | 6.0 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
-| `test/ownership-resale.test.js` | 7.1 KB |
+| `test/ownership-resale.test.js` | 11.0 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
@@ -1851,7 +1851,7 @@
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
-| `test/shared-equity-lifecycle.test.js` | 18.9 KB |
+| `test/shared-equity-lifecycle.test.js` | 19.2 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
