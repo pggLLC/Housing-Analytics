@@ -1,6 +1,6 @@
 # AGENTS.md — Housing-Analytics
 
-Instructions for AI coding agents (OpenAI Codex, GitHub Copilot coding agent, Claude) working in this repo. Both Codex and Copilot read this file automatically; `.github/copilot-instructions.md` (the 18 governance rules) remains authoritative and this file defers to it on data-integrity matters.
+Instructions for AI coding agents (OpenAI Codex, GitHub Copilot coding agent, Claude) working in this repo. Codex reads this file automatically (Copilot would too, but see the pipeline note below — it is not active here); `.github/copilot-instructions.md` (the 18 governance rules) remains authoritative and this file defers to it on data-integrity matters.
 
 ## What this repo is
 A public-interest **static site** for Colorado affordable-housing data, deployed on **GitHub Pages** (custom domain `cohoanalytics.com` via CNAME). No bundler — client JS attaches to `window.*` via hand-ordered `<script>` tags. Build/fetch scripts are `.mjs` + Python; most workflows are crons that fetch data and commit it back. Exact counts live in the CI-enforced inventory line below — read them there, not from prose.
@@ -8,7 +8,10 @@ A public-interest **static site** for Colorado affordable-housing data, deployed
 ## Agent pipeline (stay in your lane)
 - **Claude** — strategic planning + QA. Owns the remediation plan; reviews every agent PR against it before merge.
 - **Codex** — implementation. Executes the phased remediation script; one PR per phase.
-- **Copilot** — review. Reviews Codex PRs (automated first pass); also honors this file.
+- **Codex** — also the automated review pass. `chatgpt-codex-connector[bot]` comments on PRs here; treat that as a first pass on its own work, not an independent one.
+- **The owner** — the only human gate. Nothing merges without it.
+
+**Copilot code review is NOT available in this repo.** Requesting `copilot-pull-request-reviewer` returns HTTP 422 (not a collaborator), and across the last 25 merged PRs Copilot has left **zero** reviews. It needs org-level Copilot seats; this org is on the Free plan and that is a deliberate owner decision. Do not write process steps that depend on a Copilot review happening.
 
 **No two agents edit the same branch/files in the same window.** Implementation happens on branches, never on `main`.
 
@@ -80,8 +83,9 @@ A passing check list answers "did the jobs report success", not "did the work ha
 - **Is `main` itself green right now?** Data crons suppress CI on their own commits, so `main` can be broken for hours with no failing run to show for it. A PR failing on files it never touched is the usual first symptom — check `main` before debugging your own diff.
 
 ## Who does what
-`Claude` plans and verifies, `Codex` implements, `Copilot` reviews — as stated at the top of this file. Two clarifications learned on 2026-08-19:
+`Claude` plans and verifies, `Codex` implements and self-comments, the owner decides. Three clarifications, 2026-08-19 and 2026-08-20:
 
 - **Copilot has authored merged implementation PRs** (#1366, #1373, #1374, #1376–#1379, #1411). Those were drift, not a change of lane. Implementation still goes to Codex unless the owner says otherwise.
+- **Copilot has never reviewed anything here.** The earlier "Copilot reviews Codex PRs" line described an arrangement that was not occurring — checked against the last 25 merged PRs, where the only reviewing bot is `chatgpt-codex-connector[bot]`. A documented process nobody performs is worse than no process: it invites the assumption that a PR was independently checked when it was not.
 - **Review and verification are different jobs.** Reviewing a diff catches code defects. It does not catch a check that never ran, a green test that asserts nothing, or a broken `main` — those need someone running things and reading CI output. Do not treat an approving review as evidence the change was verified.
 
