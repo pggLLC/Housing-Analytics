@@ -145,6 +145,11 @@ const screen = Resale.evaluateAll(data, {
 });
 assert.equal(screen.length, 4, 'evaluateAll returns every convention');
 assert.equal(screen[0].conventionId, 'fixed_simple', 'default convention remains first');
+// recapture without unrestrictedMarketValue → maxResalePrice and equity must be null, not a misleading number
+const noMarketRecapture = screen.find((row) => row.conventionId === 'recapture');
+assert.equal(noMarketRecapture.maxResalePrice, null, 'evaluateAll recapture row yields null price when market value is absent');
+assert.equal(noMarketRecapture.ownerGrossEquity, null, 'evaluateAll recapture row yields null equity when market value is absent');
+assert.equal(noMarketRecapture.publicSubsidyRecaptured, 0, 'evaluateAll recapture row yields 0 recovered when market value is absent');
 
 const comparisonInput = {
   purchasePrice: 400000,
@@ -166,6 +171,28 @@ const highPrices = comparison.rows.map((row) => row.outcomes[0].maxResalePrice);
 assert.equal(new Set(highPrices).size, 4, 'all four mechanisms produce distinct next-buyer prices under the same 6% scenario');
 assert.deepEqual(highPrices, [520000, 480000, 499085, 716339], 'same-scenario comparison pins each mechanism without ranking');
 assert.equal(comparison.rows.find((row) => row.conventionId === 'recapture').outcomes[0].publicSubsidyRecaptured, 90000, 'recapture returns the fixed screening amount when net proceeds permit');
+
+// Recapture net-proceeds cap: downturn drives market value below principal+costs+recaptureAmount
+// purchasePrice=400000, years=10, rate=-0.02 → marketValue=326829
+// net proceeds = 326829 - 250000 - 20000 = 56829 < 90000 → recaptured is capped at net proceeds
+const downComparison = Resale.compareConventions(data, Object.assign({}, comparisonInput, {
+  scenarios: [{ id: 'downturn', label: 'Downturn (-2% annually)', appreciationRateAnnual: -0.02 }],
+}));
+const downRecaptureRow = downComparison.rows.find((row) => row.conventionId === 'recapture').outcomes[0];
+assert.equal(downRecaptureRow.publicSubsidyRecaptured, 56829, 'recapture is capped at net proceeds when net proceeds < screening amount');
+assert.equal(downRecaptureRow.ownerGrossEquity, 0, 'owner equity is zero when all net proceeds are recovered');
+
+// Underwater guard: large remaining principal leaves no net proceeds → recaptured must be 0, not negative
+// marketValue=326829, remainingPrincipal=316829, sellingCosts=20000 → net proceeds = -10000 → recaptured=0
+const underwaterConvention = Resale.evaluateConvention(byId('recapture'), {
+  purchasePrice: 400000,
+  holdingPeriodYears: 10,
+  unrestrictedMarketValue: 326829,
+  remainingPrincipal: 316829,
+  sellingCosts: 20000,
+  recaptureAmount: 90000,
+});
+assert.equal(underwaterConvention.publicSubsidyRecaptured, 0, 'Math.max(0) guard: no recapture from underwater property');
 
 const homeDevelopment = Resale.compareConventions(data, Object.assign({}, comparisonInput, {
   subsidyType: 'home_development_subsidy',
