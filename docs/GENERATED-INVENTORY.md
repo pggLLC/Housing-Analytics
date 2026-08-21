@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-20T14:26:15.517Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-21T05:09:12.237Z. Do not edit by hand.
 
 ---
 
@@ -1804,7 +1804,7 @@
 | `test/ownership-decision-chain.test.js` | 6.0 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
-| `test/ownership-resale.test.js` | 11.0 KB |
+| `test/ownership-resale.test.js` | 13.0 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
