@@ -383,6 +383,7 @@
 
     if (window.OwnershipResale && screen.comparison && typeof window.OwnershipResale.renderComparisonHtml === 'function') {
       mount.innerHTML = window.OwnershipResale.renderComparisonHtml(screen.comparison);
+      mount.insertBefore(title, mount.firstChild);
       window.OwnershipResale.bindComparisonControls(mount, function (change) {
         if (change.subsidyType) _resaleSelection.subsidyType = change.subsidyType;
         if (change.selectedConventionId) _resaleSelection.selectedConventionId = change.selectedConventionId;
