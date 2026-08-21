@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-20T08:17:20.898Z
+**Scan timestamp:** 2026-08-21T08:19:17.462Z
 
 ## Summary
 
@@ -1571,7 +1571,7 @@
 - `data/policy/lihtc-assumptions.json` (4 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
-- `data/policy/resale-conventions.json` (3 KB)
+- `data/policy/resale-conventions.json` (7 KB)
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
