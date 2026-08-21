@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-08-20T08:17:20.898Z",
+  "scanTimestamp": "2026-08-21T08:19:17.462Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779734,
+      "sizeBytes": 779723,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9350,7 +9350,7 @@
     },
     {
       "path": "data/policy/resale-conventions.json",
-      "sizeBytes": 3187,
+      "sizeBytes": 6736,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20053,
+      "sizeBytes": 20058,
       "inDataManifest": false,
       "inFilesManifest": true
     },
