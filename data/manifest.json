@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-22T06:53:56.755878Z",
+  "generated": "2026-08-22T07:05:32.334832Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20058
+      "bytes": 20066
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
