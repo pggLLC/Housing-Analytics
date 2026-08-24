@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T07:42:29.916Z",
+  "generatedAt": "2026-08-24T07:49:08.544Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 20,
@@ -328,7 +328,7 @@
       "slug": "clifton",
       "candidateUrls": [
         {
-          "url": "https://www.cityofclifton.com/",
+          "url": "https://cityofclifton.com/",
           "type": "base",
           "status": 200,
           "title": "City of Clifton, TN | Official Website, Utilities, &amp; Leadership.",
@@ -360,118 +360,10 @@
       "slug": "sterling",
       "candidateUrls": [
         {
-          "url": "https://www.cityofsterling.com/",
+          "url": "https://sterling.org/",
           "type": "base",
           "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/housing",
-          "type": "subpath",
-          "subpath": "housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/affordable-housing",
-          "type": "subpath",
-          "subpath": "affordable-housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/housing-authority",
-          "type": "subpath",
-          "subpath": "housing-authority",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/community-development",
-          "type": "subpath",
-          "subpath": "community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/community-services",
-          "type": "subpath",
-          "subpath": "community-services",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/comprehensive-plan",
-          "type": "subpath",
-          "subpath": "comprehensive-plan",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/inclusionary-zoning",
-          "type": "subpath",
-          "subpath": "inclusionary-zoning",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/planning/housing",
-          "type": "subpath",
-          "subpath": "planning/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/departments/housing",
-          "type": "subpath",
-          "subpath": "departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/government/departments/housing",
-          "type": "subpath",
-          "subpath": "government/departments/housing",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/departments/community-development",
-          "type": "subpath",
-          "subpath": "departments/community-development",
-          "status": 200,
-          "title": null,
-          "hasHousingKeyword": false,
-          "looksLikeColorado": false
-        },
-        {
-          "url": "https://www.cityofsterling.com/economic-development/housing",
-          "type": "subpath",
-          "subpath": "economic-development/housing",
-          "status": 200,
-          "title": null,
+          "title": "Landing",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
