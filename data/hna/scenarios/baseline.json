@@ -5,7 +5,7 @@
   "source": "DOLA State Demography Office — Components of Change (2024 vintage)",
   "sourceUrl": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
   "fredSeriesRef": null,
-  "createdAt": "2026-08-23T02:17:04Z",
+  "createdAt": "2026-08-24T08:37:42Z",
   "vintage": 2024,
   "assumptions": {
     "fertility": "Hold at recent ACS-derived rates",
