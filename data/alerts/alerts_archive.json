@@ -1,11 +1,20 @@
 {
   "meta": {
-    "generated": "2026-08-24T02:21:01Z",
+    "generated": "2026-08-24T08:53:27Z",
     "feed_count": 6,
     "alert_count": 302,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Congress Just Passed a Housing Law That Rewards States for Reform \u2014 Here\u2019s Why Colorado Has a Head Start - The Fulcrum",
+      "date": "2026-08-24T04:33:15Z",
+      "source": "The Fulcrum",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQUF9od0NCaUxqYjJLZzFlN3RtUVdWd2F1TlpnWUtMME53OWxpSGtrVXQ5dEctc2I3T2N2TWs5QVhEbWUxaTJmUmlXTFd6WjR3ZTcwWHdqdUMwMTBZZjZheGFKc0stV1MwYzVkY0RDQ3hNQ1QxN3hFajRadGR4Y0xpdzU1OA?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Congress Just Passed a Housing Law That Rewards States for Reform \u2014 Here\u2019s Why Colorado Has a Head Start \u00a0\u00a0 The Fulcrum"
+    },
     {
       "title": "Illinois Housing Development Authority releases plan to create, preserve affordable housing - The Troy Times Tribune",
       "date": "2026-08-24T02:02:20Z",
@@ -2714,15 +2723,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Affordable Housing is a Paradox \u00a0\u00a0 Streets.mn"
-    },
-    {
-      "title": "Ohio housing agency awards Cincinnati developers tax credits for $65M in projects - The Business Journals",
-      "date": "2026-05-26T07:00:00Z",
-      "source": "The Business Journals",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQTDFEdHZxVy1KaTI4TkE3N2FnbGNyMEkzYml5eHNUajhCRlZSSjk0VkYtRHhUUDNlYUVVOTFJZmRvMU5nc1hYZHdxYWdIRV9jb1RyLTdqYXJZS0UyaFVkQ1FFRmkyTzZCbVdscjY0NW5hTTBmd016ekc0YXZ5Zl93c3llbXpqTGxQYWd1UXd0aHBBd2d1cUIwV0NkZFMxalA5dTJTWFNjU2RVbzV4amc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Ohio housing agency awards Cincinnati developers tax credits for $65M in projects \u00a0\u00a0 The Business Journals"
     }
   ]
 }
