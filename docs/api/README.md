@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-08-17. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-08-31. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -83,7 +83,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`path-resolver.js`](./js__path-resolver.md) | js/path-resolver. | 0 |
 | [`pipeline.js`](./js__pipeline.md) | developer-pipeline-public. | 0 |
 | [`place-chas-coverage-panel.js`](./js__place-chas-coverage-panel.md) | place-chas-coverage-panel. | 0 |
-| [`place-chas-lookup.js`](./js__place-chas-lookup.md) | place-chas-lookup. | 4 |
+| [`place-chas-lookup.js`](./js__place-chas-lookup.md) | place-chas-lookup. | 6 |
 | [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`place-profile-help.js`](./js__place-profile-help.md) | js/place-profile-help. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
@@ -244,7 +244,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
 | [`hna-ownership-strategy.js`](./js__hna__hna-ownership-strategy.md) | Tier-1 ownership strategy screening renderer. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 46 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 47 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 17 |
 | [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |

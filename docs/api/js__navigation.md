@@ -6,10 +6,14 @@ Uses site-theme.css variables.
 
 Information Architecture:
 ─────────────────────────────────────────────────────────────────────────
-SCOPING A PROJECT (primary workflow):
+SCOPING A RENTAL PROJECT (primary workflow):
   LIHTC Guide (start here) → Opportunity Finder (find a market) →
   Select Jurisdiction → HNA → Market Analysis → Scenario Builder →
   Deal Calculator
+
+SCOPING A FOR-SALE PROJECT (entry points):
+  Ownership Need, For-Sale Market Study, Deal Calculator,
+  Land Value & Negotiation
 
 EXPLORE (comparative & context):
   Compare Jurisdictions, Colorado Deep Dive, CHFA Portfolio,

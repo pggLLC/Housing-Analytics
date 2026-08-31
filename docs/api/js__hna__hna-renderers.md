@@ -283,6 +283,11 @@ board) + local advocate orgs that aren't on file yet.
 getAssumptions — read the current values of the projection assumption controls.
 @returns {{ horizon: number, targetVac: number, headshipMode: string }}
 
+### `renderProjectionCalculationTrace(trace)`
+
+renderProjectionCalculationTrace — display the exact inputs already used
+by the projection result. Formatting only; no projection math lives here.
+
 ### `renderScenarioDataQuality(geoType, geoid)`
 
 renderScenarioDataQuality — update the scenarioDataQuality element to
