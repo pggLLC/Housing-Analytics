@@ -50,7 +50,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          BRANCH="docs/generated-inventory-$(date +%Y%m%d)"
+          # Stable branch name -- see market_data_build.yml. A per-run branch
+          # left #1485 and #1494 open simultaneously for the same regeneration.
+          BRANCH="docs/generated-inventory"
           git checkout -b "$BRANCH"
           git add docs/
           git commit -m "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
