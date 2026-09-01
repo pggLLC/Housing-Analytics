@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T13:23:33.214Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T15:00:30.769Z. Do not edit by hand.
 
 ---
 
@@ -1615,7 +1615,7 @@
 | `data/policy/buyer-assistance-programs.json` | 1.8 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/county-ownership.json` | 6.1 KB | ✅ | — |
+| `data/policy/county-ownership.json` | 6.4 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 18.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
@@ -1875,7 +1875,7 @@
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
-| `test/test_public_land_overlay.js` | 9.3 KB |
+| `test/test_public_land_overlay.js` | 12.2 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
