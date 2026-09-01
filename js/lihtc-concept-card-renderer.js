@@ -237,6 +237,17 @@
     /* Public Land */
     var land = constraints.publicLand;
     if (land && typeof land === 'object') {
+      if (land.unavailableReason) {
+        sections.push([
+          '<details class="lihtc-cc-constraint">',
+            '<summary role="button"><h4>🏛️ Public Ownership &amp; CLT — ' + _esc(_cap(land.coverageLabel)) + '</h4></summary>',
+            '<p class="lihtc-cc-constraint-narrative">' + _esc(land.unavailableReason) + '</p>',
+          '</details>'
+        ].join(''));
+        land = null;
+      }
+    }
+    if (land && typeof land === 'object') {
       var oppBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', none: '🔴 None' }[land.opportunity] || land.opportunity;
       sections.push([
         '<details class="lihtc-cc-constraint">',

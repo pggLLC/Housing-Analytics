@@ -20,15 +20,18 @@
  * Exposed as window.PublicLandOverlay (browser) and module.exports (Node).
  *
  * @typedef {Object} LandAssessResult
- * @property {string}       ownership      — owner name or 'Private'
- * @property {string}       ownerType      — 'county'|'municipal'|'housing-authority'|'clt'|'federal'|'tribal'|'private'
- * @property {boolean}      isCLT          — true if CLT organization present in county
+ * @property {string|null}  ownership      — owner name, or null when county coverage is unavailable
+ * @property {string|null}  ownerType      — 'county'|'municipal'|'housing-authority'|'clt'|'federal'|'tribal'|'private', or null when unavailable
+ * @property {boolean|null} isCLT          — true if CLT organization present in county, or null when unavailable
  * @property {string|null}  cltName        — CLT org name if present
- * @property {boolean}      isFederal      — federal land flag
- * @property {boolean}      isTribal       — tribal land flag
- * @property {string}       opportunity    — 'strong'|'moderate'|'none'
+ * @property {boolean|null} isFederal      — federal land flag, or null when unavailable
+ * @property {boolean|null} isTribal       — tribal land flag, or null when unavailable
+ * @property {string|null}  opportunity    — 'strong'|'moderate'|'none', or null when unavailable
  * @property {string}       narrative      — human-readable summary
- * @property {Object}       financialBenefit — { subsidy, explanation }
+ * @property {string}       coverageStatus — 'researched'|'not_researched'
+ * @property {string}       coverageLabel — display label carried with the coverage state
+ * @property {string|null}  unavailableReason — reason carried with unavailable data
+ * @property {Object}       financialBenefit — { subsidy, explanation }; values null when unavailable
  */
 (function (root, factory) {
   'use strict';
@@ -43,6 +46,8 @@
   /* ── Internal state ─────────────────────────────────────────────── */
   var _countyData = {};
   var _loaded     = false;
+  var _absenceLabel = 'not researched';
+  var _absenceReason = 'Not researched — county ownership coverage is curated; absence is not evidence of private ownership or no public-land opportunity.';
 
   /* ── Constants ───────────────────────────────────────────────────── */
   var SUBSIDY_BY_OWNER = {
@@ -93,6 +98,12 @@
     if (countyOwnershipData && countyOwnershipData.counties) {
       _countyData = countyOwnershipData.counties;
     }
+    if (countyOwnershipData && countyOwnershipData.meta && countyOwnershipData.meta.absence_reason) {
+      _absenceReason = countyOwnershipData.meta.absence_reason;
+    }
+    if (countyOwnershipData && countyOwnershipData.meta && countyOwnershipData.meta.absence_means) {
+      _absenceLabel = countyOwnershipData.meta.absence_means;
+    }
     _loaded = true;
     return Promise.resolve();
   }
@@ -115,6 +126,26 @@
 
     var fips = typeof countyFips === 'string' ? countyFips.padStart(5, '0') : null;
     var countyEntry = (fips && _countyData[fips]) ? _countyData[fips] : null;
+
+    if (!countyEntry) {
+      return {
+        ownership:    null,
+        ownerType:    null,
+        isCLT:        null,
+        cltName:      null,
+        isFederal:    null,
+        isTribal:     null,
+        opportunity:  null,
+        narrative:    _absenceReason,
+        coverageStatus: 'not_researched',
+        coverageLabel: _absenceLabel,
+        unavailableReason: _absenceReason,
+        financialBenefit: {
+          subsidy:     null,
+          explanation: null
+        }
+      };
+    }
 
     var ownerType = 'private';
     var ownership = 'Private';
@@ -151,6 +182,9 @@
       isTribal:     isTribal,
       opportunity:  opportunity,
       narrative:    narrative,
+      coverageStatus: 'researched',
+      coverageLabel: 'researched',
+      unavailableReason: null,
       financialBenefit: {
         subsidy:     subsidyInfo.base,
         explanation: subsidyInfo.explanation

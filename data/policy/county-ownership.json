@@ -3,6 +3,11 @@
     "source": "Colorado County Assessor GIS / Public Records",
     "generated": "2026-03-24T00:00:00Z",
     "vintage": "2025",
+    "coverage_counties": 14,
+    "statewide_counties": 64,
+    "coverage_type": "curated",
+    "absence_means": "not researched",
+    "absence_reason": "Not researched — this curated county-ownership dataset covers 14 of Colorado's 64 counties; absence is not evidence of private ownership or no public-land opportunity.",
     "note": "Public ownership parcels eligible for affordable housing development. Verify with county assessor before proceeding."
   },
   "counties": {
