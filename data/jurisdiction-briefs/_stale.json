@@ -1,89 +1,131 @@
 {
-  "generated": "2026-08-01",
+  "generated": "2026-09-01",
   "threshold_days": 30,
   "stale": [
     {
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "08045",
       "jurisdiction": "Garfield County",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "08097",
       "jurisdiction": "Pitkin County",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0812045",
       "jurisdiction": "Town of Carbondale",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0816000",
       "jurisdiction": "City of Colorado Springs",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0817375",
       "jurisdiction": "City of Cortez",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0820000",
       "jurisdiction": "City of Denver",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0830780",
       "jurisdiction": "City of Glenwood Springs",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0864255",
       "jurisdiction": "City of Rifle",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0867280",
       "jurisdiction": "City of Salida",
       "last_curated": "2026-06-19",
-      "days_old": 43,
+      "days_old": 74,
       "reason": "older than 30 days"
     },
     {
       "geoid": "0870195",
       "jurisdiction": "Town of Silt",
       "last_curated": "2026-06-20",
-      "days_old": 42,
+      "days_old": 73,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0828745",
+      "jurisdiction": "City of Fruita",
+      "last_curated": "2026-07-06",
+      "days_old": 57,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0810105",
+      "jurisdiction": "Town of Buena Vista",
+      "last_curated": "2026-07-30",
+      "days_old": 33,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0818310",
+      "jurisdiction": "Town of Crested Butte",
+      "last_curated": "2026-07-30",
+      "days_old": 33,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0822035",
+      "jurisdiction": "City of Durango",
+      "last_curated": "2026-07-30",
+      "days_old": 33,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0873825",
+      "jurisdiction": "City of Steamboat Springs",
+      "last_curated": "2026-07-30",
+      "days_old": 33,
+      "reason": "older than 30 days"
+    },
+    {
+      "geoid": "0876795",
+      "jurisdiction": "Town of Telluride",
+      "last_curated": "2026-07-30",
+      "days_old": 33,
       "reason": "older than 30 days"
     }
   ]
