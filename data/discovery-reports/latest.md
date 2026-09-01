@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-08-30T13:17:01.883Z
+**Scan timestamp:** 2026-09-01T12:44:26.895Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1616 |
-| New (unregistered) | 1585 |
+| Files scanned | 1617 |
+| New (unregistered) | 1586 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (761 KB)
+- `data/_manifest.json` (762 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (207 KB)
+- `data/alerts/alerts_archive.json` (198 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -40,6 +40,7 @@
 - `data/car-market-report-2026-06.json` (64 KB)
 - `data/car-market-report-2026-07.json` (64 KB)
 - `data/car-market-report-2026-08.json` (2 KB)
+- `data/car-market-report-2026-09.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
 - `data/chfa-qap-calendar.json` (9 KB)
@@ -815,7 +816,7 @@
 - `data/hna/lihtc/08123.json` (26 KB)
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
-- `data/hna/local-resources-candidates.json` (25 KB)
+- `data/hna/local-resources-candidates.json` (30 KB)
 - `data/hna/local-resources.json` (175 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
@@ -1577,7 +1578,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (169 KB)
+- `data/policy_briefs.json` (162 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)

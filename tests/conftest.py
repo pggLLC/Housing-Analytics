@@ -42,11 +42,39 @@ def apply_fred_oct_gap_interpolation():
     midpoint observation for each affected series before any test reads the
     data file.  Observations are tagged ``"interpolated": true`` so charts
     and tooltips can signal to users that the value is derived, not official.
+
+    The interpolation is written to ``data/fred-data.json`` in place, so this
+    fixture snapshots the file first and restores it on teardown.  Without
+    that restore the working tree is left dirty by any pytest invocation --
+    including one filtered with ``-k`` to unrelated tests, because pytest
+    still collects the whole suite and autouse session fixtures still run.
+
+    That dirty file corrupted ``data/manifest.json`` on 2026-08-19 and then
+    failed ``qa-status`` every day from 2026-08-22: the workflow rebuilds the
+    manifest from the whole tree but commits only two files, so the rewritten
+    size was recorded while the file itself never was.  The writer here uses
+    ``indent=2`` (~2.5 MB) while the fetcher commits minified (~1.3 MB), which
+    is why the recorded byte count was roughly double.  See #1479, #1470.
     """
     if _SCRIPTS_DIR not in sys.path:
         sys.path.insert(0, _SCRIPTS_DIR)
     from fix_fred_oct_gap import interpolate_oct_gap  # noqa: PLC0415
+
+    data_file = os.path.join(_REPO_ROOT, 'data', 'fred-data.json')
+    original = None
+    if os.path.exists(data_file):
+        with open(data_file, 'rb') as handle:
+            original = handle.read()
+
     interpolate_oct_gap()
+
+    yield
+
+    # Restore byte-for-byte. The interpolated values exist only for the
+    # duration of the test session; they are not a data change.
+    if original is not None:
+        with open(data_file, 'wb') as handle:
+            handle.write(original)
 
 
 def pytest_terminal_summary(terminalreporter, exitstatus, config):  # noqa: ARG001

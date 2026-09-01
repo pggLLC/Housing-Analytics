@@ -1,10 +1,10 @@
 {
-  "generated": "2026-08-30T13:17:05.231794Z",
+  "generated": "2026-09-01T13:12:18.062535Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 779722
+      "bytes": 780214
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 211521
+      "bytes": 203252
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -170,6 +170,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2312
+    },
+    "data/car-market-report-2026-09.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 2331
     },
     "data/car-market.json": {
       "featureCount": 0,
@@ -294,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 244576
+      "bytes": 244728
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -329,7 +334,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1314344
+      "bytes": 1314631
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -4104,7 +4109,7 @@
     "data/hna/local-resources-candidates.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25391
+      "bytes": 31039
     },
     "data/hna/local-resources.json": {
       "featureCount": 0,
@@ -7854,7 +7859,7 @@
     "data/policy/county-ownership.json": {
       "featureCount": 14,
       "placeholder": false,
-      "bytes": 6253
+      "bytes": 6578
     },
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
@@ -7939,7 +7944,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 172767
+      "bytes": 166152
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -7949,7 +7954,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20058
+      "bytes": 20051
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -7999,7 +8004,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19305
+      "bytes": 19938
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
@@ -8034,7 +8039,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 329133
+      "bytes": 328836
     }
   }
 }
