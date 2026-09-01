@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-01T09:23:47.751631Z",
+  "generated": "2026-09-01T11:33:58.191074Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -334,7 +334,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1314385
+      "bytes": 1314631
     },
     "data/glossary.json": {
       "featureCount": 0,
