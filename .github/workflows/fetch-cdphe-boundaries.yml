@@ -50,6 +50,16 @@ jobs:
             node scripts/simplify-geojson.mjs --input data/market/cdphe_county_boundaries_co.geojson --keep 20 --fields county_fips5,county_name
           fi
 
+      - name: Install pytest (plausibility check dependency)
+        run: |
+          # This workflow sets up Node but never Python, so `python3 -m pytest`
+          # below failed with "No module named pytest" on every scheduled run
+          # since at least 2026-07-01. The fetch itself succeeded each time --
+          # all 64 counties were retrieved -- so the job reported failure only
+          # at the verification step. Same install used by qa-status.yml,
+          # accessibility.yml, and contrast-audit.yml.
+          python3 -m pip install --quiet pytest
+
       - name: Plausibility check (matches TIGER)
         run: |
           echo "── Cross-source plausibility check ──"
