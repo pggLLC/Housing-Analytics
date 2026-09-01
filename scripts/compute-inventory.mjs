@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -60,11 +60,37 @@ const targets = [
   { file: "AGENTS.md", line: agentsLine },
 ];
 
+// --write repairs the lines in place instead of only reporting drift.
+// Default stays check-only: ci-checks relies on the non-zero exit.
+//
+// Without a write mode this gate was unmaintainable. Any of the ~15 daily data
+// commits changes the file count and invalidates the line, but none of the ten
+// data-committing workflows regenerates it -- so every open PR fails on a line
+// it never touched, and repairing it by hand races the next cron.
+const write = process.argv.includes("--write");
+
 let stale = false;
 for (const { file, line } of targets) {
   console.log(`${file}: ${line}`);
-  if (!readFileSync(path.join(repoRoot, file), "utf8").includes(line)) {
-    console.error(`${file} inventory is stale. Replace its inventory line with the value above.`);
+  const abs = path.join(repoRoot, file);
+  const current = readFileSync(abs, "utf8");
+  if (current.includes(line)) continue;
+
+  if (write) {
+    const prefix = line.slice(0, line.indexOf(":") + 1);
+    const rewritten = current
+      .split("\n")
+      .map((l) => (l.startsWith(prefix) ? line : l))
+      .join("\n");
+    if (rewritten === current) {
+      console.error(`${file}: could not locate the inventory line to rewrite.`);
+      stale = true;
+      continue;
+    }
+    writeFileSync(abs, rewritten);
+    console.log(`${file}: inventory line rewritten.`);
+  } else {
+    console.error(`${file} inventory is stale. Run with --write, or replace its inventory line with the value above.`);
     stale = true;
   }
 }
