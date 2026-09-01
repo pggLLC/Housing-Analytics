@@ -34,6 +34,8 @@
  * @property {number}   scoreEstimate     — rough 0–100 score estimate
  * @property {Object}   factors           — factor-level breakdown
  * @property {Object}   competitiveContext — applications/funded context
+ * @property {string}   scoreCompleteness — 'complete'|'partial'
+ * @property {string|null} scoreDisclosure — reason a partial score is incomplete
  * @property {string}   narrative         — human-readable summary
  * @property {string[]} caveats           — important disclaimers
  */
@@ -62,6 +64,57 @@
     design:       { maxPts: 10, avgWinner: 7.8,  avgLoser: 5.2  },
     other:        { maxPts: 8,  avgWinner: 6.1,  avgLoser: 3.8  }
   };
+
+  var PUBLIC_LAND_OVERLAY_UNAVAILABLE = 'Public-land ownership coverage was not assessed because the overlay is unavailable.';
+  var PUBLIC_LAND_UNKNOWN_FALLBACK = 'Public-land ownership coverage is unknown.';
+
+  /**
+   * Normalize the public-land signal before it reaches scoring. Unknown
+   * coverage receives 0 provisional points, but remains explicitly partial;
+   * it is never reclassified as a verified finding of no opportunity.
+   */
+  function publicLandAssessment(raw) {
+    if (raw && raw.status && typeof raw.contribution === 'number') return raw;
+
+    if (!raw) {
+      return {
+        status: 'unknown',
+        opportunity: null,
+        contribution: 0,
+        unavailableReason: PUBLIC_LAND_OVERLAY_UNAVAILABLE,
+        disclosure: PUBLIC_LAND_OVERLAY_UNAVAILABLE + ' 0 provisional public-land support points are included; the composite is a partial estimate.'
+      };
+    }
+
+    if (raw.coverageStatus === 'not_researched' || raw.opportunity == null) {
+      var reason = raw.unavailableReason || PUBLIC_LAND_UNKNOWN_FALLBACK;
+      return {
+        status: 'unknown',
+        opportunity: null,
+        contribution: 0,
+        unavailableReason: reason,
+        disclosure: reason + ' 0 provisional public-land support points are included; the composite is a partial estimate.'
+      };
+    }
+
+    if (raw.opportunity === 'strong') {
+      return {
+        status: 'strong',
+        opportunity: 'strong',
+        contribution: 2.5,
+        unavailableReason: null,
+        disclosure: null
+      };
+    }
+
+    return {
+      status: raw.opportunity === 'none' ? 'verified_no_opportunity' : 'verified_other_opportunity',
+      opportunity: raw.opportunity,
+      contribution: 0,
+      unavailableReason: null,
+      disclosure: null
+    };
+  }
 
   /* ── Score estimator ─────────────────────────────────────────────── */
 
@@ -111,14 +164,17 @@
     if (ctx.localSoftFunding && ctx.localSoftFunding > 500000) supportScore += 5.0;
     else if (ctx.localSoftFunding && ctx.localSoftFunding > 100000) supportScore += 2.5;
     if (ctx.hasGovernmentSupport) supportScore += 3.0;
-    if (ctx.publicLandOpportunity === 'strong') supportScore += 2.5;
+    var landAssessment = publicLandAssessment(ctx.publicLandAssessment);
+    supportScore += landAssessment.contribution;
     supportScore = Math.min(supportScore, SCORING_WEIGHTS.localSupport.maxPts);
     factors.localSupport = {
       value: parseFloat(supportScore.toFixed(1)),
       maxPts: SCORING_WEIGHTS.localSupport.maxPts,
-      note: ctx.hasGovernmentSupport ? 'Local government commitment' :
+      note: landAssessment.status === 'unknown' ? 'Partial: public-land coverage unknown (0 provisional points)' :
+            ctx.hasGovernmentSupport ? 'Local government commitment' :
             ctx.localSoftFunding > 500000 ? 'Strong local soft funding' :
-            'No confirmed government support'
+            'No confirmed government support',
+      publicLandAssessment: landAssessment
     };
 
     /* Developer — track record, capacity */
@@ -224,14 +280,26 @@
    * @param {Object} concept      - DealRecommendation from LIHTCDealPredictor (or minimal obj)
    * @param {Object} siteContext  - Site signals: { pmaScore, isQct, isDda, isRural, totalUndersupply,
    *                                  ami30UnitsNeeded, localSoftFunding, hasGovernmentSupport,
-   *                                  publicLandOpportunity, hasHnaData, greenBuilding, isPreservation }
+   *                                  publicLandAssessment, hasHnaData, greenBuilding, isPreservation }
    * @returns {AwardPrediction}
    */
   function predict(concept, siteContext) {
     var c   = concept || {};
     var ctx = siteContext || {};
 
-    var factors     = _estimateFactors(c, ctx);
+    // Keep the legacy strong/none input working for callers outside the
+    // Market Analysis page, but treat an omitted signal as unknown.
+    var rawLandAssessment = ctx.publicLandAssessment;
+    if (!rawLandAssessment && Object.prototype.hasOwnProperty.call(ctx, 'publicLandOpportunity')) {
+      rawLandAssessment = {
+        coverageStatus: 'researched',
+        opportunity: ctx.publicLandOpportunity
+      };
+    }
+    var landAssessment = publicLandAssessment(rawLandAssessment);
+    var scoringContext = Object.assign({}, ctx, { publicLandAssessment: landAssessment });
+
+    var factors     = _estimateFactors(c, scoringContext);
     var scoreEst    = parseFloat(_sumScore(factors).toFixed(1));
     var likelihood  = _scoreToProbability(scoreEst);
     var band        = _likelihoodToBand(likelihood);
@@ -259,6 +327,10 @@
       caveats.unshift('⚠ Historical summary data did not load — application-count and award-rate context unavailable; see CHFA directly for current figures.');
     }
 
+    if (landAssessment.status === 'unknown') {
+      caveats.unshift(landAssessment.disclosure);
+    }
+
     if (ctx.isRural) {
       caveats.push('Rural markets have historically lower award rates — rural priority tiebreaker may offset.');
     }
@@ -277,6 +349,9 @@
           ? 'Based on ' + _awards.length + ' historical awards (2015–2025).'
           : 'Historical-award summary not available — competitive context omitted.'
       },
+      scoreCompleteness: landAssessment.status === 'unknown' ? 'partial' : 'complete',
+      scoreDisclosure: landAssessment.disclosure,
+      publicLandAssessment: landAssessment,
       narrative: narrative,
       caveats:   caveats
     };
@@ -304,6 +379,7 @@
     predict:        predict,
     isLoaded:       isLoaded,
     getAwardsByType: getAwardsByType,
+    publicLandAssessment: publicLandAssessment,
     /* Exposed for testing */
     _estimateFactors:     _estimateFactors,
     _scoreToProbability:  _scoreToProbability,
