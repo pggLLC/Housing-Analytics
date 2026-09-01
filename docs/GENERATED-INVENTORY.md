@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T13:19:08.548Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T13:23:33.214Z. Do not edit by hand.
 
 ---
 
@@ -1970,7 +1970,7 @@
 | `.github/workflows/developer-url-health.yml` | 2.7 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.0 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.4 KB |
-| `.github/workflows/docs-sync.yml` | 2.1 KB |
+| `.github/workflows/docs-sync.yml` | 2.2 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.4 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
@@ -1984,7 +1984,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 11.8 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
-| `.github/workflows/market_data_build.yml` | 15.4 KB |
+| `.github/workflows/market_data_build.yml` | 16.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
