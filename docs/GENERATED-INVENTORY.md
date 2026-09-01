@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T15:02:25.762Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T21:00:41.671Z. Do not edit by hand.
 
 ---
 
@@ -1868,7 +1868,7 @@
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
-| `test/test_chfa_award_predictor.js` | 14.6 KB |
+| `test/test_chfa_award_predictor.js` | 18.9 KB |
 | `test/test_environmental_screening.js` | 14.1 KB |
 | `test/test_fmr_flatten_guard.py` | 1.2 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
