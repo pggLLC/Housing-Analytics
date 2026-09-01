@@ -29,6 +29,18 @@ jobs:
       - name: Run audit/archive/docs automation
         run: node scripts/sync-docs.mjs
 
+      - name: Refresh the CI-enforced inventory line
+        run: |
+          # ci-checks asserts an exact inventory line in README.md and
+          # AGENTS.md, but the ~15 data commits landing on main each day change
+          # the file counts and none of the data workflows regenerated it. The
+          # line therefore went stale constantly and failed every open PR on a
+          # line it never touched -- and repairing it by hand raced the next
+          # cron. This job already runs on every push to main and already
+          # commits what it changes, so it is the right place to keep the line
+          # honest. Regenerate, never hand-edit.
+          node scripts/compute-inventory.mjs --write
+
       - name: Commit and push updated, quarantined, and docs files
         id: commit_docs
         run: |
