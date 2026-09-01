@@ -10,6 +10,8 @@
 'use strict';
 
 const path    = require('path');
+const fs      = require('fs');
+const { JSDOM } = require('jsdom');
 const overlay = require(path.resolve(__dirname, '..', 'js', 'public-land-overlay'));
 const data    = require(path.resolve(__dirname, '..', 'data', 'policy', 'county-ownership.json'));
 
@@ -70,6 +72,13 @@ test('load() with county data', function () {
   });
 });
 
+test('dataset declares curated 14-of-64 scope and absence semantics', function () {
+  assert(data.meta.coverage_counties === 14, 'metadata declares 14 researched counties');
+  assert(data.meta.statewide_counties === 64, 'metadata declares the 64-county statewide universe');
+  assert(data.meta.coverage_type === 'curated', 'metadata labels coverage as curated');
+  assert(data.meta.absence_means === 'not researched', 'metadata defines absence as not researched');
+});
+
 /* ── assess() result schema ─────────────────────────────────────── */
 test('assess(): result schema validation (Boulder County = 08013)', function () {
   overlay.load(data);
@@ -89,11 +98,11 @@ test('assess(): result schema validation (Boulder County = 08013)', function () 
 });
 
 /* ── assess(): opportunity values ──────────────────────────────── */
-test('assess(): opportunity is valid value', function () {
+test('assess(): researched-county opportunity is a valid value', function () {
   overlay.load(data);
   var validOpportunities = ['strong', 'moderate', 'none'];
 
-  ['08001', '08013', '08031', '08059', '08999'].forEach(function (fips) {
+  ['08001', '08013', '08031', '08059'].forEach(function (fips) {
     var r = overlay.assess(null, null, fips);
     assert(validOpportunities.indexOf(r.opportunity) !== -1,
       'Opportunity valid for ' + fips + ': ' + r.opportunity);
@@ -106,7 +115,9 @@ test('assess(): Denver (08031) has public ownership', function () {
   var result = overlay.assess(null, null, '08031');
   assert(result.ownerType !== 'private',     'Denver ownerType is not private');
   assert(result.opportunity === 'strong',    'Denver opportunity is strong');
-  assert(result.financialBenefit.subsidy > 0, 'Denver financial benefit > 0');
+  assert(result.financialBenefit.subsidy === 400000, 'Denver retains its $400,000 municipal-owner benefit');
+  assert(result.coverageStatus === 'researched', 'Denver is explicitly marked researched');
+  assert(result.unavailableReason === null, 'Denver has no unavailable reason');
 });
 
 /* ── assess(): CLT detection (Boulder 08013) ────────────────────── */
@@ -118,13 +129,50 @@ test('assess(): Boulder (08013) detects CLT', function () {
   assert(typeof result.cltName === 'string', 'CLT name is string');
 });
 
-/* ── assess(): unknown FIPS returns private ─────────────────────── */
-test('assess(): unknown county FIPS returns private', function () {
+/* ── assess(): absent county is not researched ──────────────────── */
+test('assess(): absent county does not fabricate private ownership or a zero benefit', function () {
   overlay.load(data);
-  var result = overlay.assess(null, null, '08999');
-  assert(result.ownerType === 'private', 'Unknown FIPS → private');
-  assert(result.opportunity === 'none',  'Unknown FIPS → no opportunity');
-  assert(result.financialBenefit.subsidy === 0, 'Unknown FIPS → subsidy = 0');
+  var result = overlay.assess(null, null, '08003');
+  assert(result.coverageStatus === 'not_researched', 'Alamosa County is marked not researched');
+  assert(result.coverageLabel === data.meta.absence_means, 'the dataset coverage label travels with the result');
+  assert(result.unavailableReason === data.meta.absence_reason, 'the dataset reason travels with the result');
+  assert(result.ownership === null, 'absence is not labelled private ownership');
+  assert(result.ownerType === null, 'absence has no fabricated owner type');
+  assert(result.opportunity === null, 'absence has no fabricated opportunity classification');
+  assert(result.financialBenefit.subsidy === null, 'absence has no zero-dollar benefit figure');
+});
+
+function renderLandResult(land) {
+  var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
+    url: 'http://127.0.0.1/market-analysis.html',
+    runScripts: 'outside-only'
+  });
+  dom.window.eval(fs.readFileSync(path.resolve(__dirname, '..', 'js', 'lihtc-concept-card-renderer.js'), 'utf8'));
+  dom.window.LIHTCConceptCardRenderer.render(dom.window.document.getElementById('card'), {
+    confidence: 'screening',
+    recommendedExecution: 'Test',
+    conceptType: 'family',
+    keyRationale: []
+  }, null, { publicLand: land });
+  return dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
+}
+
+test('renderer: absent county shows the carried not-researched reason and no confident value', function () {
+  overlay.load(data);
+  var text = renderLandResult(overlay.assess(null, null, '08003'));
+  assert(text.includes('Not researched'), 'absent county visibly renders Not researched');
+  assert(text.includes(data.meta.absence_reason), 'renderer uses the reason carried with the result');
+  assert(!text.includes('$'), 'absent county renders no dollar figure');
+  assert(!text.includes('Private ownership'), 'absent county is not described as private ownership');
+  assert(!text.includes('🔴 None'), 'absent county is not classified as no opportunity');
+});
+
+test('renderer: researched county still shows the recorded parcel and unchanged benefit', function () {
+  overlay.load(data);
+  var text = renderLandResult(overlay.assess(null, null, '08031'));
+  assert(text.includes('City & County of Denver'), 'present county renders its recorded parcel owner');
+  assert(text.includes('$400K'), 'present county renders the unchanged $400,000 benefit');
+  assert(text.includes('Strong'), 'present county retains its opportunity classification');
 });
 
 /* ── assess(): legacy single-arg call ──────────────────────────── */

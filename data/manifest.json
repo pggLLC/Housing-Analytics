@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-01T12:44:29.889513Z",
+  "generated": "2026-09-01T13:12:18.062535Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7859,7 +7859,7 @@
     "data/policy/county-ownership.json": {
       "featureCount": 14,
       "placeholder": false,
-      "bytes": 6253
+      "bytes": 6578
     },
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
