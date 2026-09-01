@@ -10,6 +10,8 @@
 'use strict';
 
 const path      = require('path');
+const fs        = require('fs');
+const { JSDOM } = require('jsdom');
 const predictor = require(path.resolve(__dirname, '..', 'js', 'chfa-award-predictor'));
 const data      = require(path.resolve(__dirname, '..', 'data', 'policy', 'chfa-awards-historical.json'));
 
@@ -43,6 +45,7 @@ test('Module exports', function () {
   assert(typeof predictor.predict === 'function',          'exports predict()');
   assert(typeof predictor.isLoaded === 'function',         'exports isLoaded()');
   assert(typeof predictor.getAwardsByType === 'function',  'exports getAwardsByType()');
+  assert(typeof predictor.publicLandAssessment === 'function', 'exports publicLandAssessment()');
   assert(typeof predictor._estimateFactors === 'function', 'exports _estimateFactors for testing');
   assert(typeof predictor._scoreToProbability === 'function', 'exports _scoreToProbability for testing');
   assert(typeof predictor._likelihoodToBand === 'function',   'exports _likelihoodToBand for testing');
@@ -194,6 +197,77 @@ test('predict(): government support boosts localSupport score', function () {
   var withoutSupport = predictor.predict({ conceptType: 'family' }, { hasGovernmentSupport: false, localSoftFunding: 0 });
   assert(withSupport.factors.localSupport.value >= withoutSupport.factors.localSupport.value,
     'With support >= without: ' + withSupport.factors.localSupport.value + ' vs ' + withoutSupport.factors.localSupport.value);
+});
+
+/* ── predict(): public-land coverage semantics ──────────────────── */
+test('predict(): unknown, verified-none, and strong public-land inputs stay distinct', function () {
+  predictor.load(data);
+  var concept = { conceptType: 'family' };
+  var reason = 'Not researched — county ownership coverage is unavailable for this jurisdiction.';
+  var unknown = predictor.predict(concept, {
+    publicLandAssessment: {
+      coverageStatus: 'not_researched',
+      opportunity: null,
+      unavailableReason: reason
+    }
+  });
+  var verifiedNone = predictor.predict(concept, {
+    publicLandAssessment: {
+      coverageStatus: 'researched',
+      opportunity: 'none'
+    }
+  });
+  var strong = predictor.predict(concept, {
+    publicLandAssessment: {
+      coverageStatus: 'researched',
+      opportunity: 'strong'
+    }
+  });
+
+  assert(unknown.publicLandAssessment.status === 'unknown', 'unresearched input remains unknown');
+  assert(unknown.scoreCompleteness === 'partial', 'unknown input marks the composite partial');
+  assert(unknown.scoreDisclosure.includes(reason), 'unknown reason travels with the composite');
+  assert(unknown.scoreDisclosure.includes('0 provisional public-land support points'), 'unknown contribution is explicitly disclosed as 0 provisional points');
+  assert(verifiedNone.publicLandAssessment.status === 'verified_no_opportunity', 'researched none remains a verified no-opportunity finding');
+  assert(verifiedNone.scoreCompleteness === 'complete', 'verified no-opportunity input leaves the composite complete');
+  assert(verifiedNone.scoreDisclosure === null, 'verified no-opportunity needs no unknown-input disclosure');
+  assert(unknown.scoreCompleteness !== verifiedNone.scoreCompleteness, 'unresearched and verified-none predictor outputs differ');
+  assert(strong.publicLandAssessment.status === 'strong', 'strong opportunity remains strong');
+  assert(strong.factors.localSupport.value - verifiedNone.factors.localSupport.value === 2.5, 'strong opportunity retains the exact 2.5-point benefit');
+});
+
+test('predict(): absent overlay is unknown and never converted to none', function () {
+  predictor.load(data);
+  var normalized = predictor.publicLandAssessment(null);
+  var result = predictor.predict({ conceptType: 'family' }, {});
+  var marketSource = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+
+  assert(normalized.status === 'unknown', 'absent overlay normalizes to unknown');
+  assert(normalized.opportunity === null, 'absent overlay has no opportunity finding');
+  assert(result.publicLandAssessment.status === 'unknown', 'omitted predictor input stays unknown');
+  assert(!marketSource.includes("constraints.publicLand ? constraints.publicLand.opportunity : 'none'"), 'Market Analysis no longer substitutes none when the overlay is absent');
+  assert(marketSource.includes('chfaPredictor.publicLandAssessment(constraints.publicLand || null)'), 'Market Analysis delegates absent-overlay semantics to the predictor helper');
+});
+
+test('renderer: partial composite visibly discloses the unknown public-land input', function () {
+  predictor.load(data);
+  var prediction = predictor.predict({ conceptType: 'family' }, {});
+  var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
+    url: 'http://127.0.0.1/market-analysis.html',
+    runScripts: 'outside-only'
+  });
+  dom.window.eval(fs.readFileSync(path.resolve(__dirname, '..', 'js', 'lihtc-concept-card-renderer.js'), 'utf8'));
+  dom.window.LIHTCConceptCardRenderer.render(dom.window.document.getElementById('card'), {
+    confidence: 'screening',
+    recommendedExecution: 'Test',
+    conceptType: 'family',
+    keyRationale: []
+  }, null, { chfaCompetitiveness: prediction });
+  var text = dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
+
+  assert(text.includes('partial estimate'), 'rendered score is labelled as a partial estimate');
+  assert(text.includes('Partial score:'), 'rendered score includes an explicit partial-score disclosure');
+  assert(text.includes(prediction.scoreDisclosure), 'renderer uses the disclosure carried by the predictor output');
 });
 
 /* ── predict(): rural adds caveat ─────────────────────────────────── */

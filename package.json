@@ -152,7 +152,7 @@
     "test:pma-tract-display": "node test/pma-tract-display.test.js",
     "test:pma-confidence": "node test/pma-confidence.test.js",
     "test:pma-competitive-set": "node test/pma-competitive-set.test.js",
-    "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js",
+    "test:lihtc-deal-predictor": "node test/lihtc-deal-predictor.test.js && node test/test_chfa_award_predictor.js",
     "test:lihtc-opportunity-finder-zori": "node test/lihtc-opportunity-finder-zori-capture.test.js",
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
