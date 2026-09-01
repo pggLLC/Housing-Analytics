@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T07:49:08.544Z",
+  "generatedAt": "2026-08-31T14:33:41.608Z",
   "limit": 30,
   "placesChecked": 30,
   "placesWithCandidates": 20,
@@ -152,46 +152,118 @@
       "slug": "glendale",
       "candidateUrls": [
         {
-          "url": "https://realestate123.com/",
+          "url": "https://cityofglendale.org/",
           "type": "base",
           "status": 200,
-          "title": "Welcome to ARBITRAGE REAL ESTATE GROUP",
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "url": "https://cityofglendale.org/housing",
           "type": "subpath",
           "subpath": "housing",
           "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "url": "https://cityofglendale.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/planning/housing",
           "type": "subpath",
           "subpath": "planning/housing",
           "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "url": "https://cityofglendale.org/departments/housing",
           "type": "subpath",
           "subpath": "departments/housing",
           "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://realestate123.com/housing-economic-recovery-act-2008-mean/",
+          "url": "https://cityofglendale.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/departments/community-development",
+          "type": "subpath",
+          "subpath": "departments/community-development",
+          "status": 200,
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://cityofglendale.org/economic-development/housing",
           "type": "subpath",
           "subpath": "economic-development/housing",
           "status": 200,
-          "title": "THE HOUSING AND ECONOMIC RECOVERY ACT OF 2008-WHAT DOES IT MEAN TO YOU?? - Arbitrage Real Estate Gro",
+          "title": "cityofglendale.org - contact with domain owner | Epik.com",
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
@@ -376,20 +448,119 @@
       "slug": "evans",
       "candidateUrls": [
         {
-          "url": "https://townofevansny.gov/",
+          "url": "https://www.townofevans.org/",
           "type": "base",
-          "status": 200,
-          "title": "Town of Evans",
+          "status": 202,
+          "title": null,
           "hasHousingKeyword": false,
           "looksLikeColorado": false
         },
         {
-          "url": "https://townofevansny.gov/departments/community-development/",
+          "url": "https://www.townofevans.org/housing",
+          "type": "subpath",
+          "subpath": "housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/affordable-housing",
+          "type": "subpath",
+          "subpath": "affordable-housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/housing-authority",
+          "type": "subpath",
+          "subpath": "housing-authority",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-development",
+          "type": "subpath",
+          "subpath": "community-development",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/community-services",
+          "type": "subpath",
+          "subpath": "community-services",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/comprehensive-plan",
+          "type": "subpath",
+          "subpath": "comprehensive-plan",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/inclusionary-zoning",
+          "type": "subpath",
+          "subpath": "inclusionary-zoning",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/planning/housing",
+          "type": "subpath",
+          "subpath": "planning/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/housing",
+          "type": "subpath",
+          "subpath": "departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/government/departments/housing",
+          "type": "subpath",
+          "subpath": "government/departments/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/departments/community-development",
           "type": "subpath",
           "subpath": "departments/community-development",
-          "status": 200,
-          "title": "Planning &amp; Development - Town of Evans",
-          "hasHousingKeyword": true,
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
+          "looksLikeColorado": false
+        },
+        {
+          "url": "https://www.townofevans.org/economic-development/housing",
+          "type": "subpath",
+          "subpath": "economic-development/housing",
+          "status": 202,
+          "title": null,
+          "hasHousingKeyword": false,
           "looksLikeColorado": false
         }
       ]

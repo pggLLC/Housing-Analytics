@@ -295,7 +295,16 @@ jobs:
             exit 0
           fi
 
-          BRANCH="chore/market-data-rebuild-$(date -u '+%Y%m%d')"
+          # Stable branch name -- deliberately NOT date-stamped. A per-run
+          # branch opened a new PR every run; the previous ones never updated
+          # and rotted, because data/manifest.json changes ~46 times a week on
+          # main, so any PR carrying it conflicts within hours. A conflicting
+          # PR has no merge ref, so pull_request workflows never run and it
+          # fails silently and forever (#1481, #1483, #1491, #1492 all reached
+          # mergeable=false this way). The source-liveness generator already
+          # uses a stable name and never piled up. With a stable name the
+          # existing-PR check below updates one always-fresh PR instead.
+          BRANCH="chore/market-data-rebuild"
           # Fetch the branch first: in this fresh clone, --force-with-lease
           # has no remote-tracking info, so a same-day rerun was rejected
           # with "stale info" (run #28745267764). checkout -B tolerates the
@@ -316,8 +325,10 @@ jobs:
           # to open and rebuilds rotted on orphan branches (20260628,
           # 20260629, ...). Label dropped; failures now fail the step.
           existing=$(gh pr list --head "$BRANCH" --state open --json number --jq 'length')
+          existing_num=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
           if [ "$existing" -gt 0 ]; then
-            echo "Open PR already exists for $BRANCH — branch updated, skipping creation."
+            echo "Open PR already exists for $BRANCH — branch updated, refreshing title."
+            gh pr edit "$existing_num" --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')"
           else
             gh pr create \
               --title "chore(data): rebuild market data artifacts $(date -u '+%Y-%m-%d')" \

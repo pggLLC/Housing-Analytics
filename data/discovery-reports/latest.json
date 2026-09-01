@@ -1,14 +1,14 @@
 {
-  "scanTimestamp": "2026-08-30T13:17:01.883Z",
-  "totalScanned": 1616,
-  "newSourceCount": 1585,
+  "scanTimestamp": "2026-09-01T12:44:26.895Z",
+  "totalScanned": 1617,
+  "newSourceCount": 1586,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779722,
+      "sizeBytes": 780214,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 211521,
+      "sizeBytes": 203252,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -159,6 +159,12 @@
     {
       "path": "data/car-market-report-2026-08.json",
       "sizeBytes": 2312,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/car-market-report-2026-09.json",
+      "sizeBytes": 2331,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4814,7 +4820,7 @@
     },
     {
       "path": "data/hna/local-resources-candidates.json",
-      "sizeBytes": 25391,
+      "sizeBytes": 31039,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9386,7 +9392,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 172767,
+      "sizeBytes": 166152,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9404,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20058,
+      "sizeBytes": 20051,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9452,7 +9458,7 @@
     },
     {
       "path": "data/reports/developer-url-health.json",
-      "sizeBytes": 19305,
+      "sizeBytes": 19938,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9488,7 +9494,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 329133,
+      "sizeBytes": 328836,
       "inDataManifest": false,
       "inFilesManifest": true
     },
