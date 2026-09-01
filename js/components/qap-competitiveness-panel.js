@@ -21,6 +21,14 @@
   var _mountId = 'dcQapPanel';
   var _loaded = false;
 
+  function _esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   /* ── Formatting / color helpers ─────────────────────────────────── */
 
   function _bandColor(band) {
@@ -239,6 +247,12 @@
     var cc = prediction.competitiveContext || {};
     var factors = prediction.factors || {};
     var recs = _buildRecommendations(prediction);
+    var scoreQualifier = prediction.scoreCompleteness === 'partial' ? ' · partial estimate' : '';
+    var scoreDisclosure = prediction.scoreDisclosure
+      ? '<div role="note" style="margin:0 0 12px;padding:8px 12px;border-left:3px solid var(--warn,#d97706);font-size:.76rem;line-height:1.45;">' +
+          '<strong>Partial score:</strong> ' + _esc(prediction.scoreDisclosure) +
+        '</div>'
+      : '';
 
     // Score thresholds for visual reference
     var thresholds = { high: 82, moderate: 74, low: 65 };
@@ -308,13 +322,14 @@
       '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .75rem;">' +
         'Estimated CHFA QAP scoring based on historical award patterns (2015–2025). Not a guarantee — CHFA is the sole arbiter of competitive awards.' +
       '</p>' +
+      scoreDisclosure +
 
       // Score display
       '<div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:16px;">' +
         // Big score
         '<div style="text-align:center;min-width:100px;">' +
           '<div style="font-size:2.2rem;font-weight:800;line-height:1;color:' + _bandColor(band) + ';">' + Math.round(score) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">of 100 points</div>' +
+          '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;">of 100 points' + scoreQualifier + '</div>' +
         '</div>' +
         // Band + likelihood
         '<div style="flex:1;min-width:180px;">' +
