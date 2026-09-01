@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T13:12:30.129Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T13:19:08.548Z. Do not edit by hand.
 
 ---
 
@@ -1972,7 +1972,7 @@
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.4 KB |
 | `.github/workflows/docs-sync.yml` | 2.1 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
-| `.github/workflows/fetch-cdphe-boundaries.yml` | 2.9 KB |
+| `.github/workflows/fetch-cdphe-boundaries.yml` | 3.4 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.4 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.4 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.8 KB |
