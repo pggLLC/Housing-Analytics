@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-08-21T05:09:12.237Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-01T11:58:17.179Z. Do not edit by hand.
 
 ---
 
@@ -69,11 +69,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1577 JSON files found.
+1578 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 761.5 KB | ✅ | — |
+| `data/_manifest.json` | 761.4 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -87,7 +87,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 205.7 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 198.5 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -100,6 +100,7 @@
 | `data/car-market-report-2026-06.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-07.json` | 64.1 KB | ✅ | — |
 | `data/car-market-report-2026-08.json` | 2.3 KB | ✅ | — |
+| `data/car-market-report-2026-09.json` | 2.3 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -884,7 +885,7 @@
 | `data/hna/lihtc/08123.json` | 25.5 KB | ✅ | 29 features |
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
-| `data/hna/local-resources-candidates.json` | 28.2 KB | ✅ | — |
+| `data/hna/local-resources-candidates.json` | 30.3 KB | ✅ | — |
 | `data/hna/local-resources.json` | 174.7 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
@@ -1559,7 +1560,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.6 KB | ✅ | — |
+| `data/manifest.json` | 199.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1631,7 +1632,7 @@
 | `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 168.3 KB | ✅ | — |
+| `data/policy_briefs.json` | 162.3 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1642,14 +1643,14 @@
 | `data/qct-colorado.json` | 436.2 KB | ✅ | 224 features |
 | `data/reports/a11y-baseline.json` | 2.6 KB | ✅ | — |
 | `data/reports/data-source-health.json` | 7.6 KB | ✅ | — |
-| `data/reports/developer-url-health.json` | 27.0 KB | ✅ | — |
+| `data/reports/developer-url-health.json` | 19.5 KB | ✅ | — |
 | `data/reports/repo-link-audit.json` | 1.96 MB | ✅ | — |
 | `data/resort-workforce-housing-programs.json` | 12.5 KB | ✅ | — |
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 320.8 KB | ✅ | — |
+| `data/url-health.json` | 321.1 KB | ✅ | — |
 
 ---
 
@@ -1904,7 +1905,7 @@
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
-| `tests/conftest.py` | 3.0 KB |
+| `tests/conftest.py` | 4.2 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
 | `tests/economic_indicators_test.py` | 26.9 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
