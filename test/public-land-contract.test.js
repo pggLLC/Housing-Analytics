@@ -16,7 +16,7 @@ function unknownParcel() {
     residential_use_status: null, disposition_status: null, owner_interest_status: null,
     evidence_status: 'generic_claim_no_parcel_evidence', retrieved_at: null,
     source_layer_id: null, source_record_url: null, unavailable_reason: {}, source: null,
-    source_url: null, classification: 'unverified', verify: true, source_note: null
+    source_url: null, classification: 'not_available', observation_class: 'unverified', verify: true, source_note: null
   };
   contract.NULLABLE_STAGES.forEach(function (field) { parcel.unavailable_reason[field] = 'Not established by parcel-specific primary evidence.'; });
   return parcel;
@@ -42,11 +42,12 @@ const unsupportedHumanClaim = unknownParcel();
 unsupportedHumanClaim.vacancy_status = 'field_verified_vacant';
 delete unsupportedHumanClaim.unavailable_reason.vacancy_status;
 assert.throws(() => contract.validateParcel(unsupportedHumanClaim, { writer: 'machine' }), /machine writer cannot produce human-only values/);
-assert.throws(() => contract.validateParcel(unsupportedHumanClaim), /human-only values require classification human_verified/);
+assert.throws(() => contract.validateParcel(unsupportedHumanClaim), /human-only values require observation_class human_verified/);
 
 const humanVerifiedWithoutPrimaryEvidence = unknownParcel();
 humanVerifiedWithoutPrimaryEvidence.vacancy_status = 'field_verified_vacant';
-humanVerifiedWithoutPrimaryEvidence.classification = 'human_verified';
+humanVerifiedWithoutPrimaryEvidence.classification = 'observed';
+humanVerifiedWithoutPrimaryEvidence.observation_class = 'human_verified';
 delete humanVerifiedWithoutPrimaryEvidence.unavailable_reason.vacancy_status;
 assert.throws(() => contract.validateParcel(humanVerifiedWithoutPrimaryEvidence), /field-verified vacancy requires evidence_status verified_primary_record/);
 
@@ -58,14 +59,25 @@ assert.equal(contract.validateParcel(unknownParcel(), { writer: 'machine' }), tr
 const verifiedHuman = unknownParcel();
 verifiedHuman.evidence_status = 'verified_primary_record';
 verifiedHuman.vacancy_status = 'field_verified_vacant';
-verifiedHuman.classification = 'human_verified';
+verifiedHuman.classification = 'observed';
+verifiedHuman.observation_class = 'human_verified';
 delete verifiedHuman.unavailable_reason.vacancy_status;
 assert.equal(contract.validateParcel(verifiedHuman), true, 'a properly classified human verification passes');
+
+const invalidClassification = unknownParcel();
+invalidClassification.classification = 'unverified';
+assert.throws(() => contract.validateParcel(invalidClassification), /^Error: Public-land parcel invalid:\n- classification is invalid$/);
+
+const invalidObservationClass = unknownParcel();
+invalidObservationClass.observation_class = 'not_available';
+assert.throws(() => contract.validateParcel(invalidObservationClass), /^Error: Public-land parcel invalid:\n- observation_class is invalid$/);
 
 const schema = JSON.parse(fs.readFileSync(path.join(ROOT, 'schemas/public-land-parcel.schema.json'), 'utf8'));
 assert.equal(schema.$id, 'public-land-parcel.schema.json');
 assert(schema.required.includes('unavailable_reason'));
 assert(schema.required.includes('evidence_status'));
+assert(schema.required.includes('classification'));
+assert(schema.required.includes('observation_class'));
 
 const pkg = require(path.join(ROOT, 'package.json'));
 assert.equal(pkg.scripts['test:public-land-contract'], 'node test/public-land-contract.test.js');

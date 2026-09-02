@@ -14,6 +14,8 @@ const CANONICAL_COUNTIES = new Map(
 
 const SOURCE_STATUSES = new Set(['verified_live_source', 'source_found_schema_unmapped', 'source_requires_auth', 'source_blocks_automation', 'source_not_found', 'source_verification_pending']);
 const EVIDENCE_STATUSES = new Set(['verified_primary_record', 'source_reachable_parcel_not_found', 'source_unavailable', 'ownership_mismatch', 'attribute_mismatch', 'generic_claim_no_parcel_evidence']);
+const CLASSIFICATIONS = new Set(['modeled', 'user_entered', 'observed', 'not_available']);
+const OBSERVATION_CLASSES = new Set(['machine_observed', 'machine_inferred', 'human_verified', 'unverified']);
 const ENUMS = {
   building_footprint_status: new Set(['footprint_present', 'footprint_absent', 'not_screened']),
   vacancy_status: new Set(['no_footprint_detected', 'field_verified_vacant', 'field_verified_occupied', 'not_assessed']),
@@ -24,7 +26,7 @@ const ENUMS = {
 const NULLABLE_STAGES = ['parcel_id', 'recorded_owner', 'normalized_owner', 'owner_type', 'acreage', 'centroid', 'current_use', 'building_footprint_status', 'vacancy_status', 'zoning', 'residential_use_status', 'disposition_status', 'owner_interest_status', 'retrieved_at', 'source_layer_id', 'source_record_url', 'source', 'source_url', 'source_note'];
 const HUMAN_VALUES = new Set(['field_verified_vacant', 'field_verified_occupied', 'entitlement_confirmed', 'surplus_declared', 'not_surplus', 'interest_confirmed', 'interest_declined']);
 const REGISTRY_FIELDS = ['county_fips', 'county_name', 'source_status', 'endpoint', 'layer_id', 'field_map', 'verified_at', 'verified_by', 'blocked_reason'];
-const PARCEL_FIELDS = ['county_fips', 'parcel_id', 'recorded_owner', 'normalized_owner', 'owner_type', 'acreage', 'centroid', 'current_use', 'building_footprint_status', 'vacancy_status', 'zoning', 'residential_use_status', 'disposition_status', 'owner_interest_status', 'evidence_status', 'retrieved_at', 'source_layer_id', 'source_record_url', 'unavailable_reason', 'source', 'source_url', 'classification', 'verify', 'source_note'];
+const PARCEL_FIELDS = ['county_fips', 'parcel_id', 'recorded_owner', 'normalized_owner', 'owner_type', 'acreage', 'centroid', 'current_use', 'building_footprint_status', 'vacancy_status', 'zoning', 'residential_use_status', 'disposition_status', 'owner_interest_status', 'evidence_status', 'retrieved_at', 'source_layer_id', 'source_record_url', 'unavailable_reason', 'source', 'source_url', 'classification', 'observation_class', 'verify', 'source_note'];
 
 function assertValid(errors, label) {
   if (errors.length) throw new Error(label + ':\n- ' + errors.join('\n- '));
@@ -79,7 +81,8 @@ function validateParcel(parcel, options) {
   });
   if (!/^[0-9]{5}$/.test(parcel.county_fips || '')) errors.push('county_fips must be exactly five digits');
   if (!EVIDENCE_STATUSES.has(parcel.evidence_status)) errors.push('evidence_status is invalid');
-  if (!['machine_observed', 'machine_inferred', 'human_verified', 'unverified'].includes(parcel.classification)) errors.push('classification is invalid');
+  if (!CLASSIFICATIONS.has(parcel.classification)) errors.push('classification is invalid');
+  if (!OBSERVATION_CLASSES.has(parcel.observation_class)) errors.push('observation_class is invalid');
   if (typeof parcel.verify !== 'boolean') errors.push('verify must be boolean');
   Object.keys(ENUMS).forEach(function (field) {
     if (parcel[field] !== null && !ENUMS[field].has(parcel[field])) errors.push(field + ' has an invalid controlled value');
@@ -92,7 +95,7 @@ function validateParcel(parcel, options) {
   const humanFields = ['vacancy_status', 'residential_use_status', 'disposition_status', 'owner_interest_status'];
   const humanClaims = humanFields.filter(function (field) { return HUMAN_VALUES.has(parcel[field]); });
   if (writer === 'machine' && humanClaims.length) errors.push('machine writer cannot produce human-only values: ' + humanClaims.join(', '));
-  if (humanClaims.length && parcel.classification !== 'human_verified') errors.push('human-only values require classification human_verified');
+  if (humanClaims.length && parcel.observation_class !== 'human_verified') errors.push('human-only values require observation_class human_verified');
   if (parcel.evidence_status !== 'verified_primary_record' && (parcel.vacancy_status === 'field_verified_vacant' || parcel.vacancy_status === 'field_verified_occupied')) errors.push('field-verified vacancy requires evidence_status verified_primary_record');
   return assertValid(errors, 'Public-land parcel invalid');
 }
@@ -103,4 +106,4 @@ function runCli() {
 }
 
 if (require.main === module) runCli();
-module.exports = { SOURCE_STATUSES, EVIDENCE_STATUSES, HUMAN_VALUES, NULLABLE_STAGES, validateRegistry, validateParcel };
+module.exports = { SOURCE_STATUSES, EVIDENCE_STATUSES, CLASSIFICATIONS, OBSERVATION_CLASSES, HUMAN_VALUES, NULLABLE_STAGES, validateRegistry, validateParcel };
