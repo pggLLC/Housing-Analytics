@@ -5,7 +5,7 @@
   "description": "Evidence-first screening contract. Public ownership, vacancy, availability, and development feasibility are separate stages; unknown stages remain null with a reason.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["county_fips", "parcel_id", "recorded_owner", "normalized_owner", "owner_type", "acreage", "centroid", "current_use", "building_footprint_status", "vacancy_status", "zoning", "residential_use_status", "disposition_status", "owner_interest_status", "evidence_status", "retrieved_at", "source_layer_id", "source_record_url", "unavailable_reason", "source", "source_url", "classification", "verify", "source_note"],
+  "required": ["county_fips", "parcel_id", "recorded_owner", "normalized_owner", "owner_type", "acreage", "centroid", "current_use", "building_footprint_status", "vacancy_status", "zoning", "residential_use_status", "disposition_status", "owner_interest_status", "evidence_status", "retrieved_at", "source_layer_id", "source_record_url", "unavailable_reason", "source", "source_url", "classification", "observation_class", "verify", "source_note"],
   "properties": {
     "county_fips": { "type": "string", "pattern": "^[0-9]{5}$" },
     "parcel_id": { "type": ["string", "null"] },
@@ -39,7 +39,8 @@
     },
     "source": { "type": ["string", "null"] },
     "source_url": { "type": ["string", "null"], "format": "uri" },
-    "classification": { "type": "string", "enum": ["machine_observed", "machine_inferred", "human_verified", "unverified"] },
+    "classification": { "type": "string", "enum": ["modeled", "user_entered", "observed", "not_available"] },
+    "observation_class": { "type": "string", "enum": ["machine_observed", "machine_inferred", "human_verified", "unverified"] },
     "verify": { "type": "boolean" },
     "source_note": { "type": ["string", "null"] }
   }

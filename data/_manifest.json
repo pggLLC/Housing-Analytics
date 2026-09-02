@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-02T13:39:50.639Z",
+    "generated_at": "2026-09-02T13:41:23.178Z",
     "root": "data/",
-    "file_count": 1612,
-    "total_size_bytes": 151322997,
+    "file_count": 1613,
+    "total_size_bytes": 151527633,
     "kinds": {
-      "json": 1577,
+      "json": 1578,
       "geojson": 31,
       "csv": 4
     }
@@ -30341,6 +30341,21 @@
       "key_count": 7,
       "primary_array_key": "years",
       "primary_array_length": 11,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "manifest.json",
+      "kind": "json",
+      "size_bytes": 204636,
+      "mtime": "2026-09-02T13:39:53.155Z",
+      "shape": "object",
+      "keys": [
+        "generated",
+        "files"
+      ],
+      "key_count": 2,
+      "primary_array_key": null,
+      "primary_array_length": null,
       "primary_array_first_keys": null
     },
     {
