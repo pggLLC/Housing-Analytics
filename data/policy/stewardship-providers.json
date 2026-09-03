@@ -25,9 +25,11 @@
         "verify_with_provider": ["loan_servicing", "owner_occupancy_monitoring", "resale_administration", "program_stewardship"]
       },
       "source_url": "https://hrwco.org/programs/",
-      "source_note": "Official service-area page fetched 2026-08-04. It verifies the 15-county Western Slope service area and education, counseling, lending, and foreclosure services. Project-specific servicing, monitoring, resale administration, and stewardship roles remain VERIFY until contracted.",
+      "source_note": "Official service-area page fetched 2026-08-04. It verifies the 15-county Western Slope service area and education, counseling, lending, and foreclosure services. Primary evidence for project-specific servicing, monitoring, resale administration, and stewardship roles was identified as a provider agreement but has not been retrieved or confirmed.",
       "last_verified": "2026-08-04",
-      "classification": "observed",
+      "classification": "not_available",
+      "observation_class": "unverified",
+      "evidence_basis": "named_unretrieved",
       "verify": true
     }
   ]

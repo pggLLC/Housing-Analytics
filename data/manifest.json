@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-03T08:00:56.028754Z",
+  "generated": "2026-09-03T08:50:13.242165Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7839,12 +7839,12 @@
     "data/policy/affordability-models.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13263
+      "bytes": 14487
     },
     "data/policy/buyer-assistance-programs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1884
+      "bytes": 1971
     },
     "data/policy/chfa-awards-historical.json": {
       "featureCount": 0,
@@ -7869,7 +7869,7 @@
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 19246
+      "bytes": 20803
     },
     "data/policy/homeownership-programs.json": {
       "featureCount": 0,
@@ -7894,7 +7894,7 @@
     "data/policy/land-disposition-models.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9103
+      "bytes": 21043
     },
     "data/policy/lihtc-assumptions.json": {
       "featureCount": 0,
@@ -7919,7 +7919,7 @@
     "data/policy/resale-conventions.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6736
+      "bytes": 7059
     },
     "data/policy/research-orgs-housing.json": {
       "featureCount": 0,
@@ -7934,7 +7934,7 @@
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1718
+      "bytes": 1878
     },
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
