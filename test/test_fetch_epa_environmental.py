@@ -30,6 +30,28 @@ class Response:
 
 
 class EpaEnvironmentalFetcherTests(unittest.TestCase):
+    @staticmethod
+    def valid_superfund_row(**overrides):
+        row = {
+            "epa_id": "COD1", "site_id": "1", "name": "Located",
+            "fk_ref_state_code": "CO", "fips_code": "08031",
+            "county_name": "DENVER", "npl_status_code": "F",
+            "npl_status_name": "Final", "primary_latitude_decimal_val": "39.7",
+            "primary_longitude_decimal_val": "-104.9",
+        }
+        row.update(overrides)
+        return row
+
+    @staticmethod
+    def valid_brownfield_row(**overrides):
+        row = {
+            "pgm_sys_id": "ACRES-1", "registry_id": "1", "primary_name": "Located",
+            "state_code": "CO", "fips_code": "08031", "county_name": "DENVER",
+            "latitude": "39.7", "longitude": "-104.9",
+        }
+        row.update(overrides)
+        return row
+
     def test_4xx_is_not_retried(self):
         calls = []
 
@@ -133,6 +155,37 @@ class EpaEnvironmentalFetcherTests(unittest.TestCase):
         self.assertEqual(dataset["meta"]["superfund_source_records"], 2)
         self.assertEqual(dataset["meta"]["superfund_records"], 1)
         self.assertEqual(dataset["meta"]["superfund_omitted_missing_coordinates"], 1)
+
+    def test_page_limit_response_is_rejected_without_writing(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "must-not-exist.json"
+
+            def fetcher(url):
+                if url == epa.SEMS_QUERY_URL:
+                    return [self.valid_superfund_row()] * epa.PAGE_LIMIT
+                return [self.valid_brownfield_row()]
+
+            with self.assertRaisesRegex(RuntimeError, "page limit"):
+                epa.run(output_path=output, fetcher=fetcher)
+            self.assertFalse(output.exists())
+
+    def test_sems_response_outside_colorado_is_rejected(self):
+        def fetcher(url):
+            if url == epa.SEMS_QUERY_URL:
+                return [self.valid_superfund_row(fk_ref_state_code="WY")]
+            return [self.valid_brownfield_row()]
+
+        with self.assertRaisesRegex(RuntimeError, "SEMS response contains records outside Colorado"):
+            epa.build_dataset(fetcher=fetcher)
+
+    def test_acres_response_outside_colorado_is_rejected(self):
+        def fetcher(url):
+            if url == epa.SEMS_QUERY_URL:
+                return [self.valid_superfund_row()]
+            return [self.valid_brownfield_row(state_code="WY")]
+
+        with self.assertRaisesRegex(RuntimeError, "ACRES response contains records outside Colorado"):
+            epa.build_dataset(fetcher=fetcher)
 
 
 if __name__ == "__main__":
