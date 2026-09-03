@@ -25,6 +25,9 @@
   /* ── Extract latest valid observation from a FRED series ────────── */
 
   function _latestObs(series) {
+    if (series && series.status && series.status !== 'ok') {
+      return null;
+    }
     if (!series || !series.observations) return null;
     var obs = series.observations;
     for (var i = obs.length - 1; i >= 0; i--) {
@@ -86,8 +89,8 @@
           _rates.creditStress = creditSpread.value > 2.0; // >200bp = stress
         }
 
-        // 5. Construction PPI (WPUFD49207 or PCU236200236200)
-        var constructionPPI = _latestObs(s.PCU236200236200) || _latestObs(s.WPUFD49207);
+        // 5. Construction PPI (WPUFD49207 or WPUIP231120)
+        var constructionPPI = _latestObs(s.WPUIP231120) || _latestObs(s.WPUFD49207);
         if (constructionPPI) {
           _rates.constructionPPI = constructionPPI.value;
           _rates.constructionPPIDate = constructionPPI.date;

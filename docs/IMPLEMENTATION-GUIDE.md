@@ -90,24 +90,24 @@ Add to **ALL HTML pages** (index.html, dashboard.html, etc.) before closing `</b
 **Steel & Metals**:
 - Steel Mill Products PPI (PCU331111331111)
 - Steel Reinforcing Bar (WPU10170503)
-- Copper Wire & Cable PPI (PCU33142033142012)
-- Copper Building Wire (WPU10210301)
+- Copper Wire & Cable PPI (PCU331420331420A)
+- Building Wire and Cable (WPU10260306)
 - Aluminum Products PPI (PCU3313153313153)
 
 **Wood Products**:
-- Softwood Lumber PPI (PCU32121132121103)
+- Softwood Lumber PPI (PCU3211133211133)
 - Framing Lumber Price (WPU0811)
 - Plywood Sheathing (WPU0812)
 
 **Concrete & Masonry**:
 - Concrete Products PPI (PCU32731327313)
-- Portland Cement (WPU13310101)
-- Ready-Mix Concrete (PCU32732032732021)
+- Cement, Hydraulic (WPU1322)
+- Ready-Mix Concrete (PCU327320327320)
 
 **Other Materials**:
-- Gypsum Drywall PPI (PCU32742032742012)
-- Asphalt Paving (PCU32412132412121)
-- Insulation Materials (PCU32721432721412)
+- Gypsum Product Manufacturing (PCU327420327420)
+- Asphalt Paving (PCU324121324121)
+- Insulation Materials (WPU1392)
 
 **Energy & Labor**:
 - Diesel Fuel (WPU057303)
