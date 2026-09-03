@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T09:50:31.282Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T10:15:21.087Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 6.6 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 7.5 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
@@ -1790,8 +1790,8 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
-| `test/market-study-page.test.js` | 14.9 KB |
-| `test/market-study-report.test.js` | 8.8 KB |
+| `test/market-study-page.test.js` | 17.4 KB |
+| `test/market-study-report.test.js` | 9.1 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.2 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
