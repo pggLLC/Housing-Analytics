@@ -35,6 +35,8 @@
       "source_note": "Official page fetched 2026-08-04. It verifies 0% interest, no monthly payment, eligible property types, four-county availability, and repayment at mortgage payoff, sale, or change in primary residence. It does not publish an across-program maximum, term, AMI ceiling, appreciation, forgiveness, or lender-combination terms; those fields remain null and VERIFY.",
       "last_verified": "2026-08-04",
       "classification": "observed",
+      "observation_class": "human_verified",
+      "evidence_basis": "primary_source",
       "verify": true
     }
   ]
