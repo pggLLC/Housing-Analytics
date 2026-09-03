@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-03T07:08:12.812900Z",
+  "generated": "2026-09-03T07:33:50.197943Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7859,7 +7859,7 @@
     "data/policy/county-ownership.json": {
       "featureCount": 14,
       "placeholder": false,
-      "bytes": 6578
+      "bytes": 8209
     },
     "data/policy/county-parcel-sources.json": {
       "featureCount": 64,
