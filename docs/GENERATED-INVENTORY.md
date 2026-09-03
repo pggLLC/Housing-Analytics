@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T08:13:58.592Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T09:16:21.593Z. Do not edit by hand.
 
 ---
 
@@ -1611,26 +1611,26 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
-| `data/policy/affordability-models.json` | 13.0 KB | ✅ | — |
-| `data/policy/buyer-assistance-programs.json` | 1.8 KB | ✅ | — |
+| `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
+| `data/policy/buyer-assistance-programs.json` | 1.9 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
-| `data/policy/developer-ownership-funding.json` | 18.8 KB | ✅ | — |
+| `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
 | `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
-| `data/policy/land-disposition-models.json` | 8.9 KB | ✅ | — |
+| `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
-| `data/policy/resale-conventions.json` | 6.6 KB | ✅ | — |
+| `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
-| `data/policy/stewardship-providers.json` | 1.7 KB | ✅ | — |
+| `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 162.3 KB | ✅ | — |
@@ -1806,7 +1806,7 @@
 | `test/ownership-decision-chain.test.js` | 6.0 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
-| `test/ownership-resale.test.js` | 13.0 KB |
+| `test/ownership-resale.test.js` | 13.7 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
@@ -1843,7 +1843,7 @@
 | `test/prop123.test.js` | 13.9 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/public-facing-numbers.test.js` | 6.4 KB |
-| `test/public-land-contract.test.js` | 4.8 KB |
+| `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/query-builder.test.js` | 14.6 KB |
