@@ -48,6 +48,7 @@
   var _loaded     = false;
   var _absenceLabel = 'not researched';
   var _absenceReason = 'Not researched — county ownership coverage is curated; absence is not evidence of private ownership or no public-land opportunity.';
+  var VERIFIED_PRIMARY_RECORD = 'verified_primary_record';
 
   /* ── Constants ───────────────────────────────────────────────────── */
   var SUBSIDY_BY_OWNER = {
@@ -85,6 +86,26 @@
       return (ownership || 'Public entity') + ' — federal or tribal ownership may unlock surplus property programs; partnership required.';
     }
     return 'Private ownership — no public land discount available; standard acquisition required.';
+  }
+
+  function _notResearchedResult() {
+    return {
+      ownership:    null,
+      ownerType:    null,
+      isCLT:        null,
+      cltName:      null,
+      isFederal:    null,
+      isTribal:     null,
+      opportunity:  null,
+      narrative:    _absenceReason,
+      coverageStatus: 'not_researched',
+      coverageLabel: _absenceLabel,
+      unavailableReason: _absenceReason,
+      financialBenefit: {
+        subsidy:     null,
+        explanation: null
+      }
+    };
   }
 
   /* ── Public API ─────────────────────────────────────────────────── */
@@ -127,25 +148,12 @@
     var fips = typeof countyFips === 'string' ? countyFips.padStart(5, '0') : null;
     var countyEntry = (fips && _countyData[fips]) ? _countyData[fips] : null;
 
-    if (!countyEntry) {
-      return {
-        ownership:    null,
-        ownerType:    null,
-        isCLT:        null,
-        cltName:      null,
-        isFederal:    null,
-        isTribal:     null,
-        opportunity:  null,
-        narrative:    _absenceReason,
-        coverageStatus: 'not_researched',
-        coverageLabel: _absenceLabel,
-        unavailableReason: _absenceReason,
-        financialBenefit: {
-          subsidy:     null,
-          explanation: null
-        }
-      };
-    }
+    if (!countyEntry) return _notResearchedResult();
+
+    var parcels = (countyEntry.publicParcels || []).filter(function (parcel) {
+      return parcel && parcel.evidence_status === VERIFIED_PRIMARY_RECORD;
+    });
+    if (!parcels.length) return _notResearchedResult();
 
     var ownerType = 'private';
     var ownership = 'Private';
@@ -155,7 +163,6 @@
     var isTribal  = false;
 
     if (countyEntry) {
-      var parcels = countyEntry.publicParcels || [];
       var clts    = countyEntry.cltOrganizations || [];
 
       if (parcels.length > 0) {
