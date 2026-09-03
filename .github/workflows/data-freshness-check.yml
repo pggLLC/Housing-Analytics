@@ -152,8 +152,28 @@ jobs:
             gh issue close "${n}" --comment "$comment" || true
           done
 
-      - name: Re-raise failure as workflow status
+      - name: Re-raise only genuine breakage as workflow status
         if: steps.check.outcome == 'failure'
         run: |
-          echo "::error::One or more tracked data files are past their freshness SLA. See the open tracking issue for details."
-          exit 1
+          # A file being past its freshness SLA is a NOTICE, not a build
+          # failure. The tracking issue opened/updated above is the alert;
+          # failing the run as well produced a second, redundant signal --
+          # one file one day past SLA generated three failure emails on
+          # 2026-09-03, which is how real failures get lost in noise.
+          #
+          # A tracked file that is MISSING is different: nothing downstream
+          # can read it, and no issue comment substitutes for that. So:
+          #   missing > 0            -> fail the run (email warranted)
+          #   stale only             -> warn, exit 0 (issue carries the alert)
+          #   unparseable output     -> fail (the checker itself broke)
+          if ! missing=$(jq -e -r '.missing' /tmp/freshness.json 2>/dev/null); then
+            echo "::error::Freshness checker produced no readable JSON — the checker itself failed."
+            exit 1
+          fi
+          stale=$(jq -r '.stale // 0' /tmp/freshness.json)
+          if [ "$missing" -gt 0 ]; then
+            echo "::error::${missing} tracked data file(s) are MISSING. See the open tracking issue."
+            exit 1
+          fi
+          echo "::warning::${stale} tracked data file(s) are past their freshness SLA. The tracking issue has been opened or updated; this is not a build failure."
+          exit 0
