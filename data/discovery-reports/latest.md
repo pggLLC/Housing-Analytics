@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-01T12:44:26.895Z
+**Scan timestamp:** 2026-09-02T12:17:01.606Z
 
 ## Summary
 
@@ -1473,7 +1473,7 @@
 - `data/jurisdiction-briefs/0873825.json` (15 KB)
 - `data/jurisdiction-briefs/0876795.json` (15 KB)
 - `data/jurisdiction-briefs/_candidates.json` (24 KB)
-- `data/jurisdiction-briefs/_liveness.json` (236 KB)
+- `data/jurisdiction-briefs/_liveness.json` (272 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
 - `data/jurisdiction-briefs/_stale.json` (2 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (177 KB)

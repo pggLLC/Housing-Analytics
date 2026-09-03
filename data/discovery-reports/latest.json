@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-01T12:44:26.895Z",
+  "scanTimestamp": "2026-09-02T12:17:01.606Z",
   "totalScanned": 1617,
   "newSourceCount": 1586,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6260,
+      "sizeBytes": 6261,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -260,7 +260,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244576,
+      "sizeBytes": 244728,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8762,7 +8762,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 241251,
+      "sizeBytes": 278918,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9296,7 +9296,7 @@
     },
     {
       "path": "data/policy/county-ownership.json",
-      "sizeBytes": 6253,
+      "sizeBytes": 6578,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9404,7 +9404,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20051,
+      "sizeBytes": 20054,
       "inDataManifest": false,
       "inFilesManifest": true
     },

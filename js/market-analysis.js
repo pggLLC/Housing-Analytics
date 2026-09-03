@@ -2749,7 +2749,7 @@
             ami30UnitsNeeded:    dealInputs.ami30UnitsNeeded || 0,
             localSoftFunding:    dealInputs.softFundingAvailable || 0,
             hasHnaData:          !!needProfile,
-            publicLandOpportunity: constraints.publicLand ? constraints.publicLand.opportunity : 'none'
+            publicLandAssessment: chfaPredictor.publicLandAssessment(constraints.publicLand || null)
           };
           constraints.chfaCompetitiveness = chfaPredictor.predict(rec, siteContext);
         }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-16T14:26:49Z",
+  "generated_at": "2026-08-30T18:02:21Z",
   "sources": [
     {
       "id": "fhfa-county-hpi",
@@ -8,7 +8,7 @@
       "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_county.xlsx",
       "kind": "xlsx",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_values": [
           "State",
@@ -25,7 +25,7 @@
       "url": "https://data.bls.gov/cew/data/api/2024/a/area/08001.csv",
       "kind": "csv",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "area_fips",
@@ -46,7 +46,7 @@
       "url": "https://storage.googleapis.com/co-publicdata/profiles-county.csv",
       "kind": "bannered_csv",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "countyfips",
@@ -65,7 +65,7 @@
       "url": "https://storage.googleapis.com/co-publicdata/components-change-county.csv",
       "kind": "bannered_csv",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "countyfips",
@@ -85,7 +85,7 @@
       "url": "https://storage.googleapis.com/co-publicdata/sya-county.csv",
       "kind": "bannered_csv",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "countyfips",
@@ -105,7 +105,7 @@
       "url": "https://storage.googleapis.com/co-publicdata/muni-pop-housing.csv",
       "kind": "bannered_csv",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "countyfips",
@@ -125,7 +125,7 @@
       "url": "https://api.census.gov/data/2024/acs/acs5/profile/variables/DP03_0061E.json",
       "kind": "json_object",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_keys": [
           "name",
@@ -141,7 +141,7 @@
       "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/State_County/MapServer/1?f=json",
       "kind": "json_object",
       "expected_cadence_days": 30,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_keys": [
           "name",
@@ -156,7 +156,7 @@
       "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Qualified_Census_Tracts_2026/FeatureServer/0?f=json",
       "kind": "json_object",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_keys": [
           "name",
@@ -171,7 +171,7 @@
       "url": "https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Difficult_Development_Areas_2026/FeatureServer/0?f=json",
       "kind": "json_object",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_keys": [
           "name",
@@ -186,7 +186,7 @@
       "url": "https://lehd.ces.census.gov/data/lodes/LODES8/co/od/",
       "kind": "text",
       "expected_cadence_days": 365,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "contains": "co_od_main"
       }
@@ -198,7 +198,7 @@
       "url": "https://files.zillowstatic.com/research/public_csvs/zori/County_zori_uc_sfrcondomfr_sm_sa_month.csv",
       "kind": "csv",
       "expected_cadence_days": 30,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "required_columns": [
           "RegionID",
@@ -217,7 +217,7 @@
       "url": "https://www.redfin.com/news/data-center/",
       "kind": "text",
       "expected_cadence_days": 30,
-      "last_ok": "2026-08-16T14:26:49Z",
+      "last_ok": "2026-08-30T18:02:21Z",
       "parser": {
         "contains": "Data Center"
       }
