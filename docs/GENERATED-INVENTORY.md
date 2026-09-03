@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:34:45.629Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:52:52.089Z. Do not edit by hand.
 
 ---
 
@@ -1615,7 +1615,7 @@
 | `data/policy/buyer-assistance-programs.json` | 1.8 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
 | `data/policy/chfa-watchlist.json` | 9.5 KB | ✅ | — |
-| `data/policy/county-ownership.json` | 6.4 KB | ✅ | — |
+| `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 18.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
@@ -1751,7 +1751,7 @@
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
-| `test/hna-ownership-strategy.test.js` | 11.1 KB |
+| `test/hna-ownership-strategy.test.js` | 12.3 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
@@ -1877,7 +1877,7 @@
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
-| `test/test_public_land_overlay.js` | 12.2 KB |
+| `test/test_public_land_overlay.js` | 13.8 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
