@@ -58,6 +58,12 @@ assert(dealSrc.includes('data/policy/resale-conventions.json'), 'Deal Calculator
 assert(dealSrc.includes('computeOwnershipResale'), 'Deal Calculator wires resale computation into for-sale feasibility');
 
 assert.equal(data.conventions.length, 4, 'four peer resale mechanisms are present');
+const expectedProvenance = {
+  fixed_simple: { classification: 'modeled', observation_class: undefined, evidence_basis: undefined },
+  lesser_of_fixed_cpi: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
+  shared_appreciation: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' },
+  recapture: { classification: 'user_entered', observation_class: 'unverified', evidence_basis: 'none' }
+};
 ['fixed_simple', 'lesser_of_fixed_cpi', 'shared_appreciation', 'recapture'].forEach((id) => {
   const convention = byId(id);
   assert(convention, `${id} convention exists`);
@@ -67,7 +73,9 @@ assert.equal(data.conventions.length, 4, 'four peer resale mechanisms are presen
   assert(/^\d{4}-\d{2}-\d{2}$/.test(convention.last_verified), `${id} has ISO last_verified`);
   assert(convention.source, `${id} has source classification text`);
   assert(convention.source_note, `${id} has a source note`);
-  assert.equal(convention.classification, 'modeled', `${id} is classified as modeled`);
+  assert.equal(convention.classification, expectedProvenance[id].classification, `${id} carries its audited classification`);
+  assert.equal(convention.observation_class, expectedProvenance[id].observation_class, `${id} carries its audited observation class`);
+  assert.equal(convention.evidence_basis, expectedProvenance[id].evidence_basis, `${id} carries its audited evidence basis`);
   assert.equal(typeof convention.verify, 'boolean', `${id} carries an explicit verify flag`);
 });
 assert.equal(byId('fixed_simple').default, true, 'WMRHC fixed_simple is the default convention');

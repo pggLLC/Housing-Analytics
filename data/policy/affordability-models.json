@@ -70,6 +70,8 @@
       "source": "docs/AFFORDABILITY-METHODOLOGY.md (5% down scenario)",
       "last_verified": "2026-08-04",
       "classification": "modeled",
+      "observation_class": "machine_inferred",
+      "evidence_basis": "stated_method",
       "verify": true
     },
     {
@@ -100,6 +102,8 @@
       "source": "docs/AFFORDABILITY-METHODOLOGY.md (Fannie/Freddie 43% back-end)",
       "last_verified": "2026-08-04",
       "classification": "modeled",
+      "observation_class": "machine_inferred",
+      "evidence_basis": "stated_method",
       "verify": true
     },
     {
@@ -129,8 +133,12 @@
         "when_not_to_use": "When conventional or USDA is a better fit. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "HUD FHA \u2014 VERIFY current MIP schedule",
+      "source_url": "https://www.hud.gov/hud-partners/housing-mip",
+      "source_note": "HUD identifies the current FHA mortgage-insurance schedule, but the applicable primary schedule and current product terms were not retrieved for this model.",
       "last_verified": null,
-      "classification": "modeled",
+      "classification": "not_available",
+      "observation_class": "unverified",
+      "evidence_basis": "named_unretrieved",
       "verify": true
     },
     {
@@ -161,8 +169,12 @@
         "when_not_to_use": "Non-rural sites or above the income cap. Verify local property-tax mill levies, mortgage rate, and insurance pricing; the registry cost inputs are statewide approximations and do not reflect county/district or wildfire/WUI variation."
       },
       "source": "USDA RD 502 Direct/Guaranteed \u2014 VERIFY current limits + Fruita site eligibility",
+      "source_url": "https://www.rd.usda.gov/programs-services/single-family-housing-programs/single-family-housing-guaranteed-loan-program",
+      "source_note": "USDA Rural Development identifies the applicable 502 programs, but current limits, fee terms, and Fruita site eligibility were not retrieved for this model.",
       "last_verified": null,
-      "classification": "modeled",
+      "classification": "not_available",
+      "observation_class": "unverified",
+      "evidence_basis": "named_unretrieved",
       "verify": true
     },
     {
@@ -197,6 +209,8 @@
       "source_note": "The enacted bill summary documents the 38% monthly-housing-cost gate, the statewide-or-local 120% AMI test, and the waiver path. The front-end characterization and 35%-to-38% change are also stated in the sponsor summary at https://www.senatedems.co/newsroom/legislation-to-create-more-affordable-home-ownership-opportunities-signed-into-law The enacted-text PDF was not retrievable during research and was not represented as directly reviewed.",
       "last_verified": null,
       "classification": "modeled",
+      "observation_class": "machine_inferred",
+      "evidence_basis": "stated_method",
       "verify": true
     },
     {
@@ -213,8 +227,11 @@
         "when_not_to_use": "When a named product model already fits."
       },
       "source": "user-entered",
+      "source_note": "No external evidence exists for the custom screening defaults; owner or user input is required before use.",
       "last_verified": null,
       "classification": "user_entered",
+      "observation_class": "unverified",
+      "evidence_basis": "none",
       "verify": true
     }
   ]
