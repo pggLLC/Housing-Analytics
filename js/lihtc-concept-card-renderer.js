@@ -307,6 +307,10 @@
       var pct  = Math.round((award.awardLikelihood || 0) * 100);
       var band = award.competitiveBand || 'unknown';
       var bandBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', weak: '🔴 Weak' }[band] || _cap(band);
+      var scoreQualifier = award.scoreCompleteness === 'partial' ? ' (partial estimate)' : '';
+      var scoreDisclosure = award.scoreDisclosure
+        ? '<p role="note" class="lihtc-cc-constraint-narrative"><strong>Partial score:</strong> ' + _esc(award.scoreDisclosure) + '</p>'
+        : '';
       // Synthesized-data banner mirrors the deal-calculator panel. Underlying
       // dataset is a public-sources sample, not CHFA's authoritative record.
       var chfaBanner =
@@ -322,10 +326,11 @@
           chfaBanner,
           '<dl class="lihtc-cc-constraint-grid">',
             '<dt>Award Likelihood</dt><dd>' + _esc(bandBadge) + ' (' + pct + '%)</dd>',
-            '<dt>Est. QAP Score</dt><dd>' + _esc(String(award.scoreEstimate || '—')) + ' / 100</dd>',
+            '<dt>Est. QAP Score' + scoreQualifier + '</dt><dd>' + _esc(String(award.scoreEstimate || '—')) + ' / 100</dd>',
             '<dt>Applications</dt><dd>~' + _esc(String((award.competitiveContext || {}).applicationsExpected || '—')) + ' expected</dd>',
             '<dt>Funded</dt><dd>~' + _esc(String((award.competitiveContext || {}).fundingAvailable || '—')) + ' funded</dd>',
           '</dl>',
+          scoreDisclosure,
           award.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(award.narrative) + '</p>' : '',
           award.caveats && award.caveats.length > 0
             ? '<p class="lihtc-cc-constraint-narrative">⚡ ' + _esc(award.caveats[0]) + '</p>'
