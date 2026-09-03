@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-09-02T12:17:01.606Z",
-  "totalScanned": 1617,
-  "newSourceCount": 1586,
+  "scanTimestamp": "2026-09-03T12:15:03.435Z",
+  "totalScanned": 1618,
+  "newSourceCount": 1587,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 780214,
+      "sizeBytes": 780816,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6261,
+      "sizeBytes": 6266,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -266,7 +266,7 @@
     },
     {
       "path": "data/environmental/epa-superfund-co.json",
-      "sizeBytes": 2813,
+      "sizeBytes": 3022,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8774,7 +8774,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_stale.json",
-      "sizeBytes": 2182,
+      "sizeBytes": 3253,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9272,13 +9272,13 @@
     },
     {
       "path": "data/policy/affordability-models.json",
-      "sizeBytes": 13263,
+      "sizeBytes": 14487,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/buyer-assistance-programs.json",
-      "sizeBytes": 1884,
+      "sizeBytes": 1971,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9296,13 +9296,19 @@
     },
     {
       "path": "data/policy/county-ownership.json",
-      "sizeBytes": 6578,
+      "sizeBytes": 8209,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/policy/county-parcel-sources.json",
+      "sizeBytes": 22989,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/policy/developer-ownership-funding.json",
-      "sizeBytes": 19246,
+      "sizeBytes": 20803,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9332,7 +9338,7 @@
     },
     {
       "path": "data/policy/land-disposition-models.json",
-      "sizeBytes": 9103,
+      "sizeBytes": 21043,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9356,7 +9362,7 @@
     },
     {
       "path": "data/policy/resale-conventions.json",
-      "sizeBytes": 6736,
+      "sizeBytes": 7059,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9374,7 +9380,7 @@
     },
     {
       "path": "data/policy/stewardship-providers.json",
-      "sizeBytes": 1718,
+      "sizeBytes": 1878,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9404,7 +9410,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20054,
+      "sizeBytes": 20081,
       "inDataManifest": false,
       "inFilesManifest": true
     },
