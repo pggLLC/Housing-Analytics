@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:52:52.089Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:56:55.337Z. Do not edit by hand.
 
 ---
 
@@ -1963,7 +1963,7 @@
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
 | `.github/workflows/daily-audit-system.yml` | 2.6 KB |
-| `.github/workflows/data-freshness-check.yml` | 6.8 KB |
+| `.github/workflows/data-freshness-check.yml` | 8.0 KB |
 | `.github/workflows/data-quality-check.yml` | 6.7 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.0 KB |
@@ -2002,7 +2002,7 @@
 | `.github/workflows/sync-data-mtimes.yml` | 3.8 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 2.4 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 2.3 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 6.0 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.0 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.3 KB |
