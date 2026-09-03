@@ -16,6 +16,13 @@ const SOURCE_STATUSES = new Set(['verified_live_source', 'source_found_schema_un
 const EVIDENCE_STATUSES = new Set(['verified_primary_record', 'source_reachable_parcel_not_found', 'source_unavailable', 'ownership_mismatch', 'attribute_mismatch', 'generic_claim_no_parcel_evidence']);
 const CLASSIFICATIONS = new Set(['modeled', 'user_entered', 'observed', 'not_available']);
 const OBSERVATION_CLASSES = new Set(['machine_observed', 'machine_inferred', 'human_verified', 'unverified']);
+const EVIDENCE_BASES = new Set(['primary_source', 'stated_method', 'none', 'named_unretrieved']);
+const PROVENANCE_STATES = {
+  source_confirmed: { classification: 'observed', observation_class: 'human_verified', evidence_basis: 'primary_source' },
+  calculated_estimate: { classification: 'modeled', observation_class: 'machine_inferred', evidence_basis: 'stated_method' },
+  enter_your_value: { classification: 'user_entered', observation_class: 'unverified', evidence_basis: 'none' },
+  not_yet_verified: { classification: 'not_available', observation_class: 'unverified', evidence_basis: 'named_unretrieved' }
+};
 const ENUMS = {
   building_footprint_status: new Set(['footprint_present', 'footprint_absent', 'not_screened']),
   vacancy_status: new Set(['no_footprint_detected', 'field_verified_vacant', 'field_verified_occupied', 'not_assessed']),
@@ -100,10 +107,38 @@ function validateParcel(parcel, options) {
   return assertValid(errors, 'Public-land parcel invalid');
 }
 
+function provenanceState(record) {
+  const match = Object.keys(PROVENANCE_STATES).find(function (state) {
+    const expected = PROVENANCE_STATES[state];
+    return record && record.classification === expected.classification &&
+      record.observation_class === expected.observation_class &&
+      record.evidence_basis === expected.evidence_basis;
+  });
+  return match || null;
+}
+
+function validatePolicyProvenance(record, label) {
+  const errors = [];
+  const at = label || 'policy record';
+  if (!record || typeof record !== 'object') return assertValid([at + ' must be an object'], 'Policy provenance invalid');
+  if (!CLASSIFICATIONS.has(record.classification)) errors.push(at + '.classification is invalid');
+  if (!OBSERVATION_CLASSES.has(record.observation_class)) errors.push(at + '.observation_class is invalid');
+  if (!EVIDENCE_BASES.has(record.evidence_basis)) errors.push(at + '.evidence_basis is invalid');
+  const state = provenanceState(record);
+  if (!state) errors.push(at + ' does not match one of the four provenance states');
+  if (state === 'source_confirmed' && (typeof record.source_url !== 'string' || !record.source_url)) {
+    errors.push(at + ' source-confirmed record requires source_url');
+  }
+  if (state === 'not_yet_verified' && (typeof record.source_url !== 'string' || !record.source_url)) {
+    errors.push(at + ' unretrieved record requires source_url');
+  }
+  return assertValid(errors, 'Policy provenance invalid');
+}
+
 function runCli() {
   validateRegistry(JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8')));
   console.log('public-land contract: PASS (64 county source records; honest unknowns enforced)');
 }
 
 if (require.main === module) runCli();
-module.exports = { SOURCE_STATUSES, EVIDENCE_STATUSES, CLASSIFICATIONS, OBSERVATION_CLASSES, HUMAN_VALUES, NULLABLE_STAGES, validateRegistry, validateParcel };
+module.exports = { SOURCE_STATUSES, EVIDENCE_STATUSES, CLASSIFICATIONS, OBSERVATION_CLASSES, EVIDENCE_BASES, PROVENANCE_STATES, HUMAN_VALUES, NULLABLE_STAGES, validateRegistry, validateParcel, provenanceState, validatePolicyProvenance };
