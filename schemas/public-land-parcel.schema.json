@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "public-land-parcel.schema.json",
+  "title": "Public-land parcel screening record",
+  "description": "Evidence-first screening contract. Public ownership, vacancy, availability, and development feasibility are separate stages; unknown stages remain null with a reason.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["county_fips", "parcel_id", "recorded_owner", "normalized_owner", "owner_type", "acreage", "centroid", "current_use", "building_footprint_status", "vacancy_status", "zoning", "residential_use_status", "disposition_status", "owner_interest_status", "evidence_status", "retrieved_at", "source_layer_id", "source_record_url", "unavailable_reason", "source", "source_url", "classification", "observation_class", "verify", "source_note"],
+  "properties": {
+    "county_fips": { "type": "string", "pattern": "^[0-9]{5}$" },
+    "parcel_id": { "type": ["string", "null"] },
+    "recorded_owner": { "type": ["string", "null"] },
+    "normalized_owner": { "type": ["string", "null"] },
+    "owner_type": { "type": ["string", "null"], "enum": ["federal", "state", "county", "municipal", "housing_authority", "special_district", "other_public", "private", "unknown", null] },
+    "acreage": { "type": ["number", "null"], "minimum": 0 },
+    "centroid": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "object", "additionalProperties": false, "required": ["lon", "lat"], "properties": { "lon": { "type": "number", "minimum": -180, "maximum": 180 }, "lat": { "type": "number", "minimum": -90, "maximum": 90 } } }
+      ]
+    },
+    "current_use": { "type": ["string", "null"] },
+    "building_footprint_status": { "type": ["string", "null"], "enum": ["footprint_present", "footprint_absent", "not_screened", null] },
+    "vacancy_status": { "type": ["string", "null"], "enum": ["no_footprint_detected", "field_verified_vacant", "field_verified_occupied", "not_assessed", null] },
+    "zoning": { "type": ["string", "null"] },
+    "residential_use_status": { "type": ["string", "null"], "enum": ["zoning_permits_residential", "entitlement_confirmed", "not_screened", null] },
+    "disposition_status": { "type": ["string", "null"], "enum": ["surplus_declared", "not_surplus", "disposition_policy_unknown", "not_verified", null] },
+    "owner_interest_status": { "type": ["string", "null"], "enum": ["interest_confirmed", "interest_declined", "not_contacted", null] },
+    "evidence_status": { "type": "string", "enum": ["verified_primary_record", "source_reachable_parcel_not_found", "source_unavailable", "ownership_mismatch", "attribute_mismatch", "generic_claim_no_parcel_evidence"] },
+    "retrieved_at": { "type": ["string", "null"], "format": "date-time" },
+    "source_layer_id": { "type": ["string", "number", "null"] },
+    "source_record_url": { "type": ["string", "null"], "format": "uri" },
+    "unavailable_reason": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "parcel_id": { "type": "string", "minLength": 1 }, "recorded_owner": { "type": "string", "minLength": 1 }, "normalized_owner": { "type": "string", "minLength": 1 }, "owner_type": { "type": "string", "minLength": 1 }, "acreage": { "type": "string", "minLength": 1 }, "centroid": { "type": "string", "minLength": 1 }, "current_use": { "type": "string", "minLength": 1 }, "building_footprint_status": { "type": "string", "minLength": 1 }, "vacancy_status": { "type": "string", "minLength": 1 }, "zoning": { "type": "string", "minLength": 1 }, "residential_use_status": { "type": "string", "minLength": 1 }, "disposition_status": { "type": "string", "minLength": 1 }, "owner_interest_status": { "type": "string", "minLength": 1 }, "retrieved_at": { "type": "string", "minLength": 1 }, "source_layer_id": { "type": "string", "minLength": 1 }, "source_record_url": { "type": "string", "minLength": 1 }, "source": { "type": "string", "minLength": 1 }, "source_url": { "type": "string", "minLength": 1 }, "source_note": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source": { "type": ["string", "null"] },
+    "source_url": { "type": ["string", "null"], "format": "uri" },
+    "classification": { "type": "string", "enum": ["modeled", "user_entered", "observed", "not_available"] },
+    "observation_class": { "type": "string", "enum": ["machine_observed", "machine_inferred", "human_verified", "unverified"] },
+    "verify": { "type": "boolean" },
+    "source_note": { "type": ["string", "null"] }
+  }
+}

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-02T16:36:55.603583Z",
+  "generated": "2026-09-03T02:26:03.713999Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 780214
+      "bytes": 780815
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7860,6 +7860,11 @@
       "featureCount": 14,
       "placeholder": false,
       "bytes": 6578
+    },
+    "data/policy/county-parcel-sources.json": {
+      "featureCount": 64,
+      "placeholder": false,
+      "bytes": 22989
     },
     "data/policy/developer-ownership-funding.json": {
       "featureCount": 0,
