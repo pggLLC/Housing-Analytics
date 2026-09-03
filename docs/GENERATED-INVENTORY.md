@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T09:16:21.593Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T09:50:31.282Z. Do not edit by hand.
 
 ---
 
@@ -13,7 +13,7 @@
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 14.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
-| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.1 KB |
+| `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
@@ -22,7 +22,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.0 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-271 test files found.
+272 test files found.
 
 | File | Size |
 |------|------|
@@ -1704,7 +1704,7 @@
 | `test/deal-calc-ami-bands.test.js` | 5.7 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
-| `test/deal-calc-for-sale-feasibility.test.js` | 13.5 KB |
+| `test/deal-calc-for-sale-feasibility.test.js` | 13.6 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
@@ -1730,7 +1730,7 @@
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 2.5 KB |
-| `test/funding-context-card.test.js` | 7.5 KB |
+| `test/funding-context-card.test.js` | 7.6 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
@@ -1766,7 +1766,7 @@
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
-| `test/homeownership-programs.test.js` | 6.5 KB |
+| `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 3.1 KB |
 | `test/homepage-job-routing.test.js` | 3.9 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
@@ -1790,8 +1790,8 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
-| `test/market-study-page.test.js` | 14.4 KB |
-| `test/market-study-report.test.js` | 8.3 KB |
+| `test/market-study-page.test.js` | 14.9 KB |
+| `test/market-study-report.test.js` | 8.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.2 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
@@ -1806,7 +1806,7 @@
 | `test/ownership-decision-chain.test.js` | 6.0 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
-| `test/ownership-resale.test.js` | 13.7 KB |
+| `test/ownership-resale.test.js` | 13.9 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
@@ -1841,6 +1841,7 @@
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 18.5 KB |
 | `test/prop123.test.js` | 13.9 KB |
+| `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/public-facing-numbers.test.js` | 6.4 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
@@ -1865,7 +1866,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
-| `test/tax-credit-equity-markets.test.js` | 7.1 KB |
+| `test/tax-credit-equity-markets.test.js` | 7.3 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
