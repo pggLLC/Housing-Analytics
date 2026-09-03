@@ -4,6 +4,8 @@
     "state": "Colorado",
     "generated": "2026-03-24T00:00:00Z",
     "vintage": "2024",
+    "coverage_status": "representative_subset",
+    "coverage_reason": "Partial EPA dataset — this representative subset cannot confirm the absence of Superfund or brownfield sites when no record matches.",
     "note": "Representative subset — update from https://www.epa.gov/enviro/web-services/"
   },
   "superfundSites": [
