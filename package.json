@@ -158,7 +158,7 @@
     "test:lihtc-opportunity-finder-zori": "node test/lihtc-opportunity-finder-zori-capture.test.js",
     "test:pma-transit": "node test/pma-transit.test.js",
     "test:soft-funding-tracker": "node test/soft-funding-tracker.test.js",
-    "test:environmental-screening": "node test/test_environmental_screening.js && node test/test_public_land_overlay.js",
+    "test:environmental-screening": "python3 test/test_fetch_epa_environmental.py && node test/test_environmental_screening.js && node test/test_public_land_overlay.js",
     "test:hna-ranking-index": "node test/hna-ranking-index.test.js",
     "test:ranking-scenarios": "node test/ranking-scenarios.test.js",
     "test:hna-home-values": "node test/hna-home-value-cascade.test.js",
