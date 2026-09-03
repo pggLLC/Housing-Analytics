@@ -95,11 +95,24 @@ assert(fruitaHtml.includes('Place value</span>'));
 assert(fruitaHtml.includes('Fruita Housing Authority'));
 assert(fruitaHtml.includes('Proposition 123: Committed'));
 assert(fruitaHtml.includes('Housing Resources of Western Colorado'));
+assert(fruitaHtml.includes('Records unverified.'), 'fully quarantined county is labelled unverified rather than zero');
+assert(fruitaHtml.includes(countyOwnership.meta.quarantine_reason), 'parcel quarantine reason travels with the strategy view model');
+assert(!fruitaHtml.includes('0 public parcels'), 'fully quarantined county never renders a confident zero');
+assert(!fruitaHtml.includes('City of Grand Junction — North Ave Corridor'), 'quarantined owner and address are not listed');
 assert(fruitaHtml.includes('Available is context, never money.'));
 assert(fruitaHtml.includes('status: available'));
 assert(fruitaHtml.includes('<strong>100</strong> owner units across existing value bands.'));
 assert(!/applied|counted position/i.test(fruitaHtml));
 assert(!/% of households|households[^<]{0,40}priced out/i.test(fruitaHtml));
+
+const verifiedOwnership = JSON.parse(JSON.stringify(countyOwnership));
+verifiedOwnership.counties['08077'].publicParcels[0].evidence_status = 'verified_primary_record';
+const verifiedDatasets = Object.assign({}, datasets, { countyOwnership: verifiedOwnership });
+const verifiedFruita = Strategy.buildViewModel(Object.assign(input(fruitaGeo, 100000), { datasets: verifiedDatasets }));
+const verifiedFruitaHtml = Strategy.renderHtml(verifiedFruita);
+assert(verifiedFruitaHtml.includes('1</strong> verified public parcels'), 'verified county retains its parcel count');
+assert(verifiedFruitaHtml.includes('City of Grand Junction — North Ave Corridor'), 'verified parcel still lists its owner and address');
+assert(!verifiedFruitaHtml.includes('Records unverified.'), 'verified parcel does not receive the quarantine label');
 
 const thin = Strategy.buildViewModel(input({ type: 'place', geoid: '0899998', countyGeoid: '08999', name: 'Thin Place' }, 100000));
 const thinHtml = Strategy.renderHtml(thin);

@@ -83,6 +83,24 @@
     }).filter(Boolean);
   }
 
+  function resolvePublicLandRecords(county, meta) {
+    var records = county && county.publicParcels || [];
+    var verified = records.filter(function (parcel) {
+      return parcel && parcel.evidence_status === 'verified_primary_record';
+    });
+    if (verified.length) {
+      return { status: 'verified', parcels: verified, unavailableReason: null };
+    }
+    var reason = records.length
+      ? meta && meta.quarantine_reason
+      : meta && meta.absence_reason;
+    return {
+      status: 'not_researched',
+      parcels: [],
+      unavailableReason: reason || 'Public-land parcel records are not researched for this county.'
+    };
+  }
+
   function buildViewModel(input) {
     input = input || {};
     var geo = input.geo || {};
@@ -122,6 +140,7 @@
     var providers = resolveProviders(local, datasets.stewardshipProviders);
     var noSteward = datasets.stewardshipProviders && datasets.stewardshipProviders.meta && datasets.stewardshipProviders.meta.no_stewardship_flag;
     var county = datasets.countyOwnership && datasets.countyOwnership.counties && datasets.countyOwnership.counties[geo.countyGeoid || geo.geoid];
+    var publicLandRecords = resolvePublicLandRecords(county, datasets.countyOwnership && datasets.countyOwnership.meta);
     var progress = datasets.progress && datasets.progress.by_geoid && datasets.progress.by_geoid[geo.geoid] || null;
     var resaleComparison = input.resaleEngine && typeof input.resaleEngine.compareConventions === 'function'
       ? input.resaleEngine.compareConventions(datasets.resaleConventions, {
@@ -158,7 +177,8 @@
       local: local,
       providers: providers,
       noStewardshipFlag: noSteward || 'Permanent ownership stewardship capacity not established',
-      publicParcels: county && county.publicParcels || [],
+      publicLandRecords: publicLandRecords,
+      publicParcels: publicLandRecords.parcels,
       progress: progress,
       prop123: progress && progress.prop123 || local && local.prop123 || null,
       resaleComparison: resaleComparison,
@@ -206,7 +226,9 @@
     var authorities = vm.local && vm.local.housingAuthority || [];
     var capacityBody = authorities.length ? '<ul>' + authorities.map(function (authority) { return '<li>' + esc(authority.name) + ' — structure: ' + esc(authority.structure_type || 'VERIFY') + '; capacity: ' + esc(authority.capacity_tier || 'VERIFY') + '. ' + geoPill + '</li>'; }).join('') + '</ul>' : '<p>Authority capacity: ' + MISSING + '. ' + geoPill + '</p>';
     capacityBody += vm.providers.length ? '<ul>' + vm.providers.map(function (provider) { return '<li>' + esc(provider.name) + ' — status: ' + esc(provider.commitment_status || 'available') + '</li>'; }).join('') + '</ul>' : '<p>' + esc(vm.noStewardshipFlag) + '</p>';
-    var landBody = '<p><strong>' + vm.publicParcels.length + '</strong> public parcels in the containing-county file. ' + pill('County scope', 'county') + '</p>' + (vm.publicParcels.length ? '<ul>' + vm.publicParcels.map(function (parcel) { return '<li>' + esc(parcel.owner) + ' — ' + esc(parcel.address || 'address unavailable') + '</li>'; }).join('') + '</ul>' : '');
+    var landBody = vm.publicLandRecords.status === 'verified'
+      ? '<p><strong>' + vm.publicParcels.length + '</strong> verified public parcels in the containing-county file. ' + pill('County scope', 'county') + '</p><ul>' + vm.publicParcels.map(function (parcel) { return '<li>' + esc(parcel.owner) + ' — ' + esc(parcel.address || 'address unavailable') + '</li>'; }).join('') + '</ul>'
+      : '<p><strong>Records unverified.</strong> ' + esc(vm.publicLandRecords.unavailableReason) + ' ' + pill('County scope', 'county') + '</p>';
     var progressBody = vm.progress || vm.prop123 ? '<ul><li>Current HNA: ' + esc(vm.progress && vm.progress.hna && vm.progress.hna.status || 'not tracked') + '</li><li>Proposition 123: ' + esc(vm.prop123 && vm.prop123.status || 'not tracked') + '</li><li>Rural/urban designation: ' + esc(vm.progress && vm.progress.rural_urban || 'VERIFY') + '</li></ul>' : '<p>Funding competitiveness: ' + NOT_TRACKED + '. Rural/urban designation: VERIFY.</p>';
     progressBody += '<ul><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — current-HNA review</li><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — Proposition 123 review</li><li>Status: unknown — local contribution documentation</li><li>Status: gap — decision-grade partner verification</li></ul>';
     var recommendation = vm.ownership.tenureMixRecommendation || MISSING;
