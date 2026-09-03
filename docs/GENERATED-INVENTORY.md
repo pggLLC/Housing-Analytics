@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T10:15:21.087Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T18:52:58.137Z. Do not edit by hand.
 
 ---
 
@@ -124,8 +124,8 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 239.0 KB | ✅ | — |
-| `data/environmental/epa-superfund-co.json` | 3.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 239.1 KB | ✅ | — |
+| `data/environmental/epa-superfund-co.json` | 322.8 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-272 test files found.
+273 test files found.
 
 | File | Size |
 |------|------|
@@ -1872,7 +1872,8 @@
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_chfa_award_predictor.js` | 18.9 KB |
-| `test/test_environmental_screening.js` | 17.6 KB |
+| `test/test_environmental_screening.js` | 17.9 KB |
+| `test/test_fetch_epa_environmental.py` | 7.3 KB |
 | `test/test_fmr_flatten_guard.py` | 1.2 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
@@ -1987,7 +1988,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 11.8 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
-| `.github/workflows/market_data_build.yml` | 16.3 KB |
+| `.github/workflows/market_data_build.yml` | 16.4 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
