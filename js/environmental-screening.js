@@ -21,10 +21,10 @@
  * @typedef {Object} EnvRiskResult
  * @property {Object}  floodZone        — { zone, riskLevel, sfha, year100Flood, narrative }
  * @property {Object}  soil             — { stability, liquefactionRisk, narrative }
- * @property {Object}  hazmat           — { superfundSites, brownfieldSites, nearestSuperfundMi, narrative }
+ * @property {Object}  hazmat           — counts, risk, coverageStatus, unavailableReason, and narrative
  * @property {Object}  culturalHeritage — { nhpd, tribalLand }
- * @property {string}  riskBadge        — '🟢 Low' | '🟡 Moderate' | '🔴 High'
- * @property {string}  overallRisk      — 'low' | 'moderate' | 'high'
+ * @property {string}  riskBadge        — '🟢 Low' | '🟡 Moderate' | '🔴 High' | '⚪ Unknown'
+ * @property {string}  overallRisk      — 'low' | 'moderate' | 'high' | 'unknown'
  * @property {string}  narrative        — human-readable summary
  */
 (function (root, factory) {
@@ -41,6 +41,8 @@
   var _floodFeatures  = [];
   var _superfundSites = [];
   var _brownfieldSites = [];
+  var _hazmatCoverageStatus = 'coverage_unknown';
+  var _hazmatUnavailableReason = 'Hazmat dataset coverage is not declared complete; this screen cannot confirm absence.';
   var _loaded         = false;
 
   /* ── Constants ───────────────────────────────────────────────────── */
@@ -202,11 +204,15 @@
       if (d <= buf) brownfieldCount++;
     });
 
+    var hasMatch = superfundCount > 0 || brownfieldCount > 0;
+    var coverageIsFull = _hazmatCoverageStatus === 'full_statewide';
     var risk;
     if (superfundCount > 0) {
       risk = 'high';
     } else if (brownfieldCount > 0) {
       risk = 'moderate';
+    } else if (!coverageIsFull) {
+      risk = 'unknown';
     } else {
       risk = 'low';
     }
@@ -220,16 +226,20 @@
     } else if (brownfieldCount > 0) {
       narrative = brownfieldCount + ' brownfield site' + (brownfieldCount > 1 ? 's' : '') +
         ' within ' + buf + ' mile' + (buf !== 1 ? 's' : '') + '. Environmental review recommended.';
+    } else if (!coverageIsFull) {
+      narrative = _hazmatUnavailableReason;
     } else {
       narrative = 'No known Superfund or brownfield sites within ' + buf + ' mile' + (buf !== 1 ? 's' : '') + '.';
     }
 
     return {
-      superfundSites:     superfundCount,
-      brownfieldSites:    brownfieldCount,
+      superfundSites:     hasMatch || coverageIsFull ? superfundCount : null,
+      brownfieldSites:    hasMatch || coverageIsFull ? brownfieldCount : null,
       nearestSuperfundMi: nearestSuperfundMi < Infinity ? parseFloat(nearestSuperfundMi.toFixed(2)) : null,
       riskLevel:          risk,
-      narrative:          narrative
+      narrative:          narrative,
+      coverageStatus:     _hazmatCoverageStatus,
+      unavailableReason:  !hasMatch && !coverageIsFull ? _hazmatUnavailableReason : null
     };
   }
 
@@ -284,10 +294,11 @@
     );
     if (max >= 2) return 'high';
     if (max >= 1) return 'moderate';
+    if (flood.riskLevel === 'unknown' || hazmat.riskLevel === 'unknown' || soil.riskLevel === 'unknown') return 'unknown';
     return 'low';
   }
 
-  var _BADGES = { high: '🔴 High', moderate: '🟡 Moderate', low: '🟢 Low' };
+  var _BADGES = { high: '🔴 High', moderate: '🟡 Moderate', low: '🟢 Low', unknown: '⚪ Unknown' };
 
   /* ── Public API ─────────────────────────────────────────────────── */
 
@@ -309,6 +320,8 @@
     if (epaData) {
       _superfundSites  = epaData.superfundSites  || [];
       _brownfieldSites = epaData.brownfieldSites || [];
+      _hazmatCoverageStatus = epaData.meta && epaData.meta.coverage_status || 'coverage_unknown';
+      _hazmatUnavailableReason = epaData.meta && epaData.meta.coverage_reason || _hazmatUnavailableReason;
     }
     _loaded = true;
     return Promise.resolve();
