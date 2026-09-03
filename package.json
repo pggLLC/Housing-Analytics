@@ -50,7 +50,7 @@
     "test:briefs": "python3 scripts/validate-jurisdiction-briefs.py",
     "test:policy-data-currency": "node test/policy-data-currency.test.js",
     "test:lihtc-guide-accuracy": "node test/lihtc-guide-accuracy.test.js",
-    "test:fred-commodities-config": "node test/fred-commodities-config.test.js",
+    "test:fred-commodities-config": "python3 -m pytest test/test_fetch_fred_data.py -q && node test/fred-commodities-config.test.js",
     "test:polymarket-resolved": "node test/polymarket-resolved.test.js",
     "test:a11y-contrast-labels": "node test/a11y-contrast-labels.test.js",
     "test:public-build": "node test/public-build-metadata.test.mjs",

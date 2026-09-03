@@ -17,15 +17,15 @@ const FREDCommodities = {
             share: '12-15%'
         },
         copperWireCable: {
-            id: 'PCU33142033142012',
+            id: 'PCU331420331420A',
             name: 'Copper Wire & Cable PPI',
             category: 'Steel & Metal',
             impact: 'Electrical systems',
             share: '7-10%'
         },
         copperBuildingWire: {
-            id: 'WPU10210301',
-            name: 'Copper Building Wire',
+            id: 'WPU10260306',
+            name: 'Building Wire and Cable',
             category: 'Steel & Metal',
             impact: 'Electrical rough-in',
             share: '5-7%'
@@ -38,7 +38,7 @@ const FREDCommodities = {
             share: '8-12%'
         },
         softwoodLumber: {
-            id: 'PCU32121132121103',
+            id: 'PCU3211133211133',
             name: 'Softwood Lumber PPI',
             category: 'Wood Products',
             impact: 'Framing, structural',
@@ -66,35 +66,35 @@ const FREDCommodities = {
             share: '10-15%'
         },
         portlandCement: {
-            id: 'WPU13310101',
-            name: 'Portland Cement',
+            id: 'WPU1322',
+            name: 'Cement, Hydraulic',
             category: 'Concrete & Masonry',
             impact: 'Concrete ingredient',
             share: '3-5%'
         },
         readyMixConcrete: {
-            id: 'PCU32732032732021',
+            id: 'PCU327320327320',
             name: 'Ready-Mix Concrete',
             category: 'Concrete & Masonry',
             impact: 'Foundation, slabs',
             share: '8-12%'
         },
         gypsumDrywall: {
-            id: 'PCU32742032742012',
-            name: 'Gypsum Drywall PPI',
+            id: 'PCU327420327420',
+            name: 'Gypsum Product Manufacturing',
             category: 'Interior Finishes',
             impact: 'Interior walls',
             share: '6-9%'
         },
         asphaltPaving: {
-            id: 'PCU32412132412121',
+            id: 'PCU324121324121',
             name: 'Asphalt Paving',
             category: 'Site Work',
             impact: 'Parking, paving',
             share: '3-5%'
         },
         insulationMaterials: {
-            id: 'PCU32721432721412',
+            id: 'WPU1392',
             name: 'Insulation Materials',
             category: 'Insulation',
             impact: 'Energy efficiency',
@@ -142,8 +142,15 @@ const FREDCommodities = {
             const data = await this._loadData();
             const entry = data.series && data.series[seriesId];
             if (!entry) return null;
+            if (entry.status && entry.status !== 'ok') {
+                return {
+                    status: entry.status,
+                    unavailableReason: entry.unavailable_reason,
+                    observations: []
+                };
+            }
             // Return in desc order to match original usage
-            return [...entry.observations].reverse();
+            return { status: 'ok', unavailableReason: null, observations: [...entry.observations].reverse() };
         } catch (error) {
             console.error(`Error reading ${seriesId}:`, error);
             return null;
@@ -180,7 +187,16 @@ const FREDCommodities = {
         const updated = fredData && fredData.updated;
         const results = {};
         for (const [key, series] of Object.entries(this.series)) {
-            const observations = await this.fetchSeries(series.id);
+            const fetched = await this.fetchSeries(series.id);
+            if (fetched && fetched.status !== 'ok') {
+                results[key] = {
+                    ...series,
+                    status: fetched.status,
+                    unavailableReason: fetched.unavailableReason
+                };
+                continue;
+            }
+            const observations = fetched && fetched.observations;
             if (observations && observations.length > 0) {
                 if (this._isSeriesStale(observations, updated)) continue;
                 results[key] = {

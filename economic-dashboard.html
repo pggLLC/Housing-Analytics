@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="section-body">
   <h3 style="margin-bottom:var(--sp2)">Data Sources by Section</h3>
   <ul style="margin-bottom:var(--sp3)">
-    <li><strong>Construction Costs</strong> — BLS Producer Price Indices via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: WPUFD49207 (Inputs to construction), WPUFD4111 (Construction materials — nonresidential building), PCU236200236200 (Nonresidential building construction), PCU331110331110 (Iron &amp; steel mills), WPU0811 (Lumber), PCU327310327310 (Ready-mix concrete), CES2000000008 (Construction hourly earnings), ECIALLCIV (Employment Cost Index)</li>
+    <li><strong>Construction Costs</strong> — BLS Producer Price Indices via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: WPUFD49207 (Inputs to construction), WPUFD4111 (Construction materials — nonresidential building), WPUIP231120 (Net inputs to multifamily residential construction), PCU331110331110 (Iron &amp; steel mills), WPU0811 (Lumber), PCU327310327310 (Ready-mix concrete), CES2000000008 (Construction hourly earnings), ECIALLCIV (Employment Cost Index)</li>
     <li><strong>Housing Market</strong> — Census Bureau / Census-HUD via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: HOUST (Total housing starts), HOUST5F (Multifamily 5+ unit starts), PERMIT (Total building permits), PERMIT5 (Multifamily permits), UNDCONTSA (Units under construction), COMPUTSA (Total housing completions, national), CSUSHPISA (S&amp;P/Case-Shiller HPI), MSPUS (Median sales price), RHORUSQ156N (Homeownership rate), RRVRUSQ156N (Rental vacancy rate)</li>
     <li><strong>Financial &amp; Interest Rates</strong> — Federal Reserve / ICE via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: DGS10 (10-yr Treasury), DGS2 (2-yr Treasury), DFF (Fed Funds), SOFR (Secured Overnight Financing Rate), MORTGAGE30US (30-yr Fixed Mortgage), BAA10Y (Moody's Baa spread), T10Y2Y (Yield curve 10Y-2Y)</li>
     <li><strong>Labor Market</strong> — BLS via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a>: UNRATE (Unemployment rate), PAYEMS (Nonfarm payrolls), CIVPART (Labor force participation), CES0500000003 (Average hourly earnings), JTSJOL (JOLTS job openings), ICSA (Initial jobless claims), CPIAUCSL (CPI All Items), CUUR0000SAH1 (CPI Shelter)</li>
@@ -726,7 +726,7 @@ document.addEventListener('DOMContentLoaded', function () {
     {section:"construction", id:"WPUFD49207", title:"PPI: Inputs to construction", units:"index", fmt:"index"},
     {section:"construction", id:"WPUSI012011", title:"PPI: Lumber & wood products", units:"index", fmt:"index"},
     {section:"construction", id:"WPUFD4111", title:"PPI: Construction materials (nonresidential)", units:"index", fmt:"index"},
-    {section:"construction", id:"PCU236200236200", title:"PPI: Nonresidential building construction", units:"index", fmt:"index"},
+    {section:"construction", id:"WPUIP231120", title:"PPI: Net inputs to multifamily residential construction", units:"index", fmt:"index"},
     {section:"construction", id:"CES2000000008", title:"Construction Avg Hourly Earnings", units:"$/hr", fmt:"usd"},
     {section:"construction", id:"ECIALLCIV", title:"Employment Cost Index (Total comp)", units:"index", fmt:"index"},
     {section:"construction", id:"PCU331110331110", title:"PPI: Iron &amp; Steel Mills", units:"index", fmt:"index"},
@@ -849,6 +849,11 @@ function getKey(){ return CONFIG_KEY || ""; }
     // Live FRED API calls are blocked by CORS when running on GitHub Pages.
     if (!entry || !entry.observations){
       throw new Error(seriesId + ": not available in cached FRED data (data/fred-data.json)");
+    }
+    if (entry.status && entry.status !== "ok") {
+      const unavailable = new Error(entry.unavailable_reason || "FRED series is unavailable.");
+      unavailable.seriesStatus = entry.status;
+      throw unavailable;
     }
     const obs = entry.observations
       .filter(o => o && o.value !== "." && o.value !== null && o.date)
@@ -1318,14 +1323,13 @@ function getKey(){ return CONFIG_KEY || ""; }
         renderChart(canvas, labels, values);
         return true; // success
       } catch(e){
-        // info-level because the card is hidden gracefully and no UI
-        // breakage is visible. Some FRED series legitimately have
-        // periods with no observations (e.g. PCU236200236200 between
-        // updates); weekly console-audit would otherwise flag these
-        // as warnings forever. Still logs for engineer investigation.
-        console.info("Indicator failed (hidden):", ind.id, e.message || e);
-        // Hide the card — keep it in the DOM so IDs remain stable but remove from view
-        if (card) { card.style.display = "none"; card.dataset.indicatorHidden = "1"; }
+        console.info("Indicator unavailable:", ind.id, e.message || e);
+        if (card) {
+          card.dataset.seriesStatus = e.seriesStatus || "temporarily_unavailable";
+          valEl.textContent = "Unavailable";
+          dateEl.textContent = e.message || "FRED series is unavailable.";
+          deltaEl.textContent = "";
+        }
         return false; // failure
       }
     }));

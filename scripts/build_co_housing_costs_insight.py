@@ -189,7 +189,7 @@ class Config:
     # BLS PPI series IDs for construction inputs
     BLS_PPI_SERIES: Dict[str, str] = {
         "WPUFD4111": "Construction Materials (Nonresidential Building)",
-        "PCU236200236200": "Nonresidential Building Construction",
+        "WPUIP231120": "Net Inputs to Multifamily Residential Construction",
         "PCU331110331110": "Iron & Steel Mills",
         "PCU331315331315": "Aluminium Sheet/Plate/Foil",
         "PCU327310327310": "Ready-Mix Concrete",
@@ -1404,7 +1404,7 @@ Counties below the minimum transaction threshold are excluded.
 
 Series fetched:
 - `WPUFD4111` — Construction Materials (Nonresidential Building)
-- `PCU236200236200` — Nonresidential Building Construction
+- `WPUIP231120` — Net Inputs to Multifamily Residential Construction
 - `PCU331110331110` — Iron & Steel Mills
 - `PCU331315331315` — Aluminium Sheet/Plate/Foil
 - `PCU327310327310` — Ready-Mix Concrete
