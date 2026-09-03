@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:16:25.149Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T07:34:45.629Z. Do not edit by hand.
 
 ---
 
@@ -1985,7 +1985,7 @@
 | `.github/workflows/fetch-kalshi.yml` | 4.5 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 11.8 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
-| `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.3 KB |
+| `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
 | `.github/workflows/market_data_build.yml` | 16.3 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
