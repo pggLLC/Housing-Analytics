@@ -34,7 +34,7 @@
       active: 'Active',
       expired: 'Expired',
       proposed: 'Proposed',
-      VERIFY: 'VERIFY'
+      VERIFY: 'Not yet verified'
     }[status] || 'Watch';
   }
 
@@ -57,7 +57,7 @@
   function formatWorth(program) {
     if (program.what_its_worth) return program.what_its_worth;
     if (typeof program.benefit_amount === 'number') return '$' + program.benefit_amount.toLocaleString();
-    return 'VERIFY';
+    return 'Amount not yet verified';
   }
 
   function renderProgramCard(program) {
@@ -78,7 +78,7 @@
         '<div><dt style="font-weight:700;">How to start</dt><dd style="margin:0;color:var(--muted);">' + esc(program.how_to_start) + '</dd></div>' +
       '</dl>' +
       '<div style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);display:flex;flex-wrap:wrap;gap:.5rem;">' +
-        '<span>Verified ' + esc(program.last_verified || 'VERIFY') + '</span>' +
+        global.ProvenanceLabel.html(program) +
         (program.sunset_date ? '<span>Sunset ' + esc(program.sunset_date) + '</span>' : '') +
         '<a href="' + esc(program.source_url) + '" target="_blank" rel="noopener">Official source</a>' +
       '</div>' +

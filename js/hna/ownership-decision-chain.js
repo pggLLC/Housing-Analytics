@@ -24,13 +24,13 @@
 
   function fmtMoney(value) {
     var n = num(value);
-    if (n == null) return 'VERIFY';
+    if (n == null) return 'Value unavailable';
     return '$' + Math.round(n).toLocaleString();
   }
 
   function fmtNumber(value) {
     var n = num(value);
-    if (n == null) return 'VERIFY';
+    if (n == null) return 'Value unavailable';
     return Math.round(n).toLocaleString();
   }
 
@@ -119,7 +119,7 @@
 
     stages.push(stage('site-price-context', 'Site / price context',
       '<p>County price anchor: <strong>' + esc(fmtMoney(price.medianHomeValue)) + '</strong></p>' +
-      '<p>Affordability class: <strong>' + esc(price.classification || 'VERIFY') + '</strong></p>' +
+      '<p>Affordability class: <strong>' + (window.ProvenanceLabel ? window.ProvenanceLabel.html(price) : 'Owner input required') + '</strong></p>' +
       '<p>Source: ' + esc(price.source || 'home-value cascade') + '</p>'));
 
     var bandRows = priceBand && Array.isArray(priceBand.rows) ? priceBand.rows : [];
@@ -144,7 +144,7 @@
     stages.push(stage('developer-funding-stack', 'Developer funding stack',
       '<p>Applied mapped sources: <strong>' + esc(fmtMoney(funding && funding.appliedAmountPerUnit)) + '</strong> per unit</p>' +
       '<p>Residual after mapped stack: <strong>' + esc(fmtMoney(funding && funding.residualGapPerUnit)) + '</strong> per unit</p>' +
-      '<p>Programs checked: ' + esc(programsFrom(options.developerFundingDoc).map(function (p) { return p.name; }).join(', ') || 'VERIFY') + '</p>'));
+      '<p>Programs checked: ' + esc(programsFrom(options.developerFundingDoc).map(function (p) { return p.name; }).join(', ') || 'Programs not loaded') + '</p>'));
 
     var defaultConvention = conventionsFrom(options.resaleConventionsDoc).filter(function (c) { return c && c.id === 'fixed_simple'; })[0];
     var defaultRow = resale && Array.isArray(resale.rows)
@@ -154,7 +154,7 @@
       '<p>Default convention: <strong>' + esc((defaultConvention && (defaultConvention.label || defaultConvention.source_program)) || 'fixed_simple') + '</strong></p>' +
       '<p>Max resale price at holding period: <strong>' + esc(fmtMoney(defaultRow && defaultRow.maxResalePrice)) + '</strong></p>' +
       '<p>Owner gross equity screen: <strong>' + esc(fmtMoney(defaultRow && defaultRow.ownerGrossEquity)) + '</strong></p>' +
-      '<p>Preserves affordability: <strong>' + esc(defaultRow ? defaultRow.preservationLabel : 'VERIFY') + '</strong></p>'));
+      '<p>Preserves affordability: <strong>' + esc(defaultRow ? defaultRow.preservationLabel : 'Value unavailable') + '</strong></p>'));
 
     return {
       label: 'Developer ownership decision chain',

@@ -4,6 +4,7 @@
  */
 (function (global) {
   'use strict';
+  var provenanceLabel = global.ProvenanceLabel || (typeof require === 'function' ? require('../provenance-label.js') : null);
 
   var ALLOWED_USE_CASES = {
     'multifamily-retrofit': true,
@@ -34,7 +35,7 @@
 
   function statusLabel(program) {
     if (program.isVolumeCap) return 'PAB capacity';
-    if (program.status === 'VERIFY') return 'VERIFY';
+    if (program.status === 'VERIFY') return 'Not yet verified';
     if (program.status === 'active-watch') return 'Active watch';
     if (program.status) return String(program.status).replace(/-/g, ' ');
     if (program.available === 0) return 'Closed';
@@ -126,7 +127,7 @@
     var amount = fmtDollars(program.available);
     if (amount) return amount + ' currently tracked';
     if (program.isVolumeCap) return 'Volume-cap posture; verify current allocation before closing.';
-    if (program.status === 'VERIFY') return 'VERIFY before use; no verified current dollar amount.';
+    if (program.status === 'VERIFY') return 'Not yet verified; no confirmed current dollar amount.';
     if (program.maxPerProject) return 'Max per project ' + fmtDollars(program.maxPerProject) + ' listed; verify current availability.';
     return 'Program name and source only; no verified dollar amount in this data file.';
   }
@@ -139,7 +140,7 @@
     return '<article data-funding-context-program="' + esc(program.id) + '" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
       '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp2);">' +
         '<strong style="font-size:var(--small);line-height:1.35;">' + esc(program.name || program.id) + '</strong>' +
-        '<span class="' + esc(statusClass(program)) + '" style="font-size:var(--tiny);white-space:nowrap;">' + esc(statusLabel(program)) + '</span>' +
+        provenanceLabel.html(program, { compact: true }) +
       '</div>' +
       '<p style="margin:.45rem 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' + esc(programSummary(program)) + '</p>' +
       '<p style="margin:.35rem 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' + esc(program.description || program.warning || '') + '</p>' +

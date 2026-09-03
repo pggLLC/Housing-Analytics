@@ -533,6 +533,12 @@
     result.conventionLabel = convention.label;
     result.parameterStatus = convention.parameter_status || null;
     result.sourceUrl = convention.source_url || null;
+    result.sourceNote = convention.source_note || null;
+    result.lastVerified = convention.last_verified || null;
+    result.classification = convention.classification || result.classification;
+    result.observationClass = convention.observation_class || null;
+    result.evidenceBasis = convention.evidence_basis || null;
+    result.calculationNote = convention.calculation_note || null;
     return result;
   }
 
