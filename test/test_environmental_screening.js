@@ -255,30 +255,31 @@ test('assess(): soil stability by region', function () {
 /* ── assess(): hazmat counts ─────────────────────────────────────── */
 test('assess(): hazmat near known Superfund site', function () {
   module_.load(floodGeoJSON, epaData);
-  // Rocky Mountain Arsenal: 39.8353, -104.8533
-  var r = module_.assess(39.8353, -104.8533, 0.5);
-  assert(r.hazmat.superfundSites === 1, 'subset match still reports the Superfund site');
-  assert(r.hazmat.riskLevel === 'high', 'subset match retains high risk');
+  // California Gulch, a real final-NPL record returned by the statewide query.
+  var r = module_.assess(39.231279, -106.295522, 0.1);
+  assert(r.hazmat.superfundSites >= 1, 'statewide data matches California Gulch');
+  assert(r.hazmat.riskLevel === 'high', 'NPL match retains high risk');
   assert(r.hazmat.unavailableReason === null, 'a positive match is not replaced by an absence caveat');
 });
 
 test('assess(): subset no-match is indeterminate and cannot claim absence', function () {
-  module_.load(floodGeoJSON, epaData);
-  var r = module_.assess(37.2753, -107.8801, 1.0);
-  assert(epaData.meta.coverage_status === 'representative_subset', 'real fixture declares representative-subset coverage');
+  var partial = clone(epaData);
+  partial.meta.coverage_status = 'representative_subset';
+  partial.meta.coverage_reason = 'Test fixture has partial coverage and cannot confirm absence.';
+  module_.load(floodGeoJSON, partial);
+  var r = module_.assess(37.1, -108.8, 1.0);
   assert(r.hazmat.riskLevel === 'unknown', 'partial no-match is not low risk');
   assert(r.hazmat.superfundSites === null && r.hazmat.brownfieldSites === null, 'partial no-match does not publish confident zero counts');
-  assert(r.hazmat.unavailableReason === epaData.meta.coverage_reason, 'dataset reason travels with the hazmat result');
+  assert(r.hazmat.unavailableReason === partial.meta.coverage_reason, 'dataset reason travels with the hazmat result');
   assert(!/no known superfund|no known.*brownfield/i.test(r.hazmat.narrative), 'partial no-match does not claim no sites exist');
   assert(r.riskBadge !== '🟢 Low', 'partial no-match never produces the green low-risk badge');
+  module_.load(floodGeoJSON, epaData);
 });
 
 test('assess(): full statewide no-match retains the established low-risk result', function () {
-  var full = clone(epaData);
-  full.meta.coverage_status = 'full_statewide';
-  full.meta.coverage_reason = null;
-  module_.load(floodGeoJSON, full);
-  var r = module_.assess(37.2753, -107.8801, 1.0);
+  module_.load(floodGeoJSON, epaData);
+  var r = module_.assess(37.1, -108.8, 1.0);
+  assert(epaData.meta.coverage_status === 'full_statewide', 'real EPA data declares full statewide coverage');
   assert(r.hazmat.riskLevel === 'low', 'declared full coverage permits low risk on no-match');
   assert(r.hazmat.superfundSites === 0 && r.hazmat.brownfieldSites === 0, 'full no-match retains zero counts');
   assert(r.hazmat.unavailableReason === null, 'full no-match has no coverage caveat');
@@ -287,8 +288,11 @@ test('assess(): full statewide no-match retains the established low-risk result'
 });
 
 test('partial-coverage reason reaches the concept renderer and Market Analysis handoff', function () {
-  module_.load(floodGeoJSON, epaData);
-  var result = module_.assess(37.2753, -107.8801, 1.0);
+  var partial = clone(epaData);
+  partial.meta.coverage_status = 'representative_subset';
+  partial.meta.coverage_reason = 'Test fixture has partial coverage and cannot confirm absence.';
+  module_.load(floodGeoJSON, partial);
+  var result = module_.assess(37.1, -108.8, 1.0);
   var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
     url: 'http://127.0.0.1/market-analysis.html',
     runScripts: 'outside-only'
@@ -299,11 +303,12 @@ test('partial-coverage reason reaches the concept renderer and Market Analysis h
   }, null, { environmental: result });
   var text = dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
   assert(text.includes('Indeterminate'), 'renderer replaces the false clear state');
-  assert(text.includes(epaData.meta.coverage_reason), 'renderer displays the reason carried by the result');
+  assert(text.includes(partial.meta.coverage_reason), 'renderer displays the reason carried by the result');
   assert(!text.includes('🟢 Clear'), 'renderer does not show a green hazmat result for partial no-match');
 
   var marketSource = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
   assert(marketSource.includes('constraints.environmental = envScreening.assess(lat, lon, 1.0);'), 'Market Analysis passes the complete assessment object, including its reason, to consumers');
+  module_.load(floodGeoJSON, epaData);
 });
 
 /* ── assess(): buffer distance ───────────────────────────────────── */

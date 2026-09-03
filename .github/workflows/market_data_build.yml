@@ -190,6 +190,9 @@ jobs:
           name: market-data-raw
           path: data/market/
 
+      - name: Fetch statewide EPA Superfund and brownfield records
+        run: python3 scripts/market/fetch_epa_environmental.py
+
       - name: Fix bbox — tract boundaries GeoJSON
         run: |
           if [ -f data/market/tract_boundaries_co.geojson ]; then
@@ -289,7 +292,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/market/ data/manifest.json
+          git add data/market/ data/environmental/epa-superfund-co.json data/manifest.json
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
