@@ -54,6 +54,17 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
+      - name: Rebuild manifest for the changed index files
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          # _candidates.json and _stale.json live under data/, and
+          # data/manifest.json records byte counts for every data file. Without
+          # this step the generator opened a PR whose manifest disagreed with
+          # its own output, so test:file-manifest failed on every monthly run
+          # (PR #1504: manifest=2182 disk=3253). AGENTS.md requires a manifest
+          # rebuild on ANY data/ change.
+          python3 scripts/rebuild_manifest.py
+
       - name: Open PR with brief-management snapshot
         if: steps.changes.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
