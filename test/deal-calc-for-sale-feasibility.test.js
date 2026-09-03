@@ -225,7 +225,8 @@ dc.recalculate();
 const stackText = document.getElementById('dc-own-funding-stack').textContent;
 assert(stackText.includes('Developer ownership funding stack - screening only'), 'rendered stack is developer-facing and screening-only');
 assert(stackText.includes('Residual after mapped stack'), 'rendered stack discloses residual after applied sources');
-assert(stackText.includes('VERIFY before counting toward the gap'), 'rendered stack discloses unknown program terms as VERIFY');
+assert(stackText.includes('Enter your value'), 'rendered stack discloses unknown program terms as owner input: ' + stackText);
+assert(!stackText.includes('VERIFY'), 'rendered stack does not expose the legacy machine badge');
 assert(stackText.includes('C3 owner confirmation requested'), 'rendered stack flags C3 for owner confirmation');
 const resaleMount = document.getElementById('dc-own-resale-screen');
 assert.deepEqual(

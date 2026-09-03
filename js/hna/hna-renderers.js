@@ -4856,10 +4856,14 @@
     var title = isCountyFallback
       ? 'Containing-county CHAS used as fallback; verify local place-level context.'
       : 'Direct geography-level source used for this indicator.';
+    var evidence = window.ProvenanceLabel ? window.ProvenanceLabel.html({
+      classification: method === 'RAW' ? 'observed' : method === 'VERIFY' ? 'not_available' : 'modeled',
+      source_note: title
+    }, { compact: true }) : '';
     return '<span class="hca-cp-source-pill" title="' + escHtml(title) + '" ' +
       'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
       'background:' + bg + ';border:1px solid ' + border + ';color:' + color + ';">' +
-      escHtml(source) + (method ? ' · ' + escHtml(method) : '') + '</span>';
+      escHtml(source) + (method === 'CONTEXT' ? ' · CONTEXT' : '') + '</span> ' + evidence;
   }
 
   function _ownSourceWithVintage(text) {
@@ -5070,7 +5074,7 @@
         'Recent market single-family production context only; not an affordable ownership count or purchase-readiness signal. Total recent permits: ' + _ownFmtPermitAvg(permitContext.totalAnnual) + '/yr' + (permitContext.mfAnnual != null ? '; multifamily: ' + _ownFmtPermitAvg(permitContext.mfAnnual) + '/yr.' : '.')
       ) : '',
       _ownMetricRow('Moderate-income owner cost-burdened households', _ownFmtNum(result.moderateIncomeOwnerCostBurdened) + ' (' + _ownFmtPct(owner.inputs.moderateIncomeOwnerCostBurdenedShare) + ')', source, 'DERIVED', 'Owner pressure in the 51-100% HAMFI bands.'),
-      _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'MODELED' : 'VERIFY', home ? ('Modeled as ' + home.classification + ' at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
+      _ownMetricRow('Median home value', home ? _ownFmtMoney(home.medianHomeValue) : 'Unavailable', home ? (home.source || 'home-value input') : 'home-value input', home ? 'Calculated estimate' : 'Not yet verified', home ? ('Calculated at 80-100% AMI purchase thresholds.') : 'Usable home-value input unavailable or flagged.'),
       _ownMetricRow('Rental supply context (not an ownership metric)', result.existingRentalGap == null ? 'Unavailable' : _ownFmtNum(result.existingRentalGap) + ' units at or below 80% AMI', 'AMI gap data', result.existingRentalGap == null ? 'VERIFY' : 'DERIVED', 'Rental supply context; not an ownership count.'),
     ].join('');
 

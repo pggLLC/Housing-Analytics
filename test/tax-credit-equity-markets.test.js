@@ -8,6 +8,7 @@ const { JSDOM } = require('jsdom');
 const root = path.join(__dirname, '..');
 const componentPath = path.join(root, 'js', 'components', 'tax-credit-equity-markets.js');
 const componentSrc = fs.readFileSync(componentPath, 'utf8');
+const provenanceSrc = fs.readFileSync(path.join(root, 'js', 'provenance-label.js'), 'utf8');
 
 function readJson(relPath) {
   return JSON.parse(fs.readFileSync(path.join(root, relPath), 'utf8'));
@@ -46,6 +47,7 @@ async function renderArticle(overrides) {
     pretendToBeVisual: true
   });
   installFetch(dom.window, overrides);
+  dom.window.eval(provenanceSrc);
   dom.window.eval(componentSrc);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   await waitForRender();
@@ -61,6 +63,7 @@ async function renderCra() {
     pretendToBeVisual: true
   });
   installFetch(dom.window);
+  dom.window.eval(provenanceSrc);
   dom.window.eval(componentSrc);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   await waitForRender();
