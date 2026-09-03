@@ -14,6 +14,7 @@ function read(rel) {
 
 const data = JSON.parse(read('data/policy/resale-conventions.json'));
 const hnaSrc = read('js/hna/hna-ownership-need.js');
+const provenanceSrc = read('js/provenance-label.js');
 const resaleSrc = read('js/hna/ownership-resale.js');
 const strategySrc = read('js/hna/hna-ownership-strategy.js');
 const renderersSrc = read('js/hna/hna-renderers.js');
@@ -32,6 +33,7 @@ const sandbox = {
 };
 sandbox.window.window = sandbox.window;
 vm.createContext(sandbox);
+vm.runInContext(provenanceSrc, sandbox, { filename: 'js/provenance-label.js' });
 vm.runInContext(hnaSrc, sandbox, { filename: 'js/hna/hna-ownership-need.js' });
 vm.runInContext(resaleSrc, sandbox, { filename: 'js/hna/ownership-resale.js' });
 

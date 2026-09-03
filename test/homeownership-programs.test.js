@@ -11,6 +11,7 @@ const componentPath = path.join(root, 'js', 'components', 'homeownership-program
 const pagePath = path.join(root, 'help-for-homebuyers.html');
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const componentSrc = fs.readFileSync(componentPath, 'utf8');
+const provenanceSrc = fs.readFileSync(path.join(root, 'js', 'provenance-label.js'), 'utf8');
 
 function clone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -40,6 +41,7 @@ async function renderPage(overrides = {}) {
     }
     return Promise.resolve({ ok: true, status: 200, json: async () => clone(payload) });
   };
+  dom.window.eval(provenanceSrc);
   dom.window.eval(componentSrc);
   dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
   await waitForRender();

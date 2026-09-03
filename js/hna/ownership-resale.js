@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  var ProvenanceLabel = window.ProvenanceLabel || (typeof require === 'function' ? require('../provenance-label.js') : null);
 
   var SCREENING_CAVEAT = 'Screening estimate only; confirm the controlling deed restriction, ground lease, and program administrator terms before underwriting.';
   var DEFAULT_SCENARIOS = [
@@ -142,6 +143,8 @@
       lastVerified: convention.last_verified || '',
       parameterStatus: convention.parameter_status || 'VERIFY',
       classification: convention.classification || 'modeled',
+      observationClass: convention.observation_class || null,
+      evidenceBasis: convention.evidence_basis || null,
       verify: convention.verify === true,
       verifyParameter: !!verifyParameter,
       holdingPeriodYears: years,
@@ -190,6 +193,9 @@
         sourceUrl: convention.source_url || '',
         sourceNote: convention.source_note || '',
         classification: convention.classification || 'modeled',
+        observationClass: convention.observation_class || null,
+        evidenceBasis: convention.evidence_basis || null,
+        lastVerified: convention.last_verified || '',
         verify: convention.verify === true,
         disabled: option.disabled,
         disabledReason: option.disabledReason,
@@ -236,7 +242,7 @@
       var outcomes = row.outcomes.map(function (outcome) {
         return '<td><span>Next buyer ' + displayMoney(outcome.maxResalePrice) + '</span><br><span>Owner equity ' + displayMoney(outcome.ownerGrossEquity) + '</span><br><span>Public recovery ' + displayMoney(outcome.publicSubsidyRecaptured) + '</span></td>';
       }).join('');
-      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small><br><small>' + escapeHtml(row.classification) + (row.verify ? ' · VERIFY' : '') + ' · source: ' + escapeHtml(row.sourceProgram) + '</small></th>' + outcomes + '</tr>';
+      return '<tr data-resale-row="' + escapeHtml(row.conventionId) + '"' + (row.conventionId === comparison.selectedConventionId ? ' data-selected="true"' : '') + '><th scope="row">' + escapeHtml(row.label) + '<br><small>' + escapeHtml(row.objective) + '</small><br><small>' + ProvenanceLabel.html(row, { sourceText: row.sourceProgram || 'View source' }) + '</small></th>' + outcomes + '</tr>';
     }).join('');
     return '<div data-resale-comparison><p><strong>Compare mechanisms in declared source order.</strong> These alternatives are not ranked; they protect different interests.</p>' +
       (Number.isFinite(comparison.cpiRateAnnual) ? '<p>Lesser-of comparison CPI input: ' + escapeHtml((comparison.cpiRateAnnual * 100).toFixed(1)) + '% annually.</p>' : '') +

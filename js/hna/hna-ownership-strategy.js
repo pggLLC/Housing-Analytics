@@ -5,10 +5,11 @@
  */
 (function (root, factory) {
   'use strict';
-  var api = factory();
+  var api = factory(root && root.ProvenanceLabel);
+  if (typeof module === 'object' && module.exports) api = factory(require('../provenance-label.js'));
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (root) root.HNAOwnershipStrategy = api;
-}(typeof window !== 'undefined' ? window : this, function () {
+}(typeof window !== 'undefined' ? window : this, function (ProvenanceLabel) {
   'use strict';
 
   var BASE_TIERS = [0.60, 0.80, 1.00];
@@ -221,15 +222,15 @@
     var funding = vm.developerPrograms.concat(vm.buyerPrograms);
     var fundingBody = funding.length ? '<p><strong>Available is context, never money.</strong></p><ul>' + funding.map(function (program) {
       var potential = program.screening_apply === true ? ' — potential — not committed' : '';
-      return '<li>' + esc(program.name || program.provider || program.id) + ' — status: ' + esc(program.commitment_status || 'unverified') + potential + ' ' + pill(program.side === 'buyer' ? 'Buyer source' : 'Project source', program.side || 'project') + '</li>';
+      return '<li>' + esc(program.name || program.provider || program.id) + potential + ' ' + ProvenanceLabel.html(program) + '</li>';
     }).join('') + '</ul>' : '<p>Programs and funding: ' + NOT_TRACKED + '. Available is context, never money.</p>';
     var authorities = vm.local && vm.local.housingAuthority || [];
-    var capacityBody = authorities.length ? '<ul>' + authorities.map(function (authority) { return '<li>' + esc(authority.name) + ' — structure: ' + esc(authority.structure_type || 'VERIFY') + '; capacity: ' + esc(authority.capacity_tier || 'VERIFY') + '. ' + geoPill + '</li>'; }).join('') + '</ul>' : '<p>Authority capacity: ' + MISSING + '. ' + geoPill + '</p>';
+    var capacityBody = authorities.length ? '<ul>' + authorities.map(function (authority) { return '<li>' + esc(authority.name) + ' — structure: ' + esc(authority.structure_type || 'Not yet verified') + '; capacity: ' + esc(authority.capacity_tier || 'Not yet verified') + '. ' + geoPill + '</li>'; }).join('') + '</ul>' : '<p>Authority capacity: ' + MISSING + '. ' + geoPill + '</p>';
     capacityBody += vm.providers.length ? '<ul>' + vm.providers.map(function (provider) { return '<li>' + esc(provider.name) + ' — status: ' + esc(provider.commitment_status || 'available') + '</li>'; }).join('') + '</ul>' : '<p>' + esc(vm.noStewardshipFlag) + '</p>';
     var landBody = vm.publicLandRecords.status === 'verified'
       ? '<p><strong>' + vm.publicParcels.length + '</strong> verified public parcels in the containing-county file. ' + pill('County scope', 'county') + '</p><ul>' + vm.publicParcels.map(function (parcel) { return '<li>' + esc(parcel.owner) + ' — ' + esc(parcel.address || 'address unavailable') + '</li>'; }).join('') + '</ul>'
       : '<p><strong>Records unverified.</strong> ' + esc(vm.publicLandRecords.unavailableReason) + ' ' + pill('County scope', 'county') + '</p>';
-    var progressBody = vm.progress || vm.prop123 ? '<ul><li>Current HNA: ' + esc(vm.progress && vm.progress.hna && vm.progress.hna.status || 'not tracked') + '</li><li>Proposition 123: ' + esc(vm.prop123 && vm.prop123.status || 'not tracked') + '</li><li>Rural/urban designation: ' + esc(vm.progress && vm.progress.rural_urban || 'VERIFY') + '</li></ul>' : '<p>Funding competitiveness: ' + NOT_TRACKED + '. Rural/urban designation: VERIFY.</p>';
+    var progressBody = vm.progress || vm.prop123 ? '<ul><li>Current HNA: ' + esc(vm.progress && vm.progress.hna && vm.progress.hna.status || 'not tracked') + '</li><li>Proposition 123: ' + esc(vm.prop123 && vm.prop123.status || 'not tracked') + '</li><li>Rural/urban designation: ' + esc(vm.progress && vm.progress.rural_urban || 'Not yet verified') + '</li></ul>' : '<p>Funding competitiveness: ' + NOT_TRACKED + '. Rural/urban designation: Not yet verified.</p>';
     progressBody += '<ul><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — current-HNA review</li><li>Status: ' + (vm.progress ? 'done' : 'unknown') + ' — Proposition 123 review</li><li>Status: unknown — local contribution documentation</li><li>Status: gap — decision-grade partner verification</li></ul>';
     var recommendation = vm.ownership.tenureMixRecommendation || MISSING;
     var detail = vm.ownership.recommendationDetail || MISSING;
@@ -242,14 +243,14 @@
       '<div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;"><label>Model<select data-own-strategy-model style="display:block;max-width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);">' + options + '</select></label><label>Household size<select data-own-strategy-household style="display:block;background:var(--card);color:var(--text);border:1px solid var(--border);">' + [1,2,3,4,5,6,7,8].map(function (size) { return '<option' + (size === vm.householdSize ? ' selected' : '') + '>' + size + '</option>'; }).join('') + '</select></label><label>AMI price ceiling<select data-own-strategy-ami-ceiling style="display:block;min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--border);">' + ceilingOptions + '</select></label></div>' +
       '<p data-own-strategy-ami-ceiling-note style="margin:.45rem 0;color:var(--muted);font-size:.8rem;line-height:1.45;"><strong>Price-only control.</strong> This changes modeled affordable-price thresholds; it does not create household-demand counts above 100% AMI because CHAS\'s 100plus band is unbounded. The statutory default is 120% AMI under SB26-040 (effective July 1, 2026). Rural resort communities may petition DOLA under HB23-1304 for a different percentage.</p>' +
       (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:.8rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:.78rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
-      '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + pill('Modeled', 'modeled') + '</p>' + risk +
+      '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
       section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
-      section('Local price and income required', '<p>Local price: <strong>' + money(vm.price && vm.price.value) + '</strong> ' + pricePill + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + pill('Modeled', 'modeled') + '</p>') +
+      section('Local price and income required', '<p>Local price: <strong>' + money(vm.price && vm.price.value) + '</strong> ' + pricePill + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
       section('Resale mechanism comparison', resaleBody) +
       section('Funding-competitiveness checklist', progressBody) +
-      section('Preliminary strategy', '<p><strong>' + esc(recommendation) + '</strong></p><p>' + esc(detail) + '</p><p>' + pill('Reused ownership-need result', 'derived') + '</p>') +
+      section('Preliminary strategy', '<p><strong>' + esc(recommendation) + '</strong></p><p>' + esc(detail) + '</p><p>' + ProvenanceLabel.html({ classification: 'derived' }, { compact: true }) + '</p>') +
       section('Disclosure and verification', '<p><strong>Screening estimate; not a completed project market study.</strong> Figures show their source scope, model, or classification through pills and labels.</p><p>' + esc(VERIFY_PARTIES) + '</p>') + '</div>';
   }
 

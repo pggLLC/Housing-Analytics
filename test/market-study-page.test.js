@@ -54,6 +54,9 @@ function text(node) { return node.textContent.replace(/\s+/g, ' ').trim(); }
 const base = Page.buildModel(data, {});
 const defaultDom = dom();
 Page.render(defaultDom.mount, base, data);
+const bannedProvenanceTokens = /\b(?:observed|modeled|user_entered|not_available|VERIFY|hypothesis_to_test|owner_inputs_pending|is_commitment|observation_class|evidence_basis|primary_source|named_unretrieved|stated_method|machine_inferred|human_verified|unverified)\b/;
+const liveText = text(defaultDom.mount); const liveMatch = liveText.match(bannedProvenanceTokens);
+assert(!liveMatch, 'live DOM must use novice-facing evidence labels; context ' + liveText.slice(Math.max(0, liveMatch && liveMatch.index - 50), (liveMatch && liveMatch.index || 0) + 80));
 
 // Six house-card sections render from the real baseline fixture.
 assert.deepStrictEqual(
@@ -68,9 +71,9 @@ directDerived.bands.forEach((band) => {
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(band.assistanceRangeCheck));
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.maxAffordablePrice)));
 });
-assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('not_available — owner input required'));
+assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('Owner input required'));
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(scenarios[0].meta.owner_inputs_pending.join(', ')));
-assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('candidate — no commitment'));
+assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('candidate; no commitment has been made'));
 assert(!text(defaultDom.mount.querySelector('#ms-s1')).includes('TDC per unit: 0'));
 
 // S2: policy dataset order is preserved and lifecycle dollars equal direct calls.
@@ -84,7 +87,7 @@ directLand.forEach((row, index) => {
   assert(text(landNodes[index]).includes(money(direct.results[5].monthlyHousingCost)));
   assert.strictEqual(Object.keys(row.assessments).length, 15);
 });
-assert(text(landNodes[0]).includes('hypothesis_to_test'));
+assert(text(landNodes[0]).includes('Hypothesis to test'));
 
 // S3: every convention/horizon cell is a direct fromConvention result.
 const directConvention = Lifecycle.fromConvention(
@@ -96,7 +99,7 @@ const fixedCard = defaultDom.mount.querySelector('[data-convention="fixed_simple
   assert(text(fixedCard).includes(money(directConvention.results[year].nextBuyerMaxAffordablePrice)));
 });
 assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('scenario, not a prediction'));
-assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('VERIFY parameter'));
+assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('Calculated estimate'));
 
 // S4 default uses a real lifecycle year-result; public-source recovery must
 // survive that interface and render the Phase-2b worked-reference totals.
@@ -149,13 +152,13 @@ EffectiveDemand.STAGE_IDS.forEach((id) => {
   assert(text(defaultDom.mount.querySelector('#ms-s5')).includes(EffectiveDemand.DEFAULT_ASSUMPTIONS[id].basis));
 });
 assert(text(defaultDom.mount.querySelector('#ms-s5')).includes(EffectiveDemand.PROTECTED_LABEL));
-assert(text(defaultDom.mount.querySelector('#ms-s5')).includes('not_available — owner input required'));
+assert(text(defaultDom.mount.querySelector('#ms-s5')).includes('Owner input required'));
 
 // S6 default propagates unavailability and retains exact protected caveats.
 assert(text(defaultDom.mount.querySelector('#ms-s6')).includes(base.capture.competitiveSupplyNote));
 assert(text(defaultDom.mount.querySelector('#ms-s6')).includes(base.capture.captureHumilityCaveat));
-assert(text(defaultDom.mount.querySelector('#ms-s6')).includes('denominator: not_available'));
-assert(!text(defaultDom.mount.querySelector('#ms-s6')).includes('not_available: 0'));
+assert(text(defaultDom.mount.querySelector('#ms-s6')).includes('denominator: Owner input required'));
+assert(!text(defaultDom.mount.querySelector('#ms-s6')).includes('Owner input required: 0'));
 
 // Entering a complete real assumption set recomputes S5/S6 through the engines.
 const interactive = dom();
@@ -206,7 +209,7 @@ assert(!/\d\.\d{4,}/.test(s6Html), 'S6 must not expose floating-point noise');
 const fresh = dom();
 Page.start(fresh.mount, data);
 assert.strictEqual(fresh.mount.querySelector('[data-stage-id="contract_fallout"]').value, '');
-assert(text(fresh.mount.querySelector('#ms-s5')).includes('not_available — owner input required'));
+assert(text(fresh.mount.querySelector('#ms-s5')).includes('Owner input required'));
 
 const source = fs.readFileSync(path.join(ROOT, 'js/project-market-study/market-study-page.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'for-sale-market-study.html'), 'utf8');
@@ -221,7 +224,7 @@ function productionGuard(moduleSource) {
   assert(moduleSource.includes('data-transparency-warning="visible"'), 'visible transparency warning contract');
   assert(!/data-transparency-warning="visible"[^>]*hidden/.test(moduleSource), 'warning cannot be hidden');
   assert(moduleSource.includes('class="ms-denominator"'), 'denominator rendering contract');
-  assert(moduleSource.includes('not_available — owner input required'), 'labeled unavailability contract');
+  assert(moduleSource.includes('Owner input required'), 'labeled unavailability contract');
 }
 productionGuard(source);
 assert(!source.includes('localStorage'));
@@ -231,7 +234,7 @@ assert(html.includes('Screening estimate, not a completed market study') || html
 assert.throws(() => productionGuard(source.replace('data-transparency-warning="visible"', 'data-transparency-warning="visible" hidden')), /warning cannot be hidden/);
 assert.throws(() => productionGuard(`${source}\n/* recommended badge */`), /prohibited merit language/);
 assert.throws(() => productionGuard(source.replace('class="ms-denominator"', 'class="ms-denominator-removed"')), /denominator rendering contract/);
-assert.throws(() => productionGuard(source.replace('not_available — owner input required', '0')), /labeled unavailability contract/);
+assert.throws(() => productionGuard(source.replace('Owner input required', '0')), /labeled unavailability contract/);
 
 const pkg = require('../package.json');
 assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-study-page.test.js');
