@@ -9,21 +9,23 @@
     root && root.ResaleWaterfall,
     root && root.EffectiveDemand,
     root && root.ForsaleCapture,
-    root && root.MarketStudyReport
+    root && root.MarketStudyReport,
+    root && root.ProvenanceLabel
   );
   if (typeof module === 'object' && module.exports) {
     api = factory(
       require('./project-scenario.js'), require('../hna/ownership-finance.js'),
       require('./land-disposition.js'), require('./shared-equity-lifecycle.js'),
       require('./resale-waterfall.js'), require('./effective-demand.js'),
-      require('./forsale-capture.js'), require('./market-study-report.js')
+      require('./forsale-capture.js'), require('./market-study-report.js'),
+      require('../provenance-label.js')
     );
     module.exports = api;
   }
   if (root) root.MarketStudyPage = api;
 }(typeof window !== 'undefined' ? window : this, function (
   ProjectScenario, OwnershipFinance, LandDisposition, SharedEquityLifecycle,
-  ResaleWaterfall, EffectiveDemand, ForsaleCapture, MarketStudyReport
+  ResaleWaterfall, EffectiveDemand, ForsaleCapture, MarketStudyReport, ProvenanceLabel
 ) {
   'use strict';
 
@@ -64,14 +66,16 @@
   }
 
   function unavailable(value) { return value === NOT_AVAILABLE || value === null || value === undefined; }
+  function noviceText(value) { return String(value).replace(/\bmodeled\b/gi, 'calculated'); }
   function display(value, kind) {
-    if (unavailable(value)) return '<span class="ms-unavailable">not_available — owner input required</span>';
-    if (typeof value !== 'number') return String(value);
+    if (unavailable(value)) return '<span class="ms-unavailable">Owner input required</span>';
+    if (typeof value !== 'number') return noviceText(value);
     if (kind === 'money') return value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
     if (kind === 'rate') return value.toLocaleString('en-US', { style: 'percent', maximumFractionDigits: 2 });
     return value.toLocaleString('en-US', { maximumFractionDigits: 3 });
   }
-  function pill(value) { return `<span class="ms-pill">${String(value)}</span>`; }
+  function pill(value) { return ProvenanceLabel.html(typeof value === 'object' ? value : { classification: value }, { compact: true }); }
+  function provenance(value) { return ProvenanceLabel.html(value); }
   function caveat() { return '<p class="ms-caveat">Screening arithmetic for analyst review; verify source evidence and owner inputs before project use.</p>'; }
   function table(headers, rows, label) {
     return `<div class="ms-table-wrap"><table aria-label="${label}"><thead><tr>${headers.map(function (item) { return `<th>${item}</th>`; }).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
@@ -137,24 +141,24 @@
       return `<option${selected}>${scenarioKey(doc)}</option>`;
     }).join('');
     var mixRows = model.scenario.program.unit_mix.map(function (row) {
-      return `<tr><td>${display(row.count)}</td><td>${display(row.bedrooms)} bedroom</td><td>${display(row.sqft_range[0])}–${display(row.sqft_range[1])} sq ft</td><td>${pill(row.classification)}</td></tr>`;
+      return `<tr><td>${display(row.count)}</td><td>${display(row.bedrooms)} bedroom</td><td>${display(row.sqft_range[0])}–${display(row.sqft_range[1])} sq ft</td><td>${pill(row)}</td></tr>`;
     });
     var bandRows = model.derived.bands.map(function (row) {
-      return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td>${display(row.gapVsLocalPrice, 'money')}</td><td><strong class="ms-finding">${row.assistanceRangeCheck}</strong></td><td>${pill(row.classification)}</td></tr>`;
+      return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td>${display(row.gapVsLocalPrice, 'money')}</td><td><strong class="ms-finding">${row.assistanceRangeCheck}</strong></td><td>${pill(row)}</td></tr>`;
     });
     var partners = model.scenario.partners.map(function (partner) {
-      return `<li><strong>${partner.role}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate — no commitment; is_commitment: ${String(partner.is_commitment)}</li>`;
+      return `<li><strong>${partner.role}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
     }).join('');
-    return `<section id="ms-s1" class="chart-card ms-section"><h2>1. Scenario selector and program comparison</h2>${caveat()}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Units', 'Type', 'Size', 'Classification'], mixRows, 'Unit mix')}${table(['Units', 'AMI band', 'Max affordable price', 'Gap vs local price', 'Assistance check', 'Classification'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>TDC-dependent fields</h3><p>TDC per unit: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Subsidy per unit: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>owner_inputs_pending:</strong> ${model.scenario.meta.owner_inputs_pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    return `<section id="ms-s1" class="chart-card ms-section"><h2>1. Scenario selector and program comparison</h2>${caveat()}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Units', 'Type', 'Size', 'Evidence'], mixRows, 'Unit mix')}${table(['Units', 'AMI band', 'Max affordable price', 'Gap vs local price', 'Assistance check', 'Evidence'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>TDC-dependent fields</h3><p>TDC per unit: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Subsidy per unit: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Values still needed:</strong> ${model.scenario.meta.owner_inputs_pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
   function renderLand(model) {
     var rows = model.landOutcomes.map(function (item) {
       var fields = Object.keys(item.row.assessments).map(function (key) {
         var field = item.row.assessments[key];
-        return `<li><strong>${key}</strong>: ${field.value} ${pill(field.classification)} <span class="ms-verify">VERIFY — ${field.validator}</span></li>`;
+        return `<li><strong>${key}</strong>: ${field.value} ${provenance(field)}</li>`;
       }).join('');
-      return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>hypothesis_to_test</strong>' : ''}</p><p>Initial per-unit affordability benefit: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Monthly housing cost at year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle.classification)}</p><details><summary>15 assessment fields</summary><ul>${fields}</ul></details></article>`;
+      return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong>' : ''}</p><p>Initial per-unit affordability benefit: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Monthly housing cost at year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>15 assessment fields</summary><ul>${fields}</ul></details></article>`;
     }).join('');
     return `<section id="ms-s2" class="chart-card ms-section"><h2>2. Land-disposition comparison</h2>${caveat()}<p>Rows remain in policy-dataset order. Dollar figures below are direct lifecycle-engine outputs using the disclosed screening inputs.</p><div class="ms-card-grid">${rows}</div></section>`;
   }
@@ -167,9 +171,9 @@
     var cards = model.conventionResults.map(function (result) {
       var rows = HORIZONS.map(function (year) {
         var item = result.results[year];
-        return `<tr><td>${display(year)} years</td><td>${display(item.ownerNetProceeds, 'money')}</td><td>${display(item.appraisalConstrainedPrice, 'money')}</td><td>${display(item.nextBuyerMaxAffordablePrice, 'money')}</td><td>${item.preservesAffordabilityLabel}</td></tr>`;
+        return `<tr><td>${display(year)} years</td><td>${display(item.ownerNetProceeds, 'money')}</td><td>${display(item.appraisalConstrainedPrice, 'money')}</td><td>${display(item.nextBuyerMaxAffordablePrice, 'money')}</td><td>${noviceText(item.preservesAffordabilityLabel)}</td></tr>`;
       });
-      return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${pill(result.classification)} ${result.verifyParameter ? '<span class="ms-verify">VERIFY parameter</span>' : ''}</p><p>${result.scenarioLabel}</p>${table(['Horizon', 'Owner net proceeds', 'Restricted resale price', 'Next-buyer capacity', 'Affordability outcome'], rows, `${result.conventionLabel} outcomes`)}</article>`;
+      return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${provenance(result)}</p><p>${result.scenarioLabel}</p>${table(['Horizon', 'Owner net proceeds', 'Restricted resale price', 'Next-buyer capacity', 'Affordability outcome'], rows, `${result.conventionLabel} outcomes`)}</article>`;
     }).join('');
     return `<section id="ms-s3" class="chart-card ms-section"><h2>3. Shared-equity conventions</h2>${caveat()}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><div class="ms-card-grid">${cards}</div></section>`;
   }
@@ -183,24 +187,24 @@
       return `<option${year === model.selectedYear ? ' selected' : ''}>${year}</option>`;
     }).join('');
     var rows = model.settlement.steps.map(function (step) {
-      return `<tr><td>${step.label}</td><td>${display(step.owed, 'money')}</td><td>${display(step.paid, 'money')}</td><td>${display(step.shortfall, 'money')}</td><td>${pill(step.classification)}</td></tr>`;
+      return `<tr><td>${step.label}</td><td>${display(step.owed, 'money')}</td><td>${display(step.paid, 'money')}</td><td>${display(step.shortfall, 'money')}</td><td>${pill(step)}</td></tr>`;
     });
     var warning = model.settlement.ownerNetTransparencyWarning
       ? `<div class="ms-warning" role="alert" data-transparency-warning="visible"><strong>Owner-net transparency warning:</strong> ${model.settlement.ownerNetTransparencyNote}</div>` : '';
-    return `<section id="ms-s4" class="chart-card ms-section"><h2>4. Resale settlement viewer</h2>${caveat()}<div class="ms-controls"><label>Convention <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement.classification)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Classification'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
+    return `<section id="ms-s4" class="chart-card ms-section"><h2>4. Resale settlement viewer</h2>${caveat()}<div class="ms-controls"><label>Convention <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
   }
 
   function renderFunnel(model) {
     var rows = model.funnel.stages.map(function (stage) {
-      if (stage.id === 'observed_base') return `<tr><td>${stage.id}</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage.classification)}</td></tr>`;
+      if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
       var assumption = model.assumptions[stage.id];
-      return `<tr><td>${stage.id}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stage.id} share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage.classification)}</td></tr>`;
+      return `<tr><td>${stage.id.replace(/_/g, ' ')}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stage.id.replace(/_/g, ' ')} share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
     });
     return `<section id="ms-s5" class="chart-card ms-section"><h2>5. Effective-demand funnel</h2>${caveat()}<p><strong>Owner inputs pending:</strong> session-only shares; reload clears every entry. No values are stored.</p><p><strong>Unresolved stages:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.join(', ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
   }
 
   function figure(value, kind) {
-    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${value.denominator.basis}</span></span>`;
+    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${noviceText(value.denominator.basis)}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
@@ -210,7 +214,7 @@
       var item = model.capture.captureByAmiBand[key];
       return `<tr><td>${key}</td><td>${display(item.numerator)}</td><td>${figure(item, 'rate')}</td><td>${item.reason || ''}</td></tr>`;
     });
-    return `<section id="ms-s6" class="chart-card ms-section"><h2>6. Capture scenarios</h2>${caveat()}${table(['Pace', 'Monthly closings', 'Annual closings', 'Annual capture and denominator', 'Project penetration and denominator', 'Gross contracts and denominator', 'Pool depletion modeled'], scenarioRows, 'Capture scenarios')}${table(['AMI band', 'Scenario units', 'Capture and denominator', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Competitive-supply limitation:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Capture humility:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
+    return `<section id="ms-s6" class="chart-card ms-section"><h2>6. Capture scenarios</h2>${caveat()}${table(['Pace', 'Monthly closings', 'Annual closings', 'Annual capture and denominator', 'Project penetration and denominator', 'Gross contracts and denominator', 'Pool depletion included'], scenarioRows, 'Capture scenarios')}${table(['AMI band', 'Scenario units', 'Capture and denominator', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Competitive-supply limitation:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Capture humility:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
   }
 
   function render(mount, model, data) {
@@ -299,7 +303,7 @@
         observed: observedFromData(scenarios[0], loaded[5], loaded[6], window.HNAOwnershipNeed)
       });
     }).catch(function (error) {
-      mount.innerHTML = `<div class="ms-warning" role="alert">not_available — page inputs could not be loaded: ${error.message}</div>`;
+      mount.innerHTML = `<div class="ms-warning" role="alert">Page inputs could not be loaded: ${error.message}</div>`;
       return null;
     });
   }

@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  var provenanceLabel = window.ProvenanceLabel || (typeof require === 'function' ? require('./provenance-label.js') : null);
 
   // Financial defaults from centralized config (js/config/financial-constants.js).
   // Populated when HudFmr loads and a county is selected. AMI rent limits
@@ -291,7 +292,12 @@
           programType: program.program_type || '',
           displayAmount: program.render_value || 'VERIFY',
           sourceUrl: program.source_url || '',
-          note: program.screening_note || ''
+          note: program.screening_note || '',
+          classification: program.classification,
+          observationClass: program.observation_class,
+          evidenceBasis: program.evidence_basis,
+          sourceNote: program.source_note,
+          lastVerified: program.last_verified
         });
         return;
       }
@@ -306,7 +312,12 @@
         appliedAmountPerUnit: applied,
         screeningOnly: program.apply_to_gap !== true,
         sourceUrl: program.source_url || '',
-        note: program.screening_note || ''
+        note: program.screening_note || '',
+        classification: program.classification,
+        observationClass: program.observation_class,
+        evidenceBasis: program.evidence_basis,
+        sourceNote: program.source_note,
+        lastVerified: program.last_verified
       });
     });
 
@@ -327,7 +338,7 @@
     var mount = document.getElementById('dc-own-funding-stack');
     if (!mount) return;
     function fmt(n) {
-      return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : 'VERIFY';
+      return isFinite(n) ? ('$' + Math.round(n).toLocaleString('en-US')) : 'Value unavailable';
     }
     while (mount.firstChild) mount.removeChild(mount.firstChild);
     var title = document.createElement('p');
@@ -345,22 +356,29 @@
 
     var list = document.createElement('ul');
     list.style.cssText = 'margin:.2rem 0 .35rem;padding-left:1rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
+    function addProvenance(li, source) {
+      var holder = document.createElement('span');
+      holder.innerHTML = provenanceLabel.html(source);
+      while (holder.firstChild) li.appendChild(holder.firstChild);
+    }
     (stack.appliedSources || []).forEach(function (source) {
       var li = document.createElement('li');
-      li.textContent = source.name + (source.screeningOnly ? ' (potential — not committed)' : '') +
-        ': ' + fmt(source.appliedAmountPerUnit) + ' / unit applied';
+      li.appendChild(document.createTextNode(source.name + (source.screeningOnly ? ' (potential — not committed)' : '') +
+        ': ' + fmt(source.appliedAmountPerUnit) + ' / unit applied · '));
+      addProvenance(li, source);
       list.appendChild(li);
     });
     (stack.verifySources || []).forEach(function (source) {
       var li = document.createElement('li');
-      li.textContent = source.name + ': VERIFY before counting toward the gap';
+      li.appendChild(document.createTextNode(source.name + ': '));
+      addProvenance(li, source);
       list.appendChild(li);
     });
     mount.appendChild(list);
 
     var residual = document.createElement('p');
     residual.style.cssText = 'margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;';
-    residual.textContent = 'Residual after mapped stack: ' + fmt(stack.residualGapPerUnit) + ' / unit. C3 owner confirmation requested; no unverified amount is counted.';
+    residual.textContent = 'Residual after mapped stack: ' + fmt(stack.residualGapPerUnit) + ' / unit. C3 owner confirmation requested; no unconfirmed amount is counted.';
     mount.appendChild(residual);
   }
 

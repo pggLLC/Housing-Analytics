@@ -51,6 +51,9 @@ const model = Page.buildModel(data, {});
 const report = Report.buildReport(model, meta);
 const preview = Report.renderReportPreview(report);
 const exported = Report.renderReportHtml(report);
+const bannedProvenanceTokens = /\b(?:observed|modeled|user_entered|not_available|VERIFY|hypothesis_to_test|owner_inputs_pending|is_commitment|observation_class|evidence_basis|primary_source|named_unretrieved|stated_method|machine_inferred|human_verified|unverified)\b/;
+const exportMatch = exported.match(bannedProvenanceTokens);
+assert(!exportMatch, 'export must use novice-facing evidence labels; context ' + exported.slice(Math.max(0, exportMatch && exportMatch.index - 50), (exportMatch && exportMatch.index || 0) + 80));
 
 Report.REQUIRED_CAVEATS.forEach((entry) => {
   assert(preview.includes(entry), `preview caveat missing: ${entry}`);
@@ -68,8 +71,8 @@ Report.REQUIRED_CAVEATS.forEach((entry) => {
 const firstBand = model.derived.bands[0];
 assert(preview.includes(money(firstBand.gapVsLocalPrice)));
 assert(exported.includes(money(firstBand.gapVsLocalPrice)));
-assert(preview.includes('<p><strong>TDC per unit:</strong> not_available — owner input required</p>'));
-assert(preview.includes('<p><strong>Subsidy per unit:</strong> not_available — owner input required</p>'));
+assert(preview.includes('<p><strong>TDC per unit:</strong> Owner input required</p>'));
+assert(preview.includes('<p><strong>Subsidy per unit:</strong> Owner input required</p>'));
 const engineBoundMoney = money(model.landOutcomes[0].lifecycle.results[5].monthlyHousingCost);
 assert(preview.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
 assert(exported.includes('Monthly housing cost at year 5: ' + engineBoundMoney));
@@ -104,12 +107,13 @@ assert.strictEqual(pageSchedule, reportSchedule, 'page S6 and report §7 must us
 
 assert.equal(model.funnel.effectiveDemand, 'not_available');
 model.funnel.stages.forEach((stage) => assert(preview.includes(stage.basis)));
-assert(preview.includes('not_available — owner input required'));
+assert(preview.includes('Owner input required'));
 assert(preview.includes(model.funnel.unresolvedStages.join(', ')));
 
 assert(!/<script\b/i.test(exported));
 assert(!/<link\b/i.test(exported));
-assert(!/(?:src|href)=["'](?:https?:)?\/\//i.test(exported));
+assert(!/src=["'](?:https?:)?\/\//i.test(exported));
+assert(!/<link\b[^>]*href=["'](?:https?:)?\/\//i.test(exported));
 assert(!/priced.out|% of households/i.test(exported));
 const source = fs.readFileSync(path.join(ROOT, 'js/project-market-study/market-study-report.js'), 'utf8');
 assert(!/Date\.now|new\s+Date\s*\(/.test(source));

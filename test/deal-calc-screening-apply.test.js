@@ -86,6 +86,6 @@ const rendered = document.getElementById('dc-own-funding-stack').textContent;
 realStack.appliedSources.forEach((item) => {
   assert(rendered.includes(item.name + ' (potential — not committed)'));
 });
-assert(rendered.includes('no unverified amount is counted'));
+assert(rendered.includes('no unconfirmed amount is counted'));
 
 console.log('deal-calc-screening-apply: PASS');

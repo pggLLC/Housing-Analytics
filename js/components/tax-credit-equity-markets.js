@@ -79,7 +79,7 @@
   }
 
   function dollars(value) {
-    return typeof value === 'number' && isFinite(value) ? '$' + value.toFixed(2) : 'VERIFY';
+    return typeof value === 'number' && isFinite(value) ? '$' + value.toFixed(2) : 'Value not yet verified';
   }
 
   function statusLabel(status) {
@@ -90,7 +90,7 @@
       'phased-out': 'Phased-out',
       expired: 'Expired',
       verified: 'Verified',
-      VERIFY: 'VERIFY'
+      VERIFY: 'Not yet verified'
     }[status] || 'Watchlist';
   }
 
@@ -138,7 +138,7 @@
         '</div>' +
         '<div style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);display:flex;flex-wrap:wrap;gap:.5rem;">' +
           '<span>' + esc(meta || 'Date pending') + '</span>' +
-          '<a href="' + esc(entry.source_url) + '" target="_blank" rel="noopener">Official source</a>' +
+          global.ProvenanceLabel.html(entry) +
         '</div>' +
       '</article>';
     }).join('');
@@ -150,7 +150,7 @@
     target.innerHTML = '<table><thead><tr><th>Market</th><th>Scope</th><th>Price</th><th>Status</th><th>Source</th></tr></thead><tbody>' +
       markets.map(function (entry) {
         var price = entry.price_low == null || entry.price_high == null
-          ? 'VERIFY'
+          ? 'Value not yet verified'
           : dollars(entry.price_low) + '-' + dollars(entry.price_high);
         return '<tr data-transfer-id="' + esc(entry.id) + '">' +
           '<td><strong>' + esc(entry.label) + '</strong><br><span style="color:var(--muted);font-size:var(--tiny);">' + esc(entry.source_note) + '</span></td>' +

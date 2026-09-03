@@ -75,7 +75,7 @@ const rendered = render(softFunding, {
 assert(rendered.text.includes('CONTEXT'), 'render pins context badge');
 assert(rendered.text.includes('Does not change PMA scores'), 'render says no PMA score change');
 assert(rendered.text.includes('Deal Calculator outputs'), 'render says no Deal Calculator output change');
-assert(rendered.text.includes('VERIFY before use; no verified current dollar amount.'), 'VERIFY rows do not invent amounts');
+assert(rendered.text.includes('Not yet verified; no confirmed current dollar amount.'), 'pending rows do not invent amounts');
 
 const iraCard = rendered.mount.querySelector('[data-funding-context-program="CEO-IRA-HOME-ENERGY-REBATES"]');
 assert(iraCard, 'IRA rebate watch card renders');
@@ -108,6 +108,7 @@ assert(dealRenderWindow.includes('function _renderFundingContextCard'), 'Deal fu
   const behaviorDom = new JSDOM('<div id="pmaFundingContextCard"></div>', { url: 'http://127.0.0.1/market-analysis.html', runScripts: 'outside-only' });
   const w = behaviorDom.window;
   w.eval(scoringSrc);
+  w.eval(fs.readFileSync(path.join(root, 'js', 'provenance-label.js'), 'utf8'));
   w.eval(fs.readFileSync(path.join(root, 'js', 'components', 'funding-context-card.js'), 'utf8'));
   w.__softFundingStatus = softFunding;
   const before = JSON.stringify({
