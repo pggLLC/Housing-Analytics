@@ -4,6 +4,7 @@ const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
+const crypto = require('crypto');
 const { JSDOM } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const Page = require('../js/project-market-study/market-study-page.js');
@@ -43,7 +44,7 @@ function observed(scenario) {
 }
 const data = { scenarios, conventions, observed: observed(scenarios[0]) };
 function dom() {
-  const instance = new JSDOM('<main><div id="mount"></div></main>', { url: 'https://cohoanalytics.com/for-sale-market-study.html' });
+  const instance = new JSDOM('<main><div id="mount"></div></main>', { url: 'http://127.0.0.1/for-sale-market-study.html' });
   return { window: instance.window, mount: instance.window.document.getElementById('mount') };
 }
 function money(value) {
@@ -75,6 +76,25 @@ assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('Owner input requ
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(scenarios[0].meta.owner_inputs_pending.join(', ')));
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('candidate; no commitment has been made'));
 assert(!text(defaultDom.mount.querySelector('#ms-s1')).includes('TDC per unit: 0'));
+assert.strictEqual((text(defaultDom.mount).match(/Screening arithmetic for analyst review; verify source evidence and owner inputs before project use\./g) || []).length, 1);
+const firstBand = directDerived.bands[0];
+const firstAssistance = scenarios[0].assistance_ranges[0];
+const firstResidual = Math.max(0, firstBand.gapVsLocalPrice) - firstAssistance.range[1];
+assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(`Short by ${money(firstResidual)}`));
+assert(defaultDom.mount.querySelector('#ms-s1 .ms-affordability-gap strong'));
+
+// The real derivation must render both outcomes distinctly when the source
+// inputs support them; this proves the new framing is not a blanket label.
+const lowerPriceScenario = JSON.parse(JSON.stringify(scenarios[0]));
+lowerPriceScenario.local_baseline.home_value.value = 340000;
+const lowerPriceData = { scenarios: [lowerPriceScenario], conventions, observed: observed(lowerPriceScenario) };
+const lowerPriceModel = Page.buildModel(lowerPriceData, {});
+assert(lowerPriceModel.derived.bands.some((row) => row.assistanceRangeCheck === 'sufficient'));
+assert(lowerPriceModel.derived.bands.some((row) => row.assistanceRangeCheck === 'insufficient'));
+const lowerPriceDom = dom();
+Page.render(lowerPriceDom.mount, lowerPriceModel, lowerPriceData);
+assert(text(lowerPriceDom.mount.querySelector('#ms-s1')).includes('Gap covered'));
+assert(text(lowerPriceDom.mount.querySelector('#ms-s1')).includes('Short by'));
 
 // S2: policy dataset order is preserved and lifecycle dollars equal direct calls.
 const landNodes = Array.from(defaultDom.mount.querySelectorAll('[data-land-model]'));
@@ -100,6 +120,8 @@ const fixedCard = defaultDom.mount.querySelector('[data-convention="fixed_simple
 });
 assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('scenario, not a prediction'));
 assert(text(defaultDom.mount.querySelector('#ms-s3')).includes('Calculated estimate'));
+assert.strictEqual(Array.from(defaultDom.mount.querySelectorAll('#ms-path-select option')).filter((option) => option.textContent.includes('scenario, not a prediction')).length, 0);
+assert.strictEqual((text(defaultDom.mount.querySelector('#ms-s3')).match(/Each market path is a scenario, not a prediction\./g) || []).length, 1);
 
 // S4 default uses a real lifecycle year-result; public-source recovery must
 // survive that interface and render the Phase-2b worked-reference totals.
@@ -213,6 +235,12 @@ assert(text(fresh.mount.querySelector('#ms-s5')).includes('Owner input required'
 
 const source = fs.readFileSync(path.join(ROOT, 'js/project-market-study/market-study-page.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'for-sale-market-study.html'), 'utf8');
+const numericClone = defaultDom.mount.cloneNode(true);
+numericClone.querySelectorAll('.ms-assistance-residual').forEach((node) => node.remove());
+const numericText = text(numericClone);
+const numericTokens = (numericText.match(/\$\d[\d,]*(?:\.\d+)?/g) || []).concat(numericText.match(/-?\d+(?:\.\d+)?%/g) || []);
+assert.strictEqual(numericTokens.length, 109, 'only residual shortfalls may add rendered money or percentage tokens');
+assert.strictEqual(crypto.createHash('sha256').update(JSON.stringify(numericTokens)).digest('hex'), '30d8ab7b9369c8c5b5374f6a9c3fa4b204cac998b626a02837847c98b64e0253', 'pre-existing rendered money and percentage tokens must match current main');
 function productionGuard(moduleSource) {
   const lower = moduleSource.toLowerCase();
   ['recom' + 'mended', 'pref' + 'erred', 'win' + 'ner', 'best option', 'merit score'].forEach((term) => {
@@ -229,6 +257,7 @@ function productionGuard(moduleSource) {
 productionGuard(source);
 assert(!source.includes('localStorage'));
 assert(html.includes('Screening estimate, not a completed market study') || html.includes('screening estimate, not a completed market study'));
+assert(html.includes('anything you do not supply is marked as unavailable instead of being guessed'));
 
 // QA sabotage contracts: each prohibited mutation must trip the same guard.
 assert.throws(() => productionGuard(source.replace('data-transparency-warning="visible"', 'data-transparency-warning="visible" hidden')), /warning cannot be hidden/);
