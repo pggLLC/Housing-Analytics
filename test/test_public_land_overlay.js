@@ -13,7 +13,15 @@ const path    = require('path');
 const fs      = require('fs');
 const { JSDOM } = require('jsdom');
 const overlay = require(path.resolve(__dirname, '..', 'js', 'public-land-overlay'));
+const predictor = require(path.resolve(__dirname, '..', 'js', 'chfa-award-predictor'));
 const data    = require(path.resolve(__dirname, '..', 'data', 'policy', 'county-ownership.json'));
+
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
+function dataWithVerifiedParcel(fips, index) {
+  var fixture = clone(data);
+  fixture.counties[fips].publicParcels[index || 0].evidence_status = 'verified_primary_record';
+  return fixture;
+}
 
 let passed = 0;
 let failed = 0;
@@ -77,56 +85,35 @@ test('dataset declares curated 14-of-64 scope and absence semantics', function (
   assert(data.meta.statewide_counties === 64, 'metadata declares the 64-county statewide universe');
   assert(data.meta.coverage_type === 'curated', 'metadata labels coverage as curated');
   assert(data.meta.absence_means === 'not researched', 'metadata defines absence as not researched');
+  var parcels = Object.values(data.counties).flatMap(function (county) { return county.publicParcels; });
+  assert(parcels.length === 24, 'all 24 legacy parcel claims remain in the dataset');
+  assert(parcels.every(function (parcel) { return parcel.evidence_status === 'generic_claim_no_parcel_evidence'; }), 'all 24 claims carry the quarantine evidence status');
+  assert(data.meta.quarantined_parcel_count === 24, 'metadata records all 24 quarantined claims');
+  assert(data.meta.verified_parcel_count === 0, 'metadata records zero verified parcel claims');
 });
 
-/* ── assess() result schema ─────────────────────────────────────── */
-test('assess(): result schema validation (Boulder County = 08013)', function () {
+/* ── assess(): quarantined records ──────────────────────────────── */
+test('assess(): a fully quarantined county is the same unknown state as an absent county', function () {
   overlay.load(data);
-  var result = overlay.assess(null, null, '08013');
-
-  assert(typeof result.ownership === 'string',         'ownership is string');
-  assert(typeof result.ownerType === 'string',         'ownerType is string');
-  assert(typeof result.isCLT === 'boolean',            'isCLT is boolean');
-  assert(result.cltName === null || typeof result.cltName === 'string', 'cltName is null or string');
-  assert(typeof result.isFederal === 'boolean',        'isFederal is boolean');
-  assert(typeof result.isTribal === 'boolean',         'isTribal is boolean');
-  assert(typeof result.opportunity === 'string',       'opportunity is string');
-  assert(typeof result.narrative === 'string',         'narrative is string');
-  assert(typeof result.financialBenefit === 'object',  'financialBenefit is object');
-  assert(typeof result.financialBenefit.subsidy === 'number', 'financialBenefit.subsidy is number');
-  assert(typeof result.financialBenefit.explanation === 'string', 'financialBenefit.explanation is string');
+  var quarantined = overlay.assess(null, null, '08031');
+  var absent = overlay.assess(null, null, '08003');
+  assert(JSON.stringify(quarantined) === JSON.stringify(absent), 'Denver\'s quarantined records resolve identically to an absent county');
+  assert(quarantined.coverageStatus === 'not_researched', 'fully quarantined county is not researched');
+  assert(quarantined.ownership === null, 'quarantined claims yield no ownership');
+  assert(quarantined.opportunity === null, 'quarantined claims yield no opportunity');
+  assert(quarantined.financialBenefit.subsidy === null, 'quarantined claims yield no subsidy');
 });
 
-/* ── assess(): opportunity values ──────────────────────────────── */
-test('assess(): researched-county opportunity is a valid value', function () {
-  overlay.load(data);
-  var validOpportunities = ['strong', 'moderate', 'none'];
-
-  ['08001', '08013', '08031', '08059'].forEach(function (fips) {
-    var r = overlay.assess(null, null, fips);
-    assert(validOpportunities.indexOf(r.opportunity) !== -1,
-      'Opportunity valid for ' + fips + ': ' + r.opportunity);
-  });
-});
-
-/* ── assess(): known county with public parcels ─────────────────── */
-test('assess(): Denver (08031) has public ownership', function () {
-  overlay.load(data);
+/* ── assess(): selectively verified parcel ─────────────────────── */
+test('assess(): a hypothetical verified primary record retains its finding and benefit', function () {
+  overlay.load(dataWithVerifiedParcel('08031', 0));
   var result = overlay.assess(null, null, '08031');
   assert(result.ownerType !== 'private',     'Denver ownerType is not private');
   assert(result.opportunity === 'strong',    'Denver opportunity is strong');
   assert(result.financialBenefit.subsidy === 400000, 'Denver retains its $400,000 municipal-owner benefit');
   assert(result.coverageStatus === 'researched', 'Denver is explicitly marked researched');
   assert(result.unavailableReason === null, 'Denver has no unavailable reason');
-});
-
-/* ── assess(): CLT detection (Boulder 08013) ────────────────────── */
-test('assess(): Boulder (08013) detects CLT', function () {
   overlay.load(data);
-  var result = overlay.assess(null, null, '08013');
-  assert(result.isCLT === true,          'Boulder has CLT');
-  assert(result.cltName !== null,        'Boulder CLT has a name');
-  assert(typeof result.cltName === 'string', 'CLT name is string');
 });
 
 /* ── assess(): absent county is not researched ──────────────────── */
@@ -142,7 +129,7 @@ test('assess(): absent county does not fabricate private ownership or a zero ben
   assert(result.financialBenefit.subsidy === null, 'absence has no zero-dollar benefit figure');
 });
 
-function renderLandResult(land) {
+function renderLandResult(land, award) {
   var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
     url: 'http://127.0.0.1/market-analysis.html',
     runScripts: 'outside-only'
@@ -153,7 +140,7 @@ function renderLandResult(land) {
     recommendedExecution: 'Test',
     conceptType: 'family',
     keyRationale: []
-  }, null, { publicLand: land });
+  }, null, { publicLand: land, chfaCompetitiveness: award || null });
   return dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
 }
 
@@ -167,12 +154,35 @@ test('renderer: absent county shows the carried not-researched reason and no con
   assert(!text.includes('🔴 None'), 'absent county is not classified as no opportunity');
 });
 
-test('renderer: researched county still shows the recorded parcel and unchanged benefit', function () {
-  overlay.load(data);
+test('renderer: a hypothetical verified parcel still shows its owner and unchanged benefit', function () {
+  overlay.load(dataWithVerifiedParcel('08031', 0));
   var text = renderLandResult(overlay.assess(null, null, '08031'));
   assert(text.includes('City & County of Denver'), 'present county renders its recorded parcel owner');
   assert(text.includes('$400K'), 'present county renders the unchanged $400,000 benefit');
   assert(text.includes('Strong'), 'present county retains its opportunity classification');
+  overlay.load(data);
+});
+
+test('predictor: quarantined is unknown and partial, never verified no opportunity', function () {
+  overlay.load(data);
+  var land = overlay.assess(null, null, '08031');
+  var prediction = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: land });
+  assert(prediction.publicLandAssessment.status === 'unknown', 'quarantined parcel yields predictor unknown');
+  assert(prediction.publicLandAssessment.status !== 'verified_no_opportunity', 'quarantine never becomes verified no opportunity');
+  assert(prediction.scoreCompleteness === 'partial', 'quarantined input marks the composite partial');
+  assert(prediction.scoreDisclosure.includes(data.meta.absence_reason), 'the unknown reason travels with the composite');
+  var text = renderLandResult(land, prediction);
+  assert(text.includes('partial estimate'), 'rendered composite is visibly partial');
+  assert(text.includes(data.meta.absence_reason), 'rendered composite shows the carried reason');
+});
+
+test('predictor: a hypothetical verified parcel selectively retains the 2.5-point award', function () {
+  overlay.load(dataWithVerifiedParcel('08031', 0));
+  var strong = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: overlay.assess(null, null, '08031') });
+  var verifiedNone = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: { coverageStatus: 'researched', opportunity: 'none' } });
+  assert(strong.publicLandAssessment.status === 'strong', 'verified parcel reaches strong status');
+  assert(strong.factors.localSupport.value - verifiedNone.factors.localSupport.value === 2.5, 'verified parcel retains the exact 2.5-point award');
+  overlay.load(data);
 });
 
 /* ── assess(): legacy single-arg call ──────────────────────────── */
@@ -180,8 +190,8 @@ test('assess(): legacy single-arg call assess("08013")', function () {
   overlay.load(data);
   var result = overlay.assess('08013');
   assert(typeof result === 'object',         'returns object for legacy call');
-  assert(typeof result.ownership === 'string', 'ownership is string');
-  assert(result.isCLT === true,             'Boulder CLT detected via legacy call');
+  assert(result.ownership === null, 'legacy call preserves quarantine');
+  assert(result.coverageStatus === 'not_researched', 'legacy call preserves unknown status');
 });
 
 /* ── assess(): FIPS padding ─────────────────────────────────────── */
@@ -193,14 +203,17 @@ test('assess(): FIPS codes get padded correctly', function () {
 });
 
 /* ── assess(): financial benefit by owner type ──────────────────── */
-test('assess(): financial benefit > 0 for public owners', function () {
-  overlay.load(data);
+test('assess(): financial benefit > 0 only for verified public owners', function () {
+  var fixture = clone(data);
   var publicFips = ['08031', '08013', '08001', '08069'];
+  publicFips.forEach(function (fips) { fixture.counties[fips].publicParcels[0].evidence_status = 'verified_primary_record'; });
+  overlay.load(fixture);
   publicFips.forEach(function (fips) {
     var r = overlay.assess(null, null, fips);
     assert(r.financialBenefit.subsidy > 0,
       fips + ' financial benefit > 0 (' + r.ownerType + ')');
   });
+  overlay.load(data);
 });
 
 /* ── listCLTs() ─────────────────────────────────────────────────── */
