@@ -50,6 +50,13 @@
     .ms-finding { color: var(--accent); }
     .ms-denominator { display: block; color: var(--muted); font-size: .76rem; margin-top: 2px; }
     .ms-warning { display: block; margin: 12px 0; border: 2px solid var(--accent); border-radius: var(--radius); padding: 12px; background: var(--bg2); color: var(--text); }
+    .ms-screening-notice { display: block; margin: 0 0 18px; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 10px 12px; background: var(--bg2); }
+    .ms-screening-notice .ms-caveat { margin: 0; color: var(--text); font-weight: 700; }
+    .ms-affordability-gap { background: color-mix(in srgb, var(--accent) 8%, var(--card)); }
+    .ms-affordability-gap strong { font-size: 1.08rem; }
+    .ms-assistance-residual { display: block; font-size: 1rem; }
+    .ms-assistance-qualifier { display: block; margin-top: 2px; color: var(--muted); font-size: .78rem; font-weight: 400; }
+    .ms-control-note { display: block; margin: 4px 0 12px; color: var(--muted); font-size: .86rem; }
     .ms-share-input { width: 100px; }
     .ms-footer-note { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--muted); line-height: 1.55; }
     @media (max-width: 700px) { .ms-shell { padding-inline: 12px; } .ms-grid, .ms-card-grid, .ms-controls { grid-template-columns: 1fr; } }
@@ -62,7 +69,7 @@
     <header class="ms-hero">
       <p><a href="housing-needs-assessment.html">Housing Needs Assessment</a> / <a href="deal-calculator.html">Deal Calculator</a></p>
       <h1>For-Sale Market Study <span class="ms-pill">screening</span></h1>
-      <p>Compare project hypotheses and engine outputs in dataset and specification order. The honest default retains unresolved funnel assumptions as labeled unavailability and shows what evidence is needed.</p>
+      <p>Use this page to screen how a proposed for-sale project might serve local buyers, perform under different land and resale structures, and sell over time. It cannot confirm market demand or project feasibility. Supply the project-specific assumptions and evidence you have; anything you do not supply is marked as unavailable instead of being guessed.</p>
     </header>
     <div id="marketStudyMount" aria-live="polite">
       <div class="ms-warning">Loading real project fixtures and policy datasets…</div>

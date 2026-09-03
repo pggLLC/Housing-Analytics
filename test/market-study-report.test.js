@@ -51,6 +51,14 @@ const model = Page.buildModel(data, {});
 const report = Report.buildReport(model, meta);
 const preview = Report.renderReportPreview(report);
 const exported = Report.renderReportHtml(report);
+[
+  ['Source confirmed', 3],
+  ['Calculated estimate', 167],
+  ['Enter your value', 45],
+  ['Not yet verified', 5]
+].forEach(([label, expectedCount]) => {
+  assert.strictEqual(exported.split(label).length - 1, expectedCount, `${label} export count must remain unchanged from #1514`);
+});
 const bannedProvenanceTokens = /\b(?:observed|modeled|user_entered|not_available|VERIFY|hypothesis_to_test|owner_inputs_pending|is_commitment|observation_class|evidence_basis|primary_source|named_unretrieved|stated_method|machine_inferred|human_verified|unverified)\b/;
 const exportMatch = exported.match(bannedProvenanceTokens);
 assert(!exportMatch, 'export must use novice-facing evidence labels; context ' + exported.slice(Math.max(0, exportMatch && exportMatch.index - 50), (exportMatch && exportMatch.index || 0) + 80));
@@ -121,7 +129,7 @@ assert(!/priced[- ]out[^\n%]{0,80}%/i.test(source));
 assert(!/\b(rank(?:ed|ing)?|recommended|preferred|winner|best option|merit score)\b/i.test(source));
 assert(!/(model|result|row|item|stage|funnel|capture|report)\.[A-Za-z0-9_.]+\s*[+*\/-]\s*/.test(source));
 
-const dom = new JSDOM('<main><div id="mount"></div><section id="ms-s7"><button id="marketStudyReportDownload"></button><div id="marketStudyReportPreview"></div></section></main>', { url: 'https://cohoanalytics.com/for-sale-market-study.html' });
+const dom = new JSDOM('<main><div id="mount"></div><section id="ms-s7"><button id="marketStudyReportDownload"></button><div id="marketStudyReportPreview"></div></section></main>', { url: 'http://127.0.0.1/for-sale-market-study.html' });
 let blobParts = null;
 let filename = null;
 const priorBlob = global.Blob;
