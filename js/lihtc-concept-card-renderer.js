@@ -222,13 +222,16 @@
             '<dt>Flood Risk</dt><dd>' + _esc(_cap(flood.riskLevel || 'unknown')) + ' (Zone ' + _esc(flood.zone || '?') + ')</dd>',
             '<dt>Soil Stability</dt><dd>' + _esc(_cap(soil.stability || 'unknown')) + '</dd>',
             '<dt>Hazmat Proximity</dt>',
-            '<dd>' + (haz.superfundSites > 0
+            '<dd>' + (haz.unavailableReason
+              ? '⚪ Indeterminate'
+              : haz.superfundSites > 0
               ? '🔴 ' + haz.superfundSites + ' Superfund site' + (haz.superfundSites > 1 ? 's' : '')
               : haz.brownfieldSites > 0
                 ? '🟡 ' + haz.brownfieldSites + ' brownfield site' + (haz.brownfieldSites > 1 ? 's' : '')
                 : '🟢 Clear') + '</dd>',
             '<dt>Overall Risk</dt><dd>' + _esc(env.riskBadge || '') + '</dd>',
           '</dl>',
+          haz.unavailableReason ? '<p role="note" class="lihtc-cc-constraint-narrative"><strong>Hazmat coverage:</strong> ' + _esc(haz.unavailableReason) + '</p>' : '',
           env.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(env.narrative) + '</p>' : '',
         '</details>'
       ].join(''));

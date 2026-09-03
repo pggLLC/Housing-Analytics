@@ -11,10 +11,13 @@
 
 const path   = require('path');
 const fs     = require('fs');
+const { JSDOM } = require('jsdom');
 const module_ = require(path.resolve(__dirname, '..', 'js', 'environmental-screening'));
 
 const floodGeoJSON = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'data', 'environmental', 'fema-flood-co.geojson'), 'utf8'));
 const epaData      = require(path.resolve(__dirname, '..', 'data', 'environmental', 'epa-superfund-co.json'));
+
+function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
 let passed = 0;
 let failed = 0;
@@ -197,10 +200,11 @@ test('assess(): result schema validation', function () {
   assert(typeof result.soil.narrative === 'string',        'soil.narrative is string');
 
   // Hazmat fields
-  assert(typeof result.hazmat.superfundSites === 'number',    'hazmat.superfundSites is number');
-  assert(typeof result.hazmat.brownfieldSites === 'number',   'hazmat.brownfieldSites is number');
+  assert(result.hazmat.superfundSites === null || typeof result.hazmat.superfundSites === 'number', 'hazmat.superfundSites is number or unavailable');
+  assert(result.hazmat.brownfieldSites === null || typeof result.hazmat.brownfieldSites === 'number', 'hazmat.brownfieldSites is number or unavailable');
   assert(typeof result.hazmat.riskLevel === 'string',         'hazmat.riskLevel is string');
   assert(typeof result.hazmat.narrative === 'string',         'hazmat.narrative is string');
+  assert(typeof result.hazmat.coverageStatus === 'string',    'hazmat coverage status travels with the result');
 
   // Cultural heritage
   assert(typeof result.culturalHeritage.nhpd === 'boolean',      'culturalHeritage.nhpd is boolean');
@@ -211,7 +215,7 @@ test('assess(): result schema validation', function () {
 test('assess(): riskBadge and overallRisk valid values', function () {
   module_.load(floodGeoJSON, epaData);
   var validBadges  = ['🟢 Low', '🟡 Moderate', '🔴 High', '⚪ Unknown'];
-  var validRisks   = ['low', 'moderate', 'high'];
+  var validRisks   = ['low', 'moderate', 'high', 'unknown'];
 
   var coords = [
     [39.74, -104.99],  // Denver (may be in flood zone)
@@ -253,8 +257,53 @@ test('assess(): hazmat near known Superfund site', function () {
   module_.load(floodGeoJSON, epaData);
   // Rocky Mountain Arsenal: 39.8353, -104.8533
   var r = module_.assess(39.8353, -104.8533, 0.5);
-  assert(r.hazmat.superfundSites >= 0, 'superfundSites is non-negative');
-  assert(r.hazmat.brownfieldSites >= 0, 'brownfieldSites is non-negative');
+  assert(r.hazmat.superfundSites === 1, 'subset match still reports the Superfund site');
+  assert(r.hazmat.riskLevel === 'high', 'subset match retains high risk');
+  assert(r.hazmat.unavailableReason === null, 'a positive match is not replaced by an absence caveat');
+});
+
+test('assess(): subset no-match is indeterminate and cannot claim absence', function () {
+  module_.load(floodGeoJSON, epaData);
+  var r = module_.assess(37.2753, -107.8801, 1.0);
+  assert(epaData.meta.coverage_status === 'representative_subset', 'real fixture declares representative-subset coverage');
+  assert(r.hazmat.riskLevel === 'unknown', 'partial no-match is not low risk');
+  assert(r.hazmat.superfundSites === null && r.hazmat.brownfieldSites === null, 'partial no-match does not publish confident zero counts');
+  assert(r.hazmat.unavailableReason === epaData.meta.coverage_reason, 'dataset reason travels with the hazmat result');
+  assert(!/no known superfund|no known.*brownfield/i.test(r.hazmat.narrative), 'partial no-match does not claim no sites exist');
+  assert(r.riskBadge !== '🟢 Low', 'partial no-match never produces the green low-risk badge');
+});
+
+test('assess(): full statewide no-match retains the established low-risk result', function () {
+  var full = clone(epaData);
+  full.meta.coverage_status = 'full_statewide';
+  full.meta.coverage_reason = null;
+  module_.load(floodGeoJSON, full);
+  var r = module_.assess(37.2753, -107.8801, 1.0);
+  assert(r.hazmat.riskLevel === 'low', 'declared full coverage permits low risk on no-match');
+  assert(r.hazmat.superfundSites === 0 && r.hazmat.brownfieldSites === 0, 'full no-match retains zero counts');
+  assert(r.hazmat.unavailableReason === null, 'full no-match has no coverage caveat');
+  assert(/No known Superfund or brownfield sites/.test(r.hazmat.narrative), 'full no-match retains the existing narrative');
+  module_.load(floodGeoJSON, epaData);
+});
+
+test('partial-coverage reason reaches the concept renderer and Market Analysis handoff', function () {
+  module_.load(floodGeoJSON, epaData);
+  var result = module_.assess(37.2753, -107.8801, 1.0);
+  var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
+    url: 'http://127.0.0.1/market-analysis.html',
+    runScripts: 'outside-only'
+  });
+  dom.window.eval(fs.readFileSync(path.resolve(__dirname, '..', 'js', 'lihtc-concept-card-renderer.js'), 'utf8'));
+  dom.window.LIHTCConceptCardRenderer.render(dom.window.document.getElementById('card'), {
+    confidence: 'screening', recommendedExecution: 'Test', conceptType: 'family', keyRationale: []
+  }, null, { environmental: result });
+  var text = dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
+  assert(text.includes('Indeterminate'), 'renderer replaces the false clear state');
+  assert(text.includes(epaData.meta.coverage_reason), 'renderer displays the reason carried by the result');
+  assert(!text.includes('🟢 Clear'), 'renderer does not show a green hazmat result for partial no-match');
+
+  var marketSource = fs.readFileSync(path.resolve(__dirname, '..', 'js', 'market-analysis.js'), 'utf8');
+  assert(marketSource.includes('constraints.environmental = envScreening.assess(lat, lon, 1.0);'), 'Market Analysis passes the complete assessment object, including its reason, to consumers');
 });
 
 /* ── assess(): buffer distance ───────────────────────────────────── */
