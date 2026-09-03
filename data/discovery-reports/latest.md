@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-02T12:17:01.606Z
+**Scan timestamp:** 2026-09-03T12:15:03.435Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1617 |
-| New (unregistered) | 1586 |
+| Files scanned | 1618 |
+| New (unregistered) | 1587 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (762 KB)
+- `data/_manifest.json` (763 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -1475,7 +1475,7 @@
 - `data/jurisdiction-briefs/_candidates.json` (24 KB)
 - `data/jurisdiction-briefs/_liveness.json` (272 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
-- `data/jurisdiction-briefs/_stale.json` (2 KB)
+- `data/jurisdiction-briefs/_stale.json` (3 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (177 KB)
 - `data/jurisdiction-briefs/_verified/0803620.json` (20 KB)
 - `data/jurisdiction-briefs/_verified/08045.json` (13 KB)
@@ -1558,17 +1558,18 @@
 - `data/metadata/rent_burden_sources.json` (8 KB)
 - `data/multifamily-inventory-co.json` (91 KB)
 - `data/pipeline/content.json` (34 KB)
-- `data/policy/affordability-models.json` (13 KB)
+- `data/policy/affordability-models.json` (14 KB)
 - `data/policy/buyer-assistance-programs.json` (2 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
 - `data/policy/chfa-watchlist.json` (10 KB)
-- `data/policy/county-ownership.json` (6 KB)
-- `data/policy/developer-ownership-funding.json` (19 KB)
+- `data/policy/county-ownership.json` (8 KB)
+- `data/policy/county-parcel-sources.json` (22 KB)
+- `data/policy/developer-ownership-funding.json` (20 KB)
 - `data/policy/homeownership-programs.json` (16 KB)
 - `data/policy/housing-policy-scorecard.json` (179 KB)
 - `data/policy/jchs-state-of-nations-housing.json` (4 KB)
 - `data/policy/jurisdiction-housing-progress.json` (34 KB)
-- `data/policy/land-disposition-models.json` (9 KB)
+- `data/policy/land-disposition-models.json` (21 KB)
 - `data/policy/lihtc-assumptions.json` (4 KB)
 - `data/policy/methodology-version.json` (6 KB)
 - `data/policy/pab-allocations.json` (17 KB)
