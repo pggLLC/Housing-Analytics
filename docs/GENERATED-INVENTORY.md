@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T07:43:35.267Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T10:15:17.216Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-276 test files found.
+277 test files found.
 
 | File | Size |
 |------|------|
@@ -1910,6 +1910,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
+| `test/xss-data-quality.test.js` | 5.1 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 4.2 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
