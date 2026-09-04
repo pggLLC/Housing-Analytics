@@ -78,6 +78,11 @@ jobs:
           git commit -F "$msg"
           rm -f "$msg"
           git pull --rebase origin main || true
+          python3 scripts/rebuild_manifest.py
+          if ! git diff --quiet -- data/; then
+            git add data/
+            git commit --amend --no-edit
+          fi
           git push origin HEAD:main
 
       - name: Summarize

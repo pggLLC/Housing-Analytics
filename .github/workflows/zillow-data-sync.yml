@@ -109,6 +109,11 @@ jobs:
           else
             git commit -m "chore: update Zillow Research bulk data [$(date -u '+%Y-%m-%d')]"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
           fi
 
@@ -322,5 +327,10 @@ jobs:
           else
             git commit -m "chore: update Bridge public data — all CO regions [$(date -u '+%Y-%m-%d')]"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
           fi

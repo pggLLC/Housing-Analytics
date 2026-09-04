@@ -67,6 +67,11 @@ jobs:
           else
             git commit -m "Update CO housing costs data and maps [skip ci]"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi

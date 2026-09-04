@@ -152,6 +152,11 @@ jobs:
             # --autostash handles the case where the working tree picked up
             # any unstaged transients from the network fetches.
             git pull --rebase --autostash origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
             echo "PUSHED=true" >> "$GITHUB_ENV"
           fi

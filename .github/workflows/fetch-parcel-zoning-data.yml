@@ -255,6 +255,11 @@ jobs:
             COUNT=$(git diff --cached --name-only | wc -l)
             git commit -m "chore: refresh parcel/zoning/transit/schools data ($COUNT files) [skip ci]"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
