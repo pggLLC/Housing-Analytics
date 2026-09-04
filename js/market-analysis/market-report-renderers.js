@@ -32,6 +32,15 @@
     if (el) { el.innerHTML = html; }
   }
 
+  /** HTML-escape text before inserting it into generated markup. */
+  function _esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   /* ── Shared card builders ───────────────────────────────────────── */
 
   /**
@@ -43,7 +52,7 @@
     return (
       '<div class="callout" style="border-color:var(--border);background:var(--bg2);padding:1rem 1.25rem;">' +
         '<span style="color:var(--muted);font-size:var(--small);">&#x2014; ' +
-        (label || 'Data') + ' unavailable</span>' +
+        _esc(label || 'Data') + ' unavailable</span>' +
       '</div>'
     );
   }
@@ -75,7 +84,7 @@
     return (
       '<span class="badge" style="background:' + color + ';color:#fff;font-weight:700;font-size:1rem;padding:4px 12px;border-radius:999px;">' +
         (typeof score === 'number' ? score : '—') +
-        (label ? ' <span style="font-size:0.75rem;font-weight:400;opacity:0.9;">' + label + '</span>' : '') +
+        (label ? ' <span style="font-size:0.75rem;font-weight:400;opacity:0.9;">' + _esc(label) + '</span>' : '') +
       '</span>'
     );
   }
@@ -92,7 +101,7 @@
     return (
       '<div style="display:flex;justify-content:space-between;align-items:baseline;' +
              'padding:0.35rem 0;border-bottom:1px solid var(--border);">' +
-        '<span style="color:var(--muted);font-size:var(--small);">' + label + '</span>' +
+        '<span style="color:var(--muted);font-size:var(--small);">' + _esc(label) + '</span>' +
         '<span' + valStyle + '>' + (value !== null && value !== undefined ? value : '—') + '</span>' +
       '</div>'
     );
@@ -104,7 +113,7 @@
    * @returns {string}
    */
   function _sectionHeading(title) {
-    return '<h3 style="margin:0 0 1rem;font-size:1rem;font-weight:700;color:var(--text);">' + title + '</h3>';
+    return '<h3 style="margin:0 0 1rem;font-size:1rem;font-weight:700;color:var(--text);">' + _esc(title) + '</h3>';
   }
 
   /* ── Format helpers (falls back to plain maths if MAUtils absent) ── */
@@ -168,7 +177,7 @@
           '</div>' +
         '</div>' +
         (narrative
-          ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.55;">' + narrative + '</p>'
+          ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.55;">' + _esc(narrative) + '</p>'
           : '') +
         '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;">' +
           _componentChip('Demand',      scores.demand_score) +
@@ -194,7 +203,7 @@
     return (
       '<div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;' +
              'padding:0.5rem 0.75rem;display:flex;flex-direction:column;gap:0.15rem;">' +
-        '<span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">' + label + '</span>' +
+        '<span style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;">' + _esc(label) + '</span>' +
         '<span style="font-size:1.1rem;font-weight:700;color:' + color + ';">' + s + '</span>' +
       '</div>'
     );
@@ -357,8 +366,8 @@
                   pt.find(function (t) { return /preservation/i.test(t); }) ? 'Preservation' :
                   'Other';
       rows += '<tr>' +
-        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);font-weight:500;">' + name + '</td>' +
-        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);color:var(--muted);">' + city + '</td>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);font-weight:500;">' + _esc(name) + '</td>' +
+        '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);color:var(--muted);">' + _esc(city) + '</td>' +
         '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);text-align:right;">' + units + '</td>' +
         '<td style="padding:.25rem .4rem;border-bottom:1px solid var(--border);text-align:center;color:var(--muted);font-size:.78rem;">' + label + '</td>' +
       '</tr>';
@@ -400,8 +409,8 @@
       else { stage = 'Pre-Permit'; stageColor = 'var(--accent)'; }
       rows += (
         '<tr>' +
-          '<td style="padding:4px 6px;font-size:var(--small);">' + name + '</td>' +
-          '<td style="padding:4px 6px;font-size:var(--small);">' + city + '</td>' +
+          '<td style="padding:4px 6px;font-size:var(--small);">' + _esc(name) + '</td>' +
+          '<td style="padding:4px 6px;font-size:var(--small);">' + _esc(city) + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + units + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);text-align:right;">' + yr + '</td>' +
           '<td style="padding:4px 6px;font-size:var(--small);"><span style="display:inline-block;padding:1px 6px;border-radius:999px;font-size:.65rem;font-weight:600;background:' + stageColor + ';color:#fff;">' + stage + '</span></td>' +
@@ -513,9 +522,9 @@
         _metricRow('Health Vulnerability', eji.healthVuln != null ? _fmtPct(eji.healthVuln, 1) : '—') +
         _metricRow('Risk Category',
           '<span class="pill" style="background:' + riskColor + ';color:#fff;border-color:' + riskColor + ';">' +
-            (eji.riskCategory || 'unknown') + '</span>');
+            _esc(eji.riskCategory || 'unknown') + '</span>');
       if (eji.tractGeoid) {
-        html += '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem;">Tract: ' + eji.tractGeoid + '</div>';
+        html += '<div style="font-size:0.7rem;color:var(--muted);margin-top:0.25rem;">Tract: ' + _esc(eji.tractGeoid) + '</div>';
       }
     }
 
@@ -605,13 +614,13 @@
     return (
       '<div style="display:flex;justify-content:space-between;align-items:center;' +
              'padding:0.45rem 0;border-bottom:1px solid var(--border);">' +
-        '<span style="color:var(--muted);font-size:var(--small);">' + label + '</span>' +
+        '<span style="color:var(--muted);font-size:var(--small);">' + _esc(label) + '</span>' +
         '<div style="display:flex;align-items:center;gap:0.5rem;">' +
           '<div style="width:80px;height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;">' +
             '<div style="width:' + s + '%;height:100%;background:' + color + ';border-radius:4px;transition:width 0.3s;"></div>' +
           '</div>' +
           '<span style="font-weight:700;color:' + color + ';min-width:28px;text-align:right;">' + s + '</span>' +
-          '<span style="font-size:0.7rem;color:var(--muted);min-width:55px;">' + (labelText || '') + '</span>' +
+          '<span style="font-size:0.7rem;color:var(--muted);min-width:55px;">' + _esc(labelText || '') + '</span>' +
         '</div>' +
       '</div>'
     );
@@ -624,8 +633,8 @@
   function _miniMetric(label, value) {
     return (
       '<div style="display:flex;justify-content:space-between;padding:0.15rem 0;">' +
-        '<span style="color:var(--muted);font-size:0.78rem;">' + label + '</span>' +
-        '<span style="font-weight:600;font-size:0.78rem;">' + value + '</span>' +
+        '<span style="color:var(--muted);font-size:0.78rem;">' + _esc(label) + '</span>' +
+        '<span style="font-weight:600;font-size:0.78rem;">' + _esc(value) + '</span>' +
       '</div>'
     );
   }
@@ -647,7 +656,7 @@
     if (Array.isArray(pd.overlays) && pd.overlays.length > 0) {
       overlayList = '<div style="margin-top:0.5rem;display:flex;flex-wrap:wrap;gap:0.35rem;">';
       pd.overlays.forEach(function (o) {
-        overlayList += '<span class="pill good" style="font-size:0.7rem;">' + o + '</span>';
+        overlayList += '<span class="pill good" style="font-size:0.7rem;">' + _esc(o) + '</span>';
       });
       overlayList += '</div>';
     }
@@ -659,7 +668,7 @@
 
     // Show jurisdiction name if available
     if (pd.jurisdictionName) {
-      html += _metricRow('Jurisdiction', '<strong>' + pd.jurisdictionName + '</strong>');
+      html += _metricRow('Jurisdiction', '<strong>' + _esc(pd.jurisdictionName) + '</strong>');
     }
 
     html += _metricRow('Supportive Policy Dimensions', _fmtN(pd.overlayCount, 0) + ' / 7');
@@ -712,14 +721,14 @@
         '<div style="border:1px solid var(--border);border-left:4px solid ' + color + ';' +
                'background:var(--card2);border-radius:6px;padding:0.75rem 1rem;display:grid;gap:0.25rem;">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;gap:0.5rem;">' +
-            '<strong style="font-size:var(--small);color:var(--text);">' + (item.title || 'Opportunity') + '</strong>' +
+            '<strong style="font-size:var(--small);color:var(--text);">' + _esc(item.title || 'Opportunity') + '</strong>' +
             (item.priority
               ? '<span class="pill" style="background:' + color + ';color:#fff;border-color:' + color + ';font-size:0.65rem;">' +
-                  item.priority + '</span>'
+                  _esc(item.priority) + '</span>'
               : '') +
           '</div>' +
           (item.description
-            ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.45;">' + item.description + '</p>'
+            ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.45;">' + _esc(item.description) + '</p>'
             : '') +
         '</div>'
       );
@@ -752,7 +761,7 @@
     _render(sectionId,
       '<div class="callout callout-warn" style="padding:0.75rem 1rem;">' +
         '<strong style="color:var(--bad);">&#9888; Error:</strong> ' +
-        '<span style="font-size:var(--small);color:var(--muted);">' + (msg || 'An unexpected error occurred.') + '</span>' +
+        '<span style="font-size:var(--small);color:var(--muted);">' + _esc(msg || 'An unexpected error occurred.') + '</span>' +
       '</div>'
     );
   }
@@ -773,9 +782,9 @@
     var _infraRow = function (label, value, note) {
       var display = value != null ? String(Math.round(value)) + '/100' : '—';
       return '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid color-mix(in srgb, var(--border) 50%, transparent);">' +
-        '<span style="font-size:var(--small);color:var(--text);">' + label + '</span>' +
+        '<span style="font-size:var(--small);color:var(--text);">' + _esc(label) + '</span>' +
         '<span style="font-size:var(--small);font-weight:600;">' + display +
-          (note ? ' <span style="color:var(--faint);font-weight:400;font-size:.72rem;">(' + note + ')</span>' : '') +
+          (note ? ' <span style="color:var(--faint);font-weight:400;font-size:.72rem;">(' + _esc(note) + ')</span>' : '') +
         '</span></div>';
     };
 
@@ -900,8 +909,8 @@
         '<div class="report-header">' +
           '<div><h1>PMA Site Analysis Report</h1>' + siteInfo + '</div>' +
           '<div style="text-align:right;">' +
-            '<div class="report-score">' + scoreVal + '</div>' +
-            '<div style="font-size:0.85rem;color:#666;">' + tierVal + '</div>' +
+            '<div class="report-score">' + _esc(scoreVal) + '</div>' +
+            '<div style="font-size:0.85rem;color:#666;">' + _esc(tierVal) + '</div>' +
           '</div>' +
         '</div>' +
         mapSection +
