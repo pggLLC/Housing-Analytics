@@ -39,6 +39,12 @@
 (function () {
   'use strict';
 
+  function _esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
   // Paths are RELATIVE to data/. DataService.baseData() prepends 'data/';
   // the standalone fallback below also prepends 'data/'. Passing a path
   // that already starts with 'data/' produces 'data/data/...' (the bug
@@ -168,7 +174,7 @@
     var loanDir = d.mean_loan_pct > 0 ? 'higher' : 'lower';
     return (
       '<strong>Mortgage credit (' + c.year + '):</strong> ' +
-      name + ' had ' + c.originations.toLocaleString() + ' originations ' +
+      _esc(name) + ' had ' + c.originations.toLocaleString() + ' originations ' +
       'at a ' + (c.denial_rate * 100).toFixed(1) + '% denial rate ' +
       '(' + Math.abs(d.denial_rate_pp).toFixed(1) + 'pp ' + denialDir + ' than CO statewide ' +
       (s.denial_rate * 100).toFixed(1) + '%). ' +
