@@ -760,6 +760,19 @@
     return { applied: applied, skipped: skipped, notes: notes, jur: jur };
   }
 
+  function _escHtml(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function _autofillStatusHtml(result) {
+    return '📍 Filled from <strong>' + _escHtml(result.jur.name) + '</strong>: ' +
+           _escHtml(result.notes.length ? result.notes.join(', ') : 'no auto-fillable signals') +
+           '. <span style="color:var(--faint);">Skipped (need external evidence): ' +
+           _escHtml(result.skipped.join(', ')) + '.</span>';
+  }
+
   function _populateFromDealLocation() {
     var statusEl = document.getElementById('qsim_autofill_status');
     if (statusEl) statusEl.textContent = 'Loading deal location data…';
@@ -797,11 +810,7 @@
       _lastAutofillResult = result;
 
       if (statusEl) {
-        var msg = '📍 Filled from <strong>' + result.jur.name + '</strong>: ' +
-                  (result.notes.length ? result.notes.join(', ') : 'no auto-fillable signals') +
-                  '. <span style="color:var(--faint);">Skipped (need external evidence): ' +
-                  result.skipped.join(', ') + '.</span>';
-        statusEl.innerHTML = msg;
+        statusEl.innerHTML = _autofillStatusHtml(result);
         statusEl.style.color = result.notes.length ? 'var(--good)' : 'var(--muted)';
       }
       return true;

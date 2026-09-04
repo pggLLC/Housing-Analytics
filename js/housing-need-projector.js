@@ -523,7 +523,7 @@
     var introPara =
       '<p style="font-size:.9rem;margin-bottom:16px;">' +
       'Based on current housing gaps and low/baseline/high growth assumptions for ' +
-      '<strong>' + countyName + '</strong>, the following projections estimate ' +
+      '<strong>' + _escHtml(countyName) + '</strong>, the following projections estimate ' +
       'unmet housing demand over the next 20 years.' +
       (result.geoScope === 'county-for-place'
         ? ' Projections are computed at county granularity — figures below are ' +
