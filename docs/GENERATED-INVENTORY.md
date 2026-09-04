@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T12:56:21.658Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T13:31:11.130Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-280 test files found.
+281 test files found.
 
 | File | Size |
 |------|------|
@@ -1913,6 +1913,7 @@
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `test/xss-hmda-lookup.test.js` | 1.6 KB |
+| `test/xss-navigation.test.js` | 3.5 KB |
 | `test/xss-projection-surfaces.test.js` | 6.4 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 4.2 KB |
