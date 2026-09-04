@@ -21,8 +21,17 @@ const Transit = require('../js/pma-transit.js');
 
 let passed = 0;
 let failed = 0;
+const pending = [];
 function test(name, fn) {
-  try { fn(); console.log(`  ✅ ${name}`); passed++; }
+  try {
+    const result = fn();
+    if (result && typeof result.then === 'function') {
+      pending.push(result.then(() => { console.log(`  ✅ ${name}`); passed++; })
+        .catch((err) => { console.log(`  ❌ ${name}`); console.log(`     ${err.message}`); failed++; }));
+    } else {
+      console.log(`  ✅ ${name}`); passed++;
+    }
+  }
   catch (err) { console.log(`  ❌ ${name}`); console.log(`     ${err.message}`); failed++; }
 }
 function group(name, fn) { console.log(`\n${name}`); fn(); }
@@ -67,6 +76,7 @@ const EPA_LIVE = {
   _dataSource:          'epa-live',
 };
 const EPA_MISSING = {};
+const EPA_UNAVAILABLE_REASON = 'EPA Smart Location data is unavailable; no EPA transit or walkability score was calculated.';
 
 /* ── Tests ──────────────────────────────────────────────────────────── */
 
@@ -199,6 +209,8 @@ group('5. EPA data availability & weight redistribution', () => {
     const j = Transit.getTransitJustification();
     assert.equal(j.epaDataAvailable, false,
       'EPA values without _dataSource should not be trusted');
+    assert.equal(j.walkScore, null, 'unavailable EPA walkability is not rendered as a numeric score');
+    assert.equal(j.unavailableReason, EPA_UNAVAILABLE_REASON, 'unavailability reason travels with the result');
   });
 
   test('EPA raw 0-20 values are scaled up (interpreted as 0-20 index)', () => {
@@ -212,6 +224,33 @@ group('5. EPA data availability & weight redistribution', () => {
     // straight-through 0-100 interpretation.
     assert.ok(sLow > sMid,
       `raw=18 (scaled to 90) should beat raw=50 on the 0-100 scale: low=${sLow}, mid=${sMid}`);
+  });
+});
+
+group('9. EPA fetch fallback semantics', () => {
+  test('fallback source declares EPA scores unavailable instead of returning neutral 50s', async () => {
+    const priorWindow = global.window;
+    global.window = {};
+    try {
+      const result = await Transit.fetchEPASmartLocation({ minLat: 39, minLon: -105, maxLat: 40, maxLon: -104 });
+      assert.equal(result.transitAccessibility, null);
+      assert.equal(result.walkScore, null);
+      assert.equal(result.unavailableReason, EPA_UNAVAILABLE_REASON);
+    } finally {
+      global.window = priorWindow;
+    }
+  });
+
+  test('present EPA Smart Location service still returns its measured scores', async () => {
+    const priorWindow = global.window;
+    global.window = { DataService: { fetchEPASmartLocation: () => Promise.resolve(EPA_LIVE) } };
+    try {
+      const result = await Transit.fetchEPASmartLocation({});
+      assert.equal(result.transitAccessibility, 85);
+      assert.equal(result.walkScore, 80);
+    } finally {
+      global.window = priorWindow;
+    }
   });
 });
 
@@ -304,7 +343,8 @@ group('8. getTransitJustification shape', () => {
 
 /* ── Summary ───────────────────────────────────────────────────────── */
 
-console.log('\n=============================================');
-console.log(`PMATransit: ${passed} passed, ${failed} failed`);
-
-if (failed > 0) process.exit(1);
+Promise.all(pending).then(() => {
+  console.log('\n=============================================');
+  console.log(`PMATransit: ${passed} passed, ${failed} failed`);
+  if (failed > 0) process.exitCode = 1;
+});
