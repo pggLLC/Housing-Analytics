@@ -9,11 +9,18 @@
   window.fetch = function(input, init){
     try{
       var url = (typeof input === "string") ? input : input.url;
+      var hostname = "";
       var sep, fredKey, censusKey;
+
+      try {
+        hostname = new URL(url, window.location.href).hostname;
+      } catch (_) {
+        // Fail closed: an unparseable URL must never receive an API key.
+      }
 
       if (window.APP_CONFIG) {
         // FRED
-        if ( (url.includes("fred.stlouisfed.org") || url.includes("api.stlouisfed.org"))  && !url.includes("api_key=")) {
+        if ( (hostname === "fred.stlouisfed.org" || hostname === "api.stlouisfed.org")  && !url.includes("api_key=")) {
           fredKey = window.APP_CONFIG.FRED_API_KEY || "";
           if (fredKey) {
             sep = url.includes("?") ? "&" : "?";
@@ -22,7 +29,7 @@
         }
 
         // Census
-        if (url.includes("api.census.gov") && !url.includes("key=")) {
+        if (hostname === "api.census.gov" && !url.includes("key=")) {
           censusKey = window.APP_CONFIG.CENSUS_API_KEY || "";
           if (censusKey) {
             sep = url.includes("?") ? "&" : "?";
