@@ -30,6 +30,8 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/data-connectors/nhpd.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <script defer src="js/preservation.js"></script>
   <style>
     /* ── Layout ──────────────────────────────────────────────── */
@@ -325,7 +327,10 @@
     <div class="pres-controls" role="search" aria-label="Filter preservation properties">
       <label class="pres-filter-label">
         County
-        <select id="presFilterCounty" class="pres-select" aria-label="Filter by county">
+        <select id="presFilterCounty" class="pres-select" aria-label="Filter by county"
+                data-jurisdiction-search data-jurisdiction-search-type="County"
+                data-jurisdiction-search-label="Search counties in this dataset"
+                data-jurisdiction-search-placeholder="Type a county name…">
           <option value="">All counties</option>
         </select>
       </label>

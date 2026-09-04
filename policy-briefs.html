@@ -23,6 +23,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <style>
     /* Container safety — every nested element wraps cleanly within the card */
     .brief-card,
@@ -343,7 +345,10 @@
             <option value="CRA">CRA</option>
           </select>
           <label for="regionFilter">Region:</label>
-          <select id="regionFilter" aria-label="Filter by jurisdiction or region">
+          <select id="regionFilter" aria-label="Filter by jurisdiction or region"
+                  data-jurisdiction-search data-jurisdiction-search-type="Available brief tag"
+                  data-jurisdiction-search-label="Search available jurisdiction and region tags"
+                  data-jurisdiction-search-placeholder="Type a jurisdiction or region…">
             <option value="">All jurisdictions</option>
           </select>
           <label for="signalFilter">Signal:</label>

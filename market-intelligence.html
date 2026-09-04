@@ -29,6 +29,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <style>
     .mi-section {
       margin: 2rem 0;
@@ -231,7 +233,10 @@
   <!-- Toolbar: county selector + export -->
   <div class="mi-toolbar" role="region" aria-label="Market filters">
     <label for="countySelect">County / Statewide:</label>
-    <select id="countySelect" aria-label="Select county or statewide view">
+    <select id="countySelect" aria-label="Select county or statewide view"
+            data-jurisdiction-search data-jurisdiction-search-type="County"
+            data-jurisdiction-search-label="Search counties"
+            data-jurisdiction-search-placeholder="Type a county name…">
       <option value="">Statewide (Colorado)</option>
     </select>
     <div id="miLoadingStatus" class="mi-status" aria-live="polite">Loading data…</div>

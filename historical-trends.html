@@ -45,6 +45,8 @@
   <script defer src="js/vendor/chart.umd.min.js"></script>
   <!-- F19: site-wide Chart.js theming so axis labels/grid render correctly in dark mode -->
   <script defer src="js/components/chart-theme.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <script defer src="js/historical-trends.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
 </head>
@@ -163,7 +165,10 @@
         </p>
         <div class="ht-bench-controls">
           <label for="benchCounty">County
-            <select id="benchCounty" aria-label="Colorado county">
+            <select id="benchCounty" aria-label="Colorado county"
+                    data-jurisdiction-search data-jurisdiction-search-type="County"
+                    data-jurisdiction-search-label="Search counties"
+                    data-jurisdiction-search-placeholder="Type a county name…">
               <option value="">Loading\u2026</option>
             </select>
           </label>
