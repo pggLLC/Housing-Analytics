@@ -634,7 +634,7 @@
       fn: function (r) { return r && r.placeGeoid ? r.placeGeoid : '—'; },
       fmt: function (v) {
         if (!v || v === '—') return '<span style="color:var(--muted)">—</span>';
-        return '<span data-cmp-reliability="' + v + '" style="color:var(--muted);font-size:.78rem">…</span>';
+        return '<span data-cmp-reliability="' + escHtml(v) + '" style="color:var(--muted);font-size:.78rem">…</span>';
       }, raw: true },
 
     { group: 'Designations + Capacity' },
@@ -672,7 +672,7 @@
       fmt: function (v) {
         if (!v) return '<span style="color:var(--muted)">—</span>';
         var color = v === 'high' ? '#dc2626' : (v === 'medium' ? '#f59e0b' : '#0891b2');
-        return '<span style="background:' + color + '22;color:' + color + ';padding:1px 8px;border-radius:9px;font-size:.78rem;font-weight:600">' + v + '</span>';
+        return '<span style="background:' + color + '22;color:' + color + ';padding:1px 8px;border-radius:9px;font-size:.78rem;font-weight:600">' + escHtml(v) + '</span>';
       }, raw: true },
     // F116 — Recent CHFA activity (live feed + 2026 R1 bridge) per place.
     // Combines two freshness signals so a stale ArcGIS feed doesn't make
@@ -823,7 +823,7 @@
         rows.map(function (r) {
           var compColor = r.competitiveness === 'high' ? '#dc2626' : (r.competitiveness === 'moderate' ? '#f59e0b' : '#0891b2');
           var compPill = r.competitiveness
-            ? '<span style="background:' + compColor + '22;color:' + compColor + ';padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600">' + r.competitiveness + '</span>'
+            ? '<span style="background:' + compColor + '22;color:' + compColor + ';padding:0 6px;border-radius:8px;font-size:.7rem;font-weight:600">' + escHtml(r.competitiveness) + '</span>'
             : '<span style="color:var(--muted)">—</span>';
           return '<tr style="border-bottom:1px solid var(--border)">' +
             '<td style="padding:5px 8px 5px 0"><strong>' + escHtml(r.name || r._key) + '</strong>' +
@@ -959,7 +959,7 @@
         var nCols = cell.parentElement.children.length;
         var row = document.createElement('tr');
         row.className = 'cmp-info-row';
-        row.innerHTML = '<td colspan="' + nCols + '" class="cmp-info-cell">💡 ' + info + '</td>';
+        row.innerHTML = '<td colspan="' + nCols + '" class="cmp-info-cell">💡 ' + escHtml(info) + '</td>';
         cell.parentElement.parentNode.insertBefore(row, cell.parentElement.nextSibling);
         cell.setAttribute('aria-expanded', 'true');
       }

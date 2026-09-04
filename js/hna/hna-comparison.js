@@ -111,7 +111,7 @@
     });
     sorted.forEach(function (fips) {
       var sel = _countyFilter === fips ? ' selected' : '';
-      countyOpts += '<option value="' + fips + '"' + sel + '>' + _countyNames[fips] + '</option>';
+      countyOpts += '<option value="' + _esc(fips) + '"' + sel + '>' + _esc(_countyNames[fips]) + '</option>';
     });
 
     mount.innerHTML =
@@ -203,8 +203,8 @@
     entries.forEach(function (e) {
       var typeLabel = e.type.charAt(0).toUpperCase() + e.type.slice(1);
       var regionLabel = e.region ? ' - ' + e.region : '';
-      optionsHTML += '<option value="' + e.geoid + '">' +
-        e.name + ' (' + typeLabel + regionLabel + ')' +
+      optionsHTML += '<option value="' + _esc(e.geoid) + '">' +
+        _esc(e.name + ' (' + typeLabel + regionLabel + ')') +
         '</option>';
     });
 
@@ -319,7 +319,7 @@
 
       lastTd.className = 'hca-td hca-td-hna';
       lastTd.setAttribute('data-label', 'HNA');
-      lastTd.innerHTML = '<a href="housing-needs-assessment.html?fips=' + geoid + '&geoType=' + geoType + '&auto=1" class="hca-hna-link" title="Open HNA for ' + name + '">HNA \u2192</a>';
+      lastTd.innerHTML = '<a href="housing-needs-assessment.html?fips=' + encodeURIComponent(geoid) + '&geoType=' + encodeURIComponent(geoType) + '&auto=1" class="hca-hna-link" title="Open HNA for ' + _esc(name) + '">HNA \u2192</a>';
     });
   }
 
@@ -1031,7 +1031,7 @@
     [{ label: 'A', mix: mixA, entry: entryA, cls: 'a' },
      { label: 'B', mix: mixB, entry: entryB, cls: 'b' }].forEach(function (side) {
       html += '<div class="hca-cp-ami__side">';
-      html += '<div class="hca-cp-ami__side-label hca-cp-ami__side-label--' + side.cls + '">' + side.entry.name + '</div>';
+      html += '<div class="hca-cp-ami__side-label hca-cp-ami__side-label--' + side.cls + '">' + _esc(side.entry.name) + '</div>';
       if (!side.mix) {
         html += '<div class="hca-cp-ami__no-data">Insufficient AMI data</div>';
       } else {
@@ -1084,10 +1084,10 @@
       html += '<div class="hca-cp-ami__missing-grid">';
       [{ entry: entryA, mix: mixA, cls: 'a' }, { entry: entryB, mix: mixB, cls: 'b' }].forEach(function (side) {
         html += '<div class="hca-cp-ami__missing-col">';
-        html += '<span class="hca-cp-ami__missing-name hca-cp-ami__missing-name--' + side.cls + '">' + side.entry.name + '</span>';
+        html += '<span class="hca-cp-ami__missing-name hca-cp-ami__missing-name--' + side.cls + '">' + _esc(side.entry.name) + '</span>';
         if (side.mix && side.mix.missingTiers.length) {
           side.mix.missingTiers.forEach(function (tier) {
-            html += '<span class="hca-ami-missing-badge">' + tier + '</span> ';
+            html += '<span class="hca-ami-missing-badge">' + _esc(tier) + '</span> ';
           });
         } else {
           html += '<span style="color:var(--muted);font-size:.82rem">None identified</span>';
@@ -1151,7 +1151,8 @@
     else if (t === 'place')  { label = 'City';   bg = 'var(--good-dim, #d1fae5)'; fg = 'var(--good, #047857)'; }
     else if (t === 'town')   { label = 'Town';   bg = 'var(--good-dim, #d1fae5)'; fg = 'var(--good, #047857)'; }
     else                     { label = (type || 'Other'); bg = 'var(--bg2, #f4f4f4)'; fg = 'var(--muted, #555)'; }
-    return '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:3px;background:' + bg + ';color:' + fg + ';margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: ' + label + '">' + label + '</span>';
+    var safeLabel = _esc(label);
+    return '<span class="hca-cp-scope-badge" style="display:inline-block;font-size:.66rem;font-weight:700;padding:1px 6px;border-radius:3px;background:' + bg + ';color:' + fg + ';margin-left:.5rem;letter-spacing:.02em;text-transform:uppercase;vertical-align:middle;" title="Geography type: ' + safeLabel + '">' + safeLabel + '</span>';
   }
 
   // CDP-specific advisory: the user should know CDPs are statistical
@@ -1187,7 +1188,7 @@
       var labelB = (typeB === 'place' ? 'city' : typeB);
       html += '<div role="note" class="hca-cp-scope-warning" style="margin-bottom:.75rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.78rem;line-height:1.45;color:var(--text);">' +
         '<strong style="color:var(--warn,#d97706);">⚠ Mixed-scope comparison.</strong> ' +
-        'You\u2019re comparing a ' + labelA + ' to a ' + labelB + '. ACS values are at different population scales; labor stats may be unavailable for sub-county geographies; percentage metrics can be misleading across scopes. ' +
+        'You\u2019re comparing a ' + _esc(labelA) + ' to a ' + _esc(labelB) + '. ACS values are at different population scales; labor stats may be unavailable for sub-county geographies; percentage metrics can be misleading across scopes. ' +
         'Use the absolute counts and treat the comparison as directional.' +
       '</div>';
     }
@@ -1197,12 +1198,12 @@
     var noteB = _scopeNote(entryB.type);
     html += '<div class="hca-cp-names">' +
       '<div class="hca-cp-names__label"></div>' +
-      '<div class="hca-cp-names__a">' + entryA.name + _scopeBadge(entryA.type) +
+      '<div class="hca-cp-names__a">' + _esc(entryA.name) + _scopeBadge(entryA.type) +
         '<div class="hca-cp-rank">#' + entryA.rank + ' of ' + total + ' · ' + entryA.percentileRank + 'th pctile</div>' +
         (noteA ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteA + '</div>' : '') +
       '</div>' +
       '<div class="hca-cp-names__vs">vs</div>' +
-      '<div class="hca-cp-names__b">' + entryB.name + _scopeBadge(entryB.type) +
+      '<div class="hca-cp-names__b">' + _esc(entryB.name) + _scopeBadge(entryB.type) +
         '<div class="hca-cp-rank">#' + entryB.rank + ' of ' + total + ' · ' + entryB.percentileRank + 'th pctile</div>' +
         (noteB ? '<div class="hca-cp-scope-note" style="font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px;">' + noteB + '</div>' : '') +
       '</div>' +
