@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T13:31:11.130Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T15:35:35.463Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-281 test files found.
+282 test files found.
 
 | File | Size |
 |------|------|
@@ -1666,6 +1666,7 @@
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/analytics.test.js` | 18.2 KB |
+| `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
 | `test/audit-modules/data-integrity.js` | 16.6 KB |
 | `test/audit-modules/logic-validation.js` | 11.2 KB |
