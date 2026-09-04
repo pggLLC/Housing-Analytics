@@ -418,7 +418,7 @@
         <div class="sb-saved-name">${_escHtml(s.name)}</div>
         <div class="sb-saved-meta">
           Fertility ×${s.parameters.fertility_multiplier.toFixed(2)} |
-          Migration ${s.parameters.net_migration_annual}/yr |
+          Migration ${Number(s.parameters.net_migration_annual)}/yr |
           Mortality ×${s.parameters.mortality_multiplier.toFixed(2)}
         </div>
         <div class="sb-saved-actions">
