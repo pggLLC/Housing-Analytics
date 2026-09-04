@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T15:35:35.463Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T23:03:12.257Z. Do not edit by hand.
 
 ---
 
@@ -15,8 +15,8 @@
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.6 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.0 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.9 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.6 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
@@ -38,9 +38,9 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 7.5 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 231.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
@@ -51,13 +51,13 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.6 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.2 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.5 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.5 KB |
-| `market-intelligence.html` | Market Intelligence | COHO Analytics | 21.9 KB |
+| `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 51.6 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 17.1 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 52.1 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 17.5 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-282 test files found.
+283 test files found.
 
 | File | Size |
 |------|------|
@@ -1747,7 +1747,7 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 60.8 KB |
-| `test/hna-home-value-cascade.test.js` | 12.5 KB |
+| `test/hna-home-value-cascade.test.js` | 12.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
@@ -1783,6 +1783,7 @@
 | `test/integration/projections.test.js` | 15.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
+| `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
