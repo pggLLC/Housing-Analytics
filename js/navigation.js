@@ -101,6 +101,12 @@
     }
   ];
 
+  function _esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
   function relToRoot() {
     // If a page lives in a subfolder, back out to the repo root.
     if (location.pathname.includes('/private/weekly-brief/')) return '../../';
@@ -161,7 +167,7 @@
     if (county) {
       wrap.innerHTML =
         '<a href="' + root + 'select-jurisdiction.html" class="jurisdiction-pill" title="Change jurisdiction">' +
-          '<span class="jurisdiction-pill__name">' + pillLabel + '</span>' +
+          '<span class="jurisdiction-pill__name">' + _esc(pillLabel) + '</span>' +
           ' <span aria-hidden="true" style="opacity:.5;font-size:.75em">▾</span>' +
         '</a>';
     } else {
@@ -508,8 +514,8 @@
               projects.slice(0, 3).forEach(function (p) {
                 var isCur = p.id === activeId;
                 rows += '<button class="jx-dropdown__item' + (isCur ? '" style="font-weight:700' : '') +
-                  '" data-proj-id="' + p.id + '">' + (isCur ? '● ' : '') +
-                  (p.name || 'Untitled project').slice(0, 28) + '</button>';
+                  '" data-proj-id="' + _esc(p.id) + '">' + (isCur ? '● ' : '') +
+                  _esc((p.name || 'Untitled project').slice(0, 28)) + '</button>';
               });
             }
           } catch (_) {}
