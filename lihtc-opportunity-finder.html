@@ -55,6 +55,8 @@
        session; the public detail panel never references them otherwise. -->
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <style>
     /* Page-specific layout — filters on TOP, results below.
        Previously a 2-col sticky sidebar; users complained results were
@@ -1723,7 +1725,10 @@
 
               <div class="lof-filter" data-mobile-collapse="true">
                 <label for="lofCounty">County</label>
-                <select id="lofCounty" aria-label="Filter by county">
+                <select id="lofCounty" aria-label="Filter by county"
+                        data-jurisdiction-search data-jurisdiction-search-type="County"
+                        data-jurisdiction-search-label="Search county filter"
+                        data-jurisdiction-search-placeholder="Type a county name…">
                   <option value="">All counties</option>
                 </select>
               </div>

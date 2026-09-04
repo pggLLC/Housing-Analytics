@@ -32,6 +32,8 @@
 <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <script defer src="js/chart-fix.js"></script>
 
   
@@ -541,7 +543,10 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="map-controls" role="group" aria-label="Map navigation controls">
       <label for="countyGeoSelect" style="gap:.5rem;">
         County:
-        <select id="countyGeoSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem; min-width:130px;" aria-label="Filter overlays by county">
+        <select id="countyGeoSelect" style="margin-left:.25rem; padding:.2rem .5rem; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.82rem; min-width:130px;" aria-label="Filter overlays by county"
+                data-jurisdiction-search data-jurisdiction-search-type="County"
+                data-jurisdiction-search-label="Search map counties"
+                data-jurisdiction-search-placeholder="Type a county name…">
           <option value="">All Colorado</option>
         </select>
       </label>
@@ -778,7 +783,10 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <div style="display:flex; align-items:center; gap:.6rem; flex-wrap:wrap;">
       <label for="amiGapCountySelect" style="font-size:.83rem; font-weight:600; color:var(--muted);">County / Region:</label>
-      <select id="amiGapCountySelect" style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;">
+      <select id="amiGapCountySelect" style="padding:.35rem .75rem; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text); font-size:.85rem; min-width:200px; cursor:pointer;"
+              data-jurisdiction-search data-jurisdiction-search-type="County"
+              data-jurisdiction-search-label="Search affordability-gap counties"
+              data-jurisdiction-search-placeholder="Type a county name…">
         <option value="STATE">Colorado (statewide)</option>
       </select>
       <button id="amiGapExportBtn" style="padding:.35rem .75rem;font-size:.83rem;border-radius:8px;border:1px solid var(--border);background:var(--bg2);color:var(--text);cursor:pointer;">

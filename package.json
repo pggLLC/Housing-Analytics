@@ -191,7 +191,7 @@
     "test:econ-dash-co-unemployment": "node test/econ-dash-co-unemployment.test.js",
     "test:place-glossary-path": "node test/place-glossary-path.test.js",
     "test:homepage-job-routing": "node test/homepage-job-routing.test.js",
-    "test:home-jurisdiction-search": "node test/home-jurisdiction-search.test.js",
+    "test:home-jurisdiction-search": "node test/home-jurisdiction-search.test.js && node test/jurisdiction-select-search.test.js",
     "test:augment-nondestructive": "node test/augment-local-resources-nondestructive.test.js",
     "test:pma-barrier-data": "node test/pma-barrier-data.test.js",
     "test:pma-commute-context": "node test/pma-commute-context.test.js",

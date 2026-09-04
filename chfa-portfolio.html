@@ -22,6 +22,8 @@
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/home-jurisdiction-search.js"></script>
+  <script defer src="js/components/jurisdiction-select-search.js"></script>
   <style>
     .portfolio-toolbar {
       display: flex;
@@ -230,7 +232,10 @@
   <div class="portfolio-toolbar" role="region" aria-label="Portfolio filters">
     <label>
       County
-      <select id="filterCounty" aria-label="Filter by county">
+      <select id="filterCounty" aria-label="Filter by county"
+              data-jurisdiction-search data-jurisdiction-search-type="County"
+              data-jurisdiction-search-label="Search counties"
+              data-jurisdiction-search-placeholder="Type a county name…">
         <option value="">All Counties</option>
       </select>
     </label>

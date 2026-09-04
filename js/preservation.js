@@ -632,10 +632,15 @@
    */
   function init() {
     // Wire filter controls
-    var filterIds = ['presFilterCounty', 'presFilterType', 'presFilterHorizon', 'presSearch'];
-    for (var i = 0; i < filterIds.length; i++) {
-      var el = document.getElementById(filterIds[i]);
-      if (el) { el.addEventListener('input', refresh); }
+    var selectFilterIds = ['presFilterCounty', 'presFilterType', 'presFilterHorizon'];
+    for (var i = 0; i < selectFilterIds.length; i++) {
+      var el = document.getElementById(selectFilterIds[i]);
+      if (el) { el.addEventListener('change', refresh); }
+    }
+    var textFilterIds = ['presSearch'];
+    for (var j = 0; j < textFilterIds.length; j++) {
+      var textEl = document.getElementById(textFilterIds[j]);
+      if (textEl) { textEl.addEventListener('input', refresh); }
     }
 
     // Wire export button
