@@ -171,5 +171,10 @@ jobs:
           else
             git commit -m "Update Census ACS state data"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
           fi

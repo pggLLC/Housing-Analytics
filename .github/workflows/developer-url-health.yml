@@ -69,6 +69,11 @@ jobs:
             git commit -m "chore(developer): weekly URL health audit"
             # F162 — Rebase before push; same race window F161b hit.
             git pull --rebase --autostash origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
           else
             echo "No changes to report."

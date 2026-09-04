@@ -123,6 +123,11 @@ jobs:
           fi
           git commit -m "chore: update FRED data $(date -u +'%Y-%m-%d')"
           git pull --rebase --autostash -X theirs origin main
+          python3 scripts/rebuild_manifest.py
+          if ! git diff --quiet -- data/; then
+            git add data/
+            git commit --amend --no-edit
+          fi
           git push
           echo "pushed=true" >> "$GITHUB_OUTPUT"
 
