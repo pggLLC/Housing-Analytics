@@ -5,6 +5,22 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..');
+
+function isOfficialFhfaUrl(value) {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' &&
+      (parsed.hostname === 'fhfa.gov' || parsed.hostname === 'www.fhfa.gov');
+  } catch (_) {
+    return false;
+  }
+}
+
+assert.equal(
+  isOfficialFhfaUrl('https' + '://evil.com/?source=fhfa.gov'),
+  false,
+  'an FHFA hostname mentioned outside the authority component is not official provenance',
+);
 const cascade = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/home-value-cascade.json'), 'utf8'));
 const fruita = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/0828745.json'), 'utf8')).acsProfile;
 const fruitaHomeValue = fruita.median_home_value;
@@ -43,7 +59,7 @@ for (const geoid of ['08097', '08045']) {
   assert.equal(row.fhfa_hpi.acs_midpoint_year, 2022, `${geoid}: adjustment should document the ACS 5-year midpoint`);
   assert(row.fhfa_hpi.adjustment_factor > 1, `${geoid}: adjustment factor should be non-vacuous`);
   assert(row.fhfa_hpi.adjustment_method.includes('10-year HPI CAGR'), `${geoid}: adjustment method should disclose the midpoint estimate`);
-  assert.ok(row.fhfa_hpi.source_url && row.fhfa_hpi.source_url.includes('fhfa.gov'), `${geoid}: FHFA county source URL should be official`);
+  assert.ok(isOfficialFhfaUrl(row.fhfa_hpi.source_url), `${geoid}: FHFA county source URL should use an exact official hostname`);
 }
 
 const adjustedSummaries = fs.readdirSync(path.join(ROOT, 'data/hna/summary'))
