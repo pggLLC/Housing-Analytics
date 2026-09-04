@@ -274,5 +274,10 @@ jobs:
           else
             git commit -m "chore: update HUD QCT/DDA overlay cache and county boundaries [$(date -u '+%Y-%m-%d')]"
             git pull --rebase --autostash -X theirs origin main
+            python3 scripts/rebuild_manifest.py
+            if ! git diff --quiet -- data/; then
+              git add data/
+              git commit --amend --no-edit
+            fi
             git push
           fi
