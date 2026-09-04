@@ -232,8 +232,9 @@ async function testHnaComparison() {
   );
   const tbody = dom.window.document.getElementById('hcaTableBody');
   const hostileRow = dom.window.document.createElement('tr');
+  const hostileGeoid = '1234567&source="quoted"';
   hostileRow.className = 'hca-tr';
-  hostileRow.dataset.geoid = '1234567';
+  hostileRow.dataset.geoid = hostileGeoid;
   hostileRow.dataset.geoType = 'place&mode="quoted"';
   const nameCell = dom.window.document.createElement('td');
   nameCell.className = 'hca-td-name';
@@ -258,6 +259,7 @@ async function testHnaComparison() {
   assert(link, 'HNA link is injected');
   assert.strictEqual(link.querySelector('tag'), null, 'hostile HNA-link title does not become markup');
   assert.strictEqual(link.title, 'Open HNA for ' + HOSTILE, 'escaped title preserves its displayed text');
+  assert(link.href.includes('fips=1234567%26source%3D%22quoted%22'), 'data-derived fips query value is URL-encoded');
   assert(link.href.includes('geoType=place%26mode%3D%22quoted%22'), 'data-derived query value is URL-encoded');
 
   dom.window.HNAComparison.setA({ geoid: entryA.geoid });
