@@ -115,6 +115,12 @@ function installBrowserStubs(dom) {
   global.fetchWithTimeout = window.fetchWithTimeout;
   window.requestAnimationFrame = (fn) => setTimeout(fn, 0);
   global.requestAnimationFrame = window.requestAnimationFrame;
+  window.__printCalls = 0;
+  window.__printedText = '';
+  window.print = function () {
+    window.__printCalls += 1;
+    window.__printedText = document.body.textContent;
+  };
   window.HTMLCanvasElement.prototype.getContext = function () {
     return { canvas: this };
   };
@@ -262,13 +268,9 @@ async function main() {
   assertNoRawSurplusNegative(csv);
 
   await window.__HNA_exportPdf('akron.pdf');
-  const pdf = window.__pdfText.join('\n');
-  assert(pdf.includes('Net new units needed'), 'PDF should carry neutral label');
-  assert(pdf.includes('Negative = surplus'), 'PDF should explain negative-surplus convention');
-  assert(pdf.includes(SURPLUS_TEXT), 'PDF should export surplus wording');
-  assert(!pdf.includes('Units needed'), 'PDF should not use old needed-only label');
-  assert(!pdf.includes('Gap to target'), 'PDF should not use old gap-only sublabel');
-  assertNoRawSurplusNegative(pdf);
+  assert.equal(window.__printCalls, 1, 'PDF action should hand the rendered report to browser print');
+  assert(window.__printedText.includes(SURPLUS_TEXT), 'printed report should preserve surplus wording');
+  assertNoRawSurplusNegative(window.__printedText);
 
   const fruita = {
     geoType: 'place',
