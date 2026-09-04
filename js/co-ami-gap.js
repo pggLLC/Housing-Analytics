@@ -432,6 +432,7 @@
     const lines = (payload && payload.methodology) ? payload.methodology : [
       "Renter households are counted from ACS 5-year estimates (Table B25118, Tenure × Household Income) where household income ≤ the specified % AMI.",
       "Affordable units are renter-occupied housing units with gross rent ≤ 30% of income at the AMI band threshold (ACS Table B25063).",
+      "Priced-affordable units are renter-occupied and are not necessarily vacant or available, so a positive gap does not establish that housing is obtainable.",
       "Gap = affordable units − eligible households. A negative gap indicates more eligible households than affordable units.",
       "Coverage = affordable units ÷ eligible households, expressed as a percentage.",
       "AMI thresholds use HUD FY 2025 Income Limits for 4-person households."
