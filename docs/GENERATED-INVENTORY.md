@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-03T18:52:58.137Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T00:41:54.555Z. Do not edit by hand.
 
 ---
 
@@ -21,7 +21,7 @@
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
-| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.0 KB |
+| `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
@@ -130,7 +130,7 @@
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
-| `data/fred-data.json` | 1.25 MB | ✅ | — |
+| `data/fred-data.json` | 1.19 MB | ✅ | — |
 | `data/glossary.json` | 13.6 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-273 test files found.
+274 test files found.
 
 | File | Size |
 |------|------|
@@ -1712,7 +1712,7 @@
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
-| `test/econ-dash-co-unemployment.test.js` | 1.0 KB |
+| `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
 | `test/effective-demand.test.js` | 6.4 KB |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
@@ -1729,7 +1729,7 @@
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.2 KB |
-| `test/fred-commodities-config.test.js` | 2.5 KB |
+| `test/fred-commodities-config.test.js` | 4.8 KB |
 | `test/funding-context-card.test.js` | 7.6 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
@@ -1874,6 +1874,7 @@
 | `test/test_chfa_award_predictor.js` | 18.9 KB |
 | `test/test_environmental_screening.js` | 17.9 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
+| `test/test_fetch_fred_data.py` | 4.2 KB |
 | `test/test_fmr_flatten_guard.py` | 1.2 KB |
 | `test/test_hna_market_bridge.js` | 14.6 KB |
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
@@ -1982,7 +1983,7 @@
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.8 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.1 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 6.5 KB |
-| `.github/workflows/fetch-fred-data.yml` | 14.5 KB |
+| `.github/workflows/fetch-fred-data.yml` | 4.8 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.7 KB |
 | `.github/workflows/fetch-kalshi.yml` | 4.5 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 11.8 KB |
