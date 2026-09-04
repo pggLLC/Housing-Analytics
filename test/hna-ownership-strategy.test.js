@@ -57,6 +57,21 @@ assert.equal(fruita.price.value, cascade.places['0828745'].value);
 assert.equal(erie.price.value, cascade.places['0824950'].value);
 assert.equal(fruita.price.scope, 'place');
 assert.equal(erie.price.scope, 'place');
+
+const nullValueGeoid = '0800870';
+assert.equal(cascade.places[nullValueGeoid].value, null, 'real Air Force Academy CDP cascade record has no home value');
+const nullValueGeo = { type: 'cdp', geoid: nullValueGeoid, countyGeoid: '08041', name: 'Air Force Academy (CDP)' };
+assert.equal(Strategy.resolvePrice(nullValueGeo, cascade), null, 'resolvePrice preserves a missing cascade value as null');
+['', undefined, 0].forEach((missingValue) => {
+  const missingCascade = { places: { [nullValueGeoid]: { value: missingValue, source: 'test' } }, counties: {} };
+  assert.equal(Strategy.resolvePrice(nullValueGeo, missingCascade), null, String(missingValue) + ' is not converted into a price');
+});
+const nullValueVm = Strategy.buildViewModel(input(nullValueGeo, 100000));
+assert.equal(nullValueVm.price, null, 'view model does not create a zero-valued price record');
+assert(nullValueVm.priceUnavailableReason, 'the reason for the unavailable price travels with the view model');
+const nullValueHtml = Strategy.renderHtml(nullValueVm);
+assert(/Local price:\s*<strong>Value unavailable<\/strong>/.test(nullValueHtml), 'real null-value place renders Value unavailable for local price');
+assert(nullValueHtml.includes(nullValueVm.priceUnavailableReason), 'the rendered ownership panel explains why the price is unavailable');
 const prop123Model = models.models.find((model) => model.id === 'prop123_dpa_eligibility');
 assert.equal(fruita.amiCeilingPct, prop123Model.params.amiCeilingPct, 'registry amiCeilingPct drives the default price bound');
 assert.equal(fruita.amiCeilingSource, 'registry');

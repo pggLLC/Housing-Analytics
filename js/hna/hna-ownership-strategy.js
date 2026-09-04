@@ -17,6 +17,7 @@
   var CEILING_OPTIONS = [0.80, 1.00, 1.10, 1.20, 1.30, 1.40, 1.50, 1.60];
   var MISSING = 'data not available for this jurisdiction';
   var NOT_TRACKED = 'not tracked for this jurisdiction';
+  var PRICE_UNAVAILABLE_REASON = 'Home value is unavailable for this jurisdiction; resale-price and owner-equity screens cannot be calculated.';
   var VERIFY_PARTIES = 'Verify with developer discussions, lender, appraiser, broker, program administrator, and local jurisdiction before decision-grade use.';
 
   function esc(value) {
@@ -50,17 +51,31 @@
     return tiers.filter(function (tier, index) { return tiers.indexOf(tier) === index; });
   }
 
+  function priceRecord(record, defaults) {
+    if (!record || record.value == null || record.value === '') return null;
+    var value = Number(record.value);
+    if (!Number.isFinite(value) || value <= 0) return null;
+    defaults = defaults || {};
+    return {
+      value: value,
+      source: record.source,
+      asOf: record.asOf || record.as_of,
+      scope: record.scope || defaults.scope,
+      label: record.label || defaults.label
+    };
+  }
+
   function resolvePrice(geo, cascade) {
     if (!geo || !cascade) return null;
     if (geo.type === 'county') {
       var county = cascade.counties && cascade.counties[geo.geoid];
-      return county ? { value: Number(county.value), source: county.source, asOf: county.as_of, scope: 'county', label: 'County value' } : null;
+      return priceRecord(county, { scope: 'county', label: 'County value' });
     }
     var place = cascade.places && cascade.places[geo.geoid];
-    if (place) return { value: Number(place.value), source: place.source, asOf: place.as_of, scope: 'place', label: 'Place value' };
+    if (place) return priceRecord(place, { scope: 'place', label: 'Place value' });
     if (geo.allowCountyFallback && geo.countyGeoid && cascade.counties && cascade.counties[geo.countyGeoid]) {
       var fallback = cascade.counties[geo.countyGeoid];
-      return { value: Number(fallback.value), source: fallback.source, asOf: fallback.as_of, scope: 'county-fallback', label: 'County fallback — not place data' };
+      return priceRecord(fallback, { scope: 'county-fallback', label: 'County fallback — not place data' });
     }
     return null;
   }
@@ -113,7 +128,8 @@
     if (!modelId) throw new Error('HNAOwnershipStrategy requires the model registry');
     var householdSize = Number(input.householdSize) || 4;
     var ami = Number(input.ami4Person);
-    var price = input.price || resolvePrice(geo, input.homeValueCascade);
+    var price = input.price ? priceRecord(input.price) : resolvePrice(geo, input.homeValueCascade);
+    var priceUnavailableReason = price ? null : PRICE_UNAVAILABLE_REASON;
     var target = price && Number.isFinite(price.value) ? price.value : null;
     var selectedModel = engine.getModel(modelId);
     var registryCeiling = defaultAmiCeilingPct(registry);
@@ -153,6 +169,7 @@
         recaptureAmount: 90000,
         subsidyType: input.resaleSubsidyType || 'none',
         selectedConventionId: input.resaleConventionId,
+        unavailableReason: priceUnavailableReason,
         ami4Person: ami,
         targetAmiPct: amiCeilingPct,
         maxAffordablePrice: engine.maxAffordablePrice
@@ -169,6 +186,7 @@
       amiCeilingCaveat: ceilingModel && ceilingModel.implications && ceilingModel.implications.when_not_to_use || '',
       comparison: comparison,
       price: price,
+      priceUnavailableReason: priceUnavailableReason,
       ladder: ladder,
       requiredIncome: requiredIncome,
       requiredIncomeAmiRatio: requiredIncome != null && ami > 0 ? requiredIncome / ami : null,
@@ -194,6 +212,10 @@
   function renderHtml(vm) {
     var geoPill = pill(vm.geo.type === 'county' ? 'County scope' : 'Place scope', vm.geo.type === 'county' ? 'county' : 'place');
     var pricePill = vm.price ? pill(vm.price.label, vm.price.scope) : pill('Place value unavailable', 'unavailable');
+    var localPrice = vm.price ? money(vm.price.value) : 'Value unavailable';
+    var priceUnavailableNote = vm.priceUnavailableReason
+      ? '<br><span data-price-unavailable-reason style="color:var(--muted);font-size:.78rem;">' + esc(vm.priceUnavailableReason) + '</span>'
+      : '';
     var models = vm.registry && vm.registry.models || [];
     var options = models.map(function (model) { return '<option value="' + esc(model.id) + '"' + (model.id === vm.modelId ? ' selected' : '') + '>' + esc(model.label) + '</option>'; }).join('');
     var ceilingValues = CEILING_OPTIONS.concat([vm.amiCeilingPct]).sort(function (a, b) { return a - b; }).filter(function (value, index, values) { return values.indexOf(value) === index; });
@@ -245,7 +267,7 @@
       (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:.8rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:.78rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
       section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
-      section('Local price and income required', '<p>Local price: <strong>' + money(vm.price && vm.price.value) + '</strong> ' + pricePill + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +
+      section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +
       section('Attainable supply and potential buyer pool', supplyBody) + section('Programs and funding', fundingBody) +
       section('Stewardship and authority capacity', capacityBody) + section('Public land', landBody) +
       section('Resale mechanism comparison', resaleBody) +
@@ -275,5 +297,5 @@
     return paint();
   }
 
-  return { TIERS: BASE_TIERS.concat([DEFAULT_AMI_CEILING_PCT]), MISSING: MISSING, NOT_TRACKED: NOT_TRACKED, defaultAmiCeilingPct: defaultAmiCeilingPct, priceTiers: priceTiers, resolvePrice: resolvePrice, buildViewModel: buildViewModel, renderHtml: renderHtml, render: render };
+  return { TIERS: BASE_TIERS.concat([DEFAULT_AMI_CEILING_PCT]), MISSING: MISSING, NOT_TRACKED: NOT_TRACKED, PRICE_UNAVAILABLE_REASON: PRICE_UNAVAILABLE_REASON, defaultAmiCeilingPct: defaultAmiCeilingPct, priceTiers: priceTiers, resolvePrice: resolvePrice, buildViewModel: buildViewModel, renderHtml: renderHtml, render: render };
 }));

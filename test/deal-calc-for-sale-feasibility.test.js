@@ -81,6 +81,17 @@ const dc = window.__DealCalc;
 assert(dc && typeof dc.computeForSaleFeasibility === 'function', 'computeForSaleFeasibility exported');
 assert(window.HNAOwnershipNeed && typeof window.HNAOwnershipNeed.maxAffordablePrice === 'function', 'shared HNA maxAffordablePrice loaded');
 
+const zeroFallbackResale = dc.computeOwnershipResale({ maxAffordableSalePrice: 0 }, {
+  resaleConventions,
+  resalePurchasePrice: null,
+  resaleHoldingYears: 10,
+  resaleRemainingPrincipal: 0,
+  resaleSellingCosts: 0,
+});
+const zeroFallbackFixed = zeroFallbackResale.rows.find((row) => row.conventionId === 'fixed_simple');
+assert.equal(zeroFallbackFixed.maxResalePrice, null, 'Deal Calculator does not convert a zero fallback sale price into a $0 resale cap');
+assert.equal(zeroFallbackFixed.ownerGrossEquity, null, 'Deal Calculator does not convert a zero fallback sale price into $0 equity');
+
 const ownershipPanel = document.getElementById('dc-ownership-feasibility');
 const rentalAmiMix = document.getElementById('dc-rental-ami-mix');
 const capitalStack = document.getElementById('dc-capital-stack-col');

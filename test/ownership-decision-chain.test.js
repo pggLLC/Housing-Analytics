@@ -57,6 +57,10 @@ const resaleConventions = readJson('data/policy/resale-conventions.json');
 const consumerBefore = fs.readFileSync(consumerHomeownershipPath, 'utf8');
 const result = garfieldOwnershipResult();
 
+const cascade = readJson('data/hna/home-value-cascade.json');
+const nullValueGeoid = '0800870';
+assert.equal(cascade.places[nullValueGeoid].value, null, 'real Air Force Academy CDP cascade record has no home value');
+
 assert(result.priceBandScreen, 'ownership result carries the OWN-2 demand-by-price-band screen');
 assert(result.affordabilityTest, 'ownership result carries the OWN-1 county price anchor classification');
 assert(window.__DealCalc && typeof window.__DealCalc.computeForSaleFeasibility === 'function', 'real Deal Calculator feasibility export is loaded');
@@ -100,6 +104,32 @@ const text = mount.textContent;
   assert(text.includes(needle), 'rendered chain includes "' + needle + '"');
 });
 assert(text.includes(window.HNAOwnershipNeed.CHAS_TOP_BAND_LIMIT), 'decision chain explains why 101-120% demand is not derivable from CHAS');
+
+const nullValueRow = window.OwnershipResale.evaluateConvention(
+  resaleConventions.conventions.find((row) => row.id === 'fixed_simple'),
+  { purchasePrice: cascade.places[nullValueGeoid].value, holdingPeriodYears: 10, remainingPrincipal: 0, sellingCosts: 0 }
+);
+const nullValueMount = document.createElement('div');
+const nullValueResult = {
+  geographyId: nullValueGeoid,
+  geographyName: 'Air Force Academy (CDP)',
+  affordabilityTest: null,
+  priceBandScreen: { rows: [] },
+};
+window.OwnershipDecisionChain.render(nullValueMount, nullValueResult, {
+  dealCalculator: {
+    computeForSaleFeasibility: function () {
+      return {
+        status: 'missing-home-value',
+        ownershipResale: { rows: [nullValueRow] },
+        developerFundingStack: null,
+      };
+    },
+  },
+  resaleConventionsDoc: resaleConventions,
+});
+assert(nullValueMount.textContent.includes('Max resale price at holding period: Value unavailable'), 'real null-value place renders unavailable resale price');
+assert(nullValueMount.textContent.includes('Owner gross equity screen: Value unavailable'), 'real null-value place renders unavailable owner equity');
 
 const stageEls = Array.from(document.querySelectorAll('[data-own-chain-stage]'));
 assert.equal(stageEls.length, 5, 'rendered DOM has one stage per decision step');
