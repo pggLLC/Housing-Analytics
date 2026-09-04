@@ -10,21 +10,21 @@ class FREDCommodityPrices {
         this.series = {
             // Producer Price Index - Construction Materials
             'ppi_steel': 'PCU331110331110',           // Iron and Steel Mills
-            'ppi_lumber': 'PCU32121132121103',        // Lumber and Wood Products
+            'ppi_lumber': 'PCU3211133211133',        // Lumber and Wood Products
             'ppi_concrete': 'PCU327310327310',        // Ready-Mix Concrete
-            'ppi_copper': 'PCU33142033142012',        // Copper Wire & Cable
+            'ppi_copper': 'PCU331420331420A',        // Copper Wire & Cable
             'ppi_aluminum': 'PCU331315331315',        // Aluminum Sheet/Plate/Foil
-            'ppi_gypsum': 'PCU32742032742012',        // Gypsum Products
-            'ppi_asphalt': 'PCU32412132412121',       // Asphalt Paving
-            'ppi_insulation': 'PCU32721432721412',    // Insulation Materials
+            'ppi_gypsum': 'PCU327420327420',        // Gypsum Products
+            'ppi_asphalt': 'PCU324121324121',       // Asphalt Paving
+            'ppi_insulation': 'WPU1392',    // Insulation Materials
             
             // Specific Construction Commodity Series
             'lumber_framing': 'WPU0811',              // Softwood Lumber
             'plywood': 'WPU0812',                     // Plywood
             'steel_rebar': 'WPU10170503',             // Steel Reinforcing Bar
-            'copper_wire': 'WPU10210301',             // Copper Wire
-            'cement': 'WPU13310101',                  // Portland Cement
-            'ready_mix_concrete': 'PCU32732032732021', // Ready-Mix Concrete
+            'copper_wire': 'WPU10260306',             // Copper Wire
+            'cement': 'WPU1322',                  // Cement, Hydraulic
+            'ready_mix_concrete': 'PCU327320327320', // Ready-Mix Concrete
             
             // Energy (affects transport & production)
             'diesel': 'WPU057303',                    // Diesel Fuel
@@ -89,7 +89,7 @@ class FREDCommodityPrices {
                 mom_change: 0.4,
                 yoy_change: 3.8,
                 date: '2026-01',
-                series_name: 'Gypsum Drywall PPI',
+                series_name: 'Gypsum Product Manufacturing',
                 impact: 'Interior walls, finishes'
             },
             'lumber_framing': {
@@ -121,7 +121,7 @@ class FREDCommodityPrices {
                 mom_change: -0.8,
                 yoy_change: 6.5,
                 date: '2026-01',
-                series_name: 'Copper Building Wire',
+                series_name: 'Building Wire and Cable',
                 impact: 'Electrical rough-in'
             },
             'cement': {
@@ -129,7 +129,7 @@ class FREDCommodityPrices {
                 mom_change: 0.6,
                 yoy_change: 4.2,
                 date: '2026-01',
-                series_name: 'Portland Cement',
+                series_name: 'Cement, Hydraulic',
                 impact: 'Concrete ingredient'
             },
             'ready_mix_concrete': {
@@ -184,8 +184,15 @@ class FREDCommodityPrices {
             }
             const fredSeriesId = this.series[seriesId];
             const entry = this._fredCache.series && this._fredCache.series[fredSeriesId];
+            if (entry && entry.status && entry.status !== 'ok') {
+                return {
+                    status: entry.status,
+                    unavailableReason: entry.unavailable_reason,
+                    series_name: seriesId
+                };
+            }
             if (!entry || !entry.observations || entry.observations.length < 2) {
-                return this.currentPrices[seriesId] || null;
+                return null;
             }
             const obs = entry.observations;
             const current = parseFloat(obs[obs.length - 1].value);
@@ -201,7 +208,7 @@ class FREDCommodityPrices {
             };
         } catch (error) {
             console.error(`Error reading FRED data for ${seriesId}:`, error);
-            return this.currentPrices[seriesId] || null;
+            return null;
         }
     }
     

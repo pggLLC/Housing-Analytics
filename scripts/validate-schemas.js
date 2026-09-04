@@ -119,10 +119,15 @@ function validateFredData() {
     if (!s.name || typeof s.name !== 'string' || s.name.trim() === '') {
       blankNameCount++;
     }
-    // Rule 7: non-empty observations — exempt series marked pending:true
-    if (!s.pending && (!Array.isArray(s.observations) || s.observations.length === 0)) {
+    const allowedStates = new Set(['ok', 'invalid_id', 'discontinued', 'temporarily_unavailable', 'awaiting_release']);
+    if (!allowedStates.has(s.status)) {
       emptyObsCount++;
     }
+    // Rule 7: a healthy series must have observations. Non-OK states carry a reason.
+    if (s.status === 'ok' && (!Array.isArray(s.observations) || s.observations.length === 0)) {
+      emptyObsCount++;
+    }
+    if (s.status !== 'ok' && (!s.unavailable_reason || typeof s.unavailable_reason !== 'string')) emptyObsCount++;
   }
 
   assert(blankNameCount === 0, FILE,
