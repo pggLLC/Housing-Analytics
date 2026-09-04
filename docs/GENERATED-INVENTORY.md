@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T10:15:17.216Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T11:29:03.763Z. Do not edit by hand.
 
 ---
 
@@ -39,7 +39,7 @@
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 7.5 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.0 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 33.9 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 43.9 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 231.4 KB |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-277 test files found.
+278 test files found.
 
 | File | Size |
 |------|------|
@@ -1910,6 +1910,7 @@
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
+| `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 4.2 KB |
