@@ -33,6 +33,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any
 
+from acs_etl import _redact
+
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
@@ -130,7 +132,7 @@ def fetch_tracts_for_county(county_fips: str, api_key: str | None) -> list[dict]
         "in": f"state:{STATE_FIPS} county:{county_fips}",
     }
     url = build_url(ACS_DATASET, get_vars, predicates, api_key)
-    log.debug("GET %s", url)
+    log.debug("GET %s", _redact(url))
     try:
         raw = _get(url)
     except Exception as exc:
@@ -184,7 +186,7 @@ def fetch_county_aggregates(counties: list[str], api_key: str | None) -> dict[st
         "in": f"state:{STATE_FIPS}",
     }
     url = build_url(ACS_DATASET, get_vars, predicates, api_key)
-    log.debug("GET (county fallback) %s", url)
+    log.debug("GET (county fallback) %s", _redact(url))
     try:
         raw = _get(url)
     except Exception as exc:
