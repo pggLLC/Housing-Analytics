@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-03T12:15:03.435Z",
+  "scanTimestamp": "2026-09-04T12:15:42.569Z",
   "totalScanned": 1618,
   "newSourceCount": 1587,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 780816,
+      "sizeBytes": 780830,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6266,
+      "sizeBytes": 6267,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -260,13 +260,13 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244728,
+      "sizeBytes": 244885,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/environmental/epa-superfund-co.json",
-      "sizeBytes": 3022,
+      "sizeBytes": 330519,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5282,31 +5282,31 @@
     },
     {
       "path": "data/hna/ranking-scenarios/balanced.json",
-      "sizeBytes": 49961,
+      "sizeBytes": 49963,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/commuter-pressure.json",
-      "sizeBytes": 49981,
+      "sizeBytes": 49983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/large-gap.json",
-      "sizeBytes": 49972,
+      "sizeBytes": 49974,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rate-sensitive.json",
-      "sizeBytes": 49981,
+      "sizeBytes": 49983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rural-lens.json",
-      "sizeBytes": 49983,
+      "sizeBytes": 49985,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9410,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20081,
+      "sizeBytes": 20054,
       "inDataManifest": false,
       "inFilesManifest": true
     },
