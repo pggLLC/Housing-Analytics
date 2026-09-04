@@ -61,6 +61,14 @@
     return Math.round(+n).toLocaleString('en-US');
   }
 
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   // ── Setup bar rendering ────────────────────────────────────────────
 
   function _renderSetupBar() {
@@ -68,12 +76,12 @@
     if (!mount) return;
 
     var slotA = _dealA
-      ? '<span class="dc-comp-slot__label">A:</span> <strong class="dc-comp-slot__name">' + (_dealA.name || _dealA.creditType + ' deal') + '</strong>' +
+      ? '<span class="dc-comp-slot__label">A:</span> <strong class="dc-comp-slot__name">' + escHtml(_dealA.name || _dealA.creditType + ' deal') + '</strong>' +
         '<button type="button" class="dc-comp-slot__clear" data-clear="A" title="Clear A">✕</button>'
       : '<span class="dc-comp-slot__empty">A: click "Save as A" above</span>';
 
     var slotB = _dealB
-      ? '<span class="dc-comp-slot__label">B:</span> <strong class="dc-comp-slot__name">' + (_dealB.name || _dealB.creditType + ' deal') + '</strong>' +
+      ? '<span class="dc-comp-slot__label">B:</span> <strong class="dc-comp-slot__name">' + escHtml(_dealB.name || _dealB.creditType + ' deal') + '</strong>' +
         '<button type="button" class="dc-comp-slot__clear" data-clear="B" title="Clear B">✕</button>'
       : '<span class="dc-comp-slot__empty">B: click "Save as B" above</span>';
 
@@ -113,7 +121,7 @@
   // ── Comparison panel ───────────────────────────────────────────────
 
   var DEAL_METRICS = [
-    { key: 'creditType',  label: 'Credit Type',       fmt: function (v) { return v || '—'; } },
+    { key: 'creditType',  label: 'Credit Type',       fmt: function (v) { return escHtml(v || '—'); } },
     { key: 'tdc',         label: 'Total Dev. Cost',    fmt: function (v) { return _fmtDollars(_parseCurrency(v)); } },
     { key: 'units',       label: 'Total Units',        fmt: function (v) { return _fmtInt(v); } },
     { key: 'basisPct',    label: 'Eligible Basis %',   fmt: function (v) { return _fmtPct(v); } },
@@ -153,9 +161,9 @@
     var nameB = _dealB.name || (_dealB.creditType + ' Scenario');
     html += '<div class="dc-cp-names">' +
       '<div class="dc-cp-names__label"></div>' +
-      '<div class="dc-cp-names__a">' + nameA + '</div>' +
+      '<div class="dc-cp-names__a">' + escHtml(nameA) + '</div>' +
       '<div class="dc-cp-names__vs">vs</div>' +
-      '<div class="dc-cp-names__b">' + nameB + '</div>' +
+      '<div class="dc-cp-names__b">' + escHtml(nameB) + '</div>' +
     '</div>';
 
     // Input assumptions
@@ -307,7 +315,7 @@
     if (!m.ami_gap_30pct) return '';
 
     var html = '<div class="dc-cp-need-align">';
-    html += '<div class="dc-cp-section-title">Need Alignment: ' + _communityNeed.name + '</div>';
+    html += '<div class="dc-cp-section-title">Need Alignment: ' + escHtml(_communityNeed.name) + '</div>';
     html += '<p class="dc-cp-need-desc">How each deal\'s unit mix addresses the community\'s identified housing gaps.</p>';
 
     var tiers = [

@@ -327,6 +327,14 @@ document.addEventListener('DOMContentLoaded', function () {
 (function () {
   'use strict';
 
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   /* ── Styles ───────────────────────────────────────────────────────── */
   var s = document.createElement('style');
   s.textContent = [
@@ -545,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function () {
     card.id = 'hcaSelectJurisdictionCard';
     card.innerHTML =
       '<div class="hca-select-jurisdiction__text">' +
-        '<strong>Use ' + (geoName || 'this jurisdiction') + ' as your working jurisdiction?</strong>' +
+        '<strong>Use ' + escHtml(geoName || 'this jurisdiction') + ' as your working jurisdiction?</strong>' +
         '<span>Selecting it will personalize your HNA, Market Analysis, and other tools for this area.</span>' +
       '</div>' +
       '<button class="hca-select-jurisdiction__btn" id="hcaSelectJurisdictionBtn" type="button">' +
@@ -577,7 +585,7 @@ document.addEventListener('DOMContentLoaded', function () {
           targetUrl += '?fips=' + encodeURIComponent(canonical.geoid) + '&auto=1';
           targetUrl += '&geoType=' + encodeURIComponent(canonical.geoType) + '&geoid=' + encodeURIComponent(canonical.geoid);
         }
-        confirm.innerHTML = '✓ Working jurisdiction set to ' + (canonical.name || geoName) + '. ' +
+        confirm.innerHTML = '✓ Working jurisdiction set to ' + escHtml(canonical.name || geoName) + '. ' +
           'Redirecting to Housing Needs Assessment&hellip;';
         card.appendChild(confirm);
         setTimeout(function () {
