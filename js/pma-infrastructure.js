@@ -39,7 +39,7 @@
 
   /* ── Internal state ───────────────────────────────────────────────── */
   var lastFloodRiskPct      = 0;
-  var lastClimateScore      = 50; // FALLBACK: neutral value until NOAA climate data is loaded
+  var lastClimateScore      = null;
   var lastUtilityScore      = 50; // FALLBACK: neutral value until utility capacity data is loaded
   var lastFoodAccessScore   = 50; // FALLBACK: neutral value until USDA food access data is loaded
   var lastCompositeScore    = 50; // FALLBACK: neutral value until buildInfrastructureScorecard runs
@@ -85,8 +85,11 @@
     if (ds && typeof ds.fetchNOAAClimateData === 'function') {
       return ds.fetchNOAAClimateData(location, climateVariable || 'all');
     }
-    // FALLBACK: DataService.fetchNOAAClimateData unavailable. Using neutral resilienceScore 50 until a live NOAA or cached climate endpoint is wired.
-    return Promise.resolve({ normals: {}, extremes: {}, resilienceScore: 50 });
+    return Promise.resolve({
+      normals: {}, extremes: {}, resilienceScore: null,
+      _stub: true,
+      unavailableReason: 'NOAA climate data is unavailable; no climate resilience score was calculated.'
+    });
   }
 
   /**
@@ -156,12 +159,13 @@
     }
 
     // Climate resilience (already 0–100 or convert from raw)
-    var climateIsStub = climateData._stub || (climateData.resilienceScore === 50 && !climateData.normals);
-    var climateRaw = toNum(climateData.resilienceScore != null ? climateData.resilienceScore : 50);
-    lastClimateScore = clamp(climateRaw <= 1 ? climateRaw * 100 : climateRaw, 0, 100);
+    var climateIsStub = climateData._stub || climateData.resilienceScore == null;
     if (climateIsStub) {
+      lastClimateScore = null;
       _stubSources.push('climate');
     } else {
+      var climateRaw = toNum(climateData.resilienceScore);
+      lastClimateScore = clamp(climateRaw <= 1 ? climateRaw * 100 : climateRaw, 0, 100);
       _realSources.push('climate');
     }
 
@@ -219,6 +223,9 @@
       floodRiskPercent:       Math.round(lastFloodRiskPct * 100) / 100,
       floodScore:             floodScore,
       climateResilienceScore: lastClimateScore,
+      climateUnavailableReason: climateIsStub
+        ? (climateData.unavailableReason || 'NOAA climate data is unavailable; no climate resilience score was calculated.')
+        : null,
       sewerCapacityAdequate:  lastSewerAdequate,
       utilityScore:           lastUtilityScore,
       foodAccessScore:        lastFoodAccessScore,
