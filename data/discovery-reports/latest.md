@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-03T12:15:03.435Z
+**Scan timestamp:** 2026-09-04T12:15:42.569Z
 
 ## Summary
 
@@ -57,7 +57,7 @@
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
 - `data/discovery-reports/latest.json` (239 KB)
-- `data/environmental/epa-superfund-co.json` (3 KB)
+- `data/environmental/epa-superfund-co.json` (323 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
 - `data/fixtures/fruita-commons-compact.scenario.json` (5 KB)
