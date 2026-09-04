@@ -56,6 +56,7 @@
     epaIndex:    0.25,  // EPA Smart Location transit accessibility index
     walkScore:   0.10   // pedestrian environment
   };
+  var EPA_UNAVAILABLE_REASON = 'EPA Smart Location data is unavailable; no EPA transit or walkability score was calculated.';
 
   /* ── Internal state ───────────────────────────────────────────────── */
   var lastRoutes       = [];
@@ -105,8 +106,12 @@
     if (ds && typeof ds.fetchEPASmartLocation === 'function') {
       return ds.fetchEPASmartLocation(boundingBox);
     }
-    // FALLBACK: DataService.fetchEPASmartLocation unavailable. Using neutral values 50 until EPA Smart Location data is wired.
-    return Promise.resolve({ transitAccessibility: 50, walkScore: 50 });
+    return Promise.resolve({
+      transitAccessibility: null,
+      walkScore: null,
+      _dataSource: 'epa-unavailable',
+      unavailableReason: EPA_UNAVAILABLE_REASON
+    });
   }
 
   /**
@@ -228,7 +233,7 @@
       effectiveWeights.coverage  += effectiveWeights.walkScore / 2;
       effectiveWeights.walkScore  = 0;
     }
-    lastWalkScore = walkScore;
+    lastWalkScore = hasWalk ? walkScore : null;
 
     lastScore = Math.round(
       effectiveWeights.frequency * freqScore  +
@@ -252,7 +257,10 @@
       nearbyRouteCount: nearbyRoutes.length,        // walk-tier only (back-compat)
       totalRouteCount:  weightedRoutes.length,      // all tiers combined
       tierBreakdown:    tierCounts,                 // walk / bike / drive-and-ride counts
-      totalCredit:      Math.round(totalCredit * 100) / 100  // credit-weighted equivalent
+      totalCredit:      Math.round(totalCredit * 100) / 100, // credit-weighted equivalent
+      unavailableReason: (!hasEpa || !hasWalk)
+        ? (epaData.unavailableReason || EPA_UNAVAILABLE_REASON)
+        : null
     };
 
     return clamp(lastScore, 0, 100);
@@ -347,6 +355,7 @@
       walkScore:                 lastWalkScore,
       walkScoreAvailable:        walkAvailable,
       epaDataAvailable:          epaAvailable,
+      unavailableReason:         _lastDataSources.unavailableReason || null,
       nearbyRouteCount:          _lastDataSources.nearbyRouteCount || lastRoutes.length,
       serviceGaps:               lastDeserts.length,
       hasHighFrequencyService:   lastRoutes.some(function (r) {

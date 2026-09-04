@@ -223,6 +223,7 @@
         'Transit accessibility within the PMA is ' + tDesc + ', ' +
         'with a composite score of ' + tScore + '/100 ' +
         '(walk score: ' + (t.walkScore || 'N/A') + '). ' +
+        (t.unavailableReason ? t.unavailableReason + ' ' : '') +
         (tScore < 40 ? 'On-site parking and car-share programs are recommended to address service gaps.' : '')
       );
     }

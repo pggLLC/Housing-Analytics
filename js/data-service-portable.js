@@ -892,10 +892,29 @@
                     '&units=standard&limit=25';
           return fetcher(url, { headers: { token: token } })
             .then(function (r) { if (!r.ok) throw new Error('NOAA HTTP ' + r.status); return r.json(); })
-            .then(function (d) { return { normals: d, extremes: {}, resilienceScore: 50, hazards: {}, _stub: false, _dataSource: 'noaa-cdo-live' }; })
-            .catch(function () { return { normals: {}, extremes: {}, resilienceScore: 50, hazards: {}, _stub: true, _dataSource: 'noaa-cdo-error' }; });
+            .then(function (d) {
+              return {
+                normals: d, extremes: {}, resilienceScore: null, hazards: {},
+                _stub: false,
+                _dataSource: 'noaa-cdo-live',
+                unavailableReason: 'NOAA normals were loaded, but no supported method derives a climate resilience score from them.'
+              };
+            })
+            .catch(function () {
+              return {
+                normals: {}, extremes: {}, resilienceScore: null, hazards: {},
+                _stub: true,
+                _dataSource: 'noaa-cdo-error',
+                unavailableReason: 'NOAA climate data could not be loaded; no climate resilience score was calculated.'
+              };
+            });
         }
-        return { normals: {}, extremes: {}, resilienceScore: 50, hazards: {}, _stub: true, _dataSource: 'climate-no-data' };
+        return {
+          normals: {}, extremes: {}, resilienceScore: null, hazards: {},
+          _stub: true,
+          _dataSource: 'climate-no-data',
+          unavailableReason: 'NOAA climate data is unavailable; no climate resilience score was calculated.'
+        };
       }
 
       return {
