@@ -4561,7 +4561,11 @@
       if (eitherRadio) eitherRadio.checked = true;
       if (includeCdps) includeCdps.checked = false;
       if (requireCapture) requireCapture.checked = true;
-      $('lofCounty').value = '';
+      var countyFilter = $('lofCounty');
+      if (countyFilter) {
+        countyFilter.value = '';
+        countyFilter.dispatchEvent(new Event('change', { bubbles: true }));
+      }
       if (regionEl) regionEl.value = '';
       minYears.value = 0; minYearsVal.textContent = '0';
       minScore.value = 0; minScoreVal.textContent = '0';
