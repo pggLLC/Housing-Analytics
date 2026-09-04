@@ -66,9 +66,9 @@
       '<details class="pctx-panel" open>' +
         '<summary class="pctx-summary">About this page</summary>' +
         '<div class="pctx-body">' +
-          (what ? '<div class="pctx-section"><div class="pctx-label">What this page does</div><p class="pctx-text">' + what + '</p></div>' : '') +
-          (why  ? '<div class="pctx-section"><div class="pctx-label">Why it matters</div><p class="pctx-text">' + why + '</p></div>' : '') +
-          (not  ? '<div class="pctx-section pctx-not"><div class="pctx-label">What this page does NOT do</div><p class="pctx-text">' + not + '</p></div>' : '') +
+          (what ? '<div class="pctx-section"><div class="pctx-label">What this page does</div><p class="pctx-text">' + esc(what) + '</p></div>' : '') +
+          (why  ? '<div class="pctx-section"><div class="pctx-label">Why it matters</div><p class="pctx-text">' + esc(why) + '</p></div>' : '') +
+          (not  ? '<div class="pctx-section pctx-not"><div class="pctx-label">What this page does NOT do</div><p class="pctx-text">' + esc(not) + '</p></div>' : '') +
           nextHtml +
         '</div>' +
       '</details>';

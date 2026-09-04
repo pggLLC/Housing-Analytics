@@ -647,7 +647,7 @@
         '<label for="keyInput_' + def.key + '">' + escHtml(def.label) + '</label>' +
         '<div class="dq-key-input-wrap">' +
           '<input id="keyInput_' + def.key + '" class="dq-key-input" type="password" ' +
-            'placeholder="' + (isSet ? masked : escHtml(def.placeholder)) + '" ' +
+            'placeholder="' + (isSet ? escHtml(masked) : escHtml(def.placeholder)) + '" ' +
             'autocomplete="off" data-key="' + def.key + '">' +
           '<button class="dq-key-save" data-key="' + def.key + '">Save</button>' +
         '</div>' +
@@ -748,7 +748,7 @@
                         ' · Generated ' + new Date(status.generated_at).toLocaleString();
     }).catch(function (err) {
       grid.innerHTML = '<div style="grid-column:1/-1;color:var(--muted,#476080);font-size:.85em;padding:.6rem;">' +
-        'QA status not available (' + (err.message || err) + '). ' +
+        'QA status not available (' + escHtml(err.message || err) + '). ' +
         'Run <code>node scripts/audit/qa-status-generator.mjs</code> locally or trigger the daily ' +
         '<code>data-quality-check.yml</code> workflow.</div>';
       meta.textContent = '';
