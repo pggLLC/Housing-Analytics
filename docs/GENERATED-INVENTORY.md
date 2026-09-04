@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T00:41:54.555Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-04T03:27:56.326Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-274 test files found.
+275 test files found.
 
 | File | Size |
 |------|------|
@@ -1769,6 +1769,7 @@
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 3.1 KB |
 | `test/homepage-job-routing.test.js` | 3.9 KB |
+| `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
@@ -1831,7 +1832,7 @@
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
-| `test/pma-transit.test.js` | 13.1 KB |
+| `test/pma-transit.test.js` | 14.8 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.1 KB |
 | `test/polymarket-resolved.test.js` | 2.9 KB |
