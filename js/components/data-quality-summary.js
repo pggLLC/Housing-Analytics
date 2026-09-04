@@ -57,7 +57,7 @@
       if (age <= 2) return '<span class="dqs-recent">' + age + 'yr old</span>';
       return '<span class="dqs-stale">' + age + 'yr old</span>';
     }
-    return '<span class="dqs-recent">' + vintage + '</span>';
+    return '<span class="dqs-recent">' + esc(vintage) + '</span>';
   }
 
   /* ── Render ─────────────────────────────────────────────────────── */
