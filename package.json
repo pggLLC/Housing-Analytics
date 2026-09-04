@@ -63,7 +63,7 @@
     "typecheck": "echo \"No dedicated typecheck script for this static site\"",
     "test:validate": "node test/validate-site.js",
     "test:fetch-helper": "node test/fetch-helper-resolve.js",
-    "test:hna": "node test/hna-functionality-check.js && node test/hna-profile-fetch-batches.test.js && npm run test:metric-semantics && npm run test:scenario-presets && node test/hna-scenario-builder-saved.test.js && npm run test:hna-prop123-relationship",
+    "test:hna": "node test/hna-functionality-check.js && node test/hna-profile-fetch-batches.test.js && npm run test:metric-semantics && npm run test:scenario-presets && node test/hna-scenario-builder-saved.test.js && npm run test:hna-prop123-relationship && node test/hna-print-export.test.js",
     "test:hna-prop123-relationship": "node test/hna-prop123-relationship.test.js",
     "test:hna-surplus-semantics": "node test/hna-surplus-semantics.test.js",
     "test:hna-projection-integrity": "node test/hna-projection-integrity.test.js",

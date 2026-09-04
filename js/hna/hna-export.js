@@ -2,7 +2,7 @@
   hna-export.js — Export utilities for Housing Needs Assessment reports.
 
   Provides three export modes:
-    * PDF  — multi-page screenshot via html2canvas + jsPDF (with print() fallback)
+    * PDF  — browser print dialog for a selectable, paginated document
     * CSV  — key housing metrics for the current geography as a comma-separated file
     * JSON — structured report snapshot for archiving or downstream processing
 
@@ -403,128 +403,21 @@
   }
 
   // ---------------------------------------------------------------------------
-  // exportPdf — screenshot-based PDF via html2canvas + jsPDF
+  // exportPdf — browser print path
   // ---------------------------------------------------------------------------
 
   /**
-   * Exports the current HNA report view as a multi-page PDF.
-   * Falls back to window.print() if the required libraries are unavailable.
+   * Opens the browser print dialog for the current HNA report view. Choosing
+   * "Save as PDF" preserves selectable text and lets css/print.css paginate
+   * the document without allocating a page-height raster canvas.
    *
-   * @param {string} [filename] - Output filename (default: housing-needs-assessment.pdf)
+   * @param {string} [filename] - Retained for API compatibility; the browser
+   *   print dialog controls the saved filename.
    * @returns {Promise<void>}
    */
   async function exportPdf(filename) {
-    var outFile = filename || 'housing-needs-assessment.pdf';
-    var pdfBtn  = document.getElementById('btnPdf');
-    try {
-      if (pdfBtn) { pdfBtn.disabled = true; }
-      if (!window.html2canvas || !window.jspdf) {
-        window.print();
-        return;
-      }
-
-      _showExportToast('Generating PDF\u2026', 'info');
-
-      var jsPDF = window.jspdf.jsPDF;
-      var node  = document.querySelector('main');
-      var bg    = getComputedStyle(document.documentElement)
-                    .getPropertyValue('--bg').trim() || '#ffffff';
-
-      /* F167 \u2014 PDF distortion fix. Three changes that together stop the
-         charts-look-blurry-or-smeared symptom that users have flagged:
-
-         (1) Bump html2canvas scale from 2 \u2192 3. The previous scale=2 was
-             halving Chart.js's already-rendered canvas resolution when
-             projected onto the letter page, which is why bars and axis
-             labels came out fuzzy / jagged.
-
-         (2) Force every Chart.js instance to re-render at the html2canvas
-             pixel ratio BEFORE capture. Chart.js draws at the device pixel
-             ratio at construction time; if the screen's devicePixelRatio
-             was 1 (most external monitors), the charts were captured at 1\u00d7
-             and then up-sampled by html2canvas \u2014 that's the actual source
-             of the smear. We bump devicePixelRatio inside each chart's
-             options + call .resize() so they redraw at 3\u00d7 before the
-             screenshot fires.
-
-         (3) Freeze animations during capture (animation:false) so charts
-             aren't mid-tween when html2canvas reads pixels. */
-      var charts = (window.Chart && Chart.instances)
-        ? Object.values(Chart.instances).filter(Boolean) : [];
-      var TARGET_DPR = 3;
-      var savedAnim = [];
-      charts.forEach(function (c) {
-        try {
-          savedAnim.push({
-            chart: c,
-            anim: c.options.animation,
-            dpr:  c.options.devicePixelRatio,
-          });
-          c.options.animation = false;
-          c.options.devicePixelRatio = TARGET_DPR;
-          c.resize();
-          c.update('none');
-        } catch (_) {}
-      });
-      // Give the browser one paint cycle to commit the re-render before
-      // html2canvas reads the canvases.
-      await new Promise(function (r) { requestAnimationFrame(function () { setTimeout(r, 50); }); });
-
-      var canvas;
-      try {
-        canvas = await window.html2canvas(node, {
-          scale: TARGET_DPR,
-          useCORS: true,
-          backgroundColor: bg,
-          /* logging: false silences the noisy "Failed to load resource"
-             warnings html2canvas emits on every cross-origin tile request
-             from the Leaflet basemap; the basemap is correctly
-             foreground-blanked by the {backgroundColor: bg} setting so
-             those warnings are cosmetic. */
-          logging: false,
-        });
-      } finally {
-        // Restore previous animation + dpr so the on-screen charts don't
-        // permanently lock at 3\u00d7 DPR (would burn battery on mobile).
-        savedAnim.forEach(function (s) {
-          try {
-            s.chart.options.animation = s.anim;
-            s.chart.options.devicePixelRatio = s.dpr;
-            s.chart.resize();
-          } catch (_) {}
-        });
-      }
-
-      var imgData = canvas.toDataURL('image/png');
-      var pdf     = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
-
-      var pageW = pdf.internal.pageSize.getWidth();
-      var pageH = pdf.internal.pageSize.getHeight();
-      var imgW  = pageW;
-      var imgH  = canvas.height * (pageW / canvas.width);
-
-      // First page
-      pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-
-      // Additional pages for tall content
-      var remaining = imgH - pageH;
-      var offset    = 0;
-      while (remaining > 0) {
-        pdf.addPage();
-        offset    += pageH;
-        pdf.addImage(imgData, 'PNG', 0, -offset, imgW, imgH);
-        remaining -= pageH;
-      }
-
-      pdf.save(outFile);
-      _showExportToast('PDF downloaded \u2713');
-    } catch (e) {
-      console.warn('[HNA] PDF export failed; falling back to print()', e);
-      _showExportToast('PDF generation failed \u2014 using print fallback', 'warn');
-      window.print();
-    } finally {
-      if (pdfBtn) { pdfBtn.disabled = false; }
-    }
+    void filename;
+    window.print();
   }
 
   // ---------------------------------------------------------------------------
@@ -690,13 +583,14 @@
   /* ─────────────────────────────────────────────────────────────────
      F173 — exportStructuredPdf — narrative-style PDF builder.
 
-     Replaces the html2canvas full-page screenshot approach with a
+     Legacy structured jsPDF document builder. The public HNA PDF action now
+     uses browser printing so long reports remain selectable and page-aware.
+     This internal builder previously replaced the full-page screenshot with a
      structured jsPDF document modeled on the New Castle deliverable
      (8 sections, headline stat cards, embedded chart images, narrative
      paragraphs, methodology footer). Works for any selected geography
      by pulling values from buildReportData() + the live Chart.js
-     canvases. The old screenshot-based exportPdf remains as an
-     emergency fallback when jsPDF isn't available.
+     canvases. If jsPDF is unavailable, it delegates to the print path.
 
      Layout strategy:
        - US Letter portrait, 0.6" margins
@@ -709,7 +603,7 @@
     const outFile = filename || 'housing-needs-assessment.pdf';
     const pdfBtn  = document.getElementById('btnPdf');
     if (!window.jspdf) {
-      // No jsPDF available — fall back to screenshot path
+      // No jsPDF available — use the browser print path.
       return exportPdf(filename);
     }
     try {
@@ -1055,8 +949,8 @@
       pdf.save(outFile);
       _showExportToast('PDF downloaded ✓');
     } catch (e) {
-      console.warn('[HNA] Structured PDF export failed; falling back to screenshot path', e);
-      _showExportToast('Falling back to screenshot PDF…', 'warn');
+      console.warn('[HNA] Structured PDF export failed; falling back to print()', e);
+      _showExportToast('Falling back to browser print…', 'warn');
       return exportPdf(filename);
     } finally {
       if (pdfBtn) pdfBtn.disabled = false;
@@ -1068,11 +962,9 @@
   // ---------------------------------------------------------------------------
 
   window.__HNA_buildReportData = buildReportData;
-  // F173 — primary PDF entry point routes through the structured builder.
-  // The old screenshot exportPdf is kept reachable for fallback (and on
-  // explicit consumer call via window.__HNA_exportPdfScreenshot).
-  window.__HNA_exportPdf            = exportStructuredPdf;
-  window.__HNA_exportPdfScreenshot  = exportPdf;
+  // Browser print is the only public PDF path. It avoids browser canvas-height
+  // limits and produces selectable text with CSS-aware page breaks.
+  window.__HNA_exportPdf       = exportPdf;
   window.__HNA_exportCsv       = exportCsv;
   window.__HNA_exportJson      = exportJson;
 
@@ -1082,12 +974,6 @@
 
   window.HNAExport = {
     exportPdf: function (filename) {
-      // F173 — route through the structured narrative builder by default.
-      return exportStructuredPdf(filename);
-    },
-    exportPdfScreenshot: function (filename) {
-      // Emergency fallback: full-page html2canvas screenshot. Kept for
-      // consumers that explicitly need the screenshot mode.
       return exportPdf(filename);
     },
     exportCsv: function (reportData, filename) {

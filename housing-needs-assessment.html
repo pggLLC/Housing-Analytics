@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
   <style>
     .hna-decision-strip {
       display: grid;
@@ -138,9 +139,6 @@
   <script defer src="js/vendor/chartjs-plugin-annotation.min.js"></script>
   <!-- chart-fix: re-renders charts when <details> sections open or containers become visible -->
   <script defer src="js/chart-fix.js"></script>
-  <!-- PDF export (client-side) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
   <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
   <script src="js/site-state.js"></script>
@@ -339,7 +337,7 @@
           </div>
 
           <button id="btnRefresh" type="button">Refresh</button>
-          <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
+          <button id="btnPdf" type="button" title="Opens the browser print dialog; choose Save as PDF for a selectable, paginated document">Print / Save PDF</button>
           <button id="btnExcel" type="button" title="Downloads an Excel workbook with the headline data tables and native Excel charts the values feed">Download Excel</button>
           <button id="btnCsv" type="button" title="Downloads key housing metrics as a CSV file">Download CSV</button>
           <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>

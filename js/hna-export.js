@@ -2,7 +2,7 @@
   hna-export.js — Export utilities for Housing Needs Assessment reports.
 
   Provides three export modes:
-    * PDF  — multi-page screenshot via html2canvas + jsPDF (with print() fallback)
+    * PDF  — browser print dialog for a selectable, paginated document
     * CSV  — key housing metrics for the current geography as a comma-separated file
     * JSON — structured report snapshot for archiving or downstream processing
 
@@ -152,64 +152,20 @@
   }
 
   // ---------------------------------------------------------------------------
-  // exportPdf — screenshot-based PDF via html2canvas + jsPDF
+  // exportPdf — browser print path
   // ---------------------------------------------------------------------------
 
   /**
-   * Exports the current HNA report view as a multi-page PDF.
-   * Falls back to window.print() if the required libraries are unavailable.
+   * Opens the browser print dialog for the current HNA report view. Choosing
+   * "Save as PDF" preserves selectable text and delegates pagination to CSS.
    *
-   * @param {string} [filename] - Output filename (default: housing-needs-assessment.pdf)
+   * @param {string} [filename] - Retained for API compatibility; the browser
+   *   print dialog controls the saved filename.
    * @returns {Promise<void>}
    */
   async function exportPdf(filename) {
-    var outFile = filename || 'housing-needs-assessment.pdf';
-    var pdfBtn  = document.getElementById('btnPdf');
-    try {
-      if (pdfBtn) { pdfBtn.disabled = true; }
-      if (!window.html2canvas || !window.jspdf) {
-        window.print();
-        return;
-      }
-
-      _showExportToast('Generating PDF\u2026', 'info');
-
-      var jsPDF = window.jspdf.jsPDF;
-      var node  = document.querySelector('main');
-      var bg    = getComputedStyle(document.documentElement)
-                    .getPropertyValue('--bg').trim() || '#ffffff';
-
-      var canvas  = await window.html2canvas(node, { scale: 2, useCORS: true, backgroundColor: bg });
-      var imgData = canvas.toDataURL('image/png');
-      var pdf     = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
-
-      var pageW = pdf.internal.pageSize.getWidth();
-      var pageH = pdf.internal.pageSize.getHeight();
-      var imgW  = pageW;
-      var imgH  = canvas.height * (pageW / canvas.width);
-
-      // First page
-      pdf.addImage(imgData, 'PNG', 0, 0, imgW, imgH);
-
-      // Additional pages for tall content
-      var remaining = imgH - pageH;
-      var offset    = 0;
-      while (remaining > 0) {
-        pdf.addPage();
-        offset    += pageH;
-        pdf.addImage(imgData, 'PNG', 0, -offset, imgW, imgH);
-        remaining -= pageH;
-      }
-
-      pdf.save(outFile);
-      _showExportToast('PDF downloaded \u2713');
-    } catch (e) {
-      console.warn('[HNA] PDF export failed; falling back to print()', e);
-      _showExportToast('PDF generation failed \u2014 using print fallback', 'warn');
-      window.print();
-    } finally {
-      if (pdfBtn) { pdfBtn.disabled = false; }
-    }
+    void filename;
+    window.print();
   }
 
   // ---------------------------------------------------------------------------

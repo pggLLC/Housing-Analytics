@@ -354,9 +354,9 @@ test('hna-export.js: exports buildReportData on window', () => {
 test('hna-export.js: exports exportPdf on window', () => {
     assert(exportJs.includes('window.__HNA_exportPdf'), 'window.__HNA_exportPdf is assigned');
     assert(exportJs.includes('async function exportPdf'), 'exportPdf is async');
-    assert(exportJs.includes('window.print()'),           'exportPdf falls back to window.print()');
-    assert(exportJs.includes('html2canvas'),              'exportPdf uses html2canvas');
-    assert(exportJs.includes('jspdf'),                    'exportPdf uses jsPDF');
+    assert(exportJs.includes('window.print()'),           'exportPdf uses browser print');
+    assert(!exportJs.includes('html2canvas'),              'exportPdf does not allocate a raster canvas');
+    assert(!exportJs.includes('jspdf'),                    'exportPdf does not construct a raster PDF');
 });
 
 test('hna-export.js: exports exportCsv on window', () => {
