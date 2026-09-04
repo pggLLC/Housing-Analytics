@@ -86,8 +86,46 @@ async function main() {
   assert.equal(healthyCard.climateResilienceScore, 70);
   assert.equal(healthyCard.climateUnavailableReason, null);
 
-  const rendererSource = fs.readFileSync(path.join(ROOT, 'js/market-analysis/market-report-renderers.js'), 'utf8');
-  assert(rendererSource.includes("j.climateUnavailableReason || 'NOAA'"), 'infrastructure renderer uses the carried NOAA reason');
+  const rendered = { innerHTML: '' };
+  global.document = { getElementById: (id) => id === 'maInfrastructureContent' ? rendered : null };
+  delete require.cache[require.resolve('../js/market-analysis/market-report-renderers.js')];
+  require('../js/market-analysis/market-report-renderers.js');
+  global.MARenderers.renderInfrastructure({
+    score: 62,
+    justification: {
+      floodRiskPercent: 0.1,
+      climateResilienceScore: null,
+      climateUnavailableReason: 'Unavailable <source> "quoted" & pending',
+      sewerCapacityAdequate: true,
+      foodAccessScore: 71
+    }
+  });
+  assert(rendered.innerHTML.includes('Unavailable &lt;source&gt; &quot;quoted&quot; &amp; pending'), 'HTML meta-characters in the carried reason are escaped');
+  assert(!rendered.innerHTML.includes('<source>'), 'carried reason cannot inject markup');
+  assert(rendered.innerHTML.includes('FEMA NFHL'), 'existing FEMA NFHL literal renders unchanged');
+
+  global.MARenderers.renderInfrastructure({
+    score: 62,
+    justification: {
+      floodRiskPercent: 0.1,
+      climateResilienceScore: null,
+      climateUnavailableReason: 'Climate score unavailable',
+      sewerCapacityAdequate: true,
+      foodAccessScore: 71
+    }
+  });
+  assert(rendered.innerHTML.includes('Climate score unavailable'), 'normal carried reason renders unchanged');
+
+  global.MARenderers.renderInfrastructure({
+    score: 62,
+    justification: {
+      floodRiskPercent: 0.1,
+      climateResilienceScore: 70,
+      sewerCapacityAdequate: true,
+      foodAccessScore: 71
+    }
+  });
+  assert(rendered.innerHTML.includes('(NOAA)'), 'existing NOAA literal renders unchanged');
 
   console.log('✅ housekeeping absence-semantics guards pass');
 }
