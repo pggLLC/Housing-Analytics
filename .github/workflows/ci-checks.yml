@@ -240,6 +240,14 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+
+      - name: Install Python test dependencies
+        run: pip install pytest python-dateutil jsonschema
+
       - name: Run unified CI test suite
         run: npm run test:ci
 
@@ -303,14 +311,6 @@ jobs:
           exit 0
 
       # ── Python test suites ──
-      - name: Set up Python
-        uses: actions/setup-python@v7
-        with:
-          python-version: "3.11"
-
-      - name: Install Python test dependencies
-        run: pip install pytest python-dateutil jsonschema
-
       - name: Run pytest suite
         run: pytest tests/ -v --tb=short
         # Note: previously a separate "Run standalone Python tests" step

@@ -78,7 +78,7 @@
   <ul>
     <li><strong>Steel &amp; Metal Products</strong> — <a href="https://fred.stlouisfed.org/series/PCU331110331110" target="_blank" rel="noopener">PCU331110331110: Iron and Steel Mills PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU331315331315" target="_blank" rel="noopener">PCU331315331315: Aluminum PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
     <li><strong>Lumber &amp; Wood Products</strong> — <a href="https://fred.stlouisfed.org/series/WPU0811" target="_blank" rel="noopener">WPU0811: Lumber PPI</a>, <a href="https://fred.stlouisfed.org/series/WPU0812" target="_blank" rel="noopener">WPU0812: Plywood PPI</a>, <a href="https://fred.stlouisfed.org/series/WPUSI012011" target="_blank" rel="noopener">WPUSI012011: Lumber &amp; Wood Products PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
-    <li><strong>Concrete &amp; Cement</strong> — <a href="https://fred.stlouisfed.org/series/WPU13310101" target="_blank" rel="noopener">WPU13310101: Portland Cement PPI</a>, <a href="https://fred.stlouisfed.org/series/PCU327310327310" target="_blank" rel="noopener">PCU327310327310: Ready-Mix Concrete PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
+    <li><strong>Concrete &amp; Cement</strong> — <a href="https://fred.stlouisfed.org/series/WPU1322" target="_blank" rel="noopener">WPU1322: Cement, Hydraulic</a>, <a href="https://fred.stlouisfed.org/series/PCU327310327310" target="_blank" rel="noopener">PCU327310327310: Ready-Mix Concrete PPI</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
     <li><strong>Composite Index</strong> — <a href="https://fred.stlouisfed.org/series/WPUFD49207" target="_blank" rel="noopener">WPUFD49207: PPI Inputs to Construction</a> — via <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">FRED</a></li>
   </ul>
   <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0.5rem 0 0;">All series from <a href="https://fred.stlouisfed.org" target="_blank" rel="noopener">Federal Reserve Economic Data (FRED)</a>, Federal Reserve Bank of St. Louis. Data updates monthly.</p>
@@ -92,6 +92,13 @@
 <script>
         // Create price card HTML
         function createPriceCard(key, commodity) {
+            if (commodity.status && commodity.status !== 'ok') {
+                return `<div class="price-card" data-series-status="${commodity.status}">
+                    <div class="price-card-header"><span class="price-card-title">${commodity.name}</span></div>
+                    <div class="price-current">Unavailable</div>
+                    <div class="price-change">${commodity.unavailableReason}</div>
+                </div>`;
+            }
             const yoyChange = parseFloat(commodity.yoyChange) || 0;
             const trendClass = yoyChange > 0 ? 'trend-up' : 'trend-down';
             const trendIcon = yoyChange > 0 ? '↑' : '↓';
@@ -212,19 +219,19 @@
                 
                 // Create charts
                 // Steel & Metal
-                const steelCommod = [data.steelMillProducts, data.steelRebar, data.copperWireCable].filter(Boolean);
+                const steelCommod = [data.steelMillProducts, data.steelRebar, data.copperWireCable].filter(item => item && (!item.status || item.status === 'ok'));
                 if (steelCommod.length > 0) {
                     createPriceChart('steel-chart', steelCommod, 'Steel & Metal Products');
                 }
                 
                 // Lumber & Wood
-                const lumberCommod = [data.softwoodLumber, data.framingLumber, data.plywoodSheathing].filter(Boolean);
+                const lumberCommod = [data.softwoodLumber, data.framingLumber, data.plywoodSheathing].filter(item => item && (!item.status || item.status === 'ok'));
                 if (lumberCommod.length > 0) {
                     createPriceChart('lumber-chart', lumberCommod, 'Lumber & Wood Products');
                 }
                 
                 // Concrete
-                const concreteCommod = [data.concreteProducts, data.portlandCement, data.readyMixConcrete].filter(Boolean);
+                const concreteCommod = [data.concreteProducts, data.portlandCement, data.readyMixConcrete].filter(item => item && (!item.status || item.status === 'ok'));
                 if (concreteCommod.length > 0) {
                     createPriceChart('concrete-chart', concreteCommod, 'Concrete & Cement');
                 }

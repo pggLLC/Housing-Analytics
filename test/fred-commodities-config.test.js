@@ -9,15 +9,16 @@ function read(relPath) {
 }
 
 const fredCommoditiesSrc = read('js/fred-commodities.js');
-const workflowSrc = read('.github/workflows/fetch-fred-data.yml');
+const fetcherSrc = read('scripts/fetch_fred_data.py');
 const commoditiesHtml = read('construction-commodities.html');
+const fredData = JSON.parse(read('data/fred-data.json'));
 
 const pageSeriesIds = new Set(
   [...fredCommoditiesSrc.matchAll(/id:\s*'([^']+)'/g)].map((match) => match[1])
 );
 
 const workflowSeries = new Map(
-  [...workflowSrc.matchAll(/^\s*"([A-Z0-9]+)":\s*"([^"]+)"/gm)]
+  [...fetcherSrc.matchAll(/"([A-Z0-9]+)":\s*\("([^"]+)"/g)]
     .map((match) => [match[1], match[2]])
 );
 
@@ -28,14 +29,14 @@ const missingFromWorkflow = [...pageSeriesIds].filter((seriesId) => !workflowSer
 assert.deepEqual(missingFromWorkflow, [], 'every commodity page series is present in the FRED fetch config');
 
 const expectedNewSeries = new Map([
-  ['PCU33142033142012', 'Copper Wire & Cable PPI'],
-  ['WPU10210301', 'Copper Building Wire'],
-  ['PCU32121132121103', 'Softwood Lumber PPI'],
-  ['WPU13310101', 'Portland Cement'],
-  ['PCU32732032732021', 'Ready-Mix Concrete'],
-  ['PCU32742032742012', 'Gypsum Drywall PPI'],
-  ['PCU32412132412121', 'Asphalt Paving'],
-  ['PCU32721432721412', 'Insulation Materials'],
+  ['PCU331420331420A', 'Copper Wire & Cable PPI'],
+  ['WPU10260306', 'Building Wire and Cable'],
+  ['PCU3211133211133', 'Softwood Lumber PPI'],
+  ['WPU1322', 'Cement, Hydraulic'],
+  ['PCU327320327320', 'Ready-Mix Concrete'],
+  ['PCU327420327420', 'Gypsum Product Manufacturing'],
+  ['PCU324121324121', 'Asphalt Paving'],
+  ['WPU1392', 'Insulation Materials'],
   ['WPU0531', 'Natural Gas'],
 ]);
 
@@ -44,9 +45,18 @@ for (const [seriesId, label] of expectedNewSeries) {
   assert.equal(workflowSeries.get(seriesId), label, `${seriesId} uses the commodity page label`);
 }
 
+for (const [seriesId, label] of [
+  ['WPU10260306', 'Building Wire and Cable'],
+  ['WPU1322', 'Cement, Hydraulic'],
+  ['PCU327420327420', 'Gypsum Product Manufacturing'],
+]) {
+  assert.equal(fredData.series[seriesId].name, label, `${seriesId} display name matches its FRED coverage`);
+  assert(fredData.series[seriesId].title.includes(label), `${seriesId} display name is present in its retrieved FRED title`);
+}
+
 for (const [label, source] of [
   ['fred-commodities.js', fredCommoditiesSrc],
-  ['fetch-fred-data.yml', workflowSrc],
+  ['fetch_fred_data.py', fetcherSrc],
   ['construction-commodities.html', commoditiesHtml],
 ]) {
   assert(!source.includes('WPU10170503'), `${label} no longer references discontinued WPU10170503`);
@@ -57,4 +67,41 @@ assert(fredCommoditiesSrc.includes('_isSeriesStale'), 'fred-commodities.js check
 assert(fredCommoditiesSrc.includes('fredData.updated'), 'freshness check is anchored to fred-data.json updated timestamp');
 assert(/continue;/.test(fredCommoditiesSrc), 'stale current-indicator series are skipped during render');
 
-console.log(`fred-commodities-config: PASS (${pageSeriesIds.size} page series reconciled)`);
+const FREDCommodities = require('../js/fred-commodities.js');
+
+(async () => {
+  const states = ['invalid_id', 'discontinued', 'temporarily_unavailable', 'awaiting_release'];
+  for (const state of states) {
+    const reason = state === 'discontinued'
+      ? 'Series discontinued; last observation 2018-06-01. Historical values are retained.'
+      : `${state} reason from data`;
+    FREDCommodities._fredDataCache = {
+      updated: '2026-09-03T00:00:00Z',
+      series: {
+        PCU331110331110: {
+          status: state,
+          unavailable_reason: reason,
+          observations: []
+        },
+        PCU331420331420A: {
+          status: 'ok',
+          unavailable_reason: null,
+          observations: Array.from({length: 13}, (_, i) => ({date: `2025-${String(i + 1).padStart(2, '0')}-01`, value: String(100 + i)}))
+        }
+      }
+    };
+    const rendered = await FREDCommodities.getAllCommodities();
+    assert.equal(rendered.steelMillProducts.status, state, `${state} reaches the consumer`);
+    assert.equal(rendered.steelMillProducts.unavailableReason, reason, `${state} carries its data reason`);
+    if (state === 'discontinued') {
+      assert(rendered.steelMillProducts.unavailableReason.includes('2018-06-01'), 'discontinued rendering carries the final observation date');
+    }
+    if (state === 'temporarily_unavailable') {
+      assert(!/last observation/i.test(rendered.steelMillProducts.unavailableReason), 'temporary unavailability does not invent an end date');
+    }
+    assert.equal(rendered.copperWireCable.status, undefined, 'healthy series still renders normally');
+    assert.equal(rendered.copperWireCable.current, 112, 'healthy series retains its value');
+  }
+  assert(commoditiesHtml.includes('commodity.unavailableReason'), 'construction page renders the reason carried with a non-OK series');
+  console.log(`fred-commodities-config: PASS (${pageSeriesIds.size} page series reconciled)`);
+})().catch((error) => { console.error(error); process.exitCode = 1; });
