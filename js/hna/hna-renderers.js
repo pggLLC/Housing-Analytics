@@ -2664,9 +2664,47 @@
     // Places/CDPs without their own entry fall back to the containing county's
     // resources (mirrors the Opportunity Finder) rather than showing "none".
     let fromCounty = false;
-    if (!r && (geoType === 'place' || geoType === 'cdp')) {
-      const cc = S().state && S().state.current && S().state.current.contextCounty;
-      if (cc) { r = lrData['county:' + cc] || lrData[cc] || null; if (r) fromCounty = true; }
+    const county = (geoType === 'place' || geoType === 'cdp')
+      ? (() => {
+          const cc = S().state && S().state.current && S().state.current.contextCounty;
+          return cc ? (lrData['county:' + cc] || lrData[cc] || null) : null;
+        })()
+      : null;
+
+    if (!r && county) { r = county; fromCounty = true; }
+
+    // A partial entry used to suppress the county entirely, so a place could show
+    // LESS than if it had no entry at all. Clifton (cdp:0815165) carries a real
+    // CDP-specific Prop 123 disclosure ("Mesa County context") but no housing
+    // contact, and so hid Mesa County's housing lead and the Grand Junction and
+    // Fruita Housing Authorities.
+    //
+    // Inherit only the fields the entry does not have. Place-specific values
+    // always win, so a jurisdiction-level Prop 123 status is never overwritten by
+    // its county's. This is not a union: an entry that has its own
+    // housingAuthority keeps exactly that list. See issue #1540.
+    const inheritedFields = [];
+    if (r && county && r !== county) {
+      const has = (o, f) => {
+        const v = o && o[f];
+        return Array.isArray(v) ? v.length > 0 : (v !== undefined && v !== null);
+      };
+
+      // `housingLead` and `housingAuthority` together answer "who do I contact
+      // about housing here". Inherit them only when the entry answers neither —
+      // a county's lead is often one member city's program page (Mesa County's
+      // is Grand Junction's), so attaching it to a different municipality that
+      // already names its own authority would mislabel rather than help.
+      const answersContact = has(r, 'housingLead') || has(r, 'housingAuthority');
+      const INHERITABLE = answersContact
+        ? ['contacts', 'housingPlans', 'advocacy']
+        : ['housingLead', 'housingAuthority', 'contacts', 'housingPlans', 'advocacy'];
+
+      const merged = Object.assign({}, r);
+      INHERITABLE.forEach((f) => {
+        if (!has(merged, f) && has(county, f)) { merged[f] = county[f]; inheritedFields.push(f); }
+      });
+      if (inheritedFields.length) r = merged;
     }
 
     if (!r) {
@@ -2677,6 +2715,8 @@
     let html = '';
     if (fromCounty) {
       html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Showing <strong>county-level</strong> resources — no entry specific to this municipality yet.</p>';
+    } else if (inheritedFields.length) {
+      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Some items below are <strong>county-level</strong> — this jurisdiction has no entry of its own for: ' + escHtml(inheritedFields.join(', ')) + '.</p>';
     }
 
     // Curated jurisdictional housing-history briefs live on the internal

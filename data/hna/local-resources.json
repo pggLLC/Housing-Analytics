@@ -294,18 +294,6 @@
       }
     ]
   },
-  "place:0856970": {
-    "prop123": {
-      "status": "Committed",
-      "link": "https://cdola.colorado.gov/commitment-filings"
-    },
-    "advocacy": [
-      {
-        "name": "HomewardBound of the Grand Valley",
-        "url": "https://homewardboundgv.org/"
-      }
-    ]
-  },
   "cdp:0815165": {
     "prop123": {
       "status": "Mesa County context",
