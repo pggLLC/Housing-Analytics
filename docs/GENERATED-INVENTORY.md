@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T20:06:17.993Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T20:11:26.442Z. Do not edit by hand.
 
 ---
 
@@ -1777,7 +1777,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
-| `test/input-provenance.test.js` | 5.9 KB |
+| `test/input-provenance.test.js` | 6.4 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 14.0 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
