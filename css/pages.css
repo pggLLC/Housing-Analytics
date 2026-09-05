@@ -921,3 +921,38 @@ mark {
 .mb-3 {
   margin-bottom: var(--sp3);
 }
+
+/* ── Input provenance (js/components/input-provenance.js) ──────────────────
+   Tells the reader which numbers are theirs. The Deal Calculator arrives with
+   109 of 133 fields pre-filled; without this they are indistinguishable from
+   values the user entered or values derived from their jurisdiction's data.
+   Deliberately quiet — at ~100 badges per page, anything louder is noise. */
+.input-prov {
+  display: inline-block;
+  margin-top: 0.2rem;
+  padding: 0 0.32rem;
+  border-radius: 3px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  line-height: 1.5;
+  vertical-align: middle;
+  cursor: help;
+}
+.input-prov--assumption {
+  color: var(--warn, #8a5a00);
+  background: color-mix(in oklab, var(--card, #fff) 88%, var(--warn, #d97706) 12%);
+  border: 1px solid color-mix(in oklab, var(--card, #fff) 70%, var(--warn, #d97706) 30%);
+}
+.input-prov--yours {
+  color: var(--good, #047857);
+  background: color-mix(in oklab, var(--card, #fff) 88%, var(--good, #047857) 12%);
+  border: 1px solid color-mix(in oklab, var(--card, #fff) 70%, var(--good, #047857) 30%);
+}
+.input-prov--data {
+  color: var(--info, #2563eb);
+  background: color-mix(in oklab, var(--card, #fff) 88%, var(--info, #2563eb) 12%);
+  border: 1px solid color-mix(in oklab, var(--card, #fff) 70%, var(--info, #2563eb) 30%);
+}
+@media print { .input-prov { border: none; background: none; } }
