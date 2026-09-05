@@ -871,12 +871,12 @@
       "consecutiveFailures": 0,
       "redirectTo": "https://developer.chrome.com/docs/lighthouse?hl=tr"
     },
-    "https://developers-guide.chfainfo.com/market-feasibility": {
+    "https://www.chfainfo.com/community-partnerships/chfa-developers-guide": {
       "status": "ok",
       "httpStatus": 200,
-      "lastCheckedAt": "2026-08-31T12:26:25.313Z",
-      "lastOkAt": "2026-08-31T12:26:25.313Z",
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
+      "lastCheckedAt": "2026-09-05T05:39:46.000Z",
+      "lastOkAt": "2026-09-05T05:39:46.000Z",
+      "firstSeenAt": "2026-09-05T05:39:46.000Z",
       "consecutiveFailures": 0
     },
     "https://dlg.colorado.gov/housing-plans": {
