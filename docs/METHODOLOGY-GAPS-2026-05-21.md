@@ -1,7 +1,19 @@
 # Methodology Gaps & Analysis Risks — Deep Dive
 **Session date:** 2026-05-21
-**Scope:** Fixes shipped today (#854, #855, #857, #859) + what's left unaddressed
+**Last verified against `main`:** 2026-09-05 (see [#1454](https://github.com/pggLLC/Housing-Analytics/issues/1454))
+**Scope:** Fixes shipped 2026-05-21 (#854, #855, #857, #859) + what's left unaddressed
 **Audience:** Site operator + future developers using this platform for site-selection decisions
+
+> **Status legend.** Every gap below carries an explicit marker. `OPEN` means the
+> limitation still applies to what ships today. `RESOLVED` means it was verified
+> fixed on `main` on the date shown — the text is kept rather than deleted so the
+> record of *what* was fixed survives.
+>
+> **Status as of 2026-09-05: §2, §4, §5, §6, §7 RESOLVED · §1, §3, §8, §9, §10 OPEN.**
+>
+> Four of these (§2, §4, §6, §7) were still written as open when this register was
+> re-verified. Treat an unverified gaps register as a source of stale instructions,
+> not as a to-do list.
 
 ---
 
@@ -28,6 +40,7 @@ These are real bug fixes, not cosmetic. The vacancy-rate fix in particular affec
 The following are not bugs in what we ship; they're **inherent limitations of the public-data methodology** that users need to understand. Treating these tools as if they were professional market studies (which they're not) will produce wrong decisions.
 
 ### 1. Multifamily-vs-single-family vacancy split — not publicly available below the metro level
+**Status: OPEN** (verified 2026-09-05) — inherent ACS limitation, not a fixable defect. ACS DP04 still publishes no MF/SF vacancy split below metro level.
 **What the user asked for:** vacancy broken down by multifamily vs single-family.
 **Why we can't ship it directly:** ACS DP04 publishes vacancy at the housing-unit level. It does *not* publish a structure-type cross-tab. The only public source that does is Census **HVS** (Housing Vacancy Survey), which is quarterly but only published for about **75 MSAs** nationwide — Denver-Aurora-Lakewood is included; Grand Junction, Pueblo, Greeley, Boulder are *not*, and no Colorado place outside the Denver MSA has a public MF-vs-SF split at quarterly frequency.
 
@@ -41,7 +54,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 - Subscription path: CoStar / Yardi / RealPage MultifamilyTrack are the industry-standard MF-specific sources at $5K-$25K/year per market. Document this clearly so users know when to escalate.
 
 ### 2. Rental vacancy at place/CDP granularity is unstable
-**Status:** Fixed in #857 with a rental-N ≥ 50 gate that emits null for very small samples.
+**Status: RESOLVED** (verified 2026-09-05) — fixed in [#857](https://github.com/pggLLC/Housing-Analytics/pull/857) with a rental-N ≥ 50 gate that emits null for very small samples. The residual interpretive caveat below is inherent to ACS and stays.
 **Residual problem:** ACS publishes 0.0% for some places that genuinely have low vacancy AND some places where the sample happened to find no vacant rentals. The two are indistinguishable from the number alone.
 
 **Why this matters:** Compare shows Fruita at 0.0% rental vacancy. Some of that is real (Fruita's a tight market); some is sample noise. A user comparing two CDPs both at 0% can't tell which is genuine.
@@ -49,6 +62,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **Mitigation:** The new structure-type rows on Compare let users see whether the market is even big enough to have meaningful rental vacancy. A 95% SF-detached place with 50 rental units is structurally not a 100-unit-LIHTC site regardless of what the vacancy number says.
 
 ### 3. CHAS data is 2018-2022 vintage — three+ years stale
+**Status: OPEN** (verified 2026-09-05) — `data/hna/` still ships the 2018-2022 vintage. Blocked upstream: HUD has not released 2019-2023. Disclosure shipped in [#865](https://github.com/pggLLC/Housing-Analytics/pull/865); see also the CHAS-vintage disclosure tests (`test:hna-ami-chas-disclosure`, `test:hna-takeaways-chas-disclosure`).
 **Where it shows up:** Renter Cost Burden by Income Tier (Compare), AMI gap calculations (Ranking + Compare), owner cost-burden fallback (#855), and the chartChasGap chart on HNA.
 
 **Why this matters:** HUD CHAS lags. The 2018-2022 vintage includes the early COVID rent freeze + the 2021-2022 rent acceleration but doesn't capture the 2023-2024 post-pandemic equilibrium. For a deal closing in 2026, the cost-burden tiers may understate current stress in fast-growing Front Range markets and overstate it where rent growth has actually decelerated.
@@ -58,6 +72,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 - Document a regeneration plan: when CHAS 2019-2023 lands in the build pipeline, every place + county rate should refresh in the same place-CHAS + county-CHAS files; downstream consumers don't need code changes.
 
 ### 4. HUD FMR cache is FY2025 — FY2026 was published 2026-04-01
+**Status: RESOLVED** (verified 2026-09-05) — the cache is now FY2026. `data/hud-fmr-income-limits.json` carries `"fiscal_year": 2026` and `data/market/fmr_co.json` carries `"year": "2026"`, refreshed by `.github/workflows/fetch-fmr-data.yml`. The credential blocker recorded below is no longer current.
 **Where it shows up:** Deal Calculator rent ceilings, PMA rent-pressure dimension, AMI-required-to-purchase calculations.
 
 **Why this matters:** FMR caps move LIHTC pro forma revenue assumptions ~2-4% year-over-year in CO MSAs. FY2026 caps are higher than FY2025 in 9 of 11 CO HUD areas. Underwriting against FY2025 caps in 2026 will *under-estimate* maximum chargeable rents — which is conservatively fine for screening but understates the real opportunity.
@@ -65,6 +80,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **Mitigation:** The FY2025 label is now visible on the relevant cards. Refresh script `scripts/fetch_fmr_api.py` exists; needs a cron entry to pull FY2026.
 
 ### 5. ~~LEHD WAC vintage is 2021 — five-year lag~~ → RESOLVED 2026-05-21
+**Status: RESOLVED** (2026-05-21; re-confirmed 2026-09-05) — this gap was a documentation error, not a data lag. Deployed WAC data was already current. The LODES *OD* caveat noted below still stands.
 **Update:** The doc originally claimed LEHD WAC was on the 2021 vintage. Verified empirically (2026-05-21) — actual deployed data is already on **WAC 2023** with employment totals through 2023 in every county file (`data/hna/lehd/<fips>.json` → `wacYear: 2023`, totalEmployment series ends at 2023). LEHD 2024 returns 404 — 2023 IS the most recent available vintage. The scripts/hna/parse_lehd_wac.py script's defaults already target YEARS=2021,2022,2023.
 
 **No action needed** — this gap was a doc error, not a real data lag. Top Industry / Wage band figures users see today reflect 2023 LEHD WAC data.
@@ -72,6 +88,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **True remaining caveat:** LEHD LODES *OD* (origin-destination, commute flows) is on 2022 vintage per the source URL in county files (`co_od_main_JT00_2022.csv.gz`). OD data lags WAC by ~1 year; 2023 OD typically ships Q3-Q4 of the following year (so available around Q4 2026). Commute-flow visualizations on Compare + HNA may shift slightly when OD 2023 lands.
 
 ### 6. PMA boundary = circular buffer, not commuting shed
+**Status: RESOLVED** (verified 2026-09-05) — the PMA is no longer a circular buffer. `js/pma-delineation.js` renders the actual included tract polygons and a commuting-based boundary layer; its header describes the PMA as a "commuting + barrier + school-adjusted polygon". `data/market/pma_tract_display_geometry.geojson` ships per-tract geometry and is consumed by `js/pma-delineation.js` and `js/market-analysis.js`. The dashed buffer ring remains only as a visual reference overlay. See [#1232](https://github.com/pggLLC/Housing-Analytics/issues/1232) for remaining tract-geometry realism work.
 **Where it shows up:** Every PMA-page calculation, including the new Site Summary card in #859.
 
 **Why this matters:** A circular buffer crossing a state highway, a river, or an income-segregated neighborhood line will include census tracts whose residents don't actually compete for the same housing. Two 5-mile buffers centered on different sides of Federal Boulevard in Denver might score identically on demand metrics while serving completely separate sub-markets.
@@ -81,12 +98,14 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **The right answer:** the next iteration should integrate the LEHD LODES OD (origin-destination) flows that are already in `data/market/lodes_od_arcs_co.geojson` to construct an actual commuting-shed boundary. Right now those arcs are visualized as a map overlay but don't feed the PMA boundary.
 
 ### 7. Transit data is RTD-biased and rural sparse
+**Status: RESOLVED** (verified 2026-09-05) — the rural override shipped in [#867](https://github.com/pggLLC/Housing-Analytics/pull/867). `js/market-analysis.js` labels rural results `"(rural fallback — see methodology)"` and carves out mountain-resort HMFAs (Eagle/Pitkin/Summit) which are *not* treated as rural. Underlying OSM sparsity is unchanged; the misleading "no transit" implication is not.
 **Status:** Documented in the new PMA card's methodology disclosure (#859).
 **Risk:** A site in Sterling or Trinidad may show "no transit stop in OSM data" — accurate, but the implication isn't necessarily "no LIHTC viability"; rural projects often score well in CHFA's geographic-distribution category *because* they lack transit. The platform shouldn't penalize rural sites for failing TOD criteria when CHFA's QAP awards them other points instead.
 
 **Mitigation deferred:** The Risk Flags panel should explicitly suppress "no transit" warnings when the site is in a CHFA-designated rural county (the QAP has a list). Not in this PR — flagged for backlog.
 
 ### 8. Owner cost burden via CHAS fallback is structurally different from ACS SMOCAPI
+**Status: OPEN** (verified 2026-09-05) — structural difference between the two measures is inherent. The per-side CHAS-vs-ACS disclosure shipped in [#865](https://github.com/pggLLC/Housing-Analytics/pull/865); the metric divergence itself remains.
 **Where it shows up:** Compare page's "% Owners Cost-Burdened" row, when the fallback fires (#855).
 **The technical issue:** ACS SMOCAPI measures *Selected Monthly Owner Costs* (mortgage P&I + tax + insurance + utilities) as a percentage of household income. HUD CHAS measures *all housing costs* as a percentage of income across all owner households. For owner-occupied units with mortgages, the two are close; for paid-off owners (especially seniors in older Colorado mountain-town homes), CHAS will under-state the burden because property tax + insurance + utilities alone rarely exceed 30% of income.
 
@@ -95,6 +114,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **What's shipped:** The disclosure note above the Compare homeownership table tells the user when each side is CHAS-vs-ACS. That's the right signal. We could also add a "see methodology" link that opens the technical detail.
 
 ### 9. Place-CHAS apportionment is area-weighted, not population-weighted
+**Status: OPEN** (verified 2026-09-05) — `scripts/hna/build_place_chas.py` still apportions by area. Owned by [#1232](https://github.com/pggLLC/Housing-Analytics/issues/1232) (PMA geographic realism / true tract geometry). Note `data/hna/place-chas.json` counts are now capped at the ACS occupied-household anchor, which bounds — but does not remove — the apportionment error.
 **Where it shows up:** Every place-level CHAS value on Compare and HNA after #849 (last week's PR).
 **The technical issue:** When a place's TIGER polygon crosses two census tracts, the build script apportions the CHAS values by *area* (share of each tract that falls inside the place). Population-weighted apportionment would be more accurate for housing analysis because tract population is concentrated unevenly.
 
@@ -103,6 +123,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 **Mitigation deferred:** A population-weighted re-apportionment is a build-script change. Risk is moderate — we'd need to re-validate Compare + Ranking spot-checks. Worth a future PR with the test plan written ahead.
 
 ### 10. Vacancy is "one number" — doesn't distinguish lease-up phase, naturally vacant, or seasonally vacant
+**Status: OPEN** (verified 2026-09-05) — inherent to ACS DP04_0005E as a snapshot measure. Screening-only framing remains the mitigation.
 **The technical reality:** ACS DP04_0005E is a snapshot. It doesn't tell you whether a 5% vacancy is "5% naturally vacant" (healthy) or "5% in lease-up" (project just opened, will absorb).
 
 **Industry standard practice:** A market study would distinguish stabilized vacancy from concession-adjusted effective vacancy from lease-up vacancy. None of these are in public data.
@@ -116,7 +137,7 @@ The following are not bugs in what we ship; they're **inherent limitations of th
 Status updated 2026-05-21 after attempting each Tier A/B item.
 
 **Must-fix-before-next-deploy (small lifts):**
-1. ~~Refresh the HUD FMR cache to FY2026.~~ → **BLOCKED on credentials** ([#866](https://github.com/pggLLC/Housing-Analytics/pull/866)): HUD locked the `/hudapi/public/fmr/` endpoint behind a Bearer token in 2025-Q4. The fetch script's Python 3.9 compat + auth-required messaging is shipped; the actual data refresh needs a free HUD_API_TOKEN (register at https://www.huduser.gov/portal/dataset/fmr-api.html).
+1. ~~Refresh the HUD FMR cache to FY2026.~~ → **RESOLVED** (verified 2026-09-05). The FY2026 cache now ships (`fiscal_year: 2026`), refreshed by `.github/workflows/fetch-fmr-data.yml`. Superseded the earlier credential blocker ([#866](https://github.com/pggLLC/Housing-Analytics/pull/866)): HUD locked the `/hudapi/public/fmr/` endpoint behind a Bearer token in 2025-Q4. The fetch script's Python 3.9 compat + auth-required messaging is shipped; the actual data refresh needs a free HUD_API_TOKEN (register at https://www.huduser.gov/portal/dataset/fmr-api.html).
 2. ~~Surface CHAS vintage on Compare's owner-burden row~~ → **DONE** ([#865](https://github.com/pggLLC/Housing-Analytics/pull/865)). Per-side "CHAS 2018-22 · Place/County" pills now render alongside the renter-burden pills.
 3. ~~Add "rural" override on the no-transit warning~~ → **DONE** ([#867](https://github.com/pggLLC/Housing-Analytics/pull/867)). TOD panel now shows amber ℹ "Rural site — TOD criterion doesn't apply" with a CHFA QAP §5.D pointer when site is in a non-MSA/HMFA county.
 
@@ -138,6 +159,23 @@ Status updated 2026-05-21 after attempting each Tier A/B item.
 - **Blocked upstream**: 1 (HUD token), 4 (HUD vintage).
 - **Resolved on inspection (no action needed)**: 5 (already current).
 - **Deferred**: 6 (needs block-group data first), 7 (larger algorithmic work).
+
+### Re-verification 2026-09-05 ([#1454](https://github.com/pggLLC/Housing-Analytics/issues/1454))
+
+Each gap was re-checked against `main` at commit `4fc8774`. Changes since the 2026-05-21 tally:
+
+| Item | 2026-05-21 said | 2026-09-05 verified |
+|---|---|---|
+| §4 / rec 1 — HUD FMR | BLOCKED on credentials | **RESOLVED** — FY2026 ships |
+| §6 — PMA boundary | open (circular buffer) | **RESOLVED** — tract polygons + commuting layer |
+| §7 — rural transit | mitigation deferred | **RESOLVED** — rural fallback shipped (#867) |
+| §2 — place/CDP vacancy | "Fixed in #857" (unmarked) | **RESOLVED** — marked explicitly |
+| SEO / discoverability | open (June handoff) | **RESOLVED** — `robots.txt` + `sitemap.xml` ship |
+| §3 — CHAS vintage | open | **OPEN** — still 2018-2022, blocked upstream |
+| §9 — apportionment | deferred | **OPEN** — still area-weighted; owned by [#1232](https://github.com/pggLLC/Housing-Analytics/issues/1232) |
+| §1, §8, §10 | open | **OPEN** — inherent data limitations, not defects |
+
+Recommendation 7 (commuting-shed PMA alternative) is substantially delivered by the §6 work; remaining geometry realism is tracked in [#1232](https://github.com/pggLLC/Housing-Analytics/issues/1232).
 
 ---
 
