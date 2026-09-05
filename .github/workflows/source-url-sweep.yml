@@ -5,24 +5,32 @@ name: Source URL Sweep
 #
 # Runs:
 #   - weekly on Monday 8am MT (paired with Dependabot's cadence)
-#   - on PRs that touch any file containing URLs we cite
 #   - manually via workflow_dispatch
 #
 # Exits non-zero on any 404 / server-error / fetch-error. Timeouts are
 # treated as soft (many CI egress setups produce spurious timeouts).
+#
+# NOT on pull_request. It used to be, with paths `js/**/*.js` and
+# `**/*.html`, so nearly every PR hard-blocked on a full sweep of ~180
+# external citations — one federal site having a bad afternoon turned an
+# unrelated PR red. #1544 failed on two govinfo.gov 502s for a bill its
+# diff never mentions.
+#
+# ci-checks.yml already covers PRs, at both scopes and with the right
+# blocking semantics: a changed-files sweep (`--diff-added`) that blocks,
+# because a URL this PR introduces is this PR's responsibility, and a
+# full-repository sweep marked `continue-on-error: true`, because rot in a
+# citation the PR never touched is not. This workflow was a third
+# invocation that contradicted the second one.
+#
+# Rot in existing citations is still caught here, on the weekly run, which
+# opens a tracking issue. A few days slower, and it fails nobody's
+# unrelated work.
 
 on:
   schedule:
     # Mondays 14:00 UTC = 08:00 America/Denver in daylight time
     - cron: '0 14 * * 1'
-  pull_request:
-    paths:
-      - 'DATA-MANIFEST.json'
-      - 'js/citations.js'
-      - 'js/**/*.js'
-      - '**/*.html'
-      - 'scripts/audit/source-url-sweep.mjs'
-      - '.github/workflows/source-url-sweep.yml'
   workflow_dispatch:
 
 permissions:
