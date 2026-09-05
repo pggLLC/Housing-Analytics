@@ -5029,6 +5029,17 @@
     bindAmiInputs();
     bindExport();
 
+    // Mark which figures are the user's and which are the tool's starting
+    // assumptions. 99 of the 106 visible fields on this page arrive pre-filled
+    // — a 3-mile buffer, 100 proposed units, and AMI tier counts of 0 that read
+    // identically whether the user chose "none at this tier" or has not filled
+    // the form in yet. Additive and read-only with respect to values, so it
+    // cannot alter a score. See AGENTS.md, "An unmeasurable quantity is null,
+    // never 0" — this is the same problem in the input layer.
+    if (window.InputProvenance && typeof window.InputProvenance.apply === 'function') {
+      try { window.InputProvenance.apply(document); } catch (_) { /* never break init */ }
+    }
+
     // Walking + biking isochrone rings toggle. The layer is rebuilt every
     // time the site moves; here we just show/hide the cached layer.
     var isoCb = document.getElementById('pmaIsochroneToggle');
