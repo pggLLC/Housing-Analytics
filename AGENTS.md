@@ -82,6 +82,44 @@ A passing check list answers "did the jobs report success", not "did the work ha
 - **`cancelled` is a failure mode, not a neutral outcome.** A hung step is killed by the job timeout and recorded as `cancelled`, which renders grey rather than as a red X. Scanning for red misses it. Worse, the timeout is not reliable: on 2026-08-19 a job with `timeout-minutes: 30` was still `in_progress` at 232 minutes.
 - **Is `main` itself green right now?** Data crons suppress CI on their own commits, so `main` can be broken for hours with no failing run to show for it. A PR failing on files it never touched is the usual first symptom — check `main` before debugging your own diff.
 
+## An unmeasurable quantity is `null`, never `0`
+
+A zero and an unknown are indistinguishable once rendered, so nothing downstream
+can catch the difference. This has now produced five defects in this repo
+([#1480](https://github.com/pggLLC/Housing-Analytics/issues/1480)): a `0`-household
+AMI band, `$0` / `-$320,000` equity, an absent Prop 123 commitment, a flat chart
+line for a dead FRED series, and — most recently — `$0` resale price and owner
+equity on the HNA ownership panel for **53 of 482 Colorado places** (#1531).
+
+**`Number(null) === 0`, and `0` is finite.** That is the whole bug. A
+language-level coercion turns "no data" into a real quantity that then passes
+every `Number.isFinite()` check downstream and lands in front of a user as a
+number they will act on.
+
+- Do **not** apply `Number()` / `parseFloat()` / `num()` to a possibly-null value
+  that then feeds arithmetic or a renderer. Guard the absence first and return
+  `null`.
+- Guard `<= 0`, not `< 0`, wherever zero is not a meaningful value. A purchase
+  price, home value, or rent of exactly `0` means unknown, not free.
+- Carry the *reason* with the data, not a label duplicated per renderer. The house
+  pattern already exists — `priceUnavailableReason`, `climateUnavailableReason`,
+  `demandUnavailableReason`, `hazmatUnavailableReason`, `unavailableReason`,
+  `rejectedSameNameRecord`. Follow it.
+- Fixing the renderer is not enough. #1478 correctly made `fmtMoney()` return
+  `Value unavailable` for `null`, and the bug still shipped, because the coercion
+  happened two layers upstream and the renderer never saw a `null`. Fix it where
+  the value is *resolved*, and check every layer between there and the screen —
+  #1531 needed three.
+- A neutral default is the same defect wearing a different number. `scoreMap[x] || 50`
+  scores an unrecognised category as average; `|| 60` scores an unknown hazard
+  level as better than moderate. Prefer excluding the component and disclosing why.
+
+**This class is not caught by tests, linters, or CodeQL.** Every instance so far
+was found by reading the code or by running the tool against a real jurisdiction —
+never by a green check. When you touch a value that can be absent, write the test
+that pins the absent case, and prefer a repro you can run in one command over an
+assertion you can only read.
+
 ## Who does what
 `Claude` plans and verifies, `Codex` implements and self-comments, the owner decides. Three clarifications, 2026-08-19 and 2026-08-20:
 
