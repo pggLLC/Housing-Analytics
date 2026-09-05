@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T12:40:54.455Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T16:04:09.904Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.6 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.7 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.4 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-288 test files found.
+289 test files found.
 
 | File | Size |
 |------|------|
@@ -1777,6 +1777,7 @@
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
+| `test/input-provenance.test.js` | 5.9 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
 | `test/integration/compliance-dashboard.test.js` | 14.0 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
