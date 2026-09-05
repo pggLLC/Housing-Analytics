@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-04T12:15:42.569Z",
+  "scanTimestamp": "2026-09-05T11:23:24.204Z",
   "totalScanned": 1618,
   "newSourceCount": 1587,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6267,
+      "sizeBytes": 6261,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -260,7 +260,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244885,
+      "sizeBytes": 244887,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4826,7 +4826,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 178911,
+      "sizeBytes": 178890,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9410,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20054,
+      "sizeBytes": 20048,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9470,7 +9470,7 @@
     },
     {
       "path": "data/reports/repo-link-audit.json",
-      "sizeBytes": 2051613,
+      "sizeBytes": 2051626,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9500,7 +9500,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 328836,
+      "sizeBytes": 328835,
       "inDataManifest": false,
       "inFilesManifest": true
     },
