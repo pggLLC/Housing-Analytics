@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T06:29:58.346Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T10:53:09.346Z. Do not edit by hand.
 
 ---
 
@@ -1657,13 +1657,14 @@
 
 ## Test Files
 
-283 test files found.
+286 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
 | `test/acs-etl.test.js` | 25.3 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
+| `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
@@ -1747,6 +1748,7 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 60.8 KB |
+| `test/hna-home-value-absence.test.js` | 3.9 KB |
 | `test/hna-home-value-cascade.test.js` | 12.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
@@ -1850,6 +1852,7 @@
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.0 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
+| `test/qct-dda-same-origin.test.js` | 3.0 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
