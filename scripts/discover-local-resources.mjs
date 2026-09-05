@@ -274,10 +274,32 @@ async function loadInputs() {
   return { lr, ami, geoConfig };
 }
 
-function rankUnincludedPlaces(lr, ami, limit) {
+/**
+ * GEOIDs of every Census-Designated Place, from the authoritative list in
+ * `data/hna/geo-config.json`.
+ *
+ * A CDP is unincorporated: it has no municipal government, so no official city
+ * website can exist for it. Probing URL patterns for one can only ever surface
+ * an unrelated organisation that happens to own the domain.
+ *
+ * @param {object|null} geoConfig
+ * @returns {Set<string>}
+ */
+export function cdpGeoids(geoConfig) {
+  return new Set(((geoConfig && geoConfig.cdps) || []).map((c) => c.geoid).filter(Boolean));
+}
+
+function rankUnincludedPlaces(lr, ami, limit, geoConfig) {
   const haveGeoids = new Set(
     Object.keys(lr).filter((k) => k.startsWith('place:')).map((k) => k.replace('place:', ''))
   );
+  // Identify CDPs by GEOID, not by a "(CDP)" suffix on the name.
+  // `data/co_ami_gap_by_place.json` carries bare names ("Clifton", "Ken Caryl"),
+  // so the old `/\bCDP\b/.test(place_name)` check matched none of them and every
+  // CDP passed the filter. On the 2026-08-31 run that was 7 of 20 candidates,
+  // which is how an HOA (kencaryl.org) and an international center
+  // (meridian.org) were surfaced as candidate city websites.
+  const cdps = cdpGeoids(geoConfig);
   return Object.values(ami.places || {})
     .map((p) => {
       const totalHH = (p.households_le_ami_pct && p.households_le_ami_pct['100']) || 0;
@@ -286,7 +308,7 @@ function rankUnincludedPlaces(lr, ami, limit) {
         name: p.place_name,
         county_fips: p.containing_county_fips,
         households: totalHH,
-        isCdp: /\bCDP\b/.test(p.place_name || '')
+        isCdp: cdps.has(p.fips) || /\bCDP\b/.test(p.place_name || '')
       };
     })
     .filter((p) => p.geoid && !haveGeoids.has(p.geoid) && !p.isCdp && p.households > 0)
@@ -310,8 +332,14 @@ async function runConcurrent(items, worker) {
 
 async function main() {
   console.error('[discover] Loading inputs…');
-  const { lr, ami } = await loadInputs();
-  const targets = rankUnincludedPlaces(lr, ami, LIMIT);
+  const { lr, ami, geoConfig } = await loadInputs();
+  if (!geoConfig || !Array.isArray(geoConfig.cdps) || geoConfig.cdps.length === 0) {
+    // Fail loudly rather than silently probing 200+ CDPs that cannot have a
+    // municipal website. loadInputs() swallows a read error into null.
+    console.error('[discover] FATAL: geo-config.json missing or has no `cdps` list; cannot filter CDPs.');
+    process.exit(1);
+  }
+  const targets = rankUnincludedPlaces(lr, ami, LIMIT, geoConfig);
   console.error(`[discover] ${targets.length} target places (top ${LIMIT} unincluded by HH count).`);
 
   const t0 = Date.now();
