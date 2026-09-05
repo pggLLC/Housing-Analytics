@@ -4037,6 +4037,15 @@
       try { window.InlineGlossary.decorate(mount); } catch (_) { /* never break render */ }
     }
 
+    // Mark which figures are the user's and which are the tool's starting
+    // assumptions. 109 of the 133 visible fields arrive pre-filled — Total
+    // Development Cost at $20,000,000, Total Units at 60 — and without this
+    // they are indistinguishable from a value the user entered. Additive and
+    // read-only with respect to values, so it cannot alter a calculation.
+    if (window.InputProvenance && typeof window.InputProvenance.apply === 'function') {
+      try { window.InputProvenance.apply(mount); } catch (_) { /* never break render */ }
+    }
+
     // Eagerly trigger the HUD LIHTC dataset load so the Peer Deals panel
     // has data ready when the user picks a county. Non-blocking; fails
     // silently — the panel handles the absent-data state gracefully.
