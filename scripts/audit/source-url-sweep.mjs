@@ -550,7 +550,7 @@ function extractUrlsFromAddedDiffLine(line) {
   return urls;
 }
 
-async function checkUrl(url) {
+async function probeUrl(url) {
   if (ALLOW_LIST.has(url)) {
     return { url, status: "ALLOW", http: null, message: "allow-listed" };
   }
@@ -653,6 +653,48 @@ async function checkUrl(url) {
   }
 }
 
+/**
+ * A single transient outage must not fail an unrelated PR.
+ *
+ * The sweep probes ~180 live external URLs. Across that many hosts a
+ * momentary 502 or a dropped connection is routine, and until now one of
+ * them turned the whole run red on a PR that never touched the URL —
+ * #1544 failed on two govinfo.gov 502s and one govtrack.us network error
+ * for a bill its diff does not mention, while the same URLs returned 200
+ * two hours earlier.
+ *
+ * So we retry the two outcomes that are genuinely ambiguous — a 5XX and a
+ * network-level failure — once each. A URL that is actually gone fails
+ * both attempts and still blocks CI; a URL that blinked passes on the
+ * second. 404 is not retried (a missing page does not un-miss itself),
+ * and WAF/TIMEOUT already have their own non-blocking buckets.
+ *
+ * Allow-listing the flapping hosts would be the wrong fix: they work most
+ * of the time, so suppressing them would hide the day they break for real.
+ */
+const RETRY_DELAY_MS = Number(process.env.SWEEP_RETRY_DELAY_MS ?? 1_500);
+
+function isTransient(result) {
+  if (!result) return false;
+  if (result.status === "5XX") return true;
+  // Network-level failure (DNS, reset, "fetch failed") — no HTTP response.
+  if (result.status === "FAIL" && result.http === null) return true;
+  return false;
+}
+
+async function checkUrl(url) {
+  const first = await probeUrl(url);
+  if (!isTransient(first)) return first;
+
+  await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+  const second = await probeUrl(url);
+  if (isTransient(second)) {
+    // Failed twice — report the second attempt, noting it was confirmed.
+    return { ...second, message: `${second.message} (confirmed on retry)` };
+  }
+  return second;
+}
+
 async function mapLimit(items, limit, mapper) {
   const results = new Array(items.length);
   let idx = 0;
@@ -745,7 +787,19 @@ async function main() {
   process.exitCode = hardFailures.length > 0 ? 1 : 0;
 }
 
-main().catch((err) => {
-  console.error("[source-url-sweep] fatal:", err);
-  process.exit(2);
-});
+/* Exported so the retry logic can be tested against a stubbed fetch without
+   sweeping the live repo or the network. main() still runs on direct
+   invocation — every workflow calls this as `node ...source-url-sweep.mjs`,
+   which is a direct run. */
+export { checkUrl, probeUrl, isTransient, RETRY_DELAY_MS };
+
+const invokedDirectly =
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (invokedDirectly) {
+  main().catch((err) => {
+    console.error("[source-url-sweep] fatal:", err);
+    process.exit(2);
+  });
+}
