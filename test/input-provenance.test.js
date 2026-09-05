@@ -132,6 +132,19 @@ assert(
   'deal-calculator.js must apply provenance after render, or the markup is never marked'
 );
 
+// Market Analysis carries 99 pre-filled fields of its own — a 3-mile buffer,
+// 100 proposed units, AMI tier counts of 0 — with the same ambiguity.
+const pmaPage = fs.readFileSync(path.join(ROOT, 'market-analysis.html'), 'utf8');
+assert(
+  /src="js\/components\/input-provenance\.js"/.test(pmaPage),
+  'market-analysis.html must load the provenance component'
+);
+const pma = fs.readFileSync(path.join(ROOT, 'js/market-analysis.js'), 'utf8');
+assert(
+  /InputProvenance\.apply\(/.test(pma),
+  'market-analysis.js must apply provenance on init, or its 99 pre-filled fields stay unmarked'
+);
+
 console.log(
   `input-provenance: PASS (${counts.assumption} assumption, ${counts.data} data, ` +
   `${counts.total} fields scanned; values unchanged)`
