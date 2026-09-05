@@ -100,6 +100,12 @@ async function main() {
   assert(selector.includes('fips: placeCountyFips'), 'selector place payload keeps legacy fips aligned to containing county');
   assert(!/stripSuffix\(allP\[i\]\.label\)\s*===\s*target/.test(execOnly(selector)),
     'selector no longer relies on final label-string matching in handleContinue');
+  const countyFormatterSource = selector.match(/function formatCountyName\(name\)\s*\{[\s\S]*?\n\s*\}/);
+  assert(countyFormatterSource, 'selector exposes one county-name formatter');
+  const formatCountyName = Function(countyFormatterSource[0] + '; return formatCountyName;')();
+  assert.equal(formatCountyName('Chaffee'), 'Chaffee County', 'bare county names receive one County suffix');
+  assert.equal(formatCountyName('Chaffee County'), 'Chaffee County', 'already-suffixed county names never become County County');
+  assert(!selector.includes("county.name + ' County'"), 'county search results use the idempotent formatter');
 
   const hna = read('js/hna/hna-controller.js');
   assert(hna.includes('function _workflowSelectionFromJurisdiction'), 'HNA restore uses WorkflowState tuple helper');
@@ -124,6 +130,7 @@ async function main() {
   assert(dc.includes('dc-jurisdiction-context'), 'deal calculator renders display-only jurisdiction context line');
   assert(dc.includes('workflowCtx.countyFips'), 'deal calculator preselects county from canonical countyFips');
   assert(dc.includes('Analyzing '), 'deal calculator labels place/CDP county context');
+  assert(!dc.includes("replace(/ County County context/"), 'deal calculator no longer relies on a County County cleanup band-aid');
 
   console.log('canonical geography contract checks passed');
 }
