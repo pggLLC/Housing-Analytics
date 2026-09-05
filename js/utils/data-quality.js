@@ -27,18 +27,26 @@
 
   /**
    * Determine whether a metric value represents missing / unavailable data.
-   * Returns true for: null, undefined, NaN, non-finite numbers, and the
-   * ACS sentinel value (-666666666).
+   * Returns true for: null, undefined, empty string, NaN, non-finite numbers,
+   * and the ACS sentinel (-666666666) in either numeric or string form.
+   *
+   * The string form matters: every one of the 20 sentinel values in shipped
+   * `data/` is a STRING ("-666666666.0"), not a number, because the ACS API
+   * returns strings. Checking only `typeof value === 'number'` matched none of
+   * the real data.
    *
    * @param {*} value
    * @returns {boolean}
    */
   function isMissingMetric(value) {
-    if (value === null || value === undefined) return true;
+    if (value === null || value === undefined || value === '') return true;
     if (typeof value === 'number') {
       if (!isFinite(value) || isNaN(value)) return true;
       if (value === SENTINEL) return true;
     }
+    // Sentinel in string form only. A non-numeric string is left alone here so
+    // this stays a missing-data check rather than a numeric-type check.
+    if (typeof value === 'string' && Number(value) === SENTINEL) return true;
     return false;
   }
 

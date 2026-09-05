@@ -35,10 +35,21 @@
 
   // ── helpers ────────────────────────────────────────────────────────────────
 
+  // An unmeasurable quantity is null, never a number — see AGENTS.md.
+  //
+  // ACS ships suppressed cells as the sentinel -666666666, and it arrives in
+  // data/hna/summary/*.json as the STRING "-666666666.0". That parses to a
+  // finite number, so without this guard DP04_0078PE + DP04_0079PE summed to an
+  // overcrowding rate of -1,333,333,332%, which ramp() then clamped to 0 —
+  // scoring 10 places as having *zero* overcrowding rather than unknown.
+  var ACS_SENTINEL = -666666666;
+
   function num(v) {
     if (v === null || v === undefined || v === '') return null;
     var n = Number(v);
-    return Number.isFinite(n) ? n : null;
+    if (!Number.isFinite(n)) return null;
+    if (n === ACS_SENTINEL) return null;
+    return n;
   }
 
   function clamp(v, lo, hi) {

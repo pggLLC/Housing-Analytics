@@ -346,7 +346,18 @@
   }
 
 
+  // An unmeasurable quantity is null, never 0 — see AGENTS.md.
+  //
+  // `Number(null) === 0` and 0 is finite, so without the explicit absence guard
+  // a null from a data file became a real quantity that passed every downstream
+  // isFinite() check and reached the user as "$0". That is how 53 of 482 places
+  // with `"value": null, "confidence": "missing"` in home-value-cascade.json
+  // rendered "Median home value $0" in the Executive Snapshot.
+  //
+  // Note `undefined` already returned null here; only null and '' did not. A
+  // genuine zero ("0" or 0) is still a value and is preserved.
   function safeNum(v){
+    if (v === null || v === '') return null;
     const n = Number(v);
     return Number.isFinite(n) ? n : null;
   }
