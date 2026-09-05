@@ -324,7 +324,7 @@ const SEED = {
       { name: 'Pagosa Springs Medical Center',  url: 'https://pagosaspringsmedicalcenter.org/' },
       { name: 'Wolf Creek Ski Area',             url: 'https://wolfcreekski.com/' },
       { name: 'Archuleta School District',       url: 'https://www.mypagosaschools.com/' },
-      { name: 'Town of Pagosa Springs',          url: 'https://www.townofpagosasprings.com/' }
+      { name: 'Town of Pagosa Springs',          url: 'https://pagosasprings.co.gov/' }
     ]
   },
   '0817375': {  // Cortez
