@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T06:25:07.629Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-05T06:29:58.346Z. Do not edit by hand.
 
 ---
 
@@ -1676,7 +1676,7 @@
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
-| `test/canonical-geography-contract.test.js` | 6.2 KB |
+| `test/canonical-geography-contract.test.js` | 6.9 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 5.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
@@ -1705,7 +1705,7 @@
 | `test/deal-calc-ami-bands.test.js` | 5.7 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
-| `test/deal-calc-for-sale-feasibility.test.js` | 13.6 KB |
+| `test/deal-calc-for-sale-feasibility.test.js` | 14.2 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
@@ -1752,7 +1752,7 @@
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
-| `test/hna-ownership-strategy.test.js` | 12.3 KB |
+| `test/hna-ownership-strategy.test.js` | 13.6 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
@@ -1806,10 +1806,10 @@
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
-| `test/ownership-decision-chain.test.js` | 6.0 KB |
+| `test/ownership-decision-chain.test.js` | 7.3 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
-| `test/ownership-resale.test.js` | 13.9 KB |
+| `test/ownership-resale.test.js` | 14.5 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
