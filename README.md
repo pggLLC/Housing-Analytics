@@ -8,6 +8,12 @@
 
 ---
 
+**New here?** [`GUIDE.md`](GUIDE.md) is the orientation: what this is, how to
+run it, how a number gets from a federal API to the screen, and the handful of
+things that will surprise you. This README is the feature catalogue.
+
+---
+
 ## Overview
 
 COHO Analytics is a static web application providing comprehensive data insights on:
