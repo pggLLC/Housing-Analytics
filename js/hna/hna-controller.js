@@ -1018,14 +1018,21 @@
     } catch(e) {
       console.warn('[HNA] QCT ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
-    // Tier 3a: GitHub Pages backup (statewide QCT file, filtered to county)
+    // Tier 3a: same-origin statewide QCT file, filtered to county.
+    //
+    // This used to fetch GITHUB_PAGES_BASE, which is cross-origin now that the
+    // site serves from cohoanalytics.com. GitHub Pages sends no
+    // Access-Control-Allow-Origin, so that request was blocked by CORS on every
+    // production load and this tier could never succeed — the map silently fell
+    // through to the ~42-feature embedded fallback while the full 224-feature
+    // file sat same-origin at data/qct-colorado.json.
     try {
-      const backupGj = await loadJson(`${window.HNAUtils.GITHUB_PAGES_BASE}/data/qct-colorado.json`);
+      const backupGj = await loadJson('data/qct-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
         const features = backupGj.features.filter(matchCounty);
         if (features.length > 0) return { ...backupGj, features };
       }
-    } catch(_) {/* no GitHub Pages QCT backup */}
+    } catch(_) {/* no local QCT backup */}
     // Tier 3b: embedded fallback filtered to county
     const qctFeatures = window.HNAUtils.QCT_FALLBACK_CO.features.filter(matchCounty);
     if (qctFeatures.length > 0) return { ...window.HNAUtils.QCT_FALLBACK_CO, features: qctFeatures };
@@ -1081,14 +1088,16 @@
     } catch(e) {
       console.warn('[HNA] DDA ArcGIS API unavailable; trying GitHub Pages backup.', e.message);
     }
-    // Tier 3a: GitHub Pages backup (statewide DDA file, filtered to county)
+    // Tier 3a: same-origin statewide DDA file, filtered to county.
+    // Was GITHUB_PAGES_BASE — cross-origin and CORS-blocked from
+    // cohoanalytics.com, so this tier never succeeded. See the QCT note above.
     try {
-      const backupGj = await loadJson(`${window.HNAUtils.GITHUB_PAGES_BASE}/data/dda-colorado.json`);
+      const backupGj = await loadJson('data/dda-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
         const features = backupGj.features.filter(ddaFilter);
         return { ...backupGj, features };
       }
-    } catch(_) {/* no GitHub Pages DDA backup */}
+    } catch(_) {/* no local DDA backup */}
     // Tier 3b: embedded fallback filtered to county
     const ddaFeatures = window.HNAUtils.DDA_FALLBACK_CO.features.filter(ddaFilter);
     return { ...window.HNAUtils.DDA_FALLBACK_CO, features: ddaFeatures };
