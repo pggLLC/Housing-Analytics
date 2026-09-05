@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-05T11:23:28.261376Z",
+  "generated": "2026-09-05T11:34:47.733963Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4114,7 +4114,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 178890
+      "bytes": 178610
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
