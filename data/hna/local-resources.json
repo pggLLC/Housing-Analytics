@@ -595,7 +595,7 @@
       },
       {
         "name": "Town of Pagosa Springs",
-        "url": "https://www.townofpagosasprings.com/"
+        "url": "https://pagosasprings.co.gov/"
       }
     ],
     "_employers_source": {
@@ -4833,7 +4833,7 @@
   },
   "place:0856860": {
     "name": "Pagosa Springs",
-    "council_agenda_url": "https://www.townofpagosasprings.com/AgendaCenter",
+    "council_agenda_url": "https://pagosasprings.co.gov/AgendaCenter",
     "housingLead": {
       "name": "Pagosa Springs Community Development / Housing",
       "url": "https://www.google.com/search?q=Pagosa%20Springs%20Colorado%20community%20development%20OR%20housing"
@@ -4861,7 +4861,7 @@
       },
       {
         "name": "Town of Pagosa Springs",
-        "url": "https://www.townofpagosasprings.com/"
+        "url": "https://pagosasprings.co.gov/"
       }
     ]
   },

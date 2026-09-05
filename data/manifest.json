@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-05T10:45:54.625358Z",
+  "generated": "2026-09-05T10:55:59.258171Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4114,7 +4114,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 178911
+      "bytes": 178890
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -8044,7 +8044,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 328849
+      "bytes": 328835
     }
   }
 }

@@ -41,7 +41,7 @@ const ALLOW_LIST = new Set([
   'https://www.congress.gov/bill/119th-congress/house-bill/2854',
   'https://www.congress.gov/bill/119th-congress/senate-bill/1686',
   'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/Transportation/MapServer/2/query',
-  'https://www.townofpagosasprings.com/AgendaCenter',
+  'https://pagosasprings.co.gov/AgendaCenter',
   "https://overpass-api.de/api/interpreter", // POST-only API
   // CFPB HMDA Data Browser API — returns 400 to bare GET (requires query
   // params like states/counties/years/actions_taken). The endpoint is

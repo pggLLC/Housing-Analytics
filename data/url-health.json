@@ -8334,7 +8334,7 @@
       "firstSeenAt": "2026-07-13T08:57:46.344Z",
       "consecutiveFailures": 0
     },
-    "https://www.townofpagosasprings.com/": {
+    "https://pagosasprings.co.gov/": {
       "status": "broken",
       "httpStatus": null,
       "lastCheckedAt": "2026-08-31T12:26:25.313Z",
@@ -8342,7 +8342,7 @@
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 2
     },
-    "https://www.townofpagosasprings.com/AgendaCenter": {
+    "https://pagosasprings.co.gov/AgendaCenter": {
       "status": "allow",
       "httpStatus": null,
       "lastCheckedAt": "2026-08-31T12:26:25.313Z",
