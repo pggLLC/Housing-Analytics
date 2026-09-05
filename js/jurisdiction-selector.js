@@ -341,7 +341,9 @@
    * ───────────────────────────────────────────────────────────────────────── */
 
   function formatCountyName(name) {
-    return name + ' County';
+    var value = String(name == null ? '' : name).trim();
+    if (!value) return '';
+    return /\s+County$/i.test(value) ? value : value + ' County';
   }
 
   function countyLabelFromFips(fips) {
@@ -431,7 +433,7 @@
         li.setAttribute('role', 'option');
         li.setAttribute('aria-selected', 'false');
         li.setAttribute('data-idx', String(idx));
-        var nameText = document.createTextNode(county.name + ' County');
+        var nameText = document.createTextNode(formatCountyName(county.name));
         var fipsSpan = document.createElement('span');
         fipsSpan.className = 'sj-result-fips';
         fipsSpan.textContent = county.fips;
@@ -484,7 +486,7 @@
     // Show city field
     el.cityFieldGroup.hidden = false;
     el.citySearch.value = '';
-    el.citySearch.placeholder = 'Search cities in ' + county.name + ' County…';
+    el.citySearch.placeholder = 'Search cities in ' + formatCountyName(county.name) + '…';
 
     // Load geo-config and build city list for this county
     loadGeoConfig(function () {
@@ -625,7 +627,7 @@
     selectCity(match.name);
     state.selectedCity = match;
     el.sjActionNote.textContent = 'Ready: ' + match.name +
-      (countyFips ? ' (auto-set ' + (state.selectedCounty ? state.selectedCounty.name + ' County)' : 'county)') : ')') +
+      (countyFips ? ' (auto-set ' + (state.selectedCounty ? formatCountyName(state.selectedCounty.name) + ')' : 'county)') : ')') +
       '. Click Continue.';
   }
 

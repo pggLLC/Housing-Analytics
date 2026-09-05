@@ -86,6 +86,17 @@ assert.equal(byId('lesser_of_fixed_cpi').annual_rate, 'VERIFY', 'APCHA exact rat
 assert.equal(byId('shared_appreciation').parameter_status, 'VERIFY_PRIMARY_DOC', 'Elevation share remains primary-doc VERIFY');
 assert.equal(byId('recapture').default_recapture_amount, 90000, 'recapture comparison carries the $90,000 screening default');
 
+const zeroPurchase = Resale.evaluateConvention(byId('fixed_simple'), {
+  purchasePrice: 0,
+  holdingPeriodYears: 10,
+  remainingPrincipal: 0,
+  sellingCosts: 0,
+});
+assert.equal(zeroPurchase.maxResalePrice, null, 'a zero purchase price is unavailable, not a $0 resale cap');
+assert.equal(zeroPurchase.ownerGrossEquity, null, 'a zero purchase price is unavailable, not $0 owner equity');
+assert.equal(Resale.sharedAppreciationCap(0, 100000, 0.25, 0), null, 'shared-appreciation math also rejects a zero purchase price');
+assert.equal(Resale.scenarioMarketValue(0, 10, 0.03), null, 'market-value scenarios also reject a zero purchase price');
+
 const wmrhc = Resale.evaluateConvention(byId('fixed_simple'), {
   purchasePrice: 400000,
   holdingPeriodYears: 5,

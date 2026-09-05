@@ -40,7 +40,7 @@
     var price = num(purchasePrice);
     var hold = num(years);
     var r = num(rate);
-    if (price == null || hold == null || r == null || price < 0 || hold < 0 || r < 0) return null;
+    if (price == null || hold == null || r == null || price <= 0 || hold < 0 || r < 0) return null;
     return price * (1 + (r * hold));
   }
 
@@ -49,7 +49,7 @@
     var appreciation = num(marketAppreciation);
     var pct = num(share);
     var costs = num(sellingCosts) || 0;
-    if (price == null || appreciation == null || pct == null || price < 0 || pct < 0) return null;
+    if (price == null || appreciation == null || pct == null || price <= 0 || pct < 0) return null;
     return price + (pct * appreciation) + costs;
   }
 
@@ -76,7 +76,7 @@
     var price = num(purchasePrice);
     var hold = num(years);
     var rate = num(annualRate);
-    if (price == null || hold == null || rate == null || price < 0 || hold < 0 || rate <= -1) return null;
+    if (price == null || hold == null || rate == null || price <= 0 || hold < 0 || rate <= -1) return null;
     return money(price * Math.pow(1 + rate, hold));
   }
 
@@ -126,6 +126,12 @@
     }
 
     var cap = money(resaleCap);
+    var unavailableReason = null;
+    if (cap == null) {
+      unavailableReason = purchasePrice == null || purchasePrice <= 0
+        ? (input.unavailableReason || 'A positive purchase price is unavailable; resale price and owner equity cannot be calculated.')
+        : 'Required resale inputs are unavailable; resale price and owner equity cannot be calculated.';
+    }
     var recaptured = convention.type === 'recapture' && cap != null
       ? money(Math.min(recoveryAmount, Math.max(0, cap - remainingPrincipal - sellingCosts)))
       : 0;
@@ -151,6 +157,7 @@
       purchasePrice: money(purchasePrice),
       maxResalePrice: cap,
       ownerGrossEquity: equity,
+      unavailableReason: unavailableReason,
       publicSubsidyRecaptured: recaptured,
       estimatedRemainingPrincipal: money(remainingPrincipal),
       sellingCosts: money(sellingCosts),

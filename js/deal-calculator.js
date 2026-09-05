@@ -215,10 +215,19 @@
     var resale = window.OwnershipResale;
     if (!resale || typeof resale.evaluateAll !== 'function') return null;
     var conventions = input && input.resaleConventions ? input.resaleConventions : _resaleConventions;
-    var purchasePrice = +(input && input.resalePurchasePrice);
-    if (!isFinite(purchasePrice) || purchasePrice <= 0) purchasePrice = +(feasibility && feasibility.maxAffordableSalePrice);
+    function positivePrice(value) {
+      if (value == null || value === '') return null;
+      var parsed = Number(value);
+      return isFinite(parsed) && parsed > 0 ? parsed : null;
+    }
+    var purchasePrice = positivePrice(input && input.resalePurchasePrice);
+    if (purchasePrice == null) purchasePrice = positivePrice(feasibility && feasibility.maxAffordableSalePrice);
+    var unavailableReason = purchasePrice == null
+      ? (input && input.resalePurchasePriceUnavailableReason) || 'A positive purchase price is unavailable; resale price and owner equity cannot be calculated.'
+      : null;
     var baseInput = {
       purchasePrice: purchasePrice,
+      unavailableReason: unavailableReason,
       holdingPeriodYears: input && input.resaleHoldingYears,
       remainingPrincipal: input && input.resaleRemainingPrincipal,
       sellingCosts: input && input.resaleSellingCosts,
@@ -3745,8 +3754,8 @@
       return;
     }
     var countyName = ctx.countyName || 'selected county';
-    el.textContent = 'Analyzing ' + placeName + ', ' + countyName + ' County context for HUD AMI/FMR inputs.';
-    el.textContent = el.textContent.replace(/ County County context/, ' County context');
+    var countyContextName = /\s+County$/i.test(countyName) ? countyName : countyName + ' County';
+    el.textContent = 'Analyzing ' + placeName + ', ' + countyContextName + ' context for HUD AMI/FMR inputs.';
     el.hidden = false;
   }
 
