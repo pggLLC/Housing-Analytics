@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-05T11:23:24.204Z",
+  "scanTimestamp": "2026-09-06T11:44:49.951Z",
   "totalScanned": 1618,
   "newSourceCount": 1587,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 780830,
+      "sizeBytes": 780842,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4826,7 +4826,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 178890,
+      "sizeBytes": 178610,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5282,31 +5282,31 @@
     },
     {
       "path": "data/hna/ranking-scenarios/balanced.json",
-      "sizeBytes": 49963,
+      "sizeBytes": 49961,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/commuter-pressure.json",
-      "sizeBytes": 49983,
+      "sizeBytes": 49981,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/large-gap.json",
-      "sizeBytes": 49974,
+      "sizeBytes": 49972,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rate-sensitive.json",
-      "sizeBytes": 49983,
+      "sizeBytes": 49981,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rural-lens.json",
-      "sizeBytes": 49985,
+      "sizeBytes": 49983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9410,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20048,
+      "sizeBytes": 20060,
       "inDataManifest": false,
       "inFilesManifest": true
     },
