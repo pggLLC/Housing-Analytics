@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-05T11:23:24.204Z
+**Scan timestamp:** 2026-09-06T11:44:49.951Z
 
 ## Summary
 
@@ -817,7 +817,7 @@
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (30 KB)
-- `data/hna/local-resources.json` (175 KB)
+- `data/hna/local-resources.json` (174 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
