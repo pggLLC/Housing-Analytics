@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-08-31T20:42:15Z",
+    "generated_at_utc": "2026-09-07T19:02:18Z",
     "total_urls": 398,
     "broken_count": 45,
-    "warning_count": 40,
-    "ok_count": 313,
+    "warning_count": 41,
+    "ok_count": 312,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -13,6 +13,13 @@
       "status": 0,
       "found_in": [
         "local-resources / county:08015/_employers_source"
+      ]
+    },
+    {
+      "url": "https://coloradospringshousing.com/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08041/housingAuthority[0]"
       ]
     },
     {
@@ -127,6 +134,14 @@
       ]
     },
     {
+      "url": "https://www.csupueblo.edu/",
+      "status": 503,
+      "found_in": [
+        "local-resources / county:08101/majorEmployers[4]",
+        "local-resources / place:0862000/majorEmployers[4]"
+      ]
+    },
+    {
       "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
       "status": 404,
       "found_in": [
@@ -169,14 +184,6 @@
       "found_in": [
         "local-resources / county:08069/majorEmployers[7]",
         "local-resources / place:0846465/majorEmployers[2]"
-      ]
-    },
-    {
-      "url": "https://www.memorialregionalhealth.com/",
-      "status": 0,
-      "found_in": [
-        "local-resources / place:0817760/hospital",
-        "local-resources / place:0817760/majorEmployers[0]"
       ]
     },
     {
@@ -308,14 +315,6 @@
       ]
     },
     {
-      "url": "https://www.townofpagosasprings.com/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08007/majorEmployers[4]",
-        "local-resources / place:0856860/majorEmployers[3]"
-      ]
-    },
-    {
       "url": "https://www.trinidad1.org/",
       "status": 0,
       "found_in": [
@@ -361,13 +360,6 @@
     }
   ],
   "warnings": [
-    {
-      "url": "https://lhaf.org/",
-      "status": 403,
-      "found_in": [
-        "local-resources / place:0845970/housingAuthority[1]"
-      ]
-    },
     {
       "url": "https://lovelandhousing.org/",
       "status": 403,
@@ -445,6 +437,13 @@
       "found_in": [
         "local-resources / county:08031/housingAuthority[0]",
         "local-resources / place:0820000/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment",
+      "status": 403,
+      "found_in": [
+        "policy-progress / Denver / hna"
       ]
     },
     {
@@ -650,6 +649,13 @@
       ]
     },
     {
+      "url": "https://www.weldfoodbank.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08123/advocacy[1]"
+      ]
+    },
+    {
       "url": "https://www.weldgov.com/",
       "status": 403,
       "found_in": [
@@ -680,5 +686,5 @@
       ]
     }
   ],
-  "ok_count": 313
+  "ok_count": 312
 }
