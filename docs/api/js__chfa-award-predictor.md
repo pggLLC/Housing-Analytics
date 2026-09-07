@@ -35,10 +35,18 @@ Exposed as window.CHFAAwardPredictor (browser) and module.exports (Node).
 @property {number}   scoreEstimate     — rough 0–100 score estimate
 @property {Object}   factors           — factor-level breakdown
 @property {Object}   competitiveContext — applications/funded context
+@property {string}   scoreCompleteness — 'complete'|'partial'
+@property {string|null} scoreDisclosure — reason a partial score is incomplete
 @property {string}   narrative         — human-readable summary
 @property {string[]} caveats           — important disclaimers
 
 ## Symbols
+
+### `publicLandAssessment(raw)`
+
+Normalize the public-land signal before it reaches scoring. Unknown
+coverage receives 0 provisional points, but remains explicitly partial;
+it is never reclassified as a verified finding of no opportunity.
 
 ### `_estimateFactors(concept, siteContext)`
 
@@ -76,7 +84,7 @@ Predict CHFA award competitiveness for a concept.
 @param {Object} concept      - DealRecommendation from LIHTCDealPredictor (or minimal obj)
 @param {Object} siteContext  - Site signals: { pmaScore, isQct, isDda, isRural, totalUndersupply,
                                  ami30UnitsNeeded, localSoftFunding, hasGovernmentSupport,
-                                 publicLandOpportunity, hasHnaData, greenBuilding, isPreservation }
+                                 publicLandAssessment, hasHnaData, greenBuilding, isPreservation }
 @returns {AwardPrediction}
 
 ### `isLoaded()`

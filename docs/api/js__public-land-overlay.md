@@ -21,15 +21,18 @@ Usage:
 Exposed as window.PublicLandOverlay (browser) and module.exports (Node).
 
 @typedef {Object} LandAssessResult
-@property {string}       ownership      — owner name or 'Private'
-@property {string}       ownerType      — 'county'|'municipal'|'housing-authority'|'clt'|'federal'|'tribal'|'private'
-@property {boolean}      isCLT          — true if CLT organization present in county
+@property {string|null}  ownership      — owner name, or null when county coverage is unavailable
+@property {string|null}  ownerType      — 'county'|'municipal'|'housing-authority'|'clt'|'federal'|'tribal'|'private', or null when unavailable
+@property {boolean|null} isCLT          — true if CLT organization present in county, or null when unavailable
 @property {string|null}  cltName        — CLT org name if present
-@property {boolean}      isFederal      — federal land flag
-@property {boolean}      isTribal       — tribal land flag
-@property {string}       opportunity    — 'strong'|'moderate'|'none'
+@property {boolean|null} isFederal      — federal land flag, or null when unavailable
+@property {boolean|null} isTribal       — tribal land flag, or null when unavailable
+@property {string|null}  opportunity    — 'strong'|'moderate'|'none', or null when unavailable
 @property {string}       narrative      — human-readable summary
-@property {Object}       financialBenefit — { subsidy, explanation }
+@property {string}       coverageStatus — 'researched'|'not_researched'
+@property {string}       coverageLabel — display label carried with the coverage state
+@property {string|null}  unavailableReason — reason carried with unavailable data
+@property {Object}       financialBenefit — { subsidy, explanation }; values null when unavailable
 
 ## Symbols
 

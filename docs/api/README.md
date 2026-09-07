@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-08-17. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-09-07. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -17,7 +17,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`census-stats.js`](./js__census-stats.md) | census-stats. | 0 |
 | [`chart-fix.js`](./js__chart-fix.md) | chart-fix. | 0 |
 | [`chas-tier-shares.js`](./js__chas-tier-shares.md) | chas-tier-shares. | 2 |
-| [`chfa-award-predictor.js`](./js__chfa-award-predictor.md) | js/chfa-award-predictor. | 9 |
+| [`chfa-award-predictor.js`](./js__chfa-award-predictor.md) | js/chfa-award-predictor. | 10 |
 | [`chfa-pma-checklist.js`](./js__chfa-pma-checklist.md) | _no header_ | 19 |
 | [`co-lihtc-map.js`](./js__co-lihtc-map.md) | co-lihtc-map. | 4 |
 | [`colorado-deep-dive.js`](./js__colorado-deep-dive.md) | colorado-deep-dive. | 0 |
@@ -83,7 +83,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`path-resolver.js`](./js__path-resolver.md) | js/path-resolver. | 0 |
 | [`pipeline.js`](./js__pipeline.md) | developer-pipeline-public. | 0 |
 | [`place-chas-coverage-panel.js`](./js__place-chas-coverage-panel.md) | place-chas-coverage-panel. | 0 |
-| [`place-chas-lookup.js`](./js__place-chas-lookup.md) | place-chas-lookup. | 4 |
+| [`place-chas-lookup.js`](./js__place-chas-lookup.md) | place-chas-lookup. | 6 |
 | [`place-lehd-lookup.js`](./js__place-lehd-lookup.md) | place-lehd-lookup. | 0 |
 | [`place-profile-help.js`](./js__place-profile-help.md) | js/place-profile-help. | 0 |
 | [`pma-analysis-runner.js`](./js__pma-analysis-runner.md) | js/pma-analysis-runner. | 1 |
@@ -109,6 +109,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`preservation.js`](./js__preservation.md) | js/preservation. | 29 |
 | [`pro-forma.js`](./js__pro-forma.md) | pro-forma. | 0 |
 | [`prop123-historical-tracker.js`](./js__prop123-historical-tracker.md) | _no header_ | 5 |
+| [`provenance-label.js`](./js__provenance-label.md) | Shared novice-facing provenance labels and markup. | 0 |
 | [`public-land-overlay.js`](./js__public-land-overlay.md) | js/public-land-overlay. | 4 |
 | [`qap-simulator.js`](./js__qap-simulator.md) | js/qap-simulator. | 2 |
 | [`rent-vs-buy-breakeven.js`](./js__rent-vs-buy-breakeven.md) | rent-vs-buy-breakeven. | 1 |
@@ -164,8 +165,10 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hos-renderer.js`](./js__components__hos-renderer.md) | js/components/hos-renderer. | 0 |
 | [`housing-type-need.js`](./js__components__housing-type-need.md) | js/components/housing-type-need. | 0 |
 | [`inline-glossary.js`](./js__components__inline-glossary.md) | inline-glossary. | 0 |
+| [`input-provenance.js`](./js__components__input-provenance.md) | input-provenance. | 3 |
 | [`jurisdiction-boundaries.js`](./js__components__jurisdiction-boundaries.md) | js/components/jurisdiction-boundaries. | 0 |
 | [`jurisdiction-brief.js`](./js__components__jurisdiction-brief.md) | js/components/jurisdiction-brief. | 1 |
+| [`jurisdiction-select-search.js`](./js__components__jurisdiction-select-search.md) | Progressive search enhancement for jurisdiction <select> controls. | 0 |
 | [`jurisdiction-url-context.js`](./js__components__jurisdiction-url-context.md) | Shared jurisdiction resolver for cross-page workflow links. | 0 |
 | [`land-value-tool.js`](./js__components__land-value-tool.md) | js/components/land-value-tool. | 0 |
 | [`lihtc-tips.js`](./js__components__lihtc-tips.md) | js/components/lihtc-tips. | 2 |
@@ -244,7 +247,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
 | [`hna-ownership-strategy.js`](./js__hna__hna-ownership-strategy.md) | Tier-1 ownership strategy screening renderer. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 46 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 47 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 17 |
 | [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |
@@ -258,7 +261,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`market-analysis-controller.js`](./js__market-analysis__market-analysis-controller.md) | js/market-analysis/market-analysis-controller. | 37 |
 | [`market-analysis-state.js`](./js__market-analysis__market-analysis-state.md) | js/market-analysis/market-analysis-state. | 6 |
 | [`market-analysis-utils.js`](./js__market-analysis__market-analysis-utils.md) | js/market-analysis/market-analysis-utils. | 9 |
-| [`market-report-renderers.js`](./js__market-analysis__market-report-renderers.md) | js/market-analysis/market-report-renderers. | 25 |
+| [`market-report-renderers.js`](./js__market-analysis__market-report-renderers.md) | js/market-analysis/market-report-renderers. | 26 |
 | [`site-comparison.js`](./js__market-analysis__site-comparison.md) | js/market-analysis/site-comparison. | 1 |
 | [`site-selection-score.js`](./js__market-analysis__site-selection-score.md) | js/market-analysis/site-selection-score. | 15 |
 
@@ -306,7 +309,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`contrast-audit.js`](./scripts__contrast-audit.md) | scripts/contrast-audit. | 0 |
 | [`coverage-audit.js`](./scripts__coverage-audit.md) | coverage-audit. | 0 |
 | [`discover_agenda_urls.mjs`](./scripts__discover_agenda_urls.md) | discover_agenda_urls. | 0 |
-| [`discover-local-resources.mjs`](./scripts__discover-local-resources.md) | discover-local-resources. | 0 |
+| [`discover-local-resources.mjs`](./scripts__discover-local-resources.md) | discover-local-resources. | 1 |
 | [`enrich_lihtc_award_year.mjs`](./scripts__enrich_lihtc_award_year.md) | F188 — Enrich LIHTC records with CHFA's AwardYear / YR_ALLOC. | 0 |
 | [`fetch-car-showingtime.mjs`](./scripts__fetch-car-showingtime.md) | Fetch Colorado Association of REALTORS county market stats from ShowingTime. | 0 |
 | [`fetch-chfa-lihtc.js`](./scripts__fetch-chfa-lihtc.md) | fetch-chfa-lihtc. | 18 |
@@ -369,7 +372,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`runtime-contrast-scanner.mjs`](./scripts__audit__runtime-contrast-scanner.md) | F128 — Runtime contrast scanner. | 0 |
 | [`serve-static.mjs`](./scripts__audit__serve-static.md) | serve-static. | 0 |
 | [`site-audit.mjs`](./scripts__audit__site-audit.md) | site-audit. | 2 |
-| [`source-url-sweep.mjs`](./scripts__audit__source-url-sweep.md) | source-url-sweep. | 0 |
+| [`source-url-sweep.mjs`](./scripts__audit__source-url-sweep.md) | source-url-sweep. | 1 |
 | [`sync-manifest-mtimes.mjs`](./scripts__audit__sync-manifest-mtimes.md) | sync-manifest-mtimes. | 0 |
 | [`upstream-vintage-watch.mjs`](./scripts__audit__upstream-vintage-watch.md) | scripts/audit/upstream-vintage-watch. | 3 |
 | [`url-health-sweep.mjs`](./scripts__audit__url-health-sweep.md) | url-health-sweep. | 0 |
