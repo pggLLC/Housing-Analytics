@@ -1,5 +1,5 @@
 {
-  "updated": "2026-03-22T13:26:15Z",
+  "updated": "2026-09-09T16:57:03Z",
   "terms": [
     {
       "term": "LIHTC",
@@ -180,6 +180,111 @@
       "term": "Bikeability Score",
       "full": "Bikeability Score (0–100)",
       "definition": "A proxy score estimating how conducive an area is to cycling, derived from EPA Smart Location Database metrics: low auto-oriented network density (40% weight), land-use mix (30%), and pedestrian intersection density (30%). Higher scores indicate areas with less car-dependent infrastructure and more mixed-use development. This is a proxy — it does not measure actual bike lane presence."
+    },
+    {
+      "term": "Cap Rate",
+      "full": "Capitalization Rate",
+      "definition": "A capitalization rate is a property's annual net operating income divided by its value or cost. On this page, it helps a reader compare the income a project produces with the capital invested and spot a deal whose operating return may be too thin."
+    },
+    {
+      "term": "Eligible Basis",
+      "full": "LIHTC Eligible Basis",
+      "definition": "Eligible Basis is the portion of development cost that may be used to calculate federal housing tax credits. It matters because land and certain other costs are excluded, so changing the eligible share directly changes the credit and equity estimate."
+    },
+    {
+      "term": "qualified basis",
+      "full": "LIHTC Qualified Basis",
+      "definition": "Qualified basis is Eligible Basis after applying the project's applicable fraction and any allowed basis boost. It is the cost amount to which the credit rate is applied, so it directly controls estimated annual tax credits."
+    },
+    {
+      "term": "applicable fraction",
+      "full": "LIHTC Applicable Fraction",
+      "definition": "The applicable fraction is the smaller of the low-income unit fraction or low-income floor-space fraction under Internal Revenue Code §42(c)(1)(B). It matters in a mixed-income project because it determines how much Eligible Basis becomes Qualified Basis."
+    },
+    {
+      "term": "basis boost",
+      "full": "LIHTC Basis Boost",
+      "definition": "A basis boost is an allowed increase in Eligible Basis that can produce more housing tax credits without adding project cost. Internal Revenue Code §42(d)(5)(B) authorizes a 130% basis treatment for qualifying QCT and DDA projects, so the designation can materially change the equity estimate."
+    },
+    {
+      "term": "Developer Fee",
+      "full": "Developer Fee",
+      "definition": "A Developer Fee pays the sponsor for assembling, financing, and delivering the project. Its size and the portion deferred affect both Total Development Cost and the amount of financing still needed at closing."
+    },
+    {
+      "term": "Hard costs",
+      "full": "Hard Construction Costs",
+      "definition": "Hard costs are the direct physical construction expenses for labor, materials, site work, and installed building systems. They are usually the largest part of the budget, so a change in hard costs can quickly widen or close the financing gap."
+    },
+    {
+      "term": "Soft costs",
+      "full": "Soft Development Costs",
+      "definition": "Soft costs are development expenses outside physical construction, such as design, engineering, legal work, permits, financing, and insurance. They matter because some are eligible for tax-credit basis while others are not, and all still require funding."
+    },
+    {
+      "term": "Debt Service",
+      "full": "Annual Debt Service",
+      "definition": "Debt Service is the principal and interest a project must pay on its loans during a year. Comparing it with Net Operating Income shows whether the proposed mortgage is supportable and how much cushion remains if revenue falls."
+    },
+    {
+      "term": "Vacancy",
+      "full": "Vacancy Allowance",
+      "definition": "Vacancy is the share of potential rent assumed to be lost because units are empty or rent is not collected. A higher vacancy assumption lowers effective income, which reduces the mortgage the project can support."
+    },
+    {
+      "term": "Replacement Reserve",
+      "full": "Replacement Reserve",
+      "definition": "A Replacement Reserve is money set aside each year for future major repairs and building-system replacement. It reduces cash available for debt payments today but protects the property from large unfunded costs later."
+    },
+    {
+      "term": "credit price",
+      "full": "Tax Credit Price",
+      "definition": "The credit price is the amount an investor pays for each dollar of housing tax credit. It matters because even a small pricing change, multiplied over ten years of credits, can move project equity by a large amount."
+    },
+    {
+      "term": "Equity pricing",
+      "full": "LIHTC Equity Pricing",
+      "definition": "Equity pricing describes the investor price paid for a stream of housing tax credits and related tax benefits. It is a market assumption rather than a guaranteed offer, so the selected value changes how much cash the tax credits are expected to raise."
+    },
+    {
+      "term": "placed in service",
+      "full": "Placed in Service",
+      "definition": "Placed in service is the date a building is ready and available for its intended residential use. It matters because that date starts the credit and compliance timelines and determines which rent and income limits apply."
+    },
+    {
+      "term": "compliance period",
+      "full": "LIHTC Compliance Period",
+      "definition": "The compliance period is the first 15 taxable years during which a LIHTC building must satisfy federal affordability requirements under Internal Revenue Code §42(i)(1). A failure during this period can trigger credit recapture, so it shapes long-term operating obligations."
+    },
+    {
+      "term": "extended use",
+      "full": "Extended Use Period",
+      "definition": "Extended use is the affordability period that continues after the initial 15-year compliance period under Internal Revenue Code §42(h)(6). It matters because the recorded agreement can restrict rents and tenant incomes for at least 30 years in total, and often longer."
+    },
+    {
+      "term": "gap financing",
+      "full": "Gap Financing",
+      "definition": "Gap financing is the additional funding needed after tax-credit equity and supportable debt are subtracted from Total Development Cost. It tells a reader how much must still come from grants, soft loans, fee deferrals, or other sources before the project can close."
+    },
+    {
+      "term": "amortization",
+      "full": "Loan Amortization",
+      "definition": "Amortization is the scheduled repayment of loan principal over time through periodic payments. A longer amortization period lowers annual Debt Service and can support a larger loan, although it leaves principal outstanding for longer."
+    },
+    {
+      "term": "Operating expenses",
+      "full": "Operating Expenses",
+      "definition": "Operating expenses are the recurring costs of running the property, excluding mortgage payments and usually capital replacements. They are subtracted from revenue to calculate Net Operating Income, so the assumption directly affects supportable debt."
+    },
+    {
+      "term": "concessions",
+      "full": "Rent Concessions",
+      "definition": "Concessions are temporary incentives such as free rent or reduced move-in costs used to attract tenants. They lower the revenue actually collected during lease-up or a soft market, which can delay stabilization and weaken coverage."
+    },
+    {
+      "term": "stabilization",
+      "full": "Operating Stabilization",
+      "definition": "Stabilization is the point when a property has reached a sustainable occupancy and operating pattern after lease-up. Lenders and investors care because permanent debt and long-term performance are tested against stabilized, not opening-month, results."
     }
   ]
 }
