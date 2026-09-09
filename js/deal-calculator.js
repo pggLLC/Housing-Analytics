@@ -27,8 +27,14 @@
   var _resaleSelection = { subsidyType: 'none', selectedConventionId: null };
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
-  var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
+  var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
   var MIDDLE_INCOME_AMI_BANDS = { 110: true, 120: true };
+  var DEFAULT_MINIMUM_SET_ASIDE_ELECTION = '40-60';
+  var MINIMUM_SET_ASIDE_ELECTIONS = {
+    '20-50': { minimumShare: 0.20, setAsideCeiling: 50, creditCeiling: 60 },
+    '40-60': { minimumShare: 0.40, setAsideCeiling: 60, creditCeiling: 60 },
+    'average-income': { minimumShare: 0.40, setAsideCeiling: 80, creditCeiling: 80 }
+  };
   // Bedroom types offered in the per-tier unit split. Studio was historically
   // absent here while being present in the tier <select>, in _amiLimitsByBr,
   // and in getZoriPerBrRent -- so a studio rent limit was displayed but studio
@@ -650,16 +656,117 @@
     return { tiers: tiers, fmr: fmr };
   }
 
-  function isLihtcCreditEligiblePct(pct) {
-    return Number(pct) <= 60;
+  function normalizeMinimumSetAsideElection(election) {
+    return Object.prototype.hasOwnProperty.call(MINIMUM_SET_ASIDE_ELECTIONS, election)
+      ? election
+      : DEFAULT_MINIMUM_SET_ASIDE_ELECTION;
   }
 
-  function amiBandLabelHtml(pct) {
-    if (isLihtcCreditEligiblePct(pct)) return pct + '% AMI';
+  function currentMinimumSetAsideElection() {
+    var el = document.getElementById('dc-minimum-set-aside');
+    return normalizeMinimumSetAsideElection(el && el.value);
+  }
+
+  function isLihtcCreditEligiblePct(pct, election) {
+    var n = Number(pct);
+    var config = MINIMUM_SET_ASIDE_ELECTIONS[normalizeMinimumSetAsideElection(election)];
+    return n >= 20 && n <= config.creditCeiling;
+  }
+
+  function evaluateMinimumSetAside(election, totalUnits, designatedUnitsByPct) {
+    var normalized = normalizeMinimumSetAsideElection(election);
+    var config = MINIMUM_SET_ASIDE_ELECTIONS[normalized];
+    var total = Number(totalUnits);
+    if (!isFinite(total) || total < 0) total = 0;
+    var eligibleUnits = 0;
+    var setAsideUnits = 0;
+    var weightedAmi = 0;
+    Object.keys(designatedUnitsByPct || {}).forEach(function (rawPct) {
+      var pct = Number(rawPct);
+      var count = Number(designatedUnitsByPct[rawPct]);
+      if (!isFinite(count) || count <= 0) return;
+      if (pct <= config.setAsideCeiling) setAsideUnits += count;
+      if (isLihtcCreditEligiblePct(pct, normalized)) {
+        eligibleUnits += count;
+        weightedAmi += pct * count;
+      }
+    });
+    var minimumSharePct = total > 0 ? (setAsideUnits / total) * 100 : null;
+    var minimumShareMet = total > 0 && setAsideUnits / total >= config.minimumShare;
+    var averageAmiPct = normalized === 'average-income' && eligibleUnits > 0
+      ? weightedAmi / eligibleUnits
+      : null;
+    var averageMet = normalized !== 'average-income' || (averageAmiPct !== null && averageAmiPct <= 60);
+    // CHFA's October 2025 AIT compliance policy permits this election only
+    // when 100% of residential units are designated low-income units.
+    var chfaAllUnitsMet = normalized !== 'average-income' || (total > 0 && eligibleUnits === total);
+    var qualifies = minimumShareMet && averageMet && chfaAllUnitsMet;
+    var reasons = [];
+    if (!minimumShareMet) {
+      reasons.push('the designated set-aside is below ' + Math.round(config.minimumShare * 100) + '% of residential units');
+    }
+    if (!averageMet) reasons.push('the designated average exceeds 60% AMI');
+    if (!chfaAllUnitsMet) reasons.push('CHFA requires all residential units to be designated low-income under this election');
+    return {
+      election: normalized,
+      totalUnits: total,
+      eligibleUnits: eligibleUnits,
+      setAsideUnits: setAsideUnits,
+      minimumSharePct: minimumSharePct,
+      averageAmiPct: averageAmiPct,
+      minimumShareMet: minimumShareMet,
+      averageMet: averageMet,
+      chfaAllUnitsMet: chfaAllUnitsMet,
+      qualifies: qualifies,
+      countedLihtcUnits: qualifies ? eligibleUnits : 0,
+      reason: reasons.join('; ')
+    };
+  }
+
+  function amiBandLabelHtml(pct, election) {
+    var normalized = normalizeMinimumSetAsideElection(election);
+    if (isLihtcCreditEligiblePct(pct, normalized)) {
+      if (normalized === 'average-income' && Number(pct) > 60) {
+        return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(AIT designation; counted only when the designated average is ≤60% AMI)</span>';
+      }
+      return pct + '% AMI';
+    }
     if (MIDDLE_INCOME_AMI_BANDS[pct]) {
       return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(middle-income: CHFA MIHTC/TOC + Prop 123; not LIHTC-credit-eligible)</span>';
     }
-    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted in credit basis here — 70/80 can qualify only under §42 income averaging, which this calculator does not model)</span>';
+    return pct + '% AMI <span style="font-size:.66rem;color:var(--muted);font-weight:400;overflow-wrap:anywhere;">(market/workforce; not counted under this election — select Average Income Test to designate 70/80% units)</span>';
+  }
+
+  function renderMinimumSetAsideStatus(result) {
+    var help = document.getElementById('dc-minimum-set-aside-help');
+    var status = document.getElementById('dc-minimum-set-aside-status');
+    DEAL_AMI_BANDS.forEach(function (pct) {
+      var label = document.getElementById('dc-ami-label-' + pct);
+      if (label) label.innerHTML = amiBandLabelHtml(pct, result.election);
+    });
+    if (help) {
+      if (result.election === '20-50') {
+        help.textContent = 'The 20-50 election requires at least 20% of residential units at 50% AMI or below. Units up to 60% AMI can still contribute to qualified basis.';
+      } else if (result.election === 'average-income') {
+        help.textContent = 'The Average Income Test permits 20%-80% designations when at least 40% of units are in the group and their designated average is no more than 60% AMI. CHFA currently requires every residential unit in a Colorado AIT project to be designated low-income.';
+      } else {
+        help.textContent = 'The default 40-60 election requires at least 40% of residential units at 60% AMI or below.';
+      }
+    }
+    if (!status) return;
+    var shareText = result.minimumSharePct === null ? 'not available' : result.minimumSharePct.toFixed(1) + '%';
+    var detail = result.setAsideUnits + ' of ' + result.totalUnits + ' units in the minimum set-aside (' + shareText + ').';
+    if (result.election === 'average-income') {
+      var averageText = result.averageAmiPct === null ? 'not available' : result.averageAmiPct.toFixed(1) + '% AMI';
+      detail += ' Designated AIT average: ' + averageText + '.';
+    }
+    if (result.qualifies) {
+      status.innerHTML = '<strong>Qualifies under this screening test.</strong> ' + detail + ' ' + result.countedLihtcUnits + ' units count toward the applicable-fraction screen.';
+      status.style.borderColor = 'var(--accent,#096e65)';
+    } else {
+      status.innerHTML = '<strong>Does not qualify under this screening test.</strong> ' + detail + ' Reason: ' + result.reason + '. No units are counted toward qualified basis.';
+      status.style.borderColor = 'var(--warn,#d97706)';
+    }
   }
 
   // -------------------------------------------------------------------
@@ -1118,6 +1225,20 @@
         </label>
 
         <div id="dc-rental-ami-mix" data-dc-mode="rental" style="margin-bottom:var(--sp2);">
+          <label style="display:block;margin-bottom:var(--sp2);">
+            <span style="font-size:var(--small);color:var(--muted);">Federal minimum set-aside election</span>
+            <select id="dc-minimum-set-aside"
+              style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+              <option value="20-50">20-50 election</option>
+              <option value="40-60" selected>40-60 election (default)</option>
+              <option value="average-income">Average Income Test (20-80% designations)</option>
+            </select>
+          </label>
+          <div id="dc-minimum-set-aside-help" role="note"
+            style="font-size:var(--tiny);color:var(--muted);margin:-.25rem 0 .55rem;line-height:1.45;">
+            The default 40-60 election requires at least 40% of residential units at 60% AMI or below.
+            Changing this control changes federal credit eligibility; it does not change the units you entered.
+          </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-bottom:0.4rem;flex-wrap:wrap;">
             <span style="font-size:var(--small);color:var(--muted);">AMI Mix &amp; Units per Tier</span>
             <!-- F257 — "Pre-fill from local need" wires the AMI tier defaults
@@ -1131,8 +1252,8 @@
             >Pre-fill from local need</button>
           </div>
           <div style="font-size:var(--tiny);color:var(--muted);margin-bottom:.4rem;line-height:1.45;">
-            Tiers ≤60% AMI generate LIHTC equity; tiers above 60% are workforce or
-            market-rate planning units that do not qualify for federal LIHTC credits.
+            Credit-eligible tiers depend on the elected minimum set-aside; 100%, 110%, and 120%
+            AMI never generate federal LIHTC equity in this screening model.
             110% and 120% AMI are middle-income planning bands for CHFA MIHTC/TOC
             and Prop 123 context only. Mixed-income deals use IRC §42(c)(1)(B)
             applicable fraction — eligible basis is prorated by LIHTC unit share.
@@ -1151,9 +1272,9 @@
           </div>
           <div id="dc-ami-rows" style="display:grid;grid-template-columns:minmax(0,1fr) 70px 100px;gap:0.4rem 0.5rem;align-items:center;">
             ${DEAL_AMI_BANDS.map(pct => {
-              var lihtcEligible = isLihtcCreditEligiblePct(pct);
-              var defaultUnits = lihtcEligible ? 15 : 0;
-              var tierLabel = amiBandLabelHtml(pct);
+              var lihtcEligible = isLihtcCreditEligiblePct(pct, DEFAULT_MINIMUM_SET_ASIDE_ELECTION);
+              var defaultUnits = pct === 20 ? 0 : (lihtcEligible ? 15 : 0);
+              var tierLabel = amiBandLabelHtml(pct, DEFAULT_MINIMUM_SET_ASIDE_ELECTION);
               var brOptions = [
                 ['studio', 'Studio'], ['1br', '1BR'],
                 ['2br', '2BR (default)'], ['3br', '3BR'], ['4br', '4BR']
@@ -1164,7 +1285,7 @@
               return `
               <label style="display:flex;flex-wrap:wrap;align-items:center;gap:0.4rem;min-height:44px;font-size:var(--small);white-space:normal;min-width:0;">
                 <input id="dc-chk-${pct}" type="checkbox" ${lihtcEligible ? 'checked' : ''} style="width:16px;height:16px;">
-                ${tierLabel}
+                <span id="dc-ami-label-${pct}">${tierLabel}</span>
               </label>
               <input id="dc-units-${pct}" type="number" min="0" step="1" value="${defaultUnits}"
                 aria-label="Units at ${pct}% AMI"
@@ -1185,6 +1306,9 @@
               </div>
             `;}).join('')}
           </div>
+
+          <div id="dc-minimum-set-aside-status" role="status" aria-live="polite"
+            style="font-size:var(--tiny);line-height:1.45;margin:.55rem 0;padding:.5rem .65rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);"></div>
 
           <!-- Q5: Achievable-rent cap toggle (CHFA QAP "min(ceiling, market)" rule)
                In weak markets, the planning ceiling for 70%-120% AMI tiers
@@ -2264,6 +2388,8 @@
     if (taxExemptSel) taxExemptSel.addEventListener('change', recalculate);
     var saleTargetSel = document.getElementById('dc-sale-target-ami');
     if (saleTargetSel) saleTargetSel.addEventListener('change', recalculate);
+    var minimumSetAsideSel = document.getElementById('dc-minimum-set-aside');
+    if (minimumSetAsideSel) minimumSetAsideSel.addEventListener('change', recalculate);
     ['dc-mode-rental', 'dc-mode-ownership'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', function () {
@@ -2688,16 +2814,14 @@
     var impactDebtService = totalSoftDebtService;
     var impactMode = totalGrant > 0 ? 'grant' : 'loan';
 
-    // Rent income — sum checked AMI-tier units. Track LIHTC-eligible
-    // (≤60% AMI) vs workforce/middle-income (70%-120% AMI) unit counts.
-    // Higher-AMI rows can add rent and unit mix context, but never federal
-    // LIHTC qualified basis or credits.
-    // separately so we can apply the IRC §42(c)(1)(B) "applicable
-    // fraction" to eligible basis for mixed-income deals.
+    // Rent income — sum checked AMI-tier units. Track designated units by
+    // tier so the elected minimum set-aside can determine qualified units.
+    // The default 40-60 election preserves the pre-election applicable-
+    // fraction calculation for mixed-income deals.
     var annualRents = 0;
     var amiUnitSum = 0;
-    var lihtcUnits = 0;     // units at ≤60% AMI (count toward LIHTC qualified basis)
-    var marketUnits = 0;    // units at >60% AMI (excluded from LIHTC qualified basis)
+    var minimumSetAsideElection = currentMinimumSetAsideElection();
+    var designatedUnitsByPct = {};
     // _amiLimits is null until the user selects a county. Skip the rent roll
     // entirely rather than fabricating Denver MSA rents — NaN propagation
     // through the pro-forma would mislead more than a visible zero.
@@ -2707,7 +2831,7 @@
     //
     // Q5: When the "achievable-rent cap" toggle is ON, the 70%-120% AMI
     // workforce/middle-income tiers underwrite at min(ceiling, ZORI market). The
-    // 30-60% AMI LIHTC ceilings rarely exceed market and are not capped.
+    // 20-60% AMI LIHTC ceilings rarely exceed market and are not capped.
     var capChk = document.getElementById('dc-achievable-cap');
     var capOn = !!(capChk && capChk.checked);
     var perBrMarket = (capOn && _countyFips) ? getZoriPerBrRent(_countyFips) : null;
@@ -2776,11 +2900,14 @@
         }
         amiUnitSum += u; // count all tier units regardless of checkbox
         if (chk.checked) {
-          if (isLihtcCreditEligiblePct(pct)) lihtcUnits  += u;
-          else                               marketUnits += u;
+          designatedUnitsByPct[pct] = u;
         }
       }
     });
+
+    var minimumSetAsideResult = evaluateMinimumSetAside(minimumSetAsideElection, units, designatedUnitsByPct);
+    var lihtcUnits = minimumSetAsideResult.countedLihtcUnits;
+    renderMinimumSetAsideStatus(minimumSetAsideResult);
 
     // Q5: surface the achievable-rent cap status on the UI.
     _renderAchievableCapStatus(capOn, perBrMarket, capBindings);
@@ -5820,6 +5947,8 @@
     computeRentAchievability:   computeRentAchievability,
     getAmiBands:                function () { return DEAL_AMI_BANDS.slice(); },
     isLihtcCreditEligiblePct:   isLihtcCreditEligiblePct,
+    evaluateMinimumSetAside:    evaluateMinimumSetAside,
+    DEFAULT_MINIMUM_SET_ASIDE_ELECTION: DEFAULT_MINIMUM_SET_ASIDE_ELECTION,
     /* Q5 — exposed so the test harness can inject ZORI fixtures without DOM */
     getZoriCountyRent:          getZoriCountyRent,
     getZoriPerBrRent:           getZoriPerBrRent,
