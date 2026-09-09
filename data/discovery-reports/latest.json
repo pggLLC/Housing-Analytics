@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-08T12:17:18.950Z",
+  "scanTimestamp": "2026-09-09T12:19:07.162Z",
   "totalScanned": 1618,
   "newSourceCount": 1587,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 780841,
+      "sizeBytes": 780871,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -4826,7 +4826,7 @@
     },
     {
       "path": "data/hna/local-resources.json",
-      "sizeBytes": 178610,
+      "sizeBytes": 181592,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8762,7 +8762,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 278918,
+      "sizeBytes": 278875,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8875,6 +8875,24 @@
       "inFilesManifest": true
     },
     {
+      "path": "data/market/SYNTHETIC_cde_schools_co.json",
+      "sizeBytes": 10620,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/SYNTHETIC_cdle_job_postings_co.json",
+      "sizeBytes": 23720,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/market/SYNTHETIC_cdot_traffic_co.json",
+      "sizeBytes": 8388,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
       "path": "data/market/acs_median_rent_co.json",
       "sizeBytes": 84901,
       "inDataManifest": false,
@@ -8889,24 +8907,6 @@
     {
       "path": "data/market/bridge_co_market_summary.json",
       "sizeBytes": 253,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/market/cde_schools_co.json",
-      "sizeBytes": 10620,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/market/cdle_job_postings_co.json",
-      "sizeBytes": 23720,
-      "inDataManifest": false,
-      "inFilesManifest": true
-    },
-    {
-      "path": "data/market/cdot_traffic_co.json",
-      "sizeBytes": 8388,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9410,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20071,
+      "sizeBytes": 20069,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9458,7 +9458,7 @@
     },
     {
       "path": "data/reports/data-source-health.json",
-      "sizeBytes": 7833,
+      "sizeBytes": 7820,
       "inDataManifest": false,
       "inFilesManifest": true
     },

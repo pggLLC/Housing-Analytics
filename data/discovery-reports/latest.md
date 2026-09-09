@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-08T12:17:18.950Z
+**Scan timestamp:** 2026-09-09T12:19:07.162Z
 
 ## Summary
 
@@ -817,7 +817,7 @@
 - `data/hna/lihtc/08125.json` (1 KB)
 - `data/hna/local-notes.json` (1 KB)
 - `data/hna/local-resources-candidates.json` (38 KB)
-- `data/hna/local-resources.json` (174 KB)
+- `data/hna/local-resources.json` (177 KB)
 - `data/hna/ownership-need.json` (703 KB)
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
@@ -1492,12 +1492,12 @@
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
+- `data/market/SYNTHETIC_cde_schools_co.json` (10 KB)
+- `data/market/SYNTHETIC_cdle_job_postings_co.json` (23 KB)
+- `data/market/SYNTHETIC_cdot_traffic_co.json` (8 KB)
 - `data/market/acs_median_rent_co.json` (83 KB)
 - `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (0 KB)
-- `data/market/cde_schools_co.json` (10 KB)
-- `data/market/cdle_job_postings_co.json` (23 KB)
-- `data/market/cdot_traffic_co.json` (8 KB)
 - `data/market/cdphe_county_boundaries_co.geojson` (1159 KB)
 - `data/market/chas_co.json` (159 KB)
 - `data/market/chas_tract_co.json` (3513 KB)
