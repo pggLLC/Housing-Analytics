@@ -24,6 +24,15 @@ jobs:
         with:
           python-version: "3.11"
 
+      # For scripts/validate-schemas.js in the rebuild step below. It uses only
+      # Node builtins, so no npm install is needed — but the version is pinned
+      # rather than inherited from the runner image, matching the other
+      # manifest-rebuilding workflows.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
       - name: Check jurisdiction brief source liveness
         run: python3 scripts/check-source-liveness.py
 
@@ -32,6 +41,17 @@ jobs:
 
       - name: Validate jurisdiction briefs
         run: python3 scripts/validate-jurisdiction-briefs.py
+
+      # The three files above are manifest-tracked, so writing them without
+      # rebuilding data/manifest.json leaves its byte counts stale and
+      # ci-checks fails on the resulting PR — AGENTS.md hard constraint 3.
+      # This step was missing entirely, so every weekly run opened a PR that
+      # could not merge (#1548). Schema validation runs alongside it for the
+      # same reason the constraint pairs them.
+      - name: Rebuild manifest + validate schemas
+        run: |
+          python3 scripts/rebuild_manifest.py
+          node scripts/validate-schemas.js
 
       - name: Open source-liveness snapshot PR
         uses: peter-evans/create-pull-request@v8
@@ -45,3 +65,4 @@ jobs:
             data/jurisdiction-briefs/_liveness.json
             data/reports/data-source-health.json
             data/source-registry.json
+            data/manifest.json
