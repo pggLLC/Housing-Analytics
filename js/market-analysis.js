@@ -908,11 +908,13 @@
     // below. The connector modules still exist for when real data replaces them.
 
     var realSources  = 0;
-    // Two of the five designed sub-sources are usable today; the other three
-    // are excluded as synthetic and say so in `reasons`. Counting against 5
-    // would peg coverage at 'partial' forever and read as "failed to load"
-    // rather than "deliberately not used".
-    var totalSources = 2;
+    // Deliberately still 5, not 2. The dimension is designed around five
+    // sub-sources and three are excluded, so it IS partial — the Data Coverage
+    // panel should show amber with the exclusions named, not a green "full"
+    // that overstates confidence while `reasons` lists three missing inputs.
+    // Reporting 'full' off two of five would be the same overstatement this
+    // change exists to remove.
+    var totalSources = 5;
     var reasons      = [];
 
     // ── 1. LODES job accessibility (25%) ────────────────────────────
