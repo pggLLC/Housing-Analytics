@@ -95,7 +95,17 @@ def test_all_production_geographies_are_byte_identical_serial_vs_concurrent(tmp_
     assert concurrent_overlap > 1
 
 
-def test_acs_json_fetch_uses_eight_second_ceiling_and_preserves_single_attempt():
+def test_acs_json_fetch_uses_eight_second_ceiling_and_retries_a_stall():
+    """The 8s ceiling from #1564 stands; the single-attempt pin does not.
+
+    #1564 paired an 8-second request ceiling with retries=1. That made a merely
+    slow Census response indistinguishable from a dead one, and a single stall
+    failed the whole build (issue #1566: "attempt 1/1", "The read operation
+    timed out", HTTP 0). The ceiling is still the point -- it is what keeps the
+    546-geography phase inside its budget -- but it only works when a stalled
+    request gets another try. The attempt count is now env-tunable and bounded
+    so a degraded upstream cannot exhaust the job's 120-minute timeout.
+    """
     with (
         mock.patch.dict(os.environ, {"HNA_ACS_HTTP_TIMEOUT_SECONDS": "8"}),
         mock.patch.object(hna, "http_get_text", return_value=(200, '{"ok": true}')) as fetch,
@@ -103,8 +113,9 @@ def test_acs_json_fetch_uses_eight_second_ceiling_and_preserves_single_attempt()
         assert hna.http_get_json("http://127.0.0.1/acs-fixture") == {"ok": True}
 
     fetch.assert_called_once_with(
-        "http://127.0.0.1/acs-fixture", timeout=8, retries=1
+        "http://127.0.0.1/acs-fixture", timeout=8, retries=hna.acs_http_retries()
     )
+    assert hna.acs_http_retries() > 1, "a stalled ACS request must get another attempt"
 
 
 def test_shared_detail_tenure_lookup_is_fetched_once_under_concurrency():
