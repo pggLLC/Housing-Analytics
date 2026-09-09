@@ -105,13 +105,36 @@ function assertRaceCache(geoid, label, expectations) {
   assertApprox(notHispWhite, expectations.notHispWhite, expectations.tolerance, `${label} Not Hispanic White alone`);
 }
 
+/**
+ * The pre-2024 codes are banned from *use*, not from existing as text.
+ *
+ * They are the correct wire names for the 2023 and 2022 vintages, and the ACS
+ * fetch legitimately falls back to those years for geographies the 2024 release
+ * does not publish. #1567: sending the 2024 numbers to a fallback year makes
+ * Census reject the whole batch, so the geography loses every core field.
+ *
+ * PROFILE_VAR_ALIASES holds those names keyed by the year they belong to, and
+ * every response is mapped back to the canonical 2024 name before it is stored,
+ * so nothing downstream can read a pre-2024 code as though it were current —
+ * which is the failure this guard exists to prevent (Garfield County rendering
+ * 0.5% Hispanic against a true 32.6%).
+ *
+ * So the alias block is excised before the ban is applied. Everywhere else in
+ * the file, and in all three JS files, a stale code is still a hard failure.
+ */
+const ALIAS_BLOCK = /PROFILE_VAR_ALIASES[\s\S]*?\n\}\n/;
+
 for (const rel of SOURCE_FILES) {
   const src = read(rel);
   for (const code of REQUIRED_BY_FILE[rel]) {
     assert(src.includes(code), `${rel} references corrected ${code}`);
   }
+  const outsideAliases = src.replace(ALIAS_BLOCK, '');
   for (const code of STALE_CODES) {
-    assert(!src.includes(code), `${rel} no longer references stale ${code}`);
+    assert(
+      !outsideAliases.includes(code),
+      `${rel} no longer references stale ${code} outside PROFILE_VAR_ALIASES`
+    );
   }
 }
 
