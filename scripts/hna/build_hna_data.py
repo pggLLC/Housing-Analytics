@@ -14,6 +14,7 @@ Designed to run in GitHub Actions. All sources are public.
 from __future__ import annotations
 
 import csv
+from concurrent.futures import ThreadPoolExecutor
 import glob
 import gzip
 import io
@@ -21,6 +22,7 @@ import json
 import os
 import subprocess
 import sys
+import threading
 import time
 import urllib.parse
 import urllib.request
@@ -71,6 +73,56 @@ OUT = {
 
 
 _HTTP_NO_CONTENT_COUNT = 0
+_HTTP_NO_CONTENT_LOCK = threading.Lock()
+
+DEFAULT_ACS_FETCH_WORKERS = 8
+DEFAULT_ACS_HTTP_TIMEOUT_SECONDS = 8
+BUILD_PHASES = frozenset({'geo-config', 'acs', 'lehd', 'dola', 'stamp'})
+
+
+def _positive_int_env(name: str, default: int) -> int:
+    """Read a positive integer setting, failing loudly on invalid values."""
+    raw = os.environ.get(name, str(default)).strip()
+    try:
+        value = int(raw)
+    except ValueError as exc:
+        raise ValueError(f"{name} must be a positive integer, got {raw!r}") from exc
+    if value <= 0:
+        raise ValueError(f"{name} must be a positive integer, got {raw!r}")
+    return value
+
+
+def acs_http_timeout_seconds() -> int:
+    """Return the per-request timeout for Census API JSON calls."""
+    return _positive_int_env(
+        'HNA_ACS_HTTP_TIMEOUT_SECONDS', DEFAULT_ACS_HTTP_TIMEOUT_SECONDS
+    )
+
+
+def acs_fetch_workers() -> int:
+    """Return the number of independent geography fetches allowed at once."""
+    return _positive_int_env('HNA_ACS_FETCH_WORKERS', DEFAULT_ACS_FETCH_WORKERS)
+
+
+def selected_build_phases() -> frozenset[str]:
+    """Return the requested build phases, or every phase by default.
+
+    The workflow uses this boundary to save durable checkpoints after the
+    ACS, LEHD, and DOLA phases. Direct/local invocations remain unchanged and
+    run the complete build when HNA_BUILD_PHASES is unset.
+    """
+    raw = os.environ.get('HNA_BUILD_PHASES', '').strip()
+    if not raw:
+        return BUILD_PHASES
+    selected = frozenset(part.strip() for part in raw.split(',') if part.strip())
+    unknown = selected - BUILD_PHASES
+    if not selected or unknown:
+        detail = ', '.join(sorted(unknown)) if unknown else '(none selected)'
+        raise ValueError(
+            f"HNA_BUILD_PHASES contains invalid phase(s): {detail}; "
+            f"expected a comma-separated subset of {', '.join(sorted(BUILD_PHASES))}"
+        )
+    return selected
 
 
 def _is_expected_acs1_no_content(url: str, status: int) -> bool:
@@ -126,7 +178,8 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
                 # keep one build-level count instead of emitting thousands of
                 # warnings for this expected no-row response.
                 global _HTTP_NO_CONTENT_COUNT
-                _HTTP_NO_CONTENT_COUNT += 1
+                with _HTTP_NO_CONTENT_LOCK:
+                    _HTTP_NO_CONTENT_COUNT += 1
             else:
                 print(f"← {status} OK  {len(body):,} bytes  {elapsed:.1f}s", file=sys.stderr)
             return (status, body)
@@ -159,8 +212,10 @@ def http_get_text(url: str, timeout: int = 30, retries: int = 3, backoff: float 
     return (0, "Max retries exceeded")
 
 
-def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
+def http_get_json(url: str, timeout: int | None = None) -> dict | list | None:
     """Fetch URL and parse as JSON. Returns None on error."""
+    if timeout is None:
+        timeout = acs_http_timeout_seconds()
     status, text = http_get_text(url, timeout=timeout, retries=1)
     if _is_expected_acs1_no_content(url, status):
         return None
@@ -177,10 +232,17 @@ def http_get_json(url: str, timeout: int = 30) -> dict | list | None:
 
 _ACS5_DETAIL_TENURE_CACHE: dict[str, dict[str, str]] | None = None
 _ACS5_DETAIL_TENURE_CACHE_KEY: tuple[int, ...] | None = None
+_ACS5_DETAIL_TENURE_LOCK = threading.Lock()
 
 
 def _fetch_acs5_detail_tenure_lookup(years_to_try: list[int]) -> dict[str, dict[str, str]]:
     """Fetch ACS5 detail-table ownership supplements for Colorado counties and places."""
+    with _ACS5_DETAIL_TENURE_LOCK:
+        return _fetch_acs5_detail_tenure_lookup_locked(years_to_try)
+
+
+def _fetch_acs5_detail_tenure_lookup_locked(years_to_try: list[int]) -> dict[str, dict[str, str]]:
+    """Populate the shared tenure lookup while its caller holds the cache lock."""
     global _ACS5_DETAIL_TENURE_CACHE, _ACS5_DETAIL_TENURE_CACHE_KEY
     cache_key = tuple(years_to_try)
     if _ACS5_DETAIL_TENURE_CACHE is not None and _ACS5_DETAIL_TENURE_CACHE_KEY == cache_key:
@@ -281,7 +343,7 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
         return result
 
     # If HTTP 400 (Bad Request) and we have a fallback, try it
-    status, _ = http_get_text(url, timeout=30, retries=1)
+    status, _ = http_get_text(url, timeout=acs_http_timeout_seconds(), retries=1)
     if status == 400 and fallback_url:
         print("ℹ Falling back to alternate external source", file=sys.stderr)
         return http_get_json(fallback_url)
@@ -1310,7 +1372,26 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
     return payload, preserved, core_regression
 
 
-def build_summary_cache():
+def _fetch_summary_components(g: dict) -> tuple[dict | None, dict | None, dict | None, Exception | None]:
+    """Fetch the three ACS inputs for one geography without writing files.
+
+    Keeping writes in the caller means out-of-order network completion can
+    never change output order or merge-preserve behavior.
+    """
+    geo_type = g['type']
+    geoid = g['geoid']
+    try:
+        return (
+            fetch_acs_profile(geo_type, geoid),
+            fetch_acs_s0801(geo_type, geoid),
+            fetch_acs_b08301(geo_type, geoid),
+            None,
+        )
+    except Exception as exc:
+        return (None, None, None, exc)
+
+
+def build_summary_cache(max_workers: int | None = None):
     # Build the full list of geographies to cache: FEATURED first, then all
     # counties, places, and CDPs from geo-config that are not already covered.
     all_geos: list[dict] = list(FEATURED)
@@ -1338,58 +1419,82 @@ def build_summary_cache():
         print(f"ℹ build_summary_cache: could not load geo-config ({e}); caching featured geos only", file=sys.stderr)
 
     start_year = acs_start_year()
+    workers = acs_fetch_workers() if max_workers is None else max_workers
+    if workers <= 0:
+        raise ValueError(f"max_workers must be positive, got {workers}")
+    print(
+        f"── ACS summary fetch plan: {len(all_geos)} geographies, "
+        f"{workers} worker(s), {acs_http_timeout_seconds()}s request timeout ──"
+    )
     geos_written = 0
     geos_preserved = 0
     core_regression_geos = 0
     total_fields_preserved = 0
-    for g in all_geos:
-        geoid = g['geoid']
-        geo_type = g['type']
-        out_path = os.path.join(OUT['summary_dir'], f"{geoid}.json")
-        try:
-            acs_profile = fetch_acs_profile(geo_type, geoid)
-            acs_s0801 = fetch_acs_s0801(geo_type, geoid)
-            acs_b08301 = fetch_acs_b08301(geo_type, geoid)
-            if acs_profile is None and acs_s0801 is None:
-                print(f"⚠ summary {geo_type}:{geoid}: no ACS data available – running diagnostics", file=sys.stderr)
-                _run_diagnostics(geo_type, geoid)
-                continue
-            if acs_profile is None:
-                print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
-            if acs_s0801 is None:
-                print(f"⚠ summary {geo_type}:{geoid}: ACS S0801 missing; writing partial summary", file=sys.stderr)
-            # Derive actually-used series/year for source endpoint accuracy
-            # (commuting reliability: the endpoint should reflect the data truly used).
-            s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
-            s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
-            payload = {
-                'updated': utc_now_z(),
-                'geo': g,
-                'acsProfile': normalize_acs_dict(acs_profile),
-                'acsS0801': normalize_acs_dict(acs_s0801),
-                'acsB08301': normalize_acs_dict(acs_b08301),
-                'source': {
-                    'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
-                    'acs_s0801_endpoint': (
-                        f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
-                    ),
-                    'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
+    diagnostics_pending: list[tuple[str, str]] = []
+    fetch_started = time.monotonic()
+    with ThreadPoolExecutor(max_workers=workers, thread_name_prefix='hna-acs') as executor:
+        # executor.map yields in all_geos order even when requests finish out
+        # of order. Serial (workers=1) and concurrent runs therefore pass the
+        # same values through the same deterministic write path.
+        fetched = executor.map(_fetch_summary_components, all_geos)
+        for g, (acs_profile, acs_s0801, acs_b08301, fetch_error) in zip(all_geos, fetched):
+            geoid = g['geoid']
+            geo_type = g['type']
+            out_path = os.path.join(OUT['summary_dir'], f"{geoid}.json")
+            try:
+                if fetch_error is not None:
+                    raise fetch_error
+                if acs_profile is None and acs_s0801 is None:
+                    print(f"⚠ summary {geo_type}:{geoid}: no ACS data available – diagnostics queued", file=sys.stderr)
+                    diagnostics_pending.append((geo_type, geoid))
+                    continue
+                if acs_profile is None:
+                    print(f"⚠ summary {geo_type}:{geoid}: ACS profile missing; writing partial summary", file=sys.stderr)
+                if acs_s0801 is None:
+                    print(f"⚠ summary {geo_type}:{geoid}: ACS S0801 missing; writing partial summary", file=sys.stderr)
+                # Derive actually-used series/year for source endpoint accuracy
+                # (commuting reliability: the endpoint should reflect the data truly used).
+                s0801_year = (acs_s0801 or {}).get('_acsYear', start_year)
+                s0801_series = (acs_s0801 or {}).get('_acsSeries', 'acs1')
+                payload = {
+                    'updated': utc_now_z(),
+                    'geo': g,
+                    'acsProfile': normalize_acs_dict(acs_profile),
+                    'acsS0801': normalize_acs_dict(acs_s0801),
+                    'acsB08301': normalize_acs_dict(acs_b08301),
+                    'source': {
+                        'acs_profile_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1/profile',
+                        'acs_s0801_endpoint': (
+                            f'https://api.census.gov/data/{s0801_year}/acs/{s0801_series}/subject'
+                        ),
+                        'acs_b08301_endpoint': f'https://api.census.gov/data/{start_year}/acs/acs1'
+                    }
                 }
-            }
-            payload, n_preserved, core_reg = _merge_preserve_summary(out_path, payload)
-            if n_preserved:
-                geos_preserved += 1
-                total_fields_preserved += n_preserved
-                if core_reg:
-                    core_regression_geos += 1
-                    print(f"⚠ summary {geo_type}:{geoid}: fetch lost CORE fields — "
-                          f"preserved {n_preserved} value(s) from previous cache", file=sys.stderr)
-            with open(out_path, 'w', encoding='utf-8') as f:
-                json.dump(payload, f)
-            geos_written += 1
-            _log_file_written(out_path, f"summary:{geoid}")
-        except Exception as e:
-            print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
+                payload, n_preserved, core_reg = _merge_preserve_summary(out_path, payload)
+                if n_preserved:
+                    geos_preserved += 1
+                    total_fields_preserved += n_preserved
+                    if core_reg:
+                        core_regression_geos += 1
+                        print(f"⚠ summary {geo_type}:{geoid}: fetch lost CORE fields — "
+                              f"preserved {n_preserved} value(s) from previous cache", file=sys.stderr)
+                with open(out_path, 'w', encoding='utf-8') as f:
+                    json.dump(payload, f)
+                geos_written += 1
+                _log_file_written(out_path, f"summary:{geoid}")
+            except Exception as e:
+                print(f"✗ summary {geo_type}:{geoid}: {e}", file=sys.stderr)
+
+    fetch_elapsed = time.monotonic() - fetch_started
+    print(
+        f"── ACS summary fetch/write elapsed: {fetch_elapsed:.1f}s "
+        f"({workers} worker(s)) ──"
+    )
+    # Diagnostics are intentionally serial and run only after the worker pool
+    # drains: they share one log file and must not push live request concurrency
+    # above the configured worker ceiling.
+    for geo_type, geoid in diagnostics_pending:
+        _run_diagnostics(geo_type, geoid)
 
     # Post-build integrity report. Backfill-owned variables are EXPECTED to
     # be preserved on every full rebuild (this script never fetches them);
@@ -2716,6 +2821,7 @@ def stamp_home_value_cascade() -> None:
 
 
 def main():
+    phases = selected_build_phases()
     print(f"── HNA data build starting [{utc_now_z()}] ──")
     print(f"  ROOT: {ROOT}")
     print(f"  CENSUS_API_KEY: {'set' if census_key() else 'NOT SET'}")
@@ -2723,40 +2829,42 @@ def main():
     print(f"  SKIP_ACS: {os.environ.get('SKIP_ACS', 'false')}")
     print(f"  SKIP_LEHD: {os.environ.get('SKIP_LEHD', 'false')}")
     print(f"  SKIP_DOLA: {os.environ.get('SKIP_DOLA', 'false')}")
+    print(f"  HNA_BUILD_PHASES: {','.join(sorted(phases))}")
 
     ensure_dirs()
 
-    # Always write geo config
-    _log_step('geo-config')
-    write_geo_config()
+    if 'geo-config' in phases:
+        _log_step('geo-config')
+        write_geo_config()
 
-    if os.environ.get('SKIP_ACS', '').lower() != 'true':
+    if 'acs' in phases and os.environ.get('SKIP_ACS', '').lower() != 'true':
         _log_step('ACS summary cache')
         build_summary_cache()
         if os.environ.get('SKIP_DERIVED', '').lower() != 'true':
             _log_step('geo-derived inputs')
             build_geo_derived_inputs()
-    else:
+    elif 'acs' in phases:
         print('  ℹ Skipping ACS (SKIP_ACS=true)')
 
-    if os.environ.get('SKIP_LEHD', '').lower() != 'true':
+    if 'lehd' in phases and os.environ.get('SKIP_LEHD', '').lower() != 'true':
         _log_step('LEHD by county')
         build_lehd_by_county()
         _log_step('LEHD WAC annual snapshots (2019–2023)')
         build_lehd_wac_snapshots()
-    else:
+    elif 'lehd' in phases:
         print('  ℹ Skipping LEHD (SKIP_LEHD=true)')
 
-    if os.environ.get('SKIP_DOLA', '').lower() != 'true':
+    if 'dola' in phases and os.environ.get('SKIP_DOLA', '').lower() != 'true':
         _log_step('DOLA SYA by county')
         build_dola_sya_by_county()
         _log_step('DOLA projections by county')
         build_dola_projections_by_county()
-    else:
+    elif 'dola' in phases:
         print('  ℹ Skipping DOLA (SKIP_DOLA=true)')
 
-    _log_step('home-value cascade summary stamp')
-    stamp_home_value_cascade()
+    if 'stamp' in phases:
+        _log_step('home-value cascade summary stamp')
+        stamp_home_value_cascade()
 
     _print_summary()
 
