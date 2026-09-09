@@ -40,7 +40,7 @@ workforce = (lodes × 0.25) + (acs × 0.25) + (cdle × 0.20) + (cde × 0.15) + (
 - **Future:** Add `education_rate` (% bachelor's+) to ACS aggregation in `acs_tract_metrics_co.json`
 
 ### C. Colorado CDLE Job Postings
-- **File:** `data/market/SYNTHETIC_cdle_job_postings_co.json`
+- **File:** _(deleted — no committed source)_
 - **Connector:** `js/data-connectors/cdle-jobs.js` (exposes `window.CdleJobs`)
 - **Source:** Colorado Department of Labor and Employment (CDLE) Labor Market Information
   - Portal: `https://www.colmigateway.com/`
@@ -55,7 +55,7 @@ workforce = (lodes × 0.25) + (acs × 0.25) + (cdle × 0.20) + (cde × 0.15) + (
   - > 9% → 30 (slack labour market)
 
 ### D. Colorado CDE School Boundaries
-- **File:** `data/market/SYNTHETIC_cde_schools_co.json`
+- **File:** _(deleted — no committed source)_
 - **Connector:** `js/data-connectors/cde-schools.js` (exposes `window.CdeSchools`)
 - **Source:** Colorado Department of Education
   - Portal: `https://www.cde.state.co.us/accountability`
@@ -64,7 +64,7 @@ workforce = (lodes × 0.25) + (acs × 0.25) + (cdle × 0.20) + (cde × 0.15) + (
 - **Scoring:** Direct composite_quality_score from CDE data
 
 ### E. CDOT Traffic Counts
-- **File:** `data/market/SYNTHETIC_cdot_traffic_co.json`
+- **File:** _(deleted — no committed source)_
 - **Connector:** `js/data-connectors/cdot-traffic.js` (exposes `window.CdotTraffic`)
 - **Source:** Colorado Department of Transportation Traffic Count Program
   - Portal: `https://www.codot.gov/programs/statewideplanning/traffic-data`

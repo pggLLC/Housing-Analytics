@@ -1,20 +1,21 @@
 /**
- * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Education extract.
+ * NO DATA SOURCE — this connector is dormant.
  *
- * data/market/SYNTHETIC_cde_schools_co.json declares itself
- * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
- * The file was renamed from cde_schools_co.json so that its status is
- * visible at every call site rather than only to someone who opens meta.note
- * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
- * so that real data can be dropped in without rewriting the consumer.
+ * It previously read a synthetic fixture that was never a real Colorado Department of Education
+ * extract. That fixture carried part of the PMA workforce composite until
+ * #1562 excluded it, and was deleted on 2026-09-09.
  *
- * Do not re-enable the sub-score until the backing file is a real extract.
+ * loadMetrics() resolves to the empty shape WITHOUT a network request. Do not
+ * restore a fetch until a real source exists — requesting a file that cannot
+ * exist produces console errors that fail the rendered site-audit gate.
+ *
+ * Real source when someone wires it up: CDE School Performance Frameworks.
  */
 /**
  * js/data-connectors/cde-schools.js
  * Colorado Department of Education school district quality accessor.
  *
- * Data source: data/market/SYNTHETIC_cde_schools_co.json
+ * Data source: (no committed data file — the synthetic fixture was deleted 2026-09-09)
  * Real data: https://www.cde.state.co.us/accountability
  *
  * Exposed as window.CdeSchools.
@@ -38,20 +39,15 @@
 
   /* ── Load data ──────────────────────────────────────────────── */
   function loadMetrics() {
-    var DS = window.DataService;
-    if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/SYNTHETIC_cde_schools_co.json'))
-      .then(function (raw) {
-        _data     = raw;
-        _byCounty = _buildIndex((raw && raw.districts) ? raw.districts : []);
-        return _data;
-      })
-      .catch(function (e) {
-        console.warn('[cde-schools] Failed to load SYNTHETIC_cde_schools_co.json:', e && e.message);
-        _data     = { districts: [] };
-        _byCounty = {};
-        return _data;
-      });
+    // No committed source. The synthetic fixture was deleted on 2026-09-09 and
+    // this sub-score is excluded from PMA scoring, so do NOT attempt a fetch —
+    // a request for a file that cannot exist produces console errors that fail
+    // the rendered site-audit gate. Resolve to the empty shape the consumers
+    // already handle. Restore the fetch when a real CDE school-performance source is wired in.
+    _data     = { districts: [] };
+    _byCounty = {};
+    return Promise.resolve(_data);
+
   }
 
   /* ── Get districts for county ────────────────────────────────── */
