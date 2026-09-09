@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T02:52:48.872Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T02:58:28.433Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-290 test files found.
+291 test files found.
 
 | File | Size |
 |------|------|
@@ -1836,6 +1836,7 @@
 | `test/pma-confidence.test.js` | 8.6 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
+| `test/pma-real-schools.test.js` | 6.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
@@ -1905,7 +1906,7 @@
 | `test/unit/pma-infrastructure.test.js` | 4.8 KB |
 | `test/unit/pma-justification.test.js` | 5.8 KB |
 | `test/unit/pma-opportunities.test.js` | 4.9 KB |
-| `test/unit/pma-schools.test.js` | 4.0 KB |
+| `test/unit/pma-schools.test.js` | 5.0 KB |
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
