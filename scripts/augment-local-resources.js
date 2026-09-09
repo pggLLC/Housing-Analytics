@@ -233,8 +233,11 @@ const PLACE_ENTRIES = {
       { name: 'Aspen-Pitkin County Housing Authority (APCHA)', url: 'https://apcha.org/' }
     ],
     housingPlans: [
+      // /about-us/governance/ 404s (site alive, page gone). apcha.org now runs
+      // CivicEngage; /27/About is what the homepage itself links to and returns
+      // 200 ("About | APCHA, CO"). Verified 2026-09-09.
       { type: 'Housing Strategy', year: 2024, name: 'Joint APCHA Strategic Plan',
-        url: 'https://apcha.org/about-us/governance/' }
+        url: 'https://apcha.org/27/About' }
     ],
     notes: 'Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.'
   },
@@ -252,6 +255,67 @@ const PLACE_ENTRIES = {
         url: 'https://www.vailgov.com/government/departments/housing' }
     ],
     notes: 'Vail InDEED deed-restriction program is a national model. Goal: 1,000 new deed-restricted units by 2027.'
+  },
+  /* ── 2026-09-09 weekly discovery intake (#1551) ──────────────────────
+     Every base URL below was fetched with a browser user-agent and checked
+     for municipal markers (council/mayor/agenda/"Official Website"); each
+     returned 200 with 5-37 such markers. Only Timnath had a housing
+     sub-path the crawler could find, so it is the only deep link here —
+     the rest point at the verified official site rather than a guessed
+     /government/departments/... path (F35: prefer durable over guessed).
+
+     Two candidates from the same run are deliberately NOT added, because
+     they are not municipal sites at all — the crawler's "mentions
+     Colorado" heuristic cannot tell a city from a chamber:
+       place:0848445 Manitou Springs — manitousprings.org is the Chamber
+         of Commerce / tourism site ("Visit Manitou Springs…"), 0 municipal
+         markers.
+       place:0886750 Yuma — cityofyuma.com is a visitor-guide content site
+         ("Discover the Best of Yuma…"), 0 municipal markers.
+     Both need the real municipal URL found by hand before they go in. */
+  'place:0877510': {
+    name: 'Timnath',
+    housingLead: { name: 'Town of Timnath Community Development', url: 'https://timnath.org/community-development/' }
+  },
+  'place:0885485': {
+    name: 'Windsor',
+    housingLead: { name: 'Town of Windsor (official site)', url: 'https://www.windsorco.gov/' }
+  },
+  'place:0833640': {
+    name: 'Gunnison',
+    housingLead: { name: 'City of Gunnison (official site)', url: 'https://www.gunnisonco.gov/' }
+  },
+  'place:0839855': {
+    name: 'Johnstown',
+    housingLead: { name: 'Town of Johnstown (official site)', url: 'https://www.johnstownco.gov/' }
+  },
+  'place:0827700': {
+    name: 'Fort Lupton',
+    housingLead: { name: 'City of Fort Lupton (official site)', url: 'https://www.fortluptonco.gov/' }
+  },
+  'place:0826600': {
+    name: 'Firestone',
+    housingLead: { name: 'Town of Firestone (official site)', url: 'https://www.firestoneco.gov/' }
+  },
+  'place:0851800': {
+    name: 'Monument',
+    housingLead: { name: 'Town of Monument (official site)', url: 'https://www.townofmonument.org/' }
+  },
+  'place:0886090': {
+    name: 'Woodland Park',
+    housingLead: { name: 'City of Woodland Park (official site)', url: 'https://woodlandpark.gov/' }
+  },
+  'place:0851635': {
+    name: 'Monte Vista',
+    housingLead: { name: 'City of Monte Vista (official site)', url: 'https://www.montevista.gov/' }
+  },
+  'place:0883230': {
+    name: 'Wellington',
+    housingLead: { name: 'Town of Wellington (official site)', url: 'https://www.wellingtoncolorado.gov/' }
+  },
+  'place:0886310': {
+    name: 'Wray',
+    housingLead: { name: 'City of Wray (official site)', url: 'https://www.cityofwray.org/' }
   }
 };
 
