@@ -65,16 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Utility function to format currency
-function formatCurrency(value, decimals = 0) {
-    return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        minimumFractionDigits: decimals,
-        maximumFractionDigits: decimals
-    }).format(value);
-}
-
 // Utility function to format large numbers
 function formatNumber(value) {
     if (value >= 1000000000) {
@@ -94,7 +84,6 @@ function formatPercent(value, decimals = 1) {
 
 // Export utilities for use in other scripts
 window.LIHTCUtils = {
-    formatCurrency,
     formatNumber,
     formatPercent
 };

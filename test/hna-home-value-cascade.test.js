@@ -26,6 +26,7 @@ const fruita = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary/0828
 const fruitaHomeValue = fruita.median_home_value;
 const affordabilityPanel = fs.readFileSync(path.join(ROOT, 'js/affordability-metrics-panel.js'), 'utf8');
 const hnaUtils = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
+const moneyFormatter = fs.readFileSync(path.join(ROOT, 'js/utils/format-money.js'), 'utf8');
 const hnaNarratives = fs.readFileSync(path.join(ROOT, 'js/hna/hna-narratives.js'), 'utf8');
 const hnaRenderers = fs.readFileSync(path.join(ROOT, 'js/hna/hna-renderers.js'), 'utf8');
 const hnaController = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
@@ -155,6 +156,7 @@ function loadHnaSurfaceContext() {
   ctx.window.location = ctx.location;
   ctx.window.URLSearchParams = URLSearchParams;
   vm.createContext(ctx);
+  vm.runInContext(moneyFormatter, ctx, { filename: 'js/utils/format-money.js' });
   vm.runInContext(hnaUtils, ctx, { filename: 'js/hna/hna-utils.js' });
   vm.runInContext(hnaNarratives, ctx, { filename: 'js/hna/hna-narratives.js' });
   return ctx;

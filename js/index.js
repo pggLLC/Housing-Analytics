@@ -1,11 +1,6 @@
 (function () {
   'use strict';
 
-  function fmtCurrency(n) {
-    if (n == null || !Number.isFinite(Number(n))) return '—';
-    return '$' + Number(n).toLocaleString();
-  }
-
   function fmtInt(n) {
     if (n == null || !Number.isFinite(Number(n))) return '—';
     return Number(n).toLocaleString();

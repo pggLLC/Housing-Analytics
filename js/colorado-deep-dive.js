@@ -214,10 +214,10 @@
       var dom = d.median_days_on_market ?? d._legacy_median_dom ?? d.days_on_market;
       var ppsf = d.median_price_per_sqft ?? d._legacy_price_per_sqft ?? d.pricePerSqFt;
 
-      setText('carMedianPrice', formatCurrency(mp));
+      setText('carMedianPrice', window.MoneyFormatter.formatMoney(mp));
       setText('carInventory', formatNumber(inv));
       setText('carDaysOnMarket', dom == null ? '—' : String(dom));
-      setText('carPricePerSqFt', formatCurrency(ppsf));
+      setText('carPricePerSqFt', window.MoneyFormatter.formatMoney(ppsf));
       var noteId = 'carMarketNote';
       var note = document.getElementById(noteId);
       if (!note) {
@@ -248,10 +248,6 @@
     function formatNumber(x) {
       if (x == null || x === '') return '—';
       try { return Number(x).toLocaleString(); } catch (e) { return String(x); }
-    }
-    function formatCurrency(x) {
-      if (x == null || x === '') return '—';
-      try { return '$' + Math.round(Number(x)).toLocaleString(); } catch (e) { return String(x); }
     }
   }
 
@@ -314,7 +310,7 @@
 
     setText('hmdaOriginations', formatNumberCompact(L.originations));
     setText('hmdaDenialRate',   (L.denial_rate * 100).toFixed(1) + '%');
-    setText('hmdaMeanLoan',     '$' + Math.round(L.mean_loan_amount_usd).toLocaleString());
+    setText('hmdaMeanLoan',     window.MoneyFormatter.formatMoney(L.mean_loan_amount_usd));
     setText('hmdaMultifamily',  formatNumberCompact(L.multifamily.originations));
 
     // YoY delta strings

@@ -84,11 +84,10 @@ function fmtPct(x, decimals = 1) {
   return `${n.toFixed(decimals)}%`;
 }
 
+const moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('./utils/format-money.js') : null);
 function fmtMoney(x) {
-  if (x == null) return "—";
-  const n = Number(x);
-  if (!Number.isFinite(n) || n <= 0) return "—";
-  return `$${n.toLocaleString()}`;
+  if (moneyFormatter.isAbsent(x) || Number(x) <= 0) return "—";
+  return moneyFormatter.formatMoney(x);
 }
 
 function destroyChart(id) {
