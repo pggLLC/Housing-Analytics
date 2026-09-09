@@ -24,6 +24,8 @@
 
   var DEFAULT_SLA_DAYS = 30;
   var SELECTOR = '[data-vintage-source]';
+  var SNAPSHOT_PATH = 'data/home-snapshot.json';
+  var snapshotPromise = null;
 
   // Same field-probe order as scripts/audit/data-freshness-check.mjs
   var TIMESTAMP_FIELDS  = ['updated', 'generated', 'generatedAt', 'last_updated', 'lastUpdated', 'timestamp'];
@@ -49,6 +51,27 @@
       }
     }
     return null;
+  }
+
+  function timestampFromSnapshot(snapshot, src) {
+    var entry = snapshot && snapshot.source_vintages && snapshot.source_vintages[src];
+    if (!entry || typeof entry.updated !== 'string' || isNaN(Date.parse(entry.updated))) return null;
+    return {
+      source: 'home-snapshot:' + (entry.source || 'source timestamp'),
+      value: entry.updated,
+    };
+  }
+
+  function loadTimestamp(src, fetcher) {
+    if (!snapshotPromise) {
+      snapshotPromise = fetcher(SNAPSHOT_PATH).catch(function () { return null; });
+    }
+    return snapshotPromise.then(function (snapshot) {
+      var sidecarTimestamp = timestampFromSnapshot(snapshot, src);
+      if (sidecarTimestamp) return sidecarTimestamp;
+      // Unmigrated sources keep the established full-file lookup.
+      return fetcher(src).then(findTimestamp);
+    });
   }
 
   function formatAge(days) {
@@ -153,8 +176,7 @@
         ? window.safeFetchJSON
         : function (u) { return fetch(u).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); };
 
-      fetcher(src).then(function (data) {
-        var ts = findTimestamp(data);
+      loadTimestamp(src, fetcher).then(function (ts) {
         if (!ts) {
           // No in-file timestamp — skip rather than render a misleading badge.
           return;
