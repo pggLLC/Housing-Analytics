@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T03:59:36.237Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T04:14:47.880Z. Do not edit by hand.
 
 ---
 
@@ -73,7 +73,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 762.5 KB | ✅ | — |
+| `data/_manifest.json` | 762.6 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1560,14 +1560,14 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.8 KB | ✅ | — |
+| `data/manifest.json` | 199.9 KB | ✅ | — |
+| `data/market/SYNTHETIC_cde_schools_co.json` | 10.4 KB | ✅ | — |
+| `data/market/SYNTHETIC_cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
+| `data/market/SYNTHETIC_cdot_traffic_co.json` | 8.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
 | `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
-| `data/market/cde_schools_co.json` | 10.4 KB | ✅ | — |
-| `data/market/cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
-| `data/market/cdot_traffic_co.json` | 8.2 KB | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
@@ -1833,7 +1833,7 @@
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
-| `test/pma-confidence.test.js` | 8.6 KB |
+| `test/pma-confidence.test.js` | 8.7 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
