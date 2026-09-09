@@ -83,11 +83,11 @@ test('pma-confidence.js confidence levels defined', () => {
 const CONNECTORS = [
   { file: 'js/data-connectors/lodes-commute.js', global: 'LodesCommute',
     methods: ['loadMetrics', 'aggregateForBuffer', 'scoreJobAccessibility'] },
-  { file: 'js/data-connectors/cdle-jobs.js',     global: 'CdleJobs',
+  { file: 'js/data-connectors/cdle-jobs.js',     global: 'CdleJobs', dormant: true,
     methods: ['loadMetrics', 'aggregateForCounties', 'scoreVacancyRate'] },
-  { file: 'js/data-connectors/cde-schools.js',   global: 'CdeSchools',
+  { file: 'js/data-connectors/cde-schools.js',   global: 'CdeSchools', dormant: true,
     methods: ['loadMetrics', 'getNearestDistrict', 'scoreSchoolQuality'] },
-  { file: 'js/data-connectors/cdot-traffic.js',  global: 'CdotTraffic',
+  { file: 'js/data-connectors/cdot-traffic.js',  global: 'CdotTraffic', dormant: true,
     methods: ['loadMetrics', 'aggregateForBuffer', 'scoreTrafficConnectivity'] },
 ];
 
@@ -99,7 +99,19 @@ CONNECTORS.forEach(function (c) {
     assert(src.includes('window.' + c.global), c.file + ' exposes window.' + c.global);
     assert(!src.includes("fetch('data/") && !src.includes('fetch("data/'),
       c.file + ' has no raw fetch("data/...") calls');
-    assert(src.includes('DataService'), c.file + ' uses DataService');
+    if (c.dormant) {
+      // The SYNTHETIC_* fixtures these three connectors read were deleted
+      // (2026-09-09). A dormant connector must not request anything: a fetch
+      // for a file that cannot exist logs a console error and fails the
+      // rendered site-audit gate. Assert absence of any fetch rather than
+      // presence of DataService -- the opposite of the live-connector rule.
+      assert(!/DS\.getJSON|DataService|fetch\s*\(/.test(src),
+        c.file + ' is dormant: performs no fetch of any kind');
+      assert(/no committed source|dormant|NO DATA SOURCE/i.test(src),
+        c.file + ' documents why it is dormant');
+    } else {
+      assert(src.includes('DataService'), c.file + ' uses DataService');
+    }
     c.methods.forEach(function (m) {
       assert(src.includes(m), c.file + ' defines ' + m + '()');
     });
