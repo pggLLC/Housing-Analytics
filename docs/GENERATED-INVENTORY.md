@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T04:31:25.839Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T05:46:22.002Z. Do not edit by hand.
 
 ---
 
@@ -1657,7 +1657,7 @@
 
 ## Test Files
 
-292 test files found.
+293 test files found.
 
 | File | Size |
 |------|------|
@@ -1761,7 +1761,7 @@
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
 | `test/hna-prop123-relationship.test.js` | 6.7 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
-| `test/hna-race-ethnicity-dp05.test.js` | 3.4 KB |
+| `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
@@ -1930,6 +1930,7 @@
 | `tests/demographic_projections_test.py` | 19.4 KB |
 | `tests/economic_indicators_test.py` | 26.9 KB |
 | `tests/phase3-setup.js` | 11.2 KB |
+| `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 6.0 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
