@@ -314,30 +314,69 @@
   }
 
   /**
-   * Fetch ED school attendance boundaries and NCES school data.
-   * Uses the USGS ArcGIS service for attendance boundaries.
+   * Fetch NCES school locations inside a bounding box.
+   *
+   * Loads the committed `data/market/schools_co.geojson` — 1,941 real schools
+   * from the NCES Common Core of Data, School Locations 2021-22. This replaces
+   * an ArcGIS FeatureServer query that returned `{"error":{"code":400}}`; the
+   * hosting org still answers with 527 services, none of them school-related,
+   * so the layer was removed rather than renamed (#1541). The failure was
+   * silent — a `.catch` returning empty arrays — so every PMA run scored the
+   * schools dimension on nothing while still citing the source.
+   *
+   * `schoolDistricts` is deliberately empty: this file carries school *points*,
+   * not attendance-boundary polygons. The old code returned the same array for
+   * both, which is why "districts aligned" was really "schools nearby".
+   *
    * @param {{minLat,minLon,maxLat,maxLon}} bbox
-   * @returns {Promise<{schoolDistricts: Array, schools: Array}>}
+   * @returns {Promise<{schoolDistricts: Array, schools: Array, _dataSource: string}>}
    */
   function fetchSchoolBoundaries(bbox) {
-    if (!bbox) return Promise.resolve({ schoolDistricts: [], schools: [] });
-    var fetcher = (typeof window.fetchWithTimeout === 'function')
-      ? window.fetchWithTimeout
-      : function (url) { return fetch(url); };
-    var url = 'https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/' +
-              'Public_School_Location_201819/FeatureServer/0/query' +
-              '?geometry=' + bbox.minLon + ',' + bbox.minLat + ',' + bbox.maxLon + ',' + bbox.maxLat +
-              '&geometryType=esriGeometryEnvelope&inSR=4326&outSR=4326&outFields=*&f=geojson';
-    return fetcher(url)
-      .then(function (r) {
-        if (!r.ok) throw new Error('Schools HTTP ' + r.status);
-        return r.json();
+    if (!bbox) {
+      return Promise.resolve({ schoolDistricts: [], schools: [], _dataSource: 'none' });
+    }
+    return getJSON('data/market/schools_co.geojson')
+      .then(function (geojson) {
+        var features = (geojson && geojson.features) ? geojson.features : [];
+        if (!features.length) {
+          return { schoolDistricts: [], schools: [], _dataSource: 'none' };
+        }
+        var schools = [];
+        features.forEach(function (f) {
+          var g = f.geometry;
+          if (!g || g.type !== 'Point' || !g.coordinates) return;
+          var lon = g.coordinates[0], lat = g.coordinates[1];
+          if (lat < bbox.minLat || lat > bbox.maxLat ||
+              lon < bbox.minLon || lon > bbox.maxLon) return;
+          var p = f.properties || {};
+          schools.push({
+            ncesId:     p.nces_id || null,
+            name:       p.school_name || 'School',
+            schoolType: p.school_type || null,
+            gradeLow:   p.grade_low || null,
+            gradeHigh:  p.grade_high || null,
+            enrollment: (p.enrollment === 0 || p.enrollment) ? p.enrollment : null,
+            county:     p.county_name || null,
+            city:       p.city || null,
+            charter:    p.charter || null,
+            title1:     p.title1 || null,
+            lat:        lat,
+            lon:        lon,
+            // No performance measure ships with CCD school locations. It stays
+            // null rather than defaulting — see AGENTS.md, "An unmeasurable
+            // quantity is null, never 0", and the neutral-default note there.
+            performanceScore: null
+          });
+        });
+        return {
+          schoolDistricts: [],
+          schools: schools,
+          _dataSource: 'NCES CCD School Locations 2021-22 (data/market/schools_co.geojson)'
+        };
       })
-      .then(function (data) {
-        var features = (data && data.features) ? data.features : [];
-        return { schoolDistricts: features, schools: features };
-      })
-      .catch(function () { return { schoolDistricts: [], schools: [] }; });
+      .catch(function () {
+        return { schoolDistricts: [], schools: [], _dataSource: 'none' };
+      });
   }
 
   /**

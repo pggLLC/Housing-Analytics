@@ -20,12 +20,21 @@
   /* ── Constants ────────────────────────────────────────────────────── */
   var EARTH_RADIUS_MI     = 3958.8;
   var SCHOOL_SEARCH_MILES = 10;     // search radius for schools near site
-  var PERFORMANCE_UNKNOWN = 50;     // default score when NCES data unavailable
+  // PERFORMANCE_UNKNOWN = 50 used to stand in wherever a performance measure
+  // was missing. Every school this module now sees is missing one — NCES CCD
+  // School Locations carries no performance measure — so that constant would
+  // have turned an absence into a confident "50/100 average" on every run.
+  // Absence is null here, and the reason travels with it (#1541, #1480).
+  var PERFORMANCE_UNAVAILABLE_REASON =
+    'NCES CCD School Locations carries no performance measure; no performance source is wired in.';
 
   /* ── Internal state ───────────────────────────────────────────────── */
   var lastSchools          = [];
   var lastAlignedDistricts = [];
-  var lastAccessScore      = 0;
+  var lastAccessWeighting = null;
+  // null, not 0 — before scoring runs there is no score, and 0 would read
+  // as "worst possible schools" rather than "not computed".
+  var lastAccessScore      = null;
 
   /* ── Utility helpers ─────────────────────────────────────────────── */
   function toRad(deg) { return deg * Math.PI / 180; }
@@ -40,6 +49,13 @@
   }
 
   function toNum(v) { var n = parseFloat(v); return isFinite(n) ? n : 0; }
+  /** Absence-preserving numeric coercion: null stays null, never 0. */
+  function numOrNull(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = parseFloat(v);
+    return isFinite(n) ? n : null;
+  }
+  function hasPerf(x) { return numOrNull(x && x.performanceScore) !== null; }
 
   /* ── Core API ────────────────────────────────────────────────────── */
 
@@ -93,7 +109,8 @@
       var dist = haversine(centLat, centLon, dLat, dLon);
       return Object.assign({}, d, {
         distanceMiles:  Math.round(dist * 10) / 10,
-        performanceScore: toNum(d.performanceScore || d.ncesScore || PERFORMANCE_UNKNOWN)
+        performanceScore: numOrNull(d.performanceScore !== null && d.performanceScore !== undefined
+          ? d.performanceScore : d.ncesScore)
       });
     });
 
@@ -105,21 +122,27 @@
     lastAlignedDistricts = aligned;
     lastSchools = aligned;
 
-    var avgPerf = aligned.length
-      ? Math.round(aligned.reduce(function (s, d) { return s + d.performanceScore; }, 0) / aligned.length)
-      : PERFORMANCE_UNKNOWN;
+    var scored = aligned.filter(hasPerf);
+    var avgPerf = scored.length
+      ? Math.round(scored.reduce(function (s, d) { return s + d.performanceScore; }, 0) / scored.length)
+      : null;
 
     var rationale = aligned.length
-      ? 'PMA boundary aligned with ' + aligned.length + ' school district(s). ' +
-        'Average performance score: ' + avgPerf + '/100. ' +
-        'Nearest: ' + (aligned[0].name || aligned[0].districtName || 'Unknown') + '.'
-      : 'No school districts within PMA boundary.';
+      ? 'PMA boundary contains ' + aligned.length + ' school(s) within ' +
+        SCHOOL_SEARCH_MILES + ' miles. ' +
+        'Nearest: ' + (aligned[0].name || aligned[0].districtName || 'Unknown') + '. ' +
+        (avgPerf === null
+          ? 'School performance is not scored — ' + PERFORMANCE_UNAVAILABLE_REASON
+          : 'Average performance score: ' + avgPerf + '/100.')
+      : 'No schools within ' + SCHOOL_SEARCH_MILES + ' miles of the PMA boundary.';
 
     return {
       alignedDistricts:     aligned,
       alignmentRationale:   rationale,
       districtCount:        aligned.length,
-      averagePerformanceScore: avgPerf
+      schoolCount:          aligned.length,
+      averagePerformanceScore: avgPerf,
+      performanceUnavailableReason: avgPerf === null ? PERFORMANCE_UNAVAILABLE_REASON : null
     };
   }
 
@@ -134,28 +157,36 @@
    */
   function scoreSchoolAccessibility(siteLat, siteLon, schools) {
     schools = schools || lastAlignedDistricts;
-    if (!schools || !schools.length) { return PERFORMANCE_UNKNOWN; }
+    // No schools is not an average school environment. Returning 50 here put a
+    // fabricated mid-range score into a weighted dimension; null excludes it.
+    if (!schools || !schools.length) { lastAccessScore = null; return null; }
 
     var nearby = schools.filter(function (s) {
       var d = haversine(siteLat, siteLon, toNum(s.lat || s.centroidLat || siteLat), toNum(s.lon || s.centroidLon || siteLon));
       return d <= SCHOOL_SEARCH_MILES;
     });
 
-    if (!nearby.length) { return PERFORMANCE_UNKNOWN; }
+    if (!nearby.length) { lastAccessScore = null; return null; }
 
     // Proximity score: 100 for < 0.5 mi, declining to 0 at 10 mi
     var proxSum = 0, perfSum = 0;
+    var scored = nearby.filter(hasPerf);
     nearby.forEach(function (s) {
       var dist = haversine(siteLat, siteLon,
         toNum(s.lat || s.centroidLat || siteLat),
         toNum(s.lon || s.centroidLon || siteLon));
       proxSum += Math.max(0, 1 - dist / SCHOOL_SEARCH_MILES);
-      perfSum += toNum(s.performanceScore || PERFORMANCE_UNKNOWN) / 100;
     });
+    scored.forEach(function (s) { perfSum += numOrNull(s.performanceScore) / 100; });
 
     var proxScore = (proxSum / nearby.length) * 100;
-    var perfScore = (perfSum / nearby.length) * 100;
-    var combined  = Math.round(0.6 * proxScore + 0.4 * perfScore);
+    // Drop the performance term rather than defaulting it, and give proximity
+    // the full weight — AGENTS.md: "Prefer excluding the component and
+    // disclosing why." The reason rides on getSchoolJustification().
+    var combined  = scored.length
+      ? Math.round(0.6 * proxScore + 0.4 * ((perfSum / scored.length) * 100))
+      : Math.round(proxScore);
+    lastAccessWeighting = scored.length ? 'proximity 60% + performance 40%' : 'proximity only (100%)';
 
     lastAccessScore = Math.min(100, Math.max(0, combined));
     return lastAccessScore;
@@ -176,7 +207,7 @@
         geometry: { type: 'Point', coordinates: [lon, lat] },
         properties: {
           name:             s.name || s.districtName || 'School District',
-          performanceScore: toNum(s.performanceScore || PERFORMANCE_UNKNOWN),
+          performanceScore: numOrNull(s.performanceScore),
           distanceMiles:    toNum(s.distanceMiles || 0),
           type:             s.schoolType || 'K-12',
           ncesId:           s.ncesId || null
@@ -191,20 +222,25 @@
    * @returns {object}
    */
   function getSchoolJustification() {
-    var avgPerf = lastAlignedDistricts.length
-      ? Math.round(
-          lastAlignedDistricts.reduce(function (s, d) { return s + toNum(d.performanceScore || PERFORMANCE_UNKNOWN); }, 0) /
-          lastAlignedDistricts.length
-        )
-      : PERFORMANCE_UNKNOWN;
+    var scored = lastAlignedDistricts.filter(hasPerf);
+    var avgPerf = scored.length
+      ? Math.round(scored.reduce(function (s, d) { return s + numOrNull(d.performanceScore); }, 0) / scored.length)
+      : null;
 
     return {
+      // Kept for callers that still read the old key; these are schools, not
+      // attendance-boundary districts — the previous source returned points and
+      // called them districts.
       schoolDistrictsAligned: lastAlignedDistricts.length,
+      schoolsAligned:         lastAlignedDistricts.length,
       averagePerformanceScore: avgPerf,
+      performanceUnavailableReason: avgPerf === null ? PERFORMANCE_UNAVAILABLE_REASON : null,
       accessibilityScore:     lastAccessScore,
+      accessibilityWeighting: lastAccessWeighting,
       alignmentRationale:     lastAlignedDistricts.length
-        ? 'PMA boundary encompasses ' + lastAlignedDistricts.length + ' school district(s) with avg performance score ' + avgPerf + '.'
-        : 'No school boundary data was available for this analysis.'
+        ? 'PMA boundary encompasses ' + lastAlignedDistricts.length + ' school(s)' +
+          (avgPerf === null ? '; performance is not scored.' : ' with avg performance score ' + avgPerf + '.')
+        : 'No school data was available for this analysis.'
     };
   }
 

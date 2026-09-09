@@ -55,9 +55,23 @@ test('alignPMAWithSchools — districts within 10 miles are aligned', function (
     'all aligned districts have distanceMiles');
 });
 
-test('scoreSchoolAccessibility — neutral when no schools', function () {
+test('scoreSchoolAccessibility — absent, not neutral, when no schools', function () {
+  // This assertion used to require 50. That encoded the defect: a site with no
+  // schools within 10 miles scored the same as a site with average ones, and
+  // the 50 then fed a weighted dimension as though it had been measured.
+  // No schools is an absence (#1541, #1480).
   const score = S.scoreSchoolAccessibility(39.7, -104.9, []);
-  assert(score === 50, 'score is 50 (neutral) when no schools');
+  assert(score === null, 'score is null when there are no schools, not a neutral 50');
+});
+
+test('scoreSchoolAccessibility — unscored schools use proximity alone', function () {
+  // NCES CCD School Locations carries no performance measure, so this is the
+  // real-world case. The performance term must be dropped, not defaulted.
+  const near = S.scoreSchoolAccessibility(39.7, -104.9, [{ lat: 39.7, lon: -104.9 }]);
+  const far  = S.scoreSchoolAccessibility(39.7, -104.9, [{ lat: 39.78, lon: -104.9 }]);
+  assert(near !== null && far !== null, 'unscored schools still produce a proximity score');
+  assert(near > far, 'a closer school scores higher than a distant one');
+  assert(near > 50, 'a school at the site itself is not dragged to mid-range by a phantom 50');
 });
 
 test('scoreSchoolAccessibility — high performance nearby → higher score', function () {
