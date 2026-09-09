@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T03:12:16.073Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T03:59:36.237Z. Do not edit by hand.
 
 ---
 
@@ -886,7 +886,7 @@
 | `data/hna/lihtc/08125.json` | 951 B | ✅ | 1 features |
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
-| `data/hna/local-resources.json` | 174.4 KB | ✅ | — |
+| `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
@@ -1540,7 +1540,7 @@
 | `data/jurisdiction-briefs/0873825.json` | 15.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/0876795.json` | 15.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_candidates.json` | 23.9 KB | ✅ | — |
-| `data/jurisdiction-briefs/_liveness.json` | 272.4 KB | ✅ | — |
+| `data/jurisdiction-briefs/_liveness.json` | 272.3 KB | ✅ | — |
 | `data/jurisdiction-briefs/_schema.json` | 3.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_stale.json` | 3.2 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verification-plan.json` | 176.6 KB | ✅ | — |
