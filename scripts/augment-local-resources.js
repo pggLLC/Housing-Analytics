@@ -233,8 +233,11 @@ const PLACE_ENTRIES = {
       { name: 'Aspen-Pitkin County Housing Authority (APCHA)', url: 'https://apcha.org/' }
     ],
     housingPlans: [
+      // /about-us/governance/ 404s (site alive, page gone). apcha.org now runs
+      // CivicEngage; /27/About is what the homepage itself links to and returns
+      // 200 ("About | APCHA, CO"). Verified 2026-09-09.
       { type: 'Housing Strategy', year: 2024, name: 'Joint APCHA Strategic Plan',
-        url: 'https://apcha.org/about-us/governance/' }
+        url: 'https://apcha.org/27/About' }
     ],
     notes: 'Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities.'
   },

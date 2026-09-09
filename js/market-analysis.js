@@ -1138,28 +1138,27 @@
     // Bridge market velocity (used in result metadata)
     var _bridgeVelocityLabel = _bridgeVelCtx ? _bridgeVelCtx.label : 'unknown';
 
-    // When rent-pressure is unavailable (county AMI not resolved), redistribute
-    // its weight proportionally across the remaining dimensions rather than
-    // scoring it as 0 — a 0 would deflate overall by ~15 pts for every site
-    // where county FIPS resolution failed.
-    var overall;
-    if (rentPressureObj.unavailable) {
-      var remainingWeightSum = WEIGHTS.demand + WEIGHTS.captureRisk + WEIGHTS.landSupply + WEIGHTS.workforce;
-      overall = Math.round(
-        (demandScore          * WEIGHTS.demand +
-         captureObj.score     * WEIGHTS.captureRisk +
-         marketTightnessScore * WEIGHTS.landSupply +
-         workforceScore       * WEIGHTS.workforce) / remainingWeightSum
-      );
-    } else {
-      overall = Math.round(
-        demandScore          * WEIGHTS.demand +
-        captureObj.score     * WEIGHTS.captureRisk +
-        rentPressureObj.score * WEIGHTS.rentPressure +
-        marketTightnessScore * WEIGHTS.landSupply +
-        workforceScore       * WEIGHTS.workforce
-      );
-    }
+    // Weighted mean over the dimensions that were actually measured.
+    //
+    // rentPressure already had this treatment by hand, with the note that a 0
+    // "would deflate overall by ~15 pts for every site where county FIPS
+    // resolution failed". workforceScore can now be null too — three of its
+    // five sub-sources are excluded as synthetic (#1560) — and `null * 0.15`
+    // is 0, so the same deflation would have arrived through a different door.
+    // Generalised rather than special-cased twice.
+    var dims = [
+      { score: demandScore,           weight: WEIGHTS.demand },
+      { score: captureObj.score,      weight: WEIGHTS.captureRisk },
+      { score: rentPressureObj.unavailable ? null : rentPressureObj.score,
+                                      weight: WEIGHTS.rentPressure },
+      { score: marketTightnessScore,  weight: WEIGHTS.landSupply },
+      { score: workforceScore,        weight: WEIGHTS.workforce }
+    ].filter(function (d) { return d.score !== null && d.score !== undefined && isFinite(d.score); });
+
+    var dimWeightSum = dims.reduce(function (a, d) { return a + d.weight; }, 0);
+    var overall = dimWeightSum > 0
+      ? Math.round(dims.reduce(function (a, d) { return a + d.score * d.weight; }, 0) / dimWeightSum)
+      : null;
 
     var flags = [];
     if ((acs.cost_burden_rate || 0) >= RISK.costBurdenHigh) {
