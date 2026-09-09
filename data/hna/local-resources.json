@@ -61,9 +61,20 @@
         "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
         "taxing_authority": false,
         "bonding_authority": null,
-        "powers": ["property_management", "housing_program_administration", "land_ownership"],
+        "powers": [
+          "property_management",
+          "housing_program_administration",
+          "land_ownership"
+        ],
         "capacity_tier": "active_developer",
-        "activity_evidence": {"recent_projects": ["GJHA-owned and managed affordable communities"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "activity_evidence": {
+          "recent_projects": [
+            "GJHA-owned and managed affordable communities"
+          ],
+          "bonding_history": null,
+          "dedicated_revenue": null,
+          "stewardship_program": null
+        },
         "stewardship_capacity": "not_established_for_permanent_ownership",
         "capacity_source": "https://www.gjha.org/",
         "capacity_last_verified": "2026-08-04",
@@ -77,9 +88,20 @@
         "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
         "taxing_authority": false,
         "bonding_authority": null,
-        "powers": ["partnership_coordination", "tax_abatement_programming", "land_ownership"],
+        "powers": [
+          "partnership_coordination",
+          "tax_abatement_programming",
+          "land_ownership"
+        ],
         "capacity_tier": "administrative",
-        "activity_evidence": {"recent_projects": ["Fruita Mews LIHTC special limited partnership with a private development partner (named in the Fruita jurisdiction brief)"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "activity_evidence": {
+          "recent_projects": [
+            "Fruita Mews LIHTC special limited partnership with a private development partner (named in the Fruita jurisdiction brief)"
+          ],
+          "bonding_history": null,
+          "dedicated_revenue": null,
+          "stewardship_program": null
+        },
         "stewardship_capacity": "not_established_for_permanent_ownership",
         "capacity_source": "https://www.fruita.org/m/newsflash/home/detail/27",
         "capacity_last_verified": "2026-08-04",
@@ -87,7 +109,11 @@
         "verify": true
       }
     ],
-    "stewardship_providers": [{"provider_id": "hrwc"}],
+    "stewardship_providers": [
+      {
+        "provider_id": "hrwc"
+      }
+    ],
     "advocacy": [
       {
         "name": "Grand Valley Catholic Outreach",
@@ -191,9 +217,20 @@
         "enabling_framework": "C.R.S. Title 29, Article 4 — VERIFY exact applicable provisions with counsel",
         "taxing_authority": false,
         "bonding_authority": null,
-        "powers": ["partnership_coordination", "tax_abatement_programming", "land_ownership"],
+        "powers": [
+          "partnership_coordination",
+          "tax_abatement_programming",
+          "land_ownership"
+        ],
         "capacity_tier": "administrative",
-        "activity_evidence": {"recent_projects": ["Fruita Mews LIHTC special limited partnership with a private development partner (named in the Fruita jurisdiction brief)"], "bonding_history": null, "dedicated_revenue": null, "stewardship_program": null},
+        "activity_evidence": {
+          "recent_projects": [
+            "Fruita Mews LIHTC special limited partnership with a private development partner (named in the Fruita jurisdiction brief)"
+          ],
+          "bonding_history": null,
+          "dedicated_revenue": null,
+          "stewardship_program": null
+        },
         "stewardship_capacity": "not_established_for_permanent_ownership",
         "capacity_source": "https://www.fruita.org/m/newsflash/home/detail/27",
         "capacity_last_verified": "2026-08-04",
@@ -201,7 +238,11 @@
         "verify": true
       }
     ],
-    "stewardship_providers": [{"provider_id": "hrwc"}],
+    "stewardship_providers": [
+      {
+        "provider_id": "hrwc"
+      }
+    ],
     "advocacy": [
       {
         "name": "HomewardBound of the Grand Valley",
@@ -4254,7 +4295,27 @@
         "name": "Aspen School District",
         "url": "https://www.aspenk12.net/"
       }
-    ]
+    ],
+    "prop123": {
+      "status": "Committed",
+      "link": "https://cdola.colorado.gov/commitment-filings",
+      "fast_track": true
+    },
+    "housingAuthority": [
+      {
+        "name": "Aspen-Pitkin County Housing Authority (APCHA)",
+        "url": "https://apcha.org/"
+      }
+    ],
+    "housingPlans": [
+      {
+        "type": "Housing Strategy",
+        "year": 2024,
+        "name": "Joint APCHA Strategic Plan",
+        "url": "https://apcha.org/about-us/governance/"
+      }
+    ],
+    "notes": "Most-mature resort-housing program in CO. APCHA manages ~3,000 deed-restricted units (50% of Aspen workforce housing supply). Model for other resort communities."
   },
   "place:0871755": {
     "name": "Snowmass Village",
@@ -5655,5 +5716,82 @@
       }
     ],
     "notes": "Official city site verified 2026-07-14. No dedicated affordable-housing page was found; Community Development is the city planning/development contact. Do not use townofgreenwood.org, a recurring wrong-state/squatter discovery candidate."
+  },
+  "place:0877510": {
+    "name": "Timnath",
+    "housingLead": {
+      "name": "Town of Timnath Community Development",
+      "url": "https://timnath.org/community-development/"
+    }
+  },
+  "place:0885485": {
+    "name": "Windsor",
+    "housingLead": {
+      "name": "Town of Windsor (official site)",
+      "url": "https://www.windsorco.gov/"
+    }
+  },
+  "place:0833640": {
+    "name": "Gunnison",
+    "housingLead": {
+      "name": "City of Gunnison (official site)",
+      "url": "https://www.gunnisonco.gov/"
+    }
+  },
+  "place:0839855": {
+    "name": "Johnstown",
+    "housingLead": {
+      "name": "Town of Johnstown (official site)",
+      "url": "https://www.johnstownco.gov/"
+    }
+  },
+  "place:0827700": {
+    "name": "Fort Lupton",
+    "housingLead": {
+      "name": "City of Fort Lupton (official site)",
+      "url": "https://www.fortluptonco.gov/"
+    }
+  },
+  "place:0826600": {
+    "name": "Firestone",
+    "housingLead": {
+      "name": "Town of Firestone (official site)",
+      "url": "https://www.firestoneco.gov/"
+    }
+  },
+  "place:0851800": {
+    "name": "Monument",
+    "housingLead": {
+      "name": "Town of Monument (official site)",
+      "url": "https://www.townofmonument.org/"
+    }
+  },
+  "place:0886090": {
+    "name": "Woodland Park",
+    "housingLead": {
+      "name": "City of Woodland Park (official site)",
+      "url": "https://woodlandpark.gov/"
+    }
+  },
+  "place:0851635": {
+    "name": "Monte Vista",
+    "housingLead": {
+      "name": "City of Monte Vista (official site)",
+      "url": "https://www.montevista.gov/"
+    }
+  },
+  "place:0883230": {
+    "name": "Wellington",
+    "housingLead": {
+      "name": "Town of Wellington (official site)",
+      "url": "https://www.wellingtoncolorado.gov/"
+    }
+  },
+  "place:0886310": {
+    "name": "Wray",
+    "housingLead": {
+      "name": "City of Wray (official site)",
+      "url": "https://www.cityofwray.org/"
+    }
   }
 }

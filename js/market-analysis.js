@@ -903,16 +903,22 @@
     //   15% CDOT traffic connectivity
 
     var LODES  = window.LodesCommute;
-    var CDLE   = window.CdleJobs;
-    var CDE    = window.CdeSchools;
-    var CDOT   = window.CdotTraffic;
+    // window.CdleJobs / CdeSchools / CdotTraffic are intentionally not read —
+    // their backing files are synthetic (#1560) and the sub-scores are excluded
+    // below. The connector modules still exist for when real data replaces them.
 
     var realSources  = 0;
-    var totalSources = 5;
+    // Two of the five designed sub-sources are usable today; the other three
+    // are excluded as synthetic and say so in `reasons`. Counting against 5
+    // would peg coverage at 'partial' forever and read as "failed to load"
+    // rather than "deliberately not used".
+    var totalSources = 2;
     var reasons      = [];
 
     // ── 1. LODES job accessibility (25%) ────────────────────────────
-    var lodesScore = 50; // FALLBACK: window.LodesCommute unavailable. Using neutral value 50 until data/market/lodes_co.json is loaded via lodes-commute.js.
+    // null, not 50: the composite below drops unmeasured terms and renormalises,
+    // so an unloaded LODES excludes itself instead of contributing a neutral.
+    var lodesScore = null;
     if (LODES) {
       var tractGeoids = (bufTracts || []).map(function (t) { return t.geoid; });
       var lodesAgg = LODES.aggregateForBuffer(tractGeoids);
@@ -944,58 +950,62 @@
     }
 
     // ── 3. CDLE vacancy rates (20%) — low vacancy = tight labour = risk ──
-    var cdleScore = 50; // FALLBACK: window.CdleJobs unavailable. Using neutral value 50 until data/market/cdle_job_postings_co.json is loaded.
-    if (CDLE && bufTracts && bufTracts.length) {
-      var countyFips = {};
-      bufTracts.forEach(function (t) { countyFips[t.geoid.slice(0, 5)] = true; });
-      var cdleAgg = CDLE.aggregateForCounties(Object.keys(countyFips));
-      cdleScore = CDLE.scoreVacancyRate(cdleAgg);
-      realSources++;
-    } else {
-      reasons.push('CDLE: window.CdleJobs not loaded (data/market/cdle_job_postings_co.json)');
-    }
+    // ── EXCLUDED (#1560) ──
+    // data/market/cdle_job_postings_co.json declares itself "Synthetic
+    // approximation for PMA workforce scoring" in its own meta.note. The
+    // aggregation code is removed rather than left commented; it is one
+    // `git revert` away, and dead code invites someone to re-enable it
+    // without re-checking whether the data became real.
+    var cdleScore = null;
+    reasons.push('CDLE vacancy (20%): excluded — cdle_job_postings_co.json is synthetic');
 
     // ── 4. CDE school quality proximity (15%) ───────────────────────
-    var cdeScore = 55; // FALLBACK: window.CdeSchools unavailable. Using neutral value 55 until data/market/cde_schools_co.json is loaded.
-    if (CDE && lat != null && lon != null) {
-      var nearest = CDE.getNearestDistrict(lat, lon);
-      cdeScore = CDE.scoreSchoolQuality(nearest ? { avg_quality_score: nearest.composite_quality_score } : null);
-      realSources++;
-    } else {
-      reasons.push('CDE: window.CdeSchools not loaded (data/market/cde_schools_co.json)');
-    }
+    // ── EXCLUDED (#1560) ──
+    // data/market/cde_schools_co.json is synthetic by its own meta.note and
+    // independently wrong: every county FIPS in it mismatches
+    // data/hna/geo-config.json (Douglas carries Denver's 08031), and Denver
+    // Public Schools is listed at 10.1% free-and-reduced lunch against a real
+    // 60-70%. It reached CHFA scoring through the PMA >= 60 / >= 75 thresholds,
+    // which are 15 points apart — the same size as this weight.
+    var cdeScore = null;
+    reasons.push('CDE school quality (15%): excluded — cde_schools_co.json is synthetic');
 
     // ── 5. CDOT traffic connectivity (15%) ──────────────────────────
-    var cdotScore = 40; // FALLBACK: window.CdotTraffic unavailable. Using neutral value 40 until data/market/cdot_traffic_co.json is loaded.
-    if (CDOT && lat != null && lon != null) {
-      var trafficAgg = CDOT.aggregateForBuffer(lat, lon, bufferMiles);
-      cdotScore = CDOT.scoreTrafficConnectivity(trafficAgg);
-      realSources++;
-    } else {
-      reasons.push('CDOT: window.CdotTraffic not loaded (data/market/cdot_traffic_co.json)');
-    }
+    // ── EXCLUDED (#1560) ──
+    // data/market/cdot_traffic_co.json is synthetic by its own meta.note, from
+    // the same 2026-03-09 generation batch as the CDE and CDLE files.
+    var cdotScore = null;
+    reasons.push('CDOT connectivity (15%): excluded — cdot_traffic_co.json is synthetic');
 
-    // Redistribute the ACS workforce sub-weight (0.25) across the remaining
-    // 4 sources when it's null (county AMI unresolved or median HH income
-    // missing). Prior code used a 50-neutral which silently inflated every
-    // tract's workforce score whenever ACS AMI data was missing.
-    var composite;
-    if (acsWfScore == null) {
-      var remaining = 0.25 + 0.20 + 0.15 + 0.15; // 0.75
-      composite = Math.round(
-        (lodesScore * 0.25 +
-         cdleScore  * 0.20 +
-         cdeScore   * 0.15 +
-         cdotScore  * 0.15) / remaining
-      );
-    } else {
-      composite = Math.round(
-        lodesScore  * 0.25 +
-        acsWfScore  * 0.25 +
-        cdleScore   * 0.20 +
-        cdeScore    * 0.15 +
-        cdotScore   * 0.15
-      );
+    // Weighted mean over the sub-scores that were actually measured.
+    //
+    // This generalises what the ACS sub-score already did by hand: when a term
+    // is null it is dropped and the remaining weights are renormalised, rather
+    // than filled with a neutral. The original comment here said a 50-neutral
+    // "silently inflated every tract's workforce score whenever ACS AMI data
+    // was missing" — that reasoning applies to every term, so the rule is now
+    // uniform instead of special-cased for one of five.
+    //
+    // Three of the five are currently excluded as synthetic (#1560), so in
+    // practice this runs on LODES + ACS renormalised to 1.0. coverageLevel
+    // below reports that honestly as 'partial' rather than 'full'.
+    var terms = [
+      { score: lodesScore,  weight: 0.25 },
+      { score: acsWfScore,  weight: 0.25 },
+      { score: cdleScore,   weight: 0.20 },
+      { score: cdeScore,    weight: 0.15 },
+      { score: cdotScore,   weight: 0.15 }
+    ].filter(function (t) { return t.score !== null && t.score !== undefined && isFinite(t.score); });
+
+    var weightSum = terms.reduce(function (a, t) { return a + t.weight; }, 0);
+    // No measured sub-score is an absence, not a zero. Callers get null and
+    // coverageLevel 'fallback' rather than a confident 0 out of 100.
+    var composite = weightSum > 0
+      ? Math.round(terms.reduce(function (a, t) { return a + t.score * t.weight; }, 0) / weightSum)
+      : null;
+
+    if (composite === null) {
+      return { score: null, coverageLevel: 'fallback', reasons: reasons };
     }
 
     var score = Math.min(100, Math.max(0, composite));
