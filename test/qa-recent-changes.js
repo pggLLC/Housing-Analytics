@@ -313,10 +313,12 @@ function runUnitTests() {
   try {
     // hna-utils.js references `location.search` at parse time — shim it
     // before eval so we can lift the function into Node.
+    const moneySrc = fs.readFileSync(path.join(ROOT, 'js/utils/format-money.js'), 'utf8');
     const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
     const window = {};
     const location = { search: '' };
     const document = { addEventListener: () => {} };
+    eval(moneySrc);
     eval(src);
     const U = window.HNAUtils;
     if (!U || typeof U.rentBurden30Plus !== 'function') {

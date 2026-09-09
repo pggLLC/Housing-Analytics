@@ -5,6 +5,7 @@
  */
 (function () {
   'use strict';
+  var moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('../utils/format-money.js') : null);
 
   /* ── Distance ───────────────────────────────────────────────────── */
 
@@ -98,11 +99,7 @@
    * @returns {string} e.g. "$1,200"
    */
   function formatCurrency(n) {
-    if (n === null || n === undefined || isNaN(n)) return '—';
-    return '$' + Number(n).toLocaleString('en-US', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
+    return moneyFormatter.formatMoney(n);
   }
 
   /* ── Scoring helpers ────────────────────────────────────────────── */

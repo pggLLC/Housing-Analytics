@@ -5,6 +5,7 @@
 (function (global) {
   'use strict';
   var provenanceLabel = global.ProvenanceLabel || (typeof require === 'function' ? require('../provenance-label.js') : null);
+  var moneyFormatter = global.MoneyFormatter || (typeof require === 'function' ? require('../utils/format-money.js') : null);
 
   var ALLOWED_USE_CASES = {
     'multifamily-retrofit': true,
@@ -26,7 +27,7 @@
   }
 
   function fmtDollars(value) {
-    if (value == null || !Number.isFinite(+value) || +value <= 0) return null;
+    if (moneyFormatter.isAbsent(value) || +value <= 0) return null;
     var n = +value;
     if (n >= 1000000) return '$' + (n / 1000000).toFixed(n >= 10000000 ? 0 : 1) + 'M';
     if (n >= 1000) return '$' + Math.round(n / 1000).toLocaleString('en-US') + 'K';
