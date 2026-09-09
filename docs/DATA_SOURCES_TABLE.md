@@ -19,7 +19,7 @@ its current status.
 
 | File | Records | Source API / Service | CI Workflow | Secret Required | Fallback Strategy | Status |
 |------|---------|----------------------|-------------|-----------------|-------------------|--------|
-| `data/chfa-lihtc.json` | **926** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Sun 05:07 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ✅ 926 features through 2025 |
+| `data/chfa-lihtc.json` | **926** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Sun 05:49 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ✅ 926 features through 2025 |
 | `data/qct-colorado.json` | **224** | HUD ArcGIS `Qualified_Census_Tracts_2026` (public) | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 27 embedded polygons | ✅ Populated |
 | `data/dda-colorado.json` | **10** (Colorado county-level DDAs) | HUD ArcGIS `Difficult_Development_Areas_2026` (public), normalised by `scripts/normalize-dda.js` | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 10 embedded polygons | ✅ Populated |
 | `data/hna/lihtc/*.json` | 64 files (one per CO county) | HUD ArcGIS `LIHTC_Properties` (public) | `generate-housing-data.yml` (Mon 06:00 UTC) | None — public API | County file → statewide `chfa-lihtc.json` → CHFA ArcGIS → HUD ArcGIS → embedded | ✅ 64 county files present |

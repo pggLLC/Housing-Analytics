@@ -14,7 +14,7 @@ name: Rebuild Place and Tract OD Flows
 on:
   # First of every month at 08:13 UTC = 02:13 America/Denver in DST.
   schedule:
-    - cron: '13 8 1 * *'   # 1st of each month, 08:13 UTC
+    - cron: '31 6 1 * *'   # 1st of each month, 06:31 UTC (lands ~03:00 MT)
   # Also rebuild when the script or its dependencies change.
   push:
     branches: ['main']

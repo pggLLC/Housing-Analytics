@@ -11,7 +11,7 @@ name: Scrape Council Agenda Items
 
 on:
   schedule:
-    - cron: '41 8 * * 3'   # Wednesdays 08:41 UTC
+    - cron: '41 6 * * 3'   # Wednesdays 06:41 UTC (lands ~03:00 MT)
   workflow_dispatch:
     inputs:
       dry_run:

@@ -4,7 +4,7 @@ name: Configure Alerts & Generate Policy Briefs
 # Can also be triggered manually from GitHub Actions.
 on:
   schedule:
-    - cron: '7 1 * * 6'   # Saturdays 01:07 UTC
+    - cron: '3 5 * * 6'   # Saturdays 05:03 UTC (lands ~02:00 MT), before the HNA build
   workflow_dispatch:
     inputs:
       max_age_days:

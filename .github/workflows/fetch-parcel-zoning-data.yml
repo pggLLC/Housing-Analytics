@@ -25,7 +25,7 @@ name: Fetch Parcel & Zoning Data
 
 on:
   schedule:
-    - cron: '17 2 * * 0'   # Sundays 02:17 UTC
+    - cron: '17 5 * * 0'   # Sundays 05:17 UTC (lands ~02:00 MT)
   workflow_dispatch:
     inputs:
       force_refresh:

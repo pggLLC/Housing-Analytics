@@ -33,10 +33,10 @@ publication cadences.
 
 | Time (UTC) | Day | Workflow | Data produced |
 |---|---|---|---|
-| Monday 02:00 | Weekly | `zillow-data-sync.yml` | `data/zillow-*.json` |
+| Saturday 05:53 | Weekly | `zillow-data-sync.yml` | `data/zillow-*.json` |
 | Sunday 03:11 | Weekly | `fetch-kalshi.yml` | `data/kalshi/prediction-market.json` |
 | Monday 04:00 | Weekly | `cache-hud-gis-data.yml` | `data/hud-*` |
-| Sunday 05:07 | Weekly | `fetch-chfa-lihtc.yml` | `data/chfa-lihtc.json`, `data/hna/lihtc/*.json` |
+| Sunday 05:49 | Weekly | `fetch-chfa-lihtc.yml` | `data/chfa-lihtc.json`, `data/hna/lihtc/*.json` |
 | Saturday 07:23 | Weekly | `build-hna-data.yml` | `data/hna/*.json` |
 | Wednesday 09:23 | Weekly | `audit-endpoints.yml` | Endpoint reachability report |
 | Daily 06:30 | Daily | `fetch-census-acs.yml` | `data/census-acs-state.json` |

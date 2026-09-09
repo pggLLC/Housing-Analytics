@@ -76,7 +76,7 @@ The PMA pipeline ingests data from seven core categories plus eight Phase 3 bulk
 
 **Primary:** `data/chfa-lihtc.json` (GeoJSON FeatureCollection)  
 **Secondary:** `data/co-lihtc.json`  
-**Workflow:** `fetch-chfa-lihtc.yml` (Sunday 05:07 UTC)  
+**Workflow:** `fetch-chfa-lihtc.yml` (Sunday 05:49 UTC)  
 **JS module:** `js/data-connectors/hud-lihtc.js`
 
 ### Sentinel Keys (Rule 18)

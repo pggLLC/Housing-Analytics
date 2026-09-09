@@ -39,7 +39,7 @@ All API keys and credentials are stored as **GitHub Actions Secrets** (Settings 
 
 | File | Size | Source | CI Workflow | Schedule | Local Creation Working? | Notes |
 |---|---|---|---|---|---|---|
-| `data/chfa-lihtc.json` | ~820 KB | CHFA ArcGIS FeatureServer | `fetch-chfa-lihtc.yml`, `deploy.yml` | Sunday 05:07 UTC + every deploy | ✅ 926 features | Primary Colorado LIHTC source; GeoJSON FeatureCollection through 2025. Front-end falls back to live CHFA, HUD ArcGIS, then embedded data when empty |
+| `data/chfa-lihtc.json` | ~820 KB | CHFA ArcGIS FeatureServer | `fetch-chfa-lihtc.yml`, `deploy.yml` | Sunday 05:49 UTC + every deploy | ✅ 926 features | Primary Colorado LIHTC source; GeoJSON FeatureCollection through 2025. Front-end falls back to live CHFA, HUD ArcGIS, then embedded data when empty |
 | `data/qct-colorado.json` | ~447 KB | HUD ArcGIS `Qualified_Census_Tracts_2026` | `fetch-lihtc-data.yml`, `cache-hud-gis-data.yml` | Sunday 07:00 + Monday 04:00 UTC | ✅ 224 features | QCT polygon overlays for Colorado; written by two workflows (no redundancy conflict) |
 | `data/dda-colorado.json` | ~342 KB | HUD ArcGIS `Difficult_Development_Areas_2026` | `fetch-lihtc-data.yml`, `cache-hud-gis-data.yml` | Sunday 07:00 + Monday 04:00 UTC | ✅ 2,902 features | DDA polygon overlays for Colorado; normalized by `normalize-dda.js` in both workflows |
 | `data/manifest.json` | ~249 B | Generated | `fetch-lihtc-data.yml` | Sunday 07:00 UTC | ✅ | Records feature counts and timestamps for QCT/DDA files |
@@ -167,7 +167,7 @@ Plausibility: tests/test_data_plausibility.py::test_cdphe_boundaries_match_tiger
 | Workflow | Schedule | Key Secret(s) | Output File(s) |
 |---|---|---|---|
 | `deploy.yml` | Push to main + manual | `CENSUS_API_KEY`, `FRED_API_KEY` | `js/config.js` (secrets injected); also runs `fetch-chfa-lihtc.js` |
-| `fetch-chfa-lihtc.yml` | Sunday 05:07 UTC | None (public API) | `data/chfa-lihtc.json` |
+| `fetch-chfa-lihtc.yml` | Sunday 05:49 UTC | None (public API) | `data/chfa-lihtc.json` |
 | `fetch-lihtc-data.yml` | Sunday 07:00 UTC | None (public API) | `data/qct-colorado.json`, `data/dda-colorado.json`, `data/manifest.json` |
 | `cache-hud-gis-data.yml` | Monday 04:00 UTC | None (public API) | `data/qct-colorado.json`, `data/dda-colorado.json` (normalized) |
 | `generate-housing-data.yml` | Monday 06:00 UTC | None (public API) | `data/hna/lihtc/*.json` (64 files) |
@@ -175,7 +175,7 @@ Plausibility: tests/test_data_plausibility.py::test_cdphe_boundaries_match_tiger
 | `fetch-census-acs.yml` | Daily 06:30 UTC | `CENSUS_API_KEY` | `data/census-acs-state.json` |
 | `fetch-fred-data.yml` | Daily 06:00 UTC | `FRED_API_KEY` | `data/fred-data.json` |
 | `fetch-kalshi.yml` | Sunday 03:11 UTC | `KALSHI_API_KEY`, `KALSHI_API_SECRET`, `KALSHI_API_BASE_URL` | `data/kalshi/prediction-market.json` |
-| `zillow-data-sync.yml` | Monday 02:00 UTC | `ZILLOW_EMAIL`, `ZILLOW_PASSWORD` | `data/zillow-*.json` |
+| `zillow-data-sync.yml` | Saturday 05:53 UTC | `ZILLOW_EMAIL`, `ZILLOW_PASSWORD` | `data/zillow-*.json` |
 | `car-data-update.yml` | Monthly | None | `data/car-market-report-*.json` |
 | `daily-monitoring.yml` | Daily | `EMAIL_USER`, `EMAIL_PASSWORD`, `WEBSITE_URL` | Email alerts only |
 

@@ -2,7 +2,7 @@ name: Fetch CHFA LIHTC Data
 
 on:
   schedule:
-    - cron: '7 5 * * 0'   # Sundays 05:07 UTC
+    - cron: '49 5 * * 0'   # Sundays 05:49 UTC (lands ~02:00 MT)
   workflow_dispatch:        # Allow manual triggering
 
 concurrency:

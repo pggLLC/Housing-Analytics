@@ -15,7 +15,7 @@ name: Discover Council Agenda URLs
 
 on:
   schedule:
-    - cron: '47 8 1 */3 *'   # 08:47 UTC on the 1st of Jan/Apr/Jul/Oct (quarterly)
+    - cron: '19 5 1 */3 *'   # 05:19 UTC on the 1st of Jan/Apr/Jul/Oct (lands ~02:00 MT)
   workflow_dispatch:
     inputs:
       dry_run:

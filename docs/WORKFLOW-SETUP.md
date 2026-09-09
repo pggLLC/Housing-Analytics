@@ -46,11 +46,11 @@ If you see `CENSUS_API_KEY: NOT SET`, the key is missing from Secrets.
 | Workflow | Schedule | Purpose |
 |----------|----------|---------|
 | `build-hna-data.yml` | Sat 07:23 UTC | Fetches ACS + DOLA + LEHD data; generates HNA projections |
-| `market_data_build.yml` | Sun 23:00 UTC | Fetches tract-level ACS data; rebuilds LIHTC GeoJSON |
+| `market_data_build.yml` | Sat 05:23 UTC | Fetches tract-level ACS data; rebuilds LIHTC GeoJSON |
 | `fetch-fred-data.yml` | (varies) | Fetches FRED economic indicator series |
 | `fetch-chas-data.yml` | Mon 03:00 UTC | Fetches CHAS affordability gap data |
 | `cache-hud-gis-data.yml` | Mon 04:00 UTC | Fetches HUD QCT/DDA GeoJSON data |
-| `fetch-chfa-lihtc.yml` | Sun 05:07 UTC | Fetches CHFA LIHTC project data |
+| `fetch-chfa-lihtc.yml` | Sun 05:49 UTC | Fetches CHFA LIHTC project data |
 
 ---
 
