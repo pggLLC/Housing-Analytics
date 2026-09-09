@@ -4,7 +4,11 @@ name: Source URL Sweep
 # item #1 from the 2026-04-20 outstanding-items review.
 #
 # Runs:
-#   - weekly on Saturday 14:07 UTC, so citation rot surfaces before Monday
+#   - weekly on Saturday 14:07 UTC. This used to run Monday to pair with
+#     Dependabot (still .github/dependabot.yml: Mondays 09:00). That pairing
+#     is deliberately dropped: the sweep opens a tracking issue, and having
+#     it waiting on Monday morning beats it arriving mid-Monday alongside
+#     the Dependabot PRs. Both still land in the same working day.
 #   - manually via workflow_dispatch
 #
 # Exits non-zero on any 404 / server-error / fetch-error. Timeouts are
