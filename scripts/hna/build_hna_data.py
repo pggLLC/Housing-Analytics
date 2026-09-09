@@ -77,6 +77,19 @@ _HTTP_NO_CONTENT_LOCK = threading.Lock()
 
 DEFAULT_ACS_FETCH_WORKERS = 8
 DEFAULT_ACS_HTTP_TIMEOUT_SECONDS = 8
+# A short per-request timeout is only safe when paired with retry: an 8s ceiling
+# makes a merely slow Census response indistinguishable from a dead one. The
+# JSON path previously passed retries=1, which disabled http_get_text's backoff
+# entirely, so a single upstream stall failed the whole build (issue #1566).
+#
+# Two attempts, not three. #1564 chose single-attempt deliberately to protect a
+# ~30 min ACS phase (546 geographies, 8 workers, 8s ceiling, measured 703.9s).
+# Against the job's timeout-minutes: 120, the worst case where every request
+# fails is ~27 min at 1 attempt, ~58 min at 2, and ~91 min at 3. Three attempts
+# leaves too little headroom on a degraded upstream -- the build would burn most
+# of its budget and still fail, when failing sooner and resuming from the phase
+# checkpoint is better. Two costs ~0.3 min at a 1% transient failure rate.
+DEFAULT_ACS_HTTP_RETRIES = 2
 BUILD_PHASES = frozenset({'geo-config', 'acs', 'lehd', 'dola', 'stamp'})
 
 
@@ -97,6 +110,16 @@ def acs_http_timeout_seconds() -> int:
     return _positive_int_env(
         'HNA_ACS_HTTP_TIMEOUT_SECONDS', DEFAULT_ACS_HTTP_TIMEOUT_SECONDS
     )
+
+
+def acs_http_retries() -> int:
+    """Return the attempt count for Census API JSON calls.
+
+    Retries cost nothing on the expected-no-content path: http_get_text only
+    re-attempts HTTP 408/429/5xx and transport errors, so an ACS1 204 or a 400
+    still returns on the first attempt.
+    """
+    return _positive_int_env('HNA_ACS_HTTP_RETRIES', DEFAULT_ACS_HTTP_RETRIES)
 
 
 def acs_fetch_workers() -> int:
@@ -216,7 +239,7 @@ def http_get_json(url: str, timeout: int | None = None) -> dict | list | None:
     """Fetch URL and parse as JSON. Returns None on error."""
     if timeout is None:
         timeout = acs_http_timeout_seconds()
-    status, text = http_get_text(url, timeout=timeout, retries=1)
+    status, text = http_get_text(url, timeout=timeout, retries=acs_http_retries())
     if _is_expected_acs1_no_content(url, status):
         return None
     if status != 200:
@@ -374,7 +397,12 @@ def census_fetch(url: str, fallback_url: str | None = None) -> dict | None:
     if result is not None:
         return result
 
-    # If HTTP 400 (Bad Request) and we have a fallback, try it
+    # If HTTP 400 (Bad Request) and we have a fallback, try it.
+    # Deliberately retries=1: http_get_json above has already exhausted its
+    # attempts on this same URL, and this call only re-reads the status code to
+    # distinguish "bad request, use the fallback" from "upstream unavailable".
+    # Retrying here would multiply requests against an endpoint already known
+    # to be failing.
     status, _ = http_get_text(url, timeout=acs_http_timeout_seconds(), retries=1)
     if status == 400 and fallback_url:
         print("ℹ Falling back to alternate external source", file=sys.stderr)
