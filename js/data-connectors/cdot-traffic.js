@@ -1,14 +1,15 @@
 /**
- * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Transportation extract.
+ * NO DATA SOURCE — this connector is dormant.
  *
- * (no committed data file — the synthetic fixture was deleted 2026-09-09) declares itself
- * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
- * The file was renamed from cdot_traffic_co.json so that its status is
- * visible at every call site rather than only to someone who opens meta.note
- * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
- * so that real data can be dropped in without rewriting the consumer.
+ * It previously read a synthetic fixture that was never a real Colorado Department of Transportation
+ * extract. That fixture carried part of the PMA workforce composite until
+ * #1562 excluded it, and was deleted on 2026-09-09.
  *
- * Do not re-enable the sub-score until the backing file is a real extract.
+ * loadMetrics() resolves to the empty shape WITHOUT a network request. Do not
+ * restore a fetch until a real source exists — requesting a file that cannot
+ * exist produces console errors that fail the rendered site-audit gate.
+ *
+ * Real source when someone wires it up: CDOT Traffic Data.
  */
 /**
  * js/data-connectors/cdot-traffic.js
@@ -38,20 +39,15 @@
 
   /* ── Load data ──────────────────────────────────────────────── */
   function loadMetrics() {
-    var DS = window.DataService;
-    if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/SYNTHETIC_cdot_traffic_co.json'))
-      .then(function (raw) {
-        _data     = raw;
-        _stations = (raw && raw.stations) ? raw.stations : [];
-        return _data;
-      })
-      .catch(function (e) {
-        console.warn('[cdot-traffic] Failed to load SYNTHETIC_cdot_traffic_co.json:', e && e.message);
-        _data     = { stations: [] };
-        _stations = [];
-        return _data;
-      });
+    // No committed source. The synthetic fixture was deleted on 2026-09-09 and
+    // this sub-score is excluded from PMA scoring, so do NOT attempt a fetch —
+    // a request for a file that cannot exist produces console errors that fail
+    // the rendered site-audit gate. Resolve to the empty shape the consumers
+    // already handle. Restore the fetch when a real CDOT traffic source is wired in.
+    _data     = { stations: [] };
+    _stations = [];
+    return Promise.resolve(_data);
+
   }
 
   /* ── Find stations within radius ──────────────────────────────── */
