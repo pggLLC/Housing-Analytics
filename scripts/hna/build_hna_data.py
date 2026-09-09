@@ -235,6 +235,38 @@ _ACS5_DETAIL_TENURE_CACHE_KEY: tuple[int, ...] | None = None
 _ACS5_DETAIL_TENURE_LOCK = threading.Lock()
 
 
+# Census Data Profile variable numbers are NOT stable across ACS releases —
+# the same concept is renumbered when the table gains or loses rows. The ACS
+# fetch falls back 2024 -> 2023 -> 2022 when a geography is not published in
+# the newest vintage, and it was sending the 2024 numbers to every one of
+# those years. Census rejects a request containing an unknown variable
+# *wholesale*, so one stale number voided the entire batch and the geography
+# lost every core field, not one (#1567).
+#
+# Keyed by the canonical (newest-vintage) name, which is what the cache and
+# every client read. Values are the wire name for that year; the mapping is
+# the same for acs1 and acs5, verified against each vintage's variables.json.
+PROFILE_VAR_ALIASES: dict[str, dict[int, str]] = {
+    # "Estimate!!HISPANIC OR LATINO AND RACE!!Total population!!
+    #  Not Hispanic or Latino!!White alone"
+    'DP05_0096E': {2023: 'DP05_0082E', 2022: 'DP05_0079E'},
+}
+
+
+def profile_var_for_year(canonical: str, year: int) -> str:
+    """Wire name to request for *canonical* in *year* (canonical if unaliased)."""
+    return PROFILE_VAR_ALIASES.get(canonical, {}).get(year, canonical)
+
+
+def canonical_profile_var(wire: str, year: int) -> str:
+    """Inverse of profile_var_for_year, so responses key back to the canonical
+    name and the on-disk cache shape never depends on which year answered."""
+    for canon, by_year in PROFILE_VAR_ALIASES.items():
+        if by_year.get(year) == wire:
+            return canon
+    return wire
+
+
 def _fetch_acs5_detail_tenure_lookup(years_to_try: list[int]) -> dict[str, dict[str, str]]:
     """Fetch ACS5 detail-table ownership supplements for Colorado counties and places."""
     with _ACS5_DETAIL_TENURE_LOCK:
@@ -1077,7 +1109,10 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # Census API geography parameters (for= and in=).  urllib.parse.urlencode
         # encodes ':' as '%3A', which the Census API does not decode, causing it
         # to report "ambiguous geography" errors for county-level queries.
-        qs = f"get={','.join(batch_vars)}&for={for_}&in=state:{STATE_FIPS_CO}"
+        # Translate to this vintage's variable numbers — see #1567. Unaliased
+        # names pass through unchanged, so this is a no-op for 118 of 119.
+        wire_vars = [profile_var_for_year(v, year) for v in batch_vars]
+        qs = f"get={','.join(wire_vars)}&for={for_}&in=state:{STATE_FIPS_CO}"
         if key:
             qs += f"&key={urllib.parse.quote(key, safe='')}"
         return f"{base}?{qs}"
@@ -1092,7 +1127,12 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
                 if result and len(result) > 1:
                     if year != start_year:
                         print(f"ℹ ACS profile {geo_type}:{geoid} batch resolved via {series}/{endpoint} year={year}", file=sys.stderr)
-                    return {result[0][i]: result[1][i] for i in range(len(result[0]))}
+                    # Key by the canonical name so the cache shape — and every
+                    # client reading it — is identical whichever year answered.
+                    return {
+                        canonical_profile_var(result[0][i], year): result[1][i]
+                        for i in range(len(result[0]))
+                    }
         return None
 
     # Try each year from ACS_START_YEAR down, over ACS_FALLBACK_YEARS years;
