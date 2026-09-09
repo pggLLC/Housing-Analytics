@@ -202,9 +202,9 @@ Weighted composite score from up to 5 Colorado-specific data sources:
 |---|---|---|---|
 | LODES job accessibility | 25% | `data/market/lodes_co.json` | `window.LodesCommute` |
 | ACS income/education proxy | 25% | ACS tract metrics | (inline) |
-| CDLE vacancy rates | 20% | `data/market/cdle_job_postings_co.json` | `window.CdleJobs` |
-| CDE school quality | 15% | `data/market/cde_schools_co.json` | `window.CdeSchools` |
-| CDOT traffic connectivity | 15% | `data/market/cdot_traffic_co.json` | `window.CdotTraffic` |
+| CDLE vacancy rates | 20% | `data/market/SYNTHETIC_cdle_job_postings_co.json` | `window.CdleJobs` |
+| CDE school quality | 15% | `data/market/SYNTHETIC_cde_schools_co.json` | `window.CdeSchools` |
+| CDOT traffic connectivity | 15% | `data/market/SYNTHETIC_cdot_traffic_co.json` | `window.CdotTraffic` |
 
 ```
 workforceScore = lodesScore   × 0.25

@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-09T03:35:42.982360Z",
+  "generated": "2026-09-09T04:02:01.041152Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 780841
+      "bytes": 780871
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7481,6 +7481,21 @@
       "placeholder": false,
       "bytes": 14265
     },
+    "data/market/SYNTHETIC_cde_schools_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 10620
+    },
+    "data/market/SYNTHETIC_cdle_job_postings_co.json": {
+      "featureCount": 62,
+      "placeholder": false,
+      "bytes": 23720
+    },
+    "data/market/SYNTHETIC_cdot_traffic_co.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 8388
+    },
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
       "placeholder": false,
@@ -7500,21 +7515,6 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 253
-    },
-    "data/market/cde_schools_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 10620
-    },
-    "data/market/cdle_job_postings_co.json": {
-      "featureCount": 62,
-      "placeholder": false,
-      "bytes": 23720
-    },
-    "data/market/cdot_traffic_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 8388
     },
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,

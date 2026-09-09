@@ -110,9 +110,9 @@ CONNECTORS.forEach(function (c) {
 
 const DATA_FILES = [
   { path: 'data/market/lodes_co.json',            key: 'tracts',    minCount: 100 },
-  { path: 'data/market/cdle_job_postings_co.json', key: 'counties',  minCount: 60  },
-  { path: 'data/market/cde_schools_co.json',       key: 'districts', minCount: 20  },
-  { path: 'data/market/cdot_traffic_co.json',      key: 'stations',  minCount: 10  },
+  { path: 'data/market/SYNTHETIC_cdle_job_postings_co.json', key: 'counties',  minCount: 60  },
+  { path: 'data/market/SYNTHETIC_cde_schools_co.json',       key: 'districts', minCount: 20  },
+  { path: 'data/market/SYNTHETIC_cdot_traffic_co.json',      key: 'stations',  minCount: 10  },
 ];
 
 DATA_FILES.forEach(function (d) {
