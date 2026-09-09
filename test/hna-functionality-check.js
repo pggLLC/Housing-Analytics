@@ -403,6 +403,25 @@ test('HTML: hna-export.js script tag is present', () => {
     assert(html.includes('js/hna/hna-export.js') || html.includes('js/hna-export.js'), 'housing-needs-assessment.html loads hna-export.js');
 });
 
+test('HTML: native-print PDF fallback loads the shared print stylesheet', () => {
+    assert(
+        html.includes('<link rel="stylesheet" href="css/print.css" media="print">'),
+        'housing-needs-assessment.html loads css/print.css for print media'
+    );
+});
+
+test('hna-export.js: structured PDF remains primary and screenshot export remains fallback-only', () => {
+    const modularExportJs = fs.readFileSync(path.join(ROOT, 'js', 'hna', 'hna-export.js'), 'utf8');
+    assert(
+        /window\.__HNA_exportPdf\s*=\s*exportStructuredPdf\s*;/.test(modularExportJs),
+        'window.__HNA_exportPdf remains bound to exportStructuredPdf'
+    );
+    assert(
+        /window\.__HNA_exportPdfScreenshot\s*=\s*exportPdf\s*;/.test(modularExportJs),
+        'html2canvas export remains separately bound as the screenshot fallback'
+    );
+});
+
 test('HTML: hna-export.js loads before hna-controller.js', () => {
     // Accept both the legacy root path and the new modular path
     const exportIdx = html.includes('js/hna/hna-export.js')
