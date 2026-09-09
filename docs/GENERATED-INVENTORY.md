@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T19:46:23.407Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T21:01:32.251Z. Do not edit by hand.
 
 ---
 
@@ -131,7 +131,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.19 MB | ✅ | — |
-| `data/glossary.json` | 13.6 KB | ✅ | — |
+| `data/glossary.json` | 20.7 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
@@ -1655,12 +1655,13 @@
 
 ## Test Files
 
-300 test files found.
+302 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
 | `test/acs-etl.test.js` | 25.3 KB |
+| `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
@@ -1711,6 +1712,7 @@
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
+| `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 1.3 KB |
@@ -1937,7 +1939,7 @@
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
-| `tests/test_build_hna_data_concurrency.py` | 6.0 KB |
+| `tests/test_build_hna_data_concurrency.py` | 6.7 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
