@@ -63,12 +63,40 @@
     ami4person: "HUD Area Median Income for a 4-person household in this geography (FY 2025 Income Limits)."
   };
 
-  function addTooltip(el, text) {
-    if (!el) return;
+  function addTooltip(target, text) {
+    const el = typeof target === "string" ? $(target) : target;
+    if (!el) {
+      console.warn(`[CoAmiGap] Tooltip target not found: ${String(target)}`);
+      return null;
+    }
+    if (!el.id) {
+      console.warn("[CoAmiGap] Tooltip target requires an id for its accessible description.");
+      return el;
+    }
+
+    const tipId = `tip-${el.id}`;
+    let tip = document.getElementById(tipId);
+    if (!tip) {
+      tip = document.createElement("span");
+      tip.id = tipId;
+      tip.className = "sr-only";
+      el.insertAdjacentElement("afterend", tip);
+    }
+    tip.textContent = text;
     el.setAttribute("title", text);
-    if (el.id) el.setAttribute("aria-describedby", `tip-${el.id}`);
+    el.setAttribute("aria-describedby", tipId);
     el.style.cursor = "help";
     el.style.borderBottom = "1px dotted currentColor";
+    return el;
+  }
+
+  function renderAvailabilityCaveat() {
+    const el = $("#amiGapAvailabilityCaveat");
+    if (!el) {
+      console.warn("[CoAmiGap] Availability caveat target not found: #amiGapAvailabilityCaveat");
+      return;
+    }
+    el.textContent = TOOLTIPS.units;
   }
 
   function renderMetadata(meta) {
@@ -114,22 +142,21 @@
     const last = String(bands[bands.length - 1]);
 
     const ami4 = item.ami_4person;
-    const ami4El = $("#amiGapAmi4");
+    const ami4El = addTooltip("#amiGapAmi4", TOOLTIPS.ami4person);
     if (ami4El) {
       ami4El.textContent = ami4 ? `$${fmt(ami4)}` : "—";
-      addTooltip(ami4El, TOOLTIPS.ami4person);
     }
 
     const hh = item.households_le_ami_pct?.[last];
     const un = item.units_priced_affordable_le_ami_pct?.[last];
     const cov = item.coverage_le_ami_pct?.[last];
 
-    const hhEl = $("#amiGapHouseholds100");
-    const unEl = $("#amiGapUnits100");
-    const covEl = $("#amiGapCoverage100");
-    if (hhEl) { hhEl.textContent = fmt(hh); addTooltip(hhEl, TOOLTIPS.households); }
-    if (unEl) { unEl.textContent = fmt(un); addTooltip(unEl, TOOLTIPS.units); }
-    if (covEl) { covEl.textContent = fmtPct(cov); addTooltip(covEl, TOOLTIPS.coverage); }
+    const hhEl = addTooltip("#amiGapHouseholds100", TOOLTIPS.households);
+    const unEl = addTooltip("#amiGapUnits100", TOOLTIPS.units);
+    const covEl = addTooltip("#amiGapCoverage100", TOOLTIPS.coverage);
+    if (hhEl) hhEl.textContent = fmt(hh);
+    if (unEl) unEl.textContent = fmt(un);
+    if (covEl) covEl.textContent = fmtPct(cov);
 
     /* Color-code coverage: < 0.5 = bad, 0.5-0.8 = warn, >= 0.8 = ok */
     if (covEl && cov != null) {
@@ -227,7 +254,7 @@
     if (!ctx || !window.Chart) return;
 
     ctx.setAttribute("role", "img");
-    ctx.setAttribute("aria-label", "Bar chart comparing households and affordable units by AMI band");
+    ctx.setAttribute("aria-label", "Bar chart comparing households and priced-affordable units by AMI band");
 
     const hhs = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const uns = getSeries(item.units_priced_affordable_le_ami_pct, bands).map(v => (v == null ? 0 : v));
@@ -253,7 +280,7 @@
             borderRadius: 4
           },
           {
-            label: "Affordable Units",
+            label: "Priced-Affordable Units",
             data: uns,
             backgroundColor: "rgba(34, 163, 111, 0.70)",
             borderColor: "rgba(34, 163, 111, 1)",
@@ -306,7 +333,7 @@
     if (!ctx || !window.Chart) return;
 
     ctx.setAttribute("role", "img");
-    ctx.setAttribute("aria-label", "Dual-axis chart: affordability gap bars with households and units trend lines");
+    ctx.setAttribute("aria-label", "Dual-axis chart: affordability gap bars with households and priced-affordable unit trend lines");
 
     const gaps = getSeries(item.gap_units_minus_households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
     const hhs  = getSeries(item.households_le_ami_pct, bands).map(v => (v == null ? 0 : v));
@@ -347,7 +374,7 @@
             order: 1
           },
           {
-            label: "Affordable Units",
+            label: "Priced-Affordable Units",
             data: uns,
             type: "line",
             borderColor: "rgba(34,163,111,.85)",
@@ -453,6 +480,8 @@
   async function init() {
     const root = $("#amiGapModule");
     if (!root) return;
+
+    renderAvailabilityCaveat();
 
     const endpoint = pickEndpoint();
     const epEl = $("#amiGapEndpoint");
