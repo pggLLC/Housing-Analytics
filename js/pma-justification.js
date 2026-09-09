@@ -206,11 +206,20 @@
 
     // Schools
     var s = scoreRun.schools || {};
-    if (s.schoolDistrictsAligned > 0) {
+    var schoolsAligned = toNum(s.schoolsAligned || s.schoolDistrictsAligned);
+    if (schoolsAligned > 0) {
+      // These are schools, not attendance-boundary districts — the previous
+      // source returned school points and labelled them districts (#1541).
+      // Performance is stated only when a performance source actually supplied
+      // it; "a score of N/A out of 100" is not a sentence worth printing, and a
+      // number in its place would be invented.
+      var perf = (s.averagePerformanceScore === null || s.averagePerformanceScore === undefined)
+        ? ' School performance is not scored: ' +
+          (s.performanceUnavailableReason || 'no performance source is wired in.')
+        : ' Average performance score across them is ' + s.averagePerformanceScore + ' out of 100.';
       parts.push(
-        'The PMA boundary aligns with ' + s.schoolDistrictsAligned + ' school district(s), ' +
-        'with an average performance score of ' + (s.averagePerformanceScore || 'N/A') + ' out of 100, ' +
-        'supporting family-oriented demand for affordable housing in this area.'
+        'The PMA boundary contains ' + schoolsAligned + ' school(s),' +
+        ' supporting family-oriented demand for affordable housing in this area.' + perf
       );
     }
 
@@ -292,7 +301,7 @@
       component_weights: {
         commuting:    'LEHD/LODES ' + (scoreRun.lodes_vintage || LODES_VINTAGE),
         barriers:     'USGS NHD + NLCD',
-        schools:      'ED Attendance Boundaries + NCES',
+        schools:      'NCES CCD School Locations 2021-22 (locations only; no performance measure)',
         transit:      'NTD + EPA Smart Location',
         opportunities: 'OZ + HUD AFFH + Opportunity Atlas',
         infrastructure: 'FEMA + NOAA + USDA Food Atlas'
@@ -349,7 +358,7 @@
   function _assessDataQuality(commuting, schools, transit, opps, infra) {
     var present = 0, total = 5;
     if (commuting && (toNum(commuting.lodesWorkplaces || commuting.captureRate) > 0)) present++;
-    if (schools   && toNum(schools.schoolDistrictsAligned)   > 0) present++;
+    if (schools   && toNum(schools.schoolsAligned || schools.schoolDistrictsAligned) > 0) present++;
     if (transit   && toNum(transit.transitAccessibilityScore) > 0) present++;
     if (opps      && (toNum(opps.opportunityZoneShare) > 0 || toNum(opps.fairHousingScore) > 0)) present++;
     if (infra     && toNum(infra.compositeScore)       > 0) present++;

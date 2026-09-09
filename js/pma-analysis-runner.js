@@ -238,7 +238,15 @@
       var schoolsP = (pmaSchools && ds)
         ? ds.fetchSchoolBoundaries(bbox)
             .then(function (schoolData) {
-              var alignment = pmaSchools.alignPMAWithSchools(results.boundary || null, schoolData.schoolDistricts || []);
+              // `schools` is the real list now (NCES points); `schoolDistricts` is
+              // empty because no attendance-boundary source is wired in. The old
+              // code read schoolDistricts, which the dead endpoint had filled with
+              // the same points under a wrong name (#1541).
+              var alignment = pmaSchools.alignPMAWithSchools(
+                results.boundary || null,
+                (schoolData.schools && schoolData.schools.length)
+                  ? schoolData.schools
+                  : (schoolData.schoolDistricts || []));
               results.schools = pmaSchools.getSchoolJustification();
               progress('schools', 'Aligning school boundaries…');
               return alignment;
