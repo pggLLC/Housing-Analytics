@@ -8,6 +8,7 @@
  */
 (function () {
   'use strict';
+  var moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('./utils/format-money.js') : null);
 
   var DATA_URL = 'data/pipeline/content.json';
 
@@ -31,10 +32,7 @@
     return n;
   }
 
-  function fmtMoney(n) {
-    if (n == null) return '—';
-    return '$' + Number(n).toLocaleString('en-US', { maximumFractionDigits: 0 });
-  }
+  var fmtMoney = moneyFormatter.formatMoney;
 
   // ─── renderers ────────────────────────────────────────────────
   function renderHero(c) {

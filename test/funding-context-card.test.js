@@ -109,6 +109,7 @@ assert(dealRenderWindow.includes('function _renderFundingContextCard'), 'Deal fu
   const w = behaviorDom.window;
   w.eval(scoringSrc);
   w.eval(fs.readFileSync(path.join(root, 'js', 'provenance-label.js'), 'utf8'));
+  w.eval(fs.readFileSync(path.join(root, 'js', 'utils', 'format-money.js'), 'utf8'));
   w.eval(fs.readFileSync(path.join(root, 'js', 'components', 'funding-context-card.js'), 'utf8'));
   w.__softFundingStatus = softFunding;
   const before = JSON.stringify({

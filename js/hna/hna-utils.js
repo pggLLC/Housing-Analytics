@@ -289,11 +289,9 @@
     if (v === -666666666) return '—';
     return v.toLocaleString(undefined,{maximumFractionDigits:0});
   }
+  const moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('../utils/format-money.js') : null);
   function fmtMoney(n){
-    if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
-    const v = Number(n);
-    if (v === -666666666) return '—';
-    return v.toLocaleString(undefined,{style:'currency',currency:'USD',maximumFractionDigits:0});
+    return moneyFormatter.formatMoney(n);
   }
   function fmtPct(n){
     if (n === null || n === undefined || n === '' || Number.isNaN(Number(n))) return '—';
@@ -359,7 +357,7 @@
   function safeNum(v){
     if (v === null || v === '') return null;
     const n = Number(v);
-    return Number.isFinite(n) ? n : null;
+    return Number.isFinite(n) && n !== moneyFormatter.ACS_NOT_AVAILABLE ? n : null;
   }
 
 

@@ -313,6 +313,7 @@ test('C2: deal-calculator.js prefers the shared engine in its resolution chain',
 function loadHnaUtils(withEngine) {
   const src = fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8');
   const win = withEngine ? { OwnershipFinance: engine } : {};
+  win.MoneyFormatter = require('../js/utils/format-money.js');
   const documentStub = {
     readyState: 'complete',
     getElementById: () => null,

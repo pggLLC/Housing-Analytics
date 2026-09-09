@@ -178,7 +178,7 @@
     "audit:coverage": "node scripts/coverage-audit.js",
     "audit:coverage:strict": "node scripts/coverage-audit.js --strict",
     "audit:data-sources": "python3 scripts/check-data-source-health.py --fail-on-error",
-    "test:semantic-labels": "node test/semantic-label-guard.test.js",
+    "test:semantic-labels": "node test/semantic-label-guard.test.js && node test/shared-money-format.test.js",
     "test:pages-deploy-watchdog": "node test/pages-deploy-watchdog.test.js",
     "test:local-resources-discovery": "node test/local-resources-discovery.test.js",
     "test:opportunity-finder-verifier-source": "node test/opportunity-finder-verifier-source.test.mjs",

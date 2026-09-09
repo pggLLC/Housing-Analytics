@@ -29,6 +29,7 @@ function loadUtils() {
     runScripts: 'outside-only',
     url: 'http://127.0.0.1/housing-needs-assessment.html',
   });
+  dom.window.eval(fs.readFileSync(path.join(ROOT, 'js/utils/format-money.js'), 'utf8'));
   dom.window.eval(fs.readFileSync(path.join(ROOT, 'js/hna/hna-utils.js'), 'utf8'));
   const U = dom.window.HNAUtils || dom.window.HnaUtils || dom.window.HNA_UTILS;
   assert(U, 'hna-utils must expose its API on window');

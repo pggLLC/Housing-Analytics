@@ -18,6 +18,7 @@
  */
 (function () {
   'use strict';
+  var moneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('../utils/format-money.js') : null);
 
   /** @type {Array.<Object>} Loaded county records. */
   var _counties = [];
@@ -53,8 +54,7 @@
    * @returns {string}
    */
   function fmtDollar(n) {
-    if (n === null || n === undefined || !isFinite(n)) return '—';
-    return '$' + Math.round(n).toLocaleString();
+    return moneyFormatter.formatMoney(n);
   }
 
   /**
