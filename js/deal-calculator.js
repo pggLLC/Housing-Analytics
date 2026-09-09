@@ -29,6 +29,12 @@
   var _pabMeta = null;      // F25: PAB allocations metadata
   var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
   var MIDDLE_INCOME_AMI_BANDS = { 110: true, 120: true };
+  // Bedroom types offered in the per-tier unit split. Studio was historically
+  // absent here while being present in the tier <select>, in _amiLimitsByBr,
+  // and in getZoriPerBrRent -- so a studio rent limit was displayed but studio
+  // units could not be entered. Kept as one constant because the previous
+  // duplicate literal appeared at six call sites and drifted.
+  var SPLIT_BR_TYPES = ['studio', '1br', '2br', '3br', '4br'];
   // Q5: Zillow ZORI market-rent index (smoothed, seasonally-adjusted, monthly).
   // Used for the "achievable-rent cap" toggle that under-writes 70%-120% AMI
   // units at min(planning ceiling, market rent) in weak markets where higher-AMI
@@ -1168,8 +1174,8 @@
                 style="padding:0.35rem 0.4rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
                 ${brOptions}
               </select>
-              <div style="grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0.35rem;padding:0.2rem 0 0.35rem;">
-                ${['1br', '2br', '3br', '4br'].map(function (br) {
+              <div style="grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:0.35rem;padding:0.2rem 0 0.35rem;">
+                ${SPLIT_BR_TYPES.map(function (br) {
                   return '<label style="display:block;">' +
                     '<span style="display:block;font-size:var(--tiny);color:var(--muted);margin-bottom:0.12rem;text-transform:uppercase;letter-spacing:.04em;">' + br + ' units</span>' +
                     '<input id="dc-units-' + pct + '-' + br + '" type="number" min="0" step="1" value="0" aria-label="' + br + ' units at ' + pct + '% AMI" ' +
@@ -1670,10 +1676,10 @@
           <div style="margin-bottom:var(--sp3);">
             <strong style="display:block;margin-bottom:0.25rem;">7. Sources &amp; Uses gap</strong>
             <code style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.82rem;background:var(--card);padding:0.15rem 0.45rem;border-radius:3px;display:inline-block;">
-              gap = TDC − equity − supportable_mortgage − deferred_dev_fee − impact_fee_grant
+              gap = TDC − equity − supportable_mortgage − deferred_dev_fee − soft_sources
             </code>
             <p style="font-size:var(--tiny);color:var(--muted);margin:0.4rem 0 0;">
-              Whatever's left after equity, perm debt, deferred fee, and grants. Bridged by soft-funding, subordinate loans, or developer contribution.
+              Whatever's left after equity, perm debt, and deferred fee. Bridged by the tranches you enter under &ldquo;Soft Funding Stack&rdquo;. Each tranche is either a <strong>loan</strong> (amortized and repayable, so it carries debt service) or a <strong>grant</strong> (which reduces eligible basis under &sect;42(d)(5)(A)). An impact-fee <em>waiver</em> is a grant; an impact-fee <em>deferral</em> is a loan &mdash; enter it as one, with its rate and term, or the model will treat repayable money as free.
             </p>
           </div>
 
@@ -2245,7 +2251,7 @@
     ];
     DEAL_AMI_BANDS.forEach(function (pct) {
       ids.push('dc-chk-' + pct, 'dc-units-' + pct, 'dc-br-' + pct);
-      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+      SPLIT_BR_TYPES.forEach(function (br) {
         ids.push('dc-units-' + pct + '-' + br);
       });
     });
@@ -2711,8 +2717,9 @@
       return isFinite(n) && n > 0 ? n : 0;
     }
     function _tierSplitCounts(pct) {
-      var out = { '1br': 0, '2br': 0, '3br': 0, '4br': 0, total: 0 };
-      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+      var out = { total: 0 };
+      SPLIT_BR_TYPES.forEach(function (b) { out[b] = 0; });
+      SPLIT_BR_TYPES.forEach(function (br) {
         var el = document.getElementById('dc-units-' + pct + '-' + br);
         var n = _nonNegInt(el && el.value);
         out[br] = n;
@@ -2731,7 +2738,7 @@
         var br = (brSel && brSel.value) || '2br';
         if (chk.checked) {
           if (hasSplit) {
-            ['1br', '2br', '3br', '4br'].forEach(function (splitBr) {
+            SPLIT_BR_TYPES.forEach(function (splitBr) {
               var splitUnits = split[splitBr];
               if (!splitUnits) return;
               var splitRent = 0;
@@ -3823,7 +3830,7 @@
       var inp = document.getElementById('dc-units-' + pct);
       if (chk) chk.checked = units > 0;
       if (inp) inp.value = String(units);
-      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+      SPLIT_BR_TYPES.forEach(function (br) {
         var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
         if (splitInp) splitInp.value = '0';
       });
@@ -3836,7 +3843,7 @@
     [30, 40, 50, 60].forEach(function (pct) {
       var inp = document.getElementById('dc-units-' + pct);
       if (inp) inp.dispatchEvent(new Event('input', { bubbles: true }));
-      ['1br', '2br', '3br', '4br'].forEach(function (br) {
+      SPLIT_BR_TYPES.forEach(function (br) {
         var splitInp = document.getElementById('dc-units-' + pct + '-' + br);
         if (splitInp) splitInp.dispatchEvent(new Event('input', { bubbles: true }));
       });
