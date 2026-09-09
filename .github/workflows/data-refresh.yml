@@ -2,7 +2,7 @@ name: Data Refresh Pipeline
 
 on:
   schedule:
-    - cron: '0 7 * * *'   # daily at 07:00 UTC (after individual source workflows)
+    - cron: '23 6 * * *'   # daily 06:23 UTC (after the individual source workflows)
   workflow_dispatch:
 
 permissions:

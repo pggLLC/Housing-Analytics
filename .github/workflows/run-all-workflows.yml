@@ -2,7 +2,7 @@ name: Run All Data Workflows
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # Every Sunday at midnight UTC
+    - cron: '43 0 * * 0'   # Sundays 00:43 UTC
   workflow_dispatch:
 
 permissions:

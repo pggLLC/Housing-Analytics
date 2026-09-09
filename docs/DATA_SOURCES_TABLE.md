@@ -19,7 +19,7 @@ its current status.
 
 | File | Records | Source API / Service | CI Workflow | Secret Required | Fallback Strategy | Status |
 |------|---------|----------------------|-------------|-----------------|-------------------|--------|
-| `data/chfa-lihtc.json` | **926** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Mon 05:00 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ✅ 926 features through 2025 |
+| `data/chfa-lihtc.json` | **926** | CHFA ArcGIS FeatureServer (public) | `fetch-chfa-lihtc.yml` (Sun 05:49 UTC) + `deploy.yml` on every push | None — public API | 1. Local file → 2. CHFA ArcGIS → 3. HUD ArcGIS → 4. 14 embedded projects | ✅ 926 features through 2025 |
 | `data/qct-colorado.json` | **224** | HUD ArcGIS `Qualified_Census_Tracts_2026` (public) | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 27 embedded polygons | ✅ Populated |
 | `data/dda-colorado.json` | **10** (Colorado county-level DDAs) | HUD ArcGIS `Difficult_Development_Areas_2026` (public), normalised by `scripts/normalize-dda.js` | `cache-hud-gis-data.yml` (Mon 04:00 UTC) | None — public API | Local file → live API → GitHub Pages backup → 10 embedded polygons | ✅ Populated |
 | `data/hna/lihtc/*.json` | 64 files (one per CO county) | HUD ArcGIS `LIHTC_Properties` (public) | `generate-housing-data.yml` (Mon 06:00 UTC) | None — public API | County file → statewide `chfa-lihtc.json` → CHFA ArcGIS → HUD ArcGIS → embedded | ✅ 64 county files present |
@@ -37,7 +37,7 @@ its current status.
 |------|---------|----------------------|-------------|-----------------|-----------------|--------|
 | `data/fred-data.json` | 45 FRED series (macro/housing) | FRED REST API (`api.stlouisfed.org`) | `fetch-fred-data.yml` (daily 06:00 UTC) | `FRED_API_KEY` (**required**) | Daily | ✅ Updated 2026-03-02 |
 | `data/census-acs-state.json` | 52 states + DC (ACS 5-yr estimates) | Census API (`api.census.gov/data/{year}/acs/acs5`) | `fetch-census-acs.yml` (daily 06:30 UTC) | `CENSUS_API_KEY` (**required**) | Daily | ✅ Updated 2026-03-02 |
-| `data/co_ami_gap_by_county.json` | 64 CO counties | Derived from ACS + HUD AMI data | `build-hna-data.yml` (Mon 06:30 UTC) | `CENSUS_API_KEY` | Weekly | ✅ Present |
+| `data/co_ami_gap_by_county.json` | 64 CO counties | Derived from ACS + HUD AMI data | `build-hna-data.yml` (Sat 07:23 UTC) | `CENSUS_API_KEY` | Weekly | ✅ Present |
 | `data/allocations.json` | LIHTC state-level allocations | HUD LIHTC database (public) | `fetch-lihtc-data.yml` | None | Weekly | ✅ Present |
 | `data/car-market-report-*.json` | CAR monthly market reports | Colorado Association of Realtors (manual/script) | `car-data-update.yml` (manual) | None | Monthly (manual trigger) | ✅ Feb + Mar 2026 present |
 | `data/prop123_jurisdictions.json` | Colorado Prop 123 jurisdictions | CDOLA commitment-filings portal | None — manually maintained | None | Ad-hoc | ✅ Present (2025-01-15) |
@@ -52,7 +52,7 @@ page load quickly without hitting live APIs for every page view.
 
 | Directory / File | Records | Source | CI Workflow | Secret Required | Status |
 |------------------|---------|--------|-------------|-----------------|--------|
-| `data/hna/summary/{geoid}.json` | 544 files (all CO counties + places) | ACS 5-yr + LEHD + DOLA | `build-hna-data.yml` (Mon 06:30 UTC) | `CENSUS_API_KEY` | ✅ 544 files |
+| `data/hna/summary/{geoid}.json` | 544 files (all CO counties + places) | ACS 5-yr + LEHD + DOLA | `build-hna-data.yml` (Sat 07:23 UTC) | `CENSUS_API_KEY` | ✅ 544 files |
 | `data/hna/lihtc/{countyFips5}.json` | 64 files (one per CO county) | HUD ArcGIS LIHTC | `generate-housing-data.yml` (Mon 06:00 UTC) | None | ✅ 64 files |
 | `data/hna/lehd/{geoid}.json` | 64 files | LEHD/LODES (Census Bureau) | `build-hna-data.yml` | None — public | ✅ 64 files |
 | `data/hna/projections/{countyFips5}.json` | CO county population projections | DOLA State Demographer | `build-hna-data.yml` | None | ✅ Present |

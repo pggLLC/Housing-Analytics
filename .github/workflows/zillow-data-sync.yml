@@ -2,7 +2,7 @@ name: Weekly Market Data Sync (Bridge + Zillow Research)
 
 on:
   schedule:
-    - cron: '30 2 * * 1'  # Every Monday 2:30 AM UTC
+    - cron: '53 5 * * 6'   # Saturdays 05:53 UTC (lands ~02:00 MT)
   workflow_dispatch:        # Manual trigger
 
 concurrency:

@@ -2,7 +2,7 @@ name: Update CO Housing Costs Data
 
 on:
   schedule:
-    - cron: '15 10 2 * *'   # 2nd of each month at 10:15 UTC
+    - cron: '47 7 2 * *'   # 2nd of each month, 07:47 UTC
   workflow_dispatch:
 
 permissions:

@@ -14,7 +14,7 @@ name: Fetch HMDA Data
 
 on:
   schedule:
-    - cron: '15 4 5 * *'  # monthly on the 5th at 04:15 UTC
+    - cron: '11 5 5 * *'   # 5th of each month, 05:11 UTC
   workflow_dispatch:
 
 permissions:

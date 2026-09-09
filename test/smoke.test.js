@@ -150,7 +150,12 @@ test('fetch-helper.js exposes resolveAssetUrl and safeFetchJSON', () => {
 test('.github/workflows/car-data-update.yml has monthly schedule', () => {
   const wf = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'car-data-update.yml'), 'utf8');
   assert(wf.includes('schedule:'),      'car-data-update.yml has schedule trigger');
-  assert(wf.includes('15 4 1 * *'),     'schedule is 1st of month at 04:15 UTC');
+  // Assert the cadence this test is named for, not a magic minute. Pinning the
+  // exact string made every reschedule a failure while guarding nothing about
+  // monthliness — it broke on #1555 for a move from 04:15 to 04:47.
+  const cron = (wf.match(/- cron:\s*["']([^"']+)["']/) || [])[1] || '';
+  assert(/^\d+ \d+ 1 \* \*$/.test(cron),
+    `schedule runs monthly on the 1st (found "${cron}")`);
   assert(wf.includes('workflow_dispatch'), 'manual trigger is preserved');
 });
 

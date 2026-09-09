@@ -2,7 +2,7 @@ name: Build HNA Data Cache
 
 on:
   schedule:
-    - cron: '30 6 * * 1'  # Mondays 06:30 UTC
+    - cron: '23 7 * * 6'   # Saturdays 07:23 UTC (~36 min build; lands well before Monday)
   workflow_dispatch:
     inputs:
       statewide_only:

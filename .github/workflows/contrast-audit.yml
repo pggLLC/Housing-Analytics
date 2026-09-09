@@ -2,7 +2,7 @@ name: Site-Wide WCAG Contrast Audit
 
 on:
   schedule:
-    - cron: '0 2 * * 0'   # Every Sunday at 2 AM UTC
+    - cron: '41 2 * * 0'   # Sundays 02:41 UTC
   push:
     branches: [ main ]
   pull_request:

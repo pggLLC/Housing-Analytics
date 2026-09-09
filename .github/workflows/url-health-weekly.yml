@@ -1,7 +1,7 @@
 name: URL Health — Weekly Sweep
 
 # F14 (2026-05-26): periodic URL health monitor distinct from the PR-time
-# source-url-sweep. Runs every Monday morning UTC, sweeps every external
+# source-url-sweep. Runs every Friday morning UTC, sweeps every external
 # URL referenced in:
 #   - data/hna/local-resources.json + data/policy/*.json
 #   - all root-level *.html anchor hrefs
@@ -15,7 +15,7 @@ name: URL Health — Weekly Sweep
 
 on:
   schedule:
-    - cron: '0 06 * * 1'   # Mondays 06:00 UTC
+    - cron: '7 6 * * 5'   # Fridays 06:07 UTC
   workflow_dispatch:        # manual trigger from Actions tab
 
 permissions:

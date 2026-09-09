@@ -11,7 +11,7 @@ name: Backfill HNA Extended ACS Cache
 
 "on":
   schedule:
-    - cron: '35 7 1 */3 *'   # 07:35 UTC on the 1st of Jan/Apr/Jul/Oct
+    - cron: '41 7 1 */3 *'   # 07:41 UTC on the 1st of Jan/Apr/Jul/Oct
   workflow_dispatch:
     inputs:
       dry_run:

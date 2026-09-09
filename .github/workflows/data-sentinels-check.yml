@@ -16,9 +16,9 @@ name: Data Sentinels Check
 
 on:
   schedule:
-    # Daily at 16:30 UTC, 30 min after the freshness check, so the two
+    # Daily at 16:37 UTC, 30 min after the freshness check, so the two
     # pipeline-health signals arrive in sequence rather than overlapping.
-    - cron: '30 16 * * *'
+    - cron: '37 16 * * *'   # daily 16:37 UTC (30 min after the freshness check)
   push:
     branches: ['main']
     paths:

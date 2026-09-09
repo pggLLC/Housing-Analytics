@@ -12,7 +12,7 @@ name: Fetch CDPHE County Boundaries
 
 on:
   schedule:
-    - cron: '0 3 1 * *'   # 1st of each month, 03:00 UTC
+    - cron: '29 3 1 * *'   # 1st of each month, 03:29 UTC
   workflow_dispatch:
 
 permissions:

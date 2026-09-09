@@ -10,7 +10,7 @@ name: Refresh State Trend Analysis (annual)
 
 on:
   schedule:
-    - cron: '0 8 5 2 *'     # 08:00 UTC on Feb 5 (annually)
+    - cron: '23 8 5 2 *'   # 08:23 UTC on 5 February (annual)
   workflow_dispatch:
 
 permissions:

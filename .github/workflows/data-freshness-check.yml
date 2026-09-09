@@ -15,8 +15,8 @@ name: Data Freshness Check
 
 on:
   schedule:
-    # Daily at 16:00 UTC = 10:00 America/Denver in daylight time.
-    - cron: '0 16 * * *'
+    # Daily at 16:07 UTC = 10:07 America/Denver in daylight time.
+    - cron: '7 16 * * *'   # daily 16:07 UTC
   push:
     branches: ['main']
     paths:

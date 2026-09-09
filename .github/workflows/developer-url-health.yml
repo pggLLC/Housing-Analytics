@@ -6,8 +6,8 @@ name: a developer URL Health Monitor
 
 on:
   schedule:
-    # Mondays at 8am MT (15:00 UTC). Same cadence as the F14 site-wide monitor.
-    - cron: '0 15 * * 1'
+    # Fridays 06:37 UTC, the same day as the F14 site-wide monitor.
+    - cron: '37 6 * * 5'   # Fridays 06:37 UTC (same day as the F14 site-wide monitor)
   workflow_dispatch:
 
 permissions:

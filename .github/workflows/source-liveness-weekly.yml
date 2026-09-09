@@ -2,7 +2,7 @@ name: Weekly source liveness
 
 on:
   schedule:
-    - cron: "0 14 * * 0"
+    - cron: "31 14 * * 0"   # Sundays 14:31 UTC
   workflow_dispatch:
 
 permissions:
