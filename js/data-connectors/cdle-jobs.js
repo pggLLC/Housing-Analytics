@@ -1,20 +1,21 @@
 /**
- * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Labor and Employment extract.
+ * NO DATA SOURCE — this connector is dormant.
  *
- * data/market/SYNTHETIC_cdle_job_postings_co.json declares itself
- * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
- * The file was renamed from cdle_job_postings_co.json so that its status is
- * visible at every call site rather than only to someone who opens meta.note
- * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
- * so that real data can be dropped in without rewriting the consumer.
+ * It previously read a synthetic fixture that was never a real Colorado Department of Labor and Employment
+ * extract. That fixture carried part of the PMA workforce composite until
+ * #1562 excluded it, and was deleted on 2026-09-09.
  *
- * Do not re-enable the sub-score until the backing file is a real extract.
+ * loadMetrics() resolves to the empty shape WITHOUT a network request. Do not
+ * restore a fetch until a real source exists — requesting a file that cannot
+ * exist produces console errors that fail the rendered site-audit gate.
+ *
+ * Real source when someone wires it up: CDLE Labor Market Information.
  */
 /**
  * js/data-connectors/cdle-jobs.js
  * Colorado Department of Labor and Employment (CDLE) job vacancy accessor.
  *
- * Data source: data/market/SYNTHETIC_cdle_job_postings_co.json
+ * Data source: (no committed data file — the synthetic fixture was deleted 2026-09-09)
  * Real data: https://www.colmigateway.com/
  *
  * Exposed as window.CdleJobs.
@@ -34,20 +35,15 @@
 
   /* ── Load data ──────────────────────────────────────────────── */
   function loadMetrics() {
-    var DS = window.DataService;
-    if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/SYNTHETIC_cdle_job_postings_co.json'))
-      .then(function (raw) {
-        _data = raw;
-        _idx  = _buildIndex((raw && raw.counties) ? raw.counties : []);
-        return _data;
-      })
-      .catch(function (e) {
-        console.warn('[cdle-jobs] Failed to load SYNTHETIC_cdle_job_postings_co.json:', e && e.message);
-        _data = { counties: [] };
-        _idx  = {};
-        return _data;
-      });
+    // No committed source. The synthetic fixture was deleted on 2026-09-09 and
+    // this sub-score is excluded from PMA scoring, so do NOT attempt a fetch —
+    // a request for a file that cannot exist produces console errors that fail
+    // the rendered site-audit gate. Resolve to the empty shape the consumers
+    // already handle. Restore the fetch when a real CDLE labor-market source is wired in.
+    _data     = { counties: [] };
+    _idx      = {};
+    return Promise.resolve(_data);
+
   }
 
   /* ── Get county record ─────────────────────────────────────── */
