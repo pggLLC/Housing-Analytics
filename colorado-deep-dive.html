@@ -707,12 +707,12 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Colorado Housing Need by AMI Level</h3>
-<p class="chart-subtitle">Estimated households vs. available units</p>
+<p class="chart-subtitle">Estimated households vs. priced-affordable units</p>
 </div>
 <div style="height: 300px; position: relative;">
-<canvas id="ami-need-chart" role="img" aria-label="Bar chart: Colorado housing need versus available affordable units by AMI level"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+<canvas id="ami-need-chart" role="img" aria-label="Bar chart: Colorado housing need versus priced-affordable renter-occupied units by AMI level" aria-describedby="amiGapAvailabilityCaveat"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
 </div>
-<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a> · <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS B25063</a> | Units: households &amp; affordable units by AMI band</p>
+<p class="chart-source">Source: <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener">HUD FY2025 Income Limits</a> · <a href="https://www.census.gov/programs-surveys/acs/" target="_blank" rel="noopener">ACS B25063</a> | Units: households &amp; priced-affordable units by AMI band</p>
 </div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
@@ -769,14 +769,14 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </div>
 <!-- ══════════════════════════════════════════════════════════════
-     Colorado AMI Households vs Available Units — Interactive
+     Colorado AMI Households vs Priced-Affordable Units — Interactive
      Powered by js/co-ami-gap.js + data/co_ami_gap_by_county.json
      ══════════════════════════════════════════════════════════════ -->
-<section id="amiGapModule" aria-label="Colorado AMI Households vs Available Units" style="margin: 2rem 0;">
+<section id="amiGapModule" aria-label="Colorado AMI Households vs Priced-Affordable Units" aria-describedby="amiGapAvailabilityCaveat" style="margin: 2rem 0;">
 
   <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.75rem; margin-bottom:1rem;">
     <div>
-      <h2 style="margin:0 0 .2rem;">Colorado AMI Households vs Available Units</h2>
+      <h2 style="margin:0 0 .2rem;">Colorado AMI Households vs Priced-Affordable Units</h2>
       <p style="margin:0; color:var(--muted); font-size:.88rem;">
         Affordability gap by AMI level — households at or below income threshold vs. priced-affordable rental units
       </p>
@@ -794,6 +794,8 @@ document.addEventListener('DOMContentLoaded', function () {
       </button>
     </div>
   </div>
+
+  <p id="amiGapAvailabilityCaveat" style="margin:0 0 1rem; padding:.75rem 1rem; border-left:3px solid var(--warn); background:var(--bg2); color:var(--muted); font-size:.85rem; line-height:1.55;"></p>
 
   <!-- Error banner -->
   <div id="amiGapError" role="alert" style="display:none; padding:.75rem 1rem; margin-bottom:1rem; background:rgba(224,82,82,.1); border:1px solid rgba(224,82,82,.35); border-radius:8px; color:var(--bad,#e05252); font-size:.87rem;"></div>
@@ -819,7 +821,7 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
     <div class="kpi-card">
       <div id="amiGapUnits100" class="kpi-value">—</div>
-      <div class="kpi-label">Affordable Units ≤ 100% AMI</div>
+      <div class="kpi-label">Priced-Affordable Units ≤ 100% AMI</div>
       <div class="kpi-source">ACS B25063</div>
     </div>
   </div>
@@ -831,7 +833,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <p class="chart-subtitle">Blue = households with income at or below threshold · Green = rental units with rent at or below affordable threshold</p>
     </div>
     <div style="height:340px; position:relative; padding:.5rem 1rem 1rem;">
-      <canvas id="amiGapComparisonChart" role="img" aria-label="Interactive chart: amiGapComparisonChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+      <canvas id="amiGapComparisonChart" role="img" aria-label="Interactive chart: amiGapComparisonChart" aria-describedby="amiGapAvailabilityCaveat"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
     </div>
   </div>
 
@@ -843,14 +845,14 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="chart-subtitle">Units minus households at each AMI level · Red = deficit · Green = surplus</p>
       </div>
       <div style="height:260px; position:relative; padding:.5rem 1rem 1rem;">
-        <canvas id="amiGapChart" role="img" aria-label="Interactive chart: amiGapChart"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
+        <canvas id="amiGapChart" role="img" aria-label="Interactive chart: amiGapChart" aria-describedby="amiGapAvailabilityCaveat"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data is available in the surrounding text and data tables on this page.</p>
       </div>
     </div>
 
     <div class="chart-card">
       <div class="chart-header">
         <h3 class="chart-title">Coverage Ratio at 100% AMI</h3>
-        <p class="chart-subtitle">Affordable units ÷ households · &lt;50% = critical · 50–80% = moderate gap</p>
+        <p class="chart-subtitle">Priced-affordable units ÷ households · &lt;50% = critical · 50–80% = moderate gap</p>
       </div>
       <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:260px; gap:.5rem; padding:1rem;">
         <div id="amiGapCoverage100" style="font-size:2.8rem; font-weight:800; line-height:1; letter-spacing:-.02em;">—</div>
@@ -880,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <th>AMI Band</th>
             <th>Affordable Rent<br><span style="font-weight:400;opacity:.7;">(4-person, 30% of income)</span></th>
             <th>Households</th>
-            <th>Affordable Units</th>
+            <th>Priced-Affordable Units</th>
             <th>Gap (Units − HH)</th>
             <th>Coverage Ratio</th>
           </tr>
