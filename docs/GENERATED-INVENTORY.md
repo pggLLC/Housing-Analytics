@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T19:13:32.129Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T19:46:23.407Z. Do not edit by hand.
 
 ---
 
@@ -30,7 +30,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.7 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.8 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 89.4 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 231.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 231.6 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -52,7 +52,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.5 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.6 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
@@ -69,11 +69,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1576 JSON files found.
+1577 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 760.7 KB | ✅ | — |
+| `data/_manifest.json` | 761.1 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1519,6 +1519,7 @@
 | `data/hna/summary/0886750.json` | 4.0 KB | ✅ | — |
 | `data/hna/vacancy-status.json` | 458.0 KB | ✅ | — |
 | `data/hna/zhvi-place-crosswalk.json` | 45.1 KB | ✅ | — |
+| `data/home-snapshot.json` | 692 B | ✅ | — |
 | `data/hud-fmr-income-limits.json` | 100.2 KB | ✅ | — |
 | `data/insights-meta.json` | 970 B | ✅ | — |
 | `data/jurisdiction-briefs/0803620.json` | 26.7 KB | ✅ | — |
@@ -1560,7 +1561,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.5 KB | ✅ | — |
+| `data/manifest.json` | 199.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1654,7 +1655,7 @@
 
 ## Test Files
 
-298 test files found.
+300 test files found.
 
 | File | Size |
 |------|------|
@@ -1733,7 +1734,7 @@
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
-| `test/funding-context-card.test.js` | 7.6 KB |
+| `test/funding-context-card.test.js` | 7.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
@@ -1749,8 +1750,8 @@
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
 | `test/hna-functionality-check.js` | 61.6 KB |
-| `test/hna-home-value-absence.test.js` | 3.9 KB |
-| `test/hna-home-value-cascade.test.js` | 12.9 KB |
+| `test/hna-home-value-absence.test.js` | 4.0 KB |
+| `test/hna-home-value-cascade.test.js` | 13.1 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
@@ -1773,6 +1774,7 @@
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 5.6 KB |
 | `test/homepage-job-routing.test.js` | 3.9 KB |
+| `test/homepage-snapshot.test.js` | 4.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.5 KB |
@@ -1856,7 +1858,7 @@
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
 | `test/public-facing-numbers.test.js` | 6.4 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
-| `test/qa-recent-changes.js` | 20.0 KB |
+| `test/qa-recent-changes.js` | 20.1 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |
 | `test/qct-dda-same-origin.test.js` | 3.0 KB |
 | `test/query-builder.test.js` | 14.6 KB |
@@ -1868,6 +1870,7 @@
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-lifecycle.test.js` | 19.2 KB |
+| `test/shared-money-format.test.js` | 4.6 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
@@ -1973,7 +1976,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 20.0 KB |
+| `.github/workflows/build-hna-data.yml` | 20.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
@@ -2001,7 +2004,7 @@
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.4 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.6 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.6 KB |
-| `.github/workflows/fetch-chfa-lihtc.yml` | 5.8 KB |
+| `.github/workflows/fetch-chfa-lihtc.yml` | 5.9 KB |
 | `.github/workflows/fetch-county-data.yml` | 4.2 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 6.7 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.0 KB |
@@ -2010,7 +2013,7 @@
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 12.0 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
-| `.github/workflows/market_data_build.yml` | 16.5 KB |
+| `.github/workflows/market_data_build.yml` | 16.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
