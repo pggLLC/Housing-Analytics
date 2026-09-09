@@ -11,7 +11,7 @@ name: Coverage Audit — Nightly
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # 08:00 UTC daily (~02:00 MST)
+    - cron: '19 8 * * *'   # daily 08:19 UTC
   push:
     branches: ["main"]
   workflow_dispatch:

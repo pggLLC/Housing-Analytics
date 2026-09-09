@@ -8,7 +8,7 @@ name: Build Market Data
 
 on:
   schedule:
-    - cron: '0 2 * * 1'   # Mondays at 02:00 UTC
+    - cron: '23 2 * * 6'   # Saturdays 02:23 UTC
   workflow_dispatch:
     inputs:
       allow_partial:

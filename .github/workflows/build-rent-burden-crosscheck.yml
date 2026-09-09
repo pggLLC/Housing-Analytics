@@ -14,7 +14,7 @@ name: Build Rent Burden Crosscheck
 
 on:
   schedule:
-    - cron: '0 7 15 10 *'   # 07:00 UTC on the 15th of October
+    - cron: '29 7 15 10 *'   # 07:29 UTC on 15 October (annual)
   workflow_dispatch:
     inputs:
       dry_run:

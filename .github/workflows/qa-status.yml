@@ -18,7 +18,7 @@ name: QA Status (upstream + visibility)
 
 on:
   schedule:
-    - cron: '15 12 * * *'   # Daily at 12:15 UTC
+    - cron: '41 9 * * *'   # daily 09:41 UTC
   pull_request:
     paths:
       - 'scripts/fetch_*.py'

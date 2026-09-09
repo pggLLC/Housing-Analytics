@@ -16,7 +16,7 @@ name: External References Drift Check
 
 on:
   schedule:
-    - cron: '0 8 * * 2'   # Tuesdays 08:00 UTC
+    - cron: '47 8 * * 2'   # Tuesdays 08:47 UTC
   pull_request:
     paths:
       - 'docs/_external-references/**'

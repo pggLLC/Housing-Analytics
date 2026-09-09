@@ -1,10 +1,10 @@
 name: Configure Alerts & Generate Policy Briefs
 
-# Runs weekly on Monday at 01:00 UTC — before the HNA build (06:30 UTC)
+# Runs weekly on Saturday at 01:07 UTC — before the HNA build (07:23 UTC)
 # Can also be triggered manually from GitHub Actions.
 on:
   schedule:
-    - cron: '0 1 * * 1'   # Every Monday at 01:00 UTC
+    - cron: '7 1 * * 6'   # Saturdays 01:07 UTC
   workflow_dispatch:
     inputs:
       max_age_days:

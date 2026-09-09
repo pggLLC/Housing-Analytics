@@ -12,10 +12,10 @@ name: A11y Audit (axe-core)
 
 on:
   schedule:
-    # Weekly on Tuesday 15:00 UTC = 09:00 America/Denver DST. Offset
+    # Weekly on Tuesday 15:19 UTC = 09:19 America/Denver DST. Offset
     # from the daily freshness/sentinels checks so the a11y run's
     # longer runtime (Playwright launch + 14 pages) doesn't overlap.
-    - cron: '0 15 * * 2'
+    - cron: '19 15 * * 2'   # Tuesdays 15:19 UTC
   pull_request:
     paths:
       - 'css/**'

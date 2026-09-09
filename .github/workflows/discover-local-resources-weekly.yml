@@ -15,7 +15,7 @@ name: Local Resources — Weekly Discovery
 
 on:
   schedule:
-    - cron: '0 07 * * 1'   # Mondays 07:00 UTC (one hour after url-health sweep)
+    - cron: '7 7 * * 5'   # Fridays 07:07 UTC (one hour after url-health sweep)
   workflow_dispatch:
     inputs:
       limit:

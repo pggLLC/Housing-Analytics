@@ -45,7 +45,7 @@ on:
       - 'scripts/audit/chart-population-audit.mjs'
       - '.github/workflows/chart-audit.yml'
   schedule:
-    - cron: '0 6 * * 1'   # Mondays at 06:00 UTC
+    - cron: '53 6 * * 2'   # Tuesdays 06:53 UTC
   workflow_dispatch:
 
 permissions:

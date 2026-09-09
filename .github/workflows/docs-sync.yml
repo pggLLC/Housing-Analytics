@@ -2,8 +2,8 @@ name: Docs Sync — Generate Inventory
 
 on:
   schedule:
-    # Every Monday at 06:00 UTC
-    - cron: '0 6 * * 1'
+    # Every Thursday at 06:13 UTC
+    - cron: '13 6 * * 4'   # Thursdays 06:13 UTC
   workflow_dispatch:
 
 permissions:

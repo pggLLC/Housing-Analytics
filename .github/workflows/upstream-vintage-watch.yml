@@ -9,7 +9,7 @@ name: Upstream Vintage Watch
 
 on:
   schedule:
-    - cron: '0 14 * * 1'   # Mondays 14:00 UTC (after most weekly fetches)
+    - cron: '29 5 * * 5'   # Fridays 05:29 UTC
   workflow_dispatch:
 
 permissions:

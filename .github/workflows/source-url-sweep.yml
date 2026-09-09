@@ -4,7 +4,7 @@ name: Source URL Sweep
 # item #1 from the 2026-04-20 outstanding-items review.
 #
 # Runs:
-#   - weekly on Monday 8am MT (paired with Dependabot's cadence)
+#   - weekly on Saturday 14:07 UTC, so citation rot surfaces before Monday
 #   - manually via workflow_dispatch
 #
 # Exits non-zero on any 404 / server-error / fetch-error. Timeouts are
@@ -29,8 +29,7 @@ name: Source URL Sweep
 
 on:
   schedule:
-    # Mondays 14:00 UTC = 08:00 America/Denver in daylight time
-    - cron: '0 14 * * 1'
+    - cron: '7 14 * * 6'   # Saturdays 14:07 UTC (rot surfaces before Monday)
   workflow_dispatch:
 
 permissions:

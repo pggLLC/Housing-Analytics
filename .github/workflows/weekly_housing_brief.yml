@@ -22,7 +22,7 @@ name: Weekly Policy Briefs Update
 
 on:
   schedule:
-    - cron: '0 8 * * 1'   # Every Monday at 08:00 UTC
+    - cron: '29 8 * * 4'   # Thursdays 08:29 UTC
   workflow_dispatch:
 
 permissions:

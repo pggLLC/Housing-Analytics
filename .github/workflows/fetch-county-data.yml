@@ -6,12 +6,12 @@ name: Fetch County Demographics and Economic Data
 # Also refreshes the Economic Health KPIs (co-county-economic-indicators.json)
 # using BLS LAUS, BLS QCEW, and ACS 5-year data.
 #
-# Schedule: every Monday at 06:00 UTC
+# Schedule: every Saturday at 06:41 UTC
 # Manual: workflow_dispatch
 
 on:
   schedule:
-    - cron: '0 6 * * 1'   # Mondays at 06:00 UTC
+    - cron: '41 6 * * 6'   # Saturdays 06:41 UTC
   workflow_dispatch:        # Allow manual triggering from the Actions tab
 
 permissions:
