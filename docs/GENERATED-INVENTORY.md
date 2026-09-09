@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T21:01:32.251Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T21:15:30.145Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-302 test files found.
+303 test files found.
 
 | File | Size |
 |------|------|
@@ -1708,6 +1708,7 @@
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
 | `test/deal-calc-for-sale-feasibility.test.js` | 14.2 KB |
+| `test/deal-calc-minimum-set-aside.test.js` | 6.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
