@@ -67,6 +67,25 @@
     'NOI': 'Net Operating Income — annual rental income minus operating expenses, before debt payments. The main measure of whether a building covers its mortgage.',
     'DSCR': 'Debt Service Coverage Ratio — annual NOI divided by annual mortgage payments. Lenders typically require 1.15-1.25.',
     'TDC': 'Total Development Cost — every dollar to build the project: land, construction, design, financing, reserves, and developer fee.',
+    'Cap Rate': 'Capitalization Rate — annual net operating income divided by project value or cost. It helps compare the income a property produces with the capital invested.',
+    'Eligible Basis': 'The portion of project cost that may be used to calculate federal housing tax credits. Land and certain other costs are excluded.',
+    'qualified basis': 'Eligible Basis after applying the applicable fraction and any allowed basis boost. The credit rate is applied to this amount.',
+    'applicable fraction': 'Under IRC §42(c)(1)(B), the smaller of the low-income unit fraction or low-income floor-space fraction. It determines how much Eligible Basis qualifies in a mixed-income project.',
+    'Developer Fee': 'Payment to the sponsor for assembling, financing, and delivering the project. Its size and any deferred portion affect both project cost and the closing gap.',
+    'Hard costs': 'Direct physical construction expenses for labor, materials, site work, and installed building systems. They are usually the largest part of the development budget.',
+    'Soft costs': 'Development expenses outside physical construction, including design, engineering, legal work, permits, financing, and insurance.',
+    'Debt Service': 'The principal and interest a project must pay on its loans during a year. Comparing it with NOI shows whether the mortgage is supportable.',
+    'Vacancy': 'The share of potential rent assumed to be lost because units are empty or rent is not collected. A higher assumption lowers effective income.',
+    'Replacement Reserve': 'Money set aside each year for future major repairs and building-system replacement. It protects the property but reduces cash available for debt payments today.',
+    'credit price': 'The amount an investor pays for each dollar of housing tax credit. Small pricing changes can move project equity substantially over the ten-year credit stream.',
+    'Equity pricing': 'The investor price for a stream of housing tax credits and related tax benefits. It is a market assumption, not a guaranteed offer.',
+    'placed in service': 'The date a building is ready and available for residential use. It starts the credit and compliance timelines and sets the applicable income-limit table.',
+    'compliance period': 'The first 15 taxable years of federal LIHTC affordability requirements under IRC §42(i)(1). Noncompliance during this period can trigger credit recapture.',
+    'extended use': 'The affordability period continuing after initial compliance under IRC §42(h)(6). It generally keeps restrictions in place for at least 30 years in total.',
+    'amortization': 'Scheduled repayment of loan principal over time. A longer period lowers annual Debt Service but leaves principal outstanding for longer.',
+    'Operating expenses': 'Recurring costs of running the property, excluding mortgage payments and usually capital replacements. They are subtracted from revenue to calculate NOI.',
+    'concessions': 'Temporary incentives such as free rent or reduced move-in costs. They lower collected revenue during lease-up or a soft market.',
+    'stabilization': 'The point when a property reaches a sustainable occupancy and operating pattern after lease-up. Long-term financing is tested against stabilized results.',
     'gap financing': 'The dollars needed to close the difference between project cost and what private debt + tax credit equity will fund. Filled with soft debt, grants, or fee waivers.',
     'FMR': 'Fair Market Rent — HUD\'s annual estimate of rent for a modest unit, by county and bedroom size. Used to set voucher payments and benchmark LIHTC rents.',
     'PBV': 'Project-Based Voucher — federal rental assistance tied to specific units (not a tenant). Gives the project a stable rent stream that supports deeper affordability.',
@@ -193,7 +212,13 @@
     var scope = root || document;
     // Opt-out at body level.
     if (document.body && document.body.getAttribute('data-inline-glossary') === 'off') return;
-    var containers = scope.querySelectorAll('.js-glossary-auto');
+    var containers = Array.prototype.slice.call(scope.querySelectorAll('.js-glossary-auto'));
+    // Dynamic renderers explicitly pass their mount node after inserting
+    // content. Treat that call itself as opt-in and scan the mount; the
+    // initial DOMContentLoaded pass necessarily saw it while it was empty.
+    if (scope.nodeType === 1) {
+      containers.unshift(scope);
+    }
     if (!containers.length) return;
     // Build a regex matching any TERM token. Sort longest-first so
     // "9% LIHTC" wins over "LIHTC".
