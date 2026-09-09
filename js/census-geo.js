@@ -74,9 +74,26 @@
 
   const $ = (sel) => document.querySelector(sel);
 
-  function formatNumber(n)   { return isFinite(n) ? Math.round(n).toLocaleString() : "—"; }
-  function formatCurrency(n) { return isFinite(n) ? Math.round(n).toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 }) : "—"; }
-  function formatPct(n)      { return isFinite(n) ? Number(n).toFixed(1) + "%" : "—"; }
+  // Absence must not survive as a number. isFinite(null) is true because
+  // Number(null) === 0, so the old guards rendered a missing median as "$0",
+  // and the ACS "not available" jam value -666666666 straight through as
+  // "-$666,666,666" — observed live on production for Aguilar, Alpine,
+  // Amherst, Arapahoe, Arboles, Aspen Park, Atwood and Air Force Academy,
+  // labelled "ACS 2023 · [Source]" with no console error. 170 of Colorado's
+  // 547 place/county profiles have no published median gross rent.
+  //
+  // MoneyFormatter.isAbsent covers null, undefined, '', NaN, non-finite, and
+  // both the numeric and string forms of the sentinel. Zero stays a real value.
+  var _money = (typeof window !== 'undefined' && window.MoneyFormatter) || null;
+  function _absent(v) {
+    if (_money) return _money.isAbsent(v);
+    if (v === null || v === undefined || v === '') return true;
+    var n = Number(v);
+    return !isFinite(n) || n === -666666666;
+  }
+  function formatNumber(n)   { return _absent(n) ? "—" : Math.round(Number(n)).toLocaleString(); }
+  function formatCurrency(n) { return _absent(n) ? "—" : (_money ? _money.formatMoney(n) : Math.round(Number(n)).toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 })); }
+  function formatPct(n)      { return _absent(n) ? "—" : Number(n).toFixed(1) + "%"; }
 
   /* ---- Cached state data (data/census-acs-state.json) ---- */
   let _stateCache = null;
@@ -185,7 +202,9 @@
       { field: "median_home_value",       label: "Median home value",       fmt: formatCurrency, table: "DP04" },
     ];
     CACHE_METRICS.forEach(m => {
-      const val = Number(record[m.field]);
+      // Pass the raw value; Number() here would coerce null to 0 and the
+      // formatter would see a real zero rather than an absence.
+      const val = record[m.field];
       const url = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
@@ -322,7 +341,7 @@
 
     grid.innerHTML = "";
     METRICS.forEach(m => {
-      const val  = Number(record[m.key]);
+      const val  = record[m.key];   // raw — see the note at the CACHE_METRICS render
       const url  = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
