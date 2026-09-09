@@ -65,6 +65,12 @@ const DIFF_ONLY = process.argv.includes('--diff-only');
 // Re-use the allow-list from source-url-sweep — these are known-good URLs
 // that block CI user-agents (DOL, BLS, CHFA QAP, etc.). Keep in sync.
 const ALLOW_LIST = new Set([
+  // Colorado Springs Chamber & EDC — 403s every non-browser client, including
+  // curl with a full browser UA, but loads normally in a real browser
+  // (verified 2026-09-09: "Business in Colorado Springs | Colorado Springs
+  // Chamber & EDC", redirects www -> apex). WAF bot-blocking, not rot (#1549).
+  'https://www.coloradospringschamberedc.com/',
+  'https://coloradospringschamberedc.com/',
   // Bot-blocked / transient hosts verified live in a real browser during the
   // 2026-07-20 weekly sweep triage (#1268). All returned 200 (or a Cloudflare
   // bot-gate for congress.gov) with a browser UA; none are genuinely dead.
