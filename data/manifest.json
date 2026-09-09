@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-09T12:29:27.683380Z",
+  "generated": "2026-09-09T13:29:24.767987Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 780871
+      "bytes": 778988
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7480,21 +7480,6 @@
       "featureCount": 64,
       "placeholder": false,
       "bytes": 14265
-    },
-    "data/market/SYNTHETIC_cde_schools_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 10620
-    },
-    "data/market/SYNTHETIC_cdle_job_postings_co.json": {
-      "featureCount": 62,
-      "placeholder": false,
-      "bytes": 23720
-    },
-    "data/market/SYNTHETIC_cdot_traffic_co.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 8388
     },
     "data/market/acs_median_rent_co.json": {
       "featureCount": 64,
