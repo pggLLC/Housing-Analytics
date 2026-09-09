@@ -72,15 +72,119 @@ jobs:
         run: |
           python3 scripts/hna/diagnose.py || true
 
-      - name: Build cached HNA datasets (ACS + LEHD + DOLA)
+      # Phase checkpoints use github.run_id (stable across a "Re-run jobs")
+      # and explicit cache/save steps, so a runner killed after a completed
+      # phase can restore that phase instead of discarding all prior work.
+      - name: Restore ACS checkpoint
+        id: restore_hna_acs
+        if: ${{ inputs.statewide_only != true }}
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            data/hna/summary
+            data/hna/derived
+            data/hna/acs_debug_log.txt
+          key: hna-build-${{ github.run_id }}-acs-v1
+
+      - name: Build cached HNA datasets — ACS summary + derived
         if: ${{ inputs.statewide_only != true }}
         env:
           CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          HNA_ACS_FETCH_WORKERS: '8'
+          HNA_ACS_HTTP_TIMEOUT_SECONDS: '8'
+          HNA_BUILD_PHASES: 'acs'
+          SKIP_GEO_CONFIG: 'true'
+        run: |
+          set -x
+          if [ "${{ steps.restore_hna_acs.outputs.cache-hit }}" = "true" ]; then
+            echo "── Restored completed ACS phase from this workflow run ──"
+          else
+            python3 scripts/hna/build_hna_data.py 2>&1
+          fi
+
+      - name: Save ACS checkpoint
+        if: ${{ inputs.statewide_only != true && steps.restore_hna_acs.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            data/hna/summary
+            data/hna/derived
+            data/hna/acs_debug_log.txt
+          key: hna-build-${{ github.run_id }}-acs-v1
+
+      - name: Restore LEHD checkpoint
+        id: restore_hna_lehd
+        if: ${{ inputs.statewide_only != true }}
+        uses: actions/cache/restore@v5
+        with:
+          path: data/hna/lehd
+          key: hna-build-${{ github.run_id }}-lehd-v1
+
+      - name: Build cached HNA datasets — LEHD
+        if: ${{ inputs.statewide_only != true }}
+        env:
+          HNA_BUILD_PHASES: 'lehd'
           LODES_YEAR: '2022'
           SKIP_GEO_CONFIG: 'true'
         run: |
           set -x
-          python3 scripts/hna/build_hna_data.py 2>&1
+          if [ "${{ steps.restore_hna_lehd.outputs.cache-hit }}" = "true" ]; then
+            echo "── Restored completed LEHD phase from this workflow run ──"
+          else
+            python3 scripts/hna/build_hna_data.py 2>&1
+          fi
+
+      - name: Save LEHD checkpoint
+        if: ${{ inputs.statewide_only != true && steps.restore_hna_lehd.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: data/hna/lehd
+          key: hna-build-${{ github.run_id }}-lehd-v1
+
+      - name: Restore DOLA checkpoint
+        id: restore_hna_dola
+        if: ${{ inputs.statewide_only != true }}
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            data/hna/dola_sya
+            data/hna/projections
+            data/hna/source/dola_components_county.csv
+            data/hna/source/dola_profiles_county.csv
+            data/hna/source/dola_sya_county.csv
+          key: hna-build-${{ github.run_id }}-dola-v1
+
+      - name: Build cached HNA datasets — DOLA
+        if: ${{ inputs.statewide_only != true }}
+        env:
+          HNA_BUILD_PHASES: 'dola'
+          SKIP_GEO_CONFIG: 'true'
+        run: |
+          set -x
+          if [ "${{ steps.restore_hna_dola.outputs.cache-hit }}" = "true" ]; then
+            echo "── Restored completed DOLA phase from this workflow run ──"
+          else
+            python3 scripts/hna/build_hna_data.py 2>&1
+          fi
+
+      - name: Save DOLA checkpoint
+        if: ${{ inputs.statewide_only != true && steps.restore_hna_dola.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            data/hna/dola_sya
+            data/hna/projections
+            data/hna/source/dola_components_county.csv
+            data/hna/source/dola_profiles_county.csv
+            data/hna/source/dola_sya_county.csv
+          key: hna-build-${{ github.run_id }}-dola-v1
+
+      - name: Finalize cached HNA datasets
+        if: ${{ inputs.statewide_only != true }}
+        env:
+          HNA_BUILD_PHASES: 'stamp'
+          SKIP_GEO_CONFIG: 'true'
+        run: python3 scripts/hna/build_hna_data.py 2>&1
 
       - name: Phase 2.5 — Refresh statewide summary (data/hna/summary/08.json)
         # The statewide file has its own generator because it aggregates at
