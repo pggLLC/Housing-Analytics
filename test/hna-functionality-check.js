@@ -845,30 +845,6 @@ test('JS: renderSnapshot passes ACS year and series to srcLink', () => {
 });
 
 // ---------------------------------------------------------------------------
-// census-stats.js: dynamic year detection and source links
-// ---------------------------------------------------------------------------
-test('census-stats.js: VINTAGES list starts at 2024 or newer', () => {
-    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
-    const m = csjs.match(/const VINTAGES\s*=\s*\[\s*(\d+)/);
-    assert(m && parseInt(m[1], 10) >= 2024, 'census-stats.js VINTAGES first element is >= 2024');
-});
-
-test('census-stats.js: render includes [Source] link to data.census.gov', () => {
-    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
-    assert(csjs.includes('[Source]'), 'census-stats.js render includes [Source] text');
-    // sourceUrl helper builds data.census.gov links; verify the domain pattern is present
-    assert(/data\.census\.gov\/table/.test(csjs), 'census-stats.js links to data.census.gov table URLs');
-});
-
-test('census-stats.js: each SERIES entry has a table code for source links', () => {
-    const csjs = fs.readFileSync(path.join(ROOT, 'js', 'census-stats.js'), 'utf8');
-    assert(csjs.includes('table: "DP05"'), 'DP05 table code is in SERIES');
-    assert(csjs.includes('table: "DP03"'), 'DP03 table code is in SERIES');
-    assert(csjs.includes('table: "DP04"'), 'DP04 table code is in SERIES');
-});
-
-
-// ---------------------------------------------------------------------------
 // TIGERweb field-name consistency: STATE (not STATEFP)
 // TIGERweb's State_County/MapServer/1 and Places_CouSub.../MapServer/4 layers
 // expose the FIPS field as STATE. Using STATEFP returns HTTP 400 "Failed to

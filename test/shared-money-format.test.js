@@ -4,10 +4,12 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 
 const ROOT = path.resolve(__dirname, '..');
 const read = (relativePath) => fs.readFileSync(path.join(ROOT, relativePath), 'utf8');
 const money = require('../js/utils/format-money.js');
+const censusGeoSource = read('js/census-geo.js');
 
 for (const [label, input, expected] of [
   ['null', null, '—'],
@@ -20,6 +22,33 @@ for (const [label, input, expected] of [
 ]) {
   assert.equal(money.formatMoney(input), expected, `${label} follows the shared money-formatting contract`);
 }
+
+const censusFormatterBlock = censusGeoSource.match(
+  /function formatNumber[^\n]+\n\s*function formatCurrency[^\n]+\n\s*function formatPct[^\n]+/,
+);
+assert(censusFormatterBlock, 'census-geo formatter block remains testable');
+const censusFormatters = vm.runInNewContext(
+  `${censusFormatterBlock[0]}; ({ formatNumber, formatCurrency, formatPct })`,
+  { MoneyFormatter: money },
+);
+for (const [label, input, expected] of [
+  ['null', null, '—'],
+  ['empty string', '', '—'],
+  ['zero', 0, '$0'],
+  ['NaN', NaN, '—'],
+  ['ACS not-available sentinel', -666666666, '—'],
+  ['string ACS not-available sentinel', '-666666666.0', '—'],
+]) {
+  assert.equal(censusFormatters.formatCurrency(input), expected, `census-geo ${label} uses the shared money contract`);
+}
+assert.equal(censusFormatters.formatNumber(null), '—', 'census-geo number formatter does not coerce null to zero');
+assert.equal(censusFormatters.formatNumber(-666666666), '—', 'census-geo number formatter rejects the ACS sentinel');
+assert.equal(censusFormatters.formatNumber(0), '0', 'census-geo number formatter preserves a real zero');
+assert.equal(censusFormatters.formatPct(''), '—', 'census-geo percent formatter does not coerce an empty string to zero');
+assert.equal(censusFormatters.formatPct('-666666666.0'), '—', 'census-geo percent formatter rejects the string ACS sentinel');
+assert.equal(censusFormatters.formatPct(0), '0.0%', 'census-geo percent formatter preserves a real zero');
+assert(!censusGeoSource.includes('const val = Number(record[m.field])'), 'cached Census records reach the absence-aware formatter before numeric coercion');
+assert(!censusGeoSource.includes('const val  = Number(record[m.key])'), 'live Census records reach the absence-aware formatter before numeric coercion');
 
 global.window = global;
 global.location = { search: '' };
@@ -67,13 +96,15 @@ for (const relativePath of fs.readdirSync(path.join(ROOT, 'js'), { recursive: tr
   const normalized = path.join('js', relativePath).split(path.sep).join('/');
   if (/style\s*:\s*['"]currency['"]/.test(read(normalized))) styleCurrencyPaths.push(normalized);
 }
-assert.deepEqual(styleCurrencyPaths.sort(), [
-  'js/census-geo.js',
-  'js/census-stats.js',
+const allowedBespokeCurrencyPaths = [
   'js/project-market-study/market-study-page.js',
   'js/project-market-study/market-study-report.js',
+];
+assert.equal(allowedBespokeCurrencyPaths.length, 2, 'exactly two deliberately guarded bespoke currency formatters remain allowlisted');
+assert.deepEqual(styleCurrencyPaths.sort(), [
+  ...allowedBespokeCurrencyPaths,
   'js/utils/format-money.js',
-], 'repository currency-style grep stays pinned to the shared helper and pre-existing out-of-scope display engines');
+].sort(), 'repository currency-style grep stays pinned to the shared helper and two guarded market-study display engines');
 
 for (const [html, consumer] of [
   ['market-analysis.html', 'js/market-analysis/market-analysis-utils.js'],
@@ -82,6 +113,7 @@ for (const [html, consumer] of [
   ['housing-needs-assessment.html', 'js/hna/hna-utils.js'],
   ['census-dashboard.html', 'js/census-multifamily.js'],
   ['colorado-deep-dive.html', 'js/colorado-deep-dive.js'],
+  ['economic-dashboard.html', 'js/census-geo.js'],
 ]) {
   const source = read(html);
   const helperIndex = source.indexOf('js/utils/format-money.js');
