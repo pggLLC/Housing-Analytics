@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T11:52:09.314Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T14:00:41.486Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 28.9 KB |
-| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 135.6 KB |
+| `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.0 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
@@ -69,11 +69,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1579 JSON files found.
+1576 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 762.6 KB | ✅ | — |
+| `data/_manifest.json` | 760.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -124,7 +124,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 239.1 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 239.2 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 322.8 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1560,10 +1560,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.9 KB | ✅ | — |
-| `data/market/SYNTHETIC_cde_schools_co.json` | 10.4 KB | ✅ | — |
-| `data/market/SYNTHETIC_cdle_job_postings_co.json` | 23.2 KB | ✅ | — |
-| `data/market/SYNTHETIC_cdot_traffic_co.json` | 8.2 KB | ✅ | — |
+| `data/manifest.json` | 199.5 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1657,7 +1654,7 @@
 
 ## Test Files
 
-294 test files found.
+296 test files found.
 
 | File | Size |
 |------|------|
@@ -1666,6 +1663,7 @@
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
+| `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/analytics.test.js` | 18.2 KB |
 | `test/api-config-wrapper-url-sanitization.test.js` | 3.0 KB |
 | `test/audit-modules/audit-history.js` | 5.5 KB |
@@ -1816,6 +1814,7 @@
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
+| `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
@@ -1834,7 +1833,7 @@
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
-| `test/pma-confidence.test.js` | 8.7 KB |
+| `test/pma-confidence.test.js` | 9.1 KB |
 | `test/pma-map-integrity.test.js` | 2.3 KB |
 | `test/pma-methodology-language.test.js` | 4.4 KB |
 | `test/pma-real-schools.test.js` | 6.7 KB |
