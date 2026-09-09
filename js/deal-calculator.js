@@ -1398,7 +1398,7 @@
             <span style="font-size:var(--tiny);color:var(--muted);">Housing authority ownership or nonprofit partnerships may qualify for property tax exemption</span>
           </label>
           <div id="dc-noi-computed-display" style="padding:0.5rem 0.75rem;border-radius:var(--radius);background:color-mix(in oklab, var(--card,#fff) 80%, var(--accent,#096e65) 20%);font-size:var(--small);font-weight:600;">
-            Computed NOI: <span id="dc-noi-computed">—</span>
+            Computed Annual NOI: <span id="dc-noi-computed">—</span>
           </div>
         </div>
       </fieldset>
@@ -1908,7 +1908,7 @@
           <thead>
             <tr>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Stress Scenario</th>
-              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Stressed NOI</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Annual Stressed NOI</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">DSCR</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">vs target</th>
             </tr>
@@ -5800,6 +5800,7 @@
 
   window.__DealCalc = {
     init: init,
+    renderForTest: render,
     recalculate: recalculate,
     setDesignationContext: setDesignationContext,
     /* Exposed for testing — pure functions, no DOM access */

@@ -88,6 +88,22 @@
     return el ? el.textContent.trim() : '';
   }
 
+  function _slugifyFilenamePart(value) {
+    return String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function _defaultStructuredPdfFilename(reportData) {
+    var geography = reportData && reportData.geography || {};
+    var label = _slugifyFilenamePart(geography.label) || 'jurisdiction';
+    var geoid = _slugifyFilenamePart(geography.geoid);
+    return ['housing-needs-assessment', label, geoid].filter(Boolean).join('-') + '.pdf';
+  }
+
   /** Escape a CSV field: wrap in quotes and double any internal quotes. */
   function _csvField(v) {
     var s = (v === null || v === undefined) ? '' : String(v);
@@ -706,7 +722,6 @@
        - Methodology table at the end with vintage + source
      ───────────────────────────────────────────────────────────────── */
   async function exportStructuredPdf(filename) {
-    const outFile = filename || 'housing-needs-assessment.pdf';
     const pdfBtn  = document.getElementById('btnPdf');
     if (!window.jspdf) {
       // No jsPDF available — fall back to screenshot path
@@ -726,6 +741,7 @@
 
       const jsPDF = window.jspdf.jsPDF;
       const data  = buildReportData();
+      const outFile = filename || _defaultStructuredPdfFilename(data);
       const pdf   = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
 
       // Page geometry in points (1in = 72pt). 0.6" margins → 532pt content width.
