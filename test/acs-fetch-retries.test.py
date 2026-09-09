@@ -28,6 +28,10 @@ try:
 except SystemExit:
     pass
 
+# Loopback URLs only. scripts/audit/source-url-sweep.mjs probes URLs found in
+# changed files -- test fixtures included -- and a non-loopback host here fails
+# ci-checks with "fetch failed (confirmed on retry)". This has bitten #1202,
+# #1207 and #1209. Nothing here is ever actually requested; urlopen is mocked.
 passed = failed = 0
 def check(cond, msg):
     global passed, failed
@@ -45,7 +49,7 @@ def count_attempts(raiser, retries):
         raiser(req)
     urllib.request.urlopen = fake
     try:
-        bhd.http_get_text('https://example.invalid/x', timeout=1, retries=retries)
+        bhd.http_get_text('http://127.0.0.1/acs-retry-fixture', timeout=1, retries=retries)
     finally:
         urllib.request.urlopen = _real
     return calls['n']
