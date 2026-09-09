@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T02:58:28.433Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T03:12:16.073Z. Do not edit by hand.
 
 ---
 
@@ -2017,7 +2017,7 @@
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.1 KB |
 | `.github/workflows/site-audit.yml` | 2.5 KB |
-| `.github/workflows/source-liveness-weekly.yml` | 1.4 KB |
+| `.github/workflows/source-liveness-weekly.yml` | 2.3 KB |
 | `.github/workflows/source-url-sweep.yml` | 2.4 KB |
 | `.github/workflows/sync-data-mtimes.yml` | 4.0 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
