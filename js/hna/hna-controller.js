@@ -133,6 +133,11 @@
 
   // --- Geography helpers ---
 
+  function _withCdpSuffix(label) {
+    const base = String(label || '').trim().replace(/\s*\(CDP\)\s*$/i, '');
+    return base + ' (CDP)';
+  }
+
   function buildSelect(){
     const type = window.HNAState.els.geoType.value;
     window.HNAState.els.geoSelect.innerHTML='';
@@ -174,7 +179,7 @@
       for (const item of combined){
         const opt = document.createElement('option');
         opt.value = item.geoid;
-        opt.textContent = item.subtype === 'cdp' ? item.label + ' (CDP)' : item.label;
+        opt.textContent = item.subtype === 'cdp' ? _withCdpSuffix(item.label) : item.label;
         opt.setAttribute('data-subtype', item.subtype);
         window.HNAState.els.geoSelect.appendChild(opt);
       }
@@ -201,7 +206,7 @@
       for (const c of cfg.cdps){
         const opt = document.createElement('option');
         opt.value = c.geoid;
-        opt.textContent = c.label;
+        opt.textContent = _withCdpSuffix(c.label);
         opt.setAttribute('data-subtype', 'cdp');
         window.HNAState.els.geoSelect.appendChild(opt);
       }
@@ -301,6 +306,34 @@
     if (!/^(place|cdp|county)$/.test(gt)) return null;
     const subtype = opt.getAttribute('data-subtype');
     return { geoType: subtype || gt, geoid: window.HNAState.els.geoSelect.value };
+  }
+
+  function _syncJurisdictionToUrl() {
+    if (window.HNAState.els.combineGeosToggle && window.HNAState.els.combineGeosToggle.checked) return;
+    var selected = _selectedOption();
+    if (!selected || selected.getAttribute('data-region-id')) return;
+    var geoid = window.HNAState.els.geoSelect.value;
+    var selectorType = window.HNAState.els.geoType.value;
+    if (!geoid || !selectorType) return;
+    var subtype = selected.getAttribute('data-subtype');
+    var geoType = selectorType === 'place' ? (subtype || 'place') : selectorType;
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set('geoid', geoid);
+      url.searchParams.set('geoType', geoType);
+      // Reuse the controller's existing explicit-URL precedence path so a
+      // shared link wins over the recipient's saved WorkflowState selection.
+      url.searchParams.set('auto', '1');
+      url.searchParams.delete('fips');
+      url.searchParams.delete('region');
+      url.searchParams.delete('geos');
+      url.searchParams.delete('combinedMode');
+      window.history.replaceState(null, '', url.toString());
+    } catch (e) {
+      if (typeof console !== 'undefined' && console.warn) {
+        console.warn('[HNA] URL jurisdiction sync failed:', e && e.message);
+      }
+    }
   }
 
   function _combinedMemberFromUrlGeoid(geoid) {
@@ -4021,10 +4054,12 @@
       buildSelect();
       _syncCombinedPanel();
       _syncJurisdictionToWorkflowState();
+      _syncJurisdictionToUrl();
       update();
     });
     window.HNAState.els.geoSelect.addEventListener('change', () => {
       _syncJurisdictionToWorkflowState();
+      _syncJurisdictionToUrl();
       update();
     });
     window.HNAState.els.btnRefresh.addEventListener('click', update);
@@ -4155,6 +4190,8 @@
     renderProjections,
     applyAssumptions,
     ensureMap,
+    buildSelectForTest: buildSelect,
+    syncJurisdictionToUrlForTest: _syncJurisdictionToUrl,
   };
 
   window.__HNA_renderFastTrack = window.HNARenderers.renderFastTrackCalculatorSection;
