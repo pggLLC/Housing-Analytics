@@ -38,7 +38,7 @@
   var UTILITY_CAPACITY_MIN = 0.20;  // <20 % headroom = at capacity
 
   /* ── Internal state ───────────────────────────────────────────────── */
-  var lastFloodRiskPct      = 0;
+  var lastFloodRiskPct      = null; // null until a real lookup succeeds; 0 would read as 'no flood risk'
   var lastClimateScore      = null;
   var lastUtilityScore      = 50; // FALLBACK: neutral value until utility capacity data is loaded
   var lastFoodAccessScore   = 50; // FALLBACK: neutral value until USDA food access data is loaded
@@ -69,9 +69,17 @@
         ? { lat: (boundingBox.minLat + boundingBox.maxLat) / 2, lon: (boundingBox.minLon + boundingBox.maxLon) / 2 }
         : { lat: 39.5, lon: -104.9 };
       var result = ff.getFloodRisk(mid.lat, mid.lon);
-      return Promise.resolve({ floodZones: [], hazardPercent: result ? (100 - result.score) / 100 : 0.05 });
+      if (!result) {
+        return Promise.resolve({
+          floodZones: [], hazardPercent: null, _stub: true, unavailableReason: 'FEMA flood data is unavailable; no flood hazard percentage was calculated.'
+        });
+      }
+      return Promise.resolve({ floodZones: [], hazardPercent: (100 - result.score) / 100 });
     }
-    return Promise.resolve({ floodZones: [], hazardPercent: 0.05 });
+    return Promise.resolve({
+      floodZones: [], hazardPercent: null, _stub: true,
+      unavailableReason: 'No flood data source is available in this context; no flood hazard percentage was calculated.'
+    });
   }
 
   /**
@@ -145,18 +153,24 @@
     var _realSources = [];
 
     // Flood risk: inverse scale — lower hazard % = higher score
-    var floodIsStub = floodData._stub || (!floodData.floodZones || !floodData.floodZones.length);
-    lastFloodRiskPct = clamp(
-      floodData.hazardPercent != null ? toNum(floodData.hazardPercent) : 0.05,
-      0, 1
-    );
-    var floodScore = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
-    if (floodIsStub && floodData.hazardPercent === 0.05) {
-      // Default value from failed API — mark as unavailable
+    // Absence is signalled by hazardPercent == null or an explicit _stub, never
+    // by a magic value. The previous test compared against 0.05, which both
+    // misread a genuine 5% reading as missing and let every other fabricated
+    // default through as real.
+    var floodIsStub = floodData._stub === true || floodData.hazardPercent == null;
+    var floodScore;
+    if (floodIsStub) {
+      lastFloodRiskPct = null;
+      floodScore = null;
       _stubSources.push('flood');
     } else {
+      lastFloodRiskPct = clamp(toNum(floodData.hazardPercent), 0, 1);
+      floodScore = clamp(Math.round((1 - lastFloodRiskPct) * 100), 0, 100);
       _realSources.push('flood');
     }
+    var floodUnavailableReason = floodIsStub
+      ? (floodData.unavailableReason || 'FEMA flood data is unavailable; no flood hazard percentage was calculated.')
+      : null;
 
     // Climate resilience (already 0–100 or convert from raw)
     var climateIsStub = climateData._stub || climateData.resilienceScore == null;
@@ -220,8 +234,9 @@
     lastCompositeScore = totalWeight > 0 ? Math.round(weightedSum / totalWeight) : null;
 
     lastScorecard = {
-      floodRiskPercent:       Math.round(lastFloodRiskPct * 100) / 100,
+      floodRiskPercent:       lastFloodRiskPct != null ? Math.round(lastFloodRiskPct * 100) / 100 : null,
       floodScore:             floodScore,
+      floodUnavailableReason: floodUnavailableReason,
       climateResilienceScore: lastClimateScore,
       climateUnavailableReason: climateIsStub
         ? (climateData.unavailableReason || 'NOAA climate data is unavailable; no climate resilience score was calculated.')
@@ -231,7 +246,7 @@
       foodAccessScore:        lastFoodAccessScore,
       compositeScore:         lastCompositeScore != null ? clamp(lastCompositeScore, 0, 100) : null,
       flags: {
-        highFloodRisk:        lastFloodRiskPct > HIGH_FLOOD_PCT,
+        highFloodRisk:        lastFloodRiskPct != null ? lastFloodRiskPct > HIGH_FLOOD_PCT : null,
         utilityAtCapacity:    lastSewerAdequate === false,
         foodDesertPresent:    (foodData.foodDeserts || []).length > 0,
         foodDesertCount:      (foodData.foodDeserts || []).length,

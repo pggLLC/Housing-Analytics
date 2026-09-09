@@ -795,7 +795,9 @@
           'Directional indicators from public datasets. Does not replace Phase I ESA, geotechnical survey, utility will-serve letters, or FEMA flood determination.' +
         '</div>' +
         _infraRow('Composite Score', score) +
-        _infraRow('Flood Risk', 100 - (j.floodRiskPercent || 0) * 100, 'FEMA NFHL') +
+        _infraRow('Flood Risk',
+          j.floodRiskPercent != null ? 100 - j.floodRiskPercent * 100 : null,
+          j.floodUnavailableReason || 'FEMA NFHL') +
         _infraRow('Climate Resilience', j.climateResilienceScore,
           j.climateUnavailableReason || 'NOAA') +
         _infraRow('Utility Capacity', j.sewerCapacityAdequate != null ? (j.sewerCapacityAdequate ? 80 : 30) : null, 'est. headroom') +
