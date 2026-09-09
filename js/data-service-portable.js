@@ -1237,7 +1237,15 @@
    * @returns {Promise<{floodZones: Array, hazardPercent: number}>}
    */
   function fetchFEMAFloodData(bbox) {
-    if (!bbox) return Promise.resolve({ floodZones: [], hazardPercent: 0.05 });
+    // hazardPercent must be null, never a plausible-looking default. A finite
+    // number here is rendered as a real FEMA figure downstream (see the #712
+    // note below -- the identical bug was fixed for floodRiskScore and left
+    // standing here).
+    if (!bbox) return Promise.resolve({
+      floodZones: [], hazardPercent: null, _stub: true,
+      _dataSource: 'no-bounding-box',
+      unavailableReason: 'No bounding box was supplied, so no flood lookup was performed.'
+    });
 
     // Try local file first
     return _loadLocalFloodData().then(function (localData) {
@@ -1270,13 +1278,18 @@
               geometry: null
             });
           }
-          var hazardPct = tractIds.length > 0
-            ? Math.min(1, sfhaCount / tractIds.length)
-            : 0.05;
+          // Zero tracts in the bbox means the local dataset did not answer.
+          // Returning 0.05 with _dataSource 'local-flood-zones-co' asserted
+          // that it had.
+          var noTracts = tractIds.length === 0;
           return {
             floodZones: floodZones,
-            hazardPercent: hazardPct,
-            _dataSource: 'local-flood-zones-co'
+            hazardPercent: noTracts ? null : Math.min(1, sfhaCount / tractIds.length),
+            _stub: noTracts || undefined,
+            _dataSource: noTracts ? 'local-flood-zones-co-no-coverage' : 'local-flood-zones-co',
+            unavailableReason: noTracts
+              ? 'No Colorado flood-zone tracts intersect this area, so no flood hazard percentage was calculated.'
+              : null
           };
         });
       }
@@ -1295,7 +1308,13 @@
           var features = (data && data.features) ? data.features : [];
           return { floodZones: features, hazardPercent: Math.min(1, features.length * 0.02), _dataSource: 'fema-live' };
         })
-        .catch(function () { return { floodZones: [], hazardPercent: 0.05, _dataSource: 'fema-unavailable' }; });
+        .catch(function () {
+          return {
+            floodZones: [], hazardPercent: null, _stub: true,
+            _dataSource: 'fema-unavailable',
+            unavailableReason: 'FEMA flood data is unavailable for this area; no flood hazard percentage was calculated.'
+          };
+        });
     });
   }
 

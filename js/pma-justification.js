@@ -250,10 +250,17 @@
 
     // Infrastructure
     var i = scoreRun.infrastructure || {};
-    var floodPct = Math.round(toNum(i.floodRiskPercent || 0) * 100);
-    if (floodPct > 0 || i.sewerCapacityAdequate === false) {
+    // floodRiskPercent is null when no FEMA lookup succeeded. `|| 0` previously
+    // turned that into a confident 0 %, which reads as "no flood risk found".
+    var floodKnown = i.floodRiskPercent != null;
+    var floodPct = floodKnown ? Math.round(toNum(i.floodRiskPercent) * 100) : null;
+    if (floodKnown ? floodPct > 0 : (i.floodUnavailableReason || i.sewerCapacityAdequate === false)) {
       var infraNotes = [];
-      if (floodPct > 10) infraNotes.push(floodPct + ' % of the site area is in a FEMA flood zone');
+      if (!floodKnown) {
+        infraNotes.push('flood exposure could not be determined from FEMA data and must be confirmed by a flood determination');
+      } else if (floodPct > 10) {
+        infraNotes.push(floodPct + ' % of the site area is in a FEMA flood zone');
+      }
       if (i.sewerCapacityAdequate === false) infraNotes.push('local sewer capacity may require upgrade');
       if (infraNotes.length) {
         parts.push(
