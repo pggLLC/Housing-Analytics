@@ -1,8 +1,20 @@
 /**
+ * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Transportation extract.
+ *
+ * data/market/SYNTHETIC_cdot_traffic_co.json declares itself
+ * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
+ * The file was renamed from cdot_traffic_co.json so that its status is
+ * visible at every call site rather than only to someone who opens meta.note
+ * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
+ * so that real data can be dropped in without rewriting the consumer.
+ *
+ * Do not re-enable the sub-score until the backing file is a real extract.
+ */
+/**
  * js/data-connectors/cdot-traffic.js
  * Colorado Department of Transportation traffic count accessor.
  *
- * Data source: data/market/cdot_traffic_co.json
+ * Data source: data/market/SYNTHETIC_cdot_traffic_co.json
  * Real data: https://www.codot.gov/programs/statewideplanning/traffic-data
  *
  * Exposed as window.CdotTraffic.
@@ -28,14 +40,14 @@
   function loadMetrics() {
     var DS = window.DataService;
     if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/cdot_traffic_co.json'))
+    return DS.getJSON(DS.baseData('market/SYNTHETIC_cdot_traffic_co.json'))
       .then(function (raw) {
         _data     = raw;
         _stations = (raw && raw.stations) ? raw.stations : [];
         return _data;
       })
       .catch(function (e) {
-        console.warn('[cdot-traffic] Failed to load cdot_traffic_co.json:', e && e.message);
+        console.warn('[cdot-traffic] Failed to load SYNTHETIC_cdot_traffic_co.json:', e && e.message);
         _data     = { stations: [] };
         _stations = [];
         return _data;

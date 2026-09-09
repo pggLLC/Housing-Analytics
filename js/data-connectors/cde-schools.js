@@ -1,8 +1,20 @@
 /**
+ * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Education extract.
+ *
+ * data/market/SYNTHETIC_cde_schools_co.json declares itself
+ * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
+ * The file was renamed from cde_schools_co.json so that its status is
+ * visible at every call site rather than only to someone who opens meta.note
+ * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
+ * so that real data can be dropped in without rewriting the consumer.
+ *
+ * Do not re-enable the sub-score until the backing file is a real extract.
+ */
+/**
  * js/data-connectors/cde-schools.js
  * Colorado Department of Education school district quality accessor.
  *
- * Data source: data/market/cde_schools_co.json
+ * Data source: data/market/SYNTHETIC_cde_schools_co.json
  * Real data: https://www.cde.state.co.us/accountability
  *
  * Exposed as window.CdeSchools.
@@ -28,14 +40,14 @@
   function loadMetrics() {
     var DS = window.DataService;
     if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/cde_schools_co.json'))
+    return DS.getJSON(DS.baseData('market/SYNTHETIC_cde_schools_co.json'))
       .then(function (raw) {
         _data     = raw;
         _byCounty = _buildIndex((raw && raw.districts) ? raw.districts : []);
         return _data;
       })
       .catch(function (e) {
-        console.warn('[cde-schools] Failed to load cde_schools_co.json:', e && e.message);
+        console.warn('[cde-schools] Failed to load SYNTHETIC_cde_schools_co.json:', e && e.message);
         _data     = { districts: [] };
         _byCounty = {};
         return _data;

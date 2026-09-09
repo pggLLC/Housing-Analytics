@@ -1,8 +1,20 @@
 /**
+ * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Labor and Employment extract.
+ *
+ * data/market/SYNTHETIC_cdle_job_postings_co.json declares itself
+ * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
+ * The file was renamed from cdle_job_postings_co.json so that its status is
+ * visible at every call site rather than only to someone who opens meta.note
+ * (#1560). Its sub-score is excluded from PMA scoring; this connector remains
+ * so that real data can be dropped in without rewriting the consumer.
+ *
+ * Do not re-enable the sub-score until the backing file is a real extract.
+ */
+/**
  * js/data-connectors/cdle-jobs.js
  * Colorado Department of Labor and Employment (CDLE) job vacancy accessor.
  *
- * Data source: data/market/cdle_job_postings_co.json
+ * Data source: data/market/SYNTHETIC_cdle_job_postings_co.json
  * Real data: https://www.colmigateway.com/
  *
  * Exposed as window.CdleJobs.
@@ -24,14 +36,14 @@
   function loadMetrics() {
     var DS = window.DataService;
     if (!DS) return Promise.reject(new Error('DataService not available'));
-    return DS.getJSON(DS.baseData('market/cdle_job_postings_co.json'))
+    return DS.getJSON(DS.baseData('market/SYNTHETIC_cdle_job_postings_co.json'))
       .then(function (raw) {
         _data = raw;
         _idx  = _buildIndex((raw && raw.counties) ? raw.counties : []);
         return _data;
       })
       .catch(function (e) {
-        console.warn('[cdle-jobs] Failed to load cdle_job_postings_co.json:', e && e.message);
+        console.warn('[cdle-jobs] Failed to load SYNTHETIC_cdle_job_postings_co.json:', e && e.message);
         _data = { counties: [] };
         _idx  = {};
         return _data;

@@ -953,31 +953,31 @@
 
     // ── 3. CDLE vacancy rates (20%) — low vacancy = tight labour = risk ──
     // ── EXCLUDED (#1560) ──
-    // data/market/cdle_job_postings_co.json declares itself "Synthetic
+    // data/market/SYNTHETIC_cdle_job_postings_co.json declares itself "Synthetic
     // approximation for PMA workforce scoring" in its own meta.note. The
     // aggregation code is removed rather than left commented; it is one
     // `git revert` away, and dead code invites someone to re-enable it
     // without re-checking whether the data became real.
     var cdleScore = null;
-    reasons.push('CDLE vacancy (20%): excluded — cdle_job_postings_co.json is synthetic');
+    reasons.push('CDLE vacancy (20%): excluded — SYNTHETIC_cdle_job_postings_co.json is synthetic');
 
     // ── 4. CDE school quality proximity (15%) ───────────────────────
     // ── EXCLUDED (#1560) ──
-    // data/market/cde_schools_co.json is synthetic by its own meta.note and
+    // data/market/SYNTHETIC_cde_schools_co.json is synthetic by its own meta.note and
     // independently wrong: every county FIPS in it mismatches
     // data/hna/geo-config.json (Douglas carries Denver's 08031), and Denver
     // Public Schools is listed at 10.1% free-and-reduced lunch against a real
     // 60-70%. It reached CHFA scoring through the PMA >= 60 / >= 75 thresholds,
     // which are 15 points apart — the same size as this weight.
     var cdeScore = null;
-    reasons.push('CDE school quality (15%): excluded — cde_schools_co.json is synthetic');
+    reasons.push('CDE school quality (15%): excluded — SYNTHETIC_cde_schools_co.json is synthetic');
 
     // ── 5. CDOT traffic connectivity (15%) ──────────────────────────
     // ── EXCLUDED (#1560) ──
-    // data/market/cdot_traffic_co.json is synthetic by its own meta.note, from
+    // data/market/SYNTHETIC_cdot_traffic_co.json is synthetic by its own meta.note, from
     // the same 2026-03-09 generation batch as the CDE and CDLE files.
     var cdotScore = null;
-    reasons.push('CDOT connectivity (15%): excluded — cdot_traffic_co.json is synthetic');
+    reasons.push('CDOT connectivity (15%): excluded — SYNTHETIC_cdot_traffic_co.json is synthetic');
 
     // Weighted mean over the sub-scores that were actually measured.
     //
