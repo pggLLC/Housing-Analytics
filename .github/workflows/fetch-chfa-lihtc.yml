@@ -114,6 +114,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          node scripts/build-home-snapshot.mjs
+          npm run audit:file-manifest
           python3 scripts/rebuild_manifest.py
           git add \
             data/chfa-lihtc.json \
@@ -125,6 +127,8 @@ jobs:
             data/multifamily-inventory-co.json \
             data/lihtc-trends-by-county.json \
             data/co-historical-allocations.json \
+            data/home-snapshot.json \
+            data/_manifest.json \
             data/manifest.json
           if git diff --cached --quiet; then
             echo "No changes to commit"

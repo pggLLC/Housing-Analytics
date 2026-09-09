@@ -360,16 +360,18 @@ jobs:
               console.error('Alert script failed:', e.message);
             }
 
-      - name: Rebuild manifest.json
+      - name: Rebuild homepage snapshot and manifests
         run: |
-          echo "── Regenerating data/manifest.json ──"
-          python scripts/rebuild_manifest.py
+          echo "── Regenerating homepage snapshot and data manifests ──"
+          node scripts/build-home-snapshot.mjs
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
 
       - name: Commit and push
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/policy/housing-policy-scorecard.json data/manifest.json data/jurisdiction-briefs docs/qa 2>/dev/null || true
+          git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS

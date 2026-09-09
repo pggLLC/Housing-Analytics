@@ -187,7 +187,7 @@
     "test:metric-trust-map-metadata": "node test/metric-trust-map-metadata.test.js",
     "test:data-trust-center-badges": "node test/data-trust-center-badges.test.js",
     "test:deal-tracker-wording": "node test/deal-tracker-wording.test.js",
-    "test:homepage-claims": "node test/homepage-claims.test.js",
+    "test:homepage-claims": "node test/homepage-claims.test.js && node test/homepage-snapshot.test.js",
     "test:public-facing-numbers": "node test/public-facing-numbers.test.js",
     "test:mi-supply": "node test/mi-supply-co-vs-national.test.js",
     "test:econ-dash": "node test/econ-dash-series-labels.test.js",
