@@ -8,6 +8,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { JSDOM } = require('jsdom');
 
 const ROOT = path.resolve(__dirname, '..');
 const index = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
@@ -67,6 +68,24 @@ assert(
   'hero cost-burden claim must disclose the CHAS 2018-2022 vintage inline'
 );
 
+const gap30Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤30% AMI', '</div>');
+const gap60Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤60% AMI', '</div>');
+const gap30Note = new JSDOM(gap30Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
+const gap60Note = new JSDOM(gap60Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
+assert.notEqual(gap30Note, gap60Note, 'the two cumulative AMI cards must not carry identical sublabels');
+assert(gap30Card.includes('inner tier') && gap30Card.includes('first cumulative threshold'), '≤30% card identifies the inner cumulative tier');
+assert(gap60Card.includes('includes ≤30%') && gap60Card.includes('includes every household counted at ≤30% AMI'), '≤60% card states that it contains the ≤30% household group');
+assert(
+  index.includes('the wider tier raises the affordable-rent ceiling') &&
+    index.includes('not because need falls'),
+  'homepage explains why the wider cumulative tier can have a smaller deficit'
+);
+assert(
+  index.includes('counted priced-affordable homes are renter-occupied, not necessarily vacant or available') &&
+    index.includes('statewide 4-person AMI: $107,200'),
+  'homepage carries the occupancy caveat and identifies the statewide AMI basis'
+);
+
 const routes = htmlBlock('<nav class="home-job-routes"', '</nav>');
 assert(
   routes.includes('Plan ownership') &&
@@ -76,4 +95,34 @@ assert(
   'Find Opportunity routing must include an affordable ownership path'
 );
 
-console.log('homepage-claims: PASS');
+async function assertRenderedGapFigures() {
+  const dom = new JSDOM(index, { url: 'http://127.0.0.1/index.html' });
+  global.window = dom.window;
+  global.document = dom.window.document;
+  global.location = dom.window.location;
+
+  const amiGap = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'co_ami_gap_by_county.json'), 'utf8'));
+  window.DataService = {
+    baseData: (value) => value,
+    getJSON: (value) => value === 'co_ami_gap_by_county.json'
+      ? Promise.resolve(amiGap)
+      : Promise.reject(new Error('not used by this fixture')),
+  };
+
+  const indexModule = path.join(ROOT, 'js', 'index.js');
+  delete require.cache[require.resolve(indexModule)];
+  require(indexModule);
+  document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  await new Promise((resolve) => setTimeout(resolve, 0));
+
+  assert.equal(document.getElementById('snapGap30').textContent, '135,587', '≤30% headline renders unchanged');
+  assert.equal(document.getElementById('snapGap60').textContent, '83,490', '≤60% headline renders unchanged');
+}
+
+assertRenderedGapFigures()
+  .then(() => console.log('homepage-claims: PASS'))
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
