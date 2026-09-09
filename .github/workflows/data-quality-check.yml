@@ -2,7 +2,7 @@ name: Data Quality Check
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # Every 6 hours
+    - cron: '17 */6 * * *'   # every 6 hours at :17
   workflow_dispatch:         # Allow manual triggering
 
 permissions:

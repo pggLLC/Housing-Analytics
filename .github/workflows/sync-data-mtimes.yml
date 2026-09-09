@@ -7,8 +7,11 @@ name: Sync Data MTimes
 # pinned (that's how the Stale 39 → 18 / 45 → 24 first run happened).
 #
 # Runs:
-#   - daily at 16:30 UTC (right after the 16:00 freshness check) so the
-#     fix is in main before anyone reads the dashboard at 10am Denver
+#   - daily at 03:53 UTC so the fix is in main before anyone reads the
+#     dashboard at 10am Denver. It used to run at 16:30 UTC, which IS
+#     10:30 Denver — after the moment the comment was aiming at, and with
+#     queue delay it landed nearer 13:30. Running overnight finally meets
+#     the stated goal, and it still precedes the daily freshness check.
 #   - on push to data/** so manual updates also flush through
 #   - on manual dispatch when something needs nudging
 #
@@ -18,7 +21,7 @@ name: Sync Data MTimes
 
 on:
   schedule:
-    - cron: '30 16 * * *'
+    - cron: '53 3 * * *'   # daily 03:53 UTC
   push:
     branches: ['main']
     paths:

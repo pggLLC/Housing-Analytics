@@ -8,12 +8,12 @@ name: Rebuild BPS Permits
 # Two staleness channels make this necessary:
 #   1. New BPS annual vintage (~May each year); a weekly run picks it up
 #      within 7 days (same spirit as rebuild-place-od-flows.yml for LODES).
-#   2. build-hna-data.yml (Mondays 06:30 UTC) commits new county DOLA
+#   2. build-hna-data.yml (Saturdays 07:23 UTC) commits new county DOLA
 #      projections; permits.json bakes production_vs_need from those, and
 #      places.json downscales them, so both drift the same day. That
 #      workflow pushes with GITHUB_TOKEN — which never fires other
-#      workflows' push triggers — so the re-sync runs on a Monday cron a
-#      few hours later instead. The push trigger below still catches
+#      workflows' push triggers — so the re-sync runs on its own cron the
+#      following day instead. The push trigger below still catches
 #      HUMAN/PR commits that touch the projections or scripts.
 #
 # The whole chain is rebuilt and committed atomically — permits.json is a
@@ -27,9 +27,9 @@ name: Rebuild BPS Permits
 
 on:
   schedule:
-    # Mondays 12:00 UTC — comfortably after build-hna-data (06:30 UTC)
+    # Sundays — comfortably after build-hna-data (Saturdays 07:23 UTC)
     # finishes committing refreshed projections.
-    - cron: '0 12 * * 1'
+    - cron: '37 4 * * 0'   # Sundays 04:37 UTC
   push:
     branches: ['main']
     paths:

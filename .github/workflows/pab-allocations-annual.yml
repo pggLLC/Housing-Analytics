@@ -12,7 +12,7 @@ name: PAB Allocations — Annual Refresh
 
 on:
   schedule:
-    - cron: '0 12 1 2 *'    # Feb 1, 12:00 UTC (after DOLA posts the new year)
+    - cron: '17 6 1 2 *'   # 06:17 UTC on 1 February (annual)
   workflow_dispatch:         # manual trigger from the Actions tab
 
 permissions:

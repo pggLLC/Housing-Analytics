@@ -8,12 +8,12 @@ name: jurisdiction-briefs · monthly stale-detector + candidate-list
 # human-driven research+verification task (per the README curation rules
 # enforced by scripts/validate-jurisdiction-briefs.py).
 #
-# Cadence: 1st of every month at 09:00 America/Denver (15:00 UTC).
+# Cadence: 1st of every month at 09:23 America/Denver (15:23 UTC).
 # Trigger manually with: gh workflow run jurisdiction-briefs-monthly.yml
 
 on:
   schedule:
-    - cron: '0 15 1 * *'    # 1st of month, 15:00 UTC
+    - cron: '23 15 1 * *'   # 1st of each month, 15:23 UTC
   workflow_dispatch:
 
 permissions:

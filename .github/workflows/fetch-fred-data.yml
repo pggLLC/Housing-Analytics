@@ -2,7 +2,7 @@ name: Fetch FRED Data
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # daily at 06:00 UTC
+    - cron: '7 5 * * *'   # daily 05:07 UTC
   workflow_dispatch:
 
 permissions:

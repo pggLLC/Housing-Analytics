@@ -2,7 +2,7 @@ name: Data Source Monitoring
 
 on:
   schedule:
-    - cron: '45 7 * * *'  # Daily at 07:45 UTC
+    - cron: '11 7 * * *'   # daily 07:11 UTC
   workflow_dispatch:        # Allow manual trigger
 
 permissions:

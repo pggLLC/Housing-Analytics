@@ -33,12 +33,12 @@ publication cadences.
 
 | Time (UTC) | Day | Workflow | Data produced |
 |---|---|---|---|
-| Monday 02:00 | Weekly | `zillow-data-sync.yml` | `data/zillow-*.json` |
-| Monday 03:00 | Weekly | `fetch-kalshi.yml` | `data/kalshi/prediction-market.json` |
+| Saturday 05:53 | Weekly | `zillow-data-sync.yml` | `data/zillow-*.json` |
+| Sunday 03:11 | Weekly | `fetch-kalshi.yml` | `data/kalshi/prediction-market.json` |
 | Monday 04:00 | Weekly | `cache-hud-gis-data.yml` | `data/hud-*` |
-| Monday 05:00 | Weekly | `fetch-chfa-lihtc.yml` | `data/chfa-lihtc.json`, `data/hna/lihtc/*.json` |
-| Monday 06:30 | Weekly | `build-hna-data.yml` | `data/hna/*.json` |
-| Monday 08:30 | Weekly | `audit-endpoints.yml` | Endpoint reachability report |
+| Sunday 05:49 | Weekly | `fetch-chfa-lihtc.yml` | `data/chfa-lihtc.json`, `data/hna/lihtc/*.json` |
+| Saturday 07:23 | Weekly | `build-hna-data.yml` | `data/hna/*.json` |
+| Wednesday 09:23 | Weekly | `audit-endpoints.yml` | Endpoint reachability report |
 | Daily 06:30 | Daily | `fetch-census-acs.yml` | `data/census-acs-state.json` |
 | Daily 07:00 | Daily | `data-refresh.yml` | `data/co-county-demographics.json`, `data/manifest.json` |
 | 1st of month 04:00 | Monthly | `car-data-update.yml` | `data/car-market-report-YYYY-MM.json` |

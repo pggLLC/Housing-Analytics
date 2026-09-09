@@ -12,9 +12,9 @@ name: Rebuild Place and Tract OD Flows
 # the ~2.45M block-block rows every day.
 
 on:
-  # First of every month at 17:00 UTC = 11:00 America/Denver in DST.
+  # First of every month at 08:13 UTC = 02:13 America/Denver in DST.
   schedule:
-    - cron: '0 17 1 * *'
+    - cron: '31 6 1 * *'   # 1st of each month, 06:31 UTC (lands ~03:00 MT)
   # Also rebuild when the script or its dependencies change.
   push:
     branches: ['main']

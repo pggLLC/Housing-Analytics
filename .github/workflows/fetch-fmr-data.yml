@@ -13,12 +13,12 @@ name: Fetch HUD FMR + Income Limits
 
 on:
   schedule:
-    # Monthly on the 5th at 04:00 UTC. HUD publishes FMR annually around
+    # Monthly on the 5th at 04:29 UTC. HUD publishes FMR annually around
     # April 1; running monthly catches the FY rollover within ~30 days
     # without re-fetching unchanged data weekly. The script writes the
     # same output bytes when HUD has nothing new (idempotent), so the
     # commit step short-circuits via `git diff --cached --quiet`.
-    - cron: '0 4 5 * *'
+    - cron: '29 4 5 * *'   # 5th of each month, 04:29 UTC
   workflow_dispatch:
     inputs:
       fetch_fmr:
