@@ -11,7 +11,7 @@ const shareSrc = fs.readFileSync(path.join(root, 'js', 'deal-calculator-share.js
 const html = fs.readFileSync(path.join(root, 'deal-calculator.html'), 'utf8');
 const hudData = JSON.parse(fs.readFileSync(path.join(root, 'data', 'hud-fmr-income-limits.json'), 'utf8'));
 
-const EXPECTED_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120];
+const EXPECTED_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120];
 
 function dollarsToNumber(text) {
   return Number(String(text || '').replace(/[^0-9.-]/g, ''));
@@ -75,13 +75,13 @@ async function main() {
   console.log('\nDeal Calculator 110%/120% AMI band tests');
   console.log('='.repeat(52));
 
-  assertIncludes(dcSrc, 'var DEAL_AMI_BANDS = [30, 40, 50, 60, 70, 80, 100, 110, 120]', 'central AMI band list guard');
+  assertIncludes(dcSrc, 'var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120]', 'central AMI band list guard');
   assertIncludes(dcSrc, '110% and 120% AMI are middle-income planning bands', 'middle-income methodology disclosure');
   assertIncludes(dcSrc, 'not LIHTC-credit-eligible', 'credit-ineligibility label disclosure');
   assertIncludes(shareSrc, "'dc-units-110'", '110% units share key');
   assertIncludes(shareSrc, "'dc-chk-120'", '120% enabled share key');
   assertIncludes(shareSrc, "'dc-br-120'", '120% bedroom share key');
-  assertIncludes(html, '[30, 40, 50, 60, 70, 80, 100, 110, 120].reduce', 'JSON export band-list guard');
+  assertIncludes(html, '[20, 30, 40, 50, 60, 70, 80, 100, 110, 120].reduce', 'JSON export band-list guard');
 
   let dom = makeDom();
   window.safeFetchJSON = function (assetPath) {
@@ -99,7 +99,7 @@ async function main() {
   document.dispatchEvent(new Event('DOMContentLoaded', { bubbles: true }));
 
   const dc = window.__DealCalc;
-  assert.deepStrictEqual(dc.getAmiBands(), EXPECTED_BANDS, 'runtime AMI bands expose all nine tiers');
+  assert.deepStrictEqual(dc.getAmiBands(), EXPECTED_BANDS, 'runtime AMI bands expose all ten federal designation tiers');
   assert.strictEqual(dc.isLihtcCreditEligiblePct(100), false, '100% AMI is not LIHTC-credit-eligible');
   assert.strictEqual(dc.isLihtcCreditEligiblePct(110), false, '110% AMI is not LIHTC-credit-eligible');
   assert.strictEqual(dc.isLihtcCreditEligiblePct(120), false, '120% AMI is not LIHTC-credit-eligible');

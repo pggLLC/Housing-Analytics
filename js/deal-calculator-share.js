@@ -36,6 +36,7 @@
   var SHARE_KEYS = [
     // Capital stack
     'dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct', 'dc-qct-dda',
+    'dc-minimum-set-aside',
     'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
     // F221 — Credit rate radio (dc-credit-rate group, 9% vs 4%). One ID is
     // enough; _readVal/_writeVal walk the group via input[name=...].
@@ -43,15 +44,16 @@
     // Deal mode radio (dc-deal-mode group, rental vs ownership) — without it
     // an ownership-mode share link opens in rental mode for the recipient.
     'dc-mode-rental',
-    // AMI mix (9 tiers) — both unit counts AND LIHTC-eligibility checkboxes
+    // AMI mix (10 tiers) — both unit counts AND LIHTC-eligibility checkboxes
     // AND bedroom-mix dropdowns. F221 catch: partner opens link without
     // these → silent wrong NOI (different BR mix drives different HUD rents).
-    'dc-units-30', 'dc-units-40', 'dc-units-50',
+    'dc-units-20', 'dc-units-30', 'dc-units-40', 'dc-units-50',
     'dc-units-60', 'dc-units-70', 'dc-units-80', 'dc-units-100', 'dc-units-110', 'dc-units-120',
-    'dc-chk-30',   'dc-chk-40',   'dc-chk-50',
+    'dc-chk-20',   'dc-chk-30',   'dc-chk-40',   'dc-chk-50',
     'dc-chk-60',   'dc-chk-70',   'dc-chk-80',   'dc-chk-100',   'dc-chk-110',   'dc-chk-120',
-    'dc-br-30',    'dc-br-40',    'dc-br-50',
+    'dc-br-20',    'dc-br-30',    'dc-br-40',    'dc-br-50',
     'dc-br-60',    'dc-br-70',    'dc-br-80',    'dc-br-100',    'dc-br-110',    'dc-br-120',
+    'dc-units-20-1br', 'dc-units-20-2br', 'dc-units-20-3br', 'dc-units-20-4br',
     'dc-units-30-1br', 'dc-units-30-2br', 'dc-units-30-3br', 'dc-units-30-4br',
     'dc-units-40-1br', 'dc-units-40-2br', 'dc-units-40-3br', 'dc-units-40-4br',
     'dc-units-50-1br', 'dc-units-50-2br', 'dc-units-50-3br', 'dc-units-50-4br',
