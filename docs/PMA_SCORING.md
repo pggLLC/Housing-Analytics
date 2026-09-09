@@ -16,7 +16,7 @@ The PMA score summarises affordable housing site viability in five dimensions:
 | **Capture Risk** | 25% | Existing + proposed units vs. qualified renters |
 | **Rent Pressure** | 15% | Market rent vs. affordable rent threshold |
 | **Land / Supply** | 15% | Vacancy rate bands |
-| **Workforce** | 15% | Placeholder (future: LODES workforce data) |
+| **Workforce** | 15% | Measured LODES job accessibility and ACS income proxy |
 
 A higher score means **stronger market support** for an affordable housing project.
 
@@ -196,26 +196,29 @@ dominated market; they do not change the score.
 
 ### 5. Workforce (15%)
 
-Weighted composite score from up to 5 Colorado-specific data sources:
+Weighted composite designed for five Colorado-specific inputs. Production
+currently measures two inputs; the three synthetic fixtures are excluded:
 
-| Sub-source | Weight | Data File | Module |
-|---|---|---|---|
-| LODES job accessibility | 25% | `data/market/lodes_co.json` | `window.LodesCommute` |
-| ACS income/education proxy | 25% | ACS tract metrics | (inline) |
-| CDLE vacancy rates | 20% | `data/market/SYNTHETIC_cdle_job_postings_co.json` | `window.CdleJobs` |
-| CDE school quality | 15% | `data/market/SYNTHETIC_cde_schools_co.json` | `window.CdeSchools` |
-| CDOT traffic connectivity | 15% | `data/market/SYNTHETIC_cdot_traffic_co.json` | `window.CdotTraffic` |
+| Sub-source | Nominal weight | Production treatment | Data File / Module |
+|---|---:|---|---|
+| LODES job accessibility | 25% | Measured; 50% effective weight when LODES and ACS are both available | `data/market/lodes_co.json` / `window.LodesCommute` |
+| ACS income proxy | 25% | Measured; 50% effective weight when LODES and ACS are both available | ACS tract metrics / inline |
+| CDLE vacancy rates | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cdle_job_postings_co.json` |
+| CDE school quality | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cde_schools_co.json` |
+| CDOT traffic connectivity | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cdot_traffic_co.json` |
 
 ```
-workforceScore = lodesScore   × 0.25
-               + acsWfScore   × 0.25
-               + cdleScore    × 0.20
-               + cdeScore     × 0.15
-               + cdotScore    × 0.15
+workforceScore = sum(measured score × nominal weight)
+                 / sum(measured nominal weights)
 ```
 
-Each sub-source falls back to a neutral value (40–55) when its data module is
-unavailable. Coverage level is reported as `full`, `partial`, or `fallback`.
+Measured terms are renormalized over the available weight; the engine does not
+insert neutral values for unavailable inputs. With both current production
+inputs available, LODES and ACS therefore contribute 50% each. If one is
+unavailable, the remaining measured input carries the calculation. If neither
+is available, the workforce score is `null`. Coverage is reported as `partial`
+while the three designed inputs remain excluded, or `fallback` when neither
+production input is measured.
 
 ---
 

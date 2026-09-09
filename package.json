@@ -181,7 +181,7 @@
     "test:local-resources-discovery": "node test/local-resources-discovery.test.js",
     "test:opportunity-finder-verifier-source": "node test/opportunity-finder-verifier-source.test.mjs",
     "test:data-trust-center": "node test/data-trust-center.test.js",
-    "test:data-source-inventory-paths": "node test/data-source-inventory-paths.test.js",
+    "test:data-source-inventory-paths": "node test/data-source-inventory-paths.test.js && node test/data-source-inventory-drift.test.js",
     "test:metric-trust-map-metadata": "node test/metric-trust-map-metadata.test.js",
     "test:data-trust-center-badges": "node test/data-trust-center-badges.test.js",
     "test:deal-tracker-wording": "node test/deal-tracker-wording.test.js",
