@@ -203,9 +203,9 @@ currently measures two inputs; the three synthetic fixtures are excluded:
 |---|---:|---|---|
 | LODES job accessibility | 25% | Measured; 50% effective weight when LODES and ACS are both available | `data/market/lodes_co.json` / `window.LodesCommute` |
 | ACS income proxy | 25% | Measured; 50% effective weight when LODES and ACS are both available | ACS tract metrics / inline |
-| CDLE vacancy rates | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cdle_job_postings_co.json` |
-| CDE school quality | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cde_schools_co.json` |
-| CDOT traffic connectivity | Excluded | Synthetic fixture; contributes no score | `data/market/SYNTHETIC_cdot_traffic_co.json` |
+| CDLE vacancy rates | Excluded | Synthetic fixture; contributes no score | _(deleted — no committed source)_ |
+| CDE school quality | Excluded | Synthetic fixture; contributes no score | _(deleted — no committed source)_ |
+| CDOT traffic connectivity | Excluded | Synthetic fixture; contributes no score | _(deleted — no committed source)_ |
 
 ```
 workforceScore = sum(measured score × nominal weight)

@@ -1,7 +1,7 @@
 /**
  * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Labor and Employment extract.
  *
- * data/market/SYNTHETIC_cdle_job_postings_co.json declares itself
+ * (no committed data file — the synthetic fixture was deleted 2026-09-09) declares itself
  * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
  * The file was renamed from cdle_job_postings_co.json so that its status is
  * visible at every call site rather than only to someone who opens meta.note
@@ -14,7 +14,7 @@
  * js/data-connectors/cdle-jobs.js
  * Colorado Department of Labor and Employment (CDLE) job vacancy accessor.
  *
- * Data source: data/market/SYNTHETIC_cdle_job_postings_co.json
+ * Data source: (no committed data file — the synthetic fixture was deleted 2026-09-09)
  * Real data: https://www.colmigateway.com/
  *
  * Exposed as window.CdleJobs.

@@ -1,7 +1,7 @@
 /**
  * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Transportation extract.
  *
- * data/market/SYNTHETIC_cdot_traffic_co.json declares itself
+ * (no committed data file — the synthetic fixture was deleted 2026-09-09) declares itself
  * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
  * The file was renamed from cdot_traffic_co.json so that its status is
  * visible at every call site rather than only to someone who opens meta.note
@@ -14,7 +14,7 @@
  * js/data-connectors/cdot-traffic.js
  * Colorado Department of Transportation traffic count accessor.
  *
- * Data source: data/market/SYNTHETIC_cdot_traffic_co.json
+ * Data source: (no committed data file — the synthetic fixture was deleted 2026-09-09)
  * Real data: https://www.codot.gov/programs/statewideplanning/traffic-data
  *
  * Exposed as window.CdotTraffic.

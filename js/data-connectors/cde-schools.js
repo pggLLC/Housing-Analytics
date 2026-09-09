@@ -1,7 +1,7 @@
 /**
  * ⚠️  SYNTHETIC DATA — NOT a real Colorado Department of Education extract.
  *
- * data/market/SYNTHETIC_cde_schools_co.json declares itself
+ * (no committed data file — the synthetic fixture was deleted 2026-09-09) declares itself
  * "Synthetic approximation for PMA workforce scoring" in its own meta.note.
  * The file was renamed from cde_schools_co.json so that its status is
  * visible at every call site rather than only to someone who opens meta.note
@@ -14,7 +14,7 @@
  * js/data-connectors/cde-schools.js
  * Colorado Department of Education school district quality accessor.
  *
- * Data source: data/market/SYNTHETIC_cde_schools_co.json
+ * Data source: (no committed data file — the synthetic fixture was deleted 2026-09-09)
  * Real data: https://www.cde.state.co.us/accountability
  *
  * Exposed as window.CdeSchools.
