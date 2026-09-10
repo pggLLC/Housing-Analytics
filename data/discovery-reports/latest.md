@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-09T12:19:07.162Z
+**Scan timestamp:** 2026-09-10T12:12:32.462Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1618 |
-| New (unregistered) | 1587 |
+| Files scanned | 1616 |
+| New (unregistered) | 1585 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (763 KB)
+- `data/_manifest.json` (761 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (192 KB)
+- `data/alerts/alerts_archive.json` (188 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -63,7 +63,7 @@
 - `data/fixtures/fruita-commons-compact.scenario.json` (5 KB)
 - `data/fixtures/fruita-commons-family.scenario.json` (5 KB)
 - `data/fixtures/fruita-commons.scenario.json` (5 KB)
-- `data/glossary.json` (14 KB)
+- `data/glossary.json` (21 KB)
 - `data/hmda/co-county-aggregates.json` (241 KB)
 - `data/hmda/co-state-trends.json` (4 KB)
 - `data/hna/benchmarks.json` (9 KB)
@@ -1453,6 +1453,7 @@
 - `data/hna/summary/0886750.json` (4 KB)
 - `data/hna/vacancy-status.json` (458 KB)
 - `data/hna/zhvi-place-crosswalk.json` (45 KB)
+- `data/home-snapshot.json` (1 KB)
 - `data/insights-meta.json` (1 KB)
 - `data/jurisdiction-briefs/0803620.json` (27 KB)
 - `data/jurisdiction-briefs/08045.json` (29 KB)
@@ -1492,9 +1493,6 @@
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
 - `data/kalshi/prediction-market.json` (3 KB)
-- `data/market/SYNTHETIC_cde_schools_co.json` (10 KB)
-- `data/market/SYNTHETIC_cdle_job_postings_co.json` (23 KB)
-- `data/market/SYNTHETIC_cdot_traffic_co.json` (8 KB)
 - `data/market/acs_median_rent_co.json` (83 KB)
 - `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (0 KB)
@@ -1579,7 +1577,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (158 KB)
+- `data/policy_briefs.json` (156 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
