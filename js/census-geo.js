@@ -74,9 +74,9 @@
 
   const $ = (sel) => document.querySelector(sel);
 
-  function formatNumber(n)   { return isFinite(n) ? Math.round(n).toLocaleString() : "—"; }
-  function formatCurrency(n) { return isFinite(n) ? Math.round(n).toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 }) : "—"; }
-  function formatPct(n)      { return isFinite(n) ? Number(n).toFixed(1) + "%" : "—"; }
+  function formatNumber(n)   { return MoneyFormatter.isAbsent(n) ? "—" : Math.round(Number(n)).toLocaleString(); }
+  function formatCurrency(n) { return MoneyFormatter.formatMoney(n); }
+  function formatPct(n)      { return MoneyFormatter.isAbsent(n) ? "—" : Number(n).toFixed(1) + "%"; }
 
   /* ---- Cached state data (data/census-acs-state.json) ---- */
   let _stateCache = null;
@@ -185,7 +185,7 @@
       { field: "median_home_value",       label: "Median home value",       fmt: formatCurrency, table: "DP04" },
     ];
     CACHE_METRICS.forEach(m => {
-      const val = Number(record[m.field]);
+      const val = record[m.field];
       const url = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
@@ -322,7 +322,7 @@
 
     grid.innerHTML = "";
     METRICS.forEach(m => {
-      const val  = Number(record[m.key]);
+      const val  = record[m.key];
       const url  = censusTableUrl(vintage, m.table, record);
       const card = document.createElement("div");
       card.className = "card";
