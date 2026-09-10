@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T20:48:18.661Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T23:09:40.386Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-304 test files found.
+305 test files found.
 
 | File | Size |
 |------|------|
@@ -1814,6 +1814,7 @@
 | `test/mobile-overflow-containment.test.js` | 2.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
+| `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
 | `test/orphan-nav-cleanup.test.js` | 3.7 KB |
