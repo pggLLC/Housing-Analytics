@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10T12:22:36.583462Z",
+  "generated": "2026-09-10T17:51:40.763400Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -1604,7 +1604,7 @@
     "data/hna/jurisdiction-metrics-digest/0819150.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29498
+      "bytes": 29448
     },
     "data/hna/jurisdiction-metrics-digest/0819355.json": {
       "featureCount": 0,
@@ -2244,7 +2244,7 @@
     "data/hna/jurisdiction-metrics-digest/0840570.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29259
+      "bytes": 29257
     },
     "data/hna/jurisdiction-metrics-digest/0840790.json": {
       "featureCount": 0,
@@ -2259,7 +2259,7 @@
     "data/hna/jurisdiction-metrics-digest/0841010.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29434
+      "bytes": 29436
     },
     "data/hna/jurisdiction-metrics-digest/0841065.json": {
       "featureCount": 0,
@@ -4119,7 +4119,7 @@
     "data/hna/ownership-need.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 720001
+      "bytes": 720003
     },
     "data/hna/permits.json": {
       "featureCount": 64,
@@ -4134,7 +4134,7 @@
     "data/hna/place-chas.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1629845
+      "bytes": 1629844
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
@@ -4494,27 +4494,27 @@
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49961
+      "bytes": 49963
     },
     "data/hna/ranking-scenarios/commuter-pressure.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49981
+      "bytes": 49983
     },
     "data/hna/ranking-scenarios/large-gap.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49972
+      "bytes": 49974
     },
     "data/hna/ranking-scenarios/rate-sensitive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49981
+      "bytes": 49983
     },
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49983
+      "bytes": 49985
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -6054,7 +6054,7 @@
     "data/hna/summary/0840570.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3900
+      "bytes": 3896
     },
     "data/hna/summary/0840790.json": {
       "featureCount": 0,
@@ -6069,7 +6069,7 @@
     "data/hna/summary/0841010.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4002
+      "bytes": 4006
     },
     "data/hna/summary/0841065.json": {
       "featureCount": 0,
