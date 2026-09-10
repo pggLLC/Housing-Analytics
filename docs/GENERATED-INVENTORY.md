@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-09T21:15:30.145Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T03:05:35.758Z. Do not edit by hand.
 
 ---
 
@@ -1752,7 +1752,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
-| `test/hna-functionality-check.js` | 61.6 KB |
+| `test/hna-functionality-check.js` | 60.2 KB |
 | `test/hna-home-value-absence.test.js` | 4.0 KB |
 | `test/hna-home-value-cascade.test.js` | 13.1 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
@@ -1873,7 +1873,7 @@
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-lifecycle.test.js` | 19.2 KB |
-| `test/shared-money-format.test.js` | 4.6 KB |
+| `test/shared-money-format.test.js` | 6.6 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
