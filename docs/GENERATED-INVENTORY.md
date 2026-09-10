@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T03:05:35.758Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T03:54:11.672Z. Do not edit by hand.
 
 ---
 
@@ -1655,11 +1655,12 @@
 
 ## Test Files
 
-303 test files found.
+304 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
+| `test/absence-confident-value-static-guard.test.mjs` | 8.4 KB |
 | `test/acs-etl.test.js` | 25.3 KB |
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
