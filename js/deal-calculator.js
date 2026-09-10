@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   var provenanceLabel = window.ProvenanceLabel || (typeof require === 'function' ? require('./provenance-label.js') : null);
+  var MoneyFormatter = window.MoneyFormatter || (typeof require === 'function' ? require('./utils/format-money.js') : null);
 
   // Financial defaults from centralized config (js/config/financial-constants.js).
   // Populated when HudFmr loads and a county is selected. AMI rent limits
@@ -443,7 +444,7 @@
     var targetLabel = Math.round(((+result.targetAmiPct || 0.80) * 100)) + '% AMI';
     setText('dc-own-target-label', targetLabel);
     if (result.status !== 'ok') {
-      setText('dc-own-cost-per-unit', isFinite(result.tdcPerUnit) ? fmt(result.tdcPerUnit) : '—');
+      setText('dc-own-cost-per-unit', !MoneyFormatter.isAbsent(result.tdcPerUnit) ? fmt(result.tdcPerUnit) : '—');
       setText('dc-own-max-price', '—');
       setText('dc-own-gap-per-unit', '—');
       setText('dc-own-total-gap', '—');
@@ -3307,7 +3308,7 @@
       ['rent10', 'vac5', 'opex10', 'combined'].forEach(function (k) {
         var row = stress[k];
         var noiEl = document.getElementById('dc-r-stress-' + k + '-noi');
-        if (noiEl) noiEl.textContent = isFinite(row.noi) ? fmt(row.noi) : '—';
+        if (noiEl) noiEl.textContent = !MoneyFormatter.isAbsent(row.noi) ? fmt(row.noi) : '—';
         _setDscr('dc-r-stress-' + k + '-dscr', row.dscr);
         _setMargin('dc-r-stress-' + k + '-margin', row.dscr, dcr);
       });
@@ -5176,8 +5177,8 @@
         // Bottom-line summary
         '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 16px;font-size:.82rem;">' +
         '<div><strong style="color:var(--muted);">LP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.lpTotal) + '</span></div>' +
-        '<div><strong style="color:var(--muted);">LP cash multiple:</strong> <span style="font-weight:700;">' + (isFinite(wf.lpMultiple) ? wf.lpMultiple.toFixed(2) + 'x' : '—') + '</span></div>' +
-        '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (isFinite(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : '—') + '</span></div>' +
+        '<div><strong style="color:var(--muted);">LP cash multiple:</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpMultiple) ? Number(wf.lpMultiple).toFixed(2) + 'x' : '—') + '</span></div>' +
+        '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : '—') + '</span></div>' +
         '<div><strong style="color:var(--muted);">GP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.gpTotal) + '</span></div>' +
         '</div>' +
         '<p style="margin:.5rem 0 0;font-size:.76rem;color:var(--faint);line-height:1.4;">' +
