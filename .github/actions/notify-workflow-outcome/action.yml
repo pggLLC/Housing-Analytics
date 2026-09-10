@@ -1,8 +1,8 @@
 name: 'Notify Workflow Outcome'
 description: >
-  On failure, open (or update) a tracking issue with a per-workflow title
-  marker and optionally POST to a Slack webhook. On success, close any
-  open tracking issue for the same workflow. Idempotent — multi-day
+  On failure or cancellation, open (or update) a tracking issue with a
+  per-workflow title marker and optionally POST to a Slack webhook. On success,
+  close any open tracking issue for the same workflow. Idempotent — multi-day
   outages produce one issue with repeated comments, not one per run.
 
 inputs:
@@ -14,8 +14,16 @@ inputs:
   outcome:
     description: >
       Overall job/workflow outcome to react to. Pass the value of job.status
-      or needs.<id>.result. The action only acts on 'success'
-      and 'failure'; other values (cancelled, skipped) are no-ops.
+      or needs.<id>.result. The action acts on 'success', 'failure' and
+      'cancelled'; 'skipped' remains a no-op.
+
+      'cancelled' is treated as a failure on purpose. A job killed by
+      timeout-minutes is recorded as cancelled, which renders grey rather than
+      as a red X, so nothing alerts and a scan for red misses it entirely --
+      build-hna-data went 15 days with no completed scheduled run that way
+      (#1556) while every check stayed green. A manual cancellation lands here
+      too; that is the accepted cost, and the issue closes itself on the next
+      green run.
     required: true
   slack_webhook:
     description: >
@@ -51,7 +59,7 @@ runs:
         echo "marker=${MARKER}" >> "$GITHUB_OUTPUT"
 
     - name: Open or update tracking issue on failure
-      if: inputs.outcome == 'failure'
+      if: inputs.outcome == 'failure' || inputs.outcome == 'cancelled'
       shell: bash
       env:
         GH_TOKEN:    ${{ inputs.github_token }}
@@ -61,9 +69,11 @@ runs:
         set -euo pipefail
         existing="${{ steps.find.outputs.number }}"
         marker="${{ steps.find.outputs.marker }}"
+        outcome="${{ inputs.outcome }}"
         title="⚠️ ${marker} ${WORKFLOW_ID} workflow failing"
         body=$(cat <<EOF
         **Workflow**: \`${WORKFLOW_ID}\`
+        **Outcome**: \`${outcome}\`
         **Failed run**: ${RUN_URL}
         **Triggered by**: ${{ github.event_name }} on \`${{ github.ref_name }}\`
 
@@ -75,6 +85,10 @@ runs:
         1. Open the failed run (link above), inspect the failing step
         2. Common causes: upstream API key expired, rate-limited request,
            schema change, or partial-write interrupted by timeout
+        2a. If **Outcome** above is \`cancelled\`, compare the run duration
+           against the job's \`timeout-minutes\` before assuming a human
+           stopped it -- a run that lasted exactly the timeout was killed, not
+           cancelled. If you did cancel it yourself, just close this issue.
         3. If the fix requires a code change, open a PR referencing this issue
         4. If the failure is transient, a manual re-run will close this issue
            on success
@@ -103,7 +117,7 @@ runs:
         gh issue close "${number}" --comment "$comment"
 
     - name: Post to Slack (optional)
-      if: inputs.outcome == 'failure' && inputs.slack_webhook != ''
+      if: (inputs.outcome == 'failure' || inputs.outcome == 'cancelled') && inputs.slack_webhook != ''
       shell: bash
       env:
         WEBHOOK:     ${{ inputs.slack_webhook }}
