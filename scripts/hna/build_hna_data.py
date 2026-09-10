@@ -1401,6 +1401,18 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
     a backfill-owned variable.
     """
     CORE_FIELDS = ('DP02_0001E', 'DP03_0062E', 'DP04_0001E')
+    # Fields that only mean anything together. Preserving one member of a group
+    # while a sibling refreshes yields a record that is internally inconsistent:
+    # on 2026-09-10 Kit Carson kept DP04_0046E=82 (owner) from the prior vintage
+    # while DP04_0047E refreshed 33 -> 27, so the counts implied a 24.8% renter
+    # share while the refreshed DP04_0047PE said 27.0%. The tenure anchor in
+    # build_place_chas.py reads the counts, place-chas-tenure-anchor.test.js
+    # checks them against the percent, and the mismatch failed test:ci.
+    # Preserve or refresh each group whole -- an internally consistent older
+    # snapshot beats a mixed-vintage one.
+    CONSISTENCY_GROUPS = (
+        ('DP04_0046E', 'DP04_0047E', 'DP04_0046PE', 'DP04_0047PE'),  # housing tenure
+    )
     if not os.path.exists(out_path):
         return payload, 0, False
     try:
@@ -1427,6 +1439,22 @@ def _merge_preserve_summary(out_path: str, payload: dict) -> tuple[dict, int, bo
                 if section == 'acsProfile':
                     core_regression = True
             continue
+        # Whole-group preservation first, so a partial refresh cannot mix
+        # vintages inside a group.
+        for group in CONSISTENCY_GROUPS:
+            in_old = [k for k in group if old_sec.get(k) is not None]
+            if not in_old:
+                continue
+            missing_new = [k for k in group if new_sec.get(k) is None]
+            if not missing_new:
+                continue          # fully refreshed — leave the new values alone
+            for k in in_old:      # partially refreshed — revert the whole group
+                if new_sec.get(k) != old_sec.get(k):
+                    new_sec[k] = old_sec[k]
+                    preserved += 1
+                    if k in CORE_FIELDS:
+                        core_regression = True
+
         for k, v in old_sec.items():
             if v is None:
                 continue
