@@ -65,9 +65,14 @@
 
     // Map demand signal to numeric (for visualization)
     var signalMap = { weak: 30, moderate: 55, strong: 80 };
-    var demLow  = signalMap[data.demandSignalRange && data.demandSignalRange.low] || 50;
-    var demHigh = signalMap[data.demandSignalRange && data.demandSignalRange.high] || 50;
-    var demBase = (demLow + demHigh) / 2;
+    var demLowKey = data.demandSignalRange && data.demandSignalRange.low;
+    var demHighKey = data.demandSignalRange && data.demandSignalRange.high;
+    var demLow = Object.prototype.hasOwnProperty.call(signalMap, demLowKey) ? signalMap[demLowKey] : null;
+    var demHigh = Object.prototype.hasOwnProperty.call(signalMap, demHighKey) ? signalMap[demHighKey] : null;
+    var demandUnavailableReason = demLow === null || demHigh === null
+      ? 'Demand sensitivity is unavailable because its signal range is missing or unrecognized; no neutral score was substituted.'
+      : null;
+    var demBase = demandUnavailableReason ? null : (demLow + demHigh) / 2;
     var demNote = (data.demandSignalRange && data.demandSignalRange.note) || '';
 
     // Saturation: extract project counts
@@ -106,6 +111,7 @@
           lowLabel: (data.demandSignalRange && data.demandSignalRange.low) || '—',
           highLabel: (data.demandSignalRange && data.demandSignalRange.high) || '—',
           note: demNote,
+          unavailableReason: demandUnavailableReason,
           color: 'var(--info)'
         },
         {
@@ -122,6 +128,14 @@
     var html = '<div class="tornado-rows">';
     for (var i = 0; i < factors.length; i++) {
       var f = factors[i];
+      if (f.unavailableReason) {
+        html += '<div class="tornado-row tornado-row--unavailable">' +
+          '<div class="tornado-row__label">' + f.label + '</div>' +
+          '<div class="tornado-row__bar-wrap">—</div>' +
+          '<div class="tornado-row__note">' + f.unavailableReason + '</div>' +
+        '</div>';
+        continue;
+      }
       // For the bar, show the range relative to baseline
       var range = f.high - f.low;
       var maxVisual = Math.max.apply(null, factors.map(function(x) { return x.high - x.low; })) || 1;

@@ -30,6 +30,11 @@
   'use strict';
   if (global.AffordableHousingLayer) return;
 
+  function _hasFiniteCoordinate(value) {
+    return value !== null && value !== undefined && value !== '' &&
+      Number.isFinite(Number(value));
+  }
+
   // ─────────────────────────────────────────────────────────────────────
   // Category buckets — every property gets exactly one bucket via priority.
   // Order matters: more-specific buckets first.
@@ -188,7 +193,7 @@
           // Merge bridge awards as property-shaped records.
           if (bridge && Array.isArray(bridge.awards)) {
             bridge.awards.forEach(function (a) {
-              if (!isFinite(a.lat) || !isFinite(a.lon)) return;
+              if (!_hasFiniteCoordinate(a.lat) || !_hasFiniteCoordinate(a.lon)) return;
               var pt = ['chfa-2026-r1-bridge'];
               if (a.federal_9pct_credit) pt.push('lihtc-9pct');
               if (a.federal_4pct_credit) pt.push('lihtc-4pct');
@@ -546,7 +551,7 @@
       CATEGORIES.forEach(function (c) { sub[c.key] = global.L.layerGroup(); });
 
       props.forEach(function (p) {
-        if (!isFinite(p.lat) || !isFinite(p.lng)) return;
+        if (!_hasFiniteCoordinate(p.lat) || !_hasFiniteCoordinate(p.lng)) return;
         var cat = _categorize(p);
         if (!cat) return;
         // F123 — bridge markers get an outlined-ring style + slightly larger
