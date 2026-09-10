@@ -105,9 +105,14 @@
       var impossibleCount = 0;
 
       subject.unit_mix.forEach(function (r) {
-        var hh = BR_HH_INT[r.bedrooms] || 4;
-        var max = SP.computeIncomeLimit(chfa, subject.county_fips, r.ami_tier, hh,
-          { useHera: useHera });
+        var hasHouseholdSize = Object.prototype.hasOwnProperty.call(BR_HH_INT, r.bedrooms);
+        var hh = hasHouseholdSize ? BR_HH_INT[r.bedrooms] : null;
+        var householdSizeUnavailableReason = hasHouseholdSize
+          ? null
+          : 'Household size unavailable because the bedroom type is missing or unrecognized.';
+        var max = hasHouseholdSize
+          ? SP.computeIncomeLimit(chfa, subject.county_fips, r.ami_tier, hh, { useHera: useHera })
+          : null;
         var proposed = +r.proposed_gross_rent || null;
         var min = (proposed != null) ? Math.round(proposed * 12 / 0.40) : null;
         var width = (max != null && min != null) ? max - min : null;
@@ -115,7 +120,8 @@
         if (impossible) impossibleCount += (+r.count || 0);
 
         var status, statusColor;
-        if (max == null) { status = 'No HUD data'; statusColor = 'var(--muted)'; }
+        if (householdSizeUnavailableReason) { status = householdSizeUnavailableReason; statusColor = 'var(--muted)'; }
+        else if (max == null) { status = 'No HUD data'; statusColor = 'var(--muted)'; }
         else if (proposed == null) { status = 'Enter proposed rent'; statusColor = 'var(--muted)'; }
         else if (impossible) { status = 'Impossible band (min > max)'; statusColor = 'var(--bad,#c14545)'; }
         else if (width != null && width < 5000) { status = 'Very tight window'; statusColor = 'var(--warn,#d9a93b)'; }
@@ -127,7 +133,7 @@
           $h('td', { style: { padding: '5px 6px' } }, [r.bedrooms === 'efficiency' ? 'Eff' : r.bedrooms]),
           $h('td', { style: { padding: '5px 6px' } }, [r.ami_tier + '%']),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [String(+r.count || 0)]),
-          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [String(hh)]),
+          $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [hasHouseholdSize ? String(hh) : '—']),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(proposed)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(min)]),
           $h('td', { style: { padding: '5px 6px', textAlign: 'right' } }, [$money(max)]),

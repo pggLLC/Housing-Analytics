@@ -887,7 +887,7 @@
    *
    * @param {{lat:number,lon:number}} location
    * @param {string} [climateVariable]
-   * @returns {Promise<{normals: object, extremes: object, resilienceScore: number, hazards: object, _stub: boolean, _dataSource: string}>}
+   * @returns {Promise<{normals: object, extremes: object, resilienceScore: number|null, hazards: object, _stub: boolean, _dataSource: string, unavailableReason?: string|null}>}
    */
   function fetchNOAAClimateData(location, climateVariable) {
     return _loadClimateData().then(function (data) {
@@ -899,14 +899,20 @@
       var keys = Object.keys(hazards);
       var scoreSum = 0;
       var scoreN = 0;
+      var unsupportedLevels = [];
       for (var i = 0; i < keys.length; i++) {
         var h = hazards[keys[i]];
-        if (h && h.level) {
-          scoreSum += (levelScores[h.level] || 60);
-          scoreN++;
+        if (!h || !Object.prototype.hasOwnProperty.call(levelScores, h.level)) {
+          unsupportedLevels.push(h && h.level ? h.level : 'missing');
+          continue;
         }
+        scoreSum += levelScores[h.level];
+        scoreN++;
       }
-      var baseScore = scoreN > 0 ? Math.round(scoreSum / scoreN) : 50;
+      var levelUnavailableReason = unsupportedLevels.length
+        ? 'Climate resilience score unavailable because the hazard data contains missing or unrecognized levels: ' + unsupportedLevels.join(', ') + '.'
+        : null;
+      var baseScore = scoreN > 0 && !levelUnavailableReason ? Math.round(scoreSum / scoreN) : null;
 
       // If EJI tract data is available and location provided, find nearest tract
       var ejiScore = null;
@@ -963,7 +969,8 @@
         hazards: hazards,
         ejiTractCount: ejiTracts.length,
         _stub: false,
-        _dataSource: 'climate-hazards-local'
+        _dataSource: 'climate-hazards-local',
+        unavailableReason: levelUnavailableReason
       };
     });
   }

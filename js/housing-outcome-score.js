@@ -163,10 +163,14 @@
     // Deal predictor confidence
     if (data.dealConfidence) {
       var confMap = { high: 85, medium: 60, low: 35 };
-      var confVal = confMap[data.dealConfidence] || 50;
-      components.push({ val: confVal, weight: 0.30 });
-      result.available = true;
-      result.inputs.dealConfidence = data.dealConfidence;
+      if (Object.prototype.hasOwnProperty.call(confMap, data.dealConfidence)) {
+        components.push({ val: confMap[data.dealConfidence], weight: 0.30 });
+        result.available = true;
+        result.inputs.dealConfidence = data.dealConfidence;
+      } else {
+        result.inputs.dealConfidenceUnavailableReason =
+          'Deal confidence is missing or unrecognized; it was excluded from the financial-feasibility score.';
+      }
     }
 
     // Capital stack gap ratio (lower gap = higher score)
