@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T00:06:58.274Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T03:16:39.478Z. Do not edit by hand.
 
 ---
 
@@ -352,7 +352,7 @@
 | `data/hna/jurisdiction-metrics-digest/0812900.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0812945.json` | 28.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813460.json` | 28.7 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0813590.json` | 28.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0813590.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0813845.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0814175.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0814587.json` | 28.8 KB | ✅ | — |
@@ -517,7 +517,7 @@
 | `data/hna/jurisdiction-metrics-digest/0840900.json` | 28.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841010.json` | 28.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841065.json` | 28.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0841560.json` | 28.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0841560.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0841835.json` | 28.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842000.json` | 28.5 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842055.json` | 28.7 KB | ✅ | — |
@@ -887,7 +887,7 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
-| `data/hna/ownership-need.json` | 703.1 KB | ✅ | — |
+| `data/hna/ownership-need.json` | 703.2 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
