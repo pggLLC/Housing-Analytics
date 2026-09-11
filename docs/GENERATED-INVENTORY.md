@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T12:46:37.167Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T12:53:10.373Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 231.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 233.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1920,7 +1920,7 @@
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/url-health-policy.test.mjs` | 3.2 KB |
+| `test/url-health-policy.test.mjs` | 6.2 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
 | `test/wcag-pill-contrast.test.js` | 12.6 KB |
