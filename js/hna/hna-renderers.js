@@ -7499,23 +7499,56 @@
     '</div>';
   }
 
+  /**
+   * The scorecard has several legitimate reasons to render nothing — most
+   * commonly the statewide default view, where geoid is '08', there is no
+   * contextCounty, and the peer-normalised composite has no meaning because
+   * Colorado has no peer to rank against.
+   *
+   * Every one of those paths used to hide the panel and return without
+   * touching the decision strip, so the 'need' tile kept its initial
+   * placeholder and read "— Loading" forever. On the statewide view — the one
+   * every first-time visitor lands on — that permanent "Loading" was the very
+   * first data on the page, and it says "this site is broken" rather than
+   * "this measure does not apply here".
+   *
+   * Absence is a real answer; render it as one, and say what to do next.
+   */
+  function _scorecardUnavailable(container, value, read) {
+    if (container) container.style.display = 'none';
+    updateDecisionStrip({
+      need: { value: value, read: read, href: '#hnaScorecardPanel', tone: 'unavailable' },
+    });
+  }
+
   function renderHnaScorecardPanel(geoid) {
     const container = document.getElementById('hnaScorecardPanel');
     if (!container) return;
-    if (!geoid) { container.style.display = 'none'; return; }
+    if (!geoid) { _scorecardUnavailable(container, 'Not scored', 'Select a jurisdiction'); return; }
 
     const state = S() && S().state;
     const chasData = state && state.chasData;
     const econData = state && state.blsEconData;
     const profile  = state && state.lastProfile;
-    if (!chasData) { container.style.display = 'none'; return; }
+    if (!chasData) { _scorecardUnavailable(container, 'Not scored', 'Need data unavailable'); return; }
 
     // County FIPS resolution — for state-level the statewide row applies;
     // for places/CDPs the containing county is used per existing behaviour.
     const countyFips = String(geoid).length === 5 ? geoid : (state.contextCounty || null);
-    if (!countyFips) { container.style.display = 'none'; return; }
+    if (!countyFips) {
+      // Statewide (geoid '08') lands here: no contextCounty, and the composite
+      // is peer-normalised against other Colorado jurisdictions, so there is
+      // nothing to rank the state itself against.
+      const isStatewide = String(geoid) === '08' || (state && state.current && state.current.geoType === 'state');
+      _scorecardUnavailable(container, 'Not scored',
+        isStatewide ? 'Choose a county or place' : 'No containing county');
+      return;
+    }
     const countyRec = (chasData.counties || {})[countyFips];
-    if (!countyRec || !countyRec.summary) { container.style.display = 'none'; return; }
+    if (!countyRec || !countyRec.summary) {
+      _scorecardUnavailable(container, 'Not scored', 'No CHAS data for this county');
+      return;
+    }
     // F254 (Codex Finding 14) — when a place/CDP is selected, the
     // scorecard transparently uses the containing county's CHAS +
     // economic indicators. Mirror this in state and surface it as a
