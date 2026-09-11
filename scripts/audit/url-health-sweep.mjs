@@ -49,7 +49,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BROWSER_USER_AGENT, diffConfirmedSweeps } from './url-health-policy.mjs';
+import { BROWSER_USER_AGENT, diffConfirmedSweeps, checkUrl } from './url-health-policy.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -326,11 +326,23 @@ async function probeUrl(url) {
     clearTimeout(timeout);
     const redirectTo = (res.url && normalizeUrl(res.url) !== url) ? normalizeUrl(res.url) : null;
     if (res.ok) return { url, status: 'ok', httpStatus: res.status, redirectTo, message: '' };
-    if (res.status === 401 || res.status === 403) {
+    // Parity with source-url-sweep.mjs's F162 bucket, which already treats the
+    // 401/403/407/429 cluster as "server is alive, it just declined this
+    // client" rather than rot. 407 was missing here and would have fallen
+    // through to 'broken'.
+    if (res.status === 401 || res.status === 403 || res.status === 407) {
       return { url, status: 'auth', httpStatus: res.status, redirectTo, message: 'auth-required' };
     }
     if (res.status === 404) {
       return { url, status: 'broken', httpStatus: 404, redirectTo, message: 'not found' };
+    }
+    // 429 is the one status that positively PROVES the host is alive: it is the
+    // server answering "you are asking too often". Routing it into 'broken' as
+    // an "unexpected status" reported our own repo's workflow file as a dead
+    // link on the 2026-09-11 sweep (#1591) purely because the sweep's own
+    // concurrency tripped github.com's rate limiter.
+    if (res.status === 429) {
+      return { url, status: 'ratelimit', httpStatus: 429, redirectTo, message: 'rate-limited' };
     }
     return { url, status: 'broken', httpStatus: res.status, redirectTo, message: 'unexpected status' };
   } catch (err) {
@@ -348,7 +360,7 @@ async function probeAll(urls) {
   async function worker() {
     while (i < urls.length) {
       const idx = i++;
-      results[idx] = await probeUrl(urls[idx]);
+      results[idx] = await checkUrl(urls[idx], probeUrl);
     }
   }
   await Promise.all(Array.from({ length: CONCURRENT }, worker));
