@@ -11,9 +11,9 @@
     "params": {
       "min_rate_denominator": 50
     },
-    "generated_at": "2026-09-11T00:22:53Z",
-    "source_commit": "1cf3bd4",
-    "based_on": "2026-09-11T00:22:44Z"
+    "generated_at": "2026-09-11T00:28:17Z",
+    "source_commit": "8d5c8a1da",
+    "based_on": "2026-09-11T00:28:06Z"
   },
   "rankings": [
     {
@@ -1104,7 +1104,7 @@
     {
       "geoid": "0853175",
       "rank": 218,
-      "overall_need_score": 49.8
+      "overall_need_score": 50.0
     },
     {
       "geoid": "0808950",
@@ -1472,19 +1472,19 @@
       "overall_need_score": 42.8
     },
     {
-      "geoid": "0870635",
-      "rank": 292,
-      "overall_need_score": 42.8
-    },
-    {
       "geoid": "0801740",
-      "rank": 293,
+      "rank": 292,
       "overall_need_score": 42.7
     },
     {
       "geoid": "0880095",
-      "rank": 294,
+      "rank": 293,
       "overall_need_score": 42.7
+    },
+    {
+      "geoid": "0870635",
+      "rank": 294,
+      "overall_need_score": 42.6
     },
     {
       "geoid": "08125",
@@ -2462,22 +2462,22 @@
       "overall_need_score": 21.2
     },
     {
-      "geoid": "08033",
+      "geoid": "0837875",
       "rank": 490,
-      "overall_need_score": 21.0
+      "overall_need_score": 21.1
     },
     {
-      "geoid": "08061",
+      "geoid": "08033",
       "rank": 491,
       "overall_need_score": 21.0
     },
     {
-      "geoid": "0807580",
+      "geoid": "08061",
       "rank": 492,
-      "overall_need_score": 20.9
+      "overall_need_score": 21.0
     },
     {
-      "geoid": "0837875",
+      "geoid": "0807580",
       "rank": 493,
       "overall_need_score": 20.9
     },
@@ -2672,14 +2672,14 @@
       "overall_need_score": 15.1
     },
     {
-      "geoid": "0803235",
+      "geoid": "0808345",
       "rank": 532,
       "overall_need_score": 14.6
     },
     {
-      "geoid": "0808345",
+      "geoid": "0803235",
       "rank": 533,
-      "overall_need_score": 14.6
+      "overall_need_score": 14.4
     },
     {
       "geoid": "0826765",

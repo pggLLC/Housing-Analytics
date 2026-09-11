@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-11T00:24:21.209116Z",
+  "generated": "2026-09-11T00:33:57.508593Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -2049,7 +2049,7 @@
     "data/hna/jurisdiction-metrics-digest/0833695.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29532
+      "bytes": 29530
     },
     "data/hna/jurisdiction-metrics-digest/0834520.json": {
       "featureCount": 0,
@@ -2149,7 +2149,7 @@
     "data/hna/jurisdiction-metrics-digest/0837875.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29495
+      "bytes": 29437
     },
     "data/hna/jurisdiction-metrics-digest/0838370.json": {
       "featureCount": 0,
@@ -2459,7 +2459,7 @@
     "data/hna/jurisdiction-metrics-digest/0848115.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29553
+      "bytes": 29555
     },
     "data/hna/jurisdiction-metrics-digest/0848445.json": {
       "featureCount": 0,
@@ -3094,7 +3094,7 @@
     "data/hna/jurisdiction-metrics-digest/0870635.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 29487
+      "bytes": 29491
     },
     "data/hna/jurisdiction-metrics-digest/0871625.json": {
       "featureCount": 0,
@@ -4134,7 +4134,7 @@
     "data/hna/place-chas.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1629879
+      "bytes": 1629878
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
@@ -4494,27 +4494,27 @@
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49961
+      "bytes": 49963
     },
     "data/hna/ranking-scenarios/commuter-pressure.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49981
+      "bytes": 49983
     },
     "data/hna/ranking-scenarios/large-gap.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49972
+      "bytes": 49974
     },
     "data/hna/ranking-scenarios/rate-sensitive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49981
+      "bytes": 49983
     },
     "data/hna/ranking-scenarios/rural-lens.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 49983
+      "bytes": 49985
     },
     "data/hna/scenarios/baseline.json": {
       "featureCount": 0,
@@ -5959,7 +5959,7 @@
     "data/hna/summary/0837875.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 4040
+      "bytes": 4044
     },
     "data/hna/summary/0838370.json": {
       "featureCount": 0,
