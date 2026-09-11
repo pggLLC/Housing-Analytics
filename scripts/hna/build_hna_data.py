@@ -1053,6 +1053,7 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # Housing tenure (ACS 2023: DP04_0046PE=owner %, DP04_0047PE=renter %)
         'DP04_0046PE',  # Owner-occupied %
         'DP04_0047PE',  # Renter-occupied %
+        'DP04_0046E',   # Owner-occupied count -- MUST stay in this batch, see vars_c note
         'DP04_0047E',   # Renter-occupied count (used by renderHousingGapSummary)
         'DP04_0089E',   # Median home value (owner)
         'DP04_0134E',   # Median gross rent
@@ -1097,7 +1098,17 @@ def fetch_acs_profile(geo_type: str, geoid: str) -> dict | None:
         # formerly fetched live by fetchAcsExtended when a cached summary
         # was missing them. Keep this optional, like batch B, so one
         # unavailable supplement does not prevent a useful summary.
-        'DP04_0002E','DP04_0003E','DP04_0046E',
+        # DP04_0046E moved to vars_a on 2026-09-11. It lived here, in an
+        # explicitly OPTIONAL batch, while its twin DP04_0047E and both tenure
+        # percentages lived in the required batch -- so the two halves of one
+        # tenure pair were fetched in separate requests that resolve
+        # independently. When they disagreed the record shipped internally
+        # inconsistent: 0837875 had owner=294 against renter=135 and a
+        # published 35% renter share, which implies owner=251. The
+        # CONSISTENCY_GROUPS guard in _merge_preserve_summary only catches a
+        # member coming back None; it cannot catch two successful fetches
+        # disagreeing. Keeping the pair in one batch is what prevents that.
+        'DP04_0002E','DP04_0003E',
         # Owner-occupied home value distribution (DP04_0080E denominator;
         # 0081E-0088E brackets).
         'DP04_0080E','DP04_0081E','DP04_0082E','DP04_0083E','DP04_0084E',

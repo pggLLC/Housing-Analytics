@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-09-11T00:22:44Z",
+    "ranking_index_generated_at": "2026-09-11T00:28:06Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -9521,29 +9521,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0848115": {
-      "geoid": "0848115",
-      "name": "Mancos (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 19.9,
-      "owner_cost_burdened": 74.6,
-      "severe_renter_cost_burdened": 13.6,
-      "moderate_income_renter_households": 78.7,
-      "moderate_income_owner_cost_burdened": 34.9,
-      "existing_rental_gap_lte80": 3,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "08039": {
       "geoid": "08039",
       "name": "Elbert County",
@@ -9587,6 +9564,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0848115": {
+      "geoid": "0848115",
+      "name": "Mancos (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 19.9,
+      "owner_cost_burdened": 74.6,
+      "severe_renter_cost_burdened": 13.6,
+      "moderate_income_renter_households": 78.7,
+      "moderate_income_owner_cost_burdened": 34.9,
+      "existing_rental_gap_lte80": 3,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11418,10 +11418,10 @@
       "recommendation": "Verify locally",
       "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
-      "renter_cost_burdened": 33.8,
+      "renter_cost_burdened": 28.3,
       "owner_cost_burdened": 65.5,
-      "severe_renter_cost_burdened": 13.7,
-      "moderate_income_renter_households": 34.4,
+      "severe_renter_cost_burdened": 11.6,
+      "moderate_income_renter_households": 28.9,
       "moderate_income_owner_cost_burdened": 8.4,
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
