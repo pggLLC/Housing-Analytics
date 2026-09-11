@@ -144,7 +144,17 @@ test('builder is non-scoring and leaves ranking-index unchanged', () => {
 });
 
 const ranking = readJson(RANKING_PATH);
-const files = fs.readdirSync(DIGEST_DIR).filter((f) => f.endsWith('.json'));
+// Digests are named <geoid>.json, one per ranked geography. Match that shape
+// rather than any *.json: the directory is a build output, and anything else
+// sitting in it is not a digest. A local sync/backup layer restores numbered
+// copies here ("08001 2.json"), which made this count 821 and then 866 against
+// a committed 546 -- a local-only failure that CI, on a clean checkout, never
+// saw. Counting the files this test actually means keeps the assertion exactly
+// as strong (CI counts the same 546 either way) while making it unfalsifiable
+// by unrelated files that happen to share the directory.
+const files = fs
+  .readdirSync(DIGEST_DIR)
+  .filter((f) => /^\d+\.json$/.test(f));
 
 test('one digest exists for every ranked geography', () => {
   assert.strictEqual(files.length, ranking.rankings.length);
