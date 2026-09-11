@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-10T12:12:32.462Z
+**Scan timestamp:** 2026-09-11T12:11:26.892Z
 
 ## Summary
 
@@ -1594,7 +1594,7 @@
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (323 KB)
+- `data/url-health.json` (326 KB)
 - `data/zillow/median_list_price_metro.csv` (839 KB)
 - `data/zillow/zhvi_metro.csv` (4355 KB)
 - `data/zillow/zori_metro.csv` (1030 KB)
