@@ -959,3 +959,23 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   min-height: 44px;
   white-space: nowrap;
 }
+
+/* Resale mechanism comparison — do not uppercase this table.
+   ownership-resale.js builds each row header as
+     <th scope="row">Mechanism name<small>objective</small><small>provenance</small></th>
+   so a global uppercase rule was rendering sentence-length prose in caps: the
+   longest cell measured 433 characters, and 8 of 20 cells were uppercased.
+   All-caps is legible for a two-word column label and close to unreadable for a
+   paragraph. Sentence case throughout; the <strong>/<small> hierarchy still
+   distinguishes the mechanism name from its explanation. */
+[data-resale-comparison] th,
+[data-resale-comparison] td {
+  text-transform: none;
+  letter-spacing: normal;
+}
+[data-resale-comparison] th[scope="row"] small {
+  display: block;
+  font-weight: 400;
+  line-height: 1.45;
+  margin-top: .2rem;
+}

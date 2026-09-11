@@ -2054,6 +2054,18 @@
             render(car);
             return true;
           }
+          // With no county selected there is nothing to walk back for:
+          // countyInCARReport can never match, so the loop ran the full 12-month
+          // look-back and requested four months older than the published series,
+          // logging 404s that failed the rendered-smoke console-error gate. The
+          // walk itself is deliberate and covered by test/hna-car-loader.test.js
+          // (the newest reports are statewide-only; 2026-05..07 carry all 64
+          // counties), so keep it for the county case and short-circuit only when
+          // there is no county to search for.
+          if (!selectedCounty) {
+            render(car);
+            return true;
+          }
           return loadAt(i + 1, fallback || car);
         })
         .catch(function () { return loadAt(i + 1, fallback); });
@@ -2076,7 +2088,18 @@
                     typeof window.BridgeMarketSummary.load === 'function';
     if (hasBridge) {
       window.BridgeMarketSummary.load().then(function (summary) {
-        if (summary) {
+        // A stub object is still truthy. data/market/bridge_co_market_summary.json
+        // ships as {"available": false, "markets": []} because Bridge MLS needs a
+        // paid subscription, and it carries no "regions" key at all. Testing only
+        // for truthiness sent that stub into renderBridgeMarketSection, whose grid
+        // branch is gated on `regions.length` — so the four loading skeletons in
+        // #bridgeRegionGrid were never replaced and sat there permanently, while
+        // the rural/statewide cards below (ungated) did fill in. Require usable
+        // regions before taking the Bridge path; otherwise fall through to the CAR
+        // report, which carries real metro data.
+        var usableBridge = summary && summary.available !== false &&
+                           Array.isArray(summary.regions) && summary.regions.length > 0;
+        if (usableBridge) {
           renderBridgeMarketSection(summary);
         } else {
           // Bridge returned no data — try CAR fallback
