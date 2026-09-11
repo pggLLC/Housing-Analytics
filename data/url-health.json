@@ -1,6 +1,6 @@
 {
   "lastSweepAt": "2026-09-11T11:06:23.592Z",
-  "urlCount": 1097,
+  "urlCount": 1080,
   "byUrl": {
     "http://127.0.0.1:8080/": {
       "status": "skip",
@@ -33,38 +33,6 @@
       "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-07-13T08:57:46.344Z",
       "consecutiveFailures": 0
-    },
-    "https://*.arcgis.com/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
-    "https://*.basemaps.cartocdn.com/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
-    "https://*.openstreetmap.fr/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
-    "https://*.tile.openstreetmap.org/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
     },
     "https://.../": {
       "status": "skip",
@@ -210,14 +178,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0,
       "redirectTo": "https://api.census.gov/data/invalid_key.html"
-    },
-    "https://api.stlouisfed.org/": {
-      "status": "timeout",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
     },
     "https://api.stlouisfed.org/fred/series/observations": {
       "status": "broken",
@@ -435,22 +395,6 @@
       "consecutiveFailures": 0,
       "redirectTo": "https://www.jsdelivr.com/"
     },
-    "https://cdnjs.cloudflare.com/": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 0
-    },
-    "https://cdnjs.cloudflare.com;/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
     "https://cdoc.colorado.gov/": {
       "status": "ok",
       "httpStatus": 200,
@@ -596,14 +540,6 @@
       "firstSeenAt": "2026-06-01T11:22:28.534Z",
       "consecutiveFailures": 0
     },
-    "https://coho-backend.communityplanner.workers.dev;/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
     "https://coho.indibuild.com/indibuild-pipeline.html": {
       "status": "broken",
       "httpStatus": null,
@@ -659,14 +595,6 @@
       "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
-    },
-    "https://coloradorealtors.com/market-trends/**": {
-      "status": "broken",
-      "httpStatus": 404,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 17
     },
     "https://coloradosprings.gov/affordable-housing": {
       "status": "ok",
@@ -1092,22 +1020,6 @@
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 17
-    },
-    "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&amp;family=DM+Sans:wght@400;500;700&amp;display=swap": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 0
-    },
-    "https://fonts.googleapis.com;/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
     },
     "https://fonts.gstatic.com/": {
       "status": "broken",
@@ -1653,14 +1565,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://hazards.fema.gov/": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 0
-    },
     "https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer/28/query": {
       "status": "broken",
       "httpStatus": 404,
@@ -1741,14 +1645,6 @@
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
       "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-08-10T07:19:44.696Z",
-      "consecutiveFailures": 0
-    },
-    "https://hudgis-hud.opendata.arcgis.com/": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
       "consecutiveFailures": 0
     },
     "https://huduser.gov/...": {
@@ -2309,14 +2205,6 @@
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 0
     },
-    "https://regrid.com/us/co/$%7Bpr.parcelId%20||": {
-      "status": "skip",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-06-08T10:26:38.468Z",
-      "consecutiveFailures": 0
-    },
     "https://research.stlouisfed.org/useraccount/apikey": {
       "status": "timeout",
       "httpStatus": null,
@@ -2332,22 +2220,6 @@
       "lastOkAt": null,
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
       "consecutiveFailures": 17
-    },
-    "https://server.arcgisonline.com;/": {
-      "status": "broken",
-      "httpStatus": null,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 5
-    },
-    "https://services.arcgis.com/": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 0
     },
     "https://services.arcgis.com/VTyQ9soqVukalItT/ArcGIS/rest/services/LIHTC/FeatureServer/0": {
       "status": "ok",
@@ -2616,14 +2488,6 @@
       "lastOkAt": "2026-07-06T10:06:19.745Z",
       "firstSeenAt": "2026-06-08T10:26:38.468Z",
       "consecutiveFailures": 10
-    },
-    "https://unpkg.com/": {
-      "status": "ok",
-      "httpStatus": 200,
-      "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-09-11T11:06:23.592Z",
-      "firstSeenAt": "2026-08-17T06:40:51.193Z",
-      "consecutiveFailures": 0
     },
     "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css": {
       "status": "ok",

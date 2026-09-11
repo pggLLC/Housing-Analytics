@@ -40,6 +40,7 @@
  *   node scripts/audit/url-health-sweep.mjs                 # full sweep + write cache
  *   node scripts/audit/url-health-sweep.mjs --diff-only     # print newly-broken since last sweep
  *   node scripts/audit/url-health-sweep.mjs --dry-run       # probe + report, don't write cache
+ *   node scripts/audit/url-health-sweep.mjs --list-urls     # print collected URLs, don't probe
  *
  * Exit codes:
  *   0 — sweep completed (regardless of how many URLs failed)
@@ -49,7 +50,14 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BROWSER_USER_AGENT, diffConfirmedSweeps, checkUrl } from './url-health-policy.mjs';
+import {
+  BROWSER_USER_AGENT,
+  checkUrl,
+  diffConfirmedSweeps,
+  isSkippableUrl,
+  looksLikeCspValue,
+  sanitizeExtractedUrl
+} from './url-health-policy.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
@@ -61,6 +69,9 @@ const NOW = new Date().toISOString();
 
 const DRY_RUN  = process.argv.includes('--dry-run');
 const DIFF_ONLY = process.argv.includes('--diff-only');
+// Print what collection produced without probing anything. Used to audit the
+// extractor and to prune cache entries the extractor no longer yields.
+const LIST_URLS = process.argv.includes('--list-urls');
 
 // Re-use the allow-list from source-url-sweep — these are known-good URLs
 // that block CI user-agents (DOL, BLS, CHFA QAP, etc.). Keep in sync.
@@ -185,14 +196,23 @@ function isHttpUrl(s) {
   return typeof s === 'string' && /^https?:\/\//i.test(s);
 }
 
+// Sanitize first (decode entities, shed prose/markdown/CSP punctuation), then
+// canonicalize. Returns null when the raw match was never a URL.
 function normalizeUrl(url) {
+  const cleaned = sanitizeExtractedUrl(url);
+  if (!cleaned) return null;
   try {
-    const u = new URL(url);
+    const u = new URL(cleaned);
     u.hash = '';
     return u.toString();
   } catch (_) {
-    return url;
+    return cleaned;
   }
+}
+
+function addUrl(set, raw) {
+  const normalized = normalizeUrl(raw);
+  if (normalized) set.add(normalized);
 }
 
 function collectUrlsFromObject(obj, out = []) {
@@ -217,7 +237,7 @@ async function collectAllUrls() {
   // 1. data/hna/local-resources.json (every URL field)
   try {
     const lr = JSON.parse(await fs.readFile(path.join(ROOT, 'data/hna/local-resources.json'), 'utf8'));
-    for (const u of collectUrlsFromObject(lr)) urls.add(normalizeUrl(u));
+    for (const u of collectUrlsFromObject(lr)) addUrl(urls, u);
   } catch (_) {}
 
   // 2. data/policy/*.json
@@ -227,7 +247,7 @@ async function collectAllUrls() {
     for (const f of policyFiles.filter((f) => f.endsWith('.json'))) {
       try {
         const parsed = JSON.parse(await fs.readFile(path.join(policyDir, f), 'utf8'));
-        for (const u of collectUrlsFromObject(parsed)) urls.add(normalizeUrl(u));
+        for (const u of collectUrlsFromObject(parsed)) addUrl(urls, u);
       } catch (_) {}
     }
   } catch (_) {}
@@ -241,7 +261,7 @@ async function collectAllUrls() {
     let m;
     while ((m = hrefRx.exec(src)) !== null) {
       const href = (m[1] || '').trim();
-      if (isHttpUrl(href)) urls.add(normalizeUrl(href));
+      if (isHttpUrl(href)) addUrl(urls, href);
     }
   }
 
@@ -255,10 +275,17 @@ async function collectAllUrls() {
         await walkMd(p);
       } else if (e.isFile() && e.name.toLowerCase().endsWith('.md')) {
         const src = await fs.readFile(p, 'utf8');
-        const rx = /https?:\/\/[^\s"'`<>)\]]+/g;
-        let m;
-        while ((m = rx.exec(src)) !== null) {
-          urls.add(normalizeUrl(m[0]));
+        for (const line of src.split(/\r?\n/)) {
+          // A documented Content-Security-Policy value is a list of source
+          // expressions, not of fetchable documents. Probing them yields
+          // wildcard hosts and directive-separator fragments that can never
+          // return 200 (#1552).
+          if (looksLikeCspValue(line)) continue;
+          const rx = /https?:\/\/[^\s"'`<>)\]]+/g;
+          let m;
+          while ((m = rx.exec(line)) !== null) {
+            addUrl(urls, m[0]);
+          }
         }
       }
     }
@@ -269,27 +296,6 @@ async function collectAllUrls() {
 }
 
 /* ── Probe ────────────────────────────────────────────────────────── */
-
-// URLs we should NEVER probe because they are intentionally not real
-// external targets — development artifacts, template placeholders in docs,
-// or test fixtures. Without filtering, these pollute the broken-URL count
-// in the dashboard. The sweep tags them as 'skip' so they're visible in
-// the cache for debugging but not counted as failures.
-function isSkippableUrl(url) {
-  // Local dev origins scraped from HTML by mistake
-  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(url)) return 'localhost (development artifact)';
-  // URL-template placeholders that crawled their way in
-  if (url.includes('{') || url.includes('}')) return 'template placeholder (literal curly braces)';
-  if (url.includes('%7B') || url.includes('%7D')) return 'template placeholder (URL-encoded braces)';
-  if (url.includes('%E2%80%A6')) return 'template placeholder (URL-encoded ellipsis)';
-  if (/^https?:\/\/\.\.\.(\/|$)/i.test(url)) return 'template placeholder (ellipsis)';
-  // Example/test domains
-  if (/\bexample\.(com|net|org)\b/i.test(url)) return 'test/example domain';
-  // FRED/Census API GET URLs with no parameters — these are API endpoints
-  // referenced from docs as the SHAPE of the URL, not literal targets.
-  if (/^https?:\/\/api\.(stlouisfed|census)\.gov\/[^?]*$/i.test(url)) return 'API endpoint reference (no parameters)';
-  return null;
-}
 
 async function probeUrl(url) {
   const skipReason = isSkippableUrl(url);
@@ -407,6 +413,11 @@ async function main() {
   console.error('[url-health] Collecting URLs from repo…');
   const urls = await collectAllUrls();
   console.error(`[url-health] ${urls.length} unique URLs found.`);
+
+  if (LIST_URLS) {
+    for (const u of urls) console.log(u);
+    return;
+  }
 
   const prev = await loadCache();
 

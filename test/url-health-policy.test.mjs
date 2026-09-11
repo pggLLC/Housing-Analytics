@@ -6,9 +6,13 @@ import { fileURLToPath } from 'node:url';
 import {
   BROWSER_USER_AGENT,
   CONFIRMED_FAILURE_SWEEPS,
+  checkUrl,
+  decodeHtmlEntities,
   diffConfirmedSweeps,
+  isSkippableUrl,
   isTransient,
-  checkUrl
+  looksLikeCspValue,
+  sanitizeExtractedUrl
 } from '../scripts/audit/url-health-policy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -134,6 +138,90 @@ process.env.SWEEP_RETRY_DELAY_MS = '0';
   const result = await checkUrl(LOOPBACK, probe);
   assert.equal(calls, 1, 'a 404 is never retried');
   assert.equal(result.httpStatus, 404);
+}
+
+/* ── Extraction hygiene (#1552) ───────────────────────────────────────
+ *
+ * Ten strings that can never return 200 were sitting permanently in the
+ * `stillBroken` bucket. All fixtures below use loopback or reserved TLDs so
+ * neither URL sweep ever probes this file's contents.
+ */
+
+// HTML entities left encoded in an href corrupt the query string.
+assert.equal(
+  decodeHtmlEntities('http://127.0.0.1:8765/css2?family=A:wght@400;600&amp;display=swap'),
+  'http://127.0.0.1:8765/css2?family=A:wght@400;600&display=swap',
+  '&amp; is decoded back into a query separator');
+assert.equal(decodeHtmlEntities('http://127.0.0.1:8765/a?b=1&#38;c=2'),
+  'http://127.0.0.1:8765/a?b=1&c=2', 'numeric entities decode');
+assert.equal(decodeHtmlEntities('http://127.0.0.1:8765/a?b=1&unknown;c=2'),
+  'http://127.0.0.1:8765/a?b=1&unknown;c=2', 'unknown entities are left untouched');
+
+for (const [raw, expected, why] of [
+  ['http://127.0.0.1:8765/lib;', 'http://127.0.0.1:8765/lib',
+    'a CSP directive separator is not part of the URL'],
+  ['http://127.0.0.1:8765/market-trends/**', 'http://127.0.0.1:8765/market-trends/',
+    'markdown emphasis markers are not part of the URL'],
+  ['http://127.0.0.1:8765/a?x=1&amp;y=2', 'http://127.0.0.1:8765/a?x=1&y=2',
+    'entities are decoded before probing'],
+  ['http://127.0.0.1:8765/page.', 'http://127.0.0.1:8765/page',
+    'a sentence period is shed'],
+  ['http://127.0.0.1:8765/page.,', 'http://127.0.0.1:8765/page',
+    'stacked prose punctuation is shed'],
+  ['http://127.0.0.1:8765/wiki/Foo_(bar)', 'http://127.0.0.1:8765/wiki/Foo_(bar)',
+    'parentheses inside a real path survive'],
+  ['http://127.0.0.1:8765/table/...', 'http://127.0.0.1:8765/table/...',
+    'a trailing ellipsis is a placeholder marker, not prose punctuation'],
+  ['https://', null, 'a bare scheme yields nothing probe-worthy'],
+  ['not-a-url', null, 'non-URL text yields nothing probe-worthy']
+]) {
+  assert.equal(sanitizeExtractedUrl(raw), expected, why);
+}
+
+// A documented Content-Security-Policy value lists source expressions, not
+// fetchable documents — every URL on such a line must be dropped.
+assert.ok(looksLikeCspValue(
+  "default-src 'self'; img-src 'self' data: https://*.tiles.example.invalid; frame-ancestors 'none'"),
+  'a real CSP value is recognized');
+assert.ok(looksLikeCspValue("script-src 'unsafe-inline' http://127.0.0.1:8765;"),
+  'a single quoted-keyword directive is recognized');
+assert.ok(!looksLikeCspValue('add the host to connect-src in the runbook'),
+  'prose that merely names a directive is not a CSP value');
+assert.ok(!looksLikeCspValue('See http://127.0.0.1:8765/csp for details'),
+  'an ordinary sentence containing a URL is not a CSP value');
+
+// Host patterns are never resolvable addresses.
+assert.match(isSkippableUrl('https://*.tiles.example.invalid/') || '', /wildcard host/,
+  'a CSP wildcard source-expression is skipped, not probed');
+assert.match(isSkippableUrl('https://{s}.tiles.example.invalid/{z}/{x}/{y}.png') || '', /template placeholder/,
+  'a Leaflet tile template is skipped, not probed');
+assert.equal(isSkippableUrl('https://real.host.invalid/page'), null,
+  'an ordinary URL is still probed');
+
+// The sweep must actually route extraction through these helpers.
+for (const [rx, why] of [
+  [/addUrl\(urls,/, 'collection routes every match through the sanitizer'],
+  [/if \(looksLikeCspValue\(line\)\) continue;/, 'markdown CSP lines are skipped wholesale'],
+  [/sanitizeExtractedUrl\(url\)/, 'normalizeUrl sanitizes before canonicalizing']
+]) {
+  assert.match(weeklySweep, rx, why);
+}
+
+// Regression guard on the committed cache itself: none of the three faults
+// may reappear as a probed URL.
+const committedCache = JSON.parse(
+  fs.readFileSync(path.join(ROOT, 'data/url-health.json'), 'utf8'));
+for (const url of Object.keys(committedCache.byUrl)) {
+  assert.ok(!/^https?:\/\/[^/?#]*\*/.test(url),
+    `cache holds a wildcard host pattern: ${url}`);
+  assert.ok(!/^https?:\/\/[^/?#]*;/.test(url),
+    `cache holds a CSP directive separator in the host: ${url}`);
+  assert.ok(!url.includes('&amp;'),
+    `cache holds an undecoded HTML entity: ${url}`);
+  assert.ok(!/[{}]/.test(url),
+    `cache holds a template placeholder: ${url}`);
+  assert.ok(!url.endsWith('**'),
+    `cache holds markdown emphasis markers: ${url}`);
 }
 
 console.log('url-health-policy: PASS');
