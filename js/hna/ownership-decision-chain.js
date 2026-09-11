@@ -124,6 +124,19 @@
       '<p>Source: ' + esc(price.source || 'home-value cascade') + '</p>'));
 
     var bandRows = priceBand && Array.isArray(priceBand.rows) ? priceBand.rows : [];
+    // priceBandDemandScreen() returns null when there is no 4-person AMI to anchor
+    // on, or when no affordable price ceiling could be derived from it. Rendering
+    // the table regardless produced five column headings above an empty body,
+    // which reads as broken rather than as 'no jurisdiction selected yet'. Name
+    // the missing input instead.
+    if (!bandRows.length) {
+      stages.push(stage('demand-by-price-band', 'Demand by price band',
+        '<p>Demand by price band is unavailable: ' +
+        esc(!priceBand
+          ? 'no 4-person AMI is available for this geography, so affordable price ceilings cannot be derived. Select a jurisdiction, or confirm the AMI gap data covers it.'
+          : 'the price bands resolved to no rows.') +
+        '</p>'));
+    } else {
     stages.push(stage('demand-by-price-band', 'Demand by price band',
       '<p>' + esc(priceBand && priceBand.label || 'potential buyer pool (moderate-income renter households) - not committed demand') + '</p>' +
       '<table><thead><tr><th>Band</th><th>Max price</th><th>Pool</th><th>Supply</th><th>Current gap</th></tr></thead><tbody>' +
@@ -135,6 +148,7 @@
           esc(gapLabel) + '</td></tr>';
       }).join('') +
       '</tbody></table>'));
+    }
 
     stages.push(stage('per-unit-subsidy-gap', 'Per-unit subsidy gap',
       '<p>Source: ' + esc(feasibility.source || 'DealCalculator.computeForSaleFeasibility') + '</p>' +
