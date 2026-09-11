@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T03:16:39.478Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T03:43:13.478Z. Do not edit by hand.
 
 ---
 
@@ -1792,7 +1792,7 @@
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
-| `test/jurisdiction-metrics-digest.test.js` | 25.1 KB |
+| `test/jurisdiction-metrics-digest.test.js` | 25.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
