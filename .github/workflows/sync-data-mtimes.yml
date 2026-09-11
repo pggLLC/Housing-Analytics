@@ -6,6 +6,13 @@ name: Sync Data MTimes
 # because the cached files get newer but the declared timestamps stay
 # pinned (that's how the Stale 39 → 18 / 45 → 24 first run happened).
 #
+# The inventory step also recomputes `features:` from the committed data
+# files, for the sources listed in scripts/audit/inventory-count-paths.cjs.
+# test/data-source-inventory-drift.test.js asserts those counts exactly, so
+# an append-only series turned main red as soon as it grew a record —
+# `fred-mortgage30` gains one observation a week and did exactly that on
+# 2026-09-11, after PRs #1569 and #1593 had each reconciled it by hand.
+#
 # Runs:
 #   - daily at 03:53 UTC so the fix is in main before anyone reads the
 #     dashboard at 10am Denver. It used to run at 16:30 UTC, which IS
@@ -17,7 +24,8 @@ name: Sync Data MTimes
 #
 # The job is intentionally non-blocking: if the sync scripts fail we
 # don't want to block a data refresh PR. The existing daily freshness
-# check still alerts on real staleness.
+# check still alerts on real staleness, and the drift test still gates
+# every PR — this job keeps the data honest, it never relaxes the gate.
 
 on:
   schedule:
@@ -28,6 +36,7 @@ on:
       - 'data/**'
       - 'scripts/audit/sync-manifest-mtimes.mjs'
       - 'scripts/audit/refresh-inventory-mtimes.mjs'
+      - 'scripts/audit/inventory-count-paths.cjs'
   workflow_dispatch:
 
 permissions:
@@ -53,15 +62,28 @@ jobs:
       - name: Sync DATA-MANIFEST.json last_update fields
         run: node scripts/audit/sync-manifest-mtimes.mjs
 
-      - name: Sync data-source-inventory.js lastUpdated fields
+      # Runs after the manifest sync on purpose: the `data-manifest` source
+      # counts DATA-MANIFEST.json's own `files` collection, so it has to read
+      # the manifest the previous step just wrote.
+      - name: Sync data-source-inventory.js lastUpdated + features fields
         run: node scripts/audit/refresh-inventory-mtimes.mjs
+
+      # Diagnostic only — continue-on-error so it can't strand the sync. The
+      # gate proper runs in CI on the resulting commit; failing here just
+      # means some drift is outside what this script reconciles (a
+      # COUNTY_DIRECTORY_IDS directory, a GeoJSON feature array), and in that
+      # case we still want the lastUpdated + counted fixes to land rather
+      # than leaving main red for two reasons instead of one.
+      - name: Verify inventory reconciles against committed data
+        continue-on-error: true
+        run: npm run test:data-source-inventory-paths
 
       - name: Commit changes if any
         id: data-commit
         run: |
           echo "pushed=false" >> "$GITHUB_OUTPUT"
           if git diff --quiet js/data-source-inventory.js DATA-MANIFEST.json; then
-            echo "No mtime drift to fix today."
+            echo "No mtime or feature-count drift to fix today."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
@@ -75,11 +97,14 @@ jobs:
           # indentation envelope and the workflow parses cleanly.
           msg=$(mktemp)
           {
-            printf 'chore(data): sync inventory + manifest mtimes to on-disk files\n\n'
+            printf 'chore(data): sync inventory mtimes + feature counts to on-disk files\n\n'
             printf 'Automated by .github/workflows/sync-data-mtimes.yml — keeps the\n'
             printf "dashboard's stale count honest by walking each tracked file's\n"
             printf 'actual mtime and rewriting the declared lastUpdated / last_update\n'
-            printf 'stamp when on-disk is newer than declared.\n'
+            printf 'stamp when on-disk is newer than declared, and recomputes the\n'
+            printf 'features: count for each inventory source from its committed data\n'
+            printf 'file so test/data-source-inventory-drift.test.js stays green as\n'
+            printf 'append-only series grow.\n'
           } > "$msg"
           git commit -F "$msg"
           rm -f "$msg"
