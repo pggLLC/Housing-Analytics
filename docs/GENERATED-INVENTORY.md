@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-10T23:09:40.386Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-11T00:06:58.274Z. Do not edit by hand.
 
 ---
 
@@ -1981,7 +1981,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 20.1 KB |
+| `.github/workflows/build-hna-data.yml` | 21.7 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
