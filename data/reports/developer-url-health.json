@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-09-07T19:02:18Z",
-    "total_urls": 398,
-    "broken_count": 45,
+    "generated_at_utc": "2026-09-11T11:44:47Z",
+    "total_urls": 411,
+    "broken_count": 46,
     "warning_count": 41,
-    "ok_count": 312,
+    "ok_count": 324,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -134,14 +134,6 @@
       ]
     },
     {
-      "url": "https://www.csupueblo.edu/",
-      "status": 503,
-      "found_in": [
-        "local-resources / county:08101/majorEmployers[4]",
-        "local-resources / place:0862000/majorEmployers[4]"
-      ]
-    },
-    {
       "url": "https://www.douglas.co.us/departments/community-development/housing-services/",
       "status": 404,
       "found_in": [
@@ -155,6 +147,16 @@
       "found_in": [
         "local-resources / place:0842110/majorEmployers[1]",
         "local-resources / place:0842110/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.foothillsunitedway.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08019/advocacy[0]",
+        "local-resources / county:08047/advocacy[0]",
+        "local-resources / county:08059/advocacy[1]",
+        "local-resources / county:08093/advocacy[0]"
       ]
     },
     {
@@ -286,6 +288,13 @@
         "local-resources / county:08015/majorEmployers[1]",
         "local-resources / place:0867280/majorEmployers[1]",
         "local-resources / place:0867280/schoolDistrict"
+      ]
+    },
+    {
+      "url": "https://www.sanjuancountycolorado.us/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08111/housingAuthority[0]"
       ]
     },
     {
@@ -686,5 +695,5 @@
       ]
     }
   ],
-  "ok_count": 312
+  "ok_count": 324
 }
