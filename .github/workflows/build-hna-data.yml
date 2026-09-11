@@ -231,6 +231,32 @@ jobs:
           echo "── Building housing policy scorecard ──"
           python3 scripts/policy/build_housing_scorecard.py 2>&1 || echo "::warning::Housing scorecard build failed (non-critical; existing file will be used)"
 
+      - name: Phase 6.4 — Rebuild place CHAS aggregates
+        if: ${{ inputs.statewide_only != true }}
+        # Regenerates data/hna/place-chas.json. NOTHING regenerated this file
+        # before 2026-09-10: it was last built by hand on 2026-07-14, so it
+        # drifted from data/hna/summary/*.json on every ACS refresh and only
+        # occasionally crossed the 0.01 tolerance in
+        # place-chas-tenure-anchor.test.js — which is how the drift surfaced,
+        # as an unrelated PR failing CI on files it never touched.
+        #
+        # Ordering is load-bearing. The script anchors place household counts
+        # to ACS occupied units by reading data/hna/summary/ (see
+        # load_acs_anchor_map), so it MUST run after the ACS phases and Phase
+        # 2.5; running it first makes the cap silently no-op. It MUST run
+        # before Phase 7, which reads place-chas.json to build the ranking
+        # index. Its other inputs (place-lehd, place-tract-membership,
+        # chas_tract_co, acs_tract_metrics_co) are produced outside this
+        # workflow and are read as committed.
+        #
+        # Local-only and ~0.2s: no network, no API key.
+        #
+        # Non-blocking: on failure the previous file is preserved, which is
+        # the pre-2026-09-10 status quo rather than a regression.
+        run: |
+          echo "── Rebuilding place CHAS aggregates ──"
+          python3 scripts/hna/build_place_chas.py 2>&1 || echo "::warning::Place CHAS rebuild failed (non-critical; the previous data/hna/place-chas.json is kept, but it will drift from the refreshed summaries until this is fixed)"
+
       - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
         if: ${{ inputs.statewide_only != true }}
         # Builds data/co_ami_gap_by_place.json AND data/co_ami_gap_by_county.json
