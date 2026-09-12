@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T02:17:48.518Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T02:57:26.221Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 233.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 233.7 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-306 test files found.
+309 test files found.
 
 | File | Size |
 |------|------|
@@ -1697,7 +1697,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 6.4 KB |
-| `test/data-source-inventory-drift.test.js` | 7.0 KB |
+| `test/data-source-inventory-drift.test.js` | 5.8 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
@@ -1772,6 +1772,7 @@
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
+| `test/hna-section-rail.test.js` | 5.0 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
@@ -1792,6 +1793,8 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
+| `test/inventory-mtime-sync.test.js` | 20.3 KB |
+| `test/inventory-sync-push.test.js` | 9.8 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
@@ -2032,7 +2035,7 @@
 | `.github/workflows/site-audit.yml` | 2.5 KB |
 | `.github/workflows/source-liveness-weekly.yml` | 2.3 KB |
 | `.github/workflows/source-url-sweep.yml` | 2.4 KB |
-| `.github/workflows/sync-data-mtimes.yml` | 4.0 KB |
+| `.github/workflows/sync-data-mtimes.yml` | 6.1 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
 | `.github/workflows/update-co-housing-costs.yml` | 2.5 KB |
