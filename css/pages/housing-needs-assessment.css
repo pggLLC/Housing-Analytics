@@ -1155,3 +1155,23 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
    underneath it. This also repairs the five pre-existing decision-strip jump
    links, which had the same problem. */
 #main-content section[id] { scroll-margin-top: 5rem; }
+
+/* Projected-month notice for the CAR market section. Between published CAR
+   reports the monthly file is trend-projected from the previous month but
+   still declares CAR as its source, so the figures must carry the caveat
+   where they are read rather than in a JSON field nobody opens. Uses --warn,
+   which measures 4.97:1 light / 7.97:1 dark against --card. */
+/* .chart-card p (line 36) sets color: var(--muted) at specificity 0,1,1 and
+   would otherwise win, so this selector matches it and adds the class. */
+.chart-card p.car-estimate-notice,
+.car-estimate-notice {
+  margin: 0 0 1rem;
+  padding: .5rem .7rem;
+  border: 1px solid color-mix(in srgb, var(--warn, #a84608) 40%, transparent);
+  border-left-width: 3px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--warn, #a84608) 10%, var(--card, #fff));
+  color: var(--warn, #a84608);
+  font-size: .82rem;
+  line-height: 1.5;
+}
