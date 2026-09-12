@@ -95,11 +95,16 @@ for (let i = 0; i < lines.length; i++) {
       if (c === "{") braceDepth++;
       else if (c === "}") braceDepth--;
     }
+    // Anchor to the entry's own key depth (6 spaces). A loose `^\s*` would
+    // also match these keys inside a *nested* object — and since a later
+    // match overwrites the recorded line number, the rewrite below would
+    // then edit the nested line instead of the entry's own. No entry nests
+    // these keys today; this makes sure one added later can't corrupt data.
     let mi;
-    if ((mi = ln.match(/^\s*id:\s*'([^']+)'/)))                 { cur.idLine = i; cur.id = mi[1]; }
-    if ((mi = ln.match(/^\s*localFile:\s*('([^']*)'|null)/)))    { cur.localFileLine = i; cur.localFile = mi[2] || null; }
-    if ((mi = ln.match(/^\s*lastUpdated:\s*('([^']*)'|null)/)))  { cur.lastUpdatedLine = i; cur.lastUpdated = mi[2] || null; }
-    if ((mi = ln.match(/^\s*features:\s*(\d+|null)/)))          { cur.featuresLine = i; cur.features = mi[1] === "null" ? null : Number(mi[1]); }
+    if ((mi = ln.match(/^\s{6}id:\s*'([^']+)'/)))                 { cur.idLine = i; cur.id = mi[1]; }
+    if ((mi = ln.match(/^\s{6}localFile:\s*('([^']*)'|null)/)))    { cur.localFileLine = i; cur.localFile = mi[2] || null; }
+    if ((mi = ln.match(/^\s{6}lastUpdated:\s*('([^']*)'|null)/)))  { cur.lastUpdatedLine = i; cur.lastUpdated = mi[2] || null; }
+    if ((mi = ln.match(/^\s{6}features:\s*(\d+|null)/)))          { cur.featuresLine = i; cur.features = mi[1] === "null" ? null : Number(mi[1]); }
     if (braceDepth === 0) {
       cur.endLine = i;
       if (cur.id) entries.push(cur);
