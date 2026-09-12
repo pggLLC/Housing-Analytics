@@ -332,16 +332,24 @@ check('--dry-run reports drift without writing', () => {
   });
 });
 
-// --- 8. The committed inventory is already reconciled ----------------------
+// --- 8. The committed inventory's counts are already reconciled -------------
 
-check('the committed inventory needs no repair', () => {
+// Only the `features` half is asserted here, and deliberately so. Feature
+// counts derive from file *content*, so they're identical on any checkout.
+// `lastUpdated` derives from mtime, and git does not preserve mtimes — a
+// fresh clone stamps every file with the checkout time, so on a CI runner
+// every source looks newer than its declared date. Asserting "nothing to
+// update" would pass locally and fail in CI for reasons that say nothing
+// about the committed data. (That mtime behaviour is also why every entry
+// currently carries the same lastUpdated; see the note in the PR.)
+check('the committed inventory needs no count repair', () => {
   const result = spawnSync(process.execPath, [path.join(REPO, SCRIPT_REL), '--dry-run'], {
     encoding: 'utf8',
   });
   assert.strictEqual(result.status, 0,
     `refresher must exit 0 on the committed tree:\n${result.stdout}${result.stderr}`);
-  assert.match(result.stdout, /nothing to update/,
-    'js/data-source-inventory.js has drifted — run ' +
+  assert.doesNotMatch(result.stdout, /features counts to reconcile/,
+    'js/data-source-inventory.js has feature-count drift — run ' +
     '`node scripts/audit/refresh-inventory-mtimes.mjs` and commit the result:\n' +
     result.stdout);
 });
