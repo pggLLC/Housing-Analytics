@@ -17,7 +17,16 @@
 // Source id → dotted path into the parsed JSON whose collection size is the
 // feature count. Arrays count by `.length`, plain objects by
 // `Object.keys().length`.
+//
+// A value may also be an ARRAY of paths, whose counts are summed. epa-cleanup-co
+// needed this: its count is superfundSites + brownfieldSites, which the gate
+// expressed as a hand-written special case while this module could only hold a
+// single path — so the fixer could not repair what the gate asserted, and an
+// EPA refresh that added two brownfield sites turned main red with no automated
+// way back. The header above promises these two consumers never disagree; this
+// is what keeping that promise requires.
 const JSON_COUNT_PATHS = {
+  'epa-cleanup-co': ['superfundSites', 'brownfieldSites'],
   'lihtc-trends-county': 'counties',
   'co-historical-allocations': 'allocations',
   'prop123-jurisdictions': 'jurisdictions',
@@ -68,4 +77,19 @@ function collectionCount(value, sourceId) {
   throw new Error(`${sourceId} count target is not an array or object`);
 }
 
-module.exports = { JSON_COUNT_PATHS, COUNTY_DIRECTORY_IDS, valueAt, collectionCount };
+/**
+ * countFor — resolve a source's feature count from its parsed data, handling
+ * both a single dotted path and a summed list of them.
+ * @returns {number|null} null when the source has no registered path
+ */
+function countFor(sourceId, data) {
+  const spec = JSON_COUNT_PATHS[sourceId];
+  if (!spec) return null;
+  const paths = Array.isArray(spec) ? spec : [spec];
+  return paths.reduce(
+    (total, path) => total + collectionCount(valueAt(data, path), sourceId),
+    0
+  );
+}
+
+module.exports = { JSON_COUNT_PATHS, COUNTY_DIRECTORY_IDS, valueAt, collectionCount, countFor };

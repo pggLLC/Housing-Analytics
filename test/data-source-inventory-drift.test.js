@@ -21,6 +21,7 @@ const {
   COUNTY_DIRECTORY_IDS,
   valueAt,
   collectionCount,
+  countFor,
 } = require('../scripts/audit/inventory-count-paths.cjs');
 
 function readJson(file) {
@@ -46,13 +47,13 @@ function actualFeatureCount(source) {
   const data = readJson(file);
   if (source.id === 'co-demographics') return 1;
   if (source.id === 'projection-scenarios') return Object.keys(data).length;
-  if (source.id === 'epa-cleanup-co') {
-    return collectionCount(data.superfundSites, source.id)
-      + collectionCount(data.brownfieldSites, source.id);
-  }
-  if (JSON_COUNT_PATHS[source.id]) {
-    return collectionCount(valueAt(data, JSON_COUNT_PATHS[source.id]), source.id);
-  }
+  // epa-cleanup-co was a hand-written special case here (superfundSites +
+  // brownfieldSites), which put the count rule in the gate but not in the
+  // fixer: an EPA refresh adding two brownfield sites turned main red with no
+  // automated way back. Both consumers now resolve through countFor(), which
+  // handles a summed list of paths, so they cannot diverge again.
+  const registered = countFor(source.id, data);
+  if (registered !== null) return registered;
   if (Array.isArray(data.features)) return data.features.length;
   throw new Error(`${source.id} has no executable feature-count strategy`);
 }

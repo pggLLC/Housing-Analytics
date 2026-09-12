@@ -53,7 +53,7 @@ import { fileURLToPath } from "node:url";
 
 import countPaths from "./inventory-count-paths.cjs";
 
-const { JSON_COUNT_PATHS, valueAt, collectionCount } = countPaths;
+const { JSON_COUNT_PATHS, valueAt, collectionCount, countFor } = countPaths;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO      = path.resolve(__dirname, "..", "..");
@@ -251,7 +251,7 @@ for (const e of entries) {
   let counted;
   try {
     const data = JSON.parse(fs.readFileSync(abs, "utf8"));
-    counted = collectionCount(valueAt(data, dottedPath), e.id);
+      counted = countFor(e.id, data);
   } catch (err) {
     // Don't guess. Leave the declared count alone and let the drift gate
     // fail loudly on the real problem rather than writing a wrong number.
