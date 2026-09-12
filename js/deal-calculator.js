@@ -536,7 +536,7 @@
 
     function _normCredit(s) {
       if (!s) return null;
-      var t = String(s).replace(/\s+/g, '').replace('%', '').trim();
+      var t = String(s).replace(/\s+/g, '').replace(/%/g, '').trim();
       // "9" or "9pct" → "9%"
       if (/^9/.test(t)) return '9%';
       if (/^4/.test(t)) return '4%';
@@ -1850,7 +1850,7 @@
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ Verify: Annual credits and equity are illustrative — confirm equity pricing with your syndicator
           (CO market typically $0.85–$0.95/credit). Gross rents use
-          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY 2025</a>
+          <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FMR FY2026</a>
           published limits (lags ~18 mo); spot-check against current market rents before underwriting.
         </p>
         </div>
@@ -2124,7 +2124,7 @@
           </tbody>
         </table>
         <div id="dc-rent-ach-fmr-grid" style="margin-top:var(--sp3);display:none;">
-          <div style="font-size:var(--tiny);color:var(--muted);font-weight:600;margin-bottom:0.35rem;">HUD FMR by bedroom size (FY2025, gross rent $USD/mo)</div>
+          <div style="font-size:var(--tiny);color:var(--muted);font-weight:600;margin-bottom:0.35rem;">HUD FMR by bedroom size (FY2026, gross rent $USD/mo)</div>
           <table style="width:100%;border-collapse:collapse;font-size:var(--tiny);">
             <thead>
               <tr>

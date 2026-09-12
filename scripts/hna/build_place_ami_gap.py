@@ -107,10 +107,13 @@ COLORADO_FIPS = "08"
 
 METHODOLOGY_VERSION = 2
 
-# HUD FY2025 Colorado state median family income (4-person). The HUD income
-# limits file only carries county rows, so the statewide record's AMI is
-# pinned here. scripts/qa_stage1.py asserts this exact value.
+# HUD FY2025 Colorado state median family income (4-person). The county input
+# has advanced to FY2026, but the HUD file only carries county rows, so the
+# statewide record remains explicitly pinned to its verified FY2025 value.
+# scripts/qa_stage1.py asserts this exact value.
 STATEWIDE_AMI_4PERSON = 107_200
+STATEWIDE_AMI_YEAR = 2025
+COUNTY_AMI_YEAR = 2026
 
 # AMI tiers we report for each geography (matches the county file's keys)
 AMI_TIERS = (30, 40, 50, 60, 70, 80, 100)
@@ -195,8 +198,8 @@ METHODOLOGY_NOTES = [
     "rental units). v1 used ALL households (B19001, owners included) "
     "against renter-only supply, which structurally inflated gaps ~2.5-4x. "
     "The v1 all-tenure series is retained as all_households_le_ami_pct.",
-    "Income thresholds use HUD FY2025 4-person AMI for the geography's "
-    "county (statewide record uses the HUD FY2025 Colorado state median).",
+    "Income thresholds use HUD FY2026 4-person AMI for the geography's "
+    "county; the statewide record remains the HUD FY2025 Colorado state median.",
     "Priced-affordable units come from ACS table B25063 (gross rent, "
     "renter-occupied with cash rent), counted at or below the rent "
     "threshold equal to 30% of monthly threshold income.",
@@ -641,7 +644,7 @@ def compute_county_record(
 
 def _sources(vintage: int) -> list[dict[str, str]]:
     return [
-        {"name": "HUD FY2025 Income Limits",
+        {"name": "HUD FY2026 county Income Limits (FY2025 statewide benchmark)",
          "url": "https://www.huduser.gov/portal/datasets/il.html"},
         {"name": "Census ACS 5-year B25118 (Tenure by Household Income)",
          "url": f"https://data.census.gov/table/ACSDT5Y{vintage}.B25118"},
@@ -712,13 +715,14 @@ def build_place_file(vintage: int, out_path: str, rebuild_cache: bool) -> int:
     payload = {
         "meta": {
             "state": "CO",
-            "hud_income_limits_year": 2025,
+            "hud_income_limits_year": COUNTY_AMI_YEAR,
+            "statewide_ami_year": STATEWIDE_AMI_YEAR,
             "acs_year": vintage,
             "generated_at": utc_now(),
             "methodology_version": METHODOLOGY_VERSION,
             "demand_tenure": "renter",
             "source": "Census ACS 5-year API (B25118 + B19001 + B25063) at "
-                      "place level, scored against HUD FY2025 county AMI "
+                      "place level, scored against HUD FY2026 county AMI "
                       "thresholds.",
             "note": "Methodology v2: gap demand side is renter households "
                     "(B25118); the all-tenure B19001 series is retained as "
@@ -812,7 +816,8 @@ def build_county_file(vintage: int, out_path: str) -> int:
     payload = {
         "meta": {
             "state": "CO",
-            "hud_income_limits_year": 2025,
+            "hud_income_limits_year": COUNTY_AMI_YEAR,
+            "statewide_ami_year": STATEWIDE_AMI_YEAR,
             "acs_year": vintage,
             "generated_at": utc_now(),
             "methodology_version": METHODOLOGY_VERSION,

@@ -381,7 +381,8 @@ class TestRankingScoreNormalization:
 
     def test_gap_rate_uses_low_income_household_denominator(self, entries):
         # Golden values for Silt under methodology v2 (renter-household
-        # demand, ACS 2024 5-year — PR #1032). The invariant under test is
+        # demand, ACS 2024 5-year) using the FY2026 county Income Limits
+        # thresholds regenerated in PR #1616. The invariant under test is
         # that the rate divides the gap by the low-income-household count,
         # not the specific vintage numbers; recompute all three from the
         # committed data if a data refresh moves them.
@@ -389,9 +390,9 @@ class TestRankingScoreNormalization:
         assert silt is not None, 'Silt missing from ranking-index'
         metrics = silt['metrics']
 
-        assert metrics['low_income_households_lte30'] == 60
-        assert metrics['housing_gap_units'] == 49
-        assert metrics['housing_gap_rate_lte30'] == pytest.approx(81.7, abs=0.1)
+        assert metrics['low_income_households_lte30'] == 67
+        assert metrics['housing_gap_units'] == 44
+        assert metrics['housing_gap_rate_lte30'] == pytest.approx(65.7, abs=0.1)
         # The actual invariant: rate = gap / low-income HH, in percent.
         assert metrics['housing_gap_rate_lte30'] == pytest.approx(
             100.0 * metrics['housing_gap_units'] / metrics['low_income_households_lte30'],

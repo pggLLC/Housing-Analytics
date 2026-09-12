@@ -31,6 +31,7 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
@@ -42,11 +43,17 @@ OUT_TRACT_MAP   = os.path.join(_ROOT, 'data', 'market', 'fmr_tract_map_co.json')
 
 HUD_FMR_URL     = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2026'
 HUD_FMR_URL_PREV = 'https://www.huduser.gov/hudapi/public/fmr/statedata/CO?year=2025'
-HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/fmr/listCounties/08'  # FIPS 08 = CO
-HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/fmr/il/data/{entityid}?year={year}'
+# HUD documents the listCounties path with the two-letter state code, not
+# numeric state FIPS. The updated=2025 parameter selects the county entity IDs
+# HUD says must be used for the current Income Limits series.
+HUD_IL_URL      = 'https://www.huduser.gov/hudapi/public/fmr/listCounties/CO?updated=2025'
+HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/il/data/{entityid}?year={year}'
 
 TIMEOUT  = 30
 FY       = 2026
+IL_FY    = 2026
+IL_REQUEST_DELAY = 1.1
+IL_TRANSIENT_RETRIES = 2
 
 # HUD household-size adjustment factors used to derive income limits at sizes 1-4
 # from the 4-person AMI (approximate statutory factors).
@@ -271,7 +278,8 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
             for fips in _METRO_AREAS[area_name]['counties']:
                 il_row = il_index.get(fips) or {}
                 county_name = (
-                    il_row.get('county_name')
+                    _CO_COUNTY_NAMES_FULL.get(fips)
+                    or il_row.get('county_name')
                     or il_row.get('county')
                     or _CO_METRO_COUNTY_NAMES.get(fips, fips)
                 )
@@ -303,7 +311,8 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
 
         il_row = il_index.get(fips) or {}
         county_name = (
-            il_row.get('county_name')
+            _CO_COUNTY_NAMES_FULL.get(fips)
+            or il_row.get('county_name')
             or il_row.get('county')
             or re.sub(r',?\s*(?:CO|Colorado)\b.*$', '', hud_name, flags=re.IGNORECASE).strip()
             or fips
@@ -331,17 +340,39 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
 
-def http_get_json(url: str, token: str | None = None) -> dict | None:
+def http_get_json(
+    url: str,
+    token: str | None = None,
+    transient_retries: int = 0,
+) -> dict | list | None:
     headers = {'User-Agent': 'HousingAnalytics/1.0', 'Accept': 'application/json'}
     if token:
         headers['Authorization'] = f'Bearer {token}'
     req = urllib.request.Request(url, headers=headers)
-    try:
-        with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-            return json.loads(resp.read())
-    except Exception as exc:
-        print(f'⚠ HUD API error ({url}): {exc}', file=sys.stderr)
-        return None
+    for attempt in range(transient_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as exc:
+            retryable = exc.code == 429 or 500 <= exc.code <= 599
+            if retryable and attempt < transient_retries:
+                retry_after = exc.headers.get('Retry-After') if exc.headers else None
+                try:
+                    wait = max(1.0, float(retry_after)) if retry_after else 5.0 * (attempt + 1)
+                except (TypeError, ValueError):
+                    wait = 5.0 * (attempt + 1)
+                print(
+                    f'⚠ HUD API HTTP {exc.code}; retrying after {wait:g}s ({url})',
+                    file=sys.stderr,
+                )
+                time.sleep(wait)
+                continue
+            print(f'⚠ HUD API error ({url}): {exc}', file=sys.stderr)
+            return None
+        except Exception as exc:
+            print(f'⚠ HUD API error ({url}): {exc}', file=sys.stderr)
+            return None
+    return None
 
 
 def _first_number(record: dict, keys: tuple[str, ...]) -> int:
@@ -394,13 +425,36 @@ def _extract_il_record(payload: dict) -> dict:
     return {}
 
 
+def _extract_il_counties(payload: dict | list | None) -> list:
+    """Extract the documented listCounties response without inventing rows."""
+    if isinstance(payload, list):
+        rows = payload
+    elif isinstance(payload, dict) and isinstance(payload.get('data'), list):
+        rows = payload['data']
+    else:
+        raise ValueError(
+            'HUD Income Limits county list response is malformed: expected a data array'
+        )
+
+    if not rows or any(not isinstance(row, dict) for row in rows):
+        raise ValueError(
+            'HUD Income Limits county list response is malformed: county rows are missing'
+        )
+    return rows
+
+
 def _income_limit_entity_id(row: dict) -> str:
     for key in ('entityid', 'entity_id', 'EntityID', 'code', 'hud_area_code'):
         value = str(row.get(key, '') or '').strip()
         if value:
             return value
-    fips = _normalize_colorado_fips(row.get('fips_code', row.get('fips', '')))
-    return fips
+    # listCounties returns a 10-digit Income Limits entity ID in fips_code
+    # (for example 0800199999). Preserve that ID for /il/data; only normalize
+    # it to five digits when using it as the repository's county key.
+    raw_fips = re.sub(r'\D', '', str(row.get('fips_code', row.get('fips', '')) or ''))
+    if len(raw_fips) in (5, 10) and raw_fips.startswith('08'):
+        return raw_fips
+    return _normalize_colorado_fips(raw_fips)
 
 
 def _income_limit_ami(record: dict) -> int:
@@ -424,18 +478,80 @@ def fetch_income_limit_index(county_list: list, token: str, year: int) -> dict:
         entity_id = _income_limit_entity_id(row)
         if not entity_id:
             continue
-        time.sleep(0.1)
-        payload = http_get_json(HUD_IL_DATA_URL.format(entityid=entity_id, year=year), token)
+        # HUD begins returning 429s near 60 requests/minute. Stay below that
+        # ceiling and retry only transient responses; deterministic 4xx errors
+        # still fail immediately.
+        time.sleep(IL_REQUEST_DELAY)
+        payload = http_get_json(
+            HUD_IL_DATA_URL.format(entityid=entity_id, year=year),
+            token,
+            transient_retries=IL_TRANSIENT_RETRIES,
+        )
+        if payload is None:
+            raise RuntimeError(
+                'HUD Income Limits request failed for county '
+                f'{fips} after {IL_TRANSIENT_RETRIES + 1} attempts'
+            )
         record = _extract_il_record(payload or {})
         ami = _income_limit_ami(record)
         if ami <= 0:
-            print(f'  ⚠ Income Limits data for {fips} lacked a county AMI', file=sys.stderr)
-            continue
+            raise RuntimeError(
+                f'HUD Income Limits response for county {fips} is missing a county AMI'
+            )
         merged = dict(row)
         merged.update(record)
         merged['fips_code'] = fips
         merged['median_income'] = ami
         il_index[fips] = merged
+    return il_index
+
+
+def assert_valid_income_limit_index(il_index: dict) -> None:
+    """Require complete, varied, positive county Income Limits before output."""
+    expected_fips = set(_CO_COUNTY_NAMES_FULL)
+    actual_fips = set(il_index)
+    if actual_fips != expected_fips:
+        missing = sorted(expected_fips - actual_fips)
+        extra = sorted(actual_fips - expected_fips)
+        raise ValueError(
+            'HUD Income Limits county coverage failed: '
+            f'{len(actual_fips)} of 64 Colorado counties; '
+            f'missing={missing[:5]}, extra={extra[:5]}'
+        )
+
+    ami_values = [_income_limit_ami(il_index[fips]) for fips in sorted(expected_fips)]
+    if any(value <= 0 for value in ami_values):
+        raise ValueError('HUD Income Limits contains a non-positive county median income')
+    distinct = set(ami_values)
+    if len(distinct) < MIN_DISTINCT_CO_AMI_VALUES:
+        raise ValueError(
+            'HUD Income Limits county results look flattened: '
+            f'{len(distinct)} distinct median-income values across 64 counties '
+            f'(expected >= {MIN_DISTINCT_CO_AMI_VALUES})'
+        )
+
+
+def fetch_county_income_limits(token: str, year: int) -> dict:
+    """Fetch and validate HUD's complete Colorado county Income Limits set."""
+    county_payload = http_get_json(HUD_IL_URL, token)
+    try:
+        county_rows = _extract_il_counties(county_payload)
+    except ValueError as exc:
+        raise RuntimeError(f'HUD Income Limits county list request failed: {exc}') from exc
+
+    normalized_fips = [
+        _normalize_colorado_fips(row.get('fips_code', row.get('fips', '')))
+        for row in county_rows
+    ]
+    colorado_fips = [fips for fips in normalized_fips if fips.startswith('08')]
+    if len(colorado_fips) != 64 or len(set(colorado_fips)) != 64:
+        raise RuntimeError(
+            'HUD Income Limits county list is incomplete or duplicated: '
+            f'{len(set(colorado_fips))} unique Colorado counties from {len(county_rows)} rows'
+        )
+
+    il_index = fetch_income_limit_index(county_rows, token, year)
+    assert_valid_income_limit_index(il_index)
     return il_index
 
 
@@ -536,11 +652,11 @@ def parse_fmr_record(raw: dict) -> dict:
 def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str) -> dict:
     """
     Build data/hud-fmr-income-limits.json by merging FMR API response with
-    income limits.  Falls back to AMI-formula income limits when the IL API
-    is unavailable (no token).
+    income limits. The builder retains its legacy AMI fallback for callers,
+    but main() now requires a complete validated IL index before it writes.
 
     fmr_api_data: parsed response from HUD_FMR_URL (statedata/CO)
-    il_api_data:  parsed response from HUD_IL_URL (listCounties/08), or None
+    il_api_data:  county records fetched from HUD's documented listCounties/CO
     """
     # Build an optional IL index keyed by 5-digit FIPS. The HUD listCounties
     # response is only a roster; callers should enrich it with per-entity
@@ -599,10 +715,10 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             continue
 
         county_name = (
-            raw.get('county_name')
+            _CO_COUNTY_NAMES_FULL.get(fips)
+            or raw.get('county_name')
             or raw.get('county')
             or (il_index.get(fips) or {}).get('county_name')
-            or _CO_COUNTY_NAMES_FULL.get(fips)
             or fips
         )
 
@@ -643,15 +759,16 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
 
     return {
         'meta': {
-            'source':      'HUD FMR and Income Limits (FY2026)',
+            'source':      f'HUD FMR FY{FY} and Income Limits FY{IL_FY}',
             'url_fmr':     'https://www.huduser.gov/portal/datasets/fmr.html',
             'url_il':      'https://www.huduser.gov/portal/datasets/il.html',
             'fiscal_year': FY,
+            'income_limits_fiscal_year': IL_FY,
             'state':       'Colorado',
             'state_fips':  '08',
             'generated':   generated,
             'county_count': len(counties),
-            'note':        ('FY2026 Fair Market Rents and Income Limits for Colorado counties. '
+            'note':        (f'FY{FY} Fair Market Rents and FY{IL_FY} Income Limits for Colorado counties. '
                             'Includes 60% AMI affordable rent calculations for LIHTC use. '
                             'Refresh annually with scripts/fetch_fmr_api.py.'),
         },
@@ -700,9 +817,30 @@ def main() -> int:
                   file=sys.stderr)
         return 1
 
-    generated = utc_now()
+    # ── 2. Fetch Income Limits by county/entity (requires token) ─────────────
+    if not token:
+        print('✗ HUD_API_TOKEN is required for county Income Limits.', file=sys.stderr)
+        return 1
+    print('Fetching HUD Income Limits county list for Colorado…')
+    time.sleep(0.5)  # gentle rate-limit courtesy pause
+    try:
+        il_data = fetch_county_income_limits(token, IL_FY)
+    except (RuntimeError, ValueError) as exc:
+        print(f'✗ {exc}', file=sys.stderr)
+        return 1
+    print(f'✓ Income Limits county records: {len(il_data)} varied county entries')
 
-    # Write raw FMR output (data/market/fmr_co.json)
+    # ── 3. Build combined FMR + IL file (data/hud-fmr-income-limits.json) ────
+    generated = utc_now()
+    try:
+        combined = build_combined(fmr_data, il_data, generated)
+        assert_distinct_county_amis(combined['counties'])
+    except ValueError as exc:
+        print(f'✗ {exc}', file=sys.stderr)
+        return 1
+
+    # Write raw FMR output only after the Income Limits stage has passed its
+    # complete-and-varied county validation, so a partial run writes nothing.
     raw_output = {
         'meta': {
             'source':     'HUD Fair Market Rents API',
@@ -720,28 +858,6 @@ def main() -> int:
     raw_records, raw_shape = _extract_fmr_records(fmr_data)
     print(f'✓ Wrote FMR data ({len(raw_records)} records from {raw_shape}) to {OUT_FMR_RAW}')
 
-    # ── 2. Fetch Income Limits by county/entity (requires token) ─────────────
-    il_data = None
-    if token:
-        print('Fetching HUD Income Limits county list for Colorado…')
-        time.sleep(0.5)  # gentle rate-limit courtesy pause
-        il_counties = http_get_json(HUD_IL_URL, token)
-        if isinstance(il_counties, list) and il_counties:
-            print(f'✓ Income Limits county list: {len(il_counties)} entries')
-            il_data = fetch_income_limit_index(il_counties, token, FY)
-            print(f'✓ Income Limits county records: {len(il_data)} entries')
-        else:
-            print('⚠ Income Limits fetch failed — will use AMI-formula fallback', file=sys.stderr)
-    else:
-        print('ℹ No HUD_API_TOKEN set; county Income Limits fetch will be unavailable.')
-
-    # ── 3. Build combined FMR + IL file (data/hud-fmr-income-limits.json) ────
-    try:
-        combined = build_combined(fmr_data, il_data, generated)
-        assert_distinct_county_amis(combined['counties'])
-    except ValueError as exc:
-        print(f'✗ {exc}', file=sys.stderr)
-        return 1
     county_count = len(combined['counties'])
     os.makedirs(os.path.dirname(OUT_COMBINED), exist_ok=True)
     with open(OUT_COMBINED, 'w', encoding='utf-8') as fh:

@@ -60,7 +60,7 @@
     gap: "Difference: affordable units minus eligible households. Negative = shortage; positive = apparent surplus.",
     coverage: "Ratio of affordable units to eligible households at this AMI band.",
     affordableRent: "Maximum gross rent (including utilities) considered affordable at 30% of income for a household at the specified AMI level.",
-    ami4person: "HUD Area Median Income for a 4-person household in this geography (FY 2025 Income Limits)."
+    ami4person: "HUD Area Median Income for a 4-person household in this geography (FY 2026 county Income Limits)."
   };
 
   function addTooltip(target, text) {
@@ -462,7 +462,7 @@
       "Priced-affordable units are renter-occupied and are not necessarily vacant or available, so a positive gap does not establish that housing is obtainable.",
       "Gap = affordable units − eligible households. A negative gap indicates more eligible households than affordable units.",
       "Coverage = affordable units ÷ eligible households, expressed as a percentage.",
-      "AMI thresholds use HUD FY 2025 Income Limits for 4-person households."
+      "County AMI thresholds use HUD FY 2026 Income Limits for 4-person households; the statewide benchmark remains FY 2025."
     ];
     el.innerHTML = lines.map(p => `<p>${p}</p>`).join("");
     if (payload.sources && payload.sources.length) {

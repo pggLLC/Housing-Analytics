@@ -501,7 +501,7 @@
             { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
             { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
             { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
-            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2025', coverage: 'All CO counties' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2026', coverage: 'All CO counties' },
             { name: 'AMI Gap (ACS B25063 + B25118 renter HH)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
           ],
           limitations: 'Place-level AMI gaps are pulled directly from Census ACS at place geography, and place cost burden is tract-apportioned from HUD CHAS — neither is scaled from county. HUD AMI income limits are the only county-level input (HUD does not publish sub-county AMI), so cross-county places assume their primary county. CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',
@@ -773,7 +773,7 @@
            gives the tables more breathing room. -->
       <div class="chart-card span-12" id="hudFmrPanel">
         <h2>HUD Fair Market Rents &amp; Income Limits</h2>
-        <p>HUD Fair Market Rents (FY2026) by bedroom size and Income Limits (FY2025) by household size for the selected county. Source: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD User</a>.</p>
+        <p>HUD Fair Market Rents (FY2026) by bedroom size and FY2026 county Income Limits by household size for the selected county. Source: <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD User</a>.</p>
         <div id="hudFmrAreaName" style="margin:6px 0;font-size:var(--small);color:var(--muted)">Select a geography to view FMR data.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp3);margin-top:8px">
           <div>
@@ -801,7 +801,7 @@
               <li>Computing from MTSP makes the rent-ceiling formula visible while preserving CHFA's published tables as the binding application reference.</li>
             </ul>
             <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> calculated limits should be checked against CHFA's published tables. If a discrepancy appears, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
-            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP Income Limits FY2025 (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
+            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP FY2026 county Income Limits (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
           </div>
         </details>
       </div>
@@ -1371,7 +1371,7 @@
         <div class="chart-card span-12" style="margin:14px 0 0;"
              data-source="ACS DP03/DP04 + HUD Multifamily Tax Subsidy Project Income Limits + LEHD LODES8 WAC"
              data-source-url="https://www.huduser.gov/portal/datasets/il.html"
-             data-vintage="ACS 2020-2024 · HUD MTSP FY2025 · LODES 2023"
+             data-vintage="ACS 2020-2024 · HUD MTSP FY2026 · LODES 2023"
              data-source-type="transformed">
           <h2>Wages vs Housing Affordability</h2>
           <p style="color:var(--muted);font-size:.88rem">
