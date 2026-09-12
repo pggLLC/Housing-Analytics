@@ -112,7 +112,14 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/kalshi/prediction-market.json data/manifest.json
+          # The number of open Kalshi housing markets legitimately varies, and
+          # js/data-source-inventory.js pins that count in `features:`, which
+          # test:data-source-inventory-drift asserts exactly. A run that changed
+          # 4 items to 1 therefore turned main red until the next scheduled
+          # mtime-sync happened to reconcile it. The workflow that changes the
+          # count is the one that should reconcile it.
+          node scripts/audit/refresh-inventory-mtimes.mjs || true
+          git add data/kalshi/prediction-market.json data/manifest.json js/data-source-inventory.js
           if git diff --cached --quiet; then
             echo "No changes to commit — data is up to date."
           else
