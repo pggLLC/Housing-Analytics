@@ -1037,7 +1037,7 @@
       provider: 'Kalshi',
       url: 'https://kalshi.com/',
       localFile: 'data/kalshi/prediction-market.json',
-      lastUpdated: '2026-03-13',
+      lastUpdated: '2026-09-12',
       // Not a feed. fetch-kalshi.yml runs weekly but exits early with
       // "Kalshi credentials not configured", preserving this committed seed —
       // so it reported success while changing nothing for 183 days. Declaring
@@ -1048,7 +1048,7 @@
       maxAgeDays: null,
       geoUnit: 'National / Metro',
       coverage: 'National',
-      features: 4,
+      features: 1,
       description: 'Four illustrative seed prediction-market items for housing indicators. This committed file is not a live Kalshi market feed.',
       tags: ['kalshi', 'prediction-markets', 'housing'],
       apiEndpoint: 'https://api.kalshi.com/trade-api/v2/markets'
@@ -1083,7 +1083,7 @@
       provider: 'Internal (Generated)',
       url: null,
       localFile: 'data/manifest.json',
-      lastUpdated: '2026-09-11',
+      lastUpdated: '2026-09-12',
       updateFrequency: 'On deploy',
       maxAgeDays: 30,
       geoUnit: 'N/A',
