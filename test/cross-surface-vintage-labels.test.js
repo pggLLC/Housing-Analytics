@@ -40,6 +40,12 @@ const dealCalculator = read('js/deal-calculator.js');
 assertIncludes(dealCalculator, 'HUD FMR FY2026', 'Deal Calculator FMR source link');
 assertExcludes(dealCalculator, staleHudFmrVintage, 'Deal Calculator stale FMR source link');
 
+const amiGap = read('js/co-ami-gap.js');
+const staleCountyIncomeLimits = 'FY 20' + '25 Income Limits';
+assertIncludes(amiGap, 'FY 2026 county Income Limits', 'AMI-gap county tooltip uses the current Income Limits vintage');
+assertExcludes(amiGap, staleCountyIncomeLimits, 'AMI-gap has no stale FY2025 county Income Limits label');
+assertIncludes(amiGap, 'statewide benchmark remains FY 2025', 'AMI-gap preserves the separate FY2025 statewide disclosure');
+
 ['housing-needs-assessment.html', 'deal-calculator.html', 'market-analysis.html'].forEach((relPath) => {
   const src = read(relPath);
   assertIncludes(src, 'FMR FY2026 · IL FY2026', `${relPath} current FMR/IL data-quality vintage`);

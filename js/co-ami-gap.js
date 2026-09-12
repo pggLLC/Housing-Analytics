@@ -60,7 +60,7 @@
     gap: "Difference: affordable units minus eligible households. Negative = shortage; positive = apparent surplus.",
     coverage: "Ratio of affordable units to eligible households at this AMI band.",
     affordableRent: "Maximum gross rent (including utilities) considered affordable at 30% of income for a household at the specified AMI level.",
-    ami4person: "HUD Area Median Income for a 4-person household in this geography (FY 2025 Income Limits)."
+    ami4person: "HUD Area Median Income for a 4-person household in this geography (FY 2026 county Income Limits)."
   };
 
   function addTooltip(target, text) {
