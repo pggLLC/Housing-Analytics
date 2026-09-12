@@ -31,14 +31,20 @@ const COPIED = [
   path.join('scripts', 'audit', 'refresh-inventory-mtimes.mjs'),
   path.join('scripts', 'audit', 'inventory-count-paths.cjs'),
   path.join('scripts', 'audit', 'sync-manifest-mtimes.mjs'),
+  // F1597 — refresh-inventory-mtimes.mjs now reads content dates from git
+  // history instead of mtime, so the helper has to travel with it.
+  path.join('scripts', 'audit', 'content-date.mjs'),
 ];
 
 // --- Fixtures --------------------------------------------------------------
 
-// `lastUpdated` is parked in the far future so a clone's fresh mtimes can never
-// bump it. Git does not preserve mtimes, so without this every clone would also
-// rewrite the dates and blur what these cases are actually about: the counts.
-const FAR_FUTURE = '2099-01-01';
+// `lastUpdated` matches the instant every fixture commit is pinned to, so a
+// clean fixture shows no date drift and these cases stay about the counts.
+//
+// This used to be parked at 2099-01-01 to stop a clone's fresh mtimes bumping
+// it. That workaround is obsolete: since #1597 the stamp comes from the commit
+// that changed the file, so a clone's mtimes cannot move it at all.
+const FAR_FUTURE = '2026-01-15';  // keep in step with FIXTURE_WHEN below
 
 function countiesFile(n) {
   const counties = {};
@@ -70,8 +76,18 @@ function inventory(regridFeatures) {
 
 // --- git helpers -----------------------------------------------------------
 
+// Every fixture commit is pinned to one instant so the content dates these
+// cases produce are deterministic. lastUpdated is declared as the same day,
+// so a clean fixture has no date drift and the cases stay about the counts.
+const FIXTURE_WHEN = '2026-01-15T12:00:00Z';
+const GIT_ENV = {
+  GIT_AUTHOR_DATE: FIXTURE_WHEN, GIT_COMMITTER_DATE: FIXTURE_WHEN,
+  GIT_AUTHOR_NAME: 'Fixture', GIT_AUTHOR_EMAIL: 'f@example.com',
+  GIT_COMMITTER_NAME: 'Fixture', GIT_COMMITTER_EMAIL: 'f@example.com',
+};
+
 function git(cwd, ...args) {
-  return execFileSync('git', args, { cwd, encoding: 'utf8' }).trim();
+  return execFileSync('git', args, { cwd, encoding: 'utf8', env: { ...process.env, ...GIT_ENV } }).trim();
 }
 
 function seedRepo(dir, initialCounties, declaredFeatures) {

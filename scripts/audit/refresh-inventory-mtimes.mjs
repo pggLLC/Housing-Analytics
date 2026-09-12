@@ -48,6 +48,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { contentDate, isShallow } from "./content-date.mjs";
 import { fileURLToPath } from "node:url";
 
 import countPaths from "./inventory-count-paths.cjs";
@@ -190,22 +191,46 @@ if (cur) {
 console.log(`[refresh-mtimes] parsed ${entries.length} inventory entries`);
 
 const updates = [];
+// Resolve shallowness once rather than shelling out per source.
+const repoIsShallow = isShallow(REPO);
+if (repoIsShallow) {
+  console.warn(
+    "[refresh-mtimes] shallow clone — cannot read real content dates, leaving lastUpdated untouched. " +
+    "Set fetch-depth: 0 on the checkout."
+  );
+}
+let skippedNoHistory = 0;
 for (const e of entries) {
   if (!e.localFile) continue;
   const abs = path.join(REPO, e.localFile);
   if (!fs.existsSync(abs)) continue;
-  const mtime = fs.statSync(abs).mtime;
-  // Compare on the ISO date (YYYY-MM-DD) — the inventory's stored format.
-  const mtimeIso = mtime.toISOString().slice(0, 10);
+
+  // F1597 — was fs.statSync(abs).mtime. Git neither records nor restores
+  // mtimes, and actions/checkout rewrites every tracked file, so on a runner
+  // every data file's mtime is the checkout time: each scheduled run bumped
+  // all 47 sources to the same date and nothing could ever read as stale.
+  // The commit that last changed the file is the honest answer.
+  const resolved = contentDate(REPO, e.localFile, { shallow: repoIsShallow });
+  const mtimeIso = resolved.date;
+  if (!mtimeIso) {
+    skippedNoHistory += 1;
+    continue;
+  }
+
   if (!e.lastUpdated) {
     updates.push({ ...e, mtimeIso, action: "set" });
     continue;
   }
-  // Only bump if mtime is strictly later — don't roll back a manually
-  // curated "we know this hasn't changed yet" date.
-  if (mtimeIso > e.lastUpdated) {
-    updates.push({ ...e, mtimeIso, action: "bump" });
+  // Unlike the old mtime rule this is a two-way sync. A stamp that is too NEW
+  // is the defect being repaired here, so a correction backwards is exactly
+  // what is wanted — the declared date should equal the content date, and any
+  // difference in either direction is drift.
+  if (mtimeIso !== e.lastUpdated) {
+    updates.push({ ...e, mtimeIso, action: mtimeIso > e.lastUpdated ? "bump" : "correct" });
   }
+}
+if (skippedNoHistory) {
+  console.warn(`[refresh-mtimes] ${skippedNoHistory} source(s) had no usable content date — left unchanged`);
 }
 
 // Recount `features:` for every source whose count the drift gate derives
