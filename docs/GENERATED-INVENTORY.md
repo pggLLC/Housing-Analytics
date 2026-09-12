@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T05:13:29.145Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:10:01.797Z. Do not edit by hand.
 
 ---
 
@@ -87,7 +87,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 188.0 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 189.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -1631,7 +1631,7 @@
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 155.6 KB | ✅ | — |
+| `data/policy_briefs.json` | 156.9 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 19.6 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-313 test files found.
+314 test files found.
 
 | File | Size |
 |------|------|
@@ -1833,6 +1833,7 @@
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
+| `test/parcel-source-honesty.test.js` | 4.4 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
