@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T02:57:26.221Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T03:11:33.024Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-309 test files found.
+310 test files found.
 
 | File | Size |
 |------|------|
@@ -1689,6 +1689,7 @@
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
+| `test/content-date-freshness.test.mjs` | 5.0 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 4.3 KB |
@@ -1793,8 +1794,8 @@
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
-| `test/inventory-mtime-sync.test.js` | 20.3 KB |
-| `test/inventory-sync-push.test.js` | 9.8 KB |
+| `test/inventory-mtime-sync.test.js` | 23.1 KB |
+| `test/inventory-sync-push.test.js` | 10.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
