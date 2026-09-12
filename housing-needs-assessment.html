@@ -198,6 +198,10 @@
        it, or the county's standing in? Must load before hna-renderers.js,
        which reads window.GeographyProvenance when painting the CHAS chip. -->
   <script defer src="js/hna/geography-provenance.js"></script>
+  <!-- Contents rail: builds navigation from the headings already in the
+       document. 54 sections across ~53 screens previously had no table of
+       contents. Additive only — it reorders and renames nothing. -->
+  <script defer src="js/hna/section-rail.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
