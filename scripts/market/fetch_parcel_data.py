@@ -40,11 +40,33 @@ CACHE_TTL_HOURS = 168  # 1 week
 
 # County assessor ArcGIS FeatureServer endpoints (public)
 # Each entry: (county_fips, county_name, layer_url, key_field)
+# Endpoint provenance (2026-09-12)
+# -------------------------------------------------------------------------
+# Every one of these eight endpoints had been failing since ~2026-04 while the
+# weekly workflow reported success, because a total failure silently reused the
+# committed file (see main() below). Counties reorganised their GIS and four
+# hostnames stopped resolving altogether.
+#
+# Re-sourced and verified live — each returns a Feature Layer for ?f=json:
+#   Jefferson  gisportal.jeffco.us  (layer 20 "Parcel"; maps.jeffco.us times out)
+#   Boulder    maps.bouldercounty.org  (gisweb.bouldercounty.org: NXDOMAIN)
+#   El Paso    gisservices.elpasoco.com  (gis.elpasoco.com: NXDOMAIN)
+#   Adams      services3.arcgis.com hosted  (gis.adcogov.com: 302 to HTML)
+#
+# STILL UNRESOLVED — no official county service found; these will keep failing
+# and the run will now exit non-zero rather than pretend otherwise:
+#   Denver     www.denvergov.org  — connection closed without response
+#   Arapahoe   gis.arapahoegov.com  — HTTP 200 with {"error":{"code":404}}
+#   Weld       gis.weldgov.com  — NXDOMAIN
+#   Larimer    gis.larimer.org  — NXDOMAIN
+# Only Aurora (city) and a third-party Larimer/Weld service surfaced in search;
+# neither is an authoritative county source, so neither is wired in here.
+# -------------------------------------------------------------------------
 COUNTY_SOURCES = [
     (
         "08059",
         "Jefferson",
-        "https://maps.jeffco.us/arcgis/rest/services/Assessor/PublicParcels/MapServer/0",
+        "https://gisportal.jeffco.us/server2/rest/services/Parcel/FeatureServer/20",
         "ZONE_CODE",
     ),
     (
@@ -62,19 +84,19 @@ COUNTY_SOURCES = [
     (
         "08001",
         "Adams",
-        "https://gis.adcogov.com/arcgis/rest/services/Assessor/Parcels/FeatureServer/0",
+        "https://services3.arcgis.com/4PNQOtAivErR7nbT/arcgis/rest/services/Parcels/FeatureServer/0",
         "ZONE_CODE",
     ),
     (
         "08013",
         "Boulder",
-        "https://gisweb.bouldercounty.org/arcgis/rest/services/Assessor/Parcels/FeatureServer/0",
+        "https://maps.bouldercounty.org/arcgis/rest/services/PARCELS/PARCELS_OWNER/FeatureServer/0",
         "ZONING",
     ),
     (
         "08041",
         "El Paso",
-        "https://gis.elpasoco.com/arcgis/rest/services/Assessor/Parcels/FeatureServer/0",
+        "https://gisservices.elpasoco.com/arcgis2/rest/services/HubPublic/Parcels/MapServer/0",
         "ZONE_CODE",
     ),
     (
@@ -247,17 +269,42 @@ def main() -> int:
         "counties": counties,
     }
 
-    # Fallback to existing file if no data fetched
+    # Fallback to existing file if no data fetched. Keeping the last good data
+    # is right; reporting it as a successful fetch is not. Every one of the
+    # eight county endpoints has been failing since ~2026-04 (four hostnames no
+    # longer resolve at all), and this branch rewrote the committed file
+    # byte-identically, logged "✓ Wrote 8 county records" and exited 0 — so a
+    # weekly workflow reported success for five months while fetching nothing.
+    used_fallback = False
     if successful == 0 and OUT_FILE.exists():
         existing = json.loads(OUT_FILE.read_text())
         if existing.get("counties"):
-            log("[fallback] Using existing parcel_aggregates_co.json", level="WARN")
+            log("[fallback] Every source failed — preserving existing "
+                "parcel_aggregates_co.json rather than overwriting it", level="WARN")
             result = existing
+            used_fallback = True
 
     with open(OUT_FILE, "w", encoding="utf-8") as fh:
         json.dump(result, fh, indent=2, ensure_ascii=False)
 
-    log(f"✓ Wrote {len(counties)} county records to {OUT_FILE}")
+    # Report what was actually written, from `result` — the previous message
+    # counted `counties`, the dict built from this run, so a run in which every
+    # county failed still announced eight records.
+    written = len(result.get("counties") or {})
+    if used_fallback:
+        log(f"✗ NO county data fetched — {written} record(s) in {OUT_FILE} are "
+            f"from the previous run and are now stale", level="WARN")
+    else:
+        log(f"✓ Wrote {written} county record(s) to {OUT_FILE} "
+            f"({successful}/{len(COUNTY_SOURCES)} sources succeeded)")
+
+    # A total failure is a failure. Partial failure stays non-fatal so one dead
+    # county cannot block the other seven.
+    if successful == 0:
+        log(f"All {len(COUNTY_SOURCES)} county sources failed — see the errors above. "
+            "Endpoints are likely dead or moved; this exits non-zero so the "
+            "workflow cannot report success while fetching nothing.", level="ERROR")
+        return 1
     return 0
 
 
