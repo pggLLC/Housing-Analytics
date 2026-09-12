@@ -139,17 +139,17 @@
     "data/car-market-report-2026-02.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2272
+      "bytes": 2366
     },
     "data/car-market-report-2026-03.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2273
+      "bytes": 2367
     },
     "data/car-market-report-2026-04.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2325
+      "bytes": 2399
     },
     "data/car-market-report-2026-05.json": {
       "featureCount": 64,
@@ -169,12 +169,12 @@
     "data/car-market-report-2026-08.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2312
+      "bytes": 2415
     },
     "data/car-market-report-2026-09.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2331
+      "bytes": 2437
     },
     "data/car-market.json": {
       "featureCount": 0,
