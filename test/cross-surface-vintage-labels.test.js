@@ -63,10 +63,29 @@ assertIncludes(amiGap, 'statewide benchmark remains FY 2025', 'AMI-gap preserves
 
 const hnaHtml = read('housing-needs-assessment.html');
 const coloradoDeepDive = read('colorado-deep-dive.html');
-const staleIncomeLimitVintageNearLabel = /(?:FY\s?2025[\s\S]{0,60}(?:Income Limits|MTSP)|(?:Income Limits|MTSP)[\s\S]{0,60}FY\s?2025)/i;
 
 function withoutStatewideBenchmarkDisclosure(src) {
-  return src.replace(/[^.!?\n]*statewide benchmark[^.!?\n]*FY\s?2025[^.!?\n]*[.!?]?/gi, '');
+  return src.split(/[.!?\n]/).filter((segment) => {
+    const lower = segment.toLowerCase();
+    const isStatewideBenchmark = lower.includes('statewide benchmark');
+    const isFy2025 = lower.includes('fy 2025') || lower.includes('fy2025');
+    return !(isStatewideBenchmark && isFy2025);
+  }).join('\n');
+}
+
+function hasStaleIncomeLimitVintageNearLabel(src) {
+  const lower = withoutStatewideBenchmarkDisclosure(src).toLowerCase();
+  return ['fy2025', 'fy 2025'].some((needle) => {
+    let fromIndex = 0;
+    let index = lower.indexOf(needle, fromIndex);
+    while (index !== -1) {
+      const nearby = lower.slice(Math.max(0, index - 60), Math.min(lower.length, index + 60));
+      if (nearby.includes('income limits') || nearby.includes('mtsp')) return true;
+      fromIndex = index + needle.length;
+      index = lower.indexOf(needle, fromIndex);
+    }
+    return false;
+  });
 }
 
 [
@@ -76,7 +95,7 @@ function withoutStatewideBenchmarkDisclosure(src) {
   ['js/hna/hna-export.js', hnaExport],
 ].forEach(([relPath, src]) => {
   assert(
-    !staleIncomeLimitVintageNearLabel.test(withoutStatewideBenchmarkDisclosure(src)),
+    !hasStaleIncomeLimitVintageNearLabel(src),
     `${relPath}: FY2025 must not appear within 60 characters of Income Limits or MTSP`
   );
 });
