@@ -1033,3 +1033,125 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .geo-chip[data-tone="none"] {
   font-style: italic;
 }
+
+/* ── Contents rail (js/hna/section-rail.js) ───────────────────────────────
+   54 sections across ~53 desktop screens (~112 on a phone) had no table of
+   contents and five jump links. The rail is additive: it reads the headings
+   already in the document, reorders nothing, and gives the page a map.
+
+   Colours come from theme tokens so both themes resolve as a set; the active
+   entry is marked with weight and a rule as well as colour, so the current
+   position does not depend on colour perception alone. */
+.hna-rail {
+  position: fixed;
+  z-index: 40;
+  left: max(.75rem, calc(50vw - 46rem));
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15rem;
+  max-height: 74vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--card, #fff);
+  border: 1px solid var(--border, rgba(13, 31, 53, .11));
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 10px 30px -18px rgba(0, 0, 0, .35);
+  font-size: .78rem;
+}
+
+.hna-rail__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  width: 100%;
+  padding: .5rem .7rem;
+  background: none;
+  border: 0;
+  border-radius: 10px 10px 0 0;
+  color: var(--text, #0d1f35);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font-size: .68rem;
+  cursor: pointer;
+}
+.hna-rail__count {
+  color: var(--muted, #374151);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.hna-rail__list {
+  list-style: none;
+  margin: 0;
+  padding: 0 .35rem .5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  counter-reset: rail;
+}
+.hna-rail__list li { counter-increment: rail; }
+
+.hna-rail__link {
+  display: block;
+  padding: .25rem .45rem .25rem .55rem;
+  border-left: 2px solid transparent;
+  border-radius: 0 4px 4px 0;
+  color: var(--muted, #374151);
+  text-decoration: none;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hna-rail__link:hover,
+.hna-rail__link:focus-visible {
+  background: var(--bg2, #e4ecf4);
+  color: var(--text, #0d1f35);
+}
+.hna-rail__link[aria-current="true"] {
+  color: var(--text, #0d1f35);
+  font-weight: 700;
+  border-left-color: var(--accent, #096e65);
+  background: color-mix(in srgb, var(--accent, #096e65) 9%, var(--card, #fff));
+}
+
+/* Desktop: the list is always open; the toggle is a heading, not a control. */
+@media (min-width: 1101px) {
+  .hna-rail__toggle { cursor: default; pointer-events: none; border-bottom: 1px solid var(--border, rgba(13,31,53,.11)); }
+}
+
+/* Below the width where a fixed rail would overlap the content, it collapses
+   to a corner button and opens on demand. */
+@media (max-width: 1100px) {
+  .hna-rail {
+    left: auto;
+    right: .75rem;
+    top: auto;
+    bottom: .75rem;
+    transform: none;
+    width: auto;
+    max-width: min(19rem, calc(100vw - 1.5rem));
+  }
+  .hna-rail__list { display: none; max-height: 60vh; }
+  .hna-rail[data-open="true"] .hna-rail__list { display: block; }
+  .hna-rail[data-open="true"] { width: min(19rem, calc(100vw - 1.5rem)); }
+  .hna-rail__toggle { padding: .55rem .8rem; }
+}
+
+/* The rail is navigation for a screen reader at a scroll position — it is
+   not part of the printed or exported report. */
+@media print {
+  .hna-rail { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hna-rail, .hna-rail__link { transition: none !important; }
+}
+
+/* The site header is sticky, so an un-offset anchor drops the target heading
+   underneath it. This also repairs the five pre-existing decision-strip jump
+   links, which had the same problem. */
+#main-content section[id] { scroll-margin-top: 5rem; }
