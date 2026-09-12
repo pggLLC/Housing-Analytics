@@ -201,6 +201,8 @@
   <!-- Contents rail: builds navigation from the headings already in the
        document. 54 sections across ~53 screens previously had no table of
        contents. Additive only — it reorders and renames nothing. -->
+  <!-- The guided reading path must load before the rail, which renders it. -->
+  <script defer src="js/hna/reading-path.js"></script>
   <script defer src="js/hna/section-rail.js"></script>
   <!-- Place-vs-county comparison: decides what may honestly be compared
        (county-comparison.js) and draws it (…-view.js). Both must load

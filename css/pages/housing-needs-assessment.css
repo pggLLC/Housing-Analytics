@@ -1257,3 +1257,67 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   min-width: 24px;
   min-height: 24px;
 }
+
+/* ── Guided reading path (js/hna/reading-path.js) ─────────────────────────
+   Sits above the contents list in the rail. The list answers "where is X";
+   the path answers "what should I read, and in what order" — the question 54
+   sections across 33 topic-runs left unanswered.
+
+   Numbered deliberately: unlike the contents list, this IS a sequence, and
+   the number carries that. Steps are visually distinct from the list below so
+   a reader can tell a route from an index at a glance. */
+.hna-rail__path {
+  padding: .55rem .7rem .6rem;
+  border-bottom: 1px solid var(--border, rgba(13, 31, 53, .11));
+  background: color-mix(in srgb, var(--accent, #096e65) 6%, var(--card, #fff));
+}
+.hna-rail__path-head {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent, #096e65);
+}
+.hna-rail__path-sub {
+  margin: .15rem 0 .45rem;
+  font-size: .7rem;
+  line-height: 1.4;
+  color: var(--muted, #374151);
+}
+.hna-rail__path-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: rp;
+}
+.hna-rail__path-list li { counter-increment: rp; }
+.hna-rail__path-link {
+  display: grid;
+  grid-template-columns: 1.15rem 1fr;
+  gap: .35rem;
+  align-items: baseline;
+  padding: .2rem .25rem;
+  border-radius: 4px;
+  color: var(--text, #0d1f35);
+  text-decoration: none;
+  font-size: .78rem;
+  line-height: 1.35;
+}
+.hna-rail__path-link::before {
+  content: counter(rp);
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--accent, #096e65);
+  font-variant-numeric: tabular-nums;
+}
+.hna-rail__path-link:hover,
+.hna-rail__path-link:focus-visible {
+  background: color-mix(in srgb, var(--accent, #096e65) 14%, var(--card, #fff));
+}
+
+/* On narrow screens the rail is a collapsed button; the path collapses with
+   the rest rather than floating separately. */
+@media (max-width: 1100px) {
+  .hna-rail__path { display: none; }
+  .hna-rail[data-open="true"] .hna-rail__path { display: block; }
+}
