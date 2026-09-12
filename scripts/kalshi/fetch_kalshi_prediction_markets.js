@@ -12,7 +12,7 @@
  *   KALSHI_API_SECRET     — RSA private key in PEM format
  *
  * Optional env vars:
- *   KALSHI_API_BASE_URL   — defaults to https://trading-api.kalshi.com
+ *   KALSHI_API_BASE_URL   — defaults to https://api.elections.kalshi.com
  *
  * Local usage (dry-run without credentials — writes empty items fallback):
  *   node scripts/kalshi/fetch_kalshi_prediction_markets.js
@@ -106,7 +106,12 @@ const MARKET_CONFIG = [
   },
 ];
 
-const BASE_URL    = (process.env.KALSHI_API_BASE_URL || 'https://trading-api.kalshi.com').replace(/\/$/, '');
+// Kalshi retired trading-api.kalshi.com; it now answers every request with
+// HTTP 401 and the body "API has been moved to https://api.elections.kalshi.com/".
+// That 401 reads as a credential failure and sent this integration chasing keys:
+// the real cause was the host. api.elections.kalshi.com answers
+// {"exchange_active":true} on /trade-api/v2/exchange/status.
+const BASE_URL    = (process.env.KALSHI_API_BASE_URL || 'https://api.elections.kalshi.com').replace(/\/$/, '');
 const API_KEY     = (process.env.KALSHI_API_KEY     || '').trim();
 const API_SECRET  = (process.env.KALSHI_API_SECRET  || '').trim();
 const API_PATH    = '/trade-api/v2';
@@ -119,6 +124,40 @@ const OUTPUT_FILE = path.join(OUTPUT_DIR, 'prediction-market.json');
 // ---------------------------------------------------------------------------
 
 /**
+ * normalizePem — rebuild a PEM whose line breaks were lost.
+ *
+ * Pasting a private key into a secrets field commonly flattens it onto one
+ * line, and OpenSSL then fails with
+ *   error:1E08010C:DECODER routines::unsupported
+ * which names no cause and reads like an unsupported key type. It is purely a
+ * formatting problem: the key material is intact, so re-wrap it rather than
+ * leaving the operator to discover this by character count. (A PKCS#8 RSA-2048
+ * key is 1704 characters with its newlines and 1676 without — exactly the
+ * difference that produced this bug.)
+ *
+ * Handles PKCS#1 ("BEGIN RSA PRIVATE KEY"), PKCS#8 ("BEGIN PRIVATE KEY"), and
+ * a bare base64 body with no header at all.
+ *
+ * @param {string} raw
+ * @returns {string|null} a well-formed PEM, or null if it cannot be rebuilt
+ */
+function normalizePem(raw) {
+  const value = String(raw || '').trim();
+  if (!value) return null;
+  // Already multi-line — whatever is wrong with it, re-wrapping will not help.
+  if (value.includes('\n') && value.includes('-----')) return null;
+
+  const header = /-----BEGIN ([A-Z0-9 ]+?)-----/.exec(value);
+  const label = header ? header[1] : 'RSA PRIVATE KEY';
+  const body = value
+    .replace(/-----BEGIN [A-Z0-9 ]+?-----/, '')
+    .replace(/-----END [A-Z0-9 ]+?-----/, '')
+    .replace(/\s+/g, '');
+  if (!body) return null;
+  return `-----BEGIN ${label}-----\n${body.match(/.{1,64}/g).join('\n')}\n-----END ${label}-----\n`;
+}
+
+/**
  * Build the Authorization headers for a Kalshi REST API request.
  * @param {string} method  — HTTP verb (GET, POST, …)
  * @param {string} apiPath — Path including query string, e.g. "/trade-api/v2/markets?status=open"
@@ -129,22 +168,26 @@ function kalshiAuthHeaders(method, apiPath) {
   const ts      = Date.now().toString();
   const message = `${ts}${method.toUpperCase()}${apiPath}`;
   let signature;
-  try {
-    const sign = crypto.createSign('RSA-SHA256');
-    sign.update(message);
-    signature = sign.sign(API_SECRET, 'base64');
-  } catch (err) {
-    // Key may be in raw base64 rather than PEM; try wrapping it.
+  const candidates = [API_SECRET, normalizePem(API_SECRET)].filter(Boolean);
+  let lastErr = null;
+  for (const key of candidates) {
     try {
-      const pem = API_SECRET.includes('-----')
-        ? API_SECRET
-        : `-----BEGIN RSA PRIVATE KEY-----\n${API_SECRET}\n-----END RSA PRIVATE KEY-----`;
-      const sign2 = crypto.createSign('RSA-SHA256');
-      sign2.update(message);
-      signature = sign2.sign(pem, 'base64');
-    } catch (err2) {
-      throw new Error(`Failed to sign Kalshi request: ${err2.message}`);
+      const sign = crypto.createSign('RSA-SHA256');
+      sign.update(message);
+      signature = sign.sign(key, 'base64');
+      lastErr = null;
+      break;
+    } catch (err) {
+      lastErr = err;
     }
+  }
+  if (lastErr) {
+    throw new Error(
+      `Failed to sign Kalshi request: ${lastErr.message}. ` +
+      'A PEM pasted without line breaks produces exactly this ' +
+      '"DECODER routines::unsupported" error — re-paste KALSHI_API_SECRET with its ' +
+      'newlines intact, header and footer on their own lines.'
+    );
   }
   return {
     'KALSHI-ACCESS-KEY':       API_KEY,
@@ -377,6 +420,8 @@ function normalizeMarket(cfg, markets) {
 
   const items = [];
 
+  const failures = [];
+
   for (const cfg of MARKET_CONFIG) {
     process.stdout.write(`  [${cfg.metric}] `);
     try {
@@ -389,11 +434,30 @@ function normalizeMarket(cfg, markets) {
         console.log('— no matching open markets found (skipped)');
       }
     } catch (err) {
+      failures.push(`${cfg.metric}: ${err.message}`);
       console.warn(`✗  ${err.message}`);
     }
   }
 
   const output = { updated, source: 'kalshi', items };
+
+  // Every metric failing means the fetch did not work — a credential, a
+  // signature or a reachability problem — NOT that Kalshi has no housing
+  // markets today. Overwriting the committed file with an empty list in that
+  // case destroys real data and reports success: on 2026-09-12 five signing
+  // failures (a PEM pasted without line breaks) replaced the four committed
+  // items with zero, and the workflow still exited 0.
+  //
+  // Distinguish the two: no markets matched is a legitimate empty result;
+  // every request erroring is a failure, and a failure must not be committed.
+  if (!items.length && failures.length === MARKET_CONFIG.length) {
+    console.error(
+      `\n✗  All ${failures.length} metric(s) failed — not writing ${OUTPUT_FILE}.\n` +
+      failures.map((f) => `    ${f}`).join('\n')
+    );
+    process.exitCode = 1;
+    return;
+  }
 
   if (!items.length) {
     output.error = 'No matching Kalshi markets found. Dashboard will display mock data.';
