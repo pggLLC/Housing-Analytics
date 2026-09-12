@@ -19,7 +19,9 @@ def _load_script(name: str, path: Path):
 def test_fmr_county_list_endpoint_uses_live_hud_route() -> None:
     mod = _load_script("fetch_fmr_api", ROOT / "scripts" / "fetch_fmr_api.py")
 
-    assert mod.HUD_IL_URL == "https://www.huduser.gov/hudapi/public/fmr/listCounties/08"
+    assert mod.HUD_IL_URL == (
+        "https://www.huduser.gov/hudapi/public/fmr/listCounties/CO?updated=2025"
+    )
 
 
 def test_chas_http_get_rejects_empty_response() -> None:

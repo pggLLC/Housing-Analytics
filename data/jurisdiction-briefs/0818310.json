@@ -74,11 +74,12 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks Town of Crested Butte at #249 with an overall housing-need score of 46.6. It identifies 14 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is suppressed because only 14 <=30% AMI households are observed, below the digest's 50-household reporting floor. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
+          "text": "The metric digest ranks Town of Crested Butte at #141 with an overall housing-need score of 59.5. It identifies 68 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 100% of <=30% AMI households. 53.8% of renter households are cost burdened, and 0% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
             "d3",
+            "d4",
             "d5",
             "d6"
           ]
@@ -197,7 +198,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-11T00:28:06Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-12T13:31:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -206,7 +207,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-11T00:28:06Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-12T13:31:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -220,6 +221,15 @@
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
       "field": "housing_gap_units",
+      "accessed": "2026-07-03"
+    },
+    {
+      "id": "d4",
+      "label": "Deep-affordability gap rate - jurisdiction metrics digest (ACS 2020-2024 5-year)",
+      "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
+      "kind": "data",
+      "dataset": "jurisdiction-metrics-digest",
+      "field": "housing_gap_rate_lte30",
       "accessed": "2026-07-03"
     },
     {
@@ -332,7 +342,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-11T00:28:06Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-12T13:31:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -341,7 +351,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-11T00:28:06Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-12T13:31:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -350,7 +360,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-11T00:28:06Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-12T13:31:58Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

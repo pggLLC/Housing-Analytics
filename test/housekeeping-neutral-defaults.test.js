@@ -25,7 +25,7 @@ async function main() {
     'Affordable units are renter-occupied housing units',
     'Gap = affordable units − eligible households',
     'Coverage = affordable units ÷ eligible households',
-    'AMI thresholds use HUD FY 2025 Income Limits'
+    'County AMI thresholds use HUD FY 2026 Income Limits'
   ];
   originalMethodology.forEach((line) => assert(amiSource.includes(line), `existing methodology remains: ${line}`));
   assert(amiSource.includes('not necessarily vacant or available'), 'methodology discloses occupied units are not necessarily available');
