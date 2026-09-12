@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T18:08:19.196Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T20:08:53.928Z. Do not edit by hand.
 
 ---
 
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-315 test files found.
+316 test files found.
 
 | File | Size |
 |------|------|
@@ -1747,6 +1747,7 @@
 | `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
+| `test/hna-build-rebase-recovery.test.js` | 4.6 KB |
 | `test/hna-car-loader.test.js` | 4.1 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
@@ -1991,7 +1992,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 21.7 KB |
+| `.github/workflows/build-hna-data.yml` | 23.4 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
