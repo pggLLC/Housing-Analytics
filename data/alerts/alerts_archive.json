@@ -1,11 +1,74 @@
 {
   "meta": {
-    "generated": "2026-09-10T11:34:49Z",
+    "generated": "2026-09-12T09:13:50Z",
     "feed_count": 6,
-    "alert_count": 275,
+    "alert_count": 277,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Safehold Closes Affordable Housing Ground Lease in San Antonio Texas - Yield PRO",
+      "date": "2026-09-11T15:59:25Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBjdTZSWEhPMzY1UktmaUdCQjUyaU44djNPV2EtQUM0XzhDM1MxMklDTmU3YUlzR0ZNX3ZERGl3SU03amVPSHY5MUZSeEFYbVQwa2FOSmtwdEF4N2NIWHVCU2R5MWpxeXJBZmNIa1FqcEJsQWdKM25DVmxDcEZGdw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Safehold Closes Affordable Housing Ground Lease in San Antonio Texas \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "plan target blighted houses and provide affordable housing - FOX21 News Colorado",
+      "date": "2026-09-11T00:44:34Z",
+      "source": "FOX21 News Colorado",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQajhVT3lxRXpKR2NMdjJqQWUzQ1BmWDFOeXc4X2VCak1tbmE0dDgtRkZzdWVfZXk5S1pla0N2REtYcTdLb3ZaWGN2QkRSWWxmX2hGZlUyLVJCRlo2eEhnbUZ0QXFSUzZGcmhmVTdoUnAxUmg1VENfaVpMY2tLZXFwNVVBNjM2cGR1b3BWNXA2Y054bG8tSldqYXpsd1ZhUEdBUWc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "plan target blighted houses and provide affordable housing \u00a0\u00a0 FOX21 News Colorado"
+    },
+    {
+      "title": "Pueblo initiative targets blighted homes for restoration - FOX21 News Colorado",
+      "date": "2026-09-10T23:35:43Z",
+      "source": "FOX21 News Colorado",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOdjhXc2t6MWlBRUhwMEZjMWRhRE9teVBHSldFYmhub3djT0hiYjl2V1ZvcHZRUDB2OGFjS3NDUGNoc3RDODNLUW5YcldUZEtURmlEM0NEc1ZtMHJ6RFIxME80LXhLandPUmNaTXk4ejlxekhoRUVQdmtQOHdUMFlaajZDYkFuWVRnT0dGT0dLc0thbjdUUEhyU1VR0gGfAUFVX3lxTE5kOWpmT0RMMnBsTHpqdlR3N1VpOHlrOVpEQTBqaWVnN3J0UUJ1Y0JycnVHUVpLMnpiRHJ4dFREbDlKTWJZMFJta2l4NkVWcmI0N3lwTnlHcnUxeDdlZkhJd0FkQzByc2VoUzdFaUVJNGdXVFc0MWNEOHdOTXViTURnZGp1NFozS2xuTXJ2TlpTSkJabVlLNHhTbkw1Q2MwWQ?oc=5",
+      "topic": "general",
+      "region": "Pueblo",
+      "summary": "Pueblo initiative targets blighted homes for restoration \u00a0\u00a0 FOX21 News Colorado"
+    },
+    {
+      "title": "WNC Closes $66.3 Million California Fund - Affordable Housing Finance",
+      "date": "2026-09-10T21:06:16Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOSkl6R3BrbHhPTWZxVVUwc1lhQUhIaUhrWW01UlVhaV9wMUg3WE9pSVN5SlQ2Q2N2bXQ1NDJPX1NCOGZDTkxpbnNLTWJFYTNVUEc2RGE4UlBpQ251QVhZa0NLejNsSFNiTTJPQ1lRbGhYOWgzTkpTRk1WcHIwWXRkOE9uVQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "WNC Closes $66.3 Million California Fund \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "Northampton receives $12.2 million from state for housing projects - The Reminder",
+      "date": "2026-09-10T17:36:48Z",
+      "source": "The Reminder",
+      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSVpmcUFMdndOUjNOczFQR3pfOTE4Tng3VnhRTldHZ2dwR0p0dDQ4c19tMl9CLTlHa3QtbElrNW5zd3pEZllobGttalhydzFtczk0X3EySWZBa1VOYlQxRno0LUlDTXVEZmphQVAyRHk1Tml3bnZQdGZlMnZ1MnNqekxjejN6STh4UDVyWS1BZmlJMUo0cXhES3BjZWo3dnBESXdn?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Northampton receives $12.2 million from state for housing projects \u00a0\u00a0 The Reminder"
+    },
+    {
+      "title": "Waterford Begins Northern California Project - Affordable Housing Finance",
+      "date": "2026-09-09T22:48:16Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNWmhpVlBHSzhtQUs3R1BhQ3BUWTRVZFgtaDBBa1B6QXVDcGExSlN3Vk5ZZlQzQ3A1UV9rX0J1RFRxQ2tjOUg3bVVtUElTTGZ3N05NZnVzbmVZOHdXNkVzajJjbTJ6MFViWkE0bWJzWXV2eVNoZmNLSHlEVEFFMHdtU3hKMG10bFVNQlZBLXRicFQ1QzRWRnVOWjFRQWswVENmbW8zbkstLXk0QQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Waterford Begins Northern California Project \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "$27 Million in Tax Credits Clears Path for Affordable Housing at Former Coast Guard Site - County of Marin (.gov)",
+      "date": "2026-09-09T20:24:22Z",
+      "source": "County of Marin (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSjdDOVo1dkJPVHJmcjVqdHVLSzg4UmwyTGg1aGJsdmZZRE1ScWh1RTZkcmR1d0Q1dzc1V0FGSGRVSjBhMlVpdGd5ZmZtVEVpVXVONjNYWFJfOERKTDNYWE13UTM4S0VGWURhdkRFanNOcEJhOGJveXRKWkZQajhxM0lydXpPakdZODQ4enFyUlpCUW5TMUdmcXFQSFRvQWZ4ZjNkTXc0eXJPWVpLTnIyREtGVU80UGxpTWNn?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "$27 Million in Tax Credits Clears Path for Affordable Housing at Former Coast Guard Site \u00a0\u00a0 County of Marin (.gov)"
+    },
     {
       "title": "ICYMI: Hickenlooper Visits Southeast Colorado, Highlights Water, Housing, Veterans\u2019 Care, Healthcare - Senator John Hickenlooper (.gov)",
       "date": "2026-09-09T20:12:02Z",
@@ -41,6 +104,15 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "Cannington, Rice: Congress must prioritize accessibility in housing supply \u00a0\u00a0 Portsmouth Daily Times"
+    },
+    {
+      "title": "New Markets Tax Credits Make Their Case - taxcreditadvisor.com",
+      "date": "2026-09-08T16:00:00Z",
+      "source": "taxcreditadvisor.com",
+      "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9UUVltNHRnUktMSmJiMTByeFFQUm5fQlJ5cl91Q29oRU5WWmFSRk56VUpIclp6UWVTX051WFhESVhlbkh4V0tBeG9Ra1R4bDNxWnZEYXphNTNHc2RVNHk4Umk0Q1VRMTE3ZWRuVw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "New Markets Tax Credits Make Their Case \u00a0\u00a0 taxcreditadvisor.com"
     },
     {
       "title": "Northampton affordable housing gets $12.2M boost for Meadowbrook rehab, new building downtown - Daily Hampshire Gazette",
@@ -221,6 +293,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Colorado awards $13.9M for affordable housing in 8 communities \u00a0\u00a0 KKTV"
+    },
+    {
+      "title": "Supporting Rural Housing: Colorado Announces Eight New Recipients of Prop 123 Land Banking Funds Across the State - Colorado Office of Economic Development and International Trade (.gov)",
+      "date": "2026-08-31T07:00:00Z",
+      "source": "Colorado Office of Economic Development and International Trade (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOa1c4Nk1HNDctcXhFekpBLUw3NUZRNFI0OHRRWGJYck0zZ3R5TENYMDcxanNDNjNnd2wzbndzOFp0cGNZZGNGaVdEZlh5VDRlVk5tZy1CTU9TRDJOeFdXZ01BeWhGXzAxV2xsTTJ1LXVWbUpjaG13aDMtNFJUSV9DZjh1OFdhMVdyaWVCZTYtWUNya3ctQXZibkRqVF93NWZMakhNVmpXbjdSV3dwZEptSEtsMy01TXFpcXZTeGFzQQ?oc=5",
+      "topic": "construction",
+      "region": "Statewide",
+      "summary": "Supporting Rural Housing: Colorado Announces Eight New Recipients of Prop 123 Land Banking Funds Across the State \u00a0\u00a0 Colorado Office of Economic Development and International Trade (.gov)"
     },
     {
       "title": "\u201cI don\u2019t have to worry about political bosses\u201d: Lopez talks about running unaffiliated, making Colorado affordable and openness to debate - KJCT",
@@ -907,6 +988,15 @@
       "summary": "Housing and healthcare need less red tape to lower costs, Colorado's Hickenlooper tells CNBC \u00a0\u00a0 CNBC"
     },
     {
+      "title": "Expanding Financial Coaching and Counseling Services Across Colorado - Colorado Attorney General (.gov)",
+      "date": "2026-07-28T18:49:22Z",
+      "source": "Colorado Attorney General (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQelpZVHRrV0xaUHNpaW9sdnpLc3U1ZXBkSGJ4VFZycE9xNGZJQ1pZQVMzMTRNNnNzeEhNS2RFOThnOVIxc1hFa0NxeEotLWNVeDR4YmdIYW5vQW1TMm44SEUxa2xlUmQ0TVNEVVh1UzluWkpEUjlBTTVNMDBOaElFNVF3YzJINjJ0ZkNObzdFWTlkbHNuNGpxLW5DZVpDMEphcVdjWTNyVQ?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "Expanding Financial Coaching and Counseling Services Across Colorado \u00a0\u00a0 Colorado Attorney General (.gov)"
+    },
+    {
       "title": "County meets affordable housing Proposition 123 requirements - Larimer County (.gov)",
       "date": "2026-07-28T16:05:00Z",
       "source": "Larimer County (.gov)",
@@ -1463,6 +1553,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "WNC & Associates Closes $210 Million Fund to Support Investments in Over 2,000 Affordable Housing \u00a0\u00a0 MultifamilyBiz"
+    },
+    {
+      "title": "Update: Major Affordable Housing Bill Becomes Law - JD Supra",
+      "date": "2026-07-13T07:00:00Z",
+      "source": "JD Supra",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQUU5tVlJZVVNETzduWGM3MU1Ldk1yWDA1VW5jTmlvRXNRMmdpc183QURScEpYWEFzaUNsRExMbnhPeEhFNzBQcmRRZWhXcWV4YkZfX2tOanZEdTJOQW1ZdktzMnFUZkJOdWJacHZiVVdOLUJVTHZONm9WWUlLWkZXZDdmeHAzdw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Update: Major Affordable Housing Bill Becomes Law \u00a0\u00a0 JD Supra"
     },
     {
       "title": "National Council of State Housing Agencies Credit Connect - USGBC | U.S. Green Building Council",
@@ -2399,87 +2498,6 @@
       "topic": "homelessness",
       "region": "Colorado",
       "summary": "DCHFA Closes May with an Investment: 56 Affordable Homes Coming to Ward 7 Including Homes Reserved for Formerly Homeless Residents \u00a0\u00a0 Yield PRO"
-    },
-    {
-      "title": "More Affordable Housing in the Works for Burbank - Outlook Newspapers",
-      "date": "2026-06-13T21:35:00Z",
-      "source": "Outlook Newspapers",
-      "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPaGpRTUtvNkMzdDlWa3p1VUp2bXBDSktfYzczRWpmMFVyaUxVR1pUWFR6WU9OOTQyajRZTTJHVmdXYUJyeHZrM1NHOExFTlNKQlU0TWNmUG1GWFgxNHQ4QnM1eC1WYjZtQXllSXowTG52TjZkNTFKQTd6R1lxdGV6QXUwcGtpM3B3ZEtRWjMwa2JQLXBCYzluRmhiYkQtZG1UVmJoN1lyMjhvZ2ItYVgwcC1WdkZaWVl1czlGSEZPeVVzc0hZTk5haC1XVkpzcG9MZ3p1WG5CTVpQZw?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "More Affordable Housing in the Works for Burbank \u00a0\u00a0 Outlook Newspapers"
-    },
-    {
-      "title": "Colorado\u2019s Drive It Home financing kicks off with affordable condos - HousingWire",
-      "date": "2026-06-13T02:38:43Z",
-      "source": "HousingWire",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFAtOTVYS01ndE1KaG93WXZ5SHlJNDZqaGFSNmdnQ1RKRVdxOHc1bDducUNjRWo5NkRjRFlvMi04MlpUYy12cFctSlZZa1k2RXVKZDJKeFM1eEpoUEp4cG9fWXdqaHRCdmgwM3RRUGVNY2hRVEk?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s Drive It Home financing kicks off with affordable condos \u00a0\u00a0 HousingWire"
-    },
-    {
-      "title": "CHFA closes first loan for affordable homeownership in Denver - ColoradoBiz",
-      "date": "2026-06-13T02:18:39Z",
-      "source": "ColoradoBiz",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNUVRILVRrWm5VSkFxWmJzTDBQNDNiUkxsMFhUb3lhbzhWcE1wWDhpOEYzVXRLSGZXSm9JSDVMUmVYZzFiZmgySFhvdXBBLU90cThfaHRacndCNWZ0T29ZN0NCbUpMeUhucWJxd1l2RnR0WFRkZ3E4VE5JWXpUVG5LQThvSnZpQQ?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "CHFA closes first loan for affordable homeownership in Denver \u00a0\u00a0 ColoradoBiz"
-    },
-    {
-      "title": "Governor Meyer welcomes new affordable housing community in Felton - WMDT",
-      "date": "2026-06-12T21:31:47Z",
-      "source": "WMDT",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNMmZRckYtRmI5a1U2Y1U0cTdDcG1wVzJxRzRpYjVUVXlkZzF5OVlWdTVZanFpV0dEYUpCVDJTd1VvVXdKMk4waklLQTUzMmZuVVFZT0UzXzlmajRkVG45WVIybEE4blBDX0IzUUJJWkM0R2Vza21XcGhLTTRHSGl5UVNGcndxUFdET1RwZWl6cVdScG5KT0dxN0NBOUc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Governor Meyer welcomes new affordable housing community in Felton \u00a0\u00a0 WMDT"
-    },
-    {
-      "title": "Q&A: Meet the Democratic candidates running to represent Colorado in the US Senate - AspenTimes.com",
-      "date": "2026-06-12T19:23:54Z",
-      "source": "AspenTimes.com",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9PMDBkWnN2Uy1VUGl6WklYVmhrMzlaRFlkY0FvWHQ0Wk92NzdsanZHbFVFeHhla3BEV0NwUVdDdEJBcUM4aTNya0VNY1BuYk5GVzJpQV9WYVZ1aHZjc29XTUhpX3BJb1M2Vks4NmVqTEY3VmVOclplLXFUc0Z2Zw?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Q&A: Meet the Democratic candidates running to represent Colorado in the US Senate \u00a0\u00a0 AspenTimes.com"
-    },
-    {
-      "title": "Groundbreaking Ceremony for Reese Apartments Marks a Milestone in Affordable Housing for Delaware - Yield PRO",
-      "date": "2026-06-12T16:55:05Z",
-      "source": "Yield PRO",
-      "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBLaExLOGZrN1BoR3JTTXFTNmlIcER2dmZWZF9OVUc1T0ZjSS1Lc2xvcm80X1ZpUm1FS3RVczVuOGQ4MjUxZEZBU01sNjJ0cENSc2p1RDhfNlg1UQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Groundbreaking Ceremony for Reese Apartments Marks a Milestone in Affordable Housing for Delaware \u00a0\u00a0 Yield PRO"
-    },
-    {
-      "title": "First loan from $50M bond program supports affordable condos in Denver - The Business Journals",
-      "date": "2026-06-12T14:21:00Z",
-      "source": "The Business Journals",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNN0hUbkMzTllOakNRU3BPVzU2dWFSNUpxdlhYUW01MVRhQ0lDUE5zVkRwRDJJaDNUNGRfaVFJVHpZUGdTVlZiVUYtcnV6ZDJPMlpxbXBrVGszbDQ1VWNPVVlhWjdNNU1KckNnUGpNcEk5RWFWbWtmWFlVUnljMmxvS19oVWRiOHhwUnJaU2xvSllKcGN1YWdpUzgtRQ?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "First loan from $50M bond program supports affordable condos in Denver \u00a0\u00a0 The Business Journals"
-    },
-    {
-      "title": "Iowa Finance Authority Awards $11.3 Million in Housing Tax Credits - Affordable Housing Finance",
-      "date": "2026-06-12T13:36:17Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNYkxsT0wxM0s1MUljOG8yZHpuZzlqWHRScUlQLVluVGtZN1hvNVNZd25hRVZYa3N0VFZRd2t6X29TdGtvdlp4RDFaX0VjdjRFdUVaM3JFZWt0ZkxJVHdlUFp3YUsycFBSNThWQ28taUNMT2tvNHdZM3JmR2VnamV2eUJ1amNEejl3dFMwMUJHT0hlMk52dTI2SV9uX1lvMUt6dHc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Iowa Finance Authority Awards $11.3 Million in Housing Tax Credits \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "KIDS COUNT report points to affordability & education challenges as Colorado\u2019s ranking dips - KUNC",
-      "date": "2026-06-12T11:36:00Z",
-      "source": "KUNC",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQd1ZCNUh1SktlSVhSaUswUnJMQ0E0UGZETmItMzVTN3dhZEhLVXNZR0RLWG9tS1IwM0tIb2ZiUk5Mb0xDVlNUR0Z1LU1raUtxS0pCeHBUeVQxZGhmS09RVVRCdFhxVXVXYzZwNVlpSkYwWmx0WFphQjk3R3ZUNFlGaXA4S3hLU3dRLXdoWXZxM0oyUFF1T1U3M1VXdUlEaUtRYTJmVnlZV1A0YTkzbzg4TWxPTnVWOC1ISGQ5WVZOZ2ZYaE0?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "KIDS COUNT report points to affordability & education challenges as Colorado\u2019s ranking dips \u00a0\u00a0 KUNC"
     }
   ]
 }
