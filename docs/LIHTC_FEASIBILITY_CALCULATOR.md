@@ -66,7 +66,7 @@ The enhanced predictor is available on both `market-analysis.html` and `deal-cal
 
 | Input              | Source                                    |
 |--------------------|-------------------------------------------|
-| AMI gross rent limits | HUD FY2025 Income Limits (via `js/data-connectors/hud-fmr.js`) |
+| AMI gross rent limits | HUD FY2026 county Income Limits (via `js/data-connectors/hud-fmr.js`) |
 | Default: Denver MSA | Denver-Aurora-Lakewood MSA if no county selected |
 | Credit rates       | User-selectable: 9% (competitive) or 4% (bond-financed) |
 | Equity price       | Configurable default (0.90 per dollar of annual credit) |
