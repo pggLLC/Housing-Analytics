@@ -1175,3 +1175,36 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   font-size: .82rem;
   line-height: 1.5;
 }
+
+/* ── Place-vs-county comparison (js/hna/county-comparison*.js) ────────────
+   Colours come from the theme's semantic tokens. better/worse are carried by
+   a left rule and the word itself as well as colour, so the reading does not
+   depend on colour perception — and "worse" is never the only signal, since
+   the signed difference is always shown. */
+.cc-intro { font-size: .85rem; color: var(--muted); margin: 0 0 .9rem; }
+.cc-scroll { overflow-x: auto; }
+.cc-table { width: 100%; min-width: 30rem; border-collapse: collapse; font-size: .88rem; }
+.cc-caption {
+  caption-side: bottom; text-align: left; font-size: .75rem; color: var(--muted);
+  padding-top: .6rem; line-height: 1.5;
+}
+.cc-table th, .cc-table td { padding: .5rem .6rem; border-bottom: 1px solid var(--border); }
+.cc-table thead th {
+  font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1px solid var(--border);
+}
+.cc-table th[scope="row"] { text-align: left; font-weight: 600; color: var(--text); }
+.cc-num { text-align: right; font-variant-numeric: tabular-nums; }
+.cc-table td.cc-county { color: var(--muted); }
+.cc-delta { font-weight: 700; white-space: nowrap; }
+.cc-reading {
+  display: block; font-size: .68rem; font-weight: 600; letter-spacing: .03em;
+  text-transform: uppercase; margin-top: .1rem;
+}
+.cc-table tr[data-tone="worse"] th[scope="row"] { border-left: 3px solid var(--bad, #991b1b); padding-left: .45rem; }
+.cc-table tr[data-tone="worse"] .cc-delta { color: var(--bad, #991b1b); }
+.cc-table tr[data-tone="better"] th[scope="row"] { border-left: 3px solid var(--good, #047857); padding-left: .45rem; }
+.cc-table tr[data-tone="better"] .cc-delta { color: var(--good, #047857); }
+.cc-table tr[data-tone="neutral"] .cc-delta,
+.cc-table tr[data-tone="same"] .cc-delta { color: var(--muted); }
+.cc-skipped, .cc-empty { font-size: .78rem; color: var(--muted); margin: .7rem 0 0; line-height: 1.5; }

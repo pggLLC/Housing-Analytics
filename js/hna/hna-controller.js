@@ -3745,6 +3745,18 @@
 
     // 20-year projections (cached; county context or state '08')
     window.HNAState.state.current = { geoType, geoid, label, contextCounty, profile };
+
+    // Place-vs-county comparison. Runs off the jurisdiction-metrics digests
+    // rather than any panel's own pipeline, so both sides of every row come
+    // from one source computed one way — comparing across pipelines would put
+    // a methodology difference in the delta column and call it a finding.
+    //
+    // Deliberately placed here, before the projection and ACS work below: it
+    // needs nothing from them, and hanging it off the end meant any upstream
+    // throw took the comparison down with it for no reason.
+    if (window.HNACountyComparisonView) {
+      window.HNACountyComparisonView.renderFor(geoType, geoid).catch(() => {});
+    }
     // Store profile for next refresh — enables YOY comparison on subsequent updates
     if (profile && geoid) window.HNAState.state.prevProfile[geoid] = profile;
     const projFips = geoType === 'state' ? '08' : contextCounty;
@@ -3754,6 +3766,7 @@
     if (projRes?.ok) cacheFlags.projections = true;
 
     window.HNARenderers.renderLocalResources(geoType, geoid);
+
 
     const derivedEntry = window.HNAState.state.derived?.geos?.[geoid] || null;
     if (derivedEntry) cacheFlags.derived = true;

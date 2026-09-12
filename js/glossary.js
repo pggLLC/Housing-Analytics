@@ -227,7 +227,13 @@
       // or pollutes the computed accessible name in a way users will hear
       // (button/role=button label). textarea/input value can't contain
       // child elements anyway, but cheap to include.
-      if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr')) return;
+      // TH joins the list for the same reason as the heading case above: a
+      // table header is a compact label, not body copy. Injecting a definition
+      // into one produced "Gap rate at ≤30% AMIArea Median IncomeThe midpoint
+      // of the income distribution…" inside a four-column comparison table,
+      // where the label has one line to work in. The definition still reaches
+      // the reader through the prose around the table.
+      if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr, th')) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
 
       var text = node.nodeValue;
