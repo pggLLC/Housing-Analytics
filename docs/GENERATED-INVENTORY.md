@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T04:44:06.461Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T05:13:29.145Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 235.2 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 236.3 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-312 test files found.
+313 test files found.
 
 | File | Size |
 |------|------|
@@ -1750,6 +1750,7 @@
 | `test/hna-car-loader.test.js` | 4.1 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
+| `test/hna-county-comparison.test.js` | 8.3 KB |
 | `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
 | `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
 | `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
