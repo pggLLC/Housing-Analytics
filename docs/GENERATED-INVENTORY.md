@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:32:43.815Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T11:06:36.000Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 236.3 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 236.4 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -73,7 +73,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 761.1 KB | ✅ | — |
+| `data/_manifest.json` | 761.3 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-314 test files found.
+315 test files found.
 
 | File | Size |
 |------|------|
@@ -1772,6 +1772,7 @@
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
+| `test/hna-reading-path.test.js` | 5.3 KB |
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
