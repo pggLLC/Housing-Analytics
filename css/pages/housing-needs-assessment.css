@@ -979,3 +979,57 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   line-height: 1.45;
   margin-top: .2rem;
 }
+
+/* ── Geography-provenance chips (js/hna/geography-provenance.js) ───────────
+   Tells a reader at a glance whether a figure is measured at the selected
+   place, apportioned to it from N tracts, or the containing county's shown
+   as a proxy — the question that decides whether a number can be cited in a
+   funding application.
+
+   Colours come from the theme's semantic tokens rather than literals so both
+   themes resolve as a set. Measured against --card at a 12% tint: place
+   4.63:1 light / 6.89:1 dark, apportioned 4.97 / 7.97, county 5.57 / 5.43,
+   neutral 8.41 / 9.41 — all clear of the 4.5:1 AA threshold that
+   contrast-audit enforces. The pre-existing #chasProvenanceBadge literals
+   (#2563eb, #d97706, #16a34a) scored as low as 2.86:1 and are replaced by
+   these. */
+.geo-chip {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: .4rem;
+  padding: .1rem .4rem;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: .68rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: .01em;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: help;
+}
+
+.geo-chip[data-tone="local"] {
+  color: var(--good, #047857);
+  background: color-mix(in srgb, var(--good, #047857) 12%, var(--card, #fff));
+  border-color: color-mix(in srgb, var(--good, #047857) 40%, transparent);
+}
+.geo-chip[data-tone="derived"] {
+  color: var(--warn, #a84608);
+  background: color-mix(in srgb, var(--warn, #a84608) 12%, var(--card, #fff));
+  border-color: color-mix(in srgb, var(--warn, #a84608) 40%, transparent);
+}
+.geo-chip[data-tone="proxy"] {
+  color: var(--info, #1d4ed8);
+  background: color-mix(in srgb, var(--info, #1d4ed8) 12%, var(--card, #fff));
+  border-color: color-mix(in srgb, var(--info, #1d4ed8) 40%, transparent);
+}
+.geo-chip[data-tone="neutral"],
+.geo-chip[data-tone="none"] {
+  color: var(--muted, #374151);
+  background: color-mix(in srgb, var(--muted, #374151) 8%, var(--card, #fff));
+  border-color: var(--border, rgba(13, 31, 53, .11));
+}
+.geo-chip[data-tone="none"] {
+  font-style: italic;
+}

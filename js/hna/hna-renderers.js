@@ -7967,7 +7967,15 @@
     const tigerTiers = _tigerPlaceTiers();
     if (tigerTiers && tigerTiers.length) {
       _renderProxyNote(null, /* isTigerPlace */ true);
-      _setProvenanceBadge('tiger');
+      // tract_count is the real confidence signal for an apportioned place —
+      // 270 of 482 Colorado places resolve to a single tract. The sibling
+      // low_confidence / coverage_share fields are constant across the whole
+      // committed dataset, so they cannot distinguish anything.
+      const _tigerRec = window.PlaceChas && typeof window.PlaceChas.lookup === 'function'
+        ? window.PlaceChas.lookup(selectedGeo.geoid) : null;
+      _setProvenanceBadge('tiger', {
+        tractCount: _tigerRec && (_tigerRec.tract_count != null ? _tigerRec.tract_count : _tigerRec.tractCount),
+      });
       _renderTiers(tigerTiers, /* sourceLabel */ (selectedGeo && selectedGeo.name) || 'place', /* tigerSource */ true);
       return;
     }
@@ -7994,7 +8002,7 @@
     const isPlaceProxy = selectedGeo &&
       (selectedGeo.type === 'place' || selectedGeo.type === 'cdp') &&
       selectedGeo.geoid && selectedGeo.geoid !== countyFips5 && countyFips5;
-    _setProvenanceBadge(isPlaceProxy ? 'county-approx' : 'county');
+    _setProvenanceBadge(isPlaceProxy ? 'county-approx' : 'county', { countyName: county.name || countyFips5 });
     // Adapter: 2026 CHAS data ships renter_hh_by_ami keyed by AMI bucket;
     // legacy `tiers` array is no longer emitted. Derive it on the fly so
     // the existing chart code keeps working.
@@ -8026,15 +8034,26 @@
   }
 
   /**
-   * Set the provenance badge next to the CHAS chart title to make the
-   * methodology stamp glance-able. Three states:
-   *   'tiger'         → green "TIGER 2024 place-level"
-   *   'county'        → blue "County" (clean — user picked a county directly)
-   *   'county-approx' → amber "County-approx" (user picked a place/cdp not in
-   *                     TIGER coverage; chart shows containing county data)
+   * Set the geography-provenance chip next to the CHAS chart title.
+   *
+   * Delegates to GeographyProvenance so the wording, the tooltip and the
+   * single-tract caveat stay identical everywhere a chip appears, and so the
+   * colours come from the theme's semantic tokens. The previous version wrote
+   * literal hex (#2563eb / #d97706 / #16a34a) into inline styles; measured
+   * against the card those scored as low as 2.86:1, well under the 4.5:1 that
+   * contrast-audit enforces. They passed CI only because the badge is hidden
+   * in the states the scanner visits.
+   *
+   * Legacy state names are kept so existing call sites read unchanged:
+   *   'tiger'         → apportioned (place CHAS built from N tracts)
+   *   'county'        → county (the user selected that county)
+   *   'county-approx' → county-proxy (place selected, county figure shown)
    *   'none'          → hidden
+   *
+   * @param {string} state
+   * @param {{tractCount?:number, countyName?:string}} [opts]
    */
-  function _setProvenanceBadge(state) {
+  function _setProvenanceBadge(state, opts) {
     const badge = document.getElementById('chasProvenanceBadge');
     if (!badge) return;
     if (state === 'none' || !state) {
@@ -8042,39 +8061,27 @@
       badge.textContent = '';
       return;
     }
-    const states = {
-      'tiger': {
-        text:   '✓ TIGER 2024 place-level',
-        bg:     'rgba(22,163,74,.12)',
-        border: 'rgba(22,163,74,.5)',
-        color:  'var(--good,#16a34a)',
-        title:  'HUD CHAS 2018-2022 place estimate apportioned from underlying tracts. See the disclosure for the record-specific method.',
-      },
-      'county': {
-        text:   'County',
-        bg:     'rgba(37,99,235,.10)',
-        border: 'rgba(37,99,235,.5)',
-        color:  '#2563eb',
-        title:  'CHAS rates from HUD’s county-level publication. You selected a county directly.',
-      },
-      'county-approx': {
-        text:   '⚠ County-approx',
-        bg:     'rgba(217,119,6,.10)',
-        border: 'rgba(217,119,6,.5)',
-        color:  'var(--warn,#d97706)',
-        title:  'You selected a place/CDP not covered by TIGER 2024 place-CHAS — the chart shows the containing county’s rates as a proxy. See data-quality dashboard for coverage stats.',
-      },
-    };
-    const s = states[state];
-    if (!s) {
-      badge.hidden = true;
-      return;
-    }
-    badge.textContent = s.text;
-    badge.style.background = s.bg;
-    badge.style.border = '1px solid ' + s.border;
-    badge.style.color = s.color;
-    badge.title = s.title;
+    const GP = window.GeographyProvenance;
+    const LEVELS = { 'tiger': 'apportioned', 'county': 'county', 'county-approx': 'county-proxy' };
+    const level = LEVELS[state];
+    if (!level || !GP) { badge.hidden = true; return; }
+
+    opts = opts || {};
+    const d = GP.describe({
+      level: level,
+      tractCount: opts.tractCount,
+      countyName: opts.countyName,
+      metric: 'Cost burden by AMI tier (HUD CHAS)',
+    });
+
+    // Clear the inline styling the previous implementation set, so the
+    // stylesheet's tokenised rules actually apply on a re-render.
+    badge.removeAttribute('style');
+    badge.className = 'geo-chip';
+    badge.setAttribute('data-geo-level', d.level);
+    badge.setAttribute('data-tone', d.tone);
+    badge.textContent = d.label;
+    badge.title = d.title;
     badge.hidden = false;
   }
 

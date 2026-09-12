@@ -194,6 +194,10 @@
        surface its confidence badge on the cost-burden component. -->
   <script defer src="js/rent-burden-reliability.js"></script>
   <script defer src="js/provenance-label.js"></script>
+  <!-- Geography-provenance chips: is a figure the place's, apportioned to
+       it, or the county's standing in? Must load before hna-renderers.js,
+       which reads window.GeographyProvenance when painting the CHAS chip. -->
+  <script defer src="js/hna/geography-provenance.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
