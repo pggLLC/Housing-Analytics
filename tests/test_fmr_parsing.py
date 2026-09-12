@@ -90,7 +90,7 @@ def test_expand_metroareas_to_counties_maps_metro_and_non_metro_records():
     assert alamosa['fmr']['two_br'] == 940
 
 
-def test_expand_metroareas_to_counties_uses_il_data_for_county_name_and_ami():
+def test_expand_metroareas_to_counties_prefers_canonical_name_and_falls_back_to_il_name():
     counties = _expand_metroareas_to_counties(
         [BOULDER_RECORD],
         {'08013': {'county_name': 'Boulder County (IL)', 'median_income': 135000}},
@@ -98,11 +98,25 @@ def test_expand_metroareas_to_counties_uses_il_data_for_county_name_and_ami():
 
     assert len(counties) == 1
     assert counties[0]['fips'] == '08013'
-    assert counties[0]['county_name'] == 'Boulder County (IL)'
+    assert counties[0]['county_name'] == 'Boulder County'
     assert counties[0]['fmr_area_name'] == 'Boulder HUD Metro FMR Area'
     assert counties[0]['fmr_area_code'] == 'METRO14500CO'
     assert counties[0]['fmr']['two_br'] == 2008
     assert counties[0]['income_limits']['ami_4person'] == 135000
+
+    unknown_fips_record = _metro_record(
+        'Example County, CO',
+        'NCNTY08999CO',
+    )
+    fallback = _expand_metroareas_to_counties(
+        [unknown_fips_record],
+        {'08999': {'county_name': 'Example County (IL)', 'median_income': 99000}},
+    )
+
+    assert len(fallback) == 1
+    assert fallback[0]['fips'] == '08999'
+    assert fallback[0]['county_name'] == 'Example County (IL)'
+    assert fallback[0]['income_limits']['ami_4person'] == 99000
 
 
 def test_expand_metroareas_to_counties_uses_statewide_ami_fallback():
