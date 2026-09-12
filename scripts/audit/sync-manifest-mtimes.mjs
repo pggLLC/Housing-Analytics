@@ -20,6 +20,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { contentDate, isShallow } from "./content-date.mjs";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -45,6 +46,11 @@ try {
 const sources = Array.isArray(json.sources) ? json.sources : [];
 console.log(`[sync-manifest-mtimes] checking ${sources.length} manifest sources`);
 
+const repoIsShallow = isShallow(REPO);
+if (repoIsShallow) {
+  console.warn("[sync-manifest-mtimes] shallow clone — cannot read real content dates, leaving last_update untouched.");
+}
+let skippedNoHistory = 0;
 const updates = [];
 for (const s of sources) {
   if (!s || !s.file_path) continue;
@@ -54,19 +60,28 @@ for (const s of sources) {
     updates.push({ file_path: s.file_path, action: "missing", was: s.last_update, mtime: null });
     continue;
   }
-  const mtime = fs.statSync(abs).mtime;
-  const mtimeIso = mtime.toISOString().replace(/\.\d+Z$/, "Z");
+  // F1597 — was fs.statSync(abs).mtime. Checkout rewrites every tracked file,
+  // so in CI every mtime is the checkout second: all 31 manifest sources
+  // carried one identical timestamp and nothing could read as stale.
+  const resolved = contentDate(REPO, s.file_path, { shallow: repoIsShallow });
+  if (!resolved.iso) { skippedNoHistory += 1; continue; }
+  const mtimeIso = resolved.iso;
   const was = s.last_update || null;
   // Compare against the date portion — manifest stores full ISO timestamps.
   const wasDate = was ? was.slice(0, 10) : "";
   const mtimeDate = mtimeIso.slice(0, 10);
-  if (mtimeDate > wasDate) {
-    updates.push({ file_path: s.file_path, action: "bump", was, mtime: mtimeIso });
+  // Two-way: a stamp that is too NEW is the defect, so correct in either
+  // direction rather than only ratcheting forward.
+  if (mtimeDate !== wasDate) {
+    updates.push({ file_path: s.file_path, action: mtimeDate > wasDate ? "bump" : "correct", was, mtime: mtimeIso });
     s.last_update = mtimeIso;
   }
 }
+if (skippedNoHistory) {
+  console.warn(`[sync-manifest-mtimes] ${skippedNoHistory} source(s) had no usable content date — left unchanged`);
+}
 
-const bumps = updates.filter(u => u.action === "bump");
+const bumps = updates.filter(u => u.action === "bump" || u.action === "correct");
 const missing = updates.filter(u => u.action === "missing");
 
 if (bumps.length === 0 && missing.length === 0) {

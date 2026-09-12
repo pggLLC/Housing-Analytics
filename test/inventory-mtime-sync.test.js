@@ -27,6 +27,7 @@ const { spawnSync } = require('child_process');
 const REPO = path.resolve(__dirname, '..');
 const SCRIPT_REL = path.join('scripts', 'audit', 'refresh-inventory-mtimes.mjs');
 const MAP_REL = path.join('scripts', 'audit', 'inventory-count-paths.cjs');
+const CONTENT_DATE_REL = path.join('scripts', 'audit', 'content-date.mjs');
 const INVENTORY_REL = path.join('js', 'data-source-inventory.js');
 
 const { JSON_COUNT_PATHS } = require('../scripts/audit/inventory-count-paths.cjs');
@@ -136,6 +137,10 @@ const HONEST_COUNTS = { ...TRUE_COUNTS, missingFile: 7, notInMap: 42 };
 // case. Pin the mtimes behind the declared date; the lastUpdated test below
 // moves them deliberately.
 const FIXTURE_MTIME = new Date('2019-01-01T00:00:00Z');
+// Every fixture file is committed at this instant unless a case moves one.
+// Matches the lastUpdated the fixture inventory declares, so a default
+// sandbox has no lastUpdated drift and the features cases stay isolated.
+const FIXTURE_COMMIT_DATE = '2020-01-01T00:00:00Z';
 
 // --- Sandbox ---------------------------------------------------------------
 
@@ -147,13 +152,45 @@ function makeSandbox(counts, opts = {}) {
 
   fs.copyFileSync(path.join(REPO, SCRIPT_REL), path.join(dir, SCRIPT_REL));
   fs.copyFileSync(path.join(REPO, MAP_REL), path.join(dir, MAP_REL));
+  // F1597 — lastUpdated now derives from the commit that last changed a file,
+  // not from mtime, so the sandbox needs the helper and a real history.
+  fs.copyFileSync(path.join(REPO, CONTENT_DATE_REL), path.join(dir, CONTENT_DATE_REL));
   for (const [rel, contents] of Object.entries(DATA_FILES)) {
     const abs = path.join(dir, rel);
     fs.writeFileSync(abs, JSON.stringify(contents, null, 2));
     fs.utimesSync(abs, FIXTURE_MTIME, FIXTURE_MTIME);
   }
   fs.writeFileSync(path.join(dir, INVENTORY_REL), buildInventory(counts, opts));
+  initGitRepo(dir, opts.commitDate || FIXTURE_COMMIT_DATE);
   return dir;
+}
+
+/**
+ * Commit the fixture so `git log` has something to report. Without this every
+ * data file is untracked, contentDate declines to stamp, and the lastUpdated
+ * half of the script correctly does nothing.
+ */
+function initGitRepo(dir, when) {
+  const g = (...args) => spawnSync('git', ['-C', dir, ...args], {
+    encoding: 'utf8',
+    env: { ...process.env, GIT_AUTHOR_DATE: when, GIT_COMMITTER_DATE: when,
+           GIT_AUTHOR_NAME: 'Fixture', GIT_AUTHOR_EMAIL: 'f@example.com',
+           GIT_COMMITTER_NAME: 'Fixture', GIT_COMMITTER_EMAIL: 'f@example.com' },
+  });
+  g('init', '-q', '-b', 'main');
+  g('add', '-A');
+  g('commit', '-q', '-m', 'fixture');
+}
+
+/** Re-commit one path so its content date moves to `when`. */
+function commitFileAt(dir, rel, when) {
+  fs.writeFileSync(path.join(dir, rel),
+    fs.readFileSync(path.join(dir, rel), 'utf8') + '\n');
+  const env = { ...process.env, GIT_AUTHOR_DATE: when, GIT_COMMITTER_DATE: when,
+                GIT_AUTHOR_NAME: 'Fixture', GIT_AUTHOR_EMAIL: 'f@example.com',
+                GIT_COMMITTER_NAME: 'Fixture', GIT_COMMITTER_EMAIL: 'f@example.com' };
+  spawnSync('git', ['-C', dir, 'add', rel], { encoding: 'utf8', env });
+  spawnSync('git', ['-C', dir, 'commit', '-q', '-m', 'touch ' + rel], { encoding: 'utf8', env });
 }
 
 function run(dir, args = []) {
@@ -386,26 +423,41 @@ check('a declared localFile that is absent is skipped, not crashed on', () => {
   });
 });
 
-// --- 6. lastUpdated keeps its existing one-way semantics -------------------
+// --- 6. lastUpdated tracks the commit that changed the file ----------------
 
-check('lastUpdated bumps forward but never rolls backward', () => {
+// Was "bumps forward but never rolls backward", which was the right rule while
+// the stamp came from mtime: a curated date had to survive a meaningless mtime.
+// Now the stamp is the commit that last changed the file's content, which is a
+// verifiable fact, so a difference in EITHER direction is drift. Correcting a
+// too-new date backwards is the whole point of #1597 — every source was stamped
+// with the checkout date and so could never read as stale.
+
+check('lastUpdated follows the commit that changed the file, in both directions', () => {
   withSandbox(HONEST_COUNTS, (dir) => {
-    const stale = path.join(dir, 'data/fred-data.json');   // entry declares 2020-01-01
-    const mtime = new Date('2024-06-15T12:00:00Z');
-    fs.utimesSync(stale, mtime, mtime);
-
-    // A file older than its curated date must not drag the date backward.
-    const curated = path.join(dir, 'data/regrid-parcels.json');
-    const older = new Date('2001-01-01T00:00:00Z');
-    fs.utimesSync(curated, older, older);
+    // Newer content than the declared date → move forward.
+    commitFileAt(dir, 'data/fred-data.json', '2024-06-15T12:00:00Z');
+    // Older content than a too-new declared date → correct backward.
+    commitFileAt(dir, 'data/regrid-parcels.json', '2021-03-04T00:00:00Z');
 
     const result = run(dir);
-    assert.strictEqual(result.status, 0);
+    assert.strictEqual(result.status, 0, result.output);
     const after = inventoryOf(dir);
     assert.match(after, /lastUpdated: '2024-06-15',/,
-      `a newer mtime must bump lastUpdated forward:\n${result.output}`);
-    assert.doesNotMatch(after, /lastUpdated: '2001-01-01',/,
-      'an older mtime must not roll a curated lastUpdated backward');
+      `a newer commit must move lastUpdated forward:\n${result.output}`);
+    assert.match(after, /lastUpdated: '2021-03-04',/,
+      `a stamp newer than the content must be corrected backward:\n${result.output}`);
+  });
+});
+
+check('an mtime of now cannot move lastUpdated — only content can', () => {
+  // The exact condition actions/checkout creates on every runner.
+  withSandbox(HONEST_COUNTS, (dir) => {
+    const now = new Date();
+    for (const rel of Object.keys(DATA_FILES)) fs.utimesSync(path.join(dir, rel), now, now);
+    const result = run(dir, ['--dry-run']);
+    assert.strictEqual(result.status, 0, result.output);
+    assert.doesNotMatch(result.output, /lastUpdated entries to refresh/,
+      `touching every file must not restamp anything:\n${result.output}`);
   });
 });
 
