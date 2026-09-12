@@ -536,7 +536,7 @@
 
     function _normCredit(s) {
       if (!s) return null;
-      var t = String(s).replace(/\s+/g, '').replace('%', '').trim();
+      var t = String(s).replace(/\s+/g, '').replace(/%/g, '').trim();
       // "9" or "9pct" → "9%"
       if (/^9/.test(t)) return '9%';
       if (/^4/.test(t)) return '4%';
