@@ -91,11 +91,17 @@
       { name: 'CDE School Quality',       map: false, report: false, scoring: true,  note: 'workforce sub-score' },
       { name: 'CDOT Traffic',             map: false, report: false, scoring: true,  note: 'workforce sub-score' },
       {
+        // Was: "Add via Data Quality Dashboard (free tier 1k/mo)". Regrid
+        // retired its free tier (F258, 2026-06-10), so that invited readers to
+        // enable something that no longer exists and framed a licensing
+        // decision as a missing setting. The owner has deferred a paid
+        // subscription for cost (#1612) — say so, rather than implying the
+        // integration is broken or one key away from working.
         name: 'Regrid Parcels (live API)',
         map: regridLive, report: regridLive, scoring: regridLive,
         note: regridLive
-          ? '✓ API key detected — live per-parcel queries enabled'
-          : '○ API key not set. Add via Data Quality Dashboard (free tier 1k/mo); requires per-state activation at app.regrid.com'
+          ? '✓ Your own API key detected — live per-parcel queries enabled'
+          : '○ Deferred: Regrid is a paid licensed source and no subscription is funded. Not broken — parcel context comes from free county and DOLA sources. You may supply your own key via the Data Quality Dashboard.'
       },
       {
         name: 'Bridge MLS (live listings)',

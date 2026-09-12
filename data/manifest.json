@@ -69,7 +69,7 @@
     "data/affordable-housing/regrid-parcels-by-place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3440
+      "bytes": 3852
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
@@ -7504,7 +7504,7 @@
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 253
+      "bytes": 571
     },
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
