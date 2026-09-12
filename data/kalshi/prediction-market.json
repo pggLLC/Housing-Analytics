@@ -1,6 +1,50 @@
 {
-  "updated": "2026-09-12T04:04:33Z",
+  "updated": "2026-09-12T04:33:14Z",
   "source": "kalshi",
-  "items": [],
-  "error": "No matching Kalshi markets found. Dashboard will display mock data."
+  "items": [
+    {
+      "metric": "housing_starts",
+      "label": "Total Housing Starts (Annualized)",
+      "horizon": "year_end",
+      "market": {
+        "id": "KXHOUSINGSTART-26SEP17-T1.500",
+        "title": "Will US housing starts for August 2026 be above 1.500M?",
+        "url": "https://kalshi.com/markets/KXHOUSINGSTART-26SEP17-T1.500"
+      },
+      "outcomes": [
+        {
+          "name": "Will US housing starts for August 2026 be above 1.500M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.450M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.400M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.350M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.300M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.250M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.200M?",
+          "prob": 0
+        },
+        {
+          "name": "Will US housing starts for August 2026 be above 1.150M?",
+          "prob": 0
+        }
+      ]
+    }
+  ]
 }
