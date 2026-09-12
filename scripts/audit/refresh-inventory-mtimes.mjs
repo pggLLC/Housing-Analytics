@@ -62,10 +62,18 @@ const dryRun = process.argv.includes("--dry-run");
 
 const src = fs.readFileSync(INVENTORY, "utf8");
 
-// Parse each SOURCES entry to extract id, localFile, lastUpdated. The file
-// is a JS module so we can't JSON.parse it; instead read the SOURCES block
-// and split into per-entry chunks delimited by top-level `},` followed by
-// `{` at indent 4 (the actual format).
+// Parse each SOURCES entry to extract id, localFile, lastUpdated, features.
+// The file is a JS module so we can't JSON.parse it. Instead we walk the
+// SOURCES block tracking real brace depth: an entry is the object that takes
+// depth 0 → 1, and its own fields are the keys sitting at depth 1. Keys at
+// depth 2+ belong to a nested object and are none of our business.
+//
+// This used to key off fixed indentation (`^\s{4}\{` for the entry, `^\s{6}`
+// for its fields), which is fragile in both directions: a loose anchor picks
+// up nested keys and rewrites the wrong line, while a strict one silently
+// drops any entry a reformat re-indents — and a dropped entry means a count
+// that never gets reconciled, with nothing to say so. Depth doesn't care how
+// the file is indented.
 const sourcesStart = src.indexOf("var SOURCES = [");
 const sourcesEnd   = src.indexOf("\n  ];", sourcesStart);
 if (sourcesStart < 0 || sourcesEnd < 0) {
@@ -74,43 +82,109 @@ if (sourcesStart < 0 || sourcesEnd < 0) {
 }
 const sourcesBlock = src.slice(sourcesStart, sourcesEnd);
 
-// Match every `id: '...'` and the surrounding entry. Each entry is a top-
-// level `{ ... }` inside the SOURCES array. The structure is regular enough
-// that we can grab the lines for id, localFile, lastUpdated by line-scanning.
+/**
+ * Brace depth and string/comment masking for one line.
+ *
+ * `depths[i]` is the depth *before* consuming character i, so a key token's
+ * depth is read at its first character. Braces inside quoted strings or after
+ * a `//` comment don't move the depth, and `inert[i]` marks those regions so a
+ * key-shaped substring inside a description string can't be mistaken for a
+ * real field.
+ */
+function scanLine(line, startDepth) {
+  const depths = new Array(line.length);
+  const inert  = new Array(line.length).fill(false);
+  let depth = startDepth;
+  let quote = null;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    depths[i] = depth;
+    if (quote) {
+      inert[i] = true;
+      if (c === "\\") {                       // escape: consume the next char too
+        i += 1;
+        if (i < line.length) { depths[i] = depth; inert[i] = true; }
+        continue;
+      }
+      if (c === quote) quote = null;
+      continue;
+    }
+    if (c === "'" || c === '"' || c === "`") { quote = c; inert[i] = true; continue; }
+    if (c === "/" && line[i + 1] === "/") {   // line comment: rest is inert
+      for (let j = i; j < line.length; j += 1) { depths[j] = depth; inert[j] = true; }
+      break;
+    }
+    if (c === "{") depth += 1;
+    else if (c === "}") depth -= 1;
+  }
+  return { depths, inert, endDepth: depth };
+}
+
+// Key → matcher. Global so one line can hold several fields; the depth check
+// below decides which matches actually belong to the entry.
+const FIELD_PATTERNS = [
+  ["id",          /\bid:\s*'([^']*)'/g,                 (m) => m[1]],
+  ["localFile",   /\blocalFile:\s*(?:'([^']*)'|null)/g, (m) => (m[1] === undefined ? null : m[1])],
+  ["lastUpdated", /\blastUpdated:\s*(?:'([^']*)'|null)/g, (m) => (m[1] === undefined ? null : m[1])],
+  ["features",    /\bfeatures:\s*(\d+|null)/g,          (m) => (m[1] === "null" ? null : Number(m[1]))],
+];
+
 const lines = sourcesBlock.split("\n");
 const entries = [];
 let cur = null;
-let braceDepth = 0;
+let depth = 0;
 for (let i = 0; i < lines.length; i++) {
   const ln = lines[i];
-  // Open of an entry: a line that's just `{` at indent 4
-  if (/^\s{4}\{/.test(ln) && braceDepth === 0) {
-    cur = { startLine: i, idLine: -1, localFileLine: -1, lastUpdatedLine: -1, featuresLine: -1, id: null, localFile: null, lastUpdated: null, features: null };
-    braceDepth = 1;
-    continue;
+  const { depths, inert, endDepth } = scanLine(ln, depth);
+
+  // Depth 0 → 1 opens an entry.
+  if (!cur && depth === 0 && endDepth > 0) {
+    cur = {
+      startLine: i, endLine: -1,
+      idLine: -1, localFileLine: -1, lastUpdatedLine: -1, featuresLine: -1,
+      id: null, localFile: null, lastUpdated: null, features: null,
+    };
   }
+
   if (cur) {
-    // Count nested braces so we leave entry only at the matching `}`.
-    for (const c of ln) {
-      if (c === "{") braceDepth++;
-      else if (c === "}") braceDepth--;
-    }
-    // Anchor to the entry's own key depth (6 spaces). A loose `^\s*` would
-    // also match these keys inside a *nested* object — and since a later
-    // match overwrites the recorded line number, the rewrite below would
-    // then edit the nested line instead of the entry's own. No entry nests
-    // these keys today; this makes sure one added later can't corrupt data.
-    let mi;
-    if ((mi = ln.match(/^\s{6}id:\s*'([^']+)'/)))                 { cur.idLine = i; cur.id = mi[1]; }
-    if ((mi = ln.match(/^\s{6}localFile:\s*('([^']*)'|null)/)))    { cur.localFileLine = i; cur.localFile = mi[2] || null; }
-    if ((mi = ln.match(/^\s{6}lastUpdated:\s*('([^']*)'|null)/)))  { cur.lastUpdatedLine = i; cur.lastUpdated = mi[2] || null; }
-    if ((mi = ln.match(/^\s{6}features:\s*(\d+|null)/)))          { cur.featuresLine = i; cur.features = mi[1] === "null" ? null : Number(mi[1]); }
-    if (braceDepth === 0) {
-      cur.endLine = i;
-      if (cur.id) entries.push(cur);
-      cur = null;
+    for (const [field, pattern, extract] of FIELD_PATTERNS) {
+      pattern.lastIndex = 0;
+      let m;
+      while ((m = pattern.exec(ln)) !== null) {
+        if (inert[m.index] || depths[m.index] !== 1) continue;  // nested, or inside a string
+        cur[field] = extract(m);
+        cur[`${field}Line`] = i;
+      }
     }
   }
+
+  depth = endDepth;
+
+  if (cur && depth === 0) {
+    cur.endLine = i;
+    // Fail closed. A silently skipped entry is a count that never gets
+    // reconciled and no signal that anything was missed — exactly the class
+    // of bug the fixed-indent parser could cause.
+    const missing = ["id", "localFile", "lastUpdated", "features"]
+      .filter((field) => cur[`${field}Line`] < 0);
+    if (missing.length > 0) {
+      console.error(
+        `[refresh-mtimes] entry at lines ${cur.startLine + 1}-${cur.endLine + 1} is missing ` +
+        `required field(s): ${missing.join(", ")} — refusing to run against an inventory ` +
+        "it cannot fully parse"
+      );
+      process.exit(1);
+    }
+    entries.push(cur);
+    cur = null;
+  }
+}
+
+if (cur) {
+  console.error(
+    `[refresh-mtimes] unterminated entry starting at line ${cur.startLine + 1} — bailing`
+  );
+  process.exit(1);
 }
 
 console.log(`[refresh-mtimes] parsed ${entries.length} inventory entries`);

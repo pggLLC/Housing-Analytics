@@ -22,10 +22,13 @@ name: Sync Data MTimes
 #   - on push to data/** so manual updates also flush through
 #   - on manual dispatch when something needs nudging
 #
-# The job is intentionally non-blocking: if the sync scripts fail we
-# don't want to block a data refresh PR. The existing daily freshness
-# check still alerts on real staleness, and the drift test still gates
-# every PR — this job keeps the data honest, it never relaxes the gate.
+# The sync scripts themselves are non-blocking: if one fails we don't want
+# to block a data refresh PR. The *verification* is not — its outcome is
+# captured and re-raised as the job's final step, so automatic corrections
+# still land but residual drift ends the run red. That matters because a
+# GITHUB_TOKEN push does not trigger ci-checks, so nothing else would report
+# it. The drift test still gates every PR; this job keeps the data honest
+# and never relaxes the gate.
 
 on:
   schedule:
@@ -68,13 +71,22 @@ jobs:
       - name: Sync data-source-inventory.js lastUpdated + features fields
         run: node scripts/audit/refresh-inventory-mtimes.mjs
 
-      # Diagnostic only — continue-on-error so it can't strand the sync. The
-      # gate proper runs in CI on the resulting commit; failing here just
-      # means some drift is outside what this script reconciles (a
-      # COUNTY_DIRECTORY_IDS directory, a GeoJSON feature array), and in that
-      # case we still want the lastUpdated + counted fixes to land rather
-      # than leaving main red for two reasons instead of one.
+      # Non-blocking *at this point* so drift this script can't reconcile (a
+      # COUNTY_DIRECTORY_IDS directory, a GeoJSON feature array) doesn't abort
+      # the job before the commit step and strand the corrections that did
+      # succeed. The outcome is captured and re-raised as the final step, so
+      # the run still ends red — see "Fail the run if verification failed".
+      #
+      # This workflow has to police itself. An earlier version of this comment
+      # claimed "the gate proper runs in CI on the resulting commit", which is
+      # false: the commit below is pushed with GITHUB_TOKEN, and GitHub does
+      # not trigger workflows for such pushes, so ci-checks never runs on it.
+      # Confirmed against 969841723, 25a9b27aa and ab58e936d — none of them
+      # has a ci-checks run. AGENTS.md records the same trap: "Data crons
+      # suppress CI on their own commits, so main can be broken for hours with
+      # no failing run to show for it."
       - name: Verify inventory reconciles against committed data
+        id: verify-inventory
         continue-on-error: true
         run: npm run test:data-source-inventory-paths
 
@@ -127,3 +139,16 @@ jobs:
               ref: 'main'
             });
             core.notice('Dispatched deploy.yml for sync-data-mtimes commit.');
+
+      # Re-raise the verification outcome captured above. Deliberately last:
+      # the automatic corrections have already been committed, pushed and
+      # deployed by now, so a failure here doesn't roll anything back — it
+      # exists so residual drift can't end the run green with nothing
+      # anywhere reporting that main is inconsistent.
+      - name: Fail the run if verification failed
+        if: always() && steps.verify-inventory.outcome == 'failure'
+        run: |
+          echo "::error::Inventory verification failed — main still carries drift this workflow could not reconcile automatically."
+          echo "Any automatic corrections were still committed and pushed; this step only stops the run from reporting success."
+          echo "Reproduce locally with: npm run test:data-source-inventory-paths"
+          exit 1

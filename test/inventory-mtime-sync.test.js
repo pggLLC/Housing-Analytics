@@ -73,17 +73,24 @@ const DATA_FILES = {
 // carry their own keys at indent 6. `notInMap` deliberately nests a `features`
 // and a `lastUpdated` key one level deeper — the parser must not mistake those
 // for the entry's own fields.
-function buildInventory(counts) {
+function buildInventory(counts, opts = {}) {
+  // Indentation is a fixture parameter, not a constant. The parser keys off
+  // brace depth, so any of these must work; the adversarial case below uses
+  // deliberately irregular widths.
+  const ei = ' '.repeat(opts.entryIndent ?? 4);   // entry braces
+  const fi = ' '.repeat(opts.fieldIndent ?? 6);   // the entry's own fields
+  const ni = ' '.repeat(opts.nestIndent ?? 8);    // keys inside a nested object
+
   const entry = (id, localFile, lastUpdated, features, extra = '') => [
-    '    {',
-    `      id: '${id}',`,
-    `      name: '${id} fixture',`,
-    `      url: 'http://127.0.0.1/${id}',`,
-    `      localFile: ${localFile === null ? 'null' : `'${localFile}'`},`,
-    `      lastUpdated: ${lastUpdated === null ? 'null' : `'${lastUpdated}'`},`,
-    `      features: ${features === null ? 'null' : features},`,
+    `${ei}{`,
+    `${fi}id: '${id}',`,
+    `${fi}name: '${id} fixture',`,
+    `${fi}url: 'http://127.0.0.1/${id}',`,
+    `${fi}localFile: ${localFile === null ? 'null' : `'${localFile}'`},`,
+    `${fi}lastUpdated: ${lastUpdated === null ? 'null' : `'${lastUpdated}'`},`,
+    `${fi}features: ${features === null ? 'null' : features},`,
     extra,
-    '    },',
+    `${ei}},`,
   ].filter(Boolean).join('\n');
 
   return [
@@ -92,20 +99,28 @@ function buildInventory(counts) {
     '',
     '  var SOURCES = [',
     entry(FIXTURE_IDS.nestedPath, 'data/fred-data.json', '2020-01-01', counts.nestedPath),
-    entry(FIXTURE_IDS.objectCount, 'data/regrid-parcels.json', '2020-01-01', counts.objectCount),
+    // Decoys live on a *counted* entry with a *readable* nested localFile, so
+    // that a leaked nested/string match actually changes what the script
+    // rewrites. Hung on an uncounted entry, or one whose nested localFile does
+    // not exist, both code paths short-circuit and the guard looks effective
+    // even when removed.
+    entry(FIXTURE_IDS.objectCount, 'data/regrid-parcels.json', '2020-01-01', counts.objectCount,
+      [
+        `${fi}description: 'Decoy text — features: 111, id: \\'decoy-id\\', lastUpdated: \\'1970-01-01\\'',`,
+        `${fi}nested: {`,
+        `${ni}id: 'nested-decoy',`,
+        `${ni}localFile: 'data/fred-data.json',`,
+        `${ni}lastUpdated: '1999-12-31',`,
+        `${ni}features: 999,`,
+        `${fi}},`,
+      ].join('\n')),
     entry(FIXTURE_IDS.arrayCount, 'data/manifest-fixture.json', '2020-01-01', counts.arrayCount),
     // Declares a count of null *and* a real localFile. The committed inventory
     // never pairs those, but if it ever did the script must still refuse to
     // invent a number for a source whose count doesn't exist upstream.
     entry(FIXTURE_IDS.uncounted, 'data/schools-fixture.json', '2020-01-01', null),
     entry(FIXTURE_IDS.missingFile, 'data/absent-from-sandbox.json', '2020-01-01', counts.missingFile),
-    entry(FIXTURE_IDS.notInMap, 'data/fred-data.json', '2020-01-01', counts.notInMap,
-      [
-        '      nested: {',
-        "        lastUpdated: '1999-12-31',",
-        '        features: 999,',
-        '      },',
-      ].join('\n')),
+    entry(FIXTURE_IDS.notInMap, 'data/fred-data.json', '2020-01-01', counts.notInMap),
     '  ];',
     '',
     '  window.DataSourceInventory = { getSources: function () { return SOURCES; } };',
@@ -124,7 +139,7 @@ const FIXTURE_MTIME = new Date('2019-01-01T00:00:00Z');
 
 // --- Sandbox ---------------------------------------------------------------
 
-function makeSandbox(counts) {
+function makeSandbox(counts, opts = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'inventory-mtime-sync-'));
   fs.mkdirSync(path.join(dir, 'scripts', 'audit'), { recursive: true });
   fs.mkdirSync(path.join(dir, 'js'), { recursive: true });
@@ -137,7 +152,7 @@ function makeSandbox(counts) {
     fs.writeFileSync(abs, JSON.stringify(contents, null, 2));
     fs.utimesSync(abs, FIXTURE_MTIME, FIXTURE_MTIME);
   }
-  fs.writeFileSync(path.join(dir, INVENTORY_REL), buildInventory(counts));
+  fs.writeFileSync(path.join(dir, INVENTORY_REL), buildInventory(counts, opts));
   return dir;
 }
 
@@ -152,16 +167,16 @@ function inventoryOf(dir) {
   return fs.readFileSync(path.join(dir, INVENTORY_REL), 'utf8');
 }
 
-function declaredFeatures(text, id) {
-  const entry = new RegExp(`id: '${id}',[\\s\\S]*?\\n    \\},`).exec(text);
+function declaredFeatures(text, id, fieldIndent = 6) {
+  const entry = new RegExp(`id: '${id}',[\\s\\S]*?\\n\\s*\\},`).exec(text);
   assert.ok(entry, `${id} missing from inventory`);
-  const found = /^ {6}features: (\d+|null),$/m.exec(entry[0]);
-  assert.ok(found, `${id} has no own features: line`);
+  const found = new RegExp(`^ {${fieldIndent}}features: (\\d+|null),$`, 'm').exec(entry[0]);
+  assert.ok(found, `${id} has no own features: line at indent ${fieldIndent}`);
   return found[1] === 'null' ? null : Number(found[1]);
 }
 
-function withSandbox(counts, body) {
-  const dir = makeSandbox(counts);
+function withSandbox(counts, body, opts = {}) {
+  const dir = makeSandbox(counts, opts);
   try {
     body(dir);
   } finally {
@@ -238,16 +253,92 @@ check('features: null is preserved even with a readable localFile', () => {
 
 // --- 4. Nested keys are not mistaken for the entry's own --------------------
 
-check('a nested features/lastUpdated key is left untouched', () => {
-  withSandbox({ ...HONEST_COUNTS, nestedPath: TRUE_COUNTS.nestedPath + 1 }, (dir) => {
+check('nested and in-string decoy keys are left untouched', () => {
+  withSandbox({ ...HONEST_COUNTS, objectCount: TRUE_COUNTS.objectCount + 5 }, (dir) => {
     assert.strictEqual(run(dir).status, 0);
     const after = inventoryOf(dir);
     assert.match(after, /^ {8}features: 999,$/m,
-      'nested features: must survive — the parser must anchor to the entry key depth');
-    assert.match(after, /^ {8}lastUpdated: '1999-12-31',$/m,
-      'nested lastUpdated: must survive');
+      'nested features: must survive — fields are the keys at brace depth 1');
+    assert.match(after, /^ {8}lastUpdated: '1999-12-31',$/m, 'nested lastUpdated: must survive');
+    assert.match(after, /^ {8}id: 'nested-decoy',$/m, 'nested id: must survive');
+    assert.match(after, /features: 111, id: \\'decoy-id\\'/,
+      'key-shaped text inside a string value must be left alone');
+    // The entry's own count is the one that got repaired.
+    assert.strictEqual(declaredFeatures(after, FIXTURE_IDS.objectCount), TRUE_COUNTS.objectCount);
     assert.strictEqual(declaredFeatures(after, FIXTURE_IDS.notInMap), HONEST_COUNTS.notInMap,
       'a source outside JSON_COUNT_PATHS must keep its declared count');
+  });
+});
+
+// --- 4b. Indentation is not part of the contract ---------------------------
+
+// The parser used to key off fixed indentation (`^\s{6}` for a field). That
+// silently dropped every entry a reformat re-indented — and a dropped entry is
+// a count that never gets reconciled with nothing to say so. Replayed against
+// the real committed inventory, the old parser reported "parsed 0 inventory
+// entries / nothing to update" once its bodies were re-indented. Depth-based
+// parsing must not care.
+const ODD_INDENT = { entryIndent: 2, fieldIndent: 9, nestIndent: 13 };
+
+check('an entry at non-standard indentation is still parsed and repaired', () => {
+  withSandbox({ ...HONEST_COUNTS, nestedPath: TRUE_COUNTS.nestedPath + 4 }, (dir) => {
+    const result = run(dir);
+    assert.strictEqual(result.status, 0, `expected exit 0, got ${result.status}:\n${result.output}`);
+    assert.match(result.output, /parsed 6 inventory entries/,
+      `all six entries must parse at odd indentation, got:\n${result.output}`);
+    assert.strictEqual(
+      declaredFeatures(inventoryOf(dir), FIXTURE_IDS.nestedPath, ODD_INDENT.fieldIndent),
+      TRUE_COUNTS.nestedPath,
+      'a re-indented entry must still have its count reconciled',
+    );
+  }, ODD_INDENT);
+});
+
+check('decoy keys in nested objects and strings are ignored at odd indentation', () => {
+  withSandbox({ ...HONEST_COUNTS, objectCount: TRUE_COUNTS.objectCount + 3 }, (dir) => {
+    assert.strictEqual(run(dir).status, 0);
+    const after = inventoryOf(dir);
+
+    // Nested object keyed exactly like the entry's own fields.
+    assert.match(after, /^ {13}features: 999,$/m, 'nested features: must survive');
+    assert.match(after, /^ {13}lastUpdated: '1999-12-31',$/m, 'nested lastUpdated: must survive');
+    assert.match(after, /^ {13}id: 'nested-decoy',$/m, 'nested id: must survive');
+
+    // Key-shaped text inside a string value.
+    assert.match(after, /features: 111, id: \\'decoy-id\\'/,
+      'key-shaped text inside a string value must be left alone');
+
+    // And the entry's own count was still the one repaired.
+    assert.strictEqual(
+      declaredFeatures(after, FIXTURE_IDS.notInMap, ODD_INDENT.fieldIndent),
+      HONEST_COUNTS.notInMap,
+      'a source outside JSON_COUNT_PATHS keeps its declared count',
+    );
+    assert.strictEqual(
+      declaredFeatures(after, FIXTURE_IDS.objectCount, ODD_INDENT.fieldIndent),
+      TRUE_COUNTS.objectCount,
+    );
+  }, ODD_INDENT);
+});
+
+// --- 4c. Fail closed on an entry it cannot fully parse ----------------------
+
+check('an entry missing a required field aborts instead of being skipped', () => {
+  withSandbox(HONEST_COUNTS, (dir) => {
+    const file = path.join(dir, INVENTORY_REL);
+    const before = fs.readFileSync(file, 'utf8');
+    // Drop one entry's features: line entirely.
+    const mutilated = before.replace(/^ {6}features: \d+,\n/m, '');
+    assert.notStrictEqual(mutilated, before, 'fixture mutation did not apply');
+    fs.writeFileSync(file, mutilated);
+
+    const result = run(dir);
+    assert.notStrictEqual(result.status, 0,
+      `must exit nonzero rather than silently skip:\n${result.output}`);
+    assert.match(result.output, /missing required field\(s\): features/,
+      `must name the missing field, got:\n${result.output}`);
+    assert.strictEqual(fs.readFileSync(file, 'utf8'), mutilated,
+      'a refusing run must not write');
   });
 });
 
