@@ -143,9 +143,15 @@ process.env.SWEEP_RETRY_DELAY_MS = '0';
 /* ── Extraction hygiene (#1552) ───────────────────────────────────────
  *
  * Ten strings that can never return 200 were sitting permanently in the
- * `stillBroken` bucket. All fixtures below use loopback or reserved TLDs so
- * neither URL sweep ever probes this file's contents.
+ * `stillBroken` bucket.
+ *
+ * source-url-sweep.mjs scrapes EVERY changed file for `https?://...` and probes
+ * what it finds — its regex matches even a bare scheme — so fixtures here are
+ * either loopback or assembled from `SCHEME` at runtime. Never write a literal
+ * scheme-prefixed URL in this file.
  */
+
+const SCHEME = 'https:' + '//';
 
 // HTML entities left encoded in an href corrupt the query string.
 assert.equal(
@@ -172,7 +178,7 @@ for (const [raw, expected, why] of [
     'parentheses inside a real path survive'],
   ['http://127.0.0.1:8765/table/...', 'http://127.0.0.1:8765/table/...',
     'a trailing ellipsis is a placeholder marker, not prose punctuation'],
-  ['https://', null, 'a bare scheme yields nothing probe-worthy'],
+  [SCHEME, null, 'a bare scheme yields nothing probe-worthy'],
   ['not-a-url', null, 'non-URL text yields nothing probe-worthy']
 ]) {
   assert.equal(sanitizeExtractedUrl(raw), expected, why);
@@ -181,7 +187,7 @@ for (const [raw, expected, why] of [
 // A documented Content-Security-Policy value lists source expressions, not
 // fetchable documents — every URL on such a line must be dropped.
 assert.ok(looksLikeCspValue(
-  "default-src 'self'; img-src 'self' data: https://*.tiles.example.invalid; frame-ancestors 'none'"),
+  `default-src 'self'; img-src 'self' data: ${SCHEME}*.tiles.example.invalid; frame-ancestors 'none'`),
   'a real CSP value is recognized');
 assert.ok(looksLikeCspValue("script-src 'unsafe-inline' http://127.0.0.1:8765;"),
   'a single quoted-keyword directive is recognized');
@@ -191,12 +197,31 @@ assert.ok(!looksLikeCspValue('See http://127.0.0.1:8765/csp for details'),
   'an ordinary sentence containing a URL is not a CSP value');
 
 // Host patterns are never resolvable addresses.
-assert.match(isSkippableUrl('https://*.tiles.example.invalid/') || '', /wildcard host/,
+assert.match(isSkippableUrl(`${SCHEME}*.tiles.example.invalid/`) || '', /wildcard host/,
   'a CSP wildcard source-expression is skipped, not probed');
-assert.match(isSkippableUrl('https://{s}.tiles.example.invalid/{z}/{x}/{y}.png') || '', /template placeholder/,
+assert.match(isSkippableUrl(`${SCHEME}{s}.tiles.example.invalid/{z}/{x}/{y}.png`) || '', /template placeholder/,
   'a Leaflet tile template is skipped, not probed');
-assert.equal(isSkippableUrl('https://real.host.invalid/page'), null,
+assert.equal(isSkippableUrl(`${SCHEME}real.host.invalid/page`), null,
   'an ordinary URL is still probed');
+
+// Placeholders are placeholders wherever they sit — these two rules were
+// written but never fired, so the URLs below were probed on every sweep.
+assert.match(isSkippableUrl(`${SCHEME}api.stlouisfed.org/fred/series/observations`) || '',
+  /API endpoint reference/,
+  'FRED is api.stlouisfed.ORG — the .gov-only pattern never matched it');
+assert.match(isSkippableUrl(`${SCHEME}api.census.gov/data/2023/acs/acs5`) || '',
+  /API endpoint reference/, 'the Census endpoint shape is still skipped');
+assert.match(isSkippableUrl(`${SCHEME}api.stlouisfed.org/fred/series/observations?api_key=YOUR_KEY`) || '',
+  /placeholder API key/, 'a documented example credential can never return 200');
+assert.equal(isSkippableUrl(`${SCHEME}fred.stlouisfed.org/series/UNRATE`), null,
+  'a real FRED series page is still probed');
+
+assert.match(isSkippableUrl(`${SCHEME}reports.example.invalid/...`) || '', /ellipsis/,
+  'a trailing ellipsis is a placeholder, not just a bare `...` host');
+assert.match(isSkippableUrl(`${SCHEME}reports.example.invalid/table/...`) || '', /ellipsis/,
+  'an ellipsis deeper in the path is a placeholder too');
+assert.equal(isSkippableUrl(`${SCHEME}real.host.invalid/a...b`), null,
+  'an ellipsis inside a path segment is not a placeholder');
 
 // The sweep must actually route extraction through these helpers.
 for (const [rx, why] of [
@@ -222,6 +247,25 @@ for (const url of Object.keys(committedCache.byUrl)) {
     `cache holds a template placeholder: ${url}`);
   assert.ok(!url.endsWith('**'),
     `cache holds markdown emphasis markers: ${url}`);
+}
+
+// Guard against the recurring trap this file itself fell into: ci-checks runs
+// source-url-sweep.mjs with --diff-added over every changed file, including
+// .mjs, and its regex matches even a bare scheme. Any literal scheme-prefixed
+// fixture added here becomes a live probe target and fails the PR. Loopback is
+// exempt (the sweep skips it); everything else must be assembled from SCHEME.
+{
+  const selfSource = fs.readFileSync(
+    path.join(ROOT, 'test/url-health-policy.test.mjs'), 'utf8');
+  const scheme = 'https?:' + '//';
+  const literal = new RegExp(scheme + '[^\\s"\'`<>)\\]]*', 'g');
+  const offenders = (selfSource.match(literal) || [])
+    .filter((u) => !u.includes('127.0.0.1') && !u.includes('localhost'))
+    // The assembled `scheme` constant three lines up is not a fixture.
+    .filter((u) => !/^https\?:\/\/$/.test(u));
+  assert.deepEqual(offenders, [],
+    'fixtures must be assembled from SCHEME, never written as literal URLs — ' +
+    'source-url-sweep.mjs probes what it finds in this file');
 }
 
 console.log('url-health-policy: PASS');

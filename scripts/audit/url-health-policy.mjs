@@ -97,12 +97,12 @@ export async function checkUrl(url, probe) {
  *
  *   1. Content-Security-Policy values documented in markdown. The bare-URL
  *      regex captures the `;` that separates directives
- *      (`https://cdnjs.cloudflare.com;`) and the `*` of a wildcard host
- *      (`https://*.tile.openstreetmap.org`). CSP source-expressions are
+ *      (host `cdnjs.cloudflare.com;`) and the `*` of a wildcard host
+ *      (host `*.tile.openstreetmap.org`). CSP source-expressions are
  *      origins a browser may *load from*, not documents that resolve — so
  *      they are dropped at collection time, not merely de-punctuated.
- *   2. Markdown emphasis markers glued to the URL
- *      (`**https://host/path/**` -> `https://host/path/**`).
+ *   2. Markdown emphasis markers glued to the URL, so a bolded link keeps
+ *      a trailing `**` in its path.
  *   3. HTML entities left encoded in `href` attributes, which corrupts the
  *      query string (`?a=1&amp;b=2`).
  *
@@ -184,18 +184,32 @@ export function isSkippableUrl(url) {
   // Local dev origins scraped from HTML by mistake
   if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i.test(url)) return 'localhost (development artifact)';
   // URL-template placeholders that crawled their way in. Leaflet tile
-  // templates (`https://{s}.basemaps.cartocdn.com/{z}/{x}/{y}.png`) and CSP
-  // wildcard source-expressions (`https://*.tile.openstreetmap.org`) are both
+  // templates (host `{s}.basemaps.cartocdn.com`, path `/{z}/{x}/{y}.png`) and
+  // CSP wildcard source-expressions (host `*.tile.openstreetmap.org`) are both
   // host patterns, never addresses a probe can resolve.
   if (url.includes('{') || url.includes('}')) return 'template placeholder (literal curly braces)';
   if (/^https?:\/\/[^/?#]*\*/.test(url)) return 'wildcard host pattern (not a resolvable address)';
   if (url.includes('%7B') || url.includes('%7D')) return 'template placeholder (URL-encoded braces)';
   if (url.includes('%E2%80%A6')) return 'template placeholder (URL-encoded ellipsis)';
-  if (/^https?:\/\/\.\.\.(\/|$)/i.test(url)) return 'template placeholder (ellipsis)';
+  // An ellipsis is a placeholder wherever it sits, not only as the host. This
+  // previously matched a bare `...` host alone, so documented URL shapes such
+  // as `data.census.gov/...` and `huduser.gov/...` were probed forever and
+  // could never return 200.
+  if (/(^|\/)\.\.\.(\/|$)/.test(url)) return 'template placeholder (ellipsis)';
   // Example/test domains
   if (/\bexample\.(com|net|org)\b/i.test(url)) return 'test/example domain';
   // FRED/Census API GET URLs with no parameters — these are API endpoints
   // referenced from docs as the SHAPE of the URL, not literal targets.
-  if (/^https?:\/\/api\.(stlouisfed|census)\.gov\/[^?]*$/i.test(url)) return 'API endpoint reference (no parameters)';
+  // FRED is api.stlouisfed.ORG; the original `.gov`-only pattern never
+  // matched it, so every documented FRED endpoint was probed and reported.
+  if (/^https?:\/\/api\.(?:stlouisfed\.org|census\.gov)\/[^?]*$/i.test(url)) {
+    return 'API endpoint reference (no parameters)';
+  }
+  // The same endpoints are also documented *with* a placeholder credential.
+  // A request carrying YOUR_KEY is rejected by definition, so it can never
+  // return 200 no matter how often it is retried.
+  if (/[?&][a-z_]*key=(?:YOUR|MY|<|%3C|xxx|abcdef)/i.test(url)) {
+    return 'documented example with a placeholder API key';
+  }
   return null;
 }

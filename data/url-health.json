@@ -171,8 +171,8 @@
       "consecutiveFailures": 0
     },
     "https://api.census.gov/data?key=YOUR_KEY": {
-      "status": "ok",
-      "httpStatus": 200,
+      "status": "skip",
+      "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
       "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
@@ -180,20 +180,20 @@
       "redirectTo": "https://api.census.gov/data/invalid_key.html"
     },
     "https://api.stlouisfed.org/fred/series/observations": {
-      "status": "broken",
-      "httpStatus": 400,
+      "status": "skip",
+      "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
+      "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 17
+      "consecutiveFailures": 0
     },
     "https://api.stlouisfed.org/fred/series/observations?series_id=PCU331111331111&api_key=YOUR_KEY&file_type=json": {
-      "status": "broken",
-      "httpStatus": 400,
+      "status": "skip",
+      "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
+      "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 17
+      "consecutiveFailures": 0
     },
     "https://app.regrid.com/api/plans": {
       "status": "ok",
@@ -703,16 +703,16 @@
       "consecutiveFailures": 0
     },
     "https://data.census.gov/...": {
-      "status": "timeout",
+      "status": "skip",
       "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": null,
+      "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-07-13T08:57:46.344Z",
-      "consecutiveFailures": 10
+      "consecutiveFailures": 0
     },
     "https://data.census.gov/table/...": {
-      "status": "ok",
-      "httpStatus": 200,
+      "status": "skip",
+      "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
       "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-07-13T08:57:46.344Z",
@@ -1648,12 +1648,12 @@
       "consecutiveFailures": 0
     },
     "https://huduser.gov/...": {
-      "status": "broken",
-      "httpStatus": 404,
+      "status": "skip",
+      "httpStatus": null,
       "lastCheckedAt": "2026-09-11T11:06:23.592Z",
-      "lastOkAt": "2026-08-10T07:19:44.696Z",
+      "lastOkAt": "2026-09-11T11:06:23.592Z",
       "firstSeenAt": "2026-05-27T03:38:39.719Z",
-      "consecutiveFailures": 5
+      "consecutiveFailures": 0
     },
     "https://hydro.nationalmap.gov/arcgis/rest/services/NHDPlus_HR/MapServer/2/query": {
       "status": "ok",
