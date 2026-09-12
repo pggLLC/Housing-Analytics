@@ -1325,19 +1325,36 @@
     // ── Regrid Parcels API ────────────────────────────────────────
     {
       id: 'regrid-parcels',
-      name: 'Parcel &amp; Zoning County Aggregates — Colorado',
+      name: 'Parcel &amp; Zoning County Aggregates — Colorado (no data)',
       category: 'Market / GIS',
       format: 'JSON',
-      provider: 'Loveland / Regrid',
-      url: 'https://regrid.com/',
+      // Built by scripts/market/fetch_parcel_data.py, which queries each
+      // county assessor's own ArcGIS service. Regrid is a DIFFERENT
+      // integration (REGRID_API_KEY → regrid-parcels-by-place.json) and has
+      // never produced this file — its own meta says "County Assessor ArcGIS
+      // FeatureServers (public)". Naming Regrid as the provider is what made
+      // this look like a credential problem while triaging #1602.
+      provider: 'County assessor ArcGIS services (public)',
+      url: 'https://data.colorado.gov/',
       localFile: 'data/market/parcel_aggregates_co.json',
       lastUpdated: '2026-04-05',
-      updateFrequency: 'Quarterly',
-      maxAgeDays: 90,
+      updateFrequency: 'Unknown',
+      maxAgeDays: null,
       geoUnit: 'County aggregate',
-      coverage: 'Eight Colorado county aggregate records',
+      coverage: 'No counties — every source endpoint currently fails',
+      // Eight PLACEHOLDER records exist, every one empty: counties_successful
+      // is 0 and each carries "fetch failed — check county ArcGIS endpoint".
+      // Every commit in this file's history has total_parcels 0, so no parcel
+      // has ever been counted here.
+      //
+      // `features` stays 8 because the drift gate defines it as the length of
+      // the counted collection, and eight records genuinely exist — the count
+      // is not the dishonest part. The name, coverage and description above
+      // carry the fact that those records are empty, which is what a reader
+      // on the Data Trust Center actually needs. test:parcel-source-honesty
+      // keeps the two in step.
       features: 8,
-      description: 'Eight county-level parcel and zoning aggregate records. This file does not contain statewide parcel-level records.',
+      description: 'Currently carries NO parcel data. Eight county placeholder records exist, all empty: every county assessor endpoint fails, four of the original hostnames no longer resolve, and the four re-sourced in #1603 respond but reject the query because those parcel layers expose no zoning field. Tracked in #1602 — do not cite this source until coverage_pct rises above 0.',
       tags: ['regrid', 'parcels', 'zoning', 'land-use', 'gis'],
       apiEndpoint: 'https://app.regrid.com/api/v2/parcels/point'
     }
