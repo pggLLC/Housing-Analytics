@@ -4,7 +4,12 @@
 from __future__ import annotations
 
 import importlib.util
+import io
+import json
+import os
+import tempfile
 import urllib.error
+from contextlib import redirect_stderr
 from pathlib import Path
 
 
@@ -128,8 +133,94 @@ def test_documented_wrapped_results_produce_varied_counties(module) -> None:
     assert len(result) == 64
     assert len({row["median_income"] for row in result.values()}) == 64
     assert requested_urls[0] == module.HUD_IL_URL
-    assert any("/il/data/0800199999?year=2025" in url for url in requested_urls)
+    assert any(
+        f"/il/data/0800199999?year={module.IL_FY}" in url
+        for url in requested_urls
+    )
     assert all("/public/fmr/il/data/" not in url for url in requested_urls)
+
+
+def test_transient_county_failure_fails_fast_without_writes(module) -> None:
+    rows = county_rows(module)
+    original_urlopen = module.urllib.request.urlopen
+    original_sleep = module.time.sleep
+    original_token = os.environ.get("HUD_API_TOKEN")
+    original_outputs = (module.OUT_FMR_RAW, module.OUT_COMBINED, module.OUT_TRACT_MAP)
+    requested_il_urls: list[str] = []
+
+    class Response:
+        def __init__(self, payload):
+            self.payload = json.dumps(payload).encode("utf-8")
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, traceback):
+            return False
+
+        def read(self):
+            return self.payload
+
+    def fake_urlopen(request, timeout):
+        url = request.full_url
+        if "/fmr/statedata/CO" in url:
+            return Response({"data": {"counties": [{
+                "fips_code": "08001",
+                "Efficiency": 1000,
+                "One-Bedroom": 1100,
+                "Two-Bedroom": 1200,
+                "Three-Bedroom": 1300,
+                "Four-Bedroom": 1400,
+            }]}})
+        if url == module.HUD_IL_URL:
+            return Response({"data": rows})
+        if "/il/data/" in url:
+            requested_il_urls.append(url)
+            raise urllib.error.HTTPError(url, 503, "Service Unavailable", None, None)
+        raise AssertionError(f"unexpected request: {url}")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        module.OUT_FMR_RAW = str(Path(tmp) / "fmr.json")
+        module.OUT_COMBINED = str(Path(tmp) / "combined.json")
+        module.OUT_TRACT_MAP = str(Path(tmp) / "tract-map.json")
+        module.urllib.request.urlopen = fake_urlopen
+        module.time.sleep = lambda seconds: None
+        os.environ["HUD_API_TOKEN"] = "token-for-test"
+        stderr = io.StringIO()
+        try:
+            with redirect_stderr(stderr):
+                result = module.main()
+        finally:
+            module.urllib.request.urlopen = original_urlopen
+            module.time.sleep = original_sleep
+            module.OUT_FMR_RAW, module.OUT_COMBINED, module.OUT_TRACT_MAP = original_outputs
+            if original_token is None:
+                os.environ.pop("HUD_API_TOKEN", None)
+            else:
+                os.environ["HUD_API_TOKEN"] = original_token
+
+        message = stderr.getvalue()
+        assert result == 1
+        assert "request failed for county 08001" in message
+        assert len(requested_il_urls) == module.IL_TRANSIENT_RETRIES + 1
+        assert all("/il/data/0800199999?" in url for url in requested_il_urls), (
+            "retry exhaustion must stop before requesting the remaining counties"
+        )
+        assert not any(Path(path).exists() for path in (
+            str(Path(tmp) / "fmr.json"),
+            str(Path(tmp) / "combined.json"),
+            str(Path(tmp) / "tract-map.json"),
+        )), "a failed county Income Limits fetch must write no output file"
+
+
+def test_committed_county_names_match_canonical_map(module) -> None:
+    payload = json.loads((ROOT / "data" / "hud-fmr-income-limits.json").read_text())
+    records = payload["counties"]
+    actual = {row["fips"]: row["county_name"] for row in records}
+    assert len(records) == 64
+    assert set(actual) == set(module._CO_COUNTY_NAMES_FULL)
+    assert all(", CO" not in name for name in actual.values())
+    assert actual == module._CO_COUNTY_NAMES_FULL
 
 
 def main() -> int:
@@ -154,6 +245,8 @@ def main() -> int:
     test_malformed_county_list_fails(module)
     test_flattened_income_limit_results_fail(module)
     test_documented_wrapped_results_produce_varied_counties(module)
+    test_transient_county_failure_fails_fast_without_writes(module)
+    test_committed_county_names_match_canonical_map(module)
 
     print("fmr-flatten-guard: PASS")
     return 0

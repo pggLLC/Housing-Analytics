@@ -51,7 +51,7 @@ HUD_IL_DATA_URL = 'https://www.huduser.gov/hudapi/public/il/data/{entityid}?year
 
 TIMEOUT  = 30
 FY       = 2026
-IL_FY    = 2025
+IL_FY    = 2026
 IL_REQUEST_DELAY = 1.1
 IL_TRANSIENT_RETRIES = 2
 
@@ -278,7 +278,8 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
             for fips in _METRO_AREAS[area_name]['counties']:
                 il_row = il_index.get(fips) or {}
                 county_name = (
-                    il_row.get('county_name')
+                    _CO_COUNTY_NAMES_FULL.get(fips)
+                    or il_row.get('county_name')
                     or il_row.get('county')
                     or _CO_METRO_COUNTY_NAMES.get(fips, fips)
                 )
@@ -310,7 +311,8 @@ def _expand_metroareas_to_counties(metroareas: list, il_index: dict) -> list:
 
         il_row = il_index.get(fips) or {}
         county_name = (
-            il_row.get('county_name')
+            _CO_COUNTY_NAMES_FULL.get(fips)
+            or il_row.get('county_name')
             or il_row.get('county')
             or re.sub(r',?\s*(?:CO|Colorado)\b.*$', '', hud_name, flags=re.IGNORECASE).strip()
             or fips
@@ -485,11 +487,17 @@ def fetch_income_limit_index(county_list: list, token: str, year: int) -> dict:
             token,
             transient_retries=IL_TRANSIENT_RETRIES,
         )
+        if payload is None:
+            raise RuntimeError(
+                'HUD Income Limits request failed for county '
+                f'{fips} after {IL_TRANSIENT_RETRIES + 1} attempts'
+            )
         record = _extract_il_record(payload or {})
         ami = _income_limit_ami(record)
         if ami <= 0:
-            print(f'  ⚠ Income Limits data for {fips} lacked a county AMI', file=sys.stderr)
-            continue
+            raise RuntimeError(
+                f'HUD Income Limits response for county {fips} is missing a county AMI'
+            )
         merged = dict(row)
         merged.update(record)
         merged['fips_code'] = fips
@@ -707,10 +715,10 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             continue
 
         county_name = (
-            raw.get('county_name')
+            _CO_COUNTY_NAMES_FULL.get(fips)
+            or raw.get('county_name')
             or raw.get('county')
             or (il_index.get(fips) or {}).get('county_name')
-            or _CO_COUNTY_NAMES_FULL.get(fips)
             or fips
         )
 
