@@ -524,7 +524,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
     font-size: .88rem;
     line-height: 1.45;
   }
-  .checklist-item input[type="checkbox"] { min-width: 20px; min-height: 20px; }
+  /* superseded by the 24px floor above — 20px is below WCAG 2.5.8 */
   .chfa-checklist-item { padding: 8px 10px; gap: 10px; }
 }
 
@@ -1208,3 +1208,52 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .cc-table tr[data-tone="neutral"] .cc-delta,
 .cc-table tr[data-tone="same"] .cc-delta { color: var(--muted); }
 .cc-skipped, .cc-empty { font-size: .78rem; color: var(--muted); margin: .7rem 0 0; line-height: 1.5; }
+
+/* ── Mobile usability ─────────────────────────────────────────────────────
+   Two measured defects on a 390px viewport. */
+
+/* 1. The workflow progress bar clipped its last step.
+   .wf-progress-wrap is overflow-x: hidden, and at 390px six steps do not fit,
+   so step 6 was cut off with no way to reach it — on the one component that
+   tells a user where they are in a six-step flow. Let the step list scroll
+   instead of clipping it. The wrap keeps its own overflow so the sticky
+   backdrop still spans the viewport; only the inner list scrolls. */
+@media (max-width: 720px) {
+  .wf-progress-wrap,
+  .workflow-progress {
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .wf-progress-wrap::-webkit-scrollbar,
+  .workflow-progress::-webkit-scrollbar { display: none; }
+
+  .wf-progress-steps,
+  .workflow-progress__steps {
+    width: max-content;
+    min-width: 100%;
+    padding-inline: var(--sp3, .75rem);
+  }
+}
+
+/* 2. Checkbox targets below the WCAG 2.5.8 minimum.
+   Measured at 390px: 14 controls under 24x24 — 15x15 and 20x20 checkboxes,
+   most of them in the Prop 123 compliance checklist and the Housing Action
+   Plan, which exist to be tapped and saved per jurisdiction. 24px is the AA
+   floor; the visual box is scaled to match so the hit area and the thing the
+   user aims at are the same rectangle. */
+/* Applied at every pointer type, not only touch. WCAG 2.5.8 exempts a target
+   left at its user-agent default size; these are explicitly styled to 18px,
+   so the exemption does not apply and a mouse user gets the same undersized
+   target. Measured before: 14 controls under 24x24 at both 390px and 1280px. */
+.checklist-item input[type="checkbox"],
+.chfa-checklist-item input[type="checkbox"],
+#prop123-section input[type="checkbox"],
+#housing-action-plan input[type="checkbox"],
+#combineGeosToggle {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+}
