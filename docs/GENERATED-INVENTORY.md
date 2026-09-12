@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:10:01.797Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:13:04.601Z. Do not edit by hand.
 
 ---
 
@@ -1797,7 +1797,7 @@
 | `test/integration/market-analysis.test.js` | 4.9 KB |
 | `test/integration/projections.test.js` | 15.7 KB |
 | `test/inventory-mtime-sync.test.js` | 23.1 KB |
-| `test/inventory-sync-push.test.js` | 10.7 KB |
+| `test/inventory-sync-push.test.js` | 15.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
@@ -2013,7 +2013,7 @@
 | `.github/workflows/developer-url-health.yml` | 3.0 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.1 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.4 KB |
-| `.github/workflows/docs-sync.yml` | 2.2 KB |
+| `.github/workflows/docs-sync.yml` | 3.0 KB |
 | `.github/workflows/external-references-check.yml` | 5.2 KB |
 | `.github/workflows/fetch-cdphe-boundaries.yml` | 3.4 KB |
 | `.github/workflows/fetch-census-acs.yml` | 6.6 KB |
