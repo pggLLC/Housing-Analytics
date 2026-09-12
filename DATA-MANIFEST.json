@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-12T03:49:17Z",
+  "generated": "2026-09-12T18:08:17Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -20,7 +20,7 @@
       "update_method": "manual",
       "status": "seed",
       "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
-      "last_update": "2026-09-07T09:57:26Z",
+      "last_update": "2026-09-12T11:39:29Z",
       "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. 360 representative projects across Colorado counties derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; this file is rebuilt by scripts/market/build_public_market_data.py. Dashboards fall back to data/chfa-lihtc.json if this file is unavailable."
     },
     {
@@ -30,7 +30,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Show statewide ACS summary only; disable per-tract choropleth layer",
-      "last_update": "2026-08-18T11:39:33Z",
+      "last_update": "2026-09-12T11:39:29Z",
       "description": "Census tract-level housing and economic indicators for Colorado, including renter/owner household counts, median gross rent, median household income, cost burden rate, and vacancy rate (15 tracts)."
     },
     {
@@ -110,7 +110,7 @@
       "update_method": "live",
       "status": "live",
       "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
-      "last_update": "2026-09-11T09:34:20Z",
+      "last_update": "2026-09-12T09:13:28Z",
       "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
     },
     {
@@ -120,7 +120,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
-      "last_update": "2026-09-11T11:28:26Z",
+      "last_update": "2026-09-12T10:53:16Z",
       "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
     },
     {
@@ -130,7 +130,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Hide employment trend charts; display static summary table",
-      "last_update": "2026-09-07T12:04:42Z",
+      "last_update": "2026-09-12T11:15:05Z",
       "description": "County-level employment and wage data for Colorado sourced from BLS QCEW, including industry sector breakdowns and wage band distributions used in the economic dashboard."
     },
     {
@@ -200,7 +200,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Display static Colorado state summary; disable dynamic ACS metric cards",
-      "last_update": "2026-09-07T14:57:28Z",
+      "last_update": "2026-09-12T11:54:18Z",
       "description": "Statewide Colorado housing and demographic statistics from the ACS 5-year estimates, including total housing units, owner/renter split, median gross rent, median household income, and cost burden rate."
     },
     {
@@ -210,7 +210,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Display statewide AMI gap only; disable county-level choropleth",
-      "last_update": "2026-07-05T20:27:49Z",
+      "last_update": "2026-09-12T18:07:56Z",
       "description": "County-level AMI gap data showing the difference between area median income (AMI) and the income required to afford median-priced housing in each of Colorado's 64 counties. Used in the Colorado Deep Dive AMI Gap tab."
     },
     {
@@ -250,7 +250,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Use statewide median as proxy; disable per-county AMI limit display",
-      "last_update": "2026-07-27T00:58:11Z",
+      "last_update": "2026-09-12T18:07:56Z",
       "description": "HUD Fair Market Rents (FMR) and income limits for all 64 Colorado counties for FY2025. Includes FMR by bedroom size (0–4BR) and income limits at 30/50/60/80% AMI tiers. Fetched via scripts/fetch_fmr_api.py."
     },
     {
