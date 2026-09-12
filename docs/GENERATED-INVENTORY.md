@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:13:04.601Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T10:32:43.815Z. Do not edit by hand.
 
 ---
 
@@ -1819,7 +1819,7 @@
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 7.5 KB |
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
-| `test/mobile-overflow-containment.test.js` | 2.4 KB |
+| `test/mobile-overflow-containment.test.js` | 4.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
