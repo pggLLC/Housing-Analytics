@@ -1,5 +1,5 @@
 {
-  "_note": "Bridge MLS data requires a paid API subscription (BRIDGE_BROWSER_TOKEN). Set APP_CONFIG.BRIDGE_BROWSER_TOKEN in js/config.js to enable live market data. This stub prevents 404 errors on page load.",
+  "_note": "Bridge MLS requires a licensed API subscription. Access was requested and is pending Bridge\u2019s decision (#1611); until then this stub keeps the page on its non-Bridge fallback rather than showing empty Bridge panels. DO NOT put a token in js/config.js \u2014 that file ships to every visitor of a public site. The server-side BRIDGE_SERVER_TOKEN secret is the supported path; an individual may supply their own token through the Data Quality Dashboard, which keeps it in that person\u2019s own browser storage.",
   "available": false,
   "markets": []
 }

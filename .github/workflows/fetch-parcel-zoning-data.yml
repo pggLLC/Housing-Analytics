@@ -71,9 +71,13 @@ jobs:
           pip install requests shapely pyproj 2>&1 | tail -5
 
       # ── Parcel aggregates ─────────────────────────────────────────────
+      # No env block: scripts/market/fetch_parcel_data.py queries county
+      # assessor ArcGIS services and contains zero Regrid references, so the
+      # REGRID_API_KEY that used to be passed here was vestigial. It was also
+      # the last workflow reference to the secret, and therefore the only thing
+      # standing between the owner and revoking it (#1612). The Regrid step
+      # below has deliberately had no env since F258.
       - name: Fetch parcel aggregates (DOLA + county assessors)
-        env:
-          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
         run: |
           python scripts/market/fetch_parcel_data.py 2>&1 | tee /tmp/parcel_build.log
           echo "Exit code: $?"

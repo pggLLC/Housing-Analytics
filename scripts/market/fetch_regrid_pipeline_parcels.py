@@ -194,19 +194,35 @@ def main() -> int:
         # Be polite to the API — free tier is rate-limited.
         time.sleep(INTER_CALL_DELAY_SEC)
 
-    out = {
-        "meta": {
-            "generated":          utcnow_iso(),
-            "source":             "Regrid v2 Parcels API" if token else "stub (no API key)",
-            "radius_miles":       RADIUS_MILES,
-            "jurisdiction_count": len(by_geoid),
-            "total_parcels":      total_parcels,
-            "api_calls":          api_calls,
-            "skipped":            skipped,
-            "next_refresh":       "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)",
-        },
-        "byGeoid": by_geoid,
+    # The availability fields travel WITH the data so consumers never have to
+    # infer "is this real coverage?" from a parcel count of zero — an empty
+    # licensed source must not read as "no parcels here" (#1612).
+    #
+    # They are written on every run, including the re-enable run, so restoring
+    # REGRID_API_KEY to the workflow step is genuinely all it takes: the next
+    # run flips these back to active by itself and the labelling follows the
+    # data instead of needing a separate hand edit.
+    deferred = not token
+    meta = {
+        "generated":          utcnow_iso(),
+        "source":             "Regrid v2 Parcels API" if token else "deferred (paid Regrid subscription not funded)",
+        "availability":       "deferred" if deferred else "active",
+        "is_current_coverage": not deferred,
+        "radius_miles":       RADIUS_MILES,
+        "jurisdiction_count": len(by_geoid),
+        "total_parcels":      total_parcels,
+        "api_calls":          api_calls,
+        "skipped":            skipped,
+        "next_refresh":       "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)",
     }
+    if deferred:
+        meta["deferred_reason"] = (
+            "Regrid retired its free tier (F258, 2026-06-10) and the owner has not funded a "
+            "paid subscription for this free public-interest service (#1612). This is a "
+            "licensing decision, not a technical failure: the integration is intact and "
+            "re-enables by restoring REGRID_API_KEY to the workflow step."
+        )
+    out = {"meta": meta, "byGeoid": by_geoid}
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with OUTPUT_PATH.open("w", encoding="utf-8") as f:

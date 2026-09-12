@@ -1,13 +1,16 @@
 {
   "meta": {
     "generated": "2026-06-14T06:52:21Z",
-    "source": "stub (no API key)",
+    "source": "deferred (paid Regrid subscription not funded)",
     "radius_miles": 3.0,
     "jurisdiction_count": 10,
     "total_parcels": 0,
     "api_calls": 0,
     "skipped": [],
-    "next_refresh": "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)"
+    "next_refresh": "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)",
+    "availability": "deferred",
+    "deferred_reason": "Regrid retired its free tier (F258, 2026-06-10) and the owner has not funded a paid subscription for this free public-interest service (#1612). This is a licensing decision, not a technical failure: the integration is intact and re-enables by restoring REGRID_API_KEY to the workflow step.",
+    "is_current_coverage": false
   },
   "byGeoid": {
     "0867280": {
