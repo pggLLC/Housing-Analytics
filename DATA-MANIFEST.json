@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-12T02:30:08Z",
+  "generated": "2026-09-12T03:49:17Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -180,7 +180,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-03-07T05:55:38Z",
+      "last_update": "2026-09-12T03:48:56Z",
       "description": "Colorado monthly residential real estate market report for February 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
@@ -190,7 +190,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Fall back to car-market.json aggregate; suppress month-over-month comparison",
-      "last_update": "2026-03-07T05:55:38Z",
+      "last_update": "2026-09-12T03:48:56Z",
       "description": "Colorado monthly residential real estate market report for March 2026. Contains statewide and metro-area breakdowns of median sale price, active listings, closed sales, and days on market."
     },
     {
