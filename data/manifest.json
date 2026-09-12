@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12T11:54:18.179811Z",
+  "generated": "2026-09-12T12:28:25.496299Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7284,7 +7284,7 @@
     "data/hud-fmr-income-limits.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 102647
+      "bytes": 102656
     },
     "data/insights-meta.json": {
       "featureCount": 0,
@@ -7619,7 +7619,7 @@
     "data/market/fmr_tract_map_co.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 103596
+      "bytes": 103544
     },
     "data/market/food_access_co.json": {
       "featureCount": 0,
