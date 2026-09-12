@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-11T12:11:26.892Z",
+  "scanTimestamp": "2026-09-12T11:35:45.983Z",
   "totalScanned": 1616,
   "newSourceCount": 1585,
   "existingCount": 30,
@@ -8,7 +8,7 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779396,
+      "sizeBytes": 779620,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 192559,
+      "sizeBytes": 194265,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -134,7 +134,7 @@
     },
     {
       "path": "data/car-market-report-2026-04.json",
-      "sizeBytes": 2325,
+      "sizeBytes": 2399,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -158,13 +158,13 @@
     },
     {
       "path": "data/car-market-report-2026-08.json",
-      "sizeBytes": 2312,
+      "sizeBytes": 2415,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-09.json",
-      "sizeBytes": 2331,
+      "sizeBytes": 2437,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8876,7 +8876,7 @@
     },
     {
       "path": "data/kalshi/prediction-market.json",
-      "sizeBytes": 2716,
+      "sizeBytes": 1401,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9386,7 +9386,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 159315,
+      "sizeBytes": 160665,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9398,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20064,
+      "sizeBytes": 20062,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9488,7 +9488,7 @@
     },
     {
       "path": "data/url-health.json",
-      "sizeBytes": 333749,
+      "sizeBytes": 329246,
       "inDataManifest": false,
       "inFilesManifest": true
     },
