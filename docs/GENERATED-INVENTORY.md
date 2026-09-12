@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T04:31:59.666Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T04:44:06.461Z. Do not edit by hand.
 
 ---
 
@@ -1559,7 +1559,7 @@
 | `data/jurisdiction-briefs/_verified/0864255.json` | 13.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 16.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 158 B | ✅ | — |
+| `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 199.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
@@ -2021,7 +2021,7 @@
 | `.github/workflows/fetch-fmr-data.yml` | 6.7 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.0 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.9 KB |
-| `.github/workflows/fetch-kalshi.yml` | 4.7 KB |
+| `.github/workflows/fetch-kalshi.yml` | 5.2 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 12.0 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
