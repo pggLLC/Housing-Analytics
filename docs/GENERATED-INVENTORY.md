@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T03:49:21.939Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T04:31:59.666Z. Do not edit by hand.
 
 ---
 
@@ -1559,7 +1559,7 @@
 | `data/jurisdiction-briefs/_verified/0864255.json` | 13.1 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0867280.json` | 16.5 KB | ✅ | — |
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
-| `data/kalshi/prediction-market.json` | 2.7 KB | ✅ | — |
+| `data/kalshi/prediction-market.json` | 158 B | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
 | `data/manifest.json` | 199.6 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-311 test files found.
+312 test files found.
 
 | File | Size |
 |------|------|
@@ -1800,6 +1800,7 @@
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
 | `test/jurisdiction-metrics-digest.test.js` | 25.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
+| `test/kalshi-signing-and-write.test.js` | 4.7 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
