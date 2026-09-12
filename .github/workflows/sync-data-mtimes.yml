@@ -6,6 +6,13 @@ name: Sync Data MTimes
 # because the cached files get newer but the declared timestamps stay
 # pinned (that's how the Stale 39 → 18 / 45 → 24 first run happened).
 #
+# The inventory step also recomputes `features:` from the committed data
+# files, for the sources listed in scripts/audit/inventory-count-paths.cjs.
+# test/data-source-inventory-drift.test.js asserts those counts exactly, so
+# an append-only series turned main red as soon as it grew a record —
+# `fred-mortgage30` gains one observation a week and did exactly that on
+# 2026-09-11, after PRs #1569 and #1593 had each reconciled it by hand.
+#
 # Runs:
 #   - daily at 03:53 UTC so the fix is in main before anyone reads the
 #     dashboard at 10am Denver. It used to run at 16:30 UTC, which IS
@@ -15,9 +22,13 @@ name: Sync Data MTimes
 #   - on push to data/** so manual updates also flush through
 #   - on manual dispatch when something needs nudging
 #
-# The job is intentionally non-blocking: if the sync scripts fail we
-# don't want to block a data refresh PR. The existing daily freshness
-# check still alerts on real staleness.
+# The sync scripts themselves are non-blocking: if one fails we don't want
+# to block a data refresh PR. The *verification* is not — its outcome is
+# captured and re-raised as the job's final step, so automatic corrections
+# still land but residual drift ends the run red. That matters because a
+# GITHUB_TOKEN push does not trigger ci-checks, so nothing else would report
+# it. The drift test still gates every PR; this job keeps the data honest
+# and never relaxes the gate.
 
 on:
   schedule:
@@ -28,6 +39,7 @@ on:
       - 'data/**'
       - 'scripts/audit/sync-manifest-mtimes.mjs'
       - 'scripts/audit/refresh-inventory-mtimes.mjs'
+      - 'scripts/audit/inventory-count-paths.cjs'
   workflow_dispatch:
 
 permissions:
@@ -42,7 +54,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
-          # Need full history so the auto-commit step can push back to main.
+          # fetch-depth: 0 is load-bearing, not decoration. The commit step
+          # rebases onto origin/main before pushing, and on the default shallow
+          # clone (depth 1) that rebase has no guaranteed common ancestor to
+          # work from once main has moved. The comment here used to claim "full
+          # history" while this was unset — i.e. shallow.
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
@@ -53,42 +70,38 @@ jobs:
       - name: Sync DATA-MANIFEST.json last_update fields
         run: node scripts/audit/sync-manifest-mtimes.mjs
 
-      - name: Sync data-source-inventory.js lastUpdated fields
+      # Runs after the manifest sync on purpose: the `data-manifest` source
+      # counts DATA-MANIFEST.json's own `files` collection, so it has to read
+      # the manifest the previous step just wrote.
+      - name: Sync data-source-inventory.js lastUpdated + features fields
         run: node scripts/audit/refresh-inventory-mtimes.mjs
 
-      - name: Commit changes if any
+      # The commit/rebase/push cycle lives in a script so it can be tested
+      # against real git repositories — see test/inventory-sync-push.test.js.
+      # It re-reconciles after each rebase, because the numbers computed at
+      # checkout describe a tree that main may have moved past, and this push
+      # (GITHUB_TOKEN) does not trigger ci-checks to catch it.
+      - name: Commit and land corrections
         id: data-commit
-        run: |
-          echo "pushed=false" >> "$GITHUB_OUTPUT"
-          if git diff --quiet js/data-source-inventory.js DATA-MANIFEST.json; then
-            echo "No mtime drift to fix today."
-            exit 0
-          fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add js/data-source-inventory.js DATA-MANIFEST.json
-          # F157 — Was using a `git commit -m "…"` quoted string that spanned
-          # multiple YAML lines unindented, which terminated the `run: |`
-          # block scalar early and caused "Invalid workflow file: error in
-          # yaml syntax on line 66". Build the message in a tmpfile via a
-          # bash HEREDOC instead — every line stays inside the block scalar's
-          # indentation envelope and the workflow parses cleanly.
-          msg=$(mktemp)
-          {
-            printf 'chore(data): sync inventory + manifest mtimes to on-disk files\n\n'
-            printf 'Automated by .github/workflows/sync-data-mtimes.yml — keeps the\n'
-            printf "dashboard's stale count honest by walking each tracked file's\n"
-            printf 'actual mtime and rewriting the declared lastUpdated / last_update\n'
-            printf 'stamp when on-disk is newer than declared.\n'
-          } > "$msg"
-          git commit -F "$msg"
-          rm -f "$msg"
-          if [ "${{ github.ref_name }}" = "main" ]; then
-            git fetch origin main
-            git rebase --autostash origin/main
-          fi
-          git push
-          echo "pushed=true" >> "$GITHUB_OUTPUT"
+        run: bash scripts/audit/push-inventory-sync.sh "${{ github.ref_name }}"
+
+      # Runs *after* the push so it verifies the tree that actually landed:
+      # the re-reconcile inside the script above can change the numbers, so
+      # verifying beforehand would attest to a state that was never pushed.
+      #
+      # Non-blocking at this point only so its outcome can be captured; it is
+      # re-raised by the final step below, and by then the corrections have
+      # already landed, so failing here rolls nothing back. It has to police
+      # itself: this push uses GITHUB_TOKEN, and GitHub does not trigger
+      # workflows for such pushes, so ci-checks never runs on the result.
+      # Confirmed against 969841723, 25a9b27aa and ab58e936d — none has a
+      # ci-checks run. AGENTS.md records the same trap: "Data crons suppress
+      # CI on their own commits, so main can be broken for hours with no
+      # failing run to show for it."
+      - name: Verify inventory reconciles against committed data
+        id: verify-inventory
+        continue-on-error: true
+        run: npm run test:data-source-inventory-paths
 
       - name: Trigger Pages deploy
         if: steps.data-commit.outputs.pushed == 'true'
@@ -102,3 +115,16 @@ jobs:
               ref: 'main'
             });
             core.notice('Dispatched deploy.yml for sync-data-mtimes commit.');
+
+      # Re-raise the verification outcome captured above. Deliberately last:
+      # the automatic corrections have already been committed, pushed and
+      # deployed by now, so a failure here doesn't roll anything back — it
+      # exists so residual drift can't end the run green with nothing
+      # anywhere reporting that main is inconsistent.
+      - name: Fail the run if verification failed
+        if: always() && steps.verify-inventory.outcome == 'failure'
+        run: |
+          echo "::error::Inventory verification failed — main still carries drift this workflow could not reconcile automatically."
+          echo "Any automatic corrections were still committed and pushed; this step only stops the run from reporting success."
+          echo "Reproduce locally with: npm run test:data-source-inventory-paths"
+          exit 1
