@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-12T13:32:50.778Z",
+    "generated_at": "2026-09-12T13:40:22.684Z",
     "root": "data/",
     "file_count": 1611,
     "total_size_bytes": 151198194,
@@ -29247,7 +29247,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 692,
-      "mtime": "2026-09-12T12:15:40.556Z",
+      "mtime": "2026-09-12T13:39:41.430Z",
       "shape": "object",
       "keys": [
         "generated",
