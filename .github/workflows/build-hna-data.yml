@@ -462,7 +462,14 @@ jobs:
               python3 scripts/rebuild_manifest.py
               git add "${derived_artifacts[@]}"
               if ! git diff --cached --quiet; then
-                git commit --amend --no-edit
+                if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+                  # Restoring main's derived files can make the bot commit empty,
+                  # so the rebase drops it. Amending here would rewrite main's
+                  # tip and make the subsequent push fail as non-fast-forward.
+                  git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
+                else
+                  git commit --amend --no-edit
+                fi
               fi
             fi
           fi

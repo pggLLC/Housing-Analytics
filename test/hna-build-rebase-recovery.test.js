@@ -56,7 +56,7 @@ run('recovery regenerates rather than picking a side', () => {
   const block = /git rebase --abort[\s\S]*?git add "\$\{derived_artifacts\[@\]\}"/.exec(WF);
   assert.ok(block, 'the recovery block must exist');
   const b = block[0];
-  assert.match(b, /git restore --source=origin\/main[\s\S]*derived_artifacts/,
+  assert.match(b, /git restore --source=origin\/main --staged --worktree "\$\{derived_artifacts\[@\]\}"/,
     'stale pre-race versions come from main');
   assert.match(b, /node scripts\/build-home-snapshot\.mjs/, 'home snapshot is rebuilt');
   assert.match(b, /npm run audit:file-manifest/, '_manifest is rebuilt');
@@ -75,8 +75,14 @@ run('regeneration runs in the order the build step uses', () => {
     JSON.stringify({ snapshot, under, manifest }));
 });
 
-run('the workflow still parses as YAML with a valid shell body', () => {
-  // A guard written in bash inside YAML has two ways to break silently.
+run('derived-only recovery creates a commit instead of amending origin/main', () => {
+  const guard = /if \[ "\$\(git rev-parse HEAD\)" = "\$\(git rev-parse origin\/main\)" \]; then[\s\S]{0,500}?else[\s\S]{0,100}?git commit --amend --no-edit/.exec(WF);
+  assert.ok(guard, 'HEAD at origin/main must create a new commit; only a surviving bot commit may be amended');
+  assert.match(guard[0], /git commit -m "chore: build HNA cache \+ scenarios data/,
+    'derived-only recovery must create the normal dated HNA data commit');
+});
+
+run('recovery consistently references the derived set and uses no tab indentation', () => {
   const stepBodies = WF.split('\n').filter((l) => l.includes('derived_artifacts'));
   assert.ok(stepBodies.length >= 4, 'the array is referenced throughout the recovery');
   assert.ok(!/\t/.test(WF), 'no tabs — YAML indentation must stay spaces');
