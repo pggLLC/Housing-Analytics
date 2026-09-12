@@ -9,9 +9,9 @@ const readJson = (rel) => JSON.parse(read(rel));
 const readHeadJson = (rel) => JSON.parse(execFileSync('git', ['show', `HEAD:${rel}`], { cwd: ROOT, encoding: 'utf8' }));
 
 const hud = readJson('data/hud-fmr-income-limits.json');
-assert.strictEqual(hud.meta.source, 'HUD FMR FY2026 and Income Limits FY2025', 'HUD meta.source should state separate FMR and IL vintages');
-assert.strictEqual(hud.meta.income_limits_fiscal_year, 2025, 'HUD meta should record the FY2025 Income Limits vintage');
-assert(hud.meta.note.startsWith('FY2026 Fair Market Rents and FY2025 Income Limits for Colorado counties.'), 'HUD meta.note should state separate FMR and IL vintages');
+assert.strictEqual(hud.meta.source, 'HUD FMR FY2026 and Income Limits FY2026', 'HUD meta.source should state current FMR and IL vintages');
+assert.strictEqual(hud.meta.income_limits_fiscal_year, 2026, 'HUD meta should record the FY2026 Income Limits vintage');
+assert(hud.meta.note.startsWith('FY2026 Fair Market Rents and FY2026 Income Limits for Colorado counties.'), 'HUD meta.note should state current FMR and IL vintages');
 
 const hudHead = readHeadJson('data/hud-fmr-income-limits.json');
 assert.deepStrictEqual(hud.counties, hudHead.counties, 'HUD county numeric/data records must not change');
@@ -24,8 +24,8 @@ assert.deepStrictEqual(hudMetaComparable, hudHead.meta, 'HUD metadata changes sh
 
 const fetchScript = read('scripts/fetch_fmr_api.py');
 assert(!fetchScript.includes('HUD FMR Area cross-reference by Colorado county (FY2025)'), 'fetch script should not write FY2025 cross-reference source labels');
-assert(fetchScript.includes('HUD FMR FY2026 and Income Limits FY2025'), 'fetch script should state separate FMR and IL vintages');
-assert(fetchScript.includes('FY2026 Fair Market Rents and FY2025 Income Limits for Colorado counties.'), 'fetch script should state separate FMR and IL vintages in its note');
+assert(fetchScript.includes("f'HUD FMR FY{FY} and Income Limits FY{IL_FY}'"), 'fetch script should derive the FMR/IL source label from its fiscal-year constants');
+assert(fetchScript.includes("f'FY{FY} Fair Market Rents and FY{IL_FY} Income Limits for Colorado counties."), 'fetch script should derive its FMR/IL note from its fiscal-year constants');
 assert(fetchScript.includes('HUD FMR Area cross-reference by Colorado county (FY2026)'), 'fetch script should write FY2026 cross-reference source labels');
 
 const prop123 = readJson('data/policy/prop123_jurisdictions.json');

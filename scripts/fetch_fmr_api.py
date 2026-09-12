@@ -759,7 +759,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
 
     return {
         'meta': {
-            'source':      'HUD FMR FY2026 and Income Limits FY2025',
+            'source':      f'HUD FMR FY{FY} and Income Limits FY{IL_FY}',
             'url_fmr':     'https://www.huduser.gov/portal/datasets/fmr.html',
             'url_il':      'https://www.huduser.gov/portal/datasets/il.html',
             'fiscal_year': FY,
@@ -768,7 +768,7 @@ def build_combined(fmr_api_data: dict, il_api_data: dict | None, generated: str)
             'state_fips':  '08',
             'generated':   generated,
             'county_count': len(counties),
-            'note':        ('FY2026 Fair Market Rents and FY2025 Income Limits for Colorado counties. '
+            'note':        (f'FY{FY} Fair Market Rents and FY{IL_FY} Income Limits for Colorado counties. '
                             'Includes 60% AMI affordable rent calculations for LIHTC use. '
                             'Refresh annually with scripts/fetch_fmr_api.py.'),
         },

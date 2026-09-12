@@ -501,7 +501,7 @@
             { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
             { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
             { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
-            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2025', coverage: 'All CO counties' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2026', coverage: 'All CO counties' },
             { name: 'AMI Gap (ACS B25063 + B25118 renter HH)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
           ],
           limitations: 'Place-level AMI gaps are pulled directly from Census ACS at place geography, and place cost burden is tract-apportioned from HUD CHAS — neither is scaled from county. HUD AMI income limits are the only county-level input (HUD does not publish sub-county AMI), so cross-county places assume their primary county. CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',

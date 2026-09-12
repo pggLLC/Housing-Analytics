@@ -213,6 +213,34 @@ def test_transient_county_failure_fails_fast_without_writes(module) -> None:
         )), "a failed county Income Limits fetch must write no output file"
 
 
+def test_missing_county_ami_fails_with_specific_reason(module) -> None:
+    row = county_rows(module)[0]
+    original_get = module.http_get_json
+    original_sleep = module.time.sleep
+    calls = 0
+
+    def fake_get(url, token=None, transient_retries=0):
+        nonlocal calls
+        calls += 1
+        return {"data": {"county_name": row["county_name"], "median_income": None}}
+
+    module.http_get_json = fake_get
+    module.time.sleep = lambda seconds: None
+    try:
+        try:
+            module.fetch_income_limit_index([row], "token-for-test", module.IL_FY)
+        except RuntimeError as exc:
+            assert "county 08001" in str(exc)
+            assert "missing a county AMI" in str(exc)
+        else:
+            raise AssertionError("a county response without AMI must fail immediately")
+    finally:
+        module.http_get_json = original_get
+        module.time.sleep = original_sleep
+
+    assert calls == 1, "a missing county AMI must stop before any later county request"
+
+
 def test_committed_county_names_match_canonical_map(module) -> None:
     payload = json.loads((ROOT / "data" / "hud-fmr-income-limits.json").read_text())
     records = payload["counties"]
@@ -246,7 +274,11 @@ def main() -> int:
     test_flattened_income_limit_results_fail(module)
     test_documented_wrapped_results_produce_varied_counties(module)
     test_transient_county_failure_fails_fast_without_writes(module)
+    print("  PASS: transient 5xx exhausts retries, fails fast, and writes no output")
+    test_missing_county_ami_fails_with_specific_reason(module)
+    print("  PASS: missing county AMI fails fast with its FIPS and reason")
     test_committed_county_names_match_canonical_map(module)
+    print("  PASS: all 64 committed county names match the canonical map")
 
     print("fmr-flatten-guard: PASS")
     return 0

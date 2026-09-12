@@ -42,7 +42,7 @@ assertExcludes(dealCalculator, staleHudFmrVintage, 'Deal Calculator stale FMR so
 
 ['housing-needs-assessment.html', 'deal-calculator.html', 'market-analysis.html'].forEach((relPath) => {
   const src = read(relPath);
-  assertIncludes(src, 'FMR FY2026 · IL FY2025', `${relPath} split FMR/IL data-quality vintage`);
+  assertIncludes(src, 'FMR FY2026 · IL FY2026', `${relPath} current FMR/IL data-quality vintage`);
   assertExcludes(
     src,
     "{ name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FY2025'",
@@ -66,11 +66,11 @@ assertIncludes(lof, 'datasets/qct.html', 'LIHTC Opportunity Finder consolidated 
 assertExcludes(lof, 'datasets/dda.html', 'LIHTC Opportunity Finder retired DDA source link');
 assertIncludes(
   lof,
-  '2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2025)',
+  '2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2026)',
   'LIHTC Opportunity Finder capture label splits FMR and income-limit vintages'
 );
-assertIncludes(lofJs, 'HUD FMR FY2026 + IL FY2025', 'LIHTC Opportunity Finder runtime capture comment splits vintages');
-assertIncludes(lofJs, 'HUD FMR FY2026 + Income Limits FY2025', 'LIHTC Opportunity Finder runtime capture label splits vintages');
+assertIncludes(lofJs, 'HUD FMR FY2026 + IL FY2026', 'LIHTC Opportunity Finder runtime capture comment uses current vintages');
+assertIncludes(lofJs, 'HUD FMR FY2026 + Income Limits FY2026', 'LIHTC Opportunity Finder runtime capture label uses current vintages');
 
 const market = read('market-analysis.html');
 const marketJs = read('js/market-analysis.js');
