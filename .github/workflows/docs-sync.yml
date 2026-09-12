@@ -10,6 +10,10 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: docs-sync-generated-inventory
+  cancel-in-progress: false
+
 jobs:
   sync-docs:
     runs-on: ubuntu-latest
@@ -53,19 +57,29 @@ jobs:
           # Stable branch name -- see market_data_build.yml. A per-run branch
           # left #1485 and #1494 open simultaneously for the same regeneration.
           BRANCH="docs/generated-inventory"
-          git checkout -b "$BRANCH"
+          # Capture the exact remote tip before replacing the generated branch.
+          # The explicit lease below refuses to overwrite a concurrent update.
+          REMOTE_BRANCH_SHA=$(git ls-remote --heads origin "refs/heads/$BRANCH" | awk '{print $1}')
+          git checkout -B "$BRANCH"
           git add docs/
           git commit -m "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
           if [ "${{ github.ref_name }}" = "main" ]; then
             git fetch origin main
             git rebase --autostash origin/main
           fi
-          git push origin "$BRANCH"
+          git push --force-with-lease="refs/heads/$BRANCH:$REMOTE_BRANCH_SHA" --set-upstream origin "$BRANCH"
 
-          gh pr create \
-            --title "docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]" \
-            --body "Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status. Also refreshes the auto-sync banners in all superseded/deprecated docs so their notices always reflect live repo stats." \
-            --base main \
-            --head "$BRANCH"
+          TITLE="docs: regenerate inventory and refresh deprecated-doc banners [$(date +%Y-%m-%d)]"
+          BODY="Automated weekly docs sync. Updates \`docs/GENERATED-INVENTORY.md\` with current HTML pages, data files, test files, workflows, and .gitignore status. Also refreshes the auto-sync banners in all superseded/deprecated docs so their notices always reflect live repo stats."
+          EXISTING_PR=$(gh pr list --base main --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING_PR" ]; then
+            gh pr edit "$EXISTING_PR" --title "$TITLE" --body "$BODY"
+          else
+            gh pr create \
+              --title "$TITLE" \
+              --body "$BODY" \
+              --base main \
+              --head "$BRANCH"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

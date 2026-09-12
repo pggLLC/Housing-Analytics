@@ -26,6 +26,7 @@ const { execFileSync, spawnSync } = require('child_process');
 
 const REPO = path.resolve(__dirname, '..');
 const PUSH_SCRIPT = path.join('scripts', 'audit', 'push-inventory-sync.sh');
+const DOCS_SYNC_WORKFLOW = path.join('.github', 'workflows', 'docs-sync.yml');
 const COPIED = [
   PUSH_SCRIPT,
   path.join('scripts', 'audit', 'refresh-inventory-mtimes.mjs'),
@@ -135,7 +136,11 @@ function declaredFeatures(text) {
 
 // Read a file as it exists on the bare origin, i.e. what actually landed.
 function atOrigin(origin, file) {
-  return execFileSync('git', ['show', `main:${file}`], { cwd: origin, encoding: 'utf8' });
+  return atOriginRef(origin, 'main', file);
+}
+
+function atOriginRef(origin, ref, file) {
+  return execFileSync('git', ['show', `${ref}:${file}`], { cwd: origin, encoding: 'utf8' });
 }
 
 function withRepos(initialCounties, declaredFeaturesValue, body) {
@@ -249,6 +254,97 @@ check('the old commit/rebase/push sequence really did land stale counts', () => 
     assert.strictEqual(declaredFeatures(landed), 2, 'the naive sequence lands the pre-race count');
     assert.notStrictEqual(declaredFeatures(landed), Object.keys(data.counties).length,
       'and leaves main failing its own drift gate — this is the bug case 2 covers');
+  });
+});
+
+// --- 5. Stable docs branch: reruns replace only the observed remote tip -----
+
+check('docs sync updates its stable branch with an explicit lease', () => {
+  const workflow = fs.readFileSync(path.join(REPO, DOCS_SYNC_WORKFLOW), 'utf8');
+
+  assert.match(workflow, /REMOTE_BRANCH_SHA=\$\(git ls-remote --heads origin "refs\/heads\/\$BRANCH" \| awk '\{print \$1\}'\)/,
+    'workflow must record the exact generated-branch tip before replacing it');
+  assert.match(workflow, /git checkout -B "\$BRANCH"/,
+    'reruns must reset the local generated branch to the current main checkout');
+  assert.match(workflow,
+    /git push --force-with-lease="refs\/heads\/\$BRANCH:\$REMOTE_BRANCH_SHA" --set-upstream origin "\$BRANCH"/,
+    'generated-branch replacement must be protected by the recorded remote tip');
+  assert.doesNotMatch(workflow, /git push --force(?:\s|$)/m,
+    'an unleased force push could overwrite a concurrent generated-branch update');
+  assert.match(workflow, /gh pr list --base main --head "\$BRANCH" --state open/,
+    'workflow must look for the open stable-branch PR before creating another');
+  assert.match(workflow, /gh pr edit "\$EXISTING_PR"/,
+    'an existing stable-branch PR must be refreshed');
+  assert.match(workflow, /gh pr create/,
+    'a new PR must still be created when the stable branch has no open PR');
+  assert.match(workflow, /group: docs-sync-generated-inventory\n\s+cancel-in-progress: false/,
+    'overlapping docs-sync runs must queue rather than race or cancel mid-push');
+});
+
+check('the docs-sync lease replaces an existing stable branch observed by the runner', () => {
+  withRepos(1, 1, ({ root, origin }) => {
+    const initial = clone(origin, path.join(root, 'initial'));
+    git(initial, 'checkout', '-b', 'docs/generated-inventory');
+    fs.writeFileSync(path.join(initial, 'docs.txt'), 'previous generated docs\n');
+    git(initial, 'add', 'docs.txt');
+    git(initial, 'commit', '-m', 'docs: previous generation');
+    git(initial, 'push', 'origin', 'docs/generated-inventory');
+
+    const runner = clone(origin, path.join(root, 'runner-docs'));
+    const observed = git(runner, 'ls-remote', '--heads', 'origin', 'refs/heads/docs/generated-inventory')
+      .split(/\s+/)[0];
+    git(runner, 'checkout', '-B', 'docs/generated-inventory');
+    fs.writeFileSync(path.join(runner, 'docs.txt'), 'current generated docs\n');
+    git(runner, 'add', 'docs.txt');
+    git(runner, 'commit', '-m', 'docs: current generation');
+    git(runner, 'push', `--force-with-lease=refs/heads/docs/generated-inventory:${observed}`,
+      'origin', 'docs/generated-inventory');
+
+    assert.strictEqual(
+      atOriginRef(origin, 'docs/generated-inventory', 'docs.txt'),
+      'current generated docs\n',
+      'a rerun must replace the stale generated branch after observing its exact tip',
+    );
+  });
+});
+
+check('the docs-sync lease rejects a concurrent stable-branch update', () => {
+  withRepos(1, 1, ({ root, origin }) => {
+    const initial = clone(origin, path.join(root, 'initial'));
+    git(initial, 'checkout', '-b', 'docs/generated-inventory');
+    fs.writeFileSync(path.join(initial, 'docs.txt'), 'previous generated docs\n');
+    git(initial, 'add', 'docs.txt');
+    git(initial, 'commit', '-m', 'docs: previous generation');
+    git(initial, 'push', 'origin', 'docs/generated-inventory');
+
+    const runner = clone(origin, path.join(root, 'runner-docs'));
+    const observed = git(runner, 'ls-remote', '--heads', 'origin', 'refs/heads/docs/generated-inventory')
+      .split(/\s+/)[0];
+    assert.match(observed, /^[0-9a-f]{40}$/,
+      'fixture must observe the existing stable branch before replacing it');
+    git(runner, 'checkout', '-B', 'docs/generated-inventory');
+    fs.writeFileSync(path.join(runner, 'docs.txt'), 'current generated docs\n');
+    git(runner, 'add', 'docs.txt');
+    git(runner, 'commit', '-m', 'docs: current generation');
+
+    const concurrent = clone(origin, path.join(root, 'concurrent-docs'));
+    git(concurrent, 'checkout', '-b', 'docs/generated-inventory', 'origin/docs/generated-inventory');
+    fs.writeFileSync(path.join(concurrent, 'docs.txt'), 'concurrent generated docs\n');
+    git(concurrent, 'commit', '-am', 'docs: concurrent generation');
+    git(concurrent, 'push', 'origin', 'docs/generated-inventory');
+
+    const rejected = spawnSync('git', [
+      'push',
+      `--force-with-lease=refs/heads/docs/generated-inventory:${observed}`,
+      'origin',
+      'docs/generated-inventory',
+    ], { cwd: runner, encoding: 'utf8', env: { ...process.env, ...GIT_ENV } });
+    assert.notStrictEqual(rejected.status, 0,
+      'a stale lease must fail instead of overwriting another run');
+    assert.strictEqual(
+      atOriginRef(origin, 'docs/generated-inventory', 'docs.txt'),
+      'concurrent generated docs\n',
+      'the concurrent branch tip must survive the rejected stale push');
   });
 });
 
