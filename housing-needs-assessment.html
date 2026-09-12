@@ -202,6 +202,11 @@
        document. 54 sections across ~53 screens previously had no table of
        contents. Additive only — it reorders and renames nothing. -->
   <script defer src="js/hna/section-rail.js"></script>
+  <!-- Place-vs-county comparison: decides what may honestly be compared
+       (county-comparison.js) and draws it (…-view.js). Both must load
+       before hna-controller.js, which calls the view per selection. -->
+  <script defer src="js/hna/county-comparison.js"></script>
+  <script defer src="js/hna/county-comparison-view.js"></script>
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
@@ -384,6 +389,18 @@
         <span id="decisionConfidenceRead">Loading</span>
       </a>
     </section>
+
+      <!-- Place-vs-county comparison. Hidden unless a place or CDP is selected:
+           a county has nothing above it to compare against, and statewide has
+           nothing at all. Sits directly under the decision strip because "how
+           does my town compare to the county" is the question a practitioner
+           arrives with, not one to answer 40 screens down. -->
+      <section id="countyComparisonSection" class="chart-card span-12" hidden>
+        <h2>How this jurisdiction compares to its county</h2>
+        <p class="cc-intro">A county average hides its own spread. These are the
+          same measures computed the same way at both levels.</p>
+        <div id="countyComparisonBody"></div>
+      </section>
 
     <div id="pageContext"></div>
 
