@@ -3,14 +3,14 @@
     "source": "HUD FMR Area cross-reference by Colorado county (FY2026)",
     "state": "Colorado",
     "state_fips": "08",
-    "generated": "2026-09-12T12:28:18Z",
+    "generated": "2026-09-12T13:24:52Z",
     "county_count": 64,
     "note": "County-level FMR area mapping for tract-level affordability analysis. Each county FIPS key contains FMR area code, FMR schedule, 60% AMI affordable rent ceilings, and income limits. Rebuild via scripts/fetch_fmr_api.py"
   },
   "county_fmr_map": {
     "08013": {
       "county_fips": "08013",
-      "county_name": "Boulder County, CO",
+      "county_name": "Boulder County",
       "fmr_area_code": "METRO14500CO",
       "fmr_area_name": "Boulder HUD Metro FMR Area",
       "fmr": {
@@ -22,53 +22,111 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1580,
+          "gross_rent": 1570,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1553,
-          "pct_of_fmr": 101.7
+          "pct_of_fmr": 101.1
         },
         "rent_60pct_2person": {
-          "gross_rent": 1810,
+          "gross_rent": 1800,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1795,
-          "pct_of_fmr": 100.8
+          "pct_of_fmr": 100.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 2030,
+          "gross_rent": 2020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2124,
-          "pct_of_fmr": 95.6
+          "pct_of_fmr": 95.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 2260,
+          "gross_rent": 2250,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2820,
-          "pct_of_fmr": 80.1
+          "pct_of_fmr": 79.8
         }
       },
       "income_limits": {
-        "ami_4person": 150600,
-        "il30_1person": 31650,
-        "il30_2person": 36150,
-        "il30_3person": 40650,
-        "il30_4person": 45200,
-        "il50_1person": 52700,
-        "il50_2person": 60250,
-        "il50_3person": 67750,
-        "il50_4person": 75300,
-        "il60_1person": 63250,
-        "il60_2person": 72300,
-        "il60_3person": 81300,
-        "il60_4person": 90350,
-        "il80_1person": 84350,
-        "il80_2person": 96400,
-        "il80_3person": 108450,
-        "il80_4person": 120500
+        "ami_4person": 150000,
+        "il30_1person": 31500,
+        "il30_2person": 36000,
+        "il30_3person": 40500,
+        "il30_4person": 45000,
+        "il50_1person": 52500,
+        "il50_2person": 60000,
+        "il50_3person": 67500,
+        "il50_4person": 75000,
+        "il60_1person": 63000,
+        "il60_2person": 72000,
+        "il60_3person": 81000,
+        "il60_4person": 90000,
+        "il80_1person": 84000,
+        "il80_2person": 96000,
+        "il80_3person": 108000,
+        "il80_4person": 120000
       }
     },
     "08041": {
       "county_fips": "08041",
-      "county_name": "El Paso County, CO",
+      "county_name": "El Paso County",
+      "fmr_area_code": "METRO17820CO",
+      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
+      "fmr": {
+        "efficiency": 1196,
+        "one_br": 1464,
+        "two_br": 1735,
+        "three_br": 2413,
+        "four_br": 2744
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1220,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1196,
+          "pct_of_fmr": 102.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1400,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1464,
+          "pct_of_fmr": 95.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1570,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1735,
+          "pct_of_fmr": 90.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1750,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2413,
+          "pct_of_fmr": 72.5
+        }
+      },
+      "income_limits": {
+        "ami_4person": 116400,
+        "il30_1person": 24450,
+        "il30_2person": 27950,
+        "il30_3person": 31450,
+        "il30_4person": 34900,
+        "il50_1person": 40750,
+        "il50_2person": 46550,
+        "il50_3person": 52400,
+        "il50_4person": 58200,
+        "il60_1person": 48900,
+        "il60_2person": 55850,
+        "il60_3person": 62850,
+        "il60_4person": 69850,
+        "il80_1person": 65200,
+        "il80_2person": 74500,
+        "il80_3person": 83800,
+        "il80_4person": 93100
+      }
+    },
+    "08119": {
+      "county_fips": "08119",
+      "county_name": "Teller County",
       "fmr_area_code": "METRO17820CO",
       "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
       "fmr": {
@@ -105,86 +163,28 @@
         }
       },
       "income_limits": {
-        "ami_4person": 112500,
-        "il30_1person": 23600,
+        "ami_4person": 112600,
+        "il30_1person": 23650,
         "il30_2person": 27000,
         "il30_3person": 30400,
-        "il30_4person": 33750,
+        "il30_4person": 33800,
         "il50_1person": 39400,
-        "il50_2person": 45000,
-        "il50_3person": 50600,
-        "il50_4person": 56250,
-        "il60_1person": 47250,
-        "il60_2person": 54000,
-        "il60_3person": 60750,
-        "il60_4person": 67500,
-        "il80_1person": 63000,
-        "il80_2person": 72000,
-        "il80_3person": 81000,
-        "il80_4person": 90000
-      }
-    },
-    "08119": {
-      "county_fips": "08119",
-      "county_name": "Teller County, CO",
-      "fmr_area_code": "METRO17820CO",
-      "fmr_area_name": "Colorado Springs HUD Metro FMR Area",
-      "fmr": {
-        "efficiency": 1196,
-        "one_br": 1464,
-        "two_br": 1735,
-        "three_br": 2413,
-        "four_br": 2744
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1170,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1196,
-          "pct_of_fmr": 97.8
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1340,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1464,
-          "pct_of_fmr": 91.5
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1500,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1735,
-          "pct_of_fmr": 86.5
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1670,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2413,
-          "pct_of_fmr": 69.2
-        }
-      },
-      "income_limits": {
-        "ami_4person": 111300,
-        "il30_1person": 23350,
-        "il30_2person": 26700,
-        "il30_3person": 30050,
-        "il30_4person": 33400,
-        "il50_1person": 38950,
-        "il50_2person": 44500,
-        "il50_3person": 50100,
-        "il50_4person": 55650,
-        "il60_1person": 46750,
-        "il60_2person": 53400,
-        "il60_3person": 60100,
-        "il60_4person": 66800,
-        "il80_1person": 62350,
-        "il80_2person": 71250,
-        "il80_3person": 80150,
-        "il80_4person": 89050
+        "il50_2person": 45050,
+        "il50_3person": 50650,
+        "il50_4person": 56300,
+        "il60_1person": 47300,
+        "il60_2person": 54050,
+        "il60_3person": 60800,
+        "il60_4person": 67550,
+        "il80_1person": 63050,
+        "il80_2person": 72050,
+        "il80_3person": 81050,
+        "il80_4person": 90100
       }
     },
     "08001": {
       "county_fips": "08001",
-      "county_name": "Adams County, CO",
+      "county_name": "Adams County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -196,53 +196,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08005": {
       "county_fips": "08005",
-      "county_name": "Arapahoe County, CO",
+      "county_name": "Arapahoe County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -254,53 +254,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08014": {
       "county_fips": "08014",
-      "county_name": "Broomfield County, CO",
+      "county_name": "Broomfield County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -312,53 +312,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08019": {
       "county_fips": "08019",
-      "county_name": "Clear Creek County, CO",
+      "county_name": "Clear Creek County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -370,53 +370,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08031": {
       "county_fips": "08031",
-      "county_name": "Denver County, CO",
+      "county_name": "Denver County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -428,53 +428,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08035": {
       "county_fips": "08035",
-      "county_name": "Douglas County, CO",
+      "county_name": "Douglas County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -486,53 +486,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08039": {
       "county_fips": "08039",
-      "county_name": "Elbert County, CO",
+      "county_name": "Elbert County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -544,53 +544,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08047": {
       "county_fips": "08047",
-      "county_name": "Gilpin County, CO",
+      "county_name": "Gilpin County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -602,53 +602,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08059": {
       "county_fips": "08059",
-      "county_name": "Jefferson County, CO",
+      "county_name": "Jefferson County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -660,53 +660,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08093": {
       "county_fips": "08093",
-      "county_name": "Park County, CO",
+      "county_name": "Park County",
       "fmr_area_code": "METRO19740CO",
       "fmr_area_name": "Denver-Aurora-Lakewood HUD Metro FMR Area",
       "fmr": {
@@ -718,53 +718,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1510,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1643,
-          "pct_of_fmr": 89.5
+          "pct_of_fmr": 91.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1730,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1754,
-          "pct_of_fmr": 95.8
+          "pct_of_fmr": 98.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1890,
+          "gross_rent": 1940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2089,
-          "pct_of_fmr": 90.5
+          "pct_of_fmr": 92.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2100,
+          "gross_rent": 2160,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2734,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 140100,
-        "il30_1person": 29400,
-        "il30_2person": 33600,
-        "il30_3person": 37850,
-        "il30_4person": 42050,
-        "il50_1person": 49050,
-        "il50_2person": 56050,
-        "il50_3person": 63050,
-        "il50_4person": 70050,
-        "il60_1person": 58850,
-        "il60_2person": 67250,
-        "il60_3person": 75650,
-        "il60_4person": 84050,
-        "il80_1person": 78450,
-        "il80_2person": 89650,
-        "il80_3person": 100850,
-        "il80_4person": 112100
+        "ami_4person": 144000,
+        "il30_1person": 30250,
+        "il30_2person": 34550,
+        "il30_3person": 38900,
+        "il30_4person": 43200,
+        "il50_1person": 50400,
+        "il50_2person": 57600,
+        "il50_3person": 64800,
+        "il50_4person": 72000,
+        "il60_1person": 60500,
+        "il60_2person": 69100,
+        "il60_3person": 77750,
+        "il60_4person": 86400,
+        "il80_1person": 80650,
+        "il80_2person": 92150,
+        "il80_3person": 103700,
+        "il80_4person": 115200
       }
     },
     "08069": {
       "county_fips": "08069",
-      "county_name": "Larimer County, CO",
+      "county_name": "Larimer County",
       "fmr_area_code": "METRO22660CO",
       "fmr_area_name": "Fort Collins HUD Metro FMR Area",
       "fmr": {
@@ -776,53 +776,53 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1340,
+          "gross_rent": 1370,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1509,
-          "pct_of_fmr": 88.8
+          "pct_of_fmr": 90.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1530,
+          "gross_rent": 1560,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1537,
-          "pct_of_fmr": 99.5
+          "pct_of_fmr": 101.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1720,
+          "gross_rent": 1760,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1732,
-          "pct_of_fmr": 99.3
+          "pct_of_fmr": 101.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1910,
+          "gross_rent": 1960,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2385,
-          "pct_of_fmr": 80.1
+          "pct_of_fmr": 82.2
         }
       },
       "income_limits": {
-        "ami_4person": 127600,
-        "il30_1person": 26800,
-        "il30_2person": 30600,
-        "il30_3person": 34450,
-        "il30_4person": 38300,
-        "il50_1person": 44650,
-        "il50_2person": 51050,
-        "il50_3person": 57400,
-        "il50_4person": 63800,
-        "il60_1person": 53600,
-        "il60_2person": 61250,
-        "il60_3person": 68900,
-        "il60_4person": 76550,
-        "il80_1person": 71450,
-        "il80_2person": 81650,
-        "il80_3person": 91850,
-        "il80_4person": 102100
+        "ami_4person": 130400,
+        "il30_1person": 27400,
+        "il30_2person": 31300,
+        "il30_3person": 35200,
+        "il30_4person": 39100,
+        "il50_1person": 45650,
+        "il50_2person": 52150,
+        "il50_3person": 58700,
+        "il50_4person": 65200,
+        "il60_1person": 54750,
+        "il60_2person": 62600,
+        "il60_3person": 70400,
+        "il60_4person": 78250,
+        "il80_1person": 73000,
+        "il80_2person": 83450,
+        "il80_3person": 93900,
+        "il80_4person": 104300
       }
     },
     "08123": {
       "county_fips": "08123",
-      "county_name": "Weld County, CO",
+      "county_name": "Weld County",
       "fmr_area_code": "METRO24540CO",
       "fmr_area_name": "Greeley HUD Metro FMR Area",
       "fmr": {
@@ -834,48 +834,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1190,
+          "gross_rent": 1340,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1171,
-          "pct_of_fmr": 101.6
+          "pct_of_fmr": 114.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1360,
+          "gross_rent": 1540,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1238,
-          "pct_of_fmr": 109.9
+          "pct_of_fmr": 124.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1530,
+          "gross_rent": 1730,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1563,
-          "pct_of_fmr": 97.9
+          "pct_of_fmr": 110.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1700,
+          "gross_rent": 1920,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2174,
-          "pct_of_fmr": 78.2
+          "pct_of_fmr": 88.3
         }
       },
       "income_limits": {
-        "ami_4person": 113600,
-        "il30_1person": 23850,
-        "il30_2person": 27250,
-        "il30_3person": 30650,
-        "il30_4person": 34100,
-        "il50_1person": 39750,
-        "il50_2person": 45450,
-        "il50_3person": 51100,
-        "il50_4person": 56800,
-        "il60_1person": 47700,
-        "il60_2person": 54550,
-        "il60_3person": 61350,
-        "il60_4person": 68150,
-        "il80_1person": 63600,
-        "il80_2person": 72700,
-        "il80_3person": 81800,
-        "il80_4person": 90900
+        "ami_4person": 128000,
+        "il30_1person": 26900,
+        "il30_2person": 30700,
+        "il30_3person": 34550,
+        "il30_4person": 38400,
+        "il50_1person": 44800,
+        "il50_2person": 51200,
+        "il50_3person": 57600,
+        "il50_4person": 64000,
+        "il60_1person": 53750,
+        "il60_2person": 61450,
+        "il60_3person": 69100,
+        "il60_4person": 76800,
+        "il80_1person": 71700,
+        "il80_2person": 81900,
+        "il80_3person": 92150,
+        "il80_4person": 102400
       }
     },
     "08003": {
@@ -892,48 +892,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 710,
+          "gross_rent": 730,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 766,
-          "pct_of_fmr": 92.7
+          "pct_of_fmr": 95.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 810,
+          "gross_rent": 840,
           "fmr_bedroom": "one_br",
           "fmr_amount": 833,
-          "pct_of_fmr": 97.2
+          "pct_of_fmr": 100.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 920,
+          "gross_rent": 940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 999,
-          "pct_of_fmr": 92.1
+          "pct_of_fmr": 94.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1020,
+          "gross_rent": 1040,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1389,
-          "pct_of_fmr": 73.4
+          "pct_of_fmr": 74.9
         }
       },
       "income_limits": {
-        "ami_4person": 67900,
-        "il30_1person": 14250,
-        "il30_2person": 16300,
-        "il30_3person": 18350,
-        "il30_4person": 20350,
-        "il50_1person": 23750,
-        "il50_2person": 27150,
-        "il50_3person": 30550,
-        "il50_4person": 33950,
-        "il60_1person": 28500,
-        "il60_2person": 32600,
-        "il60_3person": 36650,
-        "il60_4person": 40750,
-        "il80_1person": 38000,
-        "il80_2person": 43450,
-        "il80_3person": 48900,
-        "il80_4person": 54300
+        "ami_4person": 69600,
+        "il30_1person": 14600,
+        "il30_2person": 16700,
+        "il30_3person": 18800,
+        "il30_4person": 20900,
+        "il50_1person": 24350,
+        "il50_2person": 27850,
+        "il50_3person": 31300,
+        "il50_4person": 34800,
+        "il60_1person": 29250,
+        "il60_2person": 33400,
+        "il60_3person": 37600,
+        "il60_4person": 41750,
+        "il80_1person": 39000,
+        "il80_2person": 44550,
+        "il80_3person": 50100,
+        "il80_4person": 55700
       }
     },
     "08007": {
@@ -950,48 +950,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1000,
+          "gross_rent": 1030,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1134,
-          "pct_of_fmr": 88.2
+          "pct_of_fmr": 90.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1140,
+          "gross_rent": 1180,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1141,
-          "pct_of_fmr": 99.9
+          "pct_of_fmr": 103.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1290,
+          "gross_rent": 1330,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1337,
-          "pct_of_fmr": 96.5
+          "pct_of_fmr": 99.5
         },
         "rent_60pct_4person": {
-          "gross_rent": 1430,
+          "gross_rent": 1470,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1859,
-          "pct_of_fmr": 76.9
+          "pct_of_fmr": 79.1
         }
       },
       "income_limits": {
-        "ami_4person": 95300,
-        "il30_1person": 20000,
-        "il30_2person": 22850,
-        "il30_3person": 25750,
-        "il30_4person": 28600,
-        "il50_1person": 33350,
-        "il50_2person": 38100,
-        "il50_3person": 42900,
-        "il50_4person": 47650,
-        "il60_1person": 40050,
-        "il60_2person": 45750,
-        "il60_3person": 51450,
-        "il60_4person": 57200,
-        "il80_1person": 53350,
-        "il80_2person": 61000,
-        "il80_3person": 68600,
-        "il80_4person": 76250
+        "ami_4person": 98300,
+        "il30_1person": 20650,
+        "il30_2person": 23600,
+        "il30_3person": 26550,
+        "il30_4person": 29500,
+        "il50_1person": 34400,
+        "il50_2person": 39300,
+        "il50_3person": 44250,
+        "il50_4person": 49150,
+        "il60_1person": 41300,
+        "il60_2person": 47200,
+        "il60_3person": 53100,
+        "il60_4person": 59000,
+        "il80_1person": 55050,
+        "il80_2person": 62900,
+        "il80_3person": 70800,
+        "il80_4person": 78650
       }
     },
     "08009": {
@@ -1008,48 +1008,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 650,
+          "gross_rent": 740,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 87.1
+          "pct_of_fmr": 99.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 740,
+          "gross_rent": 850,
           "fmr_bedroom": "one_br",
           "fmr_amount": 771,
-          "pct_of_fmr": 96.0
+          "pct_of_fmr": 110.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 830,
+          "gross_rent": 950,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 85.3
+          "pct_of_fmr": 97.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 920,
+          "gross_rent": 1060,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1353,
-          "pct_of_fmr": 68.0
+          "pct_of_fmr": 78.3
         }
       },
       "income_limits": {
-        "ami_4person": 61500,
-        "il30_1person": 12900,
-        "il30_2person": 14750,
-        "il30_3person": 16600,
-        "il30_4person": 18450,
-        "il50_1person": 21500,
-        "il50_2person": 24600,
-        "il50_3person": 27700,
-        "il50_4person": 30750,
-        "il60_1person": 25850,
-        "il60_2person": 29500,
-        "il60_3person": 33200,
-        "il60_4person": 36900,
-        "il80_1person": 34450,
-        "il80_2person": 39350,
-        "il80_3person": 44300,
-        "il80_4person": 49200
+        "ami_4person": 70600,
+        "il30_1person": 14850,
+        "il30_2person": 16950,
+        "il30_3person": 19050,
+        "il30_4person": 21200,
+        "il50_1person": 24700,
+        "il50_2person": 28250,
+        "il50_3person": 31750,
+        "il50_4person": 35300,
+        "il60_1person": 29650,
+        "il60_2person": 33900,
+        "il60_3person": 38100,
+        "il60_4person": 42350,
+        "il80_1person": 39550,
+        "il80_2person": 45200,
+        "il80_3person": 50850,
+        "il80_4person": 56500
       }
     },
     "08011": {
@@ -1066,48 +1066,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 720,
+          "gross_rent": 700,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 772,
-          "pct_of_fmr": 93.3
+          "pct_of_fmr": 90.7
         },
         "rent_60pct_2person": {
-          "gross_rent": 820,
+          "gross_rent": 810,
           "fmr_bedroom": "one_br",
           "fmr_amount": 777,
-          "pct_of_fmr": 105.5
+          "pct_of_fmr": 104.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 920,
+          "gross_rent": 910,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1019,
-          "pct_of_fmr": 90.3
+          "pct_of_fmr": 89.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1030,
+          "gross_rent": 1010,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1417,
-          "pct_of_fmr": 72.7
+          "pct_of_fmr": 71.3
         }
       },
       "income_limits": {
-        "ami_4person": 68400,
-        "il30_1person": 14350,
-        "il30_2person": 16400,
-        "il30_3person": 18450,
-        "il30_4person": 20500,
-        "il50_1person": 23950,
-        "il50_2person": 27350,
-        "il50_3person": 30800,
-        "il50_4person": 34200,
-        "il60_1person": 28750,
-        "il60_2person": 32850,
-        "il60_3person": 36950,
-        "il60_4person": 41050,
-        "il80_1person": 38300,
-        "il80_2person": 43800,
-        "il80_3person": 49250,
-        "il80_4person": 54700
+        "ami_4person": 67100,
+        "il30_1person": 14100,
+        "il30_2person": 16100,
+        "il30_3person": 18100,
+        "il30_4person": 20150,
+        "il50_1person": 23500,
+        "il50_2person": 26850,
+        "il50_3person": 30200,
+        "il50_4person": 33550,
+        "il60_1person": 28200,
+        "il60_2person": 32200,
+        "il60_3person": 36250,
+        "il60_4person": 40250,
+        "il80_1person": 37600,
+        "il80_2person": 42950,
+        "il80_3person": 48300,
+        "il80_4person": 53700
       }
     },
     "08015": {
@@ -1124,48 +1124,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1080,
+          "gross_rent": 1170,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1110,
-          "pct_of_fmr": 97.3
+          "pct_of_fmr": 105.4
         },
         "rent_60pct_2person": {
-          "gross_rent": 1240,
+          "gross_rent": 1330,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1117,
-          "pct_of_fmr": 111.0
+          "pct_of_fmr": 119.1
         },
         "rent_60pct_3person": {
-          "gross_rent": 1390,
+          "gross_rent": 1500,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1466,
-          "pct_of_fmr": 94.8
+          "pct_of_fmr": 102.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1540,
+          "gross_rent": 1670,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2039,
-          "pct_of_fmr": 75.5
+          "pct_of_fmr": 81.9
         }
       },
       "income_limits": {
-        "ami_4person": 103000,
-        "il30_1person": 21650,
-        "il30_2person": 24700,
-        "il30_3person": 27800,
-        "il30_4person": 30900,
-        "il50_1person": 36050,
-        "il50_2person": 41200,
-        "il50_3person": 46350,
-        "il50_4person": 51500,
-        "il60_1person": 43250,
-        "il60_2person": 49450,
-        "il60_3person": 55600,
-        "il60_4person": 61800,
-        "il80_1person": 57700,
-        "il80_2person": 65900,
-        "il80_3person": 74150,
-        "il80_4person": 82400
+        "ami_4person": 111100,
+        "il30_1person": 23350,
+        "il30_2person": 26650,
+        "il30_3person": 30000,
+        "il30_4person": 33350,
+        "il50_1person": 38900,
+        "il50_2person": 44450,
+        "il50_3person": 50000,
+        "il50_4person": 55550,
+        "il60_1person": 46650,
+        "il60_2person": 53350,
+        "il60_3person": 60000,
+        "il60_4person": 66650,
+        "il80_1person": 62200,
+        "il80_2person": 71100,
+        "il80_3person": 80000,
+        "il80_4person": 88900
       }
     },
     "08017": {
@@ -1182,48 +1182,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 910,
+          "gross_rent": 890,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 790,
-          "pct_of_fmr": 115.2
+          "pct_of_fmr": 112.7
         },
         "rent_60pct_2person": {
-          "gross_rent": 1040,
+          "gross_rent": 1010,
           "fmr_bedroom": "one_br",
           "fmr_amount": 796,
-          "pct_of_fmr": 130.7
+          "pct_of_fmr": 126.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 1170,
+          "gross_rent": 1140,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1044,
-          "pct_of_fmr": 112.1
+          "pct_of_fmr": 109.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1300,
+          "gross_rent": 1270,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1343,
-          "pct_of_fmr": 96.8
+          "pct_of_fmr": 94.6
         }
       },
       "income_limits": {
-        "ami_4person": 87000,
-        "il30_1person": 18250,
-        "il30_2person": 20900,
-        "il30_3person": 23500,
-        "il30_4person": 26100,
-        "il50_1person": 30450,
-        "il50_2person": 34800,
-        "il50_3person": 39150,
-        "il50_4person": 43500,
-        "il60_1person": 36550,
-        "il60_2person": 41750,
-        "il60_3person": 47000,
-        "il60_4person": 52200,
-        "il80_1person": 48700,
-        "il80_2person": 55700,
-        "il80_3person": 62650,
-        "il80_4person": 69600
+        "ami_4person": 84500,
+        "il30_1person": 17750,
+        "il30_2person": 20300,
+        "il30_3person": 22800,
+        "il30_4person": 25350,
+        "il50_1person": 29550,
+        "il50_2person": 33800,
+        "il50_3person": 38000,
+        "il50_4person": 42250,
+        "il60_1person": 35500,
+        "il60_2person": 40550,
+        "il60_3person": 45650,
+        "il60_4person": 50700,
+        "il80_1person": 47300,
+        "il80_2person": 54100,
+        "il80_3person": 60850,
+        "il80_4person": 67600
       }
     },
     "08021": {
@@ -1240,48 +1240,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 750,
+          "gross_rent": 790,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 100.5
+          "pct_of_fmr": 105.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 850,
+          "gross_rent": 910,
           "fmr_bedroom": "one_br",
           "fmr_amount": 865,
-          "pct_of_fmr": 98.3
+          "pct_of_fmr": 105.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 960,
+          "gross_rent": 1020,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 98.7
+          "pct_of_fmr": 104.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1070,
+          "gross_rent": 1140,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1332,
-          "pct_of_fmr": 80.3
+          "pct_of_fmr": 85.6
         }
       },
       "income_limits": {
-        "ami_4person": 71200,
-        "il30_1person": 14950,
-        "il30_2person": 17100,
-        "il30_3person": 19200,
-        "il30_4person": 21350,
-        "il50_1person": 24900,
-        "il50_2person": 28500,
-        "il50_3person": 32050,
-        "il50_4person": 35600,
-        "il60_1person": 29900,
-        "il60_2person": 34200,
-        "il60_3person": 38450,
-        "il60_4person": 42700,
-        "il80_1person": 39850,
-        "il80_2person": 45550,
-        "il80_3person": 51250,
-        "il80_4person": 56950
+        "ami_4person": 75700,
+        "il30_1person": 15900,
+        "il30_2person": 18150,
+        "il30_3person": 20450,
+        "il30_4person": 22700,
+        "il50_1person": 26500,
+        "il50_2person": 30300,
+        "il50_3person": 34050,
+        "il50_4person": 37850,
+        "il60_1person": 31800,
+        "il60_2person": 36350,
+        "il60_3person": 40900,
+        "il60_4person": 45400,
+        "il80_1person": 42400,
+        "il80_2person": 48450,
+        "il80_3person": 54500,
+        "il80_4person": 60550
       }
     },
     "08023": {
@@ -1298,48 +1298,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 630,
+          "gross_rent": 550,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 737,
-          "pct_of_fmr": 85.5
+          "pct_of_fmr": 74.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 720,
+          "gross_rent": 630,
           "fmr_bedroom": "one_br",
           "fmr_amount": 742,
-          "pct_of_fmr": 97.0
+          "pct_of_fmr": 84.9
         },
         "rent_60pct_3person": {
-          "gross_rent": 810,
+          "gross_rent": 710,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 83.2
+          "pct_of_fmr": 73.0
         },
         "rent_60pct_4person": {
-          "gross_rent": 900,
+          "gross_rent": 790,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1353,
-          "pct_of_fmr": 66.5
+          "pct_of_fmr": 58.4
         }
       },
       "income_limits": {
-        "ami_4person": 60000,
-        "il30_1person": 12600,
-        "il30_2person": 14400,
-        "il30_3person": 16200,
-        "il30_4person": 18000,
-        "il50_1person": 21000,
-        "il50_2person": 24000,
-        "il50_3person": 27000,
-        "il50_4person": 30000,
-        "il60_1person": 25200,
-        "il60_2person": 28800,
-        "il60_3person": 32400,
-        "il60_4person": 36000,
-        "il80_1person": 33600,
-        "il80_2person": 38400,
-        "il80_3person": 43200,
-        "il80_4person": 48000
+        "ami_4person": 52800,
+        "il30_1person": 11100,
+        "il30_2person": 12650,
+        "il30_3person": 14250,
+        "il30_4person": 15850,
+        "il50_1person": 18500,
+        "il50_2person": 21100,
+        "il50_3person": 23750,
+        "il50_4person": 26400,
+        "il60_1person": 22200,
+        "il60_2person": 25350,
+        "il60_3person": 28500,
+        "il60_4person": 31700,
+        "il80_1person": 29550,
+        "il80_2person": 33800,
+        "il80_3person": 38000,
+        "il80_4person": 42250
       }
     },
     "08025": {
@@ -1356,48 +1356,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 750,
+          "gross_rent": 730,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 976,
-          "pct_of_fmr": 76.8
+          "pct_of_fmr": 74.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 860,
+          "gross_rent": 830,
           "fmr_bedroom": "one_br",
           "fmr_amount": 982,
-          "pct_of_fmr": 87.6
+          "pct_of_fmr": 84.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 960,
+          "gross_rent": 940,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1289,
-          "pct_of_fmr": 74.5
+          "pct_of_fmr": 72.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1070,
+          "gross_rent": 1040,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1546,
-          "pct_of_fmr": 69.2
+          "pct_of_fmr": 67.3
         }
       },
       "income_limits": {
-        "ami_4person": 71300,
-        "il30_1person": 14950,
-        "il30_2person": 17100,
-        "il30_3person": 19250,
-        "il30_4person": 21400,
-        "il50_1person": 24950,
-        "il50_2person": 28500,
-        "il50_3person": 32100,
-        "il50_4person": 35650,
-        "il60_1person": 29950,
-        "il60_2person": 34200,
-        "il60_3person": 38500,
-        "il60_4person": 42800,
-        "il80_1person": 39950,
-        "il80_2person": 45650,
-        "il80_3person": 51350,
-        "il80_4person": 57050
+        "ami_4person": 69500,
+        "il30_1person": 14600,
+        "il30_2person": 16700,
+        "il30_3person": 18750,
+        "il30_4person": 20850,
+        "il50_1person": 24300,
+        "il50_2person": 27800,
+        "il50_3person": 31300,
+        "il50_4person": 34750,
+        "il60_1person": 29200,
+        "il60_2person": 33350,
+        "il60_3person": 37550,
+        "il60_4person": 41700,
+        "il80_1person": 38900,
+        "il80_2person": 44500,
+        "il80_3person": 50050,
+        "il80_4person": 55600
       }
     },
     "08027": {
@@ -1414,48 +1414,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 910,
+          "gross_rent": 900,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 853,
-          "pct_of_fmr": 106.7
+          "pct_of_fmr": 105.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1040,
+          "gross_rent": 1030,
           "fmr_bedroom": "one_br",
           "fmr_amount": 856,
-          "pct_of_fmr": 121.5
+          "pct_of_fmr": 120.3
         },
         "rent_60pct_3person": {
-          "gross_rent": 1170,
+          "gross_rent": 1160,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1112,
-          "pct_of_fmr": 105.2
+          "pct_of_fmr": 104.3
         },
         "rent_60pct_4person": {
-          "gross_rent": 1300,
+          "gross_rent": 1280,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1333,
-          "pct_of_fmr": 97.5
+          "pct_of_fmr": 96.0
         }
       },
       "income_limits": {
-        "ami_4person": 86500,
-        "il30_1person": 18150,
-        "il30_2person": 20750,
-        "il30_3person": 23350,
-        "il30_4person": 25950,
-        "il50_1person": 30250,
-        "il50_2person": 34600,
-        "il50_3person": 38900,
-        "il50_4person": 43250,
-        "il60_1person": 36350,
-        "il60_2person": 41500,
-        "il60_3person": 46700,
-        "il60_4person": 51900,
-        "il80_1person": 48450,
-        "il80_2person": 55350,
-        "il80_3person": 62300,
-        "il80_4person": 69200
+        "ami_4person": 85600,
+        "il30_1person": 18000,
+        "il30_2person": 20550,
+        "il30_3person": 23100,
+        "il30_4person": 25700,
+        "il50_1person": 29950,
+        "il50_2person": 34250,
+        "il50_3person": 38500,
+        "il50_4person": 42800,
+        "il60_1person": 35950,
+        "il60_2person": 41100,
+        "il60_3person": 46200,
+        "il60_4person": 51350,
+        "il80_1person": 47950,
+        "il80_2person": 54800,
+        "il80_3person": 61650,
+        "il80_4person": 68500
       }
     },
     "08029": {
@@ -1472,48 +1472,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 840,
+          "gross_rent": 830,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 854,
-          "pct_of_fmr": 98.4
+          "pct_of_fmr": 97.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 960,
+          "gross_rent": 940,
           "fmr_bedroom": "one_br",
           "fmr_amount": 865,
-          "pct_of_fmr": 111.0
+          "pct_of_fmr": 108.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1080,
+          "gross_rent": 1060,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1114,
-          "pct_of_fmr": 96.9
+          "pct_of_fmr": 95.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 1200,
+          "gross_rent": 1180,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1537,
-          "pct_of_fmr": 78.1
+          "pct_of_fmr": 76.8
         }
       },
       "income_limits": {
-        "ami_4person": 80300,
-        "il30_1person": 16850,
-        "il30_2person": 19250,
-        "il30_3person": 21700,
-        "il30_4person": 24100,
-        "il50_1person": 28100,
-        "il50_2person": 32100,
-        "il50_3person": 36150,
-        "il50_4person": 40150,
-        "il60_1person": 33750,
-        "il60_2person": 38550,
-        "il60_3person": 43350,
-        "il60_4person": 48200,
-        "il80_1person": 44950,
-        "il80_2person": 51400,
-        "il80_3person": 57800,
-        "il80_4person": 64250
+        "ami_4person": 78600,
+        "il30_1person": 16500,
+        "il30_2person": 18850,
+        "il30_3person": 21200,
+        "il30_4person": 23600,
+        "il50_1person": 27500,
+        "il50_2person": 31450,
+        "il50_3person": 35350,
+        "il50_4person": 39300,
+        "il60_1person": 33000,
+        "il60_2person": 37750,
+        "il60_3person": 42450,
+        "il60_4person": 47150,
+        "il80_1person": 44000,
+        "il80_2person": 50300,
+        "il80_3person": 56600,
+        "il80_4person": 62900
       }
     },
     "08033": {
@@ -1530,1188 +1530,28 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1080,
+          "gross_rent": 930,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 855,
-          "pct_of_fmr": 126.3
+          "pct_of_fmr": 108.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1230,
+          "gross_rent": 1060,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1017,
-          "pct_of_fmr": 120.9
+          "pct_of_fmr": 104.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1390,
+          "gross_rent": 1190,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1115,
-          "pct_of_fmr": 124.7
+          "pct_of_fmr": 106.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1540,
+          "gross_rent": 1320,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1423,
-          "pct_of_fmr": 108.2
-        }
-      },
-      "income_limits": {
-        "ami_4person": 102700,
-        "il30_1person": 21550,
-        "il30_2person": 24650,
-        "il30_3person": 27750,
-        "il30_4person": 30800,
-        "il50_1person": 35950,
-        "il50_2person": 41100,
-        "il50_3person": 46200,
-        "il50_4person": 51350,
-        "il60_1person": 43150,
-        "il60_2person": 49300,
-        "il60_3person": 55450,
-        "il60_4person": 61600,
-        "il80_1person": 57500,
-        "il80_2person": 65750,
-        "il80_3person": 73950,
-        "il80_4person": 82150
-      }
-    },
-    "08037": {
-      "county_fips": "08037",
-      "county_name": "Eagle County",
-      "fmr_area_code": "HMFA16620CO",
-      "fmr_area_name": "Edwards HUD Metro FMR Area",
-      "fmr": {
-        "efficiency": 1640,
-        "one_br": 1813,
-        "two_br": 2379,
-        "three_br": 2852,
-        "four_br": 3688
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1400,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1640,
-          "pct_of_fmr": 85.4
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1600,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1813,
-          "pct_of_fmr": 88.3
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1800,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 2379,
-          "pct_of_fmr": 75.7
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 2000,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2852,
-          "pct_of_fmr": 70.1
-        }
-      },
-      "income_limits": {
-        "ami_4person": 133200,
-        "il30_1person": 27950,
-        "il30_2person": 31950,
-        "il30_3person": 35950,
-        "il30_4person": 39950,
-        "il50_1person": 46600,
-        "il50_2person": 53300,
-        "il50_3person": 59950,
-        "il50_4person": 66600,
-        "il60_1person": 55950,
-        "il60_2person": 63950,
-        "il60_3person": 71950,
-        "il60_4person": 79900,
-        "il80_1person": 74600,
-        "il80_2person": 85250,
-        "il80_3person": 95900,
-        "il80_4person": 106550
-      }
-    },
-    "08043": {
-      "county_fips": "08043",
-      "county_name": "Fremont County",
-      "fmr_area_code": "NCNTY08043N08043",
-      "fmr_area_name": "Fremont County FMR Area",
-      "fmr": {
-        "efficiency": 942,
-        "one_br": 948,
-        "two_br": 1244,
-        "three_br": 1593,
-        "four_br": 1647
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 910,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 942,
-          "pct_of_fmr": 96.6
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1040,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 948,
-          "pct_of_fmr": 109.7
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1170,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1244,
-          "pct_of_fmr": 94.1
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1300,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1593,
-          "pct_of_fmr": 81.6
-        }
-      },
-      "income_limits": {
-        "ami_4person": 86600,
-        "il30_1person": 18200,
-        "il30_2person": 20800,
-        "il30_3person": 23400,
-        "il30_4person": 26000,
-        "il50_1person": 30300,
-        "il50_2person": 34650,
-        "il50_3person": 38950,
-        "il50_4person": 43300,
-        "il60_1person": 36350,
-        "il60_2person": 41550,
-        "il60_3person": 46750,
-        "il60_4person": 51950,
-        "il80_1person": 48500,
-        "il80_2person": 55400,
-        "il80_3person": 62350,
-        "il80_4person": 69300
-      }
-    },
-    "08045": {
-      "county_fips": "08045",
-      "county_name": "Garfield County",
-      "fmr_area_code": "NCNTY08045N08045",
-      "fmr_area_name": "Garfield County FMR Area",
-      "fmr": {
-        "efficiency": 1215,
-        "one_br": 1223,
-        "two_br": 1605,
-        "three_br": 2232,
-        "four_br": 2391
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1110,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1215,
-          "pct_of_fmr": 91.4
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1270,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1223,
-          "pct_of_fmr": 103.8
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1430,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1605,
-          "pct_of_fmr": 89.1
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1580,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 2232,
-          "pct_of_fmr": 70.8
-        }
-      },
-      "income_limits": {
-        "ami_4person": 105600,
-        "il30_1person": 22200,
-        "il30_2person": 25350,
-        "il30_3person": 28500,
-        "il30_4person": 31700,
-        "il50_1person": 36950,
-        "il50_2person": 42250,
-        "il50_3person": 47500,
-        "il50_4person": 52800,
-        "il60_1person": 44350,
-        "il60_2person": 50700,
-        "il60_3person": 57000,
-        "il60_4person": 63350,
-        "il80_1person": 59150,
-        "il80_2person": 67600,
-        "il80_3person": 76050,
-        "il80_4person": 84500
-      }
-    },
-    "08049": {
-      "county_fips": "08049",
-      "county_name": "Grand County",
-      "fmr_area_code": "NCNTY08049N08049",
-      "fmr_area_name": "Grand County FMR Area",
-      "fmr": {
-        "efficiency": 1107,
-        "one_br": 1318,
-        "two_br": 1475,
-        "three_br": 1769,
-        "four_br": 2474
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1330,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1107,
-          "pct_of_fmr": 120.1
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1520,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1318,
-          "pct_of_fmr": 115.3
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1710,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1475,
-          "pct_of_fmr": 115.9
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1900,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1769,
-          "pct_of_fmr": 107.4
-        }
-      },
-      "income_limits": {
-        "ami_4person": 126700,
-        "il30_1person": 26600,
-        "il30_2person": 30400,
-        "il30_3person": 34200,
-        "il30_4person": 38000,
-        "il50_1person": 44350,
-        "il50_2person": 50700,
-        "il50_3person": 57000,
-        "il50_4person": 63350,
-        "il60_1person": 53200,
-        "il60_2person": 60800,
-        "il60_3person": 68400,
-        "il60_4person": 76000,
-        "il80_1person": 70950,
-        "il80_2person": 81100,
-        "il80_3person": 91200,
-        "il80_4person": 101350
-      }
-    },
-    "08051": {
-      "county_fips": "08051",
-      "county_name": "Gunnison County",
-      "fmr_area_code": "NCNTY08051N08051",
-      "fmr_area_name": "Gunnison County FMR Area",
-      "fmr": {
-        "efficiency": 1015,
-        "one_br": 1149,
-        "two_br": 1334,
-        "three_br": 1855,
-        "four_br": 2238
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1360,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1015,
-          "pct_of_fmr": 134.0
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1550,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1149,
-          "pct_of_fmr": 134.9
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1750,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1334,
-          "pct_of_fmr": 131.2
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1940,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1855,
-          "pct_of_fmr": 104.6
-        }
-      },
-      "income_limits": {
-        "ami_4person": 129500,
-        "il30_1person": 27200,
-        "il30_2person": 31100,
-        "il30_3person": 34950,
-        "il30_4person": 38850,
-        "il50_1person": 45300,
-        "il50_2person": 51800,
-        "il50_3person": 58300,
-        "il50_4person": 64750,
-        "il60_1person": 54400,
-        "il60_2person": 62150,
-        "il60_3person": 69950,
-        "il60_4person": 77700,
-        "il80_1person": 72500,
-        "il80_2person": 82900,
-        "il80_3person": 93250,
-        "il80_4person": 103600
-      }
-    },
-    "08053": {
-      "county_fips": "08053",
-      "county_name": "Hinsdale County",
-      "fmr_area_code": "NCNTY08053N08053",
-      "fmr_area_name": "Hinsdale County FMR Area",
-      "fmr": {
-        "efficiency": 867,
-        "one_br": 873,
-        "two_br": 1145,
-        "three_br": 1461,
-        "four_br": 1795
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 840,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 867,
-          "pct_of_fmr": 96.9
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 960,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 873,
-          "pct_of_fmr": 110.0
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1080,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1145,
-          "pct_of_fmr": 94.3
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1200,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1461,
-          "pct_of_fmr": 82.1
-        }
-      },
-      "income_limits": {
-        "ami_4person": 80300,
-        "il30_1person": 16850,
-        "il30_2person": 19250,
-        "il30_3person": 21700,
-        "il30_4person": 24100,
-        "il50_1person": 28100,
-        "il50_2person": 32100,
-        "il50_3person": 36150,
-        "il50_4person": 40150,
-        "il60_1person": 33750,
-        "il60_2person": 38550,
-        "il60_3person": 43350,
-        "il60_4person": 48200,
-        "il80_1person": 44950,
-        "il80_2person": 51400,
-        "il80_3person": 57800,
-        "il80_4person": 64250
-      }
-    },
-    "08055": {
-      "county_fips": "08055",
-      "county_name": "Huerfano County",
-      "fmr_area_code": "NCNTY08055N08055",
-      "fmr_area_name": "Huerfano County FMR Area",
-      "fmr": {
-        "efficiency": 698,
-        "one_br": 811,
-        "two_br": 1013,
-        "three_br": 1215,
-        "four_br": 1588
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 770,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 698,
-          "pct_of_fmr": 110.3
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 880,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 811,
-          "pct_of_fmr": 108.5
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 990,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1013,
-          "pct_of_fmr": 97.7
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1100,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1215,
-          "pct_of_fmr": 90.5
-        }
-      },
-      "income_limits": {
-        "ami_4person": 73500,
-        "il30_1person": 15450,
-        "il30_2person": 17650,
-        "il30_3person": 19850,
-        "il30_4person": 22050,
-        "il50_1person": 25700,
-        "il50_2person": 29400,
-        "il50_3person": 33100,
-        "il50_4person": 36750,
-        "il60_1person": 30850,
-        "il60_2person": 35300,
-        "il60_3person": 39700,
-        "il60_4person": 44100,
-        "il80_1person": 41150,
-        "il80_2person": 47050,
-        "il80_3person": 52900,
-        "il80_4person": 58800
-      }
-    },
-    "08057": {
-      "county_fips": "08057",
-      "county_name": "Jackson County",
-      "fmr_area_code": "NCNTY08057N08057",
-      "fmr_area_name": "Jackson County FMR Area",
-      "fmr": {
-        "efficiency": 749,
-        "one_br": 754,
-        "two_br": 989,
-        "three_br": 1262,
-        "four_br": 1551
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1070,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 749,
-          "pct_of_fmr": 142.9
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1220,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 754,
-          "pct_of_fmr": 161.8
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1380,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 989,
-          "pct_of_fmr": 139.5
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1530,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1262,
-          "pct_of_fmr": 121.2
-        }
-      },
-      "income_limits": {
-        "ami_4person": 102000,
-        "il30_1person": 21400,
-        "il30_2person": 24500,
-        "il30_3person": 27550,
-        "il30_4person": 30600,
-        "il50_1person": 35700,
-        "il50_2person": 40800,
-        "il50_3person": 45900,
-        "il50_4person": 51000,
-        "il60_1person": 42850,
-        "il60_2person": 48950,
-        "il60_3person": 55100,
-        "il60_4person": 61200,
-        "il80_1person": 57100,
-        "il80_2person": 65300,
-        "il80_3person": 73450,
-        "il80_4person": 81600
-      }
-    },
-    "08061": {
-      "county_fips": "08061",
-      "county_name": "Kiowa County",
-      "fmr_area_code": "NCNTY08061N08061",
-      "fmr_area_name": "Kiowa County FMR Area",
-      "fmr": {
-        "efficiency": 868,
-        "one_br": 873,
-        "two_br": 1146,
-        "three_br": 1463,
-        "four_br": 1797
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 810,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 868,
-          "pct_of_fmr": 93.3
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 930,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 873,
-          "pct_of_fmr": 106.5
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1040,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1146,
-          "pct_of_fmr": 90.8
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1160,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1463,
-          "pct_of_fmr": 79.3
-        }
-      },
-      "income_limits": {
-        "ami_4person": 77400,
-        "il30_1person": 16250,
-        "il30_2person": 18600,
-        "il30_3person": 20900,
-        "il30_4person": 23200,
-        "il50_1person": 27100,
-        "il50_2person": 30950,
-        "il50_3person": 34850,
-        "il50_4person": 38700,
-        "il60_1person": 32500,
-        "il60_2person": 37150,
-        "il60_3person": 41800,
-        "il60_4person": 46450,
-        "il80_1person": 43350,
-        "il80_2person": 49550,
-        "il80_3person": 55750,
-        "il80_4person": 61900
-      }
-    },
-    "08063": {
-      "county_fips": "08063",
-      "county_name": "Kit Carson County",
-      "fmr_area_code": "NCNTY08063N08063",
-      "fmr_area_name": "Kit Carson County FMR Area",
-      "fmr": {
-        "efficiency": 828,
-        "one_br": 833,
-        "two_br": 1093,
-        "three_br": 1311,
-        "four_br": 1714
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 920,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 828,
-          "pct_of_fmr": 111.1
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1050,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 833,
-          "pct_of_fmr": 126.1
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1190,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1093,
-          "pct_of_fmr": 108.9
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1320,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1311,
-          "pct_of_fmr": 100.7
-        }
-      },
-      "income_limits": {
-        "ami_4person": 87900,
-        "il30_1person": 18450,
-        "il30_2person": 21100,
-        "il30_3person": 23750,
-        "il30_4person": 26350,
-        "il50_1person": 30750,
-        "il50_2person": 35150,
-        "il50_3person": 39550,
-        "il50_4person": 43950,
-        "il60_1person": 36900,
-        "il60_2person": 42200,
-        "il60_3person": 47450,
-        "il60_4person": 52750,
-        "il80_1person": 49200,
-        "il80_2person": 56250,
-        "il80_3person": 63300,
-        "il80_4person": 70300
-      }
-    },
-    "08067": {
-      "county_fips": "08067",
-      "county_name": "La Plata County",
-      "fmr_area_code": "NCNTY08067N08067",
-      "fmr_area_name": "La Plata County FMR Area",
-      "fmr": {
-        "efficiency": 1181,
-        "one_br": 1211,
-        "two_br": 1589,
-        "three_br": 1942,
-        "four_br": 2288
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1230,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1181,
-          "pct_of_fmr": 104.1
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1410,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1211,
-          "pct_of_fmr": 116.4
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1590,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1589,
-          "pct_of_fmr": 100.1
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1760,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1942,
-          "pct_of_fmr": 90.6
-        }
-      },
-      "income_limits": {
-        "ami_4person": 117500,
-        "il30_1person": 24700,
-        "il30_2person": 28200,
-        "il30_3person": 31700,
-        "il30_4person": 35250,
-        "il50_1person": 41100,
-        "il50_2person": 47000,
-        "il50_3person": 52900,
-        "il50_4person": 58750,
-        "il60_1person": 49350,
-        "il60_2person": 56400,
-        "il60_3person": 63450,
-        "il60_4person": 70500,
-        "il80_1person": 65800,
-        "il80_2person": 75200,
-        "il80_3person": 84600,
-        "il80_4person": 94000
-      }
-    },
-    "08065": {
-      "county_fips": "08065",
-      "county_name": "Lake County",
-      "fmr_area_code": "NCNTY08065N08065",
-      "fmr_area_name": "Lake County FMR Area",
-      "fmr": {
-        "efficiency": 1017,
-        "one_br": 1024,
-        "two_br": 1343,
-        "three_br": 1714,
-        "four_br": 2106
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1350,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1017,
-          "pct_of_fmr": 132.7
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1540,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1024,
-          "pct_of_fmr": 150.4
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1740,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1343,
-          "pct_of_fmr": 129.6
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1930,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1714,
-          "pct_of_fmr": 112.6
-        }
-      },
-      "income_limits": {
-        "ami_4person": 128700,
-        "il30_1person": 27050,
-        "il30_2person": 30900,
-        "il30_3person": 34750,
-        "il30_4person": 38600,
-        "il50_1person": 45050,
-        "il50_2person": 51500,
-        "il50_3person": 57900,
-        "il50_4person": 64350,
-        "il60_1person": 54050,
-        "il60_2person": 61800,
-        "il60_3person": 69500,
-        "il60_4person": 77200,
-        "il80_1person": 72050,
-        "il80_2person": 82350,
-        "il80_3person": 92650,
-        "il80_4person": 102950
-      }
-    },
-    "08071": {
-      "county_fips": "08071",
-      "county_name": "Las Animas County",
-      "fmr_area_code": "NCNTY08071N08071",
-      "fmr_area_name": "Las Animas County FMR Area",
-      "fmr": {
-        "efficiency": 796,
-        "one_br": 880,
-        "two_br": 1155,
-        "three_br": 1425,
-        "four_br": 1529
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 800,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 796,
-          "pct_of_fmr": 100.5
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 910,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 880,
-          "pct_of_fmr": 103.4
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1030,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1155,
-          "pct_of_fmr": 89.2
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1140,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1425,
-          "pct_of_fmr": 80.0
-        }
-      },
-      "income_limits": {
-        "ami_4person": 76200,
-        "il30_1person": 16000,
-        "il30_2person": 18300,
-        "il30_3person": 20550,
-        "il30_4person": 22850,
-        "il50_1person": 26650,
-        "il50_2person": 30500,
-        "il50_3person": 34300,
-        "il50_4person": 38100,
-        "il60_1person": 32000,
-        "il60_2person": 36600,
-        "il60_3person": 41150,
-        "il60_4person": 45700,
-        "il80_1person": 42650,
-        "il80_2person": 48750,
-        "il80_3person": 54850,
-        "il80_4person": 60950
-      }
-    },
-    "08073": {
-      "county_fips": "08073",
-      "county_name": "Lincoln County",
-      "fmr_area_code": "NCNTY08073N08073",
-      "fmr_area_name": "Lincoln County FMR Area",
-      "fmr": {
-        "efficiency": 769,
-        "one_br": 774,
-        "two_br": 1016,
-        "three_br": 1413,
-        "four_br": 1593
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1070,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 769,
-          "pct_of_fmr": 139.1
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1220,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 774,
-          "pct_of_fmr": 157.6
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1370,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1016,
-          "pct_of_fmr": 134.8
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1530,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1413,
-          "pct_of_fmr": 108.3
-        }
-      },
-      "income_limits": {
-        "ami_4person": 101700,
-        "il30_1person": 21350,
-        "il30_2person": 24400,
-        "il30_3person": 27450,
-        "il30_4person": 30500,
-        "il50_1person": 35600,
-        "il50_2person": 40700,
-        "il50_3person": 45750,
-        "il50_4person": 50850,
-        "il60_1person": 42700,
-        "il60_2person": 48800,
-        "il60_3person": 54900,
-        "il60_4person": 61000,
-        "il80_1person": 56950,
-        "il80_2person": 65100,
-        "il80_3person": 73200,
-        "il80_4person": 81350
-      }
-    },
-    "08075": {
-      "county_fips": "08075",
-      "county_name": "Logan County",
-      "fmr_area_code": "NCNTY08075N08075",
-      "fmr_area_name": "Logan County FMR Area",
-      "fmr": {
-        "efficiency": 769,
-        "one_br": 839,
-        "two_br": 1101,
-        "three_br": 1452,
-        "four_br": 1458
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 910,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 769,
-          "pct_of_fmr": 118.3
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1030,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 839,
-          "pct_of_fmr": 122.8
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1160,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1101,
-          "pct_of_fmr": 105.4
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1290,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1452,
-          "pct_of_fmr": 88.8
-        }
-      },
-      "income_limits": {
-        "ami_4person": 86200,
-        "il30_1person": 18100,
-        "il30_2person": 20700,
-        "il30_3person": 23250,
-        "il30_4person": 25850,
-        "il50_1person": 30150,
-        "il50_2person": 34500,
-        "il50_3person": 38800,
-        "il50_4person": 43100,
-        "il60_1person": 36200,
-        "il60_2person": 41400,
-        "il60_3person": 46550,
-        "il60_4person": 51700,
-        "il80_1person": 48250,
-        "il80_2person": 55150,
-        "il80_3person": 62050,
-        "il80_4person": 68950
-      }
-    },
-    "08077": {
-      "county_fips": "08077",
-      "county_name": "Mesa County",
-      "fmr_area_code": "NCNTY08077N08077",
-      "fmr_area_name": "Mesa County FMR Area",
-      "fmr": {
-        "efficiency": 881,
-        "one_br": 986,
-        "two_br": 1249,
-        "three_br": 1737,
-        "four_br": 2095
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 990,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 881,
-          "pct_of_fmr": 112.4
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 986,
-          "pct_of_fmr": 114.6
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1270,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1249,
-          "pct_of_fmr": 101.7
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1410,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1737,
-          "pct_of_fmr": 81.2
-        }
-      },
-      "income_limits": {
-        "ami_4person": 94100,
-        "il30_1person": 19750,
-        "il30_2person": 22600,
-        "il30_3person": 25400,
-        "il30_4person": 28250,
-        "il50_1person": 32950,
-        "il50_2person": 37650,
-        "il50_3person": 42350,
-        "il50_4person": 47050,
-        "il60_1person": 39500,
-        "il60_2person": 45150,
-        "il60_3person": 50800,
-        "il60_4person": 56450,
-        "il80_1person": 52700,
-        "il80_2person": 60200,
-        "il80_3person": 67750,
-        "il80_4person": 75300
-      }
-    },
-    "08079": {
-      "county_fips": "08079",
-      "county_name": "Mineral County",
-      "fmr_area_code": "NCNTY08079N08079",
-      "fmr_area_name": "Mineral County FMR Area",
-      "fmr": {
-        "efficiency": 1017,
-        "one_br": 1024,
-        "two_br": 1343,
-        "three_br": 1714,
-        "four_br": 2106
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 790,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 1017,
-          "pct_of_fmr": 77.7
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 910,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 1024,
-          "pct_of_fmr": 88.9
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1020,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1343,
-          "pct_of_fmr": 75.9
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1130,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1714,
-          "pct_of_fmr": 65.9
-        }
-      },
-      "income_limits": {
-        "ami_4person": 75600,
-        "il30_1person": 15900,
-        "il30_2person": 18150,
-        "il30_3person": 20400,
-        "il30_4person": 22700,
-        "il50_1person": 26450,
-        "il50_2person": 30250,
-        "il50_3person": 34000,
-        "il50_4person": 37800,
-        "il60_1person": 31750,
-        "il60_2person": 36300,
-        "il60_3person": 40800,
-        "il60_4person": 45350,
-        "il80_1person": 42350,
-        "il80_2person": 48400,
-        "il80_3person": 54450,
-        "il80_4person": 60500
-      }
-    },
-    "08081": {
-      "county_fips": "08081",
-      "county_name": "Moffat County",
-      "fmr_area_code": "NCNTY08081N08081",
-      "fmr_area_name": "Moffat County FMR Area",
-      "fmr": {
-        "efficiency": 881,
-        "one_br": 887,
-        "two_br": 1164,
-        "three_br": 1396,
-        "four_br": 1614
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1060,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 881,
-          "pct_of_fmr": 120.3
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1220,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 887,
-          "pct_of_fmr": 137.5
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1370,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1164,
-          "pct_of_fmr": 117.7
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1520,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1396,
-          "pct_of_fmr": 108.9
-        }
-      },
-      "income_limits": {
-        "ami_4person": 101300,
-        "il30_1person": 21250,
-        "il30_2person": 24300,
-        "il30_3person": 27350,
-        "il30_4person": 30400,
-        "il50_1person": 35450,
-        "il50_2person": 40500,
-        "il50_3person": 45600,
-        "il50_4person": 50650,
-        "il60_1person": 42550,
-        "il60_2person": 48600,
-        "il60_3person": 54700,
-        "il60_4person": 60800,
-        "il80_1person": 56750,
-        "il80_2person": 64850,
-        "il80_3person": 72950,
-        "il80_4person": 81050
-      }
-    },
-    "08083": {
-      "county_fips": "08083",
-      "county_name": "Montezuma County",
-      "fmr_area_code": "NCNTY08083N08083",
-      "fmr_area_name": "Montezuma County FMR Area",
-      "fmr": {
-        "efficiency": 852,
-        "one_br": 906,
-        "two_br": 1180,
-        "three_br": 1569,
-        "four_br": 1850
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 870,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 852,
-          "pct_of_fmr": 102.1
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1000,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 906,
-          "pct_of_fmr": 110.4
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1120,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1180,
-          "pct_of_fmr": 94.9
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1250,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1569,
-          "pct_of_fmr": 79.7
-        }
-      },
-      "income_limits": {
-        "ami_4person": 83200,
-        "il30_1person": 17450,
-        "il30_2person": 19950,
-        "il30_3person": 22450,
-        "il30_4person": 24950,
-        "il50_1person": 29100,
-        "il50_2person": 33300,
-        "il50_3person": 37450,
-        "il50_4person": 41600,
-        "il60_1person": 34950,
-        "il60_2person": 39950,
-        "il60_3person": 44950,
-        "il60_4person": 49900,
-        "il80_1person": 46600,
-        "il80_2person": 53250,
-        "il80_3person": 59900,
-        "il80_4person": 66550
-      }
-    },
-    "08085": {
-      "county_fips": "08085",
-      "county_name": "Montrose County",
-      "fmr_area_code": "NCNTY08085N08085",
-      "fmr_area_name": "Montrose County FMR Area",
-      "fmr": {
-        "efficiency": 884,
-        "one_br": 890,
-        "two_br": 1168,
-        "three_br": 1624,
-        "four_br": 1959
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 930,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 884,
-          "pct_of_fmr": 105.2
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1060,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 890,
-          "pct_of_fmr": 119.1
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1190,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1168,
-          "pct_of_fmr": 101.9
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1320,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1624,
-          "pct_of_fmr": 81.3
+          "pct_of_fmr": 92.8
         }
       },
       "income_limits": {
@@ -2734,6 +1574,1166 @@
         "il80_4person": 70500
       }
     },
+    "08037": {
+      "county_fips": "08037",
+      "county_name": "Eagle County",
+      "fmr_area_code": "HMFA16620CO",
+      "fmr_area_name": "Edwards HUD Metro FMR Area",
+      "fmr": {
+        "efficiency": 1640,
+        "one_br": 1813,
+        "two_br": 2379,
+        "three_br": 2852,
+        "four_br": 3688
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1320,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1640,
+          "pct_of_fmr": 80.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1510,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1813,
+          "pct_of_fmr": 83.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1700,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 2379,
+          "pct_of_fmr": 71.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1880,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2852,
+          "pct_of_fmr": 65.9
+        }
+      },
+      "income_limits": {
+        "ami_4person": 125600,
+        "il30_1person": 26400,
+        "il30_2person": 30150,
+        "il30_3person": 33900,
+        "il30_4person": 37700,
+        "il50_1person": 43950,
+        "il50_2person": 50250,
+        "il50_3person": 56500,
+        "il50_4person": 62800,
+        "il60_1person": 52750,
+        "il60_2person": 60300,
+        "il60_3person": 67800,
+        "il60_4person": 75350,
+        "il80_1person": 70350,
+        "il80_2person": 80400,
+        "il80_3person": 90450,
+        "il80_4person": 100500
+      }
+    },
+    "08043": {
+      "county_fips": "08043",
+      "county_name": "Fremont County",
+      "fmr_area_code": "NCNTY08043N08043",
+      "fmr_area_name": "Fremont County FMR Area",
+      "fmr": {
+        "efficiency": 942,
+        "one_br": 948,
+        "two_br": 1244,
+        "three_br": 1593,
+        "four_br": 1647
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 920,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 942,
+          "pct_of_fmr": 97.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1050,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 948,
+          "pct_of_fmr": 110.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1180,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1244,
+          "pct_of_fmr": 94.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1320,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1593,
+          "pct_of_fmr": 82.9
+        }
+      },
+      "income_limits": {
+        "ami_4person": 87700,
+        "il30_1person": 18400,
+        "il30_2person": 21050,
+        "il30_3person": 23700,
+        "il30_4person": 26300,
+        "il50_1person": 30700,
+        "il50_2person": 35100,
+        "il50_3person": 39450,
+        "il50_4person": 43850,
+        "il60_1person": 36850,
+        "il60_2person": 42100,
+        "il60_3person": 47350,
+        "il60_4person": 52600,
+        "il80_1person": 49100,
+        "il80_2person": 56150,
+        "il80_3person": 63150,
+        "il80_4person": 70150
+      }
+    },
+    "08045": {
+      "county_fips": "08045",
+      "county_name": "Garfield County",
+      "fmr_area_code": "NCNTY08045N08045",
+      "fmr_area_name": "Garfield County FMR Area",
+      "fmr": {
+        "efficiency": 1215,
+        "one_br": 1223,
+        "two_br": 1605,
+        "three_br": 2232,
+        "four_br": 2391
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1200,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1215,
+          "pct_of_fmr": 98.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1370,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1223,
+          "pct_of_fmr": 112.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1540,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1605,
+          "pct_of_fmr": 96.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1710,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 2232,
+          "pct_of_fmr": 76.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 114100,
+        "il30_1person": 23950,
+        "il30_2person": 27400,
+        "il30_3person": 30800,
+        "il30_4person": 34250,
+        "il50_1person": 39950,
+        "il50_2person": 45650,
+        "il50_3person": 51350,
+        "il50_4person": 57050,
+        "il60_1person": 47900,
+        "il60_2person": 54750,
+        "il60_3person": 61600,
+        "il60_4person": 68450,
+        "il80_1person": 63900,
+        "il80_2person": 73000,
+        "il80_3person": 82150,
+        "il80_4person": 91300
+      }
+    },
+    "08049": {
+      "county_fips": "08049",
+      "county_name": "Grand County",
+      "fmr_area_code": "NCNTY08049N08049",
+      "fmr_area_name": "Grand County FMR Area",
+      "fmr": {
+        "efficiency": 1107,
+        "one_br": 1318,
+        "two_br": 1475,
+        "three_br": 1769,
+        "four_br": 2474
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1300,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1107,
+          "pct_of_fmr": 117.4
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1480,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1318,
+          "pct_of_fmr": 112.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1670,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1475,
+          "pct_of_fmr": 113.2
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1850,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1769,
+          "pct_of_fmr": 104.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 123600,
+        "il30_1person": 25950,
+        "il30_2person": 29650,
+        "il30_3person": 33350,
+        "il30_4person": 37100,
+        "il50_1person": 43250,
+        "il50_2person": 49450,
+        "il50_3person": 55600,
+        "il50_4person": 61800,
+        "il60_1person": 51900,
+        "il60_2person": 59350,
+        "il60_3person": 66750,
+        "il60_4person": 74150,
+        "il80_1person": 69200,
+        "il80_2person": 79100,
+        "il80_3person": 89000,
+        "il80_4person": 98900
+      }
+    },
+    "08051": {
+      "county_fips": "08051",
+      "county_name": "Gunnison County",
+      "fmr_area_code": "NCNTY08051N08051",
+      "fmr_area_name": "Gunnison County FMR Area",
+      "fmr": {
+        "efficiency": 1015,
+        "one_br": 1149,
+        "two_br": 1334,
+        "three_br": 1855,
+        "four_br": 2238
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1370,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1015,
+          "pct_of_fmr": 135.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1570,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1149,
+          "pct_of_fmr": 136.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1770,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1334,
+          "pct_of_fmr": 132.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1960,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1855,
+          "pct_of_fmr": 105.7
+        }
+      },
+      "income_limits": {
+        "ami_4person": 130800,
+        "il30_1person": 27450,
+        "il30_2person": 31400,
+        "il30_3person": 35300,
+        "il30_4person": 39250,
+        "il50_1person": 45800,
+        "il50_2person": 52300,
+        "il50_3person": 58850,
+        "il50_4person": 65400,
+        "il60_1person": 54950,
+        "il60_2person": 62800,
+        "il60_3person": 70650,
+        "il60_4person": 78500,
+        "il80_1person": 73250,
+        "il80_2person": 83700,
+        "il80_3person": 94200,
+        "il80_4person": 104650
+      }
+    },
+    "08053": {
+      "county_fips": "08053",
+      "county_name": "Hinsdale County",
+      "fmr_area_code": "NCNTY08053N08053",
+      "fmr_area_name": "Hinsdale County FMR Area",
+      "fmr": {
+        "efficiency": 867,
+        "one_br": 873,
+        "two_br": 1145,
+        "three_br": 1461,
+        "four_br": 1795
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 920,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 867,
+          "pct_of_fmr": 106.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1050,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 873,
+          "pct_of_fmr": 120.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1180,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1145,
+          "pct_of_fmr": 103.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1310,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1461,
+          "pct_of_fmr": 89.7
+        }
+      },
+      "income_limits": {
+        "ami_4person": 87500,
+        "il30_1person": 18400,
+        "il30_2person": 21000,
+        "il30_3person": 23600,
+        "il30_4person": 26250,
+        "il50_1person": 30600,
+        "il50_2person": 35000,
+        "il50_3person": 39400,
+        "il50_4person": 43750,
+        "il60_1person": 36750,
+        "il60_2person": 42000,
+        "il60_3person": 47250,
+        "il60_4person": 52500,
+        "il80_1person": 49000,
+        "il80_2person": 56000,
+        "il80_3person": 63000,
+        "il80_4person": 70000
+      }
+    },
+    "08055": {
+      "county_fips": "08055",
+      "county_name": "Huerfano County",
+      "fmr_area_code": "NCNTY08055N08055",
+      "fmr_area_name": "Huerfano County FMR Area",
+      "fmr": {
+        "efficiency": 698,
+        "one_br": 811,
+        "two_br": 1013,
+        "three_br": 1215,
+        "four_br": 1588
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 750,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 698,
+          "pct_of_fmr": 107.4
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 850,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 811,
+          "pct_of_fmr": 104.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 960,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1013,
+          "pct_of_fmr": 94.8
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1060,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1215,
+          "pct_of_fmr": 87.2
+        }
+      },
+      "income_limits": {
+        "ami_4person": 71000,
+        "il30_1person": 14900,
+        "il30_2person": 17050,
+        "il30_3person": 19150,
+        "il30_4person": 21300,
+        "il50_1person": 24850,
+        "il50_2person": 28400,
+        "il50_3person": 31950,
+        "il50_4person": 35500,
+        "il60_1person": 29800,
+        "il60_2person": 34100,
+        "il60_3person": 38350,
+        "il60_4person": 42600,
+        "il80_1person": 39750,
+        "il80_2person": 45450,
+        "il80_3person": 51100,
+        "il80_4person": 56800
+      }
+    },
+    "08057": {
+      "county_fips": "08057",
+      "county_name": "Jackson County",
+      "fmr_area_code": "NCNTY08057N08057",
+      "fmr_area_name": "Jackson County FMR Area",
+      "fmr": {
+        "efficiency": 749,
+        "one_br": 754,
+        "two_br": 989,
+        "three_br": 1262,
+        "four_br": 1551
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1020,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 749,
+          "pct_of_fmr": 136.2
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1170,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 754,
+          "pct_of_fmr": 155.2
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1310,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 989,
+          "pct_of_fmr": 132.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1460,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1262,
+          "pct_of_fmr": 115.7
+        }
+      },
+      "income_limits": {
+        "ami_4person": 97400,
+        "il30_1person": 20450,
+        "il30_2person": 23400,
+        "il30_3person": 26300,
+        "il30_4person": 29200,
+        "il50_1person": 34100,
+        "il50_2person": 38950,
+        "il50_3person": 43850,
+        "il50_4person": 48700,
+        "il60_1person": 40900,
+        "il60_2person": 46750,
+        "il60_3person": 52600,
+        "il60_4person": 58450,
+        "il80_1person": 54550,
+        "il80_2person": 62350,
+        "il80_3person": 70150,
+        "il80_4person": 77900
+      }
+    },
+    "08061": {
+      "county_fips": "08061",
+      "county_name": "Kiowa County",
+      "fmr_area_code": "NCNTY08061N08061",
+      "fmr_area_name": "Kiowa County FMR Area",
+      "fmr": {
+        "efficiency": 868,
+        "one_br": 873,
+        "two_br": 1146,
+        "three_br": 1463,
+        "four_br": 1797
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 810,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 868,
+          "pct_of_fmr": 93.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 920,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 873,
+          "pct_of_fmr": 105.4
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1040,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1146,
+          "pct_of_fmr": 90.8
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1150,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1463,
+          "pct_of_fmr": 78.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 76900,
+        "il30_1person": 16150,
+        "il30_2person": 18450,
+        "il30_3person": 20750,
+        "il30_4person": 23050,
+        "il50_1person": 26900,
+        "il50_2person": 30750,
+        "il50_3person": 34600,
+        "il50_4person": 38450,
+        "il60_1person": 32300,
+        "il60_2person": 36900,
+        "il60_3person": 41550,
+        "il60_4person": 46150,
+        "il80_1person": 43050,
+        "il80_2person": 49200,
+        "il80_3person": 55350,
+        "il80_4person": 61500
+      }
+    },
+    "08063": {
+      "county_fips": "08063",
+      "county_name": "Kit Carson County",
+      "fmr_area_code": "NCNTY08063N08063",
+      "fmr_area_name": "Kit Carson County FMR Area",
+      "fmr": {
+        "efficiency": 828,
+        "one_br": 833,
+        "two_br": 1093,
+        "three_br": 1311,
+        "four_br": 1714
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 930,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 828,
+          "pct_of_fmr": 112.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1070,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 833,
+          "pct_of_fmr": 128.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1200,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1093,
+          "pct_of_fmr": 109.8
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1340,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1311,
+          "pct_of_fmr": 102.2
+        }
+      },
+      "income_limits": {
+        "ami_4person": 89000,
+        "il30_1person": 18700,
+        "il30_2person": 21350,
+        "il30_3person": 24050,
+        "il30_4person": 26700,
+        "il50_1person": 31150,
+        "il50_2person": 35600,
+        "il50_3person": 40050,
+        "il50_4person": 44500,
+        "il60_1person": 37400,
+        "il60_2person": 42700,
+        "il60_3person": 48050,
+        "il60_4person": 53400,
+        "il80_1person": 49850,
+        "il80_2person": 56950,
+        "il80_3person": 64100,
+        "il80_4person": 71200
+      }
+    },
+    "08067": {
+      "county_fips": "08067",
+      "county_name": "La Plata County",
+      "fmr_area_code": "NCNTY08067N08067",
+      "fmr_area_name": "La Plata County FMR Area",
+      "fmr": {
+        "efficiency": 1181,
+        "one_br": 1211,
+        "two_br": 1589,
+        "three_br": 1942,
+        "four_br": 2288
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1200,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1181,
+          "pct_of_fmr": 101.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1380,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1211,
+          "pct_of_fmr": 114.0
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1550,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1589,
+          "pct_of_fmr": 97.5
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1720,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1942,
+          "pct_of_fmr": 88.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 114700,
+        "il30_1person": 24100,
+        "il30_2person": 27550,
+        "il30_3person": 30950,
+        "il30_4person": 34400,
+        "il50_1person": 40150,
+        "il50_2person": 45900,
+        "il50_3person": 51600,
+        "il50_4person": 57350,
+        "il60_1person": 48150,
+        "il60_2person": 55050,
+        "il60_3person": 61950,
+        "il60_4person": 68800,
+        "il80_1person": 64250,
+        "il80_2person": 73400,
+        "il80_3person": 82600,
+        "il80_4person": 91750
+      }
+    },
+    "08065": {
+      "county_fips": "08065",
+      "county_name": "Lake County",
+      "fmr_area_code": "NCNTY08065N08065",
+      "fmr_area_name": "Lake County FMR Area",
+      "fmr": {
+        "efficiency": 1017,
+        "one_br": 1024,
+        "two_br": 1343,
+        "three_br": 1714,
+        "four_br": 2106
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1310,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1017,
+          "pct_of_fmr": 128.8
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1500,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1024,
+          "pct_of_fmr": 146.5
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1680,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1343,
+          "pct_of_fmr": 125.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1870,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1714,
+          "pct_of_fmr": 109.1
+        }
+      },
+      "income_limits": {
+        "ami_4person": 124600,
+        "il30_1person": 26150,
+        "il30_2person": 29900,
+        "il30_3person": 33650,
+        "il30_4person": 37400,
+        "il50_1person": 43600,
+        "il50_2person": 49850,
+        "il50_3person": 56050,
+        "il50_4person": 62300,
+        "il60_1person": 52350,
+        "il60_2person": 59800,
+        "il60_3person": 67300,
+        "il60_4person": 74750,
+        "il80_1person": 69800,
+        "il80_2person": 79750,
+        "il80_3person": 89700,
+        "il80_4person": 99700
+      }
+    },
+    "08071": {
+      "county_fips": "08071",
+      "county_name": "Las Animas County",
+      "fmr_area_code": "NCNTY08071N08071",
+      "fmr_area_name": "Las Animas County FMR Area",
+      "fmr": {
+        "efficiency": 796,
+        "one_br": 880,
+        "two_br": 1155,
+        "three_br": 1425,
+        "four_br": 1529
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 780,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 796,
+          "pct_of_fmr": 98.0
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 890,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 880,
+          "pct_of_fmr": 101.1
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1000,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1155,
+          "pct_of_fmr": 86.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1120,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1425,
+          "pct_of_fmr": 78.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 74400,
+        "il30_1person": 15600,
+        "il30_2person": 17850,
+        "il30_3person": 20100,
+        "il30_4person": 22300,
+        "il50_1person": 26050,
+        "il50_2person": 29750,
+        "il50_3person": 33500,
+        "il50_4person": 37200,
+        "il60_1person": 31250,
+        "il60_2person": 35700,
+        "il60_3person": 40200,
+        "il60_4person": 44650,
+        "il80_1person": 41650,
+        "il80_2person": 47600,
+        "il80_3person": 53550,
+        "il80_4person": 59500
+      }
+    },
+    "08073": {
+      "county_fips": "08073",
+      "county_name": "Lincoln County",
+      "fmr_area_code": "NCNTY08073N08073",
+      "fmr_area_name": "Lincoln County FMR Area",
+      "fmr": {
+        "efficiency": 769,
+        "one_br": 774,
+        "two_br": 1016,
+        "three_br": 1413,
+        "four_br": 1593
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 920,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 769,
+          "pct_of_fmr": 119.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1050,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 774,
+          "pct_of_fmr": 135.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1180,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1016,
+          "pct_of_fmr": 116.1
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1320,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1413,
+          "pct_of_fmr": 93.4
+        }
+      },
+      "income_limits": {
+        "ami_4person": 87700,
+        "il30_1person": 18400,
+        "il30_2person": 21050,
+        "il30_3person": 23700,
+        "il30_4person": 26300,
+        "il50_1person": 30700,
+        "il50_2person": 35100,
+        "il50_3person": 39450,
+        "il50_4person": 43850,
+        "il60_1person": 36850,
+        "il60_2person": 42100,
+        "il60_3person": 47350,
+        "il60_4person": 52600,
+        "il80_1person": 49100,
+        "il80_2person": 56150,
+        "il80_3person": 63150,
+        "il80_4person": 70150
+      }
+    },
+    "08075": {
+      "county_fips": "08075",
+      "county_name": "Logan County",
+      "fmr_area_code": "NCNTY08075N08075",
+      "fmr_area_name": "Logan County FMR Area",
+      "fmr": {
+        "efficiency": 769,
+        "one_br": 839,
+        "two_br": 1101,
+        "three_br": 1452,
+        "four_br": 1458
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 870,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 769,
+          "pct_of_fmr": 113.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1000,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 839,
+          "pct_of_fmr": 119.2
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1120,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1101,
+          "pct_of_fmr": 101.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1240,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1452,
+          "pct_of_fmr": 85.4
+        }
+      },
+      "income_limits": {
+        "ami_4person": 83000,
+        "il30_1person": 17450,
+        "il30_2person": 19900,
+        "il30_3person": 22400,
+        "il30_4person": 24900,
+        "il50_1person": 29050,
+        "il50_2person": 33200,
+        "il50_3person": 37350,
+        "il50_4person": 41500,
+        "il60_1person": 34850,
+        "il60_2person": 39850,
+        "il60_3person": 44800,
+        "il60_4person": 49800,
+        "il80_1person": 46500,
+        "il80_2person": 53100,
+        "il80_3person": 59750,
+        "il80_4person": 66400
+      }
+    },
+    "08077": {
+      "county_fips": "08077",
+      "county_name": "Mesa County",
+      "fmr_area_code": "NCNTY08077N08077",
+      "fmr_area_name": "Mesa County FMR Area",
+      "fmr": {
+        "efficiency": 881,
+        "one_br": 986,
+        "two_br": 1249,
+        "three_br": 1737,
+        "four_br": 2095
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1060,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 881,
+          "pct_of_fmr": 120.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1210,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 986,
+          "pct_of_fmr": 122.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1360,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1249,
+          "pct_of_fmr": 108.9
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1510,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1737,
+          "pct_of_fmr": 86.9
+        }
+      },
+      "income_limits": {
+        "ami_4person": 100600,
+        "il30_1person": 21150,
+        "il30_2person": 24150,
+        "il30_3person": 27150,
+        "il30_4person": 30200,
+        "il50_1person": 35200,
+        "il50_2person": 40250,
+        "il50_3person": 45250,
+        "il50_4person": 50300,
+        "il60_1person": 42250,
+        "il60_2person": 48300,
+        "il60_3person": 54300,
+        "il60_4person": 60350,
+        "il80_1person": 56350,
+        "il80_2person": 64400,
+        "il80_3person": 72450,
+        "il80_4person": 80500
+      }
+    },
+    "08079": {
+      "county_fips": "08079",
+      "county_name": "Mineral County",
+      "fmr_area_code": "NCNTY08079N08079",
+      "fmr_area_name": "Mineral County FMR Area",
+      "fmr": {
+        "efficiency": 1017,
+        "one_br": 1024,
+        "two_br": 1343,
+        "three_br": 1714,
+        "four_br": 2106
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 800,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 1017,
+          "pct_of_fmr": 78.7
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 920,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 1024,
+          "pct_of_fmr": 89.8
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1030,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1343,
+          "pct_of_fmr": 76.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1150,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1714,
+          "pct_of_fmr": 67.1
+        }
+      },
+      "income_limits": {
+        "ami_4person": 76400,
+        "il30_1person": 16050,
+        "il30_2person": 18350,
+        "il30_3person": 20650,
+        "il30_4person": 22900,
+        "il50_1person": 26750,
+        "il50_2person": 30550,
+        "il50_3person": 34400,
+        "il50_4person": 38200,
+        "il60_1person": 32100,
+        "il60_2person": 36650,
+        "il60_3person": 41250,
+        "il60_4person": 45850,
+        "il80_1person": 42800,
+        "il80_2person": 48900,
+        "il80_3person": 55000,
+        "il80_4person": 61100
+      }
+    },
+    "08081": {
+      "county_fips": "08081",
+      "county_name": "Moffat County",
+      "fmr_area_code": "NCNTY08081N08081",
+      "fmr_area_name": "Moffat County FMR Area",
+      "fmr": {
+        "efficiency": 881,
+        "one_br": 887,
+        "two_br": 1164,
+        "three_br": 1396,
+        "four_br": 1614
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 1010,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 881,
+          "pct_of_fmr": 114.6
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1150,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 887,
+          "pct_of_fmr": 129.7
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1300,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1164,
+          "pct_of_fmr": 111.7
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1440,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1396,
+          "pct_of_fmr": 103.2
+        }
+      },
+      "income_limits": {
+        "ami_4person": 96100,
+        "il30_1person": 20200,
+        "il30_2person": 23050,
+        "il30_3person": 25950,
+        "il30_4person": 28850,
+        "il50_1person": 33650,
+        "il50_2person": 38450,
+        "il50_3person": 43250,
+        "il50_4person": 48050,
+        "il60_1person": 40350,
+        "il60_2person": 46150,
+        "il60_3person": 51900,
+        "il60_4person": 57650,
+        "il80_1person": 53800,
+        "il80_2person": 61500,
+        "il80_3person": 69200,
+        "il80_4person": 76900
+      }
+    },
+    "08083": {
+      "county_fips": "08083",
+      "county_name": "Montezuma County",
+      "fmr_area_code": "NCNTY08083N08083",
+      "fmr_area_name": "Montezuma County FMR Area",
+      "fmr": {
+        "efficiency": 852,
+        "one_br": 906,
+        "two_br": 1180,
+        "three_br": 1569,
+        "four_br": 1850
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 890,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 852,
+          "pct_of_fmr": 104.5
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1020,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 906,
+          "pct_of_fmr": 112.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1140,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1180,
+          "pct_of_fmr": 96.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1270,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1569,
+          "pct_of_fmr": 80.9
+        }
+      },
+      "income_limits": {
+        "ami_4person": 84800,
+        "il30_1person": 17800,
+        "il30_2person": 20350,
+        "il30_3person": 22900,
+        "il30_4person": 25450,
+        "il50_1person": 29700,
+        "il50_2person": 33900,
+        "il50_3person": 38150,
+        "il50_4person": 42400,
+        "il60_1person": 35600,
+        "il60_2person": 40700,
+        "il60_3person": 45800,
+        "il60_4person": 50900,
+        "il80_1person": 47500,
+        "il80_2person": 54250,
+        "il80_3person": 61050,
+        "il80_4person": 67850
+      }
+    },
+    "08085": {
+      "county_fips": "08085",
+      "county_name": "Montrose County",
+      "fmr_area_code": "NCNTY08085N08085",
+      "fmr_area_name": "Montrose County FMR Area",
+      "fmr": {
+        "efficiency": 884,
+        "one_br": 890,
+        "two_br": 1168,
+        "three_br": 1624,
+        "four_br": 1959
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 940,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 884,
+          "pct_of_fmr": 106.3
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1080,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 890,
+          "pct_of_fmr": 121.3
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1210,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1168,
+          "pct_of_fmr": 103.6
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1350,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1624,
+          "pct_of_fmr": 83.1
+        }
+      },
+      "income_limits": {
+        "ami_4person": 89900,
+        "il30_1person": 18900,
+        "il30_2person": 21600,
+        "il30_3person": 24250,
+        "il30_4person": 26950,
+        "il50_1person": 31450,
+        "il50_2person": 35950,
+        "il50_3person": 40450,
+        "il50_4person": 44950,
+        "il60_1person": 37750,
+        "il60_2person": 43150,
+        "il60_3person": 48550,
+        "il60_4person": 53950,
+        "il80_1person": 50350,
+        "il80_2person": 57550,
+        "il80_3person": 64750,
+        "il80_4person": 71900
+      }
+    },
     "08087": {
       "county_fips": "08087",
       "county_name": "Morgan County",
@@ -2748,48 +2748,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 970,
+          "gross_rent": 910,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 878,
-          "pct_of_fmr": 110.5
+          "pct_of_fmr": 103.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1110,
+          "gross_rent": 1050,
           "fmr_bedroom": "one_br",
           "fmr_amount": 884,
-          "pct_of_fmr": 125.6
+          "pct_of_fmr": 118.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1250,
+          "gross_rent": 1180,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1160,
-          "pct_of_fmr": 107.8
+          "pct_of_fmr": 101.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1390,
+          "gross_rent": 1310,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1606,
-          "pct_of_fmr": 86.6
+          "pct_of_fmr": 81.6
         }
       },
       "income_limits": {
-        "ami_4person": 92500,
-        "il30_1person": 19400,
-        "il30_2person": 22200,
-        "il30_3person": 25000,
-        "il30_4person": 27750,
-        "il50_1person": 32350,
-        "il50_2person": 37000,
-        "il50_3person": 41600,
-        "il50_4person": 46250,
-        "il60_1person": 38850,
-        "il60_2person": 44400,
-        "il60_3person": 49950,
-        "il60_4person": 55500,
-        "il80_1person": 51800,
-        "il80_2person": 59200,
-        "il80_3person": 66600,
-        "il80_4person": 74000
+        "ami_4person": 87100,
+        "il30_1person": 18300,
+        "il30_2person": 20900,
+        "il30_3person": 23500,
+        "il30_4person": 26150,
+        "il50_1person": 30500,
+        "il50_2person": 34850,
+        "il50_3person": 39200,
+        "il50_4person": 43550,
+        "il60_1person": 36600,
+        "il60_2person": 41800,
+        "il60_3person": 47050,
+        "il60_4person": 52250,
+        "il80_1person": 48800,
+        "il80_2person": 55750,
+        "il80_3person": 62700,
+        "il80_4person": 69700
       }
     },
     "08089": {
@@ -2806,48 +2806,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 810,
+          "gross_rent": 720,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 737,
-          "pct_of_fmr": 109.9
+          "pct_of_fmr": 97.7
         },
         "rent_60pct_2person": {
-          "gross_rent": 920,
+          "gross_rent": 820,
           "fmr_bedroom": "one_br",
           "fmr_amount": 742,
-          "pct_of_fmr": 124.0
+          "pct_of_fmr": 110.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1040,
+          "gross_rent": 920,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 106.9
+          "pct_of_fmr": 94.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1150,
+          "gross_rent": 1030,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1303,
-          "pct_of_fmr": 88.3
+          "pct_of_fmr": 79.0
         }
       },
       "income_limits": {
-        "ami_4person": 76700,
-        "il30_1person": 16100,
-        "il30_2person": 18400,
-        "il30_3person": 20700,
-        "il30_4person": 23000,
-        "il50_1person": 26850,
-        "il50_2person": 30700,
-        "il50_3person": 34500,
-        "il50_4person": 38350,
-        "il60_1person": 32200,
-        "il60_2person": 36800,
-        "il60_3person": 41400,
-        "il60_4person": 46000,
-        "il80_1person": 42950,
-        "il80_2person": 49100,
-        "il80_3person": 55200,
-        "il80_4person": 61350
+        "ami_4person": 68500,
+        "il30_1person": 14400,
+        "il30_2person": 16450,
+        "il30_3person": 18500,
+        "il30_4person": 20550,
+        "il50_1person": 24000,
+        "il50_2person": 27400,
+        "il50_3person": 30800,
+        "il50_4person": 34250,
+        "il60_1person": 28750,
+        "il60_2person": 32900,
+        "il60_3person": 37000,
+        "il60_4person": 41100,
+        "il80_1person": 38350,
+        "il80_2person": 43850,
+        "il80_3person": 49300,
+        "il80_4person": 54800
       }
     },
     "08091": {
@@ -2864,48 +2864,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1100,
+          "gross_rent": 1180,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1170,
-          "pct_of_fmr": 94.0
+          "pct_of_fmr": 100.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1250,
+          "gross_rent": 1350,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1245,
-          "pct_of_fmr": 100.4
+          "pct_of_fmr": 108.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1410,
+          "gross_rent": 1520,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1526,
-          "pct_of_fmr": 92.4
+          "pct_of_fmr": 99.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1570,
+          "gross_rent": 1690,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2122,
-          "pct_of_fmr": 74.0
+          "pct_of_fmr": 79.6
         }
       },
       "income_limits": {
-        "ami_4person": 104500,
-        "il30_1person": 21950,
-        "il30_2person": 25100,
-        "il30_3person": 28200,
-        "il30_4person": 31350,
-        "il50_1person": 36600,
-        "il50_2person": 41800,
-        "il50_3person": 47000,
-        "il50_4person": 52250,
-        "il60_1person": 43900,
-        "il60_2person": 50150,
-        "il60_3person": 56450,
-        "il60_4person": 62700,
-        "il80_1person": 58500,
-        "il80_2person": 66900,
-        "il80_3person": 75250,
-        "il80_4person": 83600
+        "ami_4person": 112400,
+        "il30_1person": 23600,
+        "il30_2person": 27000,
+        "il30_3person": 30350,
+        "il30_4person": 33700,
+        "il50_1person": 39350,
+        "il50_2person": 44950,
+        "il50_3person": 50600,
+        "il50_4person": 56200,
+        "il60_1person": 47200,
+        "il60_2person": 53950,
+        "il60_3person": 60700,
+        "il60_4person": 67450,
+        "il80_1person": 62950,
+        "il80_2person": 71950,
+        "il80_3person": 80950,
+        "il80_4person": 89900
       }
     },
     "08095": {
@@ -2922,48 +2922,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 980,
+          "gross_rent": 1080,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 798,
-          "pct_of_fmr": 122.8
+          "pct_of_fmr": 135.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1110,
+          "gross_rent": 1240,
           "fmr_bedroom": "one_br",
           "fmr_amount": 803,
-          "pct_of_fmr": 138.2
+          "pct_of_fmr": 154.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 1250,
+          "gross_rent": 1390,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1054,
-          "pct_of_fmr": 118.6
+          "pct_of_fmr": 131.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1390,
+          "gross_rent": 1550,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1345,
-          "pct_of_fmr": 103.3
+          "pct_of_fmr": 115.2
         }
       },
       "income_limits": {
-        "ami_4person": 92900,
-        "il30_1person": 19500,
-        "il30_2person": 22300,
-        "il30_3person": 25100,
-        "il30_4person": 27850,
-        "il50_1person": 32500,
-        "il50_2person": 37150,
-        "il50_3person": 41800,
-        "il50_4person": 46450,
-        "il60_1person": 39000,
-        "il60_2person": 44600,
-        "il60_3person": 50150,
-        "il60_4person": 55750,
-        "il80_1person": 52000,
-        "il80_2person": 59450,
-        "il80_3person": 66900,
-        "il80_4person": 74300
+        "ami_4person": 103100,
+        "il30_1person": 21650,
+        "il30_2person": 24750,
+        "il30_3person": 27850,
+        "il30_4person": 30950,
+        "il50_1person": 36100,
+        "il50_2person": 41250,
+        "il50_3person": 46400,
+        "il50_4person": 51550,
+        "il60_1person": 43300,
+        "il60_2person": 49500,
+        "il60_3person": 55650,
+        "il60_4person": 61850,
+        "il80_1person": 57750,
+        "il80_2person": 66000,
+        "il80_3person": 74250,
+        "il80_4person": 82500
       }
     },
     "08097": {
@@ -2980,48 +2980,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1450,
+          "gross_rent": 1490,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1526,
-          "pct_of_fmr": 95.0
+          "pct_of_fmr": 97.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1660,
+          "gross_rent": 1710,
           "fmr_bedroom": "one_br",
           "fmr_amount": 2020,
-          "pct_of_fmr": 82.2
+          "pct_of_fmr": 84.7
         },
         "rent_60pct_3person": {
-          "gross_rent": 1870,
+          "gross_rent": 1920,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2214,
-          "pct_of_fmr": 84.5
+          "pct_of_fmr": 86.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 2080,
+          "gross_rent": 2130,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2826,
-          "pct_of_fmr": 73.6
+          "pct_of_fmr": 75.4
         }
       },
       "income_limits": {
-        "ami_4person": 138500,
-        "il30_1person": 29100,
-        "il30_2person": 33250,
-        "il30_3person": 37400,
-        "il30_4person": 41550,
-        "il50_1person": 48500,
-        "il50_2person": 55400,
-        "il50_3person": 62300,
-        "il50_4person": 69250,
-        "il60_1person": 58150,
-        "il60_2person": 66500,
-        "il60_3person": 74800,
-        "il60_4person": 83100,
-        "il80_1person": 77550,
-        "il80_2person": 88650,
-        "il80_3person": 99700,
-        "il80_4person": 110800
+        "ami_4person": 142100,
+        "il30_1person": 29850,
+        "il30_2person": 34100,
+        "il30_3person": 38350,
+        "il30_4person": 42650,
+        "il50_1person": 49750,
+        "il50_2person": 56850,
+        "il50_3person": 63950,
+        "il50_4person": 71050,
+        "il60_1person": 59700,
+        "il60_2person": 68200,
+        "il60_3person": 76750,
+        "il60_4person": 85250,
+        "il80_1person": 79600,
+        "il80_2person": 90950,
+        "il80_3person": 102300,
+        "il80_4person": 113700
       }
     },
     "08099": {
@@ -3038,48 +3038,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 800,
+          "gross_rent": 760,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 107.2
+          "pct_of_fmr": 101.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 910,
+          "gross_rent": 870,
           "fmr_bedroom": "one_br",
           "fmr_amount": 888,
-          "pct_of_fmr": 102.5
+          "pct_of_fmr": 98.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1020,
+          "gross_rent": 980,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 104.8
+          "pct_of_fmr": 100.7
         },
         "rent_60pct_4person": {
-          "gross_rent": 1140,
+          "gross_rent": 1090,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1249,
-          "pct_of_fmr": 91.3
+          "pct_of_fmr": 87.3
         }
       },
       "income_limits": {
-        "ami_4person": 75900,
-        "il30_1person": 15950,
-        "il30_2person": 18200,
-        "il30_3person": 20500,
-        "il30_4person": 22750,
-        "il50_1person": 26550,
-        "il50_2person": 30350,
-        "il50_3person": 34150,
-        "il50_4person": 37950,
-        "il60_1person": 31900,
-        "il60_2person": 36450,
-        "il60_3person": 41000,
-        "il60_4person": 45550,
-        "il80_1person": 42500,
-        "il80_2person": 48600,
-        "il80_3person": 54650,
-        "il80_4person": 60700
+        "ami_4person": 72600,
+        "il30_1person": 15250,
+        "il30_2person": 17400,
+        "il30_3person": 19600,
+        "il30_4person": 21800,
+        "il50_1person": 25400,
+        "il50_2person": 29050,
+        "il50_3person": 32650,
+        "il50_4person": 36300,
+        "il60_1person": 30500,
+        "il60_2person": 34850,
+        "il60_3person": 39200,
+        "il60_4person": 43550,
+        "il80_1person": 40650,
+        "il80_2person": 46450,
+        "il80_3person": 52250,
+        "il80_4person": 58100
       }
     },
     "08101": {
@@ -3096,28 +3096,86 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 880,
+          "gross_rent": 920,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 875,
-          "pct_of_fmr": 100.6
+          "pct_of_fmr": 105.1
+        },
+        "rent_60pct_2person": {
+          "gross_rent": 1050,
+          "fmr_bedroom": "one_br",
+          "fmr_amount": 967,
+          "pct_of_fmr": 108.6
+        },
+        "rent_60pct_3person": {
+          "gross_rent": 1180,
+          "fmr_bedroom": "two_br",
+          "fmr_amount": 1269,
+          "pct_of_fmr": 93.0
+        },
+        "rent_60pct_4person": {
+          "gross_rent": 1320,
+          "fmr_bedroom": "three_br",
+          "fmr_amount": 1617,
+          "pct_of_fmr": 81.6
+        }
+      },
+      "income_limits": {
+        "ami_4person": 87700,
+        "il30_1person": 18400,
+        "il30_2person": 21050,
+        "il30_3person": 23700,
+        "il30_4person": 26300,
+        "il50_1person": 30700,
+        "il50_2person": 35100,
+        "il50_3person": 39450,
+        "il50_4person": 43850,
+        "il60_1person": 36850,
+        "il60_2person": 42100,
+        "il60_3person": 47350,
+        "il60_4person": 52600,
+        "il80_1person": 49100,
+        "il80_2person": 56150,
+        "il80_3person": 63150,
+        "il80_4person": 70150
+      }
+    },
+    "08103": {
+      "county_fips": "08103",
+      "county_name": "Rio Blanco County",
+      "fmr_area_code": "NCNTY08103N08103",
+      "fmr_area_name": "Rio Blanco County FMR Area",
+      "fmr": {
+        "efficiency": 764,
+        "one_br": 769,
+        "two_br": 1009,
+        "three_br": 1285,
+        "four_br": 1582
+      },
+      "affordable_rents_60pct": {
+        "rent_60pct_1person": {
+          "gross_rent": 880,
+          "fmr_bedroom": "efficiency",
+          "fmr_amount": 764,
+          "pct_of_fmr": 115.2
         },
         "rent_60pct_2person": {
           "gross_rent": 1010,
           "fmr_bedroom": "one_br",
-          "fmr_amount": 967,
-          "pct_of_fmr": 104.4
+          "fmr_amount": 769,
+          "pct_of_fmr": 131.3
         },
         "rent_60pct_3person": {
           "gross_rent": 1130,
           "fmr_bedroom": "two_br",
-          "fmr_amount": 1269,
-          "pct_of_fmr": 89.0
+          "fmr_amount": 1009,
+          "pct_of_fmr": 112.0
         },
         "rent_60pct_4person": {
           "gross_rent": 1260,
           "fmr_bedroom": "three_br",
-          "fmr_amount": 1617,
-          "pct_of_fmr": 77.9
+          "fmr_amount": 1285,
+          "pct_of_fmr": 98.1
         }
       },
       "income_limits": {
@@ -3140,64 +3198,6 @@
         "il80_4person": 67200
       }
     },
-    "08103": {
-      "county_fips": "08103",
-      "county_name": "Rio Blanco County",
-      "fmr_area_code": "NCNTY08103N08103",
-      "fmr_area_name": "Rio Blanco County FMR Area",
-      "fmr": {
-        "efficiency": 764,
-        "one_br": 769,
-        "two_br": 1009,
-        "three_br": 1285,
-        "four_br": 1582
-      },
-      "affordable_rents_60pct": {
-        "rent_60pct_1person": {
-          "gross_rent": 1010,
-          "fmr_bedroom": "efficiency",
-          "fmr_amount": 764,
-          "pct_of_fmr": 132.2
-        },
-        "rent_60pct_2person": {
-          "gross_rent": 1160,
-          "fmr_bedroom": "one_br",
-          "fmr_amount": 769,
-          "pct_of_fmr": 150.8
-        },
-        "rent_60pct_3person": {
-          "gross_rent": 1300,
-          "fmr_bedroom": "two_br",
-          "fmr_amount": 1009,
-          "pct_of_fmr": 128.8
-        },
-        "rent_60pct_4person": {
-          "gross_rent": 1450,
-          "fmr_bedroom": "three_br",
-          "fmr_amount": 1285,
-          "pct_of_fmr": 112.8
-        }
-      },
-      "income_limits": {
-        "ami_4person": 96500,
-        "il30_1person": 20250,
-        "il30_2person": 23150,
-        "il30_3person": 26050,
-        "il30_4person": 28950,
-        "il50_1person": 33800,
-        "il50_2person": 38600,
-        "il50_3person": 43400,
-        "il50_4person": 48250,
-        "il60_1person": 40550,
-        "il60_2person": 46300,
-        "il60_3person": 52100,
-        "il60_4person": 57900,
-        "il80_1person": 54050,
-        "il80_2person": 61750,
-        "il80_3person": 69500,
-        "il80_4person": 77200
-      }
-    },
     "08105": {
       "county_fips": "08105",
       "county_name": "Rio Grande County",
@@ -3212,48 +3212,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 960,
+          "gross_rent": 920,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 839,
-          "pct_of_fmr": 114.4
+          "pct_of_fmr": 109.7
         },
         "rent_60pct_2person": {
-          "gross_rent": 1100,
+          "gross_rent": 1050,
           "fmr_bedroom": "one_br",
           "fmr_amount": 976,
-          "pct_of_fmr": 112.7
+          "pct_of_fmr": 107.6
         },
         "rent_60pct_3person": {
-          "gross_rent": 1240,
+          "gross_rent": 1190,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1094,
-          "pct_of_fmr": 113.3
+          "pct_of_fmr": 108.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1370,
+          "gross_rent": 1320,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1312,
-          "pct_of_fmr": 104.4
+          "pct_of_fmr": 100.6
         }
       },
       "income_limits": {
-        "ami_4person": 91500,
-        "il30_1person": 19200,
-        "il30_2person": 21950,
-        "il30_3person": 24700,
-        "il30_4person": 27450,
-        "il50_1person": 32000,
-        "il50_2person": 36600,
-        "il50_3person": 41200,
-        "il50_4person": 45750,
-        "il60_1person": 38450,
-        "il60_2person": 43900,
-        "il60_3person": 49400,
-        "il60_4person": 54900,
-        "il80_1person": 51250,
-        "il80_2person": 58550,
-        "il80_3person": 65900,
-        "il80_4person": 73200
+        "ami_4person": 87800,
+        "il30_1person": 18450,
+        "il30_2person": 21050,
+        "il30_3person": 23700,
+        "il30_4person": 26350,
+        "il50_1person": 30750,
+        "il50_2person": 35100,
+        "il50_3person": 39500,
+        "il50_4person": 43900,
+        "il60_1person": 36900,
+        "il60_2person": 42150,
+        "il60_3person": 47400,
+        "il60_4person": 52700,
+        "il80_1person": 49150,
+        "il80_2person": 56200,
+        "il80_3person": 63200,
+        "il80_4person": 70250
       }
     },
     "08107": {
@@ -3270,48 +3270,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1430,
+          "gross_rent": 1460,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1726,
-          "pct_of_fmr": 82.9
+          "pct_of_fmr": 84.6
         },
         "rent_60pct_2person": {
-          "gross_rent": 1630,
+          "gross_rent": 1660,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1845,
-          "pct_of_fmr": 88.3
+          "pct_of_fmr": 90.0
         },
         "rent_60pct_3person": {
-          "gross_rent": 1840,
+          "gross_rent": 1870,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2022,
-          "pct_of_fmr": 91.0
+          "pct_of_fmr": 92.5
         },
         "rent_60pct_4person": {
-          "gross_rent": 2040,
+          "gross_rent": 2080,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2424,
-          "pct_of_fmr": 84.2
+          "pct_of_fmr": 85.8
         }
       },
       "income_limits": {
-        "ami_4person": 136000,
-        "il30_1person": 28550,
-        "il30_2person": 32650,
-        "il30_3person": 36700,
-        "il30_4person": 40800,
-        "il50_1person": 47600,
-        "il50_2person": 54400,
-        "il50_3person": 61200,
-        "il50_4person": 68000,
-        "il60_1person": 57100,
-        "il60_2person": 65300,
-        "il60_3person": 73450,
-        "il60_4person": 81600,
-        "il80_1person": 76150,
-        "il80_2person": 87050,
-        "il80_3person": 97900,
-        "il80_4person": 108800
+        "ami_4person": 138700,
+        "il30_1person": 29150,
+        "il30_2person": 33300,
+        "il30_3person": 37450,
+        "il30_4person": 41600,
+        "il50_1person": 48550,
+        "il50_2person": 55500,
+        "il50_3person": 62400,
+        "il50_4person": 69350,
+        "il60_1person": 58250,
+        "il60_2person": 66600,
+        "il60_3person": 74900,
+        "il60_4person": 83200,
+        "il80_1person": 77650,
+        "il80_2person": 88750,
+        "il80_3person": 99850,
+        "il80_4person": 110950
       }
     },
     "08109": {
@@ -3328,48 +3328,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 690,
+          "gross_rent": 660,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 748,
-          "pct_of_fmr": 92.2
+          "pct_of_fmr": 88.2
         },
         "rent_60pct_2person": {
-          "gross_rent": 790,
+          "gross_rent": 760,
           "fmr_bedroom": "one_br",
           "fmr_amount": 797,
-          "pct_of_fmr": 99.1
+          "pct_of_fmr": 95.4
         },
         "rent_60pct_3person": {
-          "gross_rent": 890,
+          "gross_rent": 850,
           "fmr_bedroom": "two_br",
           "fmr_amount": 975,
-          "pct_of_fmr": 91.3
+          "pct_of_fmr": 87.2
         },
         "rent_60pct_4person": {
-          "gross_rent": 990,
+          "gross_rent": 950,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1295,
-          "pct_of_fmr": 76.4
+          "pct_of_fmr": 73.4
         }
       },
       "income_limits": {
-        "ami_4person": 66100,
-        "il30_1person": 13900,
-        "il30_2person": 15850,
-        "il30_3person": 17850,
-        "il30_4person": 19850,
-        "il50_1person": 23150,
-        "il50_2person": 26450,
-        "il50_3person": 29750,
-        "il50_4person": 33050,
-        "il60_1person": 27750,
-        "il60_2person": 31750,
-        "il60_3person": 35700,
-        "il60_4person": 39650,
-        "il80_1person": 37000,
-        "il80_2person": 42300,
-        "il80_3person": 47600,
-        "il80_4person": 52900
+        "ami_4person": 63200,
+        "il30_1person": 13250,
+        "il30_2person": 15150,
+        "il30_3person": 17050,
+        "il30_4person": 18950,
+        "il50_1person": 22100,
+        "il50_2person": 25300,
+        "il50_3person": 28450,
+        "il50_4person": 31600,
+        "il60_1person": 26550,
+        "il60_2person": 30350,
+        "il60_3person": 34150,
+        "il60_4person": 37900,
+        "il80_1person": 35400,
+        "il80_2person": 40450,
+        "il80_3person": 45500,
+        "il80_4person": 50550
       }
     },
     "08111": {
@@ -3386,48 +3386,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 930,
+          "gross_rent": 940,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 945,
-          "pct_of_fmr": 98.4
+          "pct_of_fmr": 99.5
         },
         "rent_60pct_2person": {
-          "gross_rent": 1070,
+          "gross_rent": 1080,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1119,
-          "pct_of_fmr": 95.6
+          "pct_of_fmr": 96.5
         },
         "rent_60pct_3person": {
-          "gross_rent": 1200,
+          "gross_rent": 1220,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1227,
-          "pct_of_fmr": 97.8
+          "pct_of_fmr": 99.4
         },
         "rent_60pct_4person": {
-          "gross_rent": 1330,
+          "gross_rent": 1350,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1509,
-          "pct_of_fmr": 88.1
+          "pct_of_fmr": 89.5
         }
       },
       "income_limits": {
-        "ami_4person": 88900,
-        "il30_1person": 18650,
-        "il30_2person": 21350,
-        "il30_3person": 24000,
-        "il30_4person": 26650,
-        "il50_1person": 31100,
-        "il50_2person": 35550,
-        "il50_3person": 40000,
-        "il50_4person": 44450,
-        "il60_1person": 37350,
-        "il60_2person": 42650,
-        "il60_3person": 48000,
-        "il60_4person": 53350,
-        "il80_1person": 49800,
-        "il80_2person": 56900,
-        "il80_3person": 64000,
-        "il80_4person": 71100
+        "ami_4person": 90000,
+        "il30_1person": 18900,
+        "il30_2person": 21600,
+        "il30_3person": 24300,
+        "il30_4person": 27000,
+        "il50_1person": 31500,
+        "il50_2person": 36000,
+        "il50_3person": 40500,
+        "il50_4person": 45000,
+        "il60_1person": 37800,
+        "il60_2person": 43200,
+        "il60_3person": 48600,
+        "il60_4person": 54000,
+        "il80_1person": 50400,
+        "il80_2person": 57600,
+        "il80_3person": 64800,
+        "il80_4person": 72000
       }
     },
     "08113": {
@@ -3444,48 +3444,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1250,
+          "gross_rent": 1380,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1245,
-          "pct_of_fmr": 100.4
+          "pct_of_fmr": 110.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1430,
+          "gross_rent": 1570,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1254,
-          "pct_of_fmr": 114.0
+          "pct_of_fmr": 125.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1610,
+          "gross_rent": 1770,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1645,
-          "pct_of_fmr": 97.9
+          "pct_of_fmr": 107.6
         },
         "rent_60pct_4person": {
-          "gross_rent": 1790,
+          "gross_rent": 1970,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2288,
-          "pct_of_fmr": 78.2
+          "pct_of_fmr": 86.1
         }
       },
       "income_limits": {
-        "ami_4person": 119500,
-        "il30_1person": 25100,
-        "il30_2person": 28700,
-        "il30_3person": 32250,
-        "il30_4person": 35850,
-        "il50_1person": 41800,
-        "il50_2person": 47800,
-        "il50_3person": 53800,
-        "il50_4person": 59750,
-        "il60_1person": 50200,
-        "il60_2person": 57350,
-        "il60_3person": 64550,
-        "il60_4person": 71700,
-        "il80_1person": 66900,
-        "il80_2person": 76500,
-        "il80_3person": 86050,
-        "il80_4person": 95600
+        "ami_4person": 131100,
+        "il30_1person": 27550,
+        "il30_2person": 31450,
+        "il30_3person": 35400,
+        "il30_4person": 39350,
+        "il50_1person": 45900,
+        "il50_2person": 52450,
+        "il50_3person": 59000,
+        "il50_4person": 65550,
+        "il60_1person": 55050,
+        "il60_2person": 62950,
+        "il60_3person": 70800,
+        "il60_4person": 78650,
+        "il80_1person": 73400,
+        "il80_2person": 83900,
+        "il80_3person": 94400,
+        "il80_4person": 104900
       }
     },
     "08115": {
@@ -3502,48 +3502,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 880,
+          "gross_rent": 830,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 746,
-          "pct_of_fmr": 118.0
+          "pct_of_fmr": 111.3
         },
         "rent_60pct_2person": {
-          "gross_rent": 1000,
+          "gross_rent": 940,
           "fmr_bedroom": "one_br",
           "fmr_amount": 759,
-          "pct_of_fmr": 131.8
+          "pct_of_fmr": 123.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1130,
+          "gross_rent": 1060,
           "fmr_bedroom": "two_br",
           "fmr_amount": 973,
-          "pct_of_fmr": 116.1
+          "pct_of_fmr": 108.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 1250,
+          "gross_rent": 1180,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1167,
-          "pct_of_fmr": 107.1
+          "pct_of_fmr": 101.1
         }
       },
       "income_limits": {
-        "ami_4person": 83400,
-        "il30_1person": 17500,
-        "il30_2person": 20000,
-        "il30_3person": 22500,
-        "il30_4person": 25000,
-        "il50_1person": 29200,
-        "il50_2person": 33350,
-        "il50_3person": 37550,
-        "il50_4person": 41700,
-        "il60_1person": 35050,
-        "il60_2person": 40050,
-        "il60_3person": 45050,
-        "il60_4person": 50050,
-        "il80_1person": 46700,
-        "il80_2person": 53400,
-        "il80_3person": 60050,
-        "il80_4person": 66700
+        "ami_4person": 78700,
+        "il30_1person": 16550,
+        "il30_2person": 18900,
+        "il30_3person": 21250,
+        "il30_4person": 23600,
+        "il50_1person": 27550,
+        "il50_2person": 31500,
+        "il50_3person": 35400,
+        "il50_4person": 39350,
+        "il60_1person": 33050,
+        "il60_2person": 37800,
+        "il60_3person": 42500,
+        "il60_4person": 47200,
+        "il80_1person": 44050,
+        "il80_2person": 50350,
+        "il80_3person": 56650,
+        "il80_4person": 62950
       }
     },
     "08117": {
@@ -3560,48 +3560,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 1470,
+          "gross_rent": 1530,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 1701,
-          "pct_of_fmr": 86.4
+          "pct_of_fmr": 89.9
         },
         "rent_60pct_2person": {
-          "gross_rent": 1680,
+          "gross_rent": 1750,
           "fmr_bedroom": "one_br",
           "fmr_amount": 1880,
-          "pct_of_fmr": 89.4
+          "pct_of_fmr": 93.1
         },
         "rent_60pct_3person": {
-          "gross_rent": 1880,
+          "gross_rent": 1970,
           "fmr_bedroom": "two_br",
           "fmr_amount": 2467,
-          "pct_of_fmr": 76.2
+          "pct_of_fmr": 79.9
         },
         "rent_60pct_4person": {
-          "gross_rent": 2090,
+          "gross_rent": 2190,
           "fmr_bedroom": "three_br",
           "fmr_amount": 2958,
-          "pct_of_fmr": 70.7
+          "pct_of_fmr": 74.0
         }
       },
       "income_limits": {
-        "ami_4person": 139600,
-        "il30_1person": 29300,
-        "il30_2person": 33500,
-        "il30_3person": 37700,
-        "il30_4person": 41900,
-        "il50_1person": 48850,
-        "il50_2person": 55850,
-        "il50_3person": 62800,
-        "il50_4person": 69800,
-        "il60_1person": 58650,
-        "il60_2person": 67000,
-        "il60_3person": 75400,
-        "il60_4person": 83750,
-        "il80_1person": 78200,
-        "il80_2person": 89350,
-        "il80_3person": 100500,
-        "il80_4person": 111700
+        "ami_4person": 145800,
+        "il30_1person": 30600,
+        "il30_2person": 35000,
+        "il30_3person": 39350,
+        "il30_4person": 43750,
+        "il50_1person": 51050,
+        "il50_2person": 58300,
+        "il50_3person": 65600,
+        "il50_4person": 72900,
+        "il60_1person": 61250,
+        "il60_2person": 70000,
+        "il60_3person": 78750,
+        "il60_4person": 87500,
+        "il80_1person": 81650,
+        "il80_2person": 93300,
+        "il80_3person": 105000,
+        "il80_4person": 116650
       }
     },
     "08121": {
@@ -3618,48 +3618,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 920,
+          "gross_rent": 980,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 854,
-          "pct_of_fmr": 107.7
+          "pct_of_fmr": 114.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 1050,
+          "gross_rent": 1120,
           "fmr_bedroom": "one_br",
           "fmr_amount": 856,
-          "pct_of_fmr": 122.7
+          "pct_of_fmr": 130.8
         },
         "rent_60pct_3person": {
-          "gross_rent": 1180,
+          "gross_rent": 1260,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1114,
-          "pct_of_fmr": 105.9
+          "pct_of_fmr": 113.1
         },
         "rent_60pct_4person": {
-          "gross_rent": 1310,
+          "gross_rent": 1400,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1336,
-          "pct_of_fmr": 98.1
+          "pct_of_fmr": 104.8
         }
       },
       "income_limits": {
-        "ami_4person": 87400,
-        "il30_1person": 18350,
-        "il30_2person": 21000,
-        "il30_3person": 23600,
-        "il30_4person": 26200,
-        "il50_1person": 30600,
-        "il50_2person": 34950,
-        "il50_3person": 39350,
-        "il50_4person": 43700,
-        "il60_1person": 36700,
-        "il60_2person": 41950,
-        "il60_3person": 47200,
-        "il60_4person": 52450,
-        "il80_1person": 48950,
-        "il80_2person": 55950,
-        "il80_3person": 62950,
-        "il80_4person": 69900
+        "ami_4person": 93300,
+        "il30_1person": 19600,
+        "il30_2person": 22400,
+        "il30_3person": 25200,
+        "il30_4person": 28000,
+        "il50_1person": 32650,
+        "il50_2person": 37300,
+        "il50_3person": 42000,
+        "il50_4person": 46650,
+        "il60_1person": 39200,
+        "il60_2person": 44800,
+        "il60_3person": 50400,
+        "il60_4person": 56000,
+        "il80_1person": 52250,
+        "il80_2person": 59700,
+        "il80_3person": 67200,
+        "il80_4person": 74650
       }
     },
     "08125": {
@@ -3676,48 +3676,48 @@
       },
       "affordable_rents_60pct": {
         "rent_60pct_1person": {
-          "gross_rent": 840,
+          "gross_rent": 970,
           "fmr_bedroom": "efficiency",
           "fmr_amount": 803,
-          "pct_of_fmr": 104.6
+          "pct_of_fmr": 120.8
         },
         "rent_60pct_2person": {
-          "gross_rent": 960,
+          "gross_rent": 1110,
           "fmr_bedroom": "one_br",
           "fmr_amount": 809,
-          "pct_of_fmr": 118.7
+          "pct_of_fmr": 137.2
         },
         "rent_60pct_3person": {
-          "gross_rent": 1080,
+          "gross_rent": 1250,
           "fmr_bedroom": "two_br",
           "fmr_amount": 1061,
-          "pct_of_fmr": 101.8
+          "pct_of_fmr": 117.8
         },
         "rent_60pct_4person": {
-          "gross_rent": 1200,
+          "gross_rent": 1390,
           "fmr_bedroom": "three_br",
           "fmr_amount": 1361,
-          "pct_of_fmr": 88.2
+          "pct_of_fmr": 102.1
         }
       },
       "income_limits": {
-        "ami_4person": 79800,
-        "il30_1person": 16750,
-        "il30_2person": 19150,
-        "il30_3person": 21550,
-        "il30_4person": 23950,
-        "il50_1person": 27950,
-        "il50_2person": 31900,
-        "il50_3person": 35900,
-        "il50_4person": 39900,
-        "il60_1person": 33500,
-        "il60_2person": 38300,
-        "il60_3person": 43100,
-        "il60_4person": 47900,
-        "il80_1person": 44700,
-        "il80_2person": 51050,
-        "il80_3person": 57450,
-        "il80_4person": 63850
+        "ami_4person": 92600,
+        "il30_1person": 19450,
+        "il30_2person": 22200,
+        "il30_3person": 25000,
+        "il30_4person": 27800,
+        "il50_1person": 32400,
+        "il50_2person": 37050,
+        "il50_3person": 41650,
+        "il50_4person": 46300,
+        "il60_1person": 38900,
+        "il60_2person": 44450,
+        "il60_3person": 50000,
+        "il60_4person": 55550,
+        "il80_1person": 51850,
+        "il80_2person": 59250,
+        "il80_3person": 66650,
+        "il80_4person": 74100
       }
     }
   }
