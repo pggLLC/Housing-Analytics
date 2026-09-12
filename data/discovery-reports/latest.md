@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-11T12:11:26.892Z
+**Scan timestamp:** 2026-09-12T11:35:45.983Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
-- `data/alerts/alerts_archive.json` (188 KB)
+- `data/alerts/alerts_archive.json` (190 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -1492,7 +1492,7 @@
 - `data/jurisdiction-briefs/_verified/0864255.json` (13 KB)
 - `data/jurisdiction-briefs/_verified/0867280.json` (17 KB)
 - `data/jurisdiction-briefs/_verified/0870195.json` (18 KB)
-- `data/kalshi/prediction-market.json` (3 KB)
+- `data/kalshi/prediction-market.json` (1 KB)
 - `data/market/acs_median_rent_co.json` (83 KB)
 - `data/market/apartment_list_co.json` (6 KB)
 - `data/market/bridge_co_market_summary.json` (0 KB)
@@ -1577,7 +1577,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (156 KB)
+- `data/policy_briefs.json` (157 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
@@ -1594,7 +1594,7 @@
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
-- `data/url-health.json` (326 KB)
+- `data/url-health.json` (322 KB)
 - `data/zillow/median_list_price_metro.csv` (839 KB)
 - `data/zillow/zhvi_metro.csv` (4355 KB)
 - `data/zillow/zori_metro.csv` (1030 KB)
