@@ -88,6 +88,49 @@
     return out;
   }
 
+
+  /**
+   * buildPath — render the guided reading path, or nothing if the module is
+   * absent or too few stops survive. A two-stop "path" is not a path; below
+   * that threshold the full contents list is the better affordance.
+   */
+  function buildPath(doc) {
+    var RP = (typeof window !== 'undefined') && window.HNAReadingPath;
+    if (!RP) return null;
+    var resolved = RP.resolve(doc);
+    if (resolved.steps.length < 4) return null;
+
+    var wrap = doc.createElement('div');
+    wrap.className = 'hna-rail__path';
+
+    var head = doc.createElement('div');
+    head.className = 'hna-rail__path-head';
+    head.textContent = 'Start here';
+    wrap.appendChild(head);
+
+    var sub = doc.createElement('p');
+    sub.className = 'hna-rail__path-sub';
+    sub.textContent = 'The assessment as an argument, in ' + resolved.steps.length + ' steps.';
+    wrap.appendChild(sub);
+
+    var ol = doc.createElement('ol');
+    ol.className = 'hna-rail__path-list';
+    resolved.steps.forEach(function (step) {
+      var li = doc.createElement('li');
+      var a = doc.createElement('a');
+      a.className = 'hna-rail__path-link';
+      a.href = '#' + step.id;
+      a.textContent = step.label;
+      // The question is the point of the stop; keep it available without
+      // spending a line on it in a 15rem rail.
+      a.title = step.question;
+      li.appendChild(a);
+      ol.appendChild(li);
+    });
+    wrap.appendChild(ol);
+    return wrap;
+  }
+
   function build(doc, entries) {
     var nav = doc.createElement('nav');
     nav.className = 'hna-rail';
@@ -101,6 +144,12 @@
     toggle.setAttribute('aria-controls', 'hnaContentsRailList');
     toggle.innerHTML = '<span class="hna-rail__toggle-label">Contents</span>' +
       '<span class="hna-rail__count">' + entries.length + '</span>';
+
+    // The guided reading path sits above the full list. The list answers
+    // "where is X"; the path answers "what should I read, in what order" —
+    // the question 54 sections in 33 topic-runs left unanswered.
+    var path = buildPath(doc);
+    if (path) nav.appendChild(path);
 
     var list = doc.createElement('ol');
     list.className = 'hna-rail__list';
