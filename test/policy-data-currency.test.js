@@ -9,25 +9,23 @@ const readJson = (rel) => JSON.parse(read(rel));
 const readHeadJson = (rel) => JSON.parse(execFileSync('git', ['show', `HEAD:${rel}`], { cwd: ROOT, encoding: 'utf8' }));
 
 const hud = readJson('data/hud-fmr-income-limits.json');
-assert.strictEqual(hud.meta.source, 'HUD FMR and Income Limits (FY2026)', 'HUD meta.source should say FY2026');
-assert(hud.meta.note.startsWith('FY2026 Fair Market Rents and Income Limits for Colorado counties.'), 'HUD meta.note should start with FY2026');
-assert(!hud.meta.source.includes('FY2025'), 'HUD meta.source should not say FY2025');
-assert(!hud.meta.note.includes('FY2025'), 'HUD meta.note should not say FY2025');
+assert.strictEqual(hud.meta.source, 'HUD FMR FY2026 and Income Limits FY2025', 'HUD meta.source should state separate FMR and IL vintages');
+assert.strictEqual(hud.meta.income_limits_fiscal_year, 2025, 'HUD meta should record the FY2025 Income Limits vintage');
+assert(hud.meta.note.startsWith('FY2026 Fair Market Rents and FY2025 Income Limits for Colorado counties.'), 'HUD meta.note should state separate FMR and IL vintages');
 
 const hudHead = readHeadJson('data/hud-fmr-income-limits.json');
 assert.deepStrictEqual(hud.counties, hudHead.counties, 'HUD county numeric/data records must not change');
 const hudMetaComparable = Object.assign({}, hud.meta, {
   source: hudHead.meta.source,
   note: hudHead.meta.note,
+  income_limits_fiscal_year: hudHead.meta.income_limits_fiscal_year,
 });
-assert.deepStrictEqual(hudMetaComparable, hudHead.meta, 'HUD metadata changes should be limited to source and note');
+assert.deepStrictEqual(hudMetaComparable, hudHead.meta, 'HUD metadata changes should be limited to source, note, and the explicit Income Limits vintage');
 
 const fetchScript = read('scripts/fetch_fmr_api.py');
-assert(!fetchScript.includes('HUD FMR and Income Limits (FY2025)'), 'fetch script should not write FY2025 combined source labels');
-assert(!fetchScript.includes('FY2025 Fair Market Rents and Income Limits for Colorado counties.'), 'fetch script should not write FY2025 combined note labels');
 assert(!fetchScript.includes('HUD FMR Area cross-reference by Colorado county (FY2025)'), 'fetch script should not write FY2025 cross-reference source labels');
-assert(fetchScript.includes('HUD FMR and Income Limits (FY2026)'), 'fetch script should write FY2026 combined source labels');
-assert(fetchScript.includes('FY2026 Fair Market Rents and Income Limits for Colorado counties.'), 'fetch script should write FY2026 combined note labels');
+assert(fetchScript.includes('HUD FMR FY2026 and Income Limits FY2025'), 'fetch script should state separate FMR and IL vintages');
+assert(fetchScript.includes('FY2026 Fair Market Rents and FY2025 Income Limits for Colorado counties.'), 'fetch script should state separate FMR and IL vintages in its note');
 assert(fetchScript.includes('HUD FMR Area cross-reference by Colorado county (FY2026)'), 'fetch script should write FY2026 cross-reference source labels');
 
 const prop123 = readJson('data/policy/prop123_jurisdictions.json');

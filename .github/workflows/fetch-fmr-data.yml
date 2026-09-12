@@ -102,6 +102,26 @@ jobs:
               print(f"::error::Non 5-digit county FIPS found: {bad[:5]}", file=sys.stderr)
               sys.exit(1)
           print(f"  FIPS validation passed ({len(fips_list)} counties)")
+
+          records = counties if isinstance(counties, list) else list(counties.values())
+          amis = [int((row.get('income_limits') or {}).get('ami_4person') or 0) for row in records]
+          distinct = {value for value in amis if value > 0}
+          statewide_default_count = sum(value == 107200 for value in amis)
+          if len(amis) != 64 or len(distinct) < 10:
+              print(
+                  f"::error::Income Limits are not complete and varied: "
+                  f"{len(distinct)} distinct AMIs across {len(amis)} counties",
+                  file=sys.stderr,
+              )
+              sys.exit(1)
+          if statewide_default_count > 5:
+              print(
+                  f"::error::Income Limits are flattened: {statewide_default_count} counties "
+                  "use the statewide fallback AMI",
+                  file=sys.stderr,
+              )
+              sys.exit(1)
+          print(f"  Income Limits validation passed ({len(distinct)} distinct county AMIs)")
           PYEOF
           # Verify fmr_co.json has non-zero records
           python3 << 'PYEOF'
