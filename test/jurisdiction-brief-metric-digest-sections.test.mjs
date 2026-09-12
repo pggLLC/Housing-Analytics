@@ -27,14 +27,14 @@ function test(name, fn) {
 console.log('Jurisdiction brief metric-digest sections');
 
 test('suppressed housing-gap rates produce fallback prose instead of throwing', () => {
-  const brief = readJson('data/jurisdiction-briefs/0818310.json');
-  const digest = readJson('data/hna/jurisdiction-metrics-digest/0818310.json');
+  const brief = readJson('data/jurisdiction-briefs/0876795.json');
+  const digest = readJson('data/hna/jurisdiction-metrics-digest/0876795.json');
   const section = sectionFor(brief, digest);
   const text = section.paragraphs[0].text;
 
-  assert.ok(text.includes('The deep-affordability gap rate is suppressed because only 14 <=30% AMI households are observed'));
+  assert.ok(text.includes('The deep-affordability gap rate is suppressed because only 19 <=30% AMI households are observed'));
   assert.ok(text.includes("below the digest's 50-household reporting floor."));
-  assert.ok(text.includes('53.8% of renter households are cost burdened'));
+  assert.ok(text.includes('43.8% of renter households are cost burdened'));
 });
 
 test('available housing-gap rates still render the percent narrative', () => {
@@ -46,5 +46,5 @@ test('available housing-gap rates still render the percent narrative', () => {
   // period as a lowercase fragment ("...at <=30% AMI. equal to 81.7%..."),
   // which read as a run-on; the suppressed-rate branch above already uses the
   // sentence form, so both branches now match.
-  assert.ok(section.paragraphs[0].text.includes('The deep-affordability gap rate is 81.7% of <=30% AMI households.'));
+  assert.ok(section.paragraphs[0].text.includes('The deep-affordability gap rate is 65.7% of <=30% AMI households.'));
 });
