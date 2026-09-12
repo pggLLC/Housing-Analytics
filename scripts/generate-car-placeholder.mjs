@@ -184,6 +184,18 @@ function buildPlaceholder(month, previous) {
   return {
     month,
     generated_at: new Date().toISOString(),
+    // The figures below are NOT published CAR numbers — they are this month's
+    // values projected from last month's by fixed growth factors, or bare
+    // placeholders when there is no previous month. `source` names the series
+    // these stand in for, which read alone is easy to mistake for provenance.
+    // The flag is machine-readable so surfaces can label the estimate instead
+    // of attributing a projection to CAR: data/car-market-report-2026-08 and
+    // -09 were rendered on the HNA market section as "Denver Metro CAR
+    // $577k" with nothing marking them as projected.
+    estimated: true,
+    estimate_basis: previous
+      ? `trend-projection from ${previous.month}`
+      : 'placeholder — no prior month to project from',
     source: 'Colorado Association of REALTORS (CAR)',
     source_url: 'https://coloradorealtors.com/market-trends/',
     version: '1.0',

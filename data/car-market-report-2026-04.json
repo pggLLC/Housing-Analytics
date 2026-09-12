@@ -1,6 +1,8 @@
 {
   "month": "2026-04",
   "generated_at": "2026-04-01T05:57:09.953Z",
+  "estimated": true,
+  "estimate_basis": "trend-projection from 2026-03",
   "source": "Colorado Association of REALTORS (CAR)",
   "source_url": "https://coloradorealtors.com/market-trends/",
   "version": "1.0",

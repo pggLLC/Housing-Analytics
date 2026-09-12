@@ -80,8 +80,10 @@
       url: 'https://www.chfainfo.com/',
       localFile: 'data/chfa-lihtc.json',
       lastUpdated: '2026-09-07',
-      updateFrequency: 'Daily',
-      maxAgeDays: 2,
+      // fetch-chfa-lihtc.yml runs '49 5 * * 0' — weekly, not daily. A 2-day
+      // limit could never be met by a Sunday cron.
+      updateFrequency: 'Weekly',
+      maxAgeDays: 10,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 926,
@@ -475,8 +477,14 @@
       format: 'JSON',
       provider: 'Colorado Association of Realtors',
       url: 'https://www.coloradorealtors.com/',
-      localFile: 'data/car-market-report-2026-04.json',
-      lastUpdated: '2026-04-01',
+      // Pinned to 2026-04 while eight monthly files existed, so the source
+      // read as 164 days stale when current data was on disk. Points at the
+      // newest report with real ShowingTime county rows — 2026-08 and -09 are
+      // trend-projected placeholders and must not stand in as the published
+      // series here. car-data-update.yml writes a new month on the 1st; this
+      // pointer needs moving when a published report lands.
+      localFile: 'data/car-market-report-2026-07.json',
+      lastUpdated: '2026-09-06',
       updateFrequency: 'Monthly',
       maxAgeDays: 45,
       geoUnit: 'Metro Area / Statewide',
@@ -1030,8 +1038,14 @@
       url: 'https://kalshi.com/',
       localFile: 'data/kalshi/prediction-market.json',
       lastUpdated: '2026-03-13',
-      updateFrequency: 'Daily',
-      maxAgeDays: 7,
+      // Not a feed. fetch-kalshi.yml runs weekly but exits early with
+      // "Kalshi credentials not configured", preserving this committed seed —
+      // so it reported success while changing nothing for 183 days. Declaring
+      // Daily/7d made a static illustrative file read as a live daily source.
+      // 'Unknown' maps to a null window in data-freshness-monitor.js, which
+      // surfaces as 'unknown' rather than a false 'current' or 'stale'.
+      updateFrequency: 'Unknown',
+      maxAgeDays: null,
       geoUnit: 'National / Metro',
       coverage: 'National',
       features: 4,
