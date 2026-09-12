@@ -422,25 +422,54 @@ jobs:
             # after, so the working-tree drift survives without blocking the push.
             if ! git rebase --autostash origin/main; then
               mapfile -t conflicted_paths < <(git diff --name-only --diff-filter=U)
-              if [ "${#conflicted_paths[@]}" -ne 1 ] || [ "${conflicted_paths[0]}" != "data/manifest.json" ]; then
-                echo "Rebase conflict is not limited to data/manifest.json; refusing automatic recovery."
-                printf 'Conflicted path: %s\n' "${conflicted_paths[@]}"
-                exit 1
-              fi
+              # Every artifact this step regenerates is fully DERIVED, so a
+              # conflict on any of them is a race, not a disagreement: the
+              # correct resolution is to take main's side and rebuild from the
+              # merged tree. The allow-list previously held data/manifest.json
+              # alone, so the 2026-09-12 scheduled run aborted on a three-way
+              # race (#1613) even though all three files were derived and all
+              # three are rebuilt a few lines below. Several data crons write
+              # these same paths, so this collision recurs by construction.
+              #
+              # Anything OUTSIDE this list still refuses recovery and fails
+              # loudly — that guard is the point, and it stays.
+              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json)
+              for conflicted in "${conflicted_paths[@]}"; do
+                is_derived=0
+                for derived in "${derived_artifacts[@]}"; do
+                  if [ "$conflicted" = "$derived" ]; then is_derived=1; break; fi
+                done
+                if [ "$is_derived" -ne 1 ]; then
+                  echo "Rebase conflict includes a non-derived path; refusing automatic recovery."
+                  printf 'Conflicted path: %s\n' "${conflicted_paths[@]}"
+                  exit 1
+                fi
+              done
 
-              # data/manifest.json is fully derived. Remove only its stale
-              # pre-race version from the bot commit, rebase once onto the
-              # freshly fetched main, then regenerate it from the merged tree.
-              # Any conflict on this second attempt fails normally and loudly.
+              # Drop the stale pre-race versions from the bot commit, rebase
+              # once onto freshly fetched main, then regenerate all three from
+              # the merged tree. Order matters and matches the build step
+              # above: home snapshot, then _manifest, then manifest, which
+              # reads the others. Any conflict on this second attempt fails
+              # normally and loudly.
               git rebase --abort
               git fetch origin main
-              git restore --source=origin/main --staged --worktree data/manifest.json
+              git restore --source=origin/main --staged --worktree "${derived_artifacts[@]}"
               git commit --amend --no-edit --allow-empty
               git rebase --autostash origin/main
-              python scripts/rebuild_manifest.py
-              git add data/manifest.json
+              node scripts/build-home-snapshot.mjs
+              npm run audit:file-manifest
+              python3 scripts/rebuild_manifest.py
+              git add "${derived_artifacts[@]}"
               if ! git diff --cached --quiet; then
-                git commit --amend --no-edit
+                if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ]; then
+                  # Restoring main's derived files can make the bot commit empty,
+                  # so the rebase drops it. Amending here would rewrite main's
+                  # tip and make the subsequent push fail as non-fast-forward.
+                  git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
+                else
+                  git commit --amend --no-edit
+                fi
               fi
             fi
           fi
