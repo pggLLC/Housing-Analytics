@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12T13:40:24.280515Z",
+  "generated": "2026-09-13T00:22:57.408597Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7504,7 +7504,7 @@
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 253
+      "bytes": 362
     },
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
