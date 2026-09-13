@@ -3414,8 +3414,27 @@
     '  #hudFmrTable, #hudIncomeLimitsTable{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
     /* (3) Body-level overflow guard. Any rogue widget (third-party
        map tile, fixed-position panel referencing scroll-width)
-       can no longer scroll the whole page sideways. */
+       can no longer scroll the whole page sideways.
+
+       `clip`, not `hidden`. They contain the sideways scroll identically,
+       but `overflow-x: hidden` forces overflow-y to compute to `auto`,
+       which makes <body> a scroll container -- and a scroll container that
+       never actually scrolls, because the document scrolls on
+       documentElement. Every `position: sticky` descendant then resolves
+       against a scrollport that never moves and simply never sticks. That
+       is why the next-step CTA was unreachable on phones: it sat at its
+       natural position at the end of a 121,000px document instead of
+       pinning to the bottom of the viewport.
+
+       css/responsive.css already documents exactly this for <html>, and
+       lihtc-opportunity-finder.html already uses the clip form -- this page
+       was the one place still on `hidden`.
+
+       Both are declared: browsers without `overflow-x: clip` (Safari 15 and
+       earlier) drop the second line and keep the `hidden` guard, so the
+       protection F225 added is never weaker than it was. */
     '  body{overflow-x:hidden;}',
+    '  body{overflow-x:clip;}',
     /* (4) Defensive: any inline 2-col grid we forgot to scope above. */
     '  main [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}',
     '}'
