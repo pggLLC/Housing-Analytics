@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-13T20:46:12.168Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-13T21:04:33.947Z. Do not edit by hand.
 
 ---
 
@@ -42,7 +42,7 @@
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 236.4 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 238.9 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -73,7 +73,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 761.3 KB | ✅ | — |
+| `data/_manifest.json` | 761.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -93,14 +93,14 @@
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
 | `data/capital-partners.json` | 13.1 KB | ✅ | — |
-| `data/car-market-report-2026-02.json` | 2.3 KB | ✅ | — |
-| `data/car-market-report-2026-03.json` | 2.3 KB | ✅ | — |
-| `data/car-market-report-2026-04.json` | 2.3 KB | ✅ | — |
-| `data/car-market-report-2026-05.json` | 64.1 KB | ✅ | — |
-| `data/car-market-report-2026-06.json` | 64.1 KB | ✅ | — |
-| `data/car-market-report-2026-07.json` | 64.1 KB | ✅ | — |
-| `data/car-market-report-2026-08.json` | 64.0 KB | ✅ | — |
-| `data/car-market-report-2026-09.json` | 2.4 KB | ✅ | — |
+| `data/car-market-report-2026-02.json` | 2.4 KB | ✅ | — |
+| `data/car-market-report-2026-03.json` | 2.4 KB | ✅ | — |
+| `data/car-market-report-2026-04.json` | 2.4 KB | ✅ | — |
+| `data/car-market-report-2026-05.json` | 64.3 KB | ✅ | — |
+| `data/car-market-report-2026-06.json` | 64.3 KB | ✅ | — |
+| `data/car-market-report-2026-07.json` | 64.3 KB | ✅ | — |
+| `data/car-market-report-2026-08.json` | 64.3 KB | ✅ | — |
+| `data/car-market-report-2026-09.json` | 2.5 KB | ✅ | — |
 | `data/car-market.json` | 514 B | ✅ | — |
 | `data/census-acs-state.json` | 24.3 KB | ✅ | — |
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
@@ -1680,8 +1680,8 @@
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
-| `test/car-estimate-disclosure.test.js` | 4.5 KB |
-| `test/car-showingtime-fetcher.test.mjs` | 7.2 KB |
+| `test/car-estimate-disclosure.test.js` | 7.7 KB |
+| `test/car-showingtime-fetcher.test.mjs` | 8.2 KB |
 | `test/census-dashboard-scope.test.js` | 1.5 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
