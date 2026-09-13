@@ -30,13 +30,13 @@ budget.
 
 ## Detailed assessment
 
-### 1. Bridge MLS (`BRIDGE_BROWSER_TOKEN`)
+### 1. Bridge MLS (server-side `BRIDGE_SERVER_TOKEN`)
 
 **Current state.** Stub-only fallback at `data/market/bridge_co_market_summary.json`:
 
 ```json
 {
-  "_note": "Bridge MLS data requires a paid API subscription (BRIDGE_BROWSER_TOKEN). Set APP_CONFIG.BRIDGE_BROWSER_TOKEN in js/config.js to enable live market data. This stub prevents 404 errors on page load.",
+  "_note": "Bridge MLS requires a licensed API subscription. Access requested, pending Bridge's decision (#1611). DO NOT put a token in js/config.js — that file is served to every visitor. The server-side BRIDGE_SERVER_TOKEN secret is the supported path.",
   "available": false,
   "markets": {}
 }
