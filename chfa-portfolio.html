@@ -130,6 +130,22 @@
       color: var(--accent);
     }
     .badge-green { background: var(--good-dim, #d1fae5); color: var(--good, #059669); }
+    /* Absence is not a badge. It gets the muted, un-pill treatment so it can
+       never be mistaken at a glance for a measured "no". */
+    .portfolio-unpublished {
+      font-size: 0.72rem;
+      font-style: italic;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .portfolio-note-ref {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .portfolio-note-ref:hover,
+    .portfolio-note-ref:focus-visible { text-decoration: underline; }
+    #ddaQctNote { scroll-margin-top: 5rem; }
     .status-bar {
       font-size: 0.8rem;
       color: var(--muted);
@@ -293,7 +309,7 @@
           <th data-col="YR_PIS">Year PIS</th>
           <th data-col="YR_ALLOC">Yr Alloc</th>
           <th data-col="CREDIT">Credit Type</th>
-          <th>DDA/QCT</th>
+          <th>DDA/QCT <a href="#ddaQctNote" class="portfolio-note-ref" aria-label="About the DDA and QCT column">*</a></th>
         </tr>
       </thead>
       <tbody id="portfolioBody">
@@ -303,6 +319,22 @@
   </div>
 
   <div class="pagination" id="pagination" aria-label="Table pagination"></div>
+
+  <p class="data-note" id="ddaQctNote">
+    <strong>* About the DDA/QCT column.</strong>
+    CHFA's portfolio feed carries DDA and QCT columns but publishes no values in them, so this site
+    cannot state a property's basis-boost status from that source. The column says
+    <em>Not published</em> rather than leaving the cell blank, because a blank cell in a badge column
+    reads as &ldquo;no&rdquo;.
+    This site does hold HUD's current
+    <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT</a>
+    and
+    <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">DDA</a>
+    boundaries, but they are the <strong>2026</strong> designations, while these properties were
+    allocated between 1987 and 2025. Designations are redrawn annually, and the boost a deal received
+    turned on the designation in force at <em>its</em> allocation &mdash; so placing a 2026 badge on a
+    1990s property would be a new error wearing the clothes of precision.
+  </p>
 
   <p class="data-note">
     Data Sources: <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC Database</a>
@@ -454,8 +486,21 @@
     }
 
     tbody.innerHTML = slice.map(r => {
-      const dda = r.DDA === '1' || r.DDA === 1 ? '<span class="badge">DDA</span> ' : '';
-      const qct = r.QCT === '1' || r.QCT === 1 ? '<span class="badge badge-green">QCT</span>' : '';
+      // DDA/QCT are null on all 926 records: CHFA's ArcGIS layer carries the
+      // columns but publishes no values in them (they are HUD LIHTCPUB fields).
+      // Rendering '' for a null therefore drew an EMPTY cell on every row, and
+      // an empty cell in a badge column reads as a confident "not in a DDA or
+      // QCT" — the opposite of the truth, on the field that decides 30% basis
+      // boost eligibility. Every other column here already marks absence with
+      // an em dash; this one now does too.
+      const ddaKnown = r.DDA !== null && r.DDA !== undefined && r.DDA !== '';
+      const qctKnown = r.QCT !== null && r.QCT !== undefined && r.QCT !== '';
+      const dda = ddaKnown && (r.DDA === '1' || r.DDA === 1) ? '<span class="badge">DDA</span> ' : '';
+      const qct = qctKnown && (r.QCT === '1' || r.QCT === 1) ? '<span class="badge badge-green">QCT</span>' : '';
+      const boost = (dda || qct) ? dda + qct
+        : (ddaKnown || qctKnown)
+          ? '<span title="Neither a Difficult Development Area nor a Qualified Census Tract">No</span>'
+          : '<span class="portfolio-unpublished" title="CHFA does not publish DDA or QCT status in this dataset. An empty cell here would read as &quot;no&quot;, which is not what the source says.">Not published</span>';
       return `<tr>
         <td style="font-weight:600;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${r.PROJECT || ''}">${r.PROJECT || '—'}</td>
         <td>${r.PROJ_CTY || '—'}</td>
@@ -465,7 +510,7 @@
         <td>${fmtYear(r)}</td>
         <td>${(parseInt(r.YR_ALLOC,10) >= 1986 && parseInt(r.YR_ALLOC,10) <= 2030) ? r.YR_ALLOC : '—'}</td>
         <td>${creditLabel(r.CREDIT)}</td>
-        <td>${dda}${qct}</td>
+        <td>${boost}</td>
       </tr>`;
     }).join('');
   }
