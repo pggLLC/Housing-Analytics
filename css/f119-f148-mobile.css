@@ -63,7 +63,7 @@
 
   /* ── Property Lookup pills ────────────────────────────────────── */
   .pl-links { gap: 3px; }
-  .pl-link { font-size: 10px; padding: 1px 6px; }
+  .pl-link { font-size: 15px; padding: 2px 7px; }
 
   /* ── Method Footer ────────────────────────────────────────────── */
   .mf-footer { gap: .25rem .55rem; padding: .35rem .55rem; }
