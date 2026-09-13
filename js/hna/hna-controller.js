@@ -740,6 +740,12 @@
   function ensureMap(){
     if (window.HNAState.map) return;
 
+    // The map section is not on every page that loads this controller. Leaflet
+    // throws "Map container not found." rather than returning null, and the
+    // throw happens inside an async chain, so it surfaces as an unhandled
+    // rejection with no indication of which section is missing. Check first.
+    if (!document.getElementById('hnaMap')) return;
+
     // Fix vendored Leaflet marker icon paths
     if (window.L && L.Icon && L.Icon.Default) {
       L.Icon.Default.mergeOptions({
@@ -2013,9 +2019,15 @@
       }
       if (window.HNAState.els.assumpVacancy && defaultVac != null) {
         const cur = Number(window.HNAState.els.assumpVacancy.value);
-        if (!Number.isFinite(cur) || cur === 5) {
+        // Guarded like the block below it: the vacancy slider lives in the
+        // projections section, which a page built from a subset of this one
+        // may not carry. Unguarded, this threw "Cannot set properties of null"
+        // and took the whole projections render down with it.
+        if ((!Number.isFinite(cur) || cur === 5) && window.HNAState.els.assumpVacancy) {
           window.HNAState.els.assumpVacancy.value = String(Math.round(defaultVac * 1000) / 10);
-          window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy.value).toFixed(1)}%`;
+          if (window.HNAState.els.assumpVacancyVal) {
+            window.HNAState.els.assumpVacancyVal.textContent = `${Number(window.HNAState.els.assumpVacancy.value).toFixed(1)}%`;
+          }
         }
       }
       if (window.HNAState.els.assumpVacancyVal){
@@ -2607,12 +2619,22 @@
 
     const endYear = (i>=0 && years[i]) ? years[i] : (years.length ? years[years.length-1] : '');
 
-    // Update cards
-    window.HNAState.els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
-    window.HNAState.els.statBaseUnitsSrc.textContent = baseYear ? 'Current total housing units (DP04)' : 'Current housing stock';
-    window.HNAState.els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
+    // Update cards. Guarded per element, the same way this file's own
+    // projections error path already guards them: these four live in the
+    // housing-need summary, and a page assembled from a subset of this one may
+    // not carry that section. Unguarded they threw "Cannot set properties of
+    // null", which aborted applyAssumptions and took the whole projections
+    // render with it -- the failure surfaced two frames up as an opaque
+    // "[HNA] renderProjections failed" with no clue which element was missing.
+    //
+    // Guarded individually rather than with one early return, so the rest of
+    // applyAssumptions (the calculation trace, the chart) still runs.
+    const els = window.HNAState.els;
+    if (els.statBaseUnits) els.statBaseUnits.textContent = baseUnits !== null ? window.HNAUtils.fmtNum(baseUnits) : '—';
+    if (els.statBaseUnitsSrc) els.statBaseUnitsSrc.textContent = baseYear ? 'Current total housing units (DP04)' : 'Current housing stock';
+    if (els.statTargetVac) els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
-    window.HNAState.els.statUnitsNeed.textContent = incUnitsDisplay;
+    if (els.statUnitsNeed) els.statUnitsNeed.textContent = incUnitsDisplay;
     if (window.HNARenderers.renderProjectionCalculationTrace) {
       if (usedPlaceProjection) {
         const placeShares = placeProjectionRec.shares || {};
@@ -2664,7 +2686,7 @@
         },
       });
     }
-    window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
+    if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = net20 !== null ? window.HNAUtils.fmtNum(Math.round(net20)) : '—';
 
     let countyDolaReconciliationNote = '';
     if (selection && selection.geoType !== 'place' && selection.geoType !== 'cdp' && !_isMultiJurisdictionSelection(selection)) {
@@ -2677,7 +2699,7 @@
         }
       }
     }
-    window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote);
+    if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
