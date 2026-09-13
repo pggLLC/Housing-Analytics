@@ -46,6 +46,26 @@ permissions:
   contents: write
   actions: write
 
+# Serialise against every other workflow that commits data to main. This job
+# rebases its own derived commit onto origin/main, and that rebase conflicts
+# outright when a second instance has already landed a commit touching the same
+# two files — `set -e` then aborts mid-rebase and the run ends red.
+#
+# That is not hypothetical: run 34667255892 failed exactly this way on
+# ed4a508cc, because #1598 and #1596 merged 12 seconds apart and each push
+# started its own sync run. The script's header assumes "nothing upstream
+# touched these two files"; a sibling instance of this same workflow does.
+# The retry loop does not cover it — it catches a rejected push, not a
+# conflicted rebase.
+#
+# `data-commits` is the group the other 29 data-committing workflows already
+# share (data-refresh, build-hna-data, weekly_housing_brief, …); this one was
+# the outlier. cancel-in-progress stays false so queued corrections still land
+# rather than being dropped.
+concurrency:
+  group: data-commits
+  cancel-in-progress: false
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -103,8 +123,14 @@ jobs:
         continue-on-error: true
         run: npm run test:data-source-inventory-paths
 
+      # Gated on verification as well as on having pushed. The correction still
+      # lands on main when verification fails — that is deliberate, and the
+      # final step re-raises the failure — but publishing a tree we just proved
+      # inconsistent to the public site is a separate decision, and the answer
+      # is no. A drifted main is recoverable by the next run; a drifted deploy
+      # is what visitors see in the meantime.
       - name: Trigger Pages deploy
-        if: steps.data-commit.outputs.pushed == 'true'
+        if: steps.data-commit.outputs.pushed == 'true' && steps.verify-inventory.outcome == 'success'
         uses: actions/github-script@v9
         with:
           script: |
