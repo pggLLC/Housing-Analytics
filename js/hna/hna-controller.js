@@ -372,7 +372,7 @@
     box.innerHTML = '';
     (window.HNAState.state.combinedMembers || []).forEach((member, idx) => {
       const chip = document.createElement('span');
-      chip.style.cssText = 'display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--border);border-radius:999px;padding:.18rem .45rem;font-size:.78rem;background:var(--card);';
+      chip.style.cssText = 'display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--border);border-radius:999px;padding:.18rem .45rem;font-size:1rem;background:var(--card);';
       const text = document.createElement('span');
       text.textContent = _labelForMember(member);
       const btn = document.createElement('button');
@@ -435,8 +435,8 @@
     wrap.id = 'pairedCountyPanel';
     wrap.style.cssText = 'margin-top:.55rem;border-top:1px solid var(--border);padding-top:.55rem;';
     wrap.innerHTML =
-      '<button type="button" id="btnPairedCountyView" class="btn btn-secondary" style="font-size:.78rem;padding:.35rem .55rem;">Compare with County</button>' +
-      '<div id="pairedCountyResult" style="margin-top:.45rem;font-size:.82rem;color:var(--muted);" aria-live="polite"></div>';
+      '<button type="button" id="btnPairedCountyView" class="btn btn-secondary" style="font-size:1rem;padding:.35rem .55rem;">Compare with County</button>' +
+      '<div id="pairedCountyResult" style="margin-top:.45rem;font-size:1rem;color:var(--muted);" aria-live="polite"></div>';
     panel.appendChild(wrap);
     var btn = document.getElementById('btnPairedCountyView');
     if (btn) btn.addEventListener('click', _renderPairedCountyView);
@@ -1331,7 +1331,7 @@
     const tooltipMsg = 'For underwriting a new 9% or 4% deal. Includes only LIHTC projects within driving distance; does not include HUD MF, USDA RD, or PBV properties.';
     const headline = '<strong title="' + _escAttr(tooltipMsg) + '" style="cursor:help">'
       + 'LIHTC comparables within ' + R + ' mi of ' + _escText(jurisLabel) + '</strong>';
-    const subline = '<div style="font-size:.74rem;color:var(--muted);margin-top:1px">'
+    const subline = '<div style="font-size:1rem;color:var(--muted);margin-top:1px">'
       + n + ' project' + (n === 1 ? '' : 's') + ', '
       + u.toLocaleString() + ' low-income units, tax-credit deals only</div>';
     // F189 — Collapsible per-project list. Default-collapsed per F184
@@ -1345,15 +1345,15 @@
           m.credit ? _escText(m.credit) : null,
           m.distance.toFixed(1) + ' mi'
         ].filter(Boolean).join(' · ');
-        return '<li style="padding:.25rem 0;border-bottom:1px solid var(--border);font-size:.78rem">' +
+        return '<li style="padding:.25rem 0;border-bottom:1px solid var(--border);font-size:1rem">' +
                  '<strong>' + _escText(m.name) + '</strong>' +
                  (m.city ? ' <span style="opacity:.7">· ' + _escText(m.city) + '</span>' : '') +
-                 '<div style="font-size:.72rem;color:var(--muted);margin-top:1px">' + meta + '</div>' +
+                 '<div style="font-size:1rem;color:var(--muted);margin-top:1px">' + meta + '</div>' +
                '</li>';
       }).join('');
       listHtml =
         '<details style="margin-top:.4rem">' +
-          '<summary style="cursor:pointer;font-size:.78rem;font-weight:600;color:var(--text);padding:.25rem 0">' +
+          '<summary style="cursor:pointer;font-size:1rem;font-weight:600;color:var(--text);padding:.25rem 0">' +
             'View all ' + n + ' project' + (n === 1 ? '' : 's') + ' (nearest first)' +
           '</summary>' +
           '<ul style="list-style:none;padding-left:0;margin:.3rem 0 0;max-height:340px;overflow-y:auto">' +
@@ -2034,7 +2034,7 @@
           if (!note) {
             note = document.createElement('div');
             note.id = 'vacancyTargetMethodologyNote';
-            note.style.cssText = 'margin-top:6px;font-size:.72rem;line-height:1.35;color:var(--muted);';
+            note.style.cssText = 'margin-top:6px;font-size:1rem;line-height:1.35;color:var(--muted);';
             sliderHost.appendChild(note);
           }
           const fmt = (v) => (v != null && Number.isFinite(v)) ? (v * 100).toFixed(1) + '%' : '—';

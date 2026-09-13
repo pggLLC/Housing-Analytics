@@ -29,19 +29,19 @@
       /* Table */
       '.hnp-table{border-collapse:collapse;width:100%;}',
       '.hnp-table th{background:var(--bg2,#f3f4f6);font-weight:700;',
-      '  padding:8px 12px;font-size:.82rem;text-align:left;}',
+      '  padding:8px 12px;font-size:1rem;text-align:left;}',
       '.hnp-table td{padding:8px 12px;border-bottom:1px solid var(--border,#e5e7eb);',
-      '  font-size:.88rem;}',
+      '  font-size:1rem;}',
       '.hnp-scenario--baseline td{font-weight:600;}',
 
       /* AMI bars */
       '.hnp-ami-bar-wrap{margin-bottom:14px;}',
-      '.hnp-ami-bar-label{font-size:.82rem;font-weight:700;margin-bottom:4px;',
+      '.hnp-ami-bar-label{font-size:1rem;font-weight:700;margin-bottom:4px;',
       '  display:flex;justify-content:space-between;}',
       '.hnp-ami-bar-track{background:var(--bg2,#f3f4f6);border-radius:4px;',
       '  height:20px;overflow:hidden;}',
       '.hnp-ami-bar-fill{height:100%;border-radius:4px;transition:width .5s ease;}',
-      '.hnp-ami-rationale{font-size:.78rem;color:var(--muted,#555);',
+      '.hnp-ami-rationale{font-size:1rem;color:var(--muted,#555);',
       '  margin-top:4px;margin-bottom:12px;}',
 
       /* Card */
@@ -551,9 +551,9 @@
 
     var methodNote =
       '<details style="margin-top:14px;">' +
-      '<summary style="font-size:.78rem;cursor:pointer;color:var(--muted,#555);' +
+      '<summary style="font-size:1rem;cursor:pointer;color:var(--muted,#555);' +
       'user-select:none;">Methodology &amp; Assumptions</summary>' +
-      '<ul style="font-size:.78rem;color:var(--muted,#555);margin-top:8px;' +
+      '<ul style="font-size:1rem;color:var(--muted,#555);margin-top:8px;' +
       'padding-left:1.2em;line-height:1.6;">' +
       result.methodology.map(function (m) {
         return '<li>' + _escHtml(m) + '</li>';
@@ -697,7 +697,7 @@
     // AMI mix as a unit-mix recommendation or a CHFA QAP scoring input.
     // Three bullets covering the three most common misreads.
     var notTellYou =
-      '<details style="margin-top:10px;font-size:.78rem;color:var(--muted,#555);">' +
+      '<details style="margin-top:10px;font-size:1rem;color:var(--muted,#555);">' +
         '<summary style="cursor:pointer;font-weight:600;color:var(--text);' +
           'user-select:none;">What this does NOT tell you</summary>' +
         '<ul style="margin:.4rem 0 0;padding-left:1.2em;line-height:1.55;">' +

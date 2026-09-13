@@ -27,7 +27,7 @@
   function money(value) { return Number.isFinite(value) ? '$' + Math.round(value).toLocaleString('en-US') : MISSING; }
   function number(value) { return Number.isFinite(value) ? Math.round(value).toLocaleString('en-US') : MISSING; }
   function pill(label, scope) {
-    return '<span class="hna-own-strategy-pill" data-scope="' + esc(scope) + '" style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:.72rem;font-weight:800;">' + esc(label) + '</span>';
+    return '<span class="hna-own-strategy-pill" data-scope="' + esc(scope) + '" style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:1rem;font-weight:800;">' + esc(label) + '</span>';
   }
   function keyForGeo(geo) { return (geo.type === 'county' ? 'county:' : geo.type === 'cdp' ? 'cdp:' : 'place:') + geo.geoid; }
 
@@ -214,7 +214,7 @@
     var pricePill = vm.price ? pill(vm.price.label, vm.price.scope) : pill('Place value unavailable', 'unavailable');
     var localPrice = vm.price ? money(vm.price.value) : 'Value unavailable';
     var priceUnavailableNote = vm.priceUnavailableReason
-      ? '<br><span data-price-unavailable-reason style="color:var(--muted);font-size:.78rem;">' + esc(vm.priceUnavailableReason) + '</span>'
+      ? '<br><span data-price-unavailable-reason style="color:var(--muted);font-size:1rem;">' + esc(vm.priceUnavailableReason) + '</span>'
       : '';
     var models = vm.registry && vm.registry.models || [];
     var options = models.map(function (model) { return '<option value="' + esc(model.id) + '"' + (model.id === vm.modelId ? ' selected' : '') + '>' + esc(model.label) + '</option>'; }).join('');
@@ -264,7 +264,7 @@
       '<p style="color:var(--muted);line-height:1.45;">Tier-1 jurisdictional screening interface — screening estimate; not a completed project market study.</p>' +
       '<div style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:end;"><label>Model<select data-own-strategy-model style="display:block;max-width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);">' + options + '</select></label><label>Household size<select data-own-strategy-household style="display:block;background:var(--card);color:var(--text);border:1px solid var(--border);">' + [1,2,3,4,5,6,7,8].map(function (size) { return '<option' + (size === vm.householdSize ? ' selected' : '') + '>' + size + '</option>'; }).join('') + '</select></label><label>AMI price ceiling<select data-own-strategy-ami-ceiling style="display:block;min-height:44px;background:var(--card);color:var(--text);border:1px solid var(--border);">' + ceilingOptions + '</select></label></div>' +
       '<p data-own-strategy-ami-ceiling-note style="margin:.45rem 0;color:var(--muted);font-size:1rem;line-height:1.45;"><strong>Price-only control.</strong> This changes modeled affordable-price thresholds; it does not create household-demand counts above 100% AMI because CHAS\'s 100plus band is unbounded. The statutory default is 120% AMI under SB26-040 (effective July 1, 2026). Rural resort communities may petition DOLA under HB23-1304 for a different percentage.</p>' +
-      (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:.8rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:1rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
+      (vm.amiCeilingCaveat ? '<details style="margin:.35rem 0 .65rem;"><summary style="cursor:pointer;font-size:1rem;font-weight:700;">Documented AMI-ceiling exception path</summary><p style="color:var(--muted);font-size:1rem;line-height:1.45;">' + esc(vm.amiCeilingCaveat) + '</p></details>' : '') +
       '<p><strong>Model implications:</strong> ' + esc(implications.who_it_fits || MISSING) + ' ' + ProvenanceLabel.html(vm.model || { classification: 'modeled' }, { compact: true }) + '</p>' + risk +
       section('AMI and affordable-price ladder', '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;"><thead><tr><th>Tier</th><th>Income</th><th>Maximum price</th><th>Shortfall state</th><th>Clears local median</th></tr></thead><tbody>' + ladderRows + '</tbody></table></div>') +
       section('Local price and income required', '<p>Local price: <strong>' + localPrice + '</strong> ' + pricePill + priceUnavailableNote + '</p><p>Income required to buy: <strong>' + money(vm.requiredIncome) + '</strong>' + (vm.requiredIncomeAmiRatio != null ? ' (' + vm.requiredIncomeAmiRatio.toFixed(2) + ' × 4-person AMI)' : '') + '. ' + ProvenanceLabel.html({ classification: 'modeled' }, { compact: true }) + '</p>') +

@@ -199,7 +199,7 @@
     if (!note) {
       note = document.createElement('p');
       note.setAttribute('data-hna-chart-scope-note', canvasId);
-      note.style.cssText = 'font-size:.78rem;color:var(--muted);margin:6px 0 0;font-style:italic;';
+      note.style.cssText = 'font-size:1rem;color:var(--muted);margin:6px 0 0;font-style:italic;';
       box.insertAdjacentElement('afterend', note);
     }
     note.textContent = message;
@@ -338,7 +338,7 @@
       overlay.setAttribute('aria-hidden', 'true');
       overlay.style.cssText =
         'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;' +
-        'background:rgba(var(--bg-rgb,255,255,255),0.92);z-index:2;font-size:.8rem;color:var(--text-strong);font-weight:600;';
+        'background:rgba(var(--bg-rgb,255,255,255),0.92);z-index:2;font-size:1rem;color:var(--text-strong);font-weight:600;';
       overlay.textContent = 'Loading…';
       box.style.position = 'relative';
       box.appendChild(overlay);
@@ -686,7 +686,7 @@
         if (!existing) {
           const note = document.createElement('p');
           note.className = 'chart-empty-note';
-          note.style.cssText = 'font-size:.78rem;color:var(--muted);font-style:italic;margin:.4rem 0 0';
+          note.style.cssText = 'font-size:1rem;color:var(--muted);font-style:italic;margin:.4rem 0 0';
           note.textContent = 'Home-value bracket data is still loading — chart will populate once the ACS supplement returns. ' +
             'Tiny CDPs with no owner-occupied units may render empty by design.';
           card.appendChild(note);
@@ -708,7 +708,7 @@
         if (!smallTownNote) {
           const note = document.createElement('p');
           note.className = 'chart-small-town-note';
-          note.style.cssText = 'font-size:.74rem;color:var(--warn);background:var(--warn-dim);' +
+          note.style.cssText = 'font-size:1rem;color:var(--warn);background:var(--warn-dim);' +
             'padding:.4rem .55rem;border-radius:5px;margin:.4rem 0 0;line-height:1.4;';
           note.innerHTML = '<strong>Small-sample caveat:</strong> Census ACS 2020-2024 averages five years of survey responses. ' +
             'For places under 500 owner-occupied units, a handful of high-value homes can fall outside the sample — the $1M+ ' +
@@ -1824,7 +1824,7 @@
         const haveProjects = (typeof observedFeatureCount === 'number') && observedFeatureCount > 0;
         if (haveProjects) {
           host.innerHTML =
-            '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
               '<strong style="color:var(--text)">CHFA recency data not tracked at this geography level</strong> · ' +
               observedFeatureCount + ' LIHTC project' + (observedFeatureCount === 1 ? '' : 's') +
               ' currently mapped for this jurisdiction (see list below). ' +
@@ -1833,7 +1833,7 @@
             '</div>';
         } else {
           host.innerHTML =
-            '<div style="font-size:.78rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
               '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
             '</div>';
         }
@@ -1859,12 +1859,12 @@
         never_funded: 'no records',
       })[basis] || basis;
       host.innerHTML =
-        '<div style="font-size:.82rem;padding:.55rem .7rem;border:1px solid ' + accent + ';border-left-width:4px;border-radius:6px;background:' + accent + '12">' +
+        '<div style="font-size:1rem;padding:.55rem .7rem;border:1px solid ' + accent + ';border-left-width:4px;border-radius:6px;background:' + accent + '12">' +
           '<div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;flex-wrap:wrap">' +
             '<strong>Last LIHTC: ' + yr + ' · ' + drought + '-year' + (drought === 1 ? '' : 's') + ' since</strong>' +
-            '<span style="font-size:.7rem;font-weight:700;color:' + accent + ';text-transform:uppercase;letter-spacing:.04em">' + droughtLabel + '</span>' +
+            '<span style="font-size:1rem;font-weight:700;color:' + accent + ';text-transform:uppercase;letter-spacing:.04em">' + droughtLabel + '</span>' +
           '</div>' +
-          '<div style="margin-top:2px;font-size:.72rem;color:var(--muted)">' +
+          '<div style="margin-top:2px;font-size:1rem;color:var(--muted)">' +
             n + ' project' + (n === 1 ? '' : 's') + ' on record' +
             (r1 > 0 ? ' · <strong style="color:var(--accent)">' + r1 + ' 2026 R1 award' + (r1 === 1 ? '' : 's') + '</strong>' : '') +
             ' · basis: ' + basisTag +
@@ -2060,7 +2060,7 @@
       if (!_showRowChip || !Number.isFinite(lat) || !Number.isFinite(lng)) return '';
       const d = _milesBetween(_activeC.lat, _activeC.lng, lat, lng);
       if (!Number.isFinite(d) || d > 30) return '';
-      const baseStyle = 'display:inline-block;padding:1px 6px;border-radius:9999px;font-size:.65rem;font-weight:600;margin-left:4px;';
+      const baseStyle = 'display:inline-block;padding:1px 6px;border-radius:9999px;font-size:1rem;font-weight:600;margin-left:4px;';
       if (d < 1) {
         return '<span style="' + baseStyle + 'background:var(--good,#107c3f)20;color:var(--good,#107c3f);border:1px solid var(--good,#107c3f)40">in ' + escHtml(jurisName) + '</span>';
       }
@@ -2280,7 +2280,7 @@
       const yr    = escHtml(p.YR_PIS   || p.yr_pis   || '—');
       const credit = p.CREDIT || p.TypeOfCredits || p.type_of_credits || '';
       const creditHtml = (PL && credit)
-        ? '<span style="opacity:.7;font-size:.78rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
+        ? '<span style="opacity:.7;font-size:1rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
         : '';
       const cat = AHL && AHL.categorize
         ? AHL.categorize({ program_type: deriveProgramsFromCredit(credit) })
@@ -2442,7 +2442,7 @@
     const headline =
       `<p class="lihtc-source" style="margin:0 0 .35rem 0">` +
         `<strong title="${_tooltipAttr}" style="cursor:help">Affordable housing in and around ${escHtml(jurisName)}</strong>` +
-        `<span style="display:block;font-size:.74rem;color:var(--muted);font-weight:400;margin-top:1px">` +
+        `<span style="display:block;font-size:1rem;color:var(--muted);font-weight:400;margin-top:1px">` +
           `${totalInView} propert${totalInView === 1 ? 'y' : 'ies'} ${_scopeLabel}, all subsidy programs, hover badge for definition` +
         `</span>` +
       `</p>`;
@@ -3119,10 +3119,10 @@
                    '<span aria-hidden="true" style="margin-right:.35rem">🏢</span>' +
                    escHtml(e.name) +
                  '</a>' +
-                 (e.note ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+                 (e.note ? '<div style="font-size:1rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
                             escHtml(e.note) +
                            '</div>' : '') +
-                 (e.workforce_housing_url ? '<div style="font-size:.78rem;margin-top:.1rem;padding-left:1.4rem">' +
+                 (e.workforce_housing_url ? '<div style="font-size:1rem;margin-top:.1rem;padding-left:1.4rem">' +
                             '<a href="' + escHtml(e.workforce_housing_url) + '" target="_blank" rel="noopener noreferrer" ' +
                             'style="font-weight:600">↳ Workforce-housing program</a></div>' : '') +
                  '</li>';
@@ -3143,7 +3143,7 @@
                  '<span aria-hidden="true" style="margin-right:.35rem">🏢</span>' +
                  'Top employers in ' + escHtml(jurisName) +
                '</a>' +
-               '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+               '<div style="font-size:1rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
                  'Web search — top employers shape AMI mix + may run workforce-housing programs' +
                '</div>' +
              '</li>' +
@@ -3153,7 +3153,7 @@
                  '<span aria-hidden="true" style="margin-right:.35rem">🏠</span>' +
                  'Workforce-housing employer partnerships near ' + escHtml(jurisName) +
                '</a>' +
-               '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+               '<div style="font-size:1rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
                  'Surfaces published programs (master-lease, direct-build, surplus land partnerships)' +
                '</div>' +
              '</li>' +
@@ -3280,7 +3280,7 @@
                '<span aria-hidden="true" style="margin-right:.35rem">' + it.icon + '</span>' +
                escHtml(it.label) +
              '</a>' +
-             (it.sub ? '<div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
+             (it.sub ? '<div style="font-size:1rem;color:var(--muted);margin-top:.1rem;padding-left:1.4rem">' +
                         escHtml(it.sub) +
                        '</div>' : '') +
              '</li>';
@@ -3423,10 +3423,10 @@
       'color:var(--text);transition:background .15s;';
     const badgeStyle =
       'display:inline-block;padding:.05rem .4rem;background:#16a34a;color:#fff;' +
-      'border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:.04em;' +
+      'border-radius:4px;font-size:1rem;font-weight:700;letter-spacing:.04em;' +
       'text-transform:uppercase;margin-right:.4rem;vertical-align:middle;';
-    const directLabelStyle = 'font-weight:600;font-size:.9rem;line-height:1.3;';
-    const directSubStyle   = 'font-size:.74rem;color:var(--muted);font-weight:400;';
+    const directLabelStyle = 'font-weight:600;font-size:1rem;line-height:1.3;';
+    const directSubStyle   = 'font-size:1rem;color:var(--muted);font-weight:400;';
 
     const directHtml = directLinks.length === 0 ? '' :
       '<div style="display:flex;flex-direction:column;gap:.45rem;margin-bottom:.6rem;">' +
@@ -3453,7 +3453,7 @@
       searchIntro + '</p>' +
       '<ul class="lr-list">' +
       items.map(it => '<li class="lr-item">' +
-        '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name" style="font-size:.85rem;">' +
+        '<a href="' + escHtml(it.href) + '" target="_blank" rel="noopener noreferrer" class="lr-plan-name" style="font-size:1rem;">' +
         escHtml(it.label) + ' &rarr;</a></li>').join('') +
       '</ul>';
 
@@ -3495,7 +3495,7 @@
       'text-decoration:none;color:var(--text);font-size:.83rem;line-height:1.3;' +
       'transition:background .15s,border-color .15s;';
     const labelStyle = 'font-weight:600;color:var(--text)';
-    const sumStyle   = 'font-size:.74rem;color:var(--muted);font-weight:400';
+    const sumStyle   = 'font-size:1rem;color:var(--muted);font-weight:400';
 
     let out =
       '<section class="lr-section"><h4>Search city or county agendas for housing topics</h4>' +
@@ -4464,7 +4464,7 @@
       note.id = 'ownerCostBurdenFallbackNote';
       note.setAttribute('role', 'note');
       note.style.cssText =
-        'margin:.45rem 0 0;padding:.45rem .7rem;font-size:.78rem;color:var(--muted);' +
+        'margin:.45rem 0 0;padding:.45rem .7rem;font-size:1rem;color:var(--muted);' +
         'border:1px solid color-mix(in srgb,var(--warn) 25%,transparent);' +
         'background:color-mix(in srgb,var(--warn) 5%,transparent);border-radius:6px;';
       const wrap = canvas.closest('.chart-card') || canvas.parentElement;
@@ -4596,7 +4596,7 @@
     }
 
     container.innerHTML =
-      '<ul style="margin:0 0 .5rem;padding-left:1.25rem;font-size:.9rem;line-height:1.55;color:var(--text);">' +
+      '<ul style="margin:0 0 .5rem;padding-left:1.25rem;font-size:1rem;line-height:1.55;color:var(--text);">' +
         bullets.map(b => '<li style="margin:.35rem 0;">' + b + '</li>').join('') +
       '</ul>' +
       '<p style="margin:.5rem 0 0;font-size:1rem;color:var(--muted);">' +
@@ -4661,7 +4661,7 @@
     var color = conf === 'high' ? 'var(--good,#15803d)'
               : conf === 'med'  ? 'var(--warn,#b45309)'
               : 'var(--muted,#6b7280)';
-    return '<span style="display:inline-block;font-size:.7rem;padding:.15rem .5rem;' +
+    return '<span style="display:inline-block;font-size:1rem;padding:.15rem .5rem;' +
       'border-radius:999px;border:1px solid ' + color + ';color:' + color + ';' +
       'background:transparent;font-weight:600;">' + label + '</span>';
   }
@@ -4725,7 +4725,7 @@
 
     var rowsHtml = results.map(function (r) {
       var signals = (r.signals || []).map(function (s) {
-        return '<li style="margin:.15rem 0;font-size:.78rem;color:var(--muted);">' +
+        return '<li style="margin:.15rem 0;font-size:1rem;color:var(--muted);">' +
           '<span style="color:var(--text);font-weight:500;">' + escHtml(s.name) + '</span> &middot; ' +
           escHtml(_htnFmtSignalValue(s.name, s.value)) +
           (s.normalised != null
@@ -4741,40 +4741,40 @@
           '<div>' +
             '<div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem;">' +
               '<strong style="font-size:.95rem;">' + escHtml(r.label) + '</strong>' +
-              '<span style="display:inline-block;font-size:.7rem;font-weight:600;' +
+              '<span style="display:inline-block;font-size:1rem;font-weight:600;' +
                 'padding:.18rem .55rem;border-radius:4px;' + _htnLevelChipStyle(r.level) + '">' +
                 escHtml(r.level === 'VeryHigh' ? 'Very High' : r.level) +
                 ' &middot; ' + r.score +
               '</span>' +
             '</div>' +
-            '<div style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+            '<div style="color:var(--muted);font-size:1rem;margin-bottom:.4rem;">' +
               escHtml(r.meta) +
             '</div>' +
             '<div style="margin-bottom:.4rem;">' + _htnConfidenceChip(r.confidence) + '</div>' +
-            '<div style="font-size:.72rem;color:var(--muted);">' +
+            '<div style="font-size:1rem;color:var(--muted);">' +
               escHtml(r.confidenceReason || '') +
             '</div>' +
           '</div>' +
           '<div>' +
-            '<div style="font-size:.78rem;color:var(--text);margin-bottom:.4rem;">' +
+            '<div style="font-size:1rem;color:var(--text);margin-bottom:.4rem;">' +
               escHtml(pe) +
             '</div>' +
-            '<div style="font-size:.74rem;color:var(--muted);margin-bottom:.5rem;font-style:italic;">' +
+            '<div style="font-size:1rem;color:var(--muted);margin-bottom:.5rem;font-style:italic;">' +
               'LIHTC relevance: ' + escHtml(lr) +
             '</div>' +
             (signals
-              ? '<div style="font-size:.74rem;color:var(--muted);margin-bottom:.2rem;">' +
+              ? '<div style="font-size:1rem;color:var(--muted);margin-bottom:.2rem;">' +
                   'Top signals contributing:' +
                 '</div>' +
                 '<ul style="margin:0;padding-left:1.05rem;list-style:disc;">' + signals + '</ul>'
-              : '<div style="font-size:.74rem;color:var(--muted);font-style:italic;">' +
+              : '<div style="font-size:1rem;color:var(--muted);font-style:italic;">' +
                   'No populated signals yet for this category at this geography.</div>') +
           '</div>' +
         '</div>';
     }).join('');
 
     var methHtml = results.map(function (r) {
-      return '<li style="margin:.35rem 0;font-size:.82rem;">' +
+      return '<li style="margin:.35rem 0;font-size:1rem;">' +
         '<strong>' + escHtml(r.label) + ':</strong> ' + escHtml(r.methodology || '') +
         '</li>';
     }).join('');
@@ -4789,11 +4789,11 @@
 
     container.innerHTML =
       (contextLine
-        ? '<div style="font-size:.8rem;color:var(--muted);margin-bottom:.5rem;">' + contextLine + '</div>'
+        ? '<div style="font-size:1rem;color:var(--muted);margin-bottom:.5rem;">' + contextLine + '</div>'
         : '') +
       '<div role="list" aria-label="Housing type need ranking">' + rowsHtml + '</div>' +
       '<details style="margin-top:1rem;border-top:1px solid var(--border,#e5e7eb);padding-top:.6rem;">' +
-        '<summary style="cursor:pointer;font-size:.82rem;color:var(--muted);">' +
+        '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);">' +
           'Methodology &middot; how each category is scored' +
         '</summary>' +
         '<ul style="margin:.5rem 0 0;padding-left:1.15rem;color:var(--text);">' + methHtml + '</ul>' +
@@ -4901,7 +4901,7 @@
       source_note: title
     }, { compact: true }) : '';
     return '<span class="hca-cp-source-pill" title="' + escHtml(title) + '" ' +
-      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:.7rem;font-weight:700;' +
+      'style="display:inline-block;padding:1px 8px;border-radius:999px;font-size:1rem;font-weight:700;' +
       'background:' + bg + ';border:1px solid ' + border + ';color:' + color + ';">' +
       escHtml(source) + (method === 'CONTEXT' ? ' · CONTEXT' : '') + '</span> ' + evidence;
   }
@@ -5093,7 +5093,7 @@
           _ownPill(card.source, card.method) +
         '</div>' +
         '<div style="font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.25;">' + escHtml(card.count) + '</div>' +
-        '<div style="font-size:.78rem;font-weight:700;color:var(--accent);margin:.25rem 0 .35rem;">Tier: ' + escHtml(card.tier) + '</div>' +
+        '<div style="font-size:1rem;font-weight:700;color:var(--accent);margin:.25rem 0 .35rem;">Tier: ' + escHtml(card.tier) + '</div>' +
         '<p style="margin:0;color:var(--muted);font-size:1rem;line-height:1.45;">' + escHtml(card.body) + '</p>' +
       '</div>';
     }).join('');
@@ -5139,7 +5139,7 @@
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
       '<div id="hnaOwnershipDecisionChain" style="margin:1rem 0;"></div>' +
       '<div style="overflow-x:auto;margin-top:.75rem;">' +
-        '<table style="width:100%;border-collapse:collapse;font-size:.8rem;" aria-label="Tenure strategy indicators">' +
+        '<table style="width:100%;border-collapse:collapse;font-size:1rem;" aria-label="Tenure strategy indicators">' +
           '<thead><tr>' +
             '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Indicator</th>' +
             '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Value</th>' +
@@ -5149,9 +5149,9 @@
         '</table>' +
       '</div>' +
       '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
-        '<summary style="cursor:pointer;font-size:.84rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
+        '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
         '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
-        (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.78rem;line-height:1.45;">' + caveats + '</ul>' : '') +
+        (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:1rem;line-height:1.45;">' + caveats + '</ul>' : '') +
       '</details>';
     if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
       window.OwnershipDecisionChain.render(document.getElementById('hnaOwnershipDecisionChain'), result, {
@@ -5718,18 +5718,18 @@
         var plans = (ura.active_plans && ura.active_plans.length)
           ? ura.active_plans.slice(0, 4).join(' · ')
           : 'plan areas not published';
-        html += '<div style="font-size:.85rem;line-height:1.55;">' +
+        html += '<div style="font-size:1rem;line-height:1.55;">' +
           '<strong><a href="' + ura.url + '" target="_blank" rel="noopener" style="color:var(--accent);">' +
             ura.name + '</a></strong> — ' + tifText + '.<br>' +
           '<span style="color:var(--muted);"><strong>Active plan areas:</strong> ' + plans + '</span>';
         if (ura.lihtc_track_record) {
-          html += '<div style="margin-top:6px;font-size:.82rem;color:var(--muted);font-style:italic;">' +
+          html += '<div style="margin-top:6px;font-size:1rem;color:var(--muted);font-style:italic;">' +
             '<strong style="font-style:normal;color:var(--text);">LIHTC track record:</strong> ' + ura.lihtc_track_record +
           '</div>';
         }
         html += '</div>';
       } else {
-        html += '<div style="font-size:.85rem;color:var(--muted);line-height:1.55;">' +
+        html += '<div style="font-size:1rem;color:var(--muted);line-height:1.55;">' +
           'No active URA on file for ' + jurisName + '. Smaller cities sometimes operate via a Downtown Development Authority (DDA) or county economic-development arm — worth confirming with the municipality directly. ' +
           '<a href="https://cdola.colorado.gov/funding-programs/urban-renewal" target="_blank" rel="noopener" style="color:var(--accent);">DOLA URA program ↗</a>' +
         '</div>';
@@ -5740,13 +5740,13 @@
       html += '<div style="margin:10px 0;padding:10px 12px;border-radius:6px;background:var(--bg2);">' +
         '<div style="font-weight:700;font-size:.95rem;margin-bottom:6px;">Opportunity Zone overlap</div>';
       if (ozCount > 0) {
-        html += '<div style="font-size:.85rem;line-height:1.55;">' +
+        html += '<div style="font-size:1rem;line-height:1.55;">' +
           '<strong>' + ozCount + ' designated OZ tract' + (ozCount === 1 ? '' : 's') + '</strong> in ' +
           countyName + '. Property within these tracts qualifies for federal capital-gains deferral via Qualified Opportunity Fund equity — stacks with LIHTC + state credit.<br>' +
           '<a href="https://www.cdfifund.gov/opportunity-zones" target="_blank" rel="noopener" style="color:var(--accent);">HUD CDFI OZ map ↗</a>' +
         '</div>';
       } else {
-        html += '<div style="font-size:.85rem;color:var(--muted);">' +
+        html += '<div style="font-size:1rem;color:var(--muted);">' +
           'No Opportunity Zones designated in ' + countyName + '. OZ designations are permanent (2018 selections) — no path to add new ones.' +
         '</div>';
       }
@@ -5756,14 +5756,14 @@
       html += '<details style="margin:10px 0;padding:10px 12px;border-radius:6px;background:var(--bg2);">' +
         '<summary style="cursor:pointer;font-weight:700;font-size:.95rem;">' +
           'Adaptive-reuse patterns to evaluate ' +
-          '<span style="color:var(--muted);font-weight:400;font-size:.85rem;">(' +
+          '<span style="color:var(--muted);font-weight:400;font-size:1rem;">(' +
             Object.keys(patterns).length + ' patterns · cost · timeline · CO examples)</span>' +
         '</summary>' +
         '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:10px;">';
       Object.keys(patterns).forEach(function (key) {
         var p = patterns[key];
         var pmeta = PATTERN_LABELS[key] || { icon: '🏗️', label: key.replace(/_/g, ' ') };
-        html += '<div style="padding:10px 12px;border:1px solid var(--border);border-radius:5px;font-size:.84rem;line-height:1.55;">' +
+        html += '<div style="padding:10px 12px;border:1px solid var(--border);border-radius:5px;font-size:1rem;line-height:1.55;">' +
           '<div style="font-weight:700;margin-bottom:4px;">' + pmeta.icon + ' ' + pmeta.label + '</div>' +
           '<div style="color:var(--muted);">' +
             '<strong style="color:var(--text);">Cost:</strong> $' + (p.typical_cost_per_unit_K || '—') + 'K/unit · ' +
@@ -5771,7 +5771,7 @@
           '</div>' +
           '<div style="margin-top:4px;color:var(--muted);">' + (p.what_it_is || '') + '</div>';
         if (p.colorado_examples && p.colorado_examples.length) {
-          html += '<div style="margin-top:4px;color:var(--muted);font-size:.78rem;">' +
+          html += '<div style="margin-top:4px;color:var(--muted);font-size:1rem;">' +
             '<strong style="color:var(--text);">CO examples:</strong> ' + p.colorado_examples.slice(0, 2).join(' · ') +
           '</div>';
         }
@@ -5780,7 +5780,7 @@
       html += '</div></details>';
 
       // 4. Tools
-      html += '<div style="margin:10px 0;font-size:.82rem;color:var(--muted);">' +
+      html += '<div style="margin:10px 0;font-size:1rem;color:var(--muted);">' +
         '<strong>Environmental + acquisition tools:</strong> ' +
         '<a href="https://www.epa.gov/brownfields" target="_blank" rel="noopener" style="color:var(--accent);">EPA Brownfields ↗</a> · ' +
         '<a href="https://cdphe.colorado.gov/voluntary-cleanup-program" target="_blank" rel="noopener" style="color:var(--accent);">CO Voluntary Cleanup ↗</a> · ' +
@@ -5913,11 +5913,11 @@
         ? (reqAnnual / medHHI * 100).toFixed(0) + '% of median HH income'
         : '';
       return '<tr>' +
-        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;">' + label + (isApprox ? ' <span style="font-size:.72rem;color:var(--muted);font-weight:400;">(approximated)</span>' : '') + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);font-weight:600;">' + label + (isApprox ? ' <span style="font-size:1rem;color:var(--muted);font-weight:400;">(approximated)</span>' : '') + '</td>' +
         '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;">' + baseStr + '</td>' +
         '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-weight:700;color:var(--text-strong);">' + reqAnnStr + '</td>' +
         '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:var(--accent);font-weight:600;">' + reqHrStr + '</td>' +
-        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:var(--muted);font-size:.85rem;">' + hhiCmp + '</td>' +
+        '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:var(--muted);font-size:1rem;">' + hhiCmp + '</td>' +
         '<td style="padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;color:' + shareColor + ';font-weight:700;">' + shareStr + '</td>' +
       '</tr>';
     }
@@ -5926,10 +5926,10 @@
     rowsHtml += _row('Rent the median apartment',  medRent,    rentReqAnnual, rentReqHourly, rentShare, false);
     var buyLabel = 'Buy the median home';
     if (homeInfo.display) {
-      buyLabel += ' <span style="font-size:.72rem;color:var(--muted);font-weight:400;">(' + escHtml(homeInfo.sourceLabel) + ')</span>';
+      buyLabel += ' <span style="font-size:1rem;color:var(--muted);font-weight:400;">(' + escHtml(homeInfo.sourceLabel) + ')</span>';
     }
     if (homeInfo.suppressIncomeToOwn) {
-      buyLabel += ' <span style="font-size:.72rem;color:var(--warn);font-weight:400;">(suppressed)</span>';
+      buyLabel += ' <span style="font-size:1rem;color:var(--warn);font-weight:400;">(suppressed)</span>';
     }
     rowsHtml += _row(buyLabel, medHomeVal, buyReqAnnual,  buyReqHourly,  buyShare,  false);
     rowsHtml += _row('Afford an AMI-60% LIHTC unit', null,     ami60Annual,   ami60Hourly,   amiShare,  ami60IsApprox);
@@ -5959,14 +5959,14 @@
           };
         }
         var addendum = document.createElement('div');
-        addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:.85rem;line-height:1.5;';
+        addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.5;';
         addendum.innerHTML =
           '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
           '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
-            '<div><span style="color:var(--muted);font-size:.78rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:.78rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
-            '<div><span style="color:var(--muted);font-size:.78rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
-            '<div><span style="color:var(--muted);font-size:.78rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
+            (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
+            '<div><span style="color:var(--muted);font-size:1rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
+            '<div><span style="color:var(--muted);font-size:1rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
           '</div>' +
           '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + (rec.notes || '') + '</p>' +
           '<p style="margin:.2rem 0 0;font-size:1rem;color:var(--muted);">' +
@@ -5985,7 +5985,7 @@
     _renderHnaRedevPanel(profile, countyFips5);
 
     var tableHtml = '<div style="overflow-x:auto;">' +
-      '<table style="width:100%;border-collapse:collapse;font-size:.9rem;margin-top:8px;">' +
+      '<table style="width:100%;border-collapse:collapse;font-size:1rem;margin-top:8px;">' +
       '<thead><tr style="background:var(--bg2);">' +
         '<th style="padding:8px;text-align:left;font-weight:700;border-bottom:2px solid var(--border);">Housing target</th>' +
         '<th style="padding:8px;text-align:right;font-weight:700;border-bottom:2px solid var(--border);">Cost</th>' +
@@ -5997,8 +5997,8 @@
 
     // ── Methodology footer ────────────────────────────────────────────
     var notesHtml = '<details style="margin-top:12px;">' +
-      '<summary style="cursor:pointer;font-size:.85rem;color:var(--muted);font-weight:600;">Methodology &amp; sources</summary>' +
-      '<ul style="margin:8px 0 0;padding-left:20px;font-size:.82rem;color:var(--muted);line-height:1.55;">' +
+      '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:600;">Methodology &amp; sources</summary>' +
+      '<ul style="margin:8px 0 0;padding-left:20px;font-size:1rem;color:var(--muted);line-height:1.55;">' +
         '<li><strong>30% rule:</strong> standard housing affordability convention — gross income × 30% = max housing payment. Required annual = monthly cost × 12 ÷ 0.30; hourly = annual ÷ 2,080 (40hr × 52wk).</li>' +
         '<li><strong>Buy assumptions:</strong> 20% down, 30-year mortgage at prevailing rate, property tax + insurance + (PMI if applicable). Same constants used by the Income Needed to Buy stat tile above.</li>' +
         '<li><strong>AMI-60% LIHTC:</strong> 60% × HUD 4-person Area Median Income for the containing county. Tax-credit units are restricted to ≤60% AMI tenants — this is the income they need.</li>' +
@@ -6077,7 +6077,7 @@
       // county level only; this banner makes that obvious instead of letting
       // the user assume the numbers are place-specific.
       var scopeBanner = (geoType === 'place')
-        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:.78rem;line-height:1.4;color:var(--text);">' +
+        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
             '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
             'ACS 5-yr cohorts (B25064/B19013) and FHFA HPI publish at the county level only; ' +
             'your selected place inherits these county-wide trends.' +
@@ -6119,24 +6119,24 @@
       // ── Summary cards ──────────────────────────────────────────────
       var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Median rent change</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Median rent change</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(rentChange, false) + ';">' + _fmtPctChange(rentChange) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">' + fmtMoney(first.median_gross_rent) + ' → ' + fmtMoney(last.median_gross_rent) + ' (' + first.year + '→' + last.year + ')</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">' + fmtMoney(first.median_gross_rent) + ' → ' + fmtMoney(last.median_gross_rent) + ' (' + first.year + '→' + last.year + ')</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Median income change</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Median income change</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(incomeChange, true) + ';">' + _fmtPctChange(incomeChange) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">' + fmtMoney(first.median_hh_income) + ' → ' + fmtMoney(last.median_hh_income) + '</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">' + fmtMoney(first.median_hh_income) + ' → ' + fmtMoney(last.median_hh_income) + '</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">FHFA home price index (15y)</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">FHFA home price index (15y)</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(hpiChange, false) + ';">' + _fmtPctChange(hpiChange) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">' + (hpi.base_15y != null ? hpi.base_15y.toFixed(0) : '—') + ' → ' + (hpi.latest != null ? hpi.latest.toFixed(0) : '—') + ' (FHFA index)</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">' + (hpi.base_15y != null ? hpi.base_15y.toFixed(0) : '—') + ' → ' + (hpi.latest != null ? hpi.latest.toFixed(0) : '—') + ' (FHFA index)</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Rent burden 30%+ change</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Rent burden 30%+ change</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(burdenChange, false) + ';">' + _fmtPctChange(burdenChange) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">' + (first.rent_burden_30_plus != null ? (first.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' → ' + (last.rent_burden_30_plus != null ? (last.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' of renters</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">' + (first.rent_burden_30_plus != null ? (first.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' → ' + (last.rent_burden_30_plus != null ? (last.rent_burden_30_plus * 100).toFixed(0) + '%' : '—') + ' of renters</div>' +
         '</div>' +
       '</div>';
 
@@ -6157,7 +6157,7 @@
           '<td style="padding:5px 8px;border-bottom:1px solid var(--border);text-align:right;">' + (c.rent_burden_30_plus != null ? (c.rent_burden_30_plus * 100).toFixed(1) + '%' : '—') + '</td>' +
         '</tr>';
       }).join('');
-      var tableHtml = '<div style="overflow-x:auto;margin-top:14px;"><table id="' + tableId + '" style="width:100%;border-collapse:collapse;font-size:.88rem;">' +
+      var tableHtml = '<div style="overflow-x:auto;margin-top:14px;"><table id="' + tableId + '" style="width:100%;border-collapse:collapse;font-size:1rem;">' +
         '<thead><tr style="background:var(--bg2);">' +
           '<th style="padding:8px;text-align:left;border-bottom:2px solid var(--border);">ACS vintage</th>' +
           '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Median rent</th>' +
@@ -6237,7 +6237,7 @@
       var permits = rec && rec.permits;
       // F223 — Explicit county-scope label when called from a place selection.
       var scopeBanner = (geoType === 'place' && rec)
-        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:.78rem;line-height:1.4;color:var(--text);">' +
+        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
             '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
             'This panel shows county figures. Census BPS also publishes place-level permits for reporting jurisdictions; unincorporated areas and CDPs are county-permitted and legitimately have no place record.' +
           '</div>'
@@ -6257,19 +6257,19 @@
       // ── Headline cards ────────────────────────────────────────────
       var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Total permits ' + firstYr + '–' + lastYr + '</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Total permits ' + firstYr + '–' + lastYr + '</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:var(--accent);">' + fmtNum(total) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">units across ' + years.length + ' years</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">units across ' + years.length + ' years</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Average pace</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Average pace</div>' +
           '<div style="font-size:1.4rem;font-weight:800;">' + fmtNum(Math.round(avgPerYear)) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">units/year average</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">units/year average</div>' +
         '</div>' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
-          '<div style="font-size:.78rem;color:var(--muted);">Most recent year (' + lastYr + ')</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">Most recent year (' + lastYr + ')</div>' +
           '<div style="font-size:1.4rem;font-weight:800;">' + fmtNum(units[units.length - 1]) + '</div>' +
-          '<div style="font-size:.72rem;color:var(--muted);">vs. ' + fmtNum(units[0]) + ' in ' + firstYr + '</div>' +
+          '<div style="font-size:1rem;color:var(--muted);">vs. ' + fmtNum(units[0]) + ' in ' + firstYr + '</div>' +
         '</div>' +
       '</div>';
 
@@ -6277,8 +6277,8 @@
       var chartHtml = '<div class="chart-box" style="position:relative;height:240px;"><canvas id="' + canvasId + '" role="img" aria-label="Annual housing unit permits over time"></canvas></div>';
 
       var noteHtml = '<details style="margin-top:14px;">' +
-        '<summary style="cursor:pointer;font-size:.85rem;color:var(--muted);font-weight:600;">Methodology &amp; gap analysis</summary>' +
-        '<div style="margin-top:8px;font-size:.82rem;color:var(--muted);line-height:1.55;">' +
+        '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:600;">Methodology &amp; gap analysis</summary>' +
+        '<div style="margin-top:8px;font-size:1rem;color:var(--muted);line-height:1.55;">' +
           '<p style="margin:0 0 .5rem;"><strong>Source:</strong> ' +
             '<a href="https://www.census.gov/construction/bps/" target="_blank" rel="noopener" class="hna-source-link">Census Building Permits Survey (BPS)</a>. ' +
             'Annual total units permitted at the county level. Vintages 2020-2024 cached in <code>data/co-housing-costs/permits_county.parquet</code>.</p>' +
@@ -6721,20 +6721,20 @@
     const fmtNum = U().fmtNum;
     resultEl.textContent = '';
     const panel = document.createElement('div');
-    panel.style.cssText = 'margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:.9rem;';
+    panel.style.cssText = 'margin-top:10px;padding:10px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:4px;font-size:1rem;';
     const title = document.createElement('strong');
     title.textContent = 'Estimated approval timeline: ' + estMonths.toFixed(1) + ' months';
     panel.appendChild(title);
     panel.appendChild(document.createElement('br'));
     const detail = document.createElement('span');
-    detail.style.cssText = 'color:var(--muted);font-size:.85rem;';
+    detail.style.cssText = 'color:var(--muted);font-size:1rem;';
     detail.textContent = 'Track: ' + (track === 'fast' ? 'Fast-track (HB 22-1093)' : 'Standard') +
       ' · Type: ' + dealType + ' · Size: ' + fmtNum(dealSize) + ' units';
     panel.appendChild(detail);
     if (track === 'fast') {
       panel.appendChild(document.createElement('br'));
       const savings = document.createElement('span');
-      savings.style.cssText = 'color:var(--good,#16a34a);font-size:.8rem;';
+      savings.style.cssText = 'color:var(--good,#16a34a);font-size:1rem;';
       savings.textContent = '⚡ ~' + Math.round((1 - estMonths / 8) * 100) + '% time savings vs. standard process.';
       panel.appendChild(savings);
     }
@@ -6768,7 +6768,7 @@
       baseline, baselineData.actuals || [], new Date().getFullYear()
     );
     if (!traj) return;
-    let html = '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">' +
+    let html = '<table style="width:100%;border-collapse:collapse;font-size:1rem;">' +
       '<thead><tr>' +
         '<th style="text-align:left;padding:4px 8px;border-bottom:1px solid var(--border);">Year</th>' +
         '<th style="text-align:right;padding:4px 8px;border-bottom:1px solid var(--border);">Required</th>' +
@@ -6798,7 +6798,7 @@
       container.innerHTML = '<p style="color:var(--muted);">No compliance data yet.</p>';
       return;
     }
-    let html = '<table style="width:100%;border-collapse:collapse;font-size:.85rem;">' +
+    let html = '<table style="width:100%;border-collapse:collapse;font-size:1rem;">' +
       '<thead><tr><th>Year</th><th>Required</th><th>Actual</th></tr></thead><tbody>';
     traj.rows.forEach(r => {
       html += '<tr><td>' + r.year + '</td><td>' + (r.required || '—') + '</td><td>' + (r.actual != null ? r.actual : 'pending') + '</td></tr>';
@@ -6882,7 +6882,7 @@
     // (no nested wrapper grid) so the box geometry matches the Economic
     // Indicators row directly above. Geography label spans the full row
     // via grid-column:1/-1.
-    let html = '<div style="grid-column:1/-1;font-size:.78rem;color:var(--muted);margin-bottom:2px;">' + escHtml(label) + '</div>';
+    let html = '<div style="grid-column:1/-1;font-size:1rem;color:var(--muted);margin-bottom:2px;">' + escHtml(label) + '</div>';
     cards.forEach(c => {
       html += '<div class="metric-card">' +
         '<div class="mc-label">' + escHtml(c.title) + '</div>' +
@@ -7168,7 +7168,7 @@
           (total10 != null ? '; +10yr ~' + fmt(Math.round(total10)) : '') +
           (total20 != null ? '; +20yr ~' + fmt(Math.round(total20)) : '') +
           (more20 != null ? ' → ~' + fmt(Math.round(more20)) + ' more from growth.' : '.') +
-          '<div style="overflow-x:auto;margin-top:.45rem;"><table style="width:100%;border-collapse:collapse;font-size:.76rem;">' +
+          '<div style="overflow-x:auto;margin-top:.45rem;"><table style="width:100%;border-collapse:collapse;font-size:1rem;">' +
             '<thead><tr><th style="padding:4px 6px;text-align:left;border-bottom:1px solid var(--border);">AMI band</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">Today</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+10yr</th><th style="padding:4px 6px;text-align:right;border-bottom:1px solid var(--border);">+20yr</th></tr></thead>' +
             '<tbody>' + rows + '</tbody>' +
           '</table></div>' +
@@ -7289,14 +7289,14 @@
         barEl.innerHTML =
           '<div style="display:flex;height:10px;border-radius:4px;overflow:hidden;background:var(--bg2);border:1px solid var(--border);" ' +
             'role="img" aria-label="AMI gap heatmap — per-tier cohorts across 7 income bands">' + blocks + '</div>' +
-          '<div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.72rem;color:var(--muted);margin-top:6px;">' +
+          '<div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:1rem;color:var(--muted);margin-top:6px;">' +
             labels +
           '</div>' +
-          '<div style="font-size:.78rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
+          '<div style="font-size:1rem;color:var(--text);margin-top:8px;padding-top:6px;border-top:1px solid var(--border);">' +
             '<strong>Total renter households needing affordable units ≤100% AMI:</strong> ' + fmt(total) +
           '</div>' +
           (sourceNote
-            ? '<div style="font-size:.72rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'
+            ? '<div style="font-size:1rem;color:var(--muted);margin-top:2px;font-style:italic;">' + sourceNote + '</div>'
             : '');
       } else if (chasLooksSuspect) {
         barEl.innerHTML =
@@ -7492,10 +7492,10 @@
       : 'No CO peer data';
 
     return '<div style="padding:.65rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);">' +
-      '<div style="font-size:.74rem;color:var(--muted);font-weight:600">' + escHtml(label) + '</div>' +
+      '<div style="font-size:1rem;color:var(--muted);font-weight:600">' + escHtml(label) + '</div>' +
       '<div style="font-size:1.3rem;font-weight:800;color:' + sev + ';font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px">' + escHtml(rawValueText) + '</div>' +
-      '<div style="font-size:.7rem;color:var(--muted);margin-top:3px">' + escHtml(pctText) + '</div>' +
-      (helperText ? '<div style="font-size:.66rem;color:var(--muted);margin-top:4px;line-height:1.35;font-style:italic">' + escHtml(helperText) + '</div>' : '') +
+      '<div style="font-size:1rem;color:var(--muted);margin-top:3px">' + escHtml(pctText) + '</div>' +
+      (helperText ? '<div style="font-size:1rem;color:var(--muted);margin-top:4px;line-height:1.35;font-style:italic">' + escHtml(helperText) + '</div>' : '') +
     '</div>';
   }
 
@@ -7630,13 +7630,13 @@
     // whenever a place/CDP is selected since the scorecard pulls CHAS
     // and economic indicators at the county level for that geography.
     const proxyBadgeHtml = isPlaceProxy
-      ? '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.74rem;line-height:1.5;color:var(--text)">' +
+      ? '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;line-height:1.5;color:var(--text)">' +
           '<strong>County proxy:</strong> this scorecard uses ' + escHtml(countyName || 'the containing county') +
           ' county-level CHAS and economic indicators because this panel is not yet available at place geography.' +
         '</div>'
       : '';
     container.innerHTML =
-      '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:.78rem">— v2 methodology</span></h2>' +
+      '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:1rem">— v2 methodology</span></h2>' +
       proxyBadgeHtml +
       '<p style="font-size:1rem;color:var(--muted);margin:0 0 .75rem">' +
         'Each county is scored against the rest of Colorado on four signals. Composite is 0–100 = ' +
@@ -7646,10 +7646,10 @@
 
       // Composite headline
       '<div style="display:flex;align-items:center;gap:14px;padding:10px 14px;margin-bottom:10px;border:1px solid var(--border);border-radius:10px;background:color-mix(in oklab,var(--card) 92%,var(--bg2) 8%);">' +
-        '<div style="flex:0 0 auto"><div style="font-size:.72rem;color:var(--muted);font-weight:600">Overall need</div>' +
+        '<div style="flex:0 0 auto"><div style="font-size:1rem;color:var(--muted);font-weight:600">Overall need</div>' +
           '<div style="font-size:1.9rem;font-weight:900;color:' + compSev + ';font-variant-numeric:tabular-nums;line-height:1">' + composite + '<span style="font-size:1rem;font-weight:700;color:var(--muted)">/100</span></div></div>' +
-        '<div style="flex:1 1 auto"><div style="font-size:.9rem;font-weight:700;color:' + compSev + '">' + compLabel + '</div>' +
-          '<div style="font-size:.74rem;color:var(--muted);margin-top:2px">' +
+        '<div style="flex:1 1 auto"><div style="font-size:1rem;font-weight:700;color:' + compSev + '">' + compLabel + '</div>' +
+          '<div style="font-size:1rem;color:var(--muted);margin-top:2px">' +
             'Percentile rank across 4 components vs. all 64 CO counties' +
             (nMissing > 0 ? ' · ' + nMissing + ' of 4 components unavailable for this geography' : '') +
           '</div></div>' +
@@ -7692,12 +7692,12 @@
       // newer ACS 1-yr (freshness). Stays hidden until the lookup
       // resolves so we don't flash an unhelpful "insufficient" badge.
       '<div data-hna-reliability-strip="' + escHtml(geoid || countyFips) +
-      '" style="display:none;margin-top:.55rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.45"></div>' +
+      '" style="display:none;margin-top:.55rem;padding:.5rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:1rem;line-height:1.45"></div>' +
 
       // F184 — Methodology disclosure default-collapsed per site-wide policy.
       '<details style="margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:0">' +
-        '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:.85rem">How is this calculated?</summary>' +
-        '<div style="padding:.5rem .85rem .75rem;font-size:.8rem;line-height:1.55;color:var(--text)">' +
+        '<summary style="cursor:pointer;font-weight:700;padding:.55rem .75rem;font-size:1rem">How is this calculated?</summary>' +
+        '<div style="padding:.5rem .85rem .75rem;font-size:1rem;line-height:1.55;color:var(--text)">' +
           '<p style="margin:.25rem 0"><strong>Four components, each scored 0–25 by percentile rank within Colorado.</strong> Higher percentile = closer to CO\'s most-need-acute counties. Composite = sum of the four scores (0–100).</p>' +
           '<ul style="margin:.4rem 0 .5rem;padding-left:18px">' +
             '<li><strong>A · Cost burden (blended).</strong> <code>(renter_cb30 × renter_HH + owner_cb30 × owner_HH) ÷ total_HH</code>. Single % reflecting ALL households\' cost burden, weighted by tenure mix. <em>Why blend?</em> Pure renter burden misses owner-heavy markets; this version doesn\'t. Source: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" class="hna-source-link">HUD CHAS 2018-2022</a> Table 7.</li>' +
@@ -7747,7 +7747,7 @@
       strip.innerHTML =
         '<div style="flex:0 0 auto">' + badge + '</div>' +
         '<div style="flex:1 1 240px;color:var(--text)">' +
-          '<strong style="font-size:.78rem">CHAS reliability check:</strong> ' +
+          '<strong style="font-size:1rem">CHAS reliability check:</strong> ' +
           escHtml(notes || 'CHAS 2018–2022 baseline, cross-checked against ACS B25070.') +
         '</div>';
     }).catch(function () {
@@ -7815,7 +7815,7 @@
       if (prior) prior.remove();
       const line = document.createElement('div');
       line.className = 'f28-ami-ctx';
-      line.style.cssText = 'margin-top:.35rem;font-size:.74rem;color:var(--muted);';
+      line.style.cssText = 'margin-top:.35rem;font-size:1rem;color:var(--muted);';
       let txt = 'Income-band gaps are measured against the county’s HUD 4-person AMI of $' +
         Math.round(ami).toLocaleString() + ' (HUD publishes AMI only at county level). ';
       // Resort-distortion flag: when local median is well below the county AMI
@@ -7890,7 +7890,7 @@
         }
         noteEl.style.cssText =
           'margin:0 0 .5rem;padding:.5rem .75rem;border-left:3px solid var(--good,#16a34a);' +
-          'border-radius:0 4px 4px 0;background:rgba(34,197,94,.08);font-size:.78rem;' +
+          'border-radius:0 4px 4px 0;background:rgba(34,197,94,.08);font-size:1rem;' +
           'line-height:1.45;color:var(--text);';
         const placeLabel = (selectedGeo && selectedGeo.name) || 'this place';
         noteEl.textContent = '';
@@ -7908,7 +7908,7 @@
           const _hh = _pc && _pc.summary ? (_pc.summary.total_renter_hh + _pc.summary.total_owner_hh) : null;
           if (_hh != null && _hh < 1000) {
             const moe = document.createElement('div');
-            moe.style.cssText = 'margin-top:.35rem;font-size:.74rem;color:var(--muted);';
+            moe.style.cssText = 'margin-top:.35rem;font-size:1rem;color:var(--muted);';
             moe.textContent = '⚠ Small sample (~' + Math.round(_hh).toLocaleString() +
               ' households): 5-year ACS estimates for places this size carry wide margins of error — read tiers as directional, not precise.';
             noteEl.appendChild(moe);
@@ -7932,7 +7932,7 @@
         noteEl.setAttribute('role', 'note');
         noteEl.style.cssText =
           'margin:0 0 .5rem;padding:.5rem .75rem;border-left:3px solid var(--warn,#d97706);' +
-          'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.78rem;' +
+          'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:1rem;' +
           'line-height:1.45;color:var(--text);';
         const wrap = canvas.closest('.chart-card') || canvas.parentElement;
         if (wrap) wrap.insertBefore(noteEl, wrap.firstChild.nextSibling);
@@ -8273,7 +8273,7 @@
     if (!note) {
       note = document.createElement('p');
       note.setAttribute('data-combined-unavailable', 'true');
-      note.style.cssText = 'margin:0;padding:1rem;color:var(--muted);font-size:.9rem;text-align:center;';
+      note.style.cssText = 'margin:0;padding:1rem;color:var(--muted);font-size:1rem;text-align:center;';
       box.appendChild(note);
     }
     note.textContent = message || 'Not available for combined areas. View members individually.';
@@ -8554,8 +8554,8 @@
       grouped[row.section].push(row);
     });
     var html = '<div class="regional-comparison-table-wrap" style="overflow-x:auto;margin-top:.65rem;">' +
-      '<table class="regional-comparison-table table" style="min-width:680px;width:100%;border-collapse:collapse;font-size:.86rem;">' +
-      '<caption style="text-align:left;color:var(--muted);font-size:.82rem;margin-bottom:.4rem;">Side-by-side view only; not an aggregate.</caption>' +
+      '<table class="regional-comparison-table table" style="min-width:680px;width:100%;border-collapse:collapse;font-size:1rem;">' +
+      '<caption style="text-align:left;color:var(--muted);font-size:1rem;margin-bottom:.4rem;">Side-by-side view only; not an aggregate.</caption>' +
       '<thead><tr><th scope="col" style="text-align:left;">Metric</th>' +
       members.map(function (m) { return '<th scope="col" style="text-align:right;">' + escHtml(m.label || (m.member && m.member.geoid) || 'Jurisdiction') + '</th>'; }).join('') +
       '</tr></thead><tbody>';
