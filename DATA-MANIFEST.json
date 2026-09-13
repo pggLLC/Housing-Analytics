@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-13T04:43:01Z",
+  "generated": "2026-09-13T12:17:39Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -20,7 +20,7 @@
       "update_method": "manual",
       "status": "seed",
       "fallback_rule": "Display empty LIHTC layer with informational tooltip; hide allocations chart",
-      "last_update": "2026-09-12T11:39:29Z",
+      "last_update": "2026-09-13T05:38:15Z",
       "description": "Point features representing LIHTC-funded affordable housing projects in Colorado, including unit counts, allocation year, and credit percentage. 360 representative projects across Colorado counties derived from CHFA records with HUD-compatible field names. Full HUD dataset available at source_url; this file is rebuilt by scripts/market/build_public_market_data.py. Dashboards fall back to data/chfa-lihtc.json if this file is unavailable."
     },
     {
@@ -100,7 +100,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide CHFA allocation chart; display statewide HUD totals only",
-      "last_update": "2026-09-07T09:57:26Z",
+      "last_update": "2026-09-13T05:38:15Z",
       "description": "Annual LIHTC allocation data from CHFA including award amounts, project counts, and unit totals by year. Used to populate the LIHTC allocation trend charts on the dashboard."
     },
     {
@@ -110,7 +110,7 @@
       "update_method": "live",
       "status": "live",
       "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
-      "last_update": "2026-09-12T09:13:28Z",
+      "last_update": "2026-09-13T05:41:04Z",
       "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
     },
     {
@@ -120,7 +120,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
-      "last_update": "2026-09-12T10:53:16Z",
+      "last_update": "2026-09-13T11:58:22Z",
       "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
     },
     {
@@ -130,7 +130,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Hide employment trend charts; display static summary table",
-      "last_update": "2026-09-12T11:15:05Z",
+      "last_update": "2026-09-13T05:39:04Z",
       "description": "County-level employment and wage data for Colorado sourced from BLS QCEW, including industry sector breakdowns and wage band distributions used in the economic dashboard."
     },
     {
@@ -140,7 +140,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable DDA overlay layer; suppress DDA bonus credit indicator",
-      "last_update": "2026-09-06T04:45:36Z",
+      "last_update": "2026-09-13T05:34:40Z",
       "description": "HUD-designated Difficult Development Areas in Colorado where 30% LIHTC basis boost is available. Updated annually by HUD; used to flag eligible project locations on the LIHTC dashboard."
     },
     {
@@ -150,7 +150,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Disable QCT overlay layer; suppress QCT basis boost indicator",
-      "last_update": "2026-09-06T04:45:36Z",
+      "last_update": "2026-09-13T05:34:40Z",
       "description": "HUD-designated Qualified Census Tracts in Colorado where 30% LIHTC basis boost is available due to low-income concentration. Used to flag eligible tracts on the LIHTC dashboard."
     },
     {
@@ -200,7 +200,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Display static Colorado state summary; disable dynamic ACS metric cards",
-      "last_update": "2026-09-12T11:54:18Z",
+      "last_update": "2026-09-13T05:37:36Z",
       "description": "Statewide Colorado housing and demographic statistics from the ACS 5-year estimates, including total housing units, owner/renter split, median gross rent, median household income, and cost burden rate."
     },
     {
@@ -230,7 +230,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide historical allocation trend chart; display current year totals only",
-      "last_update": "2026-09-07T09:57:26Z",
+      "last_update": "2026-09-13T05:38:15Z",
       "description": "Historical LIHTC allocation data for Colorado going back to program inception, including annual award amounts, unit counts, and project counts. Used to populate multi-year trend charts in the LIHTC dashboard."
     },
     {
@@ -260,7 +260,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide county sparkline charts; display statewide total only",
-      "last_update": "2026-09-07T09:57:26Z",
+      "last_update": "2026-09-13T05:38:15Z",
       "description": "Annual LIHTC allocation trend data for all 64 Colorado counties, enabling sparkline trend charts in the LIHTC dashboard county table. Each county entry contains year-by-year unit totals."
     },
     {
