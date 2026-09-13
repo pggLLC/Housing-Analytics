@@ -7504,7 +7504,7 @@
     "data/market/bridge_co_market_summary.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 253
+      "bytes": 575
     },
     "data/market/cdphe_county_boundaries_co.geojson": {
       "featureCount": 64,
