@@ -4,6 +4,17 @@ on:
   push:
     branches: ["main"]
   pull_request:
+  # Bot-pushed commits are why this exists. GitHub runs no workflows for
+  # pushes made with GITHUB_TOKEN, so the `push: main` trigger above never
+  # fires for the data crons -- and those are the commits that break main.
+  # It has happened four times on 2026-09-13 alone, across three pipelines
+  # (place-chas twice, the CAR report, the HNA build phases), each time
+  # surfacing only when an unrelated PR inherited a failure on files it never
+  # touched. Two-hourly gives a bounded window instead of "whenever someone
+  # next opens a PR".
+  schedule:
+    - cron: '15 */2 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -320,3 +331,37 @@ jobs:
         # and runs them as part of the suite above. demographic_projections_test.py
         # has also been moved and is now exercised — it was orphaned before
         # (existed in test/ but never invoked by any workflow).
+
+  # Reports the scheduled result and nothing else. Deliberately a separate job
+  # rather than a step inside ci-checks: the notifier needs `issues: write`,
+  # and ci-checks runs repository code (`npm run test:ci`) on every pull
+  # request, including from forks. Granting issue-write to that job would hand
+  # the privilege to anything a PR can execute. This job runs no repo code.
+  #
+  # Scheduled runs only. On push/pull_request it is skipped, so the PR gate is
+  # completely unchanged by this file's other edit.
+  main-health-report:
+    needs: ci-checks
+    if: always() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      # Opens one tracking issue on failure, comments on it while main stays
+      # broken, and closes it on the first green scheduled run. Passing
+      # needs.<id>.result rather than job.status is what makes this report the
+      # suite's outcome instead of its own. 'cancelled' counts as failure --
+      # a timeout renders grey, not red, and build-hna-data went 15 days
+      # unnoticed that way (#1556).
+      - name: Report main health / close tracker on recovery
+        uses: ./.github/actions/notify-workflow-outcome
+        with:
+          workflow_id: main-health
+          outcome: ${{ needs.ci-checks.result }}
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          github_token: ${{ github.token }}
