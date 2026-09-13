@@ -44,7 +44,7 @@ function testHousingNeedProjector() {
   );
   assert.strictEqual(
     container.querySelector('p').outerHTML,
-    '<p style="font-size:.9rem;margin-bottom:16px;">Based on current housing gaps and low/baseline/high growth assumptions for <strong>Mesa County</strong>, the following projections estimate unmet housing demand over the next 20 years.</p>',
+    '<p style="font-size:1.133rem;margin-bottom:16px;">Based on current housing gaps and low/baseline/high growth assumptions for <strong>Mesa County</strong>, the following projections estimate unmet housing demand over the next 20 years.</p>',
     'normal projection intro renders byte-identically'
   );
   dom.window.close();

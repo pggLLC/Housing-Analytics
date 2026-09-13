@@ -900,7 +900,7 @@
           '<li>Property tax: <strong>' + (A.propertyTaxPctAnnual*100).toFixed(2) + '%</strong> of home value/yr · insurance: <strong>' + (A.insurancePctAnnual*100).toFixed(2) + '%</strong> of home value/yr</li>' +
           '<li>Underwriting rule: monthly PITI ≤ <strong>' + Math.round(A.paymentToIncome*100) + '%</strong> of gross household income (lenders typically use 28%; we use the more generous 30% rule-of-thumb)</li>' +
         '</ul>' +
-        '<p style="margin:8px 0 0;font-size:.78rem">Reality-check: actual underwriting also looks at total debt-to-income, credit score, reserves, and DSCR. This card is a screening estimate, not a pre-qualification.</p>';
+        '<p style="margin:8px 0 0;font-size:1rem">Reality-check: actual underwriting also looks at total debt-to-income, credit score, reserves, and DSCR. This card is a screening estimate, not a pre-qualification.</p>';
     }
   }
 
@@ -2714,9 +2714,9 @@
 
     let html = '';
     if (fromCounty) {
-      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Showing <strong>county-level</strong> resources — no entry specific to this municipality yet.</p>';
+      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;color:var(--muted)">Showing <strong>county-level</strong> resources — no entry specific to this municipality yet.</p>';
     } else if (inheritedFields.length) {
-      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:.78rem;color:var(--muted)">Some items below are <strong>county-level</strong> — this jurisdiction has no entry of its own for: ' + escHtml(inheritedFields.join(', ')) + '.</p>';
+      html += '<p class="lr-fallback" style="margin:0 0 8px;padding:.5rem .7rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;color:var(--muted)">Some items below are <strong>county-level</strong> — this jurisdiction has no entry of its own for: ' + escHtml(inheritedFields.join(', ')) + '.</p>';
     }
 
     // Curated jurisdictional housing-history briefs live on the internal
@@ -2855,7 +2855,7 @@
     // users to miss it entirely.
     html += '<section class="lr-section">' +
               '<h4>CHFA LIHTC award history</h4>' +
-              '<p class="lr-section__hint" style="margin:.15rem 0 .35rem;font-size:.78rem;color:var(--muted)">Year-by-year award timeline · each property links to a chfainfo.com lookup.</p>' +
+              '<p class="lr-section__hint" style="margin:.15rem 0 .35rem;font-size:1rem;color:var(--muted)">Year-by-year award timeline · each property links to a chfainfo.com lookup.</p>' +
               '<div id="lr-chfa-award-history-mount"></div>' +
             '</section>';
 
@@ -3103,7 +3103,7 @@
       : (G + enc('"' + jurisName + '" Colorado workforce housing employer'));
 
     let out = '<section class="lr-section"><h4>Major employers &amp; workforce-housing partners</h4>' +
-      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
+      '<p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem">' +
       'Headline employers shape the AMI mix you should design for, and several run workforce-housing programs ' +
       'a developer can plug into (master-lease, direct-build partnership, surplus land contributions). ' +
       'Resort employers in particular — Vail Resorts, Aspen Skiing Co, hospital systems — have published housing programs.</p>';
@@ -3130,7 +3130,7 @@
       out += '</ul>';
       // Always append a search link so a developer can dig past the
       // curated headline list.
-      out += '<p style="font-size:.82rem;margin:.5rem 0 0">' +
+      out += '<p style="font-size:1.133rem;margin:.5rem 0 0">' +
              '<a href="' + escHtml(largestUrl) +
              '" target="_blank" rel="noopener noreferrer">' +
              '🔎 Search: "largest employers in ' + escHtml(jurisName) + ', Colorado"</a></p>';
@@ -3270,7 +3270,7 @@
     });
 
     let out = '<section class="lr-section"><h4>Community institutions &amp; faith-based partners</h4>' +
-      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem">' +
+      '<p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem">' +
       'Local schools, hospitals, churches, libraries, and rec centers often own developable land, serve as convening venues, or run workforce-housing programs. ' +
       'Searches scoped to ' + escHtml(jurisName) + ', Colorado.</p>' +
       '<ul class="lr-list">';
@@ -3408,7 +3408,7 @@
 
     if (items.length === 0 && directLinks.length === 0) {
       return '<section class="lr-section"><h4>Housing on the agenda</h4>' +
-        '<p class="lr-item" style="color:var(--muted);font-size:.82rem;">' +
+        '<p class="lr-item" style="color:var(--muted);font-size:1.133rem;">' +
         'No jurisdiction website on file yet — add a Housing Lead URL to populate agenda searches.' +
         '</p></section>';
     }
@@ -3449,7 +3449,7 @@
       : 'These open Google searches scoped to the jurisdiction\'s own website + Colorado housing press. Use them to find what\'s being debated NOW (zoning amendments, IZ updates, HNA adoption, budget items).';
 
     const searchHtml = items.length === 0 ? '' :
-      '<p class="lr-item" style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+      '<p class="lr-item" style="color:var(--muted);font-size:1rem;margin-bottom:.4rem;">' +
       searchIntro + '</p>' +
       '<ul class="lr-list">' +
       items.map(it => '<li class="lr-item">' +
@@ -3499,7 +3499,7 @@
 
     let out =
       '<section class="lr-section"><h4>Search city or county agendas for housing topics</h4>' +
-      '<p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .7rem">' +
+      '<p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .7rem">' +
       'Time-bound Google searches into the actual planning and council records for this jurisdiction. ' +
       'Each pill is a tightly-scoped query (quoted phrases, OR groups, filetype:pdf, last-12-month recency) ' +
       'that lands on real agendas, minutes, and staff reports — not generic press.' +
@@ -3576,7 +3576,7 @@
     }
 
     let out = '<section class="lr-section"><h4>Local boards &amp; advocates — search</h4>' +
-      '<p class="lr-item" style="color:var(--muted);font-size:.78rem;margin-bottom:.4rem;">' +
+      '<p class="lr-item" style="color:var(--muted);font-size:1rem;margin-bottom:.4rem;">' +
       (haveCurated
         ? 'Use these searches to find boards / advocates not yet on file above:'
         : 'No curated advocates on file yet for this jurisdiction. Use these searches to find local boards and advocates:') +
@@ -4599,7 +4599,7 @@
       '<ul style="margin:0 0 .5rem;padding-left:1.25rem;font-size:.9rem;line-height:1.55;color:var(--text);">' +
         bullets.map(b => '<li style="margin:.35rem 0;">' + b + '</li>').join('') +
       '</ul>' +
-      '<p style="margin:.5rem 0 0;font-size:.78rem;color:var(--muted);">' +
+      '<p style="margin:.5rem 0 0;font-size:1rem;color:var(--muted);">' +
         'Source: ACS 5-year DP03/DP04 (vintage 2020–2024) · HUD CHAS Table 7. ' +
         'See the AMI Tier and Rent Burden charts below for the underlying numbers.' +
       '</p>';
@@ -4699,7 +4699,7 @@
 
     if (!window.HousingTypeNeed || typeof window.HousingTypeNeed.compute !== 'function') {
       container.innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        '<p style="color:var(--muted);font-size:1.133rem;font-style:italic;">' +
         'Housing-type need module not loaded.</p>';
       return;
     }
@@ -4710,7 +4710,7 @@
     } catch (e) {
       console.warn('[HNA] HousingTypeNeed.compute failed', e);
       container.innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        '<p style="color:var(--muted);font-size:1.133rem;font-style:italic;">' +
         'Could not compute housing-type need from current data - try selecting another geography.' +
         '</p>';
       return;
@@ -4718,7 +4718,7 @@
 
     if (!Array.isArray(results) || !results.length) {
       container.innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;font-style:italic;">' +
+        '<p style="color:var(--muted);font-size:1.133rem;font-style:italic;">' +
         'Not enough signals to rank housing types for this geography yet.</p>';
       return;
     }
@@ -4797,7 +4797,7 @@
           'Methodology &middot; how each category is scored' +
         '</summary>' +
         '<ul style="margin:.5rem 0 0;padding-left:1.15rem;color:var(--text);">' + methHtml + '</ul>' +
-        '<p style="margin:.6rem 0 0;font-size:.74rem;color:var(--muted);">' +
+        '<p style="margin:.6rem 0 0;font-size:1rem;color:var(--muted);">' +
           'Inputs: ACS 5-year DP02 / DP03 / DP04 / DP05 (already loaded for the HNA), ' +
           'HUD CHAS Table 7 renter-by-AMI distribution, HUD income limits, and the unified ' +
           'LIHTC inventory. Each indicator is normalised to a 0-100 score via a piecewise ' +
@@ -5022,7 +5022,7 @@
     var container = document.getElementById('hnaAffordableOwnershipNeed');
     if (!container) return;
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5033,7 +5033,7 @@
       return;
     }
     if (!result || result.dataQuality === 'Unavailable') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5094,7 +5094,7 @@
         '</div>' +
         '<div style="font-size:1.05rem;font-weight:800;color:var(--text);line-height:1.25;">' + escHtml(card.count) + '</div>' +
         '<div style="font-size:.78rem;font-weight:700;color:var(--accent);margin:.25rem 0 .35rem;">Tier: ' + escHtml(card.tier) + '</div>' +
-        '<p style="margin:0;color:var(--muted);font-size:.8rem;line-height:1.45;">' + escHtml(card.body) + '</p>' +
+        '<p style="margin:0;color:var(--muted);font-size:1rem;line-height:1.45;">' + escHtml(card.body) + '</p>' +
       '</div>';
     }).join('');
 
@@ -5150,7 +5150,7 @@
       '</div>' +
       '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
         '<summary style="cursor:pointer;font-size:.84rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
-        '<p style="font-size:.8rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
+        '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +
         (caveats ? '<ul style="margin:.4rem 0 0;padding-left:1.1rem;color:var(--muted);font-size:.78rem;line-height:1.45;">' + caveats + '</ul>' : '') +
       '</details>';
     if (window.OwnershipDecisionChain && typeof window.OwnershipDecisionChain.render === 'function') {
@@ -5201,7 +5201,7 @@
       });
     }).catch(function (error) {
       console.warn('[HNA] ownership strategy data unavailable', error);
-      mount.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Ownership strategy data not available for this jurisdiction.</p>';
+      mount.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership strategy data not available for this jurisdiction.</p>';
     });
   }
 
@@ -5214,7 +5214,7 @@
         return;
       }
       if (!geoType || !geoid) {
-        container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
         return;
       }
       var stateRef = S() && S().state || {};
@@ -5266,7 +5266,7 @@
     } catch (e) {
       console.warn('[HNA] tryRenderAffordableOwnershipNeedFromState failed', e);
       var container = document.getElementById('hnaAffordableOwnershipNeed');
-      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Screening unavailable — verify locally.</p>';
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Screening unavailable — verify locally.</p>';
     }
   }
 
@@ -5307,7 +5307,7 @@
     if (!canvas) return;
     var box = canvas.parentElement;
     if (!box) return;
-    box.innerHTML = '<p style="margin:0;padding:1rem;color:var(--muted);font-size:.85rem;text-align:center">'
+    box.innerHTML = '<p style="margin:0;padding:1rem;color:var(--muted);font-size:1.133rem;text-align:center">'
       + escHtml(message) + '</p>';
   }
 
@@ -5475,7 +5475,7 @@
           metricsEl.innerHTML = '';
         }
       } else {
-        metricsEl.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:.85rem">'
+        metricsEl.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:1.133rem">'
           + 'LEHD cache not yet available for this geography.</p>';
       }
     }
@@ -5701,7 +5701,7 @@
       };
 
       var html = '<h2 style="font-size:1rem;">🏗️ Downtown redevelopment opportunities</h2>' +
-        '<p style="color:var(--muted);font-size:.88rem;line-height:1.5;margin-bottom:14px;">' +
+        '<p style="color:var(--muted);font-size:1.133rem;line-height:1.5;margin-bottom:14px;">' +
           'How could affordable housing get built here? Downtown infill — old hotels, vacant offices, ' +
           'surface parking lots, underutilized commercial — stacks 4-5 LIHTC cap-stack tools ' +
           '(basis boost · URA TIF · OZ deferral · Historic Tax Credit · brownfield grants) ' +
@@ -5787,7 +5787,7 @@
         '<a href="https://cdola.colorado.gov/brownfields-revolving-loan-fund" target="_blank" rel="noopener" style="color:var(--accent);">DOLA Brownfields RLF ↗</a> · ' +
         '<a href="https://www.nps.gov/subjects/taxincentives/index.htm" target="_blank" rel="noopener" style="color:var(--accent);">Federal Historic Tax Credit ↗</a>' +
       '</div>';
-      html += '<p style="font-size:.74rem;color:var(--muted);font-style:italic;margin:6px 0 0;">' +
+      html += '<p style="font-size:1rem;color:var(--muted);font-style:italic;margin:6px 0 0;">' +
         'Source: DOLA URA registry; HUD CDFI Opportunity Zones (2018 designations); COHO adaptive-reuse reference (CHFA + Novogradac case studies). ' +
         'URA active plans + TIF capacity change frequently — confirm with the URA executive director before pitching.' +
       '</p>';
@@ -5969,7 +5969,7 @@
             '<div><span style="color:var(--muted);font-size:.78rem;">Affordability gap:</span><br><strong style="color:' + (rec.gap_2br > 20 ? 'var(--bad)' : rec.gap_2br > 12 ? 'var(--warn)' : 'var(--good)') + ';">$' + (rec.gap_2br || '—').toFixed(2) + '/hr</strong></div>' +
           '</div>' +
           '<p style="margin:.2rem 0 .3rem;color:var(--text);">' + (rec.notes || '') + '</p>' +
-          '<p style="margin:.2rem 0 0;font-size:.72rem;color:var(--muted);">' +
+          '<p style="margin:.2rem 0 0;font-size:1rem;color:var(--muted);">' +
             'Source: <a href="https://nlihc.org/oor" target="_blank" rel="noopener" style="color:var(--accent);">NLIHC Out of Reach ' + ((j.meta && j.meta.vintage) || '2025') + '</a> · ' +
             'The "housing wage" = (HUD 2-BR FMR × 12) ÷ (0.30 × 2,080 work hours/year). Hourly wage a full-time renter needs to afford 2-BR FMR without rent burden. ' +
             'Pulls a hard one-line answer to "why does this jurisdiction need affordable housing?" for IC memos.' +
@@ -6059,7 +6059,7 @@
     var fmtMoney = u.fmtMoney;
 
     if (!countyFips) {
-      panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
         'Decade trends are published at the county level only. Pick a county or ' +
         'place inside a county to see the historical comparison.</p>';
       return;
@@ -6068,7 +6068,7 @@
     _loadCountyTrends().then(function (data) {
       var rec = data.counties && data.counties[countyFips];
       if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
-        panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+        panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
           'Historical trend data not cached for this county.</p>';
         return;
       }
@@ -6165,7 +6165,7 @@
           '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Rent ÷ income</th>' +
           '<th style="padding:8px;text-align:right;border-bottom:2px solid var(--border);">Renters burdened (30%+)</th>' +
         '</tr></thead><tbody>' + ratioRows + '</tbody></table></div>' +
-        '<p style="margin:8px 0 0;font-size:.78rem;color:var(--muted);line-height:1.5;">' +
+        '<p style="margin:8px 0 0;font-size:1rem;color:var(--muted);line-height:1.5;">' +
           '<strong>Reading this:</strong> "Rent ÷ income" is the share of pretax median income spent on the median rent. ' +
           'The 30% rule says housing should stay below 30%. Above 30% = the median renter is cost-burdened on the median apartment. ' +
           '<a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener" class="hna-source-link">ACS DP04</a>, ' +
@@ -6225,7 +6225,7 @@
     var fmtNum = u.fmtNum;
 
     if (!countyFips) {
-      panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
         'Census BPS publishes place-level permits for reporting jurisdictions; ' +
         'unincorporated areas and CDPs are county-permitted. Pick a county or ' +
         'place inside a county to see permitting pace.</p>';
@@ -6243,7 +6243,7 @@
           '</div>'
         : '';
       if (!permits || !permits.length) {
-        panel.innerHTML = '<p style="color:var(--muted);font-size:.88rem;">' +
+        panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
           'BPS permits not cached for this county.</p>';
         return;
       }
@@ -6373,7 +6373,7 @@
     if (!container) return;
     var lehd = _lehdFor(geoid);
     if (!lehd) {
-      container.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:.85rem">'
+      container.innerHTML = '<p style="margin:0;padding:.5rem;color:var(--muted);font-size:1.133rem">'
         + 'Economic indicators not yet cached for this geography.</p>';
       return;
     }
@@ -6622,7 +6622,7 @@
         baselineEl.innerHTML =
           '<div style="font-size:1.5rem;font-weight:800;color:var(--text);margin:0 0 .25rem">'
             + fmtNum(baseline) + ' units</div>'
-          + '<p style="margin:0;color:var(--muted);font-size:.85rem;line-height:1.45">'
+          + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
             + '<strong>Directional estimate</strong> (~6% of '
             + fmtNum(totalUnits) + ' total housing units in '
             + escHtml(geoLabel || 'this area')
@@ -6632,7 +6632,7 @@
             + 'commitment filings.</p>';
       } else {
         baselineEl.innerHTML =
-          '<p style="margin:0;color:var(--muted);font-size:.9rem">'
+          '<p style="margin:0;color:var(--muted);font-size:1.133rem">'
           + 'Housing-stock data not available for this geography.</p>';
       }
     }
@@ -6651,14 +6651,14 @@
         fastTrackEl.innerHTML =
           '<div style="font-size:1.5rem;font-weight:800;color:' + iconColor + ';margin:0 0 .25rem">'
             + icon + ' ' + label + '</div>'
-          + '<p style="margin:0;color:var(--muted);font-size:.85rem;line-height:1.45">'
+          + '<p style="margin:0;color:var(--muted);font-size:1.133rem;line-height:1.45">'
             + escHtml(check.reason)
             + '. Per HB 22-1093 fast-track (60-day) permitting requires the '
             + 'jurisdiction to be at or above the population threshold and '
             + 'to have filed a Prop 123 commitment.</p>';
       } else {
         fastTrackEl.innerHTML =
-          '<p style="margin:0;color:var(--muted);font-size:.9rem">'
+          '<p style="margin:0;color:var(--muted);font-size:1.133rem">'
           + 'Population data not available for this geography.</p>';
       }
     }
@@ -6687,7 +6687,7 @@
 
     el.innerHTML =
       '<h3>Jurisdiction relationship to Prop 123</h3>' +
-      '<p style="margin:0 0 10px;color:var(--muted);font-size:.88rem">' +
+      '<p style="margin:0 0 10px;color:var(--muted);font-size:1.133rem">' +
         escHtml(geoLabel || 'Selected jurisdiction') +
         ' — factual filing relationship only; this is not a ranking or recommendation.</p>' +
       '<div class="metric-cards metric-cards-2">' +
@@ -6696,7 +6696,7 @@
         '<div class="metric-card"><div class="metric-label">Fast-track designation</div>' +
           '<div class="metric-value">' + escHtml(fastTrack) + '</div></div>' +
       '</div>' +
-      '<p style="margin:10px 0 0;color:var(--muted);font-size:.82rem">' + source + '</p>';
+      '<p style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">' + source + '</p>';
   }
 
   function renderFastTrackCalculatorSection() {
@@ -6758,7 +6758,7 @@
     const baseline = (baselineData && baselineData.baseline) || null;
     if (!baseline) {
       contentEl.innerHTML =
-        '<p style="color:var(--muted);font-size:.88rem;">' +
+        '<p style="color:var(--muted);font-size:1.133rem;">' +
         'No Prop 123 commitment filing on record for this geography yet. ' +
         'Once CDOLA receives the annual filing, the historical-compliance ' +
         'table will populate with year-by-year delta data.</p>';
@@ -6819,7 +6819,7 @@
     const container = document.getElementById('blsLabourMarketCards');
     if (!container) return;
     if (!econData || !econData.counties) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">Labor-market data unavailable.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">Labor-market data unavailable.</p>';
       return;
     }
 
@@ -6857,7 +6857,7 @@
     }
     const rec = econData.counties[countyName] || econData.counties[countyName + ' County'];
     if (!rec) {
-      container.innerHTML = '<p style="color:var(--muted);font-size:.85rem;">No labor-market data for ' + escHtml(countyName) + '.</p>';
+      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">No labor-market data for ' + escHtml(countyName) + '.</p>';
       return;
     }
     container.innerHTML = _renderBlsCards(rec, countyName + ' County');
@@ -7301,7 +7301,7 @@
       } else if (chasLooksSuspect) {
         barEl.innerHTML =
           '<p style="margin:.5rem 0 0;padding:.55rem .7rem;border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);' +
-          'background:color-mix(in srgb,var(--warn) 6%,transparent);border-radius:6px;font-size:.78rem;color:var(--muted)">' +
+          'background:color-mix(in srgb,var(--warn) 6%,transparent);border-radius:6px;font-size:1rem;color:var(--muted)">' +
           '<strong style="color:var(--warn)">⚠ Data quality note:</strong> ' +
           'no ACS-derived gap available for this geography, and the cached HUD CHAS row for this county didn\'t pass the ≤30% AMI sanity check ' +
           '(known fetch_chas.py ETL bug — being repaired). Cross-check with the ' +
@@ -7638,7 +7638,7 @@
     container.innerHTML =
       '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:.78rem">— v2 methodology</span></h2>' +
       proxyBadgeHtml +
-      '<p style="font-size:.78rem;color:var(--muted);margin:0 0 .75rem">' +
+      '<p style="font-size:1rem;color:var(--muted);margin:0 0 .75rem">' +
         'Each county is scored against the rest of Colorado on four signals. Composite is 0–100 = ' +
         '<strong>where this county sits in CO\'s distribution</strong> (100 = top of every measure). ' +
         'Includes both renter and owner cost burden, and surfaces resort-area pressure honestly via percentile rank.' +
@@ -7706,7 +7706,7 @@
             '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/affhsg/wc_HsgNeeds25.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
           '</ul>' +
           '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card color matches its 0–25 contribution.</p>' +
-          '<p style="margin:.25rem 0;color:var(--muted);font-size:.74rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
+          '<p style="margin:.25rem 0;color:var(--muted);font-size:1rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
         '</div>' +
       '</details>';
 
@@ -8253,7 +8253,7 @@
   function _combinedUnavailableHtml(id, message) {
     var el = document.getElementById(id);
     if (!el) return;
-    el.innerHTML = '<p style="margin:0;color:var(--muted);font-size:.88rem;font-style:italic;">' +
+    el.innerHTML = '<p style="margin:0;color:var(--muted);font-size:1.133rem;font-style:italic;">' +
       escHtml(message || 'Not available for combined areas — view members individually.') +
       '</p>';
   }
@@ -8570,7 +8570,7 @@
       });
     });
     html += '</tbody></table></div>' +
-      '<p style="margin:.55rem 0 0;color:var(--muted);font-size:.82rem;">Shared picker cap remains 6 members for now; the product question is whether regional comparison should later allow more columns.</p>';
+      '<p style="margin:.55rem 0 0;color:var(--muted);font-size:1.133rem;">Shared picker cap remains 6 members for now; the product question is whether regional comparison should later allow more columns.</p>';
     var exec = document.getElementById('execNarrative');
     if (exec) {
       exec.classList.add('hna-narrative-mount');

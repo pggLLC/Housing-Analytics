@@ -185,7 +185,7 @@
     var chain = build(result, options || {});
     mount.innerHTML = '<section class="ownership-decision-chain" aria-label="Developer ownership decision chain">' +
       '<h3 style="margin:0 0 .35rem;font-size:1rem;">' + esc(chain.label) + '</h3>' +
-      '<p style="margin:.1rem 0 .8rem;color:var(--muted);font-size:.82rem;">' + esc(DEVELOPER_LABEL) + ' · assembled from existing ownership screens.</p>' +
+      '<p style="margin:.1rem 0 .8rem;color:var(--muted);font-size:1.133rem;">' + esc(DEVELOPER_LABEL) + ' · assembled from existing ownership screens.</p>' +
       '<div style="display:grid;gap:.75rem;">' +
       chain.stages.map(function (item) {
         return '<article data-own-chain-stage="' + esc(item.id) + '" style="border:1px solid var(--border);border-radius:6px;padding:.8rem;background:var(--card);">' +
@@ -194,7 +194,7 @@
             '<span style="font-size:.68rem;font-weight:800;letter-spacing:.02em;border:1px solid var(--border);border-radius:999px;padding:.15rem .45rem;">' + esc(DEVELOPER_LABEL) + '</span>' +
           '</div>' +
           '<div style="font-size:.8rem;color:var(--text);line-height:1.45;">' + item.bodyHtml + '</div>' +
-          '<p style="margin:.55rem 0 0;color:var(--muted);font-size:.76rem;">' + esc(SCREENING_CAVEAT) + '</p>' +
+          '<p style="margin:.55rem 0 0;color:var(--muted);font-size:1rem;">' + esc(SCREENING_CAVEAT) + '</p>' +
         '</article>';
       }).join('') +
       '</div></section>';

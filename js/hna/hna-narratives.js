@@ -499,7 +499,7 @@
     } else {
       county = 'the parent county';
     }
-    return '<p class="hna-narrative-disclosure" style="font-size:.85em;color:var(--muted);font-style:italic;margin:.25rem 0 .75rem">' +
+    return '<p class="hna-narrative-disclosure" style="font-size:1em;color:var(--muted);font-style:italic;margin:.25rem 0 .75rem">' +
       '<strong>Note:</strong> Place-level cost-burden data is unavailable for ' +
       _esc(_stripSuffix(ctx.label)) + '; burden figures below reference ' + county +
       ' (HUD CHAS does not publish for sub-county geographies under reliability thresholds).' +
