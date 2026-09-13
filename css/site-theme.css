@@ -111,6 +111,14 @@
   --link:         #005a9c;
   --link-hover:   #004880;
   --workflow-mobile-bottom-cta-offset: 0px;
+  /* Height of the sticky site header. Everything that pins below it reads
+     this. Defined here so the value exists before any script runs (and so
+     no-phantom-css-vars can see it); workflow-progress.js overwrites it on
+     :root with the header's MEASURED height, because the real height is 61px
+     at desktop and 70px at 375px wide -- the 58px that used to be hardcoded
+     in four places was never right at either. */
+  --site-header-h: 58px;
+
 
   /* Accent colors */
   --accent:       #096e65;
@@ -589,7 +597,7 @@ nav.site-nav a.is-active { background: var(--accent-dim); color: var(--link) !im
 /* Mobile navigation — hamburger menu */
 @media (max-width: 768px) {
   nav.site-nav { display: none; }
-  nav.site-nav.nav-expanded { display: flex !important; flex-direction: column; position: fixed; top: 58px; left: 0; right: 0; bottom: 0; background: var(--card) !important; z-index: 8999; padding: 1.25rem; gap: 4px; overflow-y: auto; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+  nav.site-nav.nav-expanded { display: flex !important; flex-direction: column; position: fixed; top: var(--site-header-h, 58px); left: 0; right: 0; bottom: 0; background: var(--card) !important; z-index: 8999; padding: 1.25rem; gap: 4px; overflow-y: auto; box-shadow: 0 12px 40px rgba(0,0,0,.25); }
   nav.site-nav.nav-expanded a { padding: 14px 16px !important; border-radius: 10px !important; font-size: 1rem !important; border: 1px solid transparent; }
   nav.site-nav.nav-expanded a:hover, nav.site-nav.nav-expanded a.is-active { background: var(--bg2) !important; border-color: var(--border) !important; }
 }
@@ -1781,7 +1789,13 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 .wf-progress-wrap,
 .workflow-progress {
   position: sticky;
-  top: 58px;       /* height of the sticky site header */
+  /* Pin to the REAL header height, published as --site-header-h by
+     workflow-progress.js. The hardcoded 58px it replaces was a guess that had
+     drifted: the header measures 61px at desktop and 70px at 375px wide, so
+     the strip slid 3px under the header on desktop and 12px on mobile --
+     worst exactly where vertical space is scarcest. The fallback keeps the
+     old behaviour if the script has not run yet. */
+  top: var(--site-header-h, 58px);
   z-index: 8500;   /* below header (9000) but above page content */
   background: color-mix(in oklab, var(--card) 85%, transparent);
   backdrop-filter: saturate(1.2) blur(10px);
