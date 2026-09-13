@@ -104,6 +104,24 @@
     return state.decisionStrip;
   }
 
+  /**
+   * Same-page anchor -> the page that actually defines it.
+   *
+   * The generated assessment views (scripts/hna/build_hna_views.py) each carry
+   * a subset of the sections, and these hrefs come from JS constants, not from
+   * the markup — so a tile pointing at a section that view dropped is a dead
+   * click that editing the HTML cannot fix. Each view publishes
+   * window.HNA_VIEW_ANCHORS; the canonical page publishes none and is
+   * unaffected.
+   */
+  function _resolveAnchor(href) {
+    if (typeof href !== 'string' || href.charAt(0) !== '#') return href;
+    const id = href.slice(1);
+    if (!id || document.getElementById(id)) return href;
+    const where = (window.HNA_VIEW_ANCHORS || {})[id];
+    return where && where.page ? where.page + href : href;
+  }
+
   function _paintDecisionStrip() {
     const strip = document.getElementById('hnaDecisionStrip');
     if (!strip) return;
@@ -118,7 +136,15 @@
       const readEl = document.getElementById('decision' + key.charAt(0).toUpperCase() + key.slice(1) + 'Read');
       if (valueEl) valueEl.textContent = data.value || '—';
       if (readEl) readEl.textContent = data.read || 'Loading';
-      tile.setAttribute('href', data.href || DECISION_STRIP_DEFAULTS[key].href);
+      const rawHref = data.href || DECISION_STRIP_DEFAULTS[key].href;
+      const href = _resolveAnchor(rawHref);
+      tile.setAttribute('href', href);
+      // A tile whose section lives on another view never receives a value, so
+      // it would otherwise read 'Loading' forever. Say where the answer is.
+      if (href !== rawHref && (!data.value || data.value === '—') && readEl) {
+        const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
+        if (where && where.label) readEl.textContent = 'On ' + where.label;
+      }
       const tone = data.tone || _decisionTone(data.read);
       if (tone) tile.setAttribute('data-tone', tone);
       else tile.removeAttribute('data-tone');

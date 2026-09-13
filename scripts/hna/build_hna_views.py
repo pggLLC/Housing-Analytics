@@ -173,6 +173,86 @@ def reframe(out, view, all_views):
     return out
 
 
+def relink_anchors(pages, canonical_src, labels):
+    """Point same-page anchors at the view that actually holds the target.
+
+    The executive decision strip, the section rail and several inline "see
+    below" links are all `href="#id"`. They are on every view, but the ids they
+    point at are not: four of the five views shipped a 'Need severity' tile and
+    a '20-yr production need' tile whose targets live only on 'what to do', so
+    clicking them did nothing at all -- no error, no movement, no sign that the
+    section exists elsewhere. Rewrite those to the owning view.
+    """
+    ids = {slug: set(re.findall(r'\bid="([^"]+)"', html)) for slug, html in pages.items()}
+    canonical_ids = set(re.findall(r'\bid="([^"]+)"', canonical_src))
+    unresolved = []
+
+    for slug, html in pages.items():
+        moved = {}
+
+        def fix(m):
+            target = m.group(1)
+            if target in ids[slug]:
+                return m.group(0)
+            owner = next((s for s in pages if target in ids[s]), None)
+            if owner is None:
+                # Still reachable on the full report, which keeps every section.
+                if target in canonical_ids:
+                    moved[target] = {'page': os.path.basename(SOURCE), 'label': 'the full report'}
+                    return f'href="{os.path.basename(SOURCE)}#{target}"'
+                unresolved.append((slug, target))
+                return m.group(0)
+            moved[target] = {'page': owner, 'label': labels[owner]}
+            return f'href="{owner}#{target}"'
+        html = re.sub(r'href="#([^"]+)"', fix, html)
+
+        # Some of these anchors are re-set from JS at paint time (the executive
+        # decision tiles take their href from a constant in hna-renderers.js),
+        # so rewriting the markup alone is not enough -- the renderer needs the
+        # same mapping at runtime. The canonical page emits none of this and
+        # behaves exactly as before.
+        blob = json.dumps(moved, sort_keys=True)
+        assert '</script' not in blob, 'view anchor map would close its own script tag'
+        pages[slug] = html.replace(
+            '</head>',
+            f'<script>window.HNA_VIEW_ANCHORS={blob};</script>\n</head>', 1)
+
+    if unresolved:
+        print('  anchor points at an id no page defines:', file=sys.stderr)
+        for slug, target in unresolved:
+            print(f"     {slug} -> #{target}", file=sys.stderr)
+        return False
+    return True
+
+
+def audit_shipped(views):
+    """Guards that a regenerate alone would not catch.
+
+    The decision tiles take their href from a constant in hna-renderers.js and
+    re-set it at paint time, so a view can ship with clean markup and still
+    produce dead clicks if that renderer stops consulting the map. Check both
+    ends: no dead anchor in the HTML, and the renderer still reads the global.
+    """
+    problems = []
+    for v in views:
+        path = os.path.join(ROOT, v['slug'])
+        if not os.path.exists(path):
+            continue
+        html = open(path, encoding='utf-8').read()
+        ids = set(re.findall(r'\bid="([^"]+)"', html))
+        dead = sorted(t for t in set(re.findall(r'href="#([^"]+)"', html)) if t not in ids)
+        for t in dead:
+            problems.append(f"{v['slug']} links to #{t}, which nothing on that page defines")
+
+    renderer = os.path.join(ROOT, 'js', 'hna', 'hna-renderers.js')
+    if os.path.exists(renderer):
+        js = open(renderer, encoding='utf-8').read()
+        if 'HNA_VIEW_ANCHORS' not in js:
+            problems.append('hna-renderers.js no longer reads window.HNA_VIEW_ANCHORS; '
+                            'the decision tiles will be dead clicks on every view')
+    return problems
+
+
 def main():
     check = '--check' in sys.argv
     if not os.path.exists(SOURCE) or not os.path.exists(MAPPING):
@@ -183,7 +263,7 @@ def main():
     spans = heading_spans(src)
 
     shared = [s['title'] for s in mapping['shared']['sections']]
-    seen, drift = set(), []
+    seen, drift, pages, kept_counts = set(), [], {}, {}
     for v in mapping['views']:
         titles = [s['title'] for s in v['sections']]
         for t in titles + shared:
@@ -191,7 +271,17 @@ def main():
                 print(f"  mapping names a section not on the page: {t!r}", file=sys.stderr)
                 return 2
         seen.update(titles)
-        page = build_view(src, spans, titles + shared, v, mapping['views'])
+        pages[v['slug']] = build_view(src, spans, titles + shared, v, mapping['views'])
+        kept_counts[v['slug']] = len(titles) + len(shared)
+
+    # Every page must exist before this runs: relinking a cross-view anchor
+    # means knowing which OTHER view ended up with the target.
+    labels = {v['slug']: v['nav'] for v in mapping['views']}
+    if not relink_anchors(pages, src, labels):
+        return 2
+
+    for v in mapping['views']:
+        page = pages[v['slug']]
         dest = os.path.join(ROOT, v['slug'])
         cur = open(dest, encoding='utf-8').read() if os.path.exists(dest) else None
         if check:
@@ -199,8 +289,7 @@ def main():
                 drift.append(v['slug'])
         else:
             open(dest, 'w', encoding='utf-8').write(page)
-            kept = len(titles) + len(shared)
-            print(f"  {v['slug']:<44} {kept:>2} sections  {len(page):>7,} chars")
+            print(f"  {v['slug']:<44} {kept_counts[v['slug']]:>2} sections  {len(page):>7,} chars")
 
     unassigned = [sp['title'] for sp in spans
                   if not any(matches(sp['title'], t) for t in list(seen) + shared)]
@@ -208,6 +297,12 @@ def main():
         print(f"  {len(unassigned)} section(s) in no view and not shared:", file=sys.stderr)
         for u in unassigned:
             print(f"     - {u[:66]}", file=sys.stderr)
+        return 2
+
+    bad = audit_shipped(mapping['views'])
+    if bad:
+        for line in bad:
+            print(f"  {line}", file=sys.stderr)
         return 2
 
     if check:
