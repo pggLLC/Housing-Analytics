@@ -525,9 +525,23 @@
   // source: 'CHFA' | 'HUD' | 'fallback' — indicates which data source provided this record
   function lihtcPopupHtml(p, source) {
     const safe = v => (v == null || v === '') ? '—' : String(v);
-    const yn   = v => (v === 1 || v === '1' || v === 'Y' || v === true)
-      ? '<span style="color:#34d399">Yes</span>'
-      : '<span style="color:#94a3b8">No</span>';
+    // Three states, not two. This popup is fed by BOTH the CHFA feed and HUD
+    // LIHTCPUB: HUD publishes QCT/DDA, CHFA carries the columns and populates
+    // neither, so a CHFA record reaching the old two-state helper rendered a
+    // flat "No" for every property. QCT/DDA decide 30% basis boost eligibility,
+    // so asserting "No" from an absent value is a claim the source never made.
+    // The unknown state is deliberately NOT styled like the negative — it is
+    // muted and italic so it cannot be skimmed as a measured answer.
+    const yn   = v => {
+      if (v === 1 || v === '1' || v === 'Y' || v === true) {
+        return '<span style="color:#34d399">Yes</span>';
+      }
+      if (v === null || v === undefined || v === '') {
+        return '<span style="color:#94a3b8;font-style:italic" ' +
+               'title="This source does not publish the field">Not published</span>';
+      }
+      return '<span style="color:#94a3b8">No</span>';
+    };
     const addr = [p.STD_ADDR || p.PROJ_ADD, p.STD_CITY || p.PROJ_CTY, p.STD_ST || p.PROJ_ST, p.STD_ZIP5]
       .filter(Boolean).join(', ');
     const { label: srcLabel } = lihtcSourceInfo(source);
