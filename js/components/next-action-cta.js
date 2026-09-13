@@ -122,12 +122,82 @@
       '  text-decoration: none; transition: background .12s, transform .1s; }',
       '.naca-btn:hover { background: var(--accent); color: var(--on-accent, #fff);',
       '  border-color: var(--accent); transform: translateY(-1px); text-decoration: none; }',
+      // Auto-hide while the reader moves DOWN the page; returns on any upward
+      // scroll, at the bottom, or on focus. The strip costs 66px of a 720px
+      // desktop viewport and 167px of an 812px phone one (its buttons wrap), so
+      // on a phone it held 21% of the screen for navigation not in use.
+      '.naca-strip { transition: transform .18s ease; will-change: transform; }',
+      '.naca-strip[data-naca-hidden="true"] { transform: translateY(110%); }',
+      // Never hide it from the keyboard: a focused control inside a strip
+      // translated off-screen is the classic "focus disappears" trap.
+      '.naca-strip:focus-within { transform: none !important; }',
+      '@media (prefers-reduced-motion: reduce) {',
+      '  .naca-strip { transition: none; }',
+      '  .naca-strip[data-naca-hidden="true"] { transform: none; } }',
       '@media (max-width: 700px) { .naca-strip { padding: 8px 12px; }',
       '  :root, html.dark-mode { --workflow-mobile-bottom-cta-offset: 156px; }',
       '  .naca-strip__inner { gap: 6px; } .naca-btn { padding: 4px 8px; font-size: .78rem; } }'
     ].join('\n');
     document.head.appendChild(s);
   }
+
+  /* ── Auto-hide on scroll-down ──────────────────────────────────────────
+     Keep the strip, give the space back. It is a cross-tool switcher, not a
+     prompt: it carries the jurisdiction into the other three pages as
+     ?fips=&geoType=&auto=1, and auto=1 is what actually RUNS the analysis on
+     arrival (F98 in market-analysis.js). The workflow strip at the top links
+     to the same pages but drops those params, landing you on a page that has
+     not computed anything -- which is why un-sticking or deleting this strip
+     outright would push people onto the worse route.
+
+     What it did not need was to hold the viewport permanently. Hiding it while
+     the reader moves down, and returning it on any upward scroll, keeps every
+     function: 66px back on a 720px desktop viewport, 167px on an 812px phone.
+
+     Always visible when focus is inside it (CSS above), when the page is at
+     the bottom (where someone looks for "what next"), and when the document is
+     too short to scroll. */
+  function _installAutoHide() {
+    var strip = document.querySelector('.naca-strip');
+    if (!strip || strip.getAttribute('data-naca-autohide') === 'on') return;
+    strip.setAttribute('data-naca-autohide', 'on');
+
+    var lastY = window.pageYOffset || 0;
+    var ticking = false;
+    var THRESHOLD = 6;      // below this a "scroll" is tremor, not intent
+    var ENGAGE_AFTER = 400; // do not start hiding near the top of the page
+
+    function set(hide) {
+      if (strip.getAttribute('data-naca-hidden') === String(hide)) return;
+      strip.setAttribute('data-naca-hidden', String(hide));
+    }
+
+    function update() {
+      ticking = false;
+      var y = window.pageYOffset || 0;
+      var doc = document.documentElement;
+      var atBottom = (y + window.innerHeight) >= (doc.scrollHeight - 80);
+      var scrollable = doc.scrollHeight > window.innerHeight + 200;
+
+      // Checked BEFORE the movement threshold, deliberately. Coming to rest at
+      // the bottom produces no further scroll events, so a threshold-gated
+      // check would leave the strip hidden exactly where it is most wanted --
+      // which is what happened on the first cut of this.
+      if (!scrollable || atBottom) { lastY = y; set(false); return; }
+
+      var delta = y - lastY;
+      if (Math.abs(delta) < THRESHOLD) return;
+      lastY = y;
+      set(y > ENGAGE_AFTER && delta > 0);
+    }
+
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }, { passive: true });
+  }
+
 
   // Public API
   window.NextActionCTA = { render: render, getActiveJurisdiction: _getActiveJurisdiction };
@@ -144,11 +214,13 @@
     var mount = document.getElementById('next-action-cta-mount');
     if (mount) {
       mount.outerHTML = html;
+      _installAutoHide();
       return;
     }
     // No explicit mount — append to <main>
     var main = document.querySelector('main');
     if (main) main.insertAdjacentHTML('beforeend', html);
+    _installAutoHide();
   }
 
   document.addEventListener('jurisdiction-url-context:resolved', _autoMount);
