@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-12T13:40:24.280515Z",
+  "generated": "2026-09-12T22:16:24.664795Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -69,7 +69,7 @@
     "data/affordable-housing/regrid-parcels-by-place.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 3440
+      "bytes": 4086
     },
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,

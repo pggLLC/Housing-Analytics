@@ -94,8 +94,8 @@
         name: 'Regrid Parcels (live API)',
         map: regridLive, report: regridLive, scoring: regridLive,
         note: regridLive
-          ? '✓ API key detected — live per-parcel queries enabled'
-          : '○ API key not set. Add via Data Quality Dashboard (free tier 1k/mo); requires per-state activation at app.regrid.com'
+          ? '✓ Your own Regrid key detected — live per-parcel queries enabled'
+          : '○ Deferred: Regrid is an optional paid licensed source and access is not funded (#1612). Not a technical failure. No PMA layer is derived from Regrid. You may use your own key via the Data Quality Dashboard (stored only in your browser).'
       },
       {
         name: 'Bridge MLS (live listings)',

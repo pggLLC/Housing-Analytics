@@ -1,13 +1,16 @@
 {
   "meta": {
-    "generated": "2026-06-14T06:52:21Z",
-    "source": "stub (no API key)",
+    "generated": "2026-09-12T22:15:02Z",
+    "source": "deferred (Regrid access not funded)",
+    "availability": "deferred",
+    "is_current_coverage": false,
     "radius_miles": 3.0,
     "jurisdiction_count": 10,
-    "total_parcels": 0,
+    "total_parcels": null,
     "api_calls": 0,
     "skipped": [],
-    "next_refresh": "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)"
+    "next_refresh": "none scheduled \u2014 Regrid deferred (#1612); manual: dispatch fetch-parcel-zoning-data.yml with regrid_enabled=true, or set repository variable REGRID_ENABLED=true",
+    "unavailableReason": "Regrid is an optional licensed parcel source. CoHO has not funded a paid Regrid subscription (owner decision 2026-09-12, #1612), so no Regrid request was made and this file carries no parcel measurements. This is a cost decision, not a technical failure: the integration is intact and can be re-enabled by funding access, setting the REGRID_API_KEY secret, and running fetch-parcel-zoning-data.yml with regrid_enabled=true."
   },
   "byGeoid": {
     "0867280": {
@@ -16,10 +19,10 @@
         "lat": 38.529909,
         "lng": -105.998018
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0812045": {
       "jurisdiction": "Carbondale",
@@ -27,10 +30,10 @@
         "lat": 39.395559,
         "lng": -107.21502
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0873825": {
       "jurisdiction": "Steamboat Springs",
@@ -38,10 +41,10 @@
         "lat": 40.475578,
         "lng": -106.822919
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0830780": {
       "jurisdiction": "Glenwood Springs",
@@ -49,10 +52,10 @@
         "lat": 39.547132,
         "lng": -107.342556
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0822035": {
       "jurisdiction": "Durango",
@@ -60,10 +63,10 @@
         "lat": 37.264534,
         "lng": -107.874124
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0810105": {
       "jurisdiction": "Buena Vista",
@@ -71,10 +74,10 @@
         "lat": 38.831989,
         "lng": -106.138657
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0876795": {
       "jurisdiction": "Telluride",
@@ -82,10 +85,10 @@
         "lat": 37.940233,
         "lng": -107.818152
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0818310": {
       "jurisdiction": "Crested Butte",
@@ -93,10 +96,10 @@
         "lat": 38.86779,
         "lng": -106.977261
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0831605": {
       "jurisdiction": "Granby",
@@ -104,10 +107,10 @@
         "lat": 40.064803,
         "lng": -105.919386
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     },
     "0856860": {
       "jurisdiction": "Pagosa Springs",
@@ -115,10 +118,10 @@
         "lat": 37.263422,
         "lng": -107.003565
       },
-      "fetched_at": "2026-06-14T06:52:21Z",
-      "parcel_count": 0,
+      "fetched_at": "2026-09-12T22:15:02Z",
+      "parcel_count": null,
       "parcels": [],
-      "error": "REGRID_API_KEY not set; cached stub written without parcels"
+      "error": "Regrid access not funded (deferred, #1612); no request made"
     }
   }
 }
