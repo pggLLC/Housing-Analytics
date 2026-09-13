@@ -484,8 +484,8 @@
       aside.style.cssText =
         'margin:.4rem 0 .7rem;padding:.55rem .8rem;border-left:3px solid var(--accent);' +
         'background:color-mix(in oklab,var(--accent) 6%,var(--card) 94%);' +
-        'border-radius:0 6px 6px 0;font-size:.9rem;line-height:1.5';
-      aside.innerHTML = '<span style="font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;display:block;margin-bottom:.2rem">For this jurisdiction</span>' + html;
+        'border-radius:0 6px 6px 0;font-size:1rem;line-height:1.5';
+      aside.innerHTML = '<span style="font-size:1rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;display:block;margin-bottom:.2rem">For this jurisdiction</span>' + html;
       // Insert after the existing intro <p> when present; otherwise right after the h2.
       var intro = card.querySelector('h2 + p');
       if (intro && intro.parentNode) {
