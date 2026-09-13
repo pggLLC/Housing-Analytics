@@ -327,7 +327,7 @@
       provider: 'Census Bureau ACS',
       url: 'https://api.census.gov/',
       localFile: 'data/market/acs_tract_metrics_co.json',
-      lastUpdated: '2026-09-12',
+      lastUpdated: '2026-09-13',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'Census Tract',
@@ -484,7 +484,7 @@
       // series here. car-data-update.yml writes a new month on the 1st; this
       // pointer needs moving when a published report lands.
       localFile: 'data/car-market-report-2026-07.json',
-      lastUpdated: '2026-09-06',
+      lastUpdated: '2026-09-13',
       updateFrequency: 'Monthly',
       maxAgeDays: 45,
       geoUnit: 'Metro Area / Statewide',
@@ -1205,7 +1205,7 @@
       provider: 'EPA',
       url: 'https://www.epa.gov/cleanups/cleanups-my-community',
       localFile: 'data/environmental/epa-superfund-co.json',
-      lastUpdated: '2026-09-12',
+      lastUpdated: '2026-09-13',
       updateFrequency: 'Quarterly',
       maxAgeDays: 120,
       geoUnit: 'Site',
