@@ -66,9 +66,33 @@ def matches(title, wanted):
     return title.lower().startswith(wanted.lower()[:44])
 
 
+def encloses(a, b):
+    return a is not b and b['start'] >= a['start'] and b['end'] <= a['end']
+
+
 def build_view(src, spans, keep_titles, view):
-    """Canonical page minus every section this view does not answer."""
+    """Canonical page minus every section this view does not answer.
+
+    The page is NOT flat: five sections enclose twelve others ('20-year
+    outlook' contains 'Population: DOLA forecast' and 'Housing need summary';
+    'Labor Market Context' contains three wage sections; and so on). Dropping a
+    parent removes its children with it, so a child assigned to a view whose
+    parent is not there vanishes from the output WITHOUT appearing in the
+    removal comments -- silently, which is the worst way to lose a section.
+    Refuse rather than guess: a child must travel with its parent.
+    """
+    keep = [s for s in spans if any(matches(s['title'], k) for k in keep_titles)]
     drop = [s for s in spans if not any(matches(s['title'], k) for k in keep_titles)]
+
+    orphans = [(k['title'], d['title']) for k in keep for d in drop if encloses(d, k)]
+    if orphans:
+        print(f"  view '{view['id']}' keeps a section whose PARENT it drops:", file=sys.stderr)
+        for child, parent in orphans:
+            print(f"     '{child[:52]}'", file=sys.stderr)
+            print(f"        is nested inside '{parent[:52]}'", file=sys.stderr)
+        print("  A child cannot be split from its parent. Assign the parent to this "
+              "view too, or leave the child with it.", file=sys.stderr)
+        raise SystemExit(2)
     # outermost-first, then remove back-to-front so offsets stay valid
     drop.sort(key=lambda s: s['start'])
     merged, out = [], src
