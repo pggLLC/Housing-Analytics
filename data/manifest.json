@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-13T11:58:22.740578Z",
+  "generated": "2026-09-13T12:50:47.650185Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -9,7 +9,7 @@
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6258
+      "bytes": 6257
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 244573
+      "bytes": 244574
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
