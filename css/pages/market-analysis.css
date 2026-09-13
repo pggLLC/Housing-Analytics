@@ -555,7 +555,7 @@
 /* ── Report section navigation (sticky horizontal pill nav) ── */
 .ma-section-nav {
   position: sticky;
-  top: 58px; /* below site header */
+  top: var(--site-header-h, 58px); /* below the measured site header */
   z-index: 50; /* below nav dropdowns (header z: 9000) */
   box-sizing: border-box;
   width: 100%;
