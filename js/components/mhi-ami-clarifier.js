@@ -109,7 +109,7 @@
       ? (String(countyFips).length === 5 ? String(countyFips) : '08' + String(countyFips).slice(-3))
       : null;
 
-    container.innerHTML = '<p style="font-size:.82rem;color:var(--muted);font-style:italic">Loading income reference…</p>';
+    container.innerHTML = '<p style="font-size:1.133rem;color:var(--muted);font-style:italic">Loading income reference…</p>';
 
     Promise.all([
       passedMhi != null ? Promise.resolve(null) : _loadAcsPlace(placeGeoid),
@@ -138,7 +138,7 @@
       var ami4 = amiByCounty && amiByCounty.income_limits ? amiByCounty.income_limits.ami_4person : null;
 
       if (mhi == null && ami4 == null) {
-        container.innerHTML = '<p style="font-size:.82rem;color:var(--muted);font-style:italic">' +
+        container.innerHTML = '<p style="font-size:1.133rem;color:var(--muted);font-style:italic">' +
           'No income reference data available for this jurisdiction.</p>';
         return;
       }
@@ -154,7 +154,7 @@
         var delta = ami4 - mhi;
         var deltaPct = Math.round((delta / mhi) * 100);
         var direction = delta > 0 ? 'above' : 'below';
-        deltaHtml = '<p style="margin:0 0 .35rem;font-size:.85rem;color:var(--text)">' +
+        deltaHtml = '<p style="margin:0 0 .35rem;font-size:1.133rem;color:var(--text)">' +
           'HUD 4-person AMI is <strong>' + _fmtMoney(Math.abs(delta)) + ' (' + Math.abs(deltaPct) + '%) ' +
           direction + '</strong> the local median household income — quoting one when the other is wanted is the single most common housing-data error.' +
           '</p>';

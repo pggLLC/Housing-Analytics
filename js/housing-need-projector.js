@@ -486,7 +486,7 @@
     var countyName = options.countyName || cd.name || fips;
 
     /* Show loading placeholder */
-    container.innerHTML = '<p style="color:var(--muted,#555);font-size:.85rem">Loading projections…</p>';
+    container.innerHTML = '<p style="color:var(--muted,#555);font-size:1.133rem">Loading projections…</p>';
 
     /* Attempt to load DOLA projections JSON */
     var dolaUrl = 'data/hna/projections/' + fips + '.json';
@@ -521,7 +521,7 @@
     var s = result.scenarios;
 
     var introPara =
-      '<p style="font-size:.9rem;margin-bottom:16px;">' +
+      '<p style="font-size:1.133rem;margin-bottom:16px;">' +
       'Based on current housing gaps and low/baseline/high growth assumptions for ' +
       '<strong>' + _escHtml(countyName) + '</strong>, the following projections estimate ' +
       'unmet housing demand over the next 20 years.' +
@@ -562,7 +562,7 @@
       '</details>';
 
     var currentGapNote =
-      '<p style="font-size:.82rem;margin-top:10px;">' +
+      '<p style="font-size:1.133rem;margin-top:10px;">' +
       '<strong>Estimated current deep-affordability gap:</strong> ' +
       _fmt(result.currentGap) + ' units (severely cost-burdened households).' +
       '</p>';
@@ -679,7 +679,7 @@
       'Recommended AMI Distribution</h3>';
 
     var intro =
-      '<p style="font-size:.88rem;margin-bottom:16px;">' +
+      '<p style="font-size:1.133rem;margin-bottom:16px;">' +
       'Strategy: <strong>' + _escHtml(rec.label) + '</strong>. ' +
       'The distribution below reflects current income levels and cost-burden ' +
       'patterns for this county. Estimated total units needed: ' +
@@ -687,7 +687,7 @@
       '</p>';
 
     var disclaimer =
-      '<p style="font-size:.78rem;color:var(--muted,#555);margin-top:16px;' +
+      '<p style="font-size:1rem;color:var(--muted,#555);margin-top:16px;' +
       'border-top:1px solid var(--border,#e5e7eb);padding-top:10px;">' +
       'These are planning estimates. CHFA QAP requirements and local needs ' +
       'studies should guide final income targeting.' +
