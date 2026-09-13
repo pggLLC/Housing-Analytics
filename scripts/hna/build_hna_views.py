@@ -70,7 +70,7 @@ def encloses(a, b):
     return a is not b and b['start'] >= a['start'] and b['end'] <= a['end']
 
 
-def build_view(src, spans, keep_titles, view):
+def build_view(src, spans, keep_titles, view, all_views):
     """Canonical page minus every section this view does not answer.
 
     The page is NOT flat: five sections enclose twelve others ('20-year
@@ -102,7 +102,75 @@ def build_view(src, spans, keep_titles, view):
         merged.append(d)
     for d in sorted(merged, key=lambda s: -s['start']):
         out = out[:d['start']] + f"\n<!-- [hna-view:{view['id']}] not on this view: {d['title'][:60]} -->\n" + out[d['end']:]
-    return out.replace('<!doctype html>', '<!doctype html>\n' + BANNER, 1)
+    out = out.replace('<!doctype html>', '<!doctype html>\n' + BANNER, 1)
+    return reframe(retitle(out, view), view, all_views)
+
+
+def retitle(out, view):
+    """Give each view its own <title> and description.
+
+    Inherited verbatim from the canonical page, all five views would be called
+    'Housing Needs Assessment' -- identical browser tabs, identical bookmarks,
+    identical history entries, and five near-duplicate pages for a crawler to
+    choose between. Assert one substitution each: a template change that moved
+    these tags would otherwise silently ship five identically-named pages.
+    """
+    title = htmllib.escape(f"{view['nav']} \u2014 Housing Needs Assessment | COHO Analytics")
+    desc = htmllib.escape(
+        f"{view['question']} Colorado Housing Needs Assessment, built from public "
+        "data for a single jurisdiction."
+    )
+    out, n = re.subn(r'<title>.*?</title>', f'<title>{title}</title>', out, count=1, flags=re.S)
+    if n != 1:
+        raise SystemExit(f"  view '{view['id']}': no <title> to rewrite")
+    out, n = re.subn(r'(<meta\s+name="description"\s+content=")[^"]*(")',
+                     lambda m: m.group(1) + desc + m.group(2), out, count=1)
+    if n != 1:
+        raise SystemExit(f"  view '{view['id']}': no meta description to rewrite")
+    return out
+
+
+def reframe(out, view, all_views):
+    """Say on the page which view this is, and offer the other four.
+
+    The canonical <h1> is inherited by all five views, so without this a reader
+    who arrives from search sees a page headed 'Housing Needs Assessment' with
+    11 of the 53 sections and no indication that the rest exist elsewhere. The
+    switcher is plain links, not script: these pages are also printed and
+    exported, and a reader following a printed copy needs the slugs visible in
+    the markup rather than assembled at runtime.
+    """
+    n = len(all_views)
+    i = next(k for k, v in enumerate(all_views) if v['id'] == view['id'])
+    links = ''.join(
+        (f'<span class="hna-view-tab is-current" aria-current="page">{htmllib.escape(v["nav"])}</span>'
+         if v['id'] == view['id'] else
+         f'<a class="hna-view-tab" href="{v["slug"]}">{htmllib.escape(v["nav"])}</a>')
+        for v in all_views)
+    switcher = (
+        '<nav class="hna-view-switcher" aria-label="Housing needs assessment sections">'
+        f'{links}'
+        '<a class="hna-view-tab hna-view-all" href="housing-needs-assessment.html">'
+        'Full report \u2192</a></nav>'
+    )
+    head = (
+        f'<p class="hna-view-step">Housing Needs Assessment \u00b7 part {i + 1} of {n}</p>\n'
+        f'<h1>{htmllib.escape(view["nav"])}</h1>\n'
+        f'{switcher}'
+    )
+    out, k = re.subn(r'<h1>Housing Needs Assessment</h1>', head, out, count=1)
+    if k != 1:
+        raise SystemExit(f"  view '{view['id']}': no canonical <h1> to reframe")
+
+    # The canonical lede describes the whole report; replace it with this
+    # view's question so the first sentence matches the sections below it.
+    lede = (f'<p class="sub" style="margin-bottom:var(--sp3);">{htmllib.escape(view["question"])} '
+            'Built from cached public datasets (Census, DOLA, HUD) with live Census API fallbacks.</p>')
+    out, k = re.subn(r'<p class="sub" style="margin-bottom:var\(--sp3\);">.*?</p>',
+                     lambda m: lede, out, count=1, flags=re.S)
+    if k != 1:
+        raise SystemExit(f"  view '{view['id']}': no canonical lede to reframe")
+    return out
 
 
 def main():
@@ -123,7 +191,7 @@ def main():
                 print(f"  mapping names a section not on the page: {t!r}", file=sys.stderr)
                 return 2
         seen.update(titles)
-        page = build_view(src, spans, titles + shared, v)
+        page = build_view(src, spans, titles + shared, v, mapping['views'])
         dest = os.path.join(ROOT, v['slug'])
         cur = open(dest, encoding='utf-8').read() if os.path.exists(dest) else None
         if check:

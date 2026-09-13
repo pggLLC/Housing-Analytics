@@ -189,20 +189,6 @@
           "note": "Same call as 13 \u2014 keep the pair together wherever it lands."
         },
         {
-          "n": 24,
-          "title": "20-year outlook: population, migration, and housing need"
-        },
-        {
-          "n": 25,
-          "title": "Population: DOLA forecast vs historic-trend sensitivity"
-        },
-        {
-          "n": 26,
-          "title": "Housing need summary",
-          "note": "BLOCKED, not a preference: this is a CHILD of #24 '20-year outlook' in the page markup, so it cannot move to another view on its own -- the generator refuses (exit 2) rather than drop it silently. To open 'what to do' with the headline need number, either move #24 and #25 here with it, or make #26 a top-level section in housing-needs-assessment.html first.",
-          "blocked_child_of": 24
-        },
-        {
           "n": 35,
           "title": "Scenario-based demographic projections"
         },
@@ -248,6 +234,21 @@
       "nav": "What to do about it",
       "question": "How much of what, for whom, and what is already available?",
       "sections": [
+        {
+          "n": 24,
+          "title": "20-year outlook: population, migration, and housing need",
+          "note": "Moved here with its two children (#25, #26). '20-year outlook' is the PARENT container; #26 'Housing need summary' cannot travel without it. Document order puts this trio first on the view, so the page opens with the headline need number."
+        },
+        {
+          "n": 25,
+          "title": "Population: DOLA forecast vs historic-trend sensitivity",
+          "note": "Child of #24 \u2014 moves with it."
+        },
+        {
+          "n": 26,
+          "title": "Housing need summary",
+          "note": "The headline need number. Child of #24 \u2014 moves with it, never alone."
+        },
         {
           "n": 34,
           "title": "Special Needs Housing Analysis"

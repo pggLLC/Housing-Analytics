@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
-  <title>Housing Needs Assessment | COHO Analytics</title>
-  <meta name="description" content="Interactive Housing Needs Assessment starter for Colorado communities: housing stock, affordability, commuting, and demographic projections using public datasets." />
+  <title>Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics</title>
+  <meta name="description" content="What does demand look like in 5, 10 and 20 years? Colorado Housing Needs Assessment, built from public data for a single jurisdiction." />
   <meta property="og:title" content="Housing Needs Assessment | COHO Analytics">
   <meta property="og:description" content="Interactive Housing Needs Assessment tool for Colorado communities.">
   <meta property="og:type" content="website">
@@ -307,11 +307,10 @@
     <section class="hero" style="padding-bottom:0;">
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
-<h1>Housing Needs Assessment</h1>
-        <p class="sub" style="margin-bottom:var(--sp3);">
-          A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
-          commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
-        </p>
+<p class="hna-view-step">Housing Needs Assessment · part 4 of 5</p>
+<h1>Where it&#x27;s heading</h1>
+<nav class="hna-view-switcher" aria-label="Housing needs assessment sections"><a class="hna-view-tab" href="hna-what-housing-exists.html">What housing exists</a><a class="hna-view-tab" href="hna-who-lives-here.html">Who lives here</a><a class="hna-view-tab" href="hna-what-households-can-afford.html">What households can afford</a><span class="hna-view-tab is-current" aria-current="page">Where it&#x27;s heading</span><a class="hna-view-tab" href="hna-what-to-do.html">What to do about it</a><a class="hna-view-tab hna-view-all" href="housing-needs-assessment.html">Full report →</a></nav>
+        <p class="sub" style="margin-bottom:var(--sp3);">What does demand look like in 5, 10 and 20 years? Built from cached public datasets (Census, DOLA, HUD) with live Census API fallbacks.</p>
         <p style="font-size:1.133rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
         <div id="hnaBanner" class="banner"></div>
         <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -723,90 +722,9 @@
 <!-- [hna-view:outlook] not on this view: Demographic projections: age pyramid & senior pressure (DOLA -->
 
 
-      <div class="chart-card span-12">
-        <h2 data-methodology-key="dola-projection">20-year outlook: population, migration, and housing needs (county context)</h2>
-        <p>
-          Uses Colorado State Demography Office county components-of-change forecasts (population + net migration) and a transparent
-          household/headship conversion to estimate additional housing units needed over the next 20 years.
-          For municipal/CDP selections, this uses the containing county.
-        </p>
-        <div class="hna-grid" style="margin-top:0">
-          <div class="chart-card span-8" style="margin:0">
-            <h2>Population: DOLA forecast vs historic-trend sensitivity</h2>
-            <div class="chart-box tall" data-source="DOLA Components-of-Change + Historic-Trend Sensitivity" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartPopProj" role="img" aria-label="Population projection and DOLA forecast chart"></canvas></div>
-          </div>
-          <div class="chart-card span-4" style="margin:0">
-            <h2>Housing need summary</h2>
-            <p id="projectionScopeBadge" style="margin:4px 0 0;font-size:1rem;color:var(--muted)" hidden></p>
-            <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
-              <div class="stat"><div class="k">Current housing units</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
-              <div class="stat"><div class="k">Target vacancy</div><div class="v" id="statTargetVac">—</div><div class="s">Assumption</div></div>
-              <div class="stat"><div class="k">Net new units (20y)</div><div class="v" id="statUnitsNeed">—</div><div class="s">DOLA forecast</div></div>
-              <div class="stat"><div class="k">Net migration (20y)</div><div class="v" id="statNetMig">—</div><div class="s">DOLA components</div></div>
-              <div class="stat"><div class="k">Recent production</div><div class="v" id="statPermitsAvg">—</div><div class="s" id="statPermitsSrc">Census BPS 5-yr avg</div></div>
-              <div class="stat"><div class="k">Production ÷ need</div><div class="v" id="statProdNeedRatio">—</div><div class="s">BPS pace vs horizon need</div></div>
-            </div>
-            
-            <div class="chart-card" style="padding:12px;margin-top:12px;background:rgba(255,255,255,.04)">
-              <h3 style="margin:0 0 8px;">Projection assumptions</h3>
-              <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:0">
-                <div class="span-4">
-                  <label for="assumpHorizon" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Horizon</label>
-                  <select id="assumpHorizon" class="control" style="width:100%">
-                    <option value="5">5 years</option>
-                    <option value="10">10 years</option>
-                    <option value="15">15 years</option>
-                    <option value="20" selected>20 years</option>
-                    <option value="25">25 years</option>
-                    <option value="30">30 years</option>
-                  </select>
-                </div>
-                <div class="span-4">
-                  <label for="assumpVacancy" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Target vacancy</label>
-                  <div style="display:flex;gap:8px;align-items:center">
-                    <!-- Range tightened from 2-12% to 3-8% (2026-05). The
-                         previous max of 12% allowed pinning to absurd
-                         planning targets driven by seasonal/2nd-home
-                         observed vacancy. HUD healthy-market benchmark
-                         is 5% with 7% as a defensible cap. -->
-                    <input id="assumpVacancy" type="range" min="3" max="8" step="0.5" value="5" style="flex:1" />
-                    <div style="min-width:56px;text-align:right;color:var(--text);font-weight:700" id="assumpVacancyVal">5.0%</div>
-                  </div>
-                </div>
-                <div class="span-4">
-                  <div style="color:var(--muted);font-size:.85rem;margin-bottom:4px">Headship</div>
-                  <div class="headship-buttons" role="radiogroup" aria-label="Headship assumption">
-                    <label class="headship-label">
-                      <input type="radio" name="assumpHeadship" value="hold" checked>
-                      <span>Hold</span>
-                    </label>
-                    <label class="headship-label">
-                      <input type="radio" name="assumpHeadship" value="trend">
-                      <span>Trend</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <p style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">
-                Transparent HNA math: projected households = population × headship; total units required = households ÷ (1 − vacancy).
-                The summary's net-new units subtract the current requirement and are not income-targeted affordable deficits.
-                For covered municipalities/CDPs, the headline uses the stored place projection built from county need and local ACS household/BPS permit shares; the trace labels any fallback method.
-              </p>
-              <details id="projectionCalculationTrace" style="margin-top:12px">
-                <summary style="cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center">Show projection calculation trace</summary>
-                <p id="projectionCalculationMethod" style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Covered place and CDP selections use the county projection downscaled by a 50/50 blend of ACS household share and 2020-2024 Census BPS permit share.</p>
-                <p id="projectionCalculationSources" style="margin:6px 0 0;color:var(--muted);font-size:1.133rem">County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json, built from county projections, ACS DP02 household counts, and data/hna/permits.json. Cross-county municipalities use combined-county denominators before applying the blended share. Verified 2026-07-04 against SDO's official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties.</p>
-                <div id="projectionCalculationTraceBody" style="margin-top:10px;color:var(--muted);font-size:.9rem" aria-live="polite" aria-atomic="true">
-                  Select a geography to inspect the calculation.
-                </div>
-              </details>
-            </div>
+      
+<!-- [hna-view:outlook] not on this view: 20-year outlook: population, migration, and housing needs (c -->
 
-            <p id="needNote" style="margin-top:10px;color:var(--muted)">—</p>
-            <p id="permitsVsNeedNote" style="margin-top:6px;color:var(--muted)">—</p>
-          </div>
-        </div>
-      </div>
 
       <!-- ── Extended HNA Analysis ── -->
       <!-- Income Distribution -->
