@@ -273,20 +273,46 @@ function mergeIntoReport(existing, month, counties) {
     notes: `County-level single-family and townhouse/condo rows populated from ShowingTime CAR reports for ${month}. Statewide and metro fields remain the existing report-level fallback values where no ShowingTime statewide/metro row is present.`,
   };
 
-  // A month stops being a projection the moment ShowingTime returns real
-  // county rows. `existing` is often the trend-projected placeholder written
-  // by generate-car-placeholder.mjs, and spreading it carried its
-  // `estimated: true` / `estimate_basis` straight through — so the report
-  // went on telling readers that real MLS data was "projected by
-  // trend-projection from" the previous month. 2026-08 shipped that way
-  // (fc0ce5bc6) until this fix.
+  // ShowingTime supplies COUNTY rows and nothing else. `existing` is usually
+  // the trend-projected placeholder from generate-car-placeholder.mjs, and the
+  // spread above carries its `statewide` and `metro_areas` straight through —
+  // they are still last month's figures grown by fixed factors, because there
+  // is no ShowingTime statewide row to replace them with. The notes have always
+  // said so ("Statewide and metro fields remain the existing report-level
+  // fallback values").
   //
-  // Deleting rather than setting false is deliberate: the published months
-  // (2026-05..07) carry no `estimated` key at all, and
-  // test/car-estimate-disclosure.test.js treats key-absent as published.
+  // So a month with county rows is neither "projected" nor "published": it is
+  // both, in different scopes. Two earlier attempts each got one half right and
+  // published the other half as a lie:
+  //
+  //   - Keeping `estimated: true` (fc0ce5bc6) told readers that 64 counties of
+  //     real MLS data were trend-projected.
+  //   - Deleting the key outright told readers that four months of projected
+  //     statewide figures — 2026-05 through -08, each exactly 1.005x the month
+  //     before — were published CAR numbers.
+  //
+  // Neither is fixable with one boolean, so the flag is per scope. `estimated`
+  // stays as the any-scope summary so existing consumers keep working.
   if (Object.keys(counties || {}).length > 0) {
-    delete merged.estimated;
-    delete merged.estimate_basis;
+    const scopes = {
+      ...(existing && existing.estimated_scopes),
+      counties: false,
+    };
+    // Only claim statewide/metro are measured if this file actually carries
+    // measured ones. Absent any evidence they were replaced, they are whatever
+    // the placeholder projected.
+    if (scopes.statewide === undefined) scopes.statewide = existing ? existing.estimated === true : false;
+    if (scopes.metro === undefined) scopes.metro = existing ? existing.estimated === true : false;
+
+    merged.estimated_scopes = scopes;
+    merged.estimated = Boolean(scopes.statewide || scopes.metro);
+    if (merged.estimated) {
+      const from = (existing && existing.estimate_basis) || 'the previous published month';
+      merged.estimate_basis =
+        `county rows are published ShowingTime data; statewide and metro figures are ${from}`;
+    } else {
+      delete merged.estimate_basis;
+    }
   }
 
   return merged;

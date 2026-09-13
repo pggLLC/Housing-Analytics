@@ -193,6 +193,15 @@ function buildPlaceholder(month, previous) {
     // -09 were rendered on the HNA market section as "Denver Metro CAR
     // $577k" with nothing marking them as projected.
     estimated: true,
+    // Scope-aware, because "is this month projected?" has no single answer
+    // once ShowingTime lands. This generator produces EVERY scope, so all
+    // three are projected here; fetch-car-showingtime.mjs later flips
+    // `counties` to false when it writes real MLS rows, and leaves statewide
+    // and metro true because ShowingTime publishes no statewide row to
+    // replace them with. Without this, that fetcher had only a single boolean
+    // to work with and deleted it outright — which published four months of
+    // trend-projected statewide figures as measured CAR data.
+    estimated_scopes: { counties: true, statewide: true, metro: true },
     estimate_basis: previous
       ? `trend-projection from ${previous.month}`
       : 'placeholder — no prior month to project from',

@@ -2027,14 +2027,53 @@
     // the attribution alone presented a projection as a published CAR figure
     // — Denver Metro's "$577k" for 2026-09 is projected, not reported.
     // Say so before the numbers, not in a file field nobody sees.
-    var carEstimated = car.estimated === true ||
-      /\bestimated\b[\s\S]*\btrend-projection\b/i.test(String(car.notes || ''));
+    // Estimation is PER SCOPE, because a month is routinely both at once.
+    // ShowingTime publishes county rows and no statewide row, so a month can
+    // carry 64 counties of real MLS data alongside statewide and metro figures
+    // that are still last month's grown by fixed factors. One boolean forced a
+    // choice between two false statements, and the repo shipped each in turn:
+    // labelling real county data "projected", then presenting four months of
+    // projected statewide figures (2026-05..08, each exactly 1.005x the month
+    // before) as published CAR numbers.
+    //
+    // `estimated_scopes` says which parts. When it is absent — an older file,
+    // or one written before the field existed — fall back to exactly the
+    // detection this page used before (the old boolean plus the notes text),
+    // so nothing the previous version caught is lost. That fallback is
+    // deliberately not "assume everything is projected": over-warning is the
+    // other half of this bug, and it would label genuinely published CAR
+    // months as estimates. What the heuristics cannot see, the arithmetic
+    // check in test/car-estimate-disclosure.test.js does, by recomputing the
+    // projection from the previous month.
+    var carScopes = car.estimated_scopes;
+    if (!carScopes) {
+      var legacyAll = car.estimated === true ||
+        /\bestimated\b[\s\S]*\btrend-projection\b/i.test(String(car.notes || '')) ||
+        /^placeholder for /i.test(String(car.notes || ''));
+      carScopes = { counties: legacyAll, statewide: legacyAll, metro: legacyAll };
+    }
+    var projectedScopes = [];
+    if (carScopes.statewide) projectedScopes.push('statewide');
+    if (carScopes.metro) projectedScopes.push('metro-area');
+    if (carScopes.counties) projectedScopes.push('county');
+    var carEstimated = projectedScopes.length > 0;
+    var allProjected = !!(carScopes.statewide && carScopes.metro && carScopes.counties);
+
     var estimateNoticeEl = document.getElementById('carEstimateNotice');
     if (estimateNoticeEl) {
-      if (carEstimated) {
+      if (allProjected) {
         estimateNoticeEl.textContent =
           'Projected figures — ' + (car.month || 'this month') + ' has no published CAR report yet. ' +
           'Values are trend-projected from the last published month and will be replaced when CAR publishes.';
+        estimateNoticeEl.hidden = false;
+      } else if (carEstimated) {
+        // Name what is real as well as what is not. A reader who is told only
+        // "some figures are projected" has to distrust all of them, which
+        // throws away the county data that is genuinely published.
+        estimateNoticeEl.textContent =
+          'Mixed sources — the ' + projectedScopes.join(' and ') + ' figures below are ' +
+          'trend-projected from the last published month, not reported by CAR. ' +
+          'County figures are published ShowingTime/MLS data for ' + (car.month || 'this month') + '.';
         estimateNoticeEl.hidden = false;
       } else {
         estimateNoticeEl.textContent = '';
@@ -2044,7 +2083,9 @@
 
     var detailEl = document.querySelector('#co-market-conditions .dq-detail');
     if (detailEl) {
-      detailEl.innerHTML = 'Data: ' + carAttribution + (carEstimated ? ' (projected, not a published report)' : '') + ' &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
+      detailEl.innerHTML = 'Data: ' + carAttribution +
+        (allProjected ? ' (projected, not a published report)'
+          : carEstimated ? ' (' + projectedScopes.join(' and ') + ' figures projected)' : '') + ' &middot; ' + (car.month || '') + ' &middot; <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> &middot; <a href="dashboard-data-quality.html">Data Quality Dashboard</a>';
     }
   }
 

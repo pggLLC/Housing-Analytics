@@ -1,11 +1,16 @@
 {
   "month": "2026-03",
   "generated_at": "2026-03-01T00:00:00Z",
-  "estimated": true,
-  "estimate_basis": "placeholder \u2014 no prior month to project from",
   "source": "Colorado Association of REALTORS (CAR)",
   "source_url": "https://coloradorealtors.com/market-trends/",
   "version": "1.0",
+  "estimated": true,
+  "estimated_scopes": {
+    "counties": true,
+    "statewide": true,
+    "metro": true
+  },
+  "estimate_basis": "placeholder — no prior month to project from",
   "statewide": {
     "median_sale_price": 578000,
     "active_listings": 19019,
