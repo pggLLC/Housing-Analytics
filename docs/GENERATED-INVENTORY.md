@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-13T14:23:52.892Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-13T14:29:41.073Z. Do not edit by hand.
 
 ---
 
@@ -1565,7 +1565,7 @@
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
-| `data/market/bridge_co_market_summary.json` | 253 B | ✅ | — |
+| `data/market/bridge_co_market_summary.json` | 575 B | ✅ | — |
 | `data/market/chas_co.json` | 159.0 KB | ✅ | — |
 | `data/market/chas_tract_co.json` | 3.43 MB | ✅ | — |
 | `data/market/chfa_programs_co.json` | 3.8 KB | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-320 test files found.
+321 test files found.
 
 | File | Size |
 |------|------|
@@ -1676,6 +1676,7 @@
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
+| `test/bridge-token-guidance.test.js` | 2.4 KB |
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
