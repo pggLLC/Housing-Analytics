@@ -251,11 +251,27 @@ jobs:
         #
         # Local-only and ~0.2s: no network, no API key.
         #
-        # Non-blocking: on failure the previous file is preserved, which is
-        # the pre-2026-09-10 status quo rather than a regression.
+        # BLOCKING (changed 2026-09-13). It used to swallow failure with
+        # `|| echo ::warning::`, on the reasoning that preserving the previous
+        # file was a soft degradation. That reasoning expired the moment this
+        # output got a freshness gate in test:ci: a preserved stale file is not
+        # degraded service, it is a main that fails every subsequent PR on files
+        # that PR never touched. And because this job's own commits are pushed
+        # with GITHUB_TOKEN, GitHub runs no workflows on them, so nothing
+        # reports it -- main sat red for hours exactly this way before #1625.
+        #
+        # Failing here is the safe outcome: "Commit and push" carries no `if:`,
+        # so an abort here commits nothing and main keeps its previous,
+        # self-consistent pair. The ACS/LEHD/DOLA phases are checkpointed
+        # through actions/cache, so re-running after a fix does not re-fetch.
+        # Phase 7.6, whose output is gated the same way, already blocks; this
+        # aligns the remaining outliers with it.
+        # Gated by test:place-chas-fresh. The script is local, deterministic
+        # and ~0.2s with no network and no API key, so a failure is a real bug,
+        # never a blip worth tolerating.
         run: |
           echo "── Rebuilding place CHAS aggregates ──"
-          python3 scripts/hna/build_place_chas.py 2>&1 || echo "::warning::Place CHAS rebuild failed (non-critical; the previous data/hna/place-chas.json is kept, but it will drift from the refreshed summaries until this is fixed)"
+          python3 scripts/hna/build_place_chas.py 2>&1
 
       - name: Phase 6.5 — Rebuild AMI gap files (place + county, direct ACS)
         if: ${{ inputs.statewide_only != true }}
@@ -288,11 +304,25 @@ jobs:
         # data-freshness alerts #744-#748 (file aging past 9-day SLA with
         # no scheduled regen path). PR #749 had only band-aided the
         # generatedAt timestamp; the actual rebuild was never automated.
-        # Non-blocking: existing file is preserved if the script fails so
-        # one bad rebuild doesn't take the comparative-analysis page down.
+        # BLOCKING (changed 2026-09-13). It used to swallow failure with
+        # `|| echo ::warning::`, on the reasoning that preserving the previous
+        # file was a soft degradation. That reasoning expired the moment this
+        # output got a freshness gate in test:ci: a preserved stale file is not
+        # degraded service, it is a main that fails every subsequent PR on files
+        # that PR never touched. And because this job's own commits are pushed
+        # with GITHUB_TOKEN, GitHub runs no workflows on them, so nothing
+        # reports it -- main sat red for hours exactly this way before #1625.
+        #
+        # Failing here is the safe outcome: "Commit and push" carries no `if:`,
+        # so an abort here commits nothing and main keeps its previous,
+        # self-consistent pair. The ACS/LEHD/DOLA phases are checkpointed
+        # through actions/cache, so re-running after a fix does not re-fetch.
+        # Phase 7.6, whose output is gated the same way, already blocks; this
+        # aligns the remaining outliers with it.
+        # Gated by test:ranking-fresh.
         run: |
           echo "── Rebuilding HNA ranking index ──"
-          python3 scripts/hna/build_ranking_index.py 2>&1 || echo "::warning::Ranking-index rebuild failed (non-critical; existing file will be used)"
+          python3 scripts/hna/build_ranking_index.py 2>&1
 
       - name: Phase 7.5 — Rebuild ranking scenario overlays
         if: ${{ inputs.statewide_only != true }}
@@ -302,9 +332,21 @@ jobs:
         # followed by this step or the next PR's ci-checks fail. (The script
         # was briefly deleted by the post-merge quarantine bot after #1027;
         # restored + wired here in #1032.)
+        #
+        # BLOCKING (changed 2026-09-13). Its old `|| echo ::warning::` text
+        # said the quiet part out loud -- "ci-checks on later PRs may fail
+        # until regenerated" -- documenting the breakage and shipping it
+        # anyway. Nothing reports it either, because this job's own commits
+        # are pushed with GITHUB_TOKEN and GitHub runs no workflows on those.
+        #
+        # Failing here is the safe outcome: "Commit and push" carries no `if:`,
+        # so an abort commits nothing and main keeps its previous,
+        # self-consistent set. The ACS/LEHD/DOLA phases are checkpointed
+        # through actions/cache, so re-running after a fix does not re-fetch.
+        # Gated by test:ranking-scenarios.
         run: |
           echo "── Rebuilding ranking scenario overlays ──"
-          python3 scripts/hna/build_ranking_scenarios.py 2>&1 || echo "::warning::Ranking-scenarios rebuild failed (non-critical; existing files will be used, but ci-checks on later PRs may fail until regenerated)"
+          python3 scripts/hna/build_ranking_scenarios.py 2>&1
 
       - name: Phase 7.6 — Rebuild metric digests + brief metric-digest sections
         if: ${{ inputs.statewide_only != true }}
