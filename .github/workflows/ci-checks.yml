@@ -246,7 +246,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Python test dependencies
-        run: pip install pytest python-dateutil jsonschema
+        run: pip install pytest python-dateutil jsonschema requests
 
       - name: Run unified CI test suite
         run: npm run test:ci

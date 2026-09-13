@@ -421,11 +421,11 @@
         detail: regrid.configured
           ? 'Key present via ' + regrid.source + '. Live parcel & zoning data enabled. ' +
             'If parcels still show as "fallback" on the PMA, verify Colorado is enabled in your ' +
-            'Regrid account (https://app.regrid.com/account/api) — free tier requires per-state activation. ' +
+            "Regrid account's API section. " +
             'Test the key: open the browser console on /market-analysis.html and run ' +
             'RegridParcels.fetchParcelsNearPoint(39.7392, -104.9903, 1).then(r => console.log(r.length, "parcels"))'
-          : 'Not set. PMA map will fall back to pre-aggregated parcel data. ' +
-            'Free tier (1,000 lookups/mo): regrid.com/api — requires email signup + per-state activation.',
+          : 'Not set. Regrid is an optional paid licensed source; CoHO has deferred a subscription for cost (#1612) and access is not funded. ' +
+            'The PMA parcel layer does not use Regrid data. A key you enter here is stored only in this browser.',
       },
     ];
 

@@ -16,9 +16,10 @@ name: Fetch Parcel & Zoning Data
 #                 other CO transit agencies via transitfeeds.com
 #   Schools:      Colorado Dept of Education ArcGIS service
 #
-# Regrid live parcel API (optional):
-#   Set REGRID_API_KEY in repository secrets to enable per-parcel detail.
-#   When absent, county-level aggregates are built from public sources.
+# Regrid live parcel API is an optional paid licensed source, deferred for
+# cost by owner decision (#1612). Scheduled requests remain off until the
+# repository variable REGRID_ENABLED=true; a one-off run can opt in with the
+# regrid_enabled dispatch input. Both paths also require REGRID_API_KEY.
 #
 # Schedule: Sundays at 02:17 UTC. market_data_build.yml now runs on
 # Saturdays, so the two no longer contend for runners at all.
@@ -32,6 +33,11 @@ on:
         description: 'Force refresh even if cache appears fresh'
         required: false
         default: 'false'
+      regrid_enabled:
+        description: 'Run the Regrid pipeline scan (optional paid licensed source, deferred for cost — #1612). Requires the REGRID_API_KEY secret; without it the script writes a deferred stub.'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
@@ -45,6 +51,11 @@ jobs:
   fetch-parcel-zoning:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Scheduled Regrid requests resume only by explicit owner opt-in.
+      # One-off: dispatch with regrid_enabled=true. Scheduled: set the
+      # repository variable REGRID_ENABLED=true. Both require a funded token.
+      REGRID_ENABLED: ${{ vars.REGRID_ENABLED == 'true' || (github.event_name == 'workflow_dispatch' && inputs.regrid_enabled == true) }}
 
     steps:
       - name: Checkout repository
@@ -72,8 +83,7 @@ jobs:
 
       # ── Parcel aggregates ─────────────────────────────────────────────
       - name: Fetch parcel aggregates (DOLA + county assessors)
-        env:
-          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
+        # This county-assessor script never reads Regrid credentials.
         run: |
           python scripts/market/fetch_parcel_data.py 2>&1 | tee /tmp/parcel_build.log
           echo "Exit code: $?"
@@ -103,29 +113,24 @@ jobs:
       # IndiBuild Brief's "Scan parcels" UI worked without a per-browser
       # API key.
       #
-      # F258 (2026-06-10): Regrid's free tier no longer exists and the
-      # repo's token expired. Every workflow run since was returning
-      # `HTTP 401: Invalid token` on every jurisdiction, writing 0
-      # parcels, and cluttering the log. The REGRID_API_KEY env var is
-      # intentionally NOT passed below so the script falls into its
-      # already-existing "no API key" stub branch and writes a clean
-      # empty cache (source: "stub (no API key)") without making any
-      # outbound API calls. The script's diagnostic prints stay in
-      # place so the next run reads as a graceful skip rather than a
-      # silent failure.
-      #
-      # To re-enable: add `REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}`
-      # back under `env:` after refreshing the secret with a paid Regrid
-      # token, OR migrate the script to a free alternative such as
-      # county-assessor ArcGIS REST endpoints + DOLA Zoning Atlas (see
-      # scripts/market/fetch_parcel_data.py for the pattern).
+      # F258 / #1612: Regrid is an optional paid licensed source and access
+      # is not funded. Scheduled runs skip this step unless the owner sets
+      # repository variable REGRID_ENABLED=true. A one-off run may instead
+      # use workflow_dispatch with regrid_enabled=true. Both reactivation
+      # paths require REGRID_API_KEY and the private pipeline CSV supplied
+      # through REGRID_PIPELINE_CSV or restored to its documented path.
       - name: Fetch Regrid parcels for pipeline jurisdictions
+        if: env.REGRID_ENABLED == 'true'
+        env:
+          REGRID_API_KEY: ${{ secrets.REGRID_API_KEY }}
         run: |
+          set -o pipefail
           python scripts/market/fetch_regrid_pipeline_parcels.py 2>&1 | tee /tmp/regrid_pipeline.log
           echo "Exit code: $?"
         continue-on-error: true
 
       - name: Validate pipeline Regrid cache
+        if: env.REGRID_ENABLED == 'true'
         run: |
           python - <<'PYEOF'
           import json, os
@@ -136,13 +141,23 @@ jobs:
             with open(path) as f:
               data = json.load(f)
             meta = data.get('meta', {})
+            availability = meta.get('availability')
             print(f"regrid pipeline cache: {meta.get('jurisdiction_count', 0)} jurisdictions, "
-                  f"{meta.get('total_parcels', 0)} parcels, "
+                  f"{meta.get('total_parcels')} parcels, "
                   f"{meta.get('api_calls', 0)} API calls "
                   f"(source: {meta.get('source', 'unknown')})")
-            if meta.get('api_calls', 0) == 0 and meta.get('source') != 'stub (no API key)':
-              print('::warning::Regrid cache built with 0 API calls but key was present — check pipeline_csv + centroids files')
+            if availability == 'active' and (meta.get('api_calls', 0) == 0 or not meta.get('total_parcels')):
+              print('::warning::Regrid cache says active but recorded no successful parcels')
+            elif availability == 'failed':
+              print(f"::warning::{meta.get('unavailableReason', 'Regrid requests failed')}")
+            elif availability == 'deferred':
+              print(meta.get('unavailableReason', 'Regrid access deferred'))
           PYEOF
+
+      - name: Regrid pipeline scan — deferred (no request made)
+        if: env.REGRID_ENABLED != 'true'
+        run: |
+          echo "::notice::Regrid pipeline scan skipped. Regrid is an optional paid licensed source and access is not funded (#1612). No Regrid request was made; data/affordable-housing/regrid-parcels-by-place.json is unchanged. To run it: dispatch this workflow with regrid_enabled=true, or set repository variable REGRID_ENABLED=true."
 
       # ── Zoning compatibility index ────────────────────────────────────
       - name: Fetch zoning compatibility index (DOLA + OSM)

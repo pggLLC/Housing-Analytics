@@ -1204,7 +1204,7 @@
   }
 
   // F120 — Land-bank scan (Regrid). INTERNAL ONLY (sits behind developer-gate),
-  // ON-DEMAND ONLY (never auto-runs — protects the Regrid free-tier quota).
+  // ON-DEMAND ONLY; each scan is one billable call against the user's own key.
   // Caches per-geoid in localStorage with 7-day TTL so re-opening a brief
   // shows prior results without burning another API call.
   const LB_CACHE_PREFIX = 'ib-landbank-v1:';
@@ -1243,14 +1243,14 @@
         Filters: privately owned, vacant or agricultural land use, ≥ ${'minAcres'} acres,
         within ${'radiusMiles'} miles of the place centroid.
         <strong>This runs only when you click — never automatically</strong>
-        to preserve the Regrid free-tier monthly quota.
+        because each scan is one billable call against your own key.
       </p>`;
 
     const status = !hasKey
       ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
-           Regrid API key not configured. Add <code>REGRID_API_KEY</code> to
-           <code>js/config.js</code> or repo secrets to enable. See
-           <code>js/data-connectors/regrid-parcels.js</code> header for setup.
+           <div id="lbDeferredReason">Regrid access is not funded (#1612); no cached scan is available.</div>
+           If you hold your own Regrid key, add it via the Data Quality Dashboard;
+           it is stored only in this browser.
          </div>`
       : !haveCoords
       ? `<div style="background:color-mix(in oklab, var(--warn) 8%, var(--card) 92%);border-left:3px solid var(--warn);padding:.55rem .75rem;border-radius:var(--radius-sm);font-size:.78rem;">
@@ -1296,7 +1296,7 @@
         <div class="ib-card-source" style="margin-top:.5rem;">
           <strong>Source:</strong>
           <a href="https://regrid.com/api" target="_blank" rel="noopener">Regrid v2 Parcels API</a>
-          (free tier ~1000 calls/month). Results cached locally for 7 days per jurisdiction.
+          (paid licensed API; server-side scan deferred, #1612). Results cached locally for 7 days per jurisdiction.
         </div>
       </div>
     `;
@@ -1325,9 +1325,9 @@
     // F246 — Source provenance badge so users see whether they're reading
     // from the weekly server-side scan (no quota cost) or a live API call.
     const srcBadge = opts.dataSource === 'cache'
-      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Loaded from the weekly server-side workflow cache (no API quota consumed). Refreshes every Sunday.">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
+      ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--good) 12%, var(--card) 88%);color:var(--good);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Loaded from the server-side scan generated on the date shown. No scheduled refresh while Regrid is deferred (#1612).">✓ CACHED${opts.dataAsOf ? ' · ' + esc(String(opts.dataAsOf).slice(0,10)) : ''}</span>`
       : (opts.dataSource === 'live'
-          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call (consumed 1 from your free-tier quota).">⚡ LIVE</span>`
+          ? `<span style="display:inline-flex;align-items:center;gap:.3rem;background:color-mix(in oklab, var(--warn) 12%, var(--card) 88%);color:var(--warn);padding:.1rem .45rem;border-radius:99px;font-size:.68rem;font-weight:700;margin-right:.4rem;" title="Live Regrid API call against your own key (billable).">⚡ LIVE</span>`
           : '');
     return `
       <div style="margin-top:.4rem;font-size:.78rem;color:var(--muted);">
@@ -1364,6 +1364,16 @@
     const acresLbl = document.getElementById('lbAcresLbl');
     const radiusLbl = document.getElementById('lbRadiusLbl');
     const resultsEl = document.getElementById('lbResults');
+    const deferredReason = document.getElementById('lbDeferredReason');
+
+    if (deferredReason && window.RegridParcels && window.RegridParcels.getPipelineCacheStatus) {
+      window.RegridParcels.getPipelineCacheStatus().then(status => {
+        deferredReason.textContent = status.unavailableReason ||
+          'Regrid access is not funded (#1612); no cached scan is available.';
+      }).catch(() => {
+        deferredReason.textContent = 'Regrid access is not funded (#1612); no cached scan is available.';
+      });
+    }
 
     function syncLabels() {
       if (acresLbl) acresLbl.textContent = acresInput.value;
@@ -1415,8 +1425,8 @@
       btn.textContent = 'Scanning Regrid…';
       resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loading parcel data…</div>';
       try {
-        // F246 — Prefer the pre-built workflow cache. The weekly
-        // fetch-parcel-zoning-data.yml workflow scans every a developer
+        // F246 — Prefer a current pre-built workflow cache. When explicitly
+        // enabled, fetch-parcel-zoning-data.yml scans every developer
         // pipeline jurisdiction using the REGRID_API_KEY repo secret,
         // so there's no need for a per-browser API key for in-pipeline
         // places. Cache miss → fall through to the live API (which
@@ -1430,12 +1440,12 @@
             raw = cached.features;
             dataSource = 'cache';
             dataAsOf = cached.generated;
-            resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loaded from weekly server-side scan (' + esc(dataAsOf || 'recently') + ')…</div>';
+            resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Loaded from server-side scan (' + esc(dataAsOf || 'recently') + ')…</div>';
           }
         }
         if (raw === null) {
           if (!window.RegridParcels || !window.RegridParcels.isAvailable()) {
-            throw new Error('Regrid not configured for this jurisdiction. Either (a) add it to the pipeline in the private workspace so the weekly workflow scans it, or (b) set REGRID_API_KEY in browser localStorage via the Data Quality Dashboard for an on-demand scan.');
+            throw new Error('The server-side scan is deferred while Regrid access is not funded (#1612). If you hold your own Regrid key, add it via the Data Quality Dashboard for an on-demand scan; it is stored only in this browser.');
           }
           resultsEl.innerHTML = '<div style="padding:.7rem;color:var(--muted);font-size:.82rem;">Querying Regrid API…</div>';
           raw = await window.RegridParcels.fetchParcelsNearPoint(centroid.lat, centroid.lng, radius);
@@ -1451,7 +1461,7 @@
         );
         // F246 — Carry data-source provenance into the rendered results
         // so the user knows whether they're reading from the workflow's
-        // weekly server-side scan (no quota cost) or a live API call.
+        // server-side scan or a live API call against the user's own key.
         const opts = { minAcres, radius, dataSource, dataAsOf };
         _lbSaveCache(geoid, { parcels: filtered, opts });
         renderAndWireResults(filtered, opts);

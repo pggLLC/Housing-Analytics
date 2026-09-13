@@ -249,6 +249,9 @@
      setup. Cache is loaded on first call + memoized for the page lifecycle.
   ────────────────────────────────────────────────────────────────────── */
   var PIPELINE_CACHE_PATH = 'affordable-housing/regrid-parcels-by-place.json';
+  // Active scans were built weekly; after twice that interval, the cache can
+  // no longer be presented as current parcel coverage.
+  var PIPELINE_CACHE_MAX_AGE_DAYS = 14;
   var _pipelineCachePromise = null;
 
   function _loadPipelineCache() {
@@ -267,6 +270,37 @@
     return _pipelineCachePromise;
   }
 
+  function _cacheAgeDays(generated) {
+    var timestamp = Date.parse(generated || '');
+    if (!isFinite(timestamp)) return null;
+    return Math.max(0, (Date.now() - timestamp) / (24 * 60 * 60 * 1000));
+  }
+
+  function getPipelineCacheStatus() {
+    return _loadPipelineCache().then(function (data) {
+      if (!data || !data.meta) {
+        return {
+          availability: null,
+          isCurrent: false,
+          unavailableReason: 'Regrid cache status could not be loaded',
+          generated: null,
+          ageDays: null,
+          stale: false
+        };
+      }
+      var meta = data.meta;
+      var ageDays = _cacheAgeDays(meta.generated);
+      return {
+        availability: meta.availability || null,
+        isCurrent: meta.is_current_coverage === true,
+        unavailableReason: meta.unavailableReason || null,
+        generated: meta.generated || null,
+        ageDays: ageDays,
+        stale: ageDays != null && ageDays > PIPELINE_CACHE_MAX_AGE_DAYS
+      };
+    });
+  }
+
   /**
    * Look up cached parcels for a place by GEOID. Returns
    *   { features: Feature[], generated: ISO, jurisdiction: string }
@@ -277,6 +311,10 @@
     if (!geoid) return Promise.resolve(null);
     return _loadPipelineCache().then(function (data) {
       if (!data || !data.byGeoid) return null;
+      var meta = data.meta || {};
+      if (meta.is_current_coverage !== true) return null;
+      var ageDays = _cacheAgeDays(meta.generated);
+      if (ageDays != null && ageDays > PIPELINE_CACHE_MAX_AGE_DAYS) return null;
       var rec = data.byGeoid[geoid];
       if (!rec) return null;
       // A stub with error + 0 parcels isn't useful — let caller decide
@@ -311,7 +349,10 @@
    */
   function isPipelineCacheAvailable() {
     return _loadPipelineCache().then(function (data) {
-      return !!(data && data.byGeoid && Object.keys(data.byGeoid).length);
+      if (!data || !data.meta || data.meta.is_current_coverage !== true) return false;
+      var ageDays = _cacheAgeDays(data.meta.generated);
+      return !(ageDays != null && ageDays > PIPELINE_CACHE_MAX_AGE_DAYS) &&
+        !!(data.byGeoid && Object.keys(data.byGeoid).length);
     });
   }
 
@@ -351,6 +392,7 @@
   window.RegridParcels = {
     isAvailable:               isAvailable,
     isPipelineCacheAvailable:  isPipelineCacheAvailable,
+    getPipelineCacheStatus:    getPipelineCacheStatus,
     fetchParcels:              fetchParcels,
     fetchParcelsNearPoint:     fetchParcelsNearPoint,
     fetchPipelineCached:       fetchPipelineCached,   // F246 — cache-first lookup by GEOID
