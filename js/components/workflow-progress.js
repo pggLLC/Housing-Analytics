@@ -52,7 +52,7 @@
          wondering where they were in the 5-step flow once they
          started reading mid-page. */
       '.wf-progress-wrap{box-sizing:border-box;width:100%;max-width:1200px;margin:0 auto;padding:10px 18px;' +
-        'position:sticky;top:58px;z-index:900;background:var(--bg);' +
+        'position:sticky;top:var(--site-header-h,58px);z-index:900;background:var(--bg);' +
         'border-bottom:1px solid var(--border);overflow:hidden;}',
       '.wf-progress-steps{display:flex;align-items:center;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;',
@@ -280,6 +280,59 @@
     }
 
   };
+
+  /* ── Publish the real header height ──────────────────────────────────────
+     The sticky workflow strip pins below the site header. Its offset used to
+     be a hardcoded 58px in site-theme.css, described in a comment as "height
+     of the sticky site header" -- but the header is 61px at desktop and 70px
+     at 375px wide, because its contents wrap and the root font-size is fluid.
+     The strip therefore slid under the header by 3px on desktop and 12px on
+     mobile, hiding its own top edge.
+
+     Measuring beats guessing here: the height moves with viewport, font size
+     and zoom, so no constant is right everywhere. ResizeObserver keeps the
+     variable correct as the header reflows; the resize listener covers
+     browsers without it. Cheap -- it writes one custom property and only when
+     the value actually changes. */
+  function publishHeaderHeight() {
+    var observed = null;
+    var ro = null;
+
+    function apply() {
+      // Re-query every time: the header is re-rendered by the nav component
+      // after DOMContentLoaded, so a reference captured once ends up pointing
+      // at a detached node and the observer goes quiet. That is exactly how an
+      // early 1px pre-layout measurement got latched in during testing.
+      var header = document.querySelector('.site-header');
+      if (!header) return;
+
+      if (observed !== header) {
+        observed = header;
+        if (ro) { try { ro.disconnect(); } catch (e) { /* non-fatal */ } }
+        if (typeof ResizeObserver === 'function') {
+          try { ro = new ResizeObserver(apply); ro.observe(header); } catch (e) { ro = null; }
+        }
+      }
+
+      var h = Math.round(header.getBoundingClientRect().height);
+      // A header this short has not been laid out yet. Publishing it would pin
+      // the strip to the top of the viewport until something else moved.
+      if (h < 24) return;
+
+      if (document.documentElement.style.getPropertyValue('--site-header-h') === h + 'px') return;
+      document.documentElement.style.setProperty('--site-header-h', h + 'px');
+    }
+
+    apply();
+    window.addEventListener('load', apply);
+    window.addEventListener('resize', apply, { passive: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', publishHeaderHeight);
+  } else {
+    publishHeaderHeight();
+  }
 
   /* ── Expose globally ────────────────────────────────────────────────────── */
   global.WorkflowProgress = WorkflowProgress;
