@@ -258,7 +258,7 @@ function loadExistingReport(month, outDir) {
 }
 
 function mergeIntoReport(existing, month, counties) {
-  return {
+  const merged = {
     ...existing,
     month,
     generated_at: new Date().toISOString(),
@@ -272,6 +272,24 @@ function mergeIntoReport(existing, month, counties) {
     counties,
     notes: `County-level single-family and townhouse/condo rows populated from ShowingTime CAR reports for ${month}. Statewide and metro fields remain the existing report-level fallback values where no ShowingTime statewide/metro row is present.`,
   };
+
+  // A month stops being a projection the moment ShowingTime returns real
+  // county rows. `existing` is often the trend-projected placeholder written
+  // by generate-car-placeholder.mjs, and spreading it carried its
+  // `estimated: true` / `estimate_basis` straight through — so the report
+  // went on telling readers that real MLS data was "projected by
+  // trend-projection from" the previous month. 2026-08 shipped that way
+  // (fc0ce5bc6) until this fix.
+  //
+  // Deleting rather than setting false is deliberate: the published months
+  // (2026-05..07) carry no `estimated` key at all, and
+  // test/car-estimate-disclosure.test.js treats key-absent as published.
+  if (Object.keys(counties || {}).length > 0) {
+    delete merged.estimated;
+    delete merged.estimate_basis;
+  }
+
+  return merged;
 }
 
 function coverageSummary(counties) {
