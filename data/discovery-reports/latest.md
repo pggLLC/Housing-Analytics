@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-12T11:35:45.983Z
+**Scan timestamp:** 2026-09-13T12:42:36.130Z
 
 ## Summary
 
@@ -27,7 +27,7 @@
 - `data/affordable-housing/properties-manifest.json` (0 KB)
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
-- `data/affordable-housing/regrid-parcels-by-place.json` (3 KB)
+- `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
 - `data/alerts/alerts_archive.json` (190 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
@@ -39,7 +39,7 @@
 - `data/car-market-report-2026-05.json` (64 KB)
 - `data/car-market-report-2026-06.json` (64 KB)
 - `data/car-market-report-2026-07.json` (64 KB)
-- `data/car-market-report-2026-08.json` (2 KB)
+- `data/car-market-report-2026-08.json` (64 KB)
 - `data/car-market-report-2026-09.json` (2 KB)
 - `data/census-multifamily-co.json` (116 KB)
 - `data/chfa-income-rent-limits-2026.json` (500 KB)
@@ -48,7 +48,7 @@
 - `data/co-housing-costs/drivers_ranking.csv` (0 KB)
 - `data/co-place-boundaries.geojson` (1336 KB)
 - `data/co-place-centroids.json` (49 KB)
-- `data/co_ami_gap_by_place.json` (626 KB)
+- `data/co_ami_gap_by_place.json` (627 KB)
 - `data/core/educational-content.json` (66 KB)
 - `data/core/neighborhood-context.json` (70 KB)
 - `data/coverage-report.json` (13 KB)
@@ -892,7 +892,7 @@
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
 - `data/hna/projections/places.json` (826 KB)
-- `data/hna/ranking-index.json` (1678 KB)
+- `data/hna/ranking-index.json` (1677 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
 - `data/hna/ranking-scenarios/large-gap.json` (49 KB)
@@ -1536,14 +1536,14 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (831 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (498 KB)
+- `data/market/pma_tract_display_geometry.geojson` (480 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
-- `data/market/tract_boundaries_co.geojson` (412 KB)
+- `data/market/tract_boundaries_co.geojson` (393 KB)
 - `data/market/transit_routes_co.geojson` (4764 KB)
 - `data/market/travel_time_matrix_co.json` (4331 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
