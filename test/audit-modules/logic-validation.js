@@ -105,6 +105,47 @@ function checkProjectionOutputs() {
 }
 
 /**
+ * classifyNullField — how should a null field be reported?
+ *
+ * The distinction this draws is the whole point. A field null on SOME records
+ * is a gap in otherwise-published data and someone should trace it. A field
+ * null on EVERY record is not N broken records at all — it is a column the
+ * upstream source does not populate, and reporting it per-record buries that.
+ *
+ * Neither branch ever recommends writing a value in. AGENTS.md #1480: an
+ * unmeasurable quantity is null, never 0.
+ *
+ * @param {string} field
+ * @param {number} nullCount
+ * @param {number} total
+ * @param {string} relPath
+ * @returns {object|null} an issue, or null when the field is fully populated
+ */
+function classifyNullField(field, nullCount, total, relPath) {
+    if (!nullCount || !total) return null;
+    if (nullCount === total) {
+        return {
+            severity: 'medium',
+            type: 'logic',
+            file: relPath,
+            description: `${field} is null on all ${total} LIHTC records — the source does not publish it`,
+            expected: `${field} populated, or not presented to readers as a measured value`,
+            actual: `${total} of ${total} null`,
+            recommendation: `Do NOT backfill. Either source ${field} from HUD's LIHTC database, or make every display of it say "not published" rather than rendering the absence as a negative.`,
+        };
+    }
+    return {
+        severity: 'high',
+        type: 'logic',
+        file: relPath,
+        description: `${field} is null on ${nullCount} of ${total} LIHTC records`,
+        expected: `${field} populated on every record the source covers`,
+        actual: `${nullCount} of ${total} null`,
+        recommendation: `Trace the ${nullCount} records back to the source feed. Do NOT backfill a placeholder — a filled-in value is indistinguishable from a measured one.`,
+    };
+}
+
+/**
  * Validates LIHTC records against basic CHFA/IRS program rules.
  * @returns {Array<object>} issues
  */
@@ -126,7 +167,15 @@ function checkLihtcCompliance() {
         : (data.features || data.properties || []);
 
     let badLiUnits = 0;
-    let missingRequiredFields = 0;
+    // Count nulls PER FIELD, not per record. The old check collapsed three
+    // fields into one "926 records have null CREDIT, NON_PROF, or DDA" -- a
+    // description that hid which field was actually affected. CREDIT is in fact
+    // fully populated; NON_PROF, DDA and QCT are null on every single record,
+    // because CHFA's ArcGIS layer carries those columns but publishes no values
+    // in them. Those are HUD LIHTCPUB fields; CHFA is not their source.
+    const TRACKED_FIELDS = ['CREDIT', 'NON_PROF', 'DDA', 'QCT'];
+    const nullCounts = Object.create(null);
+    TRACKED_FIELDS.forEach(f => { nullCounts[f] = 0; });
 
     for (const feature of features) {
         const props = feature.properties || feature;
@@ -138,11 +187,9 @@ function checkLihtcCompliance() {
             badLiUnits++;
         }
 
-        // CREDIT, NON_PROF, DDA must not be null
-        for (const field of ['CREDIT', 'NON_PROF', 'DDA']) {
+        for (const field of TRACKED_FIELDS) {
             if (props[field] === null || props[field] === undefined) {
-                missingRequiredFields++;
-                break;
+                nullCounts[field]++;
             }
         }
     }
@@ -158,16 +205,21 @@ function checkLihtcCompliance() {
             recommendation: 'Correct data entry error — check column ordering in LIHTC source file.',
         });
     }
-    if (missingRequiredFields > 0) {
-        issues.push({
-            severity: 'high',
-            type: 'logic',
-            file: filePath.replace(ROOT + '/', ''),
-            description: `${missingRequiredFields} LIHTC records have null CREDIT, NON_PROF, or DDA fields`,
-            expected: 'All CREDIT/NON_PROF/DDA fields are non-null',
-            actual: `${missingRequiredFields} records with null required fields`,
-            recommendation: 'Backfill with 0 for numeric fields and "U" for unknown strings.',
-        });
+    // A field null on EVERY record is not N defective records -- it is a field
+    // the upstream source does not publish, and the two need different answers.
+    //
+    // The old recommendation here was "Backfill with 0 for numeric fields and
+    // \"U\" for unknown strings." Following it would have written a real 0 into
+    // DDA and QCT for all 926 properties, turning "CHFA does not publish this"
+    // into "this property is not in a Difficult Development Area" -- a claim
+    // that decides 30% basis boost eligibility. AGENTS.md #1480 is explicit:
+    // an unmeasurable quantity is null, never 0. Neither branch below ever
+    // recommends filling an absent value in.
+    const total = features.length;
+    const relPath = filePath.replace(ROOT + '/', '');
+    for (const field of TRACKED_FIELDS) {
+        const issue = classifyNullField(field, nullCounts[field], total, relPath);
+        if (issue) issues.push(issue);
     }
     return issues;
 }
@@ -329,4 +381,4 @@ async function runLogicValidationChecks() {
     return issues;
 }
 
-module.exports = { runLogicValidationChecks };
+module.exports = { runLogicValidationChecks, classifyNullField };

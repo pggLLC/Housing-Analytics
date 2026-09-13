@@ -127,9 +127,13 @@ function checkSentinelKeys() {
  */
 function checkFipsCodes() {
     const issues = [];
+    // lihtc-trends-by-county.json is deliberately absent from this list: its
+    // counties are keyed by NAME ("Adams", "Alamosa", ...), not by FIPS, so
+    // there is no FIPS value in it to validate. It sat here for as long as the
+    // path was wrong and the file never loaded; once the path is right, leaving
+    // it would be a check that can never fire.
     const targets = [
         path.join(DATA_DIR, 'co_ami_gap_by_county.json'),
-        path.join(DATA_DIR, 'hna', 'lihtc-trends-by-county.json'),
     ];
 
     for (const filePath of targets) {
@@ -173,14 +177,41 @@ function checkFipsCodes() {
  * Checks that statewide county datasets contain all 64 counties (Rule 4).
  * @returns {Array<object>} issues
  */
+function countyEntriesIn(data) {
+    // Counties may sit at the top level or nested under a "counties" key, and
+    // either container may be an array or an object keyed by county. Counting
+    // the WRONG level is the dangerous case: this file's top level holds seven
+    // metadata keys (updated, source, note, years, ...) with the 64 counties
+    // one level down, so a naive Object.keys(data).length reports "7 of 64"
+    // and looks exactly like real data loss.
+    if (!data || typeof data !== 'object') return null;
+    const container = (data.counties && typeof data.counties === 'object') ? data.counties : data;
+    if (Array.isArray(container)) return container.length;
+    const keys = Object.keys(container);
+    // Guard against having landed on a metadata object rather than the county
+    // map: a county container's keys are county names or FIPS codes, and every
+    // value is itself an object or array of per-county figures.
+    const countyShaped = keys.filter(k => {
+        const v = container[k];
+        return v !== null && typeof v === 'object';
+    });
+    return countyShaped.length === keys.length ? keys.length : null;
+}
+
 function checkCountyCoverage() {
     const issues = [];
-    const ltcTrends = path.join(DATA_DIR, 'hna', 'lihtc-trends-by-county.json');
+    // The site fetches data/lihtc-trends-by-county.json. This check pointed at
+    // data/hna/lihtc-trends-by-county.json, a path nothing writes and nothing
+    // reads, so every run took the not-found branch and returned early -- the
+    // 64-county assertion below had never once executed, and the daily email
+    // carried a "file not found" for a file that is present and complete.
+    const ltcTrends = path.join(DATA_DIR, 'lihtc-trends-by-county.json');
+    const relPath = ltcTrends.replace(ROOT + '/', '');
     if (!fs.existsSync(ltcTrends)) {
         issues.push({
             severity: 'medium',
             type: 'data',
-            file: 'data/hna/lihtc-trends-by-county.json',
+            file: relPath,
             description: 'LIHTC trends by county file not found',
             expected: `File with ${EXPECTED_CO_COUNTY_COUNT} county entries`,
             actual: 'File not found',
@@ -190,12 +221,24 @@ function checkCountyCoverage() {
     }
     const data = safeReadJson(ltcTrends);
     if (!data) return issues;
-    const count = Array.isArray(data) ? data.length : Object.keys(data).length;
+    const count = countyEntriesIn(data);
+    if (count === null) {
+        issues.push({
+            severity: 'medium',
+            type: 'data',
+            file: relPath,
+            description: 'LIHTC trends by county file has no recognisable county container',
+            expected: `An array, or a "counties" key, holding ${EXPECTED_CO_COUNTY_COUNT} county entries`,
+            actual: 'Could not locate the county entries to count',
+            recommendation: 'Check the shape written by the LIHTC pipeline before trusting coverage.',
+        });
+        return issues;
+    }
     if (count !== EXPECTED_CO_COUNTY_COUNT) {
         issues.push({
             severity: 'high',
             type: 'data',
-            file: 'data/hna/lihtc-trends-by-county.json',
+            file: relPath,
             description: `County coverage incomplete: found ${count} of ${EXPECTED_CO_COUNTY_COUNT} counties`,
             expected: `${EXPECTED_CO_COUNTY_COUNT} counties`,
             actual: `${count} counties`,
@@ -465,4 +508,4 @@ async function runDataIntegrityChecks() {
     return issues;
 }
 
-module.exports = { runDataIntegrityChecks };
+module.exports = { runDataIntegrityChecks, countyEntriesIn };
