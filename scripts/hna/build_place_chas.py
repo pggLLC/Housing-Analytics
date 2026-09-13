@@ -235,10 +235,31 @@ def recompute_summary(agg: dict) -> None:
     s['renter_cb50_count'] = round(cr50, 1)
     s['owner_cb30_count']  = round(co30, 1)
     s['owner_cb50_count']  = round(co50, 1)
-    s['renter_cb30_share'] = round(cr30 / tr, 4) if tr else 0.0
-    s['renter_cb50_share'] = round(cr50 / tr, 4) if tr else 0.0
-    s['owner_cb30_share']  = round(co30 / to, 4) if to else 0.0
-    s['owner_cb50_share']  = round(co50 / to, 4) if to else 0.0
+    # Derive every share from the PUBLISHED counts, not from the raw
+    # accumulators. Two reasons, and the second is the one that kept turning
+    # main red:
+    #
+    # 1. Self-consistency. A reader who divides the published count by the
+    #    published total should get the published share. Dividing the raw
+    #    accumulators broke that: 0802905 shipped 6.9 and 16 alongside a share
+    #    of 0.4312, and 6.9 / 16 is 0.4313.
+    #
+    # 2. Reproducibility. `tr` is a sum of floats and lands on values like
+    #    16.000000000000004 rather than 16. Several of these shares sit on an
+    #    EXACT .00005 rounding tie -- 9.3/48, 104.7/240, 177.5/400, 6.9/16 and
+    #    11.4/32 all do -- and there a one-ulp wobble in the denominator flips
+    #    the fourth decimal. check-place-chas-fresh.py then reported the file
+    #    STALE on five places whose inputs had not changed in months, and every
+    #    open PR failed on data it never touched. Rounding the denominator
+    #    first makes the division consume identical IEEE doubles on every run
+    #    and every machine, so the result is stable by construction rather than
+    #    by luck.
+    tr_pub = s['total_renter_hh']
+    to_pub = s['total_owner_hh']
+    s['renter_cb30_share'] = round(s['renter_cb30_count'] / tr_pub, 4) if tr_pub else 0.0
+    s['renter_cb50_share'] = round(s['renter_cb50_count'] / tr_pub, 4) if tr_pub else 0.0
+    s['owner_cb30_share']  = round(s['owner_cb30_count']  / to_pub, 4) if to_pub else 0.0
+    s['owner_cb50_share']  = round(s['owner_cb50_count']  / to_pub, 4) if to_pub else 0.0
 
 
 def scale_tenure_group(group: dict, factor: float) -> None:
