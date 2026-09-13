@@ -2,9 +2,9 @@
 """
 F246 — Fetch Regrid parcels for every IndiBuild pipeline jurisdiction.
 
-Runs server-side from .github/workflows/fetch-parcel-zoning-data.yml (Sundays
-02:00 UTC) so the IndiBuild Brief's "Scan parcels" UX requires zero per-browser
-API-key setup.
+Runs server-side from .github/workflows/fetch-parcel-zoning-data.yml only when
+the optional paid source is explicitly enabled. Scheduled access is deferred
+for cost under #1612; the browser may still use a user's own key.
 
 Input:
     docs/indibuild-pipeline-prototype/02-pipeline.csv  (jurisdiction list)
@@ -16,28 +16,32 @@ Output:
         {
           "meta": {
             "generated":          "2026-06-10T02:00:00Z",
-            "source":             "Regrid v2 Parcels API",
+            "source":             "deferred (Regrid access not funded)",
+            "availability":       "deferred",
+            "is_current_coverage": false,
+            "unavailableReason":  "<reason carried with the data>",
             "radius_miles":       3.0,
             "jurisdiction_count": <N>,
-            "total_parcels":      <int>,
-            "api_calls":          <int>,
-            "next_refresh":       "next Sunday at 02:00 UTC"
+            "total_parcels":      null,
+            "api_calls":          0,
+            "next_refresh":       "none scheduled — Regrid deferred (#1612); ..."
           },
           "byGeoid": {
               "0867280": {
                   "jurisdiction": "Salida",
                   "centroid":     {"lat": 38.5345, "lng": -105.9989},
                   "fetched_at":   "2026-06-10T02:00:00Z",
-                  "parcel_count": <int>,
-                  "parcels":      [{ <GeoJSON Feature>, ... }]
+                  "parcel_count": null,
+                  "parcels":      [],
+                  "error":        "Regrid access not funded ..."
               },
               ...
           }
         }
 
-Budget protection: writes a stub (empty parcels[] per jurisdiction, with an
-explicit reason field) when REGRID_API_KEY is missing. The frontend can then
-display "live API not configured" + the date the key was last seen.
+Budget protection: writes a deferred record (empty parcels[] and null counts,
+with one explicit reason) when REGRID_API_KEY is missing. Null means no parcel
+measurement was made; it must never be rendered as a confident zero.
 """
 
 from __future__ import annotations
@@ -55,15 +59,29 @@ from urllib.parse import urlencode
 import requests
 
 ROOT = Path(__file__).resolve().parents[2]
-PIPELINE_CSV = ROOT / "docs" / "indibuild-pipeline-prototype" / "02-pipeline.csv"
-CENTROIDS_PATH = ROOT / "data" / "co-place-centroids.json"
-OUTPUT_PATH = ROOT / "data" / "affordable-housing" / "regrid-parcels-by-place.json"
+PIPELINE_CSV = Path(os.environ.get("REGRID_PIPELINE_CSV") or ROOT / "docs" / "indibuild-pipeline-prototype" / "02-pipeline.csv")
+CENTROIDS_PATH = Path(os.environ.get("REGRID_CENTROIDS_PATH") or ROOT / "data" / "co-place-centroids.json")
+OUTPUT_PATH = Path(os.environ.get("REGRID_OUTPUT_PATH") or ROOT / "data" / "affordable-housing" / "regrid-parcels-by-place.json")
 
 REGRID_BASE = "https://app.regrid.com/api/v2"
 RADIUS_MILES = float(os.environ.get("REGRID_RADIUS_MILES", "3.0"))
 PER_CALL_LIMIT = int(os.environ.get("REGRID_LIMIT", "500"))
 REQUEST_TIMEOUT_SEC = 30
 INTER_CALL_DELAY_SEC = float(os.environ.get("REGRID_DELAY_SEC", "0.4"))
+
+DEFERRED_REASON = (
+    "Regrid is an optional licensed parcel source. CoHO has not funded a paid Regrid "
+    "subscription (owner decision 2026-09-12, #1612), so no Regrid request was made and "
+    "this file carries no parcel measurements. This is a cost decision, not a technical "
+    "failure: the integration is intact and can be re-enabled by funding access, setting "
+    "the REGRID_API_KEY secret, and running fetch-parcel-zoning-data.yml with regrid_enabled=true."
+)
+
+NEXT_REFRESH = (
+    "none scheduled — Regrid deferred (#1612); manual: dispatch "
+    "fetch-parcel-zoning-data.yml with regrid_enabled=true, or set repository variable "
+    "REGRID_ENABLED=true"
+)
 
 # Mirror js/data-connectors/regrid-parcels.js FIELD_MAP so the cached
 # payload uses the same schema as the live API path.
@@ -147,8 +165,12 @@ def main() -> int:
         f"(length: {len(token)})",
         file=sys.stderr,
     )
-    pipeline_rows = load_pipeline()
-    centroids = load_centroids()
+    try:
+        pipeline_rows = load_pipeline()
+        centroids = load_centroids()
+    except FileNotFoundError as exc:
+        print(f"[F246] {exc}; nothing written", file=sys.stderr)
+        raise
 
     by_geoid: Dict[str, Dict[str, Any]] = {}
     total_parcels = 0
@@ -170,12 +192,12 @@ def main() -> int:
             "jurisdiction": jurisdiction,
             "centroid":     {"lat": centroid["lat"], "lng": centroid["lng"]},
             "fetched_at":   utcnow_iso(),
-            "parcel_count": 0,
+            "parcel_count": None,
             "parcels":      [],
         }
 
         if not token:
-            record["error"] = "REGRID_API_KEY not set; cached stub written without parcels"
+            record["error"] = "Regrid access not funded (deferred, #1612); no request made"
             by_geoid[geoid] = record
             continue
 
@@ -191,30 +213,61 @@ def main() -> int:
             record["error"] = f"{type(e).__name__}: {e}"
 
         by_geoid[geoid] = record
-        # Be polite to the API — free tier is rate-limited.
+        # Be polite to the API — access is rate-limited.
         time.sleep(INTER_CALL_DELAY_SEC)
+
+    if not token:
+        availability = "deferred"
+        is_current_coverage = False
+        measured_total = None
+        source = "deferred (Regrid access not funded)"
+        unavailable_reason: Optional[str] = DEFERRED_REASON
+    elif api_calls == 0:
+        availability = "failed"
+        is_current_coverage = False
+        measured_total = None
+        source = "Regrid v2 Parcels API (all requests failed)"
+        first_error = next(
+            (record.get("error") for record in by_geoid.values() if record.get("error")),
+            "no successful response",
+        )
+        unavailable_reason = (
+            f"Regrid requests failed for all {len(by_geoid)} jurisdictions; "
+            f"first error: {first_error}"
+        )
+    else:
+        availability = "active"
+        is_current_coverage = True
+        measured_total = total_parcels
+        source = "Regrid v2 Parcels API"
+        unavailable_reason = None
 
     out = {
         "meta": {
             "generated":          utcnow_iso(),
-            "source":             "Regrid v2 Parcels API" if token else "stub (no API key)",
+            "source":             source,
+            "availability":       availability,
+            "is_current_coverage": is_current_coverage,
             "radius_miles":       RADIUS_MILES,
             "jurisdiction_count": len(by_geoid),
-            "total_parcels":      total_parcels,
+            "total_parcels":      measured_total,
             "api_calls":          api_calls,
             "skipped":            skipped,
-            "next_refresh":       "next scheduled run of .github/workflows/fetch-parcel-zoning-data.yml (Sundays 02:00 UTC)",
+            "next_refresh":       NEXT_REFRESH,
         },
         "byGeoid": by_geoid,
     }
+    if unavailable_reason:
+        out["meta"]["unavailableReason"] = unavailable_reason
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with OUTPUT_PATH.open("w", encoding="utf-8") as f:
         json.dump(out, f, indent=2)
 
+    output_label = OUTPUT_PATH.relative_to(ROOT) if OUTPUT_PATH.is_relative_to(ROOT) else OUTPUT_PATH
     print(
-        f"[F246] Wrote {OUTPUT_PATH.relative_to(ROOT)}: "
-        f"{len(by_geoid)} jurisdictions, {total_parcels} parcels, {api_calls} Regrid API calls"
+        f"[F246] Wrote {output_label}: "
+        f"{len(by_geoid)} jurisdictions, {measured_total} parcels, {api_calls} Regrid API calls"
         + (f", {len(skipped)} skipped" if skipped else ""),
         file=sys.stderr,
     )
@@ -225,7 +278,7 @@ def main() -> int:
         for geoid, juris, err in errors_seen[:5]:
             print(f"  - {geoid} ({juris}): {err}", file=sys.stderr)
         if len(errors_seen) > 5:
-            print(f"  ...and {len(errors_seen) - 5} more (see {OUTPUT_PATH.relative_to(ROOT)} for full list)", file=sys.stderr)
+            print(f"  ...and {len(errors_seen) - 5} more (see {output_label} for full list)", file=sys.stderr)
     return 0
 
 

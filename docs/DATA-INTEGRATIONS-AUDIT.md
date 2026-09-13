@@ -11,10 +11,12 @@ budget.
 
 ## Summary
 
+> **Status update 2026-09-12 (#1612).** The Regrid recommendation below is superseded. Regrid retired its free tier (F258, 2026-06-10), and the owner has deferred a paid subscription because the cost cannot be justified for a free public-interest service. Regrid is now an optional licensed source, deferred for cost, not a technical failure. The integration is retained; reactivation is by `workflow_dispatch` (`regrid_enabled=true`) or repository variable `REGRID_ENABLED=true` plus a funded `REGRID_API_KEY`.
+
 | Source | Status | Cost | What it would unlock | Recommend |
 |---|---|---|---|---|
 | **Bridge MLS** (RESO) | **Stub only** — `available: false` | $$$ (Realtor membership) | Live comparable sales + active listings for PMA rent + acquisition cost validation | **Hold** unless deal team commits to paying |
-| **Regrid parcel API** | **Failing** — county ArcGIS fallback hit 0/8 success | $ (Regrid base tier ~$95/mo, $750/yr enterprise for full state) | Per-parcel zoning / vacancy / lot-area data for site selection; unlocks "is this parcel multifamily-zoned?" lookups in PMA | **Pursue** — biggest analytics ROI on this list |
+| **Regrid parcel API** | **Failing** — county ArcGIS fallback hit 0/8 success | $ (Regrid base tier ~$95/mo, $750/yr enterprise for full state) | Per-parcel zoning / vacancy / lot-area data for site selection; unlocks "is this parcel multifamily-zoned?" lookups in PMA | **Deferred** (2026-09-12, #1612) |
 | **LEHD LODES** | Working (using LODES8 path) | Free | Already powering PMA commute scoring. Audit script flags it broken because it points at stale `/r2022/` path | **Fix audit URL** (O4) |
 | **kalshi.com** prediction markets | 429 rate-limited in audit | Free + paid | Speculative — was an experimental sentiment overlay. Not blocking | **Drop** — remove from `url-health-sweep` allow-list |
 | **lhauthority.org** | Timeout | Free | One of ~185 local housing authority links; cross-referenced from local-resources | **Drop or replace** with jurisdiction search (memory: F35 pattern) |
