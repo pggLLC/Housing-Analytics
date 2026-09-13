@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-12T20:08:53.928Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-13T04:43:02.310Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.8 KB |
-| `developer-brief.html` | Jurisdiction Brief — COHO | 89.4 KB |
+| `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
@@ -86,7 +86,7 @@
 | `data/affordable-housing/properties-manifest.json` | 118 B | ✅ | — |
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
-| `data/affordable-housing/regrid-parcels-by-place.json` | 3.4 KB | ✅ | — |
+| `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 189.7 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -1655,7 +1655,7 @@
 
 ## Test Files
 
-316 test files found.
+318 test files found.
 
 | File | Size |
 |------|------|
@@ -1881,6 +1881,7 @@
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
+| `test/regrid-cache-honesty.test.js` | 8.6 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
@@ -1958,6 +1959,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
+| `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 5.9 KB |
 | `tests/test_governance_stress.py` | 30.7 KB |
@@ -2026,7 +2028,7 @@
 | `.github/workflows/fetch-fred-data.yml` | 5.0 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.9 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.2 KB |
-| `.github/workflows/fetch-parcel-zoning-data.yml` | 12.0 KB |
+| `.github/workflows/fetch-parcel-zoning-data.yml` | 13.1 KB |
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
 | `.github/workflows/market_data_build.yml` | 16.6 KB |
