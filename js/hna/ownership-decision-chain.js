@@ -191,9 +191,9 @@
         return '<article data-own-chain-stage="' + esc(item.id) + '" style="border:1px solid var(--border);border-radius:6px;padding:.8rem;background:var(--card);">' +
           '<div style="display:flex;gap:.45rem;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:.35rem;">' +
             '<h4 style="margin:0;font-size:.92rem;">' + esc(item.title) + '</h4>' +
-            '<span style="font-size:.68rem;font-weight:800;letter-spacing:.02em;border:1px solid var(--border);border-radius:999px;padding:.15rem .45rem;">' + esc(DEVELOPER_LABEL) + '</span>' +
+            '<span style="font-size:1rem;font-weight:800;letter-spacing:.02em;border:1px solid var(--border);border-radius:999px;padding:.15rem .45rem;">' + esc(DEVELOPER_LABEL) + '</span>' +
           '</div>' +
-          '<div style="font-size:.8rem;color:var(--text);line-height:1.45;">' + item.bodyHtml + '</div>' +
+          '<div style="font-size:1rem;color:var(--text);line-height:1.45;">' + item.bodyHtml + '</div>' +
           '<p style="margin:.55rem 0 0;color:var(--muted);font-size:1rem;">' + esc(SCREENING_CAVEAT) + '</p>' +
         '</article>';
       }).join('') +
