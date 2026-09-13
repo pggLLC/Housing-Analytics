@@ -308,11 +308,11 @@
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
 <h1>Housing Needs Assessment</h1>
-        <p class="sub" style="max-width:none;margin-bottom:var(--sp3);">
+        <p class="sub" style="margin-bottom:var(--sp3);">
           A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
           commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
         </p>
-        <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
+        <p style="font-size:1.133rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
         <div id="hnaBanner" class="banner"></div>
         <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
         <small id="hnaDataTimestamp" class="data-timestamp"></small>
@@ -577,8 +577,8 @@
             <h3 style="margin:0;">Rental Affordability Gap by AMI Tier</h3>
             <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
           </div>
-          <p style="font-size:.82rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need affordable rental units</strong> at each income band. Both card rows below count <em>renter households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B25118 renter-household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback. Owner households are excluded — the rental gap counts only households competing for rental units.</p>
-          <p data-methodology-key="ami-chas-acs-difference" style="font-size:var(--tiny);color:var(--muted);margin:.2rem 0 .6rem;">ACS 2020–2024 households under the unadjusted county 30% AMI cutoff; the CHAS tier table below uses HUD's size-adjusted limits and an older window, so its counts run lower. See methodology.</p>
+          <p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need affordable rental units</strong> at each income band. Both card rows below count <em>renter households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B25118 renter-household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback. Owner households are excluded — the rental gap counts only households competing for rental units.</p>
+          <p data-methodology-key="ami-chas-acs-difference" style="font-size:1rem;color:var(--muted);margin:.2rem 0 .6rem;">ACS 2020–2024 households under the unadjusted county 30% AMI cutoff; the CHAS tier table below uses HUD's size-adjusted limits and an older window, so its counts run lower. See methodology.</p>
 
           <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
           <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
@@ -678,8 +678,8 @@
 
             <!-- Housing authority lookup -->
             <div style="margin-top:12px;padding:10px 12px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
-              <p style="font-size:.82rem;font-weight:600;margin:0 0 6px;color:var(--text)">Housing Authorities &amp; Contacts</p>
-              <p style="font-size:.78rem;color:var(--muted);margin:0 0 8px">
+              <p style="font-size:1.133rem;font-weight:600;margin:0 0 6px;color:var(--text)">Housing Authorities &amp; Contacts</p>
+              <p style="font-size:1rem;color:var(--muted);margin:0 0 8px">
                 Colorado public housing authorities, CHFA partners, and local housing contacts for the selected geography.
               </p>
               <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
@@ -743,7 +743,7 @@
             <span id="lihtcFailedAttemptsCount" style="color:var(--muted);font-weight:400;font-size:.78rem;margin-left:.25rem;">(last 5 years)</span>
           </summary>
           <div id="lihtcFailedAttemptsBody" style="margin-top:.4rem;font-size:.82rem;color:var(--text);"></div>
-          <p style="margin:.45rem 0 0;font-size:.7rem;color:var(--muted);line-height:1.4;">
+          <p style="margin:.45rem 0 0;font-size:1rem;color:var(--muted);line-height:1.4;">
             Source: <code>data/policy/chfa-awards-historical.json</code> (<code>.notAwarded</code>).
             This array is a hand-curated qualitative sample, not a comprehensive LOI dataset —
             absence here does not prove no sponsor applied. The authoritative per-round CHFA
@@ -785,7 +785,7 @@
             <div id="hudIncomeLimitsTable">—</div>
           </div>
         </div>
-        <p style="font-size:var(--tiny);color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
+        <p style="font-size:1rem;color:var(--muted);margin-top:8px">FMR = maximum contract rent eligible for Housing Choice Voucher program subsidy. Income limits set affordability thresholds for LIHTC, HOME, and other programs.</p>
         <!-- F228 / F254 — HUD vs CHFA income-limits methodology explainer.
              Reframed to third-person public-data reference. -->
         <details style="margin-top:.6rem;font-size:var(--small);">
@@ -801,7 +801,7 @@
               <li>Computing from MTSP makes the rent-ceiling formula visible while preserving CHFA's published tables as the binding application reference.</li>
             </ul>
             <p style="margin:.4rem 0;"><strong>For CHFA application submissions:</strong> calculated limits should be checked against CHFA's published tables. If a discrepancy appears, CHFA's published tables are the binding reference — <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">cross-check here</a> before submitting.</p>
-            <p style="margin:.4rem 0 0;font-size:var(--tiny);color:var(--muted);">Sources: HUD MTSP FY2026 county Income Limits (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
+            <p style="margin:.4rem 0 0;font-size:1rem;color:var(--muted);">Sources: HUD MTSP FY2026 county Income Limits (huduser.gov/datasets/il.html); CHFA Multifamily Rent &amp; Income Limits (chfainfo.com/rental-housing/asset-management/rent-income-limits); IRC §42(g)(2)(A) rent ceiling formula.</p>
           </div>
         </details>
       </div>
@@ -812,7 +812,7 @@
            misunderstood number in resort-adjacent CO markets. -->
       <div class="chart-card span-12" id="rentTriangulationCard">
         <h2>Rent triangulation — existing vs. asking</h2>
-        <p style="font-size:var(--small);color:var(--muted);margin-bottom:6px">
+        <p style="font-size:1.133rem;color:var(--muted);margin-bottom:6px">
           Three rent measurements side-by-side so you can see which figure applies to which question:
           underwriting (FMR), cost-burden math (ACS), or what a new tenant will actually pay (ZORI).
         </p>
@@ -837,7 +837,7 @@
       <div class="chart-card span-12">
         <h2 id="hnaH2HomeValue">Home value distribution</h2>
         <p>Owner-occupied housing units by reported value bracket (Census ACS DP04). The median alone hides the underlying skew — this distribution shows whether the market is thin at lower price points or top-heavy with $1M+ inventory.</p>
-        <p style="font-size:var(--tiny);color:var(--muted);margin:.2rem 0 .6rem;">The headline median home value is Zillow ZHVI (current typical value, all homes); the distribution below is the ACS 2020–2024 owner-reported value — a different measure and vintage, so the bars center below the headline.</p>
+        <p style="font-size:1rem;color:var(--muted);margin:.2rem 0 .6rem;">The headline median home value is Zillow ZHVI (current typical value, all homes); the distribution below is the ACS 2020–2024 owner-reported value — a different measure and vintage, so the bars center below the headline.</p>
         <div class="chart-box" data-source="ACS 5-Year DP04_0081–0088" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="transformed" style="height:340px"><canvas id="chartHomeValue" role="img" aria-label="Owner-occupied home value distribution by price bracket"></canvas></div>
       </div>
 
@@ -883,7 +883,7 @@
         </p>
         <div class="chart-box" data-source="HUD CHAS 2018-2022" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="CHAS 2018–2022" data-source-type="raw"><canvas id="chartChasGap" role="img" aria-label="Renter cost burden by AMI income tier chart (HUD CHAS)"></canvas></div>
         <p class="sr-only">Stacked bar chart showing renter households at each AMI income tier (≤30%, 31–50%, 51–80%, 81–100%) broken down by housing cost burden status.</p>
-        <p id="chasGapStatus" style="margin-top:6px;color:var(--muted);font-size:.82rem">—</p>
+        <p id="chasGapStatus" style="margin-top:6px;color:var(--muted);font-size:1.133rem">—</p>
       </div>
 
       <div class="chart-card span-6">
@@ -899,7 +899,7 @@
           <strong>outflow</strong> = residents working elsewhere; <strong>within</strong> = live+work here.
           <span style="font-size:var(--tiny);color:var(--muted)">At the statewide level, inflow/outflow values are suppressed because summing all county OD files double-counts inter-county commuters. Select a county for accurate commuting flows.</span>
         </p>
-        <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:.82rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
+        <p id="lehdVintageBanner" style="background:var(--bg-alt,#f5f7fa);border-left:3px solid var(--accent,#096e65);padding:.4rem .75rem;border-radius:0 4px 4px 0;font-size:1.133rem;margin-bottom:.5rem;display:none" role="note" aria-label="LEHD data vintage notice">
           <strong>Data year: <span id="lehdVintageYear">—</span></strong> — LEHD/LODES data is typically published 2+ years after the reference year. Employment patterns may not reflect current conditions.
         </p>
         <div class="chart-box" data-source="LEHD LODES Origin-Destination" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="raw"><canvas id="chartLehd" role="img" aria-label="LEHD commute inflow and outflow chart"></canvas></div>
@@ -941,21 +941,21 @@
           <!-- Household-type mix chart -->
           <div class="chart-card span-6" style="margin:0">
             <h2>Household type mix</h2>
-            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (ACS DP02 — 2023 vintage does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
+            <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Households grouped by structure: married couples, cohabiting couples, single parents with kids, residents living alone, and other (shared / roommate / multi-adult). Heavy single-parent and living-alone shares are the canonical 1- and 2-bedroom demand drivers; heavy married-couple share signals 3+ BR family-formation demand. (ACS DP02 — 2023 vintage does not publish 1-7+ person household-size bins; that distribution lives in detail table B11016.)</p>
             <div class="chart-box" data-source="ACS DP02_0002E / 0004E / 0007E+0011E / 0008E+0012E" data-source-url="https://data.census.gov/table/ACSDP5Y2023.DP02" data-vintage="ACS 2019–2023" data-source-type="raw" style="height:280px"><canvas id="chartHouseholdSize" role="img" aria-label="Household type mix chart"></canvas></div>
           </div>
 
           <!-- Occupation mix chart -->
           <div class="chart-card span-6" style="margin:0">
             <h2>Occupation mix</h2>
-            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Five top-level Census occupation categories as a share of civilian employed residents 16+. Useful for sizing the workforce-housing affordability target — service + production occupations tend to align with the 30-60% AMI band; management/professional skew higher.</p>
+            <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Five top-level Census occupation categories as a share of civilian employed residents 16+. Useful for sizing the workforce-housing affordability target — service + production occupations tend to align with the 30-60% AMI band; management/professional skew higher.</p>
             <div class="chart-box" data-source="ACS DP03_0027E–0031E" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP03" data-vintage="ACS 2020–2024" data-source-type="raw" style="height:280px"><canvas id="chartOccupationMix" role="img" aria-label="Occupation mix chart"></canvas></div>
           </div>
 
           <!-- Labor force status -->
           <div class="chart-card span-12" style="margin:0">
             <h2>Labor force status &amp; retiree share</h2>
-            <p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .4rem;">Employed, unemployed, and not-in-labor-force counts for residents 16+. The retiree breakout splits "Not in labor force" by age — residents 65+ who aren't in the workforce are very likely retired, while working-age (16–64) residents not in the workforce are a different planning problem (students, caregivers, discouraged workers, disability).</p>
+            <p style="font-size:1.133rem;color:var(--muted);margin:.2rem 0 .4rem;">Employed, unemployed, and not-in-labor-force counts for residents 16+. The retiree breakout splits "Not in labor force" by age — residents 65+ who aren't in the workforce are very likely retired, while working-age (16–64) residents not in the workforce are a different planning problem (students, caregivers, discouraged workers, disability).</p>
             <div class="stats" aria-label="Labor force status metrics" style="margin-top:6px">
               <div class="stat"><div class="k">Employed (civilian)</div><div class="v" id="statLfEmployed">—</div><div class="s">DP03_0002E − DP03_0005E</div></div>
               <div class="stat"><div class="k">Unemployed (civilian)</div><div class="v" id="statLfUnemployed">—</div><div class="s">DP03_0005E</div></div>
@@ -1059,7 +1059,7 @@
           </div>
           <div class="chart-card span-4" style="margin:0">
             <h2>Housing need summary</h2>
-            <p id="projectionScopeBadge" style="margin:4px 0 0;font-size:.78rem;color:var(--muted)" hidden></p>
+            <p id="projectionScopeBadge" style="margin:4px 0 0;font-size:1rem;color:var(--muted)" hidden></p>
             <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
               <div class="stat"><div class="k">Current housing units</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
               <div class="stat"><div class="k">Target vacancy</div><div class="v" id="statTargetVac">—</div><div class="s">Assumption</div></div>
@@ -1109,15 +1109,15 @@
                   </div>
                 </div>
               </div>
-              <p style="margin:10px 0 0;color:var(--muted);font-size:.9rem">
+              <p style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">
                 Transparent HNA math: projected households = population × headship; total units required = households ÷ (1 − vacancy).
                 The summary's net-new units subtract the current requirement and are not income-targeted affordable deficits.
                 For covered municipalities/CDPs, the headline uses the stored place projection built from county need and local ACS household/BPS permit shares; the trace labels any fallback method.
               </p>
               <details id="projectionCalculationTrace" style="margin-top:12px">
                 <summary style="cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center">Show projection calculation trace</summary>
-                <p id="projectionCalculationMethod" style="margin:10px 0 0;color:var(--muted);font-size:.9rem">County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Covered place and CDP selections use the county projection downscaled by a 50/50 blend of ACS household share and 2020-2024 Census BPS permit share.</p>
-                <p id="projectionCalculationSources" style="margin:6px 0 0;color:var(--muted);font-size:.9rem">County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json, built from county projections, ACS DP02 household counts, and data/hna/permits.json. Cross-county municipalities use combined-county denominators before applying the blended share. Verified 2026-07-04 against SDO's official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties.</p>
+                <p id="projectionCalculationMethod" style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">County housing units needed over the 20-year horizon: SDO components-of-change population forecast × constant base-year headship rate, divided by (1 − target vacancy). Covered place and CDP selections use the county projection downscaled by a 50/50 blend of ACS household share and 2020-2024 Census BPS permit share.</p>
+                <p id="projectionCalculationSources" style="margin:6px 0 0;color:var(--muted);font-size:1.133rem">County source series: SDO components-change-county.csv. Place source series: data/hna/projections/places.json, built from county projections, ACS DP02 household counts, and data/hna/permits.json. Cross-county municipalities use combined-county denominators before applying the blended share. Verified 2026-07-04 against SDO's official vintage-2023 county forecast (Oct 2024): median difference −1.4% at 2030 across all 64 counties.</p>
                 <div id="projectionCalculationTraceBody" style="margin-top:10px;color:var(--muted);font-size:.9rem" aria-live="polite" aria-atomic="true">
                   Select a geography to inspect the calculation.
                 </div>
@@ -1198,7 +1198,7 @@
               These are integrated to show both the <em>current unmet need</em> and the <em>future incremental units needed</em>.
               Treat this as a planning-screening synthesis rather than a certified market study.
             </p>
-            <p style="margin:0;color:var(--muted);font-size:.88rem;">
+            <p style="margin:0;color:var(--muted);font-size:1.133rem;">
               <strong>County-proxy caveat for place/CDP selections:</strong> when sub-county series are unavailable,
               county-level labor market and projection context is used as a proxy and scaled to the selected geography.
             </p>
@@ -1243,10 +1243,10 @@
           </div>
           <div class="span-6" style="display:flex;align-items:center">
             <div>
-              <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:.9rem">
+              <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:1.133rem">
                 Moderate growth following recent historical trends.
               </p>
-              <p style="margin:4px 0 0;font-size:.82rem;color:var(--muted)">
+              <p style="margin:4px 0 0;font-size:1.133rem;color:var(--muted)">
                 Source: DOLA State Demography Office — Components of Change (current vintage).
                 <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DOLA State Demography Office website (opens in new tab)">DOLA SDO</a>
                 <span id="scenarioFreshnessBadge" class="scenario-freshness-badge" hidden></span>
@@ -1285,12 +1285,12 @@
           <div class="hna-grid" style="margin-top:0">
             <div class="chart-card span-8" style="margin:0">
               <h3 style="margin:0 0 4px;">Population projection by scenario</h3>
-              <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Baseline plus growth-increment sensitivity bands from DOLA SYA data.</p>
+              <p style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Baseline plus growth-increment sensitivity bands from DOLA SYA data.</p>
               <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
             </div>
             <div class="chart-card span-4" style="margin:0">
               <h3 style="margin:0 0 4px;">Selected scenario detail</h3>
-              <p id="scenarioDetailDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
+              <p id="scenarioDetailDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
               <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
             </div>
           </div>
@@ -1300,7 +1300,7 @@
         <div id="projViewHH" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
             <h3 style="margin:0 0 4px;">Projected households over time</h3>
-            <p style="font-size:.82rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
+            <p style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
             <div class="chart-box tall" data-source="DOLA Population + Headship Rate Conversion" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
           </div>
         </div>
@@ -1309,9 +1309,9 @@
         <div id="projViewDemand" hidden style="margin-top:12px">
           <div class="chart-card" style="margin:0">
             <h3 style="margin:0 0 4px;">Projected housing demand by affordability tier (renter households)</h3>
-            <p id="demandTierDesc" style="font-size:.82rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
+            <p id="demandTierDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
             <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
-            <p id="householdDemandScopeCaption" style="font-size:.78rem;color:var(--muted);margin:6px 0 0" aria-live="polite">—</p>
+            <p id="householdDemandScopeCaption" style="font-size:1rem;color:var(--muted);margin:6px 0 0" aria-live="polite">—</p>
           </div>
         </div>
 
@@ -1337,14 +1337,14 @@
         <div class="hna-grid" style="margin-top:0">
           <div class="chart-card span-6" style="margin:0">
             <h2>Wage Distribution</h2>
-            <p style="color:var(--muted);font-size:.88rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
+            <p style="color:var(--muted);font-size:1.133rem">High / medium / low wage jobs by count (LEHD WAC CE01–CE03).</p>
             <div id="wageChartContainer" class="chart-container">
               <div class="chart-box" data-source="LEHD WAC Wage Tiers" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="transformed"><canvas id="chartWage" role="img" aria-label="Wage distribution by job level chart"></canvas></div>
             </div>
           </div>
           <div class="chart-card span-6" style="margin:0">
             <h2>Top Industries by Employment</h2>
-            <p style="color:var(--muted);font-size:.88rem">
+            <p style="color:var(--muted);font-size:1.133rem">
               Top NAICS 2-digit sectors from LEHD WAC workplace jobs (CNS fields).
             </p>
             <div id="industryChartContainer" class="chart-container">
@@ -1356,7 +1356,7 @@
           <summary>Commuting Flows &amp; Methodology</summary>
           <div style="margin-top:10px">
             <div id="commutingFlowsContainer">—</div>
-            <p style="margin:10px 0 0;color:var(--muted);font-size:.88rem">
+            <p style="margin:10px 0 0;color:var(--muted);font-size:1.133rem">
               <strong>Data source:</strong> LEHD LODES8 OD main (JT00) — all workers, all jobs.
               WAC (Workplace Area Characteristics) data provides job totals, wage bins, and NAICS sectors.
               <a href="https://lehd.ces.census.gov/doc/help/onthemap/LODESTechDoc.pdf" target="_blank" rel="noopener">LODES Technical Documentation</a> ·
@@ -1374,7 +1374,7 @@
              data-vintage="ACS 2020-2024 · HUD MTSP FY2026 · LODES 2023"
              data-source-type="transformed">
           <h2>Wages vs Housing Affordability</h2>
-          <p style="color:var(--muted);font-size:.88rem">
+          <p style="color:var(--muted);font-size:1.133rem">
             What income do workers need to afford median rent, median home, and AMI-60% LIHTC units?
             How many local workers earn enough? Combines ACS median rent &amp; home value with
             LEHD wage tier counts to show the affordability gap by worker type.
@@ -1407,14 +1407,14 @@
         <div class="hna-grid" style="margin-top:0">
           <div id="employmentTrendContainer" class="chart-card span-6" style="margin:0">
             <h2>Employment Trend</h2>
-            <p style="color:var(--muted);font-size:.88rem">Total employment over time for the selected area.</p>
+            <p style="color:var(--muted);font-size:1.133rem">Total employment over time for the selected area.</p>
             <div class="chart-container">
               <div class="chart-box" data-source="BLS LAUS / DOLA" data-source-url="https://www.bls.gov/lau/" data-vintage="BLS 2023 · DOLA 2024" data-source-type="transformed"><canvas id="chartEmploymentTrend" role="img" aria-label="Employment trend over time chart"></canvas></div>
             </div>
           </div>
           <div id="wageTrendContainer" class="chart-card span-6" style="margin:0">
             <h2>Wage-Band Job Trend</h2>
-            <p style="color:var(--muted);font-size:.88rem">Jobs by LEHD WAC wage band over time (CE01–CE03).</p>
+            <p style="color:var(--muted);font-size:1.133rem">Jobs by LEHD WAC wage band over time (CE01–CE03).</p>
             <div class="chart-container">
               <div class="chart-box" data-source="LEHD WAC wage bands" data-source-url="https://lehd.ces.census.gov/data/lodes/LODES8/" data-vintage="LODES 2023" data-source-type="transformed"><canvas id="chartWageTrend" role="img" aria-label="LEHD wage-band job trend over time chart"></canvas></div>
             </div>
@@ -1433,7 +1433,7 @@
 
         <div id="prop123Relationship" class="baseline-card" style="margin-bottom:14px;">
           <h3>Jurisdiction relationship to Prop 123</h3>
-          <p style="color:var(--muted);font-size:.9rem">Select a geography to view its filing status and fast-track designation.</p>
+          <p style="color:var(--muted);font-size:1.133rem">Select a geography to view its filing status and fast-track designation.</p>
         </div>
 
         <div class="prop123-cards-row">
@@ -1441,7 +1441,7 @@
           <div class="baseline-card">
             <h3>Baseline: 60% AMI Rentals</h3>
             <div id="prop123BaselineContent">
-              <p style="color:var(--muted);font-size:.9rem">Select a geography to calculate the baseline.</p>
+              <p style="color:var(--muted);font-size:1.133rem">Select a geography to calculate the baseline.</p>
             </div>
           </div>
 
@@ -1449,7 +1449,7 @@
           <div class="growth-tracking">
             <h3>3% Annual Growth Target</h3>
             <div id="prop123GrowthContent">
-              <p style="color:var(--muted);font-size:.9rem">Baseline required before growth targets can be set.</p>
+              <p style="color:var(--muted);font-size:1.133rem">Baseline required before growth targets can be set.</p>
               <div class="timeline-chart" data-source="DOLA Prop 123 Baseline + 3% Growth Target" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="transformed"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
             </div>
           </div>
@@ -1458,7 +1458,7 @@
           <div class="fast-track-card">
             <h3>Fast-Track Approval Eligibility</h3>
             <div id="prop123FastTrackContent">
-              <p style="color:var(--muted);font-size:.9rem">Select a geography to check eligibility.</p>
+              <p style="color:var(--muted);font-size:1.133rem">Select a geography to check eligibility.</p>
             </div>
           </div>
         </div>
@@ -1481,7 +1481,7 @@
         <!-- Phase 3: Fast-track timeline calculator -->
         <div id="fastTrackCalculator" class="chart-card" style="margin-top:14px;padding:14px;">
           <h3>Fast-Track Approval Timeline Calculator</h3>
-          <p style="color:var(--muted);font-size:.9rem;margin-bottom:10px;">
+          <p style="color:var(--muted);font-size:1.133rem;margin-bottom:10px;">
             Estimate permitting duration under HB 22-1093 fast-track vs. standard process.
             <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093</a>
           </p>
@@ -1511,7 +1511,7 @@
             </button>
           </div>
           <div id="ftResult"></div>
-          <p style="font-size:.8rem;color:var(--muted);margin-top:10px;">
+          <p style="font-size:1rem;color:var(--muted);margin-top:10px;">
             <a href="compliance-dashboard.html">View full compliance dashboard →</a>
           </p>
         </div>
@@ -1519,12 +1519,12 @@
         <!-- Housing Policy Commitment Scorecard -->
         <div id="hnaScorecardPanel" class="chart-card" style="margin-top:0;padding:14px;display:none;">
           <h3>Housing Policy Commitment</h3>
-          <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
+          <p style="font-size:1.133rem;color:var(--muted);margin-bottom:8px">
             How this jurisdiction compares on 7 housing policy dimensions.
             Data from Prop 123 filings, housing authority registries, inclusionary zoning ordinances, and local housing plans.
           </p>
           <div id="hnaScorecardContent"></div>
-          <p style="font-size:.8rem;color:var(--muted);margin-top:8px;">
+          <p style="font-size:1rem;color:var(--muted);margin-top:8px;">
             <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
           </p>
         </div>
@@ -1532,7 +1532,7 @@
         <!-- Compliance checklist -->
         <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
           <h3>Compliance Checklist</h3>
-          <p style="font-size:var(--small);color:var(--muted);margin-bottom:8px">
+          <p style="font-size:1.133rem;color:var(--muted);margin-bottom:8px">
             Prop 123 (HB 22-1093) compliance steps for the selected jurisdiction. Checked items are saved locally by geography.
             <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
           </p>
@@ -1631,7 +1631,7 @@
         <div style="flex:0 0 auto;font-size:2rem;line-height:1">📍</div>
         <div style="flex:1;min-width:220px">
           <h2 style="margin:0 0 .4rem">PMA Delineation &amp; CHFA Requirements</h2>
-          <p style="color:var(--muted);font-size:.9rem;margin:0 0 .9rem">
+          <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .9rem">
             All Primary Market Area tools — boundary delineation, CHFA requirements summary, workflow steps,
             and the CHFA PMA checklist — are consolidated on the Market Analysis &amp; PMA page.
           </p>
@@ -1649,13 +1649,13 @@
           <h2 style="margin:0">Projected Housing Need</h2>
           <span class="pill" id="projectionGeoPill" style="display:none"></span>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and the current rental gap.
           <span data-edu="dola_projections"></span>
         </p>
         <!-- Projection table — rendered by HousingNeedProjector -->
         <div id="hnpProjectionContainer">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate projections.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate projections.</p>
         </div>
 
         <!-- AMI Distribution Recommendation -->
@@ -1663,12 +1663,12 @@
           <h3 style="margin:0 0 6px">Recommended AMI Distribution
             <span data-edu="ami"></span>
           </h3>
-          <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+          <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
             Based on current income distribution and cost burden, the following AMI targeting mix is recommended for a new LIHTC project in this jurisdiction.
             <span data-edu="lihtc"></span>
           </p>
           <div id="hnpAmiContainer">
-            <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
+            <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
           </div>
         </div>
       </section>
@@ -1678,13 +1678,13 @@
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 style="margin:0">Renter need by bedroom count</h2>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           How many renter households need a studio, 1BR, 2BR, 3BR, or 4BR+ unit — derived from ACS B25009 (tenure by household size) using the HUD "max 2 people per bedroom" occupancy standard. Feeds the Market Analysis concept recommendation so the suggested unit mix reflects local renter demand, not just an industry default per concept type.
         </p>
         <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-source-url="https://data.census.gov/table/ACSDT5Y.B25009" data-vintage="ACS 2023 5-year" data-source-type="live">
           <canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>
         </div>
-        <p id="bedroomNeedNote" style="font-size:.78rem;color:var(--muted);margin-top:6px;font-style:italic"></p>
+        <p id="bedroomNeedNote" style="font-size:1rem;color:var(--muted);margin-top:6px;font-style:italic"></p>
       </section>
 
       <!-- ── Need by Housing Type — data-driven 6-category ranking ── -->
@@ -1692,11 +1692,11 @@
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 style="margin:0">What types of housing does the data support?</h2>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the Affordable Housing Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
         </p>
         <div id="hnaHousingTypeNeed">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
         </div>
       </section>
 
@@ -1706,7 +1706,7 @@
           <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
           <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 .65rem;line-height:1.5">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .65rem;line-height:1.5">
           This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
         </p>
         <p><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a></p>
@@ -1716,10 +1716,10 @@
           <div class="stat"><div class="k">Owner cost-burden context</div><div class="v" id="statOwnGapOwnerBurden">—</div><div class="s">Current owners</div></div>
         </div>
         <div id="hnaAffordableOwnershipNeed">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
         </div>
         <div id="hnaOwnershipStrategy" class="chart-card" style="margin-top:1rem;min-width:0;overflow:hidden;">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a jurisdiction to load the ownership strategy screen.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load the ownership strategy screen.</p>
         </div>
       </section>
 
@@ -1728,13 +1728,13 @@
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 style="margin:0">Neighborhood &amp; Architectural Context <span id="ncContextScope" style="font-weight:400;font-size:.78rem;color:var(--muted)"></span></h2>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
           <span style="display:block;margin-top:.4rem;font-size:.78rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
         </p>
         <!-- Neighborhood context card — rendered by NeighborhoodContext -->
         <div id="ncContextContainer">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
         </div>
       </section>
 
@@ -1743,14 +1743,14 @@
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
           <h2 style="margin:0">Housing Type Feasibility Analysis</h2>
         </div>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Assesses local housing stock composition, building age trends, and market values to identify
           which housing types (single-family, townhome, garden-style, mid-rise) are most viable for
           new development. Combines Census ACS unit-type data with affordability metrics to project
           feasible construction types for LIHTC and workforce housing.
         </p>
         <div id="htfContainer">
-          <p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a geography above to load housing type analysis.</p>
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
         <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
           <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
@@ -1762,7 +1762,7 @@
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">
         <h2>Colorado Market Conditions</h2>
-        <p style="color:var(--muted);font-size:.85rem;margin:0 0 1rem">
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
           Market conditions by region — from Bridge MLS data or Colorado Association of REALTORS (CAR) reports. Supports early-stage LIHTC site feasibility screening.
         </p>
 
@@ -1800,15 +1800,15 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
           <div id="bridgeRuralHighlight" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
             <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>
-            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading rural market data…</p>
+            <p style="color:var(--muted);font-size:1rem;margin:0">Loading rural market data…</p>
           </div>
           <div id="bridgeStatewideCard" style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem">
             <strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>
-            <p style="color:var(--muted);font-size:.8rem;margin:0">Loading statewide data…</p>
+            <p style="color:var(--muted);font-size:1rem;margin:0">Loading statewide data…</p>
           </div>
         </div>
 
-        <p class="dq-detail" style="color:var(--muted);font-size:.8rem;margin:.5rem 0 0">
+        <p class="dq-detail" style="color:var(--muted);font-size:1rem;margin:.5rem 0 0">
           Data: Bridge Data Output public assessments &amp; transactions · Updated weekly via GitHub Actions · <a href="dashboard-data-quality.html">Data Quality Dashboard</a>
         </p>
 
@@ -1894,7 +1894,7 @@
     if (ruralEl) {
       var ruralRegions = regions.filter(function (r) { return r.is_rural && r.data_available; });
       var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
-      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets, making it a priority for affordable housing investment.</p>';
+      rHtml += '<p style="font-size:1rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets, making it a priority for affordable housing investment.</p>';
       if (ruralRegions.length) {
         rHtml += '<ul style="margin:.4rem 0;padding-left:1.1rem;font-size:.8rem;color:var(--muted)">';
         for (var j = 0; j < ruralRegions.length; j++) {
@@ -1903,9 +1903,9 @@
         }
         rHtml += '</ul>';
       } else {
-        rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">Rural region data pending first workflow run.</p>';
+        rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.25rem 0">Rural region data pending first workflow run.</p>';
       }
-      rHtml += '<p style="font-size:.78rem;color:var(--muted);margin:.5rem 0 0;border-top:1px solid var(--border);padding-top:.4rem">Note: The <strong>Eastern Plains</strong> and <strong>San Luis Valley</strong> show particularly strong LIHTC eligibility indicators — low land costs combined with persistent housing cost burden.</p>';
+      rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.5rem 0 0;border-top:1px solid var(--border);padding-top:.4rem">Note: The <strong>Eastern Plains</strong> and <strong>San Luis Valley</strong> show particularly strong LIHTC eligibility indicators — low land costs combined with persistent housing cost burden.</p>';
       ruralEl.innerHTML = rHtml;
     }
 
@@ -1928,7 +1928,7 @@
         // card so it doesn't sit on "Loading…" forever.
         swEl.innerHTML =
           '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Statewide Context</strong>' +
-          '<p style="font-size:.8rem;color:var(--muted);margin:0">Statewide rollup pending — region-level data is shown above.</p>';
+          '<p style="font-size:1rem;color:var(--muted);margin:0">Statewide rollup pending — region-level data is shown above.</p>';
       }
     }
   }
@@ -1941,15 +1941,15 @@
     }
     var grid = document.getElementById('bridgeRegionGrid');
     if (grid) {
-      grid.innerHTML = '<p style="color:var(--muted);font-size:.85rem;grid-column:1/-1">Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
+      grid.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;grid-column:1/-1">Market data will appear after the first weekly workflow run. <a href="dashboard-data-quality.html">Check status &rarr;</a></p>';
     }
     var ruralEl = document.getElementById('bridgeRuralHighlight');
     if (ruralEl) {
-      ruralEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Rural Markets</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+      ruralEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Rural Markets</strong><p style="font-size:1rem;color:var(--muted);margin:0">Pending first data run.</p>';
     }
     var swEl = document.getElementById('bridgeStatewideCard');
     if (swEl) {
-      swEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Statewide Context</strong><p style="font-size:.8rem;color:var(--muted);margin:0">Pending first data run.</p>';
+      swEl.innerHTML = '<strong style="font-size:.9rem;display:block;margin-bottom:.4rem">Statewide Context</strong><p style="font-size:1rem;color:var(--muted);margin:0">Pending first data run.</p>';
     }
   }
 
@@ -1998,8 +1998,8 @@
     var ruralEl = document.getElementById('bridgeRuralHighlight');
     if (ruralEl) {
       var rHtml = '<strong style="font-size:.9rem;display:block;margin-bottom:.5rem">Rural Markets</strong>';
-      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
-      rHtml += '<p style="font-size:.8rem;color:var(--muted);margin:.25rem 0">CAR county rows are now available where ShowingTime reports publish sufficient samples; rural subregions are still not separately reported. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for source context.</p>';
+      rHtml += '<p style="font-size:1rem;color:var(--muted);margin:0 0 .5rem">Rural Colorado typically has <strong>lower land costs</strong> and <strong>stronger LIHTC need</strong> relative to urban markets.</p>';
+      rHtml += '<p style="font-size:1rem;color:var(--muted);margin:.25rem 0">CAR county rows are now available where ShowingTime reports publish sufficient samples; rural subregions are still not separately reported. Visit <a href="https://www.coloradorealtors.com/market-trends/" target="_blank" rel="noopener">CAR Market Trends</a> for source context.</p>';
       ruralEl.innerHTML = rHtml;
     }
 
@@ -2273,7 +2273,7 @@
           </div>
         </div>
 
-        <p style="font-size:.82rem;color:var(--muted);margin-top:10px">
+        <p style="font-size:1.133rem;color:var(--muted);margin-top:10px">
           This action plan is based on best practices from Colorado housing needs assessments including those from the Colorado Division of Housing and CHFA.
           Progress is saved locally in the browser by geography. Local planning departments and
           <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> publish implementation guidance.
@@ -2302,7 +2302,7 @@
             <div><strong>Prop 123</strong> — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings</a></div>
             <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb-map-service.html" target="_blank" rel="noopener">Geographic Boundaries</a></div>
           </div>
-          <p style="margin-top:.8rem;font-size:.82rem;color:var(--muted)">
+          <p style="margin-top:.8rem;font-size:1.133rem;color:var(--muted)">
             Data refreshes automatically via GitHub Actions.
             <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
             <a href="data-status.html">Data freshness status</a>
@@ -2886,9 +2886,9 @@
     var localCount = matches.length;
     var stateCount = CO_HOUSING_AUTHORITIES.statewide.length;
     var header = localCount > 0
-      ? '<p style="margin:0 0 6px;font-size:.78rem;color:var(--muted)"><strong>' + localCount +
+      ? '<p style="margin:0 0 6px;font-size:1rem;color:var(--muted)"><strong>' + localCount +
         '</strong> local + <strong>' + stateCount + '</strong> statewide contacts for this geography.</p>'
-      : '<p style="margin:0 0 6px;font-size:.78rem;color:var(--warn,#d97706)">No dedicated local PHA listed — this area is typically served by statewide programs + regional nonprofits listed below. For the authoritative federal directory, use the HUD PHA Finder link.</p>';
+      : '<p style="margin:0 0 6px;font-size:1rem;color:var(--warn,#d97706)">No dedicated local PHA listed — this area is typically served by statewide programs + regional nonprofits listed below. For the authoritative federal directory, use the HUD PHA Finder link.</p>';
 
     // Verify banner — phone numbers + URLs in this directory were not
     // programmatically refreshed against HUD PIH at page-render time.
@@ -2917,7 +2917,7 @@
         '</li>';
       }).join('') +
     '</ul>' +
-    '<p style="margin-top:8px;font-size:.72rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. Last curated 2026-04. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
+    '<p style="margin-top:8px;font-size:1rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. Last curated 2026-04. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
   }
 
   function getSelectedFips() {
@@ -3103,9 +3103,9 @@
       var p1 = document.getElementById('hnpProjectionContainer');
       var p2 = document.getElementById('hnpAmiContainer');
       var p3 = document.getElementById('ncContextContainer');
-      if (p1) p1.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
-      if (p2) p2.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county or place geography above.</p>';
-      if (p3) p3.innerHTML = '<p style="color:var(--muted);font-size:.88rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
+      if (p1) p1.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
+      if (p2) p2.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county or place geography above.</p>';
+      if (p3) p3.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
     };
 
     if (!geoid || geoType === 'state') { _reset(); return; }

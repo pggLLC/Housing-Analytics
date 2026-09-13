@@ -1321,3 +1321,94 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   .hna-rail__path { display: none; }
   .hna-rail[data-open="true"] .hna-rail__path { display: block; }
 }
+
+/* ── Readable measure + type scale (F-hna-typescale) ────────────────────
+   Measured on the live page at 1280x720 before this block: body copy set
+   at 12.3px running 160-183 characters per line. The readable range is
+   45-75; the page was at roughly 2.5x it, which is most of why the page
+   read as an undifferentiated wall rather than a report.
+
+   Two separate faults, fixed separately below:
+
+   1. MEASURE. Nothing capped prose width, so a paragraph spanned the full
+      1124px content column. `.hna-hero p` already carried `max-width: 85ch`
+      -- the idea existed, it was just set wide and applied to the hero
+      alone. The cap here is 66ch and it is scoped to prose: stat grids,
+      chart cards and tables keep the full column, because a table narrowed
+      to 66ch is a worse table.
+
+   2. SCALE. Paragraph size did not track role -- .88rem (14.1px) carried
+      83-character chart captions while .82rem (13.1px) carried 202-character
+      explanatory prose. Every inline size on the page sat between .7rem and
+      .9rem, i.e. 11.2-14.4px, all of it under the readable floor.
+
+      The inline sizes are remapped in the HTML on one rule: the smaller half
+      (.7/.72/.78/.8rem, --tiny) becomes .9375rem/15px and the larger half
+      (.82/.85/.88/.9rem, --small) becomes 1.0625rem/17px. That keeps the
+      author's relative hierarchy -- what they marked as lesser stays lesser
+      -- while lifting all of it above the floor. It deliberately does NOT
+      re-role the paragraphs: deciding which of the 128 are genuinely
+      captions and which are body text is an editorial pass, and a length
+      heuristic gets it wrong (a 96-character sentence like "Rural Colorado
+      typically has lower land costs..." is prose, not a caption).
+
+   Type tokens, colour tokens, components and spacing are untouched. */
+
+/* 58ch, not 66. The `ch` unit is the width of "0", which in Plus Jakarta
+   Sans is wider than the average lowercase character -- measured on the
+   built page, a 66ch cap rendered ~74 real characters per line, still
+   outside the 45-75 band at the top end. 58ch measures ~65. */
+#main-content p,
+#main-content li {
+  max-width: 58ch;
+  text-wrap: pretty;
+}
+
+/* Full-width contexts: data, not prose. A measure cap here would be wrong.
+   Deliberately narrow. The first cut of this list carved out
+   `.chart-card > p`, which swallowed the rule entirely -- 36 of the 37
+   over-wide paragraphs are direct children of a .chart-card, because the
+   section prose lives in the same card as the chart. Only genuinely
+   tabular contexts belong here. */
+#main-content .stat p,
+#main-content table p,
+#main-content figcaption {
+  max-width: none;
+}
+
+/* Floor for the paragraphs that carried no inline size and inherited ~13px. */
+/* The root font-size on this page is fluid and resolves to ~15px at
+   desktop, not 16 -- so these are expressed against that, and scale with
+   it. 1.133rem is ~17px where the page is read. */
+#main-content p:not([style*="font-size"]) {
+  font-size: 1.133rem;
+  line-height: 1.65;
+}
+
+#main-content p[style*="font-size"] {
+  line-height: 1.6;
+}
+
+/* Section headings: 15px bold was competing with body copy rather than
+   leading it. 21/1.25 restores the step between a heading and its prose. */
+/* site-theme.css sets `h2 { font-size: var(--h2) !important }`, so a plain
+   `#main-content h2` font-size loses however specific it is. Retuning the
+   token works with that rule rather than bidding against it with a second
+   !important. --h2 is fluid -- clamp(1.05rem, 1.6vw, 1.25rem) -- so the
+   override stays fluid and only lifts the ceiling. */
+#main-content {
+  --h2: clamp(1.15rem, 1.9vw, 1.4rem);
+}
+
+#main-content h2 {
+  line-height: 1.25;
+  letter-spacing: -.015em;
+  margin-block: 2.125rem .625rem;
+}
+
+@media (max-width: 720px) {
+  /* ch units track the font, so the cap relaxes itself on narrow screens;
+     this only stops the heading scale crowding a phone column. */
+  #main-content { --h2: clamp(1.1rem, 4vw, 1.27rem); }
+  #main-content h2 { margin-block: 1.5rem .5rem; }
+}
