@@ -1,0 +1,2752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Housing Needs Assessment | COHO Analytics</title>
+  <meta name="description" content="Interactive Housing Needs Assessment starter for Colorado communities: housing stock, affordability, commuting, and demographic projections using public datasets." />
+  <meta property="og:title" content="Housing Needs Assessment | COHO Analytics">
+  <meta property="og:description" content="Interactive Housing Needs Assessment tool for Colorado communities.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://api.census.gov" crossorigin>
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/f119-f148-mobile.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/pages/housing-needs-assessment.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+  <style>
+    .hna-decision-strip {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: .6rem;
+      margin: 0 var(--sp4) var(--sp3);
+    }
+    .hna-decision-strip[hidden] {
+      display: none;
+    }
+    .hna-decision-tile {
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      background: color-mix(in oklab, var(--card) 92%, var(--bg2) 8%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: .16rem;
+      padding: .72rem .8rem;
+      text-decoration: none;
+    }
+    .hna-decision-tile:hover,
+    .hna-decision-tile:focus-visible {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 18%, transparent);
+      outline: none;
+    }
+    .hna-decision-label {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 800;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .hna-decision-tile strong {
+      font-size: clamp(1rem, 1.4vw, 1.18rem);
+      font-weight: 900;
+      line-height: 1.16;
+      overflow-wrap: anywhere;
+    }
+    .hna-decision-tile span:last-child {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+    .hna-decision-tile[data-tone="high"],
+    .hna-decision-tile[data-tone="elevated"] {
+      border-left-color: var(--bad, #dc2626);
+    }
+    .hna-decision-tile[data-tone="moderate"] {
+      border-left-color: var(--warn, #d97706);
+    }
+    .hna-decision-tile[data-tone="low"],
+    .hna-decision-tile[data-tone="ready"] {
+      border-left-color: var(--good, #16a34a);
+    }
+    .hna-decision-tile[data-tone="unavailable"] {
+      border-left-color: var(--muted);
+    }
+    @media (max-width: 980px) {
+      .hna-decision-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 560px) {
+      .hna-decision-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <!-- Leaflet (vendored locally — no CDN required) -->
+  <link rel="stylesheet" href="js/vendor/leaflet.css" />
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script defer src="js/components/watchlist.js"></script>
+  <script src="js/components/workflow-progress.js" defer></script>
+  <script src="js/components/lihtc-tips.js" defer></script>
+  <script src="js/components/data-vintage-badge.js" defer></script>
+  <script src="js/components/analytics.js" data-step="3" data-step-label="housing_needs_assessment"></script>
+  <script defer src="js/components/page-context.js"></script>
+  <!-- Per-chart "Methodology" ℹ popover — what / source / method /
+       drift / caveats for each major HNA stat or chart. Attached
+       inline below after DOMContentLoaded. -->
+  <script defer src="js/components/methodology-popover.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-freshness.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/api-config-wrapper.js"></script>
+  <!-- Vendor scripts -->
+  <script src="js/vendor/leaflet.js"></script>
+  <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
+  <script src="js/components/jurisdiction-boundaries.js"></script>
+  <script src="js/components/affordable-housing-layer.js"></script>
+  <!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
+  <script src="js/components/search-links.js"></script>
+  <!-- F124: per-property "look up" link bar + credit-type tooltips -->
+  <script src="js/components/property-lookup-links.js"></script>
+  <!-- F134: shared "Source · Vintage · Method · Confidence" footer for analytic panels -->
+  <script src="js/components/method-footer.js"></script>
+  <!-- F138: capital partner directory (lenders, equity syndicators, soft debt) -->
+  <script src="js/components/capital-partners.js"></script>
+  <script src="js/components/tax-abatement.js"></script>
+  <script src="js/components/chfa-award-history.js"></script>
+  <script src="js/components/qap-calendar.js"></script>
+  <script src="js/components/resort-wfh.js"></script>
+  <!-- F162: targeted Google searches for housing topics on planning/council agendas + minutes -->
+  <script src="js/components/agenda-search-links.js"></script>
+  <script defer src="js/vendor/chart.umd.min.js"></script>
+  <!-- F19: site-wide Chart.js theming so axis labels/grid render correctly in dark mode -->
+  <script defer src="js/components/chart-theme.js"></script>
+  <script defer src="js/vendor/chartjs-plugin-annotation.min.js"></script>
+  <!-- chart-fix: re-renders charts when <details> sections open or containers become visible -->
+  <script defer src="js/chart-fix.js"></script>
+  <!-- PDF export (client-side) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <!-- F168 — ExcelJS for native Excel chart export (Download Excel button). -->
+  <script defer src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+  <script src="js/site-state.js"></script>
+  <!-- Toast notifications (must load before component scripts) -->
+  <script defer src="js/components/toast.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
+  <script defer src="js/components/census-link-geo.js"></script>
+  <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="hna"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <script src="js/components/rent-triangulation.js"></script>
+  <script src="js/components/mhi-ami-clarifier.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/prop123-historical-tracker.js"></script>
+  <!-- Shared Prop 123 jurisdiction loader/lookup; the map-specific initializer
+       exits on this page, while HNA reuses its cached policy-data path. -->
+  <script defer src="js/prop123-map.js"></script>
+  <!-- HNA modules — load order: projection presets/storage/model → utils → narratives → renderers → export → controller -->
+  <script defer src="js/utils/format-money.js"></script>
+  <script defer src="js/utils/data-quality.js"></script>
+  <script defer src="js/projections/scenario-presets.js"></script>
+  <script defer src="js/projections/scenario-storage.js"></script>
+  <script defer src="js/projections/cohort-component-model.js"></script>
+  <script defer src="js/hna/hna-utils.js"></script>
+  <script defer src="js/hna/hna-narratives.js"></script>
+  <!-- F216 — Per-section data-derived takeaways. Auto-injects one
+       data-bound sentence under each h2 that has a matching builder. -->
+  <script defer src="js/hna/hna-section-takeaways.js"></script>
+  <!-- Methodology explainer (Phase 3 / C3) — auto-attaches ℹ icons to
+       any element with [data-methodology-key]; surfaces plain-language
+       What / How / Caveats / Source for each metric. -->
+  <script defer src="js/methodology-explainer.js"></script>
+  <!-- TIGER place-CHAS lookup (PR-C3) — must load BEFORE hna-renderers
+       so renderChasAffordabilityGap can detect window.PlaceChas at first
+       call and prefer place-level data over the county fallback for
+       cross-county jurisdictions (Aurora, Erie, Longmont, etc.). -->
+  <script defer src="js/place-chas-lookup.js"></script>
+  <!-- Place-level LEHD WAC lookup (population-weighted apportionment of
+       county WAC data through the TIGER place→tract spatial join, so
+       small towns + cross-county places no longer show their parent
+       county's wage / industry numbers without disclosure). -->
+  <script defer src="js/place-lehd-lookup.js"></script>
+  <!-- CHAS tier-share helper (Phase 1) — provides per-county / per-place
+       renter AMI tier shares for chartHouseholdDemand, replacing the
+       statewide heuristic from PR #798. -->
+  <script defer src="js/chas-tier-shares.js"></script>
+  <!-- F207 — CHAS rent-burden reliability check (definitional + freshness
+       cross-reference). Loaded before hna-renderers so the scorecard can
+       surface its confidence badge on the cost-burden component. -->
+  <script defer src="js/rent-burden-reliability.js"></script>
+  <script defer src="js/provenance-label.js"></script>
+  <!-- Geography-provenance chips: is a figure the place's, apportioned to
+       it, or the county's standing in? Must load before hna-renderers.js,
+       which reads window.GeographyProvenance when painting the CHAS chip. -->
+  <script defer src="js/hna/geography-provenance.js"></script>
+  <!-- Contents rail: builds navigation from the headings already in the
+       document. 54 sections across ~53 screens previously had no table of
+       contents. Additive only — it reorders and renames nothing. -->
+  <!-- The guided reading path must load before the rail, which renders it. -->
+  <script defer src="js/hna/reading-path.js"></script>
+  <script defer src="js/hna/section-rail.js"></script>
+  <!-- Place-vs-county comparison: decides what may honestly be compared
+       (county-comparison.js) and draws it (…-view.js). Both must load
+       before hna-controller.js, which calls the view per selection. -->
+  <script defer src="js/hna/county-comparison.js"></script>
+  <script defer src="js/hna/county-comparison-view.js"></script>
+  <script defer src="js/hna/hna-renderers.js"></script>
+  <script defer src="js/hna/hna-export.js"></script>
+  <script defer src="js/compliance-checklist.js"></script>
+  <script defer src="js/chfa-pma-checklist.js"></script>
+  <script defer src="js/data-connectors/hud-fmr.js"></script>
+  <script defer src="js/data-connectors/bridge-market-summary.js"></script>
+  <!-- New modules: projections, neighborhood context, educational callouts, export -->
+  <script defer src="js/housing-need-projector.js"></script>
+  <!-- Need by Housing Type — 6-category data-driven ranking. Pure read of state
+       (ACS profile, CHAS, HUD income limits, LIHTC inventory). Must load BEFORE
+       hna-controller so the renderer can call it from renderExtendedAnalysis. -->
+  <script defer src="js/components/housing-type-need.js"></script>
+  <script defer src="js/hna/ownership-finance.js"></script>
+  <script defer src="js/hna/hna-ownership-need.js"></script>
+  <script defer src="js/hna/hna-ownership-strategy.js"></script>
+  <script defer src="js/hna/ownership-resale.js"></script>
+  <script defer src="js/hna/ownership-decision-chain.js"></script>
+  <script defer src="js/hna/combined-geo.js"></script>
+  <script defer src="js/neighborhood-context.js"></script>
+  <script defer src="js/components/edu-callout.js"></script>
+  <script defer src="js/components/source-badge.js"></script>
+  <script src="js/components/data-scope.js"></script>
+  <script src="js/components/fetch-error-surface.js"></script>
+  <script defer src="js/components/data-quality-summary.js"></script>
+  <script defer src="js/components/api-health.js"></script>
+  <script defer src="js/components/export-panel.js"></script>
+  <script src="js/components/map-home-btn.js"></script>
+  <script defer src="js/hna/hna-controller.js"></script>
+  <!-- F197 — Plain-English "For affordable-housing developers" callouts.
+       Injects a three-lens explanation (why it matters / what it says
+       about need / how it shapes your project) under each HNA section
+       heading so developers can read every chart with deal-screening
+       context. -->
+  <script defer src="js/hna/hna-dev-context.js"></script>
+  <script defer src="js/housing-needs-assessment.js"></script>
+  <script defer src="js/components/workflow-next-action.js"></script>
+</head>
+<body data-page-last-updated="2026-03-22"
+      data-page-source="Census ACS · HUD · DOLA · LEHD">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <!-- Injected by navigation.js -->
+  </header>
+
+  <!-- Workflow progress bar (Step 3 of 6) — outside <main class="js-glossary-auto"> so it sticks independently -->
+  <div class="wf-progress-wrap" id="hnaWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="3" aria-current="step">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <!-- Jurisdiction context banner (populated by JS from WorkflowState/SiteState) -->
+    <div id="hnaJurisdictionBanner" class="hna-jurisdiction-banner" hidden>
+      <div class="hna-jurisdiction-banner__inner">
+        <div class="hna-jurisdiction-banner__info">
+          <span class="hna-jurisdiction-banner__label">Analyzing</span>
+          <strong id="hnaJurisdictionName">—</strong>
+          <span id="hnaJurisdictionSub" class="hna-jurisdiction-banner__sub"></span>
+        </div>
+        <div class="hna-jurisdiction-banner__actions">
+          <a href="#" id="hnaExportIcLink" class="hna-jurisdiction-banner__change">Export IC summary →</a>
+          <a href="select-jurisdiction.html" class="hna-jurisdiction-banner__change">Change jurisdiction</a>
+        </div>
+      </div>
+    </div>
+    <section class="hero" style="padding-bottom:0;">
+      <div style="padding:0 var(--sp4) var(--sp4);">
+        <div class="kicker">Colorado • Public Data</div>
+<h1>Housing Needs Assessment</h1>
+        <p class="sub" style="margin-bottom:var(--sp3);">
+          A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
+          commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
+        </p>
+        <p style="font-size:1.133rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note"><strong>Screening tool only.</strong> Data snapshots are for early-stage community planning and site research using public Census, DOLA, and HUD datasets. They are not a certified housing needs study and do not substitute for a CHFA-required market analysis or formal due diligence.</p>
+        <div id="hnaBanner" class="banner"></div>
+        <div id="hnaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+        <small id="hnaDataTimestamp" class="data-timestamp"></small>
+        <!-- Data vintage badge — auto-attached by js/components/data-vintage-badge.js.
+             Reads metadata.generatedAt from the ranking-index (HNA's primary
+             data artifact) and switches to a stale banner past the 10-day SLA. -->
+        <div data-vintage-source="data/hna/ranking-index.json" data-vintage-sla-days="10"></div>
+        <div class="hna-controls" style="margin-top:var(--sp3);">
+          <label style="color:var(--muted);font-weight:700" for="geoType">Geography type</label>
+          <select id="geoType">
+            <option value="state" selected>State of Colorado</option>
+            <option value="county">County</option>
+            <option value="place">Incorporated Place (+ CDP)</option>
+          </select>
+
+          <label style="color:var(--muted);font-weight:700" for="geoSelect">Select geography</label>
+          <select id="geoSelect" aria-describedby="geoSelectHint"></select>
+          <span id="geoSelectHint" class="sr-only"></span>
+
+          <label style="display:inline-flex;align-items:center;gap:.4rem;color:var(--muted);font-weight:700;">
+            <input id="combineGeosToggle" type="checkbox" aria-controls="combinedGeosPanel" aria-describedby="combinedGeosHint">
+            Combine jurisdictions
+          </label>
+          <div id="combinedGeosPanel" hidden style="grid-column:1 / -1;border:1px solid var(--border);border-radius:6px;padding:.55rem;background:var(--card);">
+            <div id="combinedGeosHint" style="font-size:.78rem;color:var(--muted);margin-bottom:.45rem;">Select 2–6 jurisdictions. Use the selected geography dropdown, then add each member.</div>
+            <div role="radiogroup" aria-label="Combined jurisdiction mode" style="display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-bottom:.5rem;font-size:.82rem;color:var(--muted);">
+              <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
+                <input type="radio" name="combinedGeoMode" value="blended" checked>
+                Blended total
+              </label>
+              <label style="display:inline-flex;align-items:center;gap:.3rem;font-weight:700;">
+                <input type="radio" name="combinedGeoMode" value="regional">
+                Side-by-side comparison
+              </label>
+            </div>
+            <div style="display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;">
+              <button id="btnAddCombinedGeo" type="button">Add selected</button>
+              <button id="btnClearCombinedGeos" type="button">Clear</button>
+              <div id="combinedGeoChips" aria-live="polite" style="display:flex;gap:.35rem;flex-wrap:wrap;"></div>
+            </div>
+          </div>
+
+          <button id="btnRefresh" type="button">Refresh</button>
+          <button id="btnPdf" type="button" title="Exports the current assessment view to a PDF">Download PDF</button>
+          <button id="btnExcel" type="button" title="Downloads an Excel workbook with the headline data tables and native Excel charts the values feed">Download Excel</button>
+          <button id="btnCsv" type="button" title="Downloads key housing metrics as a CSV file">Download CSV</button>
+          <button id="btnJson" type="button" title="Downloads the full report snapshot as a JSON file">Download JSON</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="hnaDecisionStrip" class="hna-decision-strip" aria-label="Executive decision indicators" hidden>
+      <a class="hna-decision-tile" href="#hnaScorecardPanel" data-decision-key="need">
+        <span class="hna-decision-label">Need severity</span>
+        <strong id="decisionNeedValue">—</strong>
+        <span id="decisionNeedRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statRentBurden" data-decision-key="affordability">
+        <span class="hna-decision-label">Affordability pressure</span>
+        <strong id="decisionAffordabilityValue">—</strong>
+        <span id="decisionAffordabilityRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#statUnitsNeed" data-decision-key="production">
+        <span class="hna-decision-label">20-yr production need</span>
+        <strong id="decisionProductionValue">—</strong>
+        <span id="decisionProductionRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
+        <span class="hna-decision-label">Ownership feasibility</span>
+        <strong id="decisionOwnershipValue">—</strong>
+        <span id="decisionOwnershipRead">Loading</span>
+      </a>
+      <a class="hna-decision-tile" href="#hnaGapCoveragePanel" data-decision-key="confidence">
+        <span class="hna-decision-label">Data confidence</span>
+        <strong id="decisionConfidenceValue">—</strong>
+        <span id="decisionConfidenceRead">Loading</span>
+      </a>
+    </section>
+
+      <!-- Place-vs-county comparison. Hidden unless a place or CDP is selected:
+           a county has nothing above it to compare against, and statewide has
+           nothing at all. Sits directly under the decision strip because "how
+           does my town compare to the county" is the question a practitioner
+           arrives with, not one to answer 40 screens down. -->
+      <section id="countyComparisonSection" class="chart-card span-12" hidden>
+        <h2>How this jurisdiction compares to its county</h2>
+        <p class="cc-intro">A county average hides its own spread. These are the
+          same measures computed the same way at both levels.</p>
+        <div id="countyComparisonBody"></div>
+      </section>
+
+    <div id="pageContext"></div>
+
+    <!-- F152 — Developer Pipeline teaser strip.
+         One-line discoverability link to the public methodology page so HNA
+         readers know how this assessment fits into the larger pipeline.
+         Defined inline (no extra CSS file) to keep the integration minimal. -->
+    <aside class="developer-pipeline-teaser" style="background:color-mix(in oklab, var(--accent) 6%, var(--card) 94%);border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:.7rem 1.1rem;margin:0 var(--sp4) var(--sp3);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.88rem;">
+      <span style="flex:1;min-width:240px;color:var(--text);line-height:1.5;">
+        New: <strong style="color:var(--accent);">The Affordable Housing Pipeline</strong> — see how this assessment fits into our 8-step public methodology for turning housing data into housing built.
+      </span>
+      <a href="pipeline.html" style="display:inline-block;padding:.4rem .85rem;background:var(--accent);color:var(--on-accent,#fff);border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:.82rem;white-space:nowrap;">Read the methodology →</a>
+    </aside>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.PageContext) PageContext.render('pageContext', {
+        what: 'A data-driven housing needs snapshot for your selected Colorado geography: housing stock, tenure, affordability gaps by AMI tier, commuting patterns, demographic projections, and workforce analysis. Powered by Census ACS, LEHD LODES, DOLA, and HUD CHAS data.',
+        why: 'Local decision-makers — council members, planners, housing authorities — need a clear, public-data answer to the question: "Is there documented housing need in our community, and at what income levels?" This assessment provides that evidence base. Developers also use the same snapshot to support CHFA QAP scoring, which rewards projects that demonstrate documented community need.',
+        not: 'This is not a certified housing needs study or CHFA-required market analysis. Place-level cost burden and AMI gaps are computed at place geography (direct Census ACS for the AMI gap; tract-apportioned HUD CHAS for cost burden) — not scaled from county. The one county input is HUD\'s AMI income limits, which HUD only publishes at county level, so a place uses its containing county\'s limits. CHAS data is 3+ years old. CDPs are not eligible for Prop 123. Professional validation is required before application submission.',
+        nextSteps: [
+          { label: 'Market Analysis', href: 'market-analysis.html', desc: 'Score a specific site within this geography' },
+          { label: 'Compare Jurisdictions', href: 'hna-comparative-analysis.html', desc: 'See how this geography ranks statewide' }
+        ]
+      });
+
+      // Per-chart methodology popovers — drop an ℹ disclosure next
+      // to each major HNA chart heading so the source / formula /
+      // drift / caveats are one click away rather than buried in
+      // the Methodology footer at the bottom of the page.
+      if (window.MethodologyPopover) {
+        window.MethodologyPopover.attachAll([
+          { selector: '#hnaH2Stock', meta: {
+            what:    'Distribution of housing units by structure type — 1-unit detached, attached, 2-units, 3-4 units, 5-9, 10-19, 20+, and mobile home.',
+            source:  'ACS 5-Year DP04, codes 0007E–0014E (vintage 2020–2024).',
+            method:  'Direct counts from the DP04 profile table; rendered as a bar chart of share-of-total.',
+            drift:   'DP04 structure-type code numbering shifted in 2023 — older vintages started at DP04_0003E. The HNA build script targets the 2023 codes.',
+            caveats: 'Stock = existing inventory, not pipeline. Doesn’t reflect units permitted but not yet built.',
+          } },
+          { selector: '#hnaH2Tenure', meta: {
+            what:    'Share of occupied housing units that are owner-occupied vs renter-occupied.',
+            source:  'ACS 5-Year DP04 codes 0046PE (owner %) + 0047PE (renter %).',
+            method:  'Census-published percentages; rendered as a doughnut with theme palette c1 (owners) + c4 (renters).',
+            drift:   'Place-level estimates have wider margins of error for small CDPs (n<250 households). For very small places the sub-county tenure mix can be ±5 percentage points.',
+            caveats: 'Occupied units only — vacant units excluded from the split.',
+          } },
+          { selector: '#hnaH2RentBurden', meta: {
+            what:    'Share of renter households paying each rent-as-percent-of-income tier — <15%, 15–20%, 20–25%, 25–30%, 30–35%, 35%+.',
+            source:  'ACS 5-Year DP04 GRAPI bins DP04_0137PE–0142PE (vintage 2020–2024).',
+            method:  'Bin shares straight from the DP04 profile; ≥30% = cost-burdened, ≥50% = severely burdened.',
+            drift:   'ACS 2023 vintage retired the older DP04_0143PE–0146PE bins — the previous renderer was reading those non-existent codes (fixed in PR #812).',
+            caveats: 'GRAPI is rent only; doesn’t include utilities-as-percent-of-income (separate GRAPI table).',
+          } },
+          { selector: '#hnaH2LehdFlow', meta: {
+            what:    'Commuter flow snapshot: workers living and working in the area, inflow (jobs filled by people from outside), and outflow (residents working elsewhere).',
+            source:  'LEHD LODES8 OD (Origin-Destination) main file, JT00 (all workers / all jobs).',
+            method:  'County selections use the county LODES OD totals directly. Place/CDP flows are aggregated from TRACT-level LODES, weighted by the place’s population share of each tract — so a bedroom town reads as high-outflow rather than inheriting its county’s balanced ratios (flows are not proportional to population, so the old county pop-weighting is no longer used for flows).',
+            drift:   'LODES typically lags 2+ years behind the reference year. Statewide rolls double-count inter-county commuters, so we suppress the state-level inflow/outflow.',
+            caveats: 'Place flows are directional: a tract can extend past the municipal boundary, and for multi-tract places intra-place tract-to-tract commutes are counted in the inflow/outflow totals.',
+          } },
+          { selector: '#hnaH2Income', meta: {
+            what:    'Distribution of households by income bracket — <$10k through $200k+, in nine bins.',
+            source:  'ACS 5-Year DP03 codes 0052E–0060E (vintage 2020–2024).',
+            method:  'Direct counts from the DP03 profile; the chart shows count per bracket.',
+            drift:   'These codes were missing from the cached summary until PR #828 added them to the build pipeline’s batch B. CI / offline previews fall back to a live API fetch.',
+            caveats: 'Income bins are dollar-fixed, not inflation-adjusted across vintages — vintage drift will silently re-segment households over time.',
+          } },
+          { selector: '#hnaH2HousingAge', meta: {
+            what:    'Distribution of housing units by year structure built — 2020+ through pre-1940 in 10 decade-style bins.',
+            source:  'ACS 5-Year DP04 codes 0017E (2020+) through 0026E (pre-1940), vintage 2020–2024.',
+            method:  'Direct counts from the DP04 year-built section; rendered as a bar chart.',
+            drift:   'Same cache-batch-B story as the income distribution (PR #828). Older HNA snapshots may still see this empty until the next data refresh propagates.',
+            caveats: 'Year-built is self-reported on the ACS survey and rounded to decade; condition / renovation status is NOT included.',
+          } },
+          { selector: '#hnaH2AffordableOwnershipNeed', meta: {
+            what:    'Screening estimate for whether deed-restricted ownership or shared-equity tools may complement rental strategies.',
+            source:  'HUD CHAS cost burden by AMI, ACS AMI-gap files, HNA home-value cascade, and the shared HNA affordability assumptions.',
+            method:  'Combines rental pressure, owner pressure, moderate-income renter base, and modeled carrying-cost thresholds; source pills disclose place, county, and fallback records.',
+            drift:   'CHAS lags current market conditions and home values can move faster than ACS/HUD releases.',
+            caveats: 'This is not a project feasibility model. Verify prices, HOA costs, assistance programs, financing assumptions, and local deed-restriction policy.',
+          } },
+        ]);
+      }
+    });
+    </script>
+
+    <div id="hnaDataQuality"></div>
+    <div id="hnaApiHealth" data-api-health="auto"></div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.DataQualitySummary) {
+        window.DataQualitySummary.render('hnaDataQuality', {
+          sources: [
+            { name: 'ACS 5-Year Profiles (DP04, DP05, DP03)', status: 'primary', vintage: '2024', coverage: 'All CO geographies' },
+            { name: 'ACS Commuting (S0801)', status: 'primary', vintage: '2024', coverage: 'Counties + places' },
+            { name: 'LEHD LODES (Origin-Destination)', status: 'primary', vintage: '2023', coverage: '64 counties', note: '1-year lag typical' },
+            { name: 'DOLA Demographics (SYA)', status: 'primary', vintage: '2024', coverage: '64 counties' },
+            { name: 'HUD CHAS (Cost Burden by AMI)', status: 'primary', vintage: '2018-2022', coverage: '64 counties + 482 places (tract-apportioned)', note: 'Released Dec 2025. Pipeline re-run needed to fetch latest.' },
+            { name: 'HUD FMR / Income Limits', status: 'primary', vintage: 'FMR FY2026 · IL FY2026', coverage: 'All CO counties' },
+            { name: 'AMI Gap (ACS B25063 + B25118 renter HH)', status: 'primary', vintage: '2024', coverage: '64 counties + 482 places (direct ACS)' }
+          ],
+          limitations: 'Place-level AMI gaps are pulled directly from Census ACS at place geography, and place cost burden is tract-apportioned from HUD CHAS — neither is scaled from county. HUD AMI income limits are the only county-level input (HUD does not publish sub-county AMI), so cross-county places assume their primary county. CHAS data is 3+ years old and has known aggregation issues in 51/64 counties. CDP geographies are not eligible for Prop 123.',
+          lastUpdated: document.body.getAttribute('data-page-last-updated') || ''
+        });
+      }
+    });
+    </script>
+
+    <section class="hna-grid">
+      <div class="chart-card span-12">
+        <div id="hnaWaitingState" class="hna-waiting" aria-live="polite" aria-atomic="true">
+  <p class="hna-waiting-text">Select a geography above to load housing data</p>
+  <div class="hna-waiting-dashes" aria-hidden="true">— — — — —</div>
+</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <h2 style="margin:0">Executive Snapshot</h2>
+          <div class="pill" id="geoContextPill">—</div>
+        </div>
+        <!-- F215 — Executive-summary mount. Starts as a placeholder <p>;
+             once renderSnapshot lands the templated narrative the
+             renderer swaps to innerHTML (4 data-derived paragraphs)
+             and adds .hna-narrative-mount so the styling below kicks in. -->
+        <div id="execNarrative" style="margin:0 0 .75rem">Select a geography to generate an HNA-style baseline narrative.</div>
+        <style>
+          /* F215 — narrative styling. Reads like a brief, not a stat dump:
+             larger leading, modest paragraph spacing, strong tokens that
+             pop against the rest of the page. Stays inside the same
+             chart-card so it tracks the page's visual rhythm. */
+          #execNarrative.hna-narrative-mount {
+            font-size: .94rem;
+            line-height: 1.55;
+            color: var(--text);
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p {
+            margin: 0 0 .55rem;
+          }
+          #execNarrative.hna-narrative-mount .hna-narrative-html p:last-child {
+            margin-bottom: 0;
+          }
+          #execNarrative.hna-narrative-mount strong {
+            color: var(--accent);
+            font-weight: 700;
+          }
+          #execNarrative.hna-narrative-mount em {
+            font-style: italic;
+            color: var(--muted);
+          }
+        </style>
+
+        <!-- F159 — MHI vs HUD AMI clarifier. Two distinct income concepts
+             that are commonly conflated; surfacing both side-by-side
+             prevents the "the chat answer said $95K but the HNA shows $80K"
+             confusion. Hydrated alongside the snapshot. -->
+        <div id="hnaMhiAmiMount" style="margin:.4rem 0 .65rem"></div>
+
+        <div class="stats" aria-label="Headline indicators">
+          <div class="stat"><div class="k">Population</div><div class="v" id="statPop">—</div><div id="statPopYoy" class="yoy"></div><div class="s" id="statPopSrc">—</div></div>
+          <div class="stat"><div class="k">Median household income</div><div class="v" id="statMhi">—</div><div id="statMhiYoy" class="yoy"></div><div class="s" id="statMhiSrc">—</div></div>
+          <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div id="statHomeValueYoy" class="yoy"></div><div class="s" id="statHomeValueSrc">—</div></div>
+          <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
+
+          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0046/0047 · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.68rem;opacity:.85">—</div></div>
+          <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801 mean travel time (min) · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
+        </div>
+        <!-- Affordability Gap Coverage — 7 AMI bands sourced from ACS-derived
+             co_ami_gap_by_county.json (preferred for granularity) with a
+             defensive fallback to HUD CHAS when ACS data isn't available. -->
+        <div id="hnaGapCoveragePanel" class="hna-gap-coverage" hidden>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:var(--sp3);">
+            <h3 style="margin:0;">Rental Affordability Gap by AMI Tier</h3>
+            <span id="hnaGapConfidence" class="data-reliability-badge" title="Gap data confidence">—</span>
+          </div>
+          <p style="font-size:1.133rem;color:var(--muted);margin:.25rem 0 .6rem;"><strong>Renter households who need affordable rental units</strong> at each income band. Both card rows below count <em>renter households</em> (demand) — the first cumulative (≤ each AMI; includes everyone below), the second the non-overlapping cohort within each tier; <strong>neither row subtracts existing units</strong>. The separate <strong>Net of existing affordable supply</strong> box further down is the one that nets out rental units already priced affordable, to estimate how many still need to be built. Source: ACS B25118 renter-household income + B25063 gross rent against HUD 2025 income limits, with HUD CHAS as a county-level fallback. Owner households are excluded — the rental gap counts only households competing for rental units.</p>
+          <p data-methodology-key="ami-chas-acs-difference" style="font-size:1rem;color:var(--muted);margin:.2rem 0 .6rem;">ACS 2020–2024 households under the unadjusted county 30% AMI cutoff; the CHAS tier table below uses HUD's size-adjusted limits and an older window, so its counts run lower. See methodology.</p>
+
+          <h4 style="margin:.75rem 0 .35rem;">Renter households who need affordable rental units — cumulative <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(≤ this AMI; includes everyone below)</span></h4>
+          <div class="stats stats--ami" aria-label="Cumulative affordability gap by AMI band">
+            <div class="stat"><div class="k">≤30% AMI</div><div class="v" id="statGap30">—</div><div class="s">Extremely low</div></div>
+            <div class="stat"><div class="k">≤40% AMI</div><div class="v" id="statGap40">—</div><div class="s">Deeply affordable</div></div>
+            <div class="stat"><div class="k">≤50% AMI</div><div class="v" id="statGap50">—</div><div class="s">Very low</div></div>
+            <div class="stat"><div class="k">≤60% AMI</div><div class="v" id="statGap60">—</div><div class="s">Low (LIHTC threshold)</div></div>
+            <div class="stat"><div class="k">≤70% AMI</div><div class="v" id="statGap70">—</div><div class="s">Moderate</div></div>
+            <div class="stat"><div class="k">≤80% AMI</div><div class="v" id="statGap80">—</div><div class="s">Workforce</div></div>
+            <div class="stat"><div class="k">≤100% AMI</div><div class="v" id="statGap100">—</div><div class="s">All ≤100% AMI</div></div>
+          </div>
+
+          <h4 style="margin:.85rem 0 .35rem;">Households who need affordable rental units — within this tier <span style="font-weight:400;color:var(--muted);font-size:.78rem;">(non-overlapping; 7 cells sum to ≤100%)</span></h4>
+          <div class="stats stats--ami" aria-label="Per-tier (non-cumulative) cohort sizes">
+            <div class="stat"><div class="k">30% only</div><div class="v" id="statTierGap30">—</div><div class="s">≤30% AMI cohort</div></div>
+            <div class="stat"><div class="k">31–40%</div><div class="v" id="statTierGap40">—</div><div class="s">just above ELI</div></div>
+            <div class="stat"><div class="k">41–50%</div><div class="v" id="statTierGap50">—</div><div class="s">very low only</div></div>
+            <div class="stat"><div class="k">51–60%</div><div class="v" id="statTierGap60">—</div><div class="s">LIHTC band</div></div>
+            <div class="stat"><div class="k">61–70%</div><div class="v" id="statTierGap70">—</div><div class="s">moderate</div></div>
+            <div class="stat"><div class="k">71–80%</div><div class="v" id="statTierGap80">—</div><div class="s">workforce</div></div>
+            <div class="stat"><div class="k">81–100%</div><div class="v" id="statTierGap100">—</div><div class="s">near AMI</div></div>
+          </div>
+
+          <div id="hnaGapNetLine" style="margin-top:.6rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+          <div id="hnaGapBurdenContext" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+          <div id="hnaProjectedDeficit" style="margin-top:.35rem;padding:.5rem .7rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.8rem;color:var(--text);"></div>
+
+          <h4 style="margin:1rem 0 .35rem;">Need distribution across AMI bands <span style="font-weight:400;color:var(--muted);font-size:.78rem;">— each band's share of the ≤100% total</span></h4>
+          <div id="hnaGapCoverageBar" style="margin-top:.35rem;"></div>
+        </div>
+      </div>
+
+      
+<!-- [hna-view:act] not on this view: Map -->
+
+
+      
+<!-- [hna-view:act] not on this view: LIHTC, QCT & DDA -->
+
+
+      <!-- ── HUD FMR & Income Limits panel ───────────────────────
+           Was span-8; next card was span-6 (8+6=14 > 12) which forced
+           a wrap and left 4 columns of empty space to the right. The
+           inner content is already a 2-column grid that uses width
+           well at full row span — so going span-12 fills the row and
+           gives the tables more breathing room. -->
+      
+<!-- [hna-view:act] not on this view: HUD Fair Market Rents & Income Limits -->
+
+
+      <!-- F158 — Rent triangulation: HUD FMR vs ACS median gross rent vs
+           Zillow ZORI asking rent. Shows the lease-up premium (gap between
+           existing-tenant ACS and new-lease ZORI) which is the single most
+           misunderstood number in resort-adjacent CO markets. -->
+      
+<!-- [hna-view:act] not on this view: Rent triangulation — existing vs. asking -->
+
+
+      
+<!-- [hna-view:act] not on this view: Housing stock by structure type -->
+
+
+      
+<!-- [hna-view:act] not on this view: Owner/renter shares -->
+
+
+      <!-- F160 — Owner-occupied home value distribution by price bracket.
+           ACS DP04_0081E - DP04_0088E. The median alone hides a lot of
+           skew; this chart surfaces the whole distribution. -->
+      
+<!-- [hna-view:act] not on this view: Home value distribution -->
+
+
+      
+<!-- [hna-view:act] not on this view: Homeownership affordability -->
+
+
+      
+<!-- [hna-view:act] not on this view: Rent burden distribution -->
+
+
+      
+<!-- [hna-view:act] not on this view: Cost burden by AMI tier (HUD CHAS) (county-approx) -->
+
+
+      
+<!-- [hna-view:act] not on this view: Commuting: mode share -->
+
+
+      
+<!-- [hna-view:act] not on this view: Commuting: inflow & outflow (LEHD LODES) -->
+
+
+      <!-- F169 — Household composition, occupation, and labor-force status.
+           Three pieces of demographic detail users kept asking for:
+             (1) Family size + household-size distribution — answers
+                 "how many people typically share a unit here?"
+             (2) Occupation mix — answers "what do people do for work?"
+                 (5 top-level OCC categories from ACS DP03)
+             (3) Labor-force status — employed / unemployed / not in
+                 labor force, with the 65+ Not in labor force breakout as
+                 a retiree proxy (answers "how many retirees vs working-
+                 age non-workforce?")
+           Data: ACS DP02 family-size vars + DP03 OCC + labor-force
+           status, all batched into the existing fetchAcsExtended call. -->
+      
+<!-- [hna-view:act] not on this view: Household composition, occupation & labor force -->
+
+
+      <!-- F170 — Race / ethnicity panel.
+           Renders horizontal bar chart of the 6 "alone" race buckets +
+           Hispanic/Latino-of-any-race + Two-or-more-races. Cross-cuts
+           are surfaced in the callout footnote so readers don't
+           double-count. Data: ACS DP05 RACE + HISPANIC OR LATINO,
+           2023 5-year. -->
+      
+<!-- [hna-view:act] not on this view: Race & ethnicity -->
+
+
+      <!-- F170 — Educational attainment panel.
+           Population 25+ broken into 7 attainment buckets (DP02
+           EDUCATIONAL ATTAINMENT). Headline cards surface HS+ and
+           Bachelor's+ rates which are the standard regional-economic-
+           development benchmarks. -->
+      
+<!-- [hna-view:act] not on this view: Educational attainment -->
+
+
+      
+<!-- [hna-view:act] not on this view: Demographic projections: age pyramid & senior pressure (DOLA -->
+
+
+      
+<!-- [hna-view:act] not on this view: 20-year outlook: population, migration, and housing needs (c -->
+
+
+      <!-- ── Extended HNA Analysis ── -->
+      <!-- Income Distribution -->
+      
+<!-- [hna-view:act] not on this view: Household Income Distribution -->
+
+
+      <!-- F199 — Decade Affordability Trend ───────────────────────────── -->
+      
+<!-- [hna-view:act] not on this view: How Affordable Has Housing Become Over the Last 15 Years? -->
+
+
+      <!-- F200 — Housing Type Pace (Permits) ──────────────────────────── -->
+      
+<!-- [hna-view:act] not on this view: Pace & Scale of New Housing Permits (Past 5 Years) -->
+
+
+      <!-- Age of Housing Stock -->
+      
+<!-- [hna-view:act] not on this view: Age of Housing Stock -->
+
+
+      <!-- Bedroom Mix -->
+      
+<!-- [hna-view:act] not on this view: Bedroom Mix -->
+
+
+      <!-- Owner Cost Burden -->
+      
+<!-- [hna-view:act] not on this view: Owner Housing Cost Burden -->
+
+
+      <!-- Housing Gap Summary -->
+      
+<!-- [hna-view:act] not on this view: Current rental gap & affordability -->
+
+
+      <!-- Special Needs Housing -->
+      <div class="chart-card span-12">
+        <h2>Special Needs Housing Analysis</h2>
+        <p>Population segments with specific housing needs: seniors, persons with disabilities, families with children, and single-parent households. These groups are disproportionately represented among cost-burdened households. Source: ACS DP02/DP05.</p>
+        <div id="specialNeedsPanel"><p style="color:var(--muted)">Select a geography to view special needs analysis.</p></div>
+      </div>
+
+      <!-- Scenario-based demographic projections -->
+      <div class="chart-card span-12" id="scenario-projections-section">
+        
+<!-- [hna-view:act] not on this view: Scenario-based demographic projections -->
+
+        <p>
+          Read-only cohort-component projections under fixed low, baseline, and high growth scenarios, aligned with
+          <a href="https://dlg.colorado.gov/news-article/final-housing-needs-assessment-methodology-and-displacement-risk-assessment-guidance" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DLG final HNA methodology and displacement risk assessment guidance (opens in new tab)">DLG HNA methodology</a>.
+          The comparison charts keep a shared observed base year and scale only the projected growth increment from
+          DOLA-aligned assumptions. To model custom fertility, migration, or mortality assumptions, use the dedicated
+          <a id="scenarioBuilderLink" href="hna-scenario-builder.html" style="color:var(--accent);font-weight:700">Scenario Builder &rarr;</a>
+          for the selected geography.
+        </p>
+
+        <!-- Scenario selector row -->
+        <div class="hna-grid" style="grid-template-columns:repeat(12,1fr);gap:10px;margin-top:10px">
+          <div class="span-4">
+            <label for="projScenario" style="display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px">Scenario</label>
+            <select id="projScenario" class="control" style="width:100%;min-height:44px">
+              <option value="baseline" selected>Baseline (moderate growth)</option>
+              <option value="low_growth">Low growth (affordability headwinds)</option>
+              <option value="high_growth">High growth (economic expansion)</option>
+            </select>
+          </div>
+          <div class="span-6" style="display:flex;align-items:center">
+            <div>
+              <p id="scenarioDescription" style="margin:0;color:var(--muted);font-size:1.133rem">
+                Moderate growth following recent historical trends.
+              </p>
+              <p style="margin:4px 0 0;font-size:1.133rem;color:var(--muted)">
+                Source: DOLA State Demography Office — Components of Change (current vintage).
+                <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent)" aria-label="DOLA State Demography Office website (opens in new tab)">DOLA SDO</a>
+                <span id="scenarioFreshnessBadge" class="scenario-freshness-badge" hidden></span>
+              </p>
+            </div>
+          </div>
+          <div class="span-2" style="display:flex;align-items:flex-end;justify-content:flex-end">
+            <button id="btnExportScenario" class="control scenario-export-btn" title="Export scenario comparison data as CSV" aria-label="Export scenario comparison to CSV">
+              ⬇ Export CSV
+            </button>
+          </div>
+        </div>
+
+        <!-- View toggle -->
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap" role="group" aria-label="Projection view selector">
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="population" checked aria-label="Population projection view">
+            <span>📈 Population</span>
+          </label>
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="household" aria-label="Household projection view">
+            <span>🏠 Households</span>
+          </label>
+          <label class="proj-view-label">
+            <input type="radio" name="projViewToggle" value="demand" aria-label="Projected housing demand (20-yr) by AMI tier view">
+            <span>📊 Housing demand</span>
+          </label>
+        </div>
+
+        <!-- Scenario data unavailability notice (hidden by default; shown when projection data fails to load) -->
+        <p id="scenarioProjectionsNote" hidden class="scenario-proj-notice"></p>
+        <p id="customScenarioDisclosure" hidden class="scenario-proj-notice" style="margin-top:8px"></p>
+
+        <!-- Population view -->
+        <div id="projViewPop" style="margin-top:12px">
+          <div class="hna-grid" style="margin-top:0">
+            <div class="chart-card span-8" style="margin:0">
+              <h3 style="margin:0 0 4px;">Population projection by scenario</h3>
+              <p style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Baseline plus growth-increment sensitivity bands from DOLA SYA data.</p>
+              <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartScenarioComparison" role="img" aria-label="Scenario comparison chart"></canvas></div>
+            </div>
+            <div class="chart-card span-4" style="margin:0">
+              <h3 style="margin:0 0 4px;">Selected scenario detail</h3>
+              <p id="scenarioDetailDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Single-scenario population trend over the 10-year horizon.</p>
+              <div class="chart-box tall" data-source="DOLA SYA + Cohort-Component Scenarios" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectionDetail" role="img" aria-label="Single-scenario population projection detail chart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Household view -->
+        <div id="projViewHH" hidden style="margin-top:12px">
+          <div class="chart-card" style="margin:0">
+            <h3 style="margin:0 0 4px;">Projected households over time</h3>
+            <p style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">DOLA household formation forecast — drives housing unit demand calculations per DLG methodology.</p>
+            <div class="chart-box tall" data-source="DOLA Population + Headship Rate Conversion" data-source-url="https://demography.dola.colorado.gov/assets/html/sdodata.html" data-vintage="DOLA 2024" data-source-type="modeled"><canvas id="chartProjectedHH" role="img" aria-label="Household projection chart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Housing demand view -->
+        <div id="projViewDemand" hidden style="margin-top:12px">
+          <div class="chart-card" style="margin:0">
+            <h3 style="margin:0 0 4px;">Projected housing demand by affordability tier (renter households)</h3>
+            <p id="demandTierDesc" style="font-size:1.133rem;color:var(--muted);margin:0 0 8px">Estimated renter households by AMI tier over the 10-year horizon. Used to identify missing AMI tiers for LIHTC applications. Based on statewide CO income distributions (ACS CHAS).</p>
+            <div class="chart-box tall" data-source="DOLA Households + HUD CHAS AMI Tier Shares" data-source-url="https://www.huduser.gov/portal/datasets/cp.html" data-vintage="DOLA 2024 · CHAS 2018–2022" data-source-type="modeled"><canvas id="chartHouseholdDemand" role="img" aria-label="Housing demand by AMI affordability tier chart showing projected renter households at each income tier"></canvas></div>
+            <p id="householdDemandScopeCaption" style="font-size:1rem;color:var(--muted);margin:6px 0 0" aria-live="polite">—</p>
+          </div>
+        </div>
+
+        <!-- Scenario summary note -->
+        <div id="scenarioNeedSummary" class="scenario-need-summary" style="display:none" role="region" aria-label="Scenario comparison summary">
+          <!-- Populated by JS when data is available -->
+        </div>
+        <!-- Scenario data quality indicator -->
+        <p id="scenarioDataQuality" class="scenario-data-quality" hidden></p>
+      </div>
+
+      <!-- Labor Market Metrics -->
+      
+<!-- [hna-view:act] not on this view: Labor Market Context -->
+
+
+      <!-- F243: Downtown redevelopment opportunities — surfaces URA presence,
+           Opportunity Zone overlap, and adaptive-reuse pattern menu on HNA
+           pages. Same data set as the OF detail panel (F236). Helps council
+           presentations frame "how do we actually unlock affordable housing
+           here?" with the cap-stack tools at hand. -->
+      <section class="chart-card span-12" id="hnaRedevPanel" aria-label="Downtown redevelopment opportunities" hidden></section>
+
+      <!-- Economic Indicators (Employment, Wages, Industry) -->
+      
+<!-- [hna-view:act] not on this view: Economic Indicators -->
+
+
+      <!-- Prop 123 / HB 22-1093 Compliance -->
+      <section id="prop123-section" class="chart-card span-12 prop123-section">
+        <h2>Affordable Housing Compliance (HB 22-1093 / Prop 123)</h2>
+        <p style="color:var(--muted)">
+          Colorado's HB 22-1093 (Proposition 123, effective Jan 1, 2023) requires communities to track affordable
+          housing progress. Jurisdictions must establish a baseline of 60% AMI rentals and commit to 3% annual growth.
+          <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 page</a>
+        </p>
+
+        <div id="prop123Relationship" class="baseline-card" style="margin-bottom:14px;">
+          <h3>Jurisdiction relationship to Prop 123</h3>
+          <p style="color:var(--muted);font-size:1.133rem">Select a geography to view its filing status and fast-track designation.</p>
+        </div>
+
+        <div class="prop123-cards-row">
+          <!-- Baseline card -->
+          <div class="baseline-card">
+            <h3>Baseline: 60% AMI Rentals</h3>
+            <div id="prop123BaselineContent">
+              <p style="color:var(--muted);font-size:1.133rem">Select a geography to calculate the baseline.</p>
+            </div>
+          </div>
+
+          <!-- Growth tracking card -->
+          <div class="growth-tracking">
+            <h3>3% Annual Growth Target</h3>
+            <div id="prop123GrowthContent">
+              <p style="color:var(--muted);font-size:1.133rem">Baseline required before growth targets can be set.</p>
+              <div class="timeline-chart" data-source="DOLA Prop 123 Baseline + 3% Growth Target" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="transformed"><canvas id="chartProp123Growth" role="img" aria-label="Proposition 123 annual growth target tracking chart"></canvas></div>
+            </div>
+          </div>
+
+          <!-- Fast-track eligibility card -->
+          <div class="fast-track-card">
+            <h3>Fast-Track Approval Eligibility</h3>
+            <div id="prop123FastTrackContent">
+              <p style="color:var(--muted);font-size:1.133rem">Select a geography to check eligibility.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phase 3: DOLA filing deadline badge -->
+        <div id="prop123DolaFiling" style="margin-bottom:12px;"></div>
+
+        <!-- Phase 3: Historical compliance chart -->
+        <div class="chart-card" style="margin-top:14px;padding:14px;">
+          <h3>Historical Compliance Tracking</h3>
+          <div id="prop123HistoricalStatus" class="compliance-status" style="margin-bottom:10px;">
+            Select a geography to view compliance status.
+          </div>
+          <div class="timeline-chart" style="height:220px;" data-source="DOLA Prop 123 Annual Filings" data-source-url="https://cdola.colorado.gov/prop123" data-vintage="Prop 123 2024" data-source-type="raw">
+            <canvas id="chartProp123Historical" role="img" aria-label="Proposition 123 historical compliance tracking chart"></canvas>
+          </div>
+          <div id="prop123HistoricalContent" style="margin-top:12px;overflow-x:auto;"></div>
+        </div>
+
+        <!-- Phase 3: Fast-track timeline calculator -->
+        <div id="fastTrackCalculator" class="chart-card" style="margin-top:14px;padding:14px;">
+          <h3>Fast-Track Approval Timeline Calculator</h3>
+          <p style="color:var(--muted);font-size:1.133rem;margin-bottom:10px;">
+            Estimate permitting duration under HB 22-1093 fast-track vs. standard process.
+            <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093</a>
+          </p>
+          <div class="fast-track-inputs" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;">
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              Units
+              <input id="ftUnits" type="number" min="1" value="20"
+                style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+            </label>
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              AMI %
+              <input id="ftAmi" type="number" min="1" max="120" value="60"
+                style="width:80px;margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+            </label>
+            <label style="display:flex;flex-direction:column;font-size:.85rem;color:var(--muted);">
+              Jurisdiction Type
+              <select id="ftGeoType"
+                style="margin-top:4px;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--bg2);color:var(--text);">
+                <option value="place">Incorporated Place</option>
+                <option value="county">County</option>
+                <option value="cdp">CDP (unincorporated)</option>
+              </select>
+            </label>
+            <button onclick="(function(){var m=document.getElementById('fastTrackCalculator');if(m&&window.__HNA_renderFastTrack)window.__HNA_renderFastTrack();})()"
+              style="align-self:flex-end;padding:6px 14px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:4px;cursor:pointer;font-size:.9rem;">
+              Calculate
+            </button>
+          </div>
+          <div id="ftResult"></div>
+          <p style="font-size:1rem;color:var(--muted);margin-top:10px;">
+            <a href="compliance-dashboard.html">View full compliance dashboard →</a>
+          </p>
+        </div>
+
+        <!-- Housing Policy Commitment Scorecard -->
+        <div id="hnaScorecardPanel" class="chart-card" style="margin-top:0;padding:14px;display:none;">
+          <h3>Housing Policy Commitment</h3>
+          <p style="font-size:1.133rem;color:var(--muted);margin-bottom:8px">
+            How this jurisdiction compares on 7 housing policy dimensions.
+            Data from Prop 123 filings, housing authority registries, inclusionary zoning ordinances, and local housing plans.
+          </p>
+          <div id="hnaScorecardContent"></div>
+          <p style="font-size:1rem;color:var(--muted);margin-top:8px;">
+            <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
+          </p>
+        </div>
+
+        <!-- Compliance checklist -->
+        <div class="chart-card" style="margin-top:0;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
+          <h3>Compliance Checklist</h3>
+          <p style="font-size:1.133rem;color:var(--muted);margin-bottom:8px">
+            Prop 123 (HB 22-1093) compliance steps for the selected jurisdiction. Checked items are saved locally by geography.
+            <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener" style="color:var(--accent)">DOLA guidance ↗</a>
+          </p>
+          <div aria-live="polite" aria-atomic="true" id="checklistAnnouncer" class="sr-only"></div>
+          <div id="checklistCompletionStatus" style="display:none;color:var(--good);font-weight:700;margin-bottom:8px;font-size:.95rem" role="status" aria-live="polite"></div>
+          <ul class="compliance-checklist" id="prop123Checklist">
+            <li class="checklist-item pending" id="checkItemBaseline" data-storage-key="baseline">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkBaseline" aria-label="Establish baseline (60% AMI rentals)" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkBaseline"><strong>Establish baseline</strong> — document the number of affordable rentals at 60% AMI or below</label>
+                <p class="checklist-item-note">
+                  <em>Why it matters:</em> The baseline establishes the starting inventory from which the 3% annual growth target is measured.
+                  Accurate baseline data is required before a jurisdiction can commit to Prop 123.
+                  Source: ACS DP04 data shown in the Prop 123 panel above; verify against
+                  <a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Gap Map</a>.
+                </p>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
+            </li>
+            <li class="checklist-item pending" id="checkItemGrowth" data-storage-key="growth">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkGrowth" aria-label="Adopt 3% annual growth target" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkGrowth"><strong>Adopt 3% annual growth target</strong> — formally commit to growing affordable stock by ≥3% each year</label>
+                <p class="checklist-item-note">
+                  <em>Why it matters:</em> The 3% annual growth commitment is a core Prop 123 requirement.
+                  Adoption signals to DOLA, CHFA, and developers that the jurisdiction supports affordable housing creation.
+                  Without adoption, the jurisdiction is ineligible for Prop 123 land grant and workforce housing funds.
+                  Reference: <a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093, Section 3(1)(b)</a>.
+                </p>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
+            </li>
+            <li class="checklist-item pending" id="checkItemFastTrack" data-storage-key="fasttrack">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkFastTrack" aria-label="Document fast-track approval process" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkFastTrack"><strong>Establish fast-track approval process</strong> — adopt a streamlined permitting path for qualifying affordable developments</label>
+                <p class="checklist-item-note">
+                  <em>Why it matters:</em> A documented fast-track process is required for jurisdictions with populations ≥ 1,000 (municipalities) or ≥ 5,000 (counties).
+                  Fast-tracking reduces permitting delays by 50%+ and is a prerequisite to access DOLA land grant funds.
+                  See <a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA Prop 123 FAQ</a> for approved process templates.
+                </p>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
+            </li>
+            <li class="checklist-item pending" id="checkItemDola" data-storage-key="dola">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkDola" aria-label="File notice with DOLA (by Jan 31)" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkDola"><strong>File commitment notice with DOLA</strong> — annual deadline: <strong>January 31</strong></label>
+                <p class="checklist-item-note">
+                  <em>Why it matters:</em> The annual DOLA notice is the formal on-record commitment that preserves eligibility for the current funding cycle.
+                  Missing the January 31 deadline disqualifies the jurisdiction from Prop 123 land grant and CDOH workforce housing funds for that year.
+                  File at the <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings Portal</a>.
+                </p>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
+            </li>
+            <li class="checklist-item pending" id="checkItemReport" data-storage-key="report">
+              <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+              <input type="checkbox" id="chkReport" aria-label="Annual reporting filed" aria-checked="false">
+              <div class="checklist-item-content">
+                <label for="chkReport"><strong>Annual progress report filed with DOLA</strong> — documents units added toward the 3% growth target</label>
+                <p class="checklist-item-note">
+                  <em>Why it matters:</em> Annual reporting demonstrates accountability and validates the jurisdiction's progress.
+                  Failure to report may result in clawback of Prop 123 funds received and suspension of eligibility.
+                  Cross-reference with <a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a>
+                  for LIHTC project timelines that count toward the growth target.
+                </p>
+                <time class="checklist-date-completed" style="display:none;"></time>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="resources-section chart-card" style="margin-top:14px;padding:14px;background:color-mix(in oklab, var(--card) 82%, var(--bg2) 18%)">
+          <h3>Resources &amp; Guidance</h3>
+          <ul>
+            <li><strong>Annual filing deadline:</strong> January 31 each year — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">File commitment notice with DOLA</a></li>
+            <li><a href="https://cdola.colorado.gov/prop123" target="_blank" rel="noopener">DOLA HB 22-1093 / Prop 123 Page</a> — Official guidance, FAQ, and forms</li>
+            <li><a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">DOLA State Demography Office</a> — Population forecasts and Regional Data Explorer used in projections above</li>
+            <li><a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener">CDOH (Colorado Division of Housing)</a> — State housing programs, vouchers, and funding streams</li>
+            <li><a href="https://www.chfainfo.com/community-partnerships/the-housing-affordability-gap" target="_blank" rel="noopener">CHFA Housing Affordability Gap Map</a> — County-level gap analysis aligned with Prop 123 baseline</li>
+            <li><a href="https://www.chfainfo.com/about-chfa/resource-library" target="_blank" rel="noopener">CHFA Resource Library</a> — Developer guides, LIHTC program resources, and QAP</li>
+            <li><a href="https://leg.colorado.gov/bills/hb22-1093" target="_blank" rel="noopener">HB 22-1093 Full Text</a> — Colorado General Assembly</li>
+            <li><strong>Eligible jurisdictions:</strong> Municipalities ≥ 1,000 population &amp; counties ≥ 5,000 population (per HB 22-1093)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── PMA → Market Analysis redirect ── -->
+      <section id="pma-methodology-section" class="chart-card span-12 pma-methodology-section" style="display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap">
+        <div style="flex:0 0 auto;font-size:2rem;line-height:1">📍</div>
+        <div style="flex:1;min-width:220px">
+          <h2 style="margin:0 0 .4rem">PMA Delineation &amp; CHFA Requirements</h2>
+          <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .9rem">
+            All Primary Market Area tools — boundary delineation, CHFA requirements summary, workflow steps,
+            and the CHFA PMA checklist — are consolidated on the Market Analysis &amp; PMA page.
+          </p>
+          <!-- color: #fff !important is required to beat site-theme.css { a { color: var(--link) !important } }. -->
+          <a href="market-analysis.html#maChfaRequirements"
+             style="display:inline-flex;align-items:center;gap:.4rem;background:var(--accent);color:var(--on-accent,#fff) !important;padding:.5rem 1rem;border-radius:6px;font-weight:600;font-size:.9rem;text-decoration:none">
+            Go to PMA Delineation &amp; CHFA Checklist →
+          </a>
+        </div>
+      </section>
+
+      <!-- ── Projected Housing Need & AMI Recommendation ── -->
+      <section id="housing-need-projection" class="chart-card span-12" aria-label="Projected housing need">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Projected Housing Need</h2>
+          <span class="pill" id="projectionGeoPill" style="display:none"></span>
+        </div>
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and the current rental gap.
+          <span data-edu="dola_projections"></span>
+        </p>
+        <!-- Projection table — rendered by HousingNeedProjector -->
+        <div id="hnpProjectionContainer">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate projections.</p>
+        </div>
+
+        <!-- AMI Distribution Recommendation -->
+        <div style="margin-top:28px;border-top:1px solid var(--border);padding-top:20px">
+          <h3 style="margin:0 0 6px">Recommended AMI Distribution
+            <span data-edu="ami"></span>
+          </h3>
+          <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+            Based on current income distribution and cost burden, the following AMI targeting mix is recommended for a new LIHTC project in this jurisdiction.
+            <span data-edu="lihtc"></span>
+          </p>
+          <div id="hnpAmiContainer">
+            <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── F188 — Need by Bedroom Count (renters by household size → bedroom need) ── -->
+      <section id="bedroom-need-section" class="chart-card span-12" aria-label="Renter need by bedroom count">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Renter need by bedroom count</h2>
+        </div>
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+          How many renter households need a studio, 1BR, 2BR, 3BR, or 4BR+ unit — derived from ACS B25009 (tenure by household size) using the HUD "max 2 people per bedroom" occupancy standard. Feeds the Market Analysis concept recommendation so the suggested unit mix reflects local renter demand, not just an industry default per concept type.
+        </p>
+        <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-source-url="https://data.census.gov/table/ACSDT5Y.B25009" data-vintage="ACS 2023 5-year" data-source-type="live">
+          <canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>
+        </div>
+        <p id="bedroomNeedNote" style="font-size:1rem;color:var(--muted);margin-top:6px;font-style:italic"></p>
+      </section>
+
+      <!-- ── Need by Housing Type — data-driven 6-category ranking ── -->
+      <section id="housing-type-need-section" class="chart-card span-12" aria-label="Need by housing type">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">What types of housing does the data support?</h2>
+        </div>
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+          A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the Affordable Housing Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
+        </p>
+        <div id="hnaHousingTypeNeed">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
+        </div>
+      </section>
+
+      <!-- ── Affordable Ownership Need — screening layer, additive to rental need ── -->
+      <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
+          <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
+        </div>
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .65rem;line-height:1.5">
+          This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
+        </p>
+        <p><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a></p>
+        <div class="stats stats--ownership" aria-label="Current ownership need summary" style="margin:.35rem 0 .65rem;">
+          <div class="stat"><div class="k">Current ownership need</div><div class="v" id="statOwnGap">—</div><div class="s">Tenure strategy screen</div></div>
+          <div class="stat"><div class="k">Moderate-income renter base</div><div class="v" id="statOwnGapModerateRenters">—</div><div class="s">51–100% HAMFI renters</div></div>
+          <div class="stat"><div class="k">Owner cost-burden context</div><div class="v" id="statOwnGapOwnerBurden">—</div><div class="s">Current owners</div></div>
+        </div>
+        <div id="hnaAffordableOwnershipNeed">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
+        </div>
+        <div id="hnaOwnershipStrategy" class="chart-card" style="margin-top:1rem;min-width:0;overflow:hidden;">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load the ownership strategy screen.</p>
+        </div>
+      </section>
+
+      <!-- ── Neighborhood & Architectural Context ── -->
+      <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
+        
+<!-- [hna-view:act] not on this view: Neighborhood & Architectural Context -->
+
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+          Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
+          <span style="display:block;margin-top:.4rem;font-size:.78rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
+        </p>
+        <!-- Neighborhood context card — rendered by NeighborhoodContext -->
+        <div id="ncContextContainer">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
+        </div>
+      </section>
+
+      <!-- ── Housing Type Feasibility Analysis ── -->
+      <section id="housing-type-feasibility" class="chart-card span-12" aria-label="Housing type feasibility analysis">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+          <h2 style="margin:0">Housing Type Feasibility Analysis</h2>
+        </div>
+        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
+          Assesses local housing stock composition, building age trends, and market values to identify
+          which housing types (single-family, townhome, garden-style, mid-rise) are most viable for
+          new development. Combines Census ACS unit-type data with affordability metrics to project
+          feasible construction types for LIHTC and workforce housing.
+        </p>
+        <div id="htfContainer">
+          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
+        </div>
+        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
+          <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era of housing stock"></canvas></div>
+        </div>
+        <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
+      </section>
+
+      <!-- ── Colorado Market Conditions ── -->
+      
+<!-- [hna-view:act] not on this view: Colorado Market Conditions -->
+
+
+      <!-- ── Housing Action Plan ── -->
+      <section id="housing-action-plan" class="chart-card span-12">
+        <h2>Housing Action Plan Checklist</h2>
+        <p style="color:var(--muted)">
+          Strategic actions commonly used to address documented housing needs. Checked items are saved locally by geography.
+        </p>
+        <div id="actionPlanAnnouncer" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+        <div class="action-plan-grid">
+          <!-- Column 1: Supply-side actions -->
+          <div>
+            <h3 style="margin:0 0 10px;">📦 Housing Supply Actions</h3>
+            <ul class="compliance-checklist" id="actionPlanSupply">
+              <li class="checklist-item pending" id="actionZoning" data-storage-key="action_zoning">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionZoning" aria-label="Review and update zoning to allow diverse housing types">
+                <div class="checklist-item-content">
+                  <label for="chkActionZoning"><strong>Update zoning for housing diversity</strong> — allow ADUs, duplexes, and missing-middle housing types</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionFastTrack" data-storage-key="action_fasttrack">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionFastTrack" aria-label="Implement expedited permitting for affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionFastTrack"><strong>Implement affordable housing fast-track permitting</strong> — streamline approvals for qualifying projects</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionLandBank" data-storage-key="action_landbank">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionLandBank" aria-label="Create or join a land bank for affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionLandBank"><strong>Establish land bank or land trust</strong> — secure sites for long-term affordable housing development</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionIZ" data-storage-key="action_iz">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionIZ" aria-label="Adopt inclusionary zoning policy">
+                <div class="checklist-item-content">
+                  <label for="chkActionIZ"><strong>Adopt inclusionary zoning</strong> — require affordable units in new market-rate developments</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Column 2: Affordability and demand actions -->
+          <div>
+            <h3 style="margin:0 0 10px;">💰 Affordability &amp; Demand Actions</h3>
+            <ul class="compliance-checklist" id="actionPlanDemand">
+              <li class="checklist-item pending" id="actionLIHTC" data-storage-key="action_lihtc">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionLIHTC" aria-label="Submit or support LIHTC applications for new affordable housing">
+                <div class="checklist-item-content">
+                  <label for="chkActionLIHTC"><strong>Support LIHTC applications</strong> — work with developers to secure Low Income Housing Tax Credits for new affordable units</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionVouchers" data-storage-key="action_vouchers">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionVouchers" aria-label="Partner with housing authority to expand voucher program">
+                <div class="checklist-item-content">
+                  <label for="chkActionVouchers"><strong>Expand rental assistance</strong> — partner with housing authorities to increase Housing Choice Vouchers and rental subsidies</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionSenior" data-storage-key="action_senior">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionSenior" aria-label="Plan for senior housing needs including assisted living">
+                <div class="checklist-item-content">
+                  <label for="chkActionSenior"><strong>Address senior housing gap</strong> — plan for aging-in-place, assisted living, and senior affordable units</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+              <li class="checklist-item pending" id="actionHomeless" data-storage-key="action_homeless">
+                <span class="checklist-status-icon" aria-hidden="true">⏳</span>
+                <input type="checkbox" id="chkActionHomeless" aria-label="Develop homelessness prevention and rapid rehousing strategy">
+                <div class="checklist-item-content">
+                  <label for="chkActionHomeless"><strong>Homelessness prevention strategy</strong> — implement rapid rehousing, prevention funds, and supportive services</label>
+                  <time class="checklist-date-completed" style="display:none"></time>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;padding:12px;background:color-mix(in oklab,var(--card) 80%,var(--bg2) 20%);border-radius:10px;border:1px solid var(--border)">
+          <strong>Progress: </strong>
+          <span id="actionPlanProgress">0 of 8 actions initiated</span>
+          <div style="height:6px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden">
+            <div id="actionPlanProgressBar" style="height:100%;background:var(--accent);border-radius:3px;width:0%;transition:width .3s"></div>
+          </div>
+        </div>
+
+        <p style="font-size:1.133rem;color:var(--muted);margin-top:10px">
+          This action plan is based on best practices from Colorado housing needs assessments including those from the Colorado Division of Housing and CHFA.
+          Progress is saved locally in the browser by geography. Local planning departments and
+          <a href="https://cdola.colorado.gov/housing" target="_blank" rel="noopener" style="color:var(--accent)">CDOH</a> publish implementation guidance.
+        </p>
+      </section>
+
+      <div class="chart-card span-12 methodology">
+        <h2>Methodology & Data Sources</h2>
+        <p style="color:var(--muted)">
+          This section updates as you change geographies and as cached datasets become available.
+          All sources link to the primary publisher.
+        </p>
+        <div id="methodology"></div>
+
+        <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <h3 style="margin:0 0 .6rem;">Primary Data Sources</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
+            <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
+            <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
+            <div><strong>LEHD LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
+            <div><strong>DOLA/SDO</strong> — <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener">Population Projections</a></div>
+            <div><strong>HUD LIHTC</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Database</a></div>
+            <div><strong>HUD QCT/DDA</strong> — <a href="https://www.huduser.gov/portal/datasets/qct.html" target="_blank" rel="noopener">QCT and DDA lists</a></div>
+            <div><strong>HUD FMR</strong> — <a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">Fair Market Rents</a></div>
+            <div><strong>CHFA</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado Housing Finance Authority</a></div>
+            <div><strong>Prop 123</strong> — <a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Commitment Filings</a></div>
+            <div><strong>TIGERweb</strong> — <a href="https://www.census.gov/data/developers/data-sets/TIGERweb-map-service.html" target="_blank" rel="noopener">Geographic Boundaries</a></div>
+          </div>
+          <p style="margin-top:.8rem;font-size:1.133rem;color:var(--muted)">
+            Data refreshes automatically via GitHub Actions.
+            <a href="dashboard-data-sources-ui.html">Full data sources inventory</a> ·
+            <a href="data-status.html">Data freshness status</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIHTC contextual tips (HNA step) -->
+    <div id="lihtcTipsMount-hna"></div>
+
+    <!-- HNA Save & Continue panel -->
+    <section class="hna-continue-panel" id="hnaContinuePanel">
+      <div class="hna-continue-panel__inner">
+        <div class="hna-continue-panel__text">
+          <strong>Step 2 complete?</strong>
+          <span id="hnaContinueDesc">Save your Housing Needs Assessment findings to this project, then continue to Market Analysis.</span>
+        </div>
+        <div class="hna-continue-panel__actions">
+          <button class="btn hna-save-btn" id="hnaSaveProjectBtn" type="button">
+            Save to Project
+          </button>
+          <a class="btn btn-primary hna-continue-btn" href="market-analysis.html">
+            Continue to Market Analysis →
+          </a>
+        </div>
+      </div>
+      <div id="hnaSaveConfirmation" class="hna-save-confirmation" hidden>
+        ✓ HNA saved to project
+      </div>
+    </section>
+  </main>
+<script defer src="js/audit-hook.js"></script>
+<script>
+(function () {
+  'use strict';
+  /* ── Coverage label (populated from PMAEngine if available) ───── */
+  function initCoverageLabel() {
+    var PROD_THRESHOLD_PCT = (window.PMAEngine && window.PMAEngine.COVERAGE_PRODUCTION_THRESHOLD)
+      ? Math.round(window.PMAEngine.COVERAGE_PRODUCTION_THRESHOLD * 100) : 80;
+    var labelEl = document.getElementById('hnaPmaCoverageLabel');
+    var warnEl  = document.getElementById('hnaPmaCoverageWarning');
+    if (!labelEl) return;
+
+    function render(loaded, expected) {
+      var pct = expected > 0 ? Math.round((loaded / expected) * 100) : 0;
+      var isReady = pct >= PROD_THRESHOLD_PCT;
+      labelEl.textContent = 'Coverage: ' + loaded + ' / ' + expected + ' tracts (' + pct + '%)';
+      labelEl.style.color = isReady ? 'var(--good)' : 'var(--warn)';
+      if (warnEl) warnEl.style.display = isReady ? 'none' : '';
+    }
+
+    // If PMAEngine is available (market-analysis.js loaded on same page) use it
+    if (window.PMAEngine && typeof window.PMAEngine.computeCoverage === 'function') {
+      var cov = window.PMAEngine.computeCoverage();
+      render(cov.loaded, cov.expected);
+    } else {
+      // Show a loading placeholder — will be populated if data arrives later
+      labelEl.textContent = 'Coverage: loading…';
+      labelEl.style.color = 'var(--muted)';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCoverageLabel);
+  } else {
+    initCoverageLabel();
+  }
+}());
+</script>
+<script src="js/help-modal.js"></script>
+<script src="js/data-status-footer.js"></script>
+<script>
+  CohoHelp.init({
+    title: 'How to Use the Housing Needs Assessment',
+    description: 'This tool helps you quantify housing needs for any Colorado county or incorporated place using public data sources (Census ACS, DOLA, LEHD, and HUD).',
+    steps: [
+      { label: 'Select a geography', desc: 'Choose a county or incorporated place from the dropdown at the top. The tool loads demographic, housing, and economic data for that area.' },
+      { label: 'Review demographic data', desc: 'Explore the population trends, age distribution, household formation rates, and income breakdowns to understand who needs housing.' },
+      { label: 'Examine housing supply & affordability', desc: 'Review the AMI gap analysis, cost-burden rates (households spending >30% or >50% of income on housing), and existing stock by tenure.' },
+      { label: 'Analyze economic indicators', desc: 'Check employment trends, wage levels, and job growth — these drive future housing demand projections.' },
+      { label: 'Export your summary', desc: 'Use the PDF, CSV, or JSON export buttons to download data for use in LIHTC applications, grant proposals, or planning documents.' },
+    ],
+    tips: [
+      'Start with a county before drilling into an incorporated place — county data is more complete.',
+      'The CHAS affordability gap chart shows how many households are cost-burdened at each income tier.',
+      'Hover over any acronym (AMI, LIHTC, QCT, etc.) for a quick definition, or click the Glossary button in the header.',
+    ]
+  });
+</script>
+<script>
+(function(){
+  'use strict';
+  // Inline fallback: ensure compliance checklist items update their visual state immediately
+  // This runs alongside the module-based handler in hna-controller.js
+  var cl = document.getElementById('prop123Checklist');
+  if (!cl) return;
+  cl.addEventListener('change', function(e) {
+    var chk = e.target;
+    if (chk.type !== 'checkbox') return;
+    var li = chk.closest('.checklist-item');
+    if (!li) return;
+    var icon = li.querySelector('.checklist-status-icon');
+    var dateEl = li.querySelector('.checklist-date-completed');
+    li.classList.toggle('done', chk.checked);
+    li.classList.toggle('pending', !chk.checked);
+    if (icon) icon.textContent = chk.checked ? '✓' : '⏳';
+    if (dateEl) {
+      if (chk.checked) {
+        var now = new Date();
+        dateEl.textContent = 'Initiated ' + now.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+        dateEl.style.display = '';
+      } else {
+        dateEl.textContent = '';
+        dateEl.style.display = 'none';
+      }
+    }
+  });
+}());
+</script>
+<script>
+(function() {
+  'use strict';
+  var PREFIX = 'hna_action_';
+  var ITEMS = ['action_zoning','action_fasttrack','action_landbank','action_iz','action_lihtc','action_vouchers','action_senior','action_homeless'];
+
+  function storageKey(geoType, geoid) {
+    return PREFIX + (geoType || 'county') + '_' + (geoid || '');
+  }
+
+  function loadState(geoType, geoid) {
+    try {
+      var raw = localStorage.getItem(storageKey(geoType, geoid));
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) { return {}; }
+  }
+
+  function saveState(geoType, geoid, state) {
+    try { localStorage.setItem(storageKey(geoType, geoid), JSON.stringify(state)); } catch(e) {}
+  }
+
+  function getCurrentGeo() {
+    var gtEl = document.getElementById('geoType');
+    var gsEl = document.getElementById('geoSelect');
+    return {
+      geoType: (gtEl && gtEl.value) || 'county',
+      geoid: (gsEl && gsEl.value) || ''
+    };
+  }
+
+  function updateProgress() {
+    var total = ITEMS.length;
+    var done = 0;
+    ITEMS.forEach(function(key) {
+      var li = document.querySelector('[data-storage-key="' + key + '"]');
+      var chk = li && li.querySelector('input[type="checkbox"]');
+      if (chk && chk.checked) done++;
+    });
+    var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    var lbl = document.getElementById('actionPlanProgress');
+    var bar = document.getElementById('actionPlanProgressBar');
+    if (lbl) lbl.textContent = done + ' of ' + total + ' actions initiated';
+    if (bar) bar.style.width = pct + '%';
+  }
+
+  function applyState(state) {
+    ITEMS.forEach(function(key) {
+      var li = document.querySelector('[data-storage-key="' + key + '"]');
+      if (!li) return;
+      var chk = li.querySelector('input[type="checkbox"]');
+      var icon = li.querySelector('.checklist-status-icon');
+      var dateEl = li.querySelector('.checklist-date-completed');
+      var checked = !!(state && state[key] && state[key].checked);
+      if (chk) chk.checked = checked;
+      li.classList.toggle('done', checked);
+      li.classList.toggle('pending', !checked);
+      if (icon) icon.textContent = checked ? '✓' : '⏳';
+      if (dateEl) {
+        if (checked && state[key] && state[key].date) {
+          var d = new Date(state[key].date);
+          dateEl.textContent = 'Initiated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+          dateEl.style.display = '';
+        } else {
+          dateEl.textContent = '';
+          dateEl.style.display = 'none';
+        }
+      }
+    });
+    updateProgress();
+  }
+
+  function initActionPlan(geoType, geoid) {
+    applyState(loadState(geoType, geoid));
+  }
+
+  // Update the visual state of a SINGLE checklist item (icon, classes, date
+  // line) without touching siblings. The full-grid applyState() loop is only
+  // for hydrating from saved state on init / geo change — calling it on
+  // every click clobbered checkboxes that were checked-then-blurred before
+  // their localStorage write had landed.
+  function applyItemVisual(li, checked, dateIso) {
+    if (!li) return;
+    var chk = li.querySelector('input[type="checkbox"]');
+    var icon = li.querySelector('.checklist-status-icon');
+    var dateEl = li.querySelector('.checklist-date-completed');
+    if (chk) chk.checked = checked;
+    li.classList.toggle('done', checked);
+    li.classList.toggle('pending', !checked);
+    if (icon) icon.textContent = checked ? '✓' : '⏳';
+    if (dateEl) {
+      if (checked && dateIso) {
+        var d = new Date(dateIso);
+        dateEl.textContent = 'Initiated ' + d.toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'});
+        dateEl.style.display = '';
+      } else {
+        dateEl.textContent = '';
+        dateEl.style.display = 'none';
+      }
+    }
+  }
+
+  function wireChecklists() {
+    ['actionPlanSupply','actionPlanDemand'].forEach(function(listId) {
+      var list = document.getElementById(listId);
+      if (!list) return;
+      list.addEventListener('change', function(e) {
+        var chk = e.target;
+        if (chk.type !== 'checkbox') return;
+        var li = chk.closest('[data-storage-key]');
+        if (!li) return;
+        var key = li.getAttribute('data-storage-key');
+        var geo = getCurrentGeo();
+        var state = loadState(geo.geoType, geo.geoid);
+        var dateIso = chk.checked ? new Date().toISOString() : null;
+        state[key] = { checked: chk.checked, date: dateIso };
+        saveState(geo.geoType, geo.geoid, state);
+        applyItemVisual(li, chk.checked, dateIso);
+        updateProgress();
+      });
+    });
+  }
+
+  function watchGeoChange() {
+    var gtEl = document.getElementById('geoType');
+    var gsEl = document.getElementById('geoSelect');
+    if (gtEl) gtEl.addEventListener('change', function() {
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+    if (gsEl) gsEl.addEventListener('change', function() {
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      wireChecklists();
+      watchGeoChange();
+      var geo = getCurrentGeo();
+      initActionPlan(geo.geoType, geo.geoid);
+    });
+  } else {
+    wireChecklists();
+    watchGeoChange();
+    var geo = getCurrentGeo();
+    initActionPlan(geo.geoType, geo.geoid);
+  }
+}());
+</script>
+<script>
+// Wire HNA county selection into SiteState so Market Analysis
+// and other tools automatically inherit the selected geography.
+(function () {
+  function syncCountyToSiteState() {
+    if (!window.SiteState || !window.HNAState) return;
+    var geoType = window.HNAState.els && window.HNAState.els.geoType && window.HNAState.els.geoType.value;
+    var geoSelect = window.HNAState.els && window.HNAState.els.geoSelect;
+    if (!geoSelect) return;
+    geoSelect.addEventListener('change', function () {
+      if (geoType !== 'county') return;
+      var fips = geoSelect.value;
+      var name = geoSelect.options[geoSelect.selectedIndex] && geoSelect.options[geoSelect.selectedIndex].text;
+      if (fips) window.SiteState.setCounty(fips, name || fips);
+    });
+    // Also sync geoType changes so we always read the current type
+    var geoTypeEl = window.HNAState.els.geoType;
+    if (geoTypeEl) geoTypeEl.addEventListener('change', function () {
+      geoType = geoTypeEl.value;
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncCountyToSiteState);
+  } else {
+    syncCountyToSiteState();
+  }
+}());
+</script>
+
+<!-- ── Housing Authority Search ── -->
+<script>
+(function () {
+  'use strict';
+
+  // Static list of Colorado public housing authorities (PHAs) + key partners.
+  // Keyed by county FIPS (08XXX). "statewide" applies when no county match.
+  // Last refreshed 2026-06-11 vs HUD PIH Contact List.
+  // Curated from HUD PIH Contact List + CHFA partner directory. Covers
+  // all 64 CO counties — counties without a dedicated PHA point to the
+  // regional administrator (e.g. Grand County HA admins HCV for Clear
+  // Creek/Gilpin/Jackson; Housing Solutions for the Southwest admins
+  // HCV across Archuleta/La Plata/San Juan) or to CRHDC + statewide
+  // partners. Workforce / deed-restricted authorities (APCHA, Eagle,
+  // Summit, YVHA, GVRHA) operate outside HUD PIH but are included.
+  var CO_HOUSING_AUTHORITIES = {
+    statewide: [
+      { name: 'Colorado Housing and Finance Authority (CHFA)', role: 'State housing finance agency — LIHTC allocator, funder', url: 'https://www.chfainfo.com/', phone: '(303) 297-7305' },
+      { name: 'Colorado Division of Housing (CDOH)', role: 'State rental assistance, HTF, and housing policy', url: 'https://cdola.colorado.gov/housing', phone: '(303) 864-7810' },
+      { name: 'Colorado Coalition for the Homeless', role: 'Supportive housing, PSH financing partner', url: 'https://www.coloradocoalition.org/', phone: '(303) 293-2217' },
+      { name: 'Mercy Housing Mountain Plains', role: 'Nonprofit LIHTC developer — operates across CO', url: 'https://www.mercyhousing.org/mountain-plains/', phone: '(303) 830-3300' },
+      { name: 'Rocky Mountain Communities', role: 'Nonprofit affordable-housing developer — rural + front-range CO', url: 'https://rockymtncommunities.org/', phone: '(303) 893-1199' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC in small communities', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+      { name: 'Housing Colorado', role: 'Industry trade association — training, policy advocacy', url: 'https://www.housingcolorado.org/', phone: '(303) 863-0124' },
+    ],
+
+    // ── Metro Denver (Front Range) ────────────────────────────────
+    '08031': [ // Denver
+      { name: 'Denver Housing Authority (DHA)', role: 'Public housing authority — Section 8, LIHTC developer', url: 'https://www.denverhousing.org/', phone: '(720) 932-3000' },
+      { name: 'Denver Office of Housing Stability', role: 'City affordable housing fund, inclusionary policy', url: 'https://www.denvergov.org/housing', phone: '(720) 913-1653' },
+    ],
+    '08001': [ // Adams
+      { name: 'Adams County Housing Authority (Maiker)', role: 'Section 8 HCV, LIHTC co-GP, public housing (rebranded 2020)', url: 'https://www.maiker.org/', phone: '(303) 227-2085' },
+    ],
+    '08005': [ // Arapahoe
+      { name: 'Arapahoe County Housing Authority', role: 'HCV, supportive housing', url: 'https://www.arapahoegov.com/housing', phone: '(303) 738-8080' },
+      { name: 'Aurora Housing Authority', role: 'City-level HCV + LIHTC developer for Aurora', url: 'https://www.aurorahousing.org/', phone: '(303) 363-7427' },
+    ],
+    '08059': [ // Jefferson
+      { name: 'Foothills Regional Housing (Jefferson Co HA)', role: 'Section 8 HCV, senior housing, LIHTC (rebranded 2019)', url: 'https://foothillsregionalhousing.org/', phone: '(303) 422-8600' },
+      { name: 'Metro West Housing Solutions (Lakewood)', role: 'Lakewood PHA — LIHTC developer', url: 'https://www.mwhsolutions.org/', phone: '(303) 232-9330' },
+    ],
+    '08035': [ // Douglas
+      { name: 'Douglas County Housing Partnership', role: 'HCV, workforce housing programs', url: 'https://www.dcha.org/', phone: '(303) 660-7374' },
+    ],
+    '08014': [ // Broomfield
+      { name: 'Broomfield Housing Authority', role: 'Section 8 HCV, affordable unit coordination', url: 'https://www.broomfield.org/housing', phone: '(303) 438-6370' },
+    ],
+    '08013': [ // Boulder
+      { name: 'Boulder Housing Partners', role: 'Public housing authority — LIHTC developer, HCV', url: 'https://www.boulderhousing.org/', phone: '(720) 564-4610' },
+      { name: 'Boulder County Housing Authority', role: 'Regional HCV + LIHTC — serves unincorporated + small-town Boulder Co', url: 'https://www.bouldercounty.org/families/housing/boulder-county-housing-authority/', phone: '(303) 441-3929' },
+      { name: 'Longmont Housing Authority', role: 'Longmont city PHA — LIHTC developer', url: 'https://longmonthousing.org/', phone: '(303) 651-8581' },
+    ],
+
+    // ── Northern Colorado ─────────────────────────────────────────
+    '08069': [ // Larimer (Fort Collins, Loveland)
+      { name: 'Housing Catalyst (Fort Collins PHA)', role: 'Public housing authority — LIHTC developer', url: 'https://www.housingcatalyst.com/', phone: '(970) 416-2910' },
+      { name: 'Loveland Housing Authority', role: 'HCV + LIHTC ownership in Loveland', url: 'https://www.lovelandhousing.org/', phone: '(970) 667-3232' },
+    ],
+    '08123': [ // Weld
+      { name: 'Weld County Housing Authority', role: 'HCV, rural housing programs', url: 'https://www.weldgov.com/departments/housing', phone: '(970) 304-6430' },
+      { name: 'Greeley Urban Renewal Authority', role: 'TIF + affordable-housing coordination for Greeley', url: 'https://greeleygov.com/government/ura', phone: '(970) 350-9380' },
+    ],
+    '08115': [ // Sedgwick (NE plains — no PHA; served regionally)
+      { name: 'North Eastern Colorado Health Department (CRHDC partner)', role: 'Rural housing coordination — no dedicated PHA, contact CRHDC for LIHTC partnership', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // ── Southern Colorado ─────────────────────────────────────────
+    '08041': [ // El Paso (Colorado Springs)
+      { name: 'Colorado Springs Housing Authority (CSHA)', role: 'Public housing authority — Section 8, HCV', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+      { name: 'El Paso County Department of Housing', role: 'County HCV + rental assistance for unincorporated areas', url: 'https://communityservices.elpasoco.com/housing/', phone: '(719) 520-6390' },
+    ],
+    '08043': [ // Fremont
+      { name: 'Fremont County Housing Authority', role: 'HCV, rural LIHTC partnerships', url: 'https://www.fremontco.com/housing-authority', phone: '(719) 275-8171' },
+    ],
+    '08055': [ // Huerfano (Walsenburg area)
+      { name: 'Walsenburg Housing Authority', role: 'Small-town PHA — limited HCV capacity', url: 'https://www.walsenburghousing.org/', phone: '(719) 738-1800' },
+    ],
+    '08071': [ // Las Animas (Trinidad)
+      { name: 'Trinidad Housing Authority', role: 'Rural PHA — Section 8, public housing', url: null, phone: '(719) 846-7201' },
+    ],
+    '08101': [ // Pueblo
+      { name: 'Pueblo Housing Authority', role: 'Public housing, Section 8 HCV', url: 'https://www.pueblo.us/292/Housing-Authority', phone: '(719) 544-7662' },
+      { name: 'Pueblo County Housing Authority', role: 'County-level HCV for unincorporated areas', url: 'https://county.pueblo.org/housing-authority', phone: '(719) 583-6225' },
+    ],
+
+    // ── San Luis Valley + Southern Mountains ──────────────────────
+    '08003': [ // Alamosa
+      { name: 'Alamosa Housing Authority', role: 'Rural PHA — serves San Luis Valley counties', url: null, phone: '(719) 589-2576' },
+    ],
+    '08021': [ // Conejos
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional housing partnership — La Jara + Antonito area', url: null, phone: '(719) 274-4805' },
+    ],
+    '08105': [ // Rio Grande (Monte Vista, Del Norte)
+      { name: 'Monte Vista Housing Authority', role: 'Rural PHA — LIHTC partnerships via CRHDC', url: null, phone: '(719) 852-4345' },
+    ],
+
+    // ── Western Slope / Mountains ─────────────────────────────────
+    '08077': [ // Mesa (Grand Junction)
+      { name: 'Grand Junction Housing Authority', role: 'Public housing, HCV, LIHTC', url: 'https://www.gjha.org/', phone: '(970) 245-0388' },
+    ],
+    '08045': [ // Garfield (Glenwood Springs, Rifle)
+      { name: 'Garfield County Housing Authority', role: 'Workforce housing, LIHTC developer in mountain region', url: 'https://www.garfield-county.com/housing/', phone: '(970) 945-1377' },
+    ],
+    '08097': [ // Pitkin (Aspen)
+      { name: 'Aspen/Pitkin County Housing Authority (APCHA)', role: 'Deed-restricted workforce housing, employee units — mandatory resort-workforce program', url: 'https://www.apcha.org/', phone: '(970) 920-5050' },
+    ],
+    '08037': [ // Eagle (Vail, Avon)
+      { name: 'Eagle County Housing Authority', role: 'Resort-workforce PHA — deed-restricted + LIHTC', url: 'https://www.eaglecountyhousing.org/', phone: '(970) 328-8770' },
+    ],
+    '08117': [ // Summit (Breckenridge, Frisco)
+      { name: 'Summit Combined Housing Authority', role: 'Ski-town regional PHA — deed-restricted workforce', url: 'https://www.summithousing.us/', phone: '(970) 453-3557' },
+    ],
+    '08107': [ // Routt (Steamboat)
+      { name: 'Yampa Valley Housing Authority', role: 'Routt + Moffat area — deed-restricted + LIHTC development', url: 'https://www.yvha.org/', phone: '(970) 879-0470' },
+    ],
+    '08049': [ // Grand (Granby, Winter Park)
+      { name: 'Grand County Housing Authority', role: 'Resort-workforce + rural — HCV + deed-restricted units', url: 'https://www.co.grand.co.us/housing-authority', phone: '(970) 725-3303' },
+    ],
+    '08113': [ // San Miguel (Telluride)
+      { name: 'San Miguel Regional Housing Authority', role: 'Telluride area — deed-restricted + LIHTC workforce', url: 'https://www.smrha.org/', phone: '(970) 728-0086' },
+    ],
+    '08091': [ // Ouray
+      { name: 'Ouray Housing Authority (regional via SMRHA)', role: 'Small resort community — coordination through SMRHA', url: 'https://www.smrha.org/', phone: '(970) 728-0086' },
+    ],
+    '08065': [ // Lake (Leadville)
+      { name: 'Lake County Housing Authority', role: 'Small rural/resort-workforce — limited capacity', url: null, phone: '(719) 486-2494' },
+    ],
+    '08067': [ // La Plata (Durango)
+      { name: 'La Plata County Housing Authority', role: 'Durango area — LIHTC + HCV', url: 'https://www.homesfund.org/', phone: '(970) 259-1418' },
+    ],
+    '08083': [ // Montezuma (Cortez)
+      { name: 'Montezuma County Housing Authority', role: 'Rural southwestern CO — USDA Rural Development partner', url: null, phone: '(970) 565-3258' },
+    ],
+    '08085': [ // Montrose
+      { name: 'Montrose County Housing Authority', role: 'Western Slope rural + mid-size — HCV + LIHTC', url: 'https://www.montrosecounty.net/housing-authority', phone: '(970) 252-4500' },
+    ],
+
+    // ── Gap fill 2026-06-11: 33 counties without a curated entry ──
+
+    // Front-Range rural fringe
+    '08039': [ // Elbert (Kiowa)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no PHA in Elbert; CRHDC + adjacent Arapahoe/Douglas HCV cover the area', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // Mountain HCV region (Grand County HA administers Section 8 for Clear Creek, Gilpin, Jackson)
+    '08019': [ // Clear Creek (Idaho Springs, Georgetown)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Clear Creek + 5 adjacent mountain counties', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+    '08047': [ // Gilpin (Central City, Black Hawk)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Gilpin (mountain gaming corridor)', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+    '08057': [ // Jackson (Walden, North Park)
+      { name: 'Grand County Housing Authority (regional HCV admin)', role: 'Regional — Section 8 HCV admin for Jackson + North Park', url: 'https://www.co.grand.co.us/425/Section-8-Rental-Assistance', phone: '(970) 725-3303' },
+    ],
+
+    // Northeast Plains (town PHAs + CRHDC fallback)
+    '08075': [ // Logan (Sterling)
+      { name: 'Sterling Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 522-0869' },
+    ],
+    '08087': [ // Morgan (Fort Morgan, Brush)
+      { name: 'Fort Morgan Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 867-2734' },
+      { name: 'Brush Housing Authority', role: 'Small-town PHA in Brush', url: null, phone: '(970) 842-5046' },
+    ],
+    '08095': [ // Phillips (Holyoke, Haxtun)
+      { name: 'Holyoke Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(970) 854-2289' },
+      { name: 'Haxtun Housing Authority', role: 'Town PHA — small public housing portfolio', url: null, phone: '(970) 774-7251' },
+    ],
+    '08125': [ // Yuma (town of Yuma, Wray)
+      { name: 'Yuma Housing Authority', role: 'Town PHA — public housing, Section 8', url: null, phone: '(970) 848-5590' },
+    ],
+    '08121': [ // Washington (Akron)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no PHA in Washington; CRHDC + adjacent Logan/Morgan PHAs cover NE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+
+    // Eastern Plains (town PHAs + CRHDC fallback)
+    '08017': [ // Cheyenne (Cheyenne Wells)
+      { name: 'Cheyenne Wells Housing Authority', role: 'Town PHA — small public housing portfolio', url: null, phone: '(719) 767-5964' },
+    ],
+    '08063': [ // Kit Carson (Burlington)
+      { name: 'Burlington Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 346-5464' },
+    ],
+    '08073': [ // Lincoln (Limon, Hugo)
+      { name: 'Limon Housing Authority', role: 'Town PHA — public housing, Section 8', url: null, phone: '(719) 775-9309' },
+    ],
+    '08011': [ // Bent (town of Las Animas)
+      { name: 'Las Animas Housing Authority', role: 'Town PHA — note: located in town of Las Animas (Bent Co), NOT Las Animas County', url: null, phone: '(719) 456-2748' },
+    ],
+    '08061': [ // Kiowa (Eads)
+      { name: 'Lamar Housing Authority (adjacent)', role: 'Regional — no PHA in Kiowa; nearest HUD PHA is Lamar (Prowers County)', url: null, phone: '(719) 336-9575' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08009': [ // Baca (Springfield)
+      { name: 'Lamar Housing Authority (adjacent)', role: 'Regional — no PHA in Baca; nearest HUD PHA is Lamar (Prowers County)', url: null, phone: '(719) 336-9575' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08025': [ // Crowley (Ordway)
+      { name: 'Otero County Housing Authority (adjacent)', role: 'Regional — no PHA in Crowley; closest HUD PHA is Otero (La Junta)', url: null, phone: '(719) 384-9055' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for SE Plains', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08089': [ // Otero (La Junta, Rocky Ford)
+      { name: 'Otero County Housing Authority', role: 'County PHA — public housing, Section 8 (co-admin with La Junta HA)', url: null, phone: '(719) 384-9055' },
+      { name: 'La Junta Housing Authority', role: 'County-seat PHA — co-administered with Otero County HA', url: null, phone: '(719) 384-9055' },
+      { name: 'Rocky Ford Housing Authority', role: 'Small-town PHA in Rocky Ford', url: null, phone: '(719) 254-6902' },
+    ],
+    '08099': [ // Prowers (Lamar, Holly)
+      { name: 'Lamar Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 336-9575' },
+      { name: 'Holly Housing Authority', role: 'Small-town PHA in eastern Prowers', url: null, phone: '(719) 537-0191' },
+    ],
+
+    // Southern Front Range / Sangres
+    '08015': [ // Chaffee (Salida, Buena Vista)
+      { name: 'Salida Housing Authority', role: 'County-seat PHA — public housing, Section 8', url: null, phone: '(719) 539-6243' },
+    ],
+    '08027': [ // Custer (Westcliffe)
+      { name: 'Fremont County Housing Authority (adjacent)', role: 'Regional — no PHA in Custer; nearest HUD PHA is Fremont (Cañon City)', url: 'https://www.fremontco.com/housing-authority', phone: '(719) 275-8171' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for central CO', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08119': [ // Teller (Cripple Creek, Woodland Park)
+      { name: 'Colorado Springs Housing Authority (adjacent)', role: 'Regional — no PHA in Teller; CSHA + El Paso County cover the Pikes Peak workforce region', url: 'https://www.csha1.org/', phone: '(719) 327-6300' },
+    ],
+
+    // San Luis Valley (additional counties)
+    '08023': [ // Costilla (San Luis)
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional — no PHA in Costilla; SLVHC + Alamosa HA cover SLV counties', url: 'https://sites.google.com/slvhc.com/slvhc', phone: '(719) 274-4805' },
+    ],
+    '08079': [ // Mineral (Creede)
+      { name: 'San Luis Valley Housing Coalition', role: 'Regional — Mineral is one of CO’s smallest counties; SLVHC + Alamosa HA cover SLV', url: 'https://sites.google.com/slvhc.com/slvhc', phone: '(719) 274-4805' },
+    ],
+    '08109': [ // Saguache (Saguache, Center)
+      { name: 'Saguache County Housing Authority', role: 'County PHA — public housing, Section 8', url: 'https://saguachecounty.colorado.gov/saguache-county-housing-authority', phone: '(719) 655-2804' },
+      { name: 'Center Housing Authority', role: 'Town PHA in Center (San Luis Valley)', url: null, phone: '(719) 754-2537' },
+    ],
+
+    // Western Slope (additional counties)
+    '08029': [ // Delta
+      { name: 'Delta Housing Authority', role: 'County PHA — Section 8 HCV', url: 'https://deltahousingauthority.org/', phone: '(970) 874-7266' },
+    ],
+    '08051': [ // Gunnison (Gunnison, Crested Butte)
+      { name: 'Gunnison Valley Regional Housing Authority', role: 'Workforce + deed-restricted housing — Gunnison + Crested Butte', url: 'https://gvrha.org/', phone: '(970) 641-7900' },
+    ],
+    '08053': [ // Hinsdale (Lake City)
+      { name: 'Gunnison Valley Regional Housing Authority', role: 'Regional — Hinsdale workforce housing via Gunnison RHA', url: 'https://gvrha.org/', phone: '(970) 641-7900' },
+      { name: 'Housing Resources of Western Colorado', role: 'Housing counseling + weatherization across 12 Western Slope counties', url: 'https://hrwco.org/', phone: '(970) 241-2871' },
+    ],
+    '08081': [ // Moffat (Craig)
+      { name: 'Yampa Valley Housing Authority (cross-county collab)', role: 'Routt-based; YVHA actively collaborating with Craig on Moffat housing need', url: 'https://www.yvha.org/', phone: '(970) 879-0470' },
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'USDA Rural Development + LIHTC partner for NW Colorado', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08103': [ // Rio Blanco (Meeker, Rangely)
+      { name: 'Colorado Rural Housing Development Corp (CRHDC)', role: 'Regional — no HUD-listed PHA in Rio Blanco; CRHDC + local Meeker/Rangely housing programs', url: 'https://www.crhdc.org/', phone: '(303) 428-1448' },
+    ],
+    '08093': [ // Park (Fairplay, Alma)
+      { name: 'Park County Government (Housing Programs)', role: 'County-run Section 8 HCV intake; formal PHA collaboration with Alma + Fairplay in progress', url: 'https://www.parkcountyco.gov/280/Housing', phone: '(719) 836-2771' },
+    ],
+
+    // Southwest Colorado (additional counties)
+    '08007': [ // Archuleta (Pagosa Springs)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — administers Section 8 HCV across Archuleta + La Plata + San Juan', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
+    ],
+    '08033': [ // Dolores (Dove Creek)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — covers Dolores via SW Colorado housing programs', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
+    ],
+    '08111': [ // San Juan (Silverton)
+      { name: 'Housing Solutions for the Southwest', role: 'Regional — Section 8 HCV admin for San Juan + SW Colorado', url: 'https://swhousingsolutions.com/', phone: '(970) 259-1086' },
+    ]
+  };
+
+  function renderAuthorityResults(fips) {
+    var resultsEl = document.getElementById('housingAuthorityResults');
+    if (!resultsEl) return;
+
+    var matches = (fips && CO_HOUSING_AUTHORITIES[fips]) ? CO_HOUSING_AUTHORITIES[fips] : [];
+    var all = matches.concat(CO_HOUSING_AUTHORITIES.statewide);
+
+    if (all.length === 0) {
+      resultsEl.innerHTML = '<p style="color:var(--muted)">No local housing authorities found. See HUD PHA Finder for contacts in your area.</p>';
+      return;
+    }
+
+    // Build header noting local vs statewide breakdown
+    var localCount = matches.length;
+    var stateCount = CO_HOUSING_AUTHORITIES.statewide.length;
+    var header = localCount > 0
+      ? '<p style="margin:0 0 6px;font-size:1rem;color:var(--muted)"><strong>' + localCount +
+        '</strong> local + <strong>' + stateCount + '</strong> statewide contacts for this geography.</p>'
+      : '<p style="margin:0 0 6px;font-size:1rem;color:var(--warn,#d97706)">No dedicated local PHA listed — this area is typically served by statewide programs + regional nonprofits listed below. For the authoritative federal directory, use the HUD PHA Finder link.</p>';
+
+    // Verify banner — phone numbers + URLs in this directory were not
+    // programmatically refreshed against HUD PIH at page-render time.
+    // They are curated from the HUD Contact List but may drift as
+    // executives / websites change. Force the user to verify before
+    // cold-calling.
+    var verifyBanner =
+      '<div role="note" style="margin-bottom:8px;padding:6px 10px;background:var(--warn-dim,rgba(168,70,8,.1));border-left:3px solid var(--warn,#a84608);border-radius:0 4px 4px 0;font-size:.74rem;color:var(--text);line-height:1.4">' +
+        '\u26a0 <strong>Verify before contacting:</strong> phone numbers, URLs, and roles below are curated from HUD PIH\u2019s Contact List but are NOT live-refreshed. Confirm each entry via the current <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener">HUD PHA Finder</a> before calling.' +
+      '</div>';
+
+    resultsEl.innerHTML = header + verifyBanner +
+      '<ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px">' +
+      all.map(function (a) {
+        var nameCell = a.url
+          ? '<a href="' + a.url + '" target="_blank" rel="noopener" style="font-weight:600;color:var(--accent);font-size:.85rem">' + a.name + ' ↗</a>'
+          : '<span style="font-weight:600;color:var(--text);font-size:.85rem">' + a.name + '</span>';
+        return '<li style="padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:6px">' +
+          '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap">' +
+            '<div>' +
+              nameCell +
+              '<div style="font-size:.78rem;color:var(--muted);margin-top:2px">' + a.role + '</div>' +
+            '</div>' +
+            (a.phone ? '<a href="tel:' + a.phone.replace(/[^0-9+]/g, '') + '" style="font-size:.78rem;color:var(--text);white-space:nowrap;text-decoration:none">' + a.phone + '</a>' : '') +
+          '</div>' +
+        '</li>';
+      }).join('') +
+    '</ul>' +
+    '<p style="margin-top:8px;font-size:1rem;color:var(--faint)">Directory curated from HUD PIH Contact List + CHFA partners. Last curated 2026-04. <a href="https://www.hud.gov/program_offices/public_indian_housing/pha/contacts" target="_blank" rel="noopener" style="color:var(--accent)">Full HUD PHA Finder ↗</a></p>';
+  }
+
+  function getSelectedFips() {
+    // Resolution order: URL → selector → SiteState → HNAState.
+    //
+    // URL FIRST (BUG: 2026-06-11): a stale HNAState.contextCounty from a
+    // prior navigation (e.g. user was on Boulder, then opened Glenwood
+    // Springs in the same tab) survived past the URL change and caused
+    // the wrong county's housing authorities to render. The URL is the
+    // canonical signal of what jurisdiction the user is currently looking
+    // at; cached state agrees in steady state but loses when navigation
+    // outpaces the controller. Always trust the URL when it has a geoid.
+    //
+    // Length-aware resolution avoids the old "slice(-3)" hack that
+    // mis-mapped 7-digit place GEOIDs (e.g. Greenwood Village 0833035 →
+    // '035' → Douglas County HA showing up for any place whose GEOID
+    // happened to end in '035').
+    function resolve(geoid, geoType) {
+      if (!geoid) return null;
+      var v = String(geoid);
+      if (v.length === 5) return v;
+      if (window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+        var t = geoType || (v.length === 7 ? 'place' : 'county');
+        return window.HNAUtils.countyFromGeoid(t, v) || null;
+      }
+      return null;
+    }
+
+    // 1. URL ?geoid= — canonical, beats any stale cached state.
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var urlGeoid  = urlParams.get('geoid');
+      var urlGeoType = urlParams.get('geoType');
+      if (urlGeoid) {
+        var fromUrl = resolve(urlGeoid, urlGeoType);
+        if (fromUrl) return fromUrl;
+      }
+    } catch (_) { /* malformed URL — fall through */ }
+
+    // 2. Selector value — the user's most recent explicit pick.
+    var sel = document.getElementById('hnaCountySelect')
+           || document.getElementById('countySelect')
+           || document.getElementById('geoSelect');
+    if (sel && sel.value) {
+      var fromSel = resolve(sel.value);
+      if (fromSel) return fromSel;
+    }
+
+    // 3. SiteState — only when URL + selector are empty.
+    if (window.SiteState && window.SiteState.get) {
+      var s = window.SiteState.get();
+      if (s && s.geoid) {
+        var fromSite = resolve(s.geoid);
+        if (fromSite) return fromSite;
+      }
+    }
+
+    // 4. HNAState — last resort. Cached value, may be stale on cross-juris
+    //    navigation, so use only when no truer signal is available.
+    var hnaCur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+    if (hnaCur && hnaCur.contextCounty) return hnaCur.contextCounty;
+    if (hnaCur && hnaCur.geoType === 'county' && hnaCur.geoid) return hnaCur.geoid;
+
+    return null;
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    // Auto-render on page load so the HA directory is visible without
+    // requiring a button click — previously this section was silent
+    // until a user noticed the "Search" button.
+    var fips = getSelectedFips();
+    renderAuthorityResults(fips);
+
+    var btn = document.getElementById('btnSearchHousingAuthorities');
+    if (btn) {
+      btn.textContent = 'Refresh';
+      btn.setAttribute('aria-label', 'Refresh housing authority results for current jurisdiction');
+      btn.addEventListener('click', function () {
+        renderAuthorityResults(getSelectedFips());
+      });
+    }
+
+    // Auto-refresh when ANY geo selector changes. We listen on the HNA
+    // controller's primary selectors (#geoSelect / #geoType) as well as the
+    // legacy county selectors so any of them can trigger a re-render.
+    var geoSelectors = document.querySelectorAll(
+      '#hnaCountySelect, #countySelect, #geoSelect, #geoType'
+    );
+    geoSelectors.forEach(function (sel) {
+      sel.addEventListener('change', function () {
+        // Defer one tick so hna-controller has updated state.current first.
+        setTimeout(function () { renderAuthorityResults(getSelectedFips()); }, 0);
+      });
+    });
+
+    // Also refresh when SiteState broadcasts a county change (SiteState
+    // fires 'sitestate:county-changed' when the user picks via breadcrumb
+    // or jurisdiction banner).
+    document.addEventListener('sitestate:county-changed', function () {
+      renderAuthorityResults(getSelectedFips());
+    });
+
+    // Initial render may have run before HNAState resolved the place→county
+    // mapping (it's an async registry fetch). Re-render once when HNAState
+    // is finished loading the current geography. We poll briefly because
+    // HNA doesn't fire a "ready" event.
+    var tries = 0;
+    var poll = setInterval(function () {
+      tries++;
+      var cur = window.HNAState && window.HNAState.state && window.HNAState.state.current;
+      if (cur && (cur.contextCounty || cur.geoid)) {
+        clearInterval(poll);
+        renderAuthorityResults(getSelectedFips());
+      } else if (tries > 30) {
+        clearInterval(poll); // give up after ~3s
+      }
+    }, 100);
+  });
+}());
+</script>
+
+<!-- Projected housing need + neighborhood context + edu callouts integration -->
+<script>
+(function () {
+  'use strict';
+
+  var _debounceTimer = null;
+
+  /* ── County demographics cache (for HousingNeedProjector) ─────────── */
+  // co-county-demographics.json is keyed by county name ("Adams", "Boulder", …).
+  // We preload it once so onGeoChange() can do a synchronous lookup.
+  var _demogCache = null;
+  (function _preloadDemog() {
+    var url = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/co-county-demographics.json')
+      : 'data/co-county-demographics.json';
+    fetch(url).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (d) {
+      if (d && d.counties) _demogCache = d;
+    }).catch(function () {});
+  }());
+
+  /* ── Render projections + neighborhood when geography is loaded ───── */
+  function onGeoChange() {
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) return;
+
+    var geoType    = geoTypeEl.value;
+    var geoid      = geoSelectEl.value;
+
+    // Fix #5: derive the correct county FIPS for all geo types.
+    // County GEOIDs are 5-digit and equal the FIPS directly.
+    // Place/CDP GEOIDs are 7-digit (stateCode + placeCode); slicing to 5 chars
+    // produces a garbage value (e.g. "0804000".slice(0,5) → "08040", not a county).
+    // Use containingCounty from geo-config for places, or HNAUtils as a fallback.
+    var countyFips = '';
+    if (geoid) {
+      if (geoType === 'county') {
+        countyFips = geoid;   // county GEOID === FIPS
+      } else if (geoType === 'place' || geoType === 'cdp') {
+        // Look up containingCounty from the loaded geo config.
+        // For the combined 'place' dropdown, check both places and CDPs arrays.
+        try {
+          var _gc  = window.__HNA_GEO_CONFIG;
+          // Try places first, then CDPs (CDPs may lack containingCounty — fall through to subtype check)
+          var _placeRec = (_gc && Array.isArray(_gc.places)) ? _gc.places.filter(function (p) { return p.geoid === geoid; })[0] : null;
+          var _cdpRec   = (_gc && Array.isArray(_gc.cdps))   ? _gc.cdps.filter(function (c) { return c.geoid === geoid; })[0]   : null;
+          var _rec = _placeRec || _cdpRec;
+          countyFips = (_rec && (_rec.containingCounty || _rec.county_fips)) || '';
+        } catch (_e1) {}
+        // Fallback: HNAUtils if available
+        if (!countyFips && window.HNAUtils && window.HNAUtils.countyFromGeoid) {
+          try { countyFips = window.HNAUtils.countyFromGeoid(geoType, geoid) || ''; } catch (_e2) {}
+        }
+      } else {
+        countyFips = geoid.slice(0, 5);   // unexpected type — best effort
+      }
+    }
+
+    var _reset = function () {
+      var p1 = document.getElementById('hnpProjectionContainer');
+      var p2 = document.getElementById('hnpAmiContainer');
+      var p3 = document.getElementById('ncContextContainer');
+      if (p1) p1.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county or place geography above to generate projections.</p>';
+      if (p2) p2.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county or place geography above.</p>';
+      if (p3) p3.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county geography above to load neighborhood context.</p>';
+    };
+
+    if (!geoid || geoType === 'state') { _reset(); return; }
+
+    // Pull county demographic data from co-county-demographics.json for projections.
+    // HNAState.state.current has a different shape (geoType/geoid/profile) and must NOT
+    // be passed to HousingNeedProjector, which expects {households, vacancy_rate, …}.
+    var countyData = {};
+    try {
+      if (_demogCache && _demogCache.counties && countyFips && countyFips.length === 5) {
+        // Map FIPS → county name via __HNA_GEO_CONFIG, then look up in demographics
+        var _gc = window.__HNA_GEO_CONFIG;
+        var _countyName = '';
+        if (_gc && Array.isArray(_gc.counties)) {
+          var _match = _gc.counties.filter(function (c) { return c.geoid === countyFips; })[0];
+          if (_match) {
+            // Labels are "Adams County", "El Paso County", etc. — strip " County" suffix.
+            _countyName = _match.label.replace(/\s+County$/i, '');
+          }
+        }
+        if (_countyName && _demogCache.counties[_countyName]) {
+          countyData = _demogCache.counties[_countyName];
+        }
+      }
+    } catch (_) {}
+
+    // Housing need projections + AMI recommendation. countyData is always
+    // the containing county's row — for a place/CDP selection the numbers
+    // are county-scope, so the pill must disclose that (same pattern as
+    // the Neighborhood Context card's ncContextScope below) rather than
+    // presenting e.g. Garfield County's projection under a "New Castle" pill.
+    if (window.HousingNeedProjector) {
+      var pill     = document.getElementById('projectionGeoPill');
+      var geoLabel = geoSelectEl.options[geoSelectEl.selectedIndex]
+        ? geoSelectEl.options[geoSelectEl.selectedIndex].text : countyFips;
+      var _projCountyLabel = (typeof _countyName === 'string' && _countyName)
+        ? _countyName + ' County' : '';
+      if (geoType === 'place' || geoType === 'cdp') {
+        geoLabel += ' — county-scope projection' +
+          (_projCountyLabel ? ' (' + _projCountyLabel + ')' : '');
+      }
+      if (pill) { pill.style.display = ''; pill.textContent = geoLabel; }
+      HousingNeedProjector.renderProjectionSection('hnpProjectionContainer', countyFips, countyData,
+        { geoType: geoType, countyName: _projCountyLabel || undefined });
+      HousingNeedProjector.renderAmiRecommendation('hnpAmiContainer', countyData);
+    }
+
+    // Neighborhood context card. Surface the containing-county name in the
+    // section heading so the user understands the data is county-scope —
+    // not jurisdiction-specific (a place inside the county sees the same
+    // character / form / era profile as the unincorporated areas around it).
+    if (window.NeighborhoodContext) {
+      var _scopeEl = document.getElementById('ncContextScope');
+      if (_scopeEl) {
+        var _ccName = null;
+        try {
+          var _reg = window.__HNA_GEOGRAPHY_REGISTRY;
+          if (_reg && Array.isArray(_reg.geographies)) {
+            var _m = _reg.geographies.find(function (g) { return g.geoid === countyFips; });
+            if (_m) _ccName = _m.name || _m.label || null;
+          }
+        } catch (_) {}
+        _scopeEl.textContent = _ccName ? '· ' + _ccName + ' (county-scope)' : '· county-scope';
+      }
+      NeighborhoodContext.load().then(function () {
+        NeighborhoodContext.renderContextCard('ncContextContainer', countyFips);
+      });
+    }
+  }
+
+  function _debouncedOnGeoChange() {
+    clearTimeout(_debounceTimer);
+    _debounceTimer = setTimeout(onGeoChange, 350);
+  }
+
+  /* ── Fix #1: Auto-select geography from URL params or WorkflowState ── */
+  // After jurisdiction is set (e.g., from comparative analysis redirect with
+  // ?fips=08001&auto=1), pre-populate #geoType and #geoSelect so the user
+  // doesn't have to re-enter their jurisdiction on this page.
+  //
+  // Supports BOTH 5-digit county FIPS (e.g. 08001 = Adams County) and
+  // 7-digit place FIPS (e.g. 0823020 = Cortez city). Geo type is determined
+  // by the explicit ?geoType= param or auto-detected by FIPS length.
+  // Place deep-link is used by the LIHTC Opportunity Finder to jump from
+  // a jurisdiction row into the full HNA workup.
+  function _resolveAutoTarget() {
+    // 1. Prefer explicit URL params (?fips=0823020&geoType=place&auto=1)
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      var f  = sp.get('fips') || sp.get('geoid');
+      var t  = sp.get('geoType');
+      if (f && /^\d{5}$/.test(f))      return { fips: f, geoType: t || 'county' };
+      if (f && /^\d{7}$/.test(f))      return { fips: f, geoType: t || 'place'  };
+    } catch (_) {}
+    // 2. WorkflowState jurisdiction
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx   = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        if (jx.placeGeoid && /^\d{7}$/.test(jx.placeGeoid)) {
+          return { fips: jx.placeGeoid, geoType: 'place' };
+        }
+        if (jx.fips || jx.countyFips) {
+          return { fips: jx.fips || jx.countyFips, geoType: 'county' };
+        }
+      }
+    } catch (_) {}
+    // 3. SiteState legacy county
+    try {
+      var sc = window.SiteState && window.SiteState.getCounty();
+      if (sc && sc.fips) return { fips: sc.fips, geoType: 'county' };
+    } catch (_) {}
+    return null;
+  }
+
+  // Back-compat shim — some callers may still reference the old name
+  function _resolveAutoFips() {
+    var t = _resolveAutoTarget();
+    return t && t.geoType === 'county' ? t.fips : null;
+  }
+
+  function _tryAutoSelect(target, attempts) {
+    if (!target) return;
+    // Back-compat: accept a bare FIPS string and assume county
+    if (typeof target === 'string') target = { fips: target, geoType: 'county' };
+    attempts = attempts || 0;
+    if (attempts > 12) return;   // give up after ~6 s
+
+    var geoTypeEl   = document.getElementById('geoType');
+    var geoSelectEl = document.getElementById('geoSelect');
+    if (!geoTypeEl || !geoSelectEl) {
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 400);
+      return;
+    }
+
+    // Ensure we're showing the right geoType view
+    if (geoTypeEl.value !== target.geoType) {
+      geoTypeEl.value = target.geoType;
+      geoTypeEl.dispatchEvent(new Event('change', { bubbles: true }));
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 500);
+      return;
+    }
+
+    // Find an option whose value matches the FIPS
+    var opts  = geoSelectEl.options;
+    var found = false;
+    for (var i = 0; i < opts.length; i++) {
+      if (opts[i].value === target.fips) {
+        geoSelectEl.value = opts[i].value;
+        geoSelectEl.dispatchEvent(new Event('change', { bubbles: true }));
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      setTimeout(function () { _tryAutoSelect(target, attempts + 1); }, 500);
+    }
+  }
+
+  /* ── Watch #geoContextPill for HNA controller completion signal ───── */
+  // The controller updates the pill text when a geography finishes loading.
+  // Using MutationObserver avoids modifying hna-controller.js.
+  document.addEventListener('DOMContentLoaded', function () {
+    var pill = document.getElementById('geoContextPill');
+    if (pill) {
+      new MutationObserver(_debouncedOnGeoChange)
+        .observe(pill, { childList: true, characterData: true, subtree: true });
+    }
+
+    // Also wire directly to geo selects for immediate debounce on user input
+    var geoSelectEl = document.getElementById('geoSelect');
+    var geoTypeEl   = document.getElementById('geoType');
+    if (geoSelectEl) geoSelectEl.addEventListener('change', _debouncedOnGeoChange);
+    if (geoTypeEl)   geoTypeEl.addEventListener('change',   _debouncedOnGeoChange);
+
+    // SiteState fallback
+    document.addEventListener('sitestate:county-changed', _debouncedOnGeoChange);
+
+    // Fix #1: auto-select county OR place if arriving from jurisdiction flow
+    // Skip if hna-controller already restored a sub-county (place/cdp) selection
+    // unless we have an explicit URL param (which wins — e.g. coming from
+    // the LIHTC Opportunity Finder which wants to override prior state).
+    var hasUrlParam = false;
+    try {
+      var _sp = new URLSearchParams(window.location.search);
+      hasUrlParam = !!(_sp.get('fips') || _sp.get('geoid'));
+    } catch (_) {}
+    var jxCheck = window.WorkflowState && window.WorkflowState.getJurisdiction();
+    if (hasUrlParam || !(jxCheck && jxCheck.type === 'city' && (jxCheck.placeGeoid || jxCheck.displayName))) {
+      var autoTarget = _resolveAutoTarget();
+      if (autoTarget) {
+        setTimeout(function () { _tryAutoSelect(autoTarget); }, 300);
+      }
+    }
+
+    // EduCallout init
+    if (window.EduCallout) {
+      EduCallout.load().then(function () { EduCallout.init({ audience: 'developer' }); });
+    }
+  });
+}());
+</script>
+
+<!-- Workflow: jurisdiction banner, step progress, save-to-project -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Inline styles for workflow elements ─────────────────────────── */
+  var s = document.createElement('style');
+  s.textContent = [
+    /* Progress bar */
+    /* Sticky below the site header (which is z-index:1000, top:0) so
+       users keep their 5-step orientation while scrolling deep into
+       the page. Padding tightened from 14px → 10px since the bar is
+       now persistent and shouldn't eat scroll real estate. */
+    '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;position:sticky;top:70px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
+    '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
+    '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
+    '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
+    '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
+    '.wf-step--active .wf-step__num{background:var(--accent);color:var(--on-accent,#fff);border-color:var(--accent);}',
+    '.wf-step--active .wf-step__label{color:var(--accent);}',
+    '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
+    '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
+    '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
+    /* Jurisdiction banner */
+    '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
+    '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
+    '.hna-jurisdiction-banner__label{font-size:.78rem;color:var(--muted);font-weight:600;margin-right:6px;}',
+    '.hna-jurisdiction-banner__sub{font-size:.78rem;color:var(--muted);margin-left:8px;}',
+    '.hna-jurisdiction-banner__change{font-size:.78rem;color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap;}',
+    '.hna-jurisdiction-banner__change:hover{text-decoration:underline;}',
+    /* Continue panel */
+    '.hna-continue-panel{max-width:1200px;margin:32px auto 0;padding:0 18px 40px;}',
+    '.hna-continue-panel__inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}',
+    '.hna-continue-panel__text{flex:1;min-width:200px;}',
+    '.hna-continue-panel__text strong{display:block;margin-bottom:4px;font-size:1rem;}',
+    '.hna-continue-panel__text span{font-size:.88rem;color:var(--muted);}',
+    '.hna-continue-panel__actions{display:flex;gap:10px;flex-wrap:wrap;}',
+    '/* !important on bg + color because css/pages.css .btn {color:var(--on-accent,#fff) !important; background:var(--accent)} would otherwise win. */',
+    '.hna-save-btn{padding:10px 18px;background:var(--bg2) !important;border:1px solid var(--border);border-radius:6px;font-weight:700;cursor:pointer;color:var(--text) !important;}',
+    '.hna-save-btn:hover{border-color:var(--accent);color:var(--accent) !important;}',
+    '.hna-continue-btn{padding:10px 20px;background:var(--accent);color:var(--on-accent,#fff);border:none;border-radius:6px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;}',
+    '.hna-continue-btn:hover{opacity:.9;}',
+    '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
+    '@media(max-width:640px){',
+    '  .wf-progress-steps{gap:0;overflow-x:auto;}',
+    '  .wf-step{min-width:60px;}',
+    '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
+    /* F225 — Mobile body overflow fixes. The HNA page was producing a
+       body 3x wider than the viewport on 375px because of:
+       1. HUD FMR + Income Limits panel hardcoded as 2-column grid
+       2. Tables (FMR by bedroom, AMI income-limits) wider than their
+          container even at full row span
+       3. No body-level guard against the cascade above. */
+    /* (1) Collapse the FMR panel to single column on phones */
+    '  #hudFmrPanel > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;gap:var(--sp4) !important;}',
+    /* (2) Let any table inside a chart-card scroll horizontally within
+       the card instead of pushing the body wide. Force the wrapping
+       div (the JS render targets like #hudFmrTable) to honor the
+       container width. */
+    '  .chart-card table{display:block;overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    '  #hudFmrTable, #hudIncomeLimitsTable{overflow-x:auto;max-width:100%;-webkit-overflow-scrolling:touch;}',
+    /* (3) Body-level overflow guard. Any rogue widget (third-party
+       map tile, fixed-position panel referencing scroll-width)
+       can no longer scroll the whole page sideways.
+
+       `clip`, not `hidden`. They contain the sideways scroll identically,
+       but `overflow-x: hidden` forces overflow-y to compute to `auto`,
+       which makes <body> a scroll container -- and a scroll container that
+       never actually scrolls, because the document scrolls on
+       documentElement. Every `position: sticky` descendant then resolves
+       against a scrollport that never moves and simply never sticks. That
+       is why the next-step CTA was unreachable on phones: it sat at its
+       natural position at the end of a 121,000px document instead of
+       pinning to the bottom of the viewport.
+
+       css/responsive.css already documents exactly this for <html>, and
+       lihtc-opportunity-finder.html already uses the clip form -- this page
+       was the one place still on `hidden`.
+
+       Both are declared: browsers without `overflow-x: clip` (Safari 15 and
+       earlier) drop the second line and keep the `hidden` guard, so the
+       protection F225 added is never weaker than it was. */
+    '  body{overflow-x:hidden;}',
+    '  body{overflow-x:clip;}',
+    /* (4) Defensive: any inline 2-col grid we forgot to scope above. */
+    '  main [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}',
+    '}'
+  ].join('');
+  document.head.appendChild(s);
+
+  /* ── Jurisdiction banner ──────────────────────────────────────────── */
+  function updateJurisdictionBanner() {
+    var banner = document.getElementById('hnaJurisdictionBanner');
+    var nameEl = document.getElementById('hnaJurisdictionName');
+    var subEl  = document.getElementById('hnaJurisdictionSub');
+    if (!banner || !nameEl) return;
+
+    var countyName = null;
+    var cityName   = null;
+
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
+      if (jx) {
+        countyName = jx.name || jx.countyName || null;
+        cityName   = jx.displayName || jx.cityName || null;
+      }
+    } catch (_) {}
+
+    if (!countyName) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.name) countyName = sc.name;
+      } catch (_) {}
+    }
+
+    if (countyName) {
+      // F147 — when the workflow stores a place (e.g. "Silt (town)") as
+      // `name`, we must not append " County". Detect place-name suffixes
+      // and treat the value as a place instead. Net cases:
+      //   "Denver County" → "Denver County" (already has County)
+      //   "Garfield"      → "Garfield County"
+      //   "Silt (town)"   → "Silt" (place name; subtitle gets county if known)
+      //   "Clifton CDP"   → "Clifton" (place name)
+      var isPlace = /\((?:town|city|CDP)\)\s*$/i.test(countyName) || /\bCDP\s*$/i.test(countyName);
+      var displayName;
+      if (isPlace) {
+        displayName = countyName.replace(/\s*\((?:town|city|CDP)\)\s*$/i, '')
+                                .replace(/\s+CDP\s*$/i, '').trim();
+        // The "cityName" we read is likely a duplicate; only use the
+        // county for the subtitle if we have it via SiteState.
+        var sc2 = null;
+        try { sc2 = window.SiteState && window.SiteState.getCounty(); } catch (_) {}
+        var subCounty = (sc2 && sc2.name) ? sc2.name : null;
+        if (subCounty && !/county$/i.test(subCounty)) subCounty += ' County';
+        nameEl.textContent = displayName;
+        if (subEl) subEl.textContent = subCounty ? '· ' + subCounty : '';
+      } else {
+        displayName = /county$/i.test(countyName) ? countyName : countyName + ' County';
+        nameEl.textContent = displayName;
+        if (subEl) subEl.textContent = cityName ? '· ' + cityName : '';
+      }
+      banner.removeAttribute('hidden');
+    }
+
+    // Wire the "Export IC summary →" link to the currently-selected geo. Prefer
+    // the place geoid when present (JurisdictionUrlContext / WorkflowState
+    // expose it under jx.placeGeoid); fall back to the county FIPS.
+    var icLink = document.getElementById('hnaExportIcLink');
+    if (icLink) {
+      var icGeoid = null, icGeoType = null;
+      try {
+        var jp = window.WorkflowState && window.WorkflowState.getActiveProject &&
+                 window.WorkflowState.getActiveProject();
+        var jjx = jp && (jp.jurisdiction || (jp.steps && jp.steps.jurisdiction));
+        if (jjx && jjx.placeGeoid && /^\d{7}$/.test(jjx.placeGeoid)) {
+          icGeoid = jjx.placeGeoid; icGeoType = 'place';
+        } else if (jjx && jjx.fips && /^\d{5}$/.test(jjx.fips)) {
+          icGeoid = jjx.fips; icGeoType = 'county';
+        }
+      } catch (_) {}
+      if (!icGeoid) {
+        try {
+          var sp = new URLSearchParams(window.location.search || '');
+          var raw = sp.get('geoid') || sp.get('fips');
+          if (raw && /^\d{7}$/.test(raw))      { icGeoid = raw; icGeoType = 'place';  }
+          else if (raw && /^\d{5}$/.test(raw)) { icGeoid = raw; icGeoType = 'county'; }
+        } catch (_) {}
+      }
+      icLink.href = icGeoid ? ('ic-summary.html?geoid=' + icGeoid + '&geoType=' + icGeoType) : 'ic-summary.html';
+      icLink.title = icGeoid ? 'Open a printable IC underwriting one-pager for this jurisdiction'
+                             : 'Open the IC summary page (pick a jurisdiction first)';
+    }
+  }
+
+  /* ── Step 2 connector: mark "Select Jurisdiction" done if a jurisdiction is set
+       (F21: renumbered from step 1 → 2 when Opportunity Finder became step 1) */
+  function updateWorkflowStepState() {
+    var jurisdictionStep = document.querySelector('.wf-step[data-step="2"]');
+    if (!jurisdictionStep) return;
+    var hasJurisdiction = false;
+    try {
+      var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
+      if (proj && proj.jurisdiction && (proj.jurisdiction.fips || proj.jurisdiction.countyFips)) {
+        hasJurisdiction = true;
+      }
+    } catch (_) {}
+    if (!hasJurisdiction) {
+      try {
+        var sc = window.SiteState && window.SiteState.getCounty();
+        if (sc && sc.fips) hasJurisdiction = true;
+      } catch (_) {}
+    }
+    if (!hasJurisdiction) {
+      // No jurisdiction selected — show step 2 as not-yet-complete.
+      jurisdictionStep.classList.remove('wf-step--done');
+    }
+  }
+
+  /* ── Save to project ──────────────────────────────────────────────── */
+  function saveHnaToProject() {
+    if (!window.WorkflowState) return false;
+    try {
+      // Auto-create a project if none is active so saves never silently fail
+      if (!WorkflowState.getActiveProject()) {
+        var _pill = document.getElementById('geoContextPill');
+        var _autoName = (_pill && _pill.textContent.trim())
+          ? _pill.textContent.trim() + ' Analysis'
+          : null;
+        WorkflowState.newProject(_autoName || undefined);
+      }
+
+      // Collect headline stats from DOM
+      var pop      = document.getElementById('statPop');
+      var rent     = document.getElementById('statRent');
+      var burden   = document.getElementById('statRentBurden');
+      var geoCtx   = document.getElementById('geoContextPill');
+      var narrative = document.getElementById('execNarrative');
+
+      var snapshot = {
+        completedAt:   new Date().toISOString(),
+        geography:     geoCtx    ? geoCtx.textContent.trim()    : null,
+        population:    pop       ? pop.textContent.trim()       : null,
+        medianRent:    rent      ? rent.textContent.trim()      : null,
+        costBurden:    burden    ? burden.textContent.trim()    : null,
+        narrative:     narrative ? narrative.textContent.trim().slice(0, 400) : null
+      };
+
+      WorkflowState.setStep('hsa', snapshot);
+      return true;
+    } catch (e) {
+      console.warn('[HNA] Failed to save to WorkflowState:', e);
+      return false;
+    }
+  }
+
+  /* ── Wire up save button ──────────────────────────────────────────── */
+  document.addEventListener('DOMContentLoaded', function () {
+    updateJurisdictionBanner();
+    updateWorkflowStepState();
+    // Fix #2: update progress bar step completion from WorkflowState
+    if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 3);
+
+    var saveBtn = document.getElementById('hnaSaveProjectBtn');
+    var confirm = document.getElementById('hnaSaveConfirmation');
+    if (saveBtn) {
+      saveBtn.addEventListener('click', function () {
+        var ok = saveHnaToProject();
+        if (ok && confirm) {
+          confirm.removeAttribute('hidden');
+          saveBtn.textContent = 'Saved ✓';
+          saveBtn.disabled = true;
+          setTimeout(function () { confirm.setAttribute('hidden', ''); }, 3000);
+        }
+      });
+    }
+
+    // Re-run banner update if SiteState changes county
+    document.addEventListener('sitestate:county-changed', updateJurisdictionBanner);
+    document.addEventListener('workflow:step-updated', updateJurisdictionBanner);
+
+    // LIHTC contextual tips for this step
+    if (window.LihtcTips) {
+      LihtcTips.render('lihtcTipsMount-hna',
+        ['ami', 'cost_burden', 'housing_gap', 'dola_projections'],
+        { heading: 'HNA Concepts' });
+    }
+  });
+}());
+</script>
+
+<!-- Place-level CHAS approximation hint — toggle the "(county-approx)"
+     pill next to the CHAS AMI tier header when a place or CDP is selected.
+     CHAS data only exists at county granularity; place selections show
+     their containing county's breakdown. Twin of the detail-panel
+     disclaimer shipped in #647 for hna-comparative-analysis.html. -->
+<script>
+(function () {
+  var hint   = document.getElementById('chasApproxHint');
+  var geoSel = document.getElementById('geoType');
+  if (!hint || !geoSel) return;
+  function sync() {
+    var v = geoSel.value;
+    hint.hidden = !(v === 'place' || v === 'cdp');
+  }
+  geoSel.addEventListener('change', sync);
+  sync();
+}());
+</script>
+
+<!-- F163 — Recent failed LIHTC application attempts panel hydration.
+     Lazily fetches data/policy/chfa-awards-historical.json once, then
+     re-evaluates the .notAwarded array against the current geography on
+     a 750ms tick. Hides the panel entirely when zero matches so absence
+     doesn't get rendered as a misleading empty placeholder. -->
+<script>
+(function () {
+  'use strict';
+  var FETCH = 'data/policy/chfa-awards-historical.json';
+  var WINDOW_YEARS = 5;
+  var TICK_MS = 750;
+
+  var panelEl = document.getElementById('lihtcFailedAttemptsPanel');
+  var bodyEl  = document.getElementById('lihtcFailedAttemptsBody');
+  var countEl = document.getElementById('lihtcFailedAttemptsCount');
+  if (!panelEl || !bodyEl || !countEl) return;
+
+  var dataPromise = null;
+  function loadData() {
+    if (dataPromise) return dataPromise;
+    dataPromise = fetch(FETCH, { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return (j && Array.isArray(j.notAwarded)) ? j.notAwarded : []; })
+      .catch(function () { return []; });
+    return dataPromise;
+  }
+
+  /* HNAState.state.current is the controller's authoritative selection.
+     For 'place' / 'cdp', the relevant county FIPS is either current.contextCounty
+     (preferred) or derived from the place GEOID's leading 5 digits. For
+     'county', the geoid IS the county FIPS. */
+  function currentCountyFips() {
+    var cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
+    var gt  = cur.geoType || cur.type;
+    var gid = cur.geoid || cur.id;
+    if (!gid) return null;
+    if (gt === 'county') return String(gid);
+    if (cur.contextCounty) return String(cur.contextCounty);
+    // Fallback: 5-digit county FIPS from a 7-digit place GEOID
+    var s = String(gid);
+    return s.length >= 5 ? s.slice(0, 5) : null;
+  }
+
+  function escHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function rowHtml(r) {
+    var reason = r.reason ? escHtml(r.reason) : '<em>(no reason recorded)</em>';
+    var type   = r.type ? escHtml(r.type) : '—';
+    var score  = (r.qapScore != null) ? escHtml(r.qapScore) : '—';
+    var qctTag = r.isQct ? ' · <span style="color:var(--good);font-weight:600">QCT</span>' : '';
+    return '<li style="padding:.35rem 0;border-top:1px solid var(--border);">' +
+      '<div style="font-weight:700;font-size:.84rem;">' + escHtml(r.year) +
+        ' · ' + type + ' · QAP score ' + score + qctTag + '</div>' +
+      '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem;">' + reason + '</div>' +
+    '</li>';
+  }
+
+  function render(rows) {
+    if (!rows.length) {
+      panelEl.hidden = true;
+      return;
+    }
+    panelEl.hidden = false;
+    countEl.textContent = '(' + rows.length + ' on file, last ' + WINDOW_YEARS + ' years)';
+    bodyEl.innerHTML = '<ul style="list-style:none;margin:0;padding:0;">' +
+      rows.map(rowHtml).join('') +
+    '</ul>';
+  }
+
+  var lastFips = null;
+  function tick() {
+    var fips = currentCountyFips();
+    if (fips === lastFips) return;
+    lastFips = fips;
+    if (!fips) { panelEl.hidden = true; return; }
+    loadData().then(function (notAwarded) {
+      var cutoff = new Date().getFullYear() - WINDOW_YEARS;
+      var rows = notAwarded
+        .filter(function (r) {
+          return r && String(r.county_fips) === String(fips)
+              && Number.isFinite(+r.year) && +r.year >= cutoff;
+        })
+        .sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
+      render(rows);
+    });
+  }
+
+  // Initial + periodic tick. The 750ms interval is cheap (1 ref-equality
+  // check + 1 JSON fetch that's cached on first hit) and means we don't
+  // have to hook into HNA's internal state-mutation flow.
+  setTimeout(tick, 250);
+  setInterval(tick, TICK_MS);
+}());
+</script>
+
+  <footer class="site-footer">
+    <!-- Injected by navigation.js -->
+  </footer>
+</body>
+</html>
