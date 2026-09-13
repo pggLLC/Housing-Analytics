@@ -32,6 +32,25 @@ jobs:
         run: node test/website-monitor.test.js
         continue-on-error: true
 
+      # ── Audit history ────────────────────────────────────────────────────────
+      # monitoring-reports/ is gitignored, so a fresh runner starts with no
+      # prior snapshot. loadPriorSnapshot() then returns null and every finding
+      # is classified "new" -- the daily email has been reporting the same 51
+      # issues as 51 NEW issues every morning, and nothing has ever been able to
+      # show as Resolved or Persistent. Carrying the history dir across runs is
+      # the whole fix; the comparison logic itself is correct.
+      #
+      # The key is unique per run so the save always succeeds, and restore-keys
+      # prefix-matches the most recent previous run. The cache is read and
+      # written daily, so it stays well inside the 7-day eviction window.
+      - name: Restore prior audit history
+        uses: actions/cache/restore@v5
+        with:
+          path: monitoring-reports/audit-history
+          key: audit-history-${{ github.run_id }}
+          restore-keys: |
+            audit-history-
+
       # ── Full Daily Audit ─────────────────────────────────────────────────────
       - name: Run Daily Audit System
         env:
@@ -42,6 +61,15 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: node test/daily-audit-system.js
         continue-on-error: true
+
+      # Saved immediately after the audit, and with if: always(), so a failure
+      # in one of the legacy checks below cannot cost us the day's snapshot.
+      - name: Save audit history
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: monitoring-reports/audit-history
+          key: audit-history-${{ github.run_id }}
 
       # ── Legacy Checks (kept for compatibility) ───────────────────────────────
       - name: Verify script loads
