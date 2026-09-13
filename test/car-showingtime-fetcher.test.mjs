@@ -107,14 +107,22 @@ test('CLI writes real county data from fixtures with CAR attribution', () => {
   assert.equal(report.statewide.median_sale_price, 583794);
 });
 
-test('a placeholder month sheds its projection flags once real rows arrive', () => {
-  // The regression this covers shipped in fc0ce5bc6: mergeIntoReport spread
-  // `...existing`, so a month promoted from trend-projected placeholder to
-  // published carried `estimated: true` and its estimate_basis through, and
-  // the report told readers that real ShowingTime MLS rows were projected.
-  // The fixture below is shaped exactly like generate-car-placeholder.mjs
-  // output -- the previous CLI test seeds a file with no `estimated` key,
-  // which is why nothing caught it.
+test('a promoted month marks counties published and keeps statewide projected', () => {
+  // Two regressions, opposite directions, same missing distinction.
+  //
+  // fc0ce5bc6: mergeIntoReport spread `...existing`, so a month promoted from
+  // trend-projected placeholder to published carried `estimated: true`
+  // through, telling readers that real ShowingTime MLS rows were projected.
+  //
+  // The first fix for that deleted the flag outright -- but ShowingTime
+  // supplies COUNTY rows and no statewide row, so the statewide block is
+  // still the placeholder's projection. Deleting the flag published four
+  // months of projected statewide figures (2026-05..08, each exactly 1.005x
+  // the month before) as measured CAR data.
+  //
+  // Neither is expressible with one boolean, so the flag is per scope:
+  // counties become published, statewide and metro stay projected, and
+  // `estimated` remains the any-scope summary.
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'car-showingtime-promote-'));
   fs.writeFileSync(path.join(tmp, 'car-market-report-2026-05.json'), JSON.stringify({
     month: '2026-05',
@@ -138,12 +146,22 @@ test('a placeholder month sheds its projection flags once real rows arrive', () 
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const report = JSON.parse(fs.readFileSync(path.join(tmp, 'car-market-report-2026-05.json'), 'utf8'));
   assert.ok(Object.keys(report.counties).length > 0, 'real county rows were written');
-  // Key-absent, not `false`: the published months carry no `estimated` key at
-  // all, and car-estimate-disclosure.test.js reads absence as published.
-  assert.ok(!('estimated' in report),
-    'a month with real ShowingTime rows must not stay flagged as projected');
-  assert.ok(!('estimate_basis' in report),
-    'the projection rationale must not outlive the projection');
+  assert.equal(report.estimated_scopes.counties, false,
+    'real ShowingTime rows must be marked published, not projected');
+  assert.equal(report.estimated_scopes.statewide, true,
+    'ShowingTime publishes no statewide row, so the placeholder projection is ' +
+    'still what this file carries — deleting the flag here is what published ' +
+    'four months of projected statewide figures as measured');
+  assert.equal(report.estimated_scopes.metro, true,
+    'same for metro: nothing replaced the projected values');
+  assert.equal(report.estimated, true,
+    '`estimated` is the any-scope summary, and statewide is still projected');
+  assert.match(String(report.estimate_basis), /ShowingTime[\s\S]*statewide and metro/,
+    'the basis must say which half is published and which is projected');
+  // The statewide numbers themselves must survive untouched — this fix is
+  // about disclosure, not about changing any figure.
+  assert.equal(report.statewide.median_sale_price, 583794,
+    'the statewide figure must not be altered by the promotion');
 });
 
 test('CLI exits 0 and keeps last-good data when fetch/fixture load fails', () => {
