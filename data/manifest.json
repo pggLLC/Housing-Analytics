@@ -7649,7 +7649,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7719,7 +7719,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 491160
+      "bytes": 487521
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7759,7 +7759,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 402717
+      "bytes": 398931
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,
