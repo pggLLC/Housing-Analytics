@@ -77,8 +77,11 @@ jobs:
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # The ref guard matters because workflow_dispatch can target any branch:
+      # a verification run from a feature branch commits to that branch, and
+      # without this it would still dispatch a production deploy of main.
       - name: Trigger Pages deploy
-        if: steps.data-commit.outputs.pushed == 'true'
+        if: steps.data-commit.outputs.pushed == 'true' && github.ref == 'refs/heads/main'
         uses: actions/github-script@v9
         with:
           script: |
