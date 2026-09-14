@@ -1285,6 +1285,20 @@
       "acs_year": 2024
     }
   },
+  "statewide": {
+    "fips": "08",
+    "cost_burden_share": 0.5038,
+    "severe_burden_share": 0.2452,
+    "household_count": 2374218,
+    "overcrowding_rate": 0.0239,
+    "vacancy_rate": 0.083,
+    "median_gross_rent_current": 1727,
+    "median_home_value": 550696,
+    "median_hh_income": 97503,
+    "population": 5862189,
+    "acs_year": 2024,
+    "derivation": "population-weighted medians; household-weighted rates; counts summed over 64 counties"
+  },
   "meta": {
     "source": "U.S. Census Bureau API (ACS 5-year)",
     "dataset": "2024/acs/acs5",
