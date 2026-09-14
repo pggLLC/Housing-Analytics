@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T03:52:19.817Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T05:56:28.388Z. Do not edit by hand.
 
 ---
 
@@ -1700,7 +1700,7 @@
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
-| `test/county-demographics-contract.test.js` | 3.3 KB |
+| `test/county-demographics-contract.test.js` | 13.1 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
