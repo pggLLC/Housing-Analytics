@@ -214,7 +214,18 @@ test('housing-needs-assessment.html contains Phase 3 elements', () => {
   assert(html.includes('id="prop123HistoricalStatus"'),    'Historical status element present');
   assert(html.includes('id="ftResult"'),                   'Fast-track result container present');
   assert(html.includes('prop123-historical-tracker.js'),   'Historical tracker script referenced');
-  assert(html.includes('compliance-dashboard.html'),       'Compliance dashboard link present');
+  // The "View full compliance dashboard →" CTA is gone. It pointed at
+  // compliance-dashboard.html, retired in #1349, whose redirect target
+  // (data-review-hub.html, the Data Trust Center) contains no Prop 123 or
+  // compliance content at all — so repointing it would have kept a link while
+  // breaking its promise. The material it advertised now lives inline in
+  // #prop123-section on this very page, which is where the reader already is.
+  assert(!html.includes('compliance-dashboard.html'),
+    'no link to the retired redirect stub');
+  assert(!/View full compliance dashboard/.test(html),
+    'the dead compliance-dashboard CTA is removed, not repointed at an unrelated page');
+  assert(html.includes('id="prop123-section"'),
+    'the Prop 123 section that superseded the dashboard is present');
 });
 
 test('compliance-dashboard.html is retired and redirects to the Data Trust Center', () => {
@@ -239,17 +250,9 @@ test('compliance-dashboard.html is retired and redirects to the Data Trust Cente
     'the retired dashboard markup is not resurrected without updating this test');
 });
 
-test('css/pages/compliance-dashboard.css exists and has required classes', () => {
-  const p = path.join(ROOT, 'css', 'pages', 'compliance-dashboard.css');
-  assert(fs.existsSync(p), 'compliance-dashboard.css exists');
-  const css = fs.readFileSync(p, 'utf8');
-  assert(css.includes('.cd-kpi-strip'),      '.cd-kpi-strip defined');
-  assert(css.includes('.cd-table'),          '.cd-table defined');
-  assert(css.includes('.cd-badge'),          '.cd-badge defined');
-  assert(css.includes('.cd-badge-on-track'), '.cd-badge-on-track defined');
-  assert(css.includes('.cd-export-btn'),     '.cd-export-btn defined');
-  assert(css.includes('[data-theme="dark"]'), 'dark mode styles present');
-});
+// The css/pages/compliance-dashboard.css block was removed with the stylesheet.
+// compliance-dashboard.html was retired in #1349 and is a redirect stub that
+// loads no stylesheet, so those 244 lines could not reach a viewer.
 
 test('calculateComplianceTrajectory: on-track baseline 1000', () => {
   // Baseline 1000 → on-track at year 1 (actual = 1030)
