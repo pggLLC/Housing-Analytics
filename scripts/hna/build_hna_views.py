@@ -173,7 +173,7 @@ def reframe(out, view, all_views):
     return out
 
 
-def relink_anchors(pages, canonical_src, labels):
+def relink_anchors(pages, canonical_src, labels, idents):
     """Point same-page anchors at the view that actually holds the target.
 
     The executive decision strip, the section rail and several inline "see
@@ -211,11 +211,16 @@ def relink_anchors(pages, canonical_src, labels):
         # so rewriting the markup alone is not enough -- the renderer needs the
         # same mapping at runtime. The canonical page emits none of this and
         # behaves exactly as before.
-        blob = json.dumps(moved, sort_keys=True)
-        assert '</script' not in blob, 'view anchor map would close its own script tag'
+        anchors = json.dumps(moved, sort_keys=True)
+        # Identity for anything that has to name the report: the exporters give
+        # every download its own filename and cover line from this.
+        ident = json.dumps(idents[slug], sort_keys=True)
+        for blob in (anchors, ident):
+            assert '</script' not in blob, 'view metadata would close its own script tag'
         pages[slug] = html.replace(
             '</head>',
-            f'<script>window.HNA_VIEW_ANCHORS={blob};</script>\n</head>', 1)
+            f'<script>window.HNA_VIEW={ident};'
+            f'window.HNA_VIEW_ANCHORS={anchors};</script>\n</head>', 1)
 
     if unresolved:
         print('  anchor points at an id no page defines:', file=sys.stderr)
@@ -250,6 +255,13 @@ def audit_shipped(views):
         if 'HNA_VIEW_ANCHORS' not in js:
             problems.append('hna-renderers.js no longer reads window.HNA_VIEW_ANCHORS; '
                             'the decision tiles will be dead clicks on every view')
+
+    exporter = os.path.join(ROOT, 'js', 'hna', 'hna-export.js')
+    if os.path.exists(exporter):
+        js = open(exporter, encoding='utf-8').read()
+        if 'HNA_VIEW' not in js:
+            problems.append('hna-export.js no longer reads window.HNA_VIEW; every view '
+                            'would export housing-needs-assessment.* with a full-report cover')
     return problems
 
 
@@ -277,7 +289,9 @@ def main():
     # Every page must exist before this runs: relinking a cross-view anchor
     # means knowing which OTHER view ended up with the target.
     labels = {v['slug']: v['nav'] for v in mapping['views']}
-    if not relink_anchors(pages, src, labels):
+    idents = {v['slug']: {'id': v['id'], 'slug': v['slug'], 'nav': v['nav'],
+                          'question': v['question']} for v in mapping['views']}
+    if not relink_anchors(pages, src, labels, idents):
         return 2
 
     for v in mapping['views']:
