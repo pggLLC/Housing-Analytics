@@ -43,6 +43,17 @@ const PAGES = [
   { name: 'dashboard',                  path: '/dashboard.html' },
   { name: 'economic-dashboard',         path: '/economic-dashboard.html' },
   { name: 'housing-needs-assessment',   path: '/housing-needs-assessment.html' },
+  // The five views generated from housing-needs-assessment.html by
+  // scripts/hna/build_hna_views.py. They are public pages in their own
+  // right -- own <title>, own chrome, and a PRUNED script set (no
+  // Leaflet on the four without a map) -- so auditing the canonical page
+  // alone does not cover them. Rule: if the source page is audited, the
+  // pages generated from it are too.
+  { name: 'hna-what-housing-exists', path: '/hna-what-housing-exists.html' },
+  { name: 'hna-who-lives-here', path: '/hna-who-lives-here.html' },
+  { name: 'hna-what-households-can-afford', path: '/hna-what-households-can-afford.html' },
+  { name: 'hna-where-its-heading', path: '/hna-where-its-heading.html' },
+  { name: 'hna-what-to-do', path: '/hna-what-to-do.html' },
   { name: 'market-analysis',            path: '/market-analysis.html' },
   { name: 'market-intelligence',        path: '/market-intelligence.html' },
   { name: 'colorado-deep-dive',         path: '/colorado-deep-dive.html' },
