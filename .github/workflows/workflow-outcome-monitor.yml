@@ -37,6 +37,20 @@ on:
     workflows:
       - "Pages Deploy Watchdog"
       - "Build HNA Data Cache"
+      - "CAR Data Update"
+      - "Cache HUD GIS Overlay Data"
+      - "Data Quality Check"
+      - "Data Refresh Pipeline"
+      - "Fetch CHFA LIHTC Data"
+      - "Fetch Census ACS Data"
+      - "Fetch County Demographics and Economic Data"
+      - "Fetch FRED Data"
+      - "Fetch HUD CHAS Affordability Data"
+      - "Fetch HUD FMR + Income Limits"
+      - "Fetch Kalshi Prediction Market Data"
+      - "Run All Data Workflows"
+      - "Site-Wide WCAG Contrast Audit"
+      - "Weekly Market Data Sync (Bridge + Zillow Research)"
     types: [completed]
   workflow_dispatch:
 
@@ -67,8 +81,15 @@ jobs:
           MONITOR_MODE: staleness
         run: node scripts/monitoring/workflow-outcome-monitor.mjs
 
+      # Only scheduled and dispatched runs are alerted on. contrast-audit also
+      # runs on every push, and a tracker opened per failing push is noise that
+      # gets the whole monitor muted. Any future push-triggered workflow added
+      # to the list above inherits this protection.
       - name: Observe and classify the triggering run
-        if: github.event_name == 'workflow_run'
+        if: >-
+          github.event_name == 'workflow_run' &&
+          (github.event.workflow_run.event == 'schedule' ||
+           github.event.workflow_run.event == 'workflow_dispatch')
         env:
           # Passed explicitly. alert.js relied on GITHUB_TOKEN being present in
           # the environment and it never was, because actions/github-script

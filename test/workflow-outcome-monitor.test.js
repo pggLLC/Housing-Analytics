@@ -182,6 +182,70 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
   }
 }
 
+/* ── 4d. push-triggered runs must not alert ────────────────────────────── */
+{
+  // contrast-audit runs on every push as well as on a schedule. A tracker
+  // opened per failing push is the noise that gets a monitor muted, and a muted
+  // monitor is indistinguishable from the alert.js situation this replaced.
+  //
+  // The gate is asserted only when it is actually needed — if no watched
+  // workflow has a push trigger, requiring it would be cargo cult.
+  const wfDir = path.join(ROOT, '.github', 'workflows');
+  const byName = {};
+  for (const f of fs.readdirSync(wfDir).filter((f) => /\.ya?ml$/.test(f))) {
+    const src2 = fs.readFileSync(path.join(wfDir, f), 'utf8');
+    const nm = (src2.match(/^name:\s*(.+)$/m) || [])[1];
+    if (nm) byName[nm.trim()] = src2;
+  }
+  const watched = [...wfCode.matchAll(/^\s*-\s*"([^"]+)"\s*$/gm)].map((m) => m[1]);
+  const pushTriggered = watched.filter((n) => byName[n] && /^\s*push:/m.test(byName[n].replace(/^\s*#.*$/gm, '')));
+
+  if (pushTriggered.length) {
+    const gated = /workflow_run\.event\s*==\s*'schedule'/.test(wfCode)
+               && /workflow_run\.event\s*==\s*'workflow_dispatch'/.test(wfCode);
+    if (!gated) {
+      fail(`${pushTriggered.length} watched workflow(s) also run on push (${pushTriggered.join(', ')}), `
+         + `but the monitor does not restrict itself to schedule/workflow_dispatch runs. It would `
+         + `open a tracker for every failing push — which is how a monitor gets muted.`);
+    } else {
+      ok(`push-triggered workflow(s) watched (${pushTriggered.length}), and only scheduled/dispatched runs alert`);
+    }
+  }
+}
+
+/* ── 4c. alert.js is retired and must not return ───────────────────────── */
+{
+  // scripts/monitoring/alert.js opened a GitHub issue only when GITHUB_TOKEN was
+  // in the environment. Fifteen workflows called it, none supplied one, and it
+  // never opened a single issue in this repository's history — the environment
+  // was never going to have it, because actions/github-script exposes a token on
+  // its client object rather than exporting one.
+  //
+  // It is deleted. A notifier that reports success while doing nothing is worse
+  // than no notifier, because it occupies the slot where a real one would go.
+  if (fs.existsSync(path.join(ROOT, 'scripts', 'monitoring', 'alert.js'))) {
+    fail('scripts/monitoring/alert.js is back. It cannot authenticate from inside '
+       + 'actions/github-script and never opened an issue in fifteen workflows over months. '
+       + 'Failures are reported by .github/workflows/workflow-outcome-monitor.yml.');
+  } else {
+    ok('scripts/monitoring/alert.js stays retired');
+  }
+
+  // And no workflow may call it, whether or not the file exists.
+  const wfDir = path.join(ROOT, '.github', 'workflows');
+  const callers = [];
+  for (const f of fs.readdirSync(wfDir).filter((f) => /\.ya?ml$/.test(f))) {
+    const code = fs.readFileSync(path.join(wfDir, f), 'utf8').replace(/^\s*#.*$/gm, '');
+    if (/monitoring\/alert/.test(code)) callers.push(f);
+  }
+  if (callers.length) {
+    fail(`${callers.length} workflow(s) still call alert.js (${callers.join(', ')}) — it is deleted, `
+       + `so the step would fail at runtime, and it never worked when it existed`);
+  } else {
+    ok('no workflow calls alert.js');
+  }
+}
+
 /* ── 5. classification matches the conclusions GitHub actually emits ───── */
 {
   const mod = require('node:module').createRequire(__filename);

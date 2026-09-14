@@ -253,29 +253,11 @@ jobs:
               body: body
             });
 
-      - name: Alert on audit failure
-        if: failure()
-        uses: actions/github-script@v9
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            const fs = require('fs');
-            let failureDetails = 'WCAG accessibility audit failed.';
-
-            // Check if it's a pytest failure or contrast failure
-            if (fs.existsSync('wcag-test-output.txt')) {
-              failureDetails = 'WCAG Stage 3 pytest gate failed. Review test results.';
-            } else if (fs.existsSync('contrast-reports/summary.md')) {
-              failureDetails = 'Contrast audit detected violations. Review contrast reports.';
-            }
-
-            try {
-              execSync(
-                `node scripts/monitoring/alert.js --mode failure --workflow contrast-audit.yml --run-id ${context.runId} --step "WCAG Accessibility & Contrast Audit" --details "${failureDetails}"`,
-                { stdio: 'inherit', env: { ...process.env } }
-              );
-            } catch (e) {
-              console.error('Alert script failed:', e.message);
-            }
+      # The scripts/monitoring/alert.js step was removed when this workflow moved to
+      # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
+      #
+      # It never produced anything. alert.js opens an issue only when GITHUB_TOKEN is
+      # in the environment, and actions/github-script exposes a token on its client
+      # object rather than exporting one -- so `{ ...process.env }` inherited an
+      # environment that never had it. Zero issues in this repository's history match
+      # alert.js's title formats, across fifteen callers.
