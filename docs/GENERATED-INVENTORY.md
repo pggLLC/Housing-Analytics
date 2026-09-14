@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T02:47:55.161Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T03:13:29.054Z. Do not edit by hand.
 
 ---
 
@@ -115,7 +115,7 @@
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
-| `data/co-demographics.json` | 2.3 KB | ✅ | — |
+| `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
@@ -1567,7 +1567,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.6 KB | ✅ | — |
+| `data/manifest.json` | 199.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-323 test files found.
+324 test files found.
 
 | File | Size |
 |------|------|
@@ -1700,6 +1700,7 @@
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
+| `test/county-demographics-contract.test.js` | 3.3 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
