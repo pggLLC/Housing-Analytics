@@ -132,6 +132,57 @@
     return cur.toLowerCase() === t.toLowerCase() ? 'is-active' : '';
   }
 
+  /** Does this group contain sub-entries, and is one of them the current page? */
+  function subsAreActive(items) {
+    return items.some(l => l.isSub && activeClass(l.href));
+  }
+
+  /** Remembered open/closed state for a collapsible run of sub-entries. */
+  function subsOpen(key, items) {
+    // Expanded when you are already on one of the views — collapsing the menu
+    // around the page you are looking at would hide your own location.
+    if (subsAreActive(items)) return true;
+    try { return localStorage.getItem('nav-subs-' + key) === 'open'; }
+    catch (_) { return false; }        // private windows throw on access
+  }
+
+  function rememberSubs(key, open) {
+    try { localStorage.setItem('nav-subs-' + key, open ? 'open' : 'closed'); }
+    catch (_) { /* storage unavailable — the toggle still works for this page */ }
+  }
+
+  /**
+   * Render one group's items, collapsing each run of isSub entries behind a
+   * disclosure row.
+   *
+   * The five assessment views are children of step 3, not steps in their own
+   * right. Rendered flat they added ~400px to a dropdown already taller than
+   * the viewport and pushed steps 4-6 below the fold. Collapsed by default the
+   * menu is its original length; the run expands on demand, and expands itself
+   * when you are already on one of the views.
+   */
+  function renderItems(items, key, renderOne) {
+    const open = subsOpen(key, items);
+    const out = [];
+    let i = 0;
+    while (i < items.length) {
+      if (!items[i].isSub) { out.push(renderOne(items[i])); i++; continue; }
+      const run = [];
+      while (i < items.length && items[i].isSub) { run.push(items[i]); i++; }
+      const id = 'nav-subs-' + key + '-' + out.length;
+      out.push(
+        `<button type="button" class="nav-sub-toggle" aria-expanded="${open}" aria-controls="${id}"` +
+        ` data-subs-key="${key}" style="display:block;width:100%;text-align:left;background:none;border:0;` +
+        `padding:5px 14px 5px 32px;font:inherit;font-size:.82rem;color:var(--muted);cursor:pointer">` +
+        `<span aria-hidden="true" style="opacity:.45;margin-right:7px">└</span>` +
+        `${run.length} report views <span class="nav-sub-caret" aria-hidden="true">${open ? '▾' : '▸'}</span>` +
+        `</button>`,
+        `<div class="nav-subgroup" id="${id}"${open ? '' : ' hidden'}>${run.map(renderOne).join('')}</div>`
+      );
+    }
+    return out.join('');
+  }
+
   function ensureHeaderStyles() {
     if (document.getElementById('nav-injected-styles')) return;
     var link = document.createElement('link');
@@ -228,7 +279,7 @@
                 ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
               </button>
               <div class="nav-dropdown" hidden>
-                ${g.items.map(l => {
+                ${renderItems(g.items, g.label.replace(/\W+/g, '').toLowerCase(), (l) => {
                   // F177 — Section separator items (isHeader:true) render
                   // as a muted, non-clickable header inside the dropdown
                   // so a section can group primary entries from secondary
@@ -242,11 +293,23 @@
                   // views are views OF step 3, not extra steps beside it, so
                   // they must not read as siblings of steps 4-6 — the 1..6
                   // sequence is the spine of this menu.
-                  return `<a class="${activeClass(l.href)}${l.isSub ? ' nav-link-sub' : ''}" href="${normalizeHref(l.href)}"${l.isSub ? ' style="padding-left:30px"' : ''}>
-                    <span class="nav-link-label"${l.isSub ? ' style="font-weight:500"' : ''}>${l.isSub ? '<span aria-hidden="true" style="opacity:.45;margin-right:6px">└</span>' : ''}${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                  // Sub-entries are ONE line: label only, no description.
+                  // With a description each they added ~400px to this dropdown
+                  // and pushed Market Analysis from y=558 to y=992 in a 900px
+                  // viewport — steps 4, 5 and 6 fell below the fold, so the
+                  // Step 1→6 spine became the part of the menu you could not
+                  // see. Dropping the descriptions puts Step 4 back at y=794.
+                  // The question each view answers is on the view itself.
+                  if (l.isSub) {
+                    return `<a class="${activeClass(l.href)} nav-link-sub" href="${normalizeHref(l.href)}" style="padding:5px 14px 5px 32px">
+                    <span class="nav-link-label" style="font-weight:500"><span aria-hidden="true" style="opacity:.4;margin-right:7px">└</span>${l.label}</span>
+                  </a>`;
+                  }
+                  return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
+                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
                     <span class="nav-link-desc">${l.desc}</span>
                   </a>`;
-                }).join('')}
+                })}
               </div>
             </div>
           `).join('')}
@@ -286,12 +349,15 @@
               ${g.label} <span class="nav-caret" aria-hidden="true">▾</span>
             </button>
             <div class="mobile-nav-section-items" hidden>
-              ${g.items.map(l => {
+              ${renderItems(g.items, 'm' + g.label.replace(/\W+/g, '').toLowerCase(), (l) => {
                 if (l.isHeader) {
                   return `<div class="mobile-nav-subheader" role="presentation" style="padding:8px 14px 4px;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
                 }
+                if (l.isSub) {
+                  return `<a class="${activeClass(l.href)} nav-link-sub" href="${normalizeHref(l.href)}" style="padding-left:30px">${l.label}</a>`;
+                }
                 return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</a>`;
-              }).join('')}
+              })}
             </div>
           </div>
         `).join('')}
@@ -379,6 +445,24 @@
           if (dd) dd.hidden = false;
         }
       });
+    });
+
+    // Sub-entry disclosure. Delegated on the header because the nav is
+    // re-rendered after DOMContentLoaded, and bound before the outside-click
+    // handler so stopPropagation here cannot close the dropdown we just
+    // expanded inside.
+    header.addEventListener('click', function(e) {
+      var t = e.target.closest('.nav-sub-toggle');
+      if (!t) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var open = t.getAttribute('aria-expanded') !== 'true';
+      t.setAttribute('aria-expanded', String(open));
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (panel) panel.hidden = !open;
+      var caret = t.querySelector('.nav-sub-caret');
+      if (caret) caret.textContent = open ? '\u25be' : '\u25b8';
+      rememberSubs(t.getAttribute('data-subs-key'), open);
     });
 
     // Close dropdowns on outside click
