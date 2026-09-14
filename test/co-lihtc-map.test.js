@@ -75,7 +75,16 @@ test('LIHTC_WHERE is in sync with lihtc-co-query.json WHERE clause', () => {
     const decoded = decodeURIComponent(whereMatch[1].replace(/\+/g, ' '));
     // Both should reference Proj_St and 'CO'
     assert(decoded.includes("Proj_St='CO'"), "decoded LIHTC_WHERE includes Proj_St='CO'");
-    assert(queryCfg.where.includes("Proj_St='CO'"), "lihtc-co-query.json WHERE includes Proj_St='CO'");
+    // scripts/lihtc-co-query.json no longer queries HUD's LIHTCDB. It targets
+    // CHFA's HousingTaxCreditProperties_view, whose state field is `State`, not
+    // HUD's `Proj_St` — the file's own _comment records why (the HUD cache
+    // stopped at YR_PIS 2020). js/co-lihtc-map.js still uses Proj_St for its
+    // own direct HUD query above, which is correct for that endpoint.
+    //
+    // So assert the intent — the config filters to Colorado — rather than a
+    // field name that belongs to whichever service it happens to point at.
+    assert(/\bState\s*=\s*'CO'|Proj_St\s*=\s*'CO'/.test(queryCfg.where),
+      `lihtc-co-query.json WHERE filters to Colorado (got ${JSON.stringify(queryCfg.where)})`);
   }
 });
 

@@ -84,7 +84,10 @@ assert(/id="chasProvenanceBadge"/.test(hnaHtml),
   'housing-needs-assessment.html has #chasProvenanceBadge span');
 
 console.log('\n[test] CHAS renderer wires badge through all three paths');
-assert(/_setProvenanceBadge\(['"]tiger['"]\)/.test(renderersSrc),
+// _setProvenanceBadge(state, opts) gained an options argument; the TIGER call
+// now passes one. What matters is that the TIGER path sets the "tiger" state,
+// not that the call has exactly one argument.
+assert(/_setProvenanceBadge\(\s*['"]tiger['"]\s*[,)]/.test(renderersSrc),
   'TIGER path sets badge to "tiger"');
 assert(/_setProvenanceBadge\(['"]none['"]\)/.test(renderersSrc),
   '"no data" path sets badge to "none"');

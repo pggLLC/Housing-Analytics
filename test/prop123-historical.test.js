@@ -217,17 +217,26 @@ test('housing-needs-assessment.html contains Phase 3 elements', () => {
   assert(html.includes('compliance-dashboard.html'),       'Compliance dashboard link present');
 });
 
-test('compliance-dashboard.html exists and has required elements', () => {
+test('compliance-dashboard.html is retired and redirects to the Data Trust Center', () => {
+  // The page was decommissioned in #1349 ("Clean up orphan pages") and is now a
+  // redirect stub. This block used to assert its table, KPI strip and sortable
+  // columns; those are gone on purpose, so asserting them was testing a removed
+  // feature. What is worth holding is that the retirement stays well-formed --
+  // a redirect stub that loses its target is a dead end for anyone with the old
+  // URL bookmarked.
   const p = path.join(ROOT, 'compliance-dashboard.html');
-  assert(fs.existsSync(p), 'compliance-dashboard.html exists');
+  assert(fs.existsSync(p), 'compliance-dashboard.html still exists as a redirect stub');
   const html = fs.readFileSync(p, 'utf8');
-  assert(html.includes('id="cdTable"'),         'cd-table present');
-  assert(html.includes('id="cdTableBody"'),     'cd-table-body present');
-  assert(html.includes('id="cdExportBtn"'),     'export button present');
-  assert(html.includes('id="cdFilterStatus"'),  'status filter present');
-  assert(html.includes('id="kpiTotal"'),        'KPI total present');
-  assert(html.includes('id="kpiOnTrack"'),      'KPI on-track present');
-  assert(html.includes('data-col='),            'sortable column attributes present');
+  assert(/http-equiv="refresh"[^>]*data-review-hub\.html/.test(html),
+    'meta refresh points at data-review-hub.html');
+  assert(/rel="canonical"[^>]*data-review-hub\.html/.test(html),
+    'canonical points at data-review-hub.html');
+  assert(/location\.replace\(['"]data-review-hub\.html['"]\)/.test(html),
+    'script fallback redirects too, for clients that ignore meta refresh');
+  assert(fs.existsSync(path.join(ROOT, 'data-review-hub.html')),
+    'the redirect target exists');
+  assert(!/id="cdTable"/.test(html),
+    'the retired dashboard markup is not resurrected without updating this test');
 });
 
 test('css/pages/compliance-dashboard.css exists and has required classes', () => {

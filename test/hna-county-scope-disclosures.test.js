@@ -40,8 +40,11 @@ const css  = fs.readFileSync(path.join(root, 'css/site-theme.css'),         'utf
 const html = fs.readFileSync(path.join(root, 'housing-needs-assessment.html'), 'utf8');
 
 console.log('\n[test] disclosure helper is exported');
-assert(/function _renderCountyScopeNote\(sectionId, geoType, countyFips, dataKind\)/.test(rend),
-  'helper signature accepts (sectionId, geoType, countyFips, dataKind)');
+// The four named parameters are the contract; an optional trailing `opts` was
+// added later. Assert the four are present and in order rather than requiring
+// the parameter list to end there, so extending the helper is not a failure.
+assert(/function _renderCountyScopeNote\(\s*sectionId\s*,\s*geoType\s*,\s*countyFips\s*,\s*dataKind\s*[,)]/.test(rend),
+  'helper signature accepts (sectionId, geoType, countyFips, dataKind[, opts])');
 assert(/renderCountyScopeNote\s*:\s*_renderCountyScopeNote/.test(rend),
   'exported on the HNARenderers public surface');
 

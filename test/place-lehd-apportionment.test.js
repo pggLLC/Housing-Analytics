@@ -38,8 +38,12 @@ console.log('\n[test] data/hna/place-lehd.json shape + Paonia spot-check');
 const placeLehd = JSON.parse(fs.readFileSync(path.join(root, 'data/hna/place-lehd.json'), 'utf8'));
 assert(placeLehd.meta && placeLehd.places,
   'top-level has meta + places');
-assert(placeLehd.meta.method && /apportionment/i.test(placeLehd.meta.method),
-  'meta.method documents the apportionment approach');
+// Matches the "apportion" root rather than the exact noun: the method string
+// now spells out the formula ("…county totals apportioned by
+// place_pop_in_county / county_total_pop…"), which is more useful than the word
+// this once required. Pinning vocabulary makes a better description fail.
+assert(placeLehd.meta.method && /apportion/i.test(placeLehd.meta.method),
+  `meta.method documents the apportionment approach (got ${JSON.stringify((placeLehd.meta.method || '').slice(0, 80))})`);
 const paonia = placeLehd.places['0857300'];
 assert(paonia != null, 'Paonia (0857300) entry exists');
 if (paonia) {

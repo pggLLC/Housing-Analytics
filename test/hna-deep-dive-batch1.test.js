@@ -61,8 +61,24 @@ if (rbMatch) {
   const body = rbMatch[1].replace(/\/\/[^\n]*/g, '');
   assert(/DP04_0141PE/.test(body), 'reads DP04_0141PE (30-34.9% bin, 2023)');
   assert(/DP04_0142PE/.test(body), 'reads DP04_0142PE (35%+ bin, 2023)');
-  assert(!/DP04_0145PE/.test(body), 'legacy DP04_0145PE no longer referenced in executable code');
-  assert(!/DP04_0146PE/.test(body), 'legacy DP04_0146PE no longer referenced in executable code');
+  // The legacy pre-2021 codes are still read, deliberately: rentBurden30Plus()
+  // tries the current bins first and only falls back to DP04_0145PE/0146PE when
+  // those are absent, because old summary caches and legacy callers still hand
+  // them over. This once asserted the legacy codes were GONE, which was the
+  // migration's goal before the guarded fallback was chosen instead.
+  //
+  // The risk the original assertion guarded against is real though -- legacy
+  // codes carry different semantics, so reading them FIRST would silently
+  // mis-report. So assert the ordering rather than the absence.
+  const cur30At = body.indexOf('DP04_0141PE');
+  const legacy30At = body.indexOf('DP04_0145PE');
+  assert(cur30At !== -1, 'current 30-34.9% bin is read');
+  if (legacy30At !== -1) {
+    assert(cur30At < legacy30At,
+      'legacy DP04_0145PE is read only after the current DP04_0141PE, as a fallback');
+    assert(/Number\.isFinite\(cur30\)/.test(body),
+      'the current bins are finite-checked before the legacy fallback is reached');
+  }
 }
 
 console.log('\n[test] #2 renderSnapshot passes home value, reads .annualIncome');
