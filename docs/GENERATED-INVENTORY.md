@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T11:30:40.702Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T11:55:51.152Z. Do not edit by hand.
 
 ---
 
@@ -1957,7 +1957,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-outcome-monitor.test.js` | 11.1 KB |
+| `test/workflow-outcome-monitor.test.js` | 14.0 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
@@ -2070,7 +2070,7 @@
 | `.github/workflows/url-health-weekly.yml` | 5.0 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
 | `.github/workflows/workflow-comment-trigger.yml` | 7.3 KB |
-| `.github/workflows/workflow-outcome-monitor.yml` | 2.5 KB |
+| `.github/workflows/workflow-outcome-monitor.yml` | 3.3 KB |
 | `.github/workflows/zillow-data-sync.yml` | 19.2 KB |
 
 ---
