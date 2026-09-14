@@ -31,19 +31,18 @@ const ROOT = path.resolve(__dirname, '..');
  * is the fix; adding one needs a reason someone will read.
  */
 const QUARANTINE = {
-  'census-dashboard-scope.test.js': 'asserts a variable-inventory heading and DP04 codes the dashboard no longer renders — needs triage against current markup',
-  'co-historical-allocations.test.js': 'stale expectations for the historical allocations table',
-  'co-lihtc-map.test.js': '32 pass, 1 fails: asserts lihtc-co-query.json WHERE contains Proj_St=\'CO\'',
-  'hmda-trend-and-chas-badge.test.js': 'asserts a CHAS badge/trend pairing that has since been restructured',
-  'hna-county-scope-disclosures.test.js': 'scope-disclosure wording moved; assertions not updated',
-  'hna-deep-dive-batch1.test.js': 'batch assertions against pre-refactor deep-dive sections',
-  'hna-deep-dive-batch2.test.js': 'batch assertions against pre-refactor deep-dive sections, same cause as batch1',
-  'hna-extended-fetch-tenure.test.js': 'tenure fetch shape changed',
-  'hna-phase2-stubs-wired.test.js': 'asserts phase-2 stubs that were either wired differently or removed',
-  'hna-rent-burden-bins.test.js': '17 pass, 1 fails: y-axis tick callback no longer appends a % suffix',
-  'hna-sub-county-and-sync.test.js': 'sub-county sync assertions predate the current geography registry',
-  'place-lehd-apportionment.test.js': 'apportionment expectations predate the acs_anchor cap',
-  'prop123-historical.test.js': 'asserts cd-table markup that is no longer present',
+  // Empty, and that is the intended resting state. Thirteen entries lived here
+  // when this runner was introduced; all thirteen were fixed rather than left
+  // to sit. Twelve were stale assertions -- pinned field names, call shapes,
+  // parameter counts and markup that had moved on while nothing ran them. One
+  // (co-historical-allocations) turned out to be a real inconsistency: the
+  // dataset declared six fields in fieldDefinitions that no entry has ever
+  // carried, and the generator preserved that declaration verbatim on every
+  // refresh, so it outlived whatever wrote it.
+  //
+  // Adding an entry is allowed but deliberately uncomfortable: the reason is
+  // printed on every CI run and test-reachability asserts it is substantive.
+  // Deleting the entry is the exit.
 };
 
 function discoverAll() {

@@ -96,10 +96,18 @@ const gapBody = extractFn(renderersSrc, 'renderGapCoverageStats');
 assert(gapBody !== null, 'function exists');
 if (gapBody) {
   assert(gapBody.length > 200, 'body has substance');
-  assert(/createElement/.test(gapBody),
-    'injects container when not present (idempotent)');
-  assert(/pct_renter_cb30/.test(gapBody),
-    'reads CHAS cost-burden summary');
+  // Reimplemented since these were written. The panel markup now ships in
+  // housing-needs-assessment.html (#hnaGapCoveragePanel, #statGap30 …) instead
+  // of being injected with createElement, and CHAS is read through
+  // renter_hh_by_ami rather than a flat pct_renter_cb30 key. Both assertions
+  // were pinning the old mechanism; the behaviour they stood for -- the panel
+  // gets populated, and CHAS actually feeds it -- is asserted directly.
+  assert(/getElementById\(['"]hnaGapCoveragePanel['"]\)/.test(gapBody),
+    'binds to the gap-coverage panel that ships in the page markup');
+  assert(/renter_hh_by_ami/.test(gapBody),
+    'reads the CHAS renter-by-AMI summary');
+  assert(/panel\.hidden\s*=\s*true/.test(gapBody),
+    'hides the panel when no CHAS/ACS/place source is available, rather than rendering an empty shell');
 }
 
 console.log('\n[test] renderComplianceTable produces year-by-year table');

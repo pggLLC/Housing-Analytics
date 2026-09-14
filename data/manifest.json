@@ -229,7 +229,7 @@
     "data/co-historical-allocations.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14708
+      "bytes": 14222
     },
     "data/co-housing-costs/county-trends.json": {
       "featureCount": 64,

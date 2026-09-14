@@ -64,11 +64,25 @@ assert(/setJurisdiction\(payload\)/.test(ctl),
 // Convention: place selections use type='city' + placeGeoid (matches
 // the convention select-jurisdiction.js writes, so restoration in
 // update() init reads it back cleanly).
-const placeBranch = ctl.match(
-  /if \(gt === 'county'\)[\s\S]*?else\s*\{[\s\S]*?type:\s*'city'/
-);
-assert(placeBranch != null,
-  'place/cdp sync payload uses type:"city" + placeGeoid (matches selector convention)');
+// This used to match the control-flow shape: `if (gt === 'county') … else {`.
+// The discriminator was renamed gt -> realGeoType (so a place subtype resolves
+// to place/cdp rather than the raw selector value) and a 'state' branch was
+// added between the two, so the shape no longer matched even though the payload
+// is unchanged. Assert the payload the place/cdp branch actually builds.
+// This used to match the control-flow shape: `if (gt === 'county') … else {`.
+// The discriminator was renamed gt -> realGeoType (so a place subtype resolves
+// to place/cdp rather than the raw selector value) and a 'state' branch was
+// added between the two, so the shape no longer matched even though the payload
+// is unchanged. Slice the region instead of matching brace structure -- a
+// regex over control flow is what made this brittle in the first place.
+const stateAt = ctl.indexOf("realGeoType === 'state'");
+const setAt = ctl.indexOf('window.WorkflowState.setJurisdiction(payload)', stateAt);
+assert(stateAt !== -1 && setAt !== -1, 'sync payload branches found');
+const placeBranch = ctl.slice(stateAt, setAt);
+assert(/type:\s*'city'/.test(placeBranch),
+  'place/cdp sync payload uses type:"city" (matches selector convention)');
+assert(/placeGeoid:\s*gid/.test(placeBranch),
+  'place/cdp sync payload carries placeGeoid');
 // Wired to BOTH change events so geoType swaps and geoSelect swaps both sync.
 const gtListener = ctl.match(
   /geoType\.addEventListener\('change'[\s\S]{0,200}_syncJurisdictionToWorkflowState/
