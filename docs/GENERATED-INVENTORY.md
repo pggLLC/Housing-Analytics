@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T03:13:29.054Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T03:37:54.484Z. Do not edit by hand.
 
 ---
 
@@ -113,7 +113,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 9.3 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 23.6 KB | ✅ | — |
+| `data/co-county-demographics.json` | 38.7 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
@@ -2035,7 +2035,7 @@
 | `.github/workflows/fetch-census-acs.yml` | 6.6 KB |
 | `.github/workflows/fetch-chas-data.yml` | 4.6 KB |
 | `.github/workflows/fetch-chfa-lihtc.yml` | 5.9 KB |
-| `.github/workflows/fetch-county-data.yml` | 4.8 KB |
+| `.github/workflows/fetch-county-data.yml` | 5.6 KB |
 | `.github/workflows/fetch-fmr-data.yml` | 7.7 KB |
 | `.github/workflows/fetch-fred-data.yml` | 5.0 KB |
 | `.github/workflows/fetch-hmda-data.yml` | 3.9 KB |
@@ -2050,7 +2050,7 @@
 | `.github/workflows/rebuild-bps-permits.yml` | 7.6 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
-| `.github/workflows/refresh-co-demographics.yml` | 2.9 KB |
+| `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 18.9 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.1 KB |
