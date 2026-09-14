@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T09:50:59.187Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T10:30:43.529Z. Do not edit by hand.
 
 ---
 
@@ -1914,7 +1914,7 @@
 | `test/tax-credit-equity-markets.test.js` | 7.3 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
-| `test/test-reachability.test.js` | 3.8 KB |
+| `test/test-reachability.test.js` | 6.8 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_chfa_award_predictor.js` | 18.9 KB |
@@ -1945,7 +1945,7 @@
 | `test/unit/pma-transit.test.js` | 4.5 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/unwired-suite.test.js` | 5.3 KB |
+| `test/unwired-suite.test.js` | 10.3 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
