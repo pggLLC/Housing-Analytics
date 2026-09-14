@@ -209,12 +209,35 @@
 
   // ── Source grid renderer ──────────────────────────────────────────────────
 
+  /* 1D — A source with no refresh cadence must say why in the open. This
+     renders beside the badge in place of the freshness bar, so a reader
+     never has to infer "no bar" as "no problem". */
+  function maintenanceNote(s) {
+    if (!s || !s.maintenanceNote) return '';
+    var bad = s.status === 'unavailable';
+    var known = (s.status === 'unavailable' && s.lastKnownGood)
+      ? ' <strong>Last known good: ' + _esc(s.lastKnownGood) + '.</strong>'
+      : '';
+    return '<p class="drh-card-maintenance" style="margin:.5rem 0 0;padding:.5rem .625rem;' +
+           'font-size:.8125rem;line-height:1.45;border-radius:6px;' +
+           'background:' + (bad ? '#dc262612' : '#64748b12') + ';' +
+           'color:' + (bad ? '#991b1b' : '#475569') + ';' +
+           'border:1px solid ' + (bad ? '#dc262633' : '#64748b33') + '">' +
+           _esc(s.maintenanceNote) + known + '</p>';
+  }
+
   function statusBadge(status) {
     var map = {
       current: '<span class="drh-badge drh-badge--ok">✅ Current</span>',
       aging:   '<span class="drh-badge drh-badge--warn">⚠ Aging</span>',
       stale:   '<span class="drh-badge drh-badge--bad">🔴 Stale</span>',
       live:    '<span class="drh-badge drh-badge--ok" title="Live API — fetched on demand, no snapshot date applies">🛰 Live API</span>',
+      // Sources with no refresh cadence get their own badges rather than
+      // being scored against one. 'Unavailable' is deliberately the loudest
+      // of the three: it means the data on disk cannot be renewed at all.
+      curated: '<span class="drh-badge drh-badge--muted" title="Maintained by hand — no automated refresh cadence">✍ Curated</span>',
+      archived: '<span class="drh-badge drh-badge--muted" title="Intentionally frozen at a final vintage">📦 Archived</span>',
+      unavailable: '<span class="drh-badge drh-badge--bad" title="Cannot be refreshed — see the reason on this card">⛔ Unavailable</span>',
       unknown: '<span class="drh-badge drh-badge--muted">❓ Unknown</span>'
     };
     return map[status] || map.unknown;
@@ -322,6 +345,7 @@
         '<dt>Provider</dt><dd>' + _esc(s.provider || '—') + '</dd>' +
       '</dl>' +
       (s.description ? '<p class="drh-card-desc">' + _esc(s.description) + '</p>' : '') +
+      maintenanceNote(s) +
       freshScore +
       whereUsedHtml +
       '<div class="drh-card-actions">' +
@@ -410,6 +434,9 @@
       ['Last Updated',    src.lastUpdated],
       ['Update Frequency', src.updateFrequency],
       ['Status',          src.status],
+      ['Maintenance',     src.maintenance || 'automated'],
+      ['Why',             src.maintenanceNote ? _esc(src.maintenanceNote) : null],
+      ['Last Known Good', src.lastKnownGood || null],
       ['Freshness Score', src.freshnessScore !== null ? src.freshnessScore + '%' : '—'],
       ['Local File',      src.localFile],
       ['Source URL',      src.url ? '<a href="' + _esc(src.url) + '" target="_blank" rel="noopener">' + _esc(src.url) + '</a>' : '—'],
