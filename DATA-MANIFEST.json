@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-14T03:13:25Z",
+  "generated": "2026-09-14T08:15:39Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -230,7 +230,7 @@
       "update_method": "manual",
       "status": "cached",
       "fallback_rule": "Hide historical allocation trend chart; display current year totals only",
-      "last_update": "2026-09-13T05:38:15Z",
+      "last_update": "2026-09-14T08:15:13Z",
       "description": "Historical LIHTC allocation data for Colorado going back to program inception, including annual award amounts, unit counts, and project counts. Used to populate multi-year trend charts in the LIHTC dashboard."
     },
     {
