@@ -67,7 +67,11 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "Update CO housing costs data and maps [skip ci]"
-            git pull --rebase --autostash -X theirs origin main
+            # Rebase onto whatever branch this run targets. workflow_dispatch
+            # accepts any ref, and rebasing a feature branch onto main moves
+            # its commits off their remote counterpart, so the push below is
+            # then rejected non-fast-forward and a good pipeline run is lost.
+            git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME"
             python3 scripts/rebuild_manifest.py
             if ! git diff --quiet -- data/; then
               git add data/
