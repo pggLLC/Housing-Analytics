@@ -28,6 +28,12 @@ const CONTRACT = {
   severely_burdened_pct:    ['js/market-intelligence.js', 'js/housing-need-projector.js'],
   total_housing_units:      ['js/market-intelligence.js'],
   overcrowded:              ['js/market-intelligence.js'],
+  // vacancy_rate drives the projector's need multiplier and was absent from
+  // this contract while the two producers disagreed about its scale.
+  vacancy_rate:             ['js/housing-need-projector.js', 'js/market-intelligence.js'],
+  overcrowding_rate:        ['js/market-intelligence.js'],
+  occupied_units:           ['js/market-intelligence.js'],
+  acs_year:                 ['test/acs-vintage-label-integrity.test.js'],
 };
 
 let failures = 0;
@@ -39,23 +45,132 @@ const counties = doc.counties || {};
 const names = Object.keys(counties);
 if (names.length < 60) fail(`${FILE} has ${names.length} counties; Colorado has 64 (+1 statewide row)`);
 
+// Every contract field must be present on EVERY county. The old rule accepted
+// 50% coverage, which meant half the state could go null without failing. That
+// slack existed only because the statewide aggregate used to sit inside
+// `counties` as a 65th entry while legitimately lacking seven county fields
+// (#1658); it now lives under the top-level `statewide` key with its own
+// schema, so full coverage is the correct requirement.
 for (const [field, readers] of Object.entries(CONTRACT)) {
-  const present = names.filter((n) => counties[n] && counties[n][field] != null).length;
-  if (present === 0) {
+  const missing = names.filter((n) => !counties[n] || counties[n][field] == null);
+  if (missing.length === names.length) {
     fail(`every county is missing "${field}" — read by ${readers.join(', ')}`);
-  } else if (present < names.length * 0.5) {
-    fail(`"${field}" is set on only ${present}/${names.length} counties — read by ${readers.join(', ')}`);
+  } else if (missing.length) {
+    const shown = missing.slice(0, 6).join(', ') + (missing.length > 6 ? `, +${missing.length - 6} more` : '');
+    fail(`"${field}" is missing on ${missing.length}/${names.length} counties (${shown}) — `
+       + `read by ${readers.join(', ')}`);
   }
 }
 
-// A rate that is really a different quantity is worse than a missing one: the
-// chart renders and lies. Overcrowding above ~10% statewide is not credible.
+// SOURCE-FORMULA VERIFICATION. A 15%-ceiling heuristic was the only check here,
+// and a heuristic only catches a numerator wrong enough to breach it — a swap to
+// a merely-plausible wrong variable sails through. The file publishes both the
+// components and the derived rate, so verify the rate against its own formula:
+//     overcrowding_rate = (B25014_005E+006E+007E+011E+012E+013E) / B25014_001E
+//                       =  overcrowded                           / occupied_units
+const FORMULAS = [
+  { rate: 'overcrowding_rate', num: 'overcrowded',  den: 'occupied_units',
+    formula: '(B25014_005E+006E+007E+011E+012E+013E) / B25014_001E' },
+];
+for (const f of FORMULAS) {
+  const checked = [];
+  for (const n of names) {
+    const c = counties[n] || {};
+    if (typeof c[f.rate] !== 'number' || typeof c[f.num] !== 'number' || !c[f.den]) continue;
+    const implied = c[f.num] / c[f.den];
+    checked.push(n);
+    // The stored rate is rounded to 4dp, so allow half a unit in the last place
+    // plus a little slack for the division itself.
+    if (Math.abs(implied - c[f.rate]) > 0.0002) {
+      fail(`${n}: ${f.rate}=${c[f.rate]} does not equal ${f.num}/${f.den} `
+         + `(${c[f.num]}/${c[f.den]} = ${implied.toFixed(6)}). The published rate and its own `
+         + `components disagree — one of them is derived from the wrong variable. `
+         + `Formula: ${f.formula}`);
+      break;
+    }
+  }
+  if (!checked.length) {
+    fail(`could not verify ${f.rate} against ${f.num}/${f.den} on any county — `
+       + `the components are missing, so the published rate is unverifiable`);
+  }
+}
+
+// Backstop, kept deliberately: the formula check above passes if BOTH the rate
+// and its numerator are wrong in the same way. An implausible magnitude catches
+// that case, and it is how the B25014_008E swap first showed up (Denver 51.2%).
 const rates = names.map((n) => counties[n] && counties[n].overcrowding_rate).filter((v) => typeof v === 'number');
 const overMax = rates.length ? Math.max(...rates) : null;
 if (overMax !== null && overMax > 0.15) {
   const worst = names.find((n) => counties[n] && counties[n].overcrowding_rate === overMax);
   fail(`overcrowding_rate peaks at ${(overMax * 100).toFixed(1)}% (${worst}). Above ~15% means the numerator `
      + `is not an overcrowding count — B25014_008E is "Renter occupied: total", not a bucket.`);
+}
+
+// ---------------------------------------------------------------------------
+// Statewide aggregate: its own key, its own schema (#1658). It is not a county
+// and must not be mixed into `counties`, where it dragged the field-coverage
+// requirement down to 50% and vanished on every daily refresh.
+if (Object.prototype.hasOwnProperty.call(counties, 'Colorado')) {
+  fail(`"Colorado" is present inside counties — the statewide aggregate belongs `
+     + `under the top-level "statewide" key, with its own schema`);
+}
+const statewide = doc.statewide;
+if (!statewide || typeof statewide !== 'object') {
+  fail(`${FILE} has no top-level "statewide" aggregate`);
+} else {
+  for (const req of ['fips', 'population', 'household_count', 'vacancy_rate',
+                     'overcrowding_rate', 'cost_burden_share', 'acs_year', 'derivation']) {
+    if (statewide[req] == null) fail(`statewide aggregate is missing "${req}"`);
+  }
+  if (statewide.fips !== '08') fail(`statewide.fips is "${statewide.fips}", expected "08"`);
+
+  // CROSS-DERIVATION CHECK. data/co-demographics.json is built independently by
+  // scripts/build_co_demographics.py straight from the statewide ACS endpoint,
+  // while this aggregate is summed up from 64 county rows. Two different paths
+  // to the same quantity: if they disagree, one of them is wrong.
+  const statePath = path.join(ROOT, 'data/co-demographics.json');
+  if (fs.existsSync(statePath)) {
+    const direct = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+    const CROSS = [
+      { field: 'population',        tol: 0.02 },
+      { field: 'household_count',   tol: 0.02 },
+      { field: 'vacancy_rate',      tol: 0.05 },
+      { field: 'overcrowding_rate', tol: 0.10 },
+    ];
+    for (const c of CROSS) {
+      const a = statewide[c.field];
+      const b = direct[c.field];
+      if (typeof a !== 'number' || typeof b !== 'number' || !b) continue;
+      const rel = Math.abs(a - b) / Math.abs(b);
+      if (rel > c.tol) {
+        fail(`statewide.${c.field}=${a} disagrees with data/co-demographics.json's `
+           + `${b} by ${(rel * 100).toFixed(1)}% (tolerance ${(c.tol * 100).toFixed(0)}%). `
+           + `These are derived independently — county sum vs direct statewide ACS — so a `
+           + `gap this size means one derivation is wrong, not that they round differently.`);
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Vintage coherence. The two producers resolved different ACS years (one pinned
+// 2023, the other probed to 2024) and only one of them wrote `meta`, so the file
+// routinely declared a vintage its rows did not come from.
+const vintages = [...new Set(names.map((n) => counties[n] && counties[n].acs_year).filter(Boolean))];
+if (vintages.length > 1) {
+  fail(`counties carry ${vintages.length} different acs_year values (${vintages.join(', ')}) — `
+     + `one file, one vintage`);
+} else if (vintages.length === 1) {
+  const declared = (doc.meta && doc.meta.dataset) || '';
+  const m = declared.match(/^(\d{4})\//);
+  if (m && Number(m[1]) !== vintages[0]) {
+    fail(`meta.dataset declares "${declared}" but every county row is acs_year ${vintages[0]}. `
+       + `The producer that wrote the rows did not write the label.`);
+  }
+  if (statewide && statewide.acs_year && statewide.acs_year !== vintages[0]) {
+    fail(`statewide.acs_year is ${statewide.acs_year} but counties are ${vintages[0]} — `
+       + `the aggregate is stale relative to the counties it summarises`);
+  }
 }
 
 
@@ -254,4 +369,7 @@ console.log(`  ✓ anchors: Mesa/Denver/Summit vacancy + overcrowding in range`)
 console.log(`  ✓ ${zeroCounties.length} county(ies) carry a real overcrowded=0 rather than null`);
 console.log(`  ✓ vacancy need-multiplier still discriminates across counties`);
 console.log(`  ✓ both producers agree on scale and overcrowding numerator`);
+console.log(`  ✓ overcrowding_rate verified against its own components on every county`);
+console.log(`  ✓ statewide aggregate has its own key + schema, and agrees with co-demographics.json`);
+console.log(`  ✓ one ACS vintage across counties, aggregate and meta label`);
 console.log('county-demographics-contract: PASS');

@@ -403,12 +403,17 @@ test('acs_cache.py has 30-day default TTL', () => {
 
 // ── fetch-county-demographics.js: statewide aggregation & FIPS ──────────────
 
-test('fetch-county-demographics.js: ACS_YEAR updated to 2023', () => {
+test('fetch-county-demographics.js: ACS vintage is probed, not pinned', () => {
   const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
-  // Verify the declared ACS year is at least 2023 (updated from 2022)
-  assert(src.includes('ACS_YEAR = 2023') || src.includes('ACS_YEAR = 2024'),
-    'ACS_YEAR is 2023 or later (not 2022)');
-  assert(!src.includes('ACS_YEAR = 2022'), 'ACS_YEAR is not 2022');
+  // A pinned literal went stale against scripts/refresh-data-pipeline.js, which
+  // writes the same file daily and probes newest-first: the file's vintage
+  // flipped between producers. Both now resolve the same way, so assert the
+  // mechanism rather than a year that has to be hand-bumped every release.
+  assert(!/ACS_YEAR\s*=\s*\d{4}/.test(src),
+    'ACS_YEAR is not pinned to a literal year');
+  assert(src.includes('CANDIDATE_YEARS'), 'candidate vintages are enumerated');
+  assert(src.includes('fetchNewestVintage'), 'vintages are tried newest-first');
+  assert(/currentYear\s*-\s*1/.test(src), 'newest candidate is last year, not the current year');
 });
 
 test('fetch-county-demographics.js: FIPS code extraction present', () => {
@@ -422,8 +427,13 @@ test('fetch-county-demographics.js: FIPS code extraction present', () => {
 test('fetch-county-demographics.js: buildStatewideAggregate function defined', () => {
   const src = fs.readFileSync(path.join(ROOT, 'scripts/fetch-county-demographics.js'), 'utf8');
   assert(src.includes('buildStatewideAggregate'), 'buildStatewideAggregate function defined');
-  assert(src.includes("fips: '08'"),              'statewide row uses FIPS "08"');
-  assert(src.includes("counties['Colorado']"),    'statewide row added under "Colorado" key');
+  assert(/fips:\s*'08'/.test(src),                'statewide row uses FIPS "08"');
+  // The aggregate used to be a 65th entry in `counties` keyed "Colorado". It is
+  // not a county -- it legitimately lacks seven county fields, which forced the
+  // contract test down to 50% coverage -- and it vanished whenever
+  // scripts/refresh-data-pipeline.js replaced `counties` wholesale (#1658).
+  assert(!src.includes("counties['Colorado']"),   'statewide aggregate is NOT stored inside counties');
+  assert(/statewide:\s*statewide/.test(src),      'statewide aggregate is a top-level key');
 });
 
 test('fetch-county-demographics.js: source label uses ACS_YEAR constant', () => {

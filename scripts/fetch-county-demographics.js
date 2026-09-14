@@ -27,20 +27,32 @@ const fs = require('fs');
 const path = require('path');
 
 const OUT_FILE = path.join(__dirname, '..', 'data', 'co-county-demographics.json');
-const ACS_YEAR = 2023;
+// Vintage is PROBED newest-first, not pinned. This was hardcoded to 2023 while
+// scripts/refresh-data-pipeline.js -- which writes the SAME file daily -- probes
+// newest-first and lands on 2024. The file's vintage therefore flipped between
+// producers, and because this script wrote no `meta`, its ACS 2023 rows shipped
+// under the other producer's "2024/acs/acs5" label. Both producers now resolve
+// the same way, so the file carries one vintage and says which it is.
+let ACS_YEAR = null;
+const CANDIDATE_YEARS = [];
+{
+  const currentYear = new Date().getUTCFullYear();
+  for (let y = currentYear - 1; y >= currentYear - 5; y--) CANDIDATE_YEARS.push(y);
+}
 // Keyless Census requests answer 302 for every vintage now, so the "no key
 // required" note above is no longer true. Without a key this script fetched
 // nothing, exited 0, and the workflow's validator only checked the file's
 // SHAPE -- so a stale file passed and the weekly run reported success while
 // changing nothing for months.
 const CENSUS_KEY = process.env.CENSUS_API_KEY || '';
-const ACS_URL =
-  'https://api.census.gov/data/' + ACS_YEAR + '/acs/acs5' +
-  '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
-  ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
-  ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E' +
-  ',B25064_001E,B19013_001E,B25077_001E,B01003_001E' +
-  '&for=county:*&in=state:08' + (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
+function acsUrl(year) {
+  return 'https://api.census.gov/data/' + year + '/acs/acs5' +
+    '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
+    ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
+    ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E' +
+    ',B25064_001E,B19013_001E,B25077_001E,B01003_001E' +
+    '&for=county:*&in=state:08' + (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
+}
 
 function fetchJSON(url) {
   // Support both node-fetch v2 (CommonJS) and native fetch (Node 18+)
@@ -205,20 +217,53 @@ function buildStatewideAggregate(counties) {
     median_gross_rent_current: popWeightTotal > 0 ? Math.round(rentSum / popWeightTotal) : null,
     median_home_value:   popWeightTotal > 0 ? Math.round(homeValueSum / popWeightTotal) : null,
     median_hh_income:    popWeightTotal > 0 ? Math.round(incomeSum / popWeightTotal) : null,
-    population:          totalPop
+    population:          totalPop,
+    fips:                '08',
+    acs_year:            ACS_YEAR,
+    derivation:          'population-weighted medians; household-weighted rates; counts summed over ' +
+                         Object.keys(counties).length + ' counties'
   };
+}
+
+/**
+ * Try each candidate vintage newest-first; resolve with the first that returns
+ * a usable county table. Sets ACS_YEAR to the vintage actually fetched.
+ */
+function fetchNewestVintage(years) {
+  if (!years.length) {
+    return Promise.reject(new Error('no ACS vintage returned usable county data'));
+  }
+  var year = years[0];
+  return fetchJSON(acsUrl(year))
+    .then(function (rows) {
+      if (!Array.isArray(rows) || rows.length < 2) throw new Error('empty response');
+      ACS_YEAR = year;
+      console.log('  ACS vintage ' + year + ': ' + (rows.length - 1) + ' rows');
+      return rows;
+    })
+    .catch(function (err) {
+      console.log('  ACS vintage ' + year + ' unavailable (' + err.message + ') — trying older');
+      return fetchNewestVintage(years.slice(1));
+    });
 }
 
 function run() {
   console.log('Fetching ACS 5-year county data from Census API…');
-  fetchJSON(ACS_URL)
+  fetchNewestVintage(CANDIDATE_YEARS)
     .then(function (rows) {
       var counties = parseCountyRows(rows);
       if (!counties || Object.keys(counties).length === 0) {
         throw new Error('Census API returned empty data');
       }
-      // Append statewide aggregate as a special entry keyed by "Colorado"
-      counties['Colorado'] = buildStatewideAggregate(counties);
+      // The statewide aggregate used to be stored as a 65th entry in `counties`
+      // keyed "Colorado". It is not a county: it shares the county schema while
+      // legitimately lacking seven of its fields, which forced the contract test
+      // to accept 50% coverage instead of requiring every field on every county.
+      // It also vanished on every run of scripts/refresh-data-pipeline.js, which
+      // replaces `counties` wholesale. A top-level key survives that (the daily
+      // producer's Object.assign preserves keys it does not write) and carries
+      // its own schema. See issue #1658.
+      var statewide = buildStatewideAggregate(counties);
       var existing = {};
       try {
         existing = JSON.parse(fs.readFileSync(OUT_FILE, 'utf8'));
@@ -229,15 +274,24 @@ function run() {
         updated: new Date().toISOString().slice(0, 10),
         source: 'U.S. Census Bureau — American Community Survey 5-Year Estimates (' + ACS_YEAR + ')',
         source_url: 'https://data.census.gov/',
-        note: 'County-level fallback data refreshed weekly by CI. Live data fetched directly from Census ACS API at page load. Includes "Colorado" statewide aggregate row (population-weighted medians; household-weighted rates).',
-        counties: counties
+        note: 'County-level fallback data refreshed weekly by CI. Live data fetched directly from Census ACS API at page load. The statewide aggregate is the top-level `statewide` key, not a row in `counties`.',
+        counties: counties,
+        statewide: statewide,
+        // This script previously wrote no `meta`, so its rows inherited whatever
+        // vintage label scripts/refresh-data-pipeline.js had left behind — the
+        // file declared 2024/acs/acs5 over ACS 2023 rows. Each producer now
+        // stamps the vintage it actually fetched.
+        meta: {
+          source:        'U.S. Census Bureau API (ACS 5-year)',
+          dataset:       ACS_YEAR + '/acs/acs5',
+          geography:     'county',
+          state:         'Colorado (FIPS 08)',
+          refreshed_utc: new Date().toISOString(),
+          producer:      'scripts/fetch-county-demographics.js'
+        }
       });
       fs.writeFileSync(OUT_FILE, JSON.stringify(output, null, 2));
-      // Count only proper county entries (5-digit FIPS, not the statewide "08" row)
-      var countyCount = Object.values(counties).filter(function (c) {
-        return c.fips && c.fips.length === 5 && c.fips !== '08';
-      }).length;
-      console.log('Wrote ' + countyCount + ' counties + statewide aggregate to ' + OUT_FILE);
+      console.log('Wrote ' + Object.keys(counties).length + ' counties + statewide aggregate to ' + OUT_FILE);
     })
     .catch(function (err) {
       console.error('Census API fetch failed: ' + err.message);
