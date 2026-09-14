@@ -195,12 +195,26 @@ class Config:
         "PCU327310327310": "Ready-Mix Concrete",
     }
 
-    # BLS QCEW county-level construction wages (NAICS 23)
-    # TODO: Use BLS QCEW API or flat file as needed
-    QCEW_BASE_URL: str = (
-        "https://data.bls.gov/cew/data/files/{year}/csv/"
-        "{year}_qtrly_singlefile.zip"
+    # BLS QCEW county-level construction wages (NAICS 23).
+    #
+    # Uses the QCEW Open Data Access single-industry slice, which returns
+    # annual-average records for one NAICS code across every published area
+    # in ~1 MB.  Do NOT switch this back to the national singlefile ZIP
+    # (data.bls.gov/cew/data/files/{year}/csv/{year}_qtrly_singlefile.zip):
+    # that archive is ~290 MB compressed / several GB expanded, and reading
+    # it with pandas exhausted the GitHub runner, which the OS then killed
+    # ("The runner has received a shutdown signal") on every scheduled run
+    # from 2026-05-02 onward.  It is also quarterly-only, so it carries
+    # neither the `qtr == "A"` annual records nor the `avg_annual_pay`
+    # column this pipeline needs.
+    QCEW_INDUSTRY_URL: str = (
+        "https://data.bls.gov/cew/data/api/{year}/a/industry/{industry}.csv"
     )
+    QCEW_INDUSTRY_CODE: str = "23"   # NAICS 23 — Construction
+    QCEW_STATE_FIPS: str = "08"      # Colorado
+    # A published vintage with fewer usable counties than this is treated as
+    # not-yet-final and the previous vintage is used instead.
+    QCEW_MIN_COUNTIES: int = 20
 
     # Census Building Permits Survey county-level
     # TODO: Update year tokens when new vintages are published
@@ -731,14 +745,74 @@ def fetch_bls_ppi(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame"
 # QCEW Construction Wages
 # ---------------------------------------------------------------------------
 
+QCEW_OUTPUT_COLUMNS = ["county_fips", "qcew_year", "avg_annual_wage", "avg_weekly_wage"]
+
+
+def _parse_qcew_annual_slice(
+    df_raw: "pd.DataFrame", year: int, cfg: Config
+) -> "pd.DataFrame":
+    """Reduce a QCEW annual single-industry slice to Colorado county wage rows.
+
+    The slice covers every published area for one NAICS code, so this keeps
+    only real Colorado counties (``08xxx``, excluding the ``08999`` "Unknown
+    Or Undefined" pseudo-county), private ownership, at the county-by-NAICS-
+    sector aggregation level.
+    """
+    def col(name: str) -> "pd.Series":
+        if name in df_raw.columns:
+            return df_raw[name].fillna("").astype(str).str.strip()
+        return pd.Series([""] * len(df_raw), index=df_raw.index, dtype=str)
+
+    area = col("area_fips")
+    mask = (
+        area.str.match(rf"^{cfg.QCEW_STATE_FIPS}\d{{3}}$")
+        & (area != f"{cfg.QCEW_STATE_FIPS}999")
+        & (col("industry_code") == cfg.QCEW_INDUSTRY_CODE)
+        & (col("qtr").str.upper() == "A")      # annual average record
+        & (col("agglvl_code") == "74")         # county, by NAICS sector
+        & (col("own_code") == "5")             # private ownership
+    )
+
+    if not mask.any():
+        return pd.DataFrame(columns=QCEW_OUTPUT_COLUMNS)
+
+    annual = pd.to_numeric(col("avg_annual_pay")[mask], errors="coerce")
+    weekly_col = (
+        "annual_avg_wkly_wage"
+        if "annual_avg_wkly_wage" in df_raw.columns
+        else "avg_wkly_wage"
+    )
+    weekly = pd.to_numeric(col(weekly_col)[mask], errors="coerce")
+
+    # BLS publishes disclosure-suppressed rows with a non-empty
+    # `disclosure_code` and a *zero* wage rather than a blank.  Left as zeros
+    # those counties would enter the ElasticNet drivers model as $0-wage
+    # observations, so mark them missing and let the model's dropna() drop
+    # them instead.
+    usable = (col("disclosure_code")[mask] == "")
+    annual = annual.where(usable & (annual > 0))
+    weekly = weekly.where(usable & (weekly > 0))
+
+    out = pd.DataFrame(
+        {
+            "county_fips": area[mask].str.zfill(5),
+            "qcew_year": year,
+            "avg_annual_wage": annual,
+            "avg_weekly_wage": weekly,
+        }
+    )
+    return out.sort_values("county_fips").reset_index(drop=True)[QCEW_OUTPUT_COLUMNS]
+
+
 def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame"]:
     """
-    Fetch QCEW annual average wages for construction (NAICS 23) by Colorado county.
+    Fetch QCEW annual-average wages for construction (NAICS 23) by Colorado county.
 
-    The BLS QCEW flat file is a large ZIP download. We attempt the latest
-    available year and fall back to the prior year.
-
-    TODO: Adjust QCEW_BASE_URL in Config as BLS publishes new annual files.
+    Downloads the ~1 MB QCEW Open Data Access slice for one industry and one
+    year (see ``Config.QCEW_INDUSTRY_URL`` for why the national singlefile ZIP
+    must not be used here).  BLS publishes annual averages several months into
+    the following year, so the most recent vintage is tried first and older
+    ones are used as fallbacks.
     """
     if not HAS_PANDAS:
         log.warning("pandas not available — skipping QCEW fetch")
@@ -749,70 +823,56 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
         log.info("QCEW: loading from cache")
         return pd.read_parquet(cache_path)
 
-    now = datetime.datetime.utcnow()
-    candidate_years = [now.year - 1, now.year - 2]
+    now = datetime.datetime.now(datetime.timezone.utc)
+    candidate_years = [now.year - 1, now.year - 2, now.year - 3]
 
     import io
-    import zipfile
 
     df: Optional["pd.DataFrame"] = None
     for year in candidate_years:
-        url = cfg.QCEW_BASE_URL.format(year=year)
-        log.info(
-            "Downloading QCEW %d data from %s (timeout=600s, up to 3 attempts) …",
-            year, url,
+        url = cfg.QCEW_INDUSTRY_URL.format(
+            year=year, industry=cfg.QCEW_INDUSTRY_CODE
         )
+        log.info("Downloading QCEW %d annual construction slice from %s …", year, url)
         try:
-            raw = _fetch_url_with_retry(url, timeout=600, retries=3)
+            raw = _fetch_url_with_retry(url, timeout=120, retries=3)
         except Exception as exc:
             log.warning("QCEW %d download failed: %s", year, exc)
             continue
 
         try:
-            with zipfile.ZipFile(io.BytesIO(raw)) as z:
-                csv_names = [n for n in z.namelist() if n.endswith(".csv")]
-                if not csv_names:
-                    log.warning("QCEW %d: no CSV in ZIP", year)
-                    continue
-                with z.open(csv_names[0]) as f:
-                    df_raw = pd.read_csv(f, dtype=str, low_memory=False)
+            df_raw = pd.read_csv(io.BytesIO(raw), dtype=str)
         except Exception as exc:
             log.warning("QCEW %d parse failed: %s", year, exc)
             continue
 
-        # Filter: Colorado (area_fips numeric and starts with 08), NAICS 23, annual (qtr == A)
-        area_fips_col = df_raw.get("area_fips", pd.Series(dtype=str)).str.strip()
-        # Ensure area_fips is numeric and at least 4 chars before checking state prefix
-        valid_fips_mask = area_fips_col.str.match(r"^\d{4,}$")
-        mask = (
-            valid_fips_mask
-            & area_fips_col.str.startswith("08")
-            & (df_raw.get("industry_code", pd.Series(dtype=str)) == "23")
-            & (df_raw.get("qtr", pd.Series(dtype=str)) == "A")
-            & (df_raw.get("agglvl_code", pd.Series(dtype=str)) == "74")  # county total
-            & (df_raw.get("own_code", pd.Series(dtype=str)) == "5")  # private
-        )
-        df_filtered = df_raw[mask].copy()
-
-        if df_filtered.empty:
-            log.warning("QCEW %d: no matching rows for CO NAICS 23 county-level", year)
+        if "area_fips" not in df_raw.columns:
+            log.warning(
+                "QCEW %d: unexpected schema — first columns %s",
+                year, list(df_raw.columns)[:6],
+            )
             continue
 
-        df_filtered["county_fips"] = df_filtered["area_fips"].str.zfill(5)
-        df_filtered["avg_annual_wage"] = pd.to_numeric(
-            df_filtered.get("avg_annual_pay", pd.Series(dtype=str)), errors="coerce"
-        )
-        df_filtered["avg_weekly_wage"] = pd.to_numeric(
-            df_filtered.get("avg_wkly_wage", pd.Series(dtype=str)), errors="coerce"
-        )
-        df_filtered["qcew_year"] = year
+        parsed = _parse_qcew_annual_slice(df_raw, year, cfg)
+        usable = int(parsed["avg_annual_wage"].notna().sum())
+        if usable < cfg.QCEW_MIN_COUNTIES:
+            log.warning(
+                "QCEW %d: only %d CO counties with unsuppressed construction wages "
+                "(need >= %d) — falling back to an earlier vintage",
+                year, usable, cfg.QCEW_MIN_COUNTIES,
+            )
+            continue
 
-        df = df_filtered[["county_fips", "qcew_year", "avg_annual_wage", "avg_weekly_wage"]].copy()
+        log.info(
+            "QCEW %d: %d CO county rows, %d with unsuppressed wages",
+            year, len(parsed), usable,
+        )
+        df = parsed
         break
 
     if df is None or df.empty:
         log.warning("QCEW: no data fetched — returning empty DataFrame")
-        return pd.DataFrame(columns=["county_fips", "qcew_year", "avg_annual_wage", "avg_weekly_wage"])
+        return pd.DataFrame(columns=QCEW_OUTPUT_COLUMNS)
 
     if HAS_PYARROW:
         df.to_parquet(cache_path, index=False)
@@ -1274,7 +1334,34 @@ def load_zillow_data(cfg: Config) -> Optional["pd.DataFrame"]:
 # Output Validation & Pipeline Status
 # ---------------------------------------------------------------------------
 
-def _validate_outputs_and_write_status() -> None:
+def _collect_source_status(**frames: Optional["pd.DataFrame"]) -> Dict[str, Any]:
+    """Summarise what each upstream fetch actually returned.
+
+    Recorded into pipeline-status.json so the published status describes the
+    run that produced it rather than restating a hand-written assumption about
+    which sources are live.
+    """
+    out: Dict[str, Any] = {}
+    for name, df in frames.items():
+        if df is None:
+            out[name] = {"status": "unavailable", "rows": 0}
+            continue
+        rows = int(len(df))
+        entry: Dict[str, Any] = {"status": "ok" if rows else "empty", "rows": rows}
+        if rows and HAS_PANDAS:
+            for year_col in ("qcew_year", "acs_year", "year"):
+                if year_col in df.columns:
+                    years = pd.to_numeric(df[year_col], errors="coerce").dropna()
+                    if not years.empty:
+                        entry["vintage"] = int(years.max())
+                    break
+        out[name] = entry
+    return out
+
+
+def _validate_outputs_and_write_status(
+    sources: Optional[Dict[str, Any]] = None,
+) -> None:
     """Check that expected pipeline outputs exist and write pipeline-status.json."""
     expected_maps = [
         "co_county_median_rent_latest.html",
@@ -1310,6 +1397,13 @@ def _validate_outputs_and_write_status() -> None:
         "drivers_csv_available": csv_ok,
         "dependencies": OPTIONAL_DEPENDENCY_FLAGS,
         "missing_maps": maps_missing,
+        "sources": sources or {},
+        "note": (
+            "Written by scripts/build_co_housing_costs_insight.py at the end of "
+            "every run; each field describes the outputs of that run only. "
+            "`generated` is when the pipeline last completed — it is not a "
+            "forecast that a future run will succeed."
+        ),
     }
 
     status_path = ASSETS_SNAPSHOTS / "pipeline-status.json"
@@ -1416,12 +1510,20 @@ Series fetched:
 | Column | Description |
 |--------|-------------|
 | `county_fips` | 5-digit county FIPS |
-| `qcew_year` | Data year |
-| `avg_annual_wage` | Average annual wage for NAICS 23 workers ($) |
-| `avg_weekly_wage` | Average weekly wage for NAICS 23 workers ($) |
+| `qcew_year` | Data year (BLS annual-average vintage) |
+| `avg_annual_wage` | Average annual wage for NAICS 23 workers ($); blank where BLS suppresses |
+| `avg_weekly_wage` | Average weekly wage for NAICS 23 workers ($); blank where BLS suppresses |
 
-Note: Counties with fewer than 3 establishments may have suppressed data
-per BLS disclosure avoidance policies.
+Source: the BLS QCEW Open Data Access annual single-industry slice
+(`data.bls.gov/cew/data/api/{year}/a/industry/23.csv`), private ownership,
+county-by-NAICS-sector aggregation level. All 64 Colorado counties appear;
+the `08999` "Unknown Or Undefined" pseudo-county is excluded.
+
+Note: BLS withholds county wages that would disclose an individual employer
+and publishes those rows with a `disclosure_code` and a **zero** wage. The
+pipeline stores those as blank/NaN rather than zero, so a suppressed county
+is dropped from the drivers model instead of entering it as a $0-wage
+observation. Typically 45-55 of the 64 counties carry an unsuppressed wage.
 
 ---
 
@@ -1548,7 +1650,11 @@ def main(refresh: bool = False) -> None:
 
     # 13. Output validation and pipeline status
     log.info("--- Output validation ---")
-    _validate_outputs_and_write_status()
+    _validate_outputs_and_write_status(
+        _collect_source_status(
+            acs=acs_df, fhfa_hpi=hpi_df, bls_ppi=bls_df, qcew=qcew_df, bps=bps_df
+        )
+    )
 
     log.info("=== Pipeline complete ===")
     log.info("Outputs:")

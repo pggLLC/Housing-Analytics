@@ -78,11 +78,11 @@ Counties below the minimum transaction threshold are excluded.
 | `value` | PPI index value |
 
 Series fetched:
-- `WPUFD4` — Softwood Lumber
-- `PCU236115236115` — New Single-Family Construction
-- `PCU331111331111` — Iron & Steel Mills
-- `PCU3313153313153` — Aluminium Sheet/Plate/Foil
-- `PCU32731327313` — Concrete Products
+- `WPUFD4111` — Construction Materials (Nonresidential Building)
+- `WPUIP231120` — Net Inputs to Multifamily Residential Construction
+- `PCU331110331110` — Iron & Steel Mills
+- `PCU331315331315` — Aluminium Sheet/Plate/Foil
+- `PCU327310327310` — Ready-Mix Concrete
 
 ---
 
@@ -91,12 +91,20 @@ Series fetched:
 | Column | Description |
 |--------|-------------|
 | `county_fips` | 5-digit county FIPS |
-| `qcew_year` | Data year |
-| `avg_annual_wage` | Average annual wage for NAICS 23 workers ($) |
-| `avg_weekly_wage` | Average weekly wage for NAICS 23 workers ($) |
+| `qcew_year` | Data year (BLS annual-average vintage) |
+| `avg_annual_wage` | Average annual wage for NAICS 23 workers ($); blank where BLS suppresses |
+| `avg_weekly_wage` | Average weekly wage for NAICS 23 workers ($); blank where BLS suppresses |
 
-Note: Counties with fewer than 3 establishments may have suppressed data
-per BLS disclosure avoidance policies.
+Source: the BLS QCEW Open Data Access annual single-industry slice
+(`data.bls.gov/cew/data/api/{year}/a/industry/23.csv`), private ownership,
+county-by-NAICS-sector aggregation level. All 64 Colorado counties appear;
+the `08999` "Unknown Or Undefined" pseudo-county is excluded.
+
+Note: BLS withholds county wages that would disclose an individual employer
+and publishes those rows with a `disclosure_code` and a **zero** wage. The
+pipeline stores those as blank/NaN rather than zero, so a suppressed county
+is dropped from the drivers model instead of entering it as a $0-wage
+observation. Typically 45-55 of the 64 counties carry an unsuppressed wage.
 
 ---
 
