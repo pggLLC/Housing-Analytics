@@ -28,12 +28,18 @@ const path = require('path');
 
 const OUT_FILE = path.join(__dirname, '..', 'data', 'co-county-demographics.json');
 const ACS_YEAR = 2023;
+// Keyless Census requests answer 302 for every vintage now, so the "no key
+// required" note above is no longer true. Without a key this script fetched
+// nothing, exited 0, and the workflow's validator only checked the file's
+// SHAPE -- so a stale file passed and the weekly run reported success while
+// changing nothing for months.
+const CENSUS_KEY = process.env.CENSUS_API_KEY || '';
 const ACS_URL =
   'https://api.census.gov/data/' + ACS_YEAR + '/acs/acs5' +
   '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
   ',B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E' +
   ',B25064_001E,B19013_001E,B25077_001E,B01003_001E' +
-  '&for=county:*&in=state:08';
+  '&for=county:*&in=state:08' + (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
 
 function fetchJSON(url) {
   // Support both node-fetch v2 (CommonJS) and native fetch (Node 18+)
@@ -204,7 +210,10 @@ function run() {
     .catch(function (err) {
       console.error('Census API fetch failed: ' + err.message);
       console.log('Retaining existing ' + OUT_FILE + ' unchanged.');
-      process.exit(0); // non-fatal: CI should not fail if Census API is temporarily down
+      // Exit non-zero. The caller decides whether a failed refresh is
+      // tolerable; this script must not report success for a fetch that never
+      // happened.
+      process.exit(1);
     });
 }
 

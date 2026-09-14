@@ -1,0 +1,52 @@
+name: Refresh Colorado demographics
+
+# data/co-demographics.json is the only source behind market-intelligence.html.
+# It had no generator and no workflow: hand-maintained, stuck on ACS 2019-2023
+# while the rest of the site moved to 2020-2024.
+#
+# This job does NOT use continue-on-error. The neighbouring county refresh does,
+# and combined with a script that exits 0 on failure it reported success weekly
+# for months while changing nothing. A refresh that cannot refresh should go red.
+
+on:
+  schedule:
+    - cron: '17 7 15 * *'      # monthly, 15th at 07:17 UTC — ACS 5-year is annual
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-co-demographics
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Build co-demographics.json from the ACS
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: python3 scripts/build_co_demographics.py
+
+      - name: Confirm the file is the vintage the script builds
+        run: python3 scripts/build_co_demographics.py --check
+
+      - name: Commit if anything changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/co-demographics.json; then
+            echo "No change — ACS values identical to the committed file."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/co-demographics.json
+          git commit -m "chore(data): refresh Colorado demographics from the ACS"
+          git push
