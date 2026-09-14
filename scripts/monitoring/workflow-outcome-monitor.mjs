@@ -36,13 +36,56 @@
 /** Conclusions GitHub actually produces in this repository. */
 export const OBSERVED_CONCLUSIONS = ['success', 'failure', 'cancelled'];
 
-/** Classification this package can make without duration data (see P2). */
 export const OUTCOME = {
   RECOVERED: 'recovered',   // success — close any tracking issue
   FAILED: 'failed',         // failure — open / update
-  STOPPED: 'stopped',       // cancelled — needs duration to tell timeout from human
+  TIMED_OUT: 'timed_out',   // cancelled at its ceiling, having actually run — open / update
+  NEVER_RAN: 'never_ran',   // cancelled without executing a step — queue eviction, no alert
+  STOPPED: 'stopped',       // cancelled, cause not determinable — no alert, but logged
   IGNORED: 'ignored',       // skipped / neutral — no action
 };
+
+/**
+ * A cancelled run is a timeout only if it BOTH ran and died at its ceiling.
+ *
+ * Duration alone is not enough, and this repo's own history shows why:
+ *
+ *   build-hna-data       120/120 min   9 steps run   real timeout
+ *   run-all-workflows    180/180 min   7 steps run   real timeout
+ *   weekly_housing_brief  16/15  min   0 steps run   NEVER STARTED
+ *   data-refresh          20-31/75 min 0 steps run   queue eviction
+ *
+ * weekly_housing_brief sat at 104% of its ceiling having executed nothing. A
+ * duration-only rule — which is what the original scoping proposed — would have
+ * raised a false timeout alert on it. Thirty workflows share the `data-commits`
+ * concurrency group, so a pending run being evicted when a newer one queues is
+ * routine and must never alert.
+ *
+ * Hence two factors. `stepsRun` is the one that distinguishes "was killed while
+ * working" from "never got to work".
+ */
+export const TIMEOUT_CEILING_RATIO = 0.95;
+
+export function classifyCancelled(run, ceilingMinutes) {
+  const raw = run && run.stepsRun;
+  const steps = Number(raw);
+
+  // An UNKNOWN step count is not the same as a known zero. Collapsing the two
+  // would make "we could not tell" indistinguishable from "it never started",
+  // and the second answer silently means "do not alert" — absence coerced into
+  // a confident finding, which is the defect class this whole package exists to
+  // remove. Unknown stays STOPPED: visible in the log, not asserted as benign.
+  if (raw == null || !Number.isFinite(steps)) return OUTCOME.STOPPED;
+
+  if (steps <= 0) return OUTCOME.NEVER_RAN;
+
+  const mins = runDurationMinutes(run);
+  if (mins == null || !ceilingMinutes) return OUTCOME.STOPPED;
+
+  return (mins >= ceilingMinutes * TIMEOUT_CEILING_RATIO)
+    ? OUTCOME.TIMED_OUT
+    : OUTCOME.STOPPED;
+}
 
 /**
  * Classify one completed run. Deliberately does NOT decide what to do about a
@@ -50,14 +93,19 @@ export const OUTCOME = {
  * job's declared timeout-minutes, which arrives in P2. Returning STOPPED rather
  * than guessing keeps this package honest about what it can and cannot tell.
  */
-export function classify(run) {
+export function classify(run, ceilingMinutes) {
   if (!run || typeof run !== 'object') return OUTCOME.IGNORED;
   switch (run.conclusion) {
     case 'success':   return OUTCOME.RECOVERED;
     case 'failure':   return OUTCOME.FAILED;
-    case 'cancelled': return OUTCOME.STOPPED;
+    case 'cancelled': return classifyCancelled(run, ceilingMinutes);
     default:          return OUTCOME.IGNORED;
   }
+}
+
+/** Outcomes that warrant opening or updating a tracking issue. */
+export function shouldAlert(outcome) {
+  return outcome === OUTCOME.FAILED || outcome === OUTCOME.TIMED_OUT;
 }
 
 /** Run duration in minutes, or null when the timestamps are unusable. */

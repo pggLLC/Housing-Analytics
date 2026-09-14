@@ -136,6 +136,9 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
     const cases = [
       ['success',   m.OUTCOME.RECOVERED],
       ['failure',   m.OUTCOME.FAILED],
+      // cancelled with NO step information: cause undeterminable, so STOPPED
+      // rather than never_ran. never_ran means "verified benign"; claiming it
+      // without evidence would suppress a real outage.
       ['cancelled', m.OUTCOME.STOPPED],
       ['skipped',   m.OUTCOME.IGNORED],
       [undefined,   m.OUTCOME.IGNORED],
@@ -145,6 +148,15 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       if (got !== expected) fail(`classify(${JSON.stringify(conclusion)}) = ${got}, expected ${expected}`);
     }
     ok('classify() maps success/failure/cancelled/skipped as expected');
+
+    if (m.classify({ conclusion: 'cancelled', stepsRun: 0 }, 120) !== m.OUTCOME.NEVER_RAN) {
+      fail('a cancelled run with a KNOWN zero step count should be never_ran (queue eviction)');
+    }
+    if (m.classify({ conclusion: 'cancelled' }, 120) === m.OUTCOME.NEVER_RAN) {
+      fail('a cancelled run with UNKNOWN step count is being reported as never_ran — that asserts '
+         + 'benign without evidence and would silently swallow a real outage');
+    }
+    ok('unknown step count is distinguished from a known zero');
 
     // GitHub has never emitted timed_out or startup_failure in this repo; a
     // policy keyed on them would fire never. Assert the module does not pretend
@@ -159,6 +171,67 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
     // A cancelled run must NOT be silently treated as fine.
     if (m.classify({ conclusion: 'cancelled' }) === m.OUTCOME.IGNORED) {
       fail('cancelled is classified as ignored — that is how #1556 stayed invisible for 15 days');
+    }
+
+    /* ── P2: timeout inference, calibrated on REAL cancelled runs ─────── */
+    const fx = JSON.parse(fs.readFileSync(
+      path.join(ROOT, 'test', 'fixtures', 'workflow-cancelled-runs.json'), 'utf8'));
+
+    if (fx.runs.length < 10) {
+      fail(`only ${fx.runs.length} cancelled-run fixtures — these are every cancelled run this `
+         + `repo has produced; a shrinking set means the calibration data was trimmed`);
+    }
+
+    const mk = (r) => ({
+      conclusion: 'cancelled',
+      stepsRun: r.stepsRun,
+      run_started_at: new Date(0).toISOString(),
+      updated_at: new Date(r.durationMinutes * 60000).toISOString(),
+    });
+
+    let wrong = 0;
+    for (const r of fx.runs) {
+      const got = m.classify(mk(r), r.ceilingMinutes);
+      if (got !== r.expect) {
+        fail(`${r.workflow} ${r.durationMinutes}m/${r.ceilingMinutes}m steps=${r.stepsRun} → `
+           + `${got}, expected ${r.expect} (${r.why})`);
+        wrong++;
+      }
+    }
+    if (!wrong) ok(`all ${fx.runs.length} real cancelled runs classify correctly`);
+
+    const alerts = fx.runs.filter((r) => m.shouldAlert(m.classify(mk(r), r.ceilingMinutes)));
+    if (alerts.length !== 5) {
+      fail(`${alerts.length} of ${fx.runs.length} fixtures would alert; expected exactly the 5 `
+         + `genuine timeouts. Alerting on more means noise; on fewer means a missed outage.`);
+    } else {
+      ok('exactly the 5 genuine timeouts would alert; the other 5 stay silent');
+    }
+
+    // The specific case that breaks duration-only inference. Guarded by name so
+    // nobody "simplifies" the rule back to a single factor.
+    const brief = fx.runs.find((r) => r.workflow === 'weekly_housing_brief');
+    if (!brief) {
+      fail('the weekly_housing_brief fixture is missing — it is the only run that exceeds its '
+         + 'ceiling while executing nothing, and it is what proves duration alone is insufficient');
+    } else {
+      if (!(brief.durationMinutes > brief.ceilingMinutes && brief.stepsRun === 0)) {
+        fail('the weekly_housing_brief fixture no longer has the property it exists to test '
+           + '(over ceiling, zero steps)');
+      }
+      if (m.classify(mk(brief), brief.ceilingMinutes) === m.OUTCOME.TIMED_OUT) {
+        fail('a run that exceeded its ceiling WITHOUT executing a step is classified as a timeout — '
+           + 'that is duration-only inference and it alerts falsely on queue evictions');
+      } else {
+        ok('a run over its ceiling with zero steps is not called a timeout');
+      }
+    }
+
+    // A run that genuinely worked and died at the ceiling must still alert.
+    if (!m.shouldAlert(m.classify({ conclusion: 'cancelled', stepsRun: 9,
+        run_started_at: new Date(0).toISOString(),
+        updated_at: new Date(120 * 60000).toISOString() }, 120))) {
+      fail('a run that executed steps and died at its ceiling does not alert — that is #1556');
     }
 
     if (failures) { console.error(`\nworkflow-outcome-monitor: FAIL (${failures})`); process.exit(1); }

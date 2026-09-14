@@ -1,0 +1,15 @@
+{
+  "_comment": "Every cancelled run in this repository as of 2026-09-14, captured from the GitHub API. Real data, not invented: the policy in scripts/monitoring/workflow-outcome-monitor.mjs is calibrated against these and must keep classifying them correctly. stepsRun counts steps with a non-null, non-skipped conclusion.",
+  "runs": [
+    { "workflow": "build-hna-data",       "ceilingMinutes": 120, "durationMinutes": 120, "stepsRun": 9, "event": "schedule",          "expect": "timed_out", "why": "ran 9 steps and died exactly at its 120-minute ceiling" },
+    { "workflow": "build-hna-data",       "ceilingMinutes": 120, "durationMinutes": 120, "stepsRun": 9, "event": "schedule",          "expect": "timed_out", "why": "same" },
+    { "workflow": "build-hna-data",       "ceilingMinutes": 120, "durationMinutes": 120, "stepsRun": 9, "event": "workflow_dispatch", "expect": "timed_out", "why": "a dispatch run can time out too — event type must not suppress it" },
+    { "workflow": "build-hna-data",       "ceilingMinutes": 120, "durationMinutes": 121, "stepsRun": 9, "event": "workflow_dispatch", "expect": "timed_out", "why": "duration can slightly exceed the ceiling" },
+    { "workflow": "build-hna-data",       "ceilingMinutes": 120, "durationMinutes": 62,  "stepsRun": 5, "event": "workflow_dispatch", "expect": "stopped",   "why": "ran, but stopped at 52% — a human cancelled it" },
+    { "workflow": "run-all-workflows",    "ceilingMinutes": 180, "durationMinutes": 180, "stepsRun": 7, "event": "schedule",          "expect": "timed_out", "why": "orchestrator hit its own ceiling having run 7 steps" },
+    { "workflow": "data-refresh",         "ceilingMinutes": 75,  "durationMinutes": 20,  "stepsRun": 0, "event": "schedule",          "expect": "never_ran", "why": "queue eviction — 30 workflows share the data-commits group" },
+    { "workflow": "data-refresh",         "ceilingMinutes": 75,  "durationMinutes": 31,  "stepsRun": 0, "event": "schedule",          "expect": "never_ran", "why": "same" },
+    { "workflow": "data-refresh",         "ceilingMinutes": 75,  "durationMinutes": 27,  "stepsRun": 0, "event": "schedule",          "expect": "never_ran", "why": "same" },
+    { "workflow": "weekly_housing_brief", "ceilingMinutes": 15,  "durationMinutes": 16,  "stepsRun": 0, "event": "schedule",          "expect": "never_ran", "why": "THE CASE THAT BREAKS DURATION-ONLY INFERENCE: 104% of its ceiling with zero steps executed. Duration alone would call this a timeout and alert falsely." }
+  ]
+}
