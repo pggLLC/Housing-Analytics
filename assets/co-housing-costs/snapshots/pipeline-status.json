@@ -1,9 +1,42 @@
 {
-  "generated": "2026-03-29T15:46:06.213354+00:00",
-  "data_vintage": "2024 (ACS 2020-2024 5-year estimates)",
-  "note": "These values describe the committed artifacts produced by the 2026-03-29 run. The monthly refresh workflow (.github/workflows/update-co-housing-costs.yml) then failed on every run from 2026-05-02 through 2026-09-14, so the outputs below are stale rather than current. The QCEW fetch inside that pipeline had never succeeded at all, and the construction-wage layer it feeds (data/co-housing-costs/qcew_construction_county.parquet and assets/co-housing-costs/maps/co_county_construction_wages.html) holds placeholder values, not BLS figures. The pipeline has been repaired but has not yet re-run; the next successful run overwrites this file, the wage layer and the drivers ranking with fetched data.",
+  "generated": "2026-09-14T20:00:20.345915+00:00",
   "maps_generated": 8,
   "maps_total": 8,
   "maps_complete": true,
-  "drivers_csv_available": true
+  "drivers_csv_available": true,
+  "dependencies": {
+    "pandas": true,
+    "geopandas": true,
+    "folium": true,
+    "matplotlib": true,
+    "sklearn": true,
+    "pyarrow": true
+  },
+  "missing_maps": [],
+  "sources": {
+    "acs": {
+      "status": "ok",
+      "rows": 192,
+      "vintage": 2024
+    },
+    "fhfa_hpi": {
+      "status": "ok",
+      "rows": 54
+    },
+    "bls_ppi": {
+      "status": "ok",
+      "rows": 944,
+      "vintage": 2026
+    },
+    "qcew": {
+      "status": "ok",
+      "rows": 64,
+      "vintage": 2025
+    },
+    "bps": {
+      "status": "empty",
+      "rows": 0
+    }
+  },
+  "note": "Written by scripts/build_co_housing_costs_insight.py at the end of every run; each field describes the outputs of that run only. `generated` is when the pipeline last completed \u2014 it is not a forecast that a future run will succeed."
 }
