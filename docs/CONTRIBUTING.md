@@ -217,6 +217,13 @@ check tripping. Triage:
 4. Verify Pages deploy completed: `gh run list --workflow=deploy.yml --limit 3`
 5. Hard-refresh the live site (Cmd+Shift+R) to bypass browser cache
 
+## Change-impact map
+
+See [CHANGE-IMPACT.md](CHANGE-IMPACT.md) for what else a change requires —
+generated artifacts you must regenerate, manifests and inventory lines you
+must update, and the gate that fails for each. Read it before editing
+`housing-needs-assessment.html`, anything under `data/`, or `sitemap.xml`.
+
 ## Where things live
 
 | What | Where |
