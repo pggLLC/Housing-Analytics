@@ -44,17 +44,24 @@ jobs:
         run: npm install --omit=dev node-fetch@2
 
       - name: Fetch ACS county demographics
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}   # keyless Census requests 302 — without this the fetch is a no-op
         run: node scripts/fetch-county-demographics.js
         continue-on-error: true   # Non-fatal: retain existing file if Census API is down
 
       - name: Validate demographics output
         run: |
-          if jq -e '.counties | type == "object"' data/co-county-demographics.json > /dev/null; then
-            echo "✅ co-county-demographics.json is valid"
-            echo "   Counties: $(jq '.counties | keys | length' data/co-county-demographics.json)"
-          else
+          if ! jq -e '.counties | type == "object"' data/co-county-demographics.json > /dev/null; then
             echo "❌ co-county-demographics.json invalid — skipping commit"
             exit 1
+          fi
+          echo "✅ co-county-demographics.json is valid"
+          echo "   Counties: $(jq '.counties | keys | length' data/co-county-demographics.json)"
+          # Shape alone cannot tell a fresh file from one the fetch never touched:
+          # this step passed weekly for months while the keyless fetch 302'd and
+          # the script exited 0. Say so out loud when nothing moved.
+          if git diff --quiet -- data/co-county-demographics.json; then
+            echo "::warning::Census fetch produced no change to co-county-demographics.json — if this repeats weekly the refresh is a no-op, not a stable dataset."
           fi
         continue-on-error: true
 
