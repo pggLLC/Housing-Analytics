@@ -173,6 +173,46 @@ def reframe(out, view, all_views):
     return out
 
 
+def prune_assets(pages, canonical_src, rules):
+    """Drop files a view cannot use.
+
+    Every view inherits the canonical page's full script list -- 97 tags, 2.26
+    MB -- including 183 KB of Leaflet for four views that have no map element
+    to draw into. A rule names an element id and the files that only matter
+    when it is present.
+
+    This is only safe because the consumers guard on `window.L` rather than
+    assuming it; verify that before adding a rule, and re-verify when the
+    guards move. Returns a list of problems, empty when clean.
+    """
+    problems = []
+    for rule in rules:
+        for path in rule['files']:
+            # A typo'd path would silently prune nothing at all.
+            if f'"{path}"' not in canonical_src:
+                problems.append(f"assets rule lists {path}, which the canonical page does not load")
+    if problems:
+        return problems
+
+    for slug, html in pages.items():
+        dropped = []
+        for rule in rules:
+            if f'id="{rule["needs_id"]}"' in html:
+                continue
+            for path in rule['files']:
+                before = html
+                html = re.sub(
+                    r'[ \t]*<(?:script|link)[^>]*"' + re.escape(path) + r'"[^>]*>(?:</script>)?\n?',
+                    '', html)
+                if html != before:
+                    dropped.append(path)
+        if dropped:
+            note = ', '.join(sorted(dropped))
+            html = html.replace('</head>', f'<!-- [hna-view] not loaded here: {note} -->\n</head>', 1)
+        pages[slug] = html
+    return []
+
+
 def relink_anchors(pages, canonical_src, labels, idents):
     """Point same-page anchors at the view that actually holds the target.
 
@@ -291,6 +331,12 @@ def main():
     labels = {v['slug']: v['nav'] for v in mapping['views']}
     idents = {v['slug']: {'id': v['id'], 'slug': v['slug'], 'nav': v['nav'],
                           'question': v['question']} for v in mapping['views']}
+    asset_problems = prune_assets(pages, src, mapping.get('assets', {}).get('requires', []))
+    if asset_problems:
+        for line in asset_problems:
+            print(f"  {line}", file=sys.stderr)
+        return 2
+
     if not relink_anchors(pages, src, labels, idents):
         return 2
 

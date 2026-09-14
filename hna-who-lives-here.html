@@ -94,7 +94,6 @@
     }
   </style>
   <!-- Leaflet (vendored locally — no CDN required) -->
-  <link rel="stylesheet" href="js/vendor/leaflet.css" />
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/workflow-state-core.js"></script>
@@ -115,10 +114,8 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/api-config-wrapper.js"></script>
   <!-- Vendor scripts -->
-  <script src="js/vendor/leaflet.js"></script>
   <!-- F100: zoom-aware county + place boundary overlay (decorative). -->
   <script src="js/components/jurisdiction-boundaries.js"></script>
-  <script src="js/components/affordable-housing-layer.js"></script>
   <!-- F165: targeted Google search-URL builder (housing-context, time-bound, OR-grouped vocab) -->
   <script src="js/components/search-links.js"></script>
   <!-- F124: per-property "look up" link bar + credit-type tooltips -->
@@ -159,7 +156,6 @@
   <script defer src="js/prop123-historical-tracker.js"></script>
   <!-- Shared Prop 123 jurisdiction loader/lookup; the map-specific initializer
        exits on this page, while HNA reuses its cached policy-data path. -->
-  <script defer src="js/prop123-map.js"></script>
   <!-- HNA modules — load order: projection presets/storage/model → utils → narratives → renderers → export → controller -->
   <script defer src="js/utils/format-money.js"></script>
   <script defer src="js/utils/data-quality.js"></script>
@@ -235,7 +231,6 @@
   <script defer src="js/components/data-quality-summary.js"></script>
   <script defer src="js/components/api-health.js"></script>
   <script defer src="js/components/export-panel.js"></script>
-  <script src="js/components/map-home-btn.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
   <!-- F197 — Plain-English "For affordable-housing developers" callouts.
        Injects a three-lens explanation (why it matters / what it says
@@ -245,6 +240,7 @@
   <script defer src="js/hna/hna-dev-context.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
+<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
 <script>window.HNA_VIEW={"id": "people", "nav": "Who lives here", "question": "Who lives here, and how is that changing?", "slug": "hna-who-lives-here.html"};window.HNA_VIEW_ANCHORS={"hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-last-updated="2026-03-22"

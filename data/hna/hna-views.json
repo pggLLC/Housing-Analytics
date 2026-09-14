@@ -12,8 +12,30 @@
     "or in 'shared'. The generator fails if that stops being true.",
     "",
     "'review': true marks a placement I am not confident in -- these are the",
-    "editorial calls worth arguing about. Everything else is uncontroversial."
+    "editorial calls worth arguing about. Everything else is uncontroversial.",
+    "",
+    "'assets' prunes page weight. Each entry names files that only do anything",
+    "when a given element id is on the page; a view without that id ships",
+    "without them. Every consumer of Leaflet already guards on `window.L`, so",
+    "dropping it degrades to 'no map' rather than throwing -- but check that a",
+    "script really is inert before adding it here, and re-check when its guards",
+    "change. The generator fails if a listed file is not on the canonical page."
   ],
+  "assets": {
+    "requires": [
+      {
+        "needs_id": "hnaMap",
+        "why": "Leaflet and its layer components. 183 KB of mapping code that four of the five views can never use: no #hnaMap, no map. Every L. call site in hna-controller.js and hna-renderers.js is behind an `ensureMap()` early return or an `if (!window.L || !S().map) return`.",
+        "files": [
+          "js/vendor/leaflet.js",
+          "js/vendor/leaflet.css",
+          "js/components/affordable-housing-layer.js",
+          "js/components/map-home-btn.js",
+          "js/prop123-map.js"
+        ]
+      }
+    ]
+  },
   "shared": {
     "_why": "Framing that every view needs. Repeated across views by design: it is generated, not authored, so it cannot drift.",
     "sections": [
@@ -58,7 +80,7 @@
           "n": 29,
           "title": "Pace & Scale of New Housing Permits",
           "review": true,
-          "note": "Permits are supply pipeline \u2014 arguably 'where it's heading' rather than current stock."
+          "note": "Permits are supply pipeline — arguably 'where it's heading' rather than current stock."
         },
         {
           "n": 30,
@@ -126,7 +148,7 @@
           "n": 27,
           "title": "Household Income Distribution",
           "review": true,
-          "note": "Income drives the affordability math \u2014 a strong case for putting this in 'what households can afford' instead."
+          "note": "Income drives the affordability math — a strong case for putting this in 'what households can afford' instead."
         }
       ]
     },
@@ -142,7 +164,7 @@
         },
         {
           "n": 6,
-          "title": "Rent triangulation \u2014 existing vs. asking"
+          "title": "Rent triangulation — existing vs. asking"
         },
         {
           "n": 10,
@@ -186,7 +208,7 @@
           "n": 14,
           "title": "Commuting: inflow & outflow (LEHD LODES)",
           "review": true,
-          "note": "Same call as 13 \u2014 keep the pair together wherever it lands."
+          "note": "Same call as 13 — keep the pair together wherever it lands."
         },
         {
           "n": 35,
@@ -208,7 +230,7 @@
           "n": 39,
           "title": "Wages vs Housing Affordability",
           "review": true,
-          "note": "Explicitly an affordability crossing \u2014 could belong in 'what households can afford'."
+          "note": "Explicitly an affordability crossing — could belong in 'what households can afford'."
         },
         {
           "n": 40,
@@ -242,12 +264,12 @@
         {
           "n": 25,
           "title": "Population: DOLA forecast vs historic-trend sensitivity",
-          "note": "Child of #24 \u2014 moves with it."
+          "note": "Child of #24 — moves with it."
         },
         {
           "n": 26,
           "title": "Housing need summary",
-          "note": "The headline need number. Child of #24 \u2014 moves with it, never alone."
+          "note": "The headline need number. Child of #24 — moves with it, never alone."
         },
         {
           "n": 34,
