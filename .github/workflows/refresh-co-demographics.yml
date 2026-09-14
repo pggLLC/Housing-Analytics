@@ -52,4 +52,24 @@ jobs:
           # pull_request workflows, so it ran CodeQL and nothing else.
           git add data/co-demographics.json data/manifest.json
           git commit -m "chore(data): refresh Colorado demographics from the ACS"
-          git push
+
+          # main is busy: the post-merge automation bot pushed twice within
+          # seconds of the last merge and this job's push was rejected as
+          # non-fast-forward. Rebase and retry rather than failing a refresh
+          # that actually worked. --rebase keeps our single data commit on top
+          # of whatever landed; there is nothing to merge because no other job
+          # writes these two files.
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "pushed on attempt $attempt"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt) — rebasing onto origin/main"
+            git pull --rebase --autostash origin main || {
+              echo "::error::rebase failed — refusing to force a data commit onto main"
+              exit 1
+            }
+            sleep $((attempt * 5))
+          done
+          echo "::error::could not push after 5 attempts; main is moving faster than this job"
+          exit 1
