@@ -1123,6 +1123,21 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   .hna-rail__toggle { cursor: default; pointer-events: none; border-bottom: 1px solid var(--border, rgba(13,31,53,.11)); }
 }
 
+/* Keep the view switcher out from under the rail.
+
+   .hna-rail is position:fixed at left: max(.75rem, 50vw - 46rem) and 15rem
+   wide, so its right edge sits at ~236px until the viewport passes ~1680px --
+   it overlays the card's left edge at every width a reader is likely to use.
+   That is deliberate for a floating contents panel, and the canonical page's
+   hero survives it only because its text is centred and never reaches that far
+   left. A centred ROW of pills does reach, so pad the row inward while the
+   rail is open; it stays centred and wraps rather than colliding. Below
+   1101px the rail collapses to a corner button and this is not needed. */
+@media (min-width: 1101px) {
+  #main-content .hna-view-switcher,
+  .hna-view-switcher { padding-inline: 11rem; }
+}
+
 /* Below the width where a fixed rail would overlap the content, it collapses
    to a corner button and opens on demand. */
 @media (max-width: 1100px) {
@@ -1436,6 +1451,13 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
 .hna-view-switcher {
   display: flex;
   flex-wrap: wrap;
+  /* Centred and capped, because #hnaContentsRail is position:fixed over the
+     card's left edge at EVERY viewport width -- it is an overlay by design,
+     not a gutter element, so there is no width at which a full-bleed row of
+     pills clears it. Left-aligned they ran straight underneath; centred but
+     full-width, the first pill still clipped it by ~52px at 1280. Capping the
+     row keeps it inside the safe zone and wraps instead of colliding. */
+  justify-content: center;
   gap: .4rem;
   margin: .55rem 0 var(--sp2);
 }
