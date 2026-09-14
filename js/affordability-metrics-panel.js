@@ -83,9 +83,14 @@
   function compute(rec, medianGrossRent, options) {
     if (!rec) return null;
     var homeValue = resolveHomeValue(rec, options);
-    var home = homeValue.value || 0;
-    var hhi  = Number(rec.median_hh_income || rec.DP03_0062E)  || 0;
-    var rent = Number(medianGrossRent)       || 0;
+    // `|| 0` here turned a missing value into a confident one. The derived
+    // columns were safe — `(home && hhi)` yields null and renders '—' — but the
+    // RAW values were published: a county with no median household income
+    // displayed "$0" in a column labelled "Median HHI". $0 is a statement about
+    // a place, and a false one. Keep absence as null and let the renderer say so.
+    var home = _num(homeValue.value);
+    var hhi  = _num(rec.median_hh_income != null ? rec.median_hh_income : rec.DP03_0062E);
+    var rent = _num(medianGrossRent);
     var p_i  = (home && hhi)  ? home / hhi          : null;
     var p_r  = (home && rent) ? home / (rent * 12)  : null;
     // Affordability rate: HHs whose income >= mortgage threshold.
@@ -128,6 +133,22 @@
       home_value_geography_level: homeValue.geography_level,
       home_value_metric: HOME_VALUE_METRIC.key,
     };
+  }
+
+  /**
+   * Absent stays absent. Number(null) is 0 and Number('') is 0, so a plain
+   * coercion cannot tell "no data" from "genuinely zero" — and for income, rent
+   * or a home price, zero is never a real observation.
+   */
+  function _num(v) {
+    if (v == null || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  /** Currency, or the same em dash the derived columns already use for absence. */
+  function _money(v) {
+    return (v == null || !Number.isFinite(Number(v))) ? '—' : '$' + Math.round(Number(v)).toLocaleString();
   }
 
   function resolveHomeValue(rec, options) {
@@ -264,10 +285,10 @@
       var affMeta = _tier(aff, affTiers, colorsGood);
       html += '<tr>' +
         '<td style="padding:4px 8px;">' + _esc(r.name) + '</td>' +
-        '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' +
-          Math.round(r.rec.home_price).toLocaleString() + '</td>' +
-        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' +
-          Math.round(r.rec.median_hhi).toLocaleString() + '</td>' +
+        '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' +
+          _money(r.rec.home_price) + '</td>' +
+        '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' +
+          _money(r.rec.median_hhi) + '</td>' +
         '<td style="text-align:right;padding:4px 8px;color:' + piMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + piMeta.label + '">' +
           (pi != null ? pi.toFixed(2) : '—') + '</td>' +
         '<td style="text-align:right;padding:4px 8px;color:' + prMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + prMeta.label + '">' +
@@ -318,8 +339,8 @@
         var affMeta = _tier(aff, affTiers, colorsGood);
         return '<tr>' +
           '<td style="padding:4px 8px;">' + _esc(r.name) + '</td>' +
-          '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.home_price).toLocaleString() + '</td>' +
-          '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">$' + Math.round(r.rec.median_hhi).toLocaleString() + '</td>' +
+          '<td title="' + _esc(r.rec.home_value_source_label + (r.rec.home_value_as_of ? ' · ' + r.rec.home_value_as_of : '')) + '" style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' + _money(r.rec.home_price) + '</td>' +
+          '<td style="text-align:right;padding:4px 8px;font-variant-numeric:tabular-nums;">' + _money(r.rec.median_hhi) + '</td>' +
           '<td style="text-align:right;padding:4px 8px;color:' + piMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + piMeta.label + '">' + (pi != null ? pi.toFixed(2) : '—') + '</td>' +
           '<td style="text-align:right;padding:4px 8px;color:' + prMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + prMeta.label + '">' + (pr != null ? pr.toFixed(1) : '—') + '</td>' +
           '<td style="text-align:right;padding:4px 8px;color:' + affMeta.color + ';font-weight:600;font-variant-numeric:tabular-nums;" title="' + affMeta.label + '">' + (aff != null ? aff.toFixed(0) + '%' : '—') + '</td>' +
