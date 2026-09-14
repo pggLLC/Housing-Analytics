@@ -3245,14 +3245,85 @@
     legend.addTo(map);
   }
 
+  /* ── Site-radius scoping for dense point layers ──────────────────
+     The amenity layers are statewide files -- retail alone is 10,017 points,
+     transit stops 7,888 -- and the loader rendered every feature with no
+     filtering and no clustering. In a PMA the question is never "where is all
+     retail in Colorado", it is "what serves THIS site", so a statewide dump is
+     both slow and the wrong answer. commutingFlows already scopes to the site
+     by haversine; these layers now do the same.
+
+     With a site selected: everything within max(buffer x 1.5, 5) miles.
+     Without one: whatever is in the current viewport, so the map still shows
+     something useful before an analysis has been run. */
+  function _haversineMiles(lat1, lon1, lat2, lon2) {
+    var R = 3958.8;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLon = (lon2 - lon1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /* Set from the `pma-site-selected` event, which the controller dispatches with
+     {lat, lon, bufferMiles} once an analysis completes. Deliberately NOT read
+     from _pmaLastSite: that is assigned by renderNearbyLihtcOutsidePma(), a
+     table renderer, so scoping would depend on an unrelated panel having
+     rendered first and would silently no-op if it had not. _pmaLastSite stays
+     as a fallback for a site established before this listener ran. */
+  var _scopeSite = null;
+
+  function _scopeToSite(gj) {
+    if (!gj || !Array.isArray(gj.features)) return gj;
+    var site = _scopeSite || _pmaLastSite;
+    var hasSite = !!(site && typeof site.lat === 'number' && typeof site.lon === 'number');
+    var radius = hasSite ? Math.max((site.bufferMiles || 3) * 1.5, 5) : 0;
+
+    var bounds = null;
+    if (!hasSite && map && typeof map.getBounds === 'function') {
+      // The map lives in a collapsed section on first load, so its container can
+      // have zero width and getBounds() then returns a box whose west equals its
+      // east. Filtering against that box drops every feature and the layer comes
+      // up empty with a "nothing nearby" toast -- which is what a user hits the
+      // very first time they open a layer. Re-measure, then verify the box is
+      // actually two-dimensional before trusting it.
+      if (typeof map.invalidateSize === 'function') {
+        try { map.invalidateSize({ animate: false }); } catch (_) { /* not yet in DOM */ }
+      }
+      var b = map.getBounds();
+      var degenerate = !b || b.getWest() === b.getEast() || b.getNorth() === b.getSouth();
+      if (!degenerate) bounds = b;
+    }
+    // No site and no usable viewport: show the layer unscoped rather than empty.
+    if (!hasSite && !bounds) return gj;
+
+    var kept = gj.features.filter(function (f) {
+      var g = f && f.geometry;
+      if (!g || g.type !== 'Point' || !Array.isArray(g.coordinates)) return true; // non-points pass through
+      var lon = g.coordinates[0], lat = g.coordinates[1];
+      if (typeof lat !== 'number' || typeof lon !== 'number') return false;
+      return hasSite
+        ? _haversineMiles(site.lat, site.lon, lat, lon) <= radius
+        : bounds.contains([lat, lon]);
+    });
+    return { type: 'FeatureCollection', features: kept, _scopedTo: hasSite ? 'site' : 'view' };
+  }
+
   /* ── PMA layer toggle wiring ───────────────────────────────────── */
   var LAYER_CONFIG = {
     lihtc:             { src: null, style: null },                                                           // handled by initOverlayLayers
     sma:               { src: 'co-county-boundaries.json',                    style: { color: '#6366f1', weight: 1, fillOpacity: 0.05 } },
     transit:           { src: 'market/transit_routes_co.geojson',              style: { color: '#0ea5e9', weight: 2, opacity: 0.7 } },
-    transitStops:      { src: 'amenities/transit_stops_co.geojson',
+    transitStops:      { src: 'amenities/transit_stops_co.geojson',            siteRadius: true,
                          pointStyle: { radius: 4, fillColor: '#0ea5e9', color: '#fff', weight: 1, fillOpacity: 0.8 } },
-    schools:           { src: 'market/schools_co.geojson',                    pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
+    // Stays on the NCES file deliberately. data/amenities/schools_co.geojson has
+    // 2,944 features to this one's 1,941, but it is OSM-derived and carries only
+    // a name; the NCES copy carries enrollment, grade span, type and charter/
+    // magnet/Title I status, which is what a housing analysis needs. Higher
+    // feature count is not the better source here.
+    schools:           { src: 'market/schools_co.geojson',                     siteRadius: true,
+                         pointStyle: { radius: 5, fillColor: '#f59e0b', color: '#fff', weight: 1, fillOpacity: 0.8 } },
     opportunities:     { src: 'market/opportunity_zones_co.geojson',          style: { color: '#10b981', weight: 1.5, fillOpacity: 0.15 },
                          arcgis: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Opportunity_Zones_2/FeatureServer/0',
                          arcgisWhere: "STATEFP='08'" },
@@ -3269,12 +3340,18 @@
                          pointStyle: { radius: 5, fillColor: '#10b981', color: '#065f46', weight: 1, fillOpacity: 0.6 } },
     employmentCenters: { src: 'market/employment_centers_co.geojson',
                          pointStyle: { radius: 4, fillColor: '#8b5cf6', color: '#fff', weight: 1, fillOpacity: 0.7 } },
-    grocery:           { src: 'amenities/grocery_co.geojson',
+    grocery:           { src: 'amenities/grocery_co.geojson',                  siteRadius: true,
                          pointStyle: { radius: 4, fillColor: '#22c55e', color: '#fff', weight: 1, fillOpacity: 0.8 } },
-    healthcare:        { src: 'amenities/healthcare_co.geojson',
+    healthcare:        { src: 'amenities/healthcare_co.geojson',               siteRadius: true,
                          pointStyle: { radius: 4, fillColor: '#ef4444', color: '#fff', weight: 1, fillOpacity: 0.8 } },
-    parks:             { src: 'amenities/parks_co.geojson',
+    parks:             { src: 'amenities/parks_co.geojson',                    siteRadius: true,
                          pointStyle: { radius: 4, fillColor: '#16a34a', color: '#fff', weight: 1, fillOpacity: 0.7 } },
+    // 10,017 features, and 88% of them are restaurants and fast food (5,464 +
+    // 3,420); genuine shops number about 1,154. Labelled "Retail & dining" on
+    // the toggle rather than "Retail", which would read as shopping. Grocery is
+    // a separate layer and is not duplicated here.
+    retail:            { src: 'amenities/retail_nodes_co.geojson',             siteRadius: true,
+                         pointStyle: { radius: 3.5, fillColor: '#a855f7', color: '#fff', weight: 1, fillOpacity: 0.75 } },
     hospitals:         { src: 'market/hospitals_co.geojson',
                          pointStyle: { radius: 6, fillColor: '#dc2626', color: '#fff', weight: 2, fillOpacity: 0.9 } },
     childcare:         { src: 'market/childcare_co.geojson',
@@ -3308,6 +3385,28 @@
   }
 
   var _mapLayers = {};  // cache: data-layer key -> L.geoJSON layer
+  var _rawLayerData = {};  // cache: data-layer key -> unscoped statewide GeoJSON
+
+  /* Re-scope site-filtered layers when the analysed site moves. Without this a
+     layer toggled on before an analysis would keep showing the viewport scope
+     from whenever it was first opened. */
+  document.addEventListener('pma-site-selected', function (e) {
+    var d = e && e.detail;
+    if (d && typeof d.lat === 'number' && typeof d.lon === 'number') {
+      _scopeSite = { lat: d.lat, lon: d.lon, bufferMiles: d.bufferMiles };
+    }
+    Object.keys(_rawLayerData).forEach(function (key) {
+      var layer = _mapLayers[key];
+      if (!layer) return;
+      var wasVisible = map && map.hasLayer(layer);
+      if (wasVisible) map.removeLayer(layer);
+      delete _mapLayers[key];          // force a rebuild at the new scope
+      if (wasVisible) {
+        var cb = document.querySelector('.pma-layer-toggle[data-layer="' + key + '"]');
+        if (cb) { cb.checked = false; cb.click(); }   // re-run the loader
+      }
+    });
+  });
 
   function initLayerToggles() {
     var L = window.L;
@@ -3459,6 +3558,27 @@
               if (!gj || !gj.features || gj.features.length === 0) {
                 console.warn('[market-analysis] Layer "' + key + '": empty or invalid GeoJSON');
                 return;
+              }
+              if (cfg.siteRadius) {
+                var _full = gj.features.length;
+                _rawLayerData[key] = gj;          // keep the statewide copy to re-scope on site change
+                gj = _scopeToSite(gj);
+                if (!gj.features.length) {
+                  _showLayerToast('No ' + key + ' features near this ' +
+                    (gj._scopedTo === 'site' ? 'site' : 'map view'));
+                  return;
+                }
+                if (gj.features.length < _full) {
+                  console.info('[market-analysis] Layer "' + key + '": ' + gj.features.length +
+                    ' of ' + _full + ' features shown (scoped to ' + gj._scopedTo + ')');
+                } else if (gj._scopedTo !== 'site' && _full > 2000) {
+                  // Nothing was trimmed and there is no site yet -- on the default
+                  // statewide view that means every feature renders. Say so rather
+                  // than leaving the user with a slow map and no explanation; the
+                  // layer re-scopes automatically once an analysis runs.
+                  _showLayerToast('Showing all ' + _full.toLocaleString() +
+                    ' statewide — run an analysis to scope this to your site');
+                }
               }
               var opts = { pane: 'fillsPane' };
               if (cfg.pointStyle) {
