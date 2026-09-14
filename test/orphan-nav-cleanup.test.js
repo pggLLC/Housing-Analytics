@@ -33,7 +33,7 @@ assert(complianceDashboard.includes('<main id="main-content"'), 'compliance redi
 assert(complianceDashboard.includes('aria-live="polite"'), 'compliance redirect stub keeps an aria-live status region');
 assert(/dashboard has been retired/i.test(complianceDashboard), 'retired dashboard note is present');
 // This looked for `href="compliance-dashboard.html"`. sitemap.xml contains zero
-// href attributes -- entries are <loc>https://…/page.html</loc> -- so the
+// href attributes -- entries are absolute <loc> elements -- so the
 // assertion could never fail and the retired stub sat in the sitemap regardless.
 // Match the URL itself, in any syntax.
 assert(!sitemap.includes('compliance-dashboard.html'),
