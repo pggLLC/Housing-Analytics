@@ -61,7 +61,6 @@ Run `node scripts/compute-inventory.mjs` to verify these counts locally. CI runs
 | `select-jurisdiction.html` | Jurisdiction selector — routes to HNA, comparative analysis, or scenario builder |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking — statewide jurisdiction needs ranking with scorecard |
 | `hna-scenario-builder.html` | HNA Scenario Builder — what-if modeling for housing policy outcomes |
-| `compliance-dashboard.html` | Prop 123 Compliance Dashboard — jurisdiction commitments map |
 | `chfa-portfolio.html` | CHFA Portfolio — Colorado LIHTC project map and list |
 | `preservation.html` | Affordable housing preservation tracker (NHPD) |
 | `cra-expansion-analysis.html` | CRA expansion analysis and forecast |

@@ -45,10 +45,29 @@ const QUARANTINE = {
   // Deleting the entry is the exit.
 };
 
-function discoverAll() {
-  return fs.readdirSync(path.join(ROOT, 'test'))
-    .filter((f) => /\.test\.(js|mjs)$/.test(f))
-    .sort();
+/**
+ * Every test file under test/, at any depth, as a path relative to test/.
+ *
+ * This read test/ non-recursively when it was written, which missed the seven
+ * files in test/integration/ -- none of them wired to an npm script either. The
+ * guard could not see the directory it was supposed to be guarding, so the
+ * original "52 unreachable" count was itself short by seven. Recursion is the
+ * fix; the vacuous-pass floor in test-reachability is what would eventually
+ * have caught a regression here.
+ */
+function discoverAll(dir, prefix) {
+  const base = dir || path.join(ROOT, 'test');
+  const pre = prefix || '';
+  const out = [];
+  for (const e of fs.readdirSync(base, { withFileTypes: true })) {
+    if (e.isDirectory()) {
+      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
+      out.push(...discoverAll(path.join(base, e.name), pre + e.name + '/'));
+    } else if (/\.test\.(js|mjs)$/.test(e.name)) {
+      out.push(pre + e.name);
+    }
+  }
+  return out.sort();
 }
 
 /** Test files named by any npm script — they run through their own entry. */
@@ -62,7 +81,7 @@ function namedByScript() {
 }
 
 // Exported so the reachability gate reasons about exactly the same sets.
-const SELF = path.basename(__filename);
+const SELF = path.relative(path.join(ROOT, 'test'), __filename);
 function partition() {
   const named = namedByScript();
   const run = [];

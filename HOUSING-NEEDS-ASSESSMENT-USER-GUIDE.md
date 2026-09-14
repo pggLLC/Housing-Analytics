@@ -345,7 +345,7 @@ Each county or municipality has its own independent checklist stored under a nam
 
 ### Viewing the Full Compliance Dashboard
 
-Click **View full compliance dashboard →** at the bottom of the Prop 123 section to open `compliance-dashboard.html`, which provides:
+Click **View full compliance dashboard →** at the bottom of the Prop 123 section to open the [Data Trust Center](data-review-hub.html) (`compliance-dashboard.html` was retired and now redirects there), which provides:
 - Multi-jurisdiction comparison
 - Historical year-over-year compliance tracking
 - CSV export of all jurisdiction data

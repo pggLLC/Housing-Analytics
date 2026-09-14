@@ -32,7 +32,12 @@ assert(lihtcDashboard.includes('aria-live="polite"'), 'LIHTC redirect stub keeps
 assert(complianceDashboard.includes('<main id="main-content"'), 'compliance redirect stub keeps a main landmark');
 assert(complianceDashboard.includes('aria-live="polite"'), 'compliance redirect stub keeps an aria-live status region');
 assert(/dashboard has been retired/i.test(complianceDashboard), 'retired dashboard note is present');
-assert(!sitemap.includes('href="compliance-dashboard.html"'), 'retired compliance dashboard is absent from sitemap');
+// This looked for `href="compliance-dashboard.html"`. sitemap.xml contains zero
+// href attributes -- entries are <loc>https://…/page.html</loc> -- so the
+// assertion could never fail and the retired stub sat in the sitemap regardless.
+// Match the URL itself, in any syntax.
+assert(!sitemap.includes('compliance-dashboard.html'),
+  'retired compliance dashboard is absent from sitemap');
 
 assert(!developerBrief.includes('HOUSING-POLICY-SCORECARD.md'), 'developer brief no longer links to missing scorecard methodology doc');
 assert(developerBrief.includes('href="developer-where.html"'), 'private developer-where page is reachable from developer brief nav');

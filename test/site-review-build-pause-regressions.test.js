@@ -170,13 +170,10 @@ const insights = read('insights.html');
 assert.doesNotMatch(insights, /id="jchsCoNarrative"[^>]*color:var\(--muted\)/, 'JCHS narrative block is not muted in light mode');
 assertContrast('JCHS narrative callout', inlineStyleProp(insights, 'jchsCoNarrative', 'color'), inlineStyleProp(insights, 'jchsCoNarrative', 'background'));
 
-const complianceCss = read('css/pages/compliance-dashboard.css');
-assertContrast('compliance green KPI value', cssProp(complianceCss, 'html.light-mode .cd-kpi-green  .cd-kpi-value', 'color'), 'var(--card)', { modes: ['light'] });
-assertContrast('compliance yellow KPI value', cssProp(complianceCss, 'html.light-mode .cd-kpi-yellow .cd-kpi-value', 'color'), 'var(--card)', { modes: ['light'] });
-assertContrast('compliance red KPI value', cssProp(complianceCss, 'html.light-mode .cd-kpi-red    .cd-kpi-value', 'color'), 'var(--card)', { modes: ['light'] });
-assertContrast('compliance green KPI value', cssProp(complianceCss, '.cd-kpi-green  .cd-kpi-value', 'color'), 'var(--card)', { modes: ['dark'] });
-assertContrast('compliance yellow KPI value', cssProp(complianceCss, '.cd-kpi-yellow .cd-kpi-value', 'color'), 'var(--card)', { modes: ['dark'] });
-assertContrast('compliance red KPI value', cssProp(complianceCss, '.cd-kpi-red    .cd-kpi-value', 'color'), 'var(--card)', { modes: ['dark'] });
+// The compliance-dashboard KPI contrast assertions were removed with
+// css/pages/compliance-dashboard.css: the page was retired in #1349 and is a
+// redirect stub that loads no stylesheet, so the rules they checked could not
+// reach a viewer.
 
 const pagesCss = read('css/pages.css');
 assertContrast('shared kicker', cssProp(pagesCss, 'html.light-mode .kicker', 'color'), cssProp(pagesCss, 'html.light-mode .kicker', 'background'), { modes: ['light'] });

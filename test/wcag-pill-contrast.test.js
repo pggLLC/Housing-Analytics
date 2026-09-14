@@ -181,9 +181,7 @@ const PILLS = [
   { name: '.insight-card-badge--policy',      bgVar: 'good-dim',   textVar: 'good' },
   { name: '.insight-card-badge--report',      bgVar: 'bad-dim',    textVar: 'bad' },
   { name: '.insight-card-badge--regional',    bgVar: 'accent-dim', textVar: 'accent' },
-  { name: '.cd-badge-on-track',               bgVar: 'good-dim',   textVar: 'good' },
-  { name: '.cd-badge-at-risk',                bgVar: 'warn-dim',   textVar: 'warn' },
-  { name: '.cd-badge-off-track',              bgVar: 'bad-dim',    textVar: 'bad' },
+  // .cd-badge-* removed with css/pages/compliance-dashboard.css (retired page).
   { name: '.hca-rank.top20',                  bgVar: 'bad-dim',    textVar: 'bad' },
   { name: '.hca-rank.top40',                  bgVar: 'warn-dim',   textVar: 'warn' },
   { name: '.hca-rank.top60',                  bgVar: 'warn-dim',   textVar: 'warn' },

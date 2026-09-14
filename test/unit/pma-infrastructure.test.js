@@ -39,8 +39,19 @@ test('INFRA_WEIGHTS sum to 1.0', function () {
 test('buildInfrastructureScorecard — empty inputs → mid-range score', function () {
   const sc = I.buildInfrastructureScorecard({}, {}, {}, {});
   assert(sc.compositeScore >= 0 && sc.compositeScore <= 100, 'compositeScore in [0,100]');
-  assert(typeof sc.sewerCapacityAdequate === 'boolean',       'sewerCapacityAdequate is boolean');
-  assert(typeof sc.floodRiskPercent      === 'number',        'floodRiskPercent is number');
+  // With empty inputs these are deliberately null, not coerced defaults: a
+  // missing FEMA layer must not read as "0% flood risk", and unknown sewer
+  // capacity must not read as "adequate: false". js/pma-infrastructure.js
+  // attaches floodUnavailableReason / climateUnavailableReason to say why.
+  // Requiring a boolean/number here forbids exactly that signal.
+  assert(sc.sewerCapacityAdequate === null || typeof sc.sewerCapacityAdequate === 'boolean',
+    'sewerCapacityAdequate is a boolean or null (null = capacity unknown)');
+  assert(sc.floodRiskPercent === null || typeof sc.floodRiskPercent === 'number',
+    'floodRiskPercent is a number or null (null = FEMA data unavailable)');
+  if (sc.floodRiskPercent === null) {
+    assert(typeof sc.floodUnavailableReason === 'string' && sc.floodUnavailableReason.length > 0,
+      'a null floodRiskPercent carries a reason rather than being silently absent');
+  }
 });
 
 test('buildInfrastructureScorecard — high flood risk → low flood score', function () {
@@ -93,9 +104,14 @@ test('getInfrastructureLayer — FeatureCollection', function () {
 
 test('getInfrastructureJustification — shape', function () {
   const j = I.getInfrastructureJustification();
-  assert(typeof j.floodRiskPercent        === 'number',  'floodRiskPercent is number');
-  assert(typeof j.climateResilienceScore  === 'number',  'climateResilienceScore is number');
-  assert(typeof j.sewerCapacityAdequate   === 'boolean', 'sewerCapacityAdequate is boolean');
+  // Same absence convention as the scorecard above: null means "not measured",
+  // and each null field has a companion *UnavailableReason.
+  assert(j.floodRiskPercent === null || typeof j.floodRiskPercent === 'number',
+    'floodRiskPercent is a number or null');
+  assert(j.climateResilienceScore === null || typeof j.climateResilienceScore === 'number',
+    'climateResilienceScore is a number or null');
+  assert(j.sewerCapacityAdequate === null || typeof j.sewerCapacityAdequate === 'boolean',
+    'sewerCapacityAdequate is a boolean or null');
   assert(typeof j.foodAccessScore         === 'number',  'foodAccessScore is number');
   assert(typeof j.compositeScore          === 'number',  'compositeScore is number');
 });
