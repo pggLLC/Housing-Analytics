@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T11:15:17.789Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T11:30:40.702Z. Do not edit by hand.
 
 ---
 
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-328 test files found.
+329 test files found.
 
 | File | Size |
 |------|------|
@@ -1748,6 +1748,7 @@
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
+| `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
@@ -1956,7 +1957,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-outcome-monitor.test.js` | 7.5 KB |
+| `test/workflow-outcome-monitor.test.js` | 11.1 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
