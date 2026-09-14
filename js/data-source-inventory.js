@@ -117,7 +117,7 @@
       provider: 'HUD / IRS / CHFA / Novogradac',
       url: 'https://lihtc.huduser.gov/',
       localFile: 'data/co-historical-allocations.json',
-      lastUpdated: '2026-09-13',
+      lastUpdated: '2026-09-14',
       updateFrequency: 'Annual',
       maxAgeDays: 365,
       geoUnit: 'State',
