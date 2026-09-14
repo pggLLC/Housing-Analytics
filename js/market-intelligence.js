@@ -467,14 +467,24 @@
       }
     }
 
-    // Affordability gap: (60% AMI monthly housing budget) − median market rent
+    // Affordability gap: 60% AMI affordable rent − median market rent.
+    //
+    // Prefer demo.affordable_rent_60pct: HUD's own 60% affordable rent,
+    // population-weighted across counties and then weighted by the statewide
+    // renter bedroom mix, so it spans the same unit sizes as median_gross_rent.
+    //
+    // The old path derived it as 60% x ami_estimate / 12 x 30%, which compares
+    // a FOUR-PERSON income standard against an all-sizes rent. It is kept only
+    // as a fallback for a data file that predates the field.
     var affordEl = document.getElementById('riskAffordGap');
     if (affordEl) {
       var ami = demo && demo.ami_estimate;
       var medRent = demo && (demo.median_gross_rent_current || demo.median_gross_rent);
-      if (ami && medRent) {
-        // 60% AMI annual ÷ 12 months × 30% affordability threshold
-        var maxAffordRent = Math.round((ami * 0.6 / 12) * 0.30);
+      var matched = demo && demo.affordable_rent_60pct;
+      if (medRent && (matched || ami)) {
+        var maxAffordRent = matched
+          ? Math.round(matched)
+          : Math.round((ami * 0.6 / 12) * 0.30);
         var gap = maxAffordRent - Math.round(medRent);
         affordEl.textContent = (gap >= 0 ? '+' : '') + fmt(gap) + '/mo';
         affordEl.className = 'risk-value ' + (gap >= 0 ? 'risk-low' : gap > -200 ? 'risk-med' : 'risk-high');

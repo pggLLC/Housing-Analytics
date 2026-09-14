@@ -48,7 +48,21 @@ VARS = [
     'B25091_010E', 'B25091_011E',                             # owner cost burden (with mortgage)
     'B25014_001E', 'B25014_005E', 'B25014_006E', 'B25014_007E',
     'B25014_011E', 'B25014_012E', 'B25014_013E',              # overcrowding
+    'B25042_010E', 'B25042_011E', 'B25042_012E',
+    'B25042_013E', 'B25042_014E', 'B25042_015E',              # renter bedroom mix
 ]
+
+# Renter bedroom count -> the HUD 60% affordable-rent entry for a household
+# that size would occupy. HUD publishes these by household size, and its own
+# bedroom pairing is recorded alongside each (fmr_bedroom).
+BEDROOM_TO_HUD = {
+    'B25042_010E': 'rent_60pct_1person',   # no bedroom  -> efficiency
+    'B25042_011E': 'rent_60pct_2person',   # 1 bedroom   -> one_br
+    'B25042_012E': 'rent_60pct_3person',   # 2 bedrooms  -> two_br
+    'B25042_013E': 'rent_60pct_4person',   # 3 bedrooms  -> three_br
+    'B25042_014E': 'rent_60pct_4person',   # 4+ bedrooms: HUD's table stops at
+    'B25042_015E': 'rent_60pct_4person',   # 4-person/three_br, so they share it
+}
 
 
 def fetch(year, variables, key):
@@ -110,6 +124,55 @@ def statewide_ami(pop_by_county):
     return int(round(num_ / den)), used, hud['meta'].get('source')
 
 
+def affordable_rent_60pct(cur, pop_by_county):
+    """Population-weighted 60%-AMI affordable rent, weighted again by the
+    statewide renter BEDROOM MIX.
+
+    The indicator this feeds asks whether the median rent is affordable at 60%
+    AMI. median_gross_rent (B25064) spans renter units of every size, so the
+    figure it is compared against has to span them the same way.
+
+    Deriving it from a 4-person AMI instead -- 60% x AMI4 / 12 x 30% -- compares
+    a family-of-four income standard against an all-sizes rent, and because a
+    population weighting pulls toward Denver and Boulder it moved the statewide
+    gap from -$12/mo to +$203/mo and flipped the risk band from medium to low.
+    Roughly half of that swing was the derivation, not new Census data.
+
+    This routes around the AMI entirely: HUD already publishes the 60%
+    affordable rent per county per household size, so weight those directly.
+    """
+    hud = json.load(open(HUD, encoding='utf-8'))
+    by_county = {}
+    for c in hud['counties']:
+        rents = c.get('affordable_rents_60pct') or {}
+        vals = {k: (v or {}).get('gross_rent') for k, v in rents.items()}
+        if any(vals.values()):
+            by_county[c.get('fips')] = vals
+
+    # 1. population-weighted rent for each HUD household size
+    per_size, den = {}, sum(w for f, w in pop_by_county.items() if f in by_county)
+    if not den:
+        return None, None, hud['meta'].get('source')
+    for size in ('rent_60pct_1person', 'rent_60pct_2person', 'rent_60pct_3person', 'rent_60pct_4person'):
+        tot = sum(by_county[f][size] * w for f, w in pop_by_county.items()
+                  if f in by_county and by_county[f].get(size))
+        per_size[size] = tot / den
+
+    # 2. weight those by how many renter units of each bedroom count exist
+    mix_num, mix_den = 0.0, 0.0
+    mix = {}
+    for var, size in BEDROOM_TO_HUD.items():
+        n = num(cur, var)
+        if not n or size not in per_size:
+            continue
+        mix[var] = n
+        mix_num += per_size[size] * n
+        mix_den += n
+    if not mix_den:
+        return None, None, hud['meta'].get('source')
+    return int(round(mix_num / mix_den)), {k: int(v) for k, v in mix.items()}, hud['meta'].get('source')
+
+
 def county_pops(key):
     url = (f'https://api.census.gov/data/{CURRENT}/acs/acs5'
            f'?get=B01003_001E&for=county:*&in=state:{STATE}&key={key}')
@@ -124,7 +187,9 @@ def build(key):
     cur = fetch(CURRENT, VARS, key)
     prior = fetch(PRIOR, ['B25064_001E'], key)
     base = fetch(BASE5, ['B01003_001E', 'B11001_001E'], key)
-    ami, ami_n, ami_src = statewide_ami(county_pops(key))
+    pops = county_pops(key)
+    ami, ami_n, ami_src = statewide_ami(pops)
+    aff_rent, bed_mix, aff_src = affordable_rent_60pct(cur, pops)
 
     pop, hh = num(cur, 'B01003_001E'), num(cur, 'B11001_001E')
     rent_burden_num = sum(filter(None, (num(cur, f'B25070_{n}E') for n in ('007', '008', '009', '010'))))
@@ -159,6 +224,7 @@ def build(key):
         'household_growth_rate_5yr': ratio(hh - num(base, 'B11001_001E'), num(base, 'B11001_001E')),
         'household_size_avg': num(cur, 'B25010_001E'),
         'ami_estimate': ami,
+        'affordable_rent_60pct': aff_rent,
         'fields': {
             'population': 'B01003_001E',
             'median_household_income': 'B19013_001E',
@@ -180,10 +246,46 @@ def build(key):
             'household_growth_rate_5yr': f'B11001_001E vs ACS {BASE5 - 4}-{BASE5} (non-overlapping 5-year releases)',
             'household_size_avg': 'B25010_001E',
             'ami_estimate': f'population-weighted mean of county income_limits.ami_4person over {ami_n} counties '
-                            f'— {ami_src}. HUD, not ACS: different source and vintage from every other field here.',
+                            f'— {ami_src}. HUD, not ACS: different source and vintage from every other field here. '
+                            f'A FOUR-PERSON standard: do not compare it against an all-sizes rent.',
+            'affordable_rent_60pct': 'population-weighted county affordable_rents_60pct, weighted again by the '
+                                     'statewide renter bedroom mix (B25042_010E-015E) so it spans the same unit '
+                                     f'sizes as median_gross_rent — {aff_src}. Compare THIS against '
+                                     'median_gross_rent, not a figure derived from ami_estimate.',
+            'renter_bedroom_mix': bed_mix,
         },
     }
     return out
+
+
+def sync_manifest():
+    """Keep data/manifest.json's byte count for this file in step.
+
+    The first run of this workflow committed a refreshed co-demographics.json
+    and left the manifest stale, which fails test:file-manifest. Nothing caught
+    it on main: a bot commit gets no `pull_request` workflows, so that push ran
+    CodeQL and nothing else — green, and broken.
+
+    Patch the single field rather than rebuilding: scripts/rebuild_manifest.py
+    ingests the numbered duplicate files iCloud leaves beside real ones and has
+    injected thousands of phantom entries in one run.
+    """
+    path = os.path.join(ROOT, 'data', 'manifest.json')
+    if not os.path.exists(path):
+        return
+    import re
+    src = open(path, encoding='utf-8').read()
+    rx = re.compile(r'("data/co-demographics\.json"\s*:\s*\{[^}]*?"bytes"\s*:\s*)(\d+)')
+    hits = rx.findall(src)
+    if len(hits) != 1:
+        print(f'  manifest: expected exactly 1 entry for co-demographics.json, found {len(hits)} '
+              f'— leaving it alone', file=sys.stderr)
+        return
+    actual = os.path.getsize(OUT)
+    if int(hits[0][1]) == actual:
+        return
+    open(path, 'w', encoding='utf-8').write(rx.sub(lambda m: m.group(1) + str(actual), src, count=1))
+    print(f'  manifest: co-demographics.json bytes {hits[0][1]} -> {actual}')
 
 
 def main():
@@ -222,6 +324,7 @@ def main():
     json.dump(out, open(OUT, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)
     open(OUT, 'a', encoding='utf-8').write('\n')
     print(f'  wrote {os.path.relpath(OUT, ROOT)} — {out["source"]}')
+    sync_manifest()
     for k in sorted(set(prev) & set(out)):
         if k in ('updated', 'source', 'fields') or prev[k] == out[k]:
             continue
