@@ -1,20 +1,20 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-13T12:42:36.130Z
+**Scan timestamp:** 2026-09-14T13:59:16.999Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1616 |
-| New (unregistered) | 1585 |
+| Files scanned | 1617 |
+| New (unregistered) | 1586 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
 
 ## 🆕 New Unregistered Sources
 
-- `data/_manifest.json` (761 KB)
+- `data/_manifest.json` (762 KB)
 - `data/_qa-status.json` (6 KB)
 - `data/affordable-housing/chfa-awards/2026-round-one.json` (15 KB)
 - `data/affordable-housing/lihtc/chfa-properties.json` (817 KB)
@@ -139,6 +139,7 @@
 - `data/hna/dola_sya/08125.json` (2 KB)
 - `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (120 KB)
+- `data/hna/hna-views.json` (9 KB)
 - `data/hna/home-value-cascade.json` (130 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (29 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (29 KB)
@@ -1474,7 +1475,7 @@
 - `data/jurisdiction-briefs/0873825.json` (15 KB)
 - `data/jurisdiction-briefs/0876795.json` (15 KB)
 - `data/jurisdiction-briefs/_candidates.json` (24 KB)
-- `data/jurisdiction-briefs/_liveness.json` (272 KB)
+- `data/jurisdiction-briefs/_liveness.json` (273 KB)
 - `data/jurisdiction-briefs/_schema.json` (3 KB)
 - `data/jurisdiction-briefs/_stale.json` (3 KB)
 - `data/jurisdiction-briefs/_verification-plan.json` (177 KB)
@@ -1495,7 +1496,7 @@
 - `data/kalshi/prediction-market.json` (1 KB)
 - `data/market/acs_median_rent_co.json` (83 KB)
 - `data/market/apartment_list_co.json` (6 KB)
-- `data/market/bridge_co_market_summary.json` (0 KB)
+- `data/market/bridge_co_market_summary.json` (1 KB)
 - `data/market/cdphe_county_boundaries_co.geojson` (1159 KB)
 - `data/market/chas_co.json` (159 KB)
 - `data/market/chas_tract_co.json` (3513 KB)
@@ -1536,14 +1537,14 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (831 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (480 KB)
+- `data/market/pma_tract_display_geometry.geojson` (476 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
-- `data/market/tract_boundaries_co.geojson` (393 KB)
+- `data/market/tract_boundaries_co.geojson` (390 KB)
 - `data/market/transit_routes_co.geojson` (4764 KB)
 - `data/market/travel_time_matrix_co.json` (4331 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)

@@ -1,20 +1,20 @@
 {
-  "scanTimestamp": "2026-09-13T12:42:36.130Z",
-  "totalScanned": 1616,
-  "newSourceCount": 1585,
+  "scanTimestamp": "2026-09-14T13:59:16.999Z",
+  "totalScanned": 1617,
+  "newSourceCount": 1586,
   "existingCount": 30,
   "staleCount": 0,
   "agingCount": 0,
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 779664,
+      "sizeBytes": 780435,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6258,
+      "sizeBytes": 6257,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -134,37 +134,37 @@
     },
     {
       "path": "data/car-market-report-2026-04.json",
-      "sizeBytes": 2399,
+      "sizeBytes": 2491,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-05.json",
-      "sizeBytes": 65597,
+      "sizeBytes": 65839,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-06.json",
-      "sizeBytes": 65589,
+      "sizeBytes": 65831,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-07.json",
-      "sizeBytes": 65603,
+      "sizeBytes": 65845,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-08.json",
-      "sizeBytes": 65573,
+      "sizeBytes": 65815,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/car-market-report-2026-09.json",
-      "sizeBytes": 2437,
+      "sizeBytes": 2529,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -260,7 +260,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244573,
+      "sizeBytes": 244574,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -753,6 +753,12 @@
     {
       "path": "data/hna/geography-registry.json",
       "sizeBytes": 123290,
+      "inDataManifest": false,
+      "inFilesManifest": true
+    },
+    {
+      "path": "data/hna/hna-views.json",
+      "sizeBytes": 9178,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -5282,31 +5288,31 @@
     },
     {
       "path": "data/hna/ranking-scenarios/balanced.json",
-      "sizeBytes": 49961,
+      "sizeBytes": 49963,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/commuter-pressure.json",
-      "sizeBytes": 49981,
+      "sizeBytes": 49983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/large-gap.json",
-      "sizeBytes": 49973,
+      "sizeBytes": 49975,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rate-sensitive.json",
-      "sizeBytes": 49981,
+      "sizeBytes": 49983,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/hna/ranking-scenarios/rural-lens.json",
-      "sizeBytes": 49984,
+      "sizeBytes": 49986,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8768,7 +8774,7 @@
     },
     {
       "path": "data/jurisdiction-briefs/_liveness.json",
-      "sizeBytes": 278875,
+      "sizeBytes": 279205,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -8894,7 +8900,7 @@
     },
     {
       "path": "data/market/bridge_co_market_summary.json",
-      "sizeBytes": 253,
+      "sizeBytes": 575,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9140,7 +9146,7 @@
     },
     {
       "path": "data/market/pma_tract_display_geometry.geojson",
-      "sizeBytes": 491160,
+      "sizeBytes": 487521,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9182,7 +9188,7 @@
     },
     {
       "path": "data/market/tract_boundaries_co.geojson",
-      "sizeBytes": 402717,
+      "sizeBytes": 398931,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9398,7 +9404,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20064,
+      "sizeBytes": 20068,
       "inDataManifest": false,
       "inFilesManifest": true
     },
