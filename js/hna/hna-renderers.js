@@ -69,6 +69,9 @@
   }
 
   const DECISION_STRIP_DEFAULTS = {
+    // `absent` means: the section that computes this tile is not on this page
+    // at all, so no value is ever coming. Set by the owning renderer, not
+    // guessed here — see renderHnaScorecardPanel / renderAffordableOwnershipNeed.
     need: { value: '—', read: 'Loading', href: '#hnaScorecardPanel', tone: '' },
     affordability: { value: '—', read: 'Loading', href: '#statRentBurden', tone: '' },
     production: { value: '—', read: 'Loading', href: '#statUnitsNeed', tone: '' },
@@ -104,6 +107,24 @@
     return state.decisionStrip;
   }
 
+  /**
+   * Same-page anchor -> the page that actually defines it.
+   *
+   * The generated assessment views (scripts/hna/build_hna_views.py) each carry
+   * a subset of the sections, and these hrefs come from JS constants, not from
+   * the markup — so a tile pointing at a section that view dropped is a dead
+   * click that editing the HTML cannot fix. Each view publishes
+   * window.HNA_VIEW_ANCHORS; the canonical page publishes none and is
+   * unaffected.
+   */
+  function _resolveAnchor(href) {
+    if (typeof href !== 'string' || href.charAt(0) !== '#') return href;
+    const id = href.slice(1);
+    if (!id || document.getElementById(id)) return href;
+    const where = (window.HNA_VIEW_ANCHORS || {})[id];
+    return where && where.page ? where.page + href : href;
+  }
+
   function _paintDecisionStrip() {
     const strip = document.getElementById('hnaDecisionStrip');
     if (!strip) return;
@@ -118,7 +139,27 @@
       const readEl = document.getElementById('decision' + key.charAt(0).toUpperCase() + key.slice(1) + 'Read');
       if (valueEl) valueEl.textContent = data.value || '—';
       if (readEl) readEl.textContent = data.read || 'Loading';
-      tile.setAttribute('href', data.href || DECISION_STRIP_DEFAULTS[key].href);
+      const rawHref = data.href || DECISION_STRIP_DEFAULTS[key].href;
+      const href = _resolveAnchor(rawHref);
+      tile.setAttribute('href', href);
+
+      // A tile is fed by the renderer that owns its section. On a view without
+      // that section the renderer returns early (see renderHnaScorecardPanel),
+      // so the tile keeps its placeholder for good — an em dash sitting in a
+      // row of real numbers, which reads as a broken metric rather than an
+      // absent one. Drop it. Tiles whose value is computed from data rather
+      // than from the section (production: 20-yr need) still populate and are
+      // kept, cross-linked to the view that shows the workings.
+      // Hide a tile only when its own renderer has said the section is missing
+      // AND nothing has since supplied a value. Inferring this from the href
+      // instead would have hidden 'production', which is computed from data
+      // rather than from the section and populates on every view.
+      const empty = !data.value || data.value === '—' || data.value === 'Loading';
+      tile.hidden = !!data.absent && empty;
+      if (href !== rawHref && !empty && readEl) {
+        const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
+        if (where && where.label) readEl.title = 'Shown in full on ' + where.label;
+      }
       const tone = data.tone || _decisionTone(data.read);
       if (tone) tile.setAttribute('data-tone', tone);
       else tile.removeAttribute('data-tone');
@@ -5020,7 +5061,10 @@
 
   function renderAffordableOwnershipNeed(result, context) {
     var container = document.getElementById('hnaAffordableOwnershipNeed');
-    if (!container) return;
+    if (!container) {
+      updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
+      return;
+    }
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
       container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
@@ -5208,7 +5252,15 @@
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
     try {
       var container = document.getElementById('hnaAffordableOwnershipNeed');
-      if (!container) return;
+      // The absence signal has to be raised at the OUTERMOST guard. #1643 added
+      // `if (!el) return` at several layers of this chain, and the outer one
+      // swallows the call before the inner one can report anything — which is
+      // why the ownership and confidence tiles sat on an em dash rather than
+      // being dropped.
+      if (!container) {
+        updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
+        return;
+      }
       if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
         renderAffordableOwnershipNeed(null);
         return;
@@ -7523,7 +7575,7 @@
 
   function renderHnaScorecardPanel(geoid) {
     const container = document.getElementById('hnaScorecardPanel');
-    if (!container) return;
+    if (!container) { updateDecisionStrip({ need: { absent: true } }); return; }
     if (!geoid) { _scorecardUnavailable(container, 'Not scored', 'Select a jurisdiction'); return; }
 
     const state = S() && S().state;

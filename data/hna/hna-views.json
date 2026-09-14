@@ -1,0 +1,313 @@
+{
+  "_comment": [
+    "Section -> view mapping for the generated Housing Needs Assessment views.",
+    "",
+    "housing-needs-assessment.html stays the CANONICAL page and the full report:",
+    "it keeps every section, hna-export.js and print.css's A4 title-page margin,",
+    "so the PDF deliverable is unchanged. The views below are generated FROM it",
+    "by selecting sections, which is why no figure is ever authored twice.",
+    "",
+    "Sections are matched on their <h2> text (prefix match, case-insensitive).",
+    "Every one of the 53 sections appears exactly once below, either in a view",
+    "or in 'shared'. The generator fails if that stops being true.",
+    "",
+    "'review': true marks a placement I am not confident in -- these are the",
+    "editorial calls worth arguing about. Everything else is uncontroversial.",
+    "",
+    "'assets' prunes page weight. Each entry names files that only do anything",
+    "when a given element id is on the page; a view without that id ships",
+    "without them. Every consumer of Leaflet already guards on `window.L`, so",
+    "dropping it degrades to 'no map' rather than throwing -- but check that a",
+    "script really is inert before adding it here, and re-check when its guards",
+    "change. The generator fails if a listed file is not on the canonical page."
+  ],
+  "assets": {
+    "requires": [
+      {
+        "needs_id": "hnaMap",
+        "why": "Leaflet and its layer components. 183 KB of mapping code that four of the five views can never use: no #hnaMap, no map. Every L. call site in hna-controller.js and hna-renderers.js is behind an `ensureMap()` early return or an `if (!window.L || !S().map) return`.",
+        "files": [
+          "js/vendor/leaflet.js",
+          "js/vendor/leaflet.css",
+          "js/components/affordable-housing-layer.js",
+          "js/components/map-home-btn.js",
+          "js/prop123-map.js"
+        ]
+      }
+    ]
+  },
+  "shared": {
+    "_why": "Framing that every view needs. Repeated across views by design: it is generated, not authored, so it cannot drift.",
+    "sections": [
+      {
+        "n": 1,
+        "title": "How this jurisdiction compares to its county"
+      },
+      {
+        "n": 2,
+        "title": "Executive Snapshot"
+      },
+      {
+        "n": 53,
+        "title": "Methodology & Data Sources"
+      }
+    ]
+  },
+  "views": [
+    {
+      "id": "stock",
+      "slug": "hna-what-housing-exists.html",
+      "nav": "What housing exists",
+      "question": "What housing is here, and what shape is it in?",
+      "sections": [
+        {
+          "n": 3,
+          "title": "Map"
+        },
+        {
+          "n": 4,
+          "title": "LIHTC, QCT & DDA"
+        },
+        {
+          "n": 7,
+          "title": "Housing stock by structure type"
+        },
+        {
+          "n": 9,
+          "title": "Home value distribution"
+        },
+        {
+          "n": 29,
+          "title": "Pace & Scale of New Housing Permits",
+          "review": true,
+          "note": "Permits are supply pipeline — arguably 'where it's heading' rather than current stock."
+        },
+        {
+          "n": 30,
+          "title": "Age of Housing Stock"
+        },
+        {
+          "n": 31,
+          "title": "Bedroom Mix"
+        },
+        {
+          "n": 49,
+          "title": "Neighborhood & Architectural Context",
+          "review": true,
+          "note": "Reads as design/feasibility input; could belong in 'what to do'."
+        }
+      ]
+    },
+    {
+      "id": "people",
+      "slug": "hna-who-lives-here.html",
+      "nav": "Who lives here",
+      "question": "Who lives here, and how is that changing?",
+      "sections": [
+        {
+          "n": 8,
+          "title": "Owner/renter shares"
+        },
+        {
+          "n": 15,
+          "title": "Household composition, occupation & labor force"
+        },
+        {
+          "n": 16,
+          "title": "Household type mix"
+        },
+        {
+          "n": 17,
+          "title": "Occupation mix"
+        },
+        {
+          "n": 18,
+          "title": "Labor force status & retiree share"
+        },
+        {
+          "n": 19,
+          "title": "Race & ethnicity"
+        },
+        {
+          "n": 20,
+          "title": "Educational attainment"
+        },
+        {
+          "n": 21,
+          "title": "Demographic projections: age pyramid & senior pressure"
+        },
+        {
+          "n": 22,
+          "title": "Age pyramid"
+        },
+        {
+          "n": 23,
+          "title": "Senior growth pressure"
+        },
+        {
+          "n": 27,
+          "title": "Household Income Distribution",
+          "review": true,
+          "note": "Income drives the affordability math — a strong case for putting this in 'what households can afford' instead."
+        }
+      ]
+    },
+    {
+      "id": "afford",
+      "slug": "hna-what-households-can-afford.html",
+      "nav": "What households can afford",
+      "question": "What can households here actually afford, and where is the gap?",
+      "sections": [
+        {
+          "n": 5,
+          "title": "HUD Fair Market Rents & Income Limits"
+        },
+        {
+          "n": 6,
+          "title": "Rent triangulation — existing vs. asking"
+        },
+        {
+          "n": 10,
+          "title": "Homeownership affordability"
+        },
+        {
+          "n": 11,
+          "title": "Rent burden distribution"
+        },
+        {
+          "n": 12,
+          "title": "Cost burden by AMI tier (HUD CHAS)"
+        },
+        {
+          "n": 28,
+          "title": "How Affordable Has Housing Become Over the Last 15 Years"
+        },
+        {
+          "n": 32,
+          "title": "Owner Housing Cost Burden"
+        },
+        {
+          "n": 33,
+          "title": "Current rental gap & affordability"
+        }
+      ]
+    },
+    {
+      "id": "outlook",
+      "slug": "hna-where-its-heading.html",
+      "nav": "Where it's heading",
+      "question": "What does demand look like in 5, 10 and 20 years?",
+      "sections": [
+        {
+          "n": 13,
+          "title": "Commuting: mode share",
+          "review": true,
+          "note": "Commuting could sit under 'who lives here'. Placed here because in-commuting is latent demand."
+        },
+        {
+          "n": 14,
+          "title": "Commuting: inflow & outflow (LEHD LODES)",
+          "review": true,
+          "note": "Same call as 13 — keep the pair together wherever it lands."
+        },
+        {
+          "n": 35,
+          "title": "Scenario-based demographic projections"
+        },
+        {
+          "n": 36,
+          "title": "Labor Market Context"
+        },
+        {
+          "n": 37,
+          "title": "Wage Distribution"
+        },
+        {
+          "n": 38,
+          "title": "Top Industries by Employment"
+        },
+        {
+          "n": 39,
+          "title": "Wages vs Housing Affordability",
+          "review": true,
+          "note": "Explicitly an affordability crossing — could belong in 'what households can afford'."
+        },
+        {
+          "n": 40,
+          "title": "Economic Indicators"
+        },
+        {
+          "n": 41,
+          "title": "Employment Trend"
+        },
+        {
+          "n": 42,
+          "title": "Wage-Band Job Trend"
+        },
+        {
+          "n": 51,
+          "title": "Colorado Market Conditions"
+        }
+      ]
+    },
+    {
+      "id": "act",
+      "slug": "hna-what-to-do.html",
+      "nav": "What to do about it",
+      "question": "How much of what, for whom, and what is already available?",
+      "sections": [
+        {
+          "n": 24,
+          "title": "20-year outlook: population, migration, and housing need",
+          "note": "Moved here with its two children (#25, #26). '20-year outlook' is the PARENT container; #26 'Housing need summary' cannot travel without it. Document order puts this trio first on the view, so the page opens with the headline need number."
+        },
+        {
+          "n": 25,
+          "title": "Population: DOLA forecast vs historic-trend sensitivity",
+          "note": "Child of #24 — moves with it."
+        },
+        {
+          "n": 26,
+          "title": "Housing need summary",
+          "note": "The headline need number. Child of #24 — moves with it, never alone."
+        },
+        {
+          "n": 34,
+          "title": "Special Needs Housing Analysis"
+        },
+        {
+          "n": 43,
+          "title": "Affordable Housing Compliance (HB 22-1093 / Prop 123)"
+        },
+        {
+          "n": 44,
+          "title": "PMA Delineation & CHFA Requirements"
+        },
+        {
+          "n": 45,
+          "title": "Projected Housing Need"
+        },
+        {
+          "n": 46,
+          "title": "Renter need by bedroom count"
+        },
+        {
+          "n": 47,
+          "title": "What types of housing does the data support?"
+        },
+        {
+          "n": 48,
+          "title": "Affordable Ownership Need"
+        },
+        {
+          "n": 50,
+          "title": "Housing Type Feasibility Analysis"
+        },
+        {
+          "n": 52,
+          "title": "Housing Action Plan Checklist"
+        }
+      ]
+    }
+  ]
+}
