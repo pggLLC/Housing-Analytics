@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T11:55:51.152Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T12:27:58.038Z. Do not edit by hand.
 
 ---
 
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-329 test files found.
+330 test files found.
 
 | File | Size |
 |------|------|
@@ -1896,6 +1896,7 @@
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
+| `test/required-fetch-preserves-data.test.js` | 5.1 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
@@ -1957,7 +1958,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-outcome-monitor.test.js` | 14.0 KB |
+| `test/workflow-outcome-monitor.test.js` | 16.9 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
@@ -2011,7 +2012,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 25.8 KB |
+| `.github/workflows/build-hna-data.yml` | 26.1 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.5 KB |
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
