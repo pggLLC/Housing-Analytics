@@ -214,7 +214,7 @@
     "data/co-county-demographics.json": {
       "featureCount": 65,
       "placeholder": false,
-      "bytes": 39620
+      "bytes": 39614
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,

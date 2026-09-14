@@ -139,7 +139,8 @@ function fetchJson(url) {
 const ACS_VARS = [
   'NAME',
   'B25070_007E', 'B25070_008E', 'B25070_009E', 'B25070_010E', 'B25070_001E',
-  'B11001_001E', 'B25014_008E', 'B25014_001E', 'B25002_001E', 'B25002_003E',
+  'B11001_001E', 'B25014_001E', 'B25014_005E', 'B25014_006E', 'B25014_007E',
+  'B25014_011E', 'B25014_012E', 'B25014_013E', 'B25002_001E', 'B25002_003E',
   'B25064_001E', 'B19013_001E', 'B25077_001E', 'B01003_001E',
 ].join(',');
 
@@ -188,16 +189,41 @@ function parseAcsRows(rows, year) {
     const severe50     = num(row, 'B25070_010E');
     const totalHU      = num(row, 'B25002_001E');
     const vacantHU     = num(row, 'B25002_003E');
+    const hh           = num(row, 'B11001_001E');
+
+    // Overcrowding is the >1.00-occupants-per-room buckets: 005-007 (owner)
+    // and 011-013 (renter). This script previously used B25014_008E, which is
+    // "Renter occupied:" -- the renter TOTAL -- and divided it by B25014_001E,
+    // publishing the renter share of occupied units as an overcrowding rate.
+    // Denver came out at 51.2% against a statewide 2.4%.
+    const overcrowded  = ['005', '006', '007', '011', '012', '013']
+      .reduce((acc, n) => acc + (num(row, 'B25014_' + n + 'E') || 0), 0);
+    // B25014_001E is total OCCUPIED units -- the correct overcrowding
+    // denominator, and NOT the same thing as total housing units (B25002_001E).
+    const occupiedUnits = num(row, 'B25014_001E');
 
     counties[cName] = {
       cost_burdened_pct:      totalRenter ? Math.round((burdened30 / totalRenter) * 1000) / 10 : null,
       severely_burdened_pct:  totalRenter ? Math.round(((severe50 || 0) / totalRenter) * 1000) / 10 : null,
-      households:             num(row, 'B11001_001E'),
-      overcrowded:            num(row, 'B25014_008E'),
-      total_housing_units:    num(row, 'B25014_001E'),
-      vacancy_rate:           totalHU ? Math.round(((vacantHU || 0) / totalHU) * 1000) / 10 : null,
+      households:             hh,
+      overcrowded:            overcrowded,
+      occupied_units:         occupiedUnits,
+      total_housing_units:    totalHU,
+      // Scale convention (see docs/CHANGE-IMPACT.md): *_pct fields are 0-100,
+      // *_rate and *_share fields are fractions 0-1. This field emitted 0-100
+      // while scripts/fetch-county-demographics.js -- which writes the SAME
+      // file on a different schedule -- emitted a fraction, so the committed
+      // scale flipped daily and js/housing-need-projector.js (which divides by
+      // 100) inflated every county's projected need by ~1.47x on fraction days.
+      vacancy_rate:           totalHU ? parseFloat(((vacantHU || 0) / totalHU).toFixed(4)) : null,
+      overcrowding_rate:      occupiedUnits ? parseFloat((overcrowded / occupiedUnits).toFixed(4)) : null,
+      cost_burden_share:      totalRenter ? parseFloat((burdened30 / totalRenter).toFixed(4)) : null,
+      severe_burden_share:    totalRenter ? parseFloat(((severe50 || 0) / totalRenter).toFixed(4)) : null,
+      household_count:        hh,
       median_gross_rent:      num(row, 'B25064_001E'),
+      median_gross_rent_current: num(row, 'B25064_001E'),
       median_household_income: num(row, 'B19013_001E'),
+      median_hh_income:       num(row, 'B19013_001E'),
       median_home_value:      num(row, 'B25077_001E'),
       population:             num(row, 'B01003_001E'),
       acs_year:               year,

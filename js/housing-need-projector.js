@@ -72,8 +72,8 @@
   }
 
   /**
-   * Derive vacancy-deficit factor from vacancy_rate (%).
-   * vacancy_deficit_factor = max(0, 0.05 - vacancy_rate/100) * 10
+   * Derive vacancy-deficit factor from vacancy_rate (fraction, 0-1).
+   * vacancy_deficit_factor = max(0, 0.05 - vacancy_rate) * 10
    *
    * IMPORTANT: returns null when vacancyRate is null/undefined. Callers
    * must treat null as "no adjustment available" — NOT as 0. A null
@@ -84,8 +84,14 @@
    */
   function _vacancyDeficitFactor(vacancyRate) {
     if (vacancyRate == null) return null;   // missing → no adjustment
-    var rate = vacancyRate / 100;
-    return Math.max(0, 0.05 - rate) * 10;
+    // vacancy_rate arrives as a FRACTION (0.0625 = 6.25%) from both
+    // co-county-demographics.json producers. This divided by 100 again,
+    // which drove every county to a near-maximum deficit factor (~0.494 of
+    // a 0.5 ceiling) regardless of its actual vacancy: Summit (61.2% vacant)
+    // and Douglas (3.1% vacant) came out within 0.004 of each other. That is
+    // the same "missing vacancy inflates need by ~50%" defect the null guard
+    // above was written to stop, arriving by a different route.
+    return Math.max(0, 0.05 - vacancyRate) * 10;
   }
 
   /**
@@ -358,7 +364,7 @@
     } else if (priority === 'workforce') {
       var _vacancyClause = (vr == null)
         ? ''
-        : ', and/or the vacancy rate (' + vr + '%) suggests market conditions are relatively functional at lower tiers';
+        : ', and/or the vacancy rate (' + (vr * 100).toFixed(1) + '%) suggests market conditions are relatively functional at lower tiers';
       rationale.push(
         '30–40% AMI (Deeply Affordable): Minimal weighting because the county ' +
         'median income (' + _fmtDollar(inc) + ') indicates most renter ' +
@@ -430,7 +436,7 @@
     } else if (inc >= 60000 && inc < 90000) {
       priority = 'mixed';
       mix = AMI_MIX_PRESETS.mixed;
-    } else if (inc >= 90000 || vr >= 5) {
+    } else if (inc >= 90000 || vr >= 0.05) {   // vr is a fraction: 0.05 = 5% vacancy
       priority = 'workforce';
       mix = AMI_MIX_PRESETS.workforce;
     } else {

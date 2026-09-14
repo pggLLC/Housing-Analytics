@@ -114,7 +114,8 @@
     if (countyAcsCache !== null) return Promise.resolve(countyAcsCache);
     var url = 'https://api.census.gov/data/2022/acs/acs5' +
       '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
-      ',B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E,B25064_001E,B19013_001E' +
+      ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
+      ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E,B19013_001E' +
       '&for=county:*&in=state:08';
     return fetchJSON(url).then(function (rows) {
       countyAcsCache = {};
@@ -134,7 +135,12 @@
           .reduce(function (s, k) { return s + (getVal(row, k) || 0); }, 0);
         var severe = getVal(row, 'B25070_010E');
         var hh = getVal(row, 'B11001_001E');
-        var overcrowded = getVal(row, 'B25014_008E');
+        // B25014_008E is "Renter occupied:" -- the renter TOTAL, not an
+        // overcrowding count. Over B25014_001E it published the renter share of
+        // occupied units as overcrowding (Denver 51.2% vs a statewide 2.4%).
+        // The real >1.00-occupants-per-room buckets are 005-007 and 011-013.
+        var overcrowded = ['B25014_005E','B25014_006E','B25014_007E','B25014_011E','B25014_012E','B25014_013E']
+          .reduce(function (acc, k) { return acc + (getVal(row, k) || 0); }, 0);
         var totalUnits = getVal(row, 'B25014_001E');
         var totalHU = getVal(row, 'B25002_001E');
         var vacantHU = getVal(row, 'B25002_003E');
@@ -161,13 +167,23 @@
         Object.keys(counties).forEach(function (name) {
           var c = counties[name];
           if (!c) return;
-          var thu = Number(c.total_housing_units) || 0;
+          // Recomputing overcrowding here used total_housing_units (all units,
+          // B25002_001E) as the denominator, but the rate is over OCCUPIED units
+          // (B25014_001E) -- a ~7% statewide understatement on top of whatever
+          // numerator the file carried. The file already publishes the correctly
+          // derived rate, so read it rather than re-deriving it from a count and
+          // the wrong denominator.
+          var occupied = Number(c.occupied_units) || 0;
           countyAcsCache[name] = {
+            // *_pct fields are 0-100 and DO need the /100. *_rate and *_share
+            // fields are already fractions and must not be divided again.
             cost_burden_share: c.cost_burdened_pct != null ? Number(c.cost_burdened_pct) / 100 : null,
             severe_burden_share: c.severely_burdened_pct != null ? Number(c.severely_burdened_pct) / 100 : null,
             household_count: c.households != null ? Number(c.households) : null,
-            overcrowding_rate: thu > 0 && c.overcrowded != null ? Number(c.overcrowded) / thu : null,
-            vacancy_rate: c.vacancy_rate != null ? Number(c.vacancy_rate) / 100 : null,
+            overcrowding_rate: c.overcrowding_rate != null
+              ? Number(c.overcrowding_rate)
+              : (occupied > 0 && c.overcrowded != null ? Number(c.overcrowded) / occupied : null),
+            vacancy_rate: c.vacancy_rate != null ? Number(c.vacancy_rate) : null,
             median_gross_rent_current: c.median_gross_rent != null ? Number(c.median_gross_rent) : null,
             median_gross_rent_prior: null,
             ami_estimate: c.median_household_income != null ? Number(c.median_household_income) : null
@@ -233,7 +249,7 @@
       // B25070: rent burden, B11001: households, B25014: overcrowding,
       // B25002: occupancy status (for vacancy rate), B25064: median gross rent
       return fetchJSON(
-        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
+        'https://api.census.gov/data/2022/acs/acs5?get=B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E,B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E,B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E,B25064_001E&for=state:08'
       ).then(function (rows) {
         if (!Array.isArray(rows) || rows.length < 2) return;
         var headers = rows[0];
@@ -244,7 +260,8 @@
         var burdened30 = [get('B25070_007E'), get('B25070_008E'), get('B25070_009E'), get('B25070_010E')].reduce(function (a, b) { return a + (b || 0); }, 0);
         var severe50 = get('B25070_010E');
         var hh = get('B11001_001E');
-        var overcrowded = get('B25014_008E');
+        var overcrowded = ['B25014_005E','B25014_006E','B25014_007E','B25014_011E','B25014_012E','B25014_013E']
+          .reduce(function (acc, k) { return acc + (get(k) || 0); }, 0);
         var totalUnits = get('B25014_001E');
         var totalHousingUnits = get('B25002_001E');
         var vacantUnits = get('B25002_003E');

@@ -602,7 +602,7 @@
       "median_household_income": 41809,
       "cost_burdened_pct": 23.5,
       "severely_burdened_pct": 16.5,
-      "overcrowded": null
+      "overcrowded": 0
     },
     "Jefferson": {
       "fips": "08059",
@@ -1142,7 +1142,7 @@
       "median_household_income": 73889,
       "cost_burdened_pct": 32.9,
       "severely_burdened_pct": 16.8,
-      "overcrowded": null
+      "overcrowded": 0
     },
     "San Miguel": {
       "fips": "08113",
