@@ -37,7 +37,8 @@ const CENSUS_KEY = process.env.CENSUS_API_KEY || '';
 const ACS_URL =
   'https://api.census.gov/data/' + ACS_YEAR + '/acs/acs5' +
   '?get=NAME,B25070_007E,B25070_008E,B25070_009E,B25070_010E,B25070_001E' +
-  ',B11001_001E,B25014_008E,B25014_001E,B25002_001E,B25002_003E' +
+  ',B11001_001E,B25014_001E,B25014_005E,B25014_006E,B25014_007E' +
+  ',B25014_011E,B25014_012E,B25014_013E,B25002_001E,B25002_003E' +
   ',B25064_001E,B19013_001E,B25077_001E,B01003_001E' +
   '&for=county:*&in=state:08' + (CENSUS_KEY ? '&key=' + CENSUS_KEY : '');
 
@@ -89,7 +90,15 @@ function parseCountyRows(rows) {
       (getVal(row, 'B25070_010E') || 0);
     var severe50 = getVal(row, 'B25070_010E');
     var hh = getVal(row, 'B11001_001E');
-    var overcrowded = getVal(row, 'B25014_008E');
+    // B25014_008E is "Renter occupied:" -- the renter TOTAL, not an
+    // overcrowding count. Dividing it by B25014_001E produced the renter share
+    // of all occupied units and labelled it overcrowding: Mesa came out at
+    // 28.1% against a statewide 2.4%. The bug predates this change but was
+    // dormant while the keyless fetch 302'd and the file never updated.
+    // The real >1.00-occupants-per-room buckets are 005-007 (owner) and
+    // 011-013 (renter).
+    var overcrowded = ['005', '006', '007', '011', '012', '013']
+      .reduce(function (acc, n) { return acc + (getVal(row, 'B25014_' + n + 'E') || 0); }, 0);
     var totalUnits = getVal(row, 'B25014_001E');
     var totalHU = getVal(row, 'B25002_001E');
     var vacantHU = getVal(row, 'B25002_003E');
@@ -108,7 +117,22 @@ function parseCountyRows(rows) {
       median_gross_rent_current: medRent && medRent > 0 ? medRent : null,
       median_home_value: medHomeValue && medHomeValue > 0 ? medHomeValue : null,
       median_hh_income: medIncome && medIncome > 0 ? medIncome : null,
-      population: population && population > 0 ? population : null
+      population: population && population > 0 ? population : null,
+
+      // Legacy names, still read by js/market-intelligence.js and
+      // js/housing-need-projector.js. The live fetch had been dormant for
+      // months (keyless requests 302), so enabling it renamed every field out
+      // from under those consumers in one commit and blanked the county KPIs.
+      // Note the scales differ: *_pct are 0-100, *_share are fractions, and
+      // `overcrowded` is a count where `overcrowding_rate` is a rate.
+      acs_year: ACS_YEAR,
+      households: hh,
+      total_housing_units: totalHU || null,
+      median_gross_rent: medRent && medRent > 0 ? medRent : null,
+      median_household_income: medIncome && medIncome > 0 ? medIncome : null,
+      cost_burdened_pct: totalRenter > 0 ? parseFloat((burdened30 / totalRenter * 100).toFixed(1)) : null,
+      severely_burdened_pct: totalRenter > 0 ? parseFloat((severe50 / totalRenter * 100).toFixed(1)) : null,
+      overcrowded: overcrowded || null
     };
   });
 
