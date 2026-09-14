@@ -128,11 +128,19 @@ function parseCountyRows(rows) {
       acs_year: ACS_YEAR,
       households: hh,
       total_housing_units: totalHU || null,
+      // B25014_001E: total OCCUPIED units — the overcrowding denominator.
+      // Distinct from total_housing_units (B25002_001E); consumers that
+      // re-derived a rate from `overcrowded / total_housing_units` understated it.
+      occupied_units: totalUnits || null,
       median_gross_rent: medRent && medRent > 0 ? medRent : null,
       median_household_income: medIncome && medIncome > 0 ? medIncome : null,
       cost_burdened_pct: totalRenter > 0 ? parseFloat((burdened30 / totalRenter * 100).toFixed(1)) : null,
       severely_burdened_pct: totalRenter > 0 ? parseFloat((severe50 / totalRenter * 100).toFixed(1)) : null,
-      overcrowded: overcrowded || null
+      // `overcrowded || null` destroyed a genuine zero: a county with no
+      // >1.00-per-room households is a real, publishable finding, not missing
+      // data. The sum is always a number here (reduce seeds 0), so the only
+      // value `|| null` ever converted was a true 0.
+      overcrowded: overcrowded
     };
   });
 
