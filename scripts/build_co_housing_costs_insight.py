@@ -441,9 +441,20 @@ def _save_acs_snapshot(df: "pd.DataFrame") -> None:
     ]
     snap_cols = [c for c in keep_cols if c in df.columns]
     snap = df[snap_cols].copy()
+
+    # Latest cohort only -- the file is `_latest` and every consumer keys it by
+    # county_fips alone. Writing all three cohorts (2009/2014/2024) gives three
+    # rows per county, and build_article_indicator_geojson.mjs indexes
+    # last-wins, so the 2009 rows would silently win and the choropleth would
+    # render 2009 rents as current (Adams County $869 against 2024's $1,781).
+    # build_article_full_indicators.py already filters the parquet this way.
+    if "acs_year" in snap.columns and not snap.empty:
+        latest_year = snap["acs_year"].max()
+        snap = snap[snap["acs_year"] == latest_year].copy()
+
     out = ASSETS_SNAPSHOTS / "acs_county_latest.csv"
     snap.to_csv(out, index=False)
-    log.info("Saved ACS snapshot CSV to %s", out)
+    log.info("Saved ACS snapshot CSV to %s (%d rows)", out, len(snap))
 
 
 def _compute_acs_window_change(df: "pd.DataFrame") -> "pd.DataFrame":

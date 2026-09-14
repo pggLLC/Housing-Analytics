@@ -19,6 +19,7 @@ scripts/build_co_housing_costs_insight.py.
 Fixtures are hand-built from the published BPS column layout; they do not
 reuse the parser under test.
 """
+import csv
 import importlib.util
 import pathlib
 import sys
@@ -165,6 +166,43 @@ status2 = json.loads((snaps / "pipeline-status.json").read_text())
 check(status2["maps_complete"] is True and status2["stale_maps"] == [],
       "a run that rewrites every map reports complete with no stale entries")
 check(status2["maps_generated"] == 8, "all eight count as generated when fresh")
+
+# ── 5. The public snapshot must carry one cohort, not three ────────────────
+# fetch_acs_county builds 2009/2014/2024 cohorts. Writing all three to a file
+# named `_latest` gives three rows per county, and every consumer keys it by
+# county_fips alone -- build_article_indicator_geojson.mjs indexed last-wins,
+# so the 2009 rows won and the choropleth rendered 2009 rents as current.
+print("\n  ACS snapshot cohort")
+import pandas as pd
+
+mod.ASSETS_SNAPSHOTS = snaps
+frame = pd.DataFrame([
+    {"county_fips": "08001", "county_name": "Adams", "acs_year": y,
+     "median_gross_rent": rent, "median_hh_income": 1, "vacancy_rate": 0.1,
+     "rent_burden_30_plus": 0.5}
+    for y, rent in ((2024, 1781), (2014, 1100), (2009, 869))
+] + [
+    {"county_fips": "08031", "county_name": "Denver", "acs_year": y,
+     "median_gross_rent": rent, "median_hh_income": 1, "vacancy_rate": 0.1,
+     "rent_burden_30_plus": 0.5}
+    for y, rent in ((2024, 1700), (2014, 1000), (2009, 800))
+])
+mod._save_acs_snapshot(frame)
+snap_rows = list(csv.DictReader((snaps / "acs_county_latest.csv").open()))
+
+check(len(snap_rows) == 2,
+      f"one row per county, not one per cohort (saw {len(snap_rows)})")
+check({r["acs_year"] for r in snap_rows} == {"2024"},
+      f"only the newest cohort is written (saw {sorted({r['acs_year'] for r in snap_rows})})")
+check(next(r["median_gross_rent"] for r in snap_rows if r["county_fips"] == "08001") == "1781",
+      "the surviving Adams row is the 2024 rent, not the 2009 one")
+
+# The renderer must also defend itself, in case a producer regresses.
+geojson_builder = (ROOT / "scripts" / "build_article_indicator_geojson.mjs").read_text()
+check("byFips[fips] = r;\n  }" not in geojson_builder,
+      "the GeoJSON builder no longer indexes rows with a bare last-wins assignment")
+check("prevYear" in geojson_builder,
+      "the GeoJSON builder compares acs_year when a county appears more than once")
 
 print()
 if failures:

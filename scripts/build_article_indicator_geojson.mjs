@@ -81,10 +81,20 @@ async function main() {
   const csv = parseCsv(csvText);
 
   // Index CSV rows by county FIPS (5 digits, zero-padded).
+  // Keep the newest acs_year per county. A plain last-wins assignment is a
+  // silent hazard here: if a producer ever emits several ACS cohorts per
+  // county, the oldest sorts last and would quietly become the rendered
+  // vintage -- 2009 rents on a layer labelled current.
   const byFips = Object.create(null);
   for (const r of csv.rows) {
     const fips = String(r.county_fips || "").padStart(5, "0");
-    byFips[fips] = r;
+    const prev = byFips[fips];
+    if (!prev) { byFips[fips] = r; continue; }
+    const year = Number(r.acs_year);
+    const prevYear = Number(prev.acs_year);
+    if (Number.isFinite(year) && (!Number.isFinite(prevYear) || year > prevYear)) {
+      byFips[fips] = r;
+    }
   }
 
   let joined = 0;
