@@ -63,21 +63,32 @@ Two shipped leaks came from exactly this:
 | `headless_cards` | a card with content or a `<canvas>` and no heading |
 | dead-anchor check | `href="#x"` where nothing on that page defines `x` |
 | renderer/exporter hooks | `hna-renderers.js` still reads `HNA_VIEW_ANCHORS`; `hna-export.js` still reads `HNA_VIEW` |
+| `test:hna-view-content-parity` | a kept section's markup diverging from the canonical page's |
 
-### Known coverage gap
+### View coverage
 
-**49 test files pin `housing-needs-assessment.html`. Zero pin any view slug.**
+`npm run test:hna-view-content-parity` (in `test:ci`) asserts that for every
+section a view keeps, the card that owns it is byte-identical to the canonical
+page's, once the generator's declared rewrites are normalised away. 65 sections
+across the five views.
+
+That is what makes the canonical page's 49 test files cover the views too: if a
+kept section is identical to its canonical original, every disclosure,
+provenance, vintage-label and absence assertion made against the canonical page
+holds on the view by construction.
 
 ```bash
-grep -l "housing-needs-assessment.html" test/*.js test/*.mjs | wc -l   # 49
-grep -l "hna-what-\|hna-who-\|hna-where-" test/*.js test/*.mjs | wc -l # 0
+grep -l "housing-needs-assessment.html" test/*.js test/*.mjs | wc -l   # 49 pin the canonical page
 ```
 
-Every disclosure, provenance, vintage-label and absence-handling assertion is
-verified on the canonical page only. The views carry the same content and are
-asserted by nothing except the generator's own `--check`. A content rule that
-breaks *only* on a view will not be caught. Treat this as a real gap when
-changing anything the views inherit.
+The parity suite also pins, per view: the "Screening tool only" disclaimer, the
+executive decision strip, and a `<title>` that names the view. All five
+assertions are sabotage-tested.
+
+**What it does NOT cover:** anything a view renders that the canonical page does
+not — the switcher, the step label, the pruned asset list — and runtime
+behaviour of any kind. A content rule that holds in markup but breaks when the
+view's reduced script set runs is still unasserted.
 
 ---
 
