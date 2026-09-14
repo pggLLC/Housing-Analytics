@@ -5,6 +5,14 @@ fetch_nhpd.py — Fetch NHPD (National Housing Preservation Database) data for C
 Downloads Colorado affordable housing properties from NHPD and writes
 GeoJSON output to data/market/nhpd_co.geojson.
 
+KNOWN BROKEN (verified 2026-09-14): NHPD_API_URL answers HTTP 404 and bulk
+access is registration-gated, so this script has no working endpoint and
+cannot complete a refresh. It exits non-zero without touching the existing
+file rather than overwriting a real snapshot with an empty result. The
+inventory declares nhpd-co as maintenance: 'unavailable' for this reason
+(js/data-source-inventory.js). Repairing this means obtaining NHPD
+credentials and pointing NHPD_API_URL at an endpoint that exists.
+
 Usage:
     python3 scripts/fetch_nhpd.py
 

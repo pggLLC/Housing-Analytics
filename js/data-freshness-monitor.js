@@ -42,6 +42,19 @@
     return FREQ_DAYS[freq] !== undefined ? FREQ_DAYS[freq] : 400;
   }
 
+  // Resolve maintenance modes through the inventory when it is loaded so
+  // the two status producers cannot disagree about what a mode means. The
+  // local list is the fallback for standalone use (this monitor also runs
+  // over data/manifest.json entries, which carry no inventory).
+  var FALLBACK_MODES = { automated: 1, curated: 1, unavailable: 1, archived: 1 };
+
+  function maintenanceMode(source) {
+    var inv = window.DataSourceInventory;
+    var modes = (inv && inv.MAINTENANCE_MODES) || FALLBACK_MODES;
+    var m = source && source.maintenance;
+    return (m && Object.prototype.hasOwnProperty.call(modes, m)) ? m : 'automated';
+  }
+
   function freshnessStatus(days, maxAge, freq) {
     // Live API feeds (OSM Overpass, transit GTFS) don't have a snapshot
     // date — they're fetched on demand. Surface as 'live' so the dashboard
@@ -70,12 +83,21 @@
     var maxAge   = (Number.isFinite(source.maxAgeDays) && source.maxAgeDays > 0)
                      ? source.maxAgeDays
                      : maxAgeDays(freq);
-    var status   = freshnessStatus(days, maxAge, freq);
-    var score    = (status === 'live')
-      ? 100
-      : (days === null || maxAge === null)
-        ? null
-        : Math.max(0, Math.round(100 * (1 - days / maxAge)));
+    // A declared maintenance mode wins over age arithmetic, matching
+    // computeStatus() in js/data-source-inventory.js. Without this the
+    // Overview tab would keep calling an unrefreshable source 'stale',
+    // contradicting the Trust Center badge on the same page.
+    var mode     = maintenanceMode(source);
+    var status   = (mode !== 'automated')
+      ? mode
+      : freshnessStatus(days, maxAge, freq);
+    var score    = (mode !== 'automated')
+      ? null
+      : (status === 'live')
+        ? 100
+        : (days === null || maxAge === null)
+          ? null
+          : Math.max(0, Math.round(100 * (1 - days / maxAge)));
 
     return {
       id:            source.id || source.file_path || source.source_name,
@@ -96,7 +118,8 @@
   // ── Summary stats ────────────────────────────────────────────────────────
 
   function buildSummary(reports) {
-    var counts = { current: 0, aging: 0, stale: 0, unknown: 0, live: 0 };
+    var counts = { current: 0, aging: 0, stale: 0, unknown: 0, live: 0,
+                   curated: 0, unavailable: 0, archived: 0 };
     var scores = [];
     for (var i = 0; i < reports.length; i++) {
       var r = reports[i];
