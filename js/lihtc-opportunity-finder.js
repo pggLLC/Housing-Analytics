@@ -4612,6 +4612,22 @@
     if (window.MapPanes && typeof window.MapPanes.ensureStack === 'function') {
       window.MapPanes.ensureStack(state.map);
     }
+    // Re-measure whenever the container gains size. Nothing is broken here today
+    // -- this map renders fully (10/10 tiles, full coverage) and is not inside a
+    // collapsed panel. The guard is preventive: Leaflet sizes its tile grid at
+    // init, so a container that is 0x0 at that moment yields a grid too small
+    // for the box it ends up in, and the shortfall appears as tiles that were
+    // never requested rather than tiles that failed.
+    if (typeof ResizeObserver === 'function') {
+      var _lofEl = document.getElementById('lofMap');
+      if (_lofEl) {
+        new ResizeObserver(function () {
+          var box = _lofEl.getBoundingClientRect();
+          if (box.width > 0 && box.height > 0) state.map.invalidateSize({ animate: false });
+        }).observe(_lofEl);
+      }
+    }
+
     // Expose for debugging / inspection (tests + DevTools)
     window.__lofMap = state.map;
     window.__lofState = state;
