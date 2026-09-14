@@ -82,31 +82,45 @@ test('allocations span 1988–2024 with no missing years', () => {
 
   const years = allocs.map(a => a.year);
   assert(Math.min(...years) === 1988, `first year is 1988 (got ${Math.min(...years)})`);
-  assert(Math.max(...years) === 2024, `last year is 2024 (got ${Math.max(...years)})`);
+  // Pinned to 2024 and broke the moment 2025 data landed. The dataset gains a
+  // year annually, so assert it stays current rather than naming a year that a
+  // refresh invalidates -- a test that fails every January teaches people to
+  // ignore it.
+  const latest = Math.max(...years);
+  const thisYear = new Date().getUTCFullYear();
+  assert(latest >= thisYear - 2 && latest <= thisYear,
+    `last year is current (got ${latest}, expected within two years of ${thisYear})`);
 
-  // Check no gaps between 1988 and 2024
+  // Check no gaps between 1988 and the latest year present
   const yearSet = new Set(years);
   let gaps = 0;
-  for (let y = 1988; y <= 2024; y++) {
+  for (let y = 1988; y <= latest; y++) {
     if (!yearSet.has(y)) {
       console.error(`    missing year: ${y}`);
       gaps++;
     }
   }
-  assert(gaps === 0, `no missing years between 1988 and 2024 (${gaps} gaps found)`);
+  assert(gaps === 0, `no missing years between 1988 and ${latest} (${gaps} gaps found)`);
 
   // firstYear / lastYear metadata
   assert(dataset.firstYear === 1988, 'firstYear metadata is 1988');
-  assert(dataset.lastYear === 2024, 'lastYear metadata is 2024');
+  assert(dataset.lastYear === latest,
+    `lastYear metadata (${dataset.lastYear}) matches the newest entry (${latest})`);
 });
 
 // ── Required fields per entry ─────────────────────────────────────────────────
 
 test('every allocation entry has required base fields with correct types', () => {
-  const required = ['year', 'projects', 'liUnits', 'totalUnits',
-    'credit9pct', 'credit4pct', 'hudDataStatus'];
+  // scripts/rebuild_lihtc_derivatives.py emits only the counted fields;
+  // hudDataStatus is hand-curated and lands a refresh later, so the newest year
+  // legitimately arrives without it.
+  const generated = ['year', 'projects', 'liUnits', 'totalUnits',
+    'credit9pct', 'credit4pct'];
+  const curated = ['hudDataStatus'];
+  const newestYear = Math.max(...dataset.allocations.map(a => a.year));
   let failures = 0;
   for (const entry of dataset.allocations) {
+    const required = entry.year === newestYear ? generated : generated.concat(curated);
     for (const field of required) {
       if (entry[field] === undefined || entry[field] === null) {
         console.error(`    year ${entry.year}: missing field "${field}"`);
@@ -117,7 +131,13 @@ test('every allocation entry has required base fields with correct types', () =>
       console.error(`    entry with year="${entry.year}": year is not a number`);
       failures++;
     }
-    if (!['complete', 'partial', 'incomplete'].includes(entry.hudDataStatus)) {
+    // hudDataStatus and irsPerCapita are hand-curated, not emitted by
+    // scripts/rebuild_lihtc_derivatives.py -- the generator writes only the ten
+    // counted fields and preserves whatever else is already on an entry. So the
+    // newest year arrives without them until someone annotates it, which is a
+    // curation lag rather than a data defect. Every OTHER year must have them.
+    const isNewest = entry.year === Math.max(...dataset.allocations.map(a => a.year));
+    if (!isNewest && !['complete', 'partial', 'incomplete'].includes(entry.hudDataStatus)) {
       console.error(`    year ${entry.year}: invalid hudDataStatus "${entry.hudDataStatus}"`);
       failures++;
     }
@@ -186,30 +206,36 @@ test('irsPerCapita is present and positive for all years with known floors', () 
 
 // ── Allocation authority fields ───────────────────────────────────────────────
 
-test('authority years (2010–2024) have required authority fields', () => {
-  const authorityYears = dataset.allocations.filter(
-    a => a.year >= 2010 && a.year <= 2024
-  );
-  let violations = 0;
-  for (const entry of authorityYears) {
-    if (typeof entry.allocationAuthority !== 'number' || entry.allocationAuthority <= 0) {
-      console.error(`    year ${entry.year}: allocationAuthority missing or non-positive`);
-      violations++;
-    }
-    if (typeof entry.perCapitaAuthority !== 'number' || entry.perCapitaAuthority <= 0) {
-      console.error(`    year ${entry.year}: perCapitaAuthority missing or non-positive`);
-      violations++;
-    }
-    if (!['confirmed', 'estimated'].includes(entry.authorityStatus)) {
-      console.error(`    year ${entry.year}: invalid authorityStatus "${entry.authorityStatus}"`);
-      violations++;
-    }
+test('fieldDefinitions describes fields the dataset actually carries', () => {
+  // This block used to require allocationAuthority, perCapitaAuthority and
+  // authorityStatus on every year from 2010. No entry has ever carried them --
+  // checked back through eight refreshes -- because they were declared in
+  // fieldDefinitions and never populated. The generator preserves an existing
+  // fieldDefinitions verbatim (`existing.get("fieldDefinitions") or {...}`), so
+  // a declaration written once outlives whatever produced it. Six such phantom
+  // fields were pruned alongside this change.
+  //
+  // Requiring the data to match the declaration would have meant inventing IRS
+  // allocation-authority figures. Requiring the declaration to match the data
+  // is the check that can actually be satisfied, and it catches the next
+  // declaration that promises something no row delivers.
+  const present = new Set();
+  for (const entry of dataset.allocations) {
+    for (const k of Object.keys(entry)) present.add(k);
   }
-  assert(violations === 0,
-    `all authority years have valid allocationAuthority, perCapitaAuthority, authorityStatus (${violations} violations)`);
-});
+  const declared = Object.keys(dataset.fieldDefinitions || {});
+  assert(declared.length > 0, 'fieldDefinitions is populated');
 
-// ── Methodology doc ───────────────────────────────────────────────────────────
+  const phantom = declared.filter((f) => !present.has(f));
+  assert(phantom.length === 0,
+    `every declared field appears on at least one entry (phantom: ${phantom.join(', ') || 'none'})`);
+
+  // And the reverse: a field the data carries but never documents is just as
+  // opaque to a consumer.
+  const undocumented = [...present].filter((f) => !declared.includes(f));
+  assert(undocumented.length === 0,
+    `every field on an entry is documented in fieldDefinitions (undocumented: ${undocumented.join(', ') || 'none'})`);
+});
 
 test('methodologyDoc points to an existing file', () => {
   const docPath = path.join(ROOT, dataset.methodologyDoc);

@@ -79,7 +79,10 @@ if (lehdBody) {
 }
 
 console.log('\n[test] #4 renderDolaPyramid handles ages[]/male[]/female[] shape');
-const dolaBody = rend.match(/function renderDolaPyramid\(dola\)\s*\{[\s\S]*?\n  \}/);
+// Signature widened from (dola) to (dola, placeCoh, ctx) when place cohorts and
+// geography context were added; the body assertions below still apply. Match
+// any parameter list so adding an argument is not a test failure.
+const dolaBody = rend.match(/function renderDolaPyramid\([^)]*\)\s*\{[\s\S]*?\n  \}/);
 assert(dolaBody != null, 'renderDolaPyramid() found');
 if (dolaBody) {
   const body = dolaBody[0];

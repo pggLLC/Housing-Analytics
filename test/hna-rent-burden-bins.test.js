@@ -59,12 +59,17 @@ if (fnMatch) {
         'legacy count code ' + c + ' is no longer in bins');
     });
 
-  // Y-axis tick callback should emit a percent suffix (post-fix change)
-  const yCallback = REND_SRC.match(
-    /function renderRentBurdenBins[\s\S]*?ticks:\s*\{\s*color:\s*t\.muted,\s*callback:\s*v\s*=>\s*`\$\{v\}%`/
-  );
-  assert(yCallback != null,
-    'y-axis ticks callback formats values with `%` suffix');
+  // The y axis must still be labelled as a percentage. This used to assert the
+  // inline `callback: v => `${v}%`` literally; that callback was since factored
+  // into the shared pctAxis() helper, so the behaviour is unchanged and the
+  // assertion was matching a shape rather than an outcome. Assert that the
+  // chart uses the percent axis, and separately that the helper still appends
+  // the suffix — so a change to either end is caught.
+  const usesPctAxis = /function renderRentBurdenBins[\s\S]*?y:\s*pctAxis\(/.test(REND_SRC);
+  assert(usesPctAxis, 'rent-burden chart uses the percent y axis');
+
+  const pctAxisAppends = /function pctAxis\([\s\S]{0,240}?return\s+v\s*\+\s*'%'/.test(REND_SRC);
+  assert(pctAxisAppends, 'pctAxis() still formats tick values with a `%` suffix');
 }
 
 console.log('\n[test] cache parity — sample summary has the PE fields');

@@ -42,9 +42,15 @@ if (m) {
   assert(unique.length <= 50,
     `batchA stays under ACS 50-var limit (${unique.length} unique codes)`);
 
+  // Occupancy + tenure counts moved out of fetchAcsExtended's batchA and into
+  // fetchAcsProfile's profileVarBatches, where the rest of the DP04 occupancy /
+  // tenure block lives. They are still requested from Census -- only the fetch
+  // path changed -- so assert the controller asks for them, not which array
+  // holds them. What must not happen is the codes disappearing entirely:
+  // chartTenure depends on 0046E/0047E.
   ['DP04_0002E', 'DP04_0003E', 'DP04_0046E'].forEach(code => {
-    assert(codes.includes(code),
-      'batchA includes ' + code);
+    assert(new RegExp("'" + code + "'").test(src),
+      'hna-controller requests ' + code + ' (occupancy/tenure counts)');
   });
 
   // Sanity: didn't accidentally lose the structure-type or bedroom-mix groups

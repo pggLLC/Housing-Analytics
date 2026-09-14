@@ -36,12 +36,6 @@
     "dda": "Projects located in Difficult Development Areas",
     "hudDataStatus": "Completeness of project data: 'complete' | 'partial' | 'incomplete'",
     "irsPerCapita": "IRS per-capita floor ($/person) in effect for this year",
-    "allocationAuthority": "Colorado total allocation authority ceiling ($) for this year",
-    "population": "Colorado population estimate used for authority calculation",
-    "perCapitaAuthority": "Colorado allocation per capita ($) for this year",
-    "authorityStatus": "Quality of authority figure: 'confirmed' | 'estimated'",
-    "nationalTotal": "Approximate national LIHTC allocation total ($) for context",
-    "coShareOfNational": "Colorado share of national allocation (%)",
     "policyNote": "Significant federal policy event affecting LIHTC in this year"
   },
   "methodologyDoc": "docs/LIHTC_HISTORICAL_METHODOLOGY.md",
