@@ -242,8 +242,20 @@
                   // views are views OF step 3, not extra steps beside it, so
                   // they must not read as siblings of steps 4-6 — the 1..6
                   // sequence is the spine of this menu.
-                  return `<a class="${activeClass(l.href)}${l.isSub ? ' nav-link-sub' : ''}" href="${normalizeHref(l.href)}"${l.isSub ? ' style="padding-left:30px"' : ''}>
-                    <span class="nav-link-label"${l.isSub ? ' style="font-weight:500"' : ''}>${l.isSub ? '<span aria-hidden="true" style="opacity:.45;margin-right:6px">└</span>' : ''}${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                  // Sub-entries are ONE line: label only, no description.
+                  // With a description each they added ~400px to this dropdown
+                  // and pushed Market Analysis from y=558 to y=992 in a 900px
+                  // viewport — steps 4, 5 and 6 fell below the fold, so the
+                  // Step 1→6 spine became the part of the menu you could not
+                  // see. Dropping the descriptions puts Step 4 back at y=794.
+                  // The question each view answers is on the view itself.
+                  if (l.isSub) {
+                    return `<a class="${activeClass(l.href)} nav-link-sub" href="${normalizeHref(l.href)}" style="padding:5px 14px 5px 32px">
+                    <span class="nav-link-label" style="font-weight:500"><span aria-hidden="true" style="opacity:.4;margin-right:7px">└</span>${l.label}</span>
+                  </a>`;
+                  }
+                  return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
+                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
                     <span class="nav-link-desc">${l.desc}</span>
                   </a>`;
                 }).join('')}
