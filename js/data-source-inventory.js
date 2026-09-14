@@ -27,11 +27,44 @@
     return false;
   }
 
+  // A source's maintenance mode declares how — and whether — it gets
+  // refreshed. Absent means 'automated': some workflow or script keeps the
+  // file current, so measuring its age against a cadence is meaningful.
+  // The other three modes all mean no automated cadence exists, so an age
+  // percentage would be a freshness claim nobody can back.
+  var MAINTENANCE_MODES = {
+    automated:   'Refreshed by a workflow or script; age is measured against the declared cadence.',
+    curated:     'Maintained by hand; there is no cadence to measure against.',
+    unavailable: 'Cannot be refreshed; requires maintenanceNote and lastKnownGood.',
+    archived:    'Intentionally frozen at a final vintage.'
+  };
+
+  function maintenanceMode(source) {
+    var m = source && source.maintenance;
+    return (m && Object.prototype.hasOwnProperty.call(MAINTENANCE_MODES, m))
+      ? m : 'automated';
+  }
+
   function computeStatus(source) {
+    // The declared mode IS the status, resolved before any date arithmetic.
+    // On a hand-curated or dead source, lastUpdated records when a human
+    // last touched the file, which says nothing about whether the content
+    // is current — running it through the age thresholds anyway is what let
+    // a 20-project NHPD stub and a hand-edited benchmark list render as
+    // ordinary aging/stale rows on cadences nobody maintains.
+    var mode = maintenanceMode(source);
+    if (mode !== 'automated') return mode;
     if (isLiveApi(source)) return 'live';
     var days = daysSince(source.lastUpdated);
     if (days === null) return 'unknown';
-    var threshold = source.maxAgeDays || 90;
+    // No declared threshold means the freshness window is unmeasured, not
+    // ninety days. The old `maxAgeDays || 90` invented a window for the two
+    // sources that declare updateFrequency 'Unknown' with maxAgeDays null,
+    // so kalshi-housing showed a green 'current' badge scored against a
+    // number nobody had chosen — and the freshness monitor, which honours
+    // the null, called the same sources 'unknown' on the same page.
+    if (source.maxAgeDays === null || source.maxAgeDays === undefined) return 'unknown';
+    var threshold = source.maxAgeDays;
     var aging = Math.floor(threshold * 0.7);
     if (days <= aging) return 'current';
     if (days <= threshold) return 'aging';
@@ -39,10 +72,15 @@
   }
 
   function freshnessScore(source) {
+    // No cadence means no score. Deliberately null rather than 0: a 0% bar
+    // reads as "measured and completely stale", which is a different (and
+    // false) claim from "nothing here is on a refresh schedule".
+    if (maintenanceMode(source) !== 'automated') return null;
     if (isLiveApi(source)) return 100;        // always fresh by definition
     var days = daysSince(source.lastUpdated);
     if (days === null) return null;
-    var max = source.maxAgeDays || 90;
+    var max = source.maxAgeDays;
+    if (max === null || max === undefined) return null;  // unmeasured, not 0%
     return Math.max(0, Math.round(100 * (1 - days / max)));
   }
 
@@ -787,8 +825,17 @@
       url: 'https://preservationdatabase.org/',
       localFile: 'data/market/nhpd_co.geojson',
       lastUpdated: '2026-03-13',
-      updateFrequency: 'Semi-annual',
-      maxAgeDays: 180,
+      // NHPD_API_URL (https://preservationdatabase.org/api/properties/)
+      // answers HTTP 404 and bulk download is registration-gated, so
+      // scripts/fetch_nhpd.py cannot complete a refresh. The declared
+      // 'Semi-annual' cadence promised a refresh that has never been
+      // possible; what is on disk is a 20-project stub, not Colorado's
+      // federally-assisted inventory.
+      maintenance: 'unavailable',
+      maintenanceNote: 'The NHPD properties API returns HTTP 404 and bulk access is registration-gated, so this file cannot be refreshed automatically. The 20 projects on disk are a partial stub, not Colorado\u2019s full federally-assisted inventory — verify current subsidy status directly with NHPD.',
+      lastKnownGood: '2026-03-13',
+      updateFrequency: 'Not refreshed \u2014 source unavailable',
+      maxAgeDays: null,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 20,
@@ -888,8 +935,13 @@
       url: null,
       localFile: 'data/market/reference-projects.json',
       lastUpdated: '2026-03-08',
-      updateFrequency: 'Quarterly',
-      maxAgeDays: 120,
+      // Hand-assembled from CHFA/HUD LIHTC public records; no generator
+      // script has ever written this file, so the 'Quarterly' cadence it
+      // used to declare described a refresh that nothing performs.
+      maintenance: 'curated',
+      maintenanceNote: 'Hand-assembled from CHFA and HUD LIHTC public records as a fixed peer-benchmark set. No script refreshes it, so it carries no cadence — it is updated when the benchmark set is deliberately revised.',
+      updateFrequency: 'Curated \u2014 no automated refresh',
+      maxAgeDays: null,
       geoUnit: 'Project',
       coverage: 'Colorado statewide',
       features: 50,
@@ -1400,6 +1452,10 @@
         categories: Object.keys(this.getByCategory()).length
       };
     },
+
+    /** Maintenance modes, shared with js/data-freshness-monitor.js so the
+        two status producers cannot drift apart on what a mode means. */
+    MAINTENANCE_MODES: MAINTENANCE_MODES,
 
     /** Sources with API endpoints (checkable) */
     getApiSources: function () {
