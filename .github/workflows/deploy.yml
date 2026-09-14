@@ -33,14 +33,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Generate js/config.js from secrets
+      # Generates the PUBLIC client config. Anything written here is served to
+      # every visitor at the site path /js/config.js, so no secret
+      # may appear in it.
+      #
+      # This step used to interpolate secrets.CENSUS_API_KEY and
+      # secrets.FRED_API_KEY, publishing both from 2026-02-26 until 2026-09-14.
+      # Neither was needed:
+      #   - Census answers every endpoint this site calls WITHOUT a key
+      #     (verified against acs5 detail + profile, 2023 and 2024 vintages).
+      #   - FRED cannot be called from a browser at all (CORS); FRED data is
+      #     served from data/fred-data.json, built server-side.
+      # The ~18 workflows that legitimately use those secrets are unaffected —
+      # they run on the runner, not in the browser.
+      #
+      # Developers who want a key locally can still supply one: js/config.js
+      # reads a localStorage override (coho_api_*), set via the Data Quality
+      # Dashboard and stored only in that browser.
+      - name: Generate js/config.js (public — no secrets)
         run: |
           DATA_VERSION="$(date -u +%Y-%m-%d)"
           cat > js/config.js << EOF
           window.APP_CONFIG = window.APP_CONFIG || {};
           var _defaults = {
-            CENSUS_API_KEY: "${{ secrets.CENSUS_API_KEY }}",
-            FRED_API_KEY:   "${{ secrets.FRED_API_KEY }}",
             DATA_VERSION:   "${DATA_VERSION}"
           };
           Object.keys(_defaults).forEach(function (k) {

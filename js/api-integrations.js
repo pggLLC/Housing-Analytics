@@ -38,10 +38,10 @@ class DataAPIIntegrations {
         // Warn in the browser console when API keys are absent so developers
         // know they need to configure them before enabling live data fetches.
         if (!this.apis.fred.apiKey) {
-            console.info('[DataAPIIntegrations] FRED_API_KEY not configured — live FRED API calls will fail. Get a free key at research.stlouisfed.org and set window.APP_CONFIG.FRED_API_KEY.');
+            console.info('[DataAPIIntegrations] FRED_API_KEY not configured — live FRED API calls will fail. This is expected: FRED blocks browser requests (CORS), so FRED data is served from data/fred-data.json, built server-side. Do not put a FRED key in js/config.js — that file is public.');
         }
         if (!this.apis.census.apiKey) {
-            console.info('[DataAPIIntegrations] CENSUS_API_KEY not configured — Census API rate limits are stricter without a key. Register at api.census.gov/data/key_signup.html and set window.APP_CONFIG.CENSUS_API_KEY.');
+            console.info('[DataAPIIntegrations] CENSUS_API_KEY not configured — Census answers every endpoint this site uses without one; only the rate limit is stricter. To use your own key locally, enter it in the Data Quality Dashboard (stored in your browser only). Do not put it in js/config.js — that file is public.');
         }
         if (!this.apis.hud.token) {
             console.info('[DataAPIIntegrations] HUD_TOKEN not configured — live HUD API calls will fail. Register at huduser.gov and set window.APP_CONFIG.HUD_TOKEN.');
