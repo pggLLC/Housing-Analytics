@@ -109,5 +109,56 @@ run('the page loads the rail script and styles it', () => {
     'anchors clear the sticky header');
 });
 
+run('the rail owns a grid track instead of floating over the content', () => {
+  const raw = fs.readFileSync(path.join(ROOT, 'css/pages/housing-needs-assessment.css'), 'utf8');
+  // Strip comments: the notes explaining what this replaced quote the old
+  // declarations verbatim, and would otherwise satisfy the very checks that
+  // exist to prove they are gone.
+  const css = raw.replace(/\/\*[\s\S]*?\*\//g, '');
+
+  // The rail used to be position:fixed at left: max(.75rem, 50vw - 46rem),
+  // which put it outside layout entirely: content had to be padded out of its
+  // way, and the two pieces of viewport arithmetic had to agree. Below ~1712px
+  // they did not -- at 1440px the rail spanned 12-252px while the centred
+  // 1240px main column started at 100px.
+  const base = css.slice(css.indexOf('.hna-rail {'), css.indexOf('.hna-rail__toggle'));
+  assert.ok(/position:\s*sticky/.test(base),
+    'the rail is sticky inside its own column, not fixed over the page');
+  assert.ok(!/left:\s*max\(/.test(base),
+    'the rail no longer positions itself with viewport arithmetic');
+
+  // The dodge this replaced. If it comes back, so has the overlap it hid.
+  assert.ok(!/padding-inline:\s*11rem/.test(css),
+    'the .hna-view-switcher padding dodge is gone — a grid track makes it unnecessary');
+
+  assert.ok(/\.hna-shell\[data-has-rail="true"\]\s*\{[^}]*display:\s*grid/.test(css),
+    'the shell is a grid when a rail is present');
+
+  // A grid item's default min-width is auto, so a bare `1fr` content track lets
+  // one wide table or chart push the column past the viewport and reintroduce
+  // horizontal scrolling — which test:mobile-overflow-containment exists to stop.
+  const grid = css.slice(css.indexOf('.hna-shell[data-has-rail="true"]'));
+  assert.ok(/grid-template-columns:[^;]*minmax\(\s*0\s*,/.test(grid),
+    'the content track uses minmax(0, …) so wide content cannot widen the page');
+
+  // Below the width where a 15rem column fits, the corner button returns.
+  const small = css.slice(css.indexOf('@media (max-width: 1100px)'));
+  assert.ok(/position:\s*fixed/.test(small.slice(0, 600)),
+    'under 1101px the rail reverts to the fixed corner button');
+});
+
+run('the shell is built before the renderers populate main', () => {
+  const src = fs.readFileSync(path.join(ROOT, 'js/hna/section-rail.js'), 'utf8');
+  assert.ok(/function ensureShell/.test(src), 'ensureShell exists');
+  // Reparenting a <main> that already holds initialised Leaflet maps and charts
+  // re-runs layout on all of them. The shell must be created while main is
+  // still the empty markup shipped in the HTML.
+  const boot = src.slice(src.indexOf("if (typeof document !== 'undefined')"));
+  const shellAt = boot.indexOf('ensureShell(document)');
+  const railAt = boot.indexOf('setTimeout(init');
+  assert.ok(shellAt !== -1 && railAt !== -1 && shellAt < railAt,
+    'ensureShell runs synchronously on DOMContentLoaded, before the delayed rail build');
+});
+
 if (failures) { console.error('hna-section-rail: FAIL'); process.exitCode = 1; }
 else console.log('hna-section-rail: PASS');
