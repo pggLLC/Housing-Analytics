@@ -1042,14 +1042,20 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
    Colours come from theme tokens so both themes resolve as a set; the active
    entry is marked with weight and a rule as well as colour, so the current
    position does not depend on colour perception alone. */
+/* The rail occupies its own grid track (see .hna-shell below) rather than
+   floating over the page. position:fixed meant it took part in no layout at
+   all, so content had to be padded out of its way and two pieces of viewport
+   arithmetic had to stay in agreement -- which they did not below ~1712px.
+   Sticky inside its own column keeps the follow-the-scroll behaviour without
+   the overlap. Below 1101px a 15rem column does not fit and it reverts to the
+   fixed corner button, which is the right shape for that width. */
 .hna-rail {
-  position: fixed;
+  position: sticky;
   z-index: 40;
-  left: max(.75rem, calc(50vw - 46rem));
-  top: 50%;
-  transform: translateY(-50%);
-  width: 15rem;
-  max-height: 74vh;
+  top: 5rem;
+  align-self: start;
+  width: 100%;
+  max-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;
   background: var(--card, #fff);
@@ -1123,25 +1129,44 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   .hna-rail__toggle { cursor: default; pointer-events: none; border-bottom: 1px solid var(--border, rgba(13,31,53,.11)); }
 }
 
-/* Keep the view switcher out from under the rail.
+/* The two-column shell: rail track, then content track.
 
-   .hna-rail is position:fixed at left: max(.75rem, 50vw - 46rem) and 15rem
-   wide, so its right edge sits at ~236px until the viewport passes ~1680px --
-   it overlays the card's left edge at every width a reader is likely to use.
-   That is deliberate for a floating contents panel, and the canonical page's
-   hero survives it only because its text is centred and never reaches that far
-   left. A centred ROW of pills does reach, so pad the row inward while the
-   rail is open; it stays centred and wraps rather than colliding. Below
-   1101px the rail collapses to a corner button and this is not needed. */
+   This replaces a `padding-inline: 11rem` dodge that used to be applied to
+   .hna-view-switcher so a centred row of pills would not end up underneath the
+   fixed rail. That dodge was a second piece of viewport arithmetic that had to
+   agree with the rail's own `left: max(.75rem, 50vw - 46rem)`, and below
+   ~1712px they disagreed: at 1440px the rail spanned 12-252px while the
+   centred 1240px column started at 100px. Giving the rail a track makes the
+   overlap impossible rather than avoided, and the switcher needs no padding.
+
+   `minmax(0, 1fr)` on the content track, not `1fr`: a grid item's default
+   min-width is auto, so one wide table or chart would otherwise push the
+   column past the viewport and reintroduce horizontal scrolling. */
+.hna-shell { display: block; }
+
 @media (min-width: 1101px) {
-  #main-content .hna-view-switcher,
-  .hna-view-switcher { padding-inline: 11rem; }
+  .hna-shell[data-has-rail="true"] {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+    max-width: calc(1240px + 15rem + 2rem);
+    margin-inline: auto;
+  }
+  /* main carries its own centring margin site-wide; inside the grid the track
+     does the placing, so keep only the vertical rhythm. */
+  .hna-shell[data-has-rail="true"] > #main-content {
+    margin-inline: 0;
+    max-width: none;
+  }
 }
 
-/* Below the width where a fixed rail would overlap the content, it collapses
-   to a corner button and opens on demand. */
+/* Below the width where a 15rem column fits, the rail reverts to the fixed
+   corner button and opens on demand. */
 @media (max-width: 1100px) {
   .hna-rail {
+    position: fixed;
+    max-height: none;
     left: auto;
     right: .75rem;
     top: auto;

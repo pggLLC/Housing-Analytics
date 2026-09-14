@@ -229,6 +229,43 @@
     });
   }
 
+  /**
+   * Put <main> and the rail in a shared grid container.
+   *
+   * The rail used to be position:fixed at left: max(.75rem, 50vw - 46rem),
+   * which meant it did not participate in layout at all -- content had to be
+   * padded out of its way, and the two pieces of viewport arithmetic had to
+   * agree. Below ~1712px they stop agreeing: at 1440px the rail spans 12-252px
+   * while the centred 1240px main column starts at 100px, so the rail sat on
+   * top of it. The workaround was `padding-inline: 11rem` on the view switcher,
+   * which is why the switcher drifted whenever anything else about the width
+   * changed.
+   *
+   * In a grid the rail owns a track, so overlap is not avoided -- it is
+   * impossible, at every width, with no arithmetic to keep in sync.
+   *
+   * This runs EARLY, before the section renderers populate <main>. Reparenting
+   * a <main> that already contains initialised Leaflet maps and charts would
+   * re-run layout on all of them, and a map whose container is re-measured
+   * mid-life is exactly the class of bug that makes tiles disappear. Wrapping
+   * an empty shell costs nothing and avoids that entirely.
+   */
+  function ensureShell(doc) {
+    var main = doc.getElementById('main-content');
+    if (!main) return null;
+    var existing = doc.getElementById('hnaShell');
+    if (existing) return existing;
+    // Only build the shell where a rail will actually appear.
+    if (!main.parentNode) return null;
+
+    var shell = doc.createElement('div');
+    shell.className = 'hna-shell';
+    shell.id = 'hnaShell';
+    main.parentNode.insertBefore(shell, main);
+    shell.appendChild(main);
+    return shell;
+  }
+
   function init() {
     var doc = document;
     if (doc.getElementById('hnaContentsRail')) return;
@@ -238,23 +275,38 @@
     if (entries.length < MIN_SECTIONS) return;
     var nav = build(doc, entries);
     nav.setAttribute('data-open', 'false');
-    main.parentNode.insertBefore(nav, main);
+
+    // The shell is normally already there from the early pass; build it now if
+    // that pass did not run (script injected late, or a page that reached the
+    // section threshold only after a re-render).
+    var shell = doc.getElementById('hnaShell') || ensureShell(doc);
+    if (shell) {
+      shell.insertBefore(nav, shell.firstChild);
+      shell.setAttribute('data-has-rail', 'true');
+    } else {
+      main.parentNode.insertBefore(nav, main);
+    }
     wire(nav, entries, doc);
   }
 
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', function () {
-        // Let the renderers reveal their sections first; a section still
-        // hidden at this point is not something the reader can navigate to.
+        // Shell first and synchronously, while <main> is still the empty markup
+        // shipped in the HTML. Everything the renderers build afterwards is
+        // created inside its final parent and never moves.
+        ensureShell(document);
+        // The rail itself waits: a section still hidden at this point is not
+        // something the reader can navigate to.
         setTimeout(init, 1200);
       });
     } else {
+      ensureShell(document);
       setTimeout(init, 1200);
     }
   }
 
-  var api = { collect: collect, cleanLabel: cleanLabel, build: build, LABEL_MAX: LABEL_MAX, MIN_SECTIONS: MIN_SECTIONS };
+  var api = { collect: collect, cleanLabel: cleanLabel, build: build, ensureShell: ensureShell, LABEL_MAX: LABEL_MAX, MIN_SECTIONS: MIN_SECTIONS };
   if (typeof module === 'object' && module.exports) module.exports = api;
   if (typeof window !== 'undefined') window.HNASectionRail = api;
 }());
