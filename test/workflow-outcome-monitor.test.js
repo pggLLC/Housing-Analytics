@@ -16,6 +16,13 @@ const { execFileSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '..');
 const SCRIPT = path.join(ROOT, 'scripts', 'monitoring', 'workflow-outcome-monitor.mjs');
 const WORKFLOW = path.join(ROOT, '.github', 'workflows', 'workflow-outcome-monitor.yml');
+// Package 1B lives here rather than in its own npm script so that a single
+// suite owns "CI reports states nobody verified". 1C covered workflow runs
+// that finish in an unexamined state; 1B covers PRs that never produce a run
+// at all, and gates that quietly stop blocking. Same defect, two surfaces.
+const GATE = path.join(ROOT, 'scripts', 'monitoring', 'merge-ref-gate.mjs');
+const GATE_WORKFLOW = path.join(ROOT, '.github', 'workflows', 'merge-ref-gate.yml');
+const CI_CHECKS = path.join(ROOT, '.github', 'workflows', 'ci-checks.yml');
 
 let failures = 0;
 const fail = (m) => { console.error(`  ✗ ${m}`); failures++; };
@@ -407,6 +414,96 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
     // Unknown last-run time must not be asserted either way.
     if (m.assessStaleness({ cron: '23 6 * * *', hoursSinceLastCompletedRun: null })) {
       fail('an unknown last-run time is being reported as stale — unknown is not evidence');
+    }
+
+  }).then(() => import(GATE)).then((g) => {
+
+    /* ── 6. the merge-ref gate (1B) ───────────────────────────────────── */
+
+    // `mergeable: null` is GitHub still computing. It is neither state, and
+    // collapsing it either way breaks the gate: called mergeable, a real
+    // conflict gets a green status; called conflicting, every freshly opened
+    // PR fails for a few seconds.
+    if (g.classifyMergeability({ mergeable: null }) !== g.MERGEABILITY.UNKNOWN) {
+      fail('an uncomputed mergeable flag is being classified as a definite state');
+    } else {
+      ok('uncomputed mergeability stays unknown, not assumed');
+    }
+    if (g.decideStatus(g.MERGEABILITY.UNKNOWN) !== null) {
+      fail('an unknown mergeability posts a status — success there is the unearned '
+         + 'green this gate exists to prevent');
+    } else {
+      ok('unknown mergeability posts no status at all');
+    }
+    if (g.classifyMergeability({ mergeable: false }) !== g.MERGEABILITY.CONFLICTING) {
+      fail('a conflicting PR is not classified as conflicting');
+    } else {
+      ok('a conflicting PR is classified as conflicting');
+    }
+    const st = g.decideStatus(g.MERGEABILITY.CONFLICTING);
+    if (!st || st.state !== 'failure') {
+      fail('a conflicting PR does not produce a failure status — it would still look ready');
+    } else {
+      ok('a conflicting PR produces a failure commit status');
+    }
+
+    // A PR with no head SHA has nothing to attach a status to; it must be
+    // dropped rather than crashing the whole pass and leaving every other
+    // PR unstatused.
+    const planned = g.planStatuses([
+      { number: 1, mergeable: false, head: { sha: 'aaa' } },
+      { number: 2, mergeable: null,  head: { sha: 'bbb' } },
+      { number: 3, mergeable: true,  head: null }
+    ]);
+    if (planned.length !== 1 || planned[0].number !== 1) {
+      fail(`planStatuses returned ${JSON.stringify(planned.map((x) => x.number))}; `
+         + 'expected only the conflicting PR that has a head SHA');
+    } else {
+      ok('planStatuses skips uncomputed PRs and PRs with no head SHA');
+    }
+
+    /* ── 7. blocking gates must stay blocking ─────────────────────────── */
+
+    const gateWf = fs.readFileSync(GATE_WORKFLOW, 'utf8');
+    // A pull_request trigger here would be self-defeating: a conflicting PR
+    // produces no merge ref, so pull_request workflows never fire on it.
+    if (/^on:[\s\S]*?\n\s{2}pull_request:/m.test(gateWf)) {
+      fail('merge-ref-gate.yml triggers on pull_request — the very event a conflicting '
+         + 'PR cannot produce, so the gate would never run on the PRs it targets');
+    } else {
+      ok('merge-ref gate runs outside pull_request, where it can actually observe conflicts');
+    }
+    if (!/statuses:\s*write/.test(gateWf)) {
+      fail('merge-ref-gate.yml lacks statuses: write — it cannot post the status it exists to post');
+    } else {
+      ok('merge-ref gate has permission to write commit statuses');
+    }
+
+    // The schema gate was advisory for a long time. The backlog it was
+    // waiting on is empty, so it is blocking now; this keeps it that way.
+    const ciWf = fs.readFileSync(CI_CHECKS, 'utf8');
+    const schemaStepRaw = ciWf.match(/- name: Validate JSON schemas[\s\S]*?(?=\n      - name: )/);
+    // Strip comment lines before matching. The step's own comment explains
+    // why pipefail is load-bearing, and matching the raw text let that prose
+    // satisfy the check — the guard passed while the actual shell line was
+    // gone. Same mistake the rest of this suite exists to catch.
+    const schemaStep = schemaStepRaw ? [schemaStepRaw[0].replace(/^\s*#.*$/gm, '')] : null;
+    if (!schemaStep) {
+      fail('could not locate the schema validation step in ci-checks.yml');
+    } else {
+      if (/continue-on-error:\s*true/.test(schemaStep[0])) {
+        fail('schema validation is continue-on-error again — an invalid schema can be '
+           + 'published while the run still shows green');
+      } else {
+        ok('schema validation is blocking');
+      }
+      // Without pipefail the recorded status is tee's, which is always 0.
+      if (!/set -o pipefail/.test(schemaStep[0])) {
+        fail('the schema step pipes into tee without `set -o pipefail`, so a validator '
+           + 'failure is masked by tee exiting 0');
+      } else {
+        ok('the schema step propagates the validator exit code through the pipe');
+      }
     }
 
     if (failures) { console.error(`\nworkflow-outcome-monitor: FAIL (${failures})`); process.exit(1); }
