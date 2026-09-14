@@ -241,7 +241,7 @@
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
 <!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
-<script>window.HNA_VIEW={"id": "outlook", "nav": "Where it's heading", "question": "What does demand look like in 5, 10 and 20 years?", "slug": "hna-where-its-heading.html"};window.HNA_VIEW_ANCHORS={"hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
+<script>window.HNA_VIEW={"id": "outlook", "nav": "Where it's heading", "question": "What does demand look like in 5, 10 and 20 years?", "slug": "hna-where-its-heading.html"};window.HNA_VIEW_ANCHORS={"affordable-ownership-need-section": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-last-updated="2026-03-22"
       data-page-source="Census ACS · HUD · DOLA · LEHD">
@@ -376,7 +376,7 @@
         <strong id="decisionProductionValue">—</strong>
         <span id="decisionProductionRead">Loading</span>
       </a>
-      <a class="hna-decision-tile" href="#affordable-ownership-need-section" data-decision-key="ownership">
+      <a class="hna-decision-tile" href="hna-what-to-do.html#affordable-ownership-need-section" data-decision-key="ownership">
         <span class="hna-decision-label">Ownership feasibility</span>
         <strong id="decisionOwnershipValue">—</strong>
         <span id="decisionOwnershipRead">Loading</span>
@@ -979,126 +979,39 @@
 
 
       <!-- ── PMA → Market Analysis redirect ── -->
-      <section id="pma-methodology-section" class="chart-card span-12 pma-methodology-section" style="display:flex;align-items:flex-start;gap:1.25rem;flex-wrap:wrap">
-        <div style="flex:0 0 auto;font-size:2rem;line-height:1">📍</div>
-        
+      
 <!-- [hna-view:outlook] not on this view: PMA Delineation & CHFA Requirements -->
 
-      </section>
 
       <!-- ── Projected Housing Need & AMI Recommendation ── -->
-      <section id="housing-need-projection" class="chart-card span-12" aria-label="Projected housing need">
-        
+      
 <!-- [hna-view:outlook] not on this view: Projected Housing Need -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          Forward-looking estimates of unmet housing demand at 5, 10, and 20 years — across low, baseline, and high growth scenarios. Based on DOLA household projections and the current rental gap.
-          <span data-edu="dola_projections"></span>
-        </p>
-        <!-- Projection table — rendered by HousingNeedProjector -->
-        <div id="hnpProjectionContainer">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate projections.</p>
-        </div>
-
-        <!-- AMI Distribution Recommendation -->
-        <div style="margin-top:28px;border-top:1px solid var(--border);padding-top:20px">
-          <h3 style="margin:0 0 6px">Recommended AMI Distribution
-            <span data-edu="ami"></span>
-          </h3>
-          <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-            Based on current income distribution and cost burden, the following AMI targeting mix is recommended for a new LIHTC project in this jurisdiction.
-            <span data-edu="lihtc"></span>
-          </p>
-          <div id="hnpAmiContainer">
-            <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to generate AMI recommendation.</p>
-          </div>
-        </div>
-      </section>
 
       <!-- ── F188 — Need by Bedroom Count (renters by household size → bedroom need) ── -->
-      <section id="bedroom-need-section" class="chart-card span-12" aria-label="Renter need by bedroom count">
-        
+      
 <!-- [hna-view:outlook] not on this view: Renter need by bedroom count -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          How many renter households need a studio, 1BR, 2BR, 3BR, or 4BR+ unit — derived from ACS B25009 (tenure by household size) using the HUD "max 2 people per bedroom" occupancy standard. Feeds the Market Analysis concept recommendation so the suggested unit mix reflects local renter demand, not just an industry default per concept type.
-        </p>
-        <div class="chart-box" data-source="ACS 5-Year B25009 — Tenure by Household Size" data-source-url="https://data.census.gov/table/ACSDT5Y.B25009" data-vintage="ACS 2023 5-year" data-source-type="live">
-          <canvas id="chartBedroomNeed" role="img" aria-label="Renter households by needed bedroom count"></canvas>
-        </div>
-        <p id="bedroomNeedNote" style="font-size:1rem;color:var(--muted);margin-top:6px;font-style:italic"></p>
-      </section>
 
       <!-- ── Need by Housing Type — data-driven 6-category ranking ── -->
-      <section id="housing-type-need-section" class="chart-card span-12" aria-label="Need by housing type">
-        
+      
 <!-- [hna-view:outlook] not on this view: What types of housing does the data support? -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          A data-driven look at which housing types this jurisdiction shows the strongest need for. Use alongside the Recommended AMI Distribution above and the Affordable Housing Pipeline LIHTC Readiness assessment — three views, same data, different jobs.
-        </p>
-        <div id="hnaHousingTypeNeed">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to compute the housing-type ranking.</p>
-        </div>
-      </section>
 
       <!-- ── Affordable Ownership Need — screening layer, additive to rental need ── -->
-      <section id="affordable-ownership-need-section" class="chart-card span-12" aria-label="Affordable Ownership Need">
-        
+      
 <!-- [hna-view:outlook] not on this view: Affordable Ownership Need -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .65rem;line-height:1.5">
-          This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
-        </p>
-        <p><a href="for-sale-market-study.html">For-Sale Market Study (screening)</a></p>
-        <div class="stats stats--ownership" aria-label="Current ownership need summary" style="margin:.35rem 0 .65rem;">
-          <div class="stat"><div class="k">Current ownership need</div><div class="v" id="statOwnGap">—</div><div class="s">Tenure strategy screen</div></div>
-          <div class="stat"><div class="k">Moderate-income renter base</div><div class="v" id="statOwnGapModerateRenters">—</div><div class="s">51–100% HAMFI renters</div></div>
-          <div class="stat"><div class="k">Owner cost-burden context</div><div class="v" id="statOwnGapOwnerBurden">—</div><div class="s">Current owners</div></div>
-        </div>
-        <div id="hnaAffordableOwnershipNeed">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
-        </div>
-        <div id="hnaOwnershipStrategy" class="chart-card" style="margin-top:1rem;min-width:0;overflow:hidden;">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load the ownership strategy screen.</p>
-        </div>
-      </section>
 
       <!-- ── Neighborhood & Architectural Context ── -->
-      <section id="neighborhood-context-section" class="chart-card span-12" aria-label="Neighborhood context">
-        
+      
 <!-- [hna-view:outlook] not on this view: Neighborhood & Architectural Context -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          Understanding the built environment helps a LIHTC project serve both residents <em>and</em> the surrounding community. Design that fits the neighborhood's character and history builds trust and reduces opposition.
-          <span style="display:block;margin-top:.4rem;font-size:.78rem;color:var(--faint,#888)"><strong>Scope note:</strong> the character / form / era profile below is computed at the <strong>county</strong> level — sub-county variation (e.g. downtown vs. unincorporated valley) is not reflected. Use it as a regional baseline, then refine for the specific site.</span>
-        </p>
-        <!-- Neighborhood context card — rendered by NeighborhoodContext -->
-        <div id="ncContextContainer">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a county geography above to load neighborhood context.</p>
-        </div>
-      </section>
 
       <!-- ── Housing Type Feasibility Analysis ── -->
-      <section id="housing-type-feasibility" class="chart-card span-12" aria-label="Housing type feasibility analysis">
-        
+      
 <!-- [hna-view:outlook] not on this view: Housing Type Feasibility Analysis -->
 
-        <p style="color:var(--muted);font-size:1.133rem;margin:0 0 1rem">
-          Assesses local housing stock composition, building age trends, and market values to identify
-          which housing types (single-family, townhome, garden-style, mid-rise) are most viable for
-          new development. Combines Census ACS unit-type data with affordability metrics to project
-          feasible construction types for LIHTC and workforce housing.
-        </p>
-        <div id="htfContainer">
-          <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
-        </div>
-        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
-          <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
-          <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era of housing stock"></canvas></div>
-        </div>
-        <div id="htfFeasibilityMatrix" style="margin-top:1.5rem"></div>
-      </section>
 
       <!-- ── Colorado Market Conditions ── -->
       <section id="co-market-conditions" class="chart-card span-12">

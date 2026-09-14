@@ -69,6 +69,9 @@
   }
 
   const DECISION_STRIP_DEFAULTS = {
+    // `absent` means: the section that computes this tile is not on this page
+    // at all, so no value is ever coming. Set by the owning renderer, not
+    // guessed here — see renderHnaScorecardPanel / renderAffordableOwnershipNeed.
     need: { value: '—', read: 'Loading', href: '#hnaScorecardPanel', tone: '' },
     affordability: { value: '—', read: 'Loading', href: '#statRentBurden', tone: '' },
     production: { value: '—', read: 'Loading', href: '#statUnitsNeed', tone: '' },
@@ -139,11 +142,23 @@
       const rawHref = data.href || DECISION_STRIP_DEFAULTS[key].href;
       const href = _resolveAnchor(rawHref);
       tile.setAttribute('href', href);
-      // A tile whose section lives on another view never receives a value, so
-      // it would otherwise read 'Loading' forever. Say where the answer is.
-      if (href !== rawHref && (!data.value || data.value === '—') && readEl) {
+
+      // A tile is fed by the renderer that owns its section. On a view without
+      // that section the renderer returns early (see renderHnaScorecardPanel),
+      // so the tile keeps its placeholder for good — an em dash sitting in a
+      // row of real numbers, which reads as a broken metric rather than an
+      // absent one. Drop it. Tiles whose value is computed from data rather
+      // than from the section (production: 20-yr need) still populate and are
+      // kept, cross-linked to the view that shows the workings.
+      // Hide a tile only when its own renderer has said the section is missing
+      // AND nothing has since supplied a value. Inferring this from the href
+      // instead would have hidden 'production', which is computed from data
+      // rather than from the section and populates on every view.
+      const empty = !data.value || data.value === '—' || data.value === 'Loading';
+      tile.hidden = !!data.absent && empty;
+      if (href !== rawHref && !empty && readEl) {
         const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
-        if (where && where.label) readEl.textContent = 'On ' + where.label;
+        if (where && where.label) readEl.title = 'Shown in full on ' + where.label;
       }
       const tone = data.tone || _decisionTone(data.read);
       if (tone) tile.setAttribute('data-tone', tone);
@@ -5046,7 +5061,10 @@
 
   function renderAffordableOwnershipNeed(result, context) {
     var container = document.getElementById('hnaAffordableOwnershipNeed');
-    if (!container) return;
+    if (!container) {
+      updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
+      return;
+    }
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
       container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
@@ -5234,7 +5252,15 @@
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
     try {
       var container = document.getElementById('hnaAffordableOwnershipNeed');
-      if (!container) return;
+      // The absence signal has to be raised at the OUTERMOST guard. #1643 added
+      // `if (!el) return` at several layers of this chain, and the outer one
+      // swallows the call before the inner one can report anything — which is
+      // why the ownership and confidence tiles sat on an em dash rather than
+      // being dropped.
+      if (!container) {
+        updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
+        return;
+      }
       if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
         renderAffordableOwnershipNeed(null);
         return;
@@ -7549,7 +7575,7 @@
 
   function renderHnaScorecardPanel(geoid) {
     const container = document.getElementById('hnaScorecardPanel');
-    if (!container) return;
+    if (!container) { updateDecisionStrip({ need: { absent: true } }); return; }
     if (!geoid) { _scorecardUnavailable(container, 'Not scored', 'Select a jurisdiction'); return; }
 
     const state = S() && S().state;

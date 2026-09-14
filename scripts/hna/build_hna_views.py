@@ -43,6 +43,27 @@ def heading_spans(src):
             continue
         si, di = src.rfind('<section', 0, m.start()), src.rfind('<div', 0, m.start())
         start, tag = (si, 'section') if si > di and si >= 0 else (di, 'div')
+
+        # Nearest-opening-tag alone picks the wrong unit. Most of this page is
+        # one <section> holding a grid of <div class="chart-card">s, each with
+        # its own <h2> -- there the div IS the section. But seven headings own
+        # their <section> outright and still have an inner div in front of the
+        # h2; removing only that div left the wrapper, the intro prose and the
+        # element ids behind -- 1,753 chars of 'Affordable Ownership Need'
+        # survived on views that declared it removed, and the renderer happily
+        # wrote into the container it found. Prefer the <section> whenever it
+        # contains exactly one <h2>.
+        # rfind finds the last <section> OPENED before the h2, which may have
+        # already closed again -- 'Methodology & Data Sources' is a bare div
+        # after </section>, and without the containment test it would adopt the
+        # preceding Action Plan section wholesale.
+        if tag == 'div' and si >= 0:
+            sect = balanced(src, si, 'section')
+            if (sect and sect[0] < m.start() < sect[1]
+                    and sum(1 for h in re.finditer(r'<h2[^>]*>', src)
+                            if sect[0] < h.start() < sect[1]) == 1):
+                start, tag = si, 'section'
+
         span = balanced(src, start, tag)
         if span:
             out.append({'title': title, 'start': span[0], 'end': span[1]})
@@ -270,6 +291,47 @@ def relink_anchors(pages, canonical_src, labels, idents):
     return True
 
 
+def assert_no_leftovers(pages, src, spans, kept_titles_by_slug):
+    """A dropped section must take its element ids with it.
+
+    Deliberately derived from the <section> wrapper in the source, NOT from the
+    spans this script computes — a guard that reuses the removal logic can only
+    confirm that logic agrees with itself. The first version of this check did
+    exactly that and passed against the bug it was written for.
+
+    The bug: removing an inner <div> instead of the <section> around it left the
+    wrapper, the intro prose and the element ids behind. Renderers key on ids,
+    so a view that declared 'Affordable Ownership Need' removed still computed
+    and displayed ownership figures in a container the reader never saw.
+    Nothing threw; the page simply reported a section it did not have.
+    """
+    problems = []
+    for sp in spans:
+        h2 = src.find('<h2', sp['start'])
+        si = src.rfind('<section', 0, h2 if h2 != -1 else sp['start'])
+        if si < 0:
+            continue
+        sect = balanced(src, si, 'section')
+        # Only sections that wrap this heading alone: elsewhere the page packs
+        # many <h2> cards into one <section>, where the card is the right unit.
+        if not sect or not (sect[0] < sp['start'] and sp['end'] <= sect[1]):
+            continue
+        if sum(1 for h in re.finditer(r'<h2[^>]*>', src) if sect[0] < h.start() < sect[1]) != 1:
+            continue
+        inside = set(re.findall(r'\bid="([^"]+)"', src[sect[0]:sect[1]]))
+        outside = set(re.findall(r'\bid="([^"]+)"', src[:sect[0]] + src[sect[1]:]))
+        owned = inside - outside
+        for slug, page in pages.items():
+            if any(matches(sp['title'], k) for k in kept_titles_by_slug[slug]):
+                continue
+            for orphan in sorted(owned):
+                if f'id="{orphan}"' in page:
+                    problems.append(
+                        f"{slug} drops '{sp['title'][:42]}' but still carries its "
+                        f'id="{orphan}" — renderers will write into it')
+    return problems
+
+
 def audit_shipped(views):
     """Guards that a regenerate alone would not catch.
 
@@ -315,7 +377,7 @@ def main():
     spans = heading_spans(src)
 
     shared = [s['title'] for s in mapping['shared']['sections']]
-    seen, drift, pages, kept_counts = set(), [], {}, {}
+    seen, drift, pages, kept_counts, kept_titles = set(), [], {}, {}, {}
     for v in mapping['views']:
         titles = [s['title'] for s in v['sections']]
         for t in titles + shared:
@@ -325,6 +387,7 @@ def main():
         seen.update(titles)
         pages[v['slug']] = build_view(src, spans, titles + shared, v, mapping['views'])
         kept_counts[v['slug']] = len(titles) + len(shared)
+        kept_titles[v['slug']] = titles + shared
 
     # Every page must exist before this runs: relinking a cross-view anchor
     # means knowing which OTHER view ended up with the target.
@@ -357,6 +420,12 @@ def main():
         print(f"  {len(unassigned)} section(s) in no view and not shared:", file=sys.stderr)
         for u in unassigned:
             print(f"     - {u[:66]}", file=sys.stderr)
+        return 2
+
+    leftovers = assert_no_leftovers(pages, src, spans, kept_titles)
+    if leftovers:
+        for line in leftovers:
+            print(f"  {line}", file=sys.stderr)
         return 2
 
     bad = audit_shipped(mapping['views'])
