@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T06:24:16.611Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T06:50:18.112Z. Do not edit by hand.
 
 ---
 
@@ -1788,7 +1788,7 @@
 | `test/hna-rent-burden-bins.test.js` | 3.1 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
-| `test/hna-section-rail.test.js` | 5.0 KB |
+| `test/hna-section-rail.test.js` | 7.9 KB |
 | `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
