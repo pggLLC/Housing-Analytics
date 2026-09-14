@@ -38,6 +38,40 @@ const FLOWS = [
     mustContain: ['Housing Needs Assessment', 'Screening tool only'],
     requiredSelectors: ['#geoType', '#geoSelect'],
   },
+  // The five generated views. Each asserts its OWN heading, not the canonical
+  // page's, so a view that regenerated with the wrong chrome -- or emptied
+  // itself -- fails here rather than rendering a plausible-looking shell.
+  // The switcher selector is what proves the view identity actually rendered.
+  {
+    name: 'HNA view: stock',
+    path: '/hna-what-housing-exists.html',
+    mustContain: ['What housing exists', 'Screening tool only'],
+    requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
+  },
+  {
+    name: 'HNA view: people',
+    path: '/hna-who-lives-here.html',
+    mustContain: ['Who lives here', 'Screening tool only'],
+    requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
+  },
+  {
+    name: 'HNA view: afford',
+    path: '/hna-what-households-can-afford.html',
+    mustContain: ['What households can afford', 'Screening tool only'],
+    requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
+  },
+  {
+    name: 'HNA view: outlook',
+    path: '/hna-where-its-heading.html',
+    mustContain: ['Where it\'s heading', 'Screening tool only'],
+    requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
+  },
+  {
+    name: 'HNA view: act',
+    path: '/hna-what-to-do.html',
+    mustContain: ['What to do about it', 'Screening tool only'],
+    requiredSelectors: ['#geoType', '#geoSelect', '.hna-view-switcher'],
+  },
   {
     name: 'County profile: Boulder County',
     path: '/housing-needs-assessment.html?geoid=08013&geoType=county&auto=1',
