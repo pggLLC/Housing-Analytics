@@ -547,6 +547,31 @@ async function readUrlsFromAddedDiff(baseRef, headRef) {
   return urls;
 }
 
+/** Every http(s) URL already committed at `ref`, verbatim. */
+async function readUrlsPresentAt(ref) {
+  const known = new Set();
+  const child = spawn(
+    "git",
+    ["grep", "-h", "-o", "-E", "https?://[^[:space:]\"'`<>)]+", ref, "--",
+     "*.html", "*.md", "*.mjs", "*.js", "*.json", "*.py", "*.css", "*.yml", "*.csv"],
+    { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"] },
+  );
+  const rl = readline.createInterface({ input: child.stdout, crlfDelay: Infinity });
+  for await (const line of rl) {
+    // `-E` here is POSIX ERE, where `\s` is not a class — use [:space:].
+    const at = line.indexOf("http");
+    if (at !== -1) known.add(line.slice(at));
+  }
+  // Exit 1 just means no matches; anything higher is a real git failure, and
+  // an empty set would silently restore the old behaviour, so fail loudly.
+  const code = await new Promise((resolve, reject) => {
+    child.once("error", reject);
+    child.once("close", resolve);
+  });
+  if (code > 1) throw new Error(`git grep exited ${code} reading URLs at ${ref}`);
+  return known;
+}
+
 function extractUrlsFromAddedDiffLine(line) {
   if (!line.startsWith("+") || line.startsWith("+++")) return [];
   const urls = [];
@@ -736,7 +761,21 @@ async function main() {
   const args = parseArgs();
   let rawUrls;
   if (args.diffAdded) {
-    rawUrls = await readUrlsFromAddedDiff(args.baseRef, args.headRef);
+    const added = await readUrlsFromAddedDiff(args.baseRef, args.headRef);
+    // A URL on a `+` line is not necessarily a NEW URL. Generated pages copy
+    // whole sections of a source page, so one generator run can present
+    // hundreds of long-standing links as additions -- and this gate blocks the
+    // PR on them, while the source page they came from sits unprobed on main.
+    // Probe only what the base ref does not already carry somewhere.
+    const known = await readUrlsPresentAt(args.baseRef);
+    rawUrls = added.filter((u) => !known.has(u));
+    const carried = added.length - rawUrls.length;
+    if (carried > 0 && !args.quiet) {
+      console.log(
+        `Skipped ${carried} URL(s) already present at ${args.baseRef} ` +
+        `(copied, not introduced). The full non-blocking sweep still covers them.`,
+      );
+    }
   } else if (args.paths.length > 0) {
     rawUrls = await readUrlsFromExplicitPaths(args.paths);
   } else {

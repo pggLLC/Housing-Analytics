@@ -1412,3 +1412,52 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   #main-content { --h2: clamp(1.1rem, 4vw, 1.27rem); }
   #main-content h2 { margin-block: 1.5rem .5rem; }
 }
+
+/* ---- Housing needs assessment views ------------------------------------
+   The five view pages are generated from this page by
+   scripts/hna/build_hna_views.py. Only they emit this markup; the canonical
+   page has none of it, so these rules are inert there. */
+/* p.hna-view-step, not .hna-view-step: the measure rule above is
+   `#main-content p:not([style*="font-size"])`, and the :not() counts as an
+   attribute selector, so a bare class scoped to #main-content still loses
+   (0,1,1,0 vs 0,1,1,1). Matching the element type ties the specificity and
+   this block, being later in the file, wins. */
+#main-content p.hna-view-step,
+.hna-view-step {
+  max-width: none;
+  margin: 0 0 .15rem;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#main-content .hna-view-switcher,
+.hna-view-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: .55rem 0 var(--sp2);
+}
+#main-content .hna-view-tab,
+.hna-view-tab {
+  display: inline-block;
+  padding: .32rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .92rem;
+  line-height: 1.25;
+  text-decoration: none;
+  color: var(--muted);
+  background: var(--surface, transparent);
+}
+.hna-view-tab:hover,
+.hna-view-tab:focus-visible { color: var(--text); border-color: var(--text); }
+#main-content .hna-view-tab.is-current,
+.hna-view-tab.is-current {
+  color: var(--text);
+  font-weight: 650;
+  border-color: currentColor;
+  cursor: default;
+}
+.hna-view-all { font-weight: 600; }

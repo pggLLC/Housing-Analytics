@@ -36,7 +36,12 @@
         { label: "— Rental (LIHTC) —", isHeader: true },
         { label: "Opportunity Finder",      href: "lihtc-opportunity-finder.html",  desc: "Step 1: Rank CO jurisdictions for 4% bond + 9% competitive LIHTC", isNew: true },
         { label: "Select Jurisdiction",     href: "select-jurisdiction.html",       desc: "Step 2: Pick your target county / city" },
-        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence" },
+        { label: "Housing Needs Assessment",href: "housing-needs-assessment.html",  desc: "Step 3: Community need evidence — full report, all 53 sections" },
+        { label: "What housing exists", href: "hna-what-housing-exists.html", isSub: true, desc: "What housing is here, and what shape is it in?" },
+        { label: "Who lives here", href: "hna-who-lives-here.html", isSub: true, desc: "Who lives here, and how is that changing?" },
+        { label: "What households can afford", href: "hna-what-households-can-afford.html", isSub: true, desc: "What can households here actually afford, and where is the gap?" },
+        { label: "Where it's heading", href: "hna-where-its-heading.html", isSub: true, desc: "What does demand look like in 5, 10 and 20 years?" },
+        { label: "What to do about it", href: "hna-what-to-do.html", isSub: true, desc: "How much of what, for whom, and what is already available?" },
         { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
@@ -232,8 +237,13 @@
                   if (l.isHeader) {
                     return `<div class="nav-dd-header" role="presentation" style="padding:6px 14px 4px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);opacity:.85;border-top:1px solid var(--border);margin-top:6px">${l.label.replace(/^—\s*|\s*—$/g, '')}</div>`;
                   }
-                  return `<a class="${activeClass(l.href)}" href="${normalizeHref(l.href)}">
-                    <span class="nav-link-label">${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
+                  // Child entries (isSub:true) are indented and rendered a step
+                  // down from their parent. The five Housing Needs Assessment
+                  // views are views OF step 3, not extra steps beside it, so
+                  // they must not read as siblings of steps 4-6 — the 1..6
+                  // sequence is the spine of this menu.
+                  return `<a class="${activeClass(l.href)}${l.isSub ? ' nav-link-sub' : ''}" href="${normalizeHref(l.href)}"${l.isSub ? ' style="padding-left:30px"' : ''}>
+                    <span class="nav-link-label"${l.isSub ? ' style="font-weight:500"' : ''}>${l.isSub ? '<span aria-hidden="true" style="opacity:.45;margin-right:6px">└</span>' : ''}${l.label}${l.isNew ? ' <span class="nav-link-new">NEW</span>' : ''}</span>
                     <span class="nav-link-desc">${l.desc}</span>
                   </a>`;
                 }).join('')}
