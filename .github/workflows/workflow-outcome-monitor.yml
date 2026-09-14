@@ -1,0 +1,59 @@
+name: Workflow Outcome Monitor
+
+# Observes scheduled workflow outcomes from OUTSIDE the workflow being watched.
+#
+# Why external: every data workflow here has a job-level `timeout-minutes`, and
+# a job killed by that timeout terminates its runner — `if: always()` does not
+# survive it, so an in-job notifier never runs in the one case it was written
+# for. build-hna-data has five cancelled runs, four of them at ~120 minutes
+# against a 120-minute ceiling; none produced an alert, and #1556 (fifteen days
+# with no completed scheduled run) was found by hand.
+#
+# P1 SCOPE: observation only. This workflow watches ONE workflow it can safely
+# observe, logs the classification, and opens nothing. Issue open/close arrives
+# in P4, where a watched workflow's in-job notifier is removed in the SAME
+# commit that adds it here — never both, or one failure alerts twice.
+#
+# This monitor must never dispatch, re-run or cancel anything.
+# run-all-workflows dispatches children with `gh workflow run`, so a monitor
+# with dispatch capability would be one edit from a loop.
+# test/workflow-outcome-monitor.test.js asserts that capability is absent.
+
+on:
+  workflow_run:
+    # Enumerated explicitly, never a wildcard, and never this workflow itself —
+    # that is what keeps workflow_run from recursing.
+    workflows:
+      - "Pages Deploy Watchdog"
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  # NOTE: `issues: write` is deliberately NOT granted in P1. This package opens
+  # nothing, and a permission that is not needed should not be held. It is added
+  # in P4 alongside the first real alert.
+
+concurrency:
+  group: workflow-outcome-monitor-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout monitor script
+        uses: actions/checkout@v7
+
+      - name: Observe and classify the triggering run
+        env:
+          # Passed explicitly. alert.js relied on GITHUB_TOKEN being present in
+          # the environment and it never was, because actions/github-script
+          # exposes a token on its client object rather than exporting one.
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MONITOR_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          MONITOR_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: node scripts/monitoring/workflow-outcome-monitor.mjs
