@@ -1,0 +1,97 @@
+name: Merge-ref gate
+
+# 1B — Turn "no checks ran" into a visible failure.
+#
+# A conflicting PR has no merge ref, so pull_request-triggered workflows
+# never run on it and it renders as "nothing failing" rather than "nothing
+# verified". This cannot be fixed by a pull_request-triggered check, because
+# the absence of those runs IS the defect. So: run on a schedule, and on
+# every push to main (merging one PR is what makes the next one conflict),
+# and write an explicit commit status onto each open PR's head SHA.
+#
+# Make `merge-ref/available` a required status in branch protection for this
+# to block rather than merely inform.
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+  statuses: write
+
+concurrency:
+  group: merge-ref-gate
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Post merge-ref status on every open PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { STATUS_CONTEXT, planStatuses, summarize } =
+              await import('${{ github.workspace }}/scripts/monitoring/merge-ref-gate.mjs');
+
+            const open = await github.paginate(github.rest.pulls.list, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+
+            // pulls.list does not return `mergeable` — only pulls.get does,
+            // and it triggers the background computation as a side effect.
+            // A PR opened seconds ago will come back null; that is handled
+            // as "not yet computed" and re-checked on the next pass.
+            const detailed = [];
+            for (const pr of open) {
+              const { data } = await github.rest.pulls.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number
+              });
+              detailed.push(data);
+            }
+
+            core.info(`Open PRs: ${detailed.length} — ${summarize(detailed)}`);
+
+            const plan = planStatuses(detailed);
+            for (const item of plan) {
+              await github.rest.repos.createCommitStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                sha: item.sha,
+                state: item.state,
+                context: STATUS_CONTEXT,
+                description: item.description.slice(0, 140)
+              });
+              core.info(`  #${item.number} ${item.sha.slice(0, 7)} → ${item.state}`);
+            }
+
+            const conflicting = plan.filter((p) => p.state === 'failure');
+            const skipped = detailed.length - plan.length;
+
+            await core.summary
+              .addHeading('Merge-ref gate')
+              .addRaw(`\n**${summarize(detailed)}**\n\n`)
+              .addRaw(conflicting.length
+                ? `The following PRs conflict with their base branch. They have no merge ` +
+                  `ref, so their PR checks cannot run — an empty check list on these is ` +
+                  `absence of verification, not success:\n\n` +
+                  conflicting.map((c) => `- #${c.number}`).join('\n') + '\n'
+                : 'No open PR is currently conflicting.\n')
+              .addRaw(skipped
+                ? `\n${skipped} PR(s) had no computed mergeability yet and were left ` +
+                  `without a status; the next scheduled pass re-checks them.\n`
+                : '')
+              .write();

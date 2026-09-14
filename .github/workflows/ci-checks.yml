@@ -197,15 +197,20 @@ jobs:
 
       - name: Validate JSON schemas for critical artifacts
         id: schema_validate
-        # Keep continue-on-error: true so schema drift doesn't block PRs
-        # while the schema contract is still maturing. The next step
-        # promotes the output into the job summary so failures are
-        # visible on the run page without manual log-reading (see #657).
-        continue-on-error: true
+        # BLOCKING as of 2026-09-14 (package 1B). This step was advisory
+        # while the schema contract matured; the backlog it was waiting on
+        # is now empty — the validator reports 85 passed, 0 failed — so
+        # nothing is being grandfathered in by flipping it. A deliberately
+        # invalid schema can no longer be published.
+        #
+        # `set -o pipefail` is load-bearing. The previous form read `$?`
+        # after `node ... | tee`, which is tee's exit code and is therefore
+        # always 0: the recorded exit_code claimed success no matter what
+        # the validator found. The next step still runs on failure via
+        # `if: always()` and promotes the details into the job summary.
         run: |
-          set +e
+          set -o pipefail
           node scripts/validate-schemas.js | tee /tmp/schema-validate.log
-          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
 
       - name: Surface schema validation into job summary
         if: always()
@@ -244,7 +249,7 @@ jobs:
             echo "</details>"
           } >> "$GITHUB_STEP_SUMMARY"
           if [ "$failed" -gt 0 ] 2>/dev/null; then
-            echo "::warning::Schema validation reported $failed failure(s). See the Summary tab for details. (Non-blocking per the current continue-on-error posture — see #657 to flip.)"
+            echo "::error::Schema validation reported $failed failure(s). See the Summary tab for details. This gate is blocking — fix the schema or the data file, do not re-add continue-on-error."
           fi
 
       # ── JavaScript smoke tests ──
