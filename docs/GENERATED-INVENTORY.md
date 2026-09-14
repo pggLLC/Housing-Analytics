@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T08:15:37.493Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T09:50:59.187Z. Do not edit by hand.
 
 ---
 
@@ -43,11 +43,11 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.5 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.8 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.2 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.0 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.2 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.0 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 240.0 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 239.8 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-327 test files found.
+326 test files found.
 
 | File | Size |
 |------|------|
@@ -1804,7 +1804,6 @@
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
 | `test/input-provenance.test.js` | 6.4 KB |
 | `test/integration/analytics.test.js` | 16.6 KB |
-| `test/integration/compliance-dashboard.test.js` | 14.0 KB |
 | `test/integration/economic-indicators.test.js` | 12.2 KB |
 | `test/integration/hna-ranking.test.js` | 11.2 KB |
 | `test/integration/housing-needs-assessment.test.js` | 34.3 KB |
@@ -1840,7 +1839,7 @@
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
 | `test/opportunity-zones-data.test.js` | 4.1 KB |
-| `test/orphan-nav-cleanup.test.js` | 3.7 KB |
+| `test/orphan-nav-cleanup.test.js` | 3.9 KB |
 | `test/ownership-decision-chain.test.js` | 7.3 KB |
 | `test/ownership-finance.test.js` | 22.4 KB |
 | `test/ownership-funding-schema.test.js` | 5.5 KB |
@@ -1881,7 +1880,7 @@
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-historical.test.js` | 19.0 KB |
+| `test/prop123-historical.test.js` | 19.2 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
@@ -1901,7 +1900,7 @@
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-lifecycle.test.js` | 19.2 KB |
 | `test/shared-money-format.test.js` | 6.6 KB |
-| `test/site-review-build-pause-regressions.test.js` | 11.7 KB |
+| `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
 | `test/smoke-market-analysis.js` | 34.2 KB |
@@ -1939,18 +1938,18 @@
 | `test/unit/pma-commuting.test.js` | 4.5 KB |
 | `test/unit/pma-competitive-set.test.js` | 9.2 KB |
 | `test/unit/pma-employment-centers.test.js` | 15.9 KB |
-| `test/unit/pma-infrastructure.test.js` | 4.8 KB |
+| `test/unit/pma-infrastructure.test.js` | 5.8 KB |
 | `test/unit/pma-justification.test.js` | 5.8 KB |
 | `test/unit/pma-opportunities.test.js` | 4.9 KB |
 | `test/unit/pma-schools.test.js` | 5.0 KB |
-| `test/unit/pma-transit.test.js` | 3.8 KB |
+| `test/unit/pma-transit.test.js` | 4.5 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/unwired-suite.test.js` | 4.4 KB |
+| `test/unwired-suite.test.js` | 5.3 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
-| `test/wcag-pill-contrast.test.js` | 12.6 KB |
+| `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
 | `test/website-monitor-utils.js` | 3.6 KB |
