@@ -234,6 +234,62 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       fail('a run that executed steps and died at its ceiling does not alert — that is #1556');
     }
 
+    /* ── P3: staleness, judged against each workflow's own cadence ────── */
+
+    const cadences = [
+      ['hourly',    '35 * * * *',    1],
+      ['every 2h',  '15 */2 * * *',  2],
+      ['every 6h',  '17 */6 * * *',  6],
+      ['daily',     '23 6 * * *',   24],
+      ['weekly',    '23 7 * * 6',  168],
+      ['monthly',   '47 4 1 * *',  720],
+      ['quarterly', '41 7 1 */3 *', 2160],
+      ['annual',    '29 7 15 10 *', 8760],
+    ];
+    let cadenceBad = 0;
+    for (const [label, expr, want] of cadences) {
+      const got = m.cronIntervalHours(expr);
+      if (got !== want) { fail(`cronIntervalHours(${expr}) [${label}] = ${got}, expected ${want}`); cadenceBad++; }
+    }
+    if (!cadenceBad) ok(`cron cadence derived for all ${cadences.length} shapes this repo declares`);
+
+    // THE FOUNDING CASE. #1556 was build-hna-data — a WEEKLY workflow — silent
+    // for fifteen days, found by hand. An earlier tolerance of 2.5x gave weekly
+    // jobs 17.5 days of slack, so this rule would have stayed quiet through the
+    // exact outage it exists for. Guarded by name and number so it cannot be
+    // loosened back without the test objecting.
+    const sinceFifteenDays = m.assessStaleness({ cron: '23 7 * * 6', hoursSinceLastCompletedRun: 15 * 24 });
+    if (!sinceFifteenDays) {
+      fail('a WEEKLY workflow silent for 15 days is not called stale — that is #1556 exactly, '
+         + `and STALENESS_TOLERANCE (${m.STALENESS_TOLERANCE}) is too loose to catch it`);
+    } else {
+      ok('#1556 reproduced: weekly workflow silent 15 days is flagged stale');
+    }
+
+    // Scheduler jitter must not alert. GitHub delays scheduled runs under load
+    // and hourly crons feel it most; the first live run of this rule flagged
+    // pages-deploy-watchdog after ~4 hours, which is normal.
+    if (m.assessStaleness({ cron: '35 * * * *', hoursSinceLastCompletedRun: 4 })) {
+      fail('an hourly workflow silent for 4 hours is called stale — that is scheduler jitter, '
+         + `and STALENESS_FLOOR_HOURS (${m.STALENESS_FLOOR_HOURS}) is not protecting against it`);
+    } else {
+      ok('hourly workflow silent 4 hours stays quiet (scheduler jitter)');
+    }
+
+    // Infrequent workflows must not be permanently stale. The quarterly
+    // backfills have been silent 75 days by design.
+    if (m.assessStaleness({ cron: '41 7 1 */3 *', hoursSinceLastCompletedRun: 75 * 24 })) {
+      fail('a quarterly workflow silent 75 days is called stale — a fixed threshold would flag '
+         + 'every infrequent job in the repo, which is how a monitor gets muted');
+    } else {
+      ok('quarterly workflow silent 75 days stays quiet (within its cadence)');
+    }
+
+    // Unknown last-run time must not be asserted either way.
+    if (m.assessStaleness({ cron: '23 6 * * *', hoursSinceLastCompletedRun: null })) {
+      fail('an unknown last-run time is being reported as stale — unknown is not evidence');
+    }
+
     if (failures) { console.error(`\nworkflow-outcome-monitor: FAIL (${failures})`); process.exit(1); }
     console.log('workflow-outcome-monitor: PASS');
   });
