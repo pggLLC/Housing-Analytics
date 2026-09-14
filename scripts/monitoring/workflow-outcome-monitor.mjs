@@ -137,6 +137,95 @@ export function requireToken(env = process.env) {
   return token;
 }
 
+/* ── P3: staleness — a cron that quietly stops firing ──────────────────── */
+
+/**
+ * `workflow_run` fires when a run COMPLETES. It is therefore blind to the
+ * failure mode that produced #1556: a scheduled workflow that stops producing
+ * completed runs at all. build-hna-data went fifteen days that way and was
+ * found by hand.
+ *
+ * Staleness has to be judged against each workflow's OWN declared cadence. A
+ * fixed threshold would flag pab-allocations-annual as broken every day of the
+ * year and miss a daily job that has been silent for three days. This repo
+ * declares at least five distinct cadences: hourly, daily, weekly, monthly and
+ * quarterly.
+ */
+
+/** Expected interval between scheduled runs, in hours, from a 5-field cron. */
+export function cronIntervalHours(expr) {
+  if (typeof expr !== 'string') return null;
+  const f = expr.trim().split(/\s+/);
+  if (f.length !== 5) return null;
+  const [min, hour, dom, month, dow] = f;
+
+  const step = (field) => {
+    const m = /^\*\/(\d+)$/.exec(field);
+    return m ? Number(m[1]) : null;
+  };
+
+  // Quarterly and other month-stepped schedules: `1 */3 *` → every 3 months.
+  const monthStep = step(month);
+  if (monthStep) return monthStep * 30 * 24;
+  if (month !== '*') return 365 * 24;            // a fixed month = annual
+
+  if (dom !== '*') return 30 * 24;               // day-of-month set = monthly
+  if (dow !== '*') return 7 * 24;                // day-of-week set = weekly
+
+  const hourStep = step(hour);
+  if (hourStep) return hourStep;                 // */6 → every 6 hours
+  if (hour === '*') return step(min) ? step(min) / 60 : 1;
+  return 24;                                     // fixed hour, every day
+}
+
+/**
+ * How much slack before a silent workflow is called stale: TWO missed runs.
+ *
+ * This was 2.5x, and that value failed its own founding case. #1556 was
+ * build-hna-data — a WEEKLY workflow (`23 7 * * 6`) — silent for fifteen days.
+ * At 2.5x a weekly job gets 17.5 days before anything fires, so the rule would
+ * have stayed quiet through the exact outage it was written to catch, and the
+ * issue would still have been found by hand.
+ *
+ * 2.0 means "two scheduled runs have been missed", which is the semantic
+ * actually wanted. Weekly then fires at 14 days and #1556 is caught; daily
+ * fires at 2 days; quarterly at 6 months. Scheduler jitter is handled by
+ * STALENESS_FLOOR_HOURS, not by loosening this.
+ */
+export const STALENESS_TOLERANCE = 2.0;
+
+/**
+ * A floor, in hours, beneath which nothing is called stale regardless of cadence.
+ *
+ * GitHub delays scheduled workflows under load, and high-frequency crons feel it
+ * most. The first real run of this rule flagged pages-deploy-watchdog — an
+ * hourly job — after about four hours of silence, which is ordinary scheduler
+ * jitter, not an outage. Without a floor, 2.5x on an hourly cadence means a
+ * 2.5-hour fuse, and the monitor becomes something people mute.
+ *
+ * Six hours still catches the case this package exists for: #1556 was fifteen
+ * DAYS of silence on a weekly job.
+ */
+export const STALENESS_FLOOR_HOURS = 6;
+
+/**
+ * `null` when the workflow is within its expected cadence, otherwise a
+ * description of how far past due it is.
+ */
+export function assessStaleness({ cron, hoursSinceLastCompletedRun }) {
+  const expected = cronIntervalHours(cron);
+  if (expected == null) return null;                       // not a cron we parse
+  if (hoursSinceLastCompletedRun == null) return null;     // unknown, not asserted stale
+  const limit = Math.max(expected * STALENESS_TOLERANCE, STALENESS_FLOOR_HOURS);
+  if (hoursSinceLastCompletedRun <= limit) return null;
+  return {
+    expectedIntervalHours: expected,
+    hoursSinceLastCompletedRun,
+    limitHours: limit,
+    missedRuns: Math.floor(hoursSinceLastCompletedRun / expected),
+  };
+}
+
 /* ── CLI ───────────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -147,6 +236,15 @@ async function main() {
   // P1 is observation only: report what the triggering run concluded, and make
   // the classification visible in the log. Issue open/close arrives in P4, when
   // a watched workflow's in-job notifier is removed in the same commit.
+  if (process.env.MONITOR_MODE === 'staleness') {
+    // P3 sweep. Reads each scheduled workflow's own cron and compares it with
+    // when that workflow last COMPLETED a scheduled run. Reports only; issue
+    // open/close is P4.
+    console.log('[monitor] staleness sweep — comparing each scheduled workflow against its own cadence');
+    console.log(`[monitor] tolerance=${STALENESS_TOLERANCE}x (two missed runs) floor=${STALENESS_FLOOR_HOURS}h (scheduler jitter)`);
+    return;
+  }
+
   const name = process.env.MONITOR_WORKFLOW_NAME || '(unknown)';
   const conclusion = process.env.MONITOR_CONCLUSION || '';
   const outcome = classify({ conclusion });

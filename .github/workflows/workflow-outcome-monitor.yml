@@ -20,6 +20,17 @@ name: Workflow Outcome Monitor
 # test/workflow-outcome-monitor.test.js asserts that capability is absent.
 
 on:
+  # Two halves, because they see different failures.
+  #
+  # workflow_run fires when a run COMPLETES — it is structurally blind to a cron
+  # that quietly stops firing, which is exactly #1556 (build-hna-data, fifteen
+  # days with no completed scheduled run, found by hand).
+  #
+  # The schedule below sweeps for that absence. Hourly so a daily job is caught
+  # within a day of crossing its threshold, not at the next daily tick.
+  schedule:
+    - cron: '27 * * * *'
+
   workflow_run:
     # Enumerated explicitly, never a wildcard, and never this workflow itself —
     # that is what keeps workflow_run from recursing.
@@ -47,7 +58,16 @@ jobs:
       - name: Checkout monitor script
         uses: actions/checkout@v7
 
+      - name: Sweep for workflows that have stopped running
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MONITOR_MODE: staleness
+        run: node scripts/monitoring/workflow-outcome-monitor.mjs
+
       - name: Observe and classify the triggering run
+        if: github.event_name == 'workflow_run'
         env:
           # Passed explicitly. alert.js relied on GITHUB_TOKEN being present in
           # the environment and it never was, because actions/github-script
