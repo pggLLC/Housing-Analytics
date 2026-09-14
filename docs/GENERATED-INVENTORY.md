@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T10:30:43.529Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T10:44:15.459Z. Do not edit by hand.
 
 ---
 
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-326 test files found.
+327 test files found.
 
 | File | Size |
 |------|------|
@@ -1884,6 +1884,7 @@
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
+| `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 6.4 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.1 KB |
@@ -2027,7 +2028,7 @@
 | `.github/workflows/data-refresh.yml` | 6.1 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.5 KB |
-| `.github/workflows/deploy.yml` | 2.6 KB |
+| `.github/workflows/deploy.yml` | 3.5 KB |
 | `.github/workflows/developer-url-health.yml` | 3.0 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.1 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.4 KB |
