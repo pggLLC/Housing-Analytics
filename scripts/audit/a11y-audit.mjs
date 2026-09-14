@@ -40,6 +40,17 @@ const ROOT      = path.resolve(__dirname, '..', '..');
 const AUDIT_PAGES = [
   'index.html',
   'housing-needs-assessment.html',
+  // The five views generated from housing-needs-assessment.html by
+  // scripts/hna/build_hna_views.py. They are public pages in their own
+  // right -- own <title>, own chrome, and a PRUNED script set (no
+  // Leaflet on the four without a map) -- so auditing the canonical page
+  // alone does not cover them. Rule: if the source page is audited, the
+  // pages generated from it are too.
+  'hna-what-housing-exists.html',
+  'hna-who-lives-here.html',
+  'hna-what-households-can-afford.html',
+  'hna-where-its-heading.html',
+  'hna-what-to-do.html',
   'hna-comparative-analysis.html',
   'economic-dashboard.html',
   'lihtc-allocations.html',
