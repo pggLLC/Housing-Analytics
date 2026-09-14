@@ -27,7 +27,17 @@ import importlib.util
 import pathlib
 import sys
 
-import pandas as pd
+try:
+    import pandas as pd
+except ModuleNotFoundError:  # pragma: no cover - environment guard
+    # Not skipped on purpose. The assertions below run the real pipeline
+    # parser, so without pandas this guard would pass vacuously and the
+    # defect it exists to catch could walk straight back in. CI installs
+    # pandas in ci-checks.yml's "Install Python test dependencies" step.
+    sys.exit(
+        "test_qcew_annual_slice requires pandas (pip install pandas) — "
+        "refusing to report a pass it did not earn"
+    )
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "build_co_housing_costs_insight.py"
