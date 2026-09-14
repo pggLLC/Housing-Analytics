@@ -80,7 +80,19 @@ test('getTransitLayer — FeatureCollection with stops', function () {
 test('getTransitJustification — shape', function () {
   const j = T.getTransitJustification();
   assert(typeof j.transitAccessibilityScore === 'number', 'transitAccessibilityScore is number');
-  assert(typeof j.walkScore                 === 'number', 'walkScore is number');
+  // walkScore is deliberately null when EPA Smart Location data is unavailable
+  // (js/pma-transit.js:236 — `lastWalkScore = hasWalk ? walkScore : null`), so a
+  // missing walk environment is distinguishable from a genuinely zero one. This
+  // once required a number, which forbids exactly that signal. `walkScoreAvailable`
+  // is the companion flag, so assert the two agree rather than banning null.
+  assert(j.walkScore === null || typeof j.walkScore === 'number',
+    'walkScore is a number or null (null = EPA data unavailable)');
+  assert(typeof j.walkScoreAvailable === 'boolean',
+    'walkScoreAvailable is a boolean');
+  if (j.walkScore === null) {
+    assert(j.walkScoreAvailable === false,
+      'a null walkScore is reported as unavailable, not as a real zero');
+  }
   assert(typeof j.nearbyRouteCount          === 'number', 'nearbyRouteCount is number');
   assert(typeof j.serviceGaps               === 'number', 'serviceGaps is number');
 });
