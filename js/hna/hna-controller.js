@@ -3322,10 +3322,19 @@
     }
 
     if (!profile){
-      if (!window.HNAUtils.censusKey()) {
-        window.HNARenderers.setBanner('Census API key not configured — live data requests may be rate-limited. ' +
-          'Set CENSUS_API_KEY in js/config.js for full functionality.', 'warn');
-      }
+      // This used to read "Census API key not configured … Set CENSUS_API_KEY in
+      // js/config.js", which was wrong twice over. js/config.js is served to
+      // every visitor, so following that instruction publishes the key — and it
+      // is what did, from 2026-02-26 to 2026-09-14. It also misnamed the cause:
+      // the banner fires on a cached-summary MISS, and Census answers every
+      // endpoint this page calls without a key, so a key would not have fixed it.
+      //
+      // Say what is actually true — this geography has no cached summary, so the
+      // page is falling back to a live request.
+      window.HNARenderers.setBanner(
+        'No cached summary for this geography yet — loading live from the Census API, ' +
+        'which is slower and may be rate-limited. Cached summaries are rebuilt nightly.',
+        'warn');
       try{
         profile = await fetchAcsProfile(geoType, geoid);
       }catch(e){
