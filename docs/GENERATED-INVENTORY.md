@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T01:09:03.250Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T01:51:55.629Z. Do not edit by hand.
 
 ---
 
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-322 test files found.
+323 test files found.
 
 | File | Size |
 |------|------|
@@ -1671,6 +1671,7 @@
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
+| `test/acs-vintage-label-integrity.test.js` | 3.8 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/analytics.test.js` | 18.2 KB |
