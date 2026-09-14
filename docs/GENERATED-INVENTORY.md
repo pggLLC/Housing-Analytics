@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T06:50:18.112Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T07:48:26.118Z. Do not edit by hand.
 
 ---
 
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-324 test files found.
+327 test files found.
 
 | File | Size |
 |------|------|
@@ -1825,6 +1825,7 @@
 | `test/local-resources-entry-completeness.test.js` | 3.3 KB |
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
+| `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
 | `test/market-study-page.test.js` | 17.4 KB |
 | `test/market-study-report.test.js` | 9.1 KB |
@@ -1914,6 +1915,7 @@
 | `test/tax-credit-equity-markets.test.js` | 7.3 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
+| `test/test-reachability.test.js` | 3.8 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_chfa_award_predictor.js` | 18.9 KB |
@@ -1944,6 +1946,7 @@
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
+| `test/unwired-suite.test.js` | 5.0 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
