@@ -150,6 +150,35 @@
     var map = L.map(mapId, { zoomControl: true }).setView([39.0, -105.5], 6);
     if (window.addMapHomeButton) { addMapHomeButton(map, { center: [39.0, -105.5], zoom: 6 }); }
 
+    // HARDENING, not a bug fix. #ddCoverageMap sits inside #panel-geographic,
+    // which is display:none until its tab is selected. Leaflet sizes its tile
+    // grid from the container at init, so a map created while its parent is
+    // hidden can end up with a grid too small for the box it lands in -- tiles
+    // that are never REQUESTED rather than tiles that fail, which is why that
+    // failure mode reads as a broken basemap and sends people to check the CDN.
+    //
+    // Measured: this page is NOT currently affected. At 900x800 the container
+    // is 589x380 and its 9 tiles cover it completely (3x3 at 256px = 768x768);
+    // at 1400x900, 15 tiles cover 1089x380. Both 100%, zero gaps. See #1661,
+    // which was closed as a false positive after that measurement.
+    //
+    // The guard is kept because the arrangement that would break it -- a map
+    // inside a collapsed container -- is already here; only the current
+    // dimensions keep it benign. A ResizeObserver rather than a tab hook so it
+    // holds however the container comes to have a size: tab, accordion,
+    // <details>, window resize, or a reveal mechanism not yet written.
+    if (typeof ResizeObserver === 'function') {
+      var _ro = new ResizeObserver(function () {
+        var box = el.getBoundingClientRect();
+        if (box.width > 0 && box.height > 0) map.invalidateSize({ animate: false });
+      });
+      _ro.observe(el);
+    } else {
+      // No ResizeObserver: settle for a re-measure on the next frame, which
+      // covers the common case of the panel being shown in the same task.
+      setTimeout(function () { map.invalidateSize({ animate: false }); }, 0);
+    }
+
     // F100 — Decorative county + place + CDP boundary overlay.
     if (window.JurisdictionBoundaries) {
       try {
