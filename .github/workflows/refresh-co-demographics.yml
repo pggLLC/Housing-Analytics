@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # gh workflow run deploy.yml
 
 concurrency:
   group: refresh-co-demographics
@@ -73,3 +74,22 @@ jobs:
           done
           echo "::error::could not push after 5 attempts; main is moving faster than this job"
           exit 1
+
+      - name: Dispatch Pages deploy for the data commit
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # A commit pushed with the workflow token does not trigger
+          # push-based workflows, so deploy.yml never fires for it. Verified:
+          # the data-only refresh commits 8d5026b4c, 81a15546f and 5a36e81ab
+          # each got ZERO deploy runs, and the refreshed JSON sat on main
+          # without reaching the site. Same pattern, same fix, as
+          # archive-audit-post-merge.yml.
+          if git diff --quiet HEAD~1 -- data/co-demographics.json 2>/dev/null; then
+            echo "No data change in the last commit — nothing to deploy."
+          else
+            gh workflow run deploy.yml --ref main
+            echo "Dispatched deploy.yml for the refreshed data."
+          fi
