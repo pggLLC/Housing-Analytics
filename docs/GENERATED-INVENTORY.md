@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T13:27:22.236Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T18:20:51.411Z. Do not edit by hand.
 
 ---
 
@@ -28,7 +28,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
-| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.4 KB |
+| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.8 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
@@ -62,7 +62,7 @@
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 52.1 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 17.5 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 17.6 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
@@ -129,7 +129,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 238.8 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 239.0 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 323.3 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-331 test files found.
+332 test files found.
 
 | File | Size |
 |------|------|
@@ -1911,6 +1911,7 @@
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
+| `test/source-maintenance-declarations.test.js` | 8.9 KB |
 | `test/source-url-sweep-retry.test.js` | 5.5 KB |
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
