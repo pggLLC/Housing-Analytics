@@ -305,7 +305,7 @@
       provider: 'Census Bureau ACS',
       url: 'https://api.census.gov/',
       localFile: 'data/co-demographics.json',
-      lastUpdated: '2026-03-04',
+      lastUpdated: '2026-09-14',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'State',
