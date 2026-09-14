@@ -34,7 +34,7 @@ jobs:
         uses: actions/checkout@v7
 
       # Generates the PUBLIC client config. Anything written here is served to
-      # every visitor at https://cohoanalytics.com/js/config.js, so no secret
+      # every visitor at the site path /js/config.js, so no secret
       # may appear in it.
       #
       # This step used to interpolate secrets.CENSUS_API_KEY and

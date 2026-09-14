@@ -3,7 +3,7 @@
  * public-config-no-secrets — nothing served to the browser may carry a secret.
  *
  * .github/workflows/deploy.yml generates js/config.js at deploy time and it is
- * served to every visitor at https://cohoanalytics.com/js/config.js. From
+ * served to every visitor at the site path /js/config.js. From
  * 2026-02-26 to 2026-09-14 that step interpolated secrets.CENSUS_API_KEY and
  * secrets.FRED_API_KEY straight into it, publishing both for six months.
  *
