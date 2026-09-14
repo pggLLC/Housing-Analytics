@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-13T17:33:04.133079Z",
+  "generated": "2026-09-14T02:55:58.442624Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -212,9 +212,9 @@
       "bytes": 126391
     },
     "data/co-county-demographics.json": {
-      "featureCount": 64,
+      "featureCount": 65,
       "placeholder": false,
-      "bytes": 24155
+      "bytes": 23366
     },
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
@@ -720,6 +720,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 123290
+    },
+    "data/hna/hna-views.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 9178
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
