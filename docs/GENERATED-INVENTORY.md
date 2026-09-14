@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T07:48:26.118Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T08:15:37.493Z. Do not edit by hand.
 
 ---
 
@@ -116,7 +116,7 @@
 | `data/co-county-demographics.json` | 39.3 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
-| `data/co-historical-allocations.json` | 14.4 KB | ✅ | — |
+| `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
 | `data/co-housing-costs/county-trends.json` | 50.2 KB | ✅ | — |
 | `data/co-place-centroids.json` | 49.3 KB | ✅ | — |
 | `data/co_ami_gap_by_county.json` | 85.6 KB | ✅ | — |
@@ -1689,13 +1689,13 @@
 | `test/canonical-geography-contract.test.js` | 6.9 KB |
 | `test/car-estimate-disclosure.test.js` | 7.7 KB |
 | `test/car-showingtime-fetcher.test.mjs` | 8.2 KB |
-| `test/census-dashboard-scope.test.js` | 1.5 KB |
+| `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-dda-qct-absence.test.js` | 7.7 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
-| `test/co-historical-allocations.test.js` | 11.1 KB |
-| `test/co-lihtc-map.test.js` | 8.2 KB |
+| `test/co-historical-allocations.test.js` | 12.9 KB |
+| `test/co-lihtc-map.test.js` | 8.8 KB |
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
@@ -1755,7 +1755,7 @@
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
-| `test/hmda-trend-and-chas-badge.test.js` | 4.6 KB |
+| `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-build-rebase-recovery.test.js` | 4.6 KB |
@@ -1763,11 +1763,11 @@
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-comparison.test.js` | 8.3 KB |
-| `test/hna-county-scope-disclosures.test.js` | 3.9 KB |
-| `test/hna-deep-dive-batch1.test.js` | 5.4 KB |
-| `test/hna-deep-dive-batch2.test.js` | 5.9 KB |
+| `test/hna-county-scope-disclosures.test.js` | 4.2 KB |
+| `test/hna-deep-dive-batch1.test.js` | 6.3 KB |
+| `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
-| `test/hna-extended-fetch-tenure.test.js` | 2.0 KB |
+| `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.2 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
 | `test/hna-home-value-absence.test.js` | 4.0 KB |
@@ -1777,7 +1777,7 @@
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
-| `test/hna-phase2-stubs-wired.test.js` | 5.3 KB |
+| `test/hna-phase2-stubs-wired.test.js` | 6.0 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 13.7 KB |
 | `test/hna-prop123-relationship.test.js` | 6.7 KB |
@@ -1785,11 +1785,11 @@
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-reading-path.test.js` | 5.3 KB |
-| `test/hna-rent-burden-bins.test.js` | 3.1 KB |
+| `test/hna-rent-burden-bins.test.js` | 3.6 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-section-rail.test.js` | 7.9 KB |
-| `test/hna-sub-county-and-sync.test.js` | 3.8 KB |
+| `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
@@ -1858,7 +1858,7 @@
 | `test/place-chas-lookup.test.js` | 6.5 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
 | `test/place-glossary-path.test.js` | 1.5 KB |
-| `test/place-lehd-apportionment.test.js` | 4.4 KB |
+| `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 5.4 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
@@ -1881,7 +1881,7 @@
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-historical.test.js` | 18.5 KB |
+| `test/prop123-historical.test.js` | 19.0 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 2.1 KB |
@@ -1946,7 +1946,7 @@
 | `test/unit/pma-transit.test.js` | 3.8 KB |
 | `test/unit/scenario-storage.test.js` | 13.3 KB |
 | `test/unit/site-selection-score.test.js` | 30.2 KB |
-| `test/unwired-suite.test.js` | 5.0 KB |
+| `test/unwired-suite.test.js` | 4.4 KB |
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
