@@ -69,23 +69,14 @@ jobs:
           print(f'  Record count validation passed ({count} records)')
           PYEOF
 
-      - name: Alert on failure
-        if: failure()
-        uses: actions/github-script@v9
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            try {
-              execSync(
-                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-chas-data.yml --run-id ${context.runId} --data-file data/hna/chas_affordability_gap.json --details "HUD CHAS data fetch or validation failed. Check HUD data availability."`,
-                { stdio: 'inherit', env: { ...process.env } }
-              );
-            } catch (e) {
-              console.error('Alert script failed:', e.message);
-            }
-
+      # The scripts/monitoring/alert.js step was removed when this workflow moved to
+      # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
+      #
+      # It never produced anything. alert.js opens an issue only when GITHUB_TOKEN is
+      # in the environment, and actions/github-script exposes a token on its client
+      # object rather than exporting one -- so `{ ...process.env }` inherited an
+      # environment that never had it. Zero issues in this repository's history match
+      # alert.js's title formats, across fifteen callers.
       - name: Commit and push data files
         run: |
           git config user.name "github-actions[bot]"

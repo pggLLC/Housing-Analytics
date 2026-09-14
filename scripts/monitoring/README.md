@@ -1,3 +1,17 @@
+> **`alert.js` was retired on 2026-09-14.**
+>
+> It opened a GitHub issue only when `GITHUB_TOKEN` was present in the
+> environment. Fifteen workflows called it, none supplied one, and it never
+> opened a single issue in this repository's history — the environment was
+> never going to have the token, because `actions/github-script` exposes one on
+> its client object rather than exporting it.
+>
+> Workflow failures are now reported by
+> `.github/workflows/workflow-outcome-monitor.yml`, which watches from **outside**
+> the job. That matters: every data workflow here carries a job-level
+> `timeout-minutes`, and a job killed by its own timeout terminates the runner —
+> no in-job step, not even `if: always()`, can report it.
+
 # Monitoring & Alerting — Housing Analytics
 
 This directory contains scripts for data quality monitoring, alerting, and report generation for the Housing Analytics data pipelines.
@@ -52,27 +66,15 @@ Set the `GITHUB_TOKEN` and `GITHUB_REPOSITORY` environment variables (these are 
 
 ```bash
 # Alert for an empty dataset
-node scripts/monitoring/alert.js \
-  --mode empty-dataset \
-  --workflow fetch-fred-data.yml \
-  --run-id 12345678 \
-  --data-file data/fred-data.json \
-  --record-count 0 \
+
   --details "FRED API returned no series"
 
 # Alert for a workflow failure
-node scripts/monitoring/alert.js \
-  --mode failure \
-  --workflow fetch-kalshi.yml \
-  --run-id 12345678 \
-  --step "Fetch Kalshi prediction market data" \
+
   --error "HTTP 401 Unauthorized"
 
 # Create a custom issue
-node scripts/monitoring/alert.js \
-  --mode custom \
-  --title "My custom alert" \
-  --body  "Details here" \
+
   --label critical
 ```
 

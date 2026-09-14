@@ -90,23 +90,14 @@ jobs:
           fi
           echo "  Validation passed ✅"
 
-      - name: Alert on empty dataset
-        if: failure()
-        uses: actions/github-script@v9
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            try {
-              execSync(
-                `node scripts/monitoring/alert.js --mode empty-dataset --workflow fetch-kalshi.yml --run-id ${context.runId} --data-file data/kalshi/prediction-market.json --details "Kalshi fetch or validation failed"`,
-                { stdio: 'inherit', env: { ...process.env } }
-              );
-            } catch (e) {
-              console.error('Alert script failed:', e.message);
-            }
-
+      # The scripts/monitoring/alert.js step was removed when this workflow moved to
+      # the external monitor (.github/workflows/workflow-outcome-monitor.yml).
+      #
+      # It never produced anything. alert.js opens an issue only when GITHUB_TOKEN is
+      # in the environment, and actions/github-script exposes a token on its client
+      # object rather than exporting one -- so `{ ...process.env }` inherited an
+      # environment that never had it. Zero issues in this repository's history match
+      # alert.js's title formats, across fifteen callers.
       - name: Commit and push data file
         run: |
           git config user.name  "github-actions[bot]"
