@@ -36,15 +36,16 @@ on:
     # that is what keeps workflow_run from recursing.
     workflows:
       - "Pages Deploy Watchdog"
+      - "Build HNA Data Cache"
     types: [completed]
   workflow_dispatch:
 
 permissions:
   contents: read
   actions: read
-  # NOTE: `issues: write` is deliberately NOT granted in P1. This package opens
-  # nothing, and a permission that is not needed should not be held. It is added
-  # in P4 alongside the first real alert.
+  # Granted in P4, alongside the first workflow this monitor actually alerts
+  # for. P1-P3 held no write permission because they opened nothing.
+  issues: write
 
 concurrency:
   group: workflow-outcome-monitor-${{ github.event.workflow_run.id || github.run_id }}

@@ -12,6 +12,8 @@ Output:
     data/market/nhpd_co.geojson
 """
 
+from __future__ import annotations   # PEP 604 unions (dict | list | None) on Python 3.9
+
 import json
 import os
 import sys
@@ -59,6 +61,16 @@ def main() -> int:
         data = http_get_json(url)
 
         if not data:
+            # A failed request is NOT an empty dataset. Breaking here and
+            # carrying on wrote a zero-feature file over the last good one and
+            # returned 0 -- the workflow went green while destroying data. NHPD
+            # is registration-gated, so this path is reached routinely.
+            if page == 1:
+                print('✗ NHPD returned no usable response on the first request; '
+                      'refusing to overwrite the existing file.', file=sys.stderr)
+                return 1
+            print(f'⚠ NHPD request failed at page {page}; keeping the '
+                  f'{len(features)} feature(s) already retrieved.', file=sys.stderr)
             break
 
         # Handle paginated response (DRF-style) or direct list
@@ -102,6 +114,23 @@ def main() -> int:
         },
         'features': features,
     }
+
+    # An empty fetch must never replace a populated file. "Zero affordable
+    # housing properties in Colorado" is not a finding, it is a failed request,
+    # and publishing it as data is worse than publishing nothing.
+    if not features:
+        existing = 0
+        if os.path.exists(OUT_FILE):
+            try:
+                with open(OUT_FILE, encoding='utf-8') as f:
+                    existing = len(json.load(f).get('features', []))
+            except Exception:
+                existing = 0
+        print(f'✗ NHPD fetch produced 0 features; refusing to overwrite '
+              f'{OUT_FILE} (currently {existing} feature(s)). Exiting nonzero so '
+              f'the workflow reports the failure instead of publishing an empty '
+              f'dataset as current.', file=sys.stderr)
+        return 1
 
     os.makedirs(os.path.dirname(OUT_FILE), exist_ok=True)
     with open(OUT_FILE, 'w', encoding='utf-8') as f:
