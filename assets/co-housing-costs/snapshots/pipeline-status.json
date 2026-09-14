@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14T20:00:20.345915+00:00",
+  "generated": "2026-09-14T23:11:12.679781+00:00",
   "maps_generated": 8,
   "maps_total": 8,
   "maps_complete": true,
@@ -13,6 +13,7 @@
     "pyarrow": true
   },
   "missing_maps": [],
+  "stale_maps": [],
   "sources": {
     "acs": {
       "status": "ok",
@@ -34,8 +35,8 @@
       "vintage": 2025
     },
     "bps": {
-      "status": "empty",
-      "rows": 0
+      "status": "ok",
+      "rows": 320
     }
   },
   "note": "Written by scripts/build_co_housing_costs_insight.py at the end of every run; each field describes the outputs of that run only. `generated` is when the pipeline last completed \u2014 it is not a forecast that a future run will succeed."
