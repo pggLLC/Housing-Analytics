@@ -26,6 +26,7 @@
   "household_growth_rate_5yr": 0.105,
   "household_size_avg": 2.42,
   "ami_estimate": 130910,
+  "affordable_rent_60pct": 1740,
   "fields": {
     "population": "B01003_001E",
     "median_household_income": "B19013_001E",
@@ -44,6 +45,15 @@
     "population_growth_rate_5yr": "B01003_001E vs ACS 2015-2019 (non-overlapping 5-year releases)",
     "household_growth_rate_5yr": "B11001_001E vs ACS 2015-2019 (non-overlapping 5-year releases)",
     "household_size_avg": "B25010_001E",
-    "ami_estimate": "population-weighted mean of county income_limits.ami_4person over 64 counties — HUD FMR FY2026 and Income Limits FY2026. HUD, not ACS: different source and vintage from every other field here."
+    "ami_estimate": "population-weighted mean of county income_limits.ami_4person over 64 counties — HUD FMR FY2026 and Income Limits FY2026. HUD, not ACS: different source and vintage from every other field here. A FOUR-PERSON standard: do not compare it against an all-sizes rent.",
+    "affordable_rent_60pct": "population-weighted county affordable_rents_60pct, weighted again by the statewide renter bedroom mix (B25042_010E-015E) so it spans the same unit sizes as median_gross_rent — HUD FMR FY2026 and Income Limits FY2026. Compare THIS against median_gross_rent, not a figure derived from ami_estimate.",
+    "renter_bedroom_mix": {
+      "B25042_010E": 50906,
+      "B25042_011E": 229959,
+      "B25042_012E": 298582,
+      "B25042_013E": 150495,
+      "B25042_014E": 55002,
+      "B25042_015E": 17539
+    }
   }
 }
