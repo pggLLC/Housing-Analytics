@@ -116,7 +116,15 @@ observation. Typically 45-55 of the 64 counties carry an unsuppressed wage.
 | `bps_year` | Permit year |
 | `total_units` | Total authorized residential units |
 
-Source: Census Bureau Building Permits Survey (BPS), annual county data.
+Source: Census Bureau Building Permits Survey, annual county files at
+`www2.census.gov/econ/bps/County/co{year}a.txt` (the older
+`www.census.gov/construction/bps/csv/*.csv` path 404s for every year).
+
+`total_units` sums the Units column of all four structure-size groups
+(1-unit, 2-units, 3-4 units, 5+ units). The file repeats those four groups a
+second time as "rep" revisions; those are excluded, and including them would
+roughly double every count. Columns are positional, so the parser checks the
+sub-header row before trusting the indices.
 
 ---
 

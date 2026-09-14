@@ -216,12 +216,15 @@ class Config:
     # not-yet-final and the previous vintage is used instead.
     QCEW_MIN_COUNTIES: int = 20
 
-    # Census Building Permits Survey county-level
-    # TODO: Update year tokens when new vintages are published
-    BPS_BASE_URL: str = (
-        "https://www.census.gov/construction/bps/csv/"
-        "co{year}a.csv"
-    )
+    # Census Building Permits Survey — annual county files.
+    #
+    # Census serves these from www2.census.gov/econ/bps/County as fixed-column
+    # .txt (still comma-separated, two header rows). The former path,
+    # www.census.gov/construction/bps/csv/co{year}a.csv, 404s for every year;
+    # the pipeline had been requesting it with a two-digit year on top of that,
+    # so the permits layer fetched nothing and the committed parquet is
+    # placeholder data rather than Census figures.
+    BPS_BASE_URL: str = "https://www2.census.gov/econ/bps/County/co{year}a.txt"
 
     # Colorado county GeoJSON (Tiger/Line simplified — already in repo)
     COUNTY_GEOJSON: Path = REPO_ROOT / "data" / "co-county-boundaries.json"
@@ -884,11 +887,73 @@ def fetch_qcew_construction(cfg: Config, refresh: bool = False) -> Optional["pd.
 # Census Building Permits Survey
 # ---------------------------------------------------------------------------
 
+BPS_OUTPUT_COLUMNS = ["county_fips", "bps_year", "total_units"]
+
+# Census BPS county files carry two header rows: a group row ("1-unit",
+# "2-units", "3-4 units", "5+ units", then the same four as "rep" revisions)
+# and a sub-header repeating Bldgs/Units/Value under each group. Columns are
+# positional, so these indices are the Units cell of each of the four
+# structure-size groups -- deliberately excluding the "rep" duplicates, which
+# would double-count.
+BPS_UNIT_COLUMNS = (7, 10, 13, 16)
+BPS_BLDG_COLUMNS = (6, 9, 12, 15)
+
+
+def _bps_header_is_expected(rows: List[List[str]]) -> bool:
+    """Verify the sub-header still puts Units where BPS_UNIT_COLUMNS expects.
+
+    The columns are positional and unlabelled per-cell, so a reordering
+    upstream would silently produce plausible-looking wrong totals. Checking
+    the header turns that into a skipped year with a warning instead.
+    """
+    for row in rows[:3]:
+        cells = [c.strip().lower() for c in row]
+        if len(cells) <= max(BPS_UNIT_COLUMNS):
+            continue
+        if all(cells[i] == "units" for i in BPS_UNIT_COLUMNS) and \
+           all(cells[i] == "bldgs" for i in BPS_BLDG_COLUMNS):
+            return True
+    return False
+
+
+def _parse_bps_county_file(text: str, state_fips: str) -> List[Dict[str, Any]]:
+    """Extract one state's county rows from an annual BPS county file."""
+    import csv
+    import io as _io
+
+    rows = list(csv.reader(_io.StringIO(text)))
+    if not _bps_header_is_expected(rows):
+        return []
+
+    state_code = int(state_fips)
+    out: List[Dict[str, Any]] = []
+    for row in rows:
+        if len(row) <= max(BPS_UNIT_COLUMNS):
+            continue
+        survey, st, cty = row[0].strip(), row[1].strip(), row[2].strip()
+        if not (survey.isdigit() and st.isdigit() and cty.isdigit()):
+            continue
+        if int(st) != state_code:
+            continue
+        try:
+            units = sum(int(row[i].strip() or 0) for i in BPS_UNIT_COLUMNS)
+        except ValueError:
+            continue
+        out.append({
+            "county_fips": f"{int(st):02d}{int(cty):03d}",
+            "bps_year": int(survey),
+            "total_units": units,
+        })
+    return out
+
+
 def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.DataFrame"]:
     """
     Fetch Census BPS annual county-level residential permit data.
 
-    TODO: Update BPS_BASE_URL in Config when Census publishes new annual files.
+    One ~370 KB file per year (see ``Config.BPS_BASE_URL``). Units are summed
+    across the four structure-size groups; the "rep" (reported) duplicates of
+    those same groups are excluded.
     """
     if not HAS_PANDAS:
         log.warning("pandas not available — skipping BPS fetch")
@@ -899,50 +964,42 @@ def fetch_building_permits(cfg: Config, refresh: bool = False) -> Optional["pd.D
         log.info("BPS: loading from cache")
         return pd.read_parquet(cache_path)
 
-    now = datetime.datetime.utcnow()
+    now = datetime.datetime.now(datetime.timezone.utc)
     candidate_years = list(range(now.year - 1, now.year - 6, -1))
 
     rows: List[Dict[str, Any]] = []
     for year in candidate_years:
-        url = cfg.BPS_BASE_URL.format(year=str(year)[2:])  # 2-digit year in URL
-        log.info("Fetching BPS %d permits …", year)
+        url = cfg.BPS_BASE_URL.format(year=year)
+        log.info("Fetching BPS %d permits from %s …", year, url)
         try:
-            raw = _fetch_url(url, timeout=60).decode("utf-8", errors="replace")
+            raw = _fetch_url_with_retry(url, timeout=120, retries=3)
         except Exception as exc:
             log.warning("BPS %d fetch failed: %s", year, exc)
             continue
 
-        import csv
-        import io as _io
-        reader = csv.DictReader(_io.StringIO(raw))
-        found = False
-        for row in reader:
-            fips_raw = (row.get("FIPS Code") or row.get("fips") or "").strip()
-            # Validate that fips_raw is numeric before zero-padding (Rule 1)
-            if not fips_raw or not fips_raw.isdigit():
-                continue
-            fips = fips_raw.zfill(5)
-            if not fips.startswith("08"):
-                continue
-            total_units = _to_int(
-                row.get("Total Units") or row.get("total_units") or row.get("bldgs")
+        parsed = _parse_bps_county_file(
+            raw.decode("utf-8", errors="replace"), cfg.QCEW_STATE_FIPS
+        )
+        if not parsed:
+            log.warning(
+                "BPS %d: no Colorado county rows (schema change or empty file)", year
             )
-            rows.append({
-                "county_fips": fips,
-                "bps_year": year,
-                "total_units": total_units,
-            })
-            found = True
-        if found:
-            log.info("BPS %d: fetched %d rows", year, sum(1 for r in rows if r["bps_year"] == year))
+            continue
+
+        rows.extend(parsed)
+        log.info(
+            "BPS %d: %d counties, %d total units",
+            year, len(parsed), sum(r["total_units"] for r in parsed),
+        )
 
     if not rows:
         log.warning("BPS: no data fetched")
-        return pd.DataFrame(columns=["county_fips", "bps_year", "total_units"])
+        return pd.DataFrame(columns=BPS_OUTPUT_COLUMNS)
 
-    df = pd.DataFrame(rows)
+    df = pd.DataFrame(rows)[BPS_OUTPUT_COLUMNS].sort_values(
+        ["county_fips", "bps_year"]
+    ).reset_index(drop=True)
 
-    # Merge with ACS population for per-capita (will be done in model stage)
     if HAS_PYARROW:
         df.to_parquet(cache_path, index=False)
         log.info("Saved BPS to %s", cache_path)
@@ -1361,8 +1418,16 @@ def _collect_source_status(**frames: Optional["pd.DataFrame"]) -> Dict[str, Any]
 
 def _validate_outputs_and_write_status(
     sources: Optional[Dict[str, Any]] = None,
+    run_started: Optional[float] = None,
 ) -> None:
-    """Check that expected pipeline outputs exist and write pipeline-status.json."""
+    """Check that expected pipeline outputs are present AND were written by this run.
+
+    Existence alone is not enough. When a source goes dead the map that depends
+    on it is simply not regenerated, and the file left behind from an earlier
+    run keeps satisfying an exists() check -- which is how a placeholder
+    permits map went on reporting `maps_complete: true` while its source
+    fetched nothing. Anything older than this run's start is reported stale.
+    """
     expected_maps = [
         "co_county_median_rent_latest.html",
         "co_county_rent_burden_30_latest.html",
@@ -1374,29 +1439,52 @@ def _validate_outputs_and_write_status(
         "co_county_permits_per_capita.html",
     ]
 
-    maps_generated = [f for f in expected_maps if (ASSETS_MAPS / f).exists()]
-    maps_missing = [f for f in expected_maps if f not in maps_generated]
-    csv_ok = (ASSETS_SNAPSHOTS / "drivers_ranking.csv").exists()
+    def _written_this_run(path: Path) -> bool:
+        if run_started is None:
+            return path.exists()
+        try:
+            # 1s of slack: some filesystems store mtime at second resolution.
+            return path.stat().st_mtime >= run_started - 1
+        except OSError:
+            return False
+
+    maps_present = [f for f in expected_maps if (ASSETS_MAPS / f).exists()]
+    maps_missing = [f for f in expected_maps if f not in maps_present]
+    maps_stale = [f for f in maps_present if not _written_this_run(ASSETS_MAPS / f)]
+    maps_fresh = [f for f in maps_present if f not in maps_stale]
+
+    drivers_path = ASSETS_SNAPSHOTS / "drivers_ranking.csv"
+    csv_ok = drivers_path.exists()
+    csv_fresh = csv_ok and _written_this_run(drivers_path)
 
     if maps_missing:
         log.warning(
             "Missing map outputs (%d/%d): %s",
             len(maps_missing), len(expected_maps), maps_missing,
         )
-    else:
-        log.info("All %d expected maps present.", len(expected_maps))
+    if maps_stale:
+        log.warning(
+            "Map outputs left over from an earlier run (%d/%d): %s — the data "
+            "behind them was not regenerated, check the `sources` block",
+            len(maps_stale), len(expected_maps), maps_stale,
+        )
+    if not maps_missing and not maps_stale:
+        log.info("All %d expected maps regenerated by this run.", len(expected_maps))
 
     if not csv_ok:
         log.warning("drivers_ranking.csv not present in snapshots.")
+    elif not csv_fresh:
+        log.warning("drivers_ranking.csv was not regenerated by this run.")
 
     status = {
         "generated": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "maps_generated": len(maps_generated),
+        "maps_generated": len(maps_fresh),
         "maps_total": len(expected_maps),
-        "maps_complete": len(maps_missing) == 0,
-        "drivers_csv_available": csv_ok,
+        "maps_complete": len(maps_missing) == 0 and len(maps_stale) == 0,
+        "drivers_csv_available": csv_ok and csv_fresh,
         "dependencies": OPTIONAL_DEPENDENCY_FLAGS,
         "missing_maps": maps_missing,
+        "stale_maps": maps_stale,
         "sources": sources or {},
         "note": (
             "Written by scripts/build_co_housing_costs_insight.py at the end of "
@@ -1535,7 +1623,15 @@ observation. Typically 45-55 of the 64 counties carry an unsuppressed wage.
 | `bps_year` | Permit year |
 | `total_units` | Total authorized residential units |
 
-Source: Census Bureau Building Permits Survey (BPS), annual county data.
+Source: Census Bureau Building Permits Survey, annual county files at
+`www2.census.gov/econ/bps/County/co{year}a.txt` (the older
+`www.census.gov/construction/bps/csv/*.csv` path 404s for every year).
+
+`total_units` sums the Units column of all four structure-size groups
+(1-unit, 2-units, 3-4 units, 5+ units). The file repeats those four groups a
+second time as "rep" revisions; those are excluded, and including them would
+roughly double every count. Columns are positional, so the parser checks the
+sub-header row before trusting the indices.
 
 ---
 
@@ -1573,6 +1669,9 @@ def write_readme() -> None:
 # ---------------------------------------------------------------------------
 
 def main(refresh: bool = False) -> None:
+    # Captured before anything is written so the status writer can tell an
+    # output this run produced from one left behind by an earlier one.
+    run_started = time.time()
     log.info("=== Colorado Housing Costs Pipeline ===")
     log.info("refresh=%s", refresh)
 
@@ -1653,7 +1752,8 @@ def main(refresh: bool = False) -> None:
     _validate_outputs_and_write_status(
         _collect_source_status(
             acs=acs_df, fhfa_hpi=hpi_df, bls_ppi=bls_df, qcew=qcew_df, bps=bps_df
-        )
+        ),
+        run_started=run_started,
     )
 
     log.info("=== Pipeline complete ===")
