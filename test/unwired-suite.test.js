@@ -1,127 +1,262 @@
 #!/usr/bin/env node
 /**
- * unwired-suite — run every test file that no npm script names.
+ * unwired-suite — run every in-scope test file that CI would otherwise never execute.
  *
- * 52 of 230 test files never executed in CI. They were not deleted and not
- * disabled; they simply had no npm script, so nothing ran them and nothing
- * said so. `test/acs-etl.test.js` alone carries 170 assertions and had never
- * run once. Predictably, several rotted: `hna-rent-burden-bins` is 17 passed
- * and 1 failed, `co-lihtc-map` 32 and 1 -- single stale assertions against code
- * that moved on, invisible because nothing was watching.
+ * Test files in this repo had a habit of being written and never wired up:
+ * 72 of them had no route to CI at all when this was introduced, including
+ * test/acs-etl.test.js and its 170 assertions. The cause was friction --
+ * `test:ci` is a ~190-step single-line `&&` chain, so adding an entry means
+ * editing that line, and skipping it costs nothing. This runner is ONE entry
+ * that discovers its own contents, so a new test file is picked up by existing.
  *
- * The wiring itself was the cause. `test:ci` is a 181-step, 6,500-character
- * single-line `&&` chain, so adding a test means editing that line, and the
- * path of least resistance is to write the file and skip the wiring. Adding 34
- * more entries would make that worse. This runner is ONE entry that discovers
- * its own contents, so a new test file is picked up by existing it.
+ * Pairs with test/test-reachability.test.js, which fails if any in-scope test
+ * file is neither reachable from a CI root nor quarantined.
  *
- * Pairs with test/test-reachability.test.js, which fails if any test file is
- * neither named by an npm script, nor picked up here, nor quarantined below.
+ * SCOPE IS DECLARED, NOT IMPLIED (see SCOPE below). An earlier version reported
+ * "all 252 test files reachable" while silently ignoring 70 test-shaped files
+ * in other conventions -- the same overclaim as a schema declaring fields no
+ * row carries. Whatever is out of scope is counted and named, never dropped.
  */
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
+const TEST_DIR = path.join(ROOT, 'test');
+
+/** Per-test wall clock. A hung legacy test must not eat the CI job ceiling. */
+const TEST_TIMEOUT_MS = Number(process.env.UNWIRED_TEST_TIMEOUT_MS || 120000);
 
 /**
- * Known-failing files, with the reason. Quarantine is deliberately noisy: the
- * list is printed on every run and the reachability gate requires a non-empty
- * reason for each entry, so an item cannot sit here quietly. Removing an entry
- * is the fix; adding one needs a reason someone will read.
+ * What this gate covers, stated outright.
+ *
+ * INCLUDED: JavaScript test files under test/, at any depth, in the two
+ * conventions this repo actually uses.
+ *
+ * EXCLUDED: everything below, with the reason. Excluded files are COUNTED and
+ * reported; they are not silently outside the claim.
  */
-const QUARANTINE = {
-  // Empty, and that is the intended resting state. Thirteen entries lived here
-  // when this runner was introduced; all thirteen were fixed rather than left
-  // to sit. Twelve were stale assertions -- pinned field names, call shapes,
-  // parameter counts and markup that had moved on while nothing ran them. One
-  // (co-historical-allocations) turned out to be a real inconsistency: the
-  // dataset declared six fields in fieldDefinitions that no entry has ever
-  // carried, and the generator preserved that declaration verbatim on every
-  // refresh, so it outlived whatever wrote it.
-  //
-  // Adding an entry is allowed but deliberately uncomfortable: the reason is
-  // printed on every CI run and test-reachability asserts it is substantive.
-  // Deleting the entry is the exit.
+const SCOPE = {
+  includePatterns: [/\.test\.m?js$/, /^test_[^/]*\.js$/],
+  excluded: [
+    {
+      label: 'Python tests (*.py under test/ and tests/)',
+      match: (rel, abs) => abs.endsWith('.py'),
+      dirs: ['test', 'tests'],
+      reason: 'need pytest and per-suite dependencies; five are already invoked by npm scripts '
+            + '(test:fmr-flatten-guard, test:fred-commodities-config, test:hna-build-concurrency, '
+            + 'test:acs-fetch-retries). Bringing the rest under one runner is its own change.',
+    },
+    {
+      label: 'Non-test .js under test/ (helpers and named entry points)',
+      match: (rel, abs) => rel.endsWith('.js')
+        && !/\.test\.m?js$/.test(rel) && !/(^|\/)test_[^/]*\.js$/.test(rel),
+      dirs: ['test'],
+      reason: 'audit entry points and shared helpers invoked by name '
+            + '(e.g. pages-availability-check.js runs inside deploy.yml, hna-functionality-check.js '
+            + 'inside test:hna); running them blind would execute helpers as if they were suites.',
+    },
+  ],
 };
 
 /**
- * Every test file under test/, at any depth, as a path relative to test/.
+ * Quarantine: known-failing in-scope tests.
  *
- * This read test/ non-recursively when it was written, which missed the seven
- * files in test/integration/ -- none of them wired to an npm script either. The
- * guard could not see the directory it was supposed to be guarding, so the
- * original "52 unreachable" count was itself short by seven. Recursion is the
- * fix; the vacuous-pass floor in test-reachability is what would eventually
- * have caught a regression here.
+ * Empty is the intended resting state. Thirteen entries lived here when the
+ * runner was introduced and all thirteen were fixed rather than left to sit.
+ *
+ * Every entry needs a reason, a follow-up issue and the date it was added --
+ * test-reachability asserts all three. Without them a quarantine is just a
+ * disabled test with better manners.
  */
-function discoverAll(dir, prefix) {
-  const base = dir || path.join(ROOT, 'test');
-  const pre = prefix || '';
-  const out = [];
-  for (const e of fs.readdirSync(base, { withFileTypes: true })) {
-    if (e.isDirectory()) {
-      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
-      out.push(...discoverAll(path.join(base, e.name), pre + e.name + '/'));
-    } else if (/\.test\.(js|mjs)$/.test(e.name)) {
-      out.push(pre + e.name);
+const QUARANTINE = {
+  // 'example.test.js': { reason: '…', issue: 1234, since: '2026-09-14' },
+};
+
+/* ── discovery ─────────────────────────────────────────────────────────── */
+
+function walk(dir, prefix, out) {
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.name.startsWith('.') || e.name === 'node_modules') continue;
+    const abs = path.join(dir, e.name);
+    const rel = prefix + e.name;
+    if (e.isDirectory()) walk(abs, rel + '/', out);
+    else out.push(rel);
+  }
+  return out;
+}
+
+/** Every file under test/, at any depth, relative to test/. */
+function allFiles() {
+  return walk(TEST_DIR, '', []).sort();
+}
+
+/** In-scope test files (the set this gate makes claims about). */
+function discoverAll() {
+  return allFiles().filter((rel) => {
+    const base = path.basename(rel);
+    return SCOPE.includePatterns.some((re) => re.test(base));
+  });
+}
+
+/** Out-of-scope files grouped by the declared exclusion they fall under. */
+function excludedByScope() {
+  const groups = SCOPE.excluded.map((g) => ({ ...g, files: [] }));
+  const seen = new Set(discoverAll());
+  const roots = new Set(SCOPE.excluded.flatMap((g) => g.dirs));
+  for (const dirName of roots) {
+    const dir = path.join(ROOT, dirName);
+    if (!fs.existsSync(dir)) continue;
+    for (const rel of walk(dir, '', [])) {
+      const key = dirName + '/' + rel;
+      if (dirName === 'test' && seen.has(rel)) continue;
+      for (const g of groups) {
+        if (!g.dirs.includes(dirName)) continue;
+        if (g.match(rel, key)) { g.files.push(key); break; }
+      }
     }
   }
-  return out.sort();
+  return groups;
 }
 
-/** Test files named by any npm script — they run through their own entry. */
-function namedByScript() {
-  const scripts = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts || {};
-  const named = new Set();
-  for (const file of discoverAll()) {
-    if (Object.values(scripts).some((v) => typeof v === 'string' && v.includes(file))) named.add(file);
+/* ── reachability ──────────────────────────────────────────────────────── */
+
+/**
+ * Scripts CI actually starts. `test:ci` is the big one, but ci-checks.yml also
+ * runs `npm run test:smoke` on its own, and deploy.yml has its own entry points.
+ * Treating test:ci as the only root marked those as unreachable and produced
+ * duplicate wiring for tests that already ran.
+ */
+function ciRoots(scripts) {
+  const roots = new Set();
+  const wfDir = path.join(ROOT, '.github', 'workflows');
+  if (fs.existsSync(wfDir)) {
+    for (const f of fs.readdirSync(wfDir)) {
+      if (!/\.ya?ml$/.test(f)) continue;
+      const src = fs.readFileSync(path.join(wfDir, f), 'utf8');
+      for (const m of src.matchAll(/npm run ([a-zA-Z0-9:_-]+)/g)) {
+        if (scripts[m[1]]) roots.add(m[1]);
+      }
+    }
   }
-  return named;
+  return roots;
 }
 
-// Exported so the reachability gate reasons about exactly the same sets.
-const SELF = path.relative(path.join(ROOT, 'test'), __filename);
+/** Scripts reachable from the CI roots, following nested `npm run` calls. */
+function reachableScripts(scripts) {
+  const seen = new Set();
+  const queue = [...ciRoots(scripts)];
+  while (queue.length) {
+    const name = queue.shift();
+    if (seen.has(name) || !scripts[name]) continue;
+    seen.add(name);
+    for (const m of String(scripts[name]).matchAll(/npm run ([a-zA-Z0-9:_-]+)/g)) {
+      if (!seen.has(m[1])) queue.push(m[1]);
+    }
+  }
+  return seen;
+}
+
+/**
+ * Does `body` invoke exactly this test file?
+ *
+ * Substring matching made `hmda-lookup.test.js` look reached because
+ * `xss-hmda-lookup.test.js` contains it -- so a real test was excluded from the
+ * runner AND passed the gate. It never ran, and the guard said it was fine.
+ * Anchor on a path boundary so one filename cannot be a suffix of another.
+ */
+function invokesExactly(body, rel) {
+  const esc = rel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp('(^|[\\s"\'=(])(?:\\./)?test/' + esc + '(?=$|[\\s"\'&;)])').test(String(body));
+}
+
+/** rel -> array of reachable script names that invoke it by exact path. */
+function wiredScriptsFor(rel, scripts, reachable) {
+  return [...reachable].filter((k) => invokesExactly(scripts[k], rel));
+}
+
+const SELF = path.relative(TEST_DIR, __filename);
+
 function partition() {
-  const named = namedByScript();
-  const run = [];
-  for (const f of discoverAll()) {
-    if (f === SELF) continue;
-    if (named.has(f)) continue;               // has its own entry
-    if (QUARANTINE[f]) continue;              // known-failing, tracked
-    run.push(f);
+  const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  const scripts = pkg.scripts || {};
+  const reachable = reachableScripts(scripts);
+  const allScripts = Object.keys(scripts);
+
+  const directlyWired = [];     // named by a script test:ci runs in its own chain
+  const transitivelyWired = []; // reached through a nested npm run, or another CI root
+  const run = [];               // no script route: this runner executes them
+  const quarantined = [];
+  const ciBody = ' ' + (scripts['test:ci'] || '') + ' ';
+
+  for (const rel of discoverAll()) {
+    if (rel === SELF) continue;
+    if (QUARANTINE[rel]) { quarantined.push(rel); continue; }
+
+    const owners = wiredScriptsFor(rel, scripts, reachable);
+    if (!owners.length) {
+      // Defined by a script that CI never starts is the same as unwired.
+      const orphanOwners = allScripts.filter((k) => invokesExactly(scripts[k], rel));
+      run.push(rel);
+      if (orphanOwners.length) run[run.length - 1] = rel; // still run it; gate reports the orphan
+      continue;
+    }
+    if (owners.some((k) => ciBody.includes(`npm run ${k} `))) directlyWired.push(rel);
+    else transitivelyWired.push(rel);
   }
-  return { run, quarantined: Object.keys(QUARANTINE).slice(), named };
+  return { directlyWired, transitivelyWired, run, quarantined, scripts, reachable };
 }
 
-module.exports = { QUARANTINE, discoverAll, namedByScript, partition, SELF };
+module.exports = {
+  QUARANTINE, SCOPE, TEST_TIMEOUT_MS, SELF,
+  allFiles, discoverAll, excludedByScope,
+  ciRoots, reachableScripts, invokesExactly, wiredScriptsFor, partition,
+};
+
+/* ── runner ────────────────────────────────────────────────────────────── */
 
 if (require.main === module) {
-  const { run, quarantined } = partition();
-  console.log(`\nunwired-suite — ${run.length} test files with no npm script of their own`);
+  const { directlyWired, transitivelyWired, run, quarantined } = partition();
+  console.log(`\nunwired-suite — ${run.length} in-scope test files with no route from a CI root`);
+  console.log(`  (directly wired: ${directlyWired.length} · transitively wired: ${transitivelyWired.length})`);
 
-  let failed = [];
-  for (const f of run) {
+  const failed = [];
+  for (const rel of run) {
     try {
-      execFileSync(process.execPath, [path.join(ROOT, 'test', f)], { stdio: 'pipe' });
+      execFileSync(process.execPath, [path.join(TEST_DIR, rel)], {
+        stdio: 'pipe',
+        timeout: TEST_TIMEOUT_MS,
+        killSignal: 'SIGKILL',
+      });
     } catch (err) {
-      failed.push(f);
+      failed.push(rel);
+      if (err.killed || err.signal === 'SIGKILL' || err.code === 'ETIMEDOUT') {
+        console.error(`  ✗ ${rel} — TIMED OUT after ${TEST_TIMEOUT_MS}ms and was killed`);
+        continue;
+      }
       const out = ((err.stdout || '') + (err.stderr || '')).toString();
-      const why = out.split('\n').filter((l) => /✗|❌|FAIL|Error/.test(l)).slice(0, 3);
-      console.error(`  ✗ ${f}`);
-      why.forEach((l) => console.error(`      ${l.trim().slice(0, 140)}`));
+      console.error(`  ✗ ${rel}`);
+      out.split('\n').filter((l) => /✗|❌|FAIL|Error/.test(l)).slice(0, 3)
+        .forEach((l) => console.error(`      ${l.trim().slice(0, 140)}`));
     }
   }
 
   if (quarantined.length) {
     console.log(`\n  quarantined (${quarantined.length}) — tracked, not silently skipped:`);
-    for (const f of quarantined) console.log(`    · ${f} — ${QUARANTINE[f]}`);
+    for (const rel of quarantined) {
+      const q = QUARANTINE[rel];
+      console.log(`    · ${rel} — #${q.issue} (since ${q.since}) — ${q.reason}`);
+    }
+  }
+
+  for (const g of excludedByScope()) {
+    if (g.files.length) console.log(`\n  out of declared scope — ${g.label}: ${g.files.length} file(s)\n    ${g.reason}`);
   }
 
   if (failed.length) {
     console.error(`\nunwired-suite: FAIL (${failed.length} of ${run.length})`);
     process.exit(1);
   }
-  console.log(`  ✓ ${run.length} passed`);
+  console.log(`\n  ✓ ${run.length} passed`);
   console.log('unwired-suite: PASS');
 }

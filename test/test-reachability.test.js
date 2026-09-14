@@ -2,31 +2,29 @@
 /**
  * test-reachability — a test file that never runs is not a test.
  *
- * Audited 2026-09-14: 52 of 230 test files never executed in CI. 47 had no npm
- * script at all; 5 had one that `test:ci` never called. `test/acs-etl.test.js`
- * alone carries 170 assertions and had never run. Nothing was broken-looking --
- * the suite reported green the whole time, because the unrun files were not
- * part of what "green" measured.
+ * 72 of this repo's test files had no route to CI when this was written.
+ * test/acs-etl.test.js alone carries 170 assertions and had never executed.
+ * Nothing looked wrong: the suite reported green, because the unrun files were
+ * not part of what "green" measured.
  *
- * That is the same shape as the other defects found this week: alert.js never
- * had a token and never opened an issue in the repo's history; the cancellation
- * branch of notify-workflow-outcome is correct code the runner kills before it
- * can execute. In each case something reported a state it never verified.
+ * Every IN-SCOPE test file (scope declared in unwired-suite.test.js, and
+ * asserted below) must be reachable one of three ways:
+ *   1. invoked by a script that CI starts, directly or through nested npm run;
+ *   2. executed by test/unwired-suite.test.js, which discovers its own list;
+ *   3. listed in that runner's QUARANTINE with a reason, an issue and a date.
  *
- * Every test file must therefore be reachable one of three ways:
- *   1. named by an npm script that `test:ci` runs;
- *   2. picked up by test/unwired-suite.test.js, which discovers its own list;
- *   3. listed in that runner's QUARANTINE with a reason.
- *
- * (3) is deliberately uncomfortable: the reason is printed on every CI run and
- * asserted non-trivial here, so a quarantined file is visible rather than
- * forgotten. Fixing the file and deleting its entry is the intended exit.
+ * Three things this guard learned the hard way, each now asserted:
+ *   - Substring matching let xss-hmda-lookup.test.js "reach" hmda-lookup.test.js,
+ *     so a real test was excluded from the runner AND passed the gate.
+ *   - test:ci is not the only CI root; ci-checks.yml runs test:smoke separately,
+ *     and requiring a direct test:ci entry produced duplicate wiring.
+ *   - Discovery that finds nothing passes vacuously, so every count has a floor.
  */
 const fs = require('fs');
 const path = require('path');
+const suite = require('./unwired-suite.test.js');
 
 const ROOT = path.resolve(__dirname, '..');
-const suite = require('./unwired-suite.test.js');
 
 let failures = 0;
 const fail = (m) => { console.error(`  ✗ ${m}`); failures++; };
@@ -35,59 +33,110 @@ console.log('\ntest-reachability');
 
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const scripts = pkg.scripts || {};
-const ci = ' ' + (scripts['test:ci'] || '') + ' ';
+const inScope = suite.discoverAll();
 
-const all = suite.discoverAll();
-if (all.length < 100) {
-  fail(`found only ${all.length} test files — discovery has probably drifted and this `
-     + `guard would pass vacuously`);
+/* ── vacuous-pass floors ───────────────────────────────────────────────── */
+
+if (inScope.length < 200) {
+  fail(`discovery found only ${inScope.length} in-scope test files — the scope patterns have `
+     + `probably drifted and every check below would pass vacuously`);
+}
+const roots = suite.ciRoots(scripts);
+if (!roots.has('test:ci')) {
+  fail('test:ci is not detected as a CI root — reachability would be computed from nothing');
+}
+if (roots.size < 2) {
+  fail(`only ${roots.size} CI root(s) detected; ci-checks.yml alone starts more than one, so `
+     + `workflow scanning has probably broken`);
 }
 
-// The runner itself must be wired into test:ci, or routes 2 and 3 mean nothing.
-const runnerScript = Object.entries(scripts)
-  .find(([, v]) => typeof v === 'string' && v.includes(suite.SELF));
-if (!runnerScript) {
-  fail(`test/${suite.SELF} has no npm script — the discovered suite would never run`);
-} else if (!ci.includes(`npm run ${runnerScript[0]} `)) {
-  fail(`"${runnerScript[0]}" is not in test:ci — the discovered suite would never run`);
+/* ── the runner itself must be wired, or routes 2 and 3 mean nothing ───── */
+
+const reachable = suite.reachableScripts(scripts);
+const runnerOwners = suite.wiredScriptsFor(suite.SELF, scripts, reachable);
+if (!runnerOwners.length) {
+  fail(`test/${suite.SELF} is not invoked by any script CI starts — the discovered suite `
+     + `would never run`);
 }
 
-const { run, quarantined } = suite.partition();
-const runnable = new Set(run);
-const quarantineSet = new Set(quarantined);
+/* ── exact-path matching, not substring ────────────────────────────────── */
 
-for (const f of all) {
-  if (f === suite.SELF) continue;
-  if (runnable.has(f) || quarantineSet.has(f)) continue;   // routes 2 and 3
+// Guard the property directly: a filename that is a suffix of another must not
+// be considered invoked by the script that runs the longer one.
+const collisionProbe = suite.invokesExactly('node test/xss-hmda-lookup.test.js', 'hmda-lookup.test.js');
+if (collisionProbe) {
+  fail('invokesExactly() matches on substrings — "xss-hmda-lookup.test.js" counts as invoking '
+     + '"hmda-lookup.test.js", which silently excludes a real test while reporting it reached');
+}
 
-  // Route 1: named by a script — but that script must actually be in test:ci.
-  const owners = Object.entries(scripts)
-    .filter(([, v]) => typeof v === 'string' && v.includes(f))
-    .map(([k]) => k);
-  if (!owners.length) {
-    fail(`test/${f} is unreachable: no npm script names it and the discovered suite skips it`);
+/* ── every in-scope file is reachable ──────────────────────────────────── */
+
+const { directlyWired, transitivelyWired, run, quarantined } = suite.partition();
+const accounted = new Set([...directlyWired, ...transitivelyWired, ...run, ...quarantined, suite.SELF]);
+for (const rel of inScope) {
+  if (!accounted.has(rel)) {
+    fail(`test/${rel} is unreachable: no CI-reachable script invokes it, the discovered suite `
+       + `skips it, and it is not quarantined`);
+  }
+}
+
+// A script that CI never starts is not a route. Flag tests whose only owner is orphaned.
+const allScriptNames = Object.keys(scripts);
+for (const rel of run) {
+  const orphans = allScriptNames.filter((k) => suite.invokesExactly(scripts[k], rel) && !reachable.has(k));
+  if (orphans.length) {
+    console.log(`  · test/${rel} has script(s) ${orphans.map((o) => `"${o}"`).join(', ')} that no CI `
+      + `workflow starts — the discovered suite runs it instead`);
+  }
+}
+
+/* ── quarantine hygiene ────────────────────────────────────────────────── */
+
+const MAX_QUARANTINE = 0;   // raise deliberately, in a reviewed diff, never by drift
+const qEntries = Object.entries(suite.QUARANTINE);
+if (qEntries.length > MAX_QUARANTINE) {
+  fail(`${qEntries.length} quarantined test(s) but MAX_QUARANTINE is ${MAX_QUARANTINE}. `
+     + `Quarantining is allowed, growing the quarantine silently is not — raise the ceiling in `
+     + `the same diff so it shows up in review.`);
+}
+for (const [rel, q] of qEntries) {
+  if (!fs.existsSync(path.join(ROOT, 'test', rel))) {
+    fail(`QUARANTINE lists test/${rel}, which does not exist — delete the entry`);
+  }
+  if (!q || typeof q !== 'object') {
+    fail(`QUARANTINE entry for ${rel} must be an object with { reason, issue, since }`);
     continue;
   }
-  if (!owners.some((k) => ci.includes(`npm run ${k} `))) {
-    fail(`test/${f} has script(s) ${owners.map((o) => `"${o}"`).join(', ')} but none is in `
-       + `test:ci — it is defined and still never runs`);
+  if (!q.reason || String(q.reason).trim().length < 25) {
+    fail(`QUARANTINE ${rel}: needs a reason someone can act on, got ${JSON.stringify(q.reason)}`);
+  }
+  if (!Number.isInteger(q.issue) || q.issue <= 0) {
+    fail(`QUARANTINE ${rel}: needs a follow-up issue number, got ${JSON.stringify(q.issue)}. `
+       + `A quarantine with no issue is a test nobody has agreed to fix.`);
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(q.since || ''))) {
+    fail(`QUARANTINE ${rel}: needs a "since" date as YYYY-MM-DD, got ${JSON.stringify(q.since)}`);
   }
 }
 
-// A quarantine entry without a real reason is just a disabled test.
-for (const [file, reason] of Object.entries(suite.QUARANTINE)) {
-  if (!fs.existsSync(path.join(ROOT, 'test', file))) {
-    fail(`QUARANTINE lists test/${file}, which does not exist — delete the entry`);
-  }
-  if (!reason || reason.trim().length < 25) {
-    fail(`QUARANTINE entry for ${file} needs a reason someone can act on, got: ${JSON.stringify(reason)}`);
+/* ── declared scope must be honest ─────────────────────────────────────── */
+
+const excluded = suite.excludedByScope();
+for (const g of excluded) {
+  if (!g.reason || String(g.reason).trim().length < 25) {
+    fail(`scope exclusion "${g.label}" needs a stated reason`);
   }
 }
+const excludedCount = excluded.reduce((n, g) => n + g.files.length, 0);
 
 if (failures) {
   console.error(`\ntest-reachability: FAIL (${failures})`);
   process.exit(1);
 }
-console.log(`  ✓ all ${all.length} test files reachable `
-  + `(${run.length} via the discovered suite, ${quarantined.length} quarantined with reasons)`);
+console.log(`  ✓ ${inScope.length} in-scope test files all reachable`);
+console.log(`      directly wired ${directlyWired.length} · transitively wired ${transitivelyWired.length} `
+  + `· discovered ${run.length} · quarantined ${quarantined.length}`);
+console.log(`  ✓ ${excludedCount} file(s) excluded by declared scope, each with a stated reason`);
+console.log(`  ✓ reachability computed from ${roots.size} CI roots, through nested npm run calls`);
+console.log(`  ✓ exact-path matching: a filename cannot be reached by being a suffix of another`);
 console.log('test-reachability: PASS');
