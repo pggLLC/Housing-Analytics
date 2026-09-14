@@ -226,6 +226,78 @@ export function assessStaleness({ cron, hoursSinceLastCompletedRun }) {
   };
 }
 
+/* ── P4: deciding what to do about an outcome ──────────────────────────── */
+
+/**
+ * The marker that ties an alert to its workflow.
+ *
+ * Deliberately the SAME format `.github/actions/notify-workflow-outcome` has
+ * used since 2026-05: `[workflow-fail:<id>]`. Eight issues already carry it
+ * (#1627, #1613, #1566, #1425, #1371, #1035, #937, #914). Reusing it means this
+ * monitor finds and closes those existing trackers rather than opening a second
+ * parallel history for the same workflow.
+ */
+export function trackerMarker(workflowId) {
+  return `[workflow-fail:${workflowId}]`;
+}
+
+export function trackerTitle(workflowId) {
+  return `⚠️ ${trackerMarker(workflowId)} ${workflowId} workflow failing`;
+}
+
+/**
+ * Decide the action for an outcome, given whether a tracker is already open.
+ *
+ * Pure so it can be tested without touching the API. The rules:
+ *   - a failure or a real timeout OPENS a tracker, or COMMENTS on the open one
+ *     (multi-day outages produce one issue with a history, not one per run)
+ *   - a success CLOSES an open tracker, and does nothing when none is open
+ *   - everything else does nothing, and says why
+ */
+export function decideAction({ outcome, hasOpenTracker }) {
+  if (shouldAlert(outcome)) {
+    return hasOpenTracker
+      ? { action: 'comment', reason: `${outcome} while a tracker is already open` }
+      : { action: 'open',    reason: `${outcome} with no tracker open` };
+  }
+  if (outcome === OUTCOME.RECOVERED) {
+    return hasOpenTracker
+      ? { action: 'close', reason: 'a green run closes the tracker' }
+      : { action: 'none',  reason: 'green, and nothing was open' };
+  }
+  // never_ran / stopped / ignored: explicitly not alerts, and the reason is
+  // carried so a quiet monitor can be distinguished from a broken one.
+  return { action: 'none', reason: `${outcome} is not an alertable outcome` };
+}
+
+/**
+ * A tracker body that says what happened and how to check it.
+ *
+ * Timeouts get different wording from failures on purpose: a timeout renders
+ * grey rather than red in the Actions UI, so someone scanning for red misses
+ * it, and the first triage question is different — "what got slower" rather
+ * than "what broke".
+ */
+export function trackerBody({ workflowId, outcome, runUrl, durationMinutes, ceilingMinutes }) {
+  const lines = [
+    `**Workflow**: \`${workflowId}\``,
+    `**Outcome**: \`${outcome}\``,
+    runUrl ? `**Run**: ${runUrl}` : null,
+  ].filter(Boolean);
+
+  if (outcome === OUTCOME.TIMED_OUT) {
+    lines.push('', `This run was **cancelled at its timeout ceiling** (${Math.round(durationMinutes)} min `
+      + `against a ${ceilingMinutes}-minute limit) after executing steps — it did not fail, it ran out `
+      + `of time. GitHub records that as \`cancelled\`, which renders grey rather than red, so a scan `
+      + `for red misses it. That is how #1556 went fifteen days unnoticed.`);
+    lines.push('', 'Triage: look for what got slower, not what broke.');
+  }
+
+  lines.push('', '_Opened by the external workflow-outcome monitor. It watches from outside the job, '
+    + 'because a job killed by its own timeout cannot run a final notification step._');
+  return lines.join('\n');
+}
+
 /* ── CLI ───────────────────────────────────────────────────────────────── */
 
 async function main() {

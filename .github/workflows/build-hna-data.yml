@@ -411,22 +411,14 @@ jobs:
             echo "::warning::data/hna/ranking-index.json missing after build"
           fi
 
-      - name: Alert on build failure
-        if: failure()
-        uses: actions/github-script@v9
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        with:
-          script: |
-            const { execSync } = require('child_process');
-            try {
-              execSync(
-                `node scripts/monitoring/alert.js --mode failure --workflow build-hna-data.yml --run-id ${context.runId} --step "Build or Verify" --details "HNA data build produced no output files. Check Census API key and Python build logs."`,
-                { stdio: 'inherit', env: { ...process.env } }
-              );
-            } catch (e) {
-              console.error('Alert script failed:', e.message);
-            }
+      # The scripts/monitoring/alert.js call was removed with the migration to
+      # the external monitor. It never produced anything: alert.js opens an
+      # issue only when GITHUB_TOKEN is in the environment, and
+      # actions/github-script exposes a token on its client object rather than
+      # exporting one — so `{ ...process.env }` inherited an environment that
+      # never had it. Zero issues in this repository's history match alert.js's
+      # title formats. Leaving it would have become a genuine double alert the
+      # moment alert.js was repaired.
 
       - name: Rebuild homepage snapshot and manifests
         run: |
@@ -517,11 +509,15 @@ jobs:
           fi
           git push
 
-      - name: Notify on failure / close tracker on recovery
-        if: always()
-        uses: ./.github/actions/notify-workflow-outcome
-        with:
-          workflow_id: build-hna-data
-          outcome: ${{ job.status }}
-          slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          github_token: ${{ github.token }}
+      # The in-job notifier was removed when this workflow moved to the external
+      # monitor (.github/workflows/workflow-outcome-monitor.yml), in the same
+      # change — never both, or one failure alerts twice.
+      #
+      # It is removed rather than kept as a backup because it could not do the
+      # job it was here for. This workflow has `timeout-minutes: 120`, and a job
+      # killed by that timeout terminates its runner: `if: always()` does not
+      # survive it. Five cancelled runs, four of them at ~120 minutes, produced
+      # no alert between them — and #1556 (fifteen days with no completed
+      # scheduled run) was found by hand. The monitor watches from outside the
+      # job and reuses the same [workflow-fail:build-hna-data] marker, so the
+      # existing trackers stay continuous.

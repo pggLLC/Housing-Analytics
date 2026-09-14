@@ -117,13 +117,68 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
 
 /* ── 4. P1 must not hold a permission it does not use ──────────────────── */
 {
+  // P1-P3 held no write permission because they opened nothing. P4 grants
+  // issues: write alongside the first workflow this monitor actually alerts for.
+  // The invariant is not "never hold it" — it is "hold it only while something
+  // is being alerted for", so an unused write permission cannot linger.
+  const watched = [...wfCode.matchAll(/^\s*-\s*"([^"]+)"\s*$/gm)].map((m) => m[1]);
+  const alertsForSomething = watched.length > 1;   // beyond the P1 observation-only target
   if (/issues:\s*write/.test(wfCode)) {
-    fail('P1 grants issues: write but opens nothing. Grant it in P4 alongside the first real alert.');
-  } else {
-    ok('no issues: write in P1 — the package opens nothing');
+    if (!alertsForSomething) {
+      fail('the monitor grants issues: write but watches only its original observation-only '
+         + 'target — a write permission with nothing to write about should not be held');
+    } else {
+      ok(`issues: write is held, and ${watched.length} workflows are watched for alerting`);
+    }
+  } else if (alertsForSomething) {
+    fail('the monitor watches workflows for alerting but has no issues: write — it cannot open '
+       + 'or close a tracker, which is the alert.js defect (#1619) in a new place');
   }
   if (!/actions:\s*read/.test(wfCode)) {
     fail('the monitor needs actions: read to inspect run outcomes');
+  }
+}
+
+/* ── 4b. a watched workflow must NOT also notify in-job ────────────────── */
+{
+  // The single biggest risk in this migration: a workflow on the monitor's
+  // watch list that ALSO still carries its own notifier alerts twice for one
+  // failure. Every package migrates a workflow by removing its in-job step in
+  // the same commit that adds it here — this asserts nobody undoes half of that.
+  const watched = [...wfCode.matchAll(/^\s*-\s*"([^"]+)"\s*$/gm)].map((m) => m[1]);
+  const wfDir = path.join(ROOT, '.github', 'workflows');
+
+  // Map display name -> file, so the watch list (which uses `name:`) can be
+  // resolved to the workflow it refers to.
+  const byName = {};
+  for (const f of fs.readdirSync(wfDir).filter((f) => /\.ya?ml$/.test(f))) {
+    const src = fs.readFileSync(path.join(wfDir, f), 'utf8');
+    const nm = (src.match(/^name:\s*(.+)$/m) || [])[1];
+    if (nm) byName[nm.trim()] = { file: f, src };
+  }
+
+  let unresolved = 0;
+  for (const name of watched) {
+    const hit = byName[name];
+    if (!hit) { unresolved++; continue; }
+    if (hit.file === 'workflow-outcome-monitor.yml') continue;
+    const code = hit.src.replace(/^\s*#.*$/gm, '');
+    if (/notify-workflow-outcome/.test(code)) {
+      fail(`${hit.file} is watched by the monitor AND still uses notify-workflow-outcome in-job — `
+         + `one failure would alert twice. Remove the in-job step in the same change that adds `
+         + `the workflow to the watch list.`);
+    }
+    if (/monitoring\/alert/.test(code)) {
+      fail(`${hit.file} is watched by the monitor AND still calls scripts/monitoring/alert.js. `
+         + `alert.js never fires (no token), so this is not currently a double alert — but it `
+         + `becomes one the moment alert.js is repaired. Remove it with the migration.`);
+    }
+  }
+  if (unresolved === watched.length) {
+    fail('none of the watched workflow names resolved to a file — the name-matching has drifted '
+       + 'and this guard would pass vacuously');
+  } else {
+    ok(`all ${watched.length - unresolved} watched workflow(s) have no in-job notifier`);
   }
 }
 
