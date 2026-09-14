@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # gh workflow run deploy.yml
 
 concurrency:
   group: data-commits
@@ -118,4 +119,20 @@ jobs:
               git commit --amend --no-edit
             fi
             git push
+          fi
+
+      - name: Dispatch Pages deploy for the data commit
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Workflow-token pushes do not trigger deploy.yml. Verified: the
+          # refresh commit 5a36e81ab got zero deploy runs and its data never
+          # reached the site until a later commit happened to carry it.
+          if git diff --quiet HEAD~1 -- data/ 2>/dev/null; then
+            echo "No data change in the last commit — nothing to deploy."
+          else
+            gh workflow run deploy.yml --ref main
+            echo "Dispatched deploy.yml for the refreshed data."
           fi
