@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T06:23:06.942Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T06:24:16.611Z. Do not edit by hand.
 
 ---
 
@@ -57,7 +57,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.5 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
