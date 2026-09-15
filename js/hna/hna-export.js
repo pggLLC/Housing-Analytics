@@ -402,7 +402,7 @@
         unitsNeeded:         _elText('statUnitsNeed'),
         netMigration:        _elText('statNetMig'),
         // Structure-type composition (% of structures) + vacancy
-        rentalVacancyRate:   m.vacancy_rate,
+        rentalVacancyRate:   m.vacancy_rate_pct,
         pctMultifamily:      m.pct_multifamily || null,
         pctSfDetached:       m.pct_sf_detached || null,
         pct2to4Units:        m.pct_2to4_units || null,

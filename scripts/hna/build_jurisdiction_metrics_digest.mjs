@@ -93,12 +93,12 @@ const RATE_DENOMINATORS = {
   pct_burdened_81to100: 'low_income_households_lte30',
   pct_burdened_100plus: 'low_income_households_lte30',
   pct_owner_burdened_30plus: 'owner_households',
-  vacancy_rate: 'housing_units',
+  vacancy_rate_pct: 'housing_units',
   pct_renters: 'occupied_households',
   pct_multifamily: 'housing_units',
   pct_sf_detached: 'housing_units',
   pct_2to4_units: 'housing_units',
-  overcrowding_rate: 'occupied_households',
+  overcrowding_rate_pct: 'occupied_households',
 };
 
 const ECONOMIC_METRICS = {
@@ -299,7 +299,7 @@ function sourceForMetric(metric, entry, summary) {
   if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr' || metric === 'future_pressure_score' || metric === 'senior_share_growth_pp') {
     return { source_id: 'dola-demographic-projections', geography_level: contextLevel(entry, entry.type === 'county' ? 'county' : 'county_context'), as_of: 'DOLA projection cache' };
   }
-  if (metric.includes('opportunity') || metric === 'walkability_score' || metric === 'amenity_access_score' || metric === 'qct_dda_score' || metric === 'qct_share' || metric === 'dda_share') {
+  if (metric.includes('opportunity') || metric === 'walkability_score' || metric === 'amenity_access_score' || metric === 'qct_dda_score' || metric === 'qct_share_pct' || metric === 'dda_share_pct') {
     return {
       source_id: metric.includes('qct') || metric.includes('dda') ? 'hud-qct-dda' : 'opportunity-amenity-context',
       geography_level: contextLevel(entry, m.opportunity_geography_level || 'place'),

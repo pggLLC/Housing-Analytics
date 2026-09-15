@@ -509,9 +509,9 @@ group('4b. Seasonal vacancy disclosure', () => {
       name: 'Steamboat Springs (city)',
       type: 'place',
       metrics: {
-        raw_rental_vacancy_rate: 27.1,
-        vacancy_rate: 7.8,
-        seasonal_vacancy_rate: 29.5,
+        raw_rental_vacancy_rate_pct: 27.1,
+        vacancy_rate_pct: 7.8,
+        seasonal_vacancy_rate_pct: 29.5,
         seasonal_share_of_vacant: 71.4,
       },
     });
@@ -527,9 +527,9 @@ group('4b. Seasonal vacancy disclosure', () => {
       name: 'Milliken (town)',
       type: 'place',
       metrics: {
-        raw_rental_vacancy_rate: 22.4,
-        vacancy_rate: 2.0,
-        seasonal_vacancy_rate: 0.5,
+        raw_rental_vacancy_rate_pct: 22.4,
+        vacancy_rate_pct: 2.0,
+        seasonal_vacancy_rate_pct: 0.5,
         seasonal_share_of_vacant: 13.6,
       },
     });
@@ -544,13 +544,13 @@ group('4b. Seasonal vacancy disclosure', () => {
       geoid: '08031',
       name: 'Denver County',
       type: 'county',
-      metrics: { raw_rental_vacancy_rate: 25, seasonal_vacancy_rate: 30 },
+      metrics: { raw_rental_vacancy_rate_pct: 25, seasonal_vacancy_rate_pct: 30 },
     }), null);
     assert.equal(Ranking.getSeasonalVacancyDisclosure({
       geoid: '0807850',
       name: 'Boulder (city)',
       type: 'place',
-      metrics: { raw_rental_vacancy_rate: 13.8, seasonal_vacancy_rate: 33.9 },
+      metrics: { raw_rental_vacancy_rate_pct: 13.8, seasonal_vacancy_rate_pct: 33.9 },
     }), null);
   });
 });
