@@ -342,7 +342,36 @@ export async function ghRequest(path, { token, method = 'GET', body, fetchImpl }
 export function findTracker(issues, workflowId) {
   const marker = trackerMarker(workflowId);
   return (issues || []).find((i) =>
-    i && i.state === 'open' && typeof i.title === 'string' && i.title.includes(marker)) || null;
+    i
+    // GET /issues returns PULL REQUESTS as well as issues — on this repo it
+    // returned 12 items for 9 issues. A PR that quotes a tracker's title, which
+    // is exactly what a PR fixing one tends to do, would otherwise match here
+    // and the monitor would comment on and CLOSE that pull request.
+    && !i.pull_request
+    && i.state === 'open'
+    && typeof i.title === 'string'
+    && i.title.includes(marker)) || null;
+}
+
+/**
+ * Every open issue, following pagination.
+ *
+ * A single per_page=100 request looks sufficient at today's 9 open issues and
+ * fails silently the moment the repo passes 100: the tracker sits on page 2,
+ * findTracker returns null, and every subsequent failure opens ANOTHER tracker
+ * — the monitor spamming issues while appearing to work. The cap is a
+ * belt-and-braces stop against a pathological repo, not an expected limit.
+ */
+export async function listOpenIssues(repo, { token, fetchImpl, maxPages = 20 } = {}) {
+  const all = [];
+  for (let page = 1; page <= maxPages; page += 1) {
+    const batch = await ghRequest(
+      `/repos/${repo}/issues?state=open&per_page=100&page=${page}`, { token, fetchImpl });
+    if (!Array.isArray(batch) || batch.length === 0) break;
+    all.push(...batch);
+    if (batch.length < 100) break;
+  }
+  return all;
 }
 
 /**
@@ -413,7 +442,7 @@ async function main() {
     return;
   }
 
-  const open = await ghRequest(`/repos/${repo}/issues?state=open&per_page=100`, { token });
+  const open = await listOpenIssues(repo, { token });
   const tracker = findTracker(open, workflowId);
   const decided = decideAction({ outcome, hasOpenTracker: Boolean(tracker) });
 

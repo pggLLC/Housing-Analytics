@@ -549,6 +549,48 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         ok('an open tracker is found by marker, renamed or not, and never another workflow\'s');
       }
 
+      // GET /issues returns PULL REQUESTS too — 12 items for 9 open issues on
+      // this repo. A PR fixing a tracker tends to quote its title, so without
+      // this filter the monitor would comment on and close that PR.
+      const withPr = [
+        { number: 7, state: 'open', title: realTitle, pull_request: { url: 'x' } },
+        { number: 8, state: 'open', title: realTitle },
+      ];
+      const picked = M.findTracker(withPr, 'build-hna-data');
+      if (!picked || picked.number !== 8) {
+        fail(`findTracker matched a pull request (${JSON.stringify(picked)}); `
+           + 'GET /issues includes PRs, and closing one as a tracker would be wrong');
+      } else {
+        ok('a pull request carrying the marker is never mistaken for the tracker');
+      }
+
+      // One per_page=100 request looks fine at 9 open issues and breaks silently
+      // past 100: the tracker lands on page 2, findTracker returns null, and
+      // every failure opens ANOTHER tracker while the monitor looks healthy.
+      {
+        const pages = [
+          Array.from({ length: 100 }, (_, i) => ({ number: i + 1, state: 'open', title: 'filler' })),
+          [{ number: 999, state: 'open', title: realTitle }],
+        ];
+        let seen = 0;
+        const fakeFetch = async (url) => {
+          const page = Number(new URL(url).searchParams.get('page')) || 1;
+          seen = Math.max(seen, page);
+          const body = pages[page - 1] || [];
+          return { ok: true, status: 200, text: async () => JSON.stringify(body) };
+        };
+        const all = await M.listOpenIssues('o/r', { token: 't', fetchImpl: fakeFetch });
+        const found = M.findTracker(all, 'build-hna-data');
+        if (seen < 2) {
+          fail('listOpenIssues stopped after one page — a tracker past the first 100 open '
+             + 'issues would be invisible and every failure would open a duplicate');
+        } else if (!found || found.number !== 999) {
+          fail(`a tracker on page 2 was not found (${JSON.stringify(found)})`);
+        } else {
+          ok('open issues are paginated, so a tracker past the first 100 is still found');
+        }
+      }
+
       // REGRESSION GUARD, and it RUNS main() rather than inspecting the pure
       // helpers. The first version of main() pre-checked decideAction with a
       // hard-coded `hasOpenTracker: false` to save an API call when the answer
