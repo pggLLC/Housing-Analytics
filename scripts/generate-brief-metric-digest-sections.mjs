@@ -20,7 +20,7 @@ const DATA_SOURCES = [
   ["d3", "housing_gap_units", "Deep-affordability housing gap units"],
   ["d4", "housing_gap_rate_lte30", "Deep-affordability gap rate"],
   ["d5", "pct_cost_burdened", "Renter cost-burden rate"],
-  ["d6", "overcrowding_rate", "Occupied-household overcrowding rate"],
+  ["d6", "overcrowding_rate_pct", "Occupied-household overcrowding rate"],
   ["d7", "median_home_value", "ZHVI market home-value estimate"],
   ["d8", "gross_rent_median", "Median gross rent"],
   ["d9", "pct_renters", "Renter household share"],
@@ -118,7 +118,7 @@ export function sectionFor(brief, digest) {
           `It identifies ${valueText(digest, "housing_gap_units")} deeply affordable units missing at <=30% AMI. ` +
           `${housingGapRateText(digest)} ` +
           `${valueText(digest, "pct_cost_burdened", "pct")} of renter households are cost burdened, ` +
-          `and ${valueText(digest, "overcrowding_rate", "pct")} of occupied households are overcrowded.`,
+          `and ${valueText(digest, "overcrowding_rate_pct", "pct")} of occupied households are overcrowded.`,
         cites: para0Cites,
       },
       {

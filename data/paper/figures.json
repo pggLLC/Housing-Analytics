@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "48944719a",
+  "generated_from_commit": "cde515edc",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 337873,
+    "hand_written_lines": 337899,
     "generated_place_page_lines": 226824,
     "top_level_pages": 62,
     "html_nonblank_lines": 46868,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "48944719a",
+    "extracted_at_commit": "cde515edc",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {

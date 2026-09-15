@@ -510,7 +510,9 @@ test('county-derived metrics are explicitly labeled county_context for places/CD
 
 test('rate metrics carry denominator floor metadata', () => {
   const digest = readJson(path.join(DIGEST_DIR, '0870195.json'));
-  for (const key of ['housing_gap_rate_lte30', 'pct_cost_burdened', 'vacancy_rate']) {
+  // vacancy_rate_pct since #1657 — the HNA family is percent-scaled and the
+  // demographics family publishes a 0-1 fraction under the unsuffixed name.
+  for (const key of ['housing_gap_rate_lte30', 'pct_cost_burdened', 'vacancy_rate_pct']) {
     const metric = digest.metrics[key];
     assert.ok(metric.denominator_key, `${key} missing denominator_key`);
     assert.strictEqual(metric.min_denominator, 50, `${key} min denominator changed`);

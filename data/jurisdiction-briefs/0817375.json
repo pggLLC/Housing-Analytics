@@ -361,7 +361,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-13T06:00:25Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-15T19:57:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -370,7 +370,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-13T06:00:25Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-15T19:57:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -410,7 +410,7 @@
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
-      "field": "overcrowding_rate",
+      "field": "overcrowding_rate_pct",
       "accessed": "2026-07-03"
     },
     {
@@ -505,7 +505,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-13T06:00:25Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-15T19:57:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -514,7 +514,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-13T06:00:25Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-15T19:57:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -523,7 +523,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-13T06:00:25Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-15T19:57:02Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",

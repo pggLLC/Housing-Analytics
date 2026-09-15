@@ -479,14 +479,14 @@ class TestRankingScoreNormalization:
         absent = next(
             (
                 e for e in entries
-                if e['metrics'].get('overcrowding_rate') is None
+                if e['metrics'].get('overcrowding_rate_pct') is None
                 and (e['metrics'].get('community_need_core_score') or 0) > 0
             ),
             None,
         )
         assert absent is not None, 'expected an entry with no overcrowding data'
         metrics = absent['metrics']
-        assert metrics.get('overcrowding_rate') is None
+        assert metrics.get('overcrowding_rate_pct') is None
         assert metrics.get('overcrowding_score') is None
-        assert 'overcrowding_rate' not in absent.get('dataQuality', {}).get('imputed_score_factors', [])
+        assert 'overcrowding_rate_pct' not in absent.get('dataQuality', {}).get('imputed_score_factors', [])
         assert metrics.get('community_need_core_score', 0) > 0
