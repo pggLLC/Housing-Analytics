@@ -335,10 +335,28 @@ test('the injector is idempotent — running it twice changes nothing', () => {
 test('the volatile list is declared, short, and about the repo not about Colorado', () => {
   if (!Array.isArray(regenerated.volatile)) return 'the generator emits no volatile list';
   if (!regenerated.volatile.length) return 'the volatile list is empty — commit counts cannot be stable';
-  // A housing figure excluded from the drift gate is a figure nobody is
-  // checking. The gate exists to catch exactly that.
+  // A figure excluded from the drift gate is a figure nobody is checking. The
+  // gate exists to catch exactly that, so the exempt list is allowed to hold
+  // repository churn and nothing else.
   const housing = regenerated.volatile.filter((p) => /^(case|tractable|inventory)\b/.test(p));
   if (housing.length) return `housing figures must not be exempt from the drift gate: ${housing.join(', ')}`;
+
+  // The §07 build-cost argument rests on these. Raw line counts under `scope`
+  // legitimately churn on every commit and are exempt; the load-bearing scope
+  // figures and the entire estimate are not, and an exemption creeping into
+  // them would quietly stop anyone checking the paper's cost claim.
+  const LOAD_BEARING = /^scope\.(estimate|top_level_pages|substantial_tools|declared_data_sources)/;
+  const smuggled = regenerated.volatile.filter((p) => LOAD_BEARING.test(p));
+  if (smuggled.length) {
+    return `these carry the §07 cost argument and must stay gated: ${smuggled.join(', ')}`;
+  }
+
+  // And the exemption must stay small. A long list is a gate being dismantled
+  // one entry at a time.
+  if (regenerated.volatile.length > 12) {
+    return `${regenerated.volatile.length} exempt paths — the drift gate is being `
+      + 'hollowed out; each exemption needs a reason in the generator';
+  }
   return null;
 });
 

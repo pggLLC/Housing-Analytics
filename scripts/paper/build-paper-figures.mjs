@@ -584,6 +584,20 @@ const VOLATILE = [
   'repo.last_commit',
   'repo.partial_month',
   'repo.commits_by_month',
+  // Raw line counts move on EVERY commit that touches js/, scripts/, test/,
+  // css/, the workflows or a page — which is nearly every commit. Gating them
+  // per-PR made the paper stale eight lines after an unrelated test fix, and a
+  // gate that fires on every pull request gets switched off within a week.
+  //
+  // Note what stays gated: scope.top_level_pages, scope.substantial_tools,
+  // scope.declared_data_sources and the whole estimate. Those are the figures
+  // the §07 argument actually rests on, they change rarely, and a change in
+  // any of them should stop a PR.
+  'scope.hand_written_lines',
+  'scope.generated_place_page_lines',
+  'scope.html_nonblank_lines',
+  'scope.html_distinct_lines',
+  'scope.html_distinct_share',
 ];
 
 const figures = {
