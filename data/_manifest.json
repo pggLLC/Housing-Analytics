@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-15T19:04:41.628Z",
+    "generated_at": "2026-09-15T19:57:56.526Z",
     "root": "data/",
     "file_count": 1615,
-    "total_size_bytes": 151309377,
+    "total_size_bytes": 151328309,
     "kinds": {
       "json": 1580,
       "geojson": 31,
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-15T13:50:12.427Z",
+      "mtime": "2026-09-15T19:56:23.974Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -16872,7 +16872,7 @@
       "path": "hna/place-chas.json",
       "kind": "json",
       "size_bytes": 1630251,
-      "mtime": "2026-09-15T19:04:21.171Z",
+      "mtime": "2026-09-15T19:56:23.976Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -18588,8 +18588,8 @@
     {
       "path": "hna/ranking-index.json",
       "kind": "json",
-      "size_bytes": 1717254,
-      "mtime": "2026-09-15T19:04:21.176Z",
+      "size_bytes": 1736186,
+      "mtime": "2026-09-15T19:57:02.486Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18618,7 +18618,7 @@
       "path": "hna/ranking-scenarios/balanced.json",
       "kind": "json",
       "size_bytes": 49963,
-      "mtime": "2026-09-15T19:04:21.178Z",
+      "mtime": "2026-09-15T19:57:12.842Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18637,7 +18637,7 @@
       "path": "hna/ranking-scenarios/commuter-pressure.json",
       "kind": "json",
       "size_bytes": 49983,
-      "mtime": "2026-09-15T19:04:21.180Z",
+      "mtime": "2026-09-15T19:57:44.036Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18656,7 +18656,7 @@
       "path": "hna/ranking-scenarios/large-gap.json",
       "kind": "json",
       "size_bytes": 49975,
-      "mtime": "2026-09-15T19:04:21.180Z",
+      "mtime": "2026-09-15T19:57:33.576Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18675,7 +18675,7 @@
       "path": "hna/ranking-scenarios/rate-sensitive.json",
       "kind": "json",
       "size_bytes": 49983,
-      "mtime": "2026-09-15T19:04:21.180Z",
+      "mtime": "2026-09-15T19:57:23.206Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18694,7 +18694,7 @@
       "path": "hna/ranking-scenarios/rural-lens.json",
       "kind": "json",
       "size_bytes": 49986,
-      "mtime": "2026-09-15T19:04:21.181Z",
+      "mtime": "2026-09-15T19:57:54.314Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204852,
-      "mtime": "2026-09-15T19:04:21.181Z",
+      "mtime": "2026-09-15T19:56:23.982Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31742,7 +31742,7 @@
       "path": "paper/compute-footprint.json",
       "kind": "json",
       "size_bytes": 1878,
-      "mtime": "2026-09-15T19:04:21.182Z",
+      "mtime": "2026-09-15T19:56:23.982Z",
       "shape": "object",
       "keys": [
         "measured_at",
@@ -31761,7 +31761,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14393,
-      "mtime": "2026-09-15T19:04:34.212Z",
+      "mtime": "2026-09-15T19:57:55.328Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31784,7 +31784,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 5999,
-      "mtime": "2026-09-15T19:04:33.798Z",
+      "mtime": "2026-09-15T19:57:54.583Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-15T19:04:44.381470Z",
+  "generated": "2026-09-15T19:57:59.348626Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4494,7 +4494,7 @@
     "data/hna/ranking-index.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1717254
+      "bytes": 1736186
     },
     "data/hna/ranking-scenarios/balanced.json": {
       "featureCount": 0,
