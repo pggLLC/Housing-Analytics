@@ -37,10 +37,9 @@ on:
   # that quietly stops firing, which is exactly #1556 (build-hna-data, fifteen
   # days with no completed scheduled run, found by hand).
   #
-  # The schedule below sweeps for that absence. Hourly so a daily job is caught
-  # within a day of crossing its threshold, not at the next daily tick.
-  schedule:
-    - cron: '27 * * * *'
+  # Staleness detection is not active yet. Do not schedule a green placeholder
+  # that looks like it checked anything; workflow_dispatch exposes the explicit
+  # not-yet-active status until that package is implemented.
 
   workflow_run:
     # Enumerated explicitly, never a wildcard, and never this workflow itself —
@@ -63,6 +62,10 @@ on:
       - "Site-Wide WCAG Contrast Audit"
       - "Weekly Market Data Sync (Bridge + Zillow Research)"
     types: [completed]
+    # Production trackers describe the default branch only. QA frequently
+    # dispatches these workflows from feature branches; those runs must never
+    # open or close a production tracker.
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -85,6 +88,9 @@ permissions:
 concurrency:
   group: workflow-outcome-monitor-${{ github.event.workflow_run.path || github.run_id }}
   cancel-in-progress: false
+  # The default queue keeps only one pending run and silently displaces the
+  # previous pending event. Every completed outcome must remain observable.
+  queue: max
 
 jobs:
   observe:
@@ -94,8 +100,8 @@ jobs:
       - name: Checkout monitor script
         uses: actions/checkout@v7
 
-      - name: Sweep for workflows that have stopped running
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      - name: Report that staleness alerting is not yet active
+        if: github.event_name == 'workflow_dispatch'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -126,4 +132,10 @@ jobs:
           # the trackers already in this repo.
           MONITOR_WORKFLOW_PATH: ${{ github.event.workflow_run.path }}
           MONITOR_RUN_URL: ${{ github.event.workflow_run.html_url }}
+          MONITOR_RUN_ID: ${{ github.event.workflow_run.id }}
+          MONITOR_RUN_NUMBER: ${{ github.event.workflow_run.run_number }}
+          MONITOR_RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          MONITOR_RUN_EVENT: ${{ github.event.workflow_run.event }}
+          MONITOR_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          MONITOR_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: node scripts/monitoring/workflow-outcome-monitor.mjs

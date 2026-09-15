@@ -89,7 +89,8 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
   const codeOnly = src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
   const dispatchy = [
     /gh\s+workflow\s+run/,
-    /workflow_dispatch/,
+    // `workflow_dispatch` by itself is an event name and is now used to query
+    // the latest eligible run. The dispatch REST path/call below is capability.
     /\/dispatches\b/,
     /createWorkflowDispatch/,
     /rerunWorkflow|\/rerun\b/,
@@ -120,6 +121,24 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
     } else {
       ok(`workflow_run enumerates ${listed.length} workflow(s) explicitly and not itself`);
     }
+  }
+
+  if (!/^\s{4}branches:\s*\[main\]\s*$/m.test(wfCode)) {
+    fail('workflow_run is not restricted to main — feature-branch dispatches could mutate production trackers');
+  } else {
+    ok('workflow_run observes completed runs from main only');
+  }
+}
+
+/* ── 3b. a placeholder must not pretend to be a staleness monitor ──────── */
+{
+  if (/^\s{2}schedule:\s*$/m.test(wfCode)) {
+    fail('the monitor is scheduled even though staleness mode queries no runs — a green placeholder '
+       + 'would falsely imply silent workflows were checked');
+  } else if (!/staleness alerting is not active/.test(src)) {
+    fail('manual staleness mode does not disclose that it performs no check');
+  } else {
+    ok('unfinished staleness detection is manual-only and explicitly reports that it is inactive');
   }
 }
 
@@ -536,9 +555,10 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       // A human renaming the issue must not orphan the tracker, and a CLOSED
       // one must not suppress a new alert.
       const issues = [
-        { number: 1, state: 'closed', title: realTitle },
-        { number: 2, state: 'open', title: 'unrelated' },
-        { number: 3, state: 'open', title: '⚠️ [workflow-fail:build-hna-data] renamed by a human' },
+        { number: 1, state: 'closed', title: realTitle, user: { login: 'github-actions[bot]' } },
+        { number: 2, state: 'open', title: 'unrelated', user: { login: 'github-actions[bot]' } },
+        { number: 3, state: 'open', title: '⚠️ [workflow-fail:build-hna-data] renamed by a human',
+          user: { login: 'github-actions[bot]' } },
       ];
       const found = M.findTracker(issues, 'build-hna-data');
       if (!found || found.number !== 3) {
@@ -553,8 +573,9 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       // this repo. A PR fixing a tracker tends to quote its title, so without
       // this filter the monitor would comment on and close that PR.
       const withPr = [
-        { number: 7, state: 'open', title: realTitle, pull_request: { url: 'x' } },
-        { number: 8, state: 'open', title: realTitle },
+        { number: 7, state: 'open', title: realTitle, pull_request: { url: 'x' },
+          user: { login: 'github-actions[bot]' } },
+        { number: 8, state: 'open', title: realTitle, user: { login: 'github-actions[bot]' } },
       ];
       const picked = M.findTracker(withPr, 'build-hna-data');
       if (!picked || picked.number !== 8) {
@@ -564,13 +585,29 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         ok('a pull request carrying the marker is never mistaken for the tracker');
       }
 
+      // The marker is public and predictable. A user-created issue with that
+      // title must not be adopted, commented on, or auto-closed.
+      const spoofed = [
+        { number: 41, state: 'open', title: realTitle, user: { login: 'outside-user' } },
+        { number: 42, state: 'open', title: realTitle, user: { login: 'github-actions[bot]' } },
+      ];
+      const trusted = M.findTracker(spoofed, 'build-hna-data');
+      if (!trusted || trusted.number !== 42) {
+        fail(`findTracker adopted an untrusted marker issue (${JSON.stringify(trusted)})`);
+      } else if (M.findTracker(spoofed.slice(0, 1), 'build-hna-data') !== null) {
+        fail('findTracker trusts a user-created look-alike tracker');
+      } else {
+        ok('only a tracker authored by github-actions[bot] is trusted');
+      }
+
       // One per_page=100 request looks fine at 9 open issues and breaks silently
       // past 100: the tracker lands on page 2, findTracker returns null, and
       // every failure opens ANOTHER tracker while the monitor looks healthy.
       {
         const pages = [
           Array.from({ length: 100 }, (_, i) => ({ number: i + 1, state: 'open', title: 'filler' })),
-          [{ number: 999, state: 'open', title: realTitle }],
+          [{ number: 999, state: 'open', title: realTitle,
+            user: { login: 'github-actions[bot]' } }],
         ];
         let seen = 0;
         const fakeFetch = async (url) => {
@@ -591,6 +628,139 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         }
       }
 
+      /* GitHub REST errors: retry reads, never blindly replay ambiguous writes. */
+      {
+        const response = (status, payload, headers = {}) => ({
+          ok: status >= 200 && status < 300,
+          status,
+          headers: { get: (name) => headers[String(name).toLowerCase()] ?? null },
+          text: async () => JSON.stringify(payload),
+        });
+
+        let getCalls = 0;
+        const getSleeps = [];
+        const got = await M.ghRequest('/read-retry', {
+          token: 't',
+          fetchImpl: async () => {
+            getCalls++;
+            return getCalls < 3
+              ? response(500, { message: 'temporary' })
+              : response(200, { ok: true });
+          },
+          sleepImpl: async (ms) => { getSleeps.push(ms); },
+        });
+        if (!got || !got.ok || getCalls !== 3 || getSleeps.join(',') !== '1000,2000') {
+          fail(`GET 5xx retry policy drifted: calls=${getCalls} sleeps=${getSleeps.join(',')}`);
+        } else {
+          ok('GET 5xx responses retry with a bounded backoff and then succeed');
+        }
+
+        let limitedCalls = 0;
+        const limitedSleeps = [];
+        await M.ghRequest('/rate-limit', {
+          token: 't',
+          fetchImpl: async () => {
+            limitedCalls++;
+            return limitedCalls === 1
+              ? response(429, { message: 'rate limited' }, { 'retry-after': '2' })
+              : response(200, { ok: true });
+          },
+          sleepImpl: async (ms) => { limitedSleeps.push(ms); },
+        });
+        if (limitedCalls !== 2 || limitedSleeps.join(',') !== '2000') {
+          fail(`429 Retry-After was not honored: calls=${limitedCalls} sleeps=${limitedSleeps.join(',')}`);
+        } else {
+          ok('429 honors Retry-After before one bounded retry');
+        }
+
+        let primaryLimitCalls = 0;
+        const primaryLimitSleeps = [];
+        await M.ghRequest('/primary-rate-limit', {
+          token: 't',
+          fetchImpl: async () => {
+            primaryLimitCalls++;
+            return primaryLimitCalls === 1
+              ? response(403, { message: 'API rate limit exceeded' }, {
+                  'x-ratelimit-remaining': '0', 'x-ratelimit-reset': '12' })
+              : response(200, { ok: true });
+          },
+          nowImpl: () => 10000,
+          sleepImpl: async (ms) => { primaryLimitSleeps.push(ms); },
+        });
+        if (primaryLimitCalls !== 2 || primaryLimitSleeps.join(',') !== '3000') {
+          fail(`403 rate-limit reset was not honored: calls=${primaryLimitCalls} sleeps=${primaryLimitSleeps.join(',')}`);
+        } else {
+          ok('403 primary-rate limit honors the reset time before retrying');
+        }
+
+        let networkCalls = 0;
+        const networkSleeps = [];
+        const networkRead = await M.ghRequest('/network-read', {
+          token: 't',
+          fetchImpl: async () => {
+            networkCalls++;
+            if (networkCalls < 3) throw new Error('socket closed');
+            return response(200, { ok: true });
+          },
+          sleepImpl: async (ms) => { networkSleeps.push(ms); },
+        });
+        if (!networkRead.ok || networkCalls !== 3 || networkSleeps.join(',') !== '1000,2000') {
+          fail(`GET network failures did not retry safely: calls=${networkCalls} sleeps=${networkSleeps.join(',')}`);
+        } else {
+          ok('GET network failures retry safely within the bounded budget');
+        }
+
+        let writeCalls = 0;
+        let writeRejected = false;
+        try {
+          await M.ghRequest('/write-ambiguous', {
+            token: 't', method: 'POST', body: { x: 1 },
+            fetchImpl: async () => { writeCalls++; return response(500, { message: 'server error' }); },
+            sleepImpl: async () => { throw new Error('a mutation must not sleep for blind retry'); },
+          });
+        } catch (err) {
+          writeRejected = err instanceof M.GitHubApiError && err.status === 500;
+        }
+        if (!writeRejected || writeCalls !== 1) {
+          fail(`a POST 5xx was retried or did not fail loudly (calls=${writeCalls})`);
+        } else {
+          ok('a mutation 5xx fails once; its ambiguous outcome is never blindly replayed');
+        }
+
+        let networkWriteCalls = 0;
+        try {
+          await M.ghRequest('/write-network', {
+            token: 't', method: 'PATCH', body: { state: 'closed' },
+            fetchImpl: async () => { networkWriteCalls++; throw new Error('connection reset'); },
+            sleepImpl: async () => { throw new Error('an ambiguous mutation must not retry'); },
+          });
+          fail('a mutation network failure returned as success');
+        } catch (err) {
+          if (!(err instanceof M.GitHubApiError) || networkWriteCalls !== 1
+              || !/write outcome unknown/.test(err.message)) {
+            fail(`a mutation network failure was retried or hidden (calls=${networkWriteCalls})`);
+          } else {
+            ok('a mutation network failure is surfaced once as an unknown write outcome');
+          }
+        }
+
+        let forbiddenCalls = 0;
+        try {
+          await M.ghRequest('/forbidden', {
+            token: 't',
+            fetchImpl: async () => { forbiddenCalls++; return response(403, { message: 'forbidden' }); },
+            sleepImpl: async () => { throw new Error('permanent 403 must not retry'); },
+          });
+          fail('a permanent 403 returned as success');
+        } catch (err) {
+          if (!(err instanceof M.GitHubApiError) || forbiddenCalls !== 1) {
+            fail(`a permanent 403 was retried or misclassified (calls=${forbiddenCalls})`);
+          } else {
+            ok('a non-rate-limit 403 fails immediately');
+          }
+        }
+      }
+
       // REGRESSION GUARD, and it RUNS main() rather than inspecting the pure
       // helpers. The first version of main() pre-checked decideAction with a
       // hard-coded `hasOpenTracker: false` to save an API call when the answer
@@ -605,18 +775,28 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       fs.writeFileSync(stub, `
         globalThis.fetch = async (url, opts = {}) => {
           const method = opts.method || 'GET';
+          if (url.includes('/actions/workflows/')) return { ok: true, status: 200,
+            text: async () => JSON.stringify({ workflow_runs: [
+              { id: 777, run_number: 12, run_attempt: 1, event: 'workflow_dispatch' }
+            ] }) };
           if (method === 'GET') return { ok: true, status: 200, text: async () => JSON.stringify(
-            [{ number: 999, state: 'open', title: ${JSON.stringify(realTitle)} }]) };
+            [{ number: 999, state: 'open', title: ${JSON.stringify(realTitle)},
+              user: { login: 'github-actions[bot]' } }]) };
           return { ok: true, status: 200, text: async () => JSON.stringify({ number: 999 }) };
         };
       `);
-      const drive = (conclusion) => execFileSync(process.execPath,
+      const baseDriveEnv = {
+        GITHUB_TOKEN: 'stub', GITHUB_REPOSITORY: 'o/r',
+        MONITOR_WORKFLOW_NAME: 'Build HNA Data Cache',
+        MONITOR_WORKFLOW_PATH: '.github/workflows/build-hna-data.yml',
+        MONITOR_RUN_ID: '777', MONITOR_RUN_NUMBER: '12', MONITOR_RUN_ATTEMPT: '1',
+        MONITOR_RUN_EVENT: 'workflow_dispatch', MONITOR_HEAD_BRANCH: 'main',
+        MONITOR_DEFAULT_BRANCH: 'main', MONITOR_MODE: '',
+      };
+      const drive = (conclusion, overrides = {}) => execFileSync(process.execPath,
         ['--import', `file://${stub}`, SCRIPT],
-        { encoding: 'utf8', env: { ...process.env,
-          GITHUB_TOKEN: 'stub', GITHUB_REPOSITORY: 'o/r',
-          MONITOR_WORKFLOW_NAME: 'Build HNA Data Cache',
-          MONITOR_WORKFLOW_PATH: '.github/workflows/build-hna-data.yml',
-          MONITOR_CONCLUSION: conclusion, MONITOR_MODE: '' } });
+        { encoding: 'utf8', env: { ...process.env, ...baseDriveEnv,
+          MONITOR_CONCLUSION: conclusion, ...overrides } });
       try {
         const recovered = drive('success');
         const failed = drive('failure');
@@ -630,6 +810,118 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         }
       } finally {
         fs.unlinkSync(stub);
+      }
+
+      // End-to-end CREATE path. The original stub always returned an existing
+      // tracker, so a monitor unable to open an issue still passed every test.
+      const createStub = path.join(os.tmpdir(), `monitor-create-stub-${process.pid}.mjs`);
+      fs.writeFileSync(createStub, `
+        globalThis.fetch = async (url, opts = {}) => {
+          const method = opts.method || 'GET';
+          if (url.includes('/actions/workflows/')) return { ok: true, status: 200,
+            text: async () => JSON.stringify({ workflow_runs: [
+              { id: 777, run_number: 12, run_attempt: 1, event: 'schedule' }
+            ] }) };
+          if (method === 'GET') return { ok: true, status: 200, text: async () => '[]' };
+          const body = JSON.parse(opts.body || '{}');
+          if (method !== 'POST' || !body.title || !body.title.includes('[workflow-fail:build-hna-data]')) {
+            return { ok: false, status: 422, text: async () => JSON.stringify({ message: 'bad create body' }) };
+          }
+          return { ok: true, status: 201, text: async () => JSON.stringify({ number: 1234 }) };
+        };
+      `);
+      try {
+        const created = execFileSync(process.execPath, ['--import', `file://${createStub}`, SCRIPT], {
+          encoding: 'utf8', env: { ...process.env, ...baseDriveEnv,
+            MONITOR_CONCLUSION: 'failure', MONITOR_RUN_EVENT: 'schedule' },
+        });
+        if (!/tracker: opened #1234/.test(created)) {
+          fail(`the CLI did not exercise and complete issue creation: ${created.trim().split('\n').pop()}`);
+        } else {
+          ok('driving the CLI: a failure with no trusted tracker opens a new issue');
+        }
+      } finally {
+        fs.unlinkSync(createStub);
+      }
+
+      // Feature-branch QA runs must never mutate production trackers. The stub
+      // throws if ANY API call occurs, proving this is a call-site guard rather
+      // than only a workflow-trigger assertion.
+      const noFetchStub = path.join(os.tmpdir(), `monitor-no-fetch-stub-${process.pid}.mjs`);
+      fs.writeFileSync(noFetchStub, `globalThis.fetch = async () => { throw new Error('API must not be called'); };`);
+      try {
+        const skipped = execFileSync(process.execPath, ['--import', `file://${noFetchStub}`, SCRIPT], {
+          encoding: 'utf8', env: { ...process.env, ...baseDriveEnv,
+            MONITOR_CONCLUSION: 'failure', MONITOR_HEAD_BRANCH: 'feature/test' },
+        });
+        if (!/is not the repository default branch/.test(skipped)) {
+          fail('a feature-branch run was not explicitly skipped by the CLI');
+        } else {
+          ok('driving the CLI: a feature-branch run makes no GitHub API call');
+        }
+      } finally {
+        fs.unlinkSync(noFetchStub);
+      }
+
+      // queue:max prevents displacement but not reordering. An older queued
+      // event must not overwrite the state established by a newer completed run.
+      const staleStub = path.join(os.tmpdir(), `monitor-stale-stub-${process.pid}.mjs`);
+      fs.writeFileSync(staleStub, `
+        globalThis.fetch = async (url, opts = {}) => {
+          if (!url.includes('/actions/workflows/') || (opts.method || 'GET') !== 'GET') {
+            throw new Error('stale run reached tracker API');
+          }
+          return { ok: true, status: 200, text: async () => JSON.stringify({ workflow_runs: [
+            { id: 888, run_number: 13, run_attempt: 1, event: 'schedule' }
+          ] }) };
+        };
+      `);
+      try {
+        const stale = execFileSync(process.execPath, ['--import', `file://${staleStub}`, SCRIPT], {
+          encoding: 'utf8', env: { ...process.env, ...baseDriveEnv, MONITOR_CONCLUSION: 'failure' },
+        });
+        if (!/no action — stale run 12\.1/.test(stale)) {
+          fail('an older queued event was not rejected before tracker mutation');
+        } else {
+          ok('driving the CLI: an older event cannot overwrite a newer completed outcome');
+        }
+      } finally {
+        fs.unlinkSync(staleStub);
+      }
+
+      // A rejected tracker write must make the monitor red. The former broad
+      // catch printed a warning and exited 0, silently dropping the alert.
+      const failedWriteStub = path.join(os.tmpdir(), `monitor-failed-write-stub-${process.pid}.mjs`);
+      fs.writeFileSync(failedWriteStub, `
+        globalThis.fetch = async (url, opts = {}) => {
+          const method = opts.method || 'GET';
+          if (url.includes('/actions/workflows/')) return { ok: true, status: 200,
+            text: async () => JSON.stringify({ workflow_runs: [
+              { id: 777, run_number: 12, run_attempt: 1, event: 'schedule' }
+            ] }) };
+          if (method === 'GET') return { ok: true, status: 200, text: async () => '[]' };
+          return { ok: false, status: 403, text: async () => JSON.stringify({ message: 'forbidden' }) };
+        };
+      `);
+      try {
+        let status = 0;
+        let output = '';
+        try {
+          output = execFileSync(process.execPath, ['--import', `file://${failedWriteStub}`, SCRIPT], {
+            encoding: 'utf8', stdio: 'pipe', env: { ...process.env, ...baseDriveEnv,
+              MONITOR_CONCLUSION: 'failure', MONITOR_RUN_EVENT: 'schedule' },
+          });
+        } catch (err) {
+          status = err.status;
+          output = `${err.stdout || ''}${err.stderr || ''}`;
+        }
+        if (!status || !/::error::\[monitor\] tracker: FAILED/.test(output)) {
+          fail(`a rejected issue write did not fail the job visibly (status=${status})`);
+        } else {
+          ok('a rejected tracker write is visible and exits nonzero');
+        }
+      } finally {
+        fs.unlinkSync(failedWriteStub);
       }
     }
 
@@ -650,6 +942,11 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       } else {
         ok('monitor runs serialize per watched workflow, so one outage opens one tracker');
       }
+      if (!/^\s{2}queue:\s*max\s*$/m.test(wfCode)) {
+        fail('monitor concurrency keeps GitHub\'s one-pending default — a newer event can silently displace an older one');
+      } else {
+        ok('monitor concurrency retains queued outcomes instead of silently displacing one pending event');
+      }
     }
 
     /* ── P4: the workflow supplies what the marker needs ─────────────────── */
@@ -658,6 +955,16 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
         fail('the monitor step must pass MONITOR_WORKFLOW_PATH, or no tracker marker can be derived');
       } else {
         ok('the workflow passes the run path, so the marker matches the existing trackers');
+      }
+      const identityVars = [
+        'MONITOR_RUN_ID', 'MONITOR_RUN_NUMBER', 'MONITOR_RUN_ATTEMPT',
+        'MONITOR_RUN_EVENT', 'MONITOR_HEAD_BRANCH', 'MONITOR_DEFAULT_BRANCH',
+      ];
+      const missing = identityVars.filter((name) => !new RegExp(`^\\s+${name}:`, 'm').test(wfCode));
+      if (missing.length) {
+        fail(`the workflow omits ordering/branch identity: ${missing.join(', ')}`);
+      } else {
+        ok('the workflow passes branch and run identity for defense-in-depth ordering guards');
       }
     }
 
