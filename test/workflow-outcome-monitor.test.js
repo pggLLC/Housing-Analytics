@@ -633,6 +633,25 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       }
     }
 
+    /* ── P4: monitor runs for one workflow must not race each other ──────── */
+    {
+      // Keyed on workflow_run.id the group is unique per run, so two failing
+      // runs of the same workflow both look up the tracker, both find none, and
+      // both open one. Two trackers for one outage, and a noisy alerter is one
+      // that gets muted.
+      const m = wfCode.match(/^concurrency:\s*\n\s*group:\s*(.+)$/m);
+      if (!m) {
+        fail('no concurrency group on the monitor — runs for one workflow could race');
+      } else if (/workflow_run\.id/.test(m[1])) {
+        fail(`the concurrency group is keyed on workflow_run.id (${m[1].trim()}), which is `
+           + 'unique per run — two failures of the same workflow would open two trackers');
+      } else if (!/workflow_run\.(path|name)/.test(m[1])) {
+        fail(`the concurrency group must key on the watched workflow (got ${m[1].trim()})`);
+      } else {
+        ok('monitor runs serialize per watched workflow, so one outage opens one tracker');
+      }
+    }
+
     /* ── P4: the workflow supplies what the marker needs ─────────────────── */
     {
       if (!/MONITOR_WORKFLOW_PATH:\s*\$\{\{\s*github\.event\.workflow_run\.path\s*\}\}/.test(wfCode)) {

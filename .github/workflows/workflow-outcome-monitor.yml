@@ -72,8 +72,18 @@ permissions:
   # for. P1-P3 held no write permission because they opened nothing.
   issues: write
 
+# Serialize per WATCHED WORKFLOW, not per triggering run.
+#
+# Keyed on workflow_run.id this group was unique to every run, so two failing
+# runs of the same workflow produced two concurrent monitor runs: both looked
+# up the tracker, both found none, and both opened one. Two trackers for one
+# outage — and a noisy alerting path is one somebody mutes, which is how this
+# repo got here.
+#
+# cancel-in-progress stays false on purpose: the second run must still execute,
+# because by then it will see the tracker the first opened and comment instead.
 concurrency:
-  group: workflow-outcome-monitor-${{ github.event.workflow_run.id || github.run_id }}
+  group: workflow-outcome-monitor-${{ github.event.workflow_run.path || github.run_id }}
   cancel-in-progress: false
 
 jobs:
