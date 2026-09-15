@@ -1,0 +1,251 @@
+{
+  "generated_from_commit": "8cbbe113a",
+  "repo": {
+    "ref": "origin/main",
+    "first_commit": "2026-02-20",
+    "last_commit": "2026-09-15",
+    "total_commits": 6649,
+    "partial_month": "2026-09",
+    "commits_by_month": [
+      {
+        "month": "2026-02",
+        "commits": 482,
+        "pct_of_peak": 35.3
+      },
+      {
+        "month": "2026-03",
+        "commits": 1365,
+        "pct_of_peak": 100
+      },
+      {
+        "month": "2026-04",
+        "commits": 1074,
+        "pct_of_peak": 78.7
+      },
+      {
+        "month": "2026-05",
+        "commits": 665,
+        "pct_of_peak": 48.7
+      },
+      {
+        "month": "2026-06",
+        "commits": 1175,
+        "pct_of_peak": 86.1
+      },
+      {
+        "month": "2026-07",
+        "commits": 824,
+        "pct_of_peak": 60.4
+      },
+      {
+        "month": "2026-08",
+        "commits": 583,
+        "pct_of_peak": 42.7
+      },
+      {
+        "month": "2026-09",
+        "commits": 481,
+        "pct_of_peak": 35.2
+      }
+    ]
+  },
+  "inventory": {
+    "places_with_chas": 482,
+    "html_pages_toplevel": 61,
+    "html_pages_total": 555,
+    "workflows": 71,
+    "scripts": 256,
+    "docs": 446,
+    "data_files": 1651,
+    "geographies": 546,
+    "counties": 64,
+    "incorporated_places": 272,
+    "cdps": 210,
+    "place_pages": 484,
+    "scheduled_workflows": 59,
+    "test_files": 284,
+    "absence_test_cases": 119,
+    "absence_tests": 38,
+    "lihtc_features": 926
+  },
+  "case": {
+    "geoid": "0856970",
+    "name": "Palisade",
+    "source": "population-apportionment",
+    "low_confidence": false,
+    "coverage_share": 1,
+    "total_renter_hh": 433,
+    "total_owner_hh": 864,
+    "total_hh": 1297,
+    "bands": [
+      {
+        "key": "lte30",
+        "label": "≤30% AMI",
+        "renters": 51,
+        "renters_cb30": 29,
+        "renters_cb50": 17,
+        "owners": 113,
+        "owners_cb30": 87,
+        "owners_cb50": 56
+      },
+      {
+        "key": "31to50",
+        "label": "31–50%",
+        "renters": 97,
+        "renters_cb30": 96,
+        "renters_cb50": 5,
+        "owners": 132,
+        "owners_cb30": 70,
+        "owners_cb50": 51
+      },
+      {
+        "key": "51to80",
+        "label": "51–80%",
+        "renters": 142,
+        "renters_cb30": 103,
+        "renters_cb50": 0,
+        "owners": 90,
+        "owners_cb30": 34,
+        "owners_cb50": 6
+      },
+      {
+        "key": "81to100",
+        "label": "81–100%",
+        "renters": 40,
+        "renters_cb30": 0,
+        "renters_cb50": 0,
+        "owners": 65,
+        "owners_cb30": 0,
+        "owners_cb50": 0
+      },
+      {
+        "key": "100plus",
+        "label": ">100%",
+        "renters": 103,
+        "renters_cb30": 0,
+        "renters_cb50": 0,
+        "owners": 464,
+        "owners_cb30": 23,
+        "owners_cb50": 8
+      }
+    ],
+    "subtotal_lte80": {
+      "renters": 290,
+      "renters_cb30": 228,
+      "renters_cb50": 22,
+      "owners": 335,
+      "owners_cb30": 191,
+      "owners_cb50": 113
+    },
+    "severe_ratio_owner_to_renter": 5.1
+  },
+  "tractable": {
+    "screen": {
+      "MIN_HOUSEHOLDS": 400,
+      "MIN_BURDEN_SHARE": 0.2,
+      "MAX_TARGET": 600
+    },
+    "eligible": 231,
+    "tractable": 63,
+    "top": [
+      {
+        "geoid": "0800870",
+        "name": "Air Force Academy",
+        "households": 657,
+        "burdened_lte80": 266,
+        "share_pct": 40.5,
+        "renters_burdened": 266,
+        "owners_burdened": 0,
+        "tenure_profile": "owner only"
+      },
+      {
+        "geoid": "0865190",
+        "name": "Rocky Ford",
+        "households": 1369,
+        "burdened_lte80": 532,
+        "share_pct": 38.8,
+        "renters_burdened": 249,
+        "owners_burdened": 283,
+        "tenure_profile": "even split"
+      },
+      {
+        "geoid": "0820770",
+        "name": "Dolores",
+        "households": 511,
+        "burdened_lte80": 185,
+        "share_pct": 36.2,
+        "renters_burdened": 159,
+        "owners_burdened": 26,
+        "tenure_profile": "renter-dominant"
+      },
+      {
+        "geoid": "0818530",
+        "name": "Cripple Creek",
+        "households": 591,
+        "burdened_lte80": 206,
+        "share_pct": 34.9,
+        "renters_burdened": 123,
+        "owners_burdened": 83,
+        "tenure_profile": "both tenures"
+      },
+      {
+        "geoid": "0871755",
+        "name": "Snowmass Village",
+        "households": 1758,
+        "burdened_lte80": 595,
+        "share_pct": 33.9,
+        "renters_burdened": 344,
+        "owners_burdened": 251,
+        "tenure_profile": "both tenures"
+      },
+      {
+        "geoid": "0829735",
+        "name": "Georgetown",
+        "households": 596,
+        "burdened_lte80": 199,
+        "share_pct": 33.3,
+        "renters_burdened": 99,
+        "owners_burdened": 100,
+        "tenure_profile": "even split"
+      },
+      {
+        "geoid": "0852550",
+        "name": "Mountain Village",
+        "households": 1562,
+        "burdened_lte80": 520,
+        "share_pct": 33.3,
+        "renters_burdened": 455,
+        "owners_burdened": 66,
+        "tenure_profile": "renter-dominant"
+      },
+      {
+        "geoid": "0856860",
+        "name": "Pagosa Springs",
+        "households": 775,
+        "burdened_lte80": 250,
+        "share_pct": 32.3,
+        "renters_burdened": 171,
+        "owners_burdened": 79,
+        "tenure_profile": "renter-dominant"
+      },
+      {
+        "geoid": "0885705",
+        "name": "Winter Park",
+        "households": 477,
+        "burdened_lte80": 154,
+        "share_pct": 32.2,
+        "renters_burdened": 81,
+        "owners_burdened": 73,
+        "tenure_profile": "even split"
+      }
+    ]
+  },
+  "volatile": [
+    "generated_from_commit",
+    "repo.total_commits",
+    "repo.last_commit",
+    "repo.partial_month",
+    "repo.commits_by_month"
+  ],
+  "unavailable": []
+}
