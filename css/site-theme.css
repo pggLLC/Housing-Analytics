@@ -118,6 +118,7 @@
      at desktop and 70px at 375px wide -- the 58px that used to be hardcoded
      in four places was never right at either. */
   --site-header-h: 58px;
+  --wf-progress-h: 0px;
 
 
   /* Accent colors */
@@ -518,6 +519,23 @@ main {
 /* ================================================================
    6. NAVIGATION (injected by navigation.js)
    ================================================================ */
+/* ── Anchor landing offset ────────────────────────────────────────────────
+   The site header is sticky, and on the HNA pages a workflow-progress strip is
+   sticky beneath it. Nothing in this stylesheet previously set scroll-margin or
+   scroll-padding, so every in-page link scrolled its target UNDER those bars:
+   a reader clicking a contents-rail entry landed on a section whose own heading
+   was hidden.
+
+   scroll-padding-top on the scroll container fixes the whole class at once --
+   ordinary href="#id" clicks, :target, and scrollIntoView -- rather than
+   requiring scroll-margin-top on every future heading. Both heights are
+   measured and published at runtime by js/components/workflow-progress.js; the
+   fallbacks cover the moment before that script runs and pages with no strip.
+   The extra 16px keeps the heading off the bar rather than flush against it. */
+html {
+  scroll-padding-top: calc(var(--site-header-h, 58px) + var(--wf-progress-h, 0px) + 16px);
+}
+
 header.site-header {
   position: sticky !important; top: 0; z-index: 9000 !important;
   background: color-mix(in srgb, var(--card) 85%, transparent) !important;
