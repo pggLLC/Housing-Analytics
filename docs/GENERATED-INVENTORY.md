@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T02:05:46.008Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T02:06:51.876Z. Do not edit by hand.
 
 ---
 
@@ -1976,7 +1976,7 @@
 | `tests/phase3-setup.js` | 11.2 KB |
 | `tests/test_acs_vintage_var_aliases.py` | 4.2 KB |
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
-| `tests/test_build_hna_data_concurrency.py` | 6.7 KB |
+| `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
