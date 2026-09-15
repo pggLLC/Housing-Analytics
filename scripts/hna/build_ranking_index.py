@@ -1147,7 +1147,7 @@ def compute_metrics(
     if rent_to_income is None:
         imputed_score_factors.append("rent_to_income")
     if vacancy_rate is None:
-        imputed_score_factors.append("vacancy_rate")
+        imputed_score_factors.append("vacancy_rate_pct")
     if future_units_needed_20yr is None:
         imputed_score_factors.append("future_units_needed_20yr")
     if senior_share_growth_pp is None:
@@ -1192,7 +1192,7 @@ def compute_metrics(
         if lehd_source != "place":
             approximated_fields.append("in_commuters")
         if vacancy_adjustment_method == "county_active_market_small_renter_base":
-            approximated_fields.append("vacancy_rate")
+            approximated_fields.append("vacancy_rate_pct")
         approximated_fields.append("population_projection_20yr")
     opportunity_aggregated_fields = list(opp.get("_opportunity_aggregated_fields", [])) if isinstance(opp, dict) else []
 
@@ -1233,11 +1233,11 @@ def compute_metrics(
         "dda_share": dda_share,
         "opportunity_geography_level": opportunity_geography_level,
         "amenity_access_context": amenity_access_context,
-        "vacancy_rate": vacancy_rate,
-        "active_market_vacancy_rate": active_market_vacancy_rate,
-        "raw_rental_vacancy_rate": raw_rental_vacancy_rate,
-        "raw_total_vacancy_rate": raw_total_vacancy_rate,
-        "seasonal_vacancy_rate": seasonal_vacancy_rate,
+        "vacancy_rate_pct": vacancy_rate,
+        "active_market_vacancy_rate_pct": active_market_vacancy_rate,
+        "raw_rental_vacancy_rate_pct": raw_rental_vacancy_rate,
+        "raw_total_vacancy_rate_pct": raw_total_vacancy_rate,
+        "seasonal_vacancy_rate_pct": seasonal_vacancy_rate,
         "seasonal_share_of_vacant": seasonal_share_of_vacant,
         "vacancy_renter_base": rental_units,
         "vacancy_adjustment_method": vacancy_adjustment_method,
@@ -1438,11 +1438,11 @@ def build(out_path: str | None = None) -> None:
                 "dda_share": None,
                 "opportunity_geography_level": "missing",
                 "amenity_access_context": "missing",
-                "vacancy_rate": 0.0,
-                "active_market_vacancy_rate": None,
-                "raw_rental_vacancy_rate": None,
-                "raw_total_vacancy_rate": None,
-                "seasonal_vacancy_rate": None,
+                "vacancy_rate_pct": 0.0,
+                "active_market_vacancy_rate_pct": None,
+                "raw_rental_vacancy_rate_pct": None,
+                "raw_total_vacancy_rate_pct": None,
+                "seasonal_vacancy_rate_pct": None,
                 "seasonal_share_of_vacant": None,
                 "vacancy_renter_base": 0,
                 "vacancy_adjustment_method": "missing",
@@ -1901,7 +1901,7 @@ def build(out_path: str | None = None) -> None:
             "sortOrder": "descending",
         },
         {
-            "id": "vacancy_rate",
+            "id": "vacancy_rate_pct",
             "label": "Active-Market Vacancy Rate",
             "description": "ACS B25004 for-rent plus for-sale-only vacant units divided by total housing units; small renter-base places fall back to county active-market vacancy",
             "unit": "percent",
