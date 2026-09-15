@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-14T18:20:51.411Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T00:07:18.393Z. Do not edit by hand.
 
 ---
 
@@ -1960,7 +1960,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-outcome-monitor.test.js` | 20.2 KB |
+| `test/workflow-outcome-monitor.test.js` | 25.3 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
@@ -2002,7 +2002,7 @@
 
 ## GitHub Actions Workflows
 
-69 workflow files found.
+70 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2019,7 +2019,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/ci-checks.yml` | 13.7 KB |
+| `.github/workflows/ci-checks.yml` | 14.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
@@ -2052,6 +2052,7 @@
 | `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
 | `.github/workflows/market_data_build.yml` | 16.6 KB |
+| `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
