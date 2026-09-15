@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-14T13:59:16.999Z",
+  "scanTimestamp": "2026-09-15T12:38:40.243Z",
   "totalScanned": 1617,
   "newSourceCount": 1586,
   "existingCount": 30,
@@ -14,7 +14,7 @@
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6257,
+      "sizeBytes": 6255,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -194,7 +194,7 @@
     },
     {
       "path": "data/co-housing-costs/drivers_ranking.csv",
-      "sizeBytes": 243,
+      "sizeBytes": 240,
       "inDataManifest": false,
       "inFilesManifest": false
     },
@@ -260,7 +260,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244574,
+      "sizeBytes": 244714,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9404,7 +9404,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20068,
+      "sizeBytes": 20060,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9470,7 +9470,7 @@
     },
     {
       "path": "data/resort-workforce-housing-programs.json",
-      "sizeBytes": 12810,
+      "sizeBytes": 15256,
       "inDataManifest": false,
       "inFilesManifest": true
     },

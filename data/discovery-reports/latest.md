@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-14T13:59:16.999Z
+**Scan timestamp:** 2026-09-15T12:38:40.243Z
 
 ## Summary
 
@@ -1591,7 +1591,7 @@
 - `data/reports/data-source-health.json` (8 KB)
 - `data/reports/developer-url-health.json` (20 KB)
 - `data/reports/repo-link-audit.json` (2004 KB)
-- `data/resort-workforce-housing-programs.json` (13 KB)
+- `data/resort-workforce-housing-programs.json` (15 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
