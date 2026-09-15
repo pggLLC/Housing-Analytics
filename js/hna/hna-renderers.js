@@ -8572,7 +8572,7 @@
     { section: 'Ownership Need', label: 'Owner stock affordable at 100% AMI', key: 'pct_owner_stock_affordable_100ami', format: 'pct' },
     { section: 'Ownership Need', label: 'Owner stock affordable at 120% AMI', key: 'pct_owner_stock_affordable_120ami', format: 'pct' },
     { section: 'Housing Stock', label: 'Renter share', key: 'pct_renters', format: 'pct' },
-    { section: 'Housing Stock', label: 'Overcrowding', key: 'overcrowding_rate', format: 'pct' },
+    { section: 'Housing Stock', label: 'Overcrowding', key: 'overcrowding_rate_pct', format: 'pct' },
     { section: 'Housing Stock', label: 'Housing built before 1970', key: 'pct_housing_built_pre1970', format: 'pct' },
     { section: 'Housing Stock', label: 'Median home value', key: 'median_home_value', format: 'money' },
     { section: 'Demographics', label: 'No high school degree, age 25+', key: 'pct_no_hs_degree_25plus', format: 'pct' },

@@ -128,8 +128,16 @@ assert(!fruita.narrative.includes(money(Math.round(fruita.raw * 0.20))), 'narrat
 }
 
 const comparisonMetrics = window.HNAComparison._comparisonMetrics;
-const vacancyMetric = comparisonMetrics.find((m) => m.id === 'vacancy_rate');
-assert(vacancyMetric, 'comparison metrics include vacancy rate');
+// `vacancy_rate_pct` since #1657: the HNA family publishes this 0-100 while the
+// demographics family publishes a 0-1 fraction under `vacancy_rate`. The suffix
+// carries the scale so a consumer wiring one into the other cannot silently be
+// out by 100x. Pinned to the _pct id deliberately — matching either spelling
+// would let the ambiguity back in.
+const vacancyMetric = comparisonMetrics.find((m) => m.id === 'vacancy_rate_pct');
+assert(vacancyMetric, 'comparison metrics include vacancy rate (as vacancy_rate_pct)');
+assert(!comparisonMetrics.some((m) => m.id === 'vacancy_rate'),
+  'the unsuffixed vacancy_rate is back in the comparison metrics — it is '
+  + 'percent-scaled here and a fraction in the demographics family');
 assert.equal(vacancyMetric.label, 'Adjusted Active-Market Vacancy Rate', 'comparison labels adjusted vacancy truthfully');
 
 const censusGeoSrc = read('js/census-geo.js');

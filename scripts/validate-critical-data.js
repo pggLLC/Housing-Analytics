@@ -235,7 +235,7 @@ const BOUND_CHECKS = [
   { file: 'data/hna/ranking-index.json',
     field: 'rankings[].metrics.pct_renters', min: 0, max: 100 },
   { file: 'data/hna/ranking-index.json',
-    field: 'rankings[].metrics.vacancy_rate', min: 0, max: 50 },
+    field: 'rankings[].metrics.vacancy_rate_pct', min: 0, max: 50 },
   { file: 'data/hna/ranking-index.json',
     field: 'rankings[].metrics.pct_burdened_lte30', min: 0, max: 100 },
   { file: 'data/hna/ranking-index.json',

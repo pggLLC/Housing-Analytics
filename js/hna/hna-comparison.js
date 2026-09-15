@@ -380,7 +380,7 @@
     { id: 'population',         label: 'Population',             unit: 'integer',  lowerBetter: false },
     { id: 'median_hh_income',   label: 'Median HH Income',       unit: 'dollars',  lowerBetter: false },
     { id: 'pct_renters',        label: '% Renters',              unit: 'percent',  lowerBetter: false },
-    { id: 'vacancy_rate',       label: 'Adjusted Active-Market Vacancy Rate', unit: 'percent',  lowerBetter: false },
+    { id: 'vacancy_rate_pct',   label: 'Adjusted Active-Market Vacancy Rate', unit: 'percent',  lowerBetter: false },
     { id: 'pct_multifamily',    label: '% Multifamily (5+ unit)', unit: 'percent', lowerBetter: false },
     { id: 'pct_sf_detached',    label: '% Single-Family Detached', unit: 'percent', lowerBetter: false },
     { id: 'gross_rent_median',  label: 'Median Gross Rent',      unit: 'dollars',  lowerBetter: true  },
@@ -1222,7 +1222,7 @@
     COMPARISON_METRICS.forEach(function (m) {
       var valA = entryA.metrics[m.id];
       var valB = entryB.metrics[m.id];
-      if (m.id === 'vacancy_rate') {
+      if (m.id === 'vacancy_rate_pct') {
         if (valA === null || valA === undefined) sawSuppressedVacancy = true;
         if (valB === null || valB === undefined) sawSuppressedVacancy = true;
         if (valA === 0 || valB === 0) sawLowVacancy = true;

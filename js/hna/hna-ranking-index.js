@@ -315,11 +315,11 @@
 
   function getSeasonalVacancyDisclosure(entry) {
     if (!entry || entry.type === 'county') return null;
-    const rawRental = numericMetric(entry, 'raw_rental_vacancy_rate');
+    const rawRental = numericMetric(entry, 'raw_rental_vacancy_rate_pct');
     if (rawRental === null || rawRental <= 15) return null;
 
-    const activeMarket = numericMetric(entry, 'vacancy_rate');
-    const seasonalRate = numericMetric(entry, 'seasonal_vacancy_rate');
+    const activeMarket = numericMetric(entry, 'vacancy_rate_pct');
+    const seasonalRate = numericMetric(entry, 'seasonal_vacancy_rate_pct');
     const seasonalShare = numericMetric(entry, 'seasonal_share_of_vacant');
     const hasMaterialSeasonal = (seasonalRate !== null && seasonalRate >= 15) ||
       (seasonalShare !== null && seasonalShare >= 50);

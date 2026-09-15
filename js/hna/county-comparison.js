@@ -55,8 +55,8 @@
     { key: 'pct_renter_severe_burdened', label: 'Severe renter burden',       higherIsWorse: true },
     { key: 'pct_owner_burdened_30plus',  label: 'Owners cost-burdened',       higherIsWorse: true },
     { key: 'housing_gap_rate_lte30',     label: 'Gap rate at ≤30% AMI',  higherIsWorse: true },
-    { key: 'overcrowding_rate',          label: 'Overcrowding',               higherIsWorse: true },
-    { key: 'vacancy_rate',               label: 'Vacancy',                    higherIsWorse: false },
+    { key: 'overcrowding_rate_pct',      label: 'Overcrowding',               higherIsWorse: true },
+    { key: 'vacancy_rate_pct',           label: 'Vacancy',                    higherIsWorse: false },
     { key: 'pct_renters',                label: 'Renter share',               higherIsWorse: null },
     { key: 'pct_multifamily',            label: 'Multifamily share',          higherIsWorse: null }
   ];

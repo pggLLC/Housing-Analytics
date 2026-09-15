@@ -157,8 +157,24 @@ run('a jurisdiction too small to compare is told why', () => {
     // silent or vague empty state is the failure mode this project keeps
     // correcting.
     assert.ok(r.reason, f + ' gives no reason for an empty comparison');
-    assert.match(r.reason, /too small for a reliable rate comparison/,
-      f + ' excluded for an unexpected reason: ' + r.reason);
+    // TWO legitimate exclusions, not one.
+    //
+    // The size floor was the only reason while missing ACS values were coerced
+    // to 0: a place with no published income, home value or rent still had
+    // three numbers to compare, so it never reached the second branch. Now
+    // those read as null (see test/ranking-index-no-coerced-zeros.test.js), and
+    // a jurisdiction like Amherst CDP — population 82, nothing published —
+    // correctly reports that no measure can be compared rather than being
+    // compared on zeros.
+    //
+    // The assertion's intent is unchanged: an exclusion must name a reason, and
+    // the reason must be one this module actually produces. A vague or silent
+    // empty state still fails.
+    assert.match(
+      r.reason,
+      /too small for a reliable rate comparison|no measure can be compared like-for-like/,
+      f + ' excluded for an unexpected reason: ' + r.reason,
+    );
   }
   assert.ok(checked > 20, 'expected a meaningful number of small places, saw ' + checked);
 });
