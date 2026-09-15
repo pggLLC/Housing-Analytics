@@ -9,10 +9,21 @@ name: Workflow Outcome Monitor
 # against a 120-minute ceiling; none produced an alert, and #1556 (fifteen days
 # with no completed scheduled run) was found by hand.
 #
-# P1 SCOPE: observation only. This workflow watches ONE workflow it can safely
-# observe, logs the classification, and opens nothing. Issue open/close arrives
-# in P4, where a watched workflow's in-job notifier is removed in the SAME
-# commit that adds it here — never both, or one failure alerts twice.
+# SCOPE: observes the workflows enumerated below and opens, comments on and
+# closes one tracker issue per workflow, keyed on the [workflow-fail:<id>]
+# marker the composite action has used since 2026-05 — so it adopts the eight
+# trackers that already exist rather than starting a parallel history.
+#
+# Exactly one alerting path per workflow. `.github/actions/notify-workflow-outcome`
+# now runs only in ci-checks.yml, which is deliberately NOT in the list below;
+# adding it there without removing that step would alert twice for one failure.
+# test/workflow-outcome-monitor.test.js enforces that disjointness.
+#
+# A cancelled run is still classified `stopped` and alerts on nothing: telling a
+# real timeout from a human cancellation needs the job's declared
+# timeout-minutes and step count (P2). Guessing would have raised a false
+# timeout alert on weekly_housing_brief, which sat at 104% of its ceiling having
+# executed no steps.
 #
 # This monitor must never dispatch, re-run or cancel anything.
 # run-all-workflows dispatches children with `gh workflow run`, so a monitor
@@ -98,4 +109,11 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           MONITOR_WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
           MONITOR_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          # The marker is built from the workflow FILE's basename, not its display
+          # name: existing trackers read [workflow-fail:build-hna-data] while the
+          # display name is "Build HNA Data Cache". Without the path the monitor
+          # declines to open anything rather than guess an id that would not match
+          # the trackers already in this repo.
+          MONITOR_WORKFLOW_PATH: ${{ github.event.workflow_run.path }}
+          MONITOR_RUN_URL: ${{ github.event.workflow_run.html_url }}
         run: node scripts/monitoring/workflow-outcome-monitor.mjs
