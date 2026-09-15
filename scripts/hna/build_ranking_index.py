@@ -102,6 +102,34 @@ def utc_now_z() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def acs_or_none(val):
+    """ACS value, or None when the source did not publish one.
+
+    safe_float() maps a missing value to 0.0, which is correct for the many
+    call sites that accumulate or count. It is wrong for a PUBLISHED scalar
+    metric: `Number(null) === 0` is the defect this repository is built to
+    prevent, and Python's int(safe_float(None)) is the same defect in another
+    language. A median household income of $0 is not a measurement.
+
+    Until this existed, 83 geographies published median_hh_income: 0 and
+    median_home_value: 0 — Seven Hills CDP, Smeltertown, Eldora among them —
+    every one of which reads as a measured figure.
+
+    Note the downstream guards were ALREADY written as `median_income > 0`,
+    i.e. the authors knew zero was unusable. They just published it anyway.
+    """
+    if val is None:
+        return None
+    try:
+        f = float(val)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    # The Census sentinel for "not available for this geography".
+    if f <= _ACS_SENTINEL_THRESHOLD:
+        return None
+    return f
+
+
 def safe_float(val, default: float = 0.0) -> float:
     """Convert value to float, returning *default* on failure or sentinel.
 
@@ -618,11 +646,16 @@ def compute_metrics(
         1 for f in CRITICAL_ACS_FIELDS if acs.get(f) is None
     )
 
-    population = int(safe_float(acs.get("DP05_0001E")))
-    households = int(safe_float(acs.get("DP02_0001E")))
-    median_income = int(safe_float(acs.get("DP03_0062E")))
-    pct_renter = safe_float(acs.get("DP04_0047PE"))
-    gross_rent = int(safe_float(acs.get("DP04_0134E")))
+    # Published scalars read as None when absent, never coerced to 0.
+    _pop = acs_or_none(acs.get("DP05_0001E"))
+    _hh = acs_or_none(acs.get("DP02_0001E"))
+    _inc = acs_or_none(acs.get("DP03_0062E"))
+    _rent = acs_or_none(acs.get("DP04_0134E"))
+    population = int(_pop) if _pop is not None else None
+    households = int(_hh) if _hh is not None else None
+    median_income = int(_inc) if _inc is not None else None
+    pct_renter = acs_or_none(acs.get("DP04_0047PE"))
+    gross_rent = int(_rent) if _rent is not None else None
 
     # Determine county FIPS for cross-reference lookups
     county_fips5 = ""
@@ -1107,21 +1140,31 @@ def compute_metrics(
                     2,
                 )
 
+    # None when neither source publishes a value. The confidence marker already
+    # said "missing" here while the VALUE was published as 0 — a flag beside a
+    # coerced zero that no consumer reads. A $0 median home value is not a
+    # measurement of a cheap town.
     median_home_value_obj = acs.get("median_home_value")
-    median_home_value = 0
+    median_home_value = None
     home_value_confidence = "missing"
     if isinstance(median_home_value_obj, dict):
-        median_home_value = int(safe_float(median_home_value_obj.get("value", 0)))
-        home_value_confidence = str(median_home_value_obj.get("confidence", "missing"))
-    if median_home_value <= 0:
-        median_home_value = int(safe_float(acs.get("DP04_0089E")))
-        home_value_confidence = "acs_raw" if median_home_value > 0 else "missing"
+        cascade = acs_or_none(median_home_value_obj.get("value"))
+        if cascade is not None and cascade > 0:
+            median_home_value = int(cascade)
+            home_value_confidence = str(median_home_value_obj.get("confidence", "missing"))
+    if median_home_value is None:
+        raw = acs_or_none(acs.get("DP04_0089E"))
+        if raw is not None and raw > 0:
+            median_home_value = int(raw)
+            home_value_confidence = "acs_raw"
+        else:
+            home_value_confidence = "missing"
 
     home_value_to_income = None
     rent_to_income = None
-    if median_income > 0 and median_home_value > 0:
+    if median_income and median_income > 0 and median_home_value and median_home_value > 0:
         home_value_to_income = round(median_home_value / median_income, 2)
-    if median_income > 0 and gross_rent > 0:
+    if median_income and median_income > 0 and gross_rent and gross_rent > 0:
         rent_to_income = round(((gross_rent * 12) / median_income) * 100, 1)
 
     opp_key = geoid if geo_type == "county" else place_geoid7
@@ -1241,7 +1284,7 @@ def compute_metrics(
         "seasonal_share_of_vacant": seasonal_share_of_vacant,
         "vacancy_renter_base": rental_units,
         "vacancy_adjustment_method": vacancy_adjustment_method,
-        "pct_renters": round(pct_renter, 1),
+        "pct_renters": round(pct_renter, 1) if pct_renter is not None else None,
         "pct_multifamily": pct_multifamily,
         "pct_sf_detached": pct_sf_detached,
         "pct_2to4_units": pct_2to4_units,
@@ -1424,9 +1467,9 @@ def build(out_path: str | None = None) -> None:
                 "population_projection_20yr": 0,
                 "future_units_needed_20yr": None,
                 "senior_share_growth_pp": None,
-                "population": 0,
-                "median_hh_income": 0,
-                "median_home_value": 0,
+                "population": None,
+                "median_hh_income": None,
+                "median_home_value": None,
                 "home_value_to_income": None,
                 "rent_to_income": None,
                 "home_value_confidence": "missing",
