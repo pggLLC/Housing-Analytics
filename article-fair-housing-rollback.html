@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Fair Housing Without the Rulebook | Colorado Public Data Reference</title>
+  <meta name="description" content="What the 2025-26 federal rollback actually did to fair housing enforcement, what survives under Inclusive Communities, and the HUD Title VI comment period closing 9 October 2026.">
+  <meta property="og:title" content="Fair Housing Without the Rulebook | Colorado Public Data Reference">
+  <meta property="og:description" content="The Fair Housing Act was not repealed and disparate-impact claims still exist. What changed is the administrative machinery - and one piece is still open for comment.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <style>
+    /* OPAQUE backgrounds, deliberately. js/contrast-guard.js treats any
+       background with alpha > 0.02 as opaque and then computes luminance from
+       its r/g/b while ignoring the alpha — so a chip on rgba(153,27,27,.12),
+       which renders as pale pink, is read as dark red and the guard paints
+       light text on it. That produced 29 contrast failures on this page alone.
+       Using the card surface with a coloured border and coloured text keeps the
+       semantics, stays theme-aware, and gives the guard an honest background to
+       measure. */
+    .fh-status { display:inline-block; font-size:.72rem; font-weight:600; letter-spacing:.02em;
+      padding:.12em .5em; border-radius:3px; white-space:nowrap;
+      background: var(--card); border:1px solid currentColor; }
+    .fh-final  { color: var(--bad); }
+    .fh-prop   { color: var(--warn); }
+    .fh-intact { color: var(--good); }
+    .fh-split { display:grid; gap:1.1rem; margin:1.5rem 0; }
+    @media (min-width:780px) { .fh-split { grid-template-columns:1fr 1fr; } }
+    .fh-box { border:1px solid var(--border); background: var(--card); padding:1.2rem; border-radius:6px; }
+    .fh-box h3 { margin-top:0; }
+    .fh-box ul { margin-bottom:0; padding-left:1.1em; }
+    .fh-box li { margin-bottom:.5rem; }
+    .fh-callout { border:1px solid var(--border); border-left:4px solid var(--accent2);
+      background: var(--card); padding:1.2rem 1.4rem; margin:1.5rem 0; border-radius:0 6px 6px 0; }
+    .fh-callout.key { border-left-color: var(--accent); }
+    .fh-callout .fh-tag { display:block; font-size:.72rem; font-weight:700; letter-spacing:.09em;
+      text-transform:uppercase; color: var(--accent2); margin-bottom:.5rem; }
+    .fh-callout.key .fh-tag { color: var(--accent); }
+    .fh-callout p:last-child { margin-bottom:0; }
+    .fh-scroll { overflow-x:auto; margin:1.5rem 0; }
+    .fh-table { border-collapse:collapse; width:100%; font-size:.9rem; min-width:560px; }
+    .fh-table th, .fh-table td { padding:.55rem .7rem; text-align:left; vertical-align:top;
+      border-bottom:1px solid var(--border); }
+    .fh-table thead th { border-bottom:2px solid var(--border-strong); font-weight:700; font-size:.82rem; }
+    .fh-table td.fh-date { white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .fh-table tr.fh-open td { background: var(--card2); box-shadow: inset 3px 0 0 var(--warn); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial, tax, legal, or underwriting advice.
+    </div>
+
+    <article class="article-wrap">
+      <header>
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <a href="insights.html">Insights</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span aria-current="page">Fair Housing Without the Rulebook</span>
+        </nav>
+        <h1>Fair Housing Without the Rulebook</h1>
+        <p class="lede">
+          The statute has not been repealed and disparate-impact claims still exist.
+          What has been dismantled is the machinery that made them usable — and one
+          piece of it is still open for comment.
+        </p>
+        <p class="article-meta">Policy brief · Sources current to 15 September 2026</p>
+      </header>
+
+      <h2>Testing the word “gutted”</h2>
+      <p>
+        “Gutting the Fair Housing Act” is half right, and the half that is wrong
+        matters, because it changes what a housing practitioner should do about it.
+      </p>
+      <p>
+        The Fair Housing Act of 1968 has not been amended. Disparate-impact liability
+        under it has not been abolished — the Supreme Court recognised it in
+        <em>Texas Department of Housing and Community Affairs v. Inclusive Communities
+        Project</em> (576 U.S. 519, 2015), and did so independent of any HUD
+        regulation. The Court referenced the 2013 rule; it did not rest its holding on
+        it. Rescinding the rule therefore cannot remove the cause of action.
+      </p>
+      <p>
+        What is being removed is the <strong>administrative apparatus</strong>: HUD’s
+        burden-shifting framework, the planning obligations that required jurisdictions
+        to examine segregation in their own programmes, and the body of guidance that
+        told housing providers what compliance looked like. That is a real and
+        substantial loss. It is also a different loss from the one the word “gutted”
+        implies, and confusing the two leads to the wrong response.
+      </p>
+
+      <div class="fh-split">
+        <div class="fh-box">
+          <h3>What survives</h3>
+          <ul>
+            <li><span class="fh-status fh-intact">intact</span> The Fair Housing Act itself, unamended</li>
+            <li><span class="fh-status fh-intact">intact</span> Disparate-impact claims under <em>Inclusive Communities</em></li>
+            <li><span class="fh-status fh-intact">intact</span> Intentional-discrimination claims</li>
+            <li><span class="fh-status fh-intact">intact</span> State and local fair housing law</li>
+            <li><span class="fh-status fh-intact">intact</span> Private rights of action</li>
+          </ul>
+        </div>
+        <div class="fh-box">
+          <h3>What has gone, or is going</h3>
+          <ul>
+            <li><span class="fh-status fh-final">final</span> AFFH planning obligations, returned to a pre-1994 understanding</li>
+            <li><span class="fh-status fh-final">final</span> A large body of FHEO guidance, withdrawn September 2025</li>
+            <li><span class="fh-status fh-final">final</span> Title VI disparate-impact rules at six other federal agencies</li>
+            <li><span class="fh-status fh-prop">proposed</span> HUD’s Fair Housing Act disparate-impact rule</li>
+            <li><span class="fh-status fh-prop">proposed</span> HUD’s Title VI disparate-impact provisions</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>The sequence, and what is actually final</h2>
+      <p>
+        This was not a single event. It is a sequenced administrative rollback running
+        since early 2025, and the distinction between <em>final</em> and
+        <em>proposed</em> is the most practically important thing in this brief.
+      </p>
+
+      <div class="fh-scroll">
+        <table class="fh-table">
+          <caption class="sr-only">Federal actions on fair housing and disparate impact, 2025 to 2026</caption>
+          <thead>
+            <tr><th scope="col">Date</th><th scope="col">Action</th><th scope="col">Status</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fh-date">Feb 2025</td>
+              <td>HUD interim final rule repeals the 2021 AFFH provisions, returning to a pre-1994 understanding of the obligation to affirmatively further fair housing. Jurisdictions set their own compliance approach.</td>
+              <td><span class="fh-status fh-final">final</span></td>
+            </tr>
+            <tr>
+              <td class="fh-date">23 Apr 2025</td>
+              <td>Executive Order 14281, <em>Restoring Equality of Opportunity and Meritocracy</em>, directs agencies to eliminate use and enforcement of the disparate-impact standard.</td>
+              <td><span class="fh-status fh-final">in effect</span></td>
+            </tr>
+            <tr>
+              <td class="fh-date">Sep 2025</td>
+              <td>HUD’s Office of Fair Housing and Equal Opportunity withdraws numerous previously issued fair housing guidance documents.</td>
+              <td><span class="fh-status fh-final">final</span></td>
+            </tr>
+            <tr>
+              <td class="fh-date">10 Dec 2025</td>
+              <td>The Department of Justice publishes a final rule rescinding the disparate-impact portions of its Title VI regulations.</td>
+              <td><span class="fh-status fh-final">final</span></td>
+            </tr>
+            <tr>
+              <td class="fh-date">14 Jan 2026</td>
+              <td>HUD proposes to rescind its Fair Housing Act disparate-impact regulations entirely, leaving the standard’s development to the courts. Comments closed 13 February 2026.</td>
+              <td><span class="fh-status fh-prop">proposed</span></td>
+            </tr>
+            <tr>
+              <td class="fh-date">Apr–Jun 2026</td>
+              <td>Commerce (16 Apr), Interior (22 May), Transportation (11 Jun) and Agriculture (17 Jun) each rescind the disparate-impact portions of their Title VI regulations.</td>
+              <td><span class="fh-status fh-final">final</span></td>
+            </tr>
+            <tr class="fh-open">
+              <td class="fh-date">10 Aug 2026</td>
+              <td>HUD issues a supplemental notice of proposed rulemaking to remove disparate-impact liability from its Title VI regulations, which govern recipients of HUD financial assistance.</td>
+              <td><span class="fh-status fh-prop">comments close 9 Oct 2026</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="fh-callout">
+        <span class="fh-tag">There is an open window, and it closes in weeks</span>
+        <p>
+          The HUD Title VI proposal is in a 60-day comment period ending
+          <strong>9 October 2026</strong>. Comment periods on rules of this kind draw
+          heavily from trade associations and legal practices; submissions from
+          jurisdictions and practitioners describing concrete local consequences are
+          comparatively rare and carry distinct weight in the administrative record,
+          which is also the record any subsequent litigation is built on.
+        </p>
+      </div>
+
+      <h2>What actually changes for a housing provider</h2>
+
+      <h3>The claim survives; the path to it gets harder</h3>
+      <p>
+        HUD’s 2013 rule supplied a three-step burden-shifting framework: the plaintiff
+        shows a policy causes a discriminatory effect, the defendant must show a
+        substantial, legitimate, non-discriminatory interest, and the plaintiff may
+        then show a less discriminatory alternative. Removing the rule does not remove
+        the claim, but it removes the agreed procedure for litigating it, leaving each
+        circuit to work it out. The practical effect is longer, costlier, less
+        predictable cases — which functions as a deterrent independent of how any
+        individual case would come out.
+      </p>
+
+      <h3>The planning obligation is the larger structural change</h3>
+      <p>
+        AFFH is the quieter item and probably the more consequential one. Under the
+        2021 framework, jurisdictions receiving HUD funds had to analyse patterns of
+        segregation and disparities in access to opportunity in their own programmes,
+        and to plan against them. The February 2025 interim final rule returned the
+        obligation to a pre-1994 understanding and left jurisdictions to develop their
+        own approach. The duty to affirmatively further fair housing remains statutory;
+        the requirement to demonstrate it in a specified way does not.
+      </p>
+
+      <div class="fh-callout key">
+        <span class="fh-tag">The consequence for Colorado specifically</span>
+        <p>
+          Colorado’s own instruments become proportionally more important, not less.
+          Proposition 123 conditions state funding on a filed commitment to a 3% annual
+          increase in affordable units — an affirmative obligation a jurisdiction takes
+          on voluntarily and can be held to, entirely independent of federal AFFH. HB
+          22-1093 and local inclusionary ordinances operate on the same footing. Where
+          federal planning requirements recede, these are what remain, and they are
+          enforceable through channels the federal rollback does not touch.
+        </p>
+      </div>
+
+      <h2>What a practitioner should do</h2>
+      <ol>
+        <li>
+          <strong>Do not assume disparate impact is gone.</strong> The claim survives
+          <em>Inclusive Communities</em> and a policy with a demonstrable discriminatory
+          effect remains actionable. Compliance advice premised on the rule’s repeal
+          having ended the exposure is wrong.
+        </li>
+        <li>
+          <strong>Keep the analysis you were doing for AFFH.</strong> The requirement
+          to publish it in a specified form has relaxed; the underlying facts about
+          segregation and access in your jurisdiction have not changed, and they remain
+          the evidence base for both state programmes and private claims.
+        </li>
+        <li>
+          <strong>Comment before 9 October 2026 if the Title VI change affects you.</strong>
+          Recipients of HUD financial assistance are the directly regulated parties
+          here, and concrete local detail is what the record most lacks.
+        </li>
+        <li>
+          <strong>Treat state and local commitments as the binding layer.</strong> A
+          Proposition 123 filing is a specific, dated, enforceable undertaking. Where
+          federal obligations have loosened, that is where the remaining leverage sits.
+        </li>
+        <li>
+          <strong>Watch for litigation.</strong> The first Trump administration’s 2020
+          disparate-impact rule was enjoined by a federal court in Massachusetts and
+          never fully implemented. A final rule here would likely be challenged, and
+          the outcome is not predictable from the proposal.
+        </li>
+      </ol>
+
+      <div class="fh-callout">
+        <span class="fh-tag">Scope of this brief</span>
+        <p>
+          This describes regulatory actions and their legal effect. It does not assess
+          the policy merits of disparate-impact liability, on which reasonable people
+          disagree and on which litigation is ongoing. It is current to 15 September
+          2026; the Title VI comment period closes 9 October 2026 and the Fair Housing
+          Act proposal from January 2026 had not been finalised as of this date. Anyone
+          relying on this for a specific matter should confirm current status and take
+          legal advice — it is a briefing, not a legal opinion.
+        </p>
+      </div>
+
+      <h2>Sources</h2>
+      <ul>
+        <li><a href="https://www.federalregister.gov/documents/2026/01/14/2026-00590/huds-implementation-of-the-fair-housing-acts-disparate-impact-standard" target="_blank" rel="noopener">Federal Register — HUD’s Implementation of the Fair Housing Act’s Disparate Impact Standard</a> (proposed rule, 14 January 2026)</li>
+        <li><a href="https://www.federalregister.gov/documents/2026/08/10/2026-16228/huds-implementation-of-the-fair-housing-acts-disparate-impact-standard-amendments-to-huds-title-vi" target="_blank" rel="noopener">Federal Register — Amendments to HUD’s Title VI Regulations</a> (supplemental notice, 10 August 2026)</li>
+        <li><a href="https://eelp.law.harvard.edu/tracker/rollback-executive-order-directed-agencies-to-eliminate-use-and-enforcement-of-disparate-impact-standard/" target="_blank" rel="noopener">Harvard Environmental &amp; Energy Law Program — disparate-impact rescission tracker</a></li>
+        <li><a href="https://www.nixonpeabody.com/insights/alerts/2026/01/21/hud-rescinds-disparate-impact-regulations" target="_blank" rel="noopener">Nixon Peabody — HUD rescinds disparate impact regulations</a></li>
+        <li><a href="https://nlihc.org/resource/hud-proposes-eliminate-agencys-title-vi-disparate-impact-regulations-60-day-public-comment" target="_blank" rel="noopener">National Low Income Housing Coalition — HUD Title VI proposal</a></li>
+        <li><a href="https://supreme.justia.com/cases/federal/us/576/519/" target="_blank" rel="noopener">Texas Dept. of Housing and Community Affairs v. Inclusive Communities Project, 576 U.S. 519 (2015)</a></li>
+        <li><a href="https://www.congress.gov/crs-product/R44203" target="_blank" rel="noopener">Congressional Research Service — Disparate Impact Claims Under the Fair Housing Act</a></li>
+      </ul>
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

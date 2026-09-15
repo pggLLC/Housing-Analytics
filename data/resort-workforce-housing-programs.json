@@ -1,50 +1,63 @@
 {
   "metadata": {
-    "generated":   "2026-06-03",
-    "vintage":     "Curated from each housing authority's published fee schedule + program guidelines. Cash-in-lieu rates + mitigation requirements change annually — verify on each authority's website before underwriting.",
+    "generated": "2026-06-03",
+    "vintage": "Curated from each housing authority's published fee schedule + program guidelines. Cash-in-lieu rates + mitigation requirements change annually — verify on each authority's website before underwriting.",
     "notes": [
       "Mountain resort markets concentrate around 60-150% AMI service-economy jobs",
       "Mitigation programs trade development entitlements / fees for affordable units",
       "Cash-in-lieu rates are typically the highest in the nation in CO resort markets",
       "Deed restrictions enforce occupancy + maximum sale/lease pricing",
       "Buy-down programs purchase open-market units to deed-restrict for workforce"
-    ]
+    ],
+    "restriction_type_key": {
+      "occupancy-only": "Limits WHO may occupy (local employment). Does not cap price or appreciation. Keeps a unit in the workforce; does not make it affordable to a target AMI.",
+      "price-capped": "Caps resale price, usually at original price plus an index. Preserves affordability to a defined AMI band across resales. This is the shared-equity family.",
+      "unverified": "Restriction mechanics not yet checked against a primary source."
+    },
+    "sourcing_note": "Program-level magnitudes were previously unsourced strings. Figures carrying source_url + verified_on have been checked against a primary source on that date; the remainder are marked restriction_type 'unverified' and must not be cited without checking."
   },
   "authorities": [
     {
-      "id":          "apcha",
-      "name":        "Aspen-Pitkin County Housing Authority (APCHA)",
-      "url":         "https://www.apcha.org/",
+      "id": "apcha",
+      "name": "Aspen-Pitkin County Housing Authority (APCHA)",
+      "url": "https://www.apcha.org/",
       "service_area": "Aspen + Snowmass Village + Pitkin County (unincorporated)",
-      "place_geoids": ["0803620","0871755"],
-      "county_fips":  "08097",
-      "headline":     "Most-active workforce-housing program in CO: ~3,000+ units, $700/sf cash-in-lieu, mandatory mitigation on commercial + residential",
+      "place_geoids": [
+        "0803620",
+        "0871755"
+      ],
+      "county_fips": "08097",
+      "headline": "Most-active workforce-housing program in CO: ~3,000+ units, $700/sf cash-in-lieu, mandatory mitigation on commercial + residential",
       "portfolio_size_units": 3000,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Commercial Mitigation",
-          "type":     "linkage-fee",
-          "summary":  "Commercial development must mitigate housing demand it creates. Calculated as ~65% of new employees generated × per-employee floor area required. Met via build-on-site, buy-existing-and-deed-restrict, or cash-in-lieu.",
-          "magnitude":"Cash-in-lieu rates: ~$300-$700/sf of mitigated floor area depending on category 1-4 unit type. Among highest in US."
+          "name": "Commercial Mitigation",
+          "type": "linkage-fee",
+          "summary": "Commercial development must mitigate housing demand it creates. Calculated as ~65% of new employees generated × per-employee floor area required. Met via build-on-site, buy-existing-and-deed-restrict, or cash-in-lieu.",
+          "magnitude": "Cash-in-lieu rates: ~$300-$700/sf of mitigated floor area depending on category 1-4 unit type. Among highest in US.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "Residential Affordable-Housing Requirement (RAH)",
-          "type":     "linkage-fee",
-          "summary":  "Free-market residential development requires affordable component (typically 70% of new floor area in housing-mitigation credits) OR equivalent cash payment.",
-          "magnitude":"Cash-in-lieu varies; large estates can owe $500K-$2M in RAH."
+          "name": "Residential Affordable-Housing Requirement (RAH)",
+          "type": "linkage-fee",
+          "summary": "Free-market residential development requires affordable component (typically 70% of new floor area in housing-mitigation credits) OR equivalent cash payment.",
+          "magnitude": "Cash-in-lieu varies; large estates can owe $500K-$2M in RAH.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "APCHA Ownership Program",
-          "type":     "ownership-deed-restriction",
-          "summary":  "Categories 1-7 priced to income-qualified buyers (Cat 1 ~30% AMI through Cat 7 ~RO+200% AMI). Resale price-capped at indexed appreciation.",
-          "magnitude":"Cat 4 1BR (~120% AMI) prices around $350-$450K (vs $1.5M+ free-market comp)."
+          "name": "APCHA Ownership Program",
+          "type": "ownership-deed-restriction",
+          "summary": "Categories 1-7 priced to income-qualified buyers (Cat 1 ~30% AMI through Cat 7 ~RO+200% AMI). Resale price-capped at indexed appreciation.",
+          "magnitude": "Cat 4 1BR (~120% AMI) prices around $350-$450K (vs $1.5M+ free-market comp).",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "APCHA Rental Program",
-          "type":     "rental-deed-restriction",
-          "summary":  "Income-qualified rental units across the Roaring Fork Valley. Long waitlist; tenants must work locally ≥1,500 hrs/yr.",
-          "magnitude":"Burlingame, Lumberyard, Centennial, dozens more — ~1,500+ rental units in portfolio."
+          "name": "APCHA Rental Program",
+          "type": "rental-deed-restriction",
+          "summary": "Income-qualified rental units across the Roaring Fork Valley. Long waitlist; tenants must work locally ≥1,500 hrs/yr.",
+          "magnitude": "Burlingame, Lumberyard, Centennial, dozens more — ~1,500+ rental units in portfolio.",
+          "restriction_type": "unverified"
         }
       ],
       "developer_actions": [
@@ -55,38 +68,50 @@
       ]
     },
     {
-      "id":          "vail-indeed",
-      "name":        "Town of Vail — InDEED Program + Vail Local Housing Authority",
-      "url":         "https://www.vailgov.com/government/departments/housing/vail-indeed",
+      "id": "vail-indeed",
+      "name": "Town of Vail — InDEED Program + Vail Local Housing Authority",
+      "url": "https://www.vailgov.com/government/departments/housing/vail-indeed",
       "service_area": "Town of Vail",
-      "place_geoids": ["0880040"],
-      "county_fips":  "08037",
-      "headline":     "Buy-down deed-restriction program: Town pays up to $200K per unit to deed-restrict existing market-rate condos as 'Vail InDEED' workforce housing",
+      "place_geoids": [
+        "0880040"
+      ],
+      "county_fips": "08037",
+      "headline": "Buy-down deed-restriction program: Town pays up to $200K per unit to deed-restrict existing market-rate condos as 'Vail InDEED' workforce housing",
       "portfolio_size_units": 220,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Vail InDEED (existing-unit purchase)",
-          "type":     "buy-down-deed-restriction",
-          "summary":  "Town pays property owner cash in exchange for recording a permanent deed restriction (occupancy + appreciation cap). Owner keeps full title.",
-          "magnitude":"Town pays ~10-25% of market value per unit. Original price + indexed appreciation governs future sales."
+          "name": "Vail InDEED (existing-unit purchase)",
+          "type": "buy-down-deed-restriction",
+          "summary": "Town pays a property owner cash to record a PERPETUAL OCCUPANCY deed restriction. The occupant must work 30+ hours per week for an Eagle County business. There is NO appreciation cap, NO income cap and NO household-size requirement, and the owner keeps full title — the unit stays in the local workforce, but it does not stay affordable to a defined AMI band.",
+          "magnitude": "Town pays ~20% of market value as of 2026 (16-20% historically). Resale is restricted to qualified local workers at market price.",
+          "restriction_type": "occupancy-only",
+          "caps_appreciation": false,
+          "caps_income": false,
+          "source_url": "https://www.vail.gov/government/departments/housing/vailindeed",
+          "secondary_source_url": "https://www.huduser.gov/portal/casestudies/study-081121.html",
+          "verified_on": "2026-09-15",
+          "correction_note": "Corrected 2026-09-15. This record previously stated 'occupancy + appreciation cap' and 'original price + indexed appreciation governs future sales'. Both were wrong: InDEED caps neither appreciation nor income. The distinction is load-bearing — an occupancy-only restriction preserves WORKFORCE occupancy at market price, while a price-capped restriction (see APCHA) preserves AFFORDABILITY at a defined AMI band. They cost different amounts and solve different problems."
         },
         {
-          "name":     "Vail Commercial Linkage",
-          "type":     "linkage-fee",
-          "summary":  "Commercial development mitigates new employee housing demand via build/buy/fee.",
-          "magnitude":"Fee schedule updates annually."
+          "name": "Vail Commercial Linkage",
+          "type": "linkage-fee",
+          "summary": "Commercial development mitigates new employee housing demand via build/buy/fee.",
+          "magnitude": "Fee schedule updates annually.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "Timber Ridge Village (Town-owned rental)",
-          "type":     "rental-deed-restriction",
-          "summary":  "Town's flagship rental portfolio — Vail Resorts master-leases for seasonal workforce. ~200 units; recently expanded.",
-          "magnitude":"Master-lease to Vail Resorts; income limits + work-locally requirements."
+          "name": "Timber Ridge Village (Town-owned rental)",
+          "type": "rental-deed-restriction",
+          "summary": "Town's flagship rental portfolio — Vail Resorts master-leases for seasonal workforce. ~200 units; recently expanded.",
+          "magnitude": "Master-lease to Vail Resorts; income limits + work-locally requirements.",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "Chamonix Vail (ownership)",
-          "type":     "ownership-deed-restriction",
-          "summary":  "Town-developed for-sale workforce condos. ~32 units, ~$400-$650K depending on bedroom count (vs $1.5M+ free-market West Vail)."
+          "name": "Chamonix Vail (ownership)",
+          "type": "ownership-deed-restriction",
+          "summary": "Town-developed for-sale workforce condos. ~32 units, ~$400-$650K depending on bedroom count (vs $1.5M+ free-market West Vail).",
+          "restriction_type": "unverified"
         }
       ],
       "developer_actions": [
@@ -96,26 +121,34 @@
       ]
     },
     {
-      "id":          "eagle-valley-housing",
-      "name":        "Eagle County / Valley Home Store + Eagle Valley Workforce Housing",
-      "url":         "https://www.eaglecounty.us/departments/community_development/housing/",
+      "id": "eagle-valley-housing",
+      "name": "Eagle County / Valley Home Store + Eagle Valley Workforce Housing",
+      "url": "https://www.eaglecounty.us/departments/community_development/housing/",
       "service_area": "Eagle County (Vail / Edwards / Eagle / Gypsum / Avon / Beaver Creek)",
-      "county_fips":  "08037",
-      "place_geoids": ["0880040","0823300","0822200","0833695","0804110"],
-      "headline":     "County-level program; Valley Home Store operates ~1,200 deed-restricted ownership + rental units across the I-70 corridor",
+      "county_fips": "08037",
+      "place_geoids": [
+        "0880040",
+        "0823300",
+        "0822200",
+        "0833695",
+        "0804110"
+      ],
+      "headline": "County-level program; Valley Home Store operates ~1,200 deed-restricted ownership + rental units across the I-70 corridor",
       "portfolio_size_units": 1200,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Eagle County Deed Restriction Program",
-          "type":     "buy-down-deed-restriction",
-          "summary":  "Similar to Vail InDEED but for unincorporated Eagle County + smaller towns. County buys deed restrictions on market units.",
-          "magnitude":"Per-unit cash payment varies; tied to county Affordable Housing Fund."
+          "name": "Eagle County Deed Restriction Program",
+          "type": "buy-down-deed-restriction",
+          "summary": "Similar to Vail InDEED but for unincorporated Eagle County + smaller towns. County buys deed restrictions on market units.",
+          "magnitude": "Per-unit cash payment varies; tied to county Affordable Housing Fund.",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "Smart Land Use Initiative",
-          "type":     "density-bonus",
-          "summary":  "Streamlined entitlement + density bonus for projects committing affordability covenants."
+          "name": "Smart Land Use Initiative",
+          "type": "density-bonus",
+          "summary": "Streamlined entitlement + density bonus for projects committing affordability covenants.",
+          "restriction_type": "n/a"
         }
       ],
       "developer_actions": [
@@ -124,35 +157,44 @@
       ]
     },
     {
-      "id":          "scha",
-      "name":        "Summit Combined Housing Authority (SCHA)",
-      "url":         "https://www.summithousing.us/",
+      "id": "scha",
+      "name": "Summit Combined Housing Authority (SCHA)",
+      "url": "https://www.summithousing.us/",
       "service_area": "Summit County + all incorporated towns (Breckenridge, Frisco, Silverthorne, Dillon, Blue River, Montezuma)",
-      "county_fips":  "08117",
-      "place_geoids": ["0875440","0808400","0828690","0820440"],
-      "headline":     "Multi-jurisdictional housing authority combining county + 4 towns + Vail Resorts; ~2,300+ deed-restricted units",
+      "county_fips": "08117",
+      "place_geoids": [
+        "0875440",
+        "0808400",
+        "0828690",
+        "0820440"
+      ],
+      "headline": "Multi-jurisdictional housing authority combining county + 4 towns + Vail Resorts; ~2,300+ deed-restricted units",
       "portfolio_size_units": 2300,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Mortgage Assistance Program",
-          "type":     "down-payment-assistance",
-          "summary":  "5-Year + 20-Year Recapture options for workforce homebuyers. Covers up to $25K-$50K depending on income/employer tier."
+          "name": "Mortgage Assistance Program",
+          "type": "down-payment-assistance",
+          "summary": "5-Year + 20-Year Recapture options for workforce homebuyers. Covers up to $25K-$50K depending on income/employer tier.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "Long-Term Rental Program (LTR)",
-          "type":     "rental-deed-restriction",
-          "summary":  "Property owners can voluntarily deed-restrict short-term-rental-eligible units into long-term rental in exchange for cash incentives. Counters STR conversion of workforce inventory."
+          "name": "Long-Term Rental Program (LTR)",
+          "type": "rental-deed-restriction",
+          "summary": "Property owners can voluntarily deed-restrict short-term-rental-eligible units into long-term rental in exchange for cash incentives. Counters STR conversion of workforce inventory.",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "Wellington (Breckenridge)",
-          "type":     "ownership-deed-restriction",
-          "summary":  "Town-of-Breckenridge-built workforce ownership; recent phase ~150 units."
+          "name": "Wellington (Breckenridge)",
+          "type": "ownership-deed-restriction",
+          "summary": "Town-of-Breckenridge-built workforce ownership; recent phase ~150 units.",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "Smith Ranch (Silverthorne)",
-          "type":     "mixed-deed-restriction",
-          "summary":  "Town-of-Silverthorne workforce community; ~140 units mixed rental + ownership."
+          "name": "Smith Ranch (Silverthorne)",
+          "type": "mixed-deed-restriction",
+          "summary": "Town-of-Silverthorne workforce community; ~140 units mixed rental + ownership.",
+          "restriction_type": "unverified"
         }
       ],
       "developer_actions": [
@@ -161,25 +203,30 @@
       ]
     },
     {
-      "id":          "telluride",
-      "name":        "Town of Telluride + San Miguel Regional Housing Authority",
-      "url":         "https://www.telluride-co.gov/132/Housing",
+      "id": "telluride",
+      "name": "Town of Telluride + San Miguel Regional Housing Authority",
+      "url": "https://www.telluride-co.gov/132/Housing",
       "service_area": "Telluride + Mountain Village + unincorporated San Miguel County",
-      "county_fips":  "08113",
-      "place_geoids": ["0876795","0852550"],
-      "headline":     "Per-square-foot mitigation is among the highest in CO. Mandatory inclusionary on commercial + residential.",
+      "county_fips": "08113",
+      "place_geoids": [
+        "0876795",
+        "0852550"
+      ],
+      "headline": "Per-square-foot mitigation is among the highest in CO. Mandatory inclusionary on commercial + residential.",
       "portfolio_size_units": 800,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Telluride Affordable Housing Mitigation",
-          "type":     "linkage-fee",
-          "summary":  "Commercial + residential development must mitigate new housing demand. Mitigation generated per sf of new development."
+          "name": "Telluride Affordable Housing Mitigation",
+          "type": "linkage-fee",
+          "summary": "Commercial + residential development must mitigate new housing demand. Mitigation generated per sf of new development.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "Virginia Place + Pine Street Place (rental)",
-          "type":     "rental-deed-restriction",
-          "summary":  "Town-developed workforce rental. Resort employee priority."
+          "name": "Virginia Place + Pine Street Place (rental)",
+          "type": "rental-deed-restriction",
+          "summary": "Town-developed workforce rental. Resort employee priority.",
+          "restriction_type": "unverified"
         }
       ],
       "developer_actions": [
@@ -188,25 +235,29 @@
       ]
     },
     {
-      "id":          "estes-park-housing",
-      "name":        "Estes Park Housing Authority",
-      "url":         "https://www.estesparkhousingauthority.org/",
+      "id": "estes-park-housing",
+      "name": "Estes Park Housing Authority",
+      "url": "https://www.estesparkhousingauthority.org/",
       "service_area": "Town of Estes Park + unincorporated Larimer County around RMNP",
-      "place_geoids": ["0825115"],
-      "county_fips":  "08069",
-      "headline":     "Resort-gateway town with year-round + seasonal workforce demand from Rocky Mountain National Park + YMCA of the Rockies",
+      "place_geoids": [
+        "0825115"
+      ],
+      "county_fips": "08069",
+      "headline": "Resort-gateway town with year-round + seasonal workforce demand from Rocky Mountain National Park + YMCA of the Rockies",
       "portfolio_size_units": 250,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Talons Pointe + Vista Ridge (rental)",
-          "type":     "rental-deed-restriction",
-          "summary":  "Town-developed workforce rentals serving park + tourism workforce. Long waitlists."
+          "name": "Talons Pointe + Vista Ridge (rental)",
+          "type": "rental-deed-restriction",
+          "summary": "Town-developed workforce rentals serving park + tourism workforce. Long waitlists.",
+          "restriction_type": "unverified"
         },
         {
-          "name":     "Estes Park linkage + inclusionary requirements",
-          "type":     "linkage-fee",
-          "summary":  "Selective inclusionary requirements on commercial + larger residential developments."
+          "name": "Estes Park linkage + inclusionary requirements",
+          "type": "linkage-fee",
+          "summary": "Selective inclusionary requirements on commercial + larger residential developments.",
+          "restriction_type": "n/a"
         }
       ],
       "developer_actions": [
@@ -215,25 +266,29 @@
       ]
     },
     {
-      "id":          "steamboat-yvha",
-      "name":        "Yampa Valley Housing Authority (Routt County)",
-      "url":         "https://www.yvha.org/",
+      "id": "steamboat-yvha",
+      "name": "Yampa Valley Housing Authority (Routt County)",
+      "url": "https://www.yvha.org/",
       "service_area": "Steamboat Springs + unincorporated Routt County",
-      "place_geoids": ["0873825"],
-      "county_fips":  "08107",
-      "headline":     "Active local housing authority; Steamboat has rapidly-growing inventory through 2026",
+      "place_geoids": [
+        "0873825"
+      ],
+      "county_fips": "08107",
+      "headline": "Active local housing authority; Steamboat has rapidly-growing inventory through 2026",
       "portfolio_size_units": 600,
       "portfolio_size_units_year": 2024,
       "key_programs": [
         {
-          "name":     "Brown Ranch (planning)",
-          "type":     "land-banking",
-          "summary":  "534-acre property acquired by YVHA in 2023; planned for ~2,400 workforce units over 20 years. Voter-approved annexation in progress."
+          "name": "Brown Ranch (planning)",
+          "type": "land-banking",
+          "summary": "534-acre property acquired by YVHA in 2023; planned for ~2,400 workforce units over 20 years. Voter-approved annexation in progress.",
+          "restriction_type": "n/a"
         },
         {
-          "name":     "Steamboat Commercial Linkage",
-          "type":     "linkage-fee",
-          "summary":  "Commercial development mitigation requirements."
+          "name": "Steamboat Commercial Linkage",
+          "type": "linkage-fee",
+          "summary": "Commercial development mitigation requirements.",
+          "restriction_type": "n/a"
         }
       ],
       "developer_actions": [
