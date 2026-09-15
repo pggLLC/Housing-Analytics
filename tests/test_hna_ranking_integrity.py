@@ -197,13 +197,42 @@ class TestPctRentersSanity:
     place reports a renter share well below 50%."""
 
     def test_pct_renters_is_within_zero_to_one_hundred(self, entries):
+        # `.get(key, 0)` only defaults when the key is ABSENT. Since the
+        # coerced-zero fix the key is present and None for places where ACS
+        # publishes no renter share, so the default never applied and
+        # `0 <= None` raised. The test was making the same assumption the fix
+        # corrects: that a missing value would arrive as a zero.
+        #
+        # An unmeasured renter share is neither in nor out of range. Numbers
+        # are range-checked; None is checked separately below.
         bad = [
             f"{e['name']}: pct_renters={e['metrics'].get('pct_renters')}"
             for e in entries
-            if not (0 <= e['metrics'].get('pct_renters', 0) <= 100)
+            if isinstance(e['metrics'].get('pct_renters'), (int, float))
+            and not (0 <= e['metrics']['pct_renters'] <= 100)
         ]
         assert not bad, (
             'pct_renters out of [0, 100] range:\n' + '\n'.join(bad[:10])
+        )
+
+    def test_pct_renters_is_a_number_or_an_explicit_null(self, entries):
+        """Absence must be None, never a coerced 0 and never a missing key.
+
+        A 0% renter share is a real measurement in a few tiny CDPs, so the
+        value alone cannot tell you whether it was measured. What can is the
+        type: a number means measured, None means ACS published nothing.
+        Dropping the key entirely would lose that distinction.
+        """
+        wrong = [
+            f"{e['name']}: pct_renters={e['metrics'].get('pct_renters')!r}"
+            for e in entries
+            if 'pct_renters' not in e['metrics']
+            or not (e['metrics']['pct_renters'] is None
+                    or isinstance(e['metrics']['pct_renters'], (int, float)))
+        ]
+        assert not wrong, (
+            'pct_renters must be a number or an explicit null:\n'
+            + '\n'.join(wrong[:10])
         )
 
     def test_fruita_pct_renters_below_50(self, entries):
