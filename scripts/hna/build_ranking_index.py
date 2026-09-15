@@ -502,8 +502,8 @@ def build_opportunity_context() -> dict[str, dict]:
             "walkability_score": _round_half_up(walkability_score, 1) if walkability_score is not None else None,
             "amenity_access_score": _round_half_up(amenity_access_score, 0) if amenity_access_score is not None else None,
             "qct_dda_score": _round_half_up(qct_dda_score, 1),
-            "qct_share": _round_half_up(qct_share * 100, 1),
-            "dda_share": _round_half_up(dda_share * 100, 1),
+            "qct_share_pct": _round_half_up(qct_share * 100, 1),
+            "dda_share_pct": _round_half_up(dda_share * 100, 1),
             "amenity_access_context": amenity_context,
             "opportunity_geography_level": "place",
             "_opportunity_aggregated_fields": [],
@@ -537,7 +537,7 @@ def build_opportunity_context() -> dict[str, dict]:
             ),
         )
         rec: dict[str, Any] = {}
-        for key in ("opportunity_mobility_score", "walkability_score", "amenity_access_score", "qct_dda_score", "qct_share", "dda_share"):
+        for key in ("opportunity_mobility_score", "walkability_score", "amenity_access_score", "qct_dda_score", "qct_share_pct", "dda_share_pct"):
             val = _weighted([
                 (safe_float(part.get(key), default=float("nan")), weight)
                 for part, weight in ordered_parts
@@ -1130,8 +1130,8 @@ def compute_metrics(
     walkability_score = opp.get("walkability_score")
     amenity_access_score = opp.get("amenity_access_score")
     qct_dda_score = opp.get("qct_dda_score")
-    qct_share = opp.get("qct_share")
-    dda_share = opp.get("dda_share")
+    qct_share = opp.get("qct_share_pct")
+    dda_share = opp.get("dda_share_pct")
     opportunity_geography_level = opp.get("opportunity_geography_level", "missing")
     amenity_access_context = opp.get("amenity_access_context", "missing")
 
@@ -1218,7 +1218,7 @@ def compute_metrics(
         "population_projection_20yr": population_projection_20yr,
         "future_units_needed_20yr": future_units_needed_20yr,
         "senior_share_growth_pp": senior_share_growth_pp,
-        "overcrowding_rate": overcrowding_rate,
+        "overcrowding_rate_pct": overcrowding_rate,
         "population": population,
         "median_hh_income": median_income,
         "median_home_value": median_home_value,
@@ -1229,8 +1229,8 @@ def compute_metrics(
         "walkability_score": walkability_score,
         "amenity_access_score": amenity_access_score,
         "qct_dda_score": qct_dda_score,
-        "qct_share": qct_share,
-        "dda_share": dda_share,
+        "qct_share_pct": qct_share,
+        "dda_share_pct": dda_share,
         "opportunity_geography_level": opportunity_geography_level,
         "amenity_access_context": amenity_access_context,
         "vacancy_rate_pct": vacancy_rate,
@@ -1434,8 +1434,8 @@ def build(out_path: str | None = None) -> None:
                 "walkability_score": None,
                 "amenity_access_score": None,
                 "qct_dda_score": None,
-                "qct_share": None,
-                "dda_share": None,
+                "qct_share_pct": None,
+                "dda_share_pct": None,
                 "opportunity_geography_level": "missing",
                 "amenity_access_context": "missing",
                 "vacancy_rate_pct": 0.0,
@@ -1538,7 +1538,7 @@ def build(out_path: str | None = None) -> None:
     pct_rent_income = compute_percentile_ranks(entries, "rent_to_income", within_geo_type=True)
     pct_future_units = compute_percentile_ranks(entries, "future_units_needed_20yr", within_geo_type=True)
     pct_senior_growth = compute_percentile_ranks(entries, "senior_share_growth_pp", within_geo_type=True)
-    pct_overcrowding = compute_percentile_ranks(entries, "overcrowding_rate", within_geo_type=True)
+    pct_overcrowding = compute_percentile_ranks(entries, "overcrowding_rate_pct", within_geo_type=True)
     pct_mobility = compute_percentile_ranks(entries, "opportunity_mobility_score", within_geo_type=True)
     pct_walkability = compute_percentile_ranks(entries, "walkability_score", within_geo_type=True)
     pct_amenity = compute_percentile_ranks(entries, "amenity_access_score", within_geo_type=True)
@@ -1579,7 +1579,7 @@ def build(out_path: str | None = None) -> None:
         )
         overcrowding_score = (
             _pct(pct_overcrowding, gid)
-            if e["metrics"].get("overcrowding_rate") is not None
+            if e["metrics"].get("overcrowding_rate_pct") is not None
             else None
         )
         community_need_core = _weighted_average([
@@ -1796,7 +1796,7 @@ def build(out_path: str | None = None) -> None:
             "sortOrder": "descending",
         },
         {
-            "id": "overcrowding_rate",
+            "id": "overcrowding_rate_pct",
             "label": "% Overcrowded Households",
             "description": "ACS DP04 occupied units with 1.01 or more occupants per room divided by occupied units; suppressed below the minimum denominator floor",
             "unit": "percent",
