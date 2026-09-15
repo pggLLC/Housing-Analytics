@@ -132,19 +132,16 @@ test('the docstring output-schema example agrees with the real emitter', () => {
     : `the docstring example "${ex[1]}" omits the max() rule`;
 });
 
-test('the committed data file does not carry the superseded area-weighted claim', () => {
-  // SCOPE, stated because it is narrower than the name suggests. This asserts
-  // the published file is not telling consumers the superseded area-weighted
-  // story. It does NOT assert the published string equals what the emitter
-  // would write today: the committed file predates this fix and still says
-  // "Population-share apportionment", which is incomplete — it omits the
-  // max(area_share, ...) — rather than wrong.
+test('the committed data file carries the same rule the emitter writes', () => {
+  // Originally scoped down to "is not the superseded area-weighted claim",
+  // because the committed file predated the emitter fix and regenerating it
+  // carries an ordering hazard: the ACS summary caches must rebuild BEFORE the
+  // CHAS build or the occupied-household anchor silently no-ops.
   //
-  // Closing that gap needs data/hna/place-chas.json regenerated, and that
-  // carries a real ordering hazard: the ACS summary caches must rebuild BEFORE
-  // the CHAS build or the occupied-household anchor silently no-ops. That is a
-  // data-pipeline operation, not a docs fix, so it is deliberately not bundled
-  // here. Until it runs, this is the honest assertion to make.
+  // The regeneration has now run, and it moved nothing: 482 places unchanged,
+  // byte-identical apart from `generated_at` and `method`. So the strong
+  // assertion is available and is made here — the published file must describe
+  // the rule the code computes, not merely avoid the old wrong one.
   if (!fs.existsSync(OUT)) return 'data/hna/place-chas.json is not present';
   let doc;
   try { doc = JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch (e) {
@@ -154,6 +151,13 @@ test('the committed data file does not carry the superseded area-weighted claim'
   if (!claim) return 'place-chas.json meta carries no method string';
   if (/^area-weighted/i.test(claim)) {
     return `the PUBLISHED file still tells consumers "${claim}" — regenerate it`;
+  }
+  if (!/max\(share_of_tract_area/.test(claim)) {
+    return 'the published method omits the max(share_of_tract_area, ...) rule — '
+      + 'run: python3 scripts/hna/build_place_chas.py';
+  }
+  if (!/not be summed|not a partition|exceed 1/i.test(claim)) {
+    return 'the published method does not warn that place counts cannot be summed statewide';
   }
   return null;
 });

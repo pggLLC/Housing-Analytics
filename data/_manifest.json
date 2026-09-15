@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-15T18:32:01.906Z",
+    "generated_at": "2026-09-15T18:41:17.128Z",
     "root": "data/",
     "file_count": 1615,
-    "total_size_bytes": 151308801,
+    "total_size_bytes": 151309206,
     "kinds": {
       "json": 1580,
       "geojson": 31,
@@ -16871,8 +16871,8 @@
     {
       "path": "hna/place-chas.json",
       "kind": "json",
-      "size_bytes": 1629846,
-      "mtime": "2026-09-15T03:48:49.531Z",
+      "size_bytes": 1630251,
+      "mtime": "2026-09-15T18:41:11.028Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204852,
-      "mtime": "2026-09-15T18:31:34.616Z",
+      "mtime": "2026-09-15T18:32:04.444Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31761,7 +31761,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14222,
-      "mtime": "2026-09-15T18:31:50.785Z",
+      "mtime": "2026-09-15T18:32:05.312Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31784,7 +31784,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 5999,
-      "mtime": "2026-09-15T18:31:50.139Z",
+      "mtime": "2026-09-15T18:32:04.658Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
