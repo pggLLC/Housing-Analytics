@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "1388ce7b7",
+  "generated_from_commit": "3bac4c1ad",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -240,8 +240,77 @@
       }
     ]
   },
+  "scope": {
+    "hand_written_lines": 337233,
+    "generated_place_page_lines": 226824,
+    "top_level_pages": 62,
+    "html_nonblank_lines": 46847,
+    "html_distinct_lines": 18185,
+    "html_distinct_share": 0.388,
+    "substantial_tools": 25,
+    "declared_data_sources": 63,
+    "estimate": {
+      "declared": "analyst-constructed; not repository methodology",
+      "means": "what a commissioned team would bill to build this from a specification, NOT the effort expended here",
+      "workstream_weeks": {
+        "domain_discovery": [
+          8,
+          16
+        ],
+        "design_system": [
+          4,
+          6
+        ],
+        "page_design": [
+          10,
+          16
+        ],
+        "tool_ux": [
+          14,
+          20
+        ],
+        "accessibility": [
+          3,
+          5
+        ],
+        "frontend_build": [
+          78,
+          152
+        ],
+        "data_engineering": [
+          63,
+          126
+        ],
+        "derived_pipelines": [
+          16,
+          24
+        ],
+        "analytics_methodology": [
+          12,
+          20
+        ],
+        "qa_and_test": [
+          30,
+          50
+        ],
+        "devops_platform": [
+          12,
+          20
+        ]
+      },
+      "pm_overhead": 0.12,
+      "parallelism_loss": 0.25,
+      "team_size": 7,
+      "person_weeks_low": 280,
+      "person_weeks_high": 510,
+      "person_years_low": 6.1,
+      "person_years_high": 11.1,
+      "calendar_months_low": 12,
+      "calendar_months_high": 21
+    }
+  },
   "methods": {
-    "extracted_at_commit": "1388ce7b7",
+    "extracted_at_commit": "3bac4c1ad",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {

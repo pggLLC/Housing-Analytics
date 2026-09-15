@@ -453,6 +453,117 @@ function tractability() {
   };
 }
 
+
+/* ── build scope, and a declared estimate over it ────────────────────────── */
+
+/**
+ * ANALYST-CONSTRUCTED, like the tractability screen in §04 — not a measurement.
+ *
+ * The SCOPE below is measured. The per-workstream person-weeks are a judgment,
+ * they carry no validation beyond face plausibility, and they live here as named
+ * constants so a reader can change them and re-run rather than having to trust
+ * them.
+ *
+ * What the estimate IS: what a commissioned team would plausibly bill to build
+ * this from a specification. What it is NOT: a claim that this much human effort
+ * was expended here. Those are different quantities — a commissioned build
+ * carries requirements negotiation, review cycles, sign-off and status reporting
+ * that a single maintainer does not — and conflating them would be exactly the
+ * unsupported claim this paper argues against.
+ */
+const BUILD_ESTIMATE_WEEKS = {
+  domain_discovery: [8, 16],
+  design_system: [4, 6],
+  page_design: [10, 16],
+  tool_ux: [14, 20],
+  accessibility: [3, 5],
+  frontend_build: [78, 152],
+  data_engineering: [63, 126],
+  derived_pipelines: [16, 24],
+  analytics_methodology: [12, 20],
+  qa_and_test: [30, 50],
+  devops_platform: [12, 20],
+};
+const PM_OVERHEAD = 0.12;          // coordination, reporting, ceremony
+const PARALLELISM_LOSS = 0.25;     // a team of seven is not seven times one
+const TEAM_SIZE = 7;
+const PRODUCTIVE_WEEKS_PER_YEAR = 46;
+
+function buildScope() {
+  const tracked = git(['ls-files']);
+  if (tracked == null) return { total_lines: absent('scope.total_lines', 'git ls-files unavailable') };
+  const list = tracked.split('\n').filter(Boolean);
+
+  const countLines = (re) => {
+    let n = 0;
+    for (const f of list) {
+      if (!re.test(f)) continue;
+      try { n += readFileSync(R(f), 'utf8').split('\n').length; } catch { /* unreadable */ }
+    }
+    return n;
+  };
+
+  // Top-level HTML carries heavy shared boilerplate — nav, script tags, head.
+  // Counting it as authored work overstates the build, so distinct lines are
+  // measured rather than assumed.
+  const pages = list.filter((f) => /^[^/]+\.html$/.test(f));
+  const seen = new Map();
+  let nonBlank = 0;
+  for (const f of pages) {
+    let src;
+    try { src = readFileSync(R(f), 'utf8'); } catch { continue; }
+    for (const raw of src.split('\n')) {
+      const line = raw.trim();
+      if (!line) continue;
+      nonBlank += 1;
+      seen.set(line, (seen.get(line) || 0) + 1);
+    }
+  }
+  let distinct = 0;
+  for (const c of seen.values()) if (c === 1) distinct += 1;
+
+  const scope = {
+    hand_written_lines: countLines(/^(js|scripts|test|tests|css)\/.*\.(js|mjs|py|css)$/)
+      + countLines(/^\.github\/workflows\/.*\.ya?ml$/) + countLines(/^[^/]+\.html$/),
+    generated_place_page_lines: countLines(/^places\/[^/]+\.html$/),
+    top_level_pages: pages.length,
+    html_nonblank_lines: nonBlank,
+    html_distinct_lines: distinct,
+    html_distinct_share: nonBlank ? Number((distinct / nonBlank).toFixed(3)) : null,
+    substantial_tools: pages.filter((f) => {
+      try { return readFileSync(R(f), 'utf8').split('\n').length > 600; } catch { return false; }
+    }).length,
+    declared_data_sources: (() => {
+      const f = R('js/data-source-inventory.js');
+      if (!existsSync(f)) return absent('scope.declared_data_sources', 'js/data-source-inventory.js is not present');
+      const m = readFileSync(f, 'utf8').match(/\bid:\s*['"][\w-]+['"]/g);
+      return m ? m.length : absent('scope.declared_data_sources', 'no source ids parsed');
+    })(),
+  };
+
+  const lo = Object.values(BUILD_ESTIMATE_WEEKS).reduce((a, [x]) => a + x, 0);
+  const hi = Object.values(BUILD_ESTIMATE_WEEKS).reduce((a, [, y]) => a + y, 0);
+  const loPm = Math.round(lo * (1 + PM_OVERHEAD));
+  const hiPm = Math.round(hi * (1 + PM_OVERHEAD));
+
+  scope.estimate = {
+    declared: 'analyst-constructed; not repository methodology',
+    means: 'what a commissioned team would bill to build this from a specification, '
+      + 'NOT the effort expended here',
+    workstream_weeks: BUILD_ESTIMATE_WEEKS,
+    pm_overhead: PM_OVERHEAD,
+    parallelism_loss: PARALLELISM_LOSS,
+    team_size: TEAM_SIZE,
+    person_weeks_low: loPm,
+    person_weeks_high: hiPm,
+    person_years_low: Number((loPm / PRODUCTIVE_WEEKS_PER_YEAR).toFixed(1)),
+    person_years_high: Number((hiPm / PRODUCTIVE_WEEKS_PER_YEAR).toFixed(1)),
+    calendar_months_low: Math.round((loPm / TEAM_SIZE) * (1 + PARALLELISM_LOSS) / 4.33),
+    calendar_months_high: Math.round((hiPm / TEAM_SIZE) * (1 + PARALLELISM_LOSS) / 4.33),
+  };
+  return scope;
+}
+
 /* ── emit ────────────────────────────────────────────────────────────────── */
 
 /**
@@ -488,6 +599,7 @@ const figures = {
   // Constants and weights read out of the code that uses them, by
   // scripts/paper/extract-model-parameters.mjs. A methods paper is only
   // peer-reviewable if the formulas it prints are the ones that run.
+  scope: buildScope(),
   methods: (() => {
     const r = readJson('data/paper/model-parameters.json');
     if (!r.ok) return { model_count: absent('methods.model_count', r.reason) };

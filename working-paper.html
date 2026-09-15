@@ -204,7 +204,7 @@
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
           <span><code>pggLLC/Housing-Analytics</code></span>
           <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-15</span></span>
-          <span>Figures regenerated from commit <code data-figure="generated_from_commit">1388ce7b7</code></span>
+          <span>Figures regenerated from commit <code data-figure="generated_from_commit">3bac4c1ad</code></span>
         </p>
       </header>
 
@@ -279,6 +279,30 @@
             <dd>
               The binding constraint is not analysis but <b>development cost data</b>. The system can
               size need precisely and cannot cost it at all. See &sect;07.
+            </dd>
+
+            <dt>What a commissioned build would cost</dt>
+            <dd>
+              <b><span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+              person-years</b>, or
+              <span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
+              months for a team of <span data-figure="scope.estimate.team_size">7</span>, over
+              <span data-figure="scope.hand_written_lines" data-figure-format="comma">337,233</span>
+              hand-written lines and
+              <span data-figure="scope.declared_data_sources">63</span> data sources. An
+              analyst estimate, declared as one in &sect;07.
+            </dd>
+
+            <dt>What it cost in energy</dt>
+            <dd>
+              Built with heavy AI assistance. Measured:
+              <b><span data-figure="footprint.turns" data-figure-format="comma">71,384</span> model
+              turns</b> and
+              <span data-figure="footprint.ci_runs" data-figure-format="comma">40,000</span> CI jobs
+              over a partial window. Published per-query energy spans
+              <span data-figure="footprint.spread_factor">140</span>&times;, giving
+              <span data-figure="footprint.kwh_low" data-figure-format="comma">17</span>&ndash;<span data-figure="footprint.kwh_high" data-figure-format="comma">2,399</span>
+              kWh. No midpoint is offered, and no net benefit is claimed. &sect;09.
             </dd>
           </dl>
         </div>
@@ -883,6 +907,80 @@
           </p>
         </div>
 
+        <h3 class="col">What replacing this would cost</h3>
+        <div class="col">
+          <p>
+            A funder deciding whether to support an existing system is really asking what it would
+            cost to commission one. The scope is measurable:
+            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">337,233</span></strong>
+            hand-written lines &mdash; excluding
+            <span data-figure="scope.generated_place_page_lines" data-figure-format="comma">226,824</span>
+            generated lines of place pages &mdash;
+            <span data-figure="scope.top_level_pages">62</span> pages of which
+            <span data-figure="scope.substantial_tools">25</span> are substantial interactive
+            tools, and <span data-figure="scope.declared_data_sources">63</span> declared data
+            sources feeding
+            <span data-figure="inventory.scheduled_workflows">59</span> scheduled pipelines.
+          </p>
+          <p>
+            Decomposed by workstream and summed, that comes to
+            <strong><span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+            person-years</strong>, or
+            <strong><span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
+            months</strong> of calendar time for a team of
+            <span data-figure="scope.estimate.team_size">7</span> after allowing
+            <span data-figure="scope.estimate.pm_overhead" data-figure-format="percent">12%</span>
+            for coordination and
+            <span data-figure="scope.estimate.parallelism_loss" data-figure-format="percent">25%</span>
+            for the fact that a team of seven is not seven times one person.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">Declared: an estimate, and not a claim about this project</span>
+          <p>
+            The scope above is measured; the person-weeks are a judgment, with no validation beyond
+            face plausibility, and they live in the generator as named constants so a reader can
+            change them and re-run rather than having to trust them.
+          </p>
+          <p>
+            More important is what the figure does <em>not</em> say. It is what a commissioned team
+            would plausibly bill to build this from a specification. It is <strong>not</strong> a
+            claim that
+            <span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+            person-years of human effort were expended here. A commissioned build carries
+            requirements negotiation, review cycles, sign-off and status reporting that a single
+            maintainer does not, and the domain expertise that a team would spend two to four months
+            acquiring was already resident. Treating the two as equivalent would be precisely the
+            unsupported claim this paper spends nine sections arguing against.
+          </p>
+          <p>
+            One cross-check is worth recording because it initially looked like a contradiction. A
+            line-count sanity test against defence-software productivity benchmarks implies roughly
+            twenty-six person-years &mdash; two to four times the workstream estimate. The
+            discrepancy is an artefact of the benchmark, not of the estimate: only
+            <span data-figure="scope.html_distinct_share" data-figure-format="percent">39%</span>
+            of the page markup is distinct rather than shared boilerplate, and modern web and data
+            work sustains line rates several times those benchmarks assume. Adjusted for both, the
+            two methods agree.
+          </p>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">The line item a fixed-bid team cuts first</span>
+          <p>
+            After front-end and data engineering, the largest workstream is quality assurance &mdash;
+            and it produces nothing a demonstration would show.
+            <span data-figure="inventory.absence_tests">38</span> of the
+            <span data-figure="inventory.test_files">284</span> test files exist only to stop the
+            system asserting things it cannot know. That is exactly the line a fixed-price bid
+            removes, and exactly the line this system's argument rests on. A commissioned build of
+            this site would very likely ship sooner, look more consistent, and be better documented
+            &mdash; and publish coerced zeros, because nothing in a statement of work asks for the
+            discipline that prevents them.
+          </p>
+        </div>
+
         <div class="wp-caution">
           <span class="tag">Deliberately no dollar figures</span>
           <p>
@@ -1113,7 +1211,7 @@
         <div class="col">
           <p class="wp-sources">
             Figures reflect the repository at commit
-            <code data-figure="generated_from_commit">1388ce7b7</code>. The underlying data refreshes
+            <code data-figure="generated_from_commit">3bac4c1ad</code>. The underlying data refreshes
             continuously; a reader reproducing these tables later should expect vintage drift and is
             encouraged to check each metric&rsquo;s own <code>as_of</code> field rather than this
             page&rsquo;s date.
