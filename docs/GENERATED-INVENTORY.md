@@ -1,12 +1,12 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T13:27:49.497Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T19:34:36.795Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-60 pages found.
+62 pages found.
 
 | File | Title | Size |
 |------|-------|------|
@@ -52,7 +52,7 @@
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
-| `insights.html` | Market Insights | Colorado Public Data Reference | 34.6 KB |
+| `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.6 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
@@ -60,6 +60,7 @@
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.5 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
+| `methods.html` | Computational Methods | Colorado Public Data Reference | 44.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 52.1 KB |
@@ -70,16 +71,17 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.1 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 72.6 KB |
 
 ---
 
 ## Data Files (`data/**/*.json`)
 
-1578 JSON files found.
+1581 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 762.1 KB | ✅ | — |
+| `data/_manifest.json` | 763.5 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1568,7 +1570,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 199.7 KB | ✅ | — |
+| `data/manifest.json` | 200.1 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1615,6 +1617,9 @@
 | `data/market/zori_rents_co.json` | 24.1 KB | ✅ | — |
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
+| `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
+| `data/paper/figures.json` | 14.1 KB | ✅ | — |
+| `data/paper/model-parameters.json` | 5.9 KB | ✅ | — |
 | `data/pipeline/content.json` | 34.1 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
 | `data/policy/buyer-assistance-programs.json` | 1.9 KB | ✅ | — |
@@ -1662,7 +1667,7 @@
 
 ## Test Files
 
-335 test files found.
+338 test files found.
 
 | File | Size |
 |------|------|
@@ -1673,6 +1678,7 @@
 | `test/acs-integration.test.js` | 14.8 KB |
 | `test/acs-sentinel-absence.test.js` | 4.1 KB |
 | `test/acs-vintage-label-integrity.test.js` | 3.8 KB |
+| `test/affordability-defaults-inventory.test.js` | 6.7 KB |
 | `test/affordable-housing-preservation-risk.test.js` | 3.2 KB |
 | `test/ami-gap-evidence-language.test.js` | 4.8 KB |
 | `test/analytics.test.js` | 18.2 KB |
@@ -1850,6 +1856,7 @@
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
+| `test/paper-figures-fresh.test.js` | 20.3 KB |
 | `test/parcel-source-honesty.test.js` | 4.4 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
@@ -1857,7 +1864,8 @@
 | `test/pipeline-guards-a1.test.js` | 2.2 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
-| `test/place-chas-lookup.test.js` | 6.5 KB |
+| `test/place-chas-lookup.test.js` | 7.1 KB |
+| `test/place-chas-method-honesty.test.js` | 8.3 KB |
 | `test/place-chas-tenure-anchor.test.js` | 3.2 KB |
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
@@ -2006,7 +2014,7 @@
 
 ## GitHub Actions Workflows
 
-70 workflow files found.
+71 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2023,7 +2031,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/ci-checks.yml` | 15.9 KB |
+| `.github/workflows/ci-checks.yml` | 16.0 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
@@ -2065,6 +2073,7 @@
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
+| `.github/workflows/refresh-working-paper.yml` | 3.0 KB |
 | `.github/workflows/run-all-workflows.yml` | 17.3 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.1 KB |
 | `.github/workflows/site-audit.yml` | 2.5 KB |
