@@ -319,8 +319,28 @@
       // the strip to the top of the viewport until something else moved.
       if (h < 24) return;
 
-      if (document.documentElement.style.getPropertyValue('--site-header-h') === h + 'px') return;
-      document.documentElement.style.setProperty('--site-header-h', h + 'px');
+      if (document.documentElement.style.getPropertyValue('--site-header-h') !== h + 'px') {
+        document.documentElement.style.setProperty('--site-header-h', h + 'px');
+      }
+
+      // Publish the progress strip's height too, so anchor navigation can clear
+      // BOTH sticky bars. Without this, clicking a contents-rail link scrolled
+      // the target heading underneath the header and the strip, and the reader
+      // landed on a section whose own title was hidden -- the one thing an
+      // in-page link exists to prevent. css/site-theme.css consumes this in a
+      // single `html { scroll-padding-top: ... }` rule, which covers ordinary
+      // anchors, :target, and scrollIntoView alike.
+      //
+      // Measured rather than assumed: the strip is present on the HNA pages and
+      // absent elsewhere, and its height changes with wrapping at narrow widths.
+      var strip = document.querySelector('.wf-progress-wrap, .workflow-progress');
+      var sh = strip ? Math.round(strip.getBoundingClientRect().height) : 0;
+      // A strip mid-layout reports a few pixels; publishing that would under-pad
+      // the scroll and reintroduce the bug it is meant to fix.
+      if (strip && sh < 16) return;
+      if (document.documentElement.style.getPropertyValue('--wf-progress-h') !== sh + 'px') {
+        document.documentElement.style.setProperty('--wf-progress-h', sh + 'px');
+      }
     }
 
     apply();
