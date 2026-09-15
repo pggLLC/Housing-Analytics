@@ -991,13 +991,17 @@
   function computeDscrStressScenarios(inputs, constants) {
     if (!inputs) return null;
     constants = constants || DEFAULT_CONSTANTS;
-    var annualRents      = +inputs.annualRents || 0;
+    // NOT `|| 0`: annualRents is NaN when the unit mix is broken, and `NaN || 0`
+    // is 0 — which would resurrect the exact deal this is meant to refuse.
+    var annualRents      = +inputs.annualRents;
     var vacancyPct       = +inputs.vacancyPct  || 0;
     var annualOpex       = +inputs.annualOpex       || 0;
     var annualRepReserve = +inputs.annualRepReserve || 0;
     var netPropTax       = +inputs.netPropTax       || 0;
     var annualDebtService = +inputs.annualDebtService || 0;
-    if (annualDebtService <= 0 || annualRents <= 0) return null;
+    // `NaN <= 0` is false, so a bare `<= 0` lets NaN through. Inverting the
+    // comparison catches missing, zero, negative and NaN in one test.
+    if (!(annualDebtService > 0) || !(annualRents > 0)) return null;
 
     var rentS = +constants.rentStressPct;
     var vacS  = +constants.vacStressPp;
@@ -3011,10 +3015,20 @@
         syncWarn.hidden = true;
       }
     }
-    // When unit-mix is logically broken, suppress rent-driven outputs to
-    // avoid showing spurious NOI / equity numbers downstream.
+    // When unit-mix is logically broken, suppress rent-driven outputs.
+    //
+    // This used to assign 0, which does not suppress anything: 0 is a finite
+    // number, so NOI, DSCR, break-even occupancy and the funding gap were all
+    // computed from it and rendered as figures. A deal with $0 rental income
+    // is not a blocked calculation, it is a confidently wrong one — and unlike
+    // a wrong planning figure, this one is a financing go/no-go.
+    //
+    // NaN rather than null, deliberately: `null * x` is 0 in JavaScript, so a
+    // null would re-introduce the same coercion one line downstream. NaN
+    // poisons the arithmetic it touches, and every renderer here already ends
+    // in `isFinite(n) ? ... : '—'`.
     if (unitMixError) {
-      annualRents = 0;
+      annualRents = NaN;
     }
 
     // Developer fee
@@ -4153,7 +4167,31 @@
     var predictor = window.LIHTCDealPredictor;
     if (!predictor) return;
 
-    var units = parseInt((document.getElementById('dc-units') || {}).value, 10) || 60;
+    // The predictor applies its OWN `_num(inputs.proposedUnits, 60)` default,
+    // so passing an unknown unit count through simply resurrects the 60 one
+    // layer down — the same defect in a second place. It already has the right
+    // primitive for this (`_missing()`), it just is not used on that field.
+    //
+    // Rather than reach into the predictor from here, refuse to ask it a
+    // question that has no unit count in it, and say so on screen.
+
+    // Was `|| 60`: clearing the field silently produced a 60-unit project's
+    // economics with nothing on screen saying where 60 came from. A default
+    // that looks deliberate is harder to notice than a zero.
+    var _unitsEl = document.getElementById('dc-units');
+    var _unitsRaw = parseInt(_unitsEl && _unitsEl.value, 10);
+    var units = Number.isFinite(_unitsRaw) && _unitsRaw > 0 ? _unitsRaw : NaN;
+    if (!Number.isFinite(units)) {
+      // dc-concept-rec is created on demand by the predictor's own renderer,
+      // so the message lands exactly where the result would have.
+      var _recCard = document.getElementById('dc-concept-rec');
+      if (_recCard) {
+        _recCard.innerHTML = '<p class="dc-note">Enter a total unit count to screen this concept. '
+          + 'No prediction is shown, rather than one based on an assumed project size.</p>';
+        _recCard.hidden = false;
+      }
+      return;
+    }
     var dealInputs = {
       geoid: fips || undefined,
       countyFips: fips || null,    // drives hard-cost geographic multiplier in predictor
