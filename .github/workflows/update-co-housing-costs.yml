@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   actions: write
+  issues: write   # notify-failure opens an issue when the refresh breaks
 
 concurrency:
   group: data-commits
@@ -66,7 +67,11 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "Update CO housing costs data and maps [skip ci]"
-            git pull --rebase --autostash -X theirs origin main
+            # Rebase onto whatever branch this run targets. workflow_dispatch
+            # accepts any ref, and rebasing a feature branch onto main moves
+            # its commits off their remote counterpart, so the push below is
+            # then rejected non-fast-forward and a good pipeline run is lost.
+            git pull --rebase --autostash -X theirs origin "$GITHUB_REF_NAME"
             python3 scripts/rebuild_manifest.py
             if ! git diff --quiet -- data/; then
               git add data/
@@ -76,8 +81,11 @@ jobs:
             echo "pushed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      # The ref guard matters because workflow_dispatch can target any branch:
+      # a verification run from a feature branch commits to that branch, and
+      # without this it would still dispatch a production deploy of main.
       - name: Trigger Pages deploy
-        if: steps.data-commit.outputs.pushed == 'true'
+        if: steps.data-commit.outputs.pushed == 'true' && github.ref == 'refs/heads/main'
         uses: actions/github-script@v9
         with:
           script: |
@@ -88,3 +96,61 @@ jobs:
               ref: 'main'
             });
             core.notice('Dispatched deploy.yml for CO housing costs refresh.');
+
+  # ── Failure notification ────────────────────────────────────────────────────
+  # This workflow failed silently on every run from 2026-05-02 to 2026-09-14
+  # (the pipeline exhausted the runner on a ~290 MB BLS archive and the OS
+  # killed the job). Nothing surfaced those six failures, so the published
+  # status file went on promising a refresh that was never coming. Open an
+  # issue instead of failing quietly.
+  notify-failure:
+    name: Notify on refresh failure
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build-co-housing-costs]
+    if: failure()
+
+    steps:
+      - name: Open GitHub issue on refresh failure
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const title = `[CO Housing Costs] Monthly refresh failed — run #${context.runId}`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'co-housing-costs-refresh-failure',
+            });
+            if (existing.data.length > 0) {
+              console.log('Refresh failure issue already open — skipping duplicate creation.');
+              return;
+            }
+            const body = [
+              `The **Update CO Housing Costs Data** workflow failed on run [#${context.runId}](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`,
+              '',
+              'While this is open, `assets/co-housing-costs/snapshots/pipeline-status.json`',
+              'and the eight county maps are stale: they describe the last run that',
+              'finished, not current data.',
+              '',
+              '### Common causes',
+              '- `CENSUS_API_KEY` secret missing or expired (ACS county/tract fetch)',
+              '- BLS QCEW Open Data Access slice not yet published for the requested vintage',
+              '- FHFA HPI or Census BPS file moved to a new year-stamped URL',
+              '- `The runner has received a shutdown signal` — a fetch grew large enough',
+              '  to exhaust the runner. Do not reintroduce the QCEW singlefile ZIP; see',
+              '  `Config.QCEW_INDUSTRY_URL` in `scripts/build_co_housing_costs_insight.py`.',
+              '',
+              '### Recovery steps',
+              '1. Read the failing step log to see which source stopped the run',
+              '2. Re-run the workflow once the upstream source recovers',
+              '3. Confirm `pipeline-status.json` shows a fresh `generated` timestamp',
+              '   and a non-empty `sources` block afterwards',
+            ].join('\n');
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title,
+              body,
+              labels: ['co-housing-costs-refresh-failure'],
+            });

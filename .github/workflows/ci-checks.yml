@@ -262,7 +262,9 @@ jobs:
           python-version: "3.11"
 
       - name: Install Python test dependencies
-        run: pip install pytest python-dateutil jsonschema requests
+        # pandas: test:qcew-annual-slice parses QCEW fixtures through the
+        # real pipeline code, so it needs the pipeline's own dependency.
+        run: pip install pytest python-dateutil jsonschema requests pandas
 
       - name: Run unified CI test suite
         run: npm run test:ci
