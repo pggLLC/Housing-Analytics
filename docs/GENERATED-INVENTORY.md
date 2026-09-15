@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T00:07:18.393Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T00:09:35.717Z. Do not edit by hand.
 
 ---
 
@@ -12,7 +12,7 @@
 |------|-------|------|
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 14.7 KB |
-| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.1 KB |
+| `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
 | `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 31.6 KB |
@@ -1661,7 +1661,7 @@
 
 ## Test Files
 
-332 test files found.
+334 test files found.
 
 | File | Size |
 |------|------|
@@ -1692,7 +1692,7 @@
 | `test/census-dashboard-scope.test.js` | 2.3 KB |
 | `test/chart-id-coherence.test.js` | 4.5 KB |
 | `test/chas-tier-shares.test.js` | 4.9 KB |
-| `test/chfa-dda-qct-absence.test.js` | 7.7 KB |
+| `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
 | `test/co-lihtc-map.test.js` | 8.8 KB |
@@ -1922,6 +1922,7 @@
 | `test/test-reachability.test.js` | 6.8 KB |
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
+| `test/test_bps_and_status_freshness.py` | 9.4 KB |
 | `test/test_chfa_award_predictor.js` | 18.9 KB |
 | `test/test_environmental_screening.js` | 17.9 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
@@ -1932,6 +1933,7 @@
 | `test/test_legislative_tracker.js` | 8.9 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
 | `test/test_public_land_overlay.js` | 13.8 KB |
+| `test/test_qcew_annual_slice.py` | 8.0 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
@@ -2019,7 +2021,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/ci-checks.yml` | 14.1 KB |
+| `.github/workflows/ci-checks.yml` | 14.3 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
@@ -2069,7 +2071,7 @@
 | `.github/workflows/sync-data-mtimes.yml` | 7.5 KB |
 | `.github/workflows/test-sentinel-normalization.yml` | 2.1 KB |
 | `.github/workflows/triage-open-issues.yml` | 21.9 KB |
-| `.github/workflows/update-co-housing-costs.yml` | 2.5 KB |
+| `.github/workflows/update-co-housing-costs.yml` | 6.1 KB |
 | `.github/workflows/upstream-vintage-watch.yml` | 6.0 KB |
 | `.github/workflows/url-health-weekly.yml` | 5.0 KB |
 | `.github/workflows/weekly_housing_brief.yml` | 7.5 KB |
