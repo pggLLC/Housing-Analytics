@@ -25,11 +25,20 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
   <style>
+    /* OPAQUE backgrounds, deliberately. js/contrast-guard.js treats any
+       background with alpha > 0.02 as opaque and then computes luminance from
+       its r/g/b while ignoring the alpha — so a chip on rgba(153,27,27,.12),
+       which renders as pale pink, is read as dark red and the guard paints
+       light text on it. That produced 29 contrast failures on this page alone.
+       Using the card surface with a coloured border and coloured text keeps the
+       semantics, stays theme-aware, and gives the guard an honest background to
+       measure. */
     .fh-status { display:inline-block; font-size:.72rem; font-weight:600; letter-spacing:.02em;
-      padding:.12em .5em; border-radius:3px; white-space:nowrap; }
-    .fh-final  { background: var(--bad-dim, rgba(153,27,27,.10)); color: var(--bad); }
-    .fh-prop   { background: var(--warn-dim); color: var(--warn); }
-    .fh-intact { background: var(--good-dim); color: var(--good); }
+      padding:.12em .5em; border-radius:3px; white-space:nowrap;
+      background: var(--card); border:1px solid currentColor; }
+    .fh-final  { color: var(--bad); }
+    .fh-prop   { color: var(--warn); }
+    .fh-intact { color: var(--good); }
     .fh-split { display:grid; gap:1.1rem; margin:1.5rem 0; }
     @media (min-width:780px) { .fh-split { grid-template-columns:1fr 1fr; } }
     .fh-box { border:1px solid var(--border); background: var(--card); padding:1.2rem; border-radius:6px; }
@@ -49,7 +58,7 @@
       border-bottom:1px solid var(--border); }
     .fh-table thead th { border-bottom:2px solid var(--border-strong); font-weight:700; font-size:.82rem; }
     .fh-table td.fh-date { white-space:nowrap; font-variant-numeric:tabular-nums; }
-    .fh-table tr.fh-open td { background: var(--warn-dim); }
+    .fh-table tr.fh-open td { background: var(--card2); box-shadow: inset 3px 0 0 var(--warn); }
   </style>
 </head>
 <body>
