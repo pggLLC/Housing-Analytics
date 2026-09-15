@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "be3cf9451",
+  "generated_from_commit": "975aba4b6",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -54,9 +54,9 @@
     "html_pages_toplevel": 61,
     "html_pages_total": 555,
     "workflows": 71,
-    "scripts": 256,
+    "scripts": 257,
     "docs": 446,
-    "data_files": 1651,
+    "data_files": 1652,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
@@ -239,6 +239,22 @@
         "tenure_profile": "even split"
       }
     ]
+  },
+  "footprint": {
+    "measured_at": "2026-09-15",
+    "ci_runs": 40000,
+    "ci_runner_hours": 1509,
+    "turns": 71384,
+    "output_tokens": 68149998,
+    "coverage_start": "2026-06-05",
+    "coverage_end": "2026-09-15",
+    "wh_per_query_low": 0.24,
+    "wh_per_query_high": 33.6,
+    "kwh_low": 17,
+    "kwh_high": 2399,
+    "spread_factor": 140,
+    "kg_co2e_low": 7,
+    "kg_co2e_high": 936
   },
   "volatile": [
     "generated_from_commit",

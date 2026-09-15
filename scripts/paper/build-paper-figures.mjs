@@ -481,6 +481,41 @@ const figures = {
   inventory: inventory(),
   case: caseStudy(),
   tractable: tractability(),
+  // Measured separately by scripts/paper/measure-compute-footprint.mjs, because
+  // it reads session transcripts that live outside the repository and are not
+  // available in CI. Committed so the paper can cite it; declared partial so it
+  // reads as the floor it is.
+  footprint: (() => {
+    const r = readJson('data/paper/compute-footprint.json');
+    if (!r.ok) return { turns: absent('footprint.turns', r.reason) };
+    const f = r.data;
+    const turns = f.inference && f.inference.turns;
+    const lo = f.energy && f.energy.low && f.energy.low.value;
+    const hi = f.energy && f.energy.high && f.energy.high.value;
+    const grid = f.energy && f.energy.grid_kg_co2e_per_kwh && f.energy.grid_kg_co2e_per_kwh.value;
+    const band = (perQueryWh) => (turns != null && perQueryWh != null
+      ? Math.round((turns * perQueryWh) / 1000) : null);
+    const kwhLow = band(lo);
+    const kwhHigh = band(hi);
+    return {
+      measured_at: f.measured_at || null,
+      ci_runs: (f.ci && f.ci.total_runs) ?? absent('footprint.ci_runs', 'CI run count unavailable'),
+      ci_runner_hours: (f.ci && f.ci.estimated_runner_hours) ?? null,
+      turns: turns ?? absent('footprint.turns', 'no transcript turn count'),
+      output_tokens: (f.inference && f.inference.output_tokens) ?? null,
+      coverage_start: (f.inference && f.inference.coverage_start) ?? null,
+      coverage_end: (f.inference && f.inference.coverage_end) ?? null,
+      wh_per_query_low: lo ?? null,
+      wh_per_query_high: hi ?? null,
+      kwh_low: kwhLow,
+      kwh_high: kwhHigh,
+      // Never a midpoint. The spread IS the finding; averaging it away would
+      // publish a confidence the evidence does not carry.
+      spread_factor: (lo && hi) ? Math.round(hi / lo) : null,
+      kg_co2e_low: (kwhLow != null && grid != null) ? Math.round(kwhLow * grid) : null,
+      kg_co2e_high: (kwhHigh != null && grid != null) ? Math.round(kwhHigh * grid) : null,
+    };
+  })(),
 };
 figures.volatile = VOLATILE;
 figures.unavailable = unavailable;

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-15T13:57:45.058Z",
+    "generated_at": "2026-09-15T15:01:43.040Z",
     "root": "data/",
-    "file_count": 1613,
-    "total_size_bytes": 151292186,
+    "file_count": 1614,
+    "total_size_bytes": 151294579,
     "kinds": {
-      "json": 1578,
+      "json": 1579,
       "geojson": 31,
       "csv": 4
     }
@@ -30406,8 +30406,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 204493,
-      "mtime": "2026-09-15T13:50:12.433Z",
+      "size_bytes": 204606,
+      "mtime": "2026-09-15T13:57:58.649Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31739,10 +31739,29 @@
       "primary_array_first_keys": null
     },
     {
+      "path": "paper/compute-footprint.json",
+      "kind": "json",
+      "size_bytes": 1878,
+      "mtime": "2026-09-15T15:01:11.892Z",
+      "shape": "object",
+      "keys": [
+        "measured_at",
+        "disclosure",
+        "ci",
+        "inference",
+        "energy",
+        "unavailable"
+      ],
+      "key_count": 6,
+      "primary_array_key": null,
+      "primary_array_length": null,
+      "primary_array_first_keys": null
+    },
+    {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 5843,
-      "mtime": "2026-09-15T13:57:01.906Z",
+      "size_bytes": 6245,
+      "mtime": "2026-09-15T15:01:35.686Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31750,10 +31769,11 @@
         "inventory",
         "case",
         "tractable",
+        "footprint",
         "volatile",
         "unavailable"
       ],
-      "key_count": 7,
+      "key_count": 8,
       "primary_array_key": "volatile",
       "primary_array_length": 5,
       "primary_array_first_keys": null
