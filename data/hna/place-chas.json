@@ -1,12 +1,12 @@
 {
   "meta": {
-    "generated_at": "2026-09-13T13:30:36Z",
+    "generated_at": "2026-09-15T18:41:03Z",
     "source_tract_chas": "data/market/chas_tract_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_pop": "data/hna/place-lehd.json (place_pop)",
     "source_tract_pop": "data/market/acs_tract_metrics_co.json (pop)",
     "source_acs_tenure": "data/hna/summary/*.json DP04_0046E owner-occupied and DP04_0047E renter-occupied",
-    "method": "Population-share apportionment: weight = min(1, place_pop \u00d7 share_of_place_area / tract_pop). Falls back to area-share (share_of_tract_area) when population data is missing. F28 fix \u2014 area-share alone under-counted small towns in large rural tracts ~70\u00d7. Post-step: renter and owner household LEVELS are independently anchored to each place's cached ACS DP04_0047E/DP04_0046E occupied-tenure counts when available, preserving within-tenure CHAS AMI distributions and cost-burden rates (see tenure_anchor per place). Profiles missing usable tenure fields keep the legacy ACS occupied cap as fallback.",
+    "method": "Apportionment weight = min(1.0, max(share_of_tract_area, population_share)), where population_share = place_pop \u00d7 share_of_place_area / tract_pop. The MAX matters: for a tract lying mostly inside a place, area-share wins, so this is not population-share apportionment despite an earlier version of this string saying so. Falls back to share_of_tract_area alone when population data is missing (those places carry used_area_fallback). NOTE max() is not a partition \u2014 summed over the places overlapping one tract it can exceed 1, so place counts must not be summed statewide. F28 fix \u2014 area-share alone under-counted small towns in large rural tracts ~70\u00d7. Post-step: renter and owner household LEVELS are independently anchored to each place's cached ACS DP04_0047E/DP04_0046E occupied-tenure counts when available, preserving within-tenure CHAS AMI distributions and cost-burden rates (see tenure_anchor per place). Profiles missing usable tenure fields keep the legacy ACS occupied cap as fallback.",
     "vintage_chas": "2018-2022",
     "vintage_tiger": 2024,
     "count_places": 482,

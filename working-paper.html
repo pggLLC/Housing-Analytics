@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Instrumenting Housing Need | Colorado Public Data Reference</title>
+  <meta name="description" content="A working paper on how a seven-month public housing-data system learned to say 'we don't know', and why that turns out to be the precondition for building the right housing in the right place. Every figure is regenerated from the repository.">
+  <meta property="og:title" content="Instrumenting Housing Need | Colorado Public Data Reference">
+  <meta property="og:description" content="A coerced zero does not merely misinform, it misallocates. A working paper on place-level housing need, with every figure regenerated from the repository it describes.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/inline-glossary.js"></script>
+  <style>
+    /* Scoped to .wp so nothing here can leak into the rest of the site.
+       Backgrounds are OPAQUE by deliberate choice: js/contrast-guard.js treats
+       any background with alpha > 0.02 as opaque and then computes luminance
+       from its r/g/b while ignoring the alpha, so a panel on rgba(...,.12)
+       renders pale and is measured as dark. Card surface + coloured border +
+       coloured text keeps the semantics and gives the guard an honest
+       background to measure. Same reasoning as article-fair-housing-rollback. */
+
+    .wp { --wp-measure: 68ch; max-width: 1080px; margin: 0 auto; padding-inline: 4px; }
+    .wp .col { max-width: var(--wp-measure); }
+    .wp p { margin: 0 0 1.1rem; line-height: 1.65; }
+
+    .wp-masthead { border-bottom: 2px solid var(--text); padding-bottom: 1.7rem; margin-bottom: 2.6rem; }
+    .wp-kicker {
+      font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--text-muted); margin: 0 0 1.1rem; font-weight: 600;
+    }
+    .wp h1 {
+      font-size: clamp(2rem, 5.5vw, 3.2rem); line-height: 1.06; letter-spacing: -.018em;
+      margin: 0 0 1.1rem; text-wrap: balance; max-width: 20ch;
+    }
+    .wp-standfirst {
+      font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.5;
+      color: var(--text-secondary); margin: 0; max-width: 58ch;
+    }
+    .wp-byline {
+      font-size: .76rem; color: var(--text-muted); margin-top: 1.7rem;
+      display: flex; flex-wrap: wrap; gap: .5rem 1.6rem;
+    }
+
+    .wp section { margin-top: 3.4rem; scroll-margin-top: 6rem; }
+    .wp h2 {
+      font-size: clamp(1.4rem, 3.2vw, 1.9rem); line-height: 1.22; letter-spacing: -.01em;
+      margin: 0 0 1.1rem; text-wrap: balance; display: flex; gap: 1rem; align-items: baseline;
+    }
+    .wp h2 .num {
+      font-size: .72rem; font-weight: 600; color: var(--accent);
+      letter-spacing: .08em; flex: none; padding-top: .35em;
+    }
+    .wp h3 { font-size: 1.02rem; font-weight: 700; margin: 2.2rem 0 .7rem; }
+
+    /* executive summary */
+    .wp-exec {
+      background: var(--card); border: 1px solid var(--border);
+      border-top: 3px solid var(--accent); padding: 1.7rem; border-radius: 4px;
+    }
+    @media (min-width: 820px) { .wp-exec { padding: 2.4rem; } }
+    .wp-exec h2 { margin-top: 0; }
+    .wp-exec-grid { display: grid; gap: 1.7rem; }
+    @media (min-width: 820px) { .wp-exec-grid { grid-template-columns: 1fr 1fr; } }
+    .wp-exec dl { margin: 0; }
+    .wp-exec dt {
+      font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: .35rem; font-weight: 700;
+    }
+    .wp-exec dd { margin: 0 0 1.1rem; font-size: .95rem; color: var(--text-secondary); line-height: 1.6; }
+    .wp-exec dd:last-child { margin-bottom: 0; }
+    .wp-exec dd b { color: var(--text); font-weight: 700; }
+
+    /* tables */
+    .wp-scroll { overflow-x: auto; margin: 1.7rem 0; }
+    .wp table {
+      border-collapse: collapse; width: 100%; font-size: .88rem;
+      font-variant-numeric: tabular-nums; min-width: 540px;
+    }
+    .wp caption {
+      caption-side: top; text-align: left; font-size: .72rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text-muted); padding-bottom: .6rem; font-weight: 600;
+    }
+    .wp th, .wp td { padding: .5rem .7rem; text-align: right; }
+    .wp th[scope="row"], .wp td.lbl, .wp thead th:first-child { text-align: left; }
+    .wp thead th { border-bottom: 1.5px solid var(--text); font-weight: 700; font-size: .78rem; vertical-align: bottom; }
+    .wp tbody tr { border-bottom: 1px solid var(--border-soft); }
+    .wp tfoot td, .wp tfoot th { border-top: 1.5px solid var(--text); font-weight: 700; padding-top: .6rem; }
+
+    .wp-flag {
+      display: inline-block; font-size: .68rem; letter-spacing: .04em; font-weight: 600;
+      padding: .12em .5em; border-radius: 3px; white-space: nowrap;
+      background: var(--card); border: 1px solid currentColor;
+    }
+    .wp-flag-crit { color: var(--bad); }
+    .wp-flag-watch { color: var(--warn); }
+    .wp-flag-ok { color: var(--accent); }
+
+    /* figures */
+    .wp figure { margin: 1.7rem 0; }
+    .wp figcaption { font-size: .74rem; color: var(--text-muted); line-height: 1.55; margin-top: .7rem; }
+    .wp figcaption b { color: var(--text-secondary); font-weight: 700; }
+    .wp-bars { display: grid; gap: .35rem; }
+    .wp-bar-row {
+      display: grid; grid-template-columns: 4.4rem 1fr 3.4rem;
+      align-items: center; gap: .7rem; font-size: .76rem;
+    }
+    .wp-bar-track { background: var(--bg-alt); border-radius: 2px; height: 1.15rem; border: 1px solid var(--border-soft); }
+    .wp-bar-fill { background: var(--accent); height: 100%; border-radius: 1px; display: block; }
+    .wp-bar-row .v { text-align: right; color: var(--text-secondary); font-weight: 600; }
+
+    /* call-outs */
+    .wp-finding {
+      border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      background: var(--card); padding: 1.1rem 1.4rem; margin: 1.7rem 0; border-radius: 3px;
+    }
+    .wp-finding p:last-child { margin-bottom: 0; }
+    .wp-finding .tag {
+      font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent); display: block; margin-bottom: .5rem; font-weight: 700;
+    }
+    .wp-caution {
+      border: 1px solid var(--border); border-left: 3px solid var(--warn);
+      background: var(--card); padding: 1.1rem 1.4rem; margin: 1.7rem 0;
+      font-size: .93rem; border-radius: 3px;
+    }
+    .wp-caution p:last-child { margin-bottom: 0; }
+    .wp-caution .tag {
+      font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--warn); display: block; margin-bottom: .5rem; font-weight: 700;
+    }
+
+    .wp blockquote {
+      margin: 1.7rem 0; padding-left: 1.4rem; border-left: 2px solid var(--border-strong);
+      font-size: 1.05rem; color: var(--text-secondary); font-style: italic;
+    }
+    .wp blockquote p:last-child { margin-bottom: 0; }
+    .wp blockquote cite {
+      display: block; font-size: .72rem; font-style: normal;
+      color: var(--text-muted); margin-top: .7rem;
+    }
+
+    /* program tracks */
+    .wp-tracks { display: grid; gap: 1rem; margin: 1.7rem 0; }
+    @media (min-width: 760px) { .wp-tracks { grid-template-columns: repeat(3, 1fr); } }
+    .wp-track {
+      border: 1px solid var(--border); background: var(--card); border-radius: 4px;
+      padding: 1.1rem; display: flex; flex-direction: column; gap: .5rem;
+    }
+    .wp-track .seq { font-size: .68rem; letter-spacing: .1em; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+    .wp-track h4 { font-size: .98rem; font-weight: 700; margin: 0; line-height: 1.3; }
+    .wp-track .hh { font-size: 1.6rem; color: var(--accent); line-height: 1; font-weight: 700; }
+    .wp-track .hh small { font-size: .68rem; color: var(--text-muted); display: block; margin-top: .4em; font-weight: 400; line-height: 1.4; }
+    .wp-track p { font-size: .87rem; margin: 0; color: var(--text-secondary); }
+    .wp-track .horizon {
+      margin-top: auto; padding-top: .6rem; border-top: 1px solid var(--border-soft);
+      font-size: .74rem; color: var(--text-muted); font-weight: 600;
+    }
+
+    .wp details { border-top: 1px solid var(--border); padding: .9rem 0; }
+    .wp summary { cursor: pointer; font-weight: 700; font-size: .95rem; }
+    .wp details p, .wp details ul { margin-top: .6rem; font-size: .92rem; }
+    .wp ul, .wp ol { margin: 0 0 1.1rem; padding-left: 1.3em; }
+    .wp li { margin-bottom: .5rem; line-height: 1.6; }
+    .wp-sources { font-size: .84rem; color: var(--text-muted); }
+
+    /* A figure the generator could not read renders as its stated reason, never
+       as a number. This is the paper obeying its own argument. */
+    .wp-unknown { font-style: italic; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content" class="js-glossary-auto">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial, tax, legal, or underwriting advice.
+    </div>
+
+    <article class="wp">
+
+      <header class="wp-masthead col">
+        <p class="wp-kicker">Working paper · Colorado housing data infrastructure · Living document</p>
+        <h1>Instrumenting Housing Need</h1>
+        <p class="wp-standfirst">
+          How a seven-month public data system learned to say &ldquo;we don&rsquo;t know,&rdquo; and why
+          that turns out to be the precondition for building the right housing in the right place.
+        </p>
+        <p class="wp-byline">
+          <span>COHO Analytics &mdash; the sole product of pggLLC</span>
+          <span><code>pggLLC/Housing-Analytics</code></span>
+          <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-15</span></span>
+          <span>Figures regenerated from commit <code data-figure="generated_from_commit">d5e993113</code></span>
+        </p>
+      </header>
+
+      <section class="wp-exec" aria-labelledby="s-exec">
+        <h2 id="s-exec"><span class="num">00</span> Executive summary</h2>
+        <div class="wp-exec-grid">
+          <dl>
+            <dt>What this is</dt>
+            <dd>
+              A continuously rebuilt public dataset covering
+              <b><span data-figure="inventory.geographies">546</span> Colorado geographies</b>
+              &mdash; <span data-figure="inventory.counties">64</span> counties,
+              <span data-figure="inventory.incorporated_places">272</span> incorporated places and
+              <span data-figure="inventory.cdps">210</span> census-designated places &mdash;
+              free at cohoanalytics.com. Built in seven months across
+              <b><span data-figure="repo.total_commits" data-figure-format="comma">6,649</span> commits</b>.
+            </dd>
+
+            <dt>The central claim</dt>
+            <dd>
+              The system&rsquo;s contribution is not data volume but <b>epistemology</b>: an enforced
+              discipline separating a measured zero from an unknown.
+              <b><span data-figure="inventory.absence_tests">38</span> of its
+              <span data-figure="inventory.test_files">286</span> test files</b> carry named
+              assertions &mdash; <span data-figure="inventory.absence_test_cases">119</span> of
+              them &mdash; whose declared subject is absence.
+            </dd>
+
+            <dt>Why that matters for money</dt>
+            <dd>
+              A coerced zero does not merely misinform &mdash; it <b>misallocates</b>. Every program
+              dollar committed on a false zero is committed to the wrong income band, the wrong
+              tenure, and the wrong timeline.
+            </dd>
+
+            <dt>What it enables</dt>
+            <dd>
+              Place-level targeting that county data cannot produce. Two towns with near-identical
+              burden rates can need opposite programs; only municipal-scale tenure data reveals which.
+            </dd>
+          </dl>
+
+          <dl>
+            <dt>Worked result &mdash; <span data-figure="case.name">Palisade</span>, Mesa County</dt>
+            <dd>
+              <b><span data-figure="case.subtotal_lte80.owners_cb30" data-figure-add="case.subtotal_lte80.renters_cb30">419</span> households</b>
+              below 80% AMI are cost burdened. Severe burden is an <b>owner</b> problem by
+              <span data-figure="case.severe_ratio_owner_to_renter">5.1</span> to one &mdash;
+              <b><span data-figure="case.subtotal_lte80.owners_cb50">113</span> owners</b> against
+              <span data-figure="case.subtotal_lte80.renters_cb50">22</span> renters &mdash;
+              which a renter-led assessment would miss entirely.
+            </dd>
+
+            <dt>Shortage versus mismatch</dt>
+            <dd>
+              Cost burden and unit deficit are different measurements licensing different actions.
+              At 31&ndash;50% AMI,
+              <b><span data-figure="case.bands.1.renters_cb30">96</span> of
+              <span data-figure="case.bands.1.renters">97</span></b> renter households are
+              burdened while the unit gap at that band is zero. A construction problem and an
+              allocation problem are different problems.
+            </dd>
+
+            <dt>The sequencing result</dt>
+            <dd>
+              Ordering by intervention type rather than defaulting to construction reaches
+              <b><span data-figure="case.subtotal_lte80.owners_cb50">113</span> households within
+              a year</b> and reserves the slow, expensive instrument for the one band that requires it.
+            </dd>
+
+            <dt>Where investment would land</dt>
+            <dd>
+              The binding constraint is not analysis but <b>development cost data</b>. The system can
+              size need precisely and cannot cost it at all. See &sect;07.
+            </dd>
+
+            <dt>What a commissioned build would cost</dt>
+            <dd>
+              <b><span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+              person-years</b>, or
+              <span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
+              months for a team of <span data-figure="scope.estimate.team_size">7</span>, over
+              <span data-figure="scope.hand_written_lines" data-figure-format="comma">337,697</span>
+              hand-written lines and
+              <span data-figure="scope.declared_data_sources">63</span> data sources. An
+              analyst estimate, declared as one in &sect;07.
+            </dd>
+
+            <dt>What it cost in energy</dt>
+            <dd>
+              Built with heavy AI assistance. Measured:
+              <b><span data-figure="footprint.turns" data-figure-format="comma">71,384</span> model
+              turns</b> and
+              <span data-figure="footprint.ci_runs" data-figure-format="comma">40,000</span> CI jobs
+              over a partial window. Published per-query energy spans
+              <span data-figure="footprint.spread_factor">140</span>&times;, giving
+              <span data-figure="footprint.kwh_low" data-figure-format="comma">17</span>&ndash;<span data-figure="footprint.kwh_high" data-figure-format="comma">2,399</span>
+              kWh. No midpoint is offered, and no net benefit is claimed. &sect;09.
+            </dd>
+          </dl>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-emergence">
+        <h2 id="s-emergence"><span class="num">01</span> Emergence</h2>
+        <div class="col">
+          <p>
+            The first commit is dated <strong data-figure="repo.first_commit">2026-02-20</strong>. By
+            <strong data-figure="repo.last_commit">2026-09-15</strong> the repository held
+            <strong><span data-figure="repo.total_commits" data-figure-format="comma">6,649</span></strong>
+            commits &mdash; sustained across seven months. The shape of that growth is not the smooth
+            ramp of a planned build.
+          </p>
+        </div>
+
+        <figure>
+          <div class="wp-bars" data-figure-block="commit-bars" role="img"
+               data-figure-label-from="repo.commits_by_month">
+        <div class="wp-bar-row"><span>2026-02</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:35.3%"></span></span><span class="v">482</span></div>
+        <div class="wp-bar-row"><span>2026-03</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:100%"></span></span><span class="v">1,365</span></div>
+        <div class="wp-bar-row"><span>2026-04</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:78.7%"></span></span><span class="v">1,074</span></div>
+        <div class="wp-bar-row"><span>2026-05</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:48.7%"></span></span><span class="v">665</span></div>
+        <div class="wp-bar-row"><span>2026-06</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:86.1%"></span></span><span class="v">1,175</span></div>
+        <div class="wp-bar-row"><span>2026-07</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:60.4%"></span></span><span class="v">824</span></div>
+        <div class="wp-bar-row"><span>2026-08</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:42.7%"></span></span><span class="v">583</span></div>
+        <div class="wp-bar-row"><span>2026-09</span><span class="wp-bar-track"><span class="wp-bar-fill" style="width:35.2%"></span></span><span class="v">481</span></div>
+          </div>
+        <figcaption>
+            <b>Figure 1.</b> Commits per month on <code>origin/main</code>. The final month
+            (<span data-figure="repo.partial_month">2026-09</span>) is partial. The peaks correspond
+            to build-out of the place-level pipeline and the ownership model; the troughs are
+            consolidation, not pause.
+          </figcaption>
+        </figure>
+
+        <div class="col">
+          <p>
+            What the curve conceals is a change in kind. Early months added <em>surface</em> &mdash;
+            pages, charts, fetchers. Later months increasingly added <em>constraint</em>: tests,
+            guards, and documented rules about what the system may claim.
+          </p>
+        </div>
+
+        <div class="wp-scroll">
+          <table>
+            <caption>Table 1 &middot; Repository inventory, measured at build time</caption>
+            <thead>
+              <tr><th scope="col">Component</th><th scope="col">Count</th><th scope="col">Note</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Geographies</th><td data-figure="inventory.geographies">546</td><td class="lbl"><span data-figure="inventory.counties">64</span> counties &middot; <span data-figure="inventory.incorporated_places">272</span> places &middot; <span data-figure="inventory.cdps">210</span> CDPs</td></tr>
+              <tr><th scope="row">Places with apportioned CHAS detail</th><td data-figure="inventory.places_with_chas">482</td><td class="lbl">Tenure &times; AMI band &times; cost burden</td></tr>
+              <tr><th scope="row">Data files</th><td data-figure="inventory.data_files" data-figure-format="comma">1,653</td><td class="lbl">Tracked JSON, CSV, GeoJSON and Parquet</td></tr>
+              <tr><th scope="row">HTML pages</th><td data-figure="inventory.html_pages_total">556</td><td class="lbl"><span data-figure="inventory.html_pages_toplevel">62</span> top-level; <span data-figure="inventory.place_pages">484</span> generated per place</td></tr>
+              <tr><th scope="row">Build &amp; fetch scripts</th><td data-figure="inventory.scripts">258</td><td class="lbl">Python and Node, run on schedule</td></tr>
+              <tr><th scope="row">Workflows</th><td data-figure="inventory.workflows">71</td><td class="lbl"><span data-figure="inventory.scheduled_workflows">59</span> carry a live cron &mdash; also the system&rsquo;s main liability, &sect;08</td></tr>
+              <tr><th scope="row">Test files</th><td data-figure="inventory.test_files">286</td><td class="lbl"><span data-figure="inventory.absence_tests">38</span> carry assertions named for absence</td></tr>
+              <tr><th scope="row">LIHTC features</th><td data-figure="inventory.lihtc_features">926</td><td class="lbl">CHFA portfolio, refreshed weekly</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">Two corrections, recorded rather than quietly fixed</span>
+          <p>
+            An earlier draft reported <strong>498 test files</strong>. That figure was wrong: the
+            shell glob used to count them matched every <code>*.test.js</code> twice, once under each
+            pattern. The generator described in &sect;10 now counts a resolved set of paths, which
+            cannot double-count.
+          </p>
+          <p>
+            The same draft reported <strong>52</strong> absence-handling test files, from a scan that
+            looked for the word <code>null</code> anywhere in a file alongside any absence-related
+            word. That matched files which merely mention a missing key in passing. The count now
+            requires an assertion&rsquo;s own <em>name</em> to declare absence as its subject, which
+            is a claim about intent rather than vocabulary. Both errors were caught by applying this
+            paper&rsquo;s argument to the paper itself.
+          </p>
+        </div>
+
+        <h3 class="col">1.2 &middot; What grows without anyone touching it</h3>
+        <div class="col">
+          <p>
+            &ldquo;Continuously rebuilt&rdquo; is a claim worth making specific.
+            <span data-figure="inventory.scheduled_workflows">59</span> of the repository&rsquo;s
+            <span data-figure="inventory.workflows">71</span> workflows carry a live cron, on
+            cadences from every thirty minutes to annually. They divide into three kinds, and the
+            distinction matters: one kind brings in new facts, one computes over them, and one watches
+            the other two.
+          </p>
+          <p>
+            Everything derived is <strong>generated, never hand-edited</strong> &mdash; the
+            jurisdiction digests, the <span data-figure="inventory.place_pages">484</span> place
+            pages, the ranking index and its scenarios, the homepage snapshot, and the file manifests.
+            A change to any of them is made by changing its generator and re-running it; CI fails a
+            pull request whose generated files drift from what their sources would produce. That is
+            the mechanism by which a one-person project stays internally consistent across
+            <span data-figure="inventory.data_files" data-figure-format="comma">1,653</span> data files.
+          </p>
+          <p>
+            The third category &mdash; the watchers &mdash; exists because the first two run
+            unattended. It is also, as &sect;08 records, the least finished part of the system.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-well">
+        <h2 id="s-well"><span class="num">02</span> What it does well</h2>
+
+        <h3 class="col">2.1 &middot; Place-level resolution, not county proxy</h3>
+        <div class="col">
+          <p>
+            Housing policy is made at municipal scale &mdash; inclusionary ordinances, zoning, fee
+            waivers, land contribution &mdash; while most published housing data is county-level. A
+            county figure is almost never the figure a practitioner needs. Boulder County&rsquo;s
+            severe renter burden is one number; Louisville and Boulder city sit far apart inside it,
+            and the spread <em>is</em> the product.
+          </p>
+          <p>
+            The system resolves <span data-figure="inventory.places_with_chas">482</span> Colorado
+            places by apportioning tract-level CHAS data through tract-to-place membership, then
+            capping the result against the ACS occupied-household count. Every metric carries a
+            <code>geography_level</code>, so a figure that is really the county&rsquo;s own says so
+            rather than masquerading as local.
+          </p>
+        </div>
+
+        <h3 class="col">2.2 &middot; An explicit epistemology of absence</h3>
+        <blockquote class="col">
+          <p>An unmeasurable quantity is <code>null</code>, never <code>0</code>.</p>
+          <p>A zero and an unknown are indistinguishable once rendered, so nothing downstream can catch the difference.</p>
+          <cite>AGENTS.md, repository root</cite>
+        </blockquote>
+        <div class="col">
+          <p>
+            The rule exists because the same defect recurred five times: a zero-household AMI band;
+            <span style="white-space:nowrap">$0</span> and &minus;$320,000 equity figures; an absent
+            Proposition&nbsp;123 commitment rendered as non-participation; a flat chart line standing
+            in for a dead data series; and <span style="white-space:nowrap">$0</span> resale price and
+            owner equity shown for <strong>53 of
+            <span data-figure="inventory.places_with_chas">482</span> places</strong>.
+          </p>
+        </div>
+        <div class="wp-finding">
+          <span class="tag">Why this is the load-bearing idea</span>
+          <p>
+            Every other quality depends on it. Place-level resolution is worthless if a place with no
+            data renders as a place with no need. A recommendation built on a coerced zero recommends
+            the wrong program. Marking absence is what makes the output <em>actionable</em> rather
+            than merely available.
+          </p>
+        </div>
+
+        <h3 class="col">2.3 &middot; Verification treated as a first-class artifact</h3>
+        <div class="col">
+          <p>
+            The repository distinguishes <em>green</em> from <em>verified</em>: a passing check list
+            answers &ldquo;did the jobs report success,&rdquo; not &ldquo;did the work happen.&rdquo;
+            The documented tests for a real pass are whether the check actually ran, whether the
+            passing test asserted anything, whether a <code>cancelled</code> outcome is being misread
+            as neutral, and whether <code>main</code> is green at that moment.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-case">
+        <h2 id="s-case"><span class="num">03</span> The method in use: <span data-figure="case.name">Palisade</span></h2>
+        <div class="col">
+          <p>
+            <strong><span data-figure="case.name">Palisade</span>, Mesa County</strong> (GEOID
+            <code data-figure="case.geoid">0856970</code>):
+            <strong><span data-figure="case.total_hh" data-figure-format="comma">1,297</span></strong>
+            households, <span data-figure="case.total_renter_hh">433</span> renter and
+            <span data-figure="case.total_owner_hh">864</span> owner. The town filed its
+            Proposition&nbsp;123 commitment on <strong>2024-08-29</strong>, so it is eligible for that
+            funding stream.
+          </p>
+        </div>
+
+        <div class="wp-scroll">
+          <table>
+            <caption>Table 2 &middot; <span data-figure="case.name">Palisade</span> households by tenure and AMI band, with cost burden</caption>
+            <thead>
+              <tr>
+                <th scope="col">AMI band</th>
+                <th scope="col">Renters</th><th scope="col">Burdened<br>&gt;30%</th><th scope="col">Severe<br>&gt;50%</th>
+                <th scope="col">Owners</th><th scope="col">Burdened<br>&gt;30%</th><th scope="col">Severe<br>&gt;50%</th>
+              </tr>
+            </thead>
+            <tbody data-figure-block="case-bands">
+              <tr><th scope="row">≤30% AMI</th><td>51</td><td>29</td><td>17</td><td>113</td><td>87</td><td>56</td></tr>
+              <tr><th scope="row">31–50%</th><td>97</td><td>96</td><td>5</td><td>132</td><td>70</td><td>51</td></tr>
+              <tr><th scope="row">51–80%</th><td>142</td><td>103</td><td>0</td><td>90</td><td>34</td><td>6</td></tr>
+              <tr><th scope="row">81–100%</th><td>40</td><td>0</td><td>0</td><td>65</td><td>0</td><td>0</td></tr>
+              <tr><th scope="row">&gt;100%</th><td>103</td><td>0</td><td>0</td><td>464</td><td>23</td><td>8</td></tr>
+          </tbody>
+            <tfoot data-figure-block="case-subtotal">
+              <tr><th scope="row">&le;80% AMI subtotal</th><td>290</td><td>228</td><td>22</td><td>335</td><td>191</td><td>113</td></tr>
+          </tfoot>
+          </table>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">Finding 1 &middot; The severe-burden problem here is an owner problem</span>
+          <p>
+            <span data-figure="case.subtotal_lte80.owners_cb50">113</span> owner households below
+            80% AMI pay more than half their income for housing, against
+            <span data-figure="case.subtotal_lte80.renters_cb50">22</span> renter households
+            &mdash; <span data-figure="case.severe_ratio_owner_to_renter">5.1</span> to one. A
+            conventional assessment leading with renter cost burden and rental production would direct
+            the entire program at the smaller population.
+          </p>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">Finding 2 &middot; Burden and shortage do not coincide</span>
+          <p>
+            At 31&ndash;50% AMI, <span data-figure="case.bands.1.renters_cb30">96</span> of
+            <span data-figure="case.bands.1.renters">97</span> renter households are cost
+            burdened while the measured unit gap at that band is zero &mdash; the units exist and are
+            occupied by households who cannot afford them. At the deepest band the gap is real. Both
+            are true and they describe different problems: a <em>shortage</em> at the bottom, a
+            <em>mismatch</em> above it.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">Methodological caveat &mdash; stated, not smoothed over</span>
+          <p>
+            The gap series is computed against household-size-adjusted income limits while the
+            affordability comparison uses area medians. A one-person household at 50% AMI in Mesa
+            County has an income limit of $35,200 (affordable rent &asymp; $880), against a median
+            gross rent well above it. &ldquo;Zero gap at 50%&rdquo; means <em>zero deficit of units
+            priced at the four-person 50% AMI level</em>, not &ldquo;no affordability problem at 50%
+            AMI.&rdquo; The burden column is the better guide to household experience; the gap column
+            to production targets. Either alone produces a wrong program.
+          </p>
+        </div>
+
+        <h3 class="col">3.1 &middot; The resulting program path</h3>
+        <div class="wp-tracks">
+          <article class="wp-track">
+            <span class="seq">Track 1 &middot; fastest</span>
+            <h4>Preserve owners already in place</h4>
+            <p class="hh"><span data-figure="case.subtotal_lte80.owners_cb50">113</span><small>severely burdened owners &le;80% AMI</small></p>
+            <p>Owner-occupied rehabilitation, weatherization, tax relief. No land, no entitlement, no construction financing. The households are already housed; the intervention keeps them housed.</p>
+            <p class="horizon">Horizon: months</p>
+          </article>
+          <article class="wp-track">
+            <span class="seq">Track 2 &middot; mismatch</span>
+            <h4>Income-target existing stock</h4>
+            <p class="hh"><span data-figure="case.bands.1.renters_cb30">96</span><small>burdened renters, 31&ndash;50% AMI</small></p>
+            <p>The gap at this band is zero, so the units exist. Acquisition with deed restriction, or project-based subsidy on existing buildings, reaches these households without new construction.</p>
+            <p class="horizon">Horizon: 6&ndash;18 months</p>
+          </article>
+          <article class="wp-track">
+            <span class="seq">Track 3 &middot; genuine shortage</span>
+            <h4>Build the deep-tier units</h4>
+            <p class="hh"><span data-figure="case.bands.0.renters_cb30" data-figure-add="case.bands.0.owners_cb30">116</span><small>burdened households &le;30% AMI</small></p>
+            <p>The band where units do not exist at any occupancy. Requires the deepest subsidy and longest timeline &mdash; competitive credit, Proposition&nbsp;123, and project-based rental assistance layered.</p>
+            <p class="horizon">Horizon: 3&ndash;5 years</p>
+          </article>
+        </div>
+
+        <div class="col">
+          <p>
+            A strategy beginning with new construction reaches its first household in three to five
+            years. A strategy sequenced by the data reaches
+            <span data-figure="case.subtotal_lte80.owners_cb50">113</span> households within a
+            year, <span data-figure="case.bands.1.renters_cb30">96</span> more within eighteen
+            months, and reserves the slow instrument for the one band that requires it. Same total
+            need, different order, materially different time-to-relief.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-scale">
+        <h2 id="s-scale"><span class="num">04</span> Generalizing: which jurisdictions are tractable</h2>
+        <div class="col">
+          <p>
+            Of <span data-figure="inventory.places_with_chas">482</span> places,
+            <strong><span data-figure="tractable.eligible">231</span></strong> have at least
+            <span data-figure="tractable.screen.MIN_HOUSEHOLDS">400</span> households and
+            confident data. Within those, <strong><span data-figure="tractable.tractable">63</span></strong>
+            meet a tractability test &mdash; acute burden concentration combined with an absolute
+            target a single program could plausibly close. These are the jurisdictions where
+            &ldquo;eliminate the need&rdquo; is a coherent sentence rather than a slogan.
+          </p>
+        </div>
+
+        <div class="wp-scroll">
+          <table>
+            <caption>Table 3 &middot; Tractable jurisdictions, ranked by burden concentration</caption>
+            <thead>
+              <tr>
+                <th scope="col">Place</th><th scope="col">Households</th>
+                <th scope="col">Burdened &le;80% AMI</th><th scope="col">Share</th>
+                <th scope="col">Renter / owner</th><th scope="col">Program implication</th>
+              </tr>
+            </thead>
+            <tbody data-figure-block="tractable-rows">
+              <tr><th scope="row">Air Force Academy</th><td>657</td><td>266</td><td>40.5%</td><td>266 / 0</td><td class="lbl"><span class="wp-flag wp-flag-watch">renter only</span></td></tr>
+              <tr><th scope="row">Rocky Ford</th><td>1,369</td><td>532</td><td>38.8%</td><td>249 / 283</td><td class="lbl"><span class="wp-flag wp-flag-crit">even split</span></td></tr>
+              <tr><th scope="row">Dolores</th><td>511</td><td>185</td><td>36.2%</td><td>159 / 26</td><td class="lbl"><span class="wp-flag wp-flag-watch">renter-dominant</span></td></tr>
+              <tr><th scope="row">Cripple Creek</th><td>591</td><td>206</td><td>34.9%</td><td>123 / 83</td><td class="lbl"><span class="wp-flag wp-flag-crit">both tenures</span></td></tr>
+              <tr><th scope="row">Snowmass Village</th><td>1,758</td><td>595</td><td>33.9%</td><td>344 / 251</td><td class="lbl"><span class="wp-flag wp-flag-crit">both tenures</span></td></tr>
+              <tr><th scope="row">Georgetown</th><td>596</td><td>199</td><td>33.3%</td><td>99 / 100</td><td class="lbl"><span class="wp-flag wp-flag-crit">even split</span></td></tr>
+              <tr><th scope="row">Mountain Village</th><td>1,562</td><td>520</td><td>33.3%</td><td>455 / 66</td><td class="lbl"><span class="wp-flag wp-flag-watch">renter-dominant</span></td></tr>
+              <tr><th scope="row">Pagosa Springs</th><td>775</td><td>250</td><td>32.3%</td><td>171 / 79</td><td class="lbl"><span class="wp-flag wp-flag-watch">renter-dominant</span></td></tr>
+              <tr><th scope="row">Winter Park</th><td>477</td><td>154</td><td>32.2%</td><td>81 / 73</td><td class="lbl"><span class="wp-flag wp-flag-crit">even split</span></td></tr>
+          </tbody>
+          </table>
+        </div>
+
+        <div class="col">
+          <p>
+            The renter/owner column is the operationally important one, and it is the column
+            county-level analysis cannot produce. Two towns can share a burden share to within a
+            tenth of a point and have opposite tenure profiles. They need different programs. A
+            regional analysis would assign them the same one.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-policy">
+        <h2 id="s-policy"><span class="num">05</span> Policy decisions, and why</h2>
+        <div class="col">
+          <p>
+            These are choices about what the system is <em>for</em>. They are not derived from the
+            data; they shape what the data is permitted to say.
+          </p>
+        </div>
+
+        <h3 class="col">5.1 &middot; Free, public, no account</h3>
+        <div class="col">
+          <p>
+            The audience &mdash; municipal staff in towns of 500 to 5,000 households &mdash; is
+            precisely the audience that cannot commission a consultant study or buy a data
+            subscription. The marginal town in Table 3 does not have a housing department. A paywall
+            would exclude exactly the jurisdictions where the tractability screen says the need is
+            most closeable.
+          </p>
+        </div>
+
+        <h3 class="col">5.2 &middot; The place, not the county, is the unit of analysis</h3>
+        <div class="col">
+          <p>
+            This is a policy choice before it is a technical one. Regional analysis is cheaper, more
+            statistically stable, and matches how most housing data is published. It is also unusable
+            for the instruments that actually get built: an inclusionary ordinance, a fee waiver, a
+            land donation, and a deed restriction are all municipal acts. Choosing the place as the
+            unit accepts wider error bars in exchange for matching the scale at which decisions happen.
+          </p>
+        </div>
+
+        <h3 class="col">5.3 &middot; Publishing absence rather than suppressing it</h3>
+        <div class="col">
+          <p>
+            A system may handle a missing value three ways: omit the row, substitute a default, or
+            publish the absence. Omission makes a place look uncovered; substitution is the
+            coerced-zero failure; publishing absence is noisier and less impressive and is the only
+            one that leaves the reader correctly informed. Four sources are currently displayed as
+            <strong>stale</strong> on the dashboard rather than having their age limits quietly raised
+            to silence them.
+          </p>
+        </div>
+
+        <h3 class="col">5.4 &middot; Burden and gap kept as separate policy instruments</h3>
+        <div class="col">
+          <p>
+            Most assessments report a single &ldquo;units needed&rdquo; figure. This system reports
+            cost burden and unit gap separately because they license different actions &mdash; burden
+            licenses preservation and subsidy, gap licenses production. The Finding 2 result is only
+            derivable because the two were not merged.
+          </p>
+        </div>
+
+        <h3 class="col">5.5 &middot; Preservation ordered before production</h3>
+        <div class="col">
+          <p>
+            Where the data supports both, the sequencing in &sect;03.1 places preservation first. The
+            justification is time-to-relief rather than cost: a household severely burdened today is
+            at risk this year, and the fastest unit to secure is one that already exists and is
+            already occupied by the household that needs it. This ordering is a judgment, and a
+            jurisdiction prioritising long-run stock growth over near-term stability could defensibly
+            reverse it.
+          </p>
+        </div>
+
+        <h3 class="col">5.6 &middot; Declining a paid data subscription</h3>
+        <div class="col">
+          <p>
+            Commercial parcel data was evaluated and deferred: the cost could not be justified at
+            current use. The consequence is recorded rather than hidden &mdash; parcel coverage is
+            marked inactive, and the integration is left wired so it resumes if the decision changes.
+            &sect;07 revisits this as the clearest case where modest money would buy a capability the
+            system cannot otherwise have.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-math">
+        <h2 id="s-math"><span class="num">06</span> Mathematical decisions, and why</h2>
+        <div class="col">
+          <p>Every decision below had a simpler alternative, rejected for a stated reason.</p>
+        </div>
+
+        <h3 class="col">6.1 &middot; Area-weighted apportionment over county inheritance</h3>
+        <div class="col">
+          <p>
+            HUD CHAS &mdash; the only public source crossing cost burden with AMI band and tenure
+            &mdash; publishes at tract level, and municipal boundaries do not follow tracts. The
+            rejected alternative assigns each place its primary county&rsquo;s rates; the repository
+            documents why it fails: a parcel in Erie would see Weld County rates though half of
+            Erie&rsquo;s tracts sit in Boulder County. The error is systematic and largest exactly
+            where towns straddle county lines.
+          </p>
+          <p>
+            The method: for each tract <em>T</em> overlapping place <em>P</em> the weight is
+            <code data-figure="methods.apportionment.weight_rule">max(area_share, population_share)</code>, and each CHAS count
+            is multiplied by that weight and summed. (Area share alone collapsed small towns embedded
+            in large rural tracts; the file header still documents the superseded rule.)
+            The assumption is uniform household distribution within a tract &mdash; poor for slivers
+            under roughly 10% of tract area, which are flagged rather than silently included.
+          </p>
+        </div>
+
+        <h3 class="col">6.2 &middot; The ACS occupied-household cap</h3>
+        <div class="col">
+          <p>
+            Area weighting is geometrically sound and demographically optimistic: summed across
+            overlapping tracts it <strong>overcounts households in roughly 31% of Colorado
+            places</strong>, because population clusters in the built-up portion rather than spreading
+            across tract area. The correction anchors each place&rsquo;s total to the ACS
+            occupied-unit count and scales the tiers to fit.
+          </p>
+          <p>
+            The property that matters: <strong>rates are preserved, only levels change</strong>. A
+            cost-burden percentage &mdash; the number a policy is written against &mdash; survives the
+            correction, while the household count becomes defensible against an independent source.
+            The ordering is load-bearing: summary caches must regenerate <em>before</em> the CHAS
+            build, or the cap silently no-ops.
+          </p>
+        </div>
+
+        <h3 class="col">6.3 &middot; A PITI model rather than the 3&times; income rule</h3>
+        <div class="col">
+          <p>
+            The conventional <em>price = income &times; 3</em> heuristic is rejected because it ignores
+            interest rates &mdash; where rate movement alone shifts affordability 20&ndash;40% &mdash;
+            ignores property taxes and insurance, worth roughly $500&ndash;$1,500 per month in
+            Colorado, ignores mortgage insurance, and substitutes a single multiple for the
+            debt-to-income threshold lenders underwrite to.
+          </p>
+          <p>
+            The model is not one model. The registry defines
+            <span data-figure="methods.affordability.model_count">7</span> of them &mdash;
+            conservative screening, first-time buyer, conventional lender DTI, FHA, USDA, a
+            Proposition&nbsp;123 eligibility gate, and a fully custom one &mdash; differing in ratio
+            convention, down payment, mortgage insurance and its loan-to-value gate. The default is
+            <code data-figure="methods.affordability.default_model_id">conservative_screening</code>, which screens
+            at a 30% front-end ratio. A 43% back-end DTI is one of the others, and it answers a
+            different question: what a lender will approve, rather than what a household can carry
+            without being cost burdened. On the documented Denver illustration the heuristic and a
+            PITI model agree on the affordable price and disagree entirely on the gap &mdash; roughly
+            117% over affordable against roughly 206% &mdash; so a town using the heuristic would size
+            its subsidy at about half what a buyer needs. Which PITI model it uses changes the answer
+            again. The full specification, with every parameter read out of the registry, is in the
+            <a href="methods.html">computational methods</a> companion.
+          </p>
+          <p>
+            An earlier version of this section described a single model at &ldquo;20% down, 6.5%,
+            0.65% tax, 0.85% insurance, 43% back-end DTI.&rdquo; That is a recognisable description of
+            <code>conventional_dti</code> &mdash; one of the seven, and not the default. Writing out
+            the methods companion is what found it.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">A threshold worth naming explicitly</span>
+          <p>
+            43% back-end DTI is the <em>lender&rsquo;s</em> maximum, not the <em>affordability</em>
+            standard. HUD calls a household cost burdened above 30% of income. A model solving at 43%
+            answers &ldquo;what will a bank approve,&rdquo; which is a larger number than &ldquo;what
+            can this household carry without being cost burdened.&rdquo; Both are legitimate
+            questions and they are not the same question; a subsidy sized to the first leaves the
+            buyer burdened on the day they move in.
+          </p>
+        </div>
+
+        <h3 class="col">6.4 &middot; Absence handled before coercion, not after</h3>
+        <div class="col">
+          <p>
+            The numeric core of the epistemology is one line of language semantics:
+            <code>Number(null) === 0</code>, and <code>0</code> is finite. A coercion two layers
+            upstream therefore produces a value passing every downstream
+            <code>Number.isFinite()</code> check. Three consequences are enforced: do not coerce a
+            possibly-null value that feeds arithmetic or a renderer; guard <code>&lt;= 0</code> rather
+            than <code>&lt; 0</code> wherever zero is not meaningful, since a price or rent of exactly
+            zero means unknown rather than free; and carry the <em>reason</em> with the data. Fixing
+            the renderer is insufficient &mdash; a renderer that formats <code>null</code> correctly
+            never sees the <code>null</code> if the coercion happened upstream.
+          </p>
+        </div>
+
+        <h3 class="col">6.5 &middot; Published shares derived from published counts</h3>
+        <div class="col">
+          <p>
+            Rates were originally computed from unrounded accumulators while counts were rounded
+            separately for display. Several shares land on exact <code>.00005</code> ties, where a
+            one-ulp difference in the denominator flips the fourth decimal &mdash; producing files
+            that differed between machines and a freshness checker reporting five places as stale
+            whose inputs had not changed in months. Deriving each share from the <em>published</em>
+            counts makes the computation reproducible and, as a side effect, internally consistent: a
+            reader dividing the published count by the published total now obtains the published
+            share, which was previously not true.
+          </p>
+        </div>
+
+        <h3 class="col">6.6 &middot; The tractability screen is analyst-constructed</h3>
+        <div class="wp-caution">
+          <span class="tag">Declared: not repository methodology</span>
+          <p>
+            The screen in &sect;04 &mdash; burden share &ge;
+            <span data-figure="tractable.screen.MIN_BURDEN_SHARE" data-figure-format="percent">20%</span>,
+            target &le; <span data-figure="tractable.screen.MAX_TARGET">600</span> households, on
+            places of &ge; <span data-figure="tractable.screen.MIN_HOUSEHOLDS">400</span>
+            households with confident data &mdash; was constructed for this paper. It is not a
+            published standard and carries no validation beyond face plausibility. The thresholds
+            encode a judgment that one municipal program can address several hundred households but
+            not several thousand. They live in the generator as named constants so a reader can change
+            them and re-run rather than having to trust them. These cut points are the weakest part of
+            this paper and are stated so a reader can reject them without rejecting the approach.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-invest">
+        <h2 id="s-invest"><span class="num">07</span> What a little real investment would buy</h2>
+        <div class="col">
+          <p>
+            The system is labour-rich and capital-poor. Its limits are not analytical &mdash; they are
+            four specific missing inputs, each of which costs less than a single consultant housing
+            needs assessment.
+          </p>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">Priority 1 &middot; Development cost benchmarks &mdash; the binding constraint</span>
+          <p>
+            The system can size need to the household and <strong>cannot cost it at all</strong>. That
+            is why &sect;03.1 sequences three tracks and attaches no budget: the repository holds no
+            validated Colorado cost-per-unit figures for new construction,
+            acquisition-rehabilitation, or owner-occupied repair, and inventing them would violate the
+            discipline the whole system is built on.
+          </p>
+          <p>
+            This is the single highest-return investment available. The data largely exists &mdash; in
+            CHFA&rsquo;s credit allocations, in DOLA&rsquo;s Proposition&nbsp;123 awards, in completed
+            project cost certifications. It needs assembling into a published series by intervention
+            type and region, not inventing. With it, every jurisdiction in Table 3 gets a costed
+            strategy instead of an ordered one.
+          </p>
+        </div>
+
+        <h3 class="col">Priority 2 &middot; A preservation pipeline that refreshes</h3>
+        <div class="col">
+          <p>
+            The National Housing Preservation Database extract has had no refresher since it was
+            loaded &mdash; it is stale and displayed as such. This matters more than its size
+            suggests: preservation is the fastest track in every sequencing above, and expiring
+            affordability restrictions are time-bound in a way that need estimates are not. A unit
+            lost to expiry costs far more to replace than to preserve. This is engineering time, not
+            subscription cost.
+          </p>
+        </div>
+
+        <h3 class="col">Priority 3 &middot; Parcel and zoning coverage</h3>
+        <div class="col">
+          <p>
+            Commercial parcel data was deferred on cost. The capability it would unlock is specific:
+            moving from &ldquo;this town needs deep-tier units&rdquo; to &ldquo;here are the parcels
+            where they could go, with their zoning, ownership and size.&rdquo; Need analysis
+            identifies the target; parcel data is what converts a target into a site. This is a
+            genuine annual subscription cost and the clearest case where modest money buys a
+            capability that cannot be substituted with effort.
+          </p>
+        </div>
+
+        <h3 class="col">Priority 4 &middot; Roughly two weeks of engineering</h3>
+        <div class="col">
+          <p>
+            <span data-figure="inventory.scheduled_workflows">59</span> scheduled workflows now
+            run with no map of themselves, alerting that covers failures but not silence, and at least
+            one quality gate that runs only after merge. On 2026-09-14 the public site stopped
+            deploying for thirty-two hours and three separate monitoring mechanisms each failed to
+            report it. None of this is hard; it is unglamorous consolidation work that no volunteer
+            evening prioritises over a new feature, and it is currently the largest tax on the
+            maintainer&rsquo;s attention.
+          </p>
+        </div>
+
+        <h3 class="col">What replacing this would cost</h3>
+        <div class="col">
+          <p>
+            A funder deciding whether to support an existing system is really asking what it would
+            cost to commission one. The scope is measurable:
+            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">337,697</span></strong>
+            hand-written lines &mdash; excluding
+            <span data-figure="scope.generated_place_page_lines" data-figure-format="comma">226,824</span>
+            generated lines of place pages &mdash;
+            <span data-figure="scope.top_level_pages">62</span> pages of which
+            <span data-figure="scope.substantial_tools">25</span> are substantial interactive
+            tools, and <span data-figure="scope.declared_data_sources">63</span> declared data
+            sources feeding
+            <span data-figure="inventory.scheduled_workflows">59</span> scheduled pipelines.
+          </p>
+          <p>
+            Decomposed by workstream and summed, that comes to
+            <strong><span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+            person-years</strong>, or
+            <strong><span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
+            months</strong> of calendar time for a team of
+            <span data-figure="scope.estimate.team_size">7</span> after allowing
+            <span data-figure="scope.estimate.pm_overhead" data-figure-format="percent">12%</span>
+            for coordination and
+            <span data-figure="scope.estimate.parallelism_loss" data-figure-format="percent">25%</span>
+            for the fact that a team of seven is not seven times one person.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">Declared: an estimate, and not a claim about this project</span>
+          <p>
+            The scope above is measured; the person-weeks are a judgment, with no validation beyond
+            face plausibility, and they live in the generator as named constants so a reader can
+            change them and re-run rather than having to trust them.
+          </p>
+          <p>
+            More important is what the figure does <em>not</em> say. It is what a commissioned team
+            would plausibly bill to build this from a specification. It is <strong>not</strong> a
+            claim that
+            <span data-figure="scope.estimate.person_years_low">6.1</span>&ndash;<span data-figure="scope.estimate.person_years_high">11.1</span>
+            person-years of human effort were expended here. A commissioned build carries
+            requirements negotiation, review cycles, sign-off and status reporting that a single
+            maintainer does not, and the domain expertise that a team would spend two to four months
+            acquiring was already resident. Treating the two as equivalent would be precisely the
+            unsupported claim this paper spends nine sections arguing against.
+          </p>
+          <p>
+            One cross-check is worth recording because it initially looked like a contradiction. A
+            line-count sanity test against defence-software productivity benchmarks implies roughly
+            twenty-six person-years &mdash; two to four times the workstream estimate. The
+            discrepancy is an artefact of the benchmark, not of the estimate: only
+            <span data-figure="scope.html_distinct_share" data-figure-format="percent">39%</span>
+            of the page markup is distinct rather than shared boilerplate, and modern web and data
+            work sustains line rates several times those benchmarks assume. Adjusted for both, the
+            two methods agree.
+          </p>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">The line item a fixed-bid team cuts first</span>
+          <p>
+            After front-end and data engineering, the largest workstream is quality assurance &mdash;
+            and it produces nothing a demonstration would show.
+            <span data-figure="inventory.absence_tests">38</span> of the
+            <span data-figure="inventory.test_files">286</span> test files exist only to stop the
+            system asserting things it cannot know. That is exactly the line a fixed-price bid
+            removes, and exactly the line this system's argument rests on. A commissioned build of
+            this site would very likely ship sooner, look more consistent, and be better documented
+            &mdash; and publish coerced zeros, because nothing in a statement of work asks for the
+            discipline that prevents them.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">Deliberately no dollar figures</span>
+          <p>
+            Priorities 1&ndash;4 are stated as capabilities and rough magnitude classes rather than
+            budgets. Quoting costs for a cost-data-assembly project, a commercial subscription, or
+            contract engineering without sourcing them would reproduce precisely the error this paper
+            documents. A funder should expect to size these with the vendors and agencies involved;
+            the argument here is about ordering and return, not price.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-limits">
+        <h2 id="s-limits"><span class="num">08</span> Limits, honestly stated</h2>
+        <div class="col">
+          <p>
+            A paper describing a system built around admitting what it does not know owes the same
+            treatment to itself.
+          </p>
+        </div>
+
+        <details open>
+          <summary>The automation has outgrown its operator</summary>
+          <p>
+            <span data-figure="inventory.scheduled_workflows">59</span> scheduled workflows run
+            against this repository, and the system offers no map of itself. Failures are discovered
+            by inspection rather than notification. This is the limit most likely to end the project
+            &mdash; not through technical failure but through maintainer exhaustion.
+          </p>
+        </details>
+        <details open>
+          <summary>Gates that do not run where decisions are made</summary>
+          <p>
+            The deploy artifact guard runs on <code>push</code>, never on <code>pull_request</code>;
+            the inventory check sits outside the main suite. A pull request can be genuinely green and
+            still break production. The gates are correct; their placement is not.
+          </p>
+        </details>
+        <details open>
+          <summary>Alerting covers failure, not silence</summary>
+          <p>
+            Failure and recovery notifications work. A job killed by its own timeout (recorded as
+            <code>cancelled</code>, rendered grey rather than red) and a scheduled job that quietly
+            stops firing remain uncovered. One instance went fifteen days undetected and was found by
+            hand. As of 2026-09-15 the staleness sweep is explicitly disabled rather than running as a
+            green placeholder that checks nothing.
+          </p>
+        </details>
+        <details>
+          <summary>Uneven data vintage across sources</summary>
+          <p>
+            ACS figures are 2020&ndash;2024 five-year estimates; home values are Zillow ZHVI; income
+            limits are HUD FY2026. Each metric carries its own <code>as_of</code>, which is the right
+            design, but a reader comparing two metrics is comparing two vintages and the interface
+            does not always make that prominent.
+          </p>
+        </details>
+        <details>
+          <summary>Single-state, and single-maintainer</summary>
+          <p>
+            Everything here is Colorado. The methods generalise; the data wiring does not, and no
+            second state has been attempted. The bus factor is one.
+          </p>
+        </details>
+      </section>
+
+      <section aria-labelledby="s-footprint">
+        <h2 id="s-footprint"><span class="num">09</span> What this cost to build</h2>
+        <div class="col">
+          <p>
+            This repository was built with substantial AI assistance over roughly nine months. That
+            is a material fact about how the work was produced, it carries an energy cost, and a
+            paper arguing that systems should publish what they would rather omit cannot omit it.
+          </p>
+          <p>
+            Two things are measurable. Continuous integration has run
+            <strong><span data-figure="footprint.ci_runs" data-figure-format="comma">40,000</span></strong>
+            workflow jobs, about
+            <strong><span data-figure="footprint.ci_runner_hours" data-figure-format="comma">1,509</span>
+            runner-hours</strong> of hosted compute. Model inference across the surviving session
+            transcripts comes to
+            <strong><span data-figure="footprint.turns" data-figure-format="comma">71,384</span> turns</strong>
+            generating <span data-figure="footprint.output_tokens" data-figure-format="comma">68,149,998</span>
+            output tokens.
+          </p>
+        </div>
+
+        <div class="wp-caution">
+          <span class="tag">This is a floor, not a total</span>
+          <p>
+            Session transcripts rotate. The surviving window runs
+            <span data-figure="footprint.coverage_start">2026-06-05</span> to
+            <span data-figure="footprint.coverage_end">2026-09-15</span> &mdash; roughly a third of the
+            project. Everything below counts only that window, and the earlier and heavier
+            build-out months are simply gone. The honest reading is &ldquo;at least this much,&rdquo;
+            and the true figure is materially larger.
+          </p>
+        </div>
+
+        <div class="col">
+          <p>
+            Turning turns into kilowatt-hours is where the accounting stops being measurement. The
+            published per-query energy figures span
+            <strong><span data-figure="footprint.spread_factor">140</span>&times;</strong>, from
+            <span data-figure="footprint.wh_per_query_low">0.24</span> Wh for a short prompt on
+            optimised serving to <span data-figure="footprint.wh_per_query_high">33.6</span> Wh
+            for a reasoning model on a long one. Agentic coding turns carry <em>longer</em> context
+            than the high-end benchmark, so neither end is a bound so much as a signpost.
+          </p>
+        </div>
+
+        <div class="wp-scroll">
+          <table>
+            <caption>Table 4 &middot; Inference energy, bounded rather than estimated</caption>
+            <thead>
+              <tr><th scope="col">Assumption</th><th scope="col">Per query</th><th scope="col">Energy</th><th scope="col">CO<sub>2</sub>e</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Short prompt, optimised serving</th>
+                <td><span data-figure="footprint.wh_per_query_low">0.24</span> Wh</td>
+                <td><span data-figure="footprint.kwh_low" data-figure-format="comma">17</span> kWh</td>
+                <td><span data-figure="footprint.kg_co2e_low" data-figure-format="comma">7</span> kg</td>
+              </tr>
+              <tr>
+                <th scope="row">Reasoning model, long prompt</th>
+                <td><span data-figure="footprint.wh_per_query_high">33.6</span> Wh</td>
+                <td><span data-figure="footprint.kwh_high" data-figure-format="comma">2,399</span> kWh</td>
+                <td><span data-figure="footprint.kg_co2e_high" data-figure-format="comma">936</span> kg</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">No midpoint is offered, deliberately</span>
+          <p>
+            The obvious move is to split the difference and publish one number. That number would be
+            the most-cited figure in this paper and the least defensible thing in it &mdash; a
+            precision manufactured by averaging away a disagreement in the literature. It is the
+            same move as filling an unmeasured cell with a zero, and this system exists because that
+            move is wrong. The range is the finding. At the high end the surviving window alone
+            approaches a tonne of CO<sub>2</sub>e; at the low end it is a rounding error. Both
+            readings are currently supportable, which is itself worth knowing.
+          </p>
+        </div>
+
+        <div class="col">
+          <p>
+            What is <em>not</em> claimed here is a net benefit. It would be easy and self-serving to
+            set this against the travel and staff time of the consultant studies the system
+            substitutes for, and declare the trade favourable. That comparison has not been measured,
+            the counterfactual is unknown, and asserting it would be exactly the unsupported claim
+            this paper spends nine sections arguing against. The cost is stated because it was
+            incurred, not because it has been justified.
+          </p>
+          <p>
+            The narrower point stands on its own: <code>scripts/paper/measure-compute-footprint.mjs</code>
+            computes these figures the same way every other figure here is computed, and they update
+            with the rest. A project that discloses its compute cost once, in a launch post, has
+            disclosed a historical curiosity. One that recomputes it has disclosed a number.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-use">
+        <h2 id="s-use"><span class="num">10</span> How to use it</h2>
+        <div class="col">
+          <ol>
+            <li><strong>Read the tenure split before anything else.</strong> It determines which half of the toolkit applies, and it is the finding most often lost in county-level work.</li>
+            <li><strong>Separate the shortage from the mismatch.</strong> Compare unit gap by band against burden counts by band. Where the gap is zero and burden is high, the units exist &mdash; acquisition and income targeting beat construction on both cost and time.</li>
+            <li><strong>Find the severe-burden concentration.</strong> Households above 50% of income are at risk this year, and preserving an occupied unit is consistently faster than producing a new one.</li>
+            <li><strong>Check the funding gate before designing the program.</strong> Proposition&nbsp;123 eligibility turns on a filed commitment; 217 jurisdictions&rsquo; filings are tracked, so this is a lookup rather than a phone call.</li>
+            <li><strong>Treat any &ldquo;0&rdquo; with suspicion and look for a stated reason.</strong> Where the system says &ldquo;not published,&rdquo; that is information about the source, not about the place.</li>
+          </ol>
+        </div>
+
+        <div class="wp-finding">
+          <span class="tag">The claim in one sentence</span>
+          <p>
+            A housing data system earns its keep not by how much it publishes but by how reliably it
+            refuses to publish what it cannot support &mdash; because every program dollar committed
+            on a coerced zero is committed to the wrong band, in the wrong tenure, on the wrong
+            timeline.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="s-prov">
+        <h2 id="s-prov"><span class="num">11</span> Provenance, and how this paper stays current</h2>
+        <div class="col">
+          <p>
+            Every figure in this paper is written by
+            <code>scripts/paper/build-paper-figures.mjs</code> and injected by
+            <code>scripts/paper/inject-paper-figures.mjs</code>. None is typed. Re-running them
+            refreshes the paper against whatever the repository then says, and
+            <code>test/paper-figures-fresh.test.js</code> fails continuous integration if this page
+            and the data ever disagree &mdash; so the paper cannot silently go stale while the site
+            beneath it moves.
+          </p>
+          <p>
+            A figure the generator cannot read is emitted as <code>null</code> with a stated reason
+            and rendered here as that reason, never as <code>0</code> &mdash; the same rule the system
+            applies to itself. That generator is what caught both corrections recorded in &sect;01.
+          </p>
+          <p>
+            <strong>Authorship and standing.</strong> COHO Analytics is the sole product of pggLLC,
+            built and maintained by one person. It has no institutional funding, no research grant,
+            and no staff. That is relevant to reading this paper in two directions: it explains the
+            limits catalogued in &sect;08, and it is the reason the investment argument in &sect;07 is
+            framed around four specific inputs rather than a programme &mdash; the labour is already
+            being supplied.
+          </p>
+        </div>
+
+        <ul class="wp-sources col">
+          <li><strong>Household and cost-burden detail</strong> &mdash; <code>data/hna/place-chas.json</code>, from HUD CHAS tract data apportioned to places and capped at the ACS occupied-household count.</li>
+          <li><strong>Geography coverage</strong> &mdash; <code>data/hna/geography-registry.json</code>.</li>
+          <li><strong>Income, rent, vacancy, AMI gap</strong> &mdash; ACS 2020&ndash;2024 five-year estimates.</li>
+          <li><strong>Median home value</strong> &mdash; Zillow ZHVI city index.</li>
+          <li><strong>Income limits and Fair Market Rents</strong> &mdash; HUD FY2026. Mesa County four-person AMI $100,600; 30% $30,200; 50% $50,300; 60% $60,350; 80% $80,500.</li>
+          <li><strong>Proposition 123 commitments</strong> &mdash; 217 jurisdictions from CDOLA commitment filings. Town of Palisade filed 2024-08-29; Mesa County 2023-08-07.</li>
+          <li><strong>LIHTC portfolio</strong> &mdash; <code>data/chfa-lihtc.json</code>, CHFA, refreshed weekly.</li>
+          <li><strong>Compute footprint</strong> &mdash; <code>data/paper/compute-footprint.json</code>, written by <code>scripts/paper/measure-compute-footprint.mjs</code>; CI counts from the GitHub Actions API, inference counts from local session transcripts (partial window, stated in &sect;09). Per-query energy from Jegham et al., <em>How Hungry is AI?</em> (arXiv:2505.09598) and Google's reported Gemini median; grid intensity from EPA eGRID; household comparison from US EIA.</li>
+          <li><strong>Repository statistics</strong> &mdash; git history of <code>origin/main</code>, counted at build time.</li>
+        </ul>
+
+        <div class="col">
+          <p class="wp-sources">
+            Figures reflect the repository at commit
+            <code data-figure="generated_from_commit">d5e993113</code>. The underlying data refreshes
+            continuously; a reader reproducing these tables later should expect vintage drift and is
+            encouraged to check each metric&rsquo;s own <code>as_of</code> field rather than this
+            page&rsquo;s date.
+          </p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>
