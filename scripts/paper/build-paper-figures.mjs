@@ -430,8 +430,14 @@ function tractability() {
       owners_burdened: hh(burdenedO),
       // The operationally decisive column, and the one county data cannot
       // produce: two towns can share a burden share and need opposite programmes.
-      tenure_profile: burdenedR === 0 ? 'renter only'
-        : burdenedO === 0 ? 'owner only'
+      // Zero BURDENED RENTERS means the problem is entirely an owner problem,
+      // and vice versa. The first version of this had the two labels the wrong
+      // way round and published Air Force Academy — 266 burdened renters, 0
+      // burdened owners — as "owner only". A jurisdiction reading that column
+      // would have built the wrong programme, which is precisely the failure
+      // this paper is about. test/paper-figures-fresh.test.js now pins it.
+      tenure_profile: burdenedO === 0 ? 'renter only'
+        : burdenedR === 0 ? 'owner only'
           : burdenedR >= burdenedO * 2 ? 'renter-dominant'
             : burdenedO >= burdenedR * 2 ? 'owner-dominant'
               : Math.abs(burdenedR - burdenedO) / Math.max(burdenedR, burdenedO) < 0.15 ? 'even split'

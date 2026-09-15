@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "8cbbe113a",
+  "generated_from_commit": "be3cf9451",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -156,7 +156,7 @@
         "share_pct": 40.5,
         "renters_burdened": 266,
         "owners_burdened": 0,
-        "tenure_profile": "owner only"
+        "tenure_profile": "renter only"
       },
       {
         "geoid": "0865190",

@@ -275,6 +275,30 @@ test('the volatile list is declared, short, and about the repo not about Colorad
   return null;
 });
 
+test('the tenure label names the tenure that actually carries the burden', () => {
+  // This shipped inverted: Air Force Academy, with 266 burdened renters and 0
+  // burdened owners, was published as "owner only". The renter/owner split is
+  // the one column county data cannot produce and the whole reason the paper
+  // argues for place-level resolution — a jurisdiction acting on a flipped
+  // label builds the wrong programme. Checked against the counts, not against
+  // the function that produced them.
+  const rows = at(regenerated, 'tractable.top');
+  if (!Array.isArray(rows) || !rows.length) return 'the tractability screen returned no rows';
+  const wrong = [];
+  for (const r of rows) {
+    const R = r.renters_burdened;
+    const O = r.owners_burdened;
+    if (R == null || O == null) continue;
+    const p = r.tenure_profile;
+    if (O === 0 && p !== 'renter only') wrong.push(`${r.name}: ${R}R/${O}O labelled "${p}"`);
+    if (R === 0 && p !== 'owner only') wrong.push(`${r.name}: ${R}R/${O}O labelled "${p}"`);
+    if (R > 0 && O > 0 && /only/.test(p)) wrong.push(`${r.name}: ${R}R/${O}O labelled "${p}"`);
+    if (p === 'renter-dominant' && R < O) wrong.push(`${r.name}: ${R}R/${O}O labelled renter-dominant`);
+    if (p === 'owner-dominant' && O < R) wrong.push(`${r.name}: ${R}R/${O}O labelled owner-dominant`);
+  }
+  return wrong.length ? wrong.join('; ') : null;
+});
+
 test('the inventory the paper quotes is itself current', () => {
   // The paper reads its inventory figures from the AGENTS.md line rather than
   // recounting them, so that there is one producer of those numbers instead of
