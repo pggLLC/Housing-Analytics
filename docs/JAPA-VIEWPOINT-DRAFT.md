@@ -71,6 +71,19 @@ infrastructure — more consequential than coverage, resolution, or currency —
 willingness to publish "we do not know" is the best available proxy for whether its other numbers
 can be trusted.
 
+The claim is not that missingness is unstudied. It is among the most developed areas in applied
+statistics: Rubin's (1987) multiple imputation and the missing-completely-at-random / at-random /
+not-at-random taxonomy formalized in Little and Rubin (2019) give a mature apparatus for reasoning
+about absent values. Nor is the difficulty of small-area estimates news — the Fay–Herriot (1979)
+model was built precisely to produce income estimates for areas under a thousand people, and Rao and
+Molina (2015) survey four decades of borrowing strength across areas to get them.
+
+What is missing is the step between that literature and the artifact a planner reads. Imputation
+theory tells you how to estimate an absent value and how to propagate its uncertainty. It does not
+tell you what a housing needs assessment should *print* in a cell it could not fill, and in practice
+the answer has been a zero. This Viewpoint is about that last step, where the statistics stop and the
+document starts.
+
 The argument rests on seven months of building and maintaining a continuously rebuilt public dataset
 covering 546 Colorado geographies: 64 counties, 272 incorporated places, and 210 census-designated
 places. It is free, requires no account, and is maintained by one person without institutional
@@ -183,26 +196,40 @@ them. The merge is where the information is lost.
 
 ### The counter-arguments, taken seriously
 
-**Higher resolution has wider error bars.** True, and the objection is the strongest one. Apportioned
-place-level estimates carry more uncertainty than the county aggregates they derive from, and the
-areal-weighting assumption is poorest exactly where a tract barely overlaps a municipality. The
-response is not that the error is small; it is that a wide interval at the decision scale is more
+**Higher resolution has wider error bars.** True, and the objection is the strongest one. This is the
+bias–variance trade-off at the center of small-area estimation (Rao & Molina, 2015): direct
+estimators for small domains have standard errors too large to use, and model-based estimators buy
+precision by importing structure from elsewhere — which is a different error, not less of it.
+Apportioned place-level estimates carry more uncertainty than the county aggregates they derive from,
+and the weighting assumption is poorest exactly where a tract barely overlaps a municipality. The
+response is not that the error is small. It is that a wide interval at the decision scale is more
 useful than a narrow interval at a scale where no instrument operates — provided the interval is
 published. That proviso is the whole argument, and a system that resolves to places without marking
 confidence is worse than one that does not resolve at all.
 
 **Publishing absence is worse for the user.** A dashboard full of "not published" is harder to act on
-than one full of numbers, and there is a real literature on how missing-data indicators depress use.
-The counter is that the alternative is not a usable dashboard but a confidently wrong one. Between
-omitting the row, substituting a default, and publishing the absence, only the third leaves the
-reader correctly informed. The first makes a covered place look uncovered; the second is the coerced
-zero.
+than one full of numbers, and the open-government-data literature reports persistently low
+utilization traced to a gap between what portals publish and what users need. That literature also
+complicates the objection in a useful way: studies of trust in open government data find perceived
+*service* quality a stronger driver of citizen trust than perceived *data* quality, and metadata
+documentation a material contributor to both. If how a dataset explains itself matters more to trust
+than the numbers in it, then marking absence is not a tax on usability — it is part of the thing
+users are actually evaluating. The alternative, in any case, is not a usable dashboard but a
+confidently wrong one. Between omitting the row, substituting a default, and publishing the absence,
+only the third leaves the reader correctly informed. The first makes a covered place look uncovered;
+the second is the coerced zero.
 
-**Imputation is a solved problem.** Multiple imputation is well developed and the objection has
-force where the missingness mechanism is understood. Much of the missingness here is not of that
-kind: it is disclosure suppression, source discontinuation, and join failure, with different
-mechanisms and no shared model. Where a value is imputed it should be labeled as imputed — which is
-the same discipline, applied differently, rather than an alternative to it.
+**Imputation is a solved problem.** Multiple imputation (Rubin, 1987) is well developed and the
+objection has force where the missingness mechanism is understood and modelable. Much of the
+missingness here is not of that kind. It is disclosure suppression, source discontinuation, and join
+failure — three mechanisms with no shared model, at least two of which are emphatically not missing
+at random. Census disclosure avoidance is the clearest case: the 2020 Decennial applied
+zero-concentrated differential privacy with noise deliberately scaled *larger for small counts*
+(U.S. Census Bureau, 2019), which is to say the error is greatest exactly at the geographies this
+system exists to serve, and is a known function of the published value rather than a random
+perturbation of it. Imputing through that is not filling a gap; it is modeling a privacy mechanism.
+Where a value is imputed it should be labeled as imputed — the same discipline, applied differently,
+rather than an alternative to it.
 
 **This is a software-engineering concern, not a planning one.** It becomes a planning concern at the
 point where a program is sized. A zero substituted for an unknown does not merely misinform; it
@@ -283,43 +310,79 @@ studies the system substitutes for would be self-serving and has not been measur
 
 ## References
 
-*(Author-date, per JAPA's style. Verify against the current guidelines; complete the bracketed
-items before submission.)*
+*(Author-date. **Verification status is marked on every entry** — publisher pages returned HTTP 403
+to automated retrieval, so page ranges and some volume numbers could not be confirmed and are marked
+rather than guessed. Complete them from the library before submission; do not submit an entry still
+carrying a bracketed gap.)*
 
-- Jegham, N., et al. (2025). *How Hungry is AI? Benchmarking Energy, Water, and Carbon Footprint of
-  LLM Inference.* arXiv:2505.09598.
+**Missing data and imputation**
+
+- Rubin, D. B. (1987). *Multiple Imputation for Nonresponse in Surveys.* Wiley. ✓ author/year/title verified
+- Little, R. J. A., & Rubin, D. B. (2019). *Statistical Analysis with Missing Data* (3rd ed.). Wiley.
+  ⚠ 2nd ed. 2002 confirmed; **verify whether to cite 2nd or 3rd edition** and fix the year accordingly
+
+**Small-area estimation**
+
+- Rao, J. N. K., & Molina, I. (2015). *Small Area Estimation* (2nd ed.). Wiley. ✓ verified
+- Fay, R. E., & Herriot, R. A. (1979). An estimation method for small areas. *Journal of the American
+  Statistical Association*. ⚠ model and its <1,000-population origin verified; **confirm exact title,
+  volume 74, issue and pages**
+
+**Census disclosure avoidance**
+
+- U.S. Census Bureau. (2019). *Title 13, Differential Privacy, and the 2020 Decennial Census.*
+  ✓ verified at census.gov
+- *Harvard Data Science Review*, Special Issue 2: Differential Privacy for the 2020 U.S. Census.
+  ⚠ issue exists and is verified; **pick the specific article you actually cite**
+
+**Housing needs assessment methodology**
+
+- [Author]. (1987). The Housing Needs Assessment Model. *Journal of the American Planning
+  Association, 53*(2). ⚠ title, journal, volume and issue verified; **author name and pages still
+  needed** — a JAPA-internal citation and worth getting right
+- Meen, G. *Objectively Assessed Demand.* UK Collaborative Centre for Housing Evidence.
+  ⚠ verified as a real paper; **confirm year and publication series**
+- The "not full, not objective, not assessed" formulation is widely repeated in English planning
+  commentary. ⚠ **trace it to its original speaker before quoting** — an unattributed bon mot in a
+  peer-reviewed paper is worse than no quote
+- Methodological weaknesses in housing affordability measurement — qualitative study, PMC6716639.
+  ⚠ **retrieve full citation**
+
+**Open data quality and trust**
+
+- Citizens' Trust in Open Government Data. ACM Digital Library, 10.1145/3396956.3396958.
+  ⚠ DOI verified; **authors/year/venue needed**
+- Factors Influencing Public Trust in Open Government Data. *Sustainability*, 14(15), 9765.
+  doi:10.3390/su14159765. ✓ verified
+- Civic Trust and the Intention to Utilize Open Government Data: An Experiment. *dg.o 2024*,
+  10.1145/3657054.3657183. ⚠ DOI verified; **authors needed**
+
+**Data sources**
+
 - U.S. Department of Housing and Urban Development. *Comprehensive Housing Affordability Strategy
-  (CHAS) data.* [Add access date and vintage.]
-- U.S. Census Bureau. *American Community Survey 5-Year Estimates, 2020–2024.* [Add tables cited.]
-- U.S. Environmental Protection Agency. *Emissions & Generation Resource Integrated Database
-  (eGRID).* [Add edition year.]
-- U.S. Energy Information Administration. *Residential electricity consumption.* [Add access date.]
-
-**Still to add before submission** — the Viewpoint format requires engaging multiple sides of a
-scholarly literature, and the draft currently argues against positions without citing who holds
-them. Needed:
-
-- Missing-data and imputation methodology (Rubin; Little & Rubin) for the imputation counter-argument
-- Census disclosure-avoidance and differential privacy, for why suppression is not random missingness
-- Small-area estimation literature, for the resolution-versus-error trade-off
-- Housing needs assessment methodology critique — the strongest section to strengthen, since the
-  claim that assessments merge burden and gap needs support beyond assertion
-- Open-data / civic-technology literature on data quality signals and user trust
-
----
+  (CHAS).* ⚠ add vintage and access date
+- U.S. Census Bureau. *American Community Survey 5-Year Estimates, 2020–2024.* ⚠ add tables cited
+- Jegham, N., et al. (2025). *How Hungry is AI? Benchmarking Energy, Water, and Carbon Footprint of
+  LLM Inference.* arXiv:2505.09598. ✓ verified, figures read from the paper
+- U.S. Environmental Protection Agency. *eGRID.* ⚠ add edition year
+- U.S. Energy Information Administration. *Residential electricity consumption.* ⚠ add access date
 
 ## Word count
 
-Main text: **1,825 words**, counted excluding the abstract, headings, notes, references, and this
+Main text: **2,209 words**, counted excluding the abstract, headings, notes, references, and this
 section. Abstract: **277 words** against a 300 cap.
 
-That leaves roughly **1,175 words** of headroom under the 3,000 limit. The headroom is the point.
-The literature engagement listed above is not yet written, and a Planning Viewpoint that argues
-against positions without citing anyone who holds them will be desk-rejected regardless of how well
-the argument reads. Budget most of that remaining space for citations and for the counter-arguments
-section, which is currently the thinnest part of a manuscript whose whole claim to the format is
-that it engages multiple sides.
+**791 words of headroom** remain under the 3,000 limit. The literature engagement is now written in
+across five clusters — missing-data theory, small-area estimation, census disclosure avoidance,
+housing-needs-assessment methodology, and open-data trust — and each of the four counter-arguments
+now names work that holds the position it answers.
 
-*(An earlier version of this section claimed ~2,340 words and a 246-word abstract. Both were wrong —
-the real figures are above. Stated rather than silently corrected, since the manuscript argues that
-unverified numbers are the problem.)*
+What the remaining headroom is for: the housing-needs-assessment cluster is still the weakest, and it
+is the one a JAPA reviewer will know best. The 1987 JAPA model paper is cited from this journal's own
+back catalogue and deserves a real engagement rather than a passing reference, and the English
+"objectively assessed need" critique is imported from a different planning system and needs a
+sentence justifying the transfer.
+
+*(Two earlier versions of this section were wrong: one claimed ~2,340 words and a 246-word abstract,
+another 1,825 and 255. The figures above are counted. Recorded rather than silently corrected, since
+the manuscript's whole argument is that unverified numbers are the problem.)*
