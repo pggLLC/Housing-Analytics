@@ -120,7 +120,7 @@
         </p>
         <p class="mx-byline">
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">3bac4c1ad</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">9104fa573</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
         </p>
       </header>
@@ -212,14 +212,26 @@
         <div class="mx-warn">
           <span class="tag">The file's own header documents a different rule</span>
           <p>
-            <code>build_place_chas.py</code> opens by describing
-            <em>&ldquo;area-weighted apportionment (share_of_tract_area)&rdquo;</em> and the JSON it
-            emits carries <code>"method": "Area-weighted apportionment"</code>. The executing code
-            takes the <strong>maximum of area share and population share</strong>. The change was made
-            because area weighting collapsed small towns embedded in large rural tracts &mdash; one
-            town holding a small fraction of its tract's area but most of its population was
-            undercounted by roughly seventy times. The fix was correct; the documentation was not
-            updated, and the published <code>method</code> string is still wrong today.
+            <code>build_place_chas.py</code> opened by describing
+            <em>&ldquo;area-weighted apportionment (share_of_tract_area)&rdquo;</em> long after F28
+            replaced that rule, and its output-schema example carried the same superseded string.
+            The executing code takes <strong>the maximum of area share and population share, clamped
+            to 1.0</strong>, falling back to area share alone where population is unavailable &mdash;
+            and flagging those places. Both the header and the example are now corrected, and
+            <code>test/place-chas-method-honesty.test.js</code> fails if they drift again.
+          </p>
+          <p>
+            <strong>A correction to an earlier version of this section.</strong> It said the
+            published metadata was wrong today. That overstated it. The
+            <code>method</code> string actually emitted into
+            <code>data/hna/place-chas.json</code> was never the flatly-wrong area-weighted claim
+            &mdash; that string lived in a docstring example. The emitted string said
+            &ldquo;Population-share apportionment: weight = min(1, population_share),&rdquo; which is
+            <em>incomplete</em> rather than wrong: it omits the <code>max(area_share, &hellip;)</code>,
+            so for a tract lying mostly inside a place it names the wrong term as the winner. The
+            emitter now states the full rule. The published file still carries the older string until
+            the CHAS build is re-run, which is a data-pipeline operation with its own ordering hazard
+            and is deliberately not bundled with this documentation fix.
           </p>
           <p>
             This matters beyond tidiness. <code>max</code> is not a partition: summed over the tracts
@@ -683,14 +695,23 @@ weighted_avg(F)  =  ───────────────       F* = { f
         <div class="col">
           <p>Writing out the specification located four disagreements between code and documentation:</p>
           <ol>
-            <li>The apportionment weight is <code>max(area, population)</code> while the file header
-              and the emitted <code>method</code> string both still say area-weighted
-              (§<a href="#m-apportion">02</a>). The published metadata is wrong today.</li>
+            <li>The apportionment weight is <code>min(1.0, max(area, population))</code> while the
+              file header and its output-schema example both said area-weighted
+              (§<a href="#m-apportion">02</a>). Both corrected and now guarded. The string actually
+              emitted into the data file was incomplete rather than wrong &mdash; it omitted the
+              <code>max</code> &mdash; and is also corrected, though the published file carries the
+              older text until the build is re-run.</li>
             <li>The working paper described one affordability model where
               <span data-figure="methods.affordability.model_count">7</span> exist, and described
               the non-default one (§<a href="#m-affordability">05</a>).</li>
-            <li>A third set of affordability constants lives outside the registry and disagrees with it
-              (§<a href="#m-affordability">05</a>, Table 2).</li>
+            <li>Affordability defaults are declared in <strong>six</strong> places, not two. Down
+              payment takes three values &mdash; one of them a whole-number percentage rather than a
+              fraction &mdash; and insurance is declared in <strong>two different units</strong>:
+              flat annual dollars in one file, a rate of home value in another. On a $250,000 home
+              those differ by roughly 2.7&times;, crossing near $686,000.
+              <code>test/affordability-defaults-inventory.test.js</code> now pins all of them and
+              fails when a new competing default appears
+              (§<a href="#m-affordability">05</a>).</li>
             <li>A tenure label in the working paper's tractability table inverted its two zero-cases,
               publishing a jurisdiction with 266 burdened renters and no burdened owners as
               &ldquo;owner only.&rdquo; Fixed, and now guarded against the counts rather than against
