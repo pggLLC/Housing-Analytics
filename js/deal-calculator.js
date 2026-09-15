@@ -560,6 +560,15 @@
     // award) and clamp to the plausible LIHTC range (1986-2030). Without
     // this guard, sentinel rows sort to the top as "most recent" and
     // contaminate the comparable-projects panel.
+    // Returns true / false / null. null means the source did not publish the
+    // field, which must never collapse into false — see the mapping below.
+    function _triState(raw, explicit, truthyValues) {
+      if (explicit === true) return true;
+      if (raw === null || raw === undefined || raw === '') return null;
+      var truthy = truthyValues || ['1', 1, 'Y', 'y', true];
+      return truthy.indexOf(raw) !== -1;
+    }
+
     function _safeYear(p) {
       var raw = parseInt(p.YR_PIS || p.YEAR_PIS || p.YR_ALLOC || p.YEAR_ALLOC || 0, 10);
       if (!Number.isFinite(raw) || raw < 1986 || raw > 2030) return 0;
@@ -591,9 +600,18 @@
         creditType: _normCredit(p.CREDIT || p.CREDIT_PCT) || '—',
         yearPis:    (function () { var y = parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
         yearAlloc:  (function () { var y = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
-        isQct:      p.QCT === '1' || p.QCT === 1 || p.isQct === true,
-        isDda:      p.DDA === '1' || p.DDA === 1 || p.isDda === true,
-        isNonProf:  p.NON_PROF === '1' || p.NON_PROF === 1 || p.NON_PROF === '2' || p.NON_PROF === 2
+        // Three states, not two. These comparables are fed from the CHFA
+        // feed, which carries QCT, DDA and NON_PROF as columns and populates
+        // none of them — all 926 records are null. Coercing that to `false`
+        // meant no comparable ever earned a badge, and a reader scanning the
+        // table infers that none of these deals sit in a QCT or DDA. That is
+        // not a finding; the source simply never said. QCT/DDA decide 30%
+        // basis boost eligibility, so it is exactly the wrong thing to guess.
+        // `null` = unknown, and renderPeerFlags below discloses it once for
+        // the table rather than asserting a negative on every row.
+        isQct:      _triState(p.QCT, p.isQct),
+        isDda:      _triState(p.DDA, p.isDda),
+        isNonProf:  _triState(p.NON_PROF, null, ['1', 1, '2', 2])
       };
     });
   }
@@ -2176,6 +2194,7 @@
           </tbody>
         </table>
         <p id="dc-peers-empty" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
+        <p id="dc-peers-flag-note" style="font-size:var(--tiny);color:var(--muted);font-style:italic;margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
           ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, year placed in service, total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
           Source:
@@ -3436,9 +3455,12 @@
           if (peersEmpty) peersEmpty.style.display = 'none';
           peersBody.innerHTML = peers.map(function (p) {
             var flags = [];
-            if (p.isQct)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--good-dim,#d1fae5);color:var(--good,#047857);margin-right:3px;" title="Qualified Census Tract">QCT</span>');
-            if (p.isDda)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--info-dim,#dbeafe);color:var(--info,#2563eb);margin-right:3px;" title="Difficult Development Area">DDA</span>');
-            if (p.isNonProf) flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-right:3px;" title="Non-profit sponsor">NP</span>');
+            // Strictly `=== true`. A null here is unknown, not a negative, and
+            // must not draw a badge NOR be silently skipped — the note built
+            // below says which fields the source withheld.
+            if (p.isQct === true)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--good-dim,#d1fae5);color:var(--good,#047857);margin-right:3px;" title="Qualified Census Tract">QCT</span>');
+            if (p.isDda === true)     flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--info-dim,#dbeafe);color:var(--info,#2563eb);margin-right:3px;" title="Difficult Development Area">DDA</span>');
+            if (p.isNonProf === true) flags.push('<span style="display:inline-block;font-size:var(--tiny);padding:1px 5px;border-radius:3px;background:var(--accent-dim,#d1fae5);color:var(--accent,#096e65);margin-right:3px;" title="Non-profit sponsor">NP</span>');
             // Highlight size match
             var sizeProximity = units > 0 ? Math.abs(p.units - units) : null;
             var unitColor = (sizeProximity !== null && sizeProximity <= Math.max(10, units * 0.2)) ? 'var(--good,#047857)' : 'var(--text)';
@@ -3452,6 +3474,36 @@
               '<td style="padding:0.3rem 0.25rem;">' + (flags.join('') || '<span style="color:var(--muted);font-size:var(--tiny);">—</span>') + '</td>' +
             '</tr>';
           }).join('');
+        }
+
+        // Disclose withheld flags ONCE for the table. A per-row "not
+        // published" chip on three columns across eight rows is noise that
+        // gets skimmed; a single line under the table is read. Only fields
+        // actually withheld are named, and only when no row could supply
+        // them — if any comparable has a real value, the badges carry the
+        // information and the note would be misleading.
+        var flagNote = document.getElementById('dc-peers-flag-note');
+        if (flagNote) {
+          var withheld = [
+            { key: 'isQct',     label: 'QCT' },
+            { key: 'isDda',     label: 'DDA' },
+            { key: 'isNonProf', label: 'non-profit sponsor' }
+          ].filter(function (f) {
+            return peers.length > 0 && peers.every(function (p) { return p[f.key] === null; });
+          }).map(function (f) { return f.label; });
+
+          if (withheld.length) {
+            var isAre = withheld.length === 1 ? 'is' : 'are';
+            flagNote.textContent =
+              withheld.join(', ') + ' status ' + isAre + ' not published by CHFA for these ' +
+              'properties, so no badge above means unknown — not "no". QCT and DDA ' +
+              'determine 30% basis boost eligibility; confirm a specific site against ' +
+              'HUD\u2019s QCT/DDA maps before relying on it.';
+            flagNote.style.display = '';
+          } else {
+            flagNote.textContent = '';
+            flagNote.style.display = 'none';
+          }
         }
       }
     }

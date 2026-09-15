@@ -167,6 +167,96 @@ run('the HNA LIHTC popup distinguishes unknown from a measured No', () => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// The same absence, a second surface: the deal calculator's comparables table.
+//
+// js/deal-calculator.js builds peer-deal rows from the same CHFA feed and
+// draws QCT / DDA / non-profit badges. The mapping coerced each flag with
+// `p.QCT === '1' || p.QCT === 1`, so all 926 nulls became false and no
+// comparable ever earned a badge — a reader scanning the table concludes none
+// of these deals sit in a QCT or DDA, which the source never said.
+//
+// These flags feed no arithmetic: the QCT/DDA checkbox in the calculator is
+// labelled "for reference only" and the user sets Eligible Basis themselves.
+// This is a display-honesty defect, not a mis-costed deal.
+
+const CALC = path.join(ROOT, 'js', 'deal-calculator.js');
+const calcSrc = fs.readFileSync(CALC, 'utf8');
+
+// Lift the real helper rather than restating it, so a rewrite moves the guard.
+function loadTriState() {
+  const i = calcSrc.indexOf('function _triState(');
+  const j = calcSrc.indexOf('function _safeYear(');
+  assert.ok(i !== -1 && j > i, '_triState not found in js/deal-calculator.js');
+  // eslint-disable-next-line no-new-func
+  return new Function('return ' + calcSrc.slice(i, j).trim())();
+}
+
+run('a comparable with an unpublished flag is unknown, not false', () => {
+  const triState = loadTriState();
+  for (const absent of [null, undefined, '']) {
+    assert.equal(triState(absent, undefined), null,
+      `CHFA publishes no QCT value; ${JSON.stringify(absent)} became ` +
+      `${JSON.stringify(triState(absent, undefined))} instead of null, which draws ` +
+      'the same blank cell as a real "not in a QCT"');
+  }
+  assert.equal(triState('1', undefined), true, 'a published 1 must stay true');
+  assert.equal(triState(1, undefined), true, 'a published 1 must stay true');
+  assert.equal(triState('0', undefined), false, 'a published 0 is a real negative');
+  assert.equal(triState(0, undefined), false, 'a published 0 is a real negative');
+});
+
+run('the comparables MAPPING actually routes each flag through _triState', () => {
+  // Without this, the suite passes while the fix is reverted. An earlier
+  // version of these guards lifted _triState and asserted on it directly —
+  // so restoring `p.QCT === '1' || p.QCT === 1` in the mapping left the
+  // helper present, correct, and completely unused, and every test stayed
+  // green. Testing a helper proves nothing about the path that renders.
+  for (const [flag, column] of [['isQct', 'QCT'], ['isDda', 'DDA'], ['isNonProf', 'NON_PROF']]) {
+    assert.match(calcSrc, new RegExp(flag + ':\\s*_triState\\(p\\.' + column),
+      `${flag} must be built with _triState(p.${column}, ...) — a direct ` +
+      `comparison such as p.${column} === '1' turns CHFA's null into false`);
+    assert.doesNotMatch(calcSrc, new RegExp(flag + ":\\s*p\\." + column + " === '1'"),
+      `${flag} is back to coercing p.${column}, which renders unknown as a negative`);
+  }
+});
+
+run('every real CHFA record resolves to unknown, not to a negative', () => {
+  const feed = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'chfa-lihtc.json'), 'utf8'));
+  const triState = loadTriState();
+  const features = feed.features || [];
+  assert.ok(features.length > 0, 'expected CHFA features to check');
+  const falsey = features.filter((f) => triState((f.properties || {}).QCT, undefined) === false);
+  assert.equal(falsey.length, 0,
+    `${falsey.length} of ${features.length} CHFA records resolved QCT to a measured ` +
+    'false. CHFA populates none of these columns, so every one must be unknown.');
+});
+
+run('badges render only on a true, never on an unknown', () => {
+  for (const flag of ['isQct', 'isDda', 'isNonProf']) {
+    const loose = new RegExp('if \\(p\\.' + flag + '\\)\\s');
+    assert.doesNotMatch(calcSrc, loose,
+      `p.${flag} is tested for truthiness, so a null is indistinguishable from ` +
+      'a published false — test === true');
+    assert.match(calcSrc, new RegExp('p\\.' + flag + ' === true'),
+      `p.${flag} must be compared strictly to true before drawing a badge`);
+  }
+});
+
+run('the table discloses which flags the source withheld', () => {
+  assert.match(calcSrc, /dc-peers-flag-note/,
+    'the comparables table needs somewhere to say a flag was not published');
+  assert.match(calcSrc, /not published by CHFA/,
+    'the note must name CHFA as the source that withheld the fields');
+  assert.match(calcSrc, /no badge above means unknown/,
+    'the note must say explicitly that a missing badge is not a negative');
+  // The note must be conditional on the data, not hard-coded: if CHFA ever
+  // starts publishing, the badges carry the information and this line becomes
+  // false. Guard the condition, not just the string.
+  assert.match(calcSrc, /every\(function \(p\) \{ return p\[f\.key\] === null; \}\)/,
+    'the note must appear only when NO comparable supplies the flag');
+});
+
 console.log(failures === 0
   ? '  all chfa-dda-qct-absence guards passed'
   : '  ' + failures + ' guard(s) failed');
