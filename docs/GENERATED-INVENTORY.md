@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T00:09:35.717Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T02:05:46.008Z. Do not edit by hand.
 
 ---
 
@@ -1884,7 +1884,7 @@
 | `test/prop123-historical.test.js` | 19.2 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
-| `test/public-build-metadata.test.mjs` | 2.1 KB |
+| `test/public-build-metadata.test.mjs` | 2.7 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
 | `test/public-facing-numbers.test.js` | 6.4 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
