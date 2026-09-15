@@ -5,6 +5,14 @@ import { readFile } from 'node:fs/promises';
 
 execFileSync(process.execPath, ['scripts/build-public-site.mjs'], { stdio: 'inherit' });
 
+// The deploy guard rejects the whole artifact if a forbidden file reaches dist,
+// and deploy.yml runs on PUSH ONLY — never on pull_request. So a file that trips
+// it cannot be caught before merge, and the failure surfaces as every deploy
+// failing while main keeps moving and the live site quietly goes stale. That
+// happened on 2026-09-15: #1680 added a sixth parquet to a five-entry
+// exclusion list. Run the real guard here, where PRs do see it.
+execFileSync(process.execPath, ['scripts/audit/public-artifact-guard.mjs', 'dist'], { stdio: 'inherit' });
+
 function jsonLdBlocks(html) {
   return Array.from(html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi))
     .map((match) => JSON.parse(match[1]));
