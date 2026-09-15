@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Computational Methods | Colorado Public Data Reference</title>
+  <meta name="description" content="Every computation behind the Colorado housing need estimates, written out in full: apportionment, the ACS anchor, cost burden, the scoring chain, and the seven affordability models. Constants are extracted from the code that runs them.">
+  <meta property="og:title" content="Computational Methods | Colorado Public Data Reference">
+  <meta property="og:description" content="The full mathematical specification, with every constant read out of the source file that defines it, so the published formulas are provably the ones that execute.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="assets/og-image.png">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script src="js/data-service-portable.js"></script>
+  <script src="js/scroll-fix.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    /* Scoped to .mx. Opaque backgrounds throughout — js/contrast-guard.js reads
+       any background with alpha > 0.02 as opaque and computes luminance from
+       r/g/b while ignoring alpha, so a low-alpha panel renders pale and is
+       measured as dark. Same reasoning as working-paper.html. */
+    .mx { max-width: 1120px; margin: 0 auto; padding-inline: 4px; }
+    .mx .col { max-width: 72ch; }
+    .mx p { margin: 0 0 1.1rem; line-height: 1.65; }
+
+    .mx-masthead { border-bottom: 2px solid var(--text); padding-bottom: 1.7rem; margin-bottom: 2.4rem; }
+    .mx-kicker { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted); margin: 0 0 1rem; font-weight: 600; }
+    .mx h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); line-height: 1.07; letter-spacing: -.018em; margin: 0 0 1rem; text-wrap: balance; max-width: 22ch; }
+    .mx-standfirst { font-size: clamp(1.02rem, 2.1vw, 1.2rem); line-height: 1.5; color: var(--text-secondary); margin: 0; max-width: 60ch; }
+    .mx-byline { font-size: .76rem; color: var(--text-muted); margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem 1.6rem; }
+
+    .mx section { margin-top: 3.2rem; scroll-margin-top: 6rem; }
+    .mx h2 { font-size: clamp(1.35rem, 3vw, 1.8rem); line-height: 1.22; margin: 0 0 1rem; text-wrap: balance; display: flex; gap: 1rem; align-items: baseline; }
+    .mx h2 .num { font-size: .72rem; font-weight: 600; color: var(--accent); letter-spacing: .08em; flex: none; padding-top: .35em; }
+    .mx h3 { font-size: 1rem; font-weight: 700; margin: 2rem 0 .6rem; }
+
+    /* equations */
+    .mx-eq {
+      background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+      border-radius: 3px; padding: 1rem 1.2rem; margin: 1.2rem 0; overflow-x: auto;
+    }
+    .mx-eq code, .mx-eq pre {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: .86rem; line-height: 1.7; background: none; padding: 0; white-space: pre;
+      color: var(--text); display: block;
+    }
+    .mx-eq .lbl {
+      font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 700; margin-bottom: .6rem; display: block;
+      font-family: inherit; white-space: normal;
+    }
+    .mx-where { font-size: .86rem; color: var(--text-secondary); margin: .6rem 0 0; }
+    .mx-where dl { margin: .4rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: .25rem .9rem; }
+    .mx-where dt { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; color: var(--accent); font-weight: 600; }
+    .mx-where dd { margin: 0; }
+
+    .mx-src {
+      font-family: ui-monospace, Menlo, monospace; font-size: .74rem;
+      color: var(--text-muted); margin-top: .5rem; display: block;
+    }
+
+    /* tables */
+    .mx-scroll { overflow-x: auto; margin: 1.5rem 0; }
+    .mx table { border-collapse: collapse; width: 100%; font-size: .85rem; font-variant-numeric: tabular-nums; min-width: 560px; }
+    .mx caption { caption-side: top; text-align: left; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); padding-bottom: .6rem; font-weight: 600; }
+    .mx th, .mx td { padding: .45rem .65rem; text-align: right; }
+    .mx th[scope="row"], .mx td.lbl, .mx thead th:first-child { text-align: left; }
+    .mx thead th { border-bottom: 1.5px solid var(--text); font-weight: 700; font-size: .76rem; vertical-align: bottom; }
+    .mx tbody tr { border-bottom: 1px solid var(--border-soft); }
+    .mx tfoot td, .mx tfoot th { border-top: 1.5px solid var(--text); font-weight: 700; padding-top: .55rem; }
+    .mx code { font-family: ui-monospace, Menlo, monospace; font-size: .86em; background: var(--bg-alt); padding: .1em .35em; border-radius: 3px; }
+
+    .mx-warn, .mx-note {
+      border: 1px solid var(--border); background: var(--card);
+      padding: 1rem 1.3rem; margin: 1.5rem 0; border-radius: 3px; font-size: .93rem;
+    }
+    .mx-warn { border-left: 3px solid var(--bad); }
+    .mx-note { border-left: 3px solid var(--accent); }
+    .mx-warn p:last-child, .mx-note p:last-child { margin-bottom: 0; }
+    .mx-warn .tag, .mx-note .tag { font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; display: block; margin-bottom: .5rem; font-weight: 700; }
+    .mx-warn .tag { color: var(--bad); }
+    .mx-note .tag { color: var(--accent); }
+
+    .mx ul, .mx ol { margin: 0 0 1.1rem; padding-left: 1.3em; }
+    .mx li { margin-bottom: .5rem; line-height: 1.6; }
+    .mx-unknown { font-style: italic; color: var(--text-muted); }
+
+    .mx-toc { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 1.2rem 1.4rem; margin: 2rem 0; }
+    .mx-toc ol { margin: 0; padding-left: 1.4em; columns: 2; column-gap: 2rem; }
+    @media (max-width: 700px) { .mx-toc ol { columns: 1; } }
+    .mx-toc li { margin-bottom: .35rem; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header id="site-header"></header>
+
+  <main id="main-content">
+    <div class="platform-disclaimer" role="note">
+      This site is a public-data reference. Analyses use public datasets and are presented for reference, not as financial, tax, legal, or underwriting advice.
+    </div>
+
+    <article class="mx">
+
+      <header class="mx-masthead col">
+        <p class="mx-kicker">Computational methods &middot; Full specification &middot; For review</p>
+        <h1>What the Numbers Actually Do</h1>
+        <p class="mx-standfirst">
+          Every computation behind these housing estimates, written out in full &mdash; including the
+          places where the system computes one thing and documents another.
+        </p>
+        <p class="mx-byline">
+          <span>COHO Analytics &mdash; the sole product of pggLLC</span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">1388ce7b7</code></span>
+          <span>Companion to the <a href="working-paper.html">working paper</a></span>
+        </p>
+      </header>
+
+      <div class="mx-note col">
+        <span class="tag">How to read this, and how to break it</span>
+        <p>
+          Every constant printed here is read out of the file that defines it by
+          <code>scripts/paper/extract-model-parameters.mjs</code>, not transcribed. If a weight
+          changes in the code and this page is not rebuilt, continuous integration fails. That is the
+          only reason to trust a methods document: not that its author was careful, but that it
+          cannot disagree with the program and still ship.
+        </p>
+        <p>
+          Reviewers are asked to attack §<a href="#m-affordability">05</a> first. It is where the
+          system is weakest, and the section exists because writing this page found the problem.
+        </p>
+      </div>
+
+      <nav class="mx-toc col" aria-label="Contents">
+        <ol>
+          <li><a href="#m-notation">Notation and conventions</a></li>
+          <li><a href="#m-apportion">Apportionment: tract to place</a></li>
+          <li><a href="#m-anchor">The ACS occupied-household anchor</a></li>
+          <li><a href="#m-burden">Cost burden and published shares</a></li>
+          <li><a href="#m-affordability">Ownership affordability &mdash; seven models</a></li>
+          <li><a href="#m-score">The scoring chain</a></li>
+          <li><a href="#m-absence">Absence propagation</a></li>
+          <li><a href="#m-repro">Reproducibility and known defects</a></li>
+        </ol>
+      </nav>
+
+      <section aria-labelledby="m-notation">
+        <h2 id="m-notation"><span class="num">01</span> Notation and conventions</h2>
+        <div class="col">
+          <p>
+            Throughout, <code>P</code> is a place (municipality or census-designated place),
+            <code>T</code> a census tract, <code>b</code> an AMI band, and <code>t</code> a tenure in
+            {renter, owner}. CHAS bands are the five the source publishes:
+            <code>&le;30</code>, <code>31&ndash;50</code>, <code>51&ndash;80</code>,
+            <code>81&ndash;100</code>, <code>&gt;100</code> percent of area median income.
+          </p>
+          <p>
+            One convention governs everything else and is stated first because it changes what the
+            other formulas mean: <strong>a quantity that cannot be measured is <code>null</code>, and
+            <code>null</code> is never coerced to zero.</strong> In the formulas below, any sum or
+            quotient with a <code>null</code> operand is <code>null</code>, not a value computed as
+            though the operand were zero. §<a href="#m-absence">07</a> gives the propagation rules
+            precisely, because they are where most of the system's defects have lived.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-apportion">
+        <h2 id="m-apportion"><span class="num">02</span> Apportionment: tract to place</h2>
+        <div class="col">
+          <p>
+            HUD's CHAS tables are the only public source crossing cost burden with AMI band and
+            tenure. They publish at tract level. Municipal boundaries do not follow tracts, so every
+            place-level figure in this system is an apportionment, and the weight is the whole
+            argument.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Apportionment of a CHAS count to a place</span>
+          <code>M(P, b, t)  =  Σ_T  w(T, P) · M(T, b, t)</code>
+          <div class="mx-where">
+            <dl>
+              <dt>M(T,b,t)</dt><dd>the CHAS count for tract T, band b, tenure t</dd>
+              <dt>w(T,P)</dt><dd>the share of tract T attributed to place P, below</dd>
+            </dl>
+          </div>
+          <span class="mx-src">scripts/hna/build_place_chas.py</span>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">The weight actually in use</span>
+          <code>w(T, P)  =  max( area_share(T, P),  pop_share(T, P) )</code>
+          <div class="mx-where">
+            <dl>
+              <dt>area_share</dt><dd>fraction of T's land area lying inside P</dd>
+              <dt>pop_share</dt><dd>fraction of T's population attributed to P</dd>
+            </dl>
+          </div>
+          <span class="mx-src">detected in source: <code data-figure="methods.apportionment.weight_rule">max(area_share, population_share)</code></span>
+        </div>
+
+        <div class="mx-warn">
+          <span class="tag">The file's own header documents a different rule</span>
+          <p>
+            <code>build_place_chas.py</code> opens by describing
+            <em>&ldquo;area-weighted apportionment (share_of_tract_area)&rdquo;</em> and the JSON it
+            emits carries <code>"method": "Area-weighted apportionment"</code>. The executing code
+            takes the <strong>maximum of area share and population share</strong>. The change was made
+            because area weighting collapsed small towns embedded in large rural tracts &mdash; one
+            town holding a small fraction of its tract's area but most of its population was
+            undercounted by roughly seventy times. The fix was correct; the documentation was not
+            updated, and the published <code>method</code> string is still wrong today.
+          </p>
+          <p>
+            This matters beyond tidiness. <code>max</code> is not a partition: summed over the tracts
+            overlapping a place it does not equal 1, and summed over the places overlapping a tract it
+            can exceed 1. Households can therefore be counted into more than one place. §<a href="#m-anchor">03</a>
+            is what keeps that from reaching the published levels, which makes the anchor
+            load-bearing rather than cosmetic.
+          </p>
+        </div>
+
+        <div class="col">
+          <p>
+            The assumption underneath both shares is uniform distribution of households within a
+            tract. It is poorest for slivers &mdash; tracts contributing under roughly a tenth of
+            their area &mdash; which are flagged rather than silently included, and it is exactly
+            where <code>max</code> does the most work.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-anchor">
+        <h2 id="m-anchor"><span class="num">03</span> The ACS occupied-household anchor</h2>
+        <div class="col">
+          <p>
+            Apportionment is geometrically defensible and demographically optimistic. Summed across
+            overlapping tracts it overcounts households in roughly 31% of Colorado places, and under
+            the <code>max</code> rule it must. The correction anchors each place's tenure totals to an
+            independent source &mdash; the American Community Survey's occupied-unit counts &mdash;
+            and scales the bands to fit.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Tenure-wise level anchor</span>
+          <code>λ_t  =  A_t / Σ_b M(P, b, t)
+
+M*(P, b, t)  =  λ_t · M(P, b, t)</code>
+          <div class="mx-where">
+            <dl>
+              <dt>A_renter</dt><dd>ACS DP04_0047E, renter-occupied units in P</dd>
+              <dt>A_owner</dt><dd>ACS DP04_0046E, owner-occupied units in P</dd>
+              <dt>λ_t</dt><dd>the scale factor applied to every band of tenure t</dd>
+            </dl>
+          </div>
+          <span class="mx-src">scripts/hna/build_place_chas.py — load_acs_anchor_map()</span>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">The property that makes this defensible</span>
+          <p>
+            Because <code>λ_t</code> is constant across bands within a tenure, <strong>every rate is
+            invariant under the anchor and only levels change.</strong> A cost-burden share &mdash;
+            the quantity a policy is actually written against &mdash; survives the correction
+            unchanged, while the household count becomes checkable against a source that did not
+            produce it. Formally, for any bands <code>b</code>, <code>b'</code> of the same tenure,
+            <code>M*(b)/M*(b') = M(b)/M(b')</code>.
+          </p>
+          <p>
+            The ordering is load-bearing and is a live operational hazard: the ACS summary caches must
+            regenerate <em>before</em> the CHAS build, or <code>λ_t</code> is computed against stale
+            denominators and the anchor silently no-ops &mdash; producing a file that looks normal and
+            carries uncorrected levels.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-burden">
+        <h2 id="m-burden"><span class="num">04</span> Cost burden and published shares</h2>
+        <div class="col">
+          <p>
+            Cost burden follows HUD's definition: a household is burdened above 30% of gross income
+            for housing, severely burdened above 50%. Both are counted directly in CHAS rather than
+            derived, so the apportionment above carries them without further assumption.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Published counts, then published shares</span>
+          <code>C_t   = round( Σ_b M*(P, b, t),  1 )
+B30_t = round( Σ_b M*30(P, b, t), 1 )
+
+share30_t = round( B30_t / C_t , 4 )     ← from the PUBLISHED counts</code>
+          <span class="mx-src">scripts/hna/build_place_chas.py — recompute_summary()</span>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">Why the share divides published counts rather than raw accumulators</span>
+          <p>
+            Two reasons, and the second is the interesting one. <strong>Consistency:</strong> a reader
+            dividing the published burdened count by the published total now obtains the published
+            share. Before this change they did not &mdash; one place shipped counts of 6.9 and 16
+            alongside a share of 0.4312, where 6.9/16 is 0.4313.
+          </p>
+          <p>
+            <strong>Reproducibility:</strong> the raw accumulators are sums of floats that land on
+            values like <code>16.000000000000004</code>. Several shares sit on an exact
+            <code>.00005</code> rounding tie &mdash; 9.3/48, 104.7/240, 177.5/400, 6.9/16 &mdash;
+            where a one-ulp difference in the denominator flips the fourth decimal. The file then
+            differed between machines, and a freshness checker reported places as stale whose inputs
+            had not changed in months. Rounding the denominator first makes the division consume
+            identical IEEE doubles on every run.
+          </p>
+        </div>
+
+        <div class="mx-warn">
+          <span class="tag">Rounding is not distributive, and the page says so</span>
+          <p>
+            Counts are rounded to one decimal before summing and to whole households for display.
+            Column totals are therefore computed from rounded values, so a displayed subtotal can
+            differ by a household or two from the sum of unrounded bands. The published tables are
+            internally consistent &mdash; the columns add up &mdash; at the cost of being a rounded
+            view rather than an exact one. An earlier draft of the working paper reported a renter
+            subtotal of 227 where its own column summed to 228; the generated version now takes the
+            subtotal from the rounded bands, so it agrees with what a reader can add.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-affordability">
+        <h2 id="m-affordability"><span class="num">05</span> Ownership affordability &mdash; seven models, not one</h2>
+
+        <div class="mx-warn">
+          <span class="tag">Read this before citing any affordability figure from this system</span>
+          <p>
+            There is no single &ldquo;affordability model&rdquo; here. The registry defines
+            <strong><span data-figure="methods.affordability.model_count">7</span> models</strong>
+            with <strong><span data-figure="methods.affordability.distinct_ratio_types" data-figure-format="list">back and front</span></strong>
+            ratio conventions between them, and they answer different questions. The default is
+            <code data-figure="methods.affordability.default_model_id">conservative_screening</code>.
+          </p>
+          <p>
+            The working paper's methodology section previously described this as a single model
+            solving at &ldquo;43% back-end DTI, 20% down, 6.5%, 0.65% tax, 0.85% insurance.&rdquo;
+            That is a recognisable description of <code>conventional_dti</code> &mdash; one of the
+            seven, and <em>not</em> the default. The default screens at a 30% front-end ratio, which
+            is a materially smaller number. That section has been corrected; it is recorded here
+            because a reader who cited the old description would have cited a model the system does
+            not run by default.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Maximum supportable price</span>
+          <code>I        = AMI₄ · p · f(size)
+
+budget   = I · r_front / 12                        (front-end models)
+         = I · r_back / 12 − D                     (back-end models)
+           capped at I · r_cap / 12 where a cap exists
+
+budget  ← budget − (HOA + ground rent)             fixed costs don't scale
+
+k        = L · m(i, n)  +  (τ + ι)/12  +  L · π/12  +  L · μ/12
+
+price    = budget / k                              (0 if budget ≤ 0)</code>
+          <div class="mx-where">
+            <dl>
+              <dt>AMI₄</dt><dd>four-person area median income for the county</dd>
+              <dt>p</dt><dd>the AMI percentage being tested (e.g. 0.80)</dd>
+              <dt>f(size)</dt><dd>HUD household-size adjustment factor</dd>
+              <dt>r_front</dt><dd>front-end (housing-only) ratio</dd>
+              <dt>r_back</dt><dd>back-end (total debt) ratio</dd>
+              <dt>D</dt><dd>borrower's other monthly debt</dd>
+              <dt>L</dt><dd>financed share of price = 1 − down payment rate</dd>
+              <dt>m(i,n)</dt><dd>monthly amortisation factor at rate i over n years</dd>
+              <dt>τ, ι</dt><dd>annual property-tax and insurance rates</dd>
+              <dt>π, μ</dt><dd>PMI and MIP annual rates</dd>
+            </dl>
+          </div>
+          <span class="mx-src">js/hna/ownership-finance.js — computeBuyerCapacity()</span>
+        </div>
+
+        <div class="col">
+          <p>
+            The structure is a closed-form solve rather than a search: every cost that scales with
+            price is collected into <code>k</code>, the cost per dollar of price per month, and the
+            budget is divided by it. Fixed monthly costs are subtracted from the budget first,
+            precisely because they do not scale. The inverse &mdash; income required for a given home
+            value &mdash; <em>is</em> a binary search, because <code>f(size)</code> and the PMI gate
+            make the forward function piecewise.
+          </p>
+        </div>
+
+        <div class="mx-scroll">
+          <table>
+            <caption>Table 1 &middot; The registered models, as read from the registry</caption>
+            <thead>
+              <tr>
+                <th scope="col">Model</th><th scope="col">Ratio type</th><th scope="col">Ratio</th>
+                <th scope="col">Front cap</th><th scope="col">Tax</th><th scope="col">Insurance</th>
+                <th scope="col">PMI</th><th scope="col">PMI gated</th>
+              </tr>
+            </thead>
+            <tbody data-figure-block="affordability-models">
+              <tr><th scope="row">conservative_screening <strong>(default)</strong></th><td class="lbl">front-end</td><td>30%</td><td>&mdash;</td><td>0.65%</td><td>0.35%</td><td>0.5%</td><td class="lbl">no</td></tr>
+              <tr><th scope="row">first_time_buyer</th><td class="lbl">front-end</td><td>30%</td><td>&mdash;</td><td>0.65%</td><td>0.85%</td><td>0.5%</td><td class="lbl">yes</td></tr>
+              <tr><th scope="row">conventional_dti</th><td class="lbl">back-end</td><td>43%</td><td>&mdash;</td><td>0.65%</td><td>0.85%</td><td>0%</td><td class="lbl">yes</td></tr>
+              <tr><th scope="row">fha_insured</th><td class="lbl">back-end</td><td>45%</td><td>&mdash;</td><td>0.65%</td><td>0.85%</td><td><span class="mx-unknown">n/a</span></td><td class="lbl">no</td></tr>
+              <tr><th scope="row">usda_rd</th><td class="lbl">back-end</td><td>41%</td><td>29%</td><td>0.65%</td><td>0.85%</td><td><span class="mx-unknown">n/a</span></td><td class="lbl"><span class="mx-unknown">n/a</span></td></tr>
+              <tr><th scope="row">prop123_dpa_eligibility</th><td class="lbl">front-end</td><td>38%</td><td>&mdash;</td><td>0.65%</td><td>0.35%</td><td>0.5%</td><td class="lbl">no</td></tr>
+              <tr><th scope="row">custom</th><td class="lbl">front-end</td><td><span class="mx-unknown">n/a</span></td><td>&mdash;</td><td><span class="mx-unknown">n/a</span></td><td><span class="mx-unknown">n/a</span></td><td><span class="mx-unknown">n/a</span></td><td class="lbl"><span class="mx-unknown">n/a</span></td></tr>
+          </tbody>
+          </table>
+        </div>
+
+        <div class="mx-warn">
+          <span class="tag">A third parameter set exists</span>
+          <p>
+            <code>js/config/financial-constants.js</code> carries its own affordability constants,
+            used by surfaces that do not go through the registry. Where the two disagree, both values
+            are published here rather than reconciled, because a reader needs to know which number
+            reached which screen.
+          </p>
+        </div>
+
+        <div class="mx-scroll">
+          <table>
+            <caption>Table 2 &middot; Registry default versus the standalone constants file</caption>
+            <thead>
+              <tr><th scope="col">Parameter</th><th scope="col">Registry default</th><th scope="col">Constants file</th></tr>
+            </thead>
+            <tbody data-figure-block="affordability-divergence">
+              <tr><th scope="row">property tax rate</th><td>0.0065</td><td>0.006</td></tr>
+          </tbody>
+          </table>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">43% is a lender's ceiling, not an affordability standard</span>
+          <p>
+            The distinction is substantive and is the reason the default is not
+            <code>conventional_dti</code>. HUD calls a household cost burdened above 30% of income for
+            housing. A model solving at a 43% back-end ratio answers &ldquo;what will an underwriter
+            approve,&rdquo; which is a strictly larger number than &ldquo;what can this household
+            carry without being cost burdened.&rdquo; Both are legitimate questions. A subsidy sized
+            to the first delivers a buyer who is cost burdened on the day they move in &mdash; and a
+            jurisdiction that reported need using the 30% screen and then sized assistance using the
+            43% one would be internally inconsistent in a way no single published figure would reveal.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-score">
+        <h2 id="m-score"><span class="num">06</span> The scoring chain</h2>
+        <div class="col">
+          <p>
+            The ranking index reduces every jurisdiction to one number. This section writes out the
+            whole chain, because a composite score is the easiest place in a system like this to hide
+            an arbitrary choice, and the only defence is publishing every weight.
+          </p>
+          <p>
+            Two properties are worth stating before the formulas. First, almost every input enters as
+            a <em>percentile rank within its own geography type</em>, not as a raw value &mdash;
+            counties are ranked against counties, places against places. Second, the percentile
+            convention is <code>rank / (n − 1) · 100</code>, so the lowest-ranked geography in each
+            pool scores exactly 0 and the highest exactly 100 <em>by construction</em>. Scores are
+            therefore positional, not absolute: a place cannot improve its score by improving, only by
+            improving relative to its peers.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Sub-scores (each part a within-type percentile)</span>
+          <code>gap_pressure   = w_c·pct(gap_count) + w_r·pct(gap_rate)
+cost_pressure  = w_a·pct(cb_all) + w_s·pct(cb_severe) + w_d·pct(cb_deep)
+afford_intens  = w_h·pct(value/income) + w_n·pct(rent/income)
+future_press   = w_u·pct(future_units) + w_g·pct(senior_growth)
+overcrowding   = pct(overcrowding_rate)      or null if unmeasured</code>
+          <span class="mx-src">scripts/hna/build_ranking_index.py</span>
+        </div>
+
+        <div class="mx-scroll">
+          <table>
+            <caption>Table 3 &middot; Every weight, read from the source file</caption>
+            <thead>
+              <tr><th scope="col">Group</th><th scope="col">Component</th><th scope="col">Weight</th></tr>
+            </thead>
+            <tbody data-figure-block="ranking-weights">
+              <tr><th scope="row">Axis</th><td class="lbl">community_need</td><td>0.55</td></tr>
+              <tr><th scope="row">Axis</th><td class="lbl">opportunity</td><td>0.45</td></tr>
+              <tr><th scope="row">Community need</th><td class="lbl">gap_pressure_score</td><td>0.35</td></tr>
+              <tr><th scope="row">Community need</th><td class="lbl">cost_burden_pressure_score</td><td>0.25</td></tr>
+              <tr><th scope="row">Community need</th><td class="lbl">affordability_intensity_score</td><td>0.15</td></tr>
+              <tr><th scope="row">Community need</th><td class="lbl">future_pressure_score</td><td>0.15</td></tr>
+              <tr><th scope="row">Community need</th><td class="lbl">overcrowding_score</td><td>0.1</td></tr>
+              <tr><th scope="row">Opportunity</th><td class="lbl">opportunity_mobility_score</td><td>0.35</td></tr>
+              <tr><th scope="row">Opportunity</th><td class="lbl">walkability_score</td><td>0.25</td></tr>
+              <tr><th scope="row">Opportunity</th><td class="lbl">amenity_access_score</td><td>0.25</td></tr>
+              <tr><th scope="row">Opportunity</th><td class="lbl">qct_dda_score</td><td>0.15</td></tr>
+              <tr><th scope="row">Sub-score: gap</th><td class="lbl">count</td><td>0.4</td></tr>
+              <tr><th scope="row">Sub-score: gap</th><td class="lbl">rate</td><td>0.6</td></tr>
+              <tr><th scope="row">Sub-score: cost_burden</th><td class="lbl">all_renter</td><td>0.4</td></tr>
+              <tr><th scope="row">Sub-score: cost_burden</th><td class="lbl">severe</td><td>0.3</td></tr>
+              <tr><th scope="row">Sub-score: cost_burden</th><td class="lbl">deep_tier</td><td>0.3</td></tr>
+              <tr><th scope="row">Sub-score: affordability</th><td class="lbl">homebuyer</td><td>0.5</td></tr>
+              <tr><th scope="row">Sub-score: affordability</th><td class="lbl">renter</td><td>0.5</td></tr>
+              <tr><th scope="row">Sub-score: future</th><td class="lbl">units</td><td>0.7</td></tr>
+              <tr><th scope="row">Sub-score: future</th><td class="lbl">senior</td><td>0.3</td></tr>
+              <tr><th scope="row">Sub-score: commuter</th><td class="lbl">count</td><td>0.5</td></tr>
+              <tr><th scope="row">Sub-score: commuter</th><td class="lbl">ratio</td><td>0.5</td></tr>
+              <tr><th scope="row">Sub-score: commuter</th><td class="lbl">augment_alpha</td><td>0.2</td></tr>
+          </tbody>
+          </table>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Community need, then the commuter augment</span>
+          <code>need_core  = Σ_f  W_f · f          over the five factors above
+                                (weights renormalised over present factors)
+
+commuter   = 0.5·pct(in_commuters) + 0.5·pct(commute_ratio)
+
+need_aug   = min( 100,  need_core · (1 + α · commuter/100) )</code>
+          <div class="mx-where">
+            <dl>
+              <dt>α</dt><dd><span data-figure="methods.ranking.subscore_weights.commuter.augment_alpha">0.2</span> — the augment coefficient</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">The augment can only ever raise a score</span>
+          <p>
+            <code>commuter</code> is a percentile in [0, 100], so the multiplier lies in
+            <code>[1, 1 + α]</code> and the term is strictly non-negative. A jurisdiction with no
+            in-commuting is not penalised; one with heavy in-commuting is credited by at most
+            <span data-figure="methods.ranking.subscore_weights.commuter.augment_alpha" data-figure-format="percent">20%</span>.
+            This is a deliberate asymmetry: in-commuting is evidence that a place's workforce cannot
+            live there, which is additional need &mdash; but its absence is not evidence of the
+            reverse, because a place with no jobs also has no in-commuters.
+          </p>
+          <p>
+            The <code>min(100, ·)</code> is a genuine saturation: a jurisdiction already at the top of
+            its pool receives no augment at all, so the term compresses precisely where it would
+            matter most for ranking.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Overall score</span>
+          <code>overall_raw = W_need · pct(need_aug) + W_opp · opportunity
+
+c           = max( c_min, 1 − Σ penalties )
+
+overall     = round( clamp(overall_raw, 0, 100) · c , 1 )</code>
+          <div class="mx-where">
+            <dl>
+              <dt>W_need</dt><dd><span data-figure="methods.ranking.axis_weights.community_need">0.55</span> — aligned to CHFA's QAP category weighting</dd>
+              <dt>W_opp</dt><dd><span data-figure="methods.ranking.axis_weights.opportunity">0.45</span></dd>
+              <dt>c_min</dt><dd><span data-figure="methods.ranking.confidence.min_multiplier">0.85</span> — the floor on the confidence multiplier</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div class="col">
+          <p>
+            The confidence multiplier deducts
+            <span data-figure="methods.ranking.confidence.penalty_per_imputed_factor">0.03</span> per
+            imputed score factor and
+            <span data-figure="methods.ranking.confidence.penalty_per_approximated_field">0.01</span> per
+            approximated field, with further deductions for low-confidence home values and for
+            opportunity data resolved only at county level. It is floored at
+            <span data-figure="methods.ranking.confidence.min_multiplier">0.85</span>, so the
+            maximum total penalty is
+            <span data-figure="methods.ranking.confidence.min_multiplier" data-figure-format="complement-pct">15%</span>.
+          </p>
+        </div>
+
+        <div class="mx-warn">
+          <span class="tag">Three properties a user of this score should know</span>
+          <p>
+            <strong>Need is double-percentiled.</strong> The five factors enter
+            <code>need_core</code> as percentiles; <code>need_aug</code> is then itself converted to a
+            percentile before the axis blend. Ranking a set of ranks compresses the distribution twice
+            and makes the final score's spacing arbitrary &mdash; differences of a point or two carry
+            no interpretation.
+          </p>
+          <p>
+            <strong>Opportunity is not percentiled at that stage.</strong> It enters the axis blend as
+            a raw 0&ndash;100 composite while need enters as a percentile. The two axes are therefore
+            on different scales despite being weighted as though comparable.
+          </p>
+          <p>
+            <strong>The confidence multiplier scales, it does not flag.</strong> A jurisdiction whose
+            inputs are largely imputed loses at most
+            <span data-figure="methods.ranking.confidence.min_multiplier" data-figure-format="complement-pct">15%</span>
+            of its score and still ranks. The multiplier is published alongside the score, and a user
+            comparing two jurisdictions should read it, because a high score at a low multiplier and a
+            slightly lower score at full confidence are not the same claim.
+          </p>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-absence">
+        <h2 id="m-absence"><span class="num">07</span> Absence propagation</h2>
+        <div class="col">
+          <p>
+            The rules below are the ones that make the rest of this document mean what it says. They
+            exist because <code>Number(null)</code> is <code>0</code> and <code>0</code> is finite, so
+            a coercion upstream of any formula here produces a value that passes every downstream
+            validity check.
+          </p>
+        </div>
+
+        <div class="mx-eq">
+          <span class="lbl">Renormalisation over present factors</span>
+          <code>Σ_f∈F* W_f · f
+weighted_avg(F)  =  ───────────────       F* = { f ∈ F : f is a number }
+                      Σ_f∈F* W_f
+
+                 =  null                  if F* is empty</code>
+          <span class="mx-src">scripts/hna/build_ranking_index.py — _weighted_average()</span>
+        </div>
+
+        <div class="col">
+          <p>
+            A missing factor is dropped and the remaining weights are renormalised, rather than the
+            factor entering as zero. The difference is not subtle: as a zero, a missing overcrowding
+            rate would push a jurisdiction's need score down by a tenth of its value and look like
+            measured absence of overcrowding. Renormalised, it means &ldquo;this score was computed
+            from the other four factors&rdquo; &mdash; which is a weaker claim, correctly stated.
+          </p>
+          <p>The other rules, in the order they bite:</p>
+          <ul>
+            <li><strong>Rate denominators have a floor.</strong> A rate computed on fewer than
+              <span data-figure="methods.ranking.guards.min_rate_denominator">50</span>
+              households is not published. Small denominators produce rates of 0% and 100% that are
+              arithmetically correct and substantively meaningless.</li>
+            <li><strong>Sentinels are rejected before arithmetic.</strong> The Census API returns
+              <code>-666666666</code> for unavailable variables. It is finite, so every naive check
+              passes it through; it is caught at parse.</li>
+            <li><strong>Guard <code>&le; 0</code>, not <code>&lt; 0</code>.</strong> Wherever zero is
+              not a meaningful value &mdash; a price, a rent, an income &mdash; exactly zero means
+              unknown rather than free.</li>
+            <li><strong>Negative inputs yield <code>null</code>, not <code>0</code>.</strong> The
+              affordability solve returns <code>null</code> for missing or negative income, and
+              <code>0</code> only for the distinct case where fixed monthly costs consume the entire
+              budget &mdash; a real finding, not a missing one.</li>
+            <li><strong>Reasons travel with values.</strong> Every metric carries source, vintage,
+              geography level and confidence, so a consumer can distinguish &ldquo;not published by
+              the source&rdquo; from &ldquo;below the reporting threshold&rdquo; from
+              &ldquo;measured.&rdquo;</li>
+          </ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="m-repro">
+        <h2 id="m-repro"><span class="num">08</span> Reproducibility and known defects</h2>
+
+        <h3 class="col">8.1 &middot; What makes a run reproducible</h3>
+        <div class="col">
+          <p>
+            Share denominators are rounded before division (§<a href="#m-burden">04</a>), which
+            removes the float-tie instability. Generated files are rebuilt in continuous integration
+            and a pull request whose outputs drift from what its inputs would produce fails. The
+            constants in this document are extracted from source rather than transcribed, so this page
+            cannot drift from the program without failing the build.
+          </p>
+        </div>
+
+        <h3 class="col">8.2 &middot; Defects this document found</h3>
+        <div class="col">
+          <p>Writing out the specification located four disagreements between code and documentation:</p>
+          <ol>
+            <li>The apportionment weight is <code>max(area, population)</code> while the file header
+              and the emitted <code>method</code> string both still say area-weighted
+              (§<a href="#m-apportion">02</a>). The published metadata is wrong today.</li>
+            <li>The working paper described one affordability model where
+              <span data-figure="methods.affordability.model_count">7</span> exist, and described
+              the non-default one (§<a href="#m-affordability">05</a>).</li>
+            <li>A third set of affordability constants lives outside the registry and disagrees with it
+              (§<a href="#m-affordability">05</a>, Table 2).</li>
+            <li>A tenure label in the working paper's tractability table inverted its two zero-cases,
+              publishing a jurisdiction with 266 burdened renters and no burdened owners as
+              &ldquo;owner only.&rdquo; Fixed, and now guarded against the counts rather than against
+              the function that produced them.</li>
+          </ol>
+        </div>
+
+        <h3 class="col">8.3 &middot; Open methodological weaknesses</h3>
+        <div class="col">
+          <ul>
+            <li><strong>The <code>max</code> weight is not a partition.</strong> It can attribute a
+              household to more than one place. The ACS anchor bounds the consequence at the place
+              level but nothing bounds it statewide, so summing place-level counts across Colorado is
+              not a valid operation and the interface should say so more loudly than it does.</li>
+            <li><strong>Double percentiling compresses the need axis</strong> and puts it on a
+              different scale from opportunity in the same weighted blend
+              (§<a href="#m-score">06</a>).</li>
+            <li><strong>Uniform within-tract density</strong> is assumed by both shares and is
+              weakest exactly where <code>max</code> is doing the most work.</li>
+            <li><strong>Cost burden and unit gap use different income bases</strong> &mdash; burden
+              against area medians, gap against household-size-adjusted limits. Both are correct
+              against their own definitions and they are not comparable band-for-band, which is a
+              trap for any reader who assumes a shared denominator.</li>
+            <li><strong>The 30%/43% divide is unresolved by design</strong> and should be resolved by
+              the user, not by the system picking one.</li>
+          </ul>
+        </div>
+
+        <div class="mx-note">
+          <span class="tag">What would falsify any of this</span>
+          <p>
+            Each claim here is checkable against the repository. The weights are in
+            <code>scripts/hna/build_ranking_index.py</code>; the apportionment and anchor in
+            <code>scripts/hna/build_place_chas.py</code>; the affordability solve in
+            <code>js/hna/ownership-finance.js</code> against
+            <code>data/policy/affordability-models.json</code>. A reviewer who finds this page
+            disagreeing with any of them has found a real defect, and the extraction script named at
+            the top is where to look first.
+          </p>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <script src="js/contrast-guard.js"></script>
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -92,6 +92,73 @@ test('committed figures match what the data produces right now', () => {
   return null;
 });
 
+// methods.html is checked on the same terms as working-paper.html. Both are
+// generated pages; a methods document that can drift from the code it specifies
+// is worse than no methods document, because it is cited.
+const METHODS = path.join(ROOT, 'methods.html');
+const methodsHtml = existsSync(METHODS) ? readFileSync(METHODS, 'utf8') : null;
+
+test('methods.html matches the committed figures', () => {
+  if (methodsHtml == null) return 'methods.html is missing';
+  const r = execFileSync(
+    process.execPath,
+    [path.join(ROOT, 'scripts', 'paper', 'inject-paper-figures.mjs'), '--check'],
+    { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, PAPER_PAGE: METHODS } },
+  ).toString();
+  return r.includes('is current') ? null : 'injector did not report methods.html as current';
+});
+
+test('the constants in methods.html are the constants the code runs', () => {
+  // The whole claim of the methods page. Re-extract from source and compare
+  // against what is committed — if a weight moves in build_ranking_index.py and
+  // the page is not rebuilt, this fails.
+  const fresh = JSON.parse(execFileSync(
+    process.execPath,
+    [path.join(ROOT, 'scripts', 'paper', 'extract-model-parameters.mjs'), '--stdout'],
+    { cwd: ROOT, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 },
+  ));
+  const committedMethods = at(committed, 'methods');
+  if (!committedMethods) return 'figures.json carries no methods block';
+  const drift = [];
+  for (const p of leaves(fresh)) {
+    if (p.startsWith('extracted_at_commit') || p.startsWith('unavailable')) continue;
+    const a = at(fresh, p);
+    const b = at(committedMethods, p);
+    if (JSON.stringify(a) !== JSON.stringify(b)) {
+      drift.push(`${p}: page has ${JSON.stringify(b)}, source has ${JSON.stringify(a)}`);
+    }
+  }
+  return drift.length
+    ? `${drift.length} constant(s) drifted from source. Run: npm run paper:params && npm run paper:build\n      ${drift.slice(0, 5).join('\n      ')}`
+    : null;
+});
+
+test('weight groups that claim to partition unity actually do', () => {
+  // A weighted average whose weights do not sum to 1 is not a weighted average,
+  // and the renormalising helper hides it: it divides by the weight it actually
+  // used, so a typo in a weight silently rescales the whole score rather than
+  // failing.
+  const r = at(regenerated, 'methods.ranking');
+  if (!r) return 'no ranking block in figures.json';
+  const bad = [];
+  for (const k of ['axis_weights_check', 'community_need_weights_check', 'opportunity_weights_check']) {
+    const c = r[k];
+    if (!c) { bad.push(`${k} missing`); continue; }
+    if (!c.partitions_unity) bad.push(`${k}: sums to ${c.sum}, not 1`);
+  }
+  // Paired sub-score weights must also pair to 1.
+  const sw = r.subscore_weights || {};
+  for (const [group, parts] of Object.entries(sw)) {
+    if (group === 'commuter') continue;   // augment_alpha is not part of a partition
+    const vals = Object.values(parts).filter((v) => typeof v === 'number');
+    if (!vals.length) continue;
+    const sum = Number(vals.reduce((a, b) => a + b, 0).toFixed(6));
+    if (Math.abs(sum - 1) > 1e-9) bad.push(`subscore ${group}: sums to ${sum}, not 1`);
+  }
+  return bad.length ? bad.join('; ') : null;
+});
+
 test('the published page matches the committed figures', () => {
   const r = execFileSync(
     process.execPath,

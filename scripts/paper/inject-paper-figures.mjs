@@ -72,6 +72,10 @@ function render(objPath, format) {
   if (v === null) return `<span class="wp-unknown">not available &mdash; ${esc(reasonFor(objPath))}</span>`;
   if (format === 'comma') return esc(comma(v));
   if (format === 'percent') return esc(`${Math.round(Number(v) * 100)}%`);
+  // A confidence FLOOR of 0.85 means a maximum penalty of 15%. Printing the
+  // floor where the prose says "penalty" would invert the claim.
+  if (format === 'complement-pct') return esc(`${Math.round((1 - Number(v)) * 100)}%`);
+  if (format === 'list') return esc(Array.isArray(v) ? v.join(' and ') : String(v));
   return esc(v);
 }
 
@@ -100,6 +104,45 @@ const BLOCKS = {
     if (!s) return '';
     return `
               <tr><th scope="row">&le;80% AMI subtotal</th><td>${cell(s.renters)}</td><td>${cell(s.renters_cb30)}</td><td>${cell(s.renters_cb50)}</td><td>${cell(s.owners)}</td><td>${cell(s.owners_cb30)}</td><td>${cell(s.owners_cb50)}</td></tr>`;
+  },
+
+  'affordability-models'() {
+    const models = at('methods.affordability.models');
+    if (!Array.isArray(models)) {
+      return `<tr><td colspan="8" class="mx-unknown">Registry not readable &mdash; ${esc(reasonFor('methods.model_count'))}</td></tr>`;
+    }
+    const pct = (v) => (v == null ? '<span class="mx-unknown">n/a</span>' : `${(v * 100).toFixed(2).replace(/\.?0+$/, '')}%`);
+    return models.map((m) => `
+              <tr><th scope="row">${esc(m.id)}${m.is_default ? ' <strong>(default)</strong>' : ''}</th><td class="lbl">${esc(m.housing_ratio_type)}-end</td><td>${pct(m.housing_ratio)}</td><td>${m.front_end_ratio_cap == null ? '&mdash;' : pct(m.front_end_ratio_cap)}</td><td>${pct(m.property_tax_rate)}</td><td>${pct(m.insurance_rate)}</td><td>${m.pmi_rate == null ? '<span class="mx-unknown">n/a</span>' : pct(m.pmi_rate)}</td><td class="lbl">${m.pmi_ltv_gate === true ? 'yes' : m.pmi_ltv_gate === false ? 'no' : '<span class="mx-unknown">n/a</span>'}</td></tr>`).join('');
+  },
+
+  'affordability-divergence'() {
+    const rows = at('methods.affordability.divergence');
+    if (!Array.isArray(rows)) return `<tr><td colspan="3" class="mx-unknown">not readable</td></tr>`;
+    if (!rows.length) {
+      return `
+              <tr><td colspan="3">The registry default and the constants file currently agree on every compared parameter.</td></tr>`;
+    }
+    return rows.map((d) => `
+              <tr><th scope="row">${esc(d.parameter)}</th><td>${esc(d.registry_default)}</td><td>${esc(d.constants_file)}</td></tr>`).join('');
+  },
+
+  'ranking-weights'() {
+    const r = at('methods.ranking');
+    if (!r || !r.community_need_weights) {
+      return `<tr><td colspan="3" class="mx-unknown">Weights not readable</td></tr>`;
+    }
+    const rows = [];
+    const push = (group, name, w) => rows.push(
+      `\n              <tr><th scope="row">${esc(group)}</th><td class="lbl">${esc(name)}</td><td>${w == null ? '<span class="mx-unknown">n/a</span>' : w}</td></tr>`);
+    for (const [k, v] of Object.entries(r.axis_weights || {})) push('Axis', k, v);
+    for (const [k, v] of Object.entries(r.community_need_weights || {})) push('Community need', k, v);
+    for (const [k, v] of Object.entries(r.opportunity_weights || {})) push('Opportunity', k, v);
+    const sw = r.subscore_weights || {};
+    for (const [group, parts] of Object.entries(sw)) {
+      for (const [k, v] of Object.entries(parts || {})) push(`Sub-score: ${group}`, k, v);
+    }
+    return rows.join('');
   },
 
   'tractable-rows'() {
@@ -200,14 +243,14 @@ const scalars = scalarPass.count;
 const before = readFileSync(PAGE, 'utf8');
 if (CHECK) {
   if (before !== html) {
-    console.error('[paper] working-paper.html is STALE — its figures disagree with data/paper/figures.json');
+    console.error(`[paper] ${path.basename(PAGE)} is STALE — its figures disagree with data/paper/figures.json`);
     console.error('[paper] regenerate with: npm run paper:build');
     process.exit(1);
   }
-  console.log(`[paper] working-paper.html is current (${scalars} figures, ${blocks} generated blocks)`);
+  console.log(`[paper] ${path.basename(PAGE)} is current (${scalars} figures, ${blocks} generated blocks)`);
 } else {
   writeFileSync(PAGE, html);
-  console.log(`[paper] injected ${scalars} figures and ${blocks} generated blocks into working-paper.html`);
+  console.log(`[paper] injected ${scalars} figures and ${blocks} generated blocks into ${path.basename(PAGE)}`);
   const n = (figures.unavailable || []).length;
   if (n) console.log(`[paper] ${n} figure(s) rendered as a stated reason rather than a number`);
 }

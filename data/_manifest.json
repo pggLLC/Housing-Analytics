@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-15T15:01:43.040Z",
+    "generated_at": "2026-09-15T15:07:47.243Z",
     "root": "data/",
-    "file_count": 1614,
-    "total_size_bytes": 151294579,
+    "file_count": 1615,
+    "total_size_bytes": 151307148,
     "kinds": {
-      "json": 1579,
+      "json": 1580,
       "geojson": 31,
       "csv": 4
     }
@@ -30406,8 +30406,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 204606,
-      "mtime": "2026-09-15T13:57:58.649Z",
+      "size_bytes": 204729,
+      "mtime": "2026-09-15T15:01:44.523Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31760,8 +31760,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 6245,
-      "mtime": "2026-09-15T15:01:35.686Z",
+      "size_bytes": 12692,
+      "mtime": "2026-09-15T15:07:40.903Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31769,13 +31769,32 @@
         "inventory",
         "case",
         "tractable",
+        "methods",
         "footprint",
         "volatile",
         "unavailable"
       ],
-      "key_count": 8,
+      "key_count": 9,
       "primary_array_key": "volatile",
       "primary_array_length": 5,
+      "primary_array_first_keys": null
+    },
+    {
+      "path": "paper/model-parameters.json",
+      "kind": "json",
+      "size_bytes": 5999,
+      "mtime": "2026-09-15T15:07:40.727Z",
+      "shape": "object",
+      "keys": [
+        "extracted_at_commit",
+        "ranking",
+        "affordability",
+        "apportionment",
+        "unavailable"
+      ],
+      "key_count": 5,
+      "primary_array_key": null,
+      "primary_array_length": null,
       "primary_array_first_keys": null
     },
     {
@@ -31815,7 +31834,7 @@
       "path": "policy/affordability-models.json",
       "kind": "json",
       "size_bytes": 14487,
-      "mtime": "2026-09-09T02:23:20.903Z",
+      "mtime": "2026-09-15T15:07:28.257Z",
       "shape": "object",
       "keys": [
         "schema",

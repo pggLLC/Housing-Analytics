@@ -204,7 +204,7 @@
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
           <span><code>pggLLC/Housing-Analytics</code></span>
           <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-15</span></span>
-          <span>Figures regenerated from commit <code data-figure="generated_from_commit">30b7b6d88</code></span>
+          <span>Figures regenerated from commit <code data-figure="generated_from_commit">1388ce7b7</code></span>
         </p>
       </header>
 
@@ -333,9 +333,9 @@
             <tbody>
               <tr><th scope="row">Geographies</th><td data-figure="inventory.geographies">546</td><td class="lbl"><span data-figure="inventory.counties">64</span> counties &middot; <span data-figure="inventory.incorporated_places">272</span> places &middot; <span data-figure="inventory.cdps">210</span> CDPs</td></tr>
               <tr><th scope="row">Places with apportioned CHAS detail</th><td data-figure="inventory.places_with_chas">482</td><td class="lbl">Tenure &times; AMI band &times; cost burden</td></tr>
-              <tr><th scope="row">Data files</th><td data-figure="inventory.data_files" data-figure-format="comma">1,652</td><td class="lbl">Tracked JSON, CSV, GeoJSON and Parquet</td></tr>
-              <tr><th scope="row">HTML pages</th><td data-figure="inventory.html_pages_total">555</td><td class="lbl"><span data-figure="inventory.html_pages_toplevel">61</span> top-level; <span data-figure="inventory.place_pages">484</span> generated per place</td></tr>
-              <tr><th scope="row">Build &amp; fetch scripts</th><td data-figure="inventory.scripts">257</td><td class="lbl">Python and Node, run on schedule</td></tr>
+              <tr><th scope="row">Data files</th><td data-figure="inventory.data_files" data-figure-format="comma">1,653</td><td class="lbl">Tracked JSON, CSV, GeoJSON and Parquet</td></tr>
+              <tr><th scope="row">HTML pages</th><td data-figure="inventory.html_pages_total">556</td><td class="lbl"><span data-figure="inventory.html_pages_toplevel">62</span> top-level; <span data-figure="inventory.place_pages">484</span> generated per place</td></tr>
+              <tr><th scope="row">Build &amp; fetch scripts</th><td data-figure="inventory.scripts">258</td><td class="lbl">Python and Node, run on schedule</td></tr>
               <tr><th scope="row">Workflows</th><td data-figure="inventory.workflows">71</td><td class="lbl"><span data-figure="inventory.scheduled_workflows">59</span> carry a live cron &mdash; also the system&rsquo;s main liability, &sect;08</td></tr>
               <tr><th scope="row">Test files</th><td data-figure="inventory.test_files">284</td><td class="lbl"><span data-figure="inventory.absence_tests">38</span> carry assertions named for absence</td></tr>
               <tr><th scope="row">LIHTC features</th><td data-figure="inventory.lihtc_features">926</td><td class="lbl">CHFA portfolio, refreshed weekly</td></tr>
@@ -378,7 +378,7 @@
             A change to any of them is made by changing its generator and re-running it; CI fails a
             pull request whose generated files drift from what their sources would produce. That is
             the mechanism by which a one-person project stays internally consistent across
-            <span data-figure="inventory.data_files" data-figure-format="comma">1,652</span> data files.
+            <span data-figure="inventory.data_files" data-figure-format="comma">1,653</span> data files.
           </p>
           <p>
             The third category &mdash; the watchers &mdash; exists because the first two run
@@ -699,8 +699,10 @@
             where towns straddle county lines.
           </p>
           <p>
-            The method: for each tract <em>T</em> overlapping place <em>P</em>, <em>weight = share of
-            T&rsquo;s area inside P</em>, and each CHAS count is multiplied by that weight and summed.
+            The method: for each tract <em>T</em> overlapping place <em>P</em> the weight is
+            <code data-figure="methods.apportionment.weight_rule">max(area_share, population_share)</code>, and each CHAS count
+            is multiplied by that weight and summed. (Area share alone collapsed small towns embedded
+            in large rural tracts; the file header still documents the superseded rule.)
             The assumption is uniform household distribution within a tract &mdash; poor for slivers
             under roughly 10% of tract area, which are flagged rather than silently included.
           </p>
@@ -734,12 +736,26 @@
             debt-to-income threshold lenders underwrite to.
           </p>
           <p>
-            The model solves for the price supportable at a 43% back-end DTI, with stated defaults:
-            20% down, 6.5% on a 30-year fixed, 0.65% annual property tax (county-specific where
-            known), 0.85% insurance, PMI at 0.85% below 20% down. On the documented Denver
-            illustration the two methods agree on the affordable price and disagree entirely on the
-            gap &mdash; roughly 117% over affordable under the heuristic against roughly 206% under
-            PITI. A town using the heuristic would size its subsidy at about half what a buyer needs.
+            The model is not one model. The registry defines
+            <span data-figure="methods.affordability.model_count">7</span> of them &mdash;
+            conservative screening, first-time buyer, conventional lender DTI, FHA, USDA, a
+            Proposition&nbsp;123 eligibility gate, and a fully custom one &mdash; differing in ratio
+            convention, down payment, mortgage insurance and its loan-to-value gate. The default is
+            <code data-figure="methods.affordability.default_model_id">conservative_screening</code>, which screens
+            at a 30% front-end ratio. A 43% back-end DTI is one of the others, and it answers a
+            different question: what a lender will approve, rather than what a household can carry
+            without being cost burdened. On the documented Denver illustration the heuristic and a
+            PITI model agree on the affordable price and disagree entirely on the gap &mdash; roughly
+            117% over affordable against roughly 206% &mdash; so a town using the heuristic would size
+            its subsidy at about half what a buyer needs. Which PITI model it uses changes the answer
+            again. The full specification, with every parameter read out of the registry, is in the
+            <a href="methods.html">computational methods</a> companion.
+          </p>
+          <p>
+            An earlier version of this section described a single model at &ldquo;20% down, 6.5%,
+            0.65% tax, 0.85% insurance, 43% back-end DTI.&rdquo; That is a recognisable description of
+            <code>conventional_dti</code> &mdash; one of the seven, and not the default. Writing out
+            the methods companion is what found it.
           </p>
         </div>
 
@@ -1097,7 +1113,7 @@
         <div class="col">
           <p class="wp-sources">
             Figures reflect the repository at commit
-            <code data-figure="generated_from_commit">30b7b6d88</code>. The underlying data refreshes
+            <code data-figure="generated_from_commit">1388ce7b7</code>. The underlying data refreshes
             continuously; a reader reproducing these tables later should expect vintage drift and is
             encouraged to check each metric&rsquo;s own <code>as_of</code> field rather than this
             page&rsquo;s date.

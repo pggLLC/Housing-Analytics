@@ -485,6 +485,14 @@ const figures = {
   // it reads session transcripts that live outside the repository and are not
   // available in CI. Committed so the paper can cite it; declared partial so it
   // reads as the floor it is.
+  // Constants and weights read out of the code that uses them, by
+  // scripts/paper/extract-model-parameters.mjs. A methods paper is only
+  // peer-reviewable if the formulas it prints are the ones that run.
+  methods: (() => {
+    const r = readJson('data/paper/model-parameters.json');
+    if (!r.ok) return { model_count: absent('methods.model_count', r.reason) };
+    return r.data;
+  })(),
   footprint: (() => {
     const r = readJson('data/paper/compute-footprint.json');
     if (!r.ok) return { turns: absent('footprint.turns', r.reason) };

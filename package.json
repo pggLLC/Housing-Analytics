@@ -264,8 +264,9 @@
     "test:hna-build-rebase-recovery": "node test/hna-build-rebase-recovery.test.js",
     "test:bridge-token-guidance": "node test/bridge-token-guidance.test.js",
     "paper:figures": "node scripts/paper/build-paper-figures.mjs",
-    "paper:build": "node scripts/paper/build-paper-figures.mjs && node scripts/paper/inject-paper-figures.mjs",
-    "test:paper-fresh": "node test/paper-figures-fresh.test.js"
+    "paper:build": "node scripts/paper/extract-model-parameters.mjs && node scripts/paper/build-paper-figures.mjs && node scripts/paper/inject-paper-figures.mjs && PAPER_PAGE=methods.html node scripts/paper/inject-paper-figures.mjs",
+    "test:paper-fresh": "node test/paper-figures-fresh.test.js",
+    "paper:params": "node scripts/paper/extract-model-parameters.mjs"
   },
   "dependencies": {
     "jsdom": "^30.0.1"
