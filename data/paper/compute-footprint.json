@@ -1,0 +1,44 @@
+{
+  "measured_at": "2026-09-15",
+  "disclosure": "This repository was built with substantial AI assistance over roughly nine months. The figures below are what can be measured of its compute cost. They are published rather than omitted, and bounded rather than point-estimated, on the same terms this project applies to housing data.",
+  "ci": {
+    "total_runs": 40000,
+    "sample_size": 300,
+    "sample_note": "most recent completed runs; runs over 2h excluded as queue artefacts",
+    "mean_run_seconds": 135.8,
+    "median_run_seconds": 59,
+    "estimated_runner_hours": 1509
+  },
+  "inference": {
+    "transcripts": 218,
+    "turns": 71384,
+    "input_tokens": 4091841,
+    "output_tokens": 68149998,
+    "cache_tokens": 29514431845,
+    "coverage_start": "2026-06-05",
+    "coverage_end": "2026-09-15",
+    "coverage_is_partial": true,
+    "coverage_note": "Session transcripts rotate. This window is shorter than the project, so every inference figure here is a floor, not a total."
+  },
+  "energy": {
+    "low": {
+      "value": 0.24,
+      "basis": "Google, reported median energy per Gemini text prompt",
+      "note": "Short prompt, highly optimised serving. A lower bound, and almost certainly not what long agentic coding turns cost."
+    },
+    "high": {
+      "value": 33.6,
+      "basis": "Jegham et al., \"How Hungry is AI?\" (arXiv:2505.09598), DeepSeek-R1, long prompt (10k input / 1.5k output)",
+      "note": "A reasoning model on a long prompt. Agentic coding turns carry longer context than this benchmark, so this is not a ceiling either."
+    },
+    "grid_kg_co2e_per_kwh": {
+      "value": 0.39,
+      "basis": "US average grid intensity, EPA eGRID (~0.38–0.40 kg CO2e/kWh)"
+    },
+    "us_household_kwh_per_year": {
+      "value": 10364,
+      "basis": "US EIA, average annual residential electricity consumption"
+    }
+  },
+  "unavailable": []
+}

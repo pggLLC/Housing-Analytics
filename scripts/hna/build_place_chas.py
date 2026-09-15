@@ -2,8 +2,30 @@
 """scripts/hna/build_place_chas.py
 
 Compute place-level CHAS (cost-burden by AMI tier) for Colorado places by
-area-weighted apportionment of tract-level CHAS through the place→tract
-spatial membership lookup. Final step of the TIGER spatial-join arc:
+apportioning tract-level CHAS through the place→tract spatial membership
+lookup.
+
+WEIGHT RULE (F28 — read this before citing the method anywhere):
+
+    pop_share = place_pop * share_of_place_area / tract_pop
+    weight    = min(1.0, max(share_of_tract_area, pop_share))   # pop known
+              = share_of_tract_area                             # pop missing,
+                                                                # place flagged
+
+Area share ALONE is no longer the rule and has not been since F28. It
+collapsed small towns embedded in large rural tracts — one town holding a
+sliver of its tract's area but most of its population was undercounted ~70x.
+This header and the emitted "method" string both said "area-weighted" for
+months after the code stopped doing that; test/place-chas-method-honesty.test.js
+now fails if they drift again.
+
+NOTE that max() is not a partition: summed over the places overlapping one
+tract it can exceed 1, so a household can be attributed to more than one place.
+The min(1.0, ...) clamp bounds a single tract's contribution to one place; it
+does NOT bound the cross-place sum. The ACS occupied-household anchor is what
+keeps published place LEVELS defensible, which makes the anchor load-bearing
+rather than cosmetic — and it means summing place counts statewide is not a
+valid operation. Final step of the TIGER spatial-join arc:
 
   PR-C1 (#788, MERGED) — tract-level CHAS aggregations
                           → data/market/chas_tract_co.json
@@ -48,7 +70,7 @@ Output schema
         "generated_at": "...",
         "source_tract_chas": "data/market/chas_tract_co.json",
         "source_membership": "data/hna/place-tract-membership.json",
-        "method": "Area-weighted apportionment (share_of_tract_area)",
+        "method": "min(1.0, max(share_of_tract_area, population_share)) apportionment, falling back to share_of_tract_area where population is unavailable",
         "vintage_chas": "2018-2022",
         "vintage_tiger": 2024,
         "count_places": 464
@@ -630,8 +652,14 @@ def main() -> int:
             'source_place_pop': 'data/hna/place-lehd.json (place_pop)',
             'source_tract_pop': 'data/market/acs_tract_metrics_co.json (pop)',
             'source_acs_tenure': 'data/hna/summary/*.json DP04_0046E owner-occupied and DP04_0047E renter-occupied',
-            'method': 'Population-share apportionment: weight = min(1, place_pop × share_of_place_area / tract_pop). '
-                      'Falls back to area-share (share_of_tract_area) when population data is missing. '
+            'method': 'Apportionment weight = min(1.0, max(share_of_tract_area, population_share)), '
+                      'where population_share = place_pop × share_of_place_area / tract_pop. '
+                      'The MAX matters: for a tract lying mostly inside a place, area-share wins, so this '
+                      'is not population-share apportionment despite an earlier version of this string '
+                      'saying so. Falls back to share_of_tract_area alone when population data is missing '
+                      '(those places carry used_area_fallback). '
+                      'NOTE max() is not a partition — summed over the places overlapping one tract it can '
+                      'exceed 1, so place counts must not be summed statewide. '
                       'F28 fix — area-share alone under-counted small towns in large rural tracts ~70×. '
                       'Post-step: renter and owner household LEVELS are independently anchored to each place\'s '
                       'cached ACS DP04_0047E/DP04_0046E occupied-tenure counts when available, preserving '

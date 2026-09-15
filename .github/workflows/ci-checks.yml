@@ -48,6 +48,7 @@ on:
       - "Local Resources — Weekly Discovery"
       - "QA Status (upstream + visibility)"
       - "Rebuild BPS Permits"
+      - "Refresh Working Paper Figures"
       - "Scrape Council Agenda Items"
       - "Upstream Vintage Watch"
       - "Weekly Market Data Sync (Bridge + Zillow Research)"

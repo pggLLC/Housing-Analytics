@@ -44,6 +44,30 @@
     loanAmortYr:      35,          // amortization period
 
     // ── Homeownership Affordability ─────────────────────────────────
+    //
+    // SCOPE — read before using any of these.
+    //
+    // These are NOT the HNA ownership model. That authority is
+    // data/policy/affordability-models.json, read through
+    // js/hna/ownership-finance.js, which defines seven models whose default
+    // (conservative_screening) screens at a 30% FRONT-end ratio. The values
+    // here serve the deal-calculator and rent-vs-buy surfaces, which answer a
+    // different question, and they deliberately differ:
+    //
+    //   downPaymentPct  0.05 here | 0.10 in the HNA path
+    //   propertyTaxRate 0.006 here | 0.0065 in the HNA path
+    //   insurance       DOLLARS here | a RATE OF VALUE in the HNA path
+    //
+    // That last one is a UNIT difference, not a value difference.
+    // insuranceAnnual is flat annual dollars; js/hna/ownership-finance.js uses
+    // insuranceRate as a fraction of home value (0.0035). Substituting one for
+    // the other produces a monthly payment wrong by a factor that depends on
+    // price — on a $250,000 home the flat figure is ~2.7x the rate-based one,
+    // and they cross near $686,000. Convert deliberately; never copy across.
+    //
+    // test/affordability-defaults-inventory.test.js pins every one of these and
+    // fails if a new competing default appears anywhere in js/.
+    //
     // Source: Standard underwriting guidelines
     downPaymentPct:   0.05,        // 5% conventional minimum
     housingCostPct:   0.30,        // 30% of gross income max

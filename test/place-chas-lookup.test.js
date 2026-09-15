@@ -87,9 +87,17 @@ assert(typeof data.meta.vintage_chas === 'string',
   'meta.vintage_chas is string');
 assert(typeof data.meta.vintage_tiger === 'number',
   'meta.vintage_tiger is number');
-assert(/Population-share apportionment/i.test(data.meta.method),
-  'meta.method describes population-share apportionment');
-assert(/Falls back to area-share/i.test(data.meta.method),
+// These two assertions previously pinned "Population-share apportionment" and
+// "Falls back to area-share" — the description the builder used to emit. That
+// description was incomplete: the weight is min(1.0, max(area_share,
+// population_share)), so for a tract lying mostly inside a place the AREA term
+// wins and calling it population-share apportionment names the wrong winner.
+// The test was holding the inaccuracy in place. It now asserts the substance.
+assert(/max\(\s*share_of_tract_area\s*,\s*population_share\s*\)/i.test(data.meta.method),
+  'meta.method states the max(area_share, population_share) rule the builder computes');
+assert(/min\(\s*1\.0/i.test(data.meta.method),
+  'meta.method states the 1.0 clamp');
+assert(/falls back to share_of_tract_area/i.test(data.meta.method),
   'meta.method preserves the documented area-share fallback');
 
 console.log('\n[test] Cross-county places present with TIGER-derived rates');

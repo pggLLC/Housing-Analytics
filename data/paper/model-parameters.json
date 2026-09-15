@@ -1,0 +1,218 @@
+{
+  "extracted_at_commit": "d5e993113",
+  "ranking": {
+    "source_file": "scripts/hna/build_ranking_index.py",
+    "axis_weights": {
+      "community_need": 0.55,
+      "opportunity": 0.45
+    },
+    "axis_weights_check": {
+      "sum": 1,
+      "partitions_unity": true
+    },
+    "community_need_weights": {
+      "gap_pressure_score": 0.35,
+      "cost_burden_pressure_score": 0.25,
+      "affordability_intensity_score": 0.15,
+      "future_pressure_score": 0.15,
+      "overcrowding_score": 0.1
+    },
+    "community_need_weights_check": {
+      "sum": 1,
+      "partitions_unity": true
+    },
+    "opportunity_weights": {
+      "opportunity_mobility_score": 0.35,
+      "walkability_score": 0.25,
+      "amenity_access_score": 0.25,
+      "qct_dda_score": 0.15
+    },
+    "opportunity_weights_check": {
+      "sum": 1,
+      "partitions_unity": true
+    },
+    "subscore_weights": {
+      "gap": {
+        "count": 0.4,
+        "rate": 0.6
+      },
+      "cost_burden": {
+        "all_renter": 0.4,
+        "severe": 0.3,
+        "deep_tier": 0.3
+      },
+      "affordability": {
+        "homebuyer": 0.5,
+        "renter": 0.5
+      },
+      "future": {
+        "units": 0.7,
+        "senior": 0.3
+      },
+      "commuter": {
+        "count": 0.5,
+        "ratio": 0.5,
+        "augment_alpha": 0.2
+      }
+    },
+    "confidence": {
+      "penalty_per_imputed_factor": 0.03,
+      "penalty_per_approximated_field": 0.01,
+      "min_multiplier": 0.85
+    },
+    "guards": {
+      "min_rate_denominator": 50,
+      "vacancy_renter_base_floor": 500
+    }
+  },
+  "affordability": {
+    "source_file": "data/policy/affordability-models.json",
+    "model_count": 7,
+    "default_model_id": "conservative_screening",
+    "models": [
+      {
+        "id": "conservative_screening",
+        "label": "Conservative screening (default)",
+        "is_default": true,
+        "housing_ratio_type": "front",
+        "housing_ratio": 0.3,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0035,
+        "pmi_rate": 0.005,
+        "pmi_ltv_gate": false
+      },
+      {
+        "id": "first_time_buyer",
+        "label": "First-time buyer (low down + DPA)",
+        "is_default": false,
+        "housing_ratio_type": "front",
+        "housing_ratio": 0.3,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0085,
+        "pmi_rate": 0.005,
+        "pmi_ltv_gate": true
+      },
+      {
+        "id": "conventional_dti",
+        "label": "Conventional lender DTI (20% down / 43% back-end)",
+        "is_default": false,
+        "housing_ratio_type": "back",
+        "housing_ratio": 0.43,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0085,
+        "pmi_rate": 0,
+        "pmi_ltv_gate": true
+      },
+      {
+        "id": "fha_insured",
+        "label": "Federal FHA-insured (3.5% down)",
+        "is_default": false,
+        "housing_ratio_type": "back",
+        "housing_ratio": 0.45,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0085,
+        "pmi_rate": null,
+        "pmi_ltv_gate": false
+      },
+      {
+        "id": "usda_rd",
+        "label": "USDA Rural Development (0% down, income-limited)",
+        "is_default": false,
+        "housing_ratio_type": "back",
+        "housing_ratio": 0.41,
+        "front_end_ratio_cap": 0.29,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0085,
+        "pmi_rate": null,
+        "pmi_ltv_gate": null
+      },
+      {
+        "id": "prop123_dpa_eligibility",
+        "label": "Prop 123 DPA eligibility gate (not an affordability finding)",
+        "is_default": false,
+        "housing_ratio_type": "front",
+        "housing_ratio": 0.38,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": 0.065,
+        "term_years": 30,
+        "property_tax_rate": 0.0065,
+        "insurance_rate": 0.0035,
+        "pmi_rate": 0.005,
+        "pmi_ltv_gate": false
+      },
+      {
+        "id": "custom",
+        "label": "Custom (user sets all parameters)",
+        "is_default": false,
+        "housing_ratio_type": "front",
+        "housing_ratio": null,
+        "front_end_ratio_cap": null,
+        "down_payment_rate": null,
+        "interest_rate": null,
+        "term_years": null,
+        "property_tax_rate": null,
+        "insurance_rate": null,
+        "pmi_rate": null,
+        "pmi_ltv_gate": null
+      }
+    ],
+    "constants_file": {
+      "source_file": "js/config/financial-constants.js",
+      "mortgage_rate": 0.07,
+      "down_payment_pct": 0.05,
+      "housing_cost_pct": 0.3,
+      "max_dti_ratio": 0.43,
+      "property_tax_rate": 0.006,
+      "insurance_annual_dollars": 2400,
+      "mortgage_term_yr": 30
+    },
+    "divergence": [
+      {
+        "parameter": "property tax rate",
+        "registry_default": 0.0065,
+        "constants_file": 0.006
+      }
+    ],
+    "distinct_ratio_types": [
+      "back",
+      "front"
+    ],
+    "distinct_housing_ratios": [
+      0.3,
+      0.38,
+      0.41,
+      0.43,
+      0.45
+    ]
+  },
+  "apportionment": {
+    "source_file": "scripts/hna/build_place_chas.py",
+    "weight_rule": "max(area_share, population_share)",
+    "weight_rule_detected_from_source": true,
+    "header_still_says_area_weighted": true,
+    "share_rounding_decimals": 4,
+    "count_rounding_decimals": 1,
+    "shares_derived_from_published_counts": true
+  },
+  "unavailable": []
+}
