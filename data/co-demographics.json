@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-14",
+  "updated": "2026-09-15",
   "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates (2020-2024)",
   "source_url": "https://data.census.gov/",
   "generator": "scripts/build_co_demographics.py",
