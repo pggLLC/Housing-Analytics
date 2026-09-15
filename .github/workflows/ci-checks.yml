@@ -14,6 +14,46 @@ on:
   # next opens a PR".
   schedule:
     - cron: '15 */2 * * *'
+
+  # The schedule above bounds the unverified window to two hours. This closes it
+  # to minutes for the workflows that actually cause the problem.
+  #
+  # `workflow_run` DOES fire for bot-driven workflows, which is exactly what
+  # `push: main` cannot do -- so completion of a data pipeline now triggers
+  # verification of the commit it just pushed, instead of that commit sitting
+  # unverified until the next even-numbered hour.
+  #
+  # Enumerated, never a wildcard, and this workflow is deliberately absent from
+  # its own list: a wildcard would include ci-checks and recurse. Scoped to
+  # pushers on a daily-or-weekly cadence, which covers every incident behind the
+  # comment above -- place-chas twice, the CAR report, and the HNA build phases.
+  # Monthly and annual backfills are left to the two-hourly sweep; their
+  # infrequency is its own bound.
+  workflow_run:
+    workflows:
+      - "Build HNA Data Cache"
+      - "Build Market Data"
+      - "Configure Alerts & Generate Policy Briefs"
+      - "Data Refresh Pipeline"
+      - "Data Source Monitoring"
+      - "Docs Sync — Generate Inventory"
+      - "External References Drift Check"
+      - "Fetch Census ACS Data"
+      - "Fetch CHFA LIHTC Data"
+      - "Fetch County Demographics and Economic Data"
+      - "Fetch FRED Data"
+      - "Fetch Kalshi Prediction Market Data"
+      - "Fetch Parcel & Zoning Data"
+      - "Fetch Polymarket Data"
+      - "Local Resources — Weekly Discovery"
+      - "QA Status (upstream + visibility)"
+      - "Rebuild BPS Permits"
+      - "Scrape Council Agenda Items"
+      - "Upstream Vintage Watch"
+      - "Weekly Market Data Sync (Bridge + Zillow Research)"
+      - "Weekly Policy Briefs Update"
+    types: [completed]
+
   workflow_dispatch:
 
 permissions:
