@@ -309,27 +309,120 @@ export function trackerBody({ workflowId, outcome, runUrl, durationMinutes, ceil
  * to end. Read capability stays read-only; nothing here can dispatch, re-run or
  * cancel a workflow, and test/workflow-outcome-monitor.test.js enforces that.
  */
-export async function ghRequest(path, { token, method = 'GET', body, fetchImpl } = {}) {
-  const doFetch = fetchImpl || globalThis.fetch;
-  const res = await doFetch(`https://api.github.com${path}`, {
-    method,
-    headers: {
-      accept: 'application/vnd.github+json',
-      authorization: `Bearer ${token}`,
-      'content-type': 'application/json',
-      'user-agent': 'coho-workflow-outcome-monitor',
-      'x-github-api-version': '2022-11-28',
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  const text = await res.text();
-  let parsed = null;
-  try { parsed = text ? JSON.parse(text) : null; } catch { /* non-JSON error body */ }
-  if (!res.ok) {
-    const detail = (parsed && parsed.message) || text.slice(0, 200) || '(no body)';
-    throw new Error(`${method} ${path} -> HTTP ${res.status}: ${detail}`);
+export class GitHubApiError extends Error {
+  constructor(message, details = {}) {
+    super(message);
+    this.name = 'GitHubApiError';
+    Object.assign(this, details);
   }
-  return parsed;
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function header(res, name) {
+  return res && res.headers && typeof res.headers.get === 'function'
+    ? res.headers.get(name)
+    : null;
+}
+
+function rateLimitDelayMs(res, nowMs) {
+  const rawRetryAfter = header(res, 'retry-after');
+  const retryAfter = Number(rawRetryAfter);
+  if (rawRetryAfter != null && Number.isFinite(retryAfter) && retryAfter >= 0) {
+    return retryAfter * 1000;
+  }
+
+  const remaining = header(res, 'x-ratelimit-remaining');
+  const reset = Number(header(res, 'x-ratelimit-reset'));
+  if (remaining === '0' && Number.isFinite(reset)) {
+    return Math.max(0, reset * 1000 - nowMs) + 1000;
+  }
+  return 60000;
+}
+
+/**
+ * REST request with bounded, operation-aware retries.
+ *
+ * Safe reads may be retried after network failures and 5xx responses. Mutating
+ * requests are NOT blindly retried after those failures because GitHub may have
+ * accepted the write before the connection was lost; repeating it could open or
+ * comment twice. Explicit rate-limit responses are safe to retry because GitHub
+ * rejected the request. Exhaustion always throws so a dropped alert is red.
+ */
+export async function ghRequest(path, {
+  token,
+  method = 'GET',
+  body,
+  fetchImpl,
+  sleepImpl = sleep,
+  nowImpl = Date.now,
+  maxAttempts = 3,
+  maxRetryDelayMs = 120000,
+} = {}) {
+  const doFetch = fetchImpl || globalThis.fetch;
+  const verb = String(method).toUpperCase();
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    let res;
+    try {
+      res = await doFetch(`https://api.github.com${path}`, {
+        method: verb,
+        headers: {
+          accept: 'application/vnd.github+json',
+          authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+          'user-agent': 'coho-workflow-outcome-monitor',
+          'x-github-api-version': '2022-11-28',
+        },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+    } catch (cause) {
+      const canRetry = verb === 'GET' && attempt < maxAttempts;
+      if (canRetry) {
+        await sleepImpl(1000 * (2 ** (attempt - 1)));
+        continue;
+      }
+      throw new GitHubApiError(
+        `${verb} ${path} -> network failure${verb === 'GET' ? ' after retries' : ' (write outcome unknown)'}`,
+        { path, method: verb, attempt, transient: true, cause });
+    }
+
+    const text = await res.text();
+    let parsed = null;
+    try { parsed = text ? JSON.parse(text) : null; } catch { /* non-JSON error body */ }
+    if (res.ok) return parsed;
+
+    const detail = (parsed && parsed.message) || text.slice(0, 200) || '(no body)';
+    const status = Number(res.status);
+    const isRateLimited = status === 429 || (status === 403 && (
+      header(res, 'retry-after') != null
+      || header(res, 'x-ratelimit-remaining') === '0'
+      || /rate limit|secondary rate/i.test(detail)
+    ));
+    const safeTransientRead = verb === 'GET' && (status >= 500 || status === 408);
+    const canRetry = attempt < maxAttempts && (isRateLimited || safeTransientRead);
+
+    if (canRetry) {
+      const delayMs = isRateLimited
+        ? rateLimitDelayMs(res, nowImpl())
+        : 1000 * (2 ** (attempt - 1));
+      if (delayMs <= maxRetryDelayMs) {
+        await sleepImpl(delayMs);
+        continue;
+      }
+    }
+
+    throw new GitHubApiError(`${verb} ${path} -> HTTP ${status}: ${detail}`, {
+      path,
+      method: verb,
+      status,
+      attempt,
+      rateLimited: isRateLimited,
+      transient: isRateLimited || safeTransientRead || status >= 500,
+    });
+  }
+
+  throw new GitHubApiError(`${verb} ${path} -> retry budget exhausted`, { path, method: verb });
 }
 
 /**
@@ -348,6 +441,10 @@ export function findTracker(issues, workflowId) {
     // is exactly what a PR fixing one tends to do, would otherwise match here
     // and the monitor would comment on and CLOSE that pull request.
     && !i.pull_request
+    // The marker is predictable and issues are public. Only a tracker created
+    // by this repository's Actions token is trusted; otherwise any user could
+    // open a look-alike issue and receive comments or have it auto-closed.
+    && i.user && i.user.login === 'github-actions[bot]'
     && i.state === 'open'
     && typeof i.title === 'string'
     && i.title.includes(marker)) || null;
@@ -367,7 +464,10 @@ export async function listOpenIssues(repo, { token, fetchImpl, maxPages = 20 } =
   for (let page = 1; page <= maxPages; page += 1) {
     const batch = await ghRequest(
       `/repos/${repo}/issues?state=open&per_page=100&page=${page}`, { token, fetchImpl });
-    if (!Array.isArray(batch) || batch.length === 0) break;
+    if (!Array.isArray(batch)) {
+      throw new Error(`GitHub issues response for ${repo} page ${page} is malformed`);
+    }
+    if (batch.length === 0) break;
     all.push(...batch);
     if (batch.length < 100) break;
   }
@@ -387,6 +487,34 @@ export function workflowIdFromPath(wfPath) {
   return id || null;
 }
 
+export function workflowFileFromPath(wfPath) {
+  if (!wfPath || typeof wfPath !== 'string') return null;
+  const base = wfPath.split('/').pop() || '';
+  return /\.ya?ml$/i.test(base) ? base : null;
+}
+
+export function compareRunOrder(a, b) {
+  const numberDiff = Number(a && a.run_number) - Number(b && b.run_number);
+  if (numberDiff) return numberDiff;
+  return Number(a && a.run_attempt) - Number(b && b.run_attempt);
+}
+
+/** Latest completed scheduled or manually dispatched run on the default branch. */
+export async function latestRelevantRun(repo, workflowFile, branch, { token, fetchImpl } = {}) {
+  const candidates = [];
+  for (const event of ['schedule', 'workflow_dispatch']) {
+    const query = new URLSearchParams({ branch, event, status: 'completed', per_page: '1' });
+    const payload = await ghRequest(
+      `/repos/${repo}/actions/workflows/${encodeURIComponent(workflowFile)}/runs?${query}`,
+      { token, fetchImpl });
+    if (!payload || !Array.isArray(payload.workflow_runs)) {
+      throw new Error(`GitHub Actions runs response for ${workflowFile} (${event}) is malformed`);
+    }
+    if (payload.workflow_runs[0]) candidates.push(payload.workflow_runs[0]);
+  }
+  return candidates.sort((a, b) => compareRunOrder(b, a))[0] || null;
+}
+
 /* ── CLI ───────────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -398,11 +526,9 @@ async function main() {
   // the classification visible in the log. Issue open/close arrives in P4, when
   // a watched workflow's in-job notifier is removed in the same commit.
   if (process.env.MONITOR_MODE === 'staleness') {
-    // P3 sweep. Reads each scheduled workflow's own cron and compares it with
-    // when that workflow last COMPLETED a scheduled run. Reports only; issue
-    // open/close is P4.
-    console.log('[monitor] staleness sweep — comparing each scheduled workflow against its own cadence');
-    console.log(`[monitor] tolerance=${STALENESS_TOLERANCE}x (two missed runs) floor=${STALENESS_FLOOR_HOURS}h (scheduler jitter)`);
+    console.log('::warning::[monitor] staleness alerting is not active; no workflow runs were '
+      + 'queried and no tracker was opened. Cancellation inference and cadence-based staleness '
+      + 'remain separate follow-up packages.');
     return;
   }
 
@@ -428,6 +554,13 @@ async function main() {
   }
 
   const token = requireToken();
+  const headBranch = process.env.MONITOR_HEAD_BRANCH || '';
+  const defaultBranch = process.env.MONITOR_DEFAULT_BRANCH || '';
+  if (!headBranch || !defaultBranch || headBranch !== defaultBranch) {
+    console.log(`::warning::[monitor] tracker skipped — run branch ${headBranch || '(unknown)'} `
+      + `is not the repository default branch ${defaultBranch || '(unknown)'}`);
+    return;
+  }
 
   // Skip the lookup only for outcomes that do nothing REGARDLESS of tracker
   // state. Asking decideAction with a hard-coded `hasOpenTracker: false` looks
@@ -442,13 +575,42 @@ async function main() {
     return;
   }
 
-  const open = await listOpenIssues(repo, { token });
-  const tracker = findTracker(open, workflowId);
-  const decided = decideAction({ outcome, hasOpenTracker: Boolean(tracker) });
-
-  // Every outcome names its channel and result on one line. alert.js failed
-  // silently for months precisely because a skip looked like a success.
   try {
+    const workflowFile = workflowFileFromPath(process.env.MONITOR_WORKFLOW_PATH);
+    const currentRun = {
+      id: Number(process.env.MONITOR_RUN_ID),
+      run_number: Number(process.env.MONITOR_RUN_NUMBER),
+      run_attempt: Number(process.env.MONITOR_RUN_ATTEMPT),
+      event: process.env.MONITOR_RUN_EVENT,
+    };
+    if (!workflowFile
+        || !Number.isFinite(currentRun.id) || currentRun.id <= 0
+        || !Number.isFinite(currentRun.run_number) || currentRun.run_number <= 0
+        || !Number.isFinite(currentRun.run_attempt) || currentRun.run_attempt <= 0
+        || !['schedule', 'workflow_dispatch'].includes(currentRun.event)) {
+      throw new Error('workflow run identity is incomplete; refusing to mutate a tracker');
+    }
+
+    // `queue: max` prevents GitHub's default one-pending displacement, but it
+    // does not promise execution order. An older event that starts later must
+    // not reopen or close a tracker after a newer completed outcome.
+    const latest = await latestRelevantRun(repo, workflowFile, defaultBranch, { token });
+    if (!latest) {
+      throw new Error(`no completed default-branch run was returned for ${workflowFile}; `
+        + 'refusing to mutate a tracker without an ordering reference');
+    }
+    if (latest && compareRunOrder(latest, currentRun) > 0) {
+      console.log(`[monitor] tracker: no action — stale run ${currentRun.run_number}.${currentRun.run_attempt}; `
+        + `newer completed run ${latest.run_number}.${latest.run_attempt} already exists`);
+      return;
+    }
+
+    const open = await listOpenIssues(repo, { token });
+    const tracker = findTracker(open, workflowId);
+    const decided = decideAction({ outcome, hasOpenTracker: Boolean(tracker) });
+
+    // Every outcome names its channel and result on one line. alert.js failed
+    // silently for months precisely because a skip looked like a success.
     if (decided.action === 'open') {
       const created = await ghRequest(`/repos/${repo}/issues`, {
         token, method: 'POST',
@@ -477,10 +639,8 @@ async function main() {
       console.log(`[monitor] tracker: no action — ${decided.reason}`);
     }
   } catch (err) {
-    // A failed alert must never mask the failure it was reporting, and must
-    // never fail the monitor job either — a red monitor on top of a red
-    // workflow is two mysteries instead of one. Warn, and exit clean.
-    console.log(`::warning::[monitor] tracker: FAILED (${err.message})`);
+    console.error(`::error::[monitor] tracker: FAILED (${err.message})`);
+    throw err;
   }
 }
 
