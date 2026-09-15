@@ -113,11 +113,6 @@ const BLOCKED_PATHS = [
   'data/hna/source',
   'data/zillow',
   'data/url-health.json',
-  'data/co-housing-costs/acs_county_latest.parquet',
-  'data/co-housing-costs/bls_series.parquet',
-  'data/co-housing-costs/fhfa_hpi_county_raw.parquet',
-  'data/co-housing-costs/permits_county.parquet',
-  'data/co-housing-costs/qcew_construction_county.parquet',
   'data/co-housing-costs/drivers_ranking.csv',
   'data/co-housing-costs/README.md',
   'js/indibuild-gate.js',
@@ -134,6 +129,16 @@ function toPosix(relPath) {
 function isBlocked(relPath) {
   const posix = toPosix(relPath);
   if (posix.split('/').some((part) => /(^\._| 2($|\.))/.test(part))) return true;
+  // Block .parquet by EXTENSION, exactly as scripts/audit/public-artifact-guard.mjs
+  // does. These are the pipeline's binary inputs, not site content.
+  //
+  // This was previously an enumeration of five parquet files by name, and the
+  // repo had six: acs_tract_latest.parquet was missing from the list, reached
+  // dist/, and the deploy guard rejected the artifact — so EVERY deploy failed
+  // and the live site went stale while main kept moving. A hand-synced list of
+  // files that must agree with a rule expressed elsewhere is a deploy outage
+  // waiting for the next file. Matching the guard's rule removes the class.
+  if (path.extname(posix).toLowerCase() === '.parquet') return true;
   return BLOCKED_PATHS.some((blocked) => posix === blocked || posix.startsWith(`${blocked}/`));
 }
 
