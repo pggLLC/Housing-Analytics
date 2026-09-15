@@ -3,6 +3,7 @@
 from contextlib import contextmanager
 import os
 from pathlib import Path
+import re
 import sys
 import threading
 import time
@@ -194,5 +195,26 @@ def test_workflow_checkpoints_each_completed_network_phase():
         key = f"hna-build-${{{{ github.run_id }}}}-{phase}-v1"
         assert f"HNA_BUILD_PHASES: '{phase}'" in workflow
         assert workflow.count(key) == 2
-    assert workflow.count("uses: actions/cache/restore@v5") == 3
-    assert workflow.count("uses: actions/cache/save@v5") == 3
+    # Match ANY version. These two lines pinned @v5, so every routine dependabot
+    # bump of actions/cache failed a test that is about CHECKPOINTING -- three
+    # restores and three saves, one per network phase -- and says nothing about
+    # which release of the action performs them. PR #1678 (v5 -> v6) was blocked
+    # by exactly this, on a bump that changed no behaviour the test cares about.
+    restores = re.findall(r"uses: actions/cache/restore@(\S+)", workflow)
+    saves = re.findall(r"uses: actions/cache/save@(\S+)", workflow)
+    assert len(restores) == 3, (
+        f"expected one cache restore per network phase (acs, lehd, dola), "
+        f"found {len(restores)}: {restores}"
+    )
+    assert len(saves) == 3, (
+        f"expected one cache save per network phase (acs, lehd, dola), "
+        f"found {len(saves)}: {saves}"
+    )
+    # A PARTIAL bump is the real hazard here and is worth catching: a restore on
+    # one version paired with a save on another is a genuine defect, and it is
+    # exactly what a half-applied or hand-edited bump produces.
+    versions = set(restores + saves)
+    assert len(versions) == 1, (
+        f"cache restore/save steps disagree on version: {sorted(versions)} -- "
+        "a partial bump leaves the phases checkpointing inconsistently"
+    )
