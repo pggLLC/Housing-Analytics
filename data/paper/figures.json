@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "975aba4b6",
+  "generated_from_commit": "30b7b6d88",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -55,7 +55,7 @@
     "html_pages_total": 555,
     "workflows": 71,
     "scripts": 257,
-    "docs": 446,
+    "docs": 447,
     "data_files": 1652,
     "geographies": 546,
     "counties": 64,

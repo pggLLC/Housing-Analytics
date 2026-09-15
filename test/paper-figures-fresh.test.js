@@ -307,8 +307,17 @@ test('the inventory the paper quotes is itself current', () => {
   // while disagreeing with the repository. ci-checks fails on a stale inventory
   // line, but that runs in a different job — this makes the dependency visible
   // where the paper's own gate can see it.
-  const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts', 'compute-inventory.mjs')],
-    { cwd: ROOT, encoding: 'utf8' });
+  // compute-inventory.mjs exits non-zero on a stale line, which execFileSync
+  // turns into a throw. Catching it keeps the failure readable: a stale
+  // inventory should tell you the two commands to run, not "Command failed".
+  let out;
+  try {
+    out = execFileSync(process.execPath, [path.join(ROOT, 'scripts', 'compute-inventory.mjs')],
+      { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  } catch (e) {
+    out = `${e.stdout || ''}${e.stderr || ''}`;
+    if (!out.trim()) return `compute-inventory.mjs failed with no output: ${e.message}`;
+  }
   if (/inventory is stale/i.test(out)) {
     return 'AGENTS.md inventory is stale — run node scripts/compute-inventory.mjs --write, '
       + 'then npm run paper:build';
