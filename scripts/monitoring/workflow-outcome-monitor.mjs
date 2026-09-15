@@ -298,6 +298,95 @@ export function trackerBody({ workflowId, outcome, runUrl, durationMinutes, ceil
   return lines.join('\n');
 }
 
+/* ── GitHub API (P4) ───────────────────────────────────────────────────── */
+
+/**
+ * The smallest REST surface that opens, comments on and closes a tracker.
+ *
+ * Deliberately raw fetch rather than a client library: this runs in a 5-minute
+ * job whose only job is to report, and a dependency that fails to install turns
+ * the alerting path off again — which is the exact failure this package exists
+ * to end. Read capability stays read-only; nothing here can dispatch, re-run or
+ * cancel a workflow, and test/workflow-outcome-monitor.test.js enforces that.
+ */
+export async function ghRequest(path, { token, method = 'GET', body, fetchImpl } = {}) {
+  const doFetch = fetchImpl || globalThis.fetch;
+  const res = await doFetch(`https://api.github.com${path}`, {
+    method,
+    headers: {
+      accept: 'application/vnd.github+json',
+      authorization: `Bearer ${token}`,
+      'content-type': 'application/json',
+      'user-agent': 'coho-workflow-outcome-monitor',
+      'x-github-api-version': '2022-11-28',
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  const text = await res.text();
+  let parsed = null;
+  try { parsed = text ? JSON.parse(text) : null; } catch { /* non-JSON error body */ }
+  if (!res.ok) {
+    const detail = (parsed && parsed.message) || text.slice(0, 200) || '(no body)';
+    throw new Error(`${method} ${path} -> HTTP ${res.status}: ${detail}`);
+  }
+  return parsed;
+}
+
+/**
+ * Find the open tracker for a workflow, matched on the MARKER rather than the
+ * title. Titles get edited by people; the marker is the contract, and it is the
+ * same one `.github/actions/notify-workflow-outcome` has written since 2026-05,
+ * so this finds and closes the eight trackers that already exist instead of
+ * starting a parallel history.
+ */
+export function findTracker(issues, workflowId) {
+  const marker = trackerMarker(workflowId);
+  return (issues || []).find((i) =>
+    i
+    // GET /issues returns PULL REQUESTS as well as issues — on this repo it
+    // returned 12 items for 9 issues. A PR that quotes a tracker's title, which
+    // is exactly what a PR fixing one tends to do, would otherwise match here
+    // and the monitor would comment on and CLOSE that pull request.
+    && !i.pull_request
+    && i.state === 'open'
+    && typeof i.title === 'string'
+    && i.title.includes(marker)) || null;
+}
+
+/**
+ * Every open issue, following pagination.
+ *
+ * A single per_page=100 request looks sufficient at today's 9 open issues and
+ * fails silently the moment the repo passes 100: the tracker sits on page 2,
+ * findTracker returns null, and every subsequent failure opens ANOTHER tracker
+ * — the monitor spamming issues while appearing to work. The cap is a
+ * belt-and-braces stop against a pathological repo, not an expected limit.
+ */
+export async function listOpenIssues(repo, { token, fetchImpl, maxPages = 20 } = {}) {
+  const all = [];
+  for (let page = 1; page <= maxPages; page += 1) {
+    const batch = await ghRequest(
+      `/repos/${repo}/issues?state=open&per_page=100&page=${page}`, { token, fetchImpl });
+    if (!Array.isArray(batch) || batch.length === 0) break;
+    all.push(...batch);
+    if (batch.length < 100) break;
+  }
+  return all;
+}
+
+/**
+ * The workflow id used in the marker is the workflow FILE's basename, not its
+ * display name: the existing trackers read `[workflow-fail:build-hna-data]`
+ * while the display name is "Build HNA Data Cache". Deriving it from the path
+ * keeps this monitor matched to those issues.
+ */
+export function workflowIdFromPath(wfPath) {
+  if (!wfPath || typeof wfPath !== 'string') return null;
+  const base = wfPath.split('/').pop() || '';
+  const id = base.replace(/\.ya?ml$/i, '');
+  return id || null;
+}
+
 /* ── CLI ───────────────────────────────────────────────────────────────── */
 
 async function main() {
@@ -320,11 +409,78 @@ async function main() {
   const name = process.env.MONITOR_WORKFLOW_NAME || '(unknown)';
   const conclusion = process.env.MONITOR_CONCLUSION || '';
   const outcome = classify({ conclusion });
+  const runUrl = process.env.MONITOR_RUN_URL || null;
+  const workflowId = workflowIdFromPath(process.env.MONITOR_WORKFLOW_PATH) || null;
 
   console.log(`[monitor] repo=${repo} workflow=${name} conclusion=${conclusion || '(none)'} -> ${outcome}`);
   if (outcome === OUTCOME.STOPPED) {
     console.log('[monitor] cancelled: timeout vs human cancellation needs duration analysis (P2); '
       + 'no alert is raised in this package.');
+  }
+
+  // Without the file path there is no marker, and a tracker opened under a
+  // guessed id would not match the eight that already exist. Say so and stop
+  // rather than opening a duplicate history.
+  if (!workflowId) {
+    console.log('::warning::[monitor] tracker skipped — MONITOR_WORKFLOW_PATH is not set, '
+      + 'so the [workflow-fail:<id>] marker cannot be derived');
+    return;
+  }
+
+  const token = requireToken();
+
+  // Skip the lookup only for outcomes that do nothing REGARDLESS of tracker
+  // state. Asking decideAction with a hard-coded `hasOpenTracker: false` looks
+  // like the same saving and is not: `recovered` maps to none when nothing is
+  // open, so that shortcut returned before ever discovering the open tracker
+  // and no recovery would have closed one. Trackers would accumulate forever
+  // and the monitor would look like it was working.
+  const inert = decideAction({ outcome, hasOpenTracker: true }).action === 'none'
+             && decideAction({ outcome, hasOpenTracker: false }).action === 'none';
+  if (inert) {
+    console.log(`[monitor] tracker: no action — ${decideAction({ outcome, hasOpenTracker: false }).reason}`);
+    return;
+  }
+
+  const open = await listOpenIssues(repo, { token });
+  const tracker = findTracker(open, workflowId);
+  const decided = decideAction({ outcome, hasOpenTracker: Boolean(tracker) });
+
+  // Every outcome names its channel and result on one line. alert.js failed
+  // silently for months precisely because a skip looked like a success.
+  try {
+    if (decided.action === 'open') {
+      const created = await ghRequest(`/repos/${repo}/issues`, {
+        token, method: 'POST',
+        body: {
+          title: trackerTitle(workflowId),
+          body: trackerBody({ workflowId, outcome, runUrl }),
+        },
+      });
+      console.log(`[monitor] tracker: opened #${created.number} — ${decided.reason}`);
+    } else if (decided.action === 'comment') {
+      await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, {
+        token, method: 'POST',
+        body: { body: trackerBody({ workflowId, outcome, runUrl }) },
+      });
+      console.log(`[monitor] tracker: commented on #${tracker.number} — ${decided.reason}`);
+    } else if (decided.action === 'close') {
+      await ghRequest(`/repos/${repo}/issues/${tracker.number}/comments`, {
+        token, method: 'POST',
+        body: { body: `✅ \`${workflowId}\` recovered${runUrl ? ` ([run](${runUrl}))` : ''}. Auto-closing.` },
+      });
+      await ghRequest(`/repos/${repo}/issues/${tracker.number}`, {
+        token, method: 'PATCH', body: { state: 'closed' },
+      });
+      console.log(`[monitor] tracker: closed #${tracker.number} — ${decided.reason}`);
+    } else {
+      console.log(`[monitor] tracker: no action — ${decided.reason}`);
+    }
+  } catch (err) {
+    // A failed alert must never mask the failure it was reporting, and must
+    // never fail the monitor job either — a red monitor on top of a red
+    // workflow is two mysteries instead of one. Warn, and exit clean.
+    console.log(`::warning::[monitor] tracker: FAILED (${err.message})`);
   }
 }
 

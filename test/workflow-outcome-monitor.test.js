@@ -11,6 +11,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -416,7 +417,7 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
       fail('an unknown last-run time is being reported as stale — unknown is not evidence');
     }
 
-  }).then(() => import(GATE)).then((g) => {
+  }).then(() => import(GATE)).then(async (g) => {
 
     /* ── 6. the merge-ref gate (1B) ───────────────────────────────────── */
 
@@ -503,6 +504,160 @@ const wfCode = wf.replace(/^\s*#.*$/gm, '');   // strip comments before matching
            + 'failure is masked by tee exiting 0');
       } else {
         ok('the schema step propagates the validator exit code through the pipe');
+      }
+    }
+
+    /* ── P4: the monitor actually opens and closes trackers ──────────────── */
+    {
+      const M = await import(`file://${SCRIPT}`);
+
+      // The marker is the contract with the EIGHT trackers that already exist
+      // (#1627, #1613, #1566, #1425, #1371, #1035, #937, #914). Derived from the
+      // workflow FILE's basename, because the display name differs: the issues
+      // read [workflow-fail:build-hna-data] while the name is "Build HNA Data
+      // Cache". Get this wrong and the monitor opens a parallel history beside
+      // the real one instead of adopting it.
+      const realTitle = '⚠️ [workflow-fail:build-hna-data] build-hna-data workflow failing';
+      if (M.trackerTitle('build-hna-data') !== realTitle) {
+        fail(`tracker title drifted from the existing issues.\n  ours: ${M.trackerTitle('build-hna-data')}\n  real: ${realTitle}`);
+      } else {
+        ok('tracker title is byte-identical to the trackers already in this repo');
+      }
+
+      if (M.workflowIdFromPath('.github/workflows/build-hna-data.yml') !== 'build-hna-data'
+          || M.workflowIdFromPath('.github/workflows/x.yaml') !== 'x'
+          || M.workflowIdFromPath(null) !== null
+          || M.workflowIdFromPath('') !== null) {
+        fail('workflowIdFromPath must yield the basename, and null when there is no path');
+      } else {
+        ok('the workflow id comes from the file path, and is null when unknown');
+      }
+
+      // A human renaming the issue must not orphan the tracker, and a CLOSED
+      // one must not suppress a new alert.
+      const issues = [
+        { number: 1, state: 'closed', title: realTitle },
+        { number: 2, state: 'open', title: 'unrelated' },
+        { number: 3, state: 'open', title: '⚠️ [workflow-fail:build-hna-data] renamed by a human' },
+      ];
+      const found = M.findTracker(issues, 'build-hna-data');
+      if (!found || found.number !== 3) {
+        fail(`findTracker must match the open issue on its MARKER, not its title; got ${JSON.stringify(found)}`);
+      } else if (M.findTracker(issues, 'fetch-fred-data') !== null) {
+        fail("findTracker matched another workflow's tracker");
+      } else {
+        ok('an open tracker is found by marker, renamed or not, and never another workflow\'s');
+      }
+
+      // GET /issues returns PULL REQUESTS too — 12 items for 9 open issues on
+      // this repo. A PR fixing a tracker tends to quote its title, so without
+      // this filter the monitor would comment on and close that PR.
+      const withPr = [
+        { number: 7, state: 'open', title: realTitle, pull_request: { url: 'x' } },
+        { number: 8, state: 'open', title: realTitle },
+      ];
+      const picked = M.findTracker(withPr, 'build-hna-data');
+      if (!picked || picked.number !== 8) {
+        fail(`findTracker matched a pull request (${JSON.stringify(picked)}); `
+           + 'GET /issues includes PRs, and closing one as a tracker would be wrong');
+      } else {
+        ok('a pull request carrying the marker is never mistaken for the tracker');
+      }
+
+      // One per_page=100 request looks fine at 9 open issues and breaks silently
+      // past 100: the tracker lands on page 2, findTracker returns null, and
+      // every failure opens ANOTHER tracker while the monitor looks healthy.
+      {
+        const pages = [
+          Array.from({ length: 100 }, (_, i) => ({ number: i + 1, state: 'open', title: 'filler' })),
+          [{ number: 999, state: 'open', title: realTitle }],
+        ];
+        let seen = 0;
+        const fakeFetch = async (url) => {
+          const page = Number(new URL(url).searchParams.get('page')) || 1;
+          seen = Math.max(seen, page);
+          const body = pages[page - 1] || [];
+          return { ok: true, status: 200, text: async () => JSON.stringify(body) };
+        };
+        const all = await M.listOpenIssues('o/r', { token: 't', fetchImpl: fakeFetch });
+        const found = M.findTracker(all, 'build-hna-data');
+        if (seen < 2) {
+          fail('listOpenIssues stopped after one page — a tracker past the first 100 open '
+             + 'issues would be invisible and every failure would open a duplicate');
+        } else if (!found || found.number !== 999) {
+          fail(`a tracker on page 2 was not found (${JSON.stringify(found)})`);
+        } else {
+          ok('open issues are paginated, so a tracker past the first 100 is still found');
+        }
+      }
+
+      // REGRESSION GUARD, and it RUNS main() rather than inspecting the pure
+      // helpers. The first version of main() pre-checked decideAction with a
+      // hard-coded `hasOpenTracker: false` to save an API call when the answer
+      // was "none". For `recovered` that IS none — so it returned before ever
+      // looking, no recovery closed a tracker, and trackers would accumulate
+      // forever while the monitor looked healthy.
+      //
+      // An earlier version of THIS guard asserted on decideAction directly and
+      // passed with the bug reinstated, because the bug lives at the call site
+      // and the helper it calls stays correct. Only driving the CLI catches it.
+      const stub = path.join(os.tmpdir(), `monitor-stub-${process.pid}.mjs`);
+      fs.writeFileSync(stub, `
+        globalThis.fetch = async (url, opts = {}) => {
+          const method = opts.method || 'GET';
+          if (method === 'GET') return { ok: true, status: 200, text: async () => JSON.stringify(
+            [{ number: 999, state: 'open', title: ${JSON.stringify(realTitle)} }]) };
+          return { ok: true, status: 200, text: async () => JSON.stringify({ number: 999 }) };
+        };
+      `);
+      const drive = (conclusion) => execFileSync(process.execPath,
+        ['--import', `file://${stub}`, SCRIPT],
+        { encoding: 'utf8', env: { ...process.env,
+          GITHUB_TOKEN: 'stub', GITHUB_REPOSITORY: 'o/r',
+          MONITOR_WORKFLOW_NAME: 'Build HNA Data Cache',
+          MONITOR_WORKFLOW_PATH: '.github/workflows/build-hna-data.yml',
+          MONITOR_CONCLUSION: conclusion, MONITOR_MODE: '' } });
+      try {
+        const recovered = drive('success');
+        const failed = drive('failure');
+        if (!/tracker: closed #999/.test(recovered)) {
+          fail('a green run did NOT close the open tracker — main() decided before looking it up.\n'
+             + `    got: ${recovered.trim().split('\n').pop()}`);
+        } else if (!/tracker: commented on #999/.test(failed)) {
+          fail(`a failure with a tracker already open must comment, not re-open.\n    got: ${failed.trim().split('\n').pop()}`);
+        } else {
+          ok('driving the CLI: a green run closes the open tracker, a failure comments on it');
+        }
+      } finally {
+        fs.unlinkSync(stub);
+      }
+    }
+
+    /* ── P4: monitor runs for one workflow must not race each other ──────── */
+    {
+      // Keyed on workflow_run.id the group is unique per run, so two failing
+      // runs of the same workflow both look up the tracker, both find none, and
+      // both open one. Two trackers for one outage, and a noisy alerter is one
+      // that gets muted.
+      const m = wfCode.match(/^concurrency:\s*\n\s*group:\s*(.+)$/m);
+      if (!m) {
+        fail('no concurrency group on the monitor — runs for one workflow could race');
+      } else if (/workflow_run\.id/.test(m[1])) {
+        fail(`the concurrency group is keyed on workflow_run.id (${m[1].trim()}), which is `
+           + 'unique per run — two failures of the same workflow would open two trackers');
+      } else if (!/workflow_run\.(path|name)/.test(m[1])) {
+        fail(`the concurrency group must key on the watched workflow (got ${m[1].trim()})`);
+      } else {
+        ok('monitor runs serialize per watched workflow, so one outage opens one tracker');
+      }
+    }
+
+    /* ── P4: the workflow supplies what the marker needs ─────────────────── */
+    {
+      if (!/MONITOR_WORKFLOW_PATH:\s*\$\{\{\s*github\.event\.workflow_run\.path\s*\}\}/.test(wfCode)) {
+        fail('the monitor step must pass MONITOR_WORKFLOW_PATH, or no tracker marker can be derived');
+      } else {
+        ok('the workflow passes the run path, so the marker matches the existing trackers');
       }
     }
 
