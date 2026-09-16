@@ -44,7 +44,7 @@ jobs:
       # prefix-matches the most recent previous run. The cache is read and
       # written daily, so it stays well inside the 7-day eviction window.
       - name: Restore prior audit history
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: monitoring-reports/audit-history
           key: audit-history-${{ github.run_id }}
@@ -66,7 +66,7 @@ jobs:
       # in one of the legacy checks below cannot cost us the day's snapshot.
       - name: Save audit history
         if: always()
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: monitoring-reports/audit-history
           key: audit-history-${{ github.run_id }}
