@@ -140,7 +140,11 @@ dom.window.HTMLAnchorElement.prototype.click = function () { filename = this.dow
 Page.start(dom.window.document.getElementById('mount'), data);
 assert(dom.window.document.getElementById('marketStudyReportPreview').innerHTML.includes(Report.REQUIRED_CAVEATS[0]));
 dom.window.document.getElementById('marketStudyReportDownload').click();
-assert.equal(filename, 'fruita-commons-market-study-screening-draft.html');
+// #1620 §7 slice 2 — the download is named after the study's jurisdiction, and
+// this `data` carries none, so it is the example. The old name put one town on
+// every reader's disk: a screening draft for another jurisdiction would be
+// filed, and later read, as that town's.
+assert.equal(filename, 'example-for-sale-market-study-screening-draft.html');
 assert(blobParts && blobParts[0].includes('$20,000') && blobParts[0].includes('$80,000'));
 Report.REQUIRED_CAVEATS.forEach((entry) => assert(blobParts[0].includes(entry)));
 global.Blob = priorBlob;

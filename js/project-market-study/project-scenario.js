@@ -43,6 +43,30 @@
     if (value && typeof value === 'object') Object.keys(value).forEach(function (key) { walkStale(value[key]); });
   }
 
+  /**
+   * The local-baseline rule, on its own so a baseline that did NOT come from a
+   * fixture can be held to the same standard.
+   *
+   * It is deliberately separate from walkStale(). walkStale rejects a handful
+   * of untraced Fruita figures and a price band around them — a check on the
+   * provenance of the SHIPPED FIXTURES, earned when those figures could not be
+   * traced to a source. Run against a live jurisdiction it is meaningless and
+   * actively harmful: thirty Colorado places, Denver among them, have a
+   * current home value inside that band, and validating their real baseline
+   * through walkStale would take the page down on a true figure.
+   *
+   * So a jurisdiction baseline passed to derive() is validated here and not
+   * walked for staleness. The fixtures still are — validate() calls both.
+   */
+  function validateLocalBaseline(baseline) {
+    ['ami_4person', 'home_value', 'median_sale_price'].forEach(function (key) {
+      var node = baseline && baseline[key];
+      classified(node, 'local_baseline.' + key);
+      if (node.value !== null && !finite(node.value)) fail('local_baseline.' + key + ' number-or-null');
+    });
+    return true;
+  }
+
   function validate(doc, registries) {
     if (!doc || doc.schema !== 'project-scenario/v1') fail('schema');
     if (!doc.meta || doc.meta.status !== 'hypothesis_to_test' || !Array.isArray(doc.meta.owner_inputs_pending)) fail('meta');
@@ -63,11 +87,7 @@
       }
     });
     if (landOwners > 1) fail('multiple land owners');
-    ['ami_4person', 'home_value', 'median_sale_price'].forEach(function (key) {
-      var node = doc.local_baseline && doc.local_baseline[key];
-      classified(node, 'local_baseline.' + key);
-      if (node.value !== null && !finite(node.value)) fail('local_baseline.' + key + ' number-or-null');
-    });
+    validateLocalBaseline(doc.local_baseline);
     var program = doc.program;
     if (!program || !Array.isArray(program.unit_mix) || !Array.isArray(program.ami_mix)) fail('program');
     classified(program.total_units, 'program.total_units');
@@ -123,8 +143,14 @@
     validate(doc);
     if (!engine || typeof engine.maxAffordablePrice !== 'function') fail('OwnershipFinance engine');
     options = options || {};
-    var ami = doc.local_baseline.ami_4person.value;
-    var localPrice = doc.local_baseline.home_value.value;
+    // options.localBaseline lets the reader's own jurisdiction supply the
+    // market half of the study while the fixture supplies the program half.
+    // The scenario document is never rewritten — a doc that has been edited to
+    // carry someone else's town would still validate as that town's fixture.
+    var baseline = options.localBaseline || doc.local_baseline;
+    if (options.localBaseline) validateLocalBaseline(options.localBaseline);
+    var ami = baseline.ami_4person.value;
+    var localPrice = baseline.home_value.value;
     var modelId = options.modelId || 'conservative_screening';
     var hoa = options.hoaScenario === 'higher_cost' ? doc.carrying.hoa_monthly.higher_cost_scenario : 0;
     var bands = doc.program.ami_mix.map(function (row) {
@@ -194,5 +220,5 @@
     };
   }
 
-  return { CLASSIFICATIONS: CLASSIFICATIONS.slice(), PARTNER_ROLES: PARTNER_ROLES.slice(), HOUSEHOLD_SIZE_BY_BEDROOM: Object.assign({}, HOUSEHOLD_SIZE_BY_BEDROOM), load: load, validate: validate, derive: derive, toSubjectProject: toSubjectProject };
+  return { CLASSIFICATIONS: CLASSIFICATIONS.slice(), PARTNER_ROLES: PARTNER_ROLES.slice(), HOUSEHOLD_SIZE_BY_BEDROOM: Object.assign({}, HOUSEHOLD_SIZE_BY_BEDROOM), load: load, validate: validate, validateLocalBaseline: validateLocalBaseline, derive: derive, toSubjectProject: toSubjectProject };
 }));

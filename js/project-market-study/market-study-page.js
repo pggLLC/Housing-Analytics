@@ -10,7 +10,8 @@
     root && root.EffectiveDemand,
     root && root.ForsaleCapture,
     root && root.MarketStudyReport,
-    root && root.ProvenanceLabel
+    root && root.ProvenanceLabel,
+    root && root.StudyGeography
   );
   if (typeof module === 'object' && module.exports) {
     api = factory(
@@ -18,14 +19,15 @@
       require('./land-disposition.js'), require('./shared-equity-lifecycle.js'),
       require('./resale-waterfall.js'), require('./effective-demand.js'),
       require('./forsale-capture.js'), require('./market-study-report.js'),
-      require('../provenance-label.js')
+      require('../provenance-label.js'), require('./study-geography.js')
     );
     module.exports = api;
   }
   if (root) root.MarketStudyPage = api;
 }(typeof window !== 'undefined' ? window : this, function (
   ProjectScenario, OwnershipFinance, LandDisposition, SharedEquityLifecycle,
-  ResaleWaterfall, EffectiveDemand, ForsaleCapture, MarketStudyReport, ProvenanceLabel
+  ResaleWaterfall, EffectiveDemand, ForsaleCapture, MarketStudyReport, ProvenanceLabel,
+  StudyGeography
 ) {
   'use strict';
 
@@ -124,7 +126,11 @@
   function buildModel(data, options) {
     options = options || {};
     var scenario = scenarioByKey(data, options.scenarioKey);
-    var derived = ProjectScenario.derive(scenario, OwnershipFinance);
+    // The reader's jurisdiction supplies the market; the fixture supplies the
+    // program. With no jurisdiction chosen this is null and the fixture's own
+    // baseline stands, which is the example study exactly as it shipped.
+    var localBaseline = data.localBaseline || null;
+    var derived = ProjectScenario.derive(scenario, OwnershipFinance, localBaseline ? { localBaseline: localBaseline } : {});
     var path = SharedEquityLifecycle.SCENARIOS[options.pathKey || 'base'];
     var landRows = LandDisposition.compare(LAND_INPUTS);
     var landOutcomes = landRows.map(function (row) {
@@ -141,10 +147,22 @@
     var selectedYear = options.year || 10;
     var settlement = ResaleWaterfall.settle(selectedConvention.results[selectedYear], WATERFALL_INPUTS);
     var assumptions = assumptionSet(options.assumptions);
-    var funnel = EffectiveDemand.run(scenario, data.observed, assumptions);
-    var capture = ForsaleCapture.run(scenario, funnel, { selloutMonths: 30, distribution: 'even' });
+    // No buyer pool for this jurisdiction means no funnel and no capture. They
+    // stay null and every consumer renders the reason instead — the one thing
+    // that must not happen is falling back to the example town's buyers and
+    // presenting them as this town's.
+    // The starting pool is allocated across the SELECTED scenario's AMI bands,
+    // so it has to be recomputed when the reader switches variants. It used to
+    // be computed once from the first fixture, which screened the compact and
+    // family variants against the baseline variant's band split and labelled
+    // the result as theirs.
+    var observed = (data.geography && data.geography.ownershipNeed && !data.geography.unavailable)
+      ? StudyGeography.observedFor(data.geography, scenario, EffectiveDemand)
+      : data.observed;
+    var funnel = observed ? EffectiveDemand.run(scenario, observed, assumptions) : null;
+    var capture = funnel ? ForsaleCapture.run(scenario, funnel, { selloutMonths: 30, distribution: 'even' }) : null;
     return {
-      scenario: scenario, derived: derived, path: path,
+      scenario: scenario, derived: derived, path: path, localBaseline: localBaseline,
       landRows: landRows, landOutcomes: landOutcomes,
       conventionResults: conventionResults, selectedConvention: selectedConvention,
       selectedYear: selectedYear, settlement: settlement,
@@ -236,19 +254,94 @@
     return `<section id="ms-s6" class="chart-card ms-section"><h2>6. Capture scenarios</h2>${table(['Pace', 'Monthly closings', 'Annual closings', 'Annual capture and denominator', 'Project penetration and denominator', 'Gross contracts and denominator', 'Pool depletion included'], scenarioRows, 'Capture scenarios')}${table(['AMI band', 'Scenario units', 'Capture and denominator', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Competitive-supply limitation:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Capture humility:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
   }
 
+  function esc(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  /**
+   * Say whose study this is, above everything else.
+   *
+   * The page used to answer this nowhere. One town's AMI and home values were
+   * loaded for every reader, and the only clue was the example project's name
+   * six lines into section 1 — which a reader has no reason to read as a
+   * statement about the DATA.
+   */
+  function renderGeographyBanner(data) {
+    var geography = data.geography;
+    if (!geography || geography.mode !== 'jurisdiction') {
+      return '<aside class="ms-geography ms-geography--example" role="note" data-study-mode="example">'
+        + '<p><strong>Example study.</strong> No jurisdiction is selected, so this page screens an example project '
+        + 'against its own town. The arithmetic is real; the place is not yours.</p>'
+        + '<p><a href="select-jurisdiction.html">Choose your jurisdiction</a> to run the same screen on your market.</p>'
+        + '</aside>';
+    }
+    var name = esc(geography.context.name || geography.context.geoid);
+    var note = geography.unavailable
+      ? '<p class="ms-caveat">' + esc(geography.unavailable.detail) + ' Sections 5 and 6 cannot be screened here.</p>'
+      : '';
+    return '<aside class="ms-geography" role="note" data-study-mode="jurisdiction" data-study-geoid="' + esc(geography.context.geoid) + '">'
+      + '<p><strong>Market: ' + name + '.</strong> Income limits, home values and the buyer pool below are ' + name + "'s. "
+      + 'The project itself is still an example program — nobody has supplied a real one — so read this as '
+      + '"what would a project like this meet in ' + name + '".</p>'
+      + note
+      + '<p><a href="select-jurisdiction.html">Change jurisdiction</a></p>'
+      + '</aside>';
+  }
+
+  /**
+   * A file on someone's disk outlives the tab it came from. Naming every
+   * download after the example town guaranteed that a screening draft for
+   * another jurisdiction would be filed, and later read, as that town's.
+   */
+  function downloadName(data) {
+    var geography = data && data.geography;
+    var stem = (geography && geography.mode === 'jurisdiction' && (geography.context.name || geography.context.geoid))
+      ? String(geography.context.name || geography.context.geoid)
+      : 'example';
+    return stem.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+      + '-for-sale-market-study-screening-draft.html';
+  }
+
+  function renderUnmeasured(id, heading, detail) {
+    return '<section id="' + id + '" class="chart-card ms-section" data-unmeasured="true"><h2>' + esc(heading) + '</h2>'
+      + '<p class="ms-unavailable">Not screened for this jurisdiction.</p>'
+      + '<p class="ms-caveat">' + esc(detail) + '</p></section>';
+  }
+
   function render(mount, model, data) {
-    mount.innerHTML = ['<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
+    var reason = (data.geography && data.geography.unavailable && data.geography.unavailable.detail)
+      || 'The buyer pool for this jurisdiction could not be screened.';
+    mount.innerHTML = [
+      renderGeographyBanner(data),
+      '<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
       renderScenario(model, data), renderLand(model), renderConventions(model),
-      renderSettlement(model), renderFunnel(model), renderCapture(model)
+      renderSettlement(model),
+      model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. Effective-demand funnel', reason),
+      model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. Capture scenarios', reason)
     ].join('');
     var preview = mount.ownerDocument.getElementById('marketStudyReportPreview');
     var download = mount.ownerDocument.getElementById('marketStudyReportDownload');
-    if (preview && download) {
+    if (preview && download && !model.funnel) {
+      // buildReport throws on an incomplete model, by design. Refusing here
+      // keeps that refusal legible instead of turning it into a stack trace,
+      // and makes sure no one downloads a report that silently omits the two
+      // sections a for-sale study is actually commissioned for.
+      preview.innerHTML = '<p class="ms-unavailable">No report for this jurisdiction.</p>'
+        + '<p class="ms-caveat">' + esc(reason) + ' A screening report without the demand and capture '
+        + 'sections would be a document about an example town wearing this one\'s name.</p>';
+      download.disabled = true;
+      download.onclick = null;
+    } else if (preview && download) {
+      var baselineForReport = model.localBaseline || model.scenario.local_baseline;
       var report = MarketStudyReport.buildReport(model, {
         asOf: data.reportAsOf,
+        jurisdictionLabel: (data.geography && data.geography.mode === 'jurisdiction'
+          && (data.geography.context.name || data.geography.context.geoid)) || null,
         vintages: {
           scenario: model.scenario.meta.as_of,
-          homeValue: model.scenario.local_baseline.home_value.as_of,
+          homeValue: baselineForReport.home_value.as_of || null,
           conventions: data.conventions.meta.as_of
         },
         requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS
@@ -259,7 +352,7 @@
         var url = URL.createObjectURL(blob);
         var link = mount.ownerDocument.createElement('a');
         link.href = url;
-        link.download = 'fruita-commons-market-study-screening-draft.html';
+        link.download = downloadName(data);
         link.click();
         URL.revokeObjectURL(url);
       };
@@ -296,30 +389,51 @@
     return paint();
   }
 
-  function observedFromData(scenario, chas, summary, HNAOwnershipNeed) {
-    var ownershipNeed = HNAOwnershipNeed.computeOwnershipNeed({
-      geographyId: '0828745', geoLevel: 'place', placeChasEntry: chas.places['0828745'],
-      amiGapEntry: { ami_4person: scenario.local_baseline.ami_4person.value },
-      homeValueEntry: scenario.local_baseline.home_value,
-      ownerValueSupply: HNAOwnershipNeed.ownerValueSupplySeries(summary.acsProfile)
+  function getJson(url) {
+    return fetch(url).then(function (response) {
+      if (!response.ok) throw new Error(url + ' — HTTP ' + response.status);
+      return response.json();
     });
-    return EffectiveDemand.fromOwnershipNeed(scenario, ownershipNeed);
+  }
+
+  /**
+   * A dataset that is simply absent for this geography is not an error — most
+   * of Colorado's 546 geographies are missing something. Resolve to null and
+   * let StudyGeography name what is missing.
+   */
+  function optionalJson(url) {
+    return getJson(url).catch(function () { return null; });
   }
 
   function init() {
     var mount = document.getElementById('marketStudyMount');
     if (!mount) return Promise.resolve(null);
     var files = window.MARKET_STUDY_SCENARIO_FILES;
-    return Promise.all(files.map(function (name) { return fetch(`data/fixtures/${name}`).then(function (response) { return response.json(); }); }).concat([
-      fetch('data/policy/resale-conventions.json').then(function (response) { return response.json(); }),
-      fetch('data/hna/place-chas.json').then(function (response) { return response.json(); }),
-      fetch('data/hna/summary/0828745.json').then(function (response) { return response.json(); })
-    ])).then(function (loaded) {
-      var scenarios = loaded.slice(0, files.length);
+    var context = StudyGeography.resolve(window);
+    var paths = StudyGeography.datasetPaths(context);
+    return Promise.all([
+      Promise.all(files.map(function (name) { return getJson('data/fixtures/' + name); })),
+      getJson('data/policy/resale-conventions.json'),
+      optionalJson(paths.placeChas),
+      optionalJson(paths.countyChas),
+      optionalJson(paths.amiGapPlace),
+      optionalJson(paths.amiGapCounty),
+      optionalJson(paths.homeValueCascade),
+      paths.summary ? optionalJson(paths.summary) : Promise.resolve(null)
+    ]).then(function (loaded) {
+      var scenarios = loaded[0];
+      var geography = StudyGeography.inputs(context, {
+        placeChas: loaded[2], countyChas: loaded[3],
+        amiGapPlace: loaded[4], amiGapCounty: loaded[5],
+        homeValueCascade: loaded[6], summary: loaded[7]
+      }, { HNAOwnershipNeed: window.HNAOwnershipNeed, EffectiveDemand: EffectiveDemand });
       return start(mount, {
-        scenarios: scenarios, conventions: loaded[4],
+        scenarios: scenarios,
+        conventions: loaded[1],
         reportAsOf: scenarios[0].meta.as_of,
-        observed: observedFromData(scenarios[0], loaded[5], loaded[6], window.HNAOwnershipNeed)
+        geography: geography,
+        localBaseline: geography.mode === 'jurisdiction' ? geography.localBaseline : null,
+        observed: StudyGeography.observedFor(geography, scenarios[0], EffectiveDemand)
       });
     }).catch(function (error) {
       mount.innerHTML = `<div class="ms-warning" role="alert">Page inputs could not be loaded: ${error.message}</div>`;
