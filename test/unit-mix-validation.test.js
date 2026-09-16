@@ -9,8 +9,8 @@
 //   2. Both sites detect amiSum < totalUnits (INFO, blue panel,
 //      surfaces the unrestricted market-rate unit count)
 //   3. Both sites hide the panel when amiSum === totalUnits
-//   4. Deal Calculator zeros annualRents on hard error to suppress
-//      misleading downstream NOI/equity numbers
+//   4. Deal Calculator makes annualRents UNKNOWN on hard error, so the
+//      downstream NOI/DSCR/gap render as '—' rather than as figures
 //   5. Market Analysis short-circuits the capture-rate simulator on
 //      hard error (shows placeholder rather than misleading capture %)
 //   6. Market Analysis HTML has a #pma-units-sync-warn container
@@ -61,9 +61,21 @@ assert(
   /unitMixError\s*=\s*true/.test(dcSrc),
   'Deal Calculator sets unitMixError flag on hard-error path'
 );
+// This assertion used to require `annualRents = 0` and was named "zeros
+// annualRents". It was pinning the defect: zero is finite, so NOI, DSCR,
+// break-even occupancy and the funding gap were all computed from it and
+// rendered as numbers. The comment beside the code said "block downstream
+// calc" — zero does not block.
+//
+// NaN and not null, because `null * x` is 0 in JavaScript and would
+// reintroduce the same coercion one line later.
 assert(
-  /if\s*\(\s*unitMixError\s*\)\s*\{[\s\S]{0,200}annualRents\s*=\s*0/.test(dcSrc),
-  'Deal Calculator zeros annualRents when unit mix is broken'
+  /if\s*\(\s*unitMixError\s*\)\s*\{[\s\S]{0,600}annualRents\s*=\s*NaN/.test(dcSrc),
+  'Deal Calculator makes annualRents unknown (NaN) when the unit mix is broken'
+);
+assert(
+  !/if\s*\(\s*unitMixError\s*\)\s*\{[\s\S]{0,600}annualRents\s*=\s*0\s*;/.test(dcSrc),
+  'Deal Calculator no longer zeros annualRents — a $0 rent roll is a figure, not a blocked calculation'
 );
 
 console.log('\n[test] Market Analysis: three-state unit-mix indicator');
