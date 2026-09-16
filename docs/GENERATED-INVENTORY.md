@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T15:59:31.406Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T16:19:53.308Z. Do not edit by hand.
 
 ---
 
@@ -1667,10 +1667,11 @@
 
 ## Test Files
 
-352 test files found.
+353 test files found.
 
 | File | Size |
 |------|------|
+| `test/a11y-audit-never-silently-skips.test.mjs` | 9.2 KB |
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
 | `test/absence-confident-value-static-guard.test.mjs` | 8.4 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
@@ -2032,7 +2033,7 @@
 
 | File | Size |
 |------|------|
-| `.github/workflows/a11y-audit.yml` | 3.2 KB |
+| `.github/workflows/a11y-audit.yml` | 3.6 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
 | `.github/workflows/archive-audit-post-merge.yml` | 4.9 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
