@@ -497,10 +497,9 @@
     // Build the map.
     const map = L.map(host, { zoomControl: true, attributionControl: false });
     state.leafletMap = map;
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      maxZoom: 18,
-      subdomains: 'abcd',
-    }).addTo(map);
+    // No labels here on purpose: this pane draws arbitrary user-supplied
+    // GeoJSON, and place names underneath it compete with the data.
+    window.COHOBasemaps.darkNoLabels({ maxZoom: 18 }).addTo(map);
 
     let bounds = null;
     let featureCount = 0;

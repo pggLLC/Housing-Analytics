@@ -4636,24 +4636,18 @@
     // Matches the set used by colorado-deep-dive.html + market-analysis.html
     // (CARTO Light, CARTO Dark, OSM Standard, Esri World Imagery).
     state._baseLayers = {
-      'Light (CARTO)':    window.L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-        { attribution: '© OpenStreetMap contributors © CARTO', subdomains: 'abcd', maxZoom: 19 }
-      ),
+      'Light':            window.COHOBasemaps.light(),
       'Street (OSM)':     window.L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
         { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
       ),
-      'Dark (CARTO)':     window.L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-        { attribution: '© OpenStreetMap contributors © CARTO', subdomains: 'abcd', maxZoom: 19 }
-      ),
+      'Dark':             window.COHOBasemaps.dark(),
       'Satellite (Esri)': window.L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         { attribution: 'Tiles © Esri', maxZoom: 19 }
       )
     };
-    state._baseLayers['Light (CARTO)'].addTo(state.map);
+    state._baseLayers['Light'].addTo(state.map);
     // Layer control gets attached in _initMapOverlays() once data is loaded.
 
     // F100 — Decorative county + place + CDP boundary overlay.

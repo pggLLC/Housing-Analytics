@@ -779,14 +779,17 @@
     // --- Basemap tile providers ---
     const HNA_BASE_SESSION_KEY = 'hna-basemap';
     const BASEMAPS = {
-      light:       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 }),
-      dark:        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  { attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19 }),
+      // Basemaps come from js/config/basemaps.js so the provider is decided in
+      // one place. CARTO's anonymous tiles now arrive watermarked "API KEY
+      // REQUIRED" — HTTP 200, valid PNG, defaced image.
+      light:       window.COHOBasemaps.light(),
+      dark:        window.COHOBasemaps.dark(),
       osm:         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',             { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19 }),
       satellite:   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community', maxZoom: 18 }),
       'esri-gray': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ', maxZoom: 16 }),
     };
     const BASEMAP_LABELS = {
-      light: 'Light (CARTO)', dark: 'Dark (CARTO)', osm: 'OpenStreetMap',
+      light: 'Light', dark: 'Dark', osm: 'OpenStreetMap',
       satellite: 'Satellite (Esri)', 'esri-gray': 'Gray Canvas (Esri)',
     };
 
