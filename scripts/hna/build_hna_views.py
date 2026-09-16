@@ -152,7 +152,7 @@ def build_view(src, spans, keep_titles, view, all_views):
     for d in sorted(merged, key=lambda s: -s['start']):
         out = out[:d['start']] + f"\n<!-- [hna-view:{view['id']}] not on this view: {d['title'][:60]} -->\n" + out[d['end']:]
     out = out.replace('<!doctype html>', '<!doctype html>\n' + BANNER, 1)
-    return reframe(retitle(out, view), view, all_views)
+    return handoff(reframe(retitle(out, view), view, all_views), view, all_views)
 
 
 def retitle(out, view):
@@ -219,6 +219,68 @@ def reframe(out, view, all_views):
                      lambda m: lede, out, count=1, flags=re.S)
     if k != 1:
         raise SystemExit(f"  view '{view['id']}': no canonical lede to reframe")
+    return out
+
+
+def handoff(out, view, all_views):
+    """Close each part by naming what the reader now has, and what is next.
+
+    Five parts, 11-15 sections each, and every one of them ended on the same
+    generic "Continue to Market Analysis" panel. A reader finishing 'Who lives
+    here' got no signal that they had finished anything, or why the next part
+    exists — so the five parts read as five disconnected pages rather than a
+    path with a direction.
+
+    Deliberately quiet. This is a housing needs assessment: people arrive at it
+    because their town has a problem, and a tool that congratulates them for
+    scrolling would be read as not taking that seriously. The reward on offer
+    is competence, not applause — what you can now say, and what you still
+    cannot.
+
+    The figures are filled in at runtime by js/hna/hna-chapter-handoff.js from
+    the stat cells already on the page, so this adds no data path. A figure
+    that never loads is dropped rather than shown as a dash: an empty box is
+    better than a confident blank.
+    """
+    cfg = view.get('handoff')
+    if not cfg:
+        return out
+    nxt = next((v for v in all_views if v['id'] == cfg.get('next')), None)
+
+    items = ''.join(
+        f'<li data-stat="{htmllib.escape(k["id"])}" hidden>'
+        f'<b class="hna-handoff__n"></b> <span>{htmllib.escape(k["text"])}</span></li>'
+        for k in cfg.get('know', []))
+
+    if nxt:
+        cta = (f'<a class="btn btn-primary" href="{nxt["slug"]}">'
+               f'Next: {htmllib.escape(nxt["nav"])} \u2192</a>')
+        heading = f'Next &mdash; {htmllib.escape(nxt["nav"])}'
+    else:
+        cta = ('<a class="btn btn-primary" href="market-analysis.html">'
+               'Continue to Market Analysis \u2192</a>')
+        heading = 'Next &mdash; Market Analysis'
+
+    others = ''.join(
+        f'<a href="{v["slug"]}">{htmllib.escape(v["nav"])}</a>'
+        for v in all_views
+        if v['id'] != view['id'] and (not nxt or v['id'] != nxt['id']))
+
+    block = (
+        '<section class="hna-handoff" aria-labelledby="hnaHandoffH" id="hnaChapterHandoff">'
+        f'<h2 id="hnaHandoffH" class="hna-handoff__title">What you have now</h2>'
+        f'<ul class="hna-handoff__list">{items}</ul>'
+        '<p class="hna-handoff__empty" hidden>The figures for this part did not load, '
+        'so there is nothing to summarise here yet.</p>'
+        f'<p class="hna-handoff__next"><strong>{heading}</strong><br>'
+        f'{htmllib.escape(cfg["why"])}</p>'
+        f'<p class="hna-handoff__actions">{cta}</p>'
+        f'<p class="hna-handoff__jump">Or jump to: {others}</p>'
+        '</section>'
+    )
+    out, k = re.subn(r'(<section class="hna-continue-panel")', block + r'\1', out, count=1)
+    if k != 1:
+        raise SystemExit(f"  view '{view['id']}': no continue panel to place the handoff before")
     return out
 
 
