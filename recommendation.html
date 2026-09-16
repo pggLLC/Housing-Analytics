@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65">
+  <title>Recommendation | COHO Analytics</title>
+  <meta name="description" content="One conclusion-first screen: what the public data says a Colorado jurisdiction needs, what you recorded in the workflow, and what could not be answered.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script src="js/site-state.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <script defer src="js/components/workflow-progress.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
+  <script defer src="js/workflow/recommendation-contract.js"></script>
+  <script defer src="js/workflow/recommendation-page.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="js/components/analytics.js" data-step="7" data-step-label="recommendation"></script>
+  <style>
+    .rec-shell { max-width: 1000px; margin: 0 auto; padding: 24px 18px 56px; }
+    .rec-intro { margin-bottom: 18px; }
+    .rec-intro p { max-width: 70ch; color: var(--muted); line-height: 1.55; }
+
+    /* The verdict is the page. Everything else is underneath it. */
+    .rec-headline { border: 2px solid var(--accent); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 22px; background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
+    .rec-headline__eyebrow { margin: 0 0 4px; font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+    .rec-headline__verdict { margin: 0 0 8px; font-size: 1.6rem; line-height: 1.25; }
+    .rec-headline__plain { margin: 0; max-width: 62ch; line-height: 1.55; }
+    /* An insufficient verdict is drawn as a different kind of thing, not as a
+       warning-coloured version of an answer. */
+    .rec-headline[data-state="insufficient"] { border-style: dashed; background: var(--bg2); }
+    .rec-headline[data-state="insufficient"] .rec-headline__verdict { color: var(--muted); }
+
+    .rec-conclusion { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 14px; background: var(--card); }
+    .rec-conclusion[data-state="insufficient"] { border-style: dashed; }
+    .rec-conclusion h3 { margin: 0 0 8px; font-size: 1.02rem; }
+    .rec-answer { margin: 0 0 4px; font-size: 1.1rem; }
+    .rec-none { color: var(--muted); font-weight: 700; }
+    .rec-plain { margin: 0 0 8px; max-width: 66ch; line-height: 1.55; color: var(--text); }
+    .rec-blocking { margin: 0 0 8px; padding-left: 1.1rem; color: var(--muted); line-height: 1.5; }
+
+    .rec-chip { display: inline-flex; min-height: 22px; align-items: center; border: 1px solid var(--border); border-radius: 999px; padding: 1px 9px; font-size: .72rem; font-weight: 700; vertical-align: middle; }
+    .rec-chip[data-state="established"] { border-color: var(--good, #047857); color: var(--good, #047857); }
+    .rec-chip[data-state="provisional"] { border-color: var(--accent); color: var(--accent); }
+    .rec-chip[data-state="insufficient"] { border-style: dashed; color: var(--muted); }
+
+    .rec-evidence summary { cursor: pointer; font-size: .86rem; font-weight: 600; color: var(--muted); min-height: 32px; display: flex; align-items: center; }
+    .rec-table-wrap { width: 100%; overflow-x: auto; margin: 8px 0 0; }
+    .rec-table { width: 100%; border-collapse: collapse; min-width: 760px; font-size: .86rem; }
+    .rec-table th, .rec-table td { padding: 7px 8px; border: 1px solid var(--border); text-align: left; vertical-align: top; }
+    .rec-table thead th { background: var(--bg2); }
+    .rec-borrowed { color: var(--muted); font-size: .78rem; }
+    .rec-asof { display: block; color: var(--muted); font-size: .74rem; }
+
+    .rec-steps { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; }
+    .rec-step { border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; background: var(--card); }
+    .rec-step[data-status="not_run"] { border-style: dashed; background: var(--bg2); }
+    .rec-step__label { font-weight: 700; }
+    .rec-step__state { color: var(--muted); font-size: .84rem; }
+    .rec-step__fields { display: grid; grid-template-columns: max-content 1fr; gap: 2px 12px; margin: 6px 0 0; font-size: .9rem; }
+    .rec-step__fields dt { color: var(--muted); }
+    .rec-step__fields dd { margin: 0; font-variant-numeric: tabular-nums; }
+    .rec-step__empty { margin: 6px 0 0; color: var(--muted); font-size: .88rem; }
+
+    .rec-sources { margin: 10px 0 0; padding-left: 1.1rem; color: var(--muted); font-size: .88rem; line-height: 1.6; }
+    .rec-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; }
+    .rec-actions button { min-height: 44px; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--on-accent, #fff); font-weight: 700; cursor: pointer; }
+    .rec-actions button[disabled] { opacity: .55; cursor: not-allowed; }
+    .rec-footer-note { margin-top: 26px; border-top: 1px solid var(--border); padding-top: 16px; color: var(--muted); line-height: 1.55; }
+    @media (max-width: 700px) { .rec-shell { padding-inline: 12px; } .rec-headline__verdict { font-size: 1.3rem; } }
+  </style>
+</head>
+<body data-page-last-updated="2026-09-16" data-page-source="Jurisdiction metrics digest · WorkflowState">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header"></header>
+
+  <div class="wf-progress-wrap" id="recWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">&#10003;</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <div class="wf-step wf-step--active" data-step="7" aria-current="step">
+        <span class="wf-step__num">7</span>
+        <span class="wf-step__label">Recommendation</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content" class="rec-shell">
+    <header class="rec-intro">
+      <h1>Recommendation</h1>
+      <p>Every conclusion this site can reach about a jurisdiction is computed on some
+         earlier page and then left there. This screen assembles them: what the public
+         data says, what you recorded as you worked, and &mdash; just as plainly &mdash;
+         which questions the public data cannot answer for this place. About half of
+         Colorado&rsquo;s 546 jurisdictions fall into that last group, so &ldquo;not enough
+         evidence&rdquo; here is a finding, not a failure.</p>
+    </header>
+
+    <div id="recommendationMount" aria-live="polite">
+      <p>Loading this jurisdiction&rsquo;s digest&hellip;</p>
+    </div>
+
+    <div class="rec-actions">
+      <button id="recExportPdf" type="button">Download as PDF</button>
+    </div>
+
+    <footer class="rec-footer-note">
+      <strong>Standing disclosure:</strong> this is a screening synthesis assembled from
+      public sources &mdash; HUD CHAS, ACS, DOLA projections, CHFA award history and the
+      HUD income limits. It is not a housing needs study, not underwriting, and not a
+      substitute for local knowledge. Every figure above carries its source, its vintage
+      and its standing so you can check it or discard it.
+    </footer>
+  </main>
+
+  <footer class="site-footer"></footer>
+
+  <script>
+    (function () {
+      'use strict';
+      var mount = document.getElementById('recommendationMount');
+
+      function fail(message) {
+        mount.innerHTML = '<p role="alert">' + message + '</p>';
+      }
+
+      function activeProject() {
+        try {
+          var project = window.WorkflowState && window.WorkflowState.getActiveProject
+            && window.WorkflowState.getActiveProject();
+          return project || null;
+        } catch (_) { return null; }
+      }
+
+      function start() {
+
+        // Resolve the jurisdiction before anything else — without one there is
+        // no digest to read, and the contract renders its own "choose a
+        // jurisdiction" state rather than this page inventing a second one.
+        var resolved = (window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolve)
+          ? window.JurisdictionUrlContext.resolve().catch(function () { return null; })
+          : Promise.resolve(null);
+
+        resolved.then(function (context) {
+          var geoid = context && String(context.geoid || context.fips || '');
+          var project = activeProject();
+          if (!geoid || !/^08\d{3}(\d{2})?$/.test(geoid)) {
+            paint(window.RecommendationContract.build({ digest: null, project: project,
+              generatedAt: new Date().toISOString() }));
+            return;
+          }
+          return fetch('data/hna/jurisdiction-metrics-digest/' + geoid + '.json')
+            .then(function (response) {
+              if (!response.ok) throw new Error('HTTP ' + response.status);
+              return response.json();
+            })
+            .then(function (digest) {
+              paint(window.RecommendationContract.build({ digest: digest, project: project,
+                generatedAt: new Date().toISOString() }));
+            })
+            .catch(function () {
+              // A geoid with no digest is a real state — not every well-formed
+              // Colorado GEOID is one of the 546 this repo covers. Say which
+              // one failed rather than showing an empty page.
+              fail('No published digest for jurisdiction ' + geoid
+                + '. This site covers 546 Colorado geographies; '
+                + '<a href="select-jurisdiction.html">choose one from the list</a>.');
+            });
+        });
+      }
+
+      /**
+       * Repaint the rail from the contract's own record of what was completed.
+       *
+       * The default marks every step before the active one as done, which on
+       * step 7 means six ticks sitting directly above a list that says all
+       * five steps are "not run yet" — the rail contradicting the page under
+       * it. One record feeds both. refreshSteps also rewrites each circle's
+       * numeral from its data-step, which is why a stale numeral in static
+       * markup stays invisible on the ten pages that call this and visible on
+       * the three that do not.
+       */
+      function paintRail(contract) {
+        if (!window.WorkflowProgress || !window.WorkflowProgress.STEPS) return;
+        var byKey = {};
+        window.WorkflowProgress.STEPS.forEach(function (step) { byKey[step.key] = step.num; });
+        var done = contract.project
+          .filter(function (step) { return step.status === 'recorded'; })
+          .map(function (step) { return byKey[step.key]; })
+          .filter(function (num) { return !!num; });
+        try {
+          window.WorkflowProgress.refreshSteps('recWorkflowProgress', 7, { doneSteps: done });
+        } catch (_) {}
+      }
+
+      function paint(contract) {
+        window.RecommendationPage.render(mount, contract);
+        paintRail(contract);
+        var button = document.getElementById('recExportPdf');
+        if (!button) return;
+        // No jurisdiction means nothing to export. A disabled button that says
+        // why beats one that downloads an empty document.
+        if (!contract.geography) {
+          button.disabled = true;
+          button.title = 'Choose a jurisdiction first';
+          return;
+        }
+        button.disabled = false;
+        button.onclick = function () {
+          if (!window.jspdf || !window.jspdf.jsPDF) {
+            button.disabled = true;
+            button.textContent = 'PDF library unavailable — use your browser’s Print to PDF';
+            return;
+          }
+          var pdf = window.RecommendationPage.exportPdf(contract, window.jspdf.jsPDF);
+          pdf.save(window.RecommendationPage.pdfFilename(contract));
+        };
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', start);
+      } else {
+        start();
+      }
+    }());
+  </script>
+</body>
+</html>
