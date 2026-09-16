@@ -74,7 +74,12 @@
       countyChas: 'data/hna/chas_affordability_gap.json',
       amiGapPlace: 'data/co_ami_gap_by_place.json',
       amiGapCounty: 'data/co_ami_gap_by_county.json',
-      homeValueCascade: 'data/hna/home-value-cascade.json'
+      homeValueCascade: 'data/hna/home-value-cascade.json',
+      // The ownership-market sources: one that may carry a price, and the two
+      // that explain its absence when it does not.
+      redfinTracker: 'data/market/redfin_place_market_tracker_co.json',
+      bridge: 'data/market/bridge_co_market_summary.json',
+      assessor: 'data/market/parcel_aggregates_co.json'
     };
     if (context && context.geoid) paths.summary = 'data/hna/summary/' + context.geoid + '.json';
     return paths;
@@ -128,6 +133,29 @@
    * baseline value as "Owner input required" rather than a zero, so an
    * incomplete jurisdiction degrades one row at a time instead of all at once.
    */
+  /**
+   * The sale-price node, from SalePriceEvidence.
+   *
+   * A stale row (five of the 121 are a year or more behind the rest) is NOT
+   * folded into the current figure. It travels as the value it is, with the
+   * months-behind count in its source string, because the alternative is a
+   * 2024 price sitting in a 2026 column with nothing to mark it.
+   */
+  function salePrice(context, data) {
+    var evidence = data && data.salePriceEvidence;
+    if (!evidence || evidence.value === null) {
+      return { value: null, classification: 'not_available', owner_input_required: true, verify: true };
+    }
+    return {
+      value: evidence.value,
+      classification: 'derived',
+      source: 'data/market/redfin_place_market_tracker_co.json \u2014 ' + evidence.label
+        + (evidence.period ? ', period ending ' + evidence.period : '')
+        + (evidence.state === 'stale' ? ' (' + evidence.monthsBehind + ' months behind the rest of the file)' : ''),
+      as_of: evidence.period || null
+    };
+  }
+
   function localBaseline(context, data) {
     var ami = amiGapEntry(context, data);
     var home = homeValueEntry(context, data);
@@ -150,11 +178,13 @@
           source: 'data/hna/home-value-cascade.json (' + placeLabel + ' ' + (home.source || 'cascade') + ')',
           as_of: home.as_of || null
         },
-      // Not wired for an arbitrary jurisdiction. It is display-only today and
-      // nothing derives from it; an owner supplies it or it stays blank. It is
-      // NOT filled from home_value, which would make a modelled figure look
-      // like a closed-sale observation.
-      median_sale_price: { value: null, classification: 'not_available', owner_input_required: true, verify: true }
+      // Wired to the Redfin ZIP tracker, which until now nothing on the site
+      // read. Classified `derived`, not `observed`: every row in that file is
+      // allocated from ZIP-level sales to a place footprint, so it is not a
+      // closed-sale observation for this jurisdiction and must not carry the
+      // badge that says it is. A place the file does not cover keeps a null
+      // and the page says why.
+      median_sale_price: salePrice(context, data)
     };
   }
 
@@ -172,6 +202,7 @@
     var result = {
       mode: 'jurisdiction',
       context: context,
+      salePrice: data.salePriceEvidence || null,
       localBaseline: localBaseline(context, data),
       ownershipNeed: null,
       observed: null,
@@ -223,6 +254,7 @@
     resolve: resolve,
     datasetPaths: datasetPaths,
     localBaseline: localBaseline,
+    salePrice: salePrice,
     amiGapEntry: amiGapEntry,
     homeValueEntry: homeValueEntry,
     chasEntry: chasEntry,
