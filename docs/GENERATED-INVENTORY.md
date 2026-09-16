@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T07:38:28.814Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T08:05:24.168Z. Do not edit by hand.
 
 ---
 
@@ -29,7 +29,7 @@
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
 | `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
-| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.6 KB |
+| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.8 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-347 test files found.
+348 test files found.
 
 | File | Size |
 |------|------|
@@ -1862,7 +1862,7 @@
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/paper-figures-fresh.test.js` | 20.3 KB |
-| `test/parcel-source-honesty.test.js` | 4.4 KB |
+| `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
@@ -1875,6 +1875,7 @@
 | `test/place-glossary-path.test.js` | 1.5 KB |
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 5.4 KB |
+| `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
