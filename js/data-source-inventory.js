@@ -36,7 +36,16 @@
     automated:   'Refreshed by a workflow or script; age is measured against the declared cadence.',
     curated:     'Maintained by hand; there is no cadence to measure against.',
     unavailable: 'Cannot be refreshed; requires maintenanceNote and lastKnownGood.',
-    archived:    'Intentionally frozen at a final vintage.'
+    archived:    'Intentionally frozen at a final vintage.',
+    // Declared in the registry, not yet integrated: no snapshot exists, so
+    // there is nothing to measure and nothing to go stale.
+    //
+    // These were landing in 'unknown' beside kalshi-housing and
+    // regrid-parcels — two sources that DO have data and simply declare no
+    // cadence. One bucket, two unrelated meanings: "we have this and don't
+    // know how fresh it is" and "we don't have this". A reader counting
+    // unknowns could not tell 11 absent datasets from 2 unmeasured ones.
+    planned:     'Declared but not yet integrated; no snapshot exists, so there is nothing to measure.'
   };
 
   function maintenanceMode(source) {
@@ -254,8 +263,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 45,
+      maxAgeDays: null,
       geoUnit: 'State / County',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -301,8 +311,9 @@
       url: 'https://www.bls.gov/ppi/',
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 45,
+      maxAgeDays: null,
       geoUnit: 'National',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -894,8 +905,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 400,
+      maxAgeDays: null,
       geoUnit: 'Municipality',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -914,8 +926,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 400,
+      maxAgeDays: null,
       geoUnit: 'Municipality',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1069,8 +1082,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 400,
+      maxAgeDays: null,
       geoUnit: 'Census Tract',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1096,8 +1110,14 @@
       // Daily/7d made a static illustrative file read as a live daily source.
       // 'Unknown' maps to a null window in data-freshness-monitor.js, which
       // surfaces as 'unknown' rather than a false 'current' or 'stale'.
-      updateFrequency: 'Unknown',
-      maxAgeDays: null,
+      // Weekly, because .github/workflows/fetch-kalshi.yml runs `11 3 * * 0`.
+      // This was 'Unknown' with no window, which is how a source with a live
+      // refresher ended up in the same bucket as eleven datasets that do not
+      // exist. The 14-day window is one missed Sunday, DERIVED from that cron
+      // rather than picked — the earlier defect here was a default nobody had
+      // chosen, not the act of declaring one from evidence.
+      updateFrequency: 'Weekly',
+      maxAgeDays: 14,
       geoUnit: 'National / Metro',
       coverage: 'National',
       features: 1,
@@ -1115,8 +1135,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 120,
+      maxAgeDays: null,
       geoUnit: 'Project / Statewide',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1174,8 +1195,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 400,
+      maxAgeDays: null,
       geoUnit: 'Region / Metro',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1195,8 +1217,9 @@
       url: null,
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 365,
+      maxAgeDays: null,
       geoUnit: 'Project',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1216,8 +1239,9 @@
       url: 'https://www.zillow.com/research/data/',
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 45,
+      maxAgeDays: null,
       geoUnit: 'County',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1278,8 +1302,9 @@
       url: 'https://www.epa.gov/smartgrowth/smart-location-mapping',
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 730,
+      maxAgeDays: null,
       geoUnit: 'Census block group',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1342,8 +1367,9 @@
       url: 'https://www.usgs.gov/national-hydrography/national-hydrography-dataset',
       localFile: null,
       lastUpdated: null,
+      maintenance: 'planned',
       updateFrequency: 'Not available',
-      maxAgeDays: 365,
+      maxAgeDays: null,
       geoUnit: 'Stream / Water body',
       coverage: 'Unavailable — no committed local snapshot',
       features: null,
@@ -1390,7 +1416,10 @@
       url: 'https://data.colorado.gov/',
       localFile: 'data/market/parcel_aggregates_co.json',
       lastUpdated: '2026-04-05',
-      updateFrequency: 'Unknown',
+      maintenance: 'unavailable',
+      maintenanceNote: 'Regrid is a paid licensed source and access is deliberately not funded (#1612), so the parcel aggregates cannot be refreshed. The scheduled workflow skips the Regrid step and the committed cache carries availability "deferred" with null counts; no consumer renders it as current coverage. Reactivation needs REGRID_API_KEY plus the REGRID_ENABLED repository variable.',
+      lastKnownGood: '2026-04-05',
+      updateFrequency: 'Not available',
       maxAgeDays: null,
       geoUnit: 'County aggregate',
       coverage: 'No counties — every source endpoint currently fails',

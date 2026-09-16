@@ -46,7 +46,11 @@
   // the two status producers cannot disagree about what a mode means. The
   // local list is the fallback for standalone use (this monitor also runs
   // over data/manifest.json entries, which carry no inventory).
-  var FALLBACK_MODES = { automated: 1, curated: 1, unavailable: 1, archived: 1 };
+  // Mirrors MAINTENANCE_MODES in js/data-source-inventory.js. Used only when
+  // the inventory has not loaded; a mode missing here silently degrades to
+  // 'automated', which would run a planned source with no snapshot through
+  // the age thresholds and report it as unknown again.
+  var FALLBACK_MODES = { automated: 1, curated: 1, unavailable: 1, archived: 1, planned: 1 };
 
   function maintenanceMode(source) {
     var inv = window.DataSourceInventory;
