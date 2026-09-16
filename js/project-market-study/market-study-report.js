@@ -85,6 +85,12 @@
     });
 
     var scenario = model.scenario;
+    // The program comes from the example scenario; the market half may come
+    // from the reader's own jurisdiction. An exported report that named the
+    // example town while quoting another town's home value would be the
+    // worst of both — it leaves the building as a PDF nobody can re-check.
+    var baseline = model.localBaseline || scenario.local_baseline;
+    var jurisdictionLabel = meta.jurisdictionLabel || scenario.jurisdiction.name;
     var mixRows = scenario.program.unit_mix.map(function (row) {
       return '<tr><td>' + display(row.count) + '</td><td>' + display(row.bedrooms) + '</td><td>' + display(row.sqft_range[0]) + '–' + display(row.sqft_range[1]) + ' sq ft</td><td>' + badge(row) + '</td></tr>';
     });
@@ -94,13 +100,13 @@
     var partnerRows = scenario.partners.map(function (row) {
       return '<tr><td>' + escape(row.role) + '</td><td>' + display(row.name || row.provider_id) + '</td><td>candidate — no commitment</td><td>' + badge(row) + '</td></tr>';
     });
-    var project = '<section><h2>1. Project summary</h2><p><strong>Jurisdiction:</strong> ' + escape(scenario.jurisdiction.name) + '</p><p><strong>Total units:</strong> ' + display(scenario.program.total_units.value) + ' ' + badge(scenario.program.total_units) + '</p><p><strong>Tenure form:</strong> ' + display(scenario.program.tenure_form.value) + ' ' + badge(scenario.program.tenure_form) + '</p><h3>Unit mix and sizes</h3>' + table(['Units', 'Bedrooms', 'Size', 'Evidence'], mixRows) + '<h3>AMI mix</h3>' + table(['AMI band', 'Units', 'Evidence'], amiRows) + '<h3>Partners</h3>' + table(['Role', 'Candidate', 'Status', 'Evidence'], partnerRows) + '<p class="warning"><strong>FHA disambiguation:</strong> ' + FHA + '.</p></section>';
+    var project = '<section><h2>1. Project summary</h2><p><strong>Jurisdiction:</strong> ' + escape(jurisdictionLabel) + '</p><p><strong>Total units:</strong> ' + display(scenario.program.total_units.value) + ' ' + badge(scenario.program.total_units) + '</p><p><strong>Tenure form:</strong> ' + display(scenario.program.tenure_form.value) + ' ' + badge(scenario.program.tenure_form) + '</p><h3>Unit mix and sizes</h3>' + table(['Units', 'Bedrooms', 'Size', 'Evidence'], mixRows) + '<h3>AMI mix</h3>' + table(['AMI band', 'Units', 'Evidence'], amiRows) + '<h3>Partners</h3>' + table(['Role', 'Candidate', 'Status', 'Evidence'], partnerRows) + '<p class="warning"><strong>FHA disambiguation:</strong> ' + FHA + '.</p></section>';
 
     var bandRows = model.derived.bands.map(function (row) {
       return '<tr><td>' + display(row.band[0], 'rate') + '–' + display(row.band[1], 'rate') + '</td><td>' + display(row.count) + '</td><td>' + display(row.maxAffordablePrice, 'money') + '</td><td>' + display(row.gapVsLocalPrice, 'money') + '</td><td><strong>' + escape(row.assistanceRangeCheck) + '</strong> finding</td><td>' + badge(row) + '</td></tr>';
     });
     var selectedOutcome = model.selectedConvention.results[model.selectedYear];
-    var affordability = '<section><h2>2. Affordability &amp; gap</h2><p><strong>Local home value:</strong> ' + display(scenario.local_baseline.home_value.value, 'money') + ' — ' + escape(scenario.local_baseline.home_value.source) + ' (' + badge(scenario.local_baseline.home_value) + ')</p>' + table(['AMI band', 'Units', 'Max price', 'Gap vs local price', 'Assistance-range finding', 'Evidence'], bandRows) + '<p><strong>Income required at selected settlement:</strong> ' + display(selectedOutcome.futureBuyerIncomeNeeded, 'money') + ' ' + badge(selectedOutcome) + '</p></section>';
+    var affordability = '<section><h2>2. Affordability &amp; gap</h2><p><strong>Local home value:</strong> ' + display(baseline.home_value.value, 'money') + ' — ' + escape(baseline.home_value.source || 'owner input required') + ' (' + badge(baseline.home_value) + ')</p>' + table(['AMI band', 'Units', 'Max price', 'Gap vs local price', 'Assistance-range finding', 'Evidence'], bandRows) + '<p><strong>Income required at selected settlement:</strong> ' + display(selectedOutcome.futureBuyerIncomeNeeded, 'money') + ' ' + badge(selectedOutcome) + '</p></section>';
 
     var costs = Object.keys(scenario.costs).map(function (key) {
       var item = scenario.costs[key];
