@@ -1191,7 +1191,28 @@ def _make_choropleth_map(
     zoom = cfg.MAP_ZOOM if cfg else 6
     co_bounds = cfg.CO_BOUNDS if cfg else [[36.79, -109.42], [41.21, -101.68]]
 
-    m = folium.Map(location=list(center), zoom_start=zoom, tiles="CartoDB positron", max_bounds=True)
+    # NOT "CartoDB positron": CARTO's keyless basemap tiles now come back with
+    # "API KEY REQUIRED · carto.com/basemaps/apikey" painted across the image.
+    # They still return HTTP 200 with a valid PNG, so nothing errors — the map
+    # just renders defaced. Esri's Canvas basemaps need no key; labels are a
+    # separate transparent overlay there, so it takes two layers.
+    # The interactive site maps use js/config/basemaps.js for the same reason.
+    m = folium.Map(location=list(center), zoom_start=zoom, tiles=None, max_bounds=True)
+    _ESRI_CANVAS = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/"
+    _ESRI_ATTR = (
+        "Tiles &copy; Esri &mdash; Esri, HERE, Garmin, "
+        "&copy; OpenStreetMap contributors"
+    )
+    folium.TileLayer(
+        tiles=_ESRI_CANVAS + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        attr=_ESRI_ATTR, name="Light", control=False,
+        max_native_zoom=16, max_zoom=19,
+    ).add_to(m)
+    folium.TileLayer(
+        tiles=_ESRI_CANVAS + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}",
+        attr=_ESRI_ATTR, name="Labels", overlay=True, control=False,
+        max_native_zoom=16, max_zoom=19,
+    ).add_to(m)
     m.fit_bounds(co_bounds)
 
     # Build lookup dict: fips -> value
