@@ -1839,6 +1839,11 @@
             r1_2026_count:     m.r1_2026_count,
             recency_score:     m.recency_score,
             recency_basis:     m.recency_basis,
+            // F191 point-in-polygon count. The name match that produces
+            // recency_basis misses LIHTC inside CDPs, so a 'never_funded'
+            // basis alongside a non-zero boundary count is a known
+            // disagreement, not a contradiction to hide.
+            lihtc_in_boundary: m.lihtc_in_boundary,
           };
         }
         return out;
@@ -1852,32 +1857,71 @@
     _loadRankRecency().then(map => {
       if (!host.isConnected) return;
       const rec = map[geoid];
-      if (!rec || rec.latest_lihtc_year == null) {
-        // ranking-index has no recency record for this geoid. Two cases:
-        //   (a) Truly no LIHTC awards anywhere in the jurisdiction → show
-        //       "max opportunity score" with a verify-against-history caveat.
-        //   (b) ranking-index just doesn't carry county-level recency, but
-        //       the LIHTC project list (loaded separately from the geojson)
-        //       does show projects → show an honest "ranking-index coverage
-        //       gap" notice instead of the wrong "max opportunity" framing.
-        // The renderer that calls us passes the actual feature count it just
-        // rendered (observedFeatureCount); if that's > 0 we take path (b).
-        const haveProjects = (typeof observedFeatureCount === 'number') && observedFeatureCount > 0;
-        if (haveProjects) {
+
+      // Three states, and they are NOT the same thing. Collapsing them is how
+      // this badge spent three months telling every jurisdiction in Colorado
+      // "No CHFA LIHTC awards on record · maximum opportunity score":
+      //
+      //   measured, funded      → recency_basis names where the year came from
+      //   measured, never funded→ recency_basis === 'never_funded'. A finding.
+      //   NOT MEASURED          → no record at all. Not a finding, and it must
+      //                           not be rendered as one.
+      //
+      // The June 2026 rebuild ran build_ranking_index.py without the two
+      // augmenters that write these fields, so every entry landed in the third
+      // state — and the code read that as the second one. See #1698.
+      const measured        = !!(rec && rec.recency_basis);
+      const neverFunded     = measured && rec.recency_basis === 'never_funded';
+      const boundaryCount   = (rec && typeof rec.lihtc_in_boundary === 'number') ? rec.lihtc_in_boundary : 0;
+      const observed        = (typeof observedFeatureCount === 'number') ? observedFeatureCount : 0;
+      const projectsVisible = Math.max(boundaryCount, observed);
+
+      if (!measured) {
+        // No recency record was produced for this geography. Say that, and
+        // claim nothing about CHFA's award history.
+        host.innerHTML =
+          '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<strong style="color:var(--text)">LIHTC award history not available</strong> for this jurisdiction · ' +
+            'the recency index carries no record for this geography, so no drought signal is shown' +
+            (projectsVisible > 0
+              ? ' · ' + projectsVisible + ' LIHTC project' + (projectsVisible === 1 ? '' : 's') + ' mapped below'
+              : '') +
+            ' · for award timing consult <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">CHFA</a> directly.' +
+          '</div>';
+        return;
+      }
+
+      if (neverFunded) {
+        if (projectsVisible > 0) {
+          // CHFA name-matching found nothing, but projects sit inside the
+          // boundary. That is the known limitation of matching by city name
+          // (F191 exists because of it) — surface the disagreement rather than
+          // asserting "no awards" over the top of visible projects.
           host.innerHTML =
             '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
-              '<strong style="color:var(--text)">CHFA recency data not tracked at this geography level</strong> · ' +
-              observedFeatureCount + ' LIHTC project' + (observedFeatureCount === 1 ? '' : 's') +
-              ' currently mapped for this jurisdiction (see list below). ' +
-              'The recency index (last-award year + drought signal) is only built for places with place-level awards. ' +
-              'For award timing on this jurisdiction\'s projects, consult <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">CHFA</a> directly.' +
+              '<strong style="color:var(--text)">No CHFA award matched to this jurisdiction by name</strong> · ' +
+              'but ' + projectsVisible + ' LIHTC project' + (projectsVisible === 1 ? '' : 's') +
+              ' fall' + (projectsVisible === 1 ? 's' : '') + ' inside its boundary. ' +
+              'Name matching misses awards recorded under a neighbouring city or an unincorporated address, ' +
+              'so treat the drought signal as unknown here and check <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">CHFA</a> directly.' +
             '</div>';
-        } else {
-          host.innerHTML =
-            '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
-              '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
-            '</div>';
+          return;
         }
+        host.innerHTML =
+          '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<strong style="color:var(--text)">No CHFA LIHTC awards on record</strong> for this jurisdiction · maximum opportunity score, but verify against historical CHFA reports if surprising' +
+          '</div>';
+        return;
+      }
+
+      if (rec.latest_lihtc_year == null) {
+        // Measured, not never-funded, and yet no year. Should not happen; say
+        // so rather than falling through into a badge built from nulls.
+        host.innerHTML =
+          '<div style="font-size:1rem;padding:.5rem .65rem;border:1px dashed var(--border);border-radius:6px;color:var(--muted);background:var(--bg2)">' +
+            '<strong style="color:var(--text)">LIHTC award year unavailable</strong> · ' +
+            'the recency record for this jurisdiction has a basis of "' + rec.recency_basis + '" but no year attached' +
+          '</div>';
         return;
       }
       const yr = rec.latest_lihtc_year;
