@@ -16,7 +16,11 @@
   const DATA_PATH      = 'data/hna/ranking-index.json';
   const SCENARIO_BASE_PATH = 'data/hna/ranking-scenarios';
   const SCORECARD_PATH = 'data/policy/housing-policy-scorecard.json';
-  const HNA_PAGE       = 'housing-needs-assessment.html';
+  // Part 1 of 5, matching every other entry into the assessment. Clicking a
+  // row in the comparison table is how a reader starts their own HNA; this
+  // constant feeds both the name cell and the "Open HNA →" cell, so it is
+  // the one place that decides where 546 rows send people.
+  const HNA_PAGE       = 'hna-what-housing-exists.html';
 
   const DEFAULT_METRIC = 'overall_need_score';
   const DEFAULT_SORT_DIR = 'desc';
