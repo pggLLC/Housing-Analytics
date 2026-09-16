@@ -130,6 +130,18 @@ test('the wrap audit counts line boxes, not box height', () => {
     'the height-over-line-height estimate is back');
 });
 
+test('the advisory report stays out of the tracked data manifest', () => {
+  // The first version wrote data/reports/text-wrap-audit.json and the manifest
+  // coverage guard failed the build — correctly. An advisory check should not
+  // add churn to a tracked artifact every time someone runs it.
+  const wrap = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'text-wrap-audit.mjs'), 'utf8');
+  assert.ok(/'audit-report'/.test(wrap),
+    'the wrap audit no longer writes to audit-report/; if it writes into data/ '
+    + 'again it will break test:file-manifest on every run');
+  assert.ok(!/'data', 'reports', 'text-wrap-audit\.json'/.test(wrap),
+    'the wrap audit writes into the tracked data manifest again');
+});
+
 test('the wrap audit runs somewhere with a browser', () => {
   const wf = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'console-error-audit.yml'), 'utf8');
   assert.ok(/text-wrap-audit\.mjs/.test(wf), 'nothing runs the wrap audit');

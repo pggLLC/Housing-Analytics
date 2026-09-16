@@ -157,7 +157,12 @@ const totals = findings.reduce((a, f) => {
   a.midWord += f.midWord.length; a.gratuitous += f.gratuitous.length; return a;
 }, { midWord: 0, gratuitous: 0 });
 
-const out = path.join(ROOT, 'data', 'reports', 'text-wrap-audit.json');
+// audit-report/, not data/reports/: this matches the console audit it runs
+// beside, and keeps an advisory report out of the tracked data manifest. The
+// first version wrote into data/ and the manifest coverage guard caught it —
+// correctly. An advisory check should not add churn to a tracked artifact, and
+// the workflow already uploads this directory.
+const out = path.join(ROOT, 'audit-report', 'text-wrap', `${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
 await fs.mkdir(path.dirname(out), { recursive: true });
 await fs.writeFile(out, JSON.stringify({ generatedAt: new Date().toISOString(), totals, findings }, null, 2));
 
