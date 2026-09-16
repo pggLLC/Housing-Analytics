@@ -2905,11 +2905,7 @@
     // visually — parcels, surrounding buildings, parking, vegetation).
     // Esri's "World_Imagery" tile service is free for non-commercial use
     // and doesn't require an API key. Attribution per Esri's TOS.
-    var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© OpenStreetMap contributors © CARTO',
-      subdomains: 'abcd',
-      maxZoom: 19
-    });
+    var cartoLight = window.COHOBasemaps.light();
     var esriSatellite = L.tileLayer(
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       {

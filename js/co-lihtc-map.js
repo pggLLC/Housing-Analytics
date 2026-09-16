@@ -23,8 +23,11 @@
 
   // ── Basemap tile definitions ─────────────────────────────────────────────────
   var TILE_DEFS = {
-    light:      { url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',   attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>' },
-    dark:       { url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',    attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>' },
+    // `build` rather than `url`: without a CARTO key the labelled basemaps are
+    // an Esri Base + a transparent Reference overlay, i.e. two tile layers, and
+    // a single URL cannot express that. See js/config/basemaps.js.
+    light:      { build: function () { return window.COHOBasemaps.light(); } },
+    dark:       { build: function () { return window.COHOBasemaps.dark(); } },
     osm:        { url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',               attr: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
     satellite:  { url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, Maxar, Earthstar Geographics' },
     'esri-gray':{ url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attr: '&copy; Esri, HERE, DeLorme' },
@@ -673,7 +676,9 @@
     if (currentTileLayer) {
       try { map.removeLayer(currentTileLayer); } catch(e) { /* ignore */ }
     }
-    currentTileLayer = L.tileLayer(def.url, { maxZoom: 19, attribution: def.attr });
+    currentTileLayer = def.build
+      ? def.build()
+      : L.tileLayer(def.url, { maxZoom: 19, attribution: def.attr });
     currentTileLayer.addTo(map);
     try { sessionStorage.setItem('co-map-basemap', name); } catch(e) { /* ignore */ }
   }
