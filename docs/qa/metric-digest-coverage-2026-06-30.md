@@ -5,7 +5,7 @@ Date: 2026-06-30
 B1 metric-digest data spine generated from the committed HNA ranking index and per-geography summaries. This is non-scoring and does not rewrite `data/hna/ranking-index.json`.
 
 - Digest files: 546
-- Total tagged metrics: 54600
+- Total tagged metrics: 73160
 - County-context metric tags: 6276
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
@@ -14,9 +14,9 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 | geography_level | metric tags |
 |---|---:|
-| county | 6016 |
+| county | 8064 |
 | county_context | 6276 |
-| place | 42308 |
+| place | 58820 |
 
 ## Source Tags
 
@@ -24,7 +24,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 |---|---:|
 | acs-b25003 | 546 |
 | acs-b25075 | 1638 |
-| acs-profile | 9828 |
+| acs-profile | 22928 |
 | acs-profile-dp02 | 1092 |
 | acs-profile-dp04 | 1100 |
 | acs-profile-dp05 | 1092 |
@@ -34,7 +34,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | dola-demographic-projections | 2184 |
 | economic-housing-bridge | 4368 |
 | hna-affordable-ownership-need | 6552 |
-| hna-ranking-index-derived | 4914 |
+| hna-ranking-index-derived | 10374 |
 | hud-chas-county | 896 |
 | hud-chas-place-apportioned | 6748 |
 | hud-qct-dda | 1638 |
