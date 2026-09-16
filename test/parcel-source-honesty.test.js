@@ -74,14 +74,30 @@ run('the provider names who actually produces the file', () => {
 
 run('a source with no coverage does not advertise a refresh cadence', () => {
   // Declaring Quarterly/90d made a pipeline that has never produced data read
-  // as merely overdue. Unknown maps to a null window in
-  // data-freshness-monitor.js, which surfaces as 'unknown' rather than a
-  // confident 'stale' or 'current'.
+  // as merely overdue.
+  //
+  // This originally pinned updateFrequency === 'Unknown', which was how the
+  // inventory said "no cadence" before maintenance modes existed. That spelling
+  // is no longer the strongest available statement: regrid-parcels now declares
+  // maintenance 'unavailable' with a note and a lastKnownGood, which says why it
+  // cannot be refreshed rather than only that its cadence is unknown.
+  //
+  // So the assertion is on the INTENT — no advertised cadence, no age limit —
+  // and it is stricter than before: a source claiming it cannot be refreshed
+  // must also carry the reason and the last date the data was good.
+  const NO_CADENCE = ['Unknown', 'Not available'];
   const records = parcels.counties || [];
   const populated = records.filter((r) => (r.total_parcels || 0) > 0);
   if (populated.length === 0) {
     assert.equal(entry.maxAgeDays, null, 'an empty source must not claim an age limit');
-    assert.equal(entry.updateFrequency, 'Unknown', 'nor a refresh cadence it has never met');
+    assert.ok(NO_CADENCE.indexOf(entry.updateFrequency) !== -1,
+      `nor a refresh cadence it has never met (got "${entry.updateFrequency}")`);
+    if (entry.maintenance === 'unavailable') {
+      assert.ok(typeof entry.maintenanceNote === 'string' && entry.maintenanceNote.trim().length >= 40,
+        'a source declared unavailable must say why, where a reader will see it');
+      assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(String(entry.lastKnownGood || '')),
+        'a source declared unavailable must record the last date its data was good');
+    }
   }
 });
 
