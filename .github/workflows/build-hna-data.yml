@@ -78,7 +78,7 @@ jobs:
       - name: Restore ACS checkpoint
         id: restore_hna_acs
         if: ${{ inputs.statewide_only != true }}
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             data/hna/summary
@@ -104,7 +104,7 @@ jobs:
 
       - name: Save ACS checkpoint
         if: ${{ inputs.statewide_only != true && steps.restore_hna_acs.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: |
             data/hna/summary
@@ -115,7 +115,7 @@ jobs:
       - name: Restore LEHD checkpoint
         id: restore_hna_lehd
         if: ${{ inputs.statewide_only != true }}
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: data/hna/lehd
           key: hna-build-${{ github.run_id }}-lehd-v1
@@ -136,7 +136,7 @@ jobs:
 
       - name: Save LEHD checkpoint
         if: ${{ inputs.statewide_only != true && steps.restore_hna_lehd.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: data/hna/lehd
           key: hna-build-${{ github.run_id }}-lehd-v1
@@ -144,7 +144,7 @@ jobs:
       - name: Restore DOLA checkpoint
         id: restore_hna_dola
         if: ${{ inputs.statewide_only != true }}
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             data/hna/dola_sya
@@ -169,7 +169,7 @@ jobs:
 
       - name: Save DOLA checkpoint
         if: ${{ inputs.statewide_only != true && steps.restore_hna_dola.outputs.cache-hit != 'true' }}
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: |
             data/hna/dola_sya
