@@ -233,6 +233,7 @@
   <script defer src="js/components/export-panel.js"></script>
   <script src="js/config/basemaps.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
+  <script defer src="js/hna/hna-chapter-handoff.js"></script>
   <!-- F197 — Plain-English "For affordable-housing developers" callouts.
        Injects a three-lens explanation (why it matters / what it says
        about need / how it shapes your project) under each HNA section
@@ -1336,10 +1337,14 @@
     <div id="lihtcTipsMount-hna"></div>
 
     <!-- HNA Save & Continue panel -->
-    <section class="hna-continue-panel" id="hnaContinuePanel">
+    <section class="hna-handoff" aria-labelledby="hnaHandoffH" id="hnaChapterHandoff"><h2 id="hnaHandoffH" class="hna-handoff__title">What you have now</h2><ul class="hna-handoff__list"><li data-stat="statUnitsNeed" hidden><b class="hna-handoff__n"></b> <span>units needed over the planning horizon</span></li><li data-stat="statBaseUnits" hidden><b class="hna-handoff__n"></b> <span>existing units to build from</span></li><li data-stat="statPermitsAvg" hidden><b class="hna-handoff__n"></b> <span>permits a year at the recent pace</span></li></ul><p class="hna-handoff__empty" hidden>The figures for this part did not load, so there is nothing to summarise here yet.</p><p class="hna-handoff__next"><strong>Next &mdash; Market Analysis</strong><br>You now have a needs assessment for this jurisdiction. Market Analysis is where you test whether a specific site and rent level can actually carry it.</p><p class="hna-handoff__actions"><a class="btn btn-primary" href="market-analysis.html">Continue to Market Analysis →</a></p><p class="hna-handoff__jump">Or jump to: <a href="hna-what-housing-exists.html">What housing exists</a><a href="hna-who-lives-here.html">Who lives here</a><a href="hna-what-households-can-afford.html">What households can afford</a><a href="hna-where-its-heading.html">Where it&#x27;s heading</a></p></section><section class="hna-continue-panel" id="hnaContinuePanel">
       <div class="hna-continue-panel__inner">
         <div class="hna-continue-panel__text">
-          <strong>Step 2 complete?</strong>
+          <!-- Step 3: the rail numbers this page 3 of 6 (F21 moved Opportunity
+               Finder to step 1 and this label was not moved with it). A reader
+               who has just been told they are on step 3 should not then be
+               asked whether step 2 is complete. -->
+          <strong>Step 3 complete?</strong>
           <span id="hnaContinueDesc">Save your Housing Needs Assessment findings to this project, then continue to Market Analysis.</span>
         </div>
         <div class="hna-continue-panel__actions">

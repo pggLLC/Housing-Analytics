@@ -96,7 +96,25 @@
           "review": true,
           "note": "Reads as design/feasibility input; could belong in 'what to do'."
         }
-      ]
+      ],
+      "handoff": {
+        "know": [
+          {
+            "id": "statLihtcCount",
+            "text": "LIHTC properties on record here"
+          },
+          {
+            "id": "statQctCount",
+            "text": "Qualified Census Tracts, where LIHTC deals earn a 30% basis boost"
+          },
+          {
+            "id": "statHomeValue",
+            "text": "median home value"
+          }
+        ],
+        "next": "people",
+        "why": "That is the shape of what is already built. It does not yet tell you who is living in it, or who is struggling to stay."
+      }
     },
     {
       "id": "people",
@@ -150,7 +168,25 @@
           "review": true,
           "note": "Income drives the affordability math — a strong case for putting this in 'what households can afford' instead."
         }
-      ]
+      ],
+      "handoff": {
+        "know": [
+          {
+            "id": "statTotalHh",
+            "text": "households"
+          },
+          {
+            "id": "statHhWithSeniors",
+            "text": "households with someone 65 or older"
+          },
+          {
+            "id": "statRentBurden",
+            "text": "of renters spend 30% or more of their income on rent"
+          }
+        ],
+        "next": "afford",
+        "why": "Knowing who lives here does not yet tell you what they could actually afford to pay."
+      }
     },
     {
       "id": "afford",
@@ -190,7 +226,25 @@
           "n": 33,
           "title": "Current rental gap & affordability"
         }
-      ]
+      ],
+      "handoff": {
+        "know": [
+          {
+            "id": "statGap30",
+            "text": "unit shortfall for households at or below 30% of area median income"
+          },
+          {
+            "id": "statGap60",
+            "text": "shortfall at or below 60% — the band most LIHTC rental serves"
+          },
+          {
+            "id": "statIncomeNeed",
+            "text": "income needed to buy a median-priced home here"
+          }
+        ],
+        "next": "outlook",
+        "why": "That is the gap as it stands today. It does not yet tell you whether it is widening or closing."
+      }
     },
     {
       "id": "outlook",
@@ -248,7 +302,25 @@
           "n": 51,
           "title": "Colorado Market Conditions"
         }
-      ]
+      ],
+      "handoff": {
+        "know": [
+          {
+            "id": "statPopYoy",
+            "text": "population change year over year"
+          },
+          {
+            "id": "statRentYoy",
+            "text": "change in median rent"
+          },
+          {
+            "id": "statHomeValueYoy",
+            "text": "change in median home value"
+          }
+        ],
+        "next": "act",
+        "why": "A direction of travel is not a plan. The last part turns these numbers into the moves actually available to you."
+      }
     },
     {
       "id": "act",
@@ -307,7 +379,25 @@
           "n": 52,
           "title": "Housing Action Plan Checklist"
         }
-      ]
+      ],
+      "handoff": {
+        "know": [
+          {
+            "id": "statUnitsNeed",
+            "text": "units needed over the planning horizon"
+          },
+          {
+            "id": "statBaseUnits",
+            "text": "existing units to build from"
+          },
+          {
+            "id": "statPermitsAvg",
+            "text": "permits a year at the recent pace"
+          }
+        ],
+        "next": null,
+        "why": "You now have a needs assessment for this jurisdiction. Market Analysis is where you test whether a specific site and rent level can actually carry it."
+      }
     }
   ]
 }

@@ -238,6 +238,7 @@
   <script src="js/components/map-home-btn.js"></script>
   <script src="js/config/basemaps.js"></script>
   <script defer src="js/hna/hna-controller.js"></script>
+  <script defer src="js/hna/hna-chapter-handoff.js"></script>
   <!-- F197 — Plain-English "For affordable-housing developers" callouts.
        Injects a three-lens explanation (why it matters / what it says
        about need / how it shapes your project) under each HNA section
@@ -2368,7 +2369,11 @@
     <section class="hna-continue-panel" id="hnaContinuePanel">
       <div class="hna-continue-panel__inner">
         <div class="hna-continue-panel__text">
-          <strong>Step 2 complete?</strong>
+          <!-- Step 3: the rail numbers this page 3 of 6 (F21 moved Opportunity
+               Finder to step 1 and this label was not moved with it). A reader
+               who has just been told they are on step 3 should not then be
+               asked whether step 2 is complete. -->
+          <strong>Step 3 complete?</strong>
           <span id="hnaContinueDesc">Save your Housing Needs Assessment findings to this project, then continue to Market Analysis.</span>
         </div>
         <div class="hna-continue-panel__actions">

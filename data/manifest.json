@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-16T12:49:43.454852Z",
+  "generated": "2026-09-16T12:50:42.431156Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 781868
+      "bytes": 781869
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -724,7 +724,7 @@
     "data/hna/hna-views.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9178
+      "bytes": 12037
     },
     "data/hna/home-value-cascade.json": {
       "featureCount": 64,
