@@ -94,10 +94,13 @@ export function measure({ runTests = false } = {}) {
 
   /* ── Known-open product work ──────────────────────────────────────────── */
 
-  const costPerSf = ['js/deal-calculator.js', 'js/project-market-study/effective-demand.js']
-    .some((f) => /cost.?per.?sf|costPerSf|cost_per_sf|perSquareFoot/i.test(read(f) || ''));
+  // Matches the real implementation: costPerGrossSf() in the deal calculator.
+  // Deliberately anchored on the FUNCTION, not on the words 'cost per sf'
+  // appearing somewhere — a comment mentioning it would otherwise close
+  // this item, which is the mistake four guards made today.
+  const costPerSf = /function costPerGrossSf\(/.test(read('js/deal-calculator.js') || '');
   add('O1', 'Open product work', costPerSf ? PASS : OPEN,
-    costPerSf ? 'cost per square foot is modelled'
+    costPerSf ? 'cost per gross square foot is modelled in the deal calculator'
       : 'cost per square foot exists nowhere in the deal calculator or market study; '
         + 'it needs a gross-SF input (plan pass criterion 6)',
     'source scan');
