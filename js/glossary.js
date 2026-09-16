@@ -178,7 +178,32 @@
   }
 
   /* ── Auto-tooltip: wrap first occurrence of each acronym ─── */
-  function autoTooltip(terms) {
+  /**
+   * Which container counts as "the place the reader is looking".
+   *
+   * First-occurrence-per-PAGE is the wrong unit on a 17,000-word assessment.
+   * AMI appears 169 times and CDP 218 times; defining each once, at the top,
+   * means every panel below it is unexplained by the time anyone reaches it.
+   * Per section, a reader gets the definition next to the number that made
+   * them ask.
+   */
+  function sectionKeyFor(node) {
+    var el = node.parentElement;
+    var host = el && el.closest
+      ? el.closest('section, .chart-card, article, main')
+      : null;
+    if (!host) return 'page';
+    if (!host.__glKey) host.__glKey = 'sec' + (++_sectionSeq);
+    return host.__glKey;
+  }
+
+  var _sectionSeq = 0;
+  // Survives across passes: content arrives late and is scanned repeatedly, so
+  // "already wrapped" has to outlive a single invocation or the same term gets
+  // wrapped again on every mutation.
+  var _wrapped = Object.create(null);
+
+  function autoTooltip(terms, root) {
     if (!terms || !terms.length) return;
 
     // Build a map of acronym → term object
@@ -189,17 +214,27 @@
     // Sort longest first so "SOFR" doesn't match inside "SOFR-based" improperly
     acronyms.sort(function (a, b) { return b.length - a.length; });
 
-    var wrapped = {};
+    // One alternation, longest-first, so the single pass below still prefers
+    // the longer term ("compliance period" over "compliance").
+    var termPattern = new RegExp(
+      '\\b(' + acronyms.map(function (a) {
+        return a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }).join('|') + ')\\b', 'g');
+
+    var wrapped = _wrapped;
 
     // Walk text nodes in <main> only (avoid nav/header/footer/scripts)
-    var main = document.querySelector('main') || document.body;
+    var main = root || document.querySelector('main') || document.body;
     walkTextNodes(main, function (node) {
       if (!node.nodeValue || !node.nodeValue.trim()) return;
       var parent = node.parentNode;
       // Skip if inside a script, style, pre, code, or our own tooltip
       if (!parent) return;
       var tag = parent.tagName ? parent.tagName.toUpperCase() : '';
-      if (['SCRIPT', 'STYLE', 'CODE', 'PRE', 'A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'].indexOf(tag) !== -1) return;
+      // ABBR is ours: the trigger is an <abbr>, so without it a second pass
+      // wraps the tooltip's own text and nests definitions inside definitions.
+      if (['SCRIPT', 'STYLE', 'CODE', 'PRE', 'A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT', 'ABBR'].indexOf(tag) !== -1) return;
+      if (parent.closest && parent.closest('.gl-tooltip-trigger, .gl-tooltip-popup')) return;
       // Don't wrap acronyms inside headings — the popup's full definition
       // text bleeds into the heading's textContent / accessible name (e.g.
       // Deal Calculator's H1 ended up with "LIHTCLow-Income Housing Tax
@@ -238,26 +273,37 @@
 
       var text = node.nodeValue;
       var changed = false;
-      var result = text;
+      var sectionKey = sectionKeyFor(node);
 
-      acronyms.forEach(function (term) {
-        if (wrapped[term]) return; // already wrapped once globally
-        // Match whole word (case-sensitive)
-        var re = new RegExp('\\b' + term + '\\b');
-        if (re.test(result)) {
-          var t = termMap[term];
-          // Use aria-label instead of title so the browser's native tooltip
-          // doesn't create a duplicate of the custom .gl-tooltip-popup,
-          // which was also causing raw HTML strings to be visible in some contexts.
-          var tooltip = '<abbr class="gl-tooltip-trigger" tabindex="0" aria-label="' +
-            escHtml(t.full) +
-            '" data-glossary-term="' + escHtml(term) + '">' + term +
-            '<span class="gl-tooltip-popup" aria-hidden="true"><strong>' + escHtml(t.full) + '</strong>' +
-            escHtml(t.definition.substring(0, 160)) + '…</span></abbr>';
-          result = result.replace(re, tooltip);
-          wrapped[term] = true;
-          changed = true;
-        }
+      // ONE pass over the original text, not one replace() per term over an
+      // accumulating HTML string.
+      //
+      // The old loop re-scanned its own output: AMI's definition ends
+      // "...as calculated by HUD", so the HUD pass matched inside the AMI
+      // popup and produced "AMIArea Median IncomeThe midpoint ... by HUDU.S.
+      // Department of Housing and Urban Development…". 44 nested definitions
+      // on one page. It was invisible while only 17 terms in the static shell
+      // were ever wrapped; it appeared the moment coverage reached the
+      // rendered panels.
+      //
+      // The text is escaped FIRST and matched afterwards — acronyms are word
+      // characters, so escaping cannot affect matching, and it closes the
+      // older hazard of interpolating raw data-driven text into innerHTML.
+      var escaped = escHtml(text);
+      var result = escaped.replace(termPattern, function (match) {
+        var key = sectionKey + '|' + match;
+        if (wrapped[key]) return match;          // already defined in THIS section
+        var t = termMap[match];
+        if (!t) return match;
+        wrapped[key] = true;
+        changed = true;
+        // aria-label rather than title, so the browser's native tooltip does
+        // not duplicate the custom .gl-tooltip-popup.
+        return '<abbr class="gl-tooltip-trigger" tabindex="0" aria-label="' +
+          escHtml(t.full) +
+          '" data-glossary-term="' + escHtml(match) + '">' + match +
+          '<span class="gl-tooltip-popup" aria-hidden="true"><strong>' + escHtml(t.full) + '</strong>' +
+          escHtml(t.definition.substring(0, 160)) + '…</span></abbr>';
       });
 
       if (changed) {
@@ -282,8 +328,27 @@
     });
   }
 
+  /**
+   * Walk text nodes, refusing to descend into tooltips we already made.
+   *
+   * Rejecting the whole SUBTREE, not each node. A definition is prose and
+   * contains other acronyms — AMI's definition ends "...as calculated by HUD",
+   * so a later pass wrapped HUD inside the AMI popup and produced
+   * "AMIArea Median IncomeThe midpoint ... as calculated by HUDU.S. Department
+   * of Housing and Urban Development...". 41 of those before this filter.
+   *
+   * FILTER_REJECT skips the node and everything under it; FILTER_SKIP would
+   * only skip the node itself and keep descending, which is the bug.
+   */
   function walkTextNodes(root, callback) {
-    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    var filter = {
+      acceptNode: function (node) {
+        var p = node.parentElement;
+        if (p && p.closest && p.closest('.gl-tooltip-popup')) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    };
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, filter, false);
     var node;
     var nodes = [];
     while ((node = walker.nextNode())) {
@@ -311,7 +376,14 @@
   /* ── Expose public API ───────────────────────────────────── */
   window.CohoGlossary = {
     open: function (term) { openModal(term || null); },
-    close: closeModal
+    close: closeModal,
+    // For renderers that know when they are done; the observer catches the
+    // rest. Safe to call repeatedly — wrapping is idempotent per section.
+    rescan: function (root) {
+      loadTerms(function (terms) {
+        try { autoTooltip(terms, root || null); } catch (e) { /* non-fatal */ }
+      });
+    }
   };
 
   /* ── Init ────────────────────────────────────────────────── */
@@ -325,14 +397,48 @@
       document.addEventListener('nav:rendered', injectNavButton);
     }
 
-    // Auto-tooltip after a short delay to let the page render
+    // Auto-tooltip after a short delay to let the page render, and again
+    // whenever content arrives.
+    //
+    // A single pass 150ms after DOMContentLoaded only ever saw the static
+    // shell. The HNA renders its panels after fetching data, so the pages a
+    // novice actually reads got NOTHING: measured on housing-needs-assessment
+    // .html, 17 terms wrapped page-wide and 0 inside Affordable Ownership
+    // Need — a section carrying LIHTC, QCT, CHFA, AMI, HUD, ACS and CHAS in
+    // 2,038 words. The glossary was written, shipped, and never reached the
+    // text it was for.
     loadTerms(function (terms) {
+      var pending = null;
+      var mutating = false;
+      function sweep(root) {
+        // Our own insertions fire the observer. Without this the sweep
+        // re-triggers itself on every pass, forever, on a page that renders
+        // continuously.
+        mutating = true;
+        try { autoTooltip(terms, root); } catch (e) { /* never break the page for a tooltip */ }
+        finally { setTimeout(function () { mutating = false; }, 0); }
+      }
+      function scheduleSweep() {
+        if (pending) clearTimeout(pending);
+        // Debounced: HNA renders many panels in a burst, and a full re-walk
+        // per mutation would be paid 100+ times for one screenful.
+        pending = setTimeout(function () { pending = null; sweep(null); }, 400);
+      }
+      function start() {
+        setTimeout(function () { sweep(null); }, 150);
+        var host = document.querySelector('main') || document.body;
+        if (!host || typeof MutationObserver !== 'function') return;
+        new MutationObserver(function (records) {
+          if (mutating) return;
+          for (var i = 0; i < records.length; i++) {
+            if (records[i].addedNodes && records[i].addedNodes.length) { scheduleSweep(); return; }
+          }
+        }).observe(host, { childList: true, subtree: true });
+      }
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(function () { autoTooltip(terms); }, 150);
+        start();
       } else {
-        document.addEventListener('DOMContentLoaded', function () {
-          setTimeout(function () { autoTooltip(terms); }, 150);
-        });
+        document.addEventListener('DOMContentLoaded', start);
       }
     });
   }
