@@ -238,7 +238,11 @@
       curated: '<span class="drh-badge drh-badge--muted" title="Maintained by hand — no automated refresh cadence">✍ Curated</span>',
       archived: '<span class="drh-badge drh-badge--muted" title="Intentionally frozen at a final vintage">📦 Archived</span>',
       unavailable: '<span class="drh-badge drh-badge--bad" title="Cannot be refreshed — see the reason on this card">⛔ Unavailable</span>',
-      unknown: '<span class="drh-badge drh-badge--muted">❓ Unknown</span>'
+      // Declared in the registry but never integrated — there is no snapshot,
+      // so there is nothing to be stale. Distinct from 'Unknown', which
+      // means data IS present and its cadence is undeclared.
+      planned: '<span class="drh-badge drh-badge--muted" title="Declared but not yet integrated — no snapshot exists yet">🧭 Planned</span>',
+      unknown: '<span class="drh-badge drh-badge--muted" title="Data is present but no refresh cadence is declared">❓ Unknown</span>'
     };
     return map[status] || map.unknown;
   }
