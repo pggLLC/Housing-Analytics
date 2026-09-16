@@ -74,6 +74,8 @@ function parseArgs() {
   const pageArgIdx = args.indexOf('--page');
   return {
     pages:    pageArgIdx !== -1 && args[pageArgIdx + 1] ? [args[pageArgIdx + 1]] : AUDIT_PAGES,
+    // A --page run is a probe at one page, not an audit of the site.
+    singlePage: pageArgIdx !== -1 && Boolean(args[pageArgIdx + 1]),
     jsonOnly: args.includes('--json-only'),
     quiet:    args.includes('--quiet'),
   };
@@ -88,6 +90,23 @@ async function locateAxeScript() {
   return candidate;
 }
 
+/**
+ * Audit one page. Never throws: a page that cannot be audited comes back as
+ * `{ error }` so the run continues and the failure is reported per page.
+ *
+ * Previously only page.goto() was guarded. addScriptTag() and evaluate() were
+ * not, so when Chromium dropped the tab on deal-calculator.html — 219 form
+ * inputs, the heaviest page in the set — the rejection escaped this function
+ * and killed the whole audit. Two runs of the SAME commit (e7df0d0cc) on
+ * 2026-09-16 disagreed: one passed, one failed. An accessibility gate that
+ * answers differently for identical code is not measuring accessibility, and
+ * what people learn from it is to ignore a red axe.
+ *
+ * The context is also closed in a `finally`. It was closed only on the success
+ * path, so every crash leaked a browser context for the remaining pages to
+ * compete with — which is the likeliest reason the last page in a 21-page run
+ * is the one that dies.
+ */
 async function auditPage(browser, pagePath, axeScript) {
   const context = await browser.newContext();
   const page    = await context.newPage();
@@ -100,15 +119,12 @@ async function auditPage(browser, pagePath, axeScript) {
   const fileUrl = pathToFileURL(path.join(ROOT, pagePath)).href;
   try {
     await page.goto(fileUrl, { waitUntil: 'load', timeout: 15_000 });
-  } catch (err) {
-    await context.close();
-    return { page: pagePath, error: `goto failed: ${err.message}`, violations: [] };
-  }
 
-  // Inject axe-core then run it.
-  await page.addScriptTag({ path: axeScript });
+    // Inject axe-core then run it. Inside the try: a crash here used to take
+    // the entire run with it.
+    await page.addScriptTag({ path: axeScript });
 
-  const result = await page.evaluate(async (wcagTags) => {
+    const result = await page.evaluate(async (wcagTags) => {
     // eslint-disable-next-line no-undef
     const r = await window.axe.run(document, { runOnly: { type: 'tag', values: wcagTags } });
     // Trim the raw result to the fields we surface in the baseline.
@@ -130,16 +146,29 @@ async function auditPage(browser, pagePath, axeScript) {
       incompleteCount: r.incomplete.length,
       inapplicable:    r.inapplicable.length,
     };
-  }, WCAG_TAGS);
+    }, WCAG_TAGS);
 
-  await context.close();
-  return { page: pagePath, ...result };
+    return { page: pagePath, ...result };
+  } catch (err) {
+    // Chromium dropping the tab reads as "Target crashed". Report it against
+    // this page and let the run continue; summarize() counts it as UNAUDITED,
+    // which is neither clean nor a violation.
+    return { page: pagePath, error: err.message.split('\n')[0].slice(0, 200), violations: [] };
+  } finally {
+    await context.close().catch(() => {});
+  }
 }
 
 function summarize(results) {
   const byImpact = { critical: 0, serious: 0, moderate: 0, minor: 0 };
   const byRule   = {};
   let totalNodes = 0;
+
+  // A page that could not be audited is NOT a page with no violations. Before
+  // this it was skipped here and contributed nothing, so a page that failed to
+  // load produced a clean summary and an exit code of 0 — the audit reporting
+  // "no accessibility problems" about a page it never looked at.
+  const unaudited = results.filter(r => r.error).map(r => ({ page: r.page, error: r.error }));
 
   for (const r of results) {
     if (r.error) continue;
@@ -153,7 +182,12 @@ function summarize(results) {
     }
   }
 
-  return { byImpact, byRule, totalNodes, pageCount: results.length };
+  return {
+    byImpact, byRule, totalNodes,
+    pageCount: results.length,
+    auditedCount: results.length - unaudited.length,
+    unaudited,
+  };
 }
 
 function toMarkdown(results, summary) {
@@ -210,7 +244,7 @@ function toMarkdown(results, summary) {
 }
 
 async function main() {
-  const { pages, jsonOnly, quiet } = parseArgs();
+  const { pages, jsonOnly, quiet, singlePage } = parseArgs();
 
   let playwright;
   try { playwright = await import('playwright'); }
@@ -231,7 +265,15 @@ async function main() {
   const results = [];
   for (const p of pages) {
     if (!quiet) process.stdout.write(`[a11y-audit] ${p} ... `);
-    const r = await auditPage(browser, p, axeScript);
+    // One retry in a fresh context. These crashes are resource-related and
+    // transient — the same commit passed and failed within a minute of itself.
+    // A retry is not a fix for a real failure: if the second attempt also
+    // fails, the page is reported UNAUDITED and the run exits non-zero.
+    let r = await auditPage(browser, p, axeScript);
+    if (r.error) {
+      if (!quiet) process.stdout.write('retrying ... ');
+      r = await auditPage(browser, p, axeScript);
+    }
     results.push(r);
     if (!quiet) {
       if (r.error) console.log(`error: ${r.error}`);
@@ -242,14 +284,23 @@ async function main() {
 
   const summary = summarize(results);
 
-  // Write outputs
+  // Write outputs — but NOT for a single-page probe.
+  //
+  // `--page foo.html` used to overwrite the whole baseline with a one-page
+  // result, so checking one page destroyed the record of the other twenty and
+  // left a committable file claiming the site is one page long. Debugging a
+  // single page should not rewrite the site's accessibility record.
   const jsonOut = path.join(ROOT, 'data', 'reports', 'a11y-baseline.json');
   const mdOut   = path.join(ROOT, 'docs', 'reports', 'a11y-baseline-2026.md');
-  await fs.mkdir(path.dirname(jsonOut), { recursive: true });
-  await fs.mkdir(path.dirname(mdOut),   { recursive: true });
-  await fs.writeFile(jsonOut, JSON.stringify({ generatedAt: new Date().toISOString(), summary, results }, null, 2));
-  if (!jsonOnly) {
-    await fs.writeFile(mdOut, toMarkdown(results, summary));
+  if (singlePage) {
+    if (!quiet) console.log('[a11y-audit] single-page probe — baseline left untouched');
+  } else {
+    await fs.mkdir(path.dirname(jsonOut), { recursive: true });
+    await fs.mkdir(path.dirname(mdOut),   { recursive: true });
+    await fs.writeFile(jsonOut, JSON.stringify({ generatedAt: new Date().toISOString(), summary, results }, null, 2));
+    if (!jsonOnly) {
+      await fs.writeFile(mdOut, toMarkdown(results, summary));
+    }
   }
 
   if (!quiet) {
@@ -259,8 +310,22 @@ async function main() {
     console.log(`  serious:  ${summary.byImpact.serious  || 0}`);
     console.log(`  moderate: ${summary.byImpact.moderate || 0}`);
     console.log(`  minor:    ${summary.byImpact.minor    || 0}`);
+    console.log(`  audited:  ${summary.auditedCount}/${summary.pageCount} page(s)`);
     console.log(`Raw JSON:   ${path.relative(ROOT, jsonOut)}`);
     if (!jsonOnly) console.log(`Report:     ${path.relative(ROOT, mdOut)}`);
+  }
+
+  // Exit non-zero for pages nobody audited, with a message that says so rather
+  // than implying a violation. A red axe should mean one specific thing.
+  if (summary.unaudited.length > 0) {
+    console.error('');
+    console.error(`a11y-audit: ${summary.unaudited.length} page(s) could not be audited:`);
+    for (const u of summary.unaudited) console.error(`  ${u.page} — ${u.error}`);
+    console.error('');
+    console.error('This is not a clean result and not a violation count. Those pages');
+    console.error('were never looked at. Re-run, or reduce the page set if a page');
+    console.error('genuinely cannot be loaded under file://.');
+    process.exit(1);
   }
 }
 

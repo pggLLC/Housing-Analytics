@@ -47,6 +47,14 @@ jobs:
       - name: Install Playwright Chromium
         run: npx playwright install chromium
 
+      # This is the only lane with a browser, so it is the only lane that can
+      # execute the behavioural half of the audit's own guard. ci-checks runs
+      # the same file and SKIPS those two assertions; if this step goes away
+      # they are skipped everywhere and never run, which the test itself
+      # asserts against.
+      - name: Guard the audit's failure handling
+        run: node test/a11y-audit-never-silently-skips.test.mjs
+
       - name: Run axe-core audit
         id: audit
         run: node scripts/audit/a11y-audit.mjs
