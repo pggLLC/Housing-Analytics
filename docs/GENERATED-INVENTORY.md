@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T18:56:48.786Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T19:55:40.126Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-354 test files found.
+355 test files found.
 
 | File | Size |
 |------|------|
@@ -1712,6 +1712,7 @@
 | `test/compliance-checklist.test.js` | 23.5 KB |
 | `test/console-audit-exercises-controls.test.js` | 7.9 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
+| `test/cost-per-sf-absence.test.js` | 6.9 KB |
 | `test/county-demographics-contract.test.js` | 19.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
