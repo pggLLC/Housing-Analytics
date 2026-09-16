@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T06:02:31.826Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T06:55:58.478Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-345 test files found.
+346 test files found.
 
 | File | Size |
 |------|------|
@@ -1766,6 +1766,7 @@
 | `test/funding-context-card.test.js` | 7.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
+| `test/glossary-reaches-rendered-content.test.js` | 6.6 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
