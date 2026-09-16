@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "89cf4caf3",
+  "generated_from_commit": "729c96794",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -56,7 +56,7 @@
     "workflows": 71,
     "scripts": 263,
     "docs": 448,
-    "data_files": 1654,
+    "data_files": 1653,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "89cf4caf3",
+    "extracted_at_commit": "729c96794",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
