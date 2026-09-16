@@ -63,6 +63,16 @@ jobs:
           AUDIT_BASE_URL: http://127.0.0.1:8080
           GITHUB_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
+      # Advisory: reports text that wraps when it did not need to, which costs
+      # vertical scrolling. It never fails the run. It lives here because this
+      # lane already has a browser and a served copy of the site — standing up
+      # a second one would be the only cost of putting it elsewhere.
+      - name: Text-wrap audit (advisory)
+        continue-on-error: true
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:8080
+        run: node scripts/audit/text-wrap-audit.mjs
+
       # ── Upload reports ──────────────────────────────────────────────────────
       - name: Upload audit reports
         if: always()
