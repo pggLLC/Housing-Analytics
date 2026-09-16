@@ -77,14 +77,63 @@
     });
   }
 
+  /**
+   * Make a LayerGroup usable everywhere a basemap is expected.
+   *
+   * CARTO bundled labels into one tile layer. Esri splits them, so a labelled
+   * basemap became an L.LayerGroup — and a LayerGroup is NOT a TileLayer. Two
+   * things broke, both of them silently at first:
+   *
+   *   bringToBack()  — not a LayerGroup method. js/hna/hna-controller.js calls
+   *                    it after every basemap swap, and threw
+   *                    "activeBase.bringToBack is not a function".
+   *   tile events    — a LayerGroup emits none, so the `once('tileerror')`
+   *                    fallback to OSM in the same file could never fire. That
+   *                    one threw nothing at all: the fallback just stopped
+   *                    existing, which is worse.
+   *
+   * Rather than patch each call site, the group honours the contract a caller
+   * already has with a basemap. Anything that worked with a CARTO tile layer
+   * works with this.
+   */
+  function asBasemap(base, reference) {
+    var group = global.L.layerGroup([base, reference]);
+
+    // Order matters. bringToBack puts a layer BEHIND everything, so the last
+    // one sent back ends up furthest back: labels first, then the base, leaves
+    // the base underneath and the labels above it. Reversed, the labels would
+    // be buried and the basemap would look unlabelled.
+    group.bringToBack = function () {
+      reference.bringToBack();
+      base.bringToBack();
+      return group;
+    };
+    group.bringToFront = function () {
+      base.bringToFront();
+      reference.bringToFront();
+      return group;
+    };
+    group.setOpacity = function (v) {
+      base.setOpacity(v);
+      reference.setOpacity(v);
+      return group;
+    };
+
+    // Re-emit the base layer's tile events so `on`/`once('tileerror')` still
+    // reaches a caller. Only the base is watched: the label overlay failing is
+    // not a reason to fall back to another provider.
+    ['tileerror', 'tileload', 'load'].forEach(function (evt) {
+      base.on(evt, function (e) { group.fire(evt, e); });
+    });
+
+    return group;
+  }
+
   /** Labelled basemap. A LayerGroup unless CARTO is keyed, which bundles labels. */
   function labelled(tone, opts) {
     if (cartoKey()) return carto(tone === 'dark' ? 'dark_all' : 'light_all', opts);
     var prefix = tone === 'dark' ? 'World_Dark_Gray_' : 'World_Light_Gray_';
-    return global.L.layerGroup([
-      esri(prefix + 'Base', opts),
-      esri(prefix + 'Reference', opts),
-    ]);
+    return asBasemap(esri(prefix + 'Base', opts), esri(prefix + 'Reference', opts));
   }
 
   /** Bare basemap, no place names. */
