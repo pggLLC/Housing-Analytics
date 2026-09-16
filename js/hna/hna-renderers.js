@@ -5174,6 +5174,81 @@
       },
     ];
 
+    /* ── The answer, first ────────────────────────────────────────────────
+     *
+     * This panel computed its conclusion — tenureMixRecommendation — and then
+     * showed it as the FOURTH of four cards, above a 2,038-word, 22-heading
+     * run of detail. A planner asking "are ownership tools worth considering
+     * in my town" had to read a consultant's report to find the sentence that
+     * answers it.
+     *
+     * Nothing here is newly computed or re-derived. The verdict, the reason
+     * and the numbers below are the same values the cards and the table show;
+     * this block puts the conclusion where the question is asked and lets the
+     * evidence stay one click away.
+     *
+     * The plain-English headline is a restatement of the recommendation, not a
+     * second opinion: each phrase maps 1:1 from the recommendation string, and
+     * the original term is shown beside it so the two can never drift apart in
+     * the reader's head.
+     */
+    var PLAIN = {
+      'Rental + ownership mix': 'Both rental and ownership tools look worth screening here.',
+      'Rental priority': 'Rental is where the need concentrates here.',
+      'Ownership-supportive strategy': 'Ownership tools look worth screening here.',
+      'Deep affordability priority': 'The need here concentrates at the deepest income levels.',
+      // NOT the same as having no data, and saying so would be its own
+      // misstatement. Castle Rock reaches this with High data quality and all
+      // three driver counts populated — the thresholds simply did not fire in
+      // any one direction. "No clear signal" is the finding; "not enough data"
+      // would be false.
+      'Verify locally': 'No clear signal either way — this one needs local judgement.',
+      'Insufficient data - verify locally': 'Not enough local data to answer this yet.'
+    };
+    var recValue = result.tenureMixRecommendation || 'Verify locally';
+    // An unmapped value is a recommendation nobody has written plain English
+    // for. Read it as an absence rather than inventing a reading of it.
+    var plainAnswer = PLAIN[recValue] || 'Not enough local data to answer this yet.';
+    var answered = Object.prototype.hasOwnProperty.call(PLAIN, recValue);
+
+    // The two or three figures that actually drove it, named in words a
+    // reader can check against their own knowledge of the place.
+    var drivers = [
+      { label: 'Renter households paying more than 30% of income on housing',
+        value: _ownFmtNum(result.renterCostBurdened) },
+      { label: 'Owner households paying more than 30%',
+        value: _ownFmtNum(result.ownerCostBurdened) },
+      { label: 'Renter households earning 51-100% of area median income',
+        value: _ownFmtNum(result.moderateIncomeRenterHouseholds) }
+    ].filter(function (d) { return d.value && d.value !== 'Unavailable'; });
+
+    var driverHtml = drivers.map(function (d) {
+      return '<li style="margin:.3rem 0;line-height:1.5;">' +
+        '<strong style="color:var(--text);font-variant-numeric:tabular-nums;">' + escHtml(d.value) + '</strong> ' +
+        '<span style="color:var(--muted);">' + escHtml(d.label) + '</span></li>';
+    }).join('');
+
+    var caveatCount = (result.caveats || []).length;
+    var verdictHtml =
+      '<div style="border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:1rem 1.1rem;background:var(--card);margin:.25rem 0 1rem;">' +
+        '<p style="margin:0 0 .5rem;font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.35;text-wrap:balance;">' +
+          escHtml(plainAnswer) + '</p>' +
+        (answered
+          ? '<p style="margin:0 0 .6rem;color:var(--muted);font-size:1rem;line-height:1.5;">' +
+              escHtml(result.recommendationDetail || '') + '</p>'
+          : '<p style="margin:0 0 .6rem;color:var(--muted);font-size:1rem;line-height:1.5;">' +
+              escHtml(result.recommendationDetail || 'Ownership screening needs local data that is not published for this geography.') + '</p>') +
+        (driverHtml
+          ? '<p style="margin:.2rem 0 .1rem;font-size:.95rem;font-weight:700;color:var(--text);">What this is based on</p>' +
+            '<ul style="margin:0 0 .6rem;padding-left:1.1rem;font-size:1rem;">' + driverHtml + '</ul>'
+          : '') +
+        '<p style="margin:0;font-size:.95rem;color:var(--muted);line-height:1.5;">' +
+          'Screening estimate &middot; classified <strong style="color:var(--text);">' + escHtml(recValue) + '</strong>' +
+          (result.dataQuality ? ' &middot; ' + escHtml(result.dataQuality) + ' data quality' : '') +
+          (caveatCount ? ' &middot; ' + caveatCount + ' caveat' + (caveatCount === 1 ? '' : 's') + ' below' : '') +
+        '</p>' +
+      '</div>';
+
     var cardHtml = cards.map(function (card) {
       return '<div style="border:1px solid var(--border);border-radius:6px;padding:.85rem;background:var(--card);min-width:0;">' +
         '<div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;flex-wrap:wrap;margin-bottom:.35rem;">' +
@@ -5223,10 +5298,30 @@
       },
     });
 
+    var DETAIL_SUMMARY = 'font-size:1rem;font-weight:700;color:var(--accent);cursor:pointer;padding:.5rem 0;';
+    var DETAIL_BOX = 'margin:.6rem 0;border:1px solid var(--border);border-radius:8px;padding:0 .9rem;background:var(--bg2);';
+
+    // The answer goes ABOVE the section's static framing when the page gives it
+    // a mount; otherwise it stays at the top of this container, so the panel
+    // still leads with the conclusion on any page that has not added one.
+    var answerMount = document.getElementById('hnaOwnershipAnswer');
+    if (answerMount) answerMount.innerHTML = verdictHtml;
+
     container.innerHTML =
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.75rem 0 1rem;">' + cardHtml + '</div>' +
-      '<div id="hnaOwnershipDecisionChain" style="margin:1rem 0;"></div>' +
-      '<div style="overflow-x:auto;margin-top:.75rem;">' +
+      (answerMount ? '' : verdictHtml) +
+      // The evidence, one click away rather than two thousand words deep.
+      // Open by default would put the reader back where they started.
+      '<details style="' + DETAIL_BOX + '">' +
+        '<summary style="' + DETAIL_SUMMARY + '">How that was screened &mdash; four pressure measures</summary>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.25rem 0 1rem;">' + cardHtml + '</div>' +
+      '</details>' +
+      '<details style="' + DETAIL_BOX + '">' +
+        '<summary style="' + DETAIL_SUMMARY + '">If you are taking this further &mdash; the developer decision chain</summary>' +
+        '<div id="hnaOwnershipDecisionChain" style="margin:.5rem 0 1rem;"></div>' +
+      '</details>' +
+      '<details style="' + DETAIL_BOX + '">' +
+        '<summary style="' + DETAIL_SUMMARY + '">Every indicator, with its source</summary>' +
+      '<div style="overflow-x:auto;margin:.5rem 0 1rem;">' +
         '<table style="width:100%;border-collapse:collapse;font-size:1rem;" aria-label="Tenure strategy indicators">' +
           '<thead><tr>' +
             '<th scope="col" style="text-align:left;padding:.45rem .5rem;">Indicator</th>' +
@@ -5236,6 +5331,7 @@
           '</tr></thead><tbody>' + tableRows + '</tbody>' +
         '</table>' +
       '</div>' +
+      '</details>' +
       '<details style="margin-top:1rem;border-top:1px solid var(--border);padding-top:.7rem;">' +
         '<summary style="cursor:pointer;font-size:1rem;color:var(--muted);font-weight:700;">What to verify next</summary>' +
         '<p style="font-size:1rem;color:var(--muted);line-height:1.5;margin:.55rem 0;">Before using this for a project decision, verify local sales prices, HOA costs, mortgage assumptions, down-payment assistance, household size, employer demand, household readiness, and local deed-restriction policy. <a href="docs/methodology/AFFORDABLE-OWNERSHIP-METHODOLOGY.md" style="color:var(--accent);">Read the methodology</a>.</p>' +

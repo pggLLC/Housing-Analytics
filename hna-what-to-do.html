@@ -1139,6 +1139,8 @@
           <h2 id="hnaH2AffordableOwnershipNeed" data-methodology-key="affordable-ownership-need" style="margin:0">Affordable Ownership Need</h2>
           <span style="display:inline-flex;align-items:center;min-height:22px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-size:.72rem;font-weight:800;">Screening estimate</span>
         </div>
+        <!-- The answer, before the framing. Filled by hna-renderers.js. -->
+        <div id="hnaOwnershipAnswer"></div>
         <p style="color:var(--muted);font-size:1.133rem;margin:0 0 .65rem;line-height:1.5">
           This section helps identify where affordable homeownership may be part of the housing strategy. It does not replace the rental need analysis. It helps show whether a community may need a mix of LIHTC rental, deed-restricted ownership, shared-equity homes, or other permanently affordable ownership options.
         </p>
@@ -1151,9 +1153,18 @@
         <div id="hnaAffordableOwnershipNeed">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>
         </div>
-        <div id="hnaOwnershipStrategy" class="chart-card" style="margin-top:1rem;min-width:0;overflow:hidden;">
+        <!-- Collapsed by default: this is the full ownership strategy workup (AMI ladder,
+             programs, stewardship capacity, public land, resale comparison, funding
+             checklist). It is the right depth for someone already committed to an
+             ownership path, and the wrong first thing to hand a planner asking
+             whether ownership is worth considering at all. The answer to that now
+             sits above; this is the workup behind it. -->
+        <details class="chart-card" style="margin-top:1rem;min-width:0;">
+          <summary style="cursor:pointer;font-weight:700;color:var(--accent);font-size:1rem;padding:.25rem 0;">Full ownership strategy workup &mdash; AMI ladder, programs, stewardship, public land, resale options</summary>
+          <div id="hnaOwnershipStrategy" style="min-width:0;overflow:hidden;">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load the ownership strategy screen.</p>
         </div>
+        </details>
       </section>
 
       <!-- ── Neighborhood & Architectural Context ── -->
