@@ -28,7 +28,11 @@ const SRC = fs.readFileSync(path.join(ROOT, 'js', 'deal-calculator.js'), 'utf8')
 let failures = 0;
 const pass = (m) => console.log(`  ✓ ${m}`);
 const fail = (m) => { failures += 1; console.log(`  ✗ ${m}`); };
-const run = (name, fn) => {
+// Named `test` deliberately, not `run`: scripts/paper/build-paper-figures.mjs
+// counts absence assertions by matching `test|it|describe` on the assertion
+// NAME. Under the old name this file — the clearest example of the discipline
+// the paper describes — contributed 0 to that figure.
+const test = (name, fn) => {
   try { fn(); pass(name); } catch (e) { fail(`${name} — ${e.message}`); }
 };
 
@@ -85,7 +89,7 @@ function loadDealCalc() {
 }
 
 let API = null;
-run('the calculator exposes its stress maths for testing', () => {
+test('the calculator exposes its stress maths for testing', () => {
   API = loadDealCalc();
   assert.ok(API, 'window.__DealCalc is absent');
   assert.strictEqual(typeof API.computeDscrStressScenarios, 'function',
@@ -100,13 +104,13 @@ const baseInputs = {
   annualDebtService: 500000,
 };
 
-run('a real rent roll still produces stress scenarios', () => {
+test('a real rent roll still produces stress scenarios', () => {
   assert.ok(API, 'the module never loaded — these assertions would otherwise pass vacuously');
   const out = API.computeDscrStressScenarios({ ...baseInputs, annualRents: 1200000 });
   assert.ok(out, 'a valid deal produced no scenarios — the guard is too aggressive');
 });
 
-run('an unknown rent roll produces NO scenarios, rather than a 0.00 DSCR', () => {
+test('an unknown rent roll produces NO scenarios, rather than a 0.00 DSCR', () => {
   assert.ok(API, 'the module never loaded — these assertions would otherwise pass vacuously');
   // NaN is what the unit-mix error path now assigns. Before the fix this was 0,
   // which sailed through `annualRents <= 0` being false for NaN and, when it
@@ -117,13 +121,13 @@ run('an unknown rent roll produces NO scenarios, rather than a 0.00 DSCR', () =>
     + 'unknown rent is a number nobody measured');
 });
 
-run('a zero rent roll also produces no scenarios', () => {
+test('a zero rent roll also produces no scenarios', () => {
   assert.ok(API, 'the module never loaded — these assertions would otherwise pass vacuously');
   const out = API.computeDscrStressScenarios({ ...baseInputs, annualRents: 0 });
   assert.strictEqual(out, null, 'a $0 rent roll produced stress scenarios');
 });
 
-run('a missing rent roll is not silently defaulted', () => {
+test('a missing rent roll is not silently defaulted', () => {
   assert.ok(API, 'the module never loaded — these assertions would otherwise pass vacuously');
   for (const v of [undefined, null, '']) {
     const out = API.computeDscrStressScenarios({ ...baseInputs, annualRents: v });
@@ -133,7 +137,7 @@ run('a missing rent roll is not silently defaulted', () => {
 
 /* ── source-pinned: the call sites the DOM would be needed to execute ────── */
 
-run('a broken unit mix assigns NaN, not 0', () => {
+test('a broken unit mix assigns NaN, not 0', () => {
   assert.ok(/if \(unitMixError\) \{\s*\n\s*annualRents = NaN;/.test(SRC),
     'the unit-mix error path no longer assigns NaN — if it assigns 0 again, '
     + 'NOI, DSCR and the funding gap resume computing from a rent roll that '
@@ -142,21 +146,21 @@ run('a broken unit mix assigns NaN, not 0', () => {
     'the unit-mix error path assigns 0 again');
 });
 
-run('the rents input is not re-coerced by a || 0 default', () => {
+test('the rents input is not re-coerced by a || 0 default', () => {
   // `+inputs.annualRents || 0` turns NaN back into 0 and undoes the fix one
   // function away from where it was made.
   assert.ok(!/var annualRents\s*=\s*\+inputs\.annualRents \|\| 0;/.test(SRC),
     'annualRents is read with `|| 0`, which resurrects the zeroed deal');
 });
 
-run('the rents guard catches NaN, not just <= 0', () => {
+test('the rents guard catches NaN, not just <= 0', () => {
   // `NaN <= 0` is false, so a bare `<= 0` lets an unknown rent roll straight
   // through. The inverted form catches missing, zero, negative and NaN.
   assert.ok(/!\(annualRents > 0\)/.test(SRC),
     'the rents guard uses a bare comparison that NaN passes');
 });
 
-run('an empty units field does not become a 60-unit project', () => {
+test('an empty units field does not become a 60-unit project', () => {
   // Quote-agnostic, and not tied to reading the element inline: the original
   // form of this assertion only matched single quotes, so rewriting the same
   // defect with double quotes slipped past it.
@@ -170,7 +174,7 @@ run('an empty units field does not become a 60-unit project', () => {
     'the guarded units read is gone');
 });
 
-run('the predictor is not asked a question with no unit count in it', () => {
+test('the predictor is not asked a question with no unit count in it', () => {
   // js/lihtc-deal-predictor.js applies its OWN _num(inputs.proposedUnits, 60),
   // so passing the unknown through simply resurrects 60 one layer down.
   assert.ok(/if \(!Number\.isFinite\(units\)\) \{/.test(SRC),
@@ -179,7 +183,7 @@ run('the predictor is not asked a question with no unit count in it', () => {
     'nothing tells the user why no prediction appeared');
 });
 
-run('the predictor default that made this necessary still exists', () => {
+test('the predictor default that made this necessary still exists', () => {
   // Pins the reason the guard above is written the way it is. If the predictor
   // ever stops defaulting to 60, this test should be revisited rather than
   // left asserting a rationale that no longer holds.
