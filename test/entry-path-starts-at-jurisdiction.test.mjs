@@ -92,11 +92,18 @@ test('the rail component agrees with the markup', () => {
 
 test('no page identifies a rail step by its number', () => {
   // The defect that survived the F21 renumber: page JS looked the jurisdiction
-  // step up as .wf-step[data-step="2"]. It kept matching after the reorder and
-  // silently addressed a different step.
+  // step up by its ordinal. It kept matching after the reorder and silently
+  // addressed a different step.
+  //
+  // Deliberately reads the raw file — no comment stripping. Stripping first
+  // seemed tidier (a comment quoting the old selector would fire this falsely)
+  // but it is wrong in the direction that matters: any incompleteness in a
+  // comment regex HIDES text from this scan, which is a silent miss of exactly
+  // the bug being guarded. A false fire is loud and takes a minute to dismiss.
+  // The match is already anchored on the invocation, not the mention.
   const offenders = [];
   for (const f of pages) {
-    const src = read(f).replace(/<!--[\s\S]*?-->/g, '');
+    const src = read(f);
     if (/querySelector\w*\(\s*['"][^'"]*\.wf-step\[data-step=/.test(src)) offenders.push(f);
   }
   assert.deepStrictEqual([...offenders], [],
