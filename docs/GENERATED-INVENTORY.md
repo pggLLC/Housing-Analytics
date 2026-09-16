@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T11:23:16.468Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T13:03:31.488Z. Do not edit by hand.
 
 ---
 
@@ -42,13 +42,13 @@
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 136.6 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 138.8 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 162.9 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 167.2 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 136.0 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.2 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 140.4 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.6 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.8 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.5 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 240.7 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 241.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 33.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -132,7 +132,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 239.0 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 239.4 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 323.3 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -216,7 +216,7 @@
 | `data/hna/dola_sya/08125.json` | 1.7 KB | ✅ | — |
 | `data/hna/geo-config.json` | 63.9 KB | ✅ | — |
 | `data/hna/geography-registry.json` | 120.4 KB | ✅ | — |
-| `data/hna/hna-views.json` | 9.0 KB | ✅ | — |
+| `data/hna/hna-views.json` | 11.8 KB | ✅ | — |
 | `data/hna/home-value-cascade.json` | 130.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08001.json` | 36.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/08003.json` | 36.0 KB | ✅ | — |
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-349 test files found.
+350 test files found.
 
 | File | Size |
 |------|------|
@@ -1774,6 +1774,7 @@
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
 | `test/hna-build-rebase-recovery.test.js` | 4.6 KB |
 | `test/hna-car-loader.test.js` | 4.1 KB |
+| `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-comparison.test.js` | 9.1 KB |
