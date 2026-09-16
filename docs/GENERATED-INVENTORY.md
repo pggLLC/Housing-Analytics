@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T16:19:53.308Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T17:40:38.321Z. Do not edit by hand.
 
 ---
 
@@ -40,7 +40,7 @@
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 7.5 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 34.1 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.4 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.5 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.2 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 140.4 KB |
@@ -1770,7 +1770,7 @@
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 6.6 KB |
-| `test/guided-path-enters-the-chapters.test.mjs` | 6.6 KB |
+| `test/guided-path-enters-the-chapters.test.mjs` | 8.6 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
