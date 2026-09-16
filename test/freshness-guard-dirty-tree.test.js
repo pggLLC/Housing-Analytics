@@ -257,19 +257,29 @@ function executableBody(src) {
 
 test('the guard runs BEFORE the generator, not after it', () => {
   // A guard placed after the build has already lost the file.
+  //
+  // Anchored on the INVOCATION, not on the generator's filename. The first
+  // version of this matched the name, and broke the moment check-ranking-index
+  // -fresh.py listed its producers in a CHAIN constant above main() — the
+  // guard still ran first, the test was reading a declaration. A mention is
+  // not an execution, which is the same distinction this whole file is about.
   const order = {
-    'scripts/check-ranking-index-fresh.py': /build_ranking_index\.py/,
-    'scripts/check-place-chas-fresh.py': /build_place_chas\.py/,
-    'scripts/check-place-pages-fresh.py': /build_place_pages\.py/,
-    'scripts/check-jurisdiction-digest-fresh.mjs': /build:jurisdiction-metrics-digest/,
+    'scripts/check-ranking-index-fresh.py': /for runtime, script in CHAIN:/,
+    'scripts/check-place-chas-fresh.py': /\[sys\.executable, "scripts\/hna\/build_place_chas\.py"\]/,
+    'scripts/check-place-pages-fresh.py': /\[sys\.executable, "scripts\/hna\/build_place_pages\.py"\]/,
+    'scripts/check-jurisdiction-digest-fresh.mjs': /run\('npm', \['run', 'build:jurisdiction-metrics-digest'\]\)/,
   };
   const CALL = /(refuse_if_dirty|refuseIfDirty)\s*\(/;
-  for (const [rel, generator] of Object.entries(order)) {
-    const body = executableBody(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+  for (const [rel, invocation] of Object.entries(order)) {
+    let body = executableBody(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+    // For the Python checkers, module-level constants sit between the
+    // docstring and main(); the flow that matters starts at main().
+    const mainAt = body.indexOf('def main(');
+    if (mainAt >= 0) body = body.slice(mainAt);
     const g = body.search(CALL);
-    const b = body.search(generator);
-    assert.ok(g >= 0, `${rel}: no guard CALL found below the docstring`);
-    assert.ok(b >= 0, `${rel}: generator invocation not found`);
+    const b = body.search(invocation);
+    assert.ok(g >= 0, `${rel}: no guard CALL found in the executable flow`);
+    assert.ok(b >= 0, `${rel}: generator INVOCATION not found — the anchor has drifted`);
     assert.ok(g < b, `${rel}: the guard is called after the generator has already overwritten the file`);
   }
 });
