@@ -12,11 +12,20 @@
   <link rel="stylesheet" href="css/responsive.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
+  <!-- #1620 §7 slice 2 — the study follows the reader's jurisdiction. These
+       three are the site's jurisdiction stack; JurisdictionUrlContext reads
+       ?fips= then WorkflowState then SiteState, and is the only resolver this
+       page uses. -->
+  <script src="js/workflow-state-core.js"></script>
+  <script src="js/workflow-state-api.js"></script>
+  <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/hna/ownership-finance.js"></script>
+  <script defer src="js/components/jurisdiction-url-context.js"></script>
   <script defer src="js/hna/hna-ownership-need.js"></script>
+  <script defer src="js/project-market-study/study-geography.js"></script>
   <script defer src="js/project-market-study/project-scenario.js"></script>
   <script defer src="js/project-market-study/shared-equity-lifecycle.js"></script>
   <script defer src="js/project-market-study/resale-waterfall.js"></script>
@@ -51,6 +60,11 @@
     .ms-denominator { display: block; color: var(--muted); font-size: .76rem; margin-top: 2px; }
     .ms-warning { display: block; margin: 12px 0; border: 2px solid var(--accent); border-radius: var(--radius); padding: 12px; background: var(--bg2); color: var(--text); }
     .ms-screening-notice { display: block; margin: 0 0 18px; border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 10px 12px; background: var(--bg2); }
+    .ms-geography { display: block; margin: 0 0 14px; border: 1px solid var(--accent); border-radius: var(--radius); padding: 12px 14px; background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
+    .ms-geography p { margin: 0 0 6px; line-height: 1.5; }
+    .ms-geography p:last-child { margin-bottom: 0; }
+    .ms-geography--example { border-style: dashed; }
+    .ms-section[data-unmeasured="true"] { border-style: dashed; }
     .ms-screening-notice .ms-caveat { margin: 0; color: var(--text); font-weight: 700; }
     .ms-affordability-gap { background: color-mix(in srgb, var(--accent) 8%, var(--card)); }
     .ms-affordability-gap strong { font-size: 1.08rem; }
@@ -92,7 +106,14 @@
       'fruita-commons-broad-income.scenario.json'
     ];
     document.addEventListener('DOMContentLoaded', function () {
-      window.marketStudyLandModelsReady.then(function () {
+      // Resolve the jurisdiction FIRST. resolveSync() alone cannot name a
+      // place from a bare ?fips= — geo-config has to load before it knows the
+      // town's name or its containing county — and a study that cannot name
+      // its own market is the defect this slice exists to fix.
+      var jurisdictionReady = (window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolve)
+        ? window.JurisdictionUrlContext.resolve().catch(function () { return null; })
+        : Promise.resolve(null);
+      Promise.all([window.marketStudyLandModelsReady, jurisdictionReady]).then(function () {
         var landScript = document.createElement('script');
         landScript.src = 'js/project-market-study/land-disposition.js';
         landScript.onload = function () {
