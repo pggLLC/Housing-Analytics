@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T14:46:33.526Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T15:59:31.406Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-351 test files found.
+352 test files found.
 
 | File | Size |
 |------|------|
@@ -1689,6 +1689,7 @@
 | `test/audit-modules/report-generator.js` | 13.7 KB |
 | `test/audit-modules/ui-validation.js` | 12.4 KB |
 | `test/augment-local-resources-nondestructive.test.js` | 7.2 KB |
+| `test/basemap-honours-tilelayer-contract.test.js` | 6.6 KB |
 | `test/basemap-provider-single-source.test.js` | 8.1 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
 | `test/bridge-token-guidance.test.js` | 2.4 KB |
