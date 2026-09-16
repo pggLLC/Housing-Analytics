@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-16T04:37:23Z",
+  "generated": "2026-09-16T11:23:12Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -110,7 +110,7 @@
       "update_method": "live",
       "status": "live",
       "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
-      "last_update": "2026-09-15T09:59:46Z",
+      "last_update": "2026-09-16T09:52:11Z",
       "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
     },
     {
