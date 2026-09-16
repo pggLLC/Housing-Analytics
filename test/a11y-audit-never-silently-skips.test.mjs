@@ -29,10 +29,37 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'a11y-audit.mjs'), 'utf8');
 
 let failures = 0;
+let skipped  = 0;
 const pass = (m) => console.log(`  ✓ ${m}`);
 const fail = (m) => { failures += 1; console.log(`  ✗ ${m}`); };
+const skip = (m) => { skipped += 1; console.log(`  ~ ${m}`); };
 const test = (name, fn) => {
   try { fn(); pass(name); } catch (e) { fail(`${name} — ${e.message}`); }
+};
+
+/**
+ * A browser-dependent assertion, in a repo whose main test lane has no browser.
+ *
+ * ci-checks does not install playwright; only .github/workflows/a11y-audit.yml
+ * does. The first version of these threw when the browser was missing, which
+ * was right in spirit — an unrunnable check reporting success is the defect
+ * under test — and wrong in placement: it failed ci-checks for the absence of
+ * something ci-checks never had.
+ *
+ * So they SKIP, visibly, and never count as passing. That is only honest
+ * because "runs somewhere else" is itself asserted below: the a11y-audit
+ * workflow must invoke this file. Skipped-here plus unrun-everywhere would be
+ * the same silent pass this whole file exists to prevent.
+ */
+const NO_BROWSER = 'playwright chromium is not installed';
+const browserTest = (name, fn) => {
+  try { fn(); pass(name); } catch (e) {
+    if (e.message.startsWith(NO_BROWSER)) {
+      skip(`${name} — SKIPPED: no browser in this lane; runs in a11y-audit.yml`);
+      return;
+    }
+    fail(`${name} — ${e.message}`);
+  }
 };
 
 console.log('a11y-audit-never-silently-skips');
@@ -91,9 +118,22 @@ test('a transient crash is retried once, and a real failure still fails', () => 
   assert.strictEqual(attempts, 2, `the retry runs auditPage ${attempts} times; it should be exactly two attempts`);
 });
 
+test('the browser-dependent half actually runs somewhere', () => {
+  // Skipping for lack of a browser is only acceptable if a lane that HAS one
+  // runs this file. Without this, the two assertions below could be skipped in
+  // every lane forever and the suite would report PASS — which is precisely
+  // the silent pass this file exists to prevent, reproduced one level up.
+  const wf = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'a11y-audit.yml'), 'utf8');
+  assert.ok(/playwright install/.test(wf),
+    'a11y-audit.yml no longer installs a browser, so nothing can run the behavioural half');
+  assert.ok(/a11y-audit-never-silently-skips\.test\.mjs/.test(wf),
+    'a11y-audit.yml does not run this test. It is the only lane with a browser, so '
+    + 'the behavioural assertions would be skipped everywhere and never executed.');
+});
+
 /* ── behavioural ─────────────────────────────────────────────────────────── */
 
-test('an unaudited page really does fail the run', () => {
+browserTest('an unaudited page really does fail the run', () => {
   // The assertions above read the source. This one runs it: a page that cannot
   // be loaded must exit non-zero and say which page and why.
   const out = spawnSync('node', [
@@ -103,7 +143,7 @@ test('an unaudited page really does fail the run', () => {
   if (/Executable doesn't exist|playwright install/i.test((out.stderr || '') + (out.stdout || ''))) {
     // No browser in this environment. Say so rather than passing quietly —
     // an unrunnable check reporting success is the defect under test.
-    throw new Error('playwright chromium is not installed, so this assertion could not run. '
+    throw new Error(NO_BROWSER + ', so this assertion could not run here. '
       + 'Run: npx playwright install chromium');
   }
   assert.strictEqual(out.status, 1,
@@ -114,7 +154,7 @@ test('an unaudited page really does fail the run', () => {
     'the failure does not name the page');
 });
 
-test('a single-page probe does not overwrite the site baseline', () => {
+browserTest('a single-page probe does not overwrite the site baseline', () => {
   // Writing this test is what exposed it: the probe above replaced
   // data/reports/a11y-baseline.json with a one-page result, leaving a
   // committable file claiming the site is one page long. Debugging one page
@@ -125,7 +165,7 @@ test('a single-page probe does not overwrite the site baseline', () => {
     'scripts/audit/a11y-audit.mjs', '--page', '__no_such_page__.html', '--json-only', '--quiet',
   ], { cwd: ROOT, encoding: 'utf8', timeout: 180_000 });
   if (/Executable doesn't exist|playwright install/i.test((out.stderr || '') + (out.stdout || ''))) {
-    throw new Error('playwright chromium is not installed, so this assertion could not run. '
+    throw new Error(NO_BROWSER + ', so this assertion could not run here. '
       + 'Run: npx playwright install chromium');
   }
   const after = fs.readFileSync(baselinePath, 'utf8');
@@ -136,6 +176,6 @@ test('a single-page probe does not overwrite the site baseline', () => {
 });
 
 console.log(failures === 0
-  ? '  a11y-audit-never-silently-skips: PASS'
+  ? `  a11y-audit-never-silently-skips: PASS${skipped ? ` (${skipped} skipped — no browser in this lane)` : ''}`
   : `  a11y-audit-never-silently-skips: FAIL (${failures})`);
 process.exit(failures === 0 ? 0 : 1);
