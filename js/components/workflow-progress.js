@@ -17,7 +17,7 @@
 
   /* ── Step definitions ───────────────────────────────────────────────────── */
 
-  // 6-step model. Page-level workflow bars carry the same numbering inline;
+  // 7-step model. Page-level workflow bars carry the same numbering inline;
   // this constant is used by the dynamic .render() path and is the ONLY place
   // a step number is written down — getDoneSteps() derives its WorkflowState
   // key → number map from `key` below rather than keeping a second table that
@@ -42,7 +42,11 @@
     { num: 3, key: 'hsa',          label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
     { num: 4, key: 'market',       label: 'Market Analysis',    href: 'market-analysis.html' },
     { num: 5, key: 'scenario',     label: 'Scenarios',          href: 'hna-scenario-builder.html' },
-    { num: 6, key: 'deal',         label: 'Deal',               href: 'deal-calculator.html' }
+    { num: 6, key: 'deal',         label: 'Deal',               href: 'deal-calculator.html' },
+    // Step 7 is the synthesis. Every conclusion the workflow reaches is
+    // computed on one of steps 1-6 and then left there; before this the
+    // reader finished the route holding six pages and no answer.
+    { num: 7, key: 'recommendation', label: 'Recommendation',  href: 'recommendation.html' }
   ];
 
   /* ── relToRoot — mirrors navigation.js pattern ──────────────────────────── */
@@ -221,6 +225,10 @@
      * @param {number[]} [options.doneSteps]  Explicit list of completed step
      *   numbers; auto-computed from WorkflowState when omitted.
      */
+    /** The route itself. Read-only copy, so callers can map a step key to its
+     *  number without writing a second table of numbers. */
+    STEPS: STEPS.map(function (s) { return { num: s.num, key: s.key, label: s.label, href: s.href }; }),
+
     render: function (containerId, activeStep, options) {
       ensureStyles();
 
@@ -266,13 +274,22 @@
      * @param {string} containerId  ID of the wrapper element.
      * @param {number} activeStep   The step number this page represents.
      */
-    refreshSteps: function (containerId, activeStep) {
+    /**
+     * @param {Object} [options]
+     * @param {number[]} [options.doneSteps]  Explicit list, same contract as
+     *   render(). Without it the conservative fallback marks every step before
+     *   the active one as done, which is fine on a page that shows only the
+     *   rail and wrong on step 7, where the rail's claim sits directly above a
+     *   list of which steps the reader actually completed. A page that can see
+     *   the truth should be able to pass it.
+     */
+    refreshSteps: function (containerId, activeStep, options) {
       ensureStyles();   // Fix #17: inject CSS if not already present
       var container = document.getElementById(containerId);
       if (!container) return;
 
       var step = parseInt(activeStep, 10) || 1;
-      var done = resolveDoneSteps(step, null);
+      var done = resolveDoneSteps(step, options || null);
 
       var stepEls = container.querySelectorAll('.wf-step[data-step]');
       for (var i = 0; i < stepEls.length; i++) {

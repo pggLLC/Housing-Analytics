@@ -68,6 +68,33 @@ test('every rail puts the jurisdiction at step 1', () => {
     `these open the guided path somewhere other than the jurisdiction: ${offenders.join(', ')}`);
 });
 
+test('the circle a reader sees matches the step it belongs to', () => {
+  // This is the assertion that was missing, and the reorder shipped without
+  // it. Every check above reads data-step and href — machine attributes. The
+  // NUMERAL inside .wf-step__num is separate markup, it did not move with the
+  // swap, and two pages went out showing "2" in the first circle and "1" in
+  // the second while every attribute said the opposite. The reader sees the
+  // circle; the guard was reading the label.
+  //
+  // It stayed invisible because WorkflowProgress.refreshSteps() rewrites every
+  // circle from its own data-step at load, repairing the markup on the ten
+  // pages that call it. Only three railed pages do not, and the finder is one
+  // of them — so the drift was real everywhere in the files and visible on
+  // exactly one page. A guard that reads the files catches all of it.
+  const offenders = [];
+  for (const f of railed) {
+    const src = read(f);
+    for (const m of src.matchAll(/class="wf-step[^"]*"[^>]*data-step="(\d)"[^>]*>\s*<span class="wf-step__num">([^<]+)<\/span>/g)) {
+      const [, step, shown] = m;
+      const text = shown.trim();
+      // A completed step shows a check glyph instead of its digit.
+      if (text === '&#10003;' || text === '\u2713') continue;
+      if (text !== step) offenders.push(`${f}: step ${step} shows "${text}"`);
+    }
+  }
+  assert.deepStrictEqual([...offenders], [], offenders.join('; '));
+});
+
 test('the finder is still on the path, as step 2', () => {
   // Route change, not a removal. If the finder ever stops being reachable from
   // the rail this is a deletion wearing a reorder's clothes.
