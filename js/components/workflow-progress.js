@@ -24,7 +24,12 @@
   var STEPS = [
     { num: 1, label: 'Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
     { num: 2, label: 'Jurisdiction',       href: 'select-jurisdiction.html' },
-    { num: 3, label: 'Needs Assessment',   href: 'housing-needs-assessment.html' },
+    // Part 1 of 5, not the full report. The canonical assessment is 53
+    // sections and ~15,800 words; sending someone who has just chosen their
+    // town into that is where the guided path stopped being guided. The
+    // chapters carry the same content in 11-15 section parts and each one
+    // offers 'Full report →' for anyone who wants the whole thing.
+    { num: 3, label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
     { num: 4, label: 'Market Analysis',    href: 'market-analysis.html' },
     { num: 5, label: 'Scenarios',          href: 'hna-scenario-builder.html' },
     { num: 6, label: 'Deal',               href: 'deal-calculator.html' }

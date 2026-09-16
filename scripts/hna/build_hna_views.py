@@ -211,6 +211,19 @@ def reframe(out, view, all_views):
     if k != 1:
         raise SystemExit(f"  view '{view['id']}': no canonical <h1> to reframe")
 
+    # The canonical page carries its own switcher back to these five parts.
+    # Each view builds its own above, so the inherited one has to go or every
+    # view ships two rows of tabs, the first of them marking 'Full report' as
+    # the current page while the reader is plainly not on it.
+    out, k = re.subn(
+        r'\s*<!--[^>]*?-->\s*<nav class="hna-view-switcher" id="hnaFullReportSwitcher"[\s\S]*?</nav>',
+        '', out, count=1)
+    if k != 1:
+        raise SystemExit(
+            f"  view '{view['id']}': the canonical full-report switcher was not found. "
+            "If it was renamed or removed, update this removal too — otherwise the "
+            "views inherit a second switcher.")
+
     # The canonical lede describes the whole report; replace it with this
     # view's question so the first sentence matches the sections below it.
     lede = (f'<p class="sub" style="margin-bottom:var(--sp3);">{htmllib.escape(view["question"])} '

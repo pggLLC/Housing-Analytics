@@ -861,7 +861,10 @@
       }
     }
 
-    global.location.href = 'housing-needs-assessment.html';
+    // The moment a novice actually meets the assessment. This used to land
+    // them in the 53-section full report; it now opens part 1 of 5, which
+    // links onward to the rest and to the full report.
+    global.location.href = 'hna-what-housing-exists.html';
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
