@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16T17:26:05.915977Z",
+  "generated": "2026-09-16T18:06:02.772633Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8025,6 +8025,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 2051626
+    },
+    "data/reports/text-wrap-audit.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 17907
     },
     "data/resort-workforce-housing-programs.json": {
       "featureCount": 0,
