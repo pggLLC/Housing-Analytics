@@ -12,8 +12,12 @@ never regenerated, and nothing caught it).
 Mechanism: run the generator into the working tree, capture `git status places/`,
 then restore the tree so a local run leaves no mess (CI checkouts are ephemeral).
 """
+import os
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
+from freshness_guard import refuse_if_dirty  # noqa: E402
 
 
 def git(*args):
@@ -21,6 +25,9 @@ def git(*args):
 
 
 def main() -> int:
+    refuse_if_dirty(["places/"], checker="check-place-pages-fresh.py",
+                    npm_script="test:place-pages-fresh")
+
     gen = subprocess.run(
         [sys.executable, "scripts/hna/build_place_pages.py"],
         capture_output=True, text=True,

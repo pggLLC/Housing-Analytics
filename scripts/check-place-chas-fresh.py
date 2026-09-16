@@ -23,9 +23,17 @@ GOTCHA: because this restores the file, do NOT run it between regenerating
 place-chas.json and committing -- it will silently revert the regeneration and
 leave downstream files (ranking index, digests) pointing at data that is no
 longer there. Commit first, then verify.
+
+That used to be a rule you had to remember, and on 2026-09-15 it was forgotten
+twice in one session. Since then it is enforced by refuse_if_dirty() below;
+this paragraph stays because it explains WHY the refusal exists.
 """
+import os
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
+from freshness_guard import refuse_if_dirty  # noqa: E402
 
 TARGET = "data/hna/place-chas.json"
 # Only `generated_at` is volatile. Household counts, tenure splits and every
@@ -39,6 +47,9 @@ def git(*args):
 
 
 def main() -> int:
+    refuse_if_dirty([TARGET], checker="check-place-chas-fresh.py",
+                    npm_script="test:place-chas-fresh")
+
     gen = subprocess.run(
         [sys.executable, "scripts/hna/build_place_chas.py"],
         capture_output=True, text=True,

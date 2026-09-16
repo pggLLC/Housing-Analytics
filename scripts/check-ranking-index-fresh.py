@@ -17,8 +17,12 @@ an HNA input without re-running build_ranking_index.py fails CI.
 Mechanism: build into the working tree, capture `git diff` (timestamp-ignored),
 then restore so a local run leaves no mess (CI checkouts are ephemeral).
 """
+import os
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib"))
+from freshness_guard import refuse_if_dirty  # noqa: E402
 
 TARGET = "data/hna/ranking-index.json"
 # Only `generatedAt` is volatile. medianHousingGap, totals, and every ranking
@@ -32,6 +36,9 @@ def git(*args):
 
 
 def main() -> int:
+    refuse_if_dirty([TARGET], checker="check-ranking-index-fresh.py",
+                    npm_script="test:ranking-fresh")
+
     gen = subprocess.run(
         [sys.executable, "scripts/hna/build_ranking_index.py"],
         capture_output=True, text=True,
