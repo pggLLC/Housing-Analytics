@@ -17,22 +17,32 @@
 
   /* ── Step definitions ───────────────────────────────────────────────────── */
 
-  // F21: 6-step model — Opportunity Finder added as step 1, downstream steps
-  // renumbered. Page-level workflow bars are hardcoded with the new numbering;
-  // this constant is used by the dynamic .render() path and by getDoneSteps()
-  // below for matching WorkflowState keys to step numbers.
+  // 6-step model. Page-level workflow bars carry the same numbering inline;
+  // this constant is used by the dynamic .render() path and is the ONLY place
+  // a step number is written down — getDoneSteps() derives its WorkflowState
+  // key → number map from `key` below rather than keeping a second table that
+  // can disagree with this one (it did, through two renumbers).
   var STEPS = [
-    { num: 1, label: 'Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
-    { num: 2, label: 'Jurisdiction',       href: 'select-jurisdiction.html' },
+    // Jurisdiction first. A novice's step 1 is "pick my town" — the
+    // Opportunity Finder is a STATEWIDE screening tool, useful to someone
+    // deciding where to look and a detour for the far more common visitor who
+    // already knows which town they are working on. Putting it first made the
+    // guided path open on a question most readers had already answered.
+    //
+    // The finder stays on the route as step 2 rather than being removed: it is
+    // the right tool for "where should we build", and #1620 §7 is explicit that
+    // this slice is route and copy only — no page moves, no deletions.
+    { num: 1, key: 'jurisdiction', label: 'Jurisdiction',       href: 'select-jurisdiction.html' },
+    { num: 2, key: 'opportunity',  label: 'Opportunity Finder', href: 'lihtc-opportunity-finder.html' },
     // Part 1 of 5, not the full report. The canonical assessment is 53
     // sections and ~15,800 words; sending someone who has just chosen their
     // town into that is where the guided path stopped being guided. The
     // chapters carry the same content in 11-15 section parts and each one
     // offers 'Full report →' for anyone who wants the whole thing.
-    { num: 3, label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
-    { num: 4, label: 'Market Analysis',    href: 'market-analysis.html' },
-    { num: 5, label: 'Scenarios',          href: 'hna-scenario-builder.html' },
-    { num: 6, label: 'Deal',               href: 'deal-calculator.html' }
+    { num: 3, key: 'hsa',          label: 'Needs Assessment',   href: 'hna-what-housing-exists.html' },
+    { num: 4, key: 'market',       label: 'Market Analysis',    href: 'market-analysis.html' },
+    { num: 5, key: 'scenario',     label: 'Scenarios',          href: 'hna-scenario-builder.html' },
+    { num: 6, key: 'deal',         label: 'Deal',               href: 'deal-calculator.html' }
   ];
 
   /* ── relToRoot — mirrors navigation.js pattern ──────────────────────────── */
@@ -94,12 +104,14 @@
       if (!proj) { return done; }
     }
 
-    // Map WorkflowState step keys to step numbers. F21: shifted by +1 to
-    // accommodate Opportunity Finder as step 1. "opportunity" is a placeholder
-    // key for forward compat; WorkflowState doesn't write it today, so step 1
-    // is normally surfaced via the conservative fallback in resolveDoneSteps()
-    // (any step < activeStep counts as done) rather than this map.
-    var map = { opportunity: 1, jurisdiction: 2, hsa: 3, market: 4, scenario: 5, deal: 6 };
+    // Derived from STEPS, so a reorder moves the numbers here too. A parallel
+    // literal used to live at this line and survived the #1620 reorder pointing
+    // at the wrong steps — a finished jurisdiction would have ticked the finder.
+    // "opportunity" is a forward-compat key; WorkflowState doesn't write it
+    // today, so that step is normally surfaced via the conservative fallback in
+    // resolveDoneSteps() (any step < activeStep counts as done), not this map.
+    var map = {};
+    for (var m = 0; m < STEPS.length; m++) { map[STEPS[m].key] = STEPS[m].num; }
     var keys = Object.keys(map);
     var i;
     for (i = 0; i < keys.length; i++) {

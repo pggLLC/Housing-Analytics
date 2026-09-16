@@ -58,10 +58,10 @@
           Educational; not a substitute for lender underwriting or legal advice.
         </p>
         <div class="home-opening__actions">
-          <!-- F205/F2.3 — Hero "Start Here" CTA remains the first interactive
-               element. Phase 2.3 routes visitors by job immediately after this
-               jurisdiction-first entry point; the detailed six-step workflow
-               stays lower on the page as process documentation. -->
+          <!-- #1620 §7 — One entry CTA, naming the thing the reader is starting
+               rather than the mechanism. It is the only "start" button on the
+               page: the workflow cards below renumber to match it, so the
+               homepage and the step rail cannot disagree about step 1. -->
           <a href="select-jurisdiction.html" class="btn"
              style="display:inline-flex;align-items:center;gap:.5rem;
                     padding:14px 28px;font-size:1.05rem;font-weight:800;
@@ -69,7 +69,7 @@
                     box-shadow:0 2px 6px rgba(9,110,101,.25);text-decoration:none;
                     border:none;min-height:48px;">
             <span style="font-size:1.1rem;">→</span>
-            <span>Start Here · Pick a Colorado jurisdiction</span>
+            <span>Start a Housing Market Study<span style="display:block;font-size:.82rem;font-weight:600;opacity:.85;">Step 1 &mdash; pick a Colorado jurisdiction</span></span>
           </a>
           <!-- B-06/#1097 — inline jurisdiction search: lighter-weight complement
                to the select-jurisdiction.html full-page flow. Registry loads
@@ -211,24 +211,24 @@
           <li class="home-step home-step--featured">
             <span class="home-step__num" aria-hidden="true">01</span>
             <div class="home-step__body">
-              <h3>LIHTC Opportunity Finder <span class="home-step__badge">NEW</span></h3>
-              <p>Compare Colorado jurisdictions with QCT or DDA designations using public
-                 indicators: recent CHFA investment, housing need, basis-boost eligibility,
-                 population scale, and civic-capacity context. The weights can be viewed by
-                 4% bond or 9% competitive path so readers can see how the same public
-                 facts change under different financing structures.</p>
-              <a href="lihtc-opportunity-finder.html" aria-label="Step 1: LIHTC Opportunity Finder">Go to opportunity finder →</a>
+              <h3>Choose Your Jurisdiction</h3>
+              <p>Set the location for your analysis. This determines AMI income limits,
+                 HUD Fair Market Rents, QCT and DDA designations, ACS demographic data,
+                 and CHFA development history for your area.</p>
+              <a href="select-jurisdiction.html" aria-label="Step 1: Select jurisdiction">Go to jurisdiction selection →</a>
             </div>
           </li>
 
           <li class="home-step">
             <span class="home-step__num" aria-hidden="true">02</span>
             <div class="home-step__body">
-              <h3>Select Your Jurisdiction</h3>
-              <p>Set the location for your analysis. This determines AMI income limits,
-                 HUD Fair Market Rents, QCT and DDA designations, ACS demographic data,
-                 and CHFA development history for your area.</p>
-              <a href="select-jurisdiction.html" aria-label="Step 2: Select jurisdiction">Go to jurisdiction selection →</a>
+              <h3>LIHTC Opportunity Finder <span class="home-step__badge">NEW</span></h3>
+              <p><em>Optional — for readers deciding where to look.</em> Compare Colorado jurisdictions with QCT or DDA designations using public
+                 indicators: recent CHFA investment, housing need, basis-boost eligibility,
+                 population scale, and civic-capacity context. The weights can be viewed by
+                 4% bond or 9% competitive path so readers can see how the same public
+                 facts change under different financing structures.</p>
+              <a href="lihtc-opportunity-finder.html" aria-label="Step 2: LIHTC Opportunity Finder">Browse jurisdictions statewide →</a>
             </div>
           </li>
 

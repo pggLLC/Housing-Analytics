@@ -47,15 +47,15 @@
            narrower step columns → circles at different x-positions. Same
            markup pattern now site-wide; central CSS in css/site-theme.css
            controls everything. -->
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
-        <span class="wf-step__num">✓</span>
-        <span class="wf-step__label">Opportunity Finder</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <div class="wf-step wf-step--active" data-step="2">
+      <div class="wf-step wf-step--active" data-step="1">
         <span class="wf-step__num">2</span>
         <span class="wf-step__label">Jurisdiction</span>
       </div>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
       <div class="wf-step-connector"></div>
       <div class="wf-step" data-step="3">
         <span class="wf-step__num">3</span>
@@ -234,7 +234,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       // Sync workflow progress bar with WorkflowState
       if (window.WorkflowProgress && window.WorkflowProgress.refreshSteps) {
-        window.WorkflowProgress.refreshSteps('workflowProgress', 2);
+        window.WorkflowProgress.refreshSteps('workflowProgress', 1);   // jurisdiction is now step 1 of the route
       }
       // Render LIHTC contextual tips for jurisdiction selection
       if (window.LihtcTips && window.LihtcTips.render) {
