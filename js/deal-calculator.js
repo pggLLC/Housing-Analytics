@@ -179,6 +179,28 @@
     return il && il.ami_4person ? +il.ami_4person : NaN;
   }
 
+  /**
+   * Cost per gross square foot, or null.
+   *
+   * null, never 0 — and never omitted. $/SF is the figure a developer, lender
+   * or appraiser checks FIRST, because it is the one they can compare against
+   * everything else they have seen. A 0 would read as "this project costs
+   * nothing per foot"; an absent key reads as "this tool does not do that".
+   * Neither is true when the answer is "nobody entered a floor area".
+   *
+   * Gross area is deliberately not derived from unit count. Unit sizes sum to
+   * NET rentable area; dividing TDC by that overstates $/SF by however much
+   * circulation, mechanical and common space the building has — commonly
+   * 15-25%. Guessing it would produce a plausible number that is wrong in a
+   * consistent direction, which is worse than no number at all.
+   */
+  function costPerGrossSf(tdc, grossSf) {
+    var sf = +grossSf;
+    if (!isFinite(sf) || sf <= 0) return null;
+    if (!isFinite(tdc) || tdc <= 0) return null;
+    return tdc / sf;
+  }
+
   function computeForSaleFeasibility(input) {
     input = input || {};
     var tdc = +input.tdc;
@@ -193,13 +215,16 @@
       (window.HNAOwnershipNeed && window.HNAOwnershipNeed.maxAffordablePrice);
     if (!isFinite(targetAmiPct) || targetAmiPct <= 0) targetAmiPct = 0.80;
     if (!isFinite(tdc) || tdc <= 0 || !isFinite(units) || units <= 0) {
-      return { status: 'missing-costs', targetAmiPct: targetAmiPct };
+      return { status: 'missing-costs', targetAmiPct: targetAmiPct,
+               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
     }
     if (!isFinite(ami4Person) || ami4Person <= 0) {
-      return { status: 'missing-ami', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units };
+      return { status: 'missing-ami', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units,
+               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
     }
     if (typeof maxAffordablePrice !== 'function') {
-      return { status: 'missing-helper', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units };
+      return { status: 'missing-helper', targetAmiPct: targetAmiPct, tdcPerUnit: tdc / units,
+               tdcPerSf: costPerGrossSf(tdc, input.grossSf) };
     }
     var tdcPerUnit = tdc / units;
     var maxSalePrice = maxAffordablePrice(ami4Person, targetAmiPct, input.assumptions);
@@ -210,6 +235,8 @@
       targetAmiPct: targetAmiPct,
       ami4Person: ami4Person,
       tdcPerUnit: tdcPerUnit,
+      tdcPerSf: costPerGrossSf(tdc, input.grossSf),
+      grossSf: (isFinite(+input.grossSf) && +input.grossSf > 0) ? +input.grossSf : null,
       maxAffordableSalePrice: maxSalePrice,
       rawGapPerUnit: rawGapPerUnit,
       subsidyGapPerUnit: subsidyGapPerUnit,
@@ -445,6 +472,7 @@
     setText('dc-own-target-label', targetLabel);
     if (result.status !== 'ok') {
       setText('dc-own-cost-per-unit', !MoneyFormatter.isAbsent(result.tdcPerUnit) ? fmt(result.tdcPerUnit) : '—');
+      setCostPerSf(result);
       setText('dc-own-max-price', '—');
       setText('dc-own-gap-per-unit', '—');
       setText('dc-own-total-gap', '—');
@@ -459,6 +487,7 @@
       return;
     }
     setText('dc-own-cost-per-unit', fmt(result.tdcPerUnit));
+    setCostPerSf(result);
     setText('dc-own-max-price', fmt(result.maxAffordableSalePrice));
     setText('dc-own-gap-per-unit', fmt(result.subsidyGapPerUnit));
     setText('dc-own-total-gap', fmt(result.totalSubsidyGap));
@@ -468,6 +497,35 @@
     setText('dc-own-note', note);
     renderDeveloperOwnershipFundingStack(result.developerFundingStack);
     renderOwnershipResaleScreen(result.ownershipResale);
+  }
+
+  /**
+   * Cost per gross SF, or a dash that says why.
+   *
+   * A bare "—" is the display equivalent of a coerced zero: it looks like an
+   * answer and means nothing. The reader cannot tell "this tool does not
+   * compute that" from "you have not told me the floor area" — and only one of
+   * those is fixable by them, in five seconds, with a field that is right
+   * there. So the absent state carries its reason in the title attribute and
+   * the note beneath.
+   */
+  function setCostPerSf(result) {
+    var el = document.getElementById('dc-own-cost-per-sf');
+    if (!el) return;
+    var v = result && result.tdcPerSf;
+    if (MoneyFormatter.isAbsent(v)) {
+      el.textContent = '—';
+      el.setAttribute('title', 'Enter gross building area above to see cost per square foot.');
+      el.style.fontWeight = '400';
+      el.style.color = 'var(--muted)';
+      return;
+    }
+    // Whole dollars: $/SF is compared by eye against rules of thumb, and cents
+    // imply a precision the inputs do not have.
+    el.textContent = '$' + Math.round(v).toLocaleString('en-US') + '/SF';
+    el.removeAttribute('title');
+    el.style.fontWeight = '700';
+    el.style.color = 'var(--text)';
   }
 
   function currentDealMode() {
@@ -1230,6 +1288,23 @@
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
         </label>
 
+        <!-- Gross building area. NO default value, deliberately.
+             Every other field here ships a placeholder figure, which is fine
+             for a screening tool — but a made-up floor area would produce a
+             made-up $/SF, and $/SF is the number a developer or lender checks
+             FIRST against what they know. An invented one is worse than none.
+             Left blank, the cost-per-SF row reads "not entered" rather than
+             showing a figure nobody supplied. -->
+        <label style="display:block;margin-bottom:var(--sp2);">
+          <span style="font-size:var(--small);color:var(--muted);">Gross building area (SF)
+            <span style="opacity:.7">&mdash; optional</span></span>
+          <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="e.g. 62000"
+            aria-describedby="dc-gross-sf-help"
+            style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
+          <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
+            Total constructed area including circulation and common space &mdash; not the sum of unit sizes. Enter it to see cost per square foot.</span>
+        </label>
+
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Total Units</span>
           <input id="dc-units" type="number" min="1" step="1" value="60"
@@ -1882,6 +1957,9 @@
             <dt style="color:var(--muted);">Development cost / unit</dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
+            <dt style="color:var(--muted);">Development cost / gross SF</dt>
+            <dd id="dc-own-cost-per-sf" style="font-weight:700;text-align:right;">—</dd>
+
             <dt style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>)</dt>
             <dd id="dc-own-max-price" style="font-weight:700;text-align:right;">—</dd>
 
@@ -2390,7 +2468,7 @@
 </section>`;
 
     // Attach event listeners
-    const ids = ['dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
+    const ids = ['dc-tdc', 'dc-gross-sf', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct',
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
@@ -2792,6 +2870,10 @@
     var saleTargetAmiPct = (safeVal('dc-sale-target-ami') || 80) / 100;
     renderForSaleFeasibility(computeForSaleFeasibility({
       tdc: tdc,
+      // No `|| 0`: an empty field must arrive as NaN so costPerGrossSf() can
+      // tell "not entered" from "entered as zero". Both yield null, but only
+      // one of them is a user mistake worth a different message later.
+      grossSf: safeVal('dc-gross-sf'),
       units: units,
       ami4Person: getCurrentAmi4Person(),
       targetAmiPct: saleTargetAmiPct,
