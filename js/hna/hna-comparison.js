@@ -319,7 +319,13 @@
 
       lastTd.className = 'hca-td hca-td-hna';
       lastTd.setAttribute('data-label', 'HNA');
-      lastTd.innerHTML = '<a href="housing-needs-assessment.html?fips=' + encodeURIComponent(geoid) + '&geoType=' + encodeURIComponent(geoType) + '&auto=1" class="hca-hna-link" title="Open HNA for ' + _esc(name) + '">HNA \u2192</a>';
+      // Part 1 of 5, matching every other entry into the assessment.
+      //
+      // NOTE this is the FALLBACK path — it returns early at line 307 when a
+      // row already has a link, and js/hna/hna-ranking-index.js normally
+      // supplies one. Two producers of the same link: editing this one alone
+      // changed nothing on screen, which is how the second was found.
+      lastTd.innerHTML = '<a href="hna-what-housing-exists.html?fips=' + encodeURIComponent(geoid) + '&geoType=' + encodeURIComponent(geoType) + '&auto=1" class="hca-hna-link" title="Open HNA for ' + _esc(name) + '">HNA \u2192</a>';
     });
   }
 
