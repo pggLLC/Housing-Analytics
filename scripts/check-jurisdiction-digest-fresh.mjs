@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process';
+import { refuseIfDirty } from './lib/freshness-guard.mjs';
 
 const TARGETS = [
   'data/hna/jurisdiction-metrics-digest/',
@@ -35,6 +36,11 @@ function changedTrackedFiles() {
     .map((line) => line.trim())
     .filter(Boolean);
 }
+
+refuseIfDirty(TARGETS, {
+  checker: 'check-jurisdiction-digest-fresh.mjs',
+  npmScript: 'test:jurisdiction-metrics-digest-fresh',
+});
 
 let exitCode = 0;
 
