@@ -310,6 +310,23 @@
       <div style="padding:0 var(--sp4) var(--sp4);">
         <div class="kicker">Colorado • Public Data</div>
 <h1>Housing Needs Assessment</h1>
+        <!-- The full report links back to the five parts. Without this the
+             relationship was one-way: every part offered "Full report →" and
+             the full report offered nothing, so anyone arriving here from
+             search, a bookmark or a colleague's link met 53 sections with no
+             sign that a 11-15 section version of the same content existed.
+             Plain links, not script: this page is printed and exported.
+             reframe() in scripts/hna/build_hna_views.py removes this block
+             from the generated views, which build their own switcher. -->
+        <nav class="hna-view-switcher" id="hnaFullReportSwitcher"
+             aria-label="Read this assessment in five parts">
+          <span class="hna-view-tab is-current" aria-current="page">Full report</span>
+          <a class="hna-view-tab" href="hna-what-housing-exists.html">What housing exists</a>
+          <a class="hna-view-tab" href="hna-who-lives-here.html">Who lives here</a>
+          <a class="hna-view-tab" href="hna-what-households-can-afford.html">What households can afford</a>
+          <a class="hna-view-tab" href="hna-where-its-heading.html">Where it&#x27;s heading</a>
+          <a class="hna-view-tab" href="hna-what-to-do.html">What to do about it</a>
+        </nav>
         <p class="sub" style="margin-bottom:var(--sp3);">
           A report-style, data-driven snapshot for Colorado communities: housing stock, tenure, affordability,
           commuting, and demographic change. Powered by cached public datasets with live Census API fallbacks.
