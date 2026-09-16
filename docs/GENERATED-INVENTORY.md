@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T17:40:38.321Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T18:56:48.786Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-353 test files found.
+354 test files found.
 
 | File | Size |
 |------|------|
@@ -1710,6 +1710,7 @@
 | `test/colorado-equity-pricing-factors.test.js` | 7.5 KB |
 | `test/combined-geo.test.js` | 46.4 KB |
 | `test/compliance-checklist.test.js` | 23.5 KB |
+| `test/console-audit-exercises-controls.test.js` | 7.9 KB |
 | `test/content-date-freshness.test.mjs` | 5.0 KB |
 | `test/county-demographics-contract.test.js` | 19.4 KB |
 | `test/county-from-coords.test.js` | 6.2 KB |
@@ -2050,7 +2051,7 @@
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
-| `.github/workflows/console-error-audit.yml` | 7.2 KB |
+| `.github/workflows/console-error-audit.yml` | 7.7 KB |
 | `.github/workflows/contrast-audit.yml` | 10.3 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
