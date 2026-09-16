@@ -23,6 +23,9 @@
   <script src="js/scroll-fix.js"></script>
   <script src="js/site-state.js"></script>
   <script defer src="js/navigation.js"></script>
+  <!-- Carries the rail's own styles as well as its renderer; without it the
+       markup above renders unstyled. -->
+  <script defer src="js/components/workflow-progress.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/utils/data-quality.js"></script>
@@ -43,6 +46,51 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <div id="hcaLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
+
+  <!-- Workflow rail.
+       This page is an EXCURSION from step 3, not step 3 itself: a reader gets
+       here from "Compare all jurisdictions →" inside the assessment. Without
+       the rail they lost their place in the six-step path entirely — the back
+       button was the only way home, and every other HNA-family page carries
+       it.
+
+       Step 3 is therefore a LINK, not the active step. Marking it active would
+       claim the reader is on the needs assessment, which is false, and would
+       render it unlinked — leaving no way back to the thing they stepped away
+       from. It points at part 1 of the assessment, like every other entry. -->
+  <div class="wf-progress-wrap" id="hcaWorkflowProgress">
+    <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-what-housing-exists.html" data-step="3">
+        <span class="wf-step__num">3</span>
+        <span class="wf-step__label">Needs Assessment</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="market-analysis.html" data-step="4">
+        <span class="wf-step__num">4</span>
+        <span class="wf-step__label">Market Analysis</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="hna-scenario-builder.html" data-step="5">
+        <span class="wf-step__num">5</span>
+        <span class="wf-step__label">Scenarios</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step" href="deal-calculator.html" data-step="6">
+        <span class="wf-step__num">6</span>
+        <span class="wf-step__label">Deal</span>
+      </a>
+    </div>
+  </div>
 
   <main id="main-content" class="hca-main js-glossary-auto">
 
@@ -66,7 +114,7 @@
       <p class="hca-hero-sub">
         Rank all 64 Colorado counties, incorporated places, and Census-Designated Places by housing need.
         Click any row to see its statewide position, strengths and challenges, and a direct link to
-        begin your <a href="housing-needs-assessment.html">Housing Needs Assessment</a>.
+        begin your <a href="hna-what-housing-exists.html">Housing Needs Assessment</a>.
         Rankings refresh automatically each Monday.
       </p>
       <small id="hcaDataTimestamp" class="data-timestamp"></small>
@@ -305,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function () {
       housing plans and advocacy organizations.
       <strong>Unemp. Rate</strong> — BLS LAUS annual average; county-level only (places/CDPs show —).
       Data refreshes automatically each Monday 06:30 UTC via GitHub Actions.
-      · <a href="housing-needs-assessment.html">Run individual HNA →</a>
+      · <a href="hna-what-housing-exists.html">Run individual HNA →</a>
       · <a href="data-status.html">Data freshness →</a>
     </p>
 

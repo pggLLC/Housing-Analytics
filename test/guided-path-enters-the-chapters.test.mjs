@@ -100,6 +100,43 @@ test('resuming a saved project still opens the full report, on purpose', () => {
     + 'this assertion deliberately; a returning user is not a first-time reader');
 });
 
+test('the comparison table opens part 1, from every producer of that link', () => {
+  // 546 rows, each with an "Open HNA" link — the way a reader starts an
+  // assessment from the ranking table. TWO files build those links:
+  // hna-ranking-index.js (which normally wins) and hna-comparison.js (a
+  // fallback that returns early when a row already has one).
+  //
+  // Editing the fallback alone changed nothing on screen and looked correct in
+  // the diff. That is how the second producer was found — by loading the page,
+  // not by reading the code. Both are pinned here.
+  const ranking = read('js/hna/hna-ranking-index.js');
+  const m = /const HNA_PAGE\s+= '([^']+)'/.exec(ranking);
+  assert.ok(m, 'HNA_PAGE is gone from hna-ranking-index.js');
+  assert.strictEqual(m[1], CHAPTER,
+    `the ranking table sends all 546 rows to ${m[1]}; this one constant decides `
+    + 'where every row goes');
+
+  const fallback = read('js/hna/hna-comparison.js');
+  assert.ok(fallback.includes(`<a href="${CHAPTER}?fips=`),
+    'the hna-comparison.js fallback still builds a link to the full report; it '
+    + 'runs whenever a row has no link yet, so it must agree with the primary');
+});
+
+test('the comparison page keeps the reader in the guided path', () => {
+  // An excursion FROM step 3, reached by "Compare all jurisdictions →". With
+  // no rail a reader lost their place entirely — the back button was the only
+  // way home.
+  const src = read('hna-comparative-analysis.html');
+  assert.ok(src.includes('data-step="3"'), 'hna-comparative-analysis.html has no workflow rail');
+  assert.ok(/<a class="wf-step[^"]*" href="hna-what-housing-exists\.html"[^>]*data-step="3"/.test(src),
+    'step 3 is not a link back to the assessment. It must not be marked active: '
+    + 'this page is not the needs assessment, and an active step renders unlinked, '
+    + 'leaving no way back to what the reader stepped away from');
+  assert.ok(src.includes('js/components/workflow-progress.js'),
+    'the rail component is not loaded, so the markup renders unstyled — the '
+    + 'styles ship inside that script, not in the CSS files');
+});
+
 test('the full report offers the parts back', () => {
   const src = read(FULL);
   const switchers = (src.match(/class="hna-view-switcher"/g) || []).length;
