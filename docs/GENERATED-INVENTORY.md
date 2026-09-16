@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T20:41:46.100Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T21:25:59.712Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 7.5 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.0 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.4 KB |
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-356 test files found.
+357 test files found.
 
 | File | Size |
 |------|------|
@@ -1765,6 +1765,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
+| `test/for-sale-study-follows-jurisdiction.test.mjs` | 19.0 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.2 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
@@ -1848,7 +1849,7 @@
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
 | `test/market-study-page.test.js` | 17.4 KB |
-| `test/market-study-report.test.js` | 9.1 KB |
+| `test/market-study-report.test.js` | 9.4 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.2 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
