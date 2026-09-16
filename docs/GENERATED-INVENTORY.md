@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-15T21:04:42.228Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T03:00:07.462Z. Do not edit by hand.
 
 ---
 
@@ -1667,7 +1667,7 @@
 
 ## Test Files
 
-340 test files found.
+341 test files found.
 
 | File | Size |
 |------|------|
@@ -1726,6 +1726,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
+| `test/deal-calc-absence-semantics.test.js` | 8.9 KB |
 | `test/deal-calc-ami-bands.test.js` | 5.8 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
@@ -1949,7 +1950,7 @@
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
 | `test/tool-watch.test.js` | 4.3 KB |
 | `test/travel-time-matrix.test.js` | 7.2 KB |
-| `test/unit-mix-validation.test.js` | 3.9 KB |
+| `test/unit-mix-validation.test.js` | 4.5 KB |
 | `test/unit-suffix-convention.test.js` | 6.6 KB |
 | `test/unit/cohort-component-model.test.js` | 13.0 KB |
 | `test/unit/fema-flood.test.js` | 14.7 KB |
