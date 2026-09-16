@@ -256,14 +256,14 @@
   <!-- Workflow progress bar (Step 3 of 6) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="hnaWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
-      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="1">
-        <span class="wf-step__num">✓</span>
-        <span class="wf-step__label">Opportunity Finder</span>
-      </a>
-      <div class="wf-step-connector"></div>
-      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="2">
+      <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
         <span class="wf-step__num">✓</span>
         <span class="wf-step__label">Jurisdiction</span>
+      </a>
+      <div class="wf-step-connector"></div>
+      <a class="wf-step wf-step--done" href="lihtc-opportunity-finder.html" data-step="2">
+        <span class="wf-step__num">✓</span>
+        <span class="wf-step__label">Opportunity Finder</span>
       </a>
       <div class="wf-step-connector"></div>
       <div class="wf-step wf-step--active" data-step="3" aria-current="step">
@@ -2511,10 +2511,12 @@
     }
   }
 
-  /* ── Step 2 connector: mark "Select Jurisdiction" done if a jurisdiction is set
-       (F21: renumbered from step 1 → 2 when Opportunity Finder became step 1) */
+  /* ── Jurisdiction connector: mark "Select Jurisdiction" done if one is set.
+       Anchored on the step's href, not its number. The step has been renumbered
+       twice (1 → 2 under F21, back to 1 under #1620) and each renumber silently
+       broke a selector that named the ordinal; the href is the step's identity. */
   function updateWorkflowStepState() {
-    var jurisdictionStep = document.querySelector('.wf-step[data-step="2"]');
+    var jurisdictionStep = document.querySelector('.wf-step[href="select-jurisdiction.html"]');
     if (!jurisdictionStep) return;
     var hasJurisdiction = false;
     try {
@@ -2530,7 +2532,7 @@
       } catch (_) {}
     }
     if (!hasJurisdiction) {
-      // No jurisdiction selected — show step 2 as not-yet-complete.
+      // No jurisdiction selected — show the step as not-yet-complete.
       jurisdictionStep.classList.remove('wf-step--done');
     }
   }
