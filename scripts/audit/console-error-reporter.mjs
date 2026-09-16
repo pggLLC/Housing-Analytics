@@ -117,6 +117,85 @@ function dedupeKey(entry) {
 }
 
 // ── Per-page audit ───────────────────────────────────────────────────────────
+
+/**
+ * Interactions to exercise after a page loads.
+ *
+ * The audit used to load pages and listen, nothing more. That misses an entire
+ * class of error by construction: on 2026-09-16 the live site threw
+ * "activeBase.bringToBack is not a function" every time a reader changed the
+ * basemap, and this audit could not have caught it at any cadence, because
+ * nobody ever changed the basemap.
+ *
+ * Deliberately small and declarative. This is a smoke test for "does touching
+ * the controls throw", not a functional test — it should stay cheap enough
+ * that nobody is tempted to skip it, and it must never assert on OUTCOMES,
+ * only on whether the page threw. Outcome assertions belong in test/.
+ */
+const INTERACTIONS = {
+  'housing-needs-assessment': [
+    // The one that was reported. Cycling the basemap swaps a LayerGroup in and
+    // out of Leaflet and calls bringToBack on it.
+    // Anchored on the Leaflet control, not an id: the HNA's basemap picker is
+    // built at runtime with no id and no class, so `#hnaBasemapSelect` matched
+    // nothing and the audit reported a clean page while the interaction it was
+    // added for never ran.
+    { label: 'cycle every basemap option', selectEach: '.leaflet-control select, #basemapSelect' },
+    { label: 'open every details panel',   clickAll: 'summary', limit: 12 },
+  ],
+  'hna-what-housing-exists': [
+    // Anchored on the Leaflet control, not an id: the HNA's basemap picker is
+    // built at runtime with no id and no class, so `#hnaBasemapSelect` matched
+    // nothing and the audit reported a clean page while the interaction it was
+    // added for never ran.
+    { label: 'cycle every basemap option', selectEach: '.leaflet-control select, #basemapSelect' },
+    { label: 'open every details panel',   clickAll: 'summary', limit: 12 },
+  ],
+  'colorado-deep-dive': [
+    { label: 'cycle every basemap option', selectEach: '.leaflet-control select, #basemapSelect' },
+  ],
+  'lihtc-opportunity-finder': [
+    { label: 'open every details panel',   clickAll: 'summary', limit: 8 },
+  ],
+  'deal-calculator': [
+    { label: 'open every details panel',   clickAll: 'summary', limit: 12 },
+  ],
+  'hna-comparative-analysis': [
+    { label: 'open every details panel',   clickAll: 'summary', limit: 8 },
+  ],
+};
+
+/** Run one page's interactions, swallowing interaction errors but not page errors. */
+async function exercise(page, pageName, note) {
+  const steps = INTERACTIONS[pageName];
+  if (!steps) return;
+  for (const step of steps) {
+    try {
+      if (step.selectEach) {
+        const sel = await page.$(step.selectEach);
+        if (!sel) continue;
+        const values = await sel.$$eval('option', (os) => os.map((o) => o.value));
+        for (const v of values) {
+          await sel.selectOption(v).catch(() => {});
+          await page.waitForTimeout(400);
+        }
+      } else if (step.clickAll) {
+        const els = await page.$$(step.clickAll);
+        for (const el of els.slice(0, step.limit || 10)) {
+          await el.click({ timeout: 2000 }).catch(() => {});
+          await page.waitForTimeout(120);
+        }
+      }
+      note(step.label);
+    } catch (e) {
+      // A control that cannot be driven is not a console error. Record it so a
+      // silently un-exercised interaction is visible rather than assumed done.
+      note(`${step.label} — could not run: ${String(e.message).split('\n')[0].slice(0, 90)}`);
+    }
+  }
+  await page.waitForTimeout(600);
+}
+
 async function auditPage(browser, pageConfig) {
   const url = BASE_URL + pageConfig.path;
   /** @type {Array<{level:string, text:string, location:object|null}>} */
@@ -154,6 +233,11 @@ async function auditPage(browser, pageConfig) {
     await page.waitForLoadState('networkidle', { timeout: 8000 });
   } catch (_) { /* ignore */ }
 
+  // Touch the controls. Errors thrown here land in the same `messages` array
+  // through the listeners above, attributed to this page.
+  const exercised = [];
+  await exercise(page, pageConfig.name, (label) => exercised.push(label));
+
   await context.close();
 
   // Deduplicate while preserving first-seen order and occurrence count
@@ -172,6 +256,7 @@ async function auditPage(browser, pageConfig) {
   return {
     name: pageConfig.name,
     url,
+    exercised,
     loadError,
     errors:   deduped.filter(m => m.level === 'error'),
     warnings: deduped.filter(m => m.level === 'warning' || m.level === 'warn'),
