@@ -25,6 +25,7 @@
   <script defer src="js/hna/ownership-finance.js"></script>
   <script defer src="js/components/jurisdiction-url-context.js"></script>
   <script defer src="js/hna/hna-ownership-need.js"></script>
+  <script defer src="js/market/sale-price-evidence.js"></script>
   <script defer src="js/project-market-study/study-geography.js"></script>
   <script defer src="js/project-market-study/project-scenario.js"></script>
   <script defer src="js/project-market-study/shared-equity-lifecycle.js"></script>
@@ -65,6 +66,11 @@
     .ms-geography p:last-child { margin-bottom: 0; }
     .ms-geography--example { border-style: dashed; }
     .ms-section[data-unmeasured="true"] { border-style: dashed; }
+    .ms-section[data-sale-price="unavailable"] { border-style: dashed; }
+    .ms-sale-price { margin: 0 0 6px; font-size: 1.25rem; }
+    .ms-sale-price strong { font-variant-numeric: tabular-nums; }
+    .ms-reasons { margin: 8px 0 0; padding-left: 20px; color: var(--muted); line-height: 1.55; }
+    .ms-reasons strong { color: var(--text); }
     .ms-screening-notice .ms-caveat { margin: 0; color: var(--text); font-weight: 700; }
     .ms-affordability-gap { background: color-mix(in srgb, var(--accent) 8%, var(--card)); }
     .ms-affordability-gap strong { font-size: 1.08rem; }

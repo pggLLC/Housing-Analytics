@@ -304,6 +304,44 @@
       + '-for-sale-market-study-screening-draft.html';
   }
 
+  /**
+   * The ownership market, said plainly.
+   *
+   * #1620 §6 criterion 3 wants both halves: a covered place shows its figure
+   * WITH its date, and an uncovered place shows "no sale-price source for this
+   * place" WITH the reasons. Before this the page showed neither, because
+   * nothing on the site read the tracker at all.
+   *
+   * The label never says "median sale price for X". Every row in that file is
+   * allocated from ZIP-level sales — Fruita's is spread across seven ZIPs,
+   * three of them Grand Junction — so the ZIP count is part of the figure, not
+   * a footnote under it.
+   */
+  function renderSalePrice(data) {
+    var evidence = data.geography && data.geography.salePrice;
+    if (!evidence) return '';
+    if (evidence.state === 'unavailable') {
+      var reasons = evidence.reasons.map(function (reason) {
+        return '<li><strong>' + esc(reason.source) + '</strong> \u2014 ' + esc(reason.detail)
+          + (reason.issue ? ' <span class="ms-caveat">(tracked in #' + esc(reason.issue) + ')</span>' : '')
+          + '</li>';
+      }).join('');
+      return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable">'
+        + '<h2>Local sale prices</h2>'
+        + '<p class="ms-unavailable">' + esc(evidence.label) + '.</p>'
+        + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p>'
+        + '<ul class="ms-reasons">' + reasons + '</ul></section>';
+    }
+    return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(evidence.state) + '">'
+      + '<h2>Local sale prices</h2>'
+      + '<p class="ms-sale-price"><strong>' + display(evidence.value, 'money') + '</strong> '
+      + '<span class="ms-pill">' + esc(evidence.label) + '</span></p>'
+      + (evidence.period
+        ? '<p class="ms-caveat">Three-month period ending ' + esc(evidence.period) + '.</p>'
+        : '')
+      + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p></section>';
+  }
+
   function renderUnmeasured(id, heading, detail) {
     return '<section id="' + id + '" class="chart-card ms-section" data-unmeasured="true"><h2>' + esc(heading) + '</h2>'
       + '<p class="ms-unavailable">Not screened for this jurisdiction.</p>'
@@ -316,6 +354,7 @@
     mount.innerHTML = [
       renderGeographyBanner(data),
       '<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
+      renderSalePrice(data),
       renderScenario(model, data), renderLand(model), renderConventions(model),
       renderSettlement(model),
       model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. Effective-demand funnel', reason),
@@ -419,13 +458,25 @@
       optionalJson(paths.amiGapPlace),
       optionalJson(paths.amiGapCounty),
       optionalJson(paths.homeValueCascade),
-      paths.summary ? optionalJson(paths.summary) : Promise.resolve(null)
+      paths.summary ? optionalJson(paths.summary) : Promise.resolve(null),
+      optionalJson(paths.redfinTracker),
+      optionalJson(paths.bridge),
+      optionalJson(paths.assessor)
     ]).then(function (loaded) {
       var scenarios = loaded[0];
+      // The absence sources are read even when a price exists: they cost one
+      // small file each and they are what makes the "no source" case sayable
+      // rather than blank.
+      var salePriceEvidence = context && window.SalePriceEvidence
+        ? window.SalePriceEvidence.forPlace(context.geoid, {
+          tracker: loaded[8], bridge: loaded[9], assessor: loaded[10]
+        })
+        : null;
       var geography = StudyGeography.inputs(context, {
         placeChas: loaded[2], countyChas: loaded[3],
         amiGapPlace: loaded[4], amiGapCounty: loaded[5],
-        homeValueCascade: loaded[6], summary: loaded[7]
+        homeValueCascade: loaded[6], summary: loaded[7],
+        salePriceEvidence: salePriceEvidence
       }, { HNAOwnershipNeed: window.HNAOwnershipNeed, EffectiveDemand: EffectiveDemand });
       return start(mount, {
         scenarios: scenarios,
