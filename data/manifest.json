@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-16T23:46:57.444320Z",
+  "generated": "2026-09-17T00:30:18.320921Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7834,12 +7834,12 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14393
+      "bytes": 14391
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5999
+      "bytes": 5997
     },
     "data/pipeline/content.json": {
       "featureCount": 0,
@@ -7849,7 +7849,7 @@
     "data/policy/affordability-models.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14487
+      "bytes": 14485
     },
     "data/policy/buyer-assistance-programs.json": {
       "featureCount": 0,
