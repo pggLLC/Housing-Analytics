@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-16T12:35:00.004Z
+**Scan timestamp:** 2026-09-17T12:34:14.011Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (190 KB)
+- `data/alerts/alerts_archive.json` (182 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -139,7 +139,7 @@
 - `data/hna/dola_sya/08125.json` (2 KB)
 - `data/hna/geo-config.json` (64 KB)
 - `data/hna/geography-registry.json` (120 KB)
-- `data/hna/hna-views.json` (9 KB)
+- `data/hna/hna-views.json` (12 KB)
 - `data/hna/home-value-cascade.json` (130 KB)
 - `data/hna/jurisdiction-metrics-digest/08001.json` (36 KB)
 - `data/hna/jurisdiction-metrics-digest/08003.json` (36 KB)
@@ -1581,7 +1581,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (13 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (157 KB)
+- `data/policy_briefs.json` (151 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (20 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
