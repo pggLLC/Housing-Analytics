@@ -1,5 +1,5 @@
 {
-  "scanTimestamp": "2026-09-16T12:35:00.004Z",
+  "scanTimestamp": "2026-09-17T12:34:14.011Z",
   "totalScanned": 1620,
   "newSourceCount": 1589,
   "existingCount": 30,
@@ -8,13 +8,13 @@
   "newSources": [
     {
       "path": "data/_manifest.json",
-      "sizeBytes": 781868,
+      "sizeBytes": 781869,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/_qa-status.json",
-      "sizeBytes": 6255,
+      "sizeBytes": 6257,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -92,7 +92,7 @@
     },
     {
       "path": "data/alerts/alerts_archive.json",
-      "sizeBytes": 194265,
+      "sizeBytes": 185957,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -260,7 +260,7 @@
     },
     {
       "path": "data/discovery-reports/latest.json",
-      "sizeBytes": 244714,
+      "sizeBytes": 245154,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -758,7 +758,7 @@
     },
     {
       "path": "data/hna/hna-views.json",
-      "sizeBytes": 9178,
+      "sizeBytes": 12037,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9266,13 +9266,13 @@
     },
     {
       "path": "data/paper/figures.json",
-      "sizeBytes": 14393,
+      "sizeBytes": 14391,
       "inDataManifest": false,
       "inFilesManifest": true
     },
     {
       "path": "data/paper/model-parameters.json",
-      "sizeBytes": 5999,
+      "sizeBytes": 5997,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9284,7 +9284,7 @@
     },
     {
       "path": "data/policy/affordability-models.json",
-      "sizeBytes": 14487,
+      "sizeBytes": 14485,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9410,7 +9410,7 @@
     },
     {
       "path": "data/policy_briefs.json",
-      "sizeBytes": 160665,
+      "sizeBytes": 154359,
       "inDataManifest": false,
       "inFilesManifest": true
     },
@@ -9422,7 +9422,7 @@
     },
     {
       "path": "data/polymarket-data.json",
-      "sizeBytes": 20062,
+      "sizeBytes": 20081,
       "inDataManifest": false,
       "inFilesManifest": true
     },
