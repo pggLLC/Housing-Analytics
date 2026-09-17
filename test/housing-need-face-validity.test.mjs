@@ -65,12 +65,25 @@ const WORKFORCE_PRESSURE = 70;
  * you to.
  */
 const KNOWN_FAILURES = {
-  '0840550': { name: 'Keystone (CDP)', rank: 278,
+  // Updated 2026-09-17 after #1724 (absence in cost burden stops being a
+  // measured zero). That fix removed 115 fabricated 0% figures from the
+  // percentile pool, which moved these two WORSE without their own numbers
+  // changing at all: Keystone's cost burden is still 28.5%, but 28.5% no
+  // longer scores above 115 fake zeros, so its cost-burden pressure fell
+  // 43.8 -> 25.4 and its rank 278 -> 329.
+  //
+  // That is the pool getting honest, not a regression. It also makes the
+  // finding worse: Keystone now sits at 329 while carrying the highest
+  // workforce-housing pressure in the state.
+  //
+  // Nathrop came OFF this ledger in the same build. Its 0% was one of the
+  // fabricated ones; nulling it raised its cost-burden pressure 33.4 -> 39
+  // and its rank 282 -> 270, out of the bottom half. The test required its
+  // removal rather than letting a stale entry sit here.
+  '0840550': { name: 'Keystone (CDP)', rank: 329,
     why: 'workforce pressure 90.4 — the highest in the state, above Aspen — with a gap score of 12.3' },
-  '0871755': { name: 'Snowmass Village (town)', rank: 358,
+  '0871755': { name: 'Snowmass Village (town)', rank: 359,
     why: 'gap score 10.1 against a $2.5M median home value; 2,833 in-commuters into a town of 2,972' },
-  '0853010': { name: 'Nathrop (CDP)', rank: 282,
-    why: 'price-to-income 23.9 with a published cost burden of 0%' },
 };
 
 /** Ranks worse than this are the bottom half of the 546 ranked geographies. */
