@@ -51,14 +51,53 @@ const model = Page.buildModel(data, {});
 const report = Report.buildReport(model, meta);
 const preview = Report.renderReportPreview(report);
 const exported = Report.renderReportHtml(report);
-[
-  ['Source confirmed', 3],
-  ['Calculated estimate', 167],
-  ['Enter your value', 45],
-  ['Not yet verified', 5]
-].forEach(([label, expectedCount]) => {
-  assert.strictEqual(exported.split(label).length - 1, expectedCount, `${label} export count must remain unchanged from #1514`);
+// Counted on the provenance badge's own attribute, not on the bare words.
+//
+// The placeholder label used to read "Enter your value" — written in the
+// grammar of a button, with no control behind it anywhere — and is now "Owner
+// input required", which ownership-decision-chain.js and market-study-page.js
+// already say for an absent value. That made a bare substring count ambiguous:
+// the phrase occurs as ordinary body text elsewhere in the same document, so
+// the old count jumped 45 -> 119 while nothing about the badges changed.
+//
+// #1514 pinned 3 / 167 / 45 / 5 by bare substring. Those decompose exactly as
+// (2 x badges) + 1 legend entry — the attribute, the inner label span, and the
+// <dt> in the evidence legend. The reconciliation is asserted below, so these
+// numbers are demonstrably the same facts #1514 pinned rather than values read
+// off the current output and pasted in.
+const HISTORICAL_BARE_COUNTS = {
+  'Source confirmed': 3,
+  'Calculated estimate': 167,
+  'Owner input required': 45,
+  'Not yet verified': 5,
+};
+const BADGE_COUNTS = {
+  'Source confirmed': 1,
+  'Calculated estimate': 83,
+  'Owner input required': 22,
+  'Not yet verified': 2,
+};
+Object.entries(BADGE_COUNTS).forEach(([label, expectedCount]) => {
+  const badge = `data-provenance-label="${label}"`;
+  assert.strictEqual(exported.split(badge).length - 1, expectedCount,
+    `${label} export count must remain unchanged from #1514`);
+  assert.strictEqual(expectedCount * 2 + 1, HISTORICAL_BARE_COUNTS[label],
+    `${label}: the badge count no longer reconciles with the #1514 bare-substring figure, `
+    + 'so one of them has stopped describing the same thing');
 });
+
+// The legend explains the badges, so it has to use the badges' own words.
+//
+// Nothing tied the two together: renaming the placeholder label left the
+// <dt> in section 9 saying "Enter your value" while every badge in the
+// document said something else, and no test noticed. A glossary that defines
+// terms the document does not use is worse than no glossary.
+Object.keys(BADGE_COUNTS).forEach((label) => {
+  assert.ok(exported.includes(`<dt>${label}</dt>`),
+    `the evidence legend has no entry for "${label}", which every badge of that `
+    + 'class is labelled with — the legend and the labels have drifted apart');
+});
+
 const bannedProvenanceTokens = /\b(?:observed|modeled|user_entered|not_available|VERIFY|hypothesis_to_test|owner_inputs_pending|is_commitment|observation_class|evidence_basis|primary_source|named_unretrieved|stated_method|machine_inferred|human_verified|unverified)\b/;
 const exportMatch = exported.match(bannedProvenanceTokens);
 assert(!exportMatch, 'export must use novice-facing evidence labels; context ' + exported.slice(Math.max(0, exportMatch && exportMatch.index - 50), (exportMatch && exportMatch.index || 0) + 80));

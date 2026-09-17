@@ -23,7 +23,7 @@ const unretrieved = {
 
 assert.equal(ProvenanceLabel(sourced).label, 'Source confirmed');
 assert.equal(ProvenanceLabel(modeled).label, 'Calculated estimate');
-assert.equal(ProvenanceLabel(placeholder).label, 'Enter your value');
+assert.equal(ProvenanceLabel(placeholder).label, 'Owner input required');
 assert.equal(ProvenanceLabel(unretrieved).label, 'Not yet verified');
 assert.notEqual(ProvenanceLabel(sourced).label, ProvenanceLabel(placeholder).label);
 assert.notEqual(ProvenanceLabel(placeholder).explanation, ProvenanceLabel(unretrieved).explanation);
