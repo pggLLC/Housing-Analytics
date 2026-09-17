@@ -35,17 +35,74 @@ function npmTest(script) {
   } catch { return false; }
 }
 
-/** The six steps of the guided path, in order, with the page each points at. */
-export const GUIDED_PATH = [
-  { step: 1, name: 'Opportunity Finder', page: 'lihtc-opportunity-finder.html' },
-  { step: 2, name: 'Jurisdiction',       page: 'select-jurisdiction.html' },
-  { step: 3, name: 'Needs Assessment',   page: 'housing-needs-assessment.html' },
-  { step: 4, name: 'Market Analysis',    page: 'market-analysis.html' },
-  { step: 5, name: 'Scenarios',          page: 'hna-scenario-builder.html' },
-  { step: 6, name: 'Deal',               page: 'deal-calculator.html' },
-];
+const ROUTE_SOURCE = 'js/components/workflow-progress.js';
+
+/**
+ * The guided path, READ from the one place a step number is written down.
+ *
+ * This used to be a hand-written table of six steps, and it went stale without
+ * a sound. The route changed three times on 2026-09-16 — the entry point moved
+ * from the Opportunity Finder to the jurisdiction, and a seventh step was
+ * added — and this constant still described the old one. G1 kept reporting
+ * PASS the whole time, because all it asks is whether six named files exist,
+ * and they did.
+ *
+ * That is the failure this audit exists to catch, sitting inside the audit: a
+ * green that is true about something other than what it claims. Worse, a test
+ * asserted `GUIDED_PATH.length === 6`, so a guard was holding the wrong answer
+ * in place and would have failed anyone who corrected it.
+ *
+ * So it is derived. The component's STEPS table is the route; if that table's
+ * shape changes the parse returns nothing and G1 goes OPEN rather than passing
+ * on an empty list. test:entry-path separately holds the component and the
+ * twelve hard-coded rails to each other, so reading the component reads what
+ * the pages actually render.
+ */
+export const GUIDED_PATH = readGuidedPath();
+
+function readGuidedPath() {
+  const src = read(ROUTE_SOURCE);
+  if (src === null) return [];
+  const re = /\{ num: (\d+), key: '([^']+)',\s*label: '([^']+)',\s*href: '([^']+)' \}/g;
+  return [...src.matchAll(re)].map((m) => ({
+    step: Number(m[1]), key: m[2], name: m[3].trim(), page: m[4],
+  }));
+}
 
 const PASS = 'PASS', OPEN = 'OPEN', UNMEASURED = 'UNMEASURED';
+
+/**
+ * Decide G1 from a route and a file-existence oracle.
+ *
+ * Separated out so the failing cases can be tested with routes the repo does
+ * not contain. Asserting these against the real route proves nothing: it is
+ * correctly ordered and complete, so removing a check here would change no
+ * observable output and a guard written that way passes over its own removal.
+ *
+ * An empty route is OPEN, never PASS. A parse that matches nothing has nothing
+ * to say, and reporting success over an empty list is precisely how the stale
+ * six-step table stayed green through three route changes.
+ */
+export function evaluateGuidedPath(route, existsFn) {
+  if (!Array.isArray(route) || route.length === 0) {
+    return {
+      state: OPEN,
+      detail: `the route could not be read from ${ROUTE_SOURCE} — its STEPS table has changed shape`,
+    };
+  }
+  const outOfOrder = route.some((s, i) => s.step !== i + 1);
+  if (outOfOrder) {
+    return { state: OPEN, detail: `the route is numbered ${route.map((s) => s.step).join(', ')}` };
+  }
+  const missing = route.filter((s) => !existsFn(s.page)).map((s) => s.page);
+  if (missing.length) {
+    return { state: OPEN, detail: `missing: ${missing.join(', ')}` };
+  }
+  return {
+    state: PASS,
+    detail: `all ${route.length} step pages exist, in order, starting at ${route[0].page}`,
+  };
+}
 
 export function measure({ runTests = false } = {}) {
   const items = [];
@@ -54,10 +111,8 @@ export function measure({ runTests = false } = {}) {
 
   /* ── The deliverable: a novice can complete the guided path ───────────── */
 
-  const missingPages = GUIDED_PATH.filter((s) => !exists(s.page)).map((s) => s.page);
-  add('G1', 'Guided path', missingPages.length ? OPEN : PASS,
-    missingPages.length ? `missing: ${missingPages.join(', ')}` : 'all six step pages exist',
-    'file existence');
+  const g1 = evaluateGuidedPath(GUIDED_PATH, exists);
+  add('G1', 'Guided path', g1.state, g1.detail, `${ROUTE_SOURCE} STEPS + file existence`);
 
   const hnaPages = fs.readdirSync(ROOT)
     .filter((f) => /^(housing-needs-assessment|hna-)[\w-]*\.html$/.test(f));
@@ -70,7 +125,8 @@ export function measure({ runTests = false } = {}) {
   // comprehension. It is not derivable from the repo, and pretending otherwise
   // is how "shipped" gets mistaken for "works".
   add('G3', 'Guided path', UNMEASURED,
-    'no walkthrough recorded — needs one person, unfamiliar with the tool, completing all six steps',
+    'no walkthrough recorded — needs one person, unfamiliar with the tool, completing all '
+      + (GUIDED_PATH.length || 'of the') + ' steps',
     'requires a human');
 
   /* ── The correctness floor ────────────────────────────────────────────── */
