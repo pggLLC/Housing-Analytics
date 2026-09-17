@@ -780,18 +780,34 @@ def compute_metrics(
     #     our ACS payloads, so we derive from the bins directly.
     #   For counties, this ACS value is still overridden below by CHAS
     #     aggregation which is more precise for AMI-tier stratification.
-    grapi_30to34 = safe_float(acs.get("DP04_0141PE"))
-    grapi_35plus = safe_float(acs.get("DP04_0142PE"))
+    # Absence must stay absent. safe_float's 0.0 default is right for a value
+    # that is genuinely zero and wrong for one that was never published: with
+    # both bins null — true for 110 of 477 places — `0 + 0` was emitted as a
+    # measured 0% and carried `confidence: high`. Commerce City reported 0% of
+    # 6,116 renter households cost-burdened while this repo's own CHAS file
+    # held renter_cb30_share 0.5184, and reported 27.5% paying over HALF their
+    # income in the adjacent field — a subset larger than its own superset.
+    #
+    # pct_renter_severe_burdened, twenty lines below, has always initialised to
+    # None and stayed None when its source was missing, and acs_or_none() was
+    # already here for exactly this — it just had not been applied to a rate.
+    # This is that same discipline, on the field that needed it most. (#1722)
+    grapi_30to34 = acs_or_none(acs.get("DP04_0141PE"))
+    grapi_35plus = acs_or_none(acs.get("DP04_0142PE"))
     # ACS publishes DP04_0141PE and DP04_0142PE rounded to one decimal place
     # independently. Their sum can therefore exceed 100 by up to ~0.2 pts
     # purely from rounding (e.g. Louviers CDP: 49.7 + 50.4 = 100.1). Clamp
     # to [0, 100] so the downstream `pct_cost_burdened ∈ [0, 100]` invariant
     # holds for ranking + UI display. Pre-fix: integration test
     # `All pct_cost_burdened values in [0,100]` failed for ~1 entry per build.
-    pct_cost_burdened_acs = round(
-        max(0.0, min(100.0, grapi_30to34 + grapi_35plus)),
-        1,
-    )
+    if grapi_30to34 is None or grapi_35plus is None:
+        # One bin without the other is half a measurement, not a smaller one.
+        pct_cost_burdened_acs = None
+    else:
+        pct_cost_burdened_acs = round(
+            max(0.0, min(100.0, grapi_30to34 + grapi_35plus)),
+            1,
+        )
 
     pct_cost_burdened = pct_cost_burdened_acs
 
@@ -1239,11 +1255,86 @@ def compute_metrics(
         approximated_fields.append("population_projection_20yr")
     opportunity_aggregated_fields = list(opp.get("_opportunity_aggregated_fields", [])) if isinstance(opp, dict) else []
 
+    # A zero contradicted by the other source is not a measurement.
+    #
+    # Two absence-as-zero mechanisms reach this field. The first is a null ACS
+    # payload, handled where the bins are read. The second is ACS publishing a
+    # LITERAL 0 in both GRAPI bins for a small sample — St. Ann Highlands, 42
+    # renter households, 0% in both bins while CHAS reports 75.2% burdened.
+    # That is a suppression artefact, and it is detectable precisely because it
+    # produces an impossible pair: severe cost burden (over half of income)
+    # larger than total cost burden (over 30%), its own superset.
+    #
+    # 50 places were in that state. GRAPI stays the source for comparability
+    # (see the note further down); a GRAPI zero that CHAS contradicts is simply
+    # dropped rather than swapped, because the two are computed over different
+    # renter universes and substituting one for the other silently changes what
+    # the field means. (#1722)
+    # The test is the impossibility itself, not just the zero case: Crestone
+    # reported 3.4% total against 38.1% severe. Both CHAS shares are taken over
+    # the same all-renter denominator as GRAPI (verified: renter_cb50_count /
+    # total_renter_hh reproduces renter_cb50_share), so they ARE comparable and
+    # severe exceeding total is impossible rather than merely odd.
+    # Compare like with like. renter_cb30_share and renter_cb50_share are taken
+    # over ALL renter households, the same denominator GRAPI uses, so both are
+    # directly comparable to pct_cost_burdened.
+    #
+    # The per-AMI-tier rates are NOT: burden among the poorest tier runs far
+    # above the all-renter average by construction (Commerce City, 86.6% in the
+    # lte30 tier against 51.8% overall). Testing against tiers nulled 89% of
+    # the field in one build — caught by the over-correction check in
+    # test:no-coerced-zeros, which exists because a fix that destroys the metric
+    # passes every "no false zeros" assertion.
+    _chas_overall = None
+    if place_chas_rec:
+        _sum = place_chas_rec.get("summary", {}) or {}
+        _cands = [
+            v * 100 for v in (
+                _sum.get("renter_cb30_share"), _sum.get("renter_cb50_share"),
+            )
+            if isinstance(v, (int, float))
+        ]
+        _chas_overall = max(_cands) if _cands else None
+    # Only the CATEGORICAL contradictions. "CHAS is higher than GRAPI" is not
+    # one: the two sources disagree routinely and in both directions (median
+    # CHAS minus GRAPI is -8.2, GRAPI is higher in 279 of 399 places), and the
+    # positive gaps run continuously from +0.2 to +75.2 with no break to put a
+    # threshold in. Nulling on any disagreement discarded 89% of the field in
+    # one build; nulling above a picked number would just be a number I picked.
+    #
+    # Two things are categorical rather than matters of degree:
+    #   1. GRAPI reports 0% — not a small share, NO burdened renter at all —
+    #      while CHAS reports some. Zero is a claim about existence, and it is
+    #      flatly contradicted. St. Ann Highlands: 0% against CHAS 75.2% on 42
+    #      renter households.
+    #   2. Severe burden exceeds total burden. A subset cannot be larger than
+    #      its superset, and both shares use the same all-renter denominator.
+    #      Crestone: 3.4% total against 38.1% severe.
+    #
+    # Near-zero-but-not-zero cases that fail neither test (Lake City 1.9%
+    # against CHAS 22.9%) are left alone. They look wrong, and deciding they
+    # ARE wrong needs a judgement about ACS small-sample behaviour that belongs
+    # in the issue, not in a silent build rule.
+    _grapi_denies_what_chas_reports = (
+        pct_cost_burdened == 0
+        and isinstance(_chas_overall, (int, float))
+        and _chas_overall > 0
+    )
+    _subset_exceeds_superset = (
+        isinstance(pct_renter_severe_burdened, (int, float))
+        and isinstance(pct_cost_burdened, (int, float))
+        and pct_renter_severe_burdened > pct_cost_burdened
+    )
+    if isinstance(pct_cost_burdened, (int, float)) and (
+        _grapi_denies_what_chas_reports or _subset_exceeds_superset
+    ):
+        pct_cost_burdened = None
+
     return {
         "housing_gap_units": housing_gap_units,
         "low_income_households_lte30": low_income_households_lte30,
         "housing_gap_rate_lte30": housing_gap_rate_lte30,
-        "pct_cost_burdened": round(pct_cost_burdened, 1),
+        "pct_cost_burdened": None if pct_cost_burdened is None else round(pct_cost_burdened, 1),
         "pct_renter_severe_burdened": pct_renter_severe_burdened,
         "pct_deep_tier_burdened": pct_deep_tier_burdened,
         "ami_gap_30pct": ami_gap_30,
@@ -1445,22 +1536,32 @@ def build(out_path: str | None = None) -> None:
             )
         except Exception as exc:
             print(f"  [warn] metrics failed for {geoid}: {exc}", file=sys.stderr)
+            # This dict describes a CRASH, not a jurisdiction. It already sets
+            # the medians and the opportunity scores to None; the cost-burden
+            # family was fabricating 0.0, which publishes a failed computation
+            # as "nobody here is cost-burdened" (#1722).
+            #
+            # The rest of this fallback still fabricates zeros for the gap,
+            # commuters, tenure and vacancy families. Those are left alone here
+            # rather than swept, because each has consumers that have not been
+            # checked for null-tolerance and this change is scoped to the
+            # cost-burden defect. See the issue for the wider problem.
             metrics = {
                 "housing_gap_units": 0,
                 "low_income_households_lte30": 0,
                 "housing_gap_rate_lte30": None,
-                "pct_cost_burdened": 0.0,
+                "pct_cost_burdened": None,
                 "pct_renter_severe_burdened": None,
                 "pct_deep_tier_burdened": None,
                 "ami_gap_30pct": 0,
                 "ami_gap_50pct": 0,
                 "ami_gap_60pct": 0,
-                "pct_burdened_lte30": 0.0,
-                "pct_burdened_31to50": 0.0,
-                "pct_burdened_51to80": 0.0,
-                "pct_burdened_81to100": 0.0,
-                "pct_burdened_100plus": 0.0,
-                "pct_owner_burdened_30plus": 0.0,
+                "pct_burdened_lte30": None,
+                "pct_burdened_31to50": None,
+                "pct_burdened_51to80": None,
+                "pct_burdened_81to100": None,
+                "pct_burdened_100plus": None,
+                "pct_owner_burdened_30plus": None,
                 "missing_ami_tiers": [],
                 "in_commuters": 0,
                 "commute_ratio": 0.0,
