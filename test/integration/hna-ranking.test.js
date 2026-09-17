@@ -129,12 +129,33 @@ test('housing_gap_units is non-negative integer for counties', () => {
   assert(bad.length === 0, `All county housing_gap_units are non-negative (bad: ${bad.length})`);
 });
 
-test('pct_cost_burdened is between 0 and 100', () => {
+test('pct_cost_burdened is between 0 and 100, or null', () => {
+  // null is a legal value here since #1722. 135 geographies have no
+  // publishable GRAPI figure, and the alternative — the 0.0 this assertion
+  // used to require — is what published Commerce City as 0% cost-burdened
+  // over 6,116 renter households while CHAS held 51.8% for the same place.
+  //
+  // "typeof v !== 'number'" was the whole problem: it demanded a number, so
+  // absence had to be dressed as one to pass.
   const bad = rankingData.rankings.filter(e => {
     const v = e.metrics.pct_cost_burdened;
+    if (v === null) return false;
     return typeof v !== 'number' || v < 0 || v > 100;
   });
-  assert(bad.length === 0, `All pct_cost_burdened values in [0,100] (bad: ${bad.length})`);
+  assert(bad.length === 0, `All pct_cost_burdened values in [0,100] or null (bad: ${bad.length})`);
+});
+
+test('pct_cost_burdened absence is null, and most rows still carry a number', () => {
+  // Both halves. A key that is simply missing loses the distinction, and a
+  // build that nulls everything would satisfy the range check above while
+  // destroying the metric.
+  const rows = rankingData.rankings;
+  const missingKey = rows.filter(e => !('pct_cost_burdened' in e.metrics));
+  assert(missingKey.length === 0,
+    `absence must be an explicit null, not a dropped key (bad: ${missingKey.length})`);
+  const numeric = rows.filter(e => typeof e.metrics.pct_cost_burdened === 'number').length;
+  assert(numeric > rows.length * 0.6,
+    `only ${numeric} of ${rows.length} rows carry a figure; the field has been nulled away`);
 });
 
 test('percentileRank is between 0 and 100', () => {
