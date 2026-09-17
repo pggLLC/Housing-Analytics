@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-17T11:08:27.126496Z",
+  "generated": "2026-09-17T13:12:17.446742Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 194265
+      "bytes": 185957
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 245154
+      "bytes": 245155
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -7959,7 +7959,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 160665
+      "bytes": 154359
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
