@@ -71,8 +71,18 @@
       sourceLink: sourceLink, verifiedAt: verifiedAt,
       actionRequired: 'Retrieve and check the named document before relying on this value.'
     };
+    // A state, not a command. "Enter your value" is written in the grammar of
+    // a button and there is no control behind it anywhere — no input, no
+    // handler, and `provenance--action` has no CSS rule either. It renders as
+    // a <span> on five HNA pages, and readers try to use it.
+    //
+    // "Owner input required" is not new wording: ownership-decision-chain.js
+    // already falls back to it, and it matches the scenario schema's
+    // owner_input_required flag. The explanation and actionRequired below were
+    // always accurate — only the label was writing a cheque the page could not
+    // cash.
     return {
-      label: 'Enter your value', tone: 'action',
+      label: 'Owner input required', tone: 'action',
       explanation: note || 'This is a screening placeholder without external evidence.',
       sourceLink: sourceLink, verifiedAt: verifiedAt,
       actionRequired: 'Replace this value with a project-specific owner input before use.'
