@@ -20,7 +20,7 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { measure, GUIDED_PATH } from '../scripts/audit/finish-line.mjs';
+import { measure, GUIDED_PATH, evaluateGuidedPath } from '../scripts/audit/finish-line.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -68,12 +68,78 @@ test('UNMEASURED is never folded into PASS', () => {
     + 'record it and change this assertion on purpose.');
 });
 
-test('the guided path is six steps and every page exists', () => {
-  assert.strictEqual(GUIDED_PATH.length, 6, 'the guided path is no longer six steps');
-  for (const s of GUIDED_PATH) {
+test('the audit reads the real route, not a copy of an old one', () => {
+  // This assertion used to be `GUIDED_PATH.length === 6`, and it was the
+  // problem rather than the check. The route changed three times on
+  // 2026-09-16 — the entry point moved to the jurisdiction, a seventh step was
+  // added — and the audit's hand-written table still described the old one.
+  // G1 reported PASS throughout, because all it asked was whether six named
+  // files existed. A guard pinned to a number cannot notice that the number
+  // stopped describing anything.
+  //
+  // So the route is now derived, and this checks the derivation against its
+  // source rather than against a literal.
+  const src = fs.readFileSync(path.join(ROOT, 'js/components/workflow-progress.js'), 'utf8');
+  const declared = [...src.matchAll(/\{ num: (\d+), key: '([^']+)',\s*label: '([^']+)',\s*href: '([^']+)' \}/g)]
+    .map((m) => ({ step: Number(m[1]), page: m[4] }));
+
+  assert.ok(declared.length >= 6,
+    `only ${declared.length} steps parsed out of the component; the STEPS table has `
+    + 'changed shape and the audit is now reading a route that is not there');
+  assert.deepStrictEqual(
+    GUIDED_PATH.map((s) => ({ step: s.step, page: s.page })), declared,
+    'the audit\'s route and the rail component disagree');
+
+  // Non-vacuous: the derivation must actually have produced something, and the
+  // numbering must be a route rather than an arbitrary set.
+  assert.ok(GUIDED_PATH.length >= 6, `the guided path collapsed to ${GUIDED_PATH.length} steps`);
+  GUIDED_PATH.forEach((s, i) => {
+    assert.strictEqual(s.step, i + 1, `step ${i + 1} is numbered ${s.step}`);
     assert.ok(fs.existsSync(path.join(ROOT, s.page)),
       `step ${s.step} (${s.name}) points at ${s.page}, which does not exist`);
+  });
+
+  // The entry point is the one thing about this route that was deliberately
+  // decided (#1620 §7 slice 1), so it is named rather than left implicit.
+  assert.strictEqual(GUIDED_PATH[0].page, 'select-jurisdiction.html',
+    'the guided path no longer starts at the jurisdiction');
+});
+
+test('G1 refuses to pass on a route that is empty, misordered or missing a page', () => {
+  // Exercised directly, with routes the repo does not contain. Asserting these
+  // against the real route would prove nothing — it is complete and correctly
+  // ordered, so deleting a check inside the audit changes no output and a
+  // guard written that way passes over its own removal. That is how the stale
+  // six-step table survived: everything it asserted was true, about the wrong
+  // thing.
+  const allExist = () => true;
+  const good = [
+    { step: 1, page: 'a.html' }, { step: 2, page: 'b.html' }, { step: 3, page: 'c.html' },
+  ];
+
+  assert.strictEqual(evaluateGuidedPath(good, allExist).state, 'PASS',
+    'a complete, ordered route does not pass');
+
+  for (const empty of [[], null, undefined]) {
+    const r = evaluateGuidedPath(empty, allExist);
+    assert.strictEqual(r.state, 'OPEN',
+      `an empty route reported ${r.state}; a parse that matches nothing has nothing to say`);
+    assert.ok(/could not be read/.test(r.detail), `the empty-route detail does not explain: ${r.detail}`);
   }
+
+  const misordered = [{ step: 1, page: 'a.html' }, { step: 3, page: 'c.html' }];
+  assert.strictEqual(evaluateGuidedPath(misordered, allExist).state, 'OPEN',
+    'a route numbered 1, 3 reported PASS');
+  assert.ok(/numbered 1, 3/.test(evaluateGuidedPath(misordered, allExist).detail));
+
+  const missing = evaluateGuidedPath(good, (p) => p !== 'b.html');
+  assert.strictEqual(missing.state, 'OPEN', 'a route with a missing page reported PASS');
+  assert.ok(/b\.html/.test(missing.detail), `the missing-page detail does not name it: ${missing.detail}`);
+
+  // And the real item still says where it looked.
+  const g1 = items.find((i) => i.id === 'G1');
+  assert.ok(g1 && /STEPS/.test(g1.evidence),
+    `G1 no longer says it reads the component: "${g1 && g1.evidence}"`);
 });
 
 test('every correctness-floor guard is still wired into test:ci', () => {
