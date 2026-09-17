@@ -1,12 +1,16 @@
 # `js/data-connectors/cde-schools.js`
 
-js/data-connectors/cde-schools.js
-Colorado Department of Education school district quality accessor.
+NO DATA SOURCE — this connector is dormant.
 
-Data source: data/market/cde_schools_co.json
-Real data: https://www.cde.state.co.us/accountability
+It previously read a synthetic fixture that was never a real Colorado Department of Education
+extract. That fixture carried part of the PMA workforce composite until
+#1562 excluded it, and was deleted on 2026-09-09.
 
-Exposed as window.CdeSchools.
+loadMetrics() resolves to the empty shape WITHOUT a network request. Do not
+restore a fetch until a real source exists — requesting a file that cannot
+exist produces console errors that fail the rendered site-audit gate.
+
+Real source when someone wires it up: CDE School Performance Frameworks.
 
 ## Symbols
 
