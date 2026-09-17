@@ -3,6 +3,7 @@
 const assert = require('assert');
 const crypto = require('crypto');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const { spawnSync } = require('child_process');
 
@@ -533,6 +534,96 @@ test('coverage report exists and summarizes county-context tags', () => {
   assert.ok(text.includes('Jurisdiction Metrics Digest Coverage'));
   assert.ok(text.includes('county_context'));
   assert.ok(text.includes('Min denominator floor: 50'));
+});
+
+/* ── #1717: the workforce layer crosses as files, and destruction comes last ── */
+
+const BRIDGE = path.join(ROOT, 'scripts/hna/economic_housing_bridge.py');
+
+test('the workforce payload does not cross a pipe', () => {
+  // The builder sends one record per ranked geography — 1.8 MB for 546 places —
+  // and reads ~420 KB back. macOS gives a unix pipe an 8 KB buffer in each
+  // direction. On 2026-09-16 that deadlocked: parent and child both alive,
+  // both at 0% CPU, both waiting for the other to drain, for 38 minutes.
+  //
+  // Files remove the condition rather than surviving it, and cost nothing —
+  // measured 96.18s against main's 96.75s on the same machine in the same
+  // minute.
+  const src = fs.readFileSync(BUILDER, 'utf8');
+  assert.ok(/'--records', inPath/.test(src) && /'--out', outPath/.test(src),
+    'the builder no longer hands the bridge file paths');
+  assert.ok(!/\binput:\s*(input|JSON\.stringify)/.test(src),
+    'the builder is writing the payload to the child\'s stdin again, which is the '
+    + 'deadlock (#1717)');
+  assert.ok(/mkdtempSync/.test(src) && /rmSync\(dir/.test(src),
+    'the temp directory is not created and removed around the call');
+});
+
+test('the bridge accepts file paths, and still accepts stdin', () => {
+  const src = fs.readFileSync(BRIDGE, 'utf8');
+  assert.ok(/--records/.test(src) && /--out/.test(src),
+    'economic_housing_bridge.py no longer takes --records/--out');
+
+  // The stdin fallback is checked by RUNNING it, not by grepping for it.
+  //
+  // The first version of this assertion scanned the source for
+  // json.load(sys.stdin) — and passed after that line was deleted, because the
+  // docstring a few lines above happens to name the same call while explaining
+  // the deadlock. A guard written to catch mention-versus-usage, failing on
+  // mention versus usage.
+  const r = spawnSync('python3', [BRIDGE, '--compute-workforce-layer'], {
+    cwd: ROOT, encoding: 'utf8', timeout: 30000,
+    input: JSON.stringify([{ geoid: '0800000', median_hh_income: 60000,
+      median_home_value: 400000, gross_rent_median: 1500, in_commuters: 10,
+      commute_ratio: 20, population: 1000, county_lehd: {}, county_trends: {} }]),
+  });
+  assert.strictEqual(r.status, 0,
+    `the documented \`< records.json\` invocation is broken: ${r.stderr || r.error}`);
+  assert.ok(Object.keys(JSON.parse(r.stdout || '{}')).includes('0800000'),
+    'the stdin path ran but produced nothing for the record it was given');
+});
+
+test('a large payload actually round-trips through the files', () => {
+  // Behavioural, not just a source scan: 600 records is larger than the 8 KB
+  // pipe buffer by two orders of magnitude, so this would hang on the old path.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'coho-1717-'));
+  try {
+    const inPath = path.join(dir, 'in.json');
+    const outPath = path.join(dir, 'out.json');
+    const records = Array.from({ length: 600 }, (_, i) => ({
+      geoid: String(80000 + i).padStart(7, '0'),
+      median_hh_income: 60000, median_home_value: 400000, gross_rent_median: 1500,
+      in_commuters: 100, commute_ratio: 40, population: 5000,
+      county_lehd: {}, county_trends: {},
+    }));
+    fs.writeFileSync(inPath, JSON.stringify(records));
+    assert.ok(fs.statSync(inPath).size > 8192 * 4, 'the fixture is too small to prove anything');
+    const r = spawnSync('python3', [BRIDGE, '--compute-workforce-layer', '--records', inPath, '--out', outPath],
+      { cwd: ROOT, encoding: 'utf8', timeout: 120000 });
+    assert.strictEqual(r.status, 0, `bridge failed: ${r.stderr || r.error}`);
+    assert.ok(fs.existsSync(outPath), 'the bridge exited 0 but wrote no output file');
+    assert.strictEqual(Object.keys(JSON.parse(fs.readFileSync(outPath, 'utf8'))).length, 600);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('nothing is destroyed before the step that can fail', () => {
+  // The other half of #1717, and the one that made a hang expensive rather
+  // than merely slow. rmSync used to sit ten lines ABOVE buildEconomicLayer,
+  // so 546 tracked digests were deleted before anything that could throw.
+  const src = fs.readFileSync(BUILDER, 'utf8');
+  const main = src.slice(src.indexOf('function main()'));
+  const compute = main.indexOf('buildEconomicLayer(ranking)');
+  const destroy = main.indexOf('rmSync(OUT_DIR');
+  assert.ok(compute > 0 && destroy > 0, 'main() no longer has both steps to order');
+  assert.ok(destroy > compute,
+    'the digest directory is deleted before the workforce layer is computed. Any '
+    + 'failure in that window leaves 546 tracked files gone and nothing rebuilt (#1717)');
+  const digestBuild = main.indexOf('ranking.rankings.map((entry) => buildDigest');
+  assert.ok(digestBuild > 0 && destroy > digestBuild,
+    'the digests are built after the directory is emptied, so a throw mid-build '
+    + 'still leaves it empty');
 });
 
 console.log('Done.');
