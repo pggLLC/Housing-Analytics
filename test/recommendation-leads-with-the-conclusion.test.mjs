@@ -308,6 +308,93 @@ test('the page never prints a raw provenance token at a reader', () => {
   }
 });
 
+/* ── The evidence links back to the steps that produced it ──────────────── */
+
+test('every conclusion says where it was computed, and that place exists', () => {
+  // #1620 §6 criterion 7: "one screen, conclusion first, then evidence links
+  // back to steps 2-6". Shipped without this half — the evidence tables named
+  // a source_id and nothing more, so a reader could see a figure came from
+  // `hud-chas-place-apportioned` and still have no way to reach the working.
+  //
+  // The link is checked against the target markup, not just spelled correctly.
+  // A chapter that moves a section should break the build rather than ship a
+  // link that scrolls nowhere, which is indistinguishable from a working one
+  // until someone clicks it.
+  const contract = Contract.build({ digest: digest('0820000'), project: null, generatedAt: 'x' });
+  assert.strictEqual(contract.conclusions.length, 5);
+  for (const conclusion of contract.conclusions) {
+    const at = conclusion.computedAt;
+    assert.ok(at, `${conclusion.id} does not say where it was computed`);
+    assert.ok(fs.existsSync(path.join(ROOT, at.page)), `${conclusion.id} points at ${at.page}, which does not exist`);
+    assert.ok(read(at.page).includes(`id="${at.anchor}"`),
+      `${conclusion.id} links to ${at.page}#${at.anchor}, but that page has no element with that id`);
+    assert.ok(at.label && at.label.length > 3, `${conclusion.id} has no readable link text`);
+  }
+});
+
+test('an insufficient conclusion still links to the evidence it lacks', () => {
+  // The reader told their evidence is too thin is the one who most wants to go
+  // and look at it. Dropping the link on the unanswered questions would leave
+  // exactly the wrong half linked.
+  const contract = Contract.build({ digest: digest('0800620'), project: null, generatedAt: 'x' });
+  const blocked = contract.conclusions.filter((c) => c.state === Contract.INSUFFICIENT);
+  assert.ok(blocked.length > 0, 'the sample jurisdiction answers everything; pick another');
+  for (const conclusion of blocked) {
+    assert.ok(conclusion.computedAt, `${conclusion.id} lost its link because it could not be answered`);
+  }
+});
+
+test('the rendered page carries one back-link per conclusion', () => {
+  const { mount } = renderFor('0820000');
+  const links = mount.querySelectorAll('.rec-conclusion .rec-source-link a');
+  assert.strictEqual(links.length, 5, `${links.length} back-links rendered; expected one per conclusion`);
+  for (const link of links) {
+    const href = link.getAttribute('href');
+    assert.ok(/^[a-z0-9-]+\.html#[A-Za-z][\w-]*$/.test(href), `back-link href is malformed: ${href}`);
+    assert.ok(link.textContent.trim().length > 6, 'a back-link has no readable text');
+  }
+});
+
+test('a recorded step keeps its link, not only an unfinished one', () => {
+  // It had the relationship backwards: the step a reader most wants to reopen
+  // is the one they already did and now want to change.
+  const project = {
+    hsa: { completedAt: '2026-09-15T10:00:00Z', costBurden: '49.5%' },
+    deal: { completedAt: '2026-09-15T11:00:00Z', outputs: { gap: '$4,200,000' } }
+  };
+  const { mount } = renderFor('0820000', project);
+  const steps = mount.querySelectorAll('.rec-step');
+  assert.strictEqual(steps.length, Contract.STEPS.length);
+  for (const step of steps) {
+    const link = step.querySelector('a[href]');
+    assert.ok(link, `the ${step.dataset.stepKey} step (${step.dataset.status}) offers no way back to it`);
+    const expected = Contract.STEPS.find((s) => s.key === step.dataset.stepKey).href;
+    assert.strictEqual(link.getAttribute('href'), expected,
+      `the ${step.dataset.stepKey} step links somewhere other than its own page`);
+  }
+  const recorded = mount.querySelectorAll('.rec-step[data-status="recorded"] a[href]');
+  assert.strictEqual(recorded.length, 2, 'the recorded steps lost their links again');
+});
+
+test('the PDF spells out the path a reader cannot click', () => {
+  const lines = [];
+  const stub = function () {
+    return {
+      internal: { pageSize: { getWidth: () => 612, getHeight: () => 792 } },
+      setFontSize() {}, setFont() {}, setTextColor() {}, addPage() {},
+      splitTextToSize: (t) => [String(t)],
+      text: (t) => lines.push(Array.isArray(t) ? t.join(' ') : String(t))
+    };
+  };
+  const { contract } = renderFor('0820000');
+  Page.exportPdf(contract, stub);
+  const body = lines.join('\n');
+  for (const conclusion of contract.conclusions) {
+    assert.ok(body.includes(conclusion.computedAt.page),
+      `the PDF never says where "${conclusion.question}" was computed; it is the copy that gets forwarded`);
+  }
+});
+
 /* ── Step 7 is on the route ─────────────────────────────────────────────── */
 
 test('step 7 is on every rail, and the component agrees', () => {

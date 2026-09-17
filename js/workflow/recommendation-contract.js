@@ -148,6 +148,7 @@
   }
 
   function conclusion(id, question, items, verdictFn) {
+    var computedAt = COMPUTED_AT[id] || null;
     var state = worst(items.map(function (item) { return item.state; }));
     var usable = items.filter(function (item) { return item.state !== INSUFFICIENT; });
     var verdict = state === INSUFFICIENT ? null : verdictFn(items);
@@ -155,6 +156,9 @@
       id: id,
       question: question,
       state: state,
+      // Present even when the conclusion is insufficient: a reader who is told
+      // the evidence is too thin most wants to go and look at it.
+      computedAt: computedAt,
       verdict: verdict && verdict.verdict || null,
       plain: verdict && verdict.plain
         || 'There is not enough evidence here to answer this one.',
@@ -177,6 +181,38 @@
     }
     return labels[labels.length - 1];
   }
+
+  /**
+   * Where each conclusion was computed.
+   *
+   * #1620 §6 criterion 7 asks for "one screen, conclusion first, then evidence
+   * links back to steps 2-6". Before this the evidence tables named their
+   * source_id and nothing more, so a reader could see that a figure came from
+   * `hud-chas-place-apportioned` and still had no way to reach the page that
+   * shows the working.
+   *
+   * Three of the five point at the same chapter. That is not laziness — "How
+   * much of what, for whom, and what is already available" is the chapter that
+   * carries the scorecard, the 20-year need and the ownership screen, and
+   * sending the reader somewhere tidier would send them somewhere the number
+   * is not.
+   *
+   * The anchors are guarded: test:recommendation asserts each page exists and
+   * actually contains that id, so a chapter that moves a section breaks the
+   * build rather than shipping a link that scrolls nowhere.
+   */
+  var COMPUTED_AT = {
+    need: { page: 'hna-what-to-do.html', anchor: 'hnaScorecardPanel',
+      label: 'the need scorecard' },
+    affordability: { page: 'hna-what-households-can-afford.html', anchor: 'statRentBurden',
+      label: 'what households can afford' },
+    production: { page: 'hna-what-to-do.html', anchor: 'statUnitsNeed',
+      label: 'how many homes are needed' },
+    ownership: { page: 'hna-what-to-do.html', anchor: 'affordable-ownership-need-section',
+      label: 'the ownership screen' },
+    confidence: { page: 'hna-what-to-do.html', anchor: 'hnaGapCoveragePanel',
+      label: 'the gap-coverage panel' }
+  };
 
   /* ── The five conclusions ───────────────────────────────────────────────
      Same five the HNA's own short answer uses — need, affordability,
@@ -430,6 +466,7 @@
 
   return {
     SCHEMA: SCHEMA,
+    COMPUTED_AT: COMPUTED_AT,
     ESTABLISHED: ESTABLISHED,
     PROVISIONAL: PROVISIONAL,
     INSUFFICIENT: INSUFFICIENT,

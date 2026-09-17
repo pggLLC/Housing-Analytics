@@ -85,6 +85,11 @@
         : '<strong class="rec-none">Not answered</strong>') + ' ' + stateChip(item.state) + '</p>'
       + '<p class="rec-plain">' + esc(item.plain) + '</p>'
       + blocking
+      + (item.computedAt
+        ? '<p class="rec-source-link"><a href="' + esc(item.computedAt.page)
+          + '#' + esc(item.computedAt.anchor) + '">See ' + esc(item.computedAt.label)
+          + ', with the working &rarr;</a></p>'
+        : '')
       + '<details class="rec-evidence"><summary>Evidence ('
       + esc(item.usableCount) + ' of ' + esc(item.evidenceCount) + ' measures usable)</summary>'
       + renderEvidence(item.evidence) + '</details>'
@@ -107,7 +112,12 @@
       return '<li class="rec-step" data-step-key="' + esc(step.key) + '" data-status="recorded">'
         + '<span class="rec-step__label">' + esc(step.label) + '</span> '
         + '<span class="rec-step__state">recorded ' + esc(String(step.recordedAt).slice(0, 10)) + '</span>'
-        + fields + '</li>';
+        + fields
+        // A recorded step keeps its link. It used to lose it, which had the
+        // relationship backwards: the step a reader most wants to reopen is
+        // the one they already did and now want to change.
+        + '<p class="rec-step__link"><a href="' + esc(step.href) + '">Reopen this step</a></p>'
+        + '</li>';
     }).join('');
     return '<ol class="rec-steps">' + rows + '</ol>';
   }
@@ -193,9 +203,16 @@
       text(item.question, 11, 'bold', ACCENT, 2);
       text((item.verdict || 'Not answered') + '  [' + (STATE_WORD[item.state] || item.state) + ']',
         10, 'bold', INK, 2);
-      text(item.plain, 9.5, 'normal', INK, item.blocking.length ? 2 : 10);
+      text(item.plain, 9.5, 'normal', INK, 2);
       item.blocking.forEach(function (line) { text('• ' + line, 9, 'normal', MUTED, 2); });
-      if (item.blocking.length) y += 8;
+      // A printed page cannot be clicked, so the path is spelled out. Without
+      // it the PDF is the one copy of this synthesis with no way back to the
+      // working, and it is the copy that gets forwarded.
+      if (item.computedAt) {
+        text('Shown in full on ' + item.computedAt.page + ' \u2014 ' + item.computedAt.label,
+          8.5, 'italic', MUTED, 2);
+      }
+      y += 8;
     });
 
     text('What the reader recorded', 11, 'bold', ACCENT, 4);
