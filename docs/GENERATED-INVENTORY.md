@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T13:10:43.951Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T13:22:51.632Z. Do not edit by hand.
 
 ---
 
@@ -1759,7 +1759,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 6.8 KB |
 | `test/file-manifest.test.js` | 4.6 KB |
-| `test/finish-line-holds.test.mjs` | 5.8 KB |
+| `test/finish-line-holds.test.mjs` | 9.4 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
