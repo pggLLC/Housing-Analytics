@@ -1,5 +1,5 @@
 {
-  "extracted_at_commit": "bf5793bb3",
+  "extracted_at_commit": "84bfe2a71",
   "ranking": {
     "source_file": "scripts/hna/build_ranking_index.py",
     "axis_weights": {
@@ -83,7 +83,7 @@
         "property_tax_rate": 0.0065,
         "insurance_rate": 0.0035,
         "pmi_rate": 0.005,
-        "pmi_ltv_gate": true
+        "pmi_ltv_gate": false
       },
       {
         "id": "first_time_buyer",
@@ -158,7 +158,7 @@
         "property_tax_rate": 0.0065,
         "insurance_rate": 0.0035,
         "pmi_rate": 0.005,
-        "pmi_ltv_gate": true
+        "pmi_ltv_gate": false
       },
       {
         "id": "custom",
