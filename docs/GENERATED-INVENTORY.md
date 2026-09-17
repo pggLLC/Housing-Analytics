@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T00:25:30.337Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T00:48:05.576Z. Do not edit by hand.
 
 ---
 
@@ -37,7 +37,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.0 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.4 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.6 KB |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-358 test files found.
+360 test files found.
 
 | File | Size |
 |------|------|
@@ -1900,6 +1900,7 @@
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
 | `test/pma-transit.test.js` | 14.8 KB |
+| `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/polymarket-resolved.test.js` | 2.9 KB |
@@ -1929,6 +1930,7 @@
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.1 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
+| `test/sale-price-evidence-is-named.test.mjs` | 14.7 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
