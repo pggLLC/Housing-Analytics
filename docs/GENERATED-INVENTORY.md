@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-16T22:02:36.423Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T00:25:30.337Z. Do not edit by hand.
 
 ---
 
@@ -66,7 +66,7 @@
 | `policy-briefs.html` | Housing News | COHO Analytics | 52.1 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.6 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
-| `recommendation.html` | Recommendation | COHO Analytics | 13.7 KB |
+| `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
@@ -1922,7 +1922,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 5.4 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
-| `test/recommendation-leads-with-the-conclusion.test.mjs` | 20.8 KB |
+| `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.3 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
