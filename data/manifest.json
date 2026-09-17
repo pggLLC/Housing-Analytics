@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-17T12:04:59.440466Z",
+  "generated": "2026-09-17T13:33:46.834184Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 194265
+      "bytes": 185957
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 245154
+      "bytes": 245155
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -334,7 +334,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1250079
+      "bytes": 1250360
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7834,12 +7834,12 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14393
+      "bytes": 14391
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5999
+      "bytes": 5997
     },
     "data/pipeline/content.json": {
       "featureCount": 0,
@@ -7849,7 +7849,7 @@
     "data/policy/affordability-models.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14487
+      "bytes": 14485
     },
     "data/policy/buyer-assistance-programs.json": {
       "featureCount": 0,
@@ -7959,7 +7959,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 160665
+      "bytes": 154359
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
@@ -7969,7 +7969,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 20062
+      "bytes": 20081
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
