@@ -71,6 +71,13 @@
       propertyTaxRate: 0.0065,
       insuranceRate: 0.0035,
       pmiRate: 0.0050,
+      // PMI stops at 20% down. This kernel had no gate at all, so it was the
+      // odd one of three: HNAUtils.computeIncomeNeeded passes pmiLtvGate:true
+      // at every call site, and the model registry now sets it on both
+      // conventional-PMI models. All three agreed anyway, because all three
+      // put 10% down — a rule can be missing for a long time when the only
+      // input it reacts to never changes.
+      pmiLtvGate: true,
     },
   };
 
@@ -282,6 +289,10 @@
     var propertyTaxRate = assumptions.propertyTaxRate != null ? assumptions.propertyTaxRate : assumptions.propertyTaxPctAnnual;
     var insuranceRate = assumptions.insuranceRate != null ? assumptions.insuranceRate : assumptions.insurancePctAnnual;
     var pmiRate = assumptions.pmiRate != null ? assumptions.pmiRate : assumptions.pmiPctAnnual;
+    // The Node path. It is not a dead branch: build_jurisdiction_metrics_digest.mjs
+    // runs this engine without a window, so this arithmetic is what produces
+    // data/hna/ownership-need.json for all 546 geographies.
+    if (assumptions.pmiLtvGate && downPaymentRate >= 0.20) pmiRate = 0;
     var monthlyBudget = income * frontEndRatio / 12;
     var loanShare = 1 - downPaymentRate;
     var mortgageFactor = monthlyMortgageFactor(annualRate, assumptions.termYears);
