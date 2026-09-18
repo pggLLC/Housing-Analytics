@@ -80,9 +80,19 @@ const KNOWN_FAILURES = {
   // fabricated ones; nulling it raised its cost-burden pressure 33.4 -> 39
   // and its rank 282 -> 270, out of the bottom half. The test required its
   // removal rather than letting a stale entry sit here.
-  '0840550': { name: 'Keystone (CDP)', rank: 329,
+  // Both ranks moved WORSE in this build, and the cause is measured rather
+  // than guessed: the 20-year figure now comes from places.json, the same
+  // number the page shows. Snowmass's is -1 and Keystone's is small, so both
+  // lost future-pressure percentile against places with real growth. The
+  // projection is more accurate and these two rows got worse — recording that
+  // is the point of this ledger, not a reason to leave the figure wrong.
+  //
+  // The underlying defect is fixed separately by the workforce gap, which
+  // reads demand from local jobs instead of resident households and takes
+  // Snowmass to 197 and Keystone to 311.
+  '0840550': { name: 'Keystone (CDP)', rank: 339,
     why: 'workforce pressure 90.4 — the highest in the state, above Aspen — with a gap score of 12.3' },
-  '0871755': { name: 'Snowmass Village (town)', rank: 359,
+  '0871755': { name: 'Snowmass Village (town)', rank: 363,
     why: 'gap score 10.1 against a $2.5M median home value; 2,833 in-commuters into a town of 2,972' },
 };
 

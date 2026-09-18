@@ -303,6 +303,36 @@ def load_projection(county_fips5: str) -> dict | None:
     return _load_json(path)
 
 
+_PLACE_PROJECTIONS: dict | None = None
+
+
+def load_place_projections() -> dict:
+    """Per-place 20-year need, apportioned from the county DOLA projection.
+
+    data/hna/projections/places.json covers 472 places and splits each county's
+    projection by a documented blend — 0.5 x household share + 0.5 x permit
+    share, clamped to [0.005, 1.0]. The permit half is the point: it puts
+    growth where building is actually happening.
+
+    This file already existed and js/hna/hna-renderers.js already read it, so
+    the HNA page has been showing a place its own figure while THIS builder
+    apportioned the same county projection by current population share. Two
+    producers of one number: Longmont's page said 9,387 and its rank was
+    computed from 3,693. Across the 367 places where both produced a positive
+    figure, 188 differed by more than 25%.
+
+    Population share assumes twenty years of growth distribute exactly like
+    today's population, which is the opposite of what a projection is for. The
+    blended share is the better-documented method and the one already on screen,
+    so the score follows the page rather than the page following the score.
+    """
+    global _PLACE_PROJECTIONS
+    if _PLACE_PROJECTIONS is None:
+        doc = _load_json(os.path.join(ROOT, "data", "hna", "projections", "places.json"))
+        _PLACE_PROJECTIONS = (doc or {}).get("places", {}) or {}
+    return _PLACE_PROJECTIONS
+
+
 def load_sya(county_fips5: str) -> dict | None:
     """Load DOLA single-year-age projection for a county."""
     path = os.path.join(ROOT, "data", "hna", "dola_sya", f"{county_fips5}.json")
@@ -1102,6 +1132,7 @@ def compute_metrics(
     population_projection_20yr = 0
     future_units_needed_20yr = None
     senior_share_growth_pp = None
+    projection_basis = None
     if geo_type == "county" and county_fips5:
         proj = load_projection(county_fips5)
         if proj:
@@ -1119,9 +1150,22 @@ def compute_metrics(
             future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
             if future_units:
                 future_units_needed_20yr = int(round(safe_float(future_units[-1])))
+                # A county is its own geography — no apportionment happens, and
+                # saying so keeps every row's basis answerable rather than
+                # leaving the county rows blank and the reader guessing.
+                projection_basis = "county_direct"
     else:
-        # For places: scale county projection by current population share
-        if county_fips5:
+        # Prefer the place ledger. It covers 472 of 482 places; the ten it does
+        # not are handled by the population-share path below, which stays as
+        # the fallback rather than being deleted.
+        place_proj = load_place_projections().get(geoid) if geoid else None
+        incremental = (place_proj or {}).get("incremental_units_needed") or []
+        if incremental:
+            future_units_needed_20yr = int(round(safe_float(incremental[-1])))
+            projection_basis = (place_proj or {}).get("method") or "place_ledger"
+        # For places without a ledger row: scale county projection by current
+        # population share.
+        if not incremental and county_fips5:
             proj = load_projection(county_fips5)
             if proj and population:
                 pop_dola = proj.get("population_dola", [])
@@ -1131,9 +1175,10 @@ def compute_metrics(
                     growth_factor = last_pop / base_pop
                     population_projection_20yr = int(population * growth_factor)
                     future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
-                    if future_units:
+                    if future_units and future_units_needed_20yr is None:
                         share = min(population / base_pop, 1.0)
                         future_units_needed_20yr = int(round(safe_float(future_units[-1]) * share))
+                        projection_basis = "county_population_share"
 
     sya = load_sya(county_fips5) if county_fips5 else None
     if sya:
@@ -1351,6 +1396,9 @@ def compute_metrics(
         "commute_ratio": commute_ratio,
         "population_projection_20yr": population_projection_20yr,
         "future_units_needed_20yr": future_units_needed_20yr,
+        # Which apportionment produced the figure above. Two methods existed
+        # for years and nothing on the row said which one you were reading.
+        "future_units_basis": projection_basis,
         "senior_share_growth_pp": senior_share_growth_pp,
         "overcrowding_rate_pct": overcrowding_rate,
         "population": population,
