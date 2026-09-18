@@ -1,7 +1,7 @@
 {
   "schema": "jurisdiction-metrics-digest/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-09-18T01:29:53Z",
+    "ranking_index_generated_at": "2026-09-18T05:37:34Z",
     "ranking_index_version": "1.0",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs",
     "economic_bridge": "scripts/hna/economic_housing_bridge.py"
@@ -13,7 +13,7 @@
     "region": "San Luis Valley",
     "containingCounty": "08109"
   },
-  "metric_count": 137,
+  "metric_count": 144,
   "min_rate_denominator": 50,
   "metrics": {
     "housing_gap_units": {
@@ -22,6 +22,46 @@
       "confidence": "low",
       "source_id": "ami-gap-place-acs",
       "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "local_low_wage_jobs": {
+      "value": 3,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "lehd-lodes-wac-place",
+      "as_of": "LEHD LODES WAC latest committed vintage",
+      "measure_type": "level"
+    },
+    "affordable_units_lte60": {
+      "value": 0,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "ami-gap-place-acs",
+      "as_of": "ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "workforce_gap_units": {
+      "value": 3,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "workforce-gap-lodes-wac-vs-ami-gap",
+      "as_of": "LEHD LODES WAC vs ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "workforce_gap_pct": {
+      "value": null,
+      "geography_level": "place",
+      "confidence": "missing",
+      "source_id": "workforce-gap-lodes-wac-vs-ami-gap",
+      "as_of": "LEHD LODES WAC vs ACS 2020-2024 5-year",
+      "measure_type": "level"
+    },
+    "workforce_gap_basis": {
+      "value": "place_lodes_wac_vs_units_lte60",
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "workforce-gap-lodes-wac-vs-ami-gap",
+      "as_of": "LEHD LODES WAC vs ACS 2020-2024 5-year",
       "measure_type": "level"
     },
     "low_income_households_lte30": {
@@ -449,11 +489,27 @@
       "measure_type": "level"
     },
     "gap_pressure_score": {
+      "value": 11.1,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "hna-ranking-index-derived",
+      "as_of": "2026-09-18T05:37:34Z",
+      "measure_type": "derived"
+    },
+    "resident_gap_pressure_score": {
       "value": 2.6,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
+      "measure_type": "derived"
+    },
+    "workforce_gap_pressure_score": {
+      "value": 11.1,
+      "geography_level": "place",
+      "confidence": "low",
+      "source_id": "hna-ranking-index-derived",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "cost_burden_pressure_score": {
@@ -469,7 +525,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "future_pressure_score": {
@@ -485,7 +541,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "commuter_pressure_score": {
@@ -505,15 +561,15 @@
       "measure_type": "derived"
     },
     "community_need_core_score": {
-      "value": 39.4,
+      "value": 43.4,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "community_need_augmented_raw": {
-      "value": 39.4,
+      "value": 43.4,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "acs-profile",
@@ -521,11 +577,11 @@
       "measure_type": "level"
     },
     "community_need_score": {
-      "value": 29.5,
+      "value": 25.1,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "opportunity_score": {
@@ -537,11 +593,11 @@
       "measure_type": "derived"
     },
     "overall_need_score_raw": {
-      "value": 28.3,
+      "value": 25.9,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "score_confidence_multiplier": {
@@ -549,15 +605,15 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "overall_need_score": {
-      "value": 24.4,
+      "value": 22.3,
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "latest_lihtc_year": {
@@ -597,7 +653,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "recency_basis": {
@@ -677,7 +733,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "recency_score_4pct": {
@@ -685,7 +741,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "recency_score_state_credit": {
@@ -693,7 +749,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "recency_score_competitive": {
@@ -701,7 +757,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_latest_lihtc_year": {
@@ -749,7 +805,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_recency_score_9pct": {
@@ -757,7 +813,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_recency_score_4pct": {
@@ -765,7 +821,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_recency_score_state_credit": {
@@ -773,7 +829,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_recency_score_competitive": {
@@ -781,7 +837,7 @@
       "geography_level": "place",
       "confidence": "low",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "regional_pma_miles": {
@@ -1034,7 +1090,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived",
       "formula_note": "Bounded 0-100 descriptive blend: place home-value pressure (30%), county service-sector share pressure (25%), place commute-ratio pressure (25%), county wage-gap pressure (20%). Not used for ranking."
     },
@@ -1043,7 +1099,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "workforce_housing_commute_pressure": {
@@ -1051,7 +1107,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "workforce_housing_service_sector_pressure": {
@@ -1075,7 +1131,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "wage_affordability_ownership_gap_dollars": {
@@ -1083,7 +1139,7 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "wage_affordability_rent_burden_pct": {
@@ -1091,7 +1147,7 @@
       "geography_level": "place",
       "confidence": "high",
       "source_id": "economic-housing-bridge",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "rate"
     },
     "county_service_sector_share_pct": {
@@ -1155,7 +1211,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "ownership_need_data_quality": {
@@ -1163,7 +1219,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_renter_cost_burdened": {
@@ -1171,7 +1227,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_owner_cost_burdened": {
@@ -1179,7 +1235,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_severe_renter_cost_burdened": {
@@ -1187,7 +1243,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_moderate_income_renter_households": {
@@ -1195,7 +1251,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_moderate_income_owner_cost_burdened": {
@@ -1203,7 +1259,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_existing_rental_gap_lte80": {
@@ -1211,7 +1267,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "ownership_need_rental_pressure_tier": {
@@ -1219,7 +1275,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "ownership_need_ownership_pressure_tier": {
@@ -1227,7 +1283,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "ownership_need_ownership_fit_tier": {
@@ -1235,7 +1291,7 @@
       "geography_level": "place",
       "confidence": "medium",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     },
     "ownership_need_affordability_classification": {
@@ -1243,15 +1299,15 @@
       "geography_level": "place",
       "confidence": "missing",
       "source_id": "hna-affordable-ownership-need",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "level"
     },
     "rank": {
-      "value": 469,
+      "value": 482,
       "geography_level": "place",
       "confidence": "high",
       "source_id": "hna-ranking-index-derived",
-      "as_of": "2026-09-18T01:29:53Z",
+      "as_of": "2026-09-18T05:37:34Z",
       "measure_type": "derived"
     }
   }

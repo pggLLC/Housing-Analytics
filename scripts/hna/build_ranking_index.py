@@ -86,6 +86,41 @@ COMMUTER_AUGMENT_ALPHA = 0.20
 
 GAP_COUNT_WEIGHT = 0.4
 GAP_RATE_WEIGHT = 0.6
+
+# --- Workforce gap (LODES job-based demand) ------------------------------
+#
+# The resident gap counts affordable units against renter households who
+# LIVE here. Both terms stop at the municipal boundary, so a place that has
+# priced its workforce out reads as satisfied: push the households across
+# the line and the gap goes to zero. 190 of 546 geographies carry a resident
+# gap of exactly 0, and the arithmetic producing that 0 is correct.
+#
+# Exporting a workforce is not evidence that housing need was met. The
+# commute is the unmet need. So demand is also measured from the jobs a
+# place hosts, which do not move when the workers are pushed out.
+#
+# LODES WAC earnings segments, already loaded for commuter pressure:
+#   CE01  jobs paying <= $1,250/month
+#   CE02  jobs paying $1,251-$3,333/month   (~$40k/yr)
+#   CE03  jobs paying > $3,333/month
+# Counties expose the same counts as annualWages[year].low / .medium.
+#
+# Compared against rental units affordable at <= 60% AMI, because ~$40k/yr
+# lands near 50-60% AMI in most Colorado counties -- NOT against the 30% AMI
+# stock the resident gap uses. Naming this a 30% AMI figure would make it
+# mean something other than it says.
+#
+# One job is benchmarked against one affordable unit. There is deliberately
+# no workers-per-household divisor: any such factor would be the only
+# unsourced number in the chain, and it would silently rescale a published
+# metric. Jobs-to-units is the standard jobs-housing framing and every term
+# here is inspectable in the output.
+WORKFORCE_WAGE_BANDS = ("CE01", "CE02")
+WORKFORCE_COUNTY_WAGE_BANDS = ("low", "medium")
+WORKFORCE_SUPPLY_AMI_BAND = "60"
+# Below this many local low-wage jobs the rate is not published: the same
+# floor the other rate metrics use, for the same reason.
+_MIN_WORKFORCE_JOBS = _MIN_RATE_DENOMINATOR
 COST_ALL_RENTER_WEIGHT = 0.40
 COST_SEVERE_WEIGHT = 0.30
 COST_DEEP_TIER_WEIGHT = 0.30
@@ -237,6 +272,61 @@ def load_place_chas() -> dict[str, dict]:
     if isinstance(places, dict):
         return {str(k).zfill(7): v for k, v in places.items()}
     return {}
+
+
+def _affordable_units_at_band(place_gap_rec, county_gap_rec, geo_type, band):
+    """Rental units affordable at or below ``band``% AMI, or None if unknown.
+
+    The two source files store the SAME quantity with opposite signs, and the
+    place file's key name is the reverse of its contents:
+
+      co_ami_gap_by_place.json   gap_units_minus_households_le_ami_pct
+                                 actually holds households - units
+                                 (positive = deficit)  => units = hh - value
+      co_ami_gap_by_county.json  holds units - households
+                                 (negative = deficit)  => units = hh + value
+
+    That is not a convention worth trusting from a distance, so it is stated
+    here and matched to the sign handling already in build_entry().
+    """
+    if place_gap_rec:
+        hh = place_gap_rec.get("households_le_ami_pct", {}).get(band)
+        val = place_gap_rec.get("gap_units_minus_households_le_ami_pct", {}).get(band)
+        if hh is not None and val is not None:
+            return max(0.0, safe_float(hh) - safe_float(val))
+    if geo_type == "county" and county_gap_rec:
+        hh = county_gap_rec.get("households_le_ami_pct", {}).get(band)
+        val = county_gap_rec.get("gap_units_minus_households_le_ami_pct", {}).get(band)
+        if hh is not None and val is not None:
+            return max(0.0, safe_float(hh) + safe_float(val))
+    return None
+
+
+def _local_low_wage_jobs(place_lehd_blob, county_lehd_rec, geo_type):
+    """Jobs LOCATED here paying <= $3,333/month, or None if unknown.
+
+    Workplace-side LODES, so this counts the jobs a place hosts regardless of
+    where the people filling them sleep. A place cannot export this number the
+    way it can export its resident households.
+
+    No county-proportional fallback: a place without its own LODES record gets
+    None, not a share of its county. A scaled guess would be indistinguishable
+    in the output from a measured value, and this metric exists precisely
+    because a plausible-looking number hid a real one.
+    """
+    if place_lehd_blob:
+        vals = [place_lehd_blob.get(b) for b in WORKFORCE_WAGE_BANDS]
+        if all(v is not None for v in vals):
+            return int(sum(safe_float(v) for v in vals))
+    if geo_type == "county" and county_lehd_rec:
+        annual_wages = county_lehd_rec.get("annualWages") or {}
+        if annual_wages:
+            latest = max(annual_wages)
+            band_counts = annual_wages.get(latest) or {}
+            vals = [band_counts.get(b) for b in WORKFORCE_COUNTY_WAGE_BANDS]
+            if all(v is not None for v in vals):
+                return int(sum(safe_float(v) for v in vals))
+    return None
 
 
 def load_place_lehd() -> dict[str, dict]:
@@ -1128,6 +1218,44 @@ def compute_metrics(
                 lehd_source = "county_proportional"
             # else: in_commuters stays 0 (county population unknown)
 
+    # --- Workforce gap: demand measured from jobs, not residents ---------
+    #
+    # See WORKFORCE_WAGE_BANDS. The resident gap asks "do the people living
+    # here have affordable housing"; a place answers yes by having no such
+    # people left. This asks "can the workforce this place employs afford to
+    # live in it", which its boundary cannot flatter.
+    local_low_wage_jobs = _local_low_wage_jobs(
+        place_lehd_blob,
+        lehd_by_county.get(county_fips5) if county_fips5 else None,
+        geo_type,
+    )
+    affordable_units_lte60 = _affordable_units_at_band(
+        place_data,
+        ami_gap_by_county.get(county_fips5) if county_fips5 else None,
+        geo_type,
+        WORKFORCE_SUPPLY_AMI_BAND,
+    )
+
+    workforce_gap_units = None
+    workforce_gap_pct = None
+    workforce_gap_basis = None
+
+    if local_low_wage_jobs is not None and affordable_units_lte60 is not None:
+        workforce_gap_units = int(max(0.0, local_low_wage_jobs - affordable_units_lte60))
+        workforce_gap_basis = (
+            "place_lodes_wac_vs_units_lte60"
+            if place_lehd_blob
+            else "county_lodes_wac_vs_units_lte60"
+        )
+        # A place with more affordable units than low-wage jobs scores 0 here,
+        # and that 0 is real -- it is the answer to a question that was asked
+        # and came back negative. It is not the absence-shaped 0 this metric
+        # was built to replace, which is why the basis is emitted alongside it.
+        if local_low_wage_jobs >= _MIN_WORKFORCE_JOBS:
+            workforce_gap_pct = round(
+                workforce_gap_units / local_low_wage_jobs * 100, 1
+            )
+
     # --- 20-year population projection ---
     population_projection_20yr = 0
     future_units_needed_20yr = None
@@ -1377,6 +1505,13 @@ def compute_metrics(
 
     return {
         "housing_gap_units": housing_gap_units,
+        "local_low_wage_jobs": local_low_wage_jobs,
+        "affordable_units_lte60": (
+            int(affordable_units_lte60) if affordable_units_lte60 is not None else None
+        ),
+        "workforce_gap_units": workforce_gap_units,
+        "workforce_gap_pct": workforce_gap_pct,
+        "workforce_gap_basis": workforce_gap_basis,
         "low_income_households_lte30": low_income_households_lte30,
         "housing_gap_rate_lte30": housing_gap_rate_lte30,
         "pct_cost_burdened": None if pct_cost_burdened is None else round(pct_cost_burdened, 1),
@@ -1596,6 +1731,11 @@ def build(out_path: str | None = None) -> None:
             # cost-burden defect. See the issue for the wider problem.
             metrics = {
                 "housing_gap_units": 0,
+                "local_low_wage_jobs": None,
+                "affordable_units_lte60": None,
+                "workforce_gap_units": None,
+                "workforce_gap_pct": None,
+                "workforce_gap_basis": None,
                 "low_income_households_lte30": 0,
                 "housing_gap_rate_lte30": None,
                 "pct_cost_burdened": None,
@@ -1723,6 +1863,8 @@ def build(out_path: str | None = None) -> None:
     # counties, and CDPs rank against CDPs.
     pct_gap_count = compute_percentile_ranks(entries, "housing_gap_units", within_geo_type=True)
     pct_gap_rate = compute_percentile_ranks(entries, "housing_gap_rate_lte30", within_geo_type=True)
+    pct_wf_gap_count = compute_percentile_ranks(entries, "workforce_gap_units", within_geo_type=True)
+    pct_wf_gap_rate = compute_percentile_ranks(entries, "workforce_gap_pct", within_geo_type=True)
     pct_cb = compute_percentile_ranks(entries, "pct_cost_burdened", within_geo_type=True)
     pct_severe_cb = compute_percentile_ranks(entries, "pct_renter_severe_burdened", within_geo_type=True)
     pct_deep_cb = compute_percentile_ranks(entries, "pct_deep_tier_burdened", within_geo_type=True)
@@ -1742,10 +1884,34 @@ def build(out_path: str | None = None) -> None:
     # only; it never subtracts from a high-burden / low-commute geography.
     for e in entries:
         gid = e["geoid"]
-        gap_pressure = _weighted_average([
+        # Gap pressure is the WORSE of two readings of the same question.
+        #
+        #   resident   affordable units vs renter households who live here
+        #   workforce  affordable units vs the low-wage jobs located here
+        #
+        # max(), not a blend, and the direction is the whole point: a place is
+        # in need if EITHER its residents are underserved OR the workforce it
+        # employs cannot afford to live in it. Because it is a maximum, adding
+        # the workforce reading can only raise a gap score, never lower one --
+        # no geography loses standing because this metric arrived. Ranks still
+        # move, since ranks are relative, but no score is reduced by it.
+        #
+        # A blend would have let a near-zero resident gap drag a severe
+        # workforce gap back down, which is the failure being fixed.
+        resident_gap_pressure = _weighted_average([
             (_pct(pct_gap_count, gid), GAP_COUNT_WEIGHT),
             (_pct(pct_gap_rate, gid), GAP_RATE_WEIGHT),
         ])
+        workforce_gap_pressure = None
+        if e["metrics"].get("workforce_gap_units") is not None:
+            workforce_gap_pressure = _weighted_average([
+                (_pct(pct_wf_gap_count, gid), GAP_COUNT_WEIGHT),
+                (_pct(pct_wf_gap_rate, gid), GAP_RATE_WEIGHT),
+            ])
+        gap_pressure = max(
+            [v for v in (resident_gap_pressure, workforce_gap_pressure) if v is not None],
+            default=0.0,
+        )
         cost_burden_pressure = _weighted_average([
             (_pct(pct_cb, gid), COST_ALL_RENTER_WEIGHT),
             (_pct(pct_severe_cb, gid), COST_SEVERE_WEIGHT),
@@ -1787,6 +1953,8 @@ def build(out_path: str | None = None) -> None:
         )
         factor_scores = {
             "gap_pressure_score": gap_pressure,
+            "resident_gap_pressure_score": resident_gap_pressure,
+            "workforce_gap_pressure_score": workforce_gap_pressure,
             "cost_burden_pressure_score": cost_burden_pressure,
             "affordability_intensity_score": affordability_intensity,
             "future_pressure_score": future_pressure,
@@ -1794,8 +1962,14 @@ def build(out_path: str | None = None) -> None:
             "commuter_pressure_score": commuter_pressure,
             "opportunity_score_raw": opportunity_score,
         }
+        # Scores that are allowed to be absent stay absent. `round(value or 0)`
+        # would publish 0.0 for "not measured", which reads as "measured, and
+        # it is the floor" -- the same confusion this whole metric exists to
+        # undo. overcrowding_score was already handled this way; the workforce
+        # score joins it rather than getting a special case of its own.
+        nullable_scores = {"overcrowding_score", "workforce_gap_pressure_score"}
         for key, value in factor_scores.items():
-            if key == "overcrowding_score" and value is None:
+            if key in nullable_scores and value is None:
                 e["metrics"][key] = None
             else:
                 e["metrics"][key] = round(value or 0.0, 1)
@@ -1979,6 +2153,64 @@ def build(out_path: str | None = None) -> None:
             "description": "Deficit of affordable housing units at 30% AMI",
             "unit": "units",
             "sortOrder": "descending",
+        },
+        {
+            "id": "local_low_wage_jobs",
+            "label": "Local jobs paying under $40k",
+            "description": (
+                "LODES workplace jobs in LODES earnings bands CE01 + CE02 "
+                "(up to $3,333/month). Counts jobs LOCATED here, whoever fills "
+                "them and wherever they sleep."
+            ),
+            "unit": "jobs",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "affordable_units_lte60",
+            "label": "Rental units affordable at 60% AMI or below",
+            "description": (
+                "Supply side of the workforce gap. The 60% band, not the 30% "
+                "band used by housing_gap_units, because a $40k/yr wage lands "
+                "near 50-60% AMI in most Colorado counties."
+            ),
+            "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "workforce_gap_units",
+            "label": "Workforce housing gap",
+            "description": (
+                "local_low_wage_jobs minus affordable_units_lte60, floored at "
+                "zero: low-wage jobs here with no affordable unit here to match "
+                "them. Demand is read from jobs rather than residents, so a "
+                "jurisdiction cannot zero it out by pricing its workforce into "
+                "the next town."
+            ),
+            "unit": "units",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "workforce_gap_pct",
+            "label": "% of local low-wage jobs without a matching affordable unit",
+            "description": (
+                "workforce_gap_units as a share of local_low_wage_jobs. "
+                "Suppressed below 50 local low-wage jobs, the same denominator "
+                "floor the other rate metrics use."
+            ),
+            "unit": "percent",
+            "sortOrder": "descending",
+        },
+        {
+            "id": "workforce_gap_basis",
+            "label": "Workforce gap basis",
+            "description": (
+                "Which sources produced the workforce gap: "
+                "place_lodes_wac_vs_units_lte60 or "
+                "county_lodes_wac_vs_units_lte60. Absent when either side is "
+                "unknown, in which case the gap itself is null rather than 0."
+            ),
+            "unit": "category",
+            "sortOrder": "ascending",
         },
         {
             "id": "pct_cost_burdened",
