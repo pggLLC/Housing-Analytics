@@ -2010,10 +2010,14 @@ def build(out_path: str | None = None) -> None:
         score = round(min(100.0, max(0.0, raw_score)) * confidence_multiplier, 1)
         e["metrics"]["overall_need_score"] = score
 
-    # Compute percentile ranks for primary metric (housing_gap_units) across all entries
-    pct_ranks = pct_gap_count  # already computed above
+    # The gap percentile, under a name that says which metric it describes.
+    # It used to be published as `percentileRank` and displayed beside the
+    # rank, where it read as the percentile OF that rank. It is not: it is the
+    # percentile of housing_gap_units within geo type, while rank is global and
+    # ordered by overall_need_score. percentileRank is now derived from rank
+    # itself, below, after ranks are assigned.
     for e in entries:
-        e["percentileRank"] = pct_ranks.get(e["geoid"], 0.0)
+        e["gapPercentile"] = pct_gap_count.get(e["geoid"], 0.0)
 
     # Compute median comparison (relative to median housing_gap_units)
     all_gap_vals = sorted(
@@ -2032,6 +2036,24 @@ def build(out_path: str | None = None) -> None:
     entries.sort(key=lambda e: (-e["metrics"]["overall_need_score"], e["geoid"]))
     for rank_idx, e in enumerate(entries):
         e["rank"] = rank_idx + 1
+
+    # percentileRank is derived from `rank`, not computed alongside it.
+    #
+    # Computing it separately is what broke it. Even pointed at the right
+    # metric, compute_percentile_ranks breaks ties by (value, geoid) ascending
+    # while rank breaks by (-score, geoid): within a tie group the BETTER rank
+    # took the LOWER percentile, which produced 158 inversions across the
+    # state. Two orderings of the same data will always find a way to
+    # disagree.
+    #
+    # Deriving it makes the agreement structural. Rank 1 is the 100th
+    # percentile and rank n is the 0th, by construction, with no tolerance to
+    # pick and no tie-break to keep in sync.
+    total_ranked = len(entries)
+    for e in entries:
+        e["percentileRank"] = round(
+            (total_ranked - e["rank"]) / max(total_ranked - 1, 1) * 100, 1
+        )
 
     # Build output
     metrics_meta = [
