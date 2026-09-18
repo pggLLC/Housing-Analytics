@@ -140,9 +140,32 @@ export function measure({ runTests = false } = {}) {
     ['C6', 'the ownership panel leads with its answer',     'test:ownership-answer'],
     ['C7', 'a blocked calculation produces no number',      'test:deal-calc-absence'],
   ];
+  // "Wired into test:ci" means REACHABLE from it, not named in its string.
+  // A substring check cannot see through one level of npm composition, so
+  // when the freshness gates were folded into `test:freshness` this reported
+  // test:derived-chain and test:freshness-guard as unwired while they were
+  // still running. Resolve the script graph instead: expand each `npm run X`
+  // and collect what actually executes.
+  const reachableFromCi = (() => {
+    let scripts;
+    try { scripts = JSON.parse(read('package.json') || '{}').scripts || {}; }
+    catch { return null; }
+    if (!scripts['test:ci']) return null;
+    const seen = new Set();
+    const walk = (name, depth) => {
+      if (depth > 10 || seen.has(name)) return;   // depth cap: a cycle would hang
+      seen.add(name);
+      const body = scripts[name];
+      if (!body) return;
+      for (const m of body.matchAll(/npm run ([\w:.-]+)/g)) walk(m[1], depth + 1);
+    };
+    walk('test:ci', 0);
+    seen.delete('test:ci');
+    return seen;
+  })();
+
   for (const [id, detail, script] of floor) {
-    const wired = /"test:ci":[^"]*"[^"]*/.test(read('package.json') || '')
-      && (JSON.parse(read('package.json')).scripts['test:ci'] || '').includes(script);
+    const wired = reachableFromCi ? reachableFromCi.has(script) : false;
     if (!wired) { add(id, 'Correctness floor', OPEN, `${detail} — ${script} is not in test:ci`, 'package.json'); continue; }
     if (!runTests) { add(id, 'Correctness floor', PASS, `${detail} (guarded by ${script})`, 'wired into test:ci'); continue; }
     add(id, 'Correctness floor', npmTest(script) ? PASS : OPEN, detail, `ran ${script}`);

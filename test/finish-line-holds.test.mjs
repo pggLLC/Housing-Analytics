@@ -145,7 +145,23 @@ test('G1 refuses to pass on a route that is empty, misordered or missing a page'
 test('every correctness-floor guard is still wired into test:ci', () => {
   // A PASS here means "a test holds this". If the test leaves test:ci, the
   // claim becomes an assertion about the past.
-  const ci = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts['test:ci'];
+  // "In test:ci" means reachable from it. The gates moved into a composed
+  // `test:freshness` script, so a substring check reported test:derived-chain
+  // and test:freshness-guard as dropped while they were still running.
+  //
+  // This resolver is deliberately NOT the one in finish-line.mjs. A test that
+  // imported the audit's own reachability code would pass on a bug in it;
+  // two independent walks of the same graph have to agree.
+  const scripts = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts;
+  const reachable = new Set();
+  const queue = ['test:ci'];
+  while (queue.length) {
+    const name = queue.shift();
+    if (reachable.has(name)) continue;
+    reachable.add(name);
+    for (const m of String(scripts[name] || '').matchAll(/npm run ([\w:.-]+)/g)) queue.push(m[1]);
+  }
+  const ci = { includes: (name) => reachable.has(name) };
   const floor = items.filter((i) => i.group === 'Correctness floor');
   assert.ok(floor.length >= 6, `only ${floor.length} correctness-floor items`);
   const dropped = floor.filter((i) => i.state === 'OPEN').map((i) => i.detail);
