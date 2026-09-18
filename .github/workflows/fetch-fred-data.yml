@@ -107,7 +107,17 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           python3 scripts/rebuild_manifest.py
-          git add data/fred-data.json data/manifest.json
+          # This workflow adds an observation to MORTGAGE30US, which changes the
+          # feature count js/data-source-inventory.js declares for
+          # fred-mortgage30. Without reconciling it here,
+          # test:data-source-inventory-paths fails on main until sync-data-mtimes
+          # happens to run -- and that one is scheduled at 03:53 UTC, BEFORE this
+          # one at 05:07, so main stayed red for ~23 hours a day and every open
+          # PR inherited the failure on files it never touched.
+          # Same reasoning, and the same line, as fetch-kalshi.yml: the workflow
+          # that changes the count is the one that should reconcile it.
+          node scripts/audit/refresh-inventory-mtimes.mjs || true
+          git add data/fred-data.json data/manifest.json js/data-source-inventory.js
           if git diff --cached --quiet; then
             echo "No FRED data changes to commit."
             exit 0
