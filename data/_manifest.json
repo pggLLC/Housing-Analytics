@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-18T01:32:27.246Z",
+    "generated_at": "2026-09-18T05:40:25.560Z",
     "root": "data/",
     "file_count": 1615,
-    "total_size_bytes": 156798336,
+    "total_size_bytes": 157939907,
     "kinds": {
       "json": 1580,
       "geojson": 31,
@@ -1456,7 +1456,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1250360,
-      "mtime": "2026-09-18T01:05:56.363Z",
+      "mtime": "2026-09-18T01:53:28.063Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -3088,8 +3088,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08001.json",
       "kind": "json",
-      "size_bytes": 37136,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 38950,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3107,8 +3107,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08003.json",
       "kind": "json",
-      "size_bytes": 37054,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 38867,
+      "mtime": "2026-09-18T05:40:22.819Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3126,8 +3126,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0800320.json",
       "kind": "json",
-      "size_bytes": 37181,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 38981,
+      "mtime": "2026-09-18T05:40:22.808Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3145,8 +3145,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08005.json",
       "kind": "json",
-      "size_bytes": 37162,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 38978,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3164,8 +3164,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0800620.json",
       "kind": "json",
-      "size_bytes": 37066,
-      "mtime": "2026-09-18T01:32:24.519Z",
+      "size_bytes": 38832,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3183,8 +3183,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08007.json",
       "kind": "json",
-      "size_bytes": 37072,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 38884,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3202,8 +3202,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0800760.json",
       "kind": "json",
-      "size_bytes": 38504,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 40280,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3221,8 +3221,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0800870.json",
       "kind": "json",
-      "size_bytes": 37194,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 38993,
+      "mtime": "2026-09-18T05:40:22.788Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3240,8 +3240,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08009.json",
       "kind": "json",
-      "size_bytes": 37019,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 38825,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3259,8 +3259,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0800925.json",
       "kind": "json",
-      "size_bytes": 38394,
-      "mtime": "2026-09-18T01:32:24.514Z",
+      "size_bytes": 40179,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3278,8 +3278,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801090.json",
       "kind": "json",
-      "size_bytes": 38641,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 40427,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3297,8 +3297,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08011.json",
       "kind": "json",
-      "size_bytes": 36818,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 38605,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3316,8 +3316,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801145.json",
       "kind": "json",
-      "size_bytes": 36990,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 38768,
+      "mtime": "2026-09-18T05:40:22.807Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3335,8 +3335,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08013.json",
       "kind": "json",
-      "size_bytes": 37138,
-      "mtime": "2026-09-18T01:32:24.444Z",
+      "size_bytes": 38952,
+      "mtime": "2026-09-18T05:40:22.763Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3354,8 +3354,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08014.json",
       "kind": "json",
-      "size_bytes": 37099,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 38911,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3373,8 +3373,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801420.json",
       "kind": "json",
-      "size_bytes": 37134,
-      "mtime": "2026-09-18T01:32:24.537Z",
+      "size_bytes": 38934,
+      "mtime": "2026-09-18T05:40:22.855Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3392,8 +3392,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08015.json",
       "kind": "json",
-      "size_bytes": 37061,
-      "mtime": "2026-09-18T01:32:24.464Z",
+      "size_bytes": 38876,
+      "mtime": "2026-09-18T05:40:22.788Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3411,8 +3411,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801530.json",
       "kind": "json",
-      "size_bytes": 38460,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 40234,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3430,8 +3430,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801640.json",
       "kind": "json",
-      "size_bytes": 36908,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38692,
+      "mtime": "2026-09-18T05:40:22.863Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3449,8 +3449,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08017.json",
       "kind": "json",
-      "size_bytes": 36995,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 38805,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3468,8 +3468,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801740.json",
       "kind": "json",
-      "size_bytes": 37153,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 38949,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3487,8 +3487,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08019.json",
       "kind": "json",
-      "size_bytes": 37060,
-      "mtime": "2026-09-18T01:32:24.482Z",
+      "size_bytes": 38870,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3506,8 +3506,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0801915.json",
       "kind": "json",
-      "size_bytes": 36897,
-      "mtime": "2026-09-18T01:32:24.538Z",
+      "size_bytes": 38672,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3525,8 +3525,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08021.json",
       "kind": "json",
-      "size_bytes": 37026,
-      "mtime": "2026-09-18T01:32:24.511Z",
+      "size_bytes": 38834,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3544,8 +3544,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08023.json",
       "kind": "json",
-      "size_bytes": 37018,
-      "mtime": "2026-09-18T01:32:24.506Z",
+      "size_bytes": 38831,
+      "mtime": "2026-09-18T05:40:22.836Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3563,8 +3563,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0802355.json",
       "kind": "json",
-      "size_bytes": 38376,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 40167,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3582,8 +3582,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08025.json",
       "kind": "json",
-      "size_bytes": 36819,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 38608,
+      "mtime": "2026-09-18T05:40:22.837Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3601,8 +3601,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0802575.json",
       "kind": "json",
-      "size_bytes": 37143,
-      "mtime": "2026-09-18T01:32:24.471Z",
+      "size_bytes": 38930,
+      "mtime": "2026-09-18T05:40:22.791Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3620,8 +3620,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08027.json",
       "kind": "json",
-      "size_bytes": 36789,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 38578,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3639,8 +3639,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0802850.json",
       "kind": "json",
-      "size_bytes": 36886,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 38661,
+      "mtime": "2026-09-18T05:40:22.855Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3658,8 +3658,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08029.json",
       "kind": "json",
-      "size_bytes": 37094,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 38903,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3677,8 +3677,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0802905.json",
       "kind": "json",
-      "size_bytes": 36934,
-      "mtime": "2026-09-18T01:32:24.499Z",
+      "size_bytes": 38709,
+      "mtime": "2026-09-18T05:40:22.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3696,8 +3696,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803015.json",
       "kind": "json",
-      "size_bytes": 37207,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 39006,
+      "mtime": "2026-09-18T05:40:22.815Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3715,8 +3715,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08031.json",
       "kind": "json",
-      "size_bytes": 37140,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 38956,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3734,8 +3734,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803235.json",
       "kind": "json",
-      "size_bytes": 38567,
-      "mtime": "2026-09-18T01:32:24.539Z",
+      "size_bytes": 40362,
+      "mtime": "2026-09-18T05:40:22.862Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3753,8 +3753,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08033.json",
       "kind": "json",
-      "size_bytes": 37001,
-      "mtime": "2026-09-18T01:32:24.528Z",
+      "size_bytes": 38811,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3772,8 +3772,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803455.json",
       "kind": "json",
-      "size_bytes": 38641,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 40422,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3791,8 +3791,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08035.json",
       "kind": "json",
-      "size_bytes": 37112,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 38928,
+      "mtime": "2026-09-18T05:40:22.772Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3810,8 +3810,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803620.json",
       "kind": "json",
-      "size_bytes": 38626,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 40414,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3829,8 +3829,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08037.json",
       "kind": "json",
-      "size_bytes": 37105,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 38918,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3848,8 +3848,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803730.json",
       "kind": "json",
-      "size_bytes": 36926,
-      "mtime": "2026-09-18T01:32:24.510Z",
+      "size_bytes": 38698,
+      "mtime": "2026-09-18T05:40:22.796Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3867,8 +3867,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803840.json",
       "kind": "json",
-      "size_bytes": 36883,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 38662,
+      "mtime": "2026-09-18T05:40:22.842Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3886,8 +3886,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08039.json",
       "kind": "json",
-      "size_bytes": 37055,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 38861,
+      "mtime": "2026-09-18T05:40:22.826Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3905,8 +3905,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0803950.json",
       "kind": "json",
-      "size_bytes": 38812,
-      "mtime": "2026-09-18T01:32:24.519Z",
+      "size_bytes": 40609,
+      "mtime": "2026-09-18T05:40:22.813Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3924,8 +3924,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0804000.json",
       "kind": "json",
-      "size_bytes": 38660,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 40450,
+      "mtime": "2026-09-18T05:40:22.766Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3943,8 +3943,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08041.json",
       "kind": "json",
-      "size_bytes": 37155,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 38970,
+      "mtime": "2026-09-18T05:40:22.776Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3962,8 +3962,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0804110.json",
       "kind": "json",
-      "size_bytes": 38611,
-      "mtime": "2026-09-18T01:32:24.442Z",
+      "size_bytes": 40399,
+      "mtime": "2026-09-18T05:40:22.761Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -3981,8 +3981,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0804165.json",
       "kind": "json",
-      "size_bytes": 36904,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38679,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4000,8 +4000,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08043.json",
       "kind": "json",
-      "size_bytes": 37081,
-      "mtime": "2026-09-18T01:32:24.499Z",
+      "size_bytes": 38894,
+      "mtime": "2026-09-18T05:40:22.827Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4019,8 +4019,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08045.json",
       "kind": "json",
-      "size_bytes": 37100,
-      "mtime": "2026-09-18T01:32:24.468Z",
+      "size_bytes": 38915,
+      "mtime": "2026-09-18T05:40:22.793Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4038,8 +4038,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0804620.json",
       "kind": "json",
-      "size_bytes": 36928,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 38709,
+      "mtime": "2026-09-18T05:40:22.830Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4057,8 +4057,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08047.json",
       "kind": "json",
-      "size_bytes": 36803,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 38591,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4076,8 +4076,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08049.json",
       "kind": "json",
-      "size_bytes": 37069,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 38880,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4095,8 +4095,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0804935.json",
       "kind": "json",
-      "size_bytes": 38664,
-      "mtime": "2026-09-18T01:32:24.470Z",
+      "size_bytes": 40451,
+      "mtime": "2026-09-18T05:40:22.772Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4114,8 +4114,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08051.json",
       "kind": "json",
-      "size_bytes": 37076,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 38885,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4133,8 +4133,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0805120.json",
       "kind": "json",
-      "size_bytes": 37087,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 38869,
+      "mtime": "2026-09-18T05:40:22.832Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4152,8 +4152,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0805265.json",
       "kind": "json",
-      "size_bytes": 38394,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 40173,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4171,8 +4171,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08053.json",
       "kind": "json",
-      "size_bytes": 36751,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38533,
+      "mtime": "2026-09-18T05:40:22.863Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4190,8 +4190,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08055.json",
       "kind": "json",
-      "size_bytes": 37042,
-      "mtime": "2026-09-18T01:32:24.524Z",
+      "size_bytes": 38846,
+      "mtime": "2026-09-18T05:40:22.842Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4209,8 +4209,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08057.json",
       "kind": "json",
-      "size_bytes": 36993,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 38802,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4228,8 +4228,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08059.json",
       "kind": "json",
-      "size_bytes": 37146,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 38964,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4247,8 +4247,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806090.json",
       "kind": "json",
-      "size_bytes": 38738,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 40537,
+      "mtime": "2026-09-18T05:40:22.824Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4266,8 +4266,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08061.json",
       "kind": "json",
-      "size_bytes": 36965,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 38777,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4285,8 +4285,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806172.json",
       "kind": "json",
-      "size_bytes": 37095,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 38883,
+      "mtime": "2026-09-18T05:40:22.774Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4304,8 +4304,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806255.json",
       "kind": "json",
-      "size_bytes": 38606,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 40394,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4323,8 +4323,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08063.json",
       "kind": "json",
-      "size_bytes": 37021,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 38833,
+      "mtime": "2026-09-18T05:40:22.840Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4342,8 +4342,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08065.json",
       "kind": "json",
-      "size_bytes": 37023,
-      "mtime": "2026-09-18T01:32:24.511Z",
+      "size_bytes": 38828,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4361,8 +4361,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806530.json",
       "kind": "json",
-      "size_bytes": 38239,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 40019,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4380,8 +4380,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806602.json",
       "kind": "json",
-      "size_bytes": 36946,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 38717,
+      "mtime": "2026-09-18T05:40:22.830Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4399,8 +4399,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08067.json",
       "kind": "json",
-      "size_bytes": 37098,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 38913,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4418,8 +4418,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08069.json",
       "kind": "json",
-      "size_bytes": 37151,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 38965,
+      "mtime": "2026-09-18T05:40:22.767Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4437,8 +4437,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0806970.json",
       "kind": "json",
-      "size_bytes": 37214,
-      "mtime": "2026-09-18T01:32:24.511Z",
+      "size_bytes": 39014,
+      "mtime": "2026-09-18T05:40:22.792Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4456,8 +4456,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807025.json",
       "kind": "json",
-      "size_bytes": 38465,
-      "mtime": "2026-09-18T01:32:24.528Z",
+      "size_bytes": 40244,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4475,8 +4475,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08071.json",
       "kind": "json",
-      "size_bytes": 37067,
-      "mtime": "2026-09-18T01:32:24.509Z",
+      "size_bytes": 38880,
+      "mtime": "2026-09-18T05:40:22.837Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4494,8 +4494,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807190.json",
       "kind": "json",
-      "size_bytes": 38757,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 40554,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4513,8 +4513,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807245.json",
       "kind": "json",
-      "size_bytes": 37186,
-      "mtime": "2026-09-18T01:32:24.468Z",
+      "size_bytes": 38982,
+      "mtime": "2026-09-18T05:40:22.793Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4532,8 +4532,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08073.json",
       "kind": "json",
-      "size_bytes": 37013,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 38819,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4551,8 +4551,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807410.json",
       "kind": "json",
-      "size_bytes": 38553,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 40333,
+      "mtime": "2026-09-18T05:40:22.790Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4570,8 +4570,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807420.json",
       "kind": "json",
-      "size_bytes": 36866,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 38639,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4589,8 +4589,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807455.json",
       "kind": "json",
-      "size_bytes": 36918,
-      "mtime": "2026-09-18T01:32:24.538Z",
+      "size_bytes": 38698,
+      "mtime": "2026-09-18T05:40:22.860Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4608,8 +4608,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08075.json",
       "kind": "json",
-      "size_bytes": 37036,
-      "mtime": "2026-09-18T01:32:24.482Z",
+      "size_bytes": 38843,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4627,8 +4627,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807571.json",
       "kind": "json",
-      "size_bytes": 38460,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 40237,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4646,8 +4646,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807580.json",
       "kind": "json",
-      "size_bytes": 36971,
-      "mtime": "2026-09-18T01:32:24.506Z",
+      "size_bytes": 38750,
+      "mtime": "2026-09-18T05:40:22.819Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4665,8 +4665,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08077.json",
       "kind": "json",
-      "size_bytes": 37096,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 38912,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4684,8 +4684,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807795.json",
       "kind": "json",
-      "size_bytes": 38677,
-      "mtime": "2026-09-18T01:32:24.515Z",
+      "size_bytes": 40475,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4703,8 +4703,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0807850.json",
       "kind": "json",
-      "size_bytes": 38673,
-      "mtime": "2026-09-18T01:32:24.442Z",
+      "size_bytes": 40464,
+      "mtime": "2026-09-18T05:40:22.761Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4722,8 +4722,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08079.json",
       "kind": "json",
-      "size_bytes": 36754,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 38541,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4741,8 +4741,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808070.json",
       "kind": "json",
-      "size_bytes": 38696,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 40483,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4760,8 +4760,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08081.json",
       "kind": "json",
-      "size_bytes": 37065,
-      "mtime": "2026-09-18T01:32:24.514Z",
+      "size_bytes": 38877,
+      "mtime": "2026-09-18T05:40:22.843Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4779,8 +4779,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808290.json",
       "kind": "json",
-      "size_bytes": 36867,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 38642,
+      "mtime": "2026-09-18T05:40:22.860Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4798,8 +4798,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08083.json",
       "kind": "json",
-      "size_bytes": 37073,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 38888,
+      "mtime": "2026-09-18T05:40:22.815Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4817,8 +4817,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808345.json",
       "kind": "json",
-      "size_bytes": 37917,
-      "mtime": "2026-09-18T01:32:24.538Z",
+      "size_bytes": 39693,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4836,8 +4836,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808400.json",
       "kind": "json",
-      "size_bytes": 38786,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 40588,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4855,8 +4855,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08085.json",
       "kind": "json",
-      "size_bytes": 37080,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 38893,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4874,8 +4874,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808530.json",
       "kind": "json",
-      "size_bytes": 36939,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38718,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4893,8 +4893,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808620.json",
       "kind": "json",
-      "size_bytes": 36891,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 38669,
+      "mtime": "2026-09-18T05:40:22.858Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4912,8 +4912,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808675.json",
       "kind": "json",
-      "size_bytes": 38690,
-      "mtime": "2026-09-18T01:32:24.459Z",
+      "size_bytes": 40479,
+      "mtime": "2026-09-18T05:40:22.774Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4931,8 +4931,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08087.json",
       "kind": "json",
-      "size_bytes": 37079,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 38892,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4950,8 +4950,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08089.json",
       "kind": "json",
-      "size_bytes": 37051,
-      "mtime": "2026-09-18T01:32:24.513Z",
+      "size_bytes": 38866,
+      "mtime": "2026-09-18T05:40:22.834Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4969,8 +4969,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0808950.json",
       "kind": "json",
-      "size_bytes": 36969,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 38745,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -4988,8 +4988,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08091.json",
       "kind": "json",
-      "size_bytes": 36811,
-      "mtime": "2026-09-18T01:32:24.471Z",
+      "size_bytes": 38599,
+      "mtime": "2026-09-18T05:40:22.789Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5007,8 +5007,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0809115.json",
       "kind": "json",
-      "size_bytes": 38473,
-      "mtime": "2026-09-18T01:32:24.528Z",
+      "size_bytes": 40265,
+      "mtime": "2026-09-18T05:40:22.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5026,8 +5026,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0809280.json",
       "kind": "json",
-      "size_bytes": 38648,
-      "mtime": "2026-09-18T01:32:24.451Z",
+      "size_bytes": 40428,
+      "mtime": "2026-09-18T05:40:22.772Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5045,8 +5045,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08093.json",
       "kind": "json",
-      "size_bytes": 37054,
-      "mtime": "2026-09-18T01:32:24.481Z",
+      "size_bytes": 38867,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5064,8 +5064,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08095.json",
       "kind": "json",
-      "size_bytes": 37023,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 38827,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5083,8 +5083,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0809555.json",
       "kind": "json",
-      "size_bytes": 38588,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 40374,
+      "mtime": "2026-09-18T05:40:22.796Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5102,8 +5102,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08097.json",
       "kind": "json",
-      "size_bytes": 37096,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 38911,
+      "mtime": "2026-09-18T05:40:22.789Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5121,8 +5121,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08099.json",
       "kind": "json",
-      "size_bytes": 37050,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 38863,
+      "mtime": "2026-09-18T05:40:22.814Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5140,8 +5140,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08101.json",
       "kind": "json",
-      "size_bytes": 37114,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 38930,
+      "mtime": "2026-09-18T05:40:22.792Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5159,8 +5159,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0810105.json",
       "kind": "json",
-      "size_bytes": 38606,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 40390,
+      "mtime": "2026-09-18T05:40:22.776Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5178,8 +5178,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08103.json",
       "kind": "json",
-      "size_bytes": 37024,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 38836,
+      "mtime": "2026-09-18T05:40:22.840Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5197,8 +5197,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08105.json",
       "kind": "json",
-      "size_bytes": 37048,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 38858,
+      "mtime": "2026-09-18T05:40:22.855Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5216,8 +5216,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0810600.json",
       "kind": "json",
-      "size_bytes": 38370,
-      "mtime": "2026-09-18T01:32:24.501Z",
+      "size_bytes": 40156,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5235,8 +5235,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08107.json",
       "kind": "json",
-      "size_bytes": 37079,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 38892,
+      "mtime": "2026-09-18T05:40:22.766Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5254,8 +5254,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08109.json",
       "kind": "json",
-      "size_bytes": 37055,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 38865,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5273,8 +5273,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0810985.json",
       "kind": "json",
-      "size_bytes": 37180,
-      "mtime": "2026-09-18T01:32:24.510Z",
+      "size_bytes": 38975,
+      "mtime": "2026-09-18T05:40:22.815Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5292,8 +5292,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08111.json",
       "kind": "json",
-      "size_bytes": 36983,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 38793,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5311,8 +5311,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0811260.json",
       "kind": "json",
-      "size_bytes": 37940,
-      "mtime": "2026-09-18T01:32:24.501Z",
+      "size_bytes": 39717,
+      "mtime": "2026-09-18T05:40:22.837Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5330,8 +5330,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08113.json",
       "kind": "json",
-      "size_bytes": 37058,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 38869,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5349,8 +5349,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08115.json",
       "kind": "json",
-      "size_bytes": 37023,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 38833,
+      "mtime": "2026-09-18T05:40:22.832Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5368,8 +5368,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0811645.json",
       "kind": "json",
-      "size_bytes": 37828,
-      "mtime": "2026-09-18T01:32:24.531Z",
+      "size_bytes": 39606,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5387,8 +5387,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08117.json",
       "kind": "json",
-      "size_bytes": 36861,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 38659,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5406,8 +5406,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0811810.json",
       "kind": "json",
-      "size_bytes": 38409,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 40195,
+      "mtime": "2026-09-18T05:40:22.830Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5425,8 +5425,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08119.json",
       "kind": "json",
-      "size_bytes": 37069,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 38879,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5444,8 +5444,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0811975.json",
       "kind": "json",
-      "size_bytes": 36939,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 38714,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5463,8 +5463,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812030.json",
       "kind": "json",
-      "size_bytes": 38435,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 40210,
+      "mtime": "2026-09-18T05:40:22.850Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5482,8 +5482,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812045.json",
       "kind": "json",
-      "size_bytes": 38653,
-      "mtime": "2026-09-18T01:32:24.470Z",
+      "size_bytes": 40439,
+      "mtime": "2026-09-18T05:40:22.792Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5501,8 +5501,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08121.json",
       "kind": "json",
-      "size_bytes": 37026,
-      "mtime": "2026-09-18T01:32:24.531Z",
+      "size_bytes": 38837,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5520,8 +5520,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08123.json",
       "kind": "json",
-      "size_bytes": 37113,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 38927,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5539,8 +5539,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812325.json",
       "kind": "json",
-      "size_bytes": 37235,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 39032,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5558,8 +5558,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812387.json",
       "kind": "json",
-      "size_bytes": 38611,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 40397,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5577,8 +5577,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812393.json",
       "kind": "json",
-      "size_bytes": 37185,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 38981,
+      "mtime": "2026-09-18T05:40:22.777Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5596,8 +5596,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812415.json",
       "kind": "json",
-      "size_bytes": 38617,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 40405,
+      "mtime": "2026-09-18T05:40:22.774Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5615,8 +5615,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812450.json",
       "kind": "json",
-      "size_bytes": 36879,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38658,
+      "mtime": "2026-09-18T05:40:22.863Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5634,8 +5634,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812460.json",
       "kind": "json",
-      "size_bytes": 36948,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 38727,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5653,8 +5653,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812470.json",
       "kind": "json",
-      "size_bytes": 36977,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 38748,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5672,8 +5672,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/08125.json",
       "kind": "json",
-      "size_bytes": 37050,
-      "mtime": "2026-09-18T01:32:24.506Z",
+      "size_bytes": 38864,
+      "mtime": "2026-09-18T05:40:22.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5691,8 +5691,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812635.json",
       "kind": "json",
-      "size_bytes": 38509,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 40293,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5710,8 +5710,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812815.json",
       "kind": "json",
-      "size_bytes": 38635,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 40414,
+      "mtime": "2026-09-18T05:40:22.770Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5729,8 +5729,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812855.json",
       "kind": "json",
-      "size_bytes": 38578,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 40362,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5748,8 +5748,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812900.json",
       "kind": "json",
-      "size_bytes": 38782,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 40578,
+      "mtime": "2026-09-18T05:40:22.827Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5767,8 +5767,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0812945.json",
       "kind": "json",
-      "size_bytes": 36993,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 38767,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5786,8 +5786,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0813460.json",
       "kind": "json",
-      "size_bytes": 38460,
-      "mtime": "2026-09-18T01:32:24.539Z",
+      "size_bytes": 40258,
+      "mtime": "2026-09-18T05:40:22.862Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5805,8 +5805,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0813590.json",
       "kind": "json",
-      "size_bytes": 37096,
-      "mtime": "2026-09-18T01:32:24.444Z",
+      "size_bytes": 38884,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5824,8 +5824,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0813845.json",
       "kind": "json",
-      "size_bytes": 38574,
-      "mtime": "2026-09-18T01:32:24.464Z",
+      "size_bytes": 40342,
+      "mtime": "2026-09-18T05:40:22.780Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5843,8 +5843,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0814175.json",
       "kind": "json",
-      "size_bytes": 38133,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 39926,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5862,8 +5862,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0814587.json",
       "kind": "json",
-      "size_bytes": 37113,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 38900,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5881,8 +5881,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0814765.json",
       "kind": "json",
-      "size_bytes": 38561,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 40355,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5900,8 +5900,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815165.json",
       "kind": "json",
-      "size_bytes": 37068,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 38857,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5919,8 +5919,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815302.json",
       "kind": "json",
-      "size_bytes": 37082,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 38858,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5938,8 +5938,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815330.json",
       "kind": "json",
-      "size_bytes": 38506,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 40303,
+      "mtime": "2026-09-18T05:40:22.826Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5957,8 +5957,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815440.json",
       "kind": "json",
-      "size_bytes": 37011,
-      "mtime": "2026-09-18T01:32:24.539Z",
+      "size_bytes": 38787,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5976,8 +5976,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815550.json",
       "kind": "json",
-      "size_bytes": 38716,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 40515,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -5995,8 +5995,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815605.json",
       "kind": "json",
-      "size_bytes": 38361,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 40135,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6014,8 +6014,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815825.json",
       "kind": "json",
-      "size_bytes": 36912,
-      "mtime": "2026-09-18T01:32:24.513Z",
+      "size_bytes": 38689,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6033,8 +6033,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0815935.json",
       "kind": "json",
-      "size_bytes": 37114,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 38899,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6052,8 +6052,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816000.json",
       "kind": "json",
-      "size_bytes": 38772,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 40562,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6071,8 +6071,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816110.json",
       "kind": "json",
-      "size_bytes": 37131,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 38921,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6090,8 +6090,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816385.json",
       "kind": "json",
-      "size_bytes": 38537,
-      "mtime": "2026-09-18T01:32:24.504Z",
+      "size_bytes": 40305,
+      "mtime": "2026-09-18T05:40:22.792Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6109,8 +6109,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816465.json",
       "kind": "json",
-      "size_bytes": 36947,
-      "mtime": "2026-09-18T01:32:24.525Z",
+      "size_bytes": 38721,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6128,8 +6128,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816495.json",
       "kind": "json",
-      "size_bytes": 38678,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 40444,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6147,8 +6147,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0816715.json",
       "kind": "json",
-      "size_bytes": 36863,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 38641,
+      "mtime": "2026-09-18T05:40:22.858Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6166,8 +6166,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817100.json",
       "kind": "json",
-      "size_bytes": 36882,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 38661,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6185,8 +6185,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817150.json",
       "kind": "json",
-      "size_bytes": 36938,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 38712,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6204,8 +6204,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817375.json",
       "kind": "json",
-      "size_bytes": 38387,
-      "mtime": "2026-09-18T01:32:24.469Z",
+      "size_bytes": 40175,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6223,8 +6223,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817485.json",
       "kind": "json",
-      "size_bytes": 36892,
-      "mtime": "2026-09-18T01:32:24.537Z",
+      "size_bytes": 38667,
+      "mtime": "2026-09-18T05:40:22.860Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6242,8 +6242,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817760.json",
       "kind": "json",
-      "size_bytes": 38398,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 40186,
+      "mtime": "2026-09-18T05:40:22.839Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6261,8 +6261,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0817925.json",
       "kind": "json",
-      "size_bytes": 38553,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 40327,
+      "mtime": "2026-09-18T05:40:22.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6280,8 +6280,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818310.json",
       "kind": "json",
-      "size_bytes": 38784,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 40584,
+      "mtime": "2026-09-18T05:40:22.793Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6299,8 +6299,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818420.json",
       "kind": "json",
-      "size_bytes": 38316,
-      "mtime": "2026-09-18T01:32:24.516Z",
+      "size_bytes": 40091,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6318,8 +6318,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818530.json",
       "kind": "json",
-      "size_bytes": 38872,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 40662,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6337,8 +6337,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818585.json",
       "kind": "json",
-      "size_bytes": 36947,
-      "mtime": "2026-09-18T01:32:24.482Z",
+      "size_bytes": 38726,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6356,8 +6356,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818640.json",
       "kind": "json",
-      "size_bytes": 38076,
-      "mtime": "2026-09-18T01:32:24.499Z",
+      "size_bytes": 39875,
+      "mtime": "2026-09-18T05:40:22.830Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6375,8 +6375,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0818750.json",
       "kind": "json",
-      "size_bytes": 38332,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 40110,
+      "mtime": "2026-09-18T05:40:22.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6394,8 +6394,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819080.json",
       "kind": "json",
-      "size_bytes": 38596,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 40386,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6413,8 +6413,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819150.json",
       "kind": "json",
-      "size_bytes": 37159,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 38948,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6432,8 +6432,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819355.json",
       "kind": "json",
-      "size_bytes": 38803,
-      "mtime": "2026-09-18T01:32:24.516Z",
+      "size_bytes": 40598,
+      "mtime": "2026-09-18T05:40:22.836Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6451,8 +6451,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819630.json",
       "kind": "json",
-      "size_bytes": 38132,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 39927,
+      "mtime": "2026-09-18T05:40:22.789Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6470,8 +6470,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819795.json",
       "kind": "json",
-      "size_bytes": 38488,
-      "mtime": "2026-09-18T01:32:24.504Z",
+      "size_bytes": 40273,
+      "mtime": "2026-09-18T05:40:22.837Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6489,8 +6489,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0819850.json",
       "kind": "json",
-      "size_bytes": 38592,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 40379,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6508,8 +6508,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820000.json",
       "kind": "json",
-      "size_bytes": 38679,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 40477,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6527,8 +6527,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820275.json",
       "kind": "json",
-      "size_bytes": 37068,
-      "mtime": "2026-09-18T01:32:24.471Z",
+      "size_bytes": 38851,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6546,8 +6546,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820440.json",
       "kind": "json",
-      "size_bytes": 38486,
-      "mtime": "2026-09-18T01:32:24.464Z",
+      "size_bytes": 40260,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6565,8 +6565,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820495.json",
       "kind": "json",
-      "size_bytes": 37914,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 39690,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6584,8 +6584,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820605.json",
       "kind": "json",
-      "size_bytes": 36844,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 38626,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6603,8 +6603,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0820770.json",
       "kind": "json",
-      "size_bytes": 38570,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 40364,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6622,8 +6622,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0821155.json",
       "kind": "json",
-      "size_bytes": 37162,
-      "mtime": "2026-09-18T01:32:24.519Z",
+      "size_bytes": 38959,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6641,8 +6641,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0821265.json",
       "kind": "json",
-      "size_bytes": 38128,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 39918,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6660,8 +6660,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0821330.json",
       "kind": "json",
-      "size_bytes": 37137,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 38915,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6679,8 +6679,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0821390.json",
       "kind": "json",
-      "size_bytes": 37026,
-      "mtime": "2026-09-18T01:32:24.469Z",
+      "size_bytes": 38802,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6698,8 +6698,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822035.json",
       "kind": "json",
-      "size_bytes": 38499,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 40288,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6717,8 +6717,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822145.json",
       "kind": "json",
-      "size_bytes": 38106,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 39903,
+      "mtime": "2026-09-18T05:40:22.843Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6736,8 +6736,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822200.json",
       "kind": "json",
-      "size_bytes": 38642,
-      "mtime": "2026-09-18T01:32:24.455Z",
+      "size_bytes": 40444,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6755,8 +6755,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822575.json",
       "kind": "json",
-      "size_bytes": 36976,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 38755,
+      "mtime": "2026-09-18T05:40:22.805Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6774,8 +6774,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822860.json",
       "kind": "json",
-      "size_bytes": 38781,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 40580,
+      "mtime": "2026-09-18T05:40:22.793Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6793,8 +6793,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0822882.json",
       "kind": "json",
-      "size_bytes": 36934,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 38708,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6812,8 +6812,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823025.json",
       "kind": "json",
-      "size_bytes": 38309,
-      "mtime": "2026-09-18T01:32:24.511Z",
+      "size_bytes": 40102,
+      "mtime": "2026-09-18T05:40:22.834Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6831,8 +6831,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823135.json",
       "kind": "json",
-      "size_bytes": 38613,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 40386,
+      "mtime": "2026-09-18T05:40:22.777Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6850,8 +6850,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823300.json",
       "kind": "json",
-      "size_bytes": 37108,
-      "mtime": "2026-09-18T01:32:24.443Z",
+      "size_bytes": 38894,
+      "mtime": "2026-09-18T05:40:22.761Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6869,8 +6869,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823520.json",
       "kind": "json",
-      "size_bytes": 37111,
-      "mtime": "2026-09-18T01:32:24.528Z",
+      "size_bytes": 38907,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6888,8 +6888,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823575.json",
       "kind": "json",
-      "size_bytes": 36991,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 38763,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6907,8 +6907,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823630.json",
       "kind": "json",
-      "size_bytes": 36965,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 38743,
+      "mtime": "2026-09-18T05:40:22.791Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6926,8 +6926,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823740.json",
       "kind": "json",
-      "size_bytes": 38692,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 40487,
+      "mtime": "2026-09-18T05:40:22.817Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6945,8 +6945,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0823795.json",
       "kind": "json",
-      "size_bytes": 37254,
-      "mtime": "2026-09-18T01:32:24.459Z",
+      "size_bytes": 39054,
+      "mtime": "2026-09-18T05:40:22.776Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6964,8 +6964,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0824235.json",
       "kind": "json",
-      "size_bytes": 36969,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 38751,
+      "mtime": "2026-09-18T05:40:22.850Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -6983,8 +6983,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0824290.json",
       "kind": "json",
-      "size_bytes": 36939,
-      "mtime": "2026-09-18T01:32:24.523Z",
+      "size_bytes": 38717,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7002,8 +7002,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0824620.json",
       "kind": "json",
-      "size_bytes": 38717,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 40509,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7021,8 +7021,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0824785.json",
       "kind": "json",
-      "size_bytes": 38634,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 40400,
+      "mtime": "2026-09-18T05:40:22.770Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7040,8 +7040,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0824950.json",
       "kind": "json",
-      "size_bytes": 38632,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 40422,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7059,8 +7059,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0825115.json",
       "kind": "json",
-      "size_bytes": 38647,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 40434,
+      "mtime": "2026-09-18T05:40:22.777Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7078,8 +7078,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0825280.json",
       "kind": "json",
-      "size_bytes": 38628,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 40415,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7097,8 +7097,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0825390.json",
       "kind": "json",
-      "size_bytes": 37236,
-      "mtime": "2026-09-18T01:32:24.483Z",
+      "size_bytes": 39038,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7116,8 +7116,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0825550.json",
       "kind": "json",
-      "size_bytes": 37287,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 39089,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7135,8 +7135,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0825610.json",
       "kind": "json",
-      "size_bytes": 38725,
-      "mtime": "2026-09-18T01:32:24.516Z",
+      "size_bytes": 40513,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7154,8 +7154,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0826270.json",
       "kind": "json",
-      "size_bytes": 38687,
-      "mtime": "2026-09-18T01:32:24.445Z",
+      "size_bytes": 40465,
+      "mtime": "2026-09-18T05:40:22.763Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7173,8 +7173,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0826600.json",
       "kind": "json",
-      "size_bytes": 38609,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 40396,
+      "mtime": "2026-09-18T05:40:22.781Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7192,8 +7192,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0826765.json",
       "kind": "json",
-      "size_bytes": 37944,
-      "mtime": "2026-09-18T01:32:24.538Z",
+      "size_bytes": 39716,
+      "mtime": "2026-09-18T05:40:22.862Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7211,8 +7211,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0826875.json",
       "kind": "json",
-      "size_bytes": 38686,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 40487,
+      "mtime": "2026-09-18T05:40:22.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7230,8 +7230,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827040.json",
       "kind": "json",
-      "size_bytes": 38438,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 40223,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7249,8 +7249,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827095.json",
       "kind": "json",
-      "size_bytes": 36986,
-      "mtime": "2026-09-18T01:32:24.523Z",
+      "size_bytes": 38765,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7268,8 +7268,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827175.json",
       "kind": "json",
-      "size_bytes": 36979,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 38757,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7287,8 +7287,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827370.json",
       "kind": "json",
-      "size_bytes": 37225,
-      "mtime": "2026-09-18T01:32:24.459Z",
+      "size_bytes": 39025,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7306,8 +7306,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "json",
-      "size_bytes": 38694,
-      "mtime": "2026-09-18T01:32:24.444Z",
+      "size_bytes": 40483,
+      "mtime": "2026-09-18T05:40:22.763Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7325,8 +7325,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827535.json",
       "kind": "json",
-      "size_bytes": 37022,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 38796,
+      "mtime": "2026-09-18T05:40:22.827Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7344,8 +7344,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827700.json",
       "kind": "json",
-      "size_bytes": 38591,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 40374,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7363,8 +7363,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827810.json",
       "kind": "json",
-      "size_bytes": 38617,
-      "mtime": "2026-09-18T01:32:24.472Z",
+      "size_bytes": 40405,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7382,8 +7382,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827865.json",
       "kind": "json",
-      "size_bytes": 38645,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 40434,
+      "mtime": "2026-09-18T05:40:22.774Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7401,8 +7401,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827950.json",
       "kind": "json",
-      "size_bytes": 37126,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 38906,
+      "mtime": "2026-09-18T05:40:22.767Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7420,8 +7420,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0827975.json",
       "kind": "json",
-      "size_bytes": 38591,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 40390,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7439,8 +7439,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828105.json",
       "kind": "json",
-      "size_bytes": 38480,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 40245,
+      "mtime": "2026-09-18T05:40:22.770Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7458,8 +7458,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828250.json",
       "kind": "json",
-      "size_bytes": 36951,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 38725,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7477,8 +7477,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828305.json",
       "kind": "json",
-      "size_bytes": 38739,
-      "mtime": "2026-09-18T01:32:24.472Z",
+      "size_bytes": 40539,
+      "mtime": "2026-09-18T05:40:22.805Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7496,8 +7496,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828360.json",
       "kind": "json",
-      "size_bytes": 38741,
-      "mtime": "2026-09-18T01:32:24.470Z",
+      "size_bytes": 40546,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7515,8 +7515,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828690.json",
       "kind": "json",
-      "size_bytes": 38771,
-      "mtime": "2026-09-18T01:32:24.445Z",
+      "size_bytes": 40573,
+      "mtime": "2026-09-18T05:40:22.763Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7534,8 +7534,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828745.json",
       "kind": "json",
-      "size_bytes": 38634,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 40421,
+      "mtime": "2026-09-18T05:40:22.774Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7553,8 +7553,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828800.json",
       "kind": "json",
-      "size_bytes": 37245,
-      "mtime": "2026-09-18T01:32:24.464Z",
+      "size_bytes": 39042,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7572,8 +7572,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0828830.json",
       "kind": "json",
-      "size_bytes": 36944,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 38723,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7591,8 +7591,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829185.json",
       "kind": "json",
-      "size_bytes": 38780,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 40579,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7610,8 +7610,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829240.json",
       "kind": "json",
-      "size_bytes": 36930,
-      "mtime": "2026-09-18T01:32:24.540Z",
+      "size_bytes": 38712,
+      "mtime": "2026-09-18T05:40:22.863Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7629,8 +7629,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829295.json",
       "kind": "json",
-      "size_bytes": 36912,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 38689,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7648,8 +7648,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829625.json",
       "kind": "json",
-      "size_bytes": 37227,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 39024,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7667,8 +7667,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829680.json",
       "kind": "json",
-      "size_bytes": 38324,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 40103,
+      "mtime": "2026-09-18T05:40:22.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7686,8 +7686,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829735.json",
       "kind": "json",
-      "size_bytes": 38588,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 40371,
+      "mtime": "2026-09-18T05:40:22.788Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7705,8 +7705,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829845.json",
       "kind": "json",
-      "size_bytes": 36975,
-      "mtime": "2026-09-18T01:32:24.537Z",
+      "size_bytes": 38753,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7724,8 +7724,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0829955.json",
       "kind": "json",
-      "size_bytes": 38512,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 40284,
+      "mtime": "2026-09-18T05:40:22.790Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7743,8 +7743,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830340.json",
       "kind": "json",
-      "size_bytes": 38635,
-      "mtime": "2026-09-18T01:32:24.444Z",
+      "size_bytes": 40406,
+      "mtime": "2026-09-18T05:40:22.762Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7762,8 +7762,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830350.json",
       "kind": "json",
-      "size_bytes": 36867,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 38648,
+      "mtime": "2026-09-18T05:40:22.835Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7781,8 +7781,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830420.json",
       "kind": "json",
-      "size_bytes": 37211,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 39013,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7800,8 +7800,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830780.json",
       "kind": "json",
-      "size_bytes": 38662,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 40449,
+      "mtime": "2026-09-18T05:40:22.776Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7819,8 +7819,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830835.json",
       "kind": "json",
-      "size_bytes": 38620,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 40409,
+      "mtime": "2026-09-18T05:40:22.767Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7838,8 +7838,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830890.json",
       "kind": "json",
-      "size_bytes": 36972,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 38749,
+      "mtime": "2026-09-18T05:40:22.858Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7857,8 +7857,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0830945.json",
       "kind": "json",
-      "size_bytes": 36974,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 38750,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7876,8 +7876,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0831550.json",
       "kind": "json",
-      "size_bytes": 38493,
-      "mtime": "2026-09-18T01:32:24.525Z",
+      "size_bytes": 40292,
+      "mtime": "2026-09-18T05:40:22.839Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7895,8 +7895,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0831605.json",
       "kind": "json",
-      "size_bytes": 38726,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 40524,
+      "mtime": "2026-09-18T05:40:22.827Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7914,8 +7914,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0831660.json",
       "kind": "json",
-      "size_bytes": 38703,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 40495,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7933,8 +7933,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0831715.json",
       "kind": "json",
-      "size_bytes": 38473,
-      "mtime": "2026-09-18T01:32:24.539Z",
+      "size_bytes": 40249,
+      "mtime": "2026-09-18T05:40:22.855Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7952,8 +7952,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0831935.json",
       "kind": "json",
-      "size_bytes": 36953,
-      "mtime": "2026-09-18T01:32:24.504Z",
+      "size_bytes": 38729,
+      "mtime": "2026-09-18T05:40:22.796Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7971,8 +7971,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0832155.json",
       "kind": "json",
-      "size_bytes": 38671,
-      "mtime": "2026-09-18T01:32:24.451Z",
+      "size_bytes": 40461,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -7990,8 +7990,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0832650.json",
       "kind": "json",
-      "size_bytes": 38543,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 40319,
+      "mtime": "2026-09-18T05:40:22.826Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8009,8 +8009,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833035.json",
       "kind": "json",
-      "size_bytes": 38638,
-      "mtime": "2026-09-18T01:32:24.451Z",
+      "size_bytes": 40417,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8028,8 +8028,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833310.json",
       "kind": "json",
-      "size_bytes": 37871,
-      "mtime": "2026-09-18T01:32:24.512Z",
+      "size_bytes": 39649,
+      "mtime": "2026-09-18T05:40:22.842Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8047,8 +8047,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833420.json",
       "kind": "json",
-      "size_bytes": 36929,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 38708,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8066,8 +8066,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833502.json",
       "kind": "json",
-      "size_bytes": 37096,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 38882,
+      "mtime": "2026-09-18T05:40:22.770Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8085,8 +8085,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833640.json",
       "kind": "json",
-      "size_bytes": 38574,
-      "mtime": "2026-09-18T01:32:24.459Z",
+      "size_bytes": 40381,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8104,8 +8104,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0833695.json",
       "kind": "json",
-      "size_bytes": 38774,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 40576,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8123,8 +8123,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0834520.json",
       "kind": "json",
-      "size_bytes": 38176,
-      "mtime": "2026-09-18T01:32:24.525Z",
+      "size_bytes": 39949,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8142,8 +8142,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0834630.json",
       "kind": "json",
-      "size_bytes": 36873,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 38649,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8161,8 +8161,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0834685.json",
       "kind": "json",
-      "size_bytes": 36988,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 38765,
+      "mtime": "2026-09-18T05:40:22.838Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8180,8 +8180,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0834740.json",
       "kind": "json",
-      "size_bytes": 37844,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 39622,
+      "mtime": "2026-09-18T05:40:22.858Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8199,8 +8199,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0834960.json",
       "kind": "json",
-      "size_bytes": 37975,
-      "mtime": "2026-09-18T01:32:24.516Z",
+      "size_bytes": 39759,
+      "mtime": "2026-09-18T05:40:22.835Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8218,8 +8218,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0835070.json",
       "kind": "json",
-      "size_bytes": 38772,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 40570,
+      "mtime": "2026-09-18T05:40:22.788Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8237,8 +8237,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0835400.json",
       "kind": "json",
-      "size_bytes": 36912,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 38689,
+      "mtime": "2026-09-18T05:40:22.813Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8256,8 +8256,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0835860.json",
       "kind": "json",
-      "size_bytes": 36882,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 38657,
+      "mtime": "2026-09-18T05:40:22.835Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8275,8 +8275,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0836410.json",
       "kind": "json",
-      "size_bytes": 37118,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 38909,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8294,8 +8294,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0836610.json",
       "kind": "json",
-      "size_bytes": 38686,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 40484,
+      "mtime": "2026-09-18T05:40:22.834Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8313,8 +8313,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0836940.json",
       "kind": "json",
-      "size_bytes": 36878,
-      "mtime": "2026-09-18T01:32:24.524Z",
+      "size_bytes": 38651,
+      "mtime": "2026-09-18T05:40:22.850Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8332,8 +8332,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837215.json",
       "kind": "json",
-      "size_bytes": 38142,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 39939,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8351,8 +8351,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837220.json",
       "kind": "json",
-      "size_bytes": 36991,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 38771,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8370,8 +8370,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837270.json",
       "kind": "json",
-      "size_bytes": 38048,
-      "mtime": "2026-09-18T01:32:24.509Z",
+      "size_bytes": 39832,
+      "mtime": "2026-09-18T05:40:22.840Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8389,8 +8389,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837380.json",
       "kind": "json",
-      "size_bytes": 38473,
-      "mtime": "2026-09-18T01:32:24.539Z",
+      "size_bytes": 40251,
+      "mtime": "2026-09-18T05:40:22.863Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8408,8 +8408,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837545.json",
       "kind": "json",
-      "size_bytes": 38534,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 40310,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8427,8 +8427,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837600.json",
       "kind": "json",
-      "size_bytes": 38721,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 40521,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8446,8 +8446,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837655.json",
       "kind": "json",
-      "size_bytes": 37020,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 38797,
+      "mtime": "2026-09-18T05:40:22.860Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8465,8 +8465,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837820.json",
       "kind": "json",
-      "size_bytes": 38758,
-      "mtime": "2026-09-18T01:32:24.469Z",
+      "size_bytes": 40558,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8484,8 +8484,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0837875.json",
       "kind": "json",
-      "size_bytes": 38569,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 40366,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8503,8 +8503,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838370.json",
       "kind": "json",
-      "size_bytes": 38640,
-      "mtime": "2026-09-18T01:32:24.511Z",
+      "size_bytes": 40424,
+      "mtime": "2026-09-18T05:40:22.817Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8522,8 +8522,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838425.json",
       "kind": "json",
-      "size_bytes": 37067,
-      "mtime": "2026-09-18T01:32:24.528Z",
+      "size_bytes": 38863,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8541,8 +8541,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838480.json",
       "kind": "json",
-      "size_bytes": 36946,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 38728,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8560,8 +8560,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838535.json",
       "kind": "json",
-      "size_bytes": 38444,
-      "mtime": "2026-09-18T01:32:24.481Z",
+      "size_bytes": 40230,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8579,8 +8579,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838590.json",
       "kind": "json",
-      "size_bytes": 38678,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 40476,
+      "mtime": "2026-09-18T05:40:22.850Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8598,8 +8598,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838810.json",
       "kind": "json",
-      "size_bytes": 36955,
-      "mtime": "2026-09-18T01:32:24.523Z",
+      "size_bytes": 38731,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8617,8 +8617,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0838910.json",
       "kind": "json",
-      "size_bytes": 37134,
-      "mtime": "2026-09-18T01:32:24.443Z",
+      "size_bytes": 38916,
+      "mtime": "2026-09-18T05:40:22.762Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8636,8 +8636,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839160.json",
       "kind": "json",
-      "size_bytes": 37026,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 38804,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8655,8 +8655,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839195.json",
       "kind": "json",
-      "size_bytes": 38481,
-      "mtime": "2026-09-18T01:32:24.501Z",
+      "size_bytes": 40255,
+      "mtime": "2026-09-18T05:40:22.814Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8674,8 +8674,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839250.json",
       "kind": "json",
-      "size_bytes": 36923,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 38698,
+      "mtime": "2026-09-18T05:40:22.843Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8693,8 +8693,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839745.json",
       "kind": "json",
-      "size_bytes": 36929,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 38708,
+      "mtime": "2026-09-18T05:40:22.832Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8712,8 +8712,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839800.json",
       "kind": "json",
-      "size_bytes": 36926,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 38705,
+      "mtime": "2026-09-18T05:40:22.840Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8731,8 +8731,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839855.json",
       "kind": "json",
-      "size_bytes": 38602,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 40390,
+      "mtime": "2026-09-18T05:40:22.807Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8750,8 +8750,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0839965.json",
       "kind": "json",
-      "size_bytes": 37995,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 39780,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8769,8 +8769,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840185.json",
       "kind": "json",
-      "size_bytes": 38719,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 40516,
+      "mtime": "2026-09-18T05:40:22.808Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8788,8 +8788,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840377.json",
       "kind": "json",
-      "size_bytes": 37093,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 38882,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8807,8 +8807,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840515.json",
       "kind": "json",
-      "size_bytes": 38576,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 40358,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8826,8 +8826,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840550.json",
       "kind": "json",
-      "size_bytes": 37245,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 39043,
+      "mtime": "2026-09-18T05:40:22.819Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8845,8 +8845,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840570.json",
       "kind": "json",
-      "size_bytes": 37864,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 39643,
+      "mtime": "2026-09-18T05:40:22.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8864,8 +8864,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840790.json",
       "kind": "json",
-      "size_bytes": 38744,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 40539,
+      "mtime": "2026-09-18T05:40:22.825Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8883,8 +8883,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0840900.json",
       "kind": "json",
-      "size_bytes": 36851,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 38630,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8902,8 +8902,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0841010.json",
       "kind": "json",
-      "size_bytes": 38083,
-      "mtime": "2026-09-18T01:32:24.525Z",
+      "size_bytes": 39881,
+      "mtime": "2026-09-18T05:40:22.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8921,8 +8921,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0841065.json",
       "kind": "json",
-      "size_bytes": 36953,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 38731,
+      "mtime": "2026-09-18T05:40:22.805Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8940,8 +8940,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0841560.json",
       "kind": "json",
-      "size_bytes": 38649,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 40448,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8959,8 +8959,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0841835.json",
       "kind": "json",
-      "size_bytes": 38644,
-      "mtime": "2026-09-18T01:32:24.443Z",
+      "size_bytes": 40437,
+      "mtime": "2026-09-18T05:40:22.762Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8978,8 +8978,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842000.json",
       "kind": "json",
-      "size_bytes": 36846,
-      "mtime": "2026-09-18T01:32:24.531Z",
+      "size_bytes": 38622,
+      "mtime": "2026-09-18T05:40:22.855Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -8997,8 +8997,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842055.json",
       "kind": "json",
-      "size_bytes": 38545,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 40321,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9016,8 +9016,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842110.json",
       "kind": "json",
-      "size_bytes": 38359,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 40147,
+      "mtime": "2026-09-18T05:40:22.832Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9035,8 +9035,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842165.json",
       "kind": "json",
-      "size_bytes": 36959,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 38734,
+      "mtime": "2026-09-18T05:40:22.853Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9054,8 +9054,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842330.json",
       "kind": "json",
-      "size_bytes": 38123,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 39914,
+      "mtime": "2026-09-18T05:40:22.860Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9073,8 +9073,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0842495.json",
       "kind": "json",
-      "size_bytes": 38435,
-      "mtime": "2026-09-18T01:32:24.472Z",
+      "size_bytes": 40201,
+      "mtime": "2026-09-18T05:40:22.805Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9092,8 +9092,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843000.json",
       "kind": "json",
-      "size_bytes": 38660,
-      "mtime": "2026-09-18T01:32:24.445Z",
+      "size_bytes": 40435,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9111,8 +9111,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843110.json",
       "kind": "json",
-      "size_bytes": 38370,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 40157,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9130,8 +9130,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843220.json",
       "kind": "json",
-      "size_bytes": 37049,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 38837,
+      "mtime": "2026-09-18T05:40:22.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9149,8 +9149,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843550.json",
       "kind": "json",
-      "size_bytes": 38417,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 40196,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9168,8 +9168,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843605.json",
       "kind": "json",
-      "size_bytes": 38759,
-      "mtime": "2026-09-18T01:32:24.482Z",
+      "size_bytes": 40558,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9187,8 +9187,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0843660.json",
       "kind": "json",
-      "size_bytes": 38603,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 40404,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9206,8 +9206,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844100.json",
       "kind": "json",
-      "size_bytes": 38585,
-      "mtime": "2026-09-18T01:32:24.519Z",
+      "size_bytes": 40377,
+      "mtime": "2026-09-18T05:40:22.849Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9225,8 +9225,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844265.json",
       "kind": "json",
-      "size_bytes": 36928,
-      "mtime": "2026-09-18T01:32:24.501Z",
+      "size_bytes": 38709,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9244,8 +9244,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844270.json",
       "kind": "json",
-      "size_bytes": 36976,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 38752,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9263,8 +9263,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844320.json",
       "kind": "json",
-      "size_bytes": 38688,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 40488,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9282,8 +9282,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844375.json",
       "kind": "json",
-      "size_bytes": 36970,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 38748,
+      "mtime": "2026-09-18T05:40:22.825Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9301,8 +9301,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844595.json",
       "kind": "json",
-      "size_bytes": 36938,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 38708,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9320,8 +9320,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844695.json",
       "kind": "json",
-      "size_bytes": 36899,
-      "mtime": "2026-09-18T01:32:24.483Z",
+      "size_bytes": 38680,
+      "mtime": "2026-09-18T05:40:22.806Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9339,8 +9339,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0844980.json",
       "kind": "json",
-      "size_bytes": 38590,
-      "mtime": "2026-09-18T01:32:24.519Z",
+      "size_bytes": 40392,
+      "mtime": "2026-09-18T05:40:22.829Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9358,8 +9358,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845145.json",
       "kind": "json",
-      "size_bytes": 37227,
-      "mtime": "2026-09-18T01:32:24.472Z",
+      "size_bytes": 39025,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9377,8 +9377,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845255.json",
       "kind": "json",
-      "size_bytes": 38647,
-      "mtime": "2026-09-18T01:32:24.445Z",
+      "size_bytes": 40426,
+      "mtime": "2026-09-18T05:40:22.763Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9396,8 +9396,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845530.json",
       "kind": "json",
-      "size_bytes": 38791,
-      "mtime": "2026-09-18T01:32:24.512Z",
+      "size_bytes": 40576,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9415,8 +9415,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845680.json",
       "kind": "json",
-      "size_bytes": 36983,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 38759,
+      "mtime": "2026-09-18T05:40:22.780Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9434,8 +9434,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845695.json",
       "kind": "json",
-      "size_bytes": 38779,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 40576,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9453,8 +9453,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845750.json",
       "kind": "json",
-      "size_bytes": 36948,
-      "mtime": "2026-09-18T01:32:24.513Z",
+      "size_bytes": 38725,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9472,8 +9472,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845955.json",
       "kind": "json",
-      "size_bytes": 38587,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 40373,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9491,8 +9491,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0845970.json",
       "kind": "json",
-      "size_bytes": 38676,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 40465,
+      "mtime": "2026-09-18T05:40:22.766Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9510,8 +9510,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0846355.json",
       "kind": "json",
-      "size_bytes": 38599,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 40386,
+      "mtime": "2026-09-18T05:40:22.768Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9529,8 +9529,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0846410.json",
       "kind": "json",
-      "size_bytes": 36945,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 38725,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9548,8 +9548,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0846465.json",
       "kind": "json",
-      "size_bytes": 38673,
-      "mtime": "2026-09-18T01:32:24.451Z",
+      "size_bytes": 40465,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9567,8 +9567,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0847015.json",
       "kind": "json",
-      "size_bytes": 36931,
-      "mtime": "2026-09-18T01:32:24.527Z",
+      "size_bytes": 38704,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9586,8 +9586,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0847070.json",
       "kind": "json",
-      "size_bytes": 38713,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 40514,
+      "mtime": "2026-09-18T05:40:22.790Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9605,8 +9605,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0847235.json",
       "kind": "json",
-      "size_bytes": 36895,
-      "mtime": "2026-09-18T01:32:24.524Z",
+      "size_bytes": 38671,
+      "mtime": "2026-09-18T05:40:22.850Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9624,8 +9624,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0847345.json",
       "kind": "json",
-      "size_bytes": 36858,
-      "mtime": "2026-09-18T01:32:24.500Z",
+      "size_bytes": 38634,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9643,8 +9643,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848060.json",
       "kind": "json",
-      "size_bytes": 38714,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 40514,
+      "mtime": "2026-09-18T05:40:22.824Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9662,8 +9662,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848115.json",
       "kind": "json",
-      "size_bytes": 38662,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 40462,
+      "mtime": "2026-09-18T05:40:22.838Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9681,8 +9681,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848445.json",
       "kind": "json",
-      "size_bytes": 38817,
-      "mtime": "2026-09-18T01:32:24.459Z",
+      "size_bytes": 40618,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9700,8 +9700,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848500.json",
       "kind": "json",
-      "size_bytes": 38491,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 40286,
+      "mtime": "2026-09-18T05:40:22.854Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9719,8 +9719,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848555.json",
       "kind": "json",
-      "size_bytes": 38499,
-      "mtime": "2026-09-18T01:32:24.530Z",
+      "size_bytes": 40276,
+      "mtime": "2026-09-18T05:40:22.827Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9738,8 +9738,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0848940.json",
       "kind": "json",
-      "size_bytes": 36880,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 38659,
+      "mtime": "2026-09-18T05:40:22.834Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9757,8 +9757,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0849215.json",
       "kind": "json",
-      "size_bytes": 36965,
-      "mtime": "2026-09-18T01:32:24.535Z",
+      "size_bytes": 38743,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9776,8 +9776,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0849325.json",
       "kind": "json",
-      "size_bytes": 36885,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 38661,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9795,8 +9795,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0849490.json",
       "kind": "json",
-      "size_bytes": 36945,
-      "mtime": "2026-09-18T01:32:24.492Z",
+      "size_bytes": 38719,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9814,8 +9814,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0849600.json",
       "kind": "json",
-      "size_bytes": 38804,
-      "mtime": "2026-09-18T01:32:24.524Z",
+      "size_bytes": 40605,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9833,8 +9833,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0849875.json",
       "kind": "json",
-      "size_bytes": 38131,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 39927,
+      "mtime": "2026-09-18T05:40:22.822Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9852,8 +9852,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850012.json",
       "kind": "json",
-      "size_bytes": 37077,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 38858,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9871,8 +9871,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850026.json",
       "kind": "json",
-      "size_bytes": 37186,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 38986,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9890,8 +9890,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850040.json",
       "kind": "json",
-      "size_bytes": 38685,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 40485,
+      "mtime": "2026-09-18T05:40:22.836Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9909,8 +9909,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850380.json",
       "kind": "json",
-      "size_bytes": 36928,
-      "mtime": "2026-09-18T01:32:24.516Z",
+      "size_bytes": 38708,
+      "mtime": "2026-09-18T05:40:22.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9928,8 +9928,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850480.json",
       "kind": "json",
-      "size_bytes": 38807,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 40607,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9947,8 +9947,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0850920.json",
       "kind": "json",
-      "size_bytes": 38748,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 40547,
+      "mtime": "2026-09-18T05:40:22.781Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9966,8 +9966,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851250.json",
       "kind": "json",
-      "size_bytes": 38428,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 40205,
+      "mtime": "2026-09-18T05:40:22.824Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -9985,8 +9985,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851635.json",
       "kind": "json",
-      "size_bytes": 38582,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 40368,
+      "mtime": "2026-09-18T05:40:22.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10004,8 +10004,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851690.json",
       "kind": "json",
-      "size_bytes": 38422,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 40193,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10023,8 +10023,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851745.json",
       "kind": "json",
-      "size_bytes": 38641,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 40430,
+      "mtime": "2026-09-18T05:40:22.792Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10042,8 +10042,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851800.json",
       "kind": "json",
-      "size_bytes": 38802,
-      "mtime": "2026-09-18T01:32:24.512Z",
+      "size_bytes": 40600,
+      "mtime": "2026-09-18T05:40:22.795Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10061,8 +10061,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0851975.json",
       "kind": "json",
-      "size_bytes": 36940,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 38714,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10080,8 +10080,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852075.json",
       "kind": "json",
-      "size_bytes": 38699,
-      "mtime": "2026-09-18T01:32:24.495Z",
+      "size_bytes": 40496,
+      "mtime": "2026-09-18T05:40:22.816Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10099,8 +10099,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852210.json",
       "kind": "json",
-      "size_bytes": 36959,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 38734,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10118,8 +10118,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852350.json",
       "kind": "json",
-      "size_bytes": 38724,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 40509,
+      "mtime": "2026-09-18T05:40:22.813Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10137,8 +10137,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852550.json",
       "kind": "json",
-      "size_bytes": 38410,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 40189,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10156,8 +10156,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852570.json",
       "kind": "json",
-      "size_bytes": 38747,
-      "mtime": "2026-09-18T01:32:24.513Z",
+      "size_bytes": 40544,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10175,8 +10175,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0852820.json",
       "kind": "json",
-      "size_bytes": 36950,
-      "mtime": "2026-09-18T01:32:24.506Z",
+      "size_bytes": 38725,
+      "mtime": "2026-09-18T05:40:22.829Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10194,8 +10194,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853010.json",
       "kind": "json",
-      "size_bytes": 36914,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 38695,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10213,8 +10213,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853120.json",
       "kind": "json",
-      "size_bytes": 38480,
-      "mtime": "2026-09-18T01:32:24.472Z",
+      "size_bytes": 40278,
+      "mtime": "2026-09-18T05:40:22.797Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10232,8 +10232,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853175.json",
       "kind": "json",
-      "size_bytes": 38523,
-      "mtime": "2026-09-18T01:32:24.482Z",
+      "size_bytes": 40298,
+      "mtime": "2026-09-18T05:40:22.797Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10251,8 +10251,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853395.json",
       "kind": "json",
-      "size_bytes": 38620,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 40404,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10270,8 +10270,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853780.json",
       "kind": "json",
-      "size_bytes": 37054,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 38838,
+      "mtime": "2026-09-18T05:40:22.796Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10289,8 +10289,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853875.json",
       "kind": "json",
-      "size_bytes": 36930,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 38705,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10308,8 +10308,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0853945.json",
       "kind": "json",
-      "size_bytes": 36934,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 38714,
+      "mtime": "2026-09-18T05:40:22.813Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10327,8 +10327,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0854330.json",
       "kind": "json",
-      "size_bytes": 38650,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 40429,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10346,8 +10346,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0854495.json",
       "kind": "json",
-      "size_bytes": 37217,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 39014,
+      "mtime": "2026-09-18T05:40:22.838Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10365,8 +10365,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0854750.json",
       "kind": "json",
-      "size_bytes": 36973,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 38742,
+      "mtime": "2026-09-18T05:40:22.803Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10384,8 +10384,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0854880.json",
       "kind": "json",
-      "size_bytes": 38482,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 40277,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10403,8 +10403,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0854935.json",
       "kind": "json",
-      "size_bytes": 38474,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 40271,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10422,8 +10422,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855045.json",
       "kind": "json",
-      "size_bytes": 38500,
-      "mtime": "2026-09-18T01:32:24.510Z",
+      "size_bytes": 40277,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10441,8 +10441,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855155.json",
       "kind": "json",
-      "size_bytes": 38748,
-      "mtime": "2026-09-18T01:32:24.483Z",
+      "size_bytes": 40547,
+      "mtime": "2026-09-18T05:40:22.815Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10460,8 +10460,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855540.json",
       "kind": "json",
-      "size_bytes": 38578,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 40362,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10479,8 +10479,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855705.json",
       "kind": "json",
-      "size_bytes": 38324,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 40102,
+      "mtime": "2026-09-18T05:40:22.837Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10498,8 +10498,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855870.json",
       "kind": "json",
-      "size_bytes": 38243,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 40019,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10517,8 +10517,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855925.json",
       "kind": "json",
-      "size_bytes": 36977,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 38752,
+      "mtime": "2026-09-18T05:40:22.823Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10536,8 +10536,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0855980.json",
       "kind": "json",
-      "size_bytes": 38617,
-      "mtime": "2026-09-18T01:32:24.456Z",
+      "size_bytes": 40403,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10555,8 +10555,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856035.json",
       "kind": "json",
-      "size_bytes": 37276,
-      "mtime": "2026-09-18T01:32:24.455Z",
+      "size_bytes": 39076,
+      "mtime": "2026-09-18T05:40:22.776Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10574,8 +10574,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856145.json",
       "kind": "json",
-      "size_bytes": 38539,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 40334,
+      "mtime": "2026-09-18T05:40:22.822Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10593,8 +10593,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856365.json",
       "kind": "json",
-      "size_bytes": 38308,
-      "mtime": "2026-09-18T01:32:24.518Z",
+      "size_bytes": 40107,
+      "mtime": "2026-09-18T05:40:22.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10612,8 +10612,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856420.json",
       "kind": "json",
-      "size_bytes": 38272,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 40052,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10631,8 +10631,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856475.json",
       "kind": "json",
-      "size_bytes": 38099,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 39894,
+      "mtime": "2026-09-18T05:40:22.834Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10650,8 +10650,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856695.json",
       "kind": "json",
-      "size_bytes": 36850,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 38627,
+      "mtime": "2026-09-18T05:40:22.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10669,8 +10669,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856860.json",
       "kind": "json",
-      "size_bytes": 38429,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 40213,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10688,8 +10688,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0856970.json",
       "kind": "json",
-      "size_bytes": 38635,
-      "mtime": "2026-09-18T01:32:24.455Z",
+      "size_bytes": 40421,
+      "mtime": "2026-09-18T05:40:22.777Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10707,8 +10707,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857025.json",
       "kind": "json",
-      "size_bytes": 38548,
-      "mtime": "2026-09-18T01:32:24.478Z",
+      "size_bytes": 40324,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10726,8 +10726,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857245.json",
       "kind": "json",
-      "size_bytes": 37821,
-      "mtime": "2026-09-18T01:32:24.533Z",
+      "size_bytes": 39598,
+      "mtime": "2026-09-18T05:40:22.857Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10745,8 +10745,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857300.json",
       "kind": "json",
-      "size_bytes": 38353,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 40137,
+      "mtime": "2026-09-18T05:40:22.829Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10764,8 +10764,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857400.json",
       "kind": "json",
-      "size_bytes": 38473,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 40251,
+      "mtime": "2026-09-18T05:40:22.796Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10783,8 +10783,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857445.json",
       "kind": "json",
-      "size_bytes": 36947,
-      "mtime": "2026-09-18T01:32:24.484Z",
+      "size_bytes": 38723,
+      "mtime": "2026-09-18T05:40:22.789Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10802,8 +10802,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857465.json",
       "kind": "json",
-      "size_bytes": 37275,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 39075,
+      "mtime": "2026-09-18T05:40:22.797Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10821,8 +10821,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857630.json",
       "kind": "json",
-      "size_bytes": 38615,
-      "mtime": "2026-09-18T01:32:24.443Z",
+      "size_bytes": 40404,
+      "mtime": "2026-09-18T05:40:22.761Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10840,8 +10840,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0857850.json",
       "kind": "json",
-      "size_bytes": 36890,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 38668,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10859,8 +10859,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858235.json",
       "kind": "json",
-      "size_bytes": 38701,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 40494,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10878,8 +10878,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858400.json",
       "kind": "json",
-      "size_bytes": 37055,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 38837,
+      "mtime": "2026-09-18T05:40:22.807Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10897,8 +10897,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858510.json",
       "kind": "json",
-      "size_bytes": 36916,
-      "mtime": "2026-09-18T01:32:24.470Z",
+      "size_bytes": 38695,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10916,8 +10916,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858592.json",
       "kind": "json",
-      "size_bytes": 36942,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 38718,
+      "mtime": "2026-09-18T05:40:22.791Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10935,8 +10935,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858675.json",
       "kind": "json",
-      "size_bytes": 36903,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 38682,
+      "mtime": "2026-09-18T05:40:22.839Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10954,8 +10954,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858785.json",
       "kind": "json",
-      "size_bytes": 36943,
-      "mtime": "2026-09-18T01:32:24.510Z",
+      "size_bytes": 38720,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10973,8 +10973,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0858960.json",
       "kind": "json",
-      "size_bytes": 36906,
-      "mtime": "2026-09-18T01:32:24.536Z",
+      "size_bytes": 38685,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -10992,8 +10992,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0859005.json",
       "kind": "json",
-      "size_bytes": 38752,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 40550,
+      "mtime": "2026-09-18T05:40:22.819Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11011,8 +11011,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0859240.json",
       "kind": "json",
-      "size_bytes": 36979,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 38755,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11030,8 +11030,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0859520.json",
       "kind": "json",
-      "size_bytes": 36927,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 38707,
+      "mtime": "2026-09-18T05:40:22.791Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11049,8 +11049,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0859830.json",
       "kind": "json",
-      "size_bytes": 38460,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 40247,
+      "mtime": "2026-09-18T05:40:22.845Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11068,8 +11068,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0859885.json",
       "kind": "json",
-      "size_bytes": 37170,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 38969,
+      "mtime": "2026-09-18T05:40:22.807Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11087,8 +11087,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0860160.json",
       "kind": "json",
-      "size_bytes": 38738,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 40539,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11106,8 +11106,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0860600.json",
       "kind": "json",
-      "size_bytes": 38703,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 40500,
+      "mtime": "2026-09-18T05:40:22.782Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11125,8 +11125,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0860655.json",
       "kind": "json",
-      "size_bytes": 36953,
-      "mtime": "2026-09-18T01:32:24.524Z",
+      "size_bytes": 38731,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11144,8 +11144,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0860765.json",
       "kind": "json",
-      "size_bytes": 36923,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 38700,
+      "mtime": "2026-09-18T05:40:22.810Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11163,8 +11163,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0861315.json",
       "kind": "json",
-      "size_bytes": 37870,
-      "mtime": "2026-09-18T01:32:24.514Z",
+      "size_bytes": 39650,
+      "mtime": "2026-09-18T05:40:22.842Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11182,8 +11182,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0862000.json",
       "kind": "json",
-      "size_bytes": 38668,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 40456,
+      "mtime": "2026-09-18T05:40:22.781Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11201,8 +11201,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0862220.json",
       "kind": "json",
-      "size_bytes": 37093,
-      "mtime": "2026-09-18T01:32:24.473Z",
+      "size_bytes": 38879,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11220,8 +11220,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0862660.json",
       "kind": "json",
-      "size_bytes": 37893,
-      "mtime": "2026-09-18T01:32:24.522Z",
+      "size_bytes": 39672,
+      "mtime": "2026-09-18T05:40:22.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11239,8 +11239,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0862880.json",
       "kind": "json",
-      "size_bytes": 37990,
-      "mtime": "2026-09-18T01:32:24.520Z",
+      "size_bytes": 39779,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11258,8 +11258,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863045.json",
       "kind": "json",
-      "size_bytes": 38428,
-      "mtime": "2026-09-18T01:32:24.515Z",
+      "size_bytes": 40208,
+      "mtime": "2026-09-18T05:40:22.844Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11277,8 +11277,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863265.json",
       "kind": "json",
-      "size_bytes": 38711,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 40510,
+      "mtime": "2026-09-18T05:40:22.815Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11296,8 +11296,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863320.json",
       "kind": "json",
-      "size_bytes": 36931,
-      "mtime": "2026-09-18T01:32:24.499Z",
+      "size_bytes": 38703,
+      "mtime": "2026-09-18T05:40:22.804Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11315,8 +11315,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863375.json",
       "kind": "json",
-      "size_bytes": 37269,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 39072,
+      "mtime": "2026-09-18T05:40:22.780Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11334,8 +11334,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863650.json",
       "kind": "json",
-      "size_bytes": 36915,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 38687,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11353,8 +11353,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0863705.json",
       "kind": "json",
-      "size_bytes": 36944,
-      "mtime": "2026-09-18T01:32:24.483Z",
+      "size_bytes": 38720,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11372,8 +11372,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0864090.json",
       "kind": "json",
-      "size_bytes": 38507,
-      "mtime": "2026-09-18T01:32:24.526Z",
+      "size_bytes": 40301,
+      "mtime": "2026-09-18T05:40:22.836Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11391,8 +11391,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0864200.json",
       "kind": "json",
-      "size_bytes": 38471,
-      "mtime": "2026-09-18T01:32:24.468Z",
+      "size_bytes": 40251,
+      "mtime": "2026-09-18T05:40:22.790Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11410,8 +11410,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0864255.json",
       "kind": "json",
-      "size_bytes": 38647,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 40432,
+      "mtime": "2026-09-18T05:40:22.824Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11429,8 +11429,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0864870.json",
       "kind": "json",
-      "size_bytes": 36904,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 38681,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11448,8 +11448,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0864970.json",
       "kind": "json",
-      "size_bytes": 38508,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 40305,
+      "mtime": "2026-09-18T05:40:22.811Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11467,8 +11467,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0865190.json",
       "kind": "json",
-      "size_bytes": 38374,
-      "mtime": "2026-09-18T01:32:24.494Z",
+      "size_bytes": 40160,
+      "mtime": "2026-09-18T05:40:22.822Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11486,8 +11486,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0865685.json",
       "kind": "json",
-      "size_bytes": 36958,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 38732,
+      "mtime": "2026-09-18T05:40:22.797Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11505,8 +11505,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0865740.json",
       "kind": "json",
-      "size_bytes": 38715,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 40511,
+      "mtime": "2026-09-18T05:40:22.858Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11524,8 +11524,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0866197.json",
       "kind": "json",
-      "size_bytes": 37244,
-      "mtime": "2026-09-18T01:32:24.475Z",
+      "size_bytes": 39044,
+      "mtime": "2026-09-18T05:40:22.797Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11543,8 +11543,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0866895.json",
       "kind": "json",
-      "size_bytes": 38313,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 40092,
+      "mtime": "2026-09-18T05:40:22.817Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11562,8 +11562,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0866995.json",
       "kind": "json",
-      "size_bytes": 36849,
-      "mtime": "2026-09-18T01:32:24.515Z",
+      "size_bytes": 38628,
+      "mtime": "2026-09-18T05:40:22.843Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11581,8 +11581,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867005.json",
       "kind": "json",
-      "size_bytes": 38773,
-      "mtime": "2026-09-18T01:32:24.489Z",
+      "size_bytes": 40568,
+      "mtime": "2026-09-18T05:40:22.819Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11600,8 +11600,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867040.json",
       "kind": "json",
-      "size_bytes": 36974,
-      "mtime": "2026-09-18T01:32:24.471Z",
+      "size_bytes": 38748,
+      "mtime": "2026-09-18T05:40:22.785Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11619,8 +11619,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867142.json",
       "kind": "json",
-      "size_bytes": 36919,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 38697,
+      "mtime": "2026-09-18T05:40:22.813Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11638,8 +11638,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867280.json",
       "kind": "json",
-      "size_bytes": 38611,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 40398,
+      "mtime": "2026-09-18T05:40:22.788Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11657,8 +11657,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867445.json",
       "kind": "json",
-      "size_bytes": 37188,
-      "mtime": "2026-09-18T01:32:24.502Z",
+      "size_bytes": 38989,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11676,8 +11676,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867500.json",
       "kind": "json",
-      "size_bytes": 36890,
-      "mtime": "2026-09-18T01:32:24.514Z",
+      "size_bytes": 38665,
+      "mtime": "2026-09-18T05:40:22.847Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11695,8 +11695,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0867830.json",
       "kind": "json",
-      "size_bytes": 38767,
-      "mtime": "2026-09-18T01:32:24.471Z",
+      "size_bytes": 40565,
+      "mtime": "2026-09-18T05:40:22.805Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11714,8 +11714,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868105.json",
       "kind": "json",
-      "size_bytes": 38119,
-      "mtime": "2026-09-18T01:32:24.505Z",
+      "size_bytes": 39914,
+      "mtime": "2026-09-18T05:40:22.839Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11733,8 +11733,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868655.json",
       "kind": "json",
-      "size_bytes": 38161,
-      "mtime": "2026-09-18T01:32:24.529Z",
+      "size_bytes": 39936,
+      "mtime": "2026-09-18T05:40:22.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11752,8 +11752,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868847.json",
       "kind": "json",
-      "size_bytes": 37121,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 38907,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11771,8 +11771,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868875.json",
       "kind": "json",
-      "size_bytes": 36881,
-      "mtime": "2026-09-18T01:32:24.506Z",
+      "size_bytes": 38656,
+      "mtime": "2026-09-18T05:40:22.838Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11790,8 +11790,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868930.json",
       "kind": "json",
-      "size_bytes": 37858,
-      "mtime": "2026-09-18T01:32:24.534Z",
+      "size_bytes": 39635,
+      "mtime": "2026-09-18T05:40:22.856Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11809,8 +11809,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0868985.json",
       "kind": "json",
-      "size_bytes": 36939,
-      "mtime": "2026-09-18T01:32:24.508Z",
+      "size_bytes": 38714,
+      "mtime": "2026-09-18T05:40:22.838Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11828,8 +11828,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869040.json",
       "kind": "json",
-      "size_bytes": 37928,
-      "mtime": "2026-09-18T01:32:24.532Z",
+      "size_bytes": 39708,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11847,8 +11847,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869110.json",
       "kind": "json",
-      "size_bytes": 36966,
-      "mtime": "2026-09-18T01:32:24.453Z",
+      "size_bytes": 38744,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11866,8 +11866,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869150.json",
       "kind": "json",
-      "size_bytes": 38766,
-      "mtime": "2026-09-18T01:32:24.495Z",
+      "size_bytes": 40565,
+      "mtime": "2026-09-18T05:40:22.807Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11885,8 +11885,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869480.json",
       "kind": "json",
-      "size_bytes": 37223,
-      "mtime": "2026-09-18T01:32:24.447Z",
+      "size_bytes": 39023,
+      "mtime": "2026-09-18T05:40:22.765Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11904,8 +11904,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869645.json",
       "kind": "json",
-      "size_bytes": 38605,
-      "mtime": "2026-09-18T01:32:24.451Z",
+      "size_bytes": 40380,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11923,8 +11923,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869700.json",
       "kind": "json",
-      "size_bytes": 37849,
-      "mtime": "2026-09-18T01:32:24.517Z",
+      "size_bytes": 39632,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11942,8 +11942,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0869810.json",
       "kind": "json",
-      "size_bytes": 37095,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 38882,
+      "mtime": "2026-09-18T05:40:22.767Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11961,8 +11961,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870112.json",
       "kind": "json",
-      "size_bytes": 37282,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 39082,
+      "mtime": "2026-09-18T05:40:22.767Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11980,8 +11980,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870195.json",
       "kind": "json",
-      "size_bytes": 38651,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 40437,
+      "mtime": "2026-09-18T05:40:22.786Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -11999,8 +11999,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870250.json",
       "kind": "json",
-      "size_bytes": 38544,
-      "mtime": "2026-09-18T01:32:24.476Z",
+      "size_bytes": 40343,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12018,8 +12018,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870360.json",
       "kind": "json",
-      "size_bytes": 38693,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 40490,
+      "mtime": "2026-09-18T05:40:22.818Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12037,8 +12037,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870525.json",
       "kind": "json",
-      "size_bytes": 38770,
-      "mtime": "2026-09-18T01:32:24.443Z",
+      "size_bytes": 40568,
+      "mtime": "2026-09-18T05:40:22.761Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12056,8 +12056,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870580.json",
       "kind": "json",
-      "size_bytes": 38347,
-      "mtime": "2026-09-18T01:32:24.504Z",
+      "size_bytes": 40133,
+      "mtime": "2026-09-18T05:40:22.824Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12075,8 +12075,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0870635.json",
       "kind": "json",
-      "size_bytes": 38460,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 40245,
+      "mtime": "2026-09-18T05:40:22.833Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12094,8 +12094,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0871625.json",
       "kind": "json",
-      "size_bytes": 36974,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 38753,
+      "mtime": "2026-09-18T05:40:22.775Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12113,8 +12113,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0871755.json",
       "kind": "json",
-      "size_bytes": 38859,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 40659,
+      "mtime": "2026-09-18T05:40:22.798Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12132,8 +12132,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0871790.json",
       "kind": "json",
-      "size_bytes": 36886,
-      "mtime": "2026-09-18T01:32:24.512Z",
+      "size_bytes": 38663,
+      "mtime": "2026-09-18T05:40:22.840Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12151,8 +12151,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0871845.json",
       "kind": "json",
-      "size_bytes": 36886,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 38665,
+      "mtime": "2026-09-18T05:40:22.839Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12170,8 +12170,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0872320.json",
       "kind": "json",
-      "size_bytes": 36903,
-      "mtime": "2026-09-18T01:32:24.487Z",
+      "size_bytes": 38684,
+      "mtime": "2026-09-18T05:40:22.820Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12189,8 +12189,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0872395.json",
       "kind": "json",
-      "size_bytes": 38286,
-      "mtime": "2026-09-18T01:32:24.538Z",
+      "size_bytes": 40064,
+      "mtime": "2026-09-18T05:40:22.861Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12208,8 +12208,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873330.json",
       "kind": "json",
-      "size_bytes": 38155,
-      "mtime": "2026-09-18T01:32:24.523Z",
+      "size_bytes": 39948,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12227,8 +12227,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873715.json",
       "kind": "json",
-      "size_bytes": 38738,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 40535,
+      "mtime": "2026-09-18T05:40:22.822Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12246,8 +12246,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873825.json",
       "kind": "json",
-      "size_bytes": 38670,
-      "mtime": "2026-09-18T01:32:24.444Z",
+      "size_bytes": 40463,
+      "mtime": "2026-09-18T05:40:22.762Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12265,8 +12265,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873925.json",
       "kind": "json",
-      "size_bytes": 36971,
-      "mtime": "2026-09-18T01:32:24.509Z",
+      "size_bytes": 38747,
+      "mtime": "2026-09-18T05:40:22.814Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12284,8 +12284,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873935.json",
       "kind": "json",
-      "size_bytes": 38559,
-      "mtime": "2026-09-18T01:32:24.469Z",
+      "size_bytes": 40347,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12303,8 +12303,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0873943.json",
       "kind": "json",
-      "size_bytes": 37003,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 38781,
+      "mtime": "2026-09-18T05:40:22.781Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12322,8 +12322,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874080.json",
       "kind": "json",
-      "size_bytes": 37284,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 39086,
+      "mtime": "2026-09-18T05:40:22.780Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12341,8 +12341,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874275.json",
       "kind": "json",
-      "size_bytes": 36912,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 38686,
+      "mtime": "2026-09-18T05:40:22.808Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12360,8 +12360,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874375.json",
       "kind": "json",
-      "size_bytes": 37140,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 38926,
+      "mtime": "2026-09-18T05:40:22.791Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12379,8 +12379,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874430.json",
       "kind": "json",
-      "size_bytes": 37071,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 38859,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12398,8 +12398,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874485.json",
       "kind": "json",
-      "size_bytes": 38294,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 40070,
+      "mtime": "2026-09-18T05:40:22.832Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12417,8 +12417,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874815.json",
       "kind": "json",
-      "size_bytes": 38272,
-      "mtime": "2026-09-18T01:32:24.523Z",
+      "size_bytes": 40046,
+      "mtime": "2026-09-18T05:40:22.851Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12436,8 +12436,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0874980.json",
       "kind": "json",
-      "size_bytes": 36954,
-      "mtime": "2026-09-18T01:32:24.466Z",
+      "size_bytes": 38728,
+      "mtime": "2026-09-18T05:40:22.783Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12455,8 +12455,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0875585.json",
       "kind": "json",
-      "size_bytes": 36972,
-      "mtime": "2026-09-18T01:32:24.461Z",
+      "size_bytes": 38745,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12474,8 +12474,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0875640.json",
       "kind": "json",
-      "size_bytes": 38583,
-      "mtime": "2026-09-18T01:32:24.464Z",
+      "size_bytes": 40369,
+      "mtime": "2026-09-18T05:40:22.781Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12493,8 +12493,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0875970.json",
       "kind": "json",
-      "size_bytes": 38270,
-      "mtime": "2026-09-18T01:32:24.499Z",
+      "size_bytes": 40046,
+      "mtime": "2026-09-18T05:40:22.829Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12512,8 +12512,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0876190.json",
       "kind": "json",
-      "size_bytes": 36979,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 38754,
+      "mtime": "2026-09-18T05:40:22.777Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12531,8 +12531,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0876325.json",
       "kind": "json",
-      "size_bytes": 37015,
-      "mtime": "2026-09-18T01:32:24.463Z",
+      "size_bytes": 38788,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12550,8 +12550,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0876795.json",
       "kind": "json",
-      "size_bytes": 38534,
-      "mtime": "2026-09-18T01:32:24.469Z",
+      "size_bytes": 40326,
+      "mtime": "2026-09-18T05:40:22.770Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12569,8 +12569,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0877235.json",
       "kind": "json",
-      "size_bytes": 37217,
-      "mtime": "2026-09-18T01:32:24.486Z",
+      "size_bytes": 39018,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12588,8 +12588,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0877290.json",
       "kind": "json",
-      "size_bytes": 38705,
-      "mtime": "2026-09-18T01:32:24.445Z",
+      "size_bytes": 40482,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12607,8 +12607,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0877510.json",
       "kind": "json",
-      "size_bytes": 38671,
-      "mtime": "2026-09-18T01:32:24.474Z",
+      "size_bytes": 40459,
+      "mtime": "2026-09-18T05:40:22.808Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12626,8 +12626,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0877757.json",
       "kind": "json",
-      "size_bytes": 36975,
-      "mtime": "2026-09-18T01:32:24.480Z",
+      "size_bytes": 38747,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12645,8 +12645,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0878280.json",
       "kind": "json",
-      "size_bytes": 37178,
-      "mtime": "2026-09-18T01:32:24.531Z",
+      "size_bytes": 38975,
+      "mtime": "2026-09-18T05:40:22.859Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12664,8 +12664,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0878335.json",
       "kind": "json",
-      "size_bytes": 36867,
-      "mtime": "2026-09-18T01:32:24.513Z",
+      "size_bytes": 38640,
+      "mtime": "2026-09-18T05:40:22.843Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12683,8 +12683,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0878345.json",
       "kind": "json",
-      "size_bytes": 36934,
-      "mtime": "2026-09-18T01:32:24.509Z",
+      "size_bytes": 38709,
+      "mtime": "2026-09-18T05:40:22.841Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12702,8 +12702,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0878610.json",
       "kind": "json",
-      "size_bytes": 38651,
-      "mtime": "2026-09-18T01:32:24.495Z",
+      "size_bytes": 40440,
+      "mtime": "2026-09-18T05:40:22.826Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12721,8 +12721,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0879100.json",
       "kind": "json",
-      "size_bytes": 37149,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 38936,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12740,8 +12740,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0879105.json",
       "kind": "json",
-      "size_bytes": 36946,
-      "mtime": "2026-09-18T01:32:24.490Z",
+      "size_bytes": 38724,
+      "mtime": "2026-09-18T05:40:22.799Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12759,8 +12759,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0879270.json",
       "kind": "json",
-      "size_bytes": 37868,
-      "mtime": "2026-09-18T01:32:24.521Z",
+      "size_bytes": 39644,
+      "mtime": "2026-09-18T05:40:22.848Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12778,8 +12778,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0879785.json",
       "kind": "json",
-      "size_bytes": 36967,
-      "mtime": "2026-09-18T01:32:24.460Z",
+      "size_bytes": 38744,
+      "mtime": "2026-09-18T05:40:22.778Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12797,8 +12797,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0879800.json",
       "kind": "json",
-      "size_bytes": 36950,
-      "mtime": "2026-09-18T01:32:24.496Z",
+      "size_bytes": 38724,
+      "mtime": "2026-09-18T05:40:22.802Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12816,8 +12816,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0880040.json",
       "kind": "json",
-      "size_bytes": 38592,
-      "mtime": "2026-09-18T01:32:24.446Z",
+      "size_bytes": 40377,
+      "mtime": "2026-09-18T05:40:22.764Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12835,8 +12835,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0880095.json",
       "kind": "json",
-      "size_bytes": 36900,
-      "mtime": "2026-09-18T01:32:24.491Z",
+      "size_bytes": 38677,
+      "mtime": "2026-09-18T05:40:22.826Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12854,8 +12854,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0880370.json",
       "kind": "json",
-      "size_bytes": 36876,
-      "mtime": "2026-09-18T01:32:24.458Z",
+      "size_bytes": 38650,
+      "mtime": "2026-09-18T05:40:22.780Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12873,8 +12873,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0880755.json",
       "kind": "json",
-      "size_bytes": 36869,
-      "mtime": "2026-09-18T01:32:24.501Z",
+      "size_bytes": 38644,
+      "mtime": "2026-09-18T05:40:22.835Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12892,8 +12892,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0880865.json",
       "kind": "json",
-      "size_bytes": 38589,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 40364,
+      "mtime": "2026-09-18T05:40:22.830Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12911,8 +12911,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0881030.json",
       "kind": "json",
-      "size_bytes": 37864,
-      "mtime": "2026-09-18T01:32:24.525Z",
+      "size_bytes": 39643,
+      "mtime": "2026-09-18T05:40:22.852Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12930,8 +12930,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0881305.json",
       "kind": "json",
-      "size_bytes": 36950,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 38726,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12949,8 +12949,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0881690.json",
       "kind": "json",
-      "size_bytes": 37886,
-      "mtime": "2026-09-18T01:32:24.537Z",
+      "size_bytes": 39665,
+      "mtime": "2026-09-18T05:40:22.862Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12968,8 +12968,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0882130.json",
       "kind": "json",
-      "size_bytes": 38139,
-      "mtime": "2026-09-18T01:32:24.479Z",
+      "size_bytes": 39937,
+      "mtime": "2026-09-18T05:40:22.801Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -12987,8 +12987,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0882350.json",
       "kind": "json",
-      "size_bytes": 38378,
-      "mtime": "2026-09-18T01:32:24.515Z",
+      "size_bytes": 40162,
+      "mtime": "2026-09-18T05:40:22.836Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13006,8 +13006,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0882460.json",
       "kind": "json",
-      "size_bytes": 38152,
-      "mtime": "2026-09-18T01:32:24.495Z",
+      "size_bytes": 39946,
+      "mtime": "2026-09-18T05:40:22.828Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13025,8 +13025,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0882735.json",
       "kind": "json",
-      "size_bytes": 38429,
-      "mtime": "2026-09-18T01:32:24.485Z",
+      "size_bytes": 40206,
+      "mtime": "2026-09-18T05:40:22.812Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13044,8 +13044,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0882900.json",
       "kind": "json",
-      "size_bytes": 36944,
-      "mtime": "2026-09-18T01:32:24.497Z",
+      "size_bytes": 38718,
+      "mtime": "2026-09-18T05:40:22.809Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13063,8 +13063,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883120.json",
       "kind": "json",
-      "size_bytes": 37081,
-      "mtime": "2026-09-18T01:32:24.452Z",
+      "size_bytes": 38870,
+      "mtime": "2026-09-18T05:40:22.772Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13082,8 +13082,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883175.json",
       "kind": "json",
-      "size_bytes": 36933,
-      "mtime": "2026-09-18T01:32:24.493Z",
+      "size_bytes": 38712,
+      "mtime": "2026-09-18T05:40:22.829Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13101,8 +13101,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883230.json",
       "kind": "json",
-      "size_bytes": 38788,
-      "mtime": "2026-09-18T01:32:24.454Z",
+      "size_bytes": 40594,
+      "mtime": "2026-09-18T05:40:22.773Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13120,8 +13120,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883450.json",
       "kind": "json",
-      "size_bytes": 38261,
-      "mtime": "2026-09-18T01:32:24.510Z",
+      "size_bytes": 40037,
+      "mtime": "2026-09-18T05:40:22.842Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13139,8 +13139,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883500.json",
       "kind": "json",
-      "size_bytes": 36975,
-      "mtime": "2026-09-18T01:32:24.477Z",
+      "size_bytes": 38751,
+      "mtime": "2026-09-18T05:40:22.800Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13158,8 +13158,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0883835.json",
       "kind": "json",
-      "size_bytes": 38676,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 40467,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13177,8 +13177,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0884000.json",
       "kind": "json",
-      "size_bytes": 36883,
-      "mtime": "2026-09-18T01:32:24.498Z",
+      "size_bytes": 38660,
+      "mtime": "2026-09-18T05:40:22.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13196,8 +13196,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0884042.json",
       "kind": "json",
-      "size_bytes": 37061,
-      "mtime": "2026-09-18T01:32:24.449Z",
+      "size_bytes": 38849,
+      "mtime": "2026-09-18T05:40:22.769Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13215,8 +13215,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0884440.json",
       "kind": "json",
-      "size_bytes": 38700,
-      "mtime": "2026-09-18T01:32:24.450Z",
+      "size_bytes": 40484,
+      "mtime": "2026-09-18T05:40:22.771Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13234,8 +13234,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0884770.json",
       "kind": "json",
-      "size_bytes": 38738,
-      "mtime": "2026-09-18T01:32:24.515Z",
+      "size_bytes": 40535,
+      "mtime": "2026-09-18T05:40:22.817Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13253,8 +13253,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0885045.json",
       "kind": "json",
-      "size_bytes": 38452,
-      "mtime": "2026-09-18T01:32:24.531Z",
+      "size_bytes": 40246,
+      "mtime": "2026-09-18T05:40:22.846Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13272,8 +13272,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0885155.json",
       "kind": "json",
-      "size_bytes": 38492,
-      "mtime": "2026-09-18T01:32:24.503Z",
+      "size_bytes": 40289,
+      "mtime": "2026-09-18T05:40:22.821Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13291,8 +13291,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0885485.json",
       "kind": "json",
-      "size_bytes": 38638,
-      "mtime": "2026-09-18T01:32:24.457Z",
+      "size_bytes": 40426,
+      "mtime": "2026-09-18T05:40:22.779Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13310,8 +13310,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0885705.json",
       "kind": "json",
-      "size_bytes": 38481,
-      "mtime": "2026-09-18T01:32:24.488Z",
+      "size_bytes": 40259,
+      "mtime": "2026-09-18T05:40:22.817Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13329,8 +13329,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0885760.json",
       "kind": "json",
-      "size_bytes": 36959,
-      "mtime": "2026-09-18T01:32:24.470Z",
+      "size_bytes": 38734,
+      "mtime": "2026-09-18T05:40:22.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13348,8 +13348,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886090.json",
       "kind": "json",
-      "size_bytes": 38669,
-      "mtime": "2026-09-18T01:32:24.448Z",
+      "size_bytes": 40455,
+      "mtime": "2026-09-18T05:40:22.766Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13367,8 +13367,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886117.json",
       "kind": "json",
-      "size_bytes": 37008,
-      "mtime": "2026-09-18T01:32:24.462Z",
+      "size_bytes": 38788,
+      "mtime": "2026-09-18T05:40:22.787Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13386,8 +13386,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886200.json",
       "kind": "json",
-      "size_bytes": 36918,
-      "mtime": "2026-09-18T01:32:24.467Z",
+      "size_bytes": 38694,
+      "mtime": "2026-09-18T05:40:22.784Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13405,8 +13405,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886310.json",
       "kind": "json",
-      "size_bytes": 37998,
-      "mtime": "2026-09-18T01:32:24.504Z",
+      "size_bytes": 39780,
+      "mtime": "2026-09-18T05:40:22.835Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13424,8 +13424,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886475.json",
       "kind": "json",
-      "size_bytes": 38756,
-      "mtime": "2026-09-18T01:32:24.507Z",
+      "size_bytes": 40551,
+      "mtime": "2026-09-18T05:40:22.814Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -13443,8 +13443,8 @@
     {
       "path": "hna/jurisdiction-metrics-digest/0886750.json",
       "kind": "json",
-      "size_bytes": 38240,
-      "mtime": "2026-09-18T01:32:24.465Z",
+      "size_bytes": 40025,
+      "mtime": "2026-09-18T05:40:22.793Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -16822,7 +16822,7 @@
       "path": "hna/ownership-need.json",
       "kind": "json",
       "size_bytes": 719578,
-      "mtime": "2026-09-18T01:32:24.356Z",
+      "mtime": "2026-09-18T05:40:22.667Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -16872,7 +16872,7 @@
       "path": "hna/place-chas.json",
       "kind": "json",
       "size_bytes": 1630251,
-      "mtime": "2026-09-18T01:06:33.239Z",
+      "mtime": "2026-09-18T01:54:03.791Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -18588,8 +18588,8 @@
     {
       "path": "hna/ranking-index.json",
       "kind": "json",
-      "size_bytes": 2646108,
-      "mtime": "2026-09-18T01:29:54.197Z",
+      "size_bytes": 2811530,
+      "mtime": "2026-09-18T05:37:35.088Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18617,8 +18617,8 @@
     {
       "path": "hna/ranking-scenarios/balanced.json",
       "kind": "json",
-      "size_bytes": 49962,
-      "mtime": "2026-09-18T01:30:05.309Z",
+      "size_bytes": 49963,
+      "mtime": "2026-09-18T05:37:45.981Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18636,8 +18636,8 @@
     {
       "path": "hna/ranking-scenarios/commuter-pressure.json",
       "kind": "json",
-      "size_bytes": 49982,
-      "mtime": "2026-09-18T01:30:38.119Z",
+      "size_bytes": 49984,
+      "mtime": "2026-09-18T05:38:18.101Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18656,7 +18656,7 @@
       "path": "hna/ranking-scenarios/large-gap.json",
       "kind": "json",
       "size_bytes": 49974,
-      "mtime": "2026-09-18T01:30:27.210Z",
+      "mtime": "2026-09-18T05:38:07.315Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18674,8 +18674,8 @@
     {
       "path": "hna/ranking-scenarios/rate-sensitive.json",
       "kind": "json",
-      "size_bytes": 49982,
-      "mtime": "2026-09-18T01:30:16.266Z",
+      "size_bytes": 49983,
+      "mtime": "2026-09-18T05:37:56.644Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18693,8 +18693,8 @@
     {
       "path": "hna/ranking-scenarios/rural-lens.json",
       "kind": "json",
-      "size_bytes": 49985,
-      "mtime": "2026-09-18T01:30:49.022Z",
+      "size_bytes": 49986,
+      "mtime": "2026-09-18T05:38:28.888Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -29281,7 +29281,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 692,
-      "mtime": "2026-09-18T01:32:24.887Z",
+      "mtime": "2026-09-18T05:40:23.181Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -29338,7 +29338,7 @@
       "path": "jurisdiction-briefs/0803620.json",
       "kind": "json",
       "size_bytes": 27296,
-      "mtime": "2026-09-18T01:32:24.713Z",
+      "mtime": "2026-09-18T05:40:23.015Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29367,7 +29367,7 @@
       "path": "jurisdiction-briefs/08045.json",
       "kind": "json",
       "size_bytes": 29678,
-      "mtime": "2026-09-18T01:32:24.717Z",
+      "mtime": "2026-09-18T05:40:23.019Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29397,7 +29397,7 @@
       "path": "jurisdiction-briefs/08097.json",
       "kind": "json",
       "size_bytes": 28697,
-      "mtime": "2026-09-18T01:32:24.721Z",
+      "mtime": "2026-09-18T05:40:23.023Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29426,7 +29426,7 @@
       "path": "jurisdiction-briefs/0810105.json",
       "kind": "json",
       "size_bytes": 15773,
-      "mtime": "2026-09-18T01:32:24.725Z",
+      "mtime": "2026-09-18T05:40:23.028Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29455,7 +29455,7 @@
       "path": "jurisdiction-briefs/0812045.json",
       "kind": "json",
       "size_bytes": 27832,
-      "mtime": "2026-09-18T01:32:24.729Z",
+      "mtime": "2026-09-18T05:40:23.032Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29484,7 +29484,7 @@
       "path": "jurisdiction-briefs/0816000.json",
       "kind": "json",
       "size_bytes": 24857,
-      "mtime": "2026-09-18T01:32:24.733Z",
+      "mtime": "2026-09-18T05:40:23.036Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29513,7 +29513,7 @@
       "path": "jurisdiction-briefs/0817375.json",
       "kind": "json",
       "size_bytes": 23160,
-      "mtime": "2026-09-18T01:32:24.737Z",
+      "mtime": "2026-09-18T05:40:23.040Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29542,7 +29542,7 @@
       "path": "jurisdiction-briefs/0818310.json",
       "kind": "json",
       "size_bytes": 15802,
-      "mtime": "2026-09-18T01:32:24.741Z",
+      "mtime": "2026-09-18T05:40:23.044Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29571,7 +29571,7 @@
       "path": "jurisdiction-briefs/0820000.json",
       "kind": "json",
       "size_bytes": 30010,
-      "mtime": "2026-09-18T01:32:24.744Z",
+      "mtime": "2026-09-18T05:40:23.048Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29600,7 +29600,7 @@
       "path": "jurisdiction-briefs/0822035.json",
       "kind": "json",
       "size_bytes": 19051,
-      "mtime": "2026-09-18T01:32:24.748Z",
+      "mtime": "2026-09-18T05:40:23.051Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29630,7 +29630,7 @@
       "path": "jurisdiction-briefs/0827425.json",
       "kind": "json",
       "size_bytes": 29986,
-      "mtime": "2026-09-18T01:32:24.752Z",
+      "mtime": "2026-09-18T05:40:23.055Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29658,8 +29658,8 @@
     {
       "path": "jurisdiction-briefs/0828745.json",
       "kind": "json",
-      "size_bytes": 16067,
-      "mtime": "2026-09-18T01:32:24.756Z",
+      "size_bytes": 16066,
+      "mtime": "2026-09-18T05:40:23.059Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29688,7 +29688,7 @@
       "path": "jurisdiction-briefs/0830780.json",
       "kind": "json",
       "size_bytes": 29199,
-      "mtime": "2026-09-18T01:32:24.759Z",
+      "mtime": "2026-09-18T05:40:23.063Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29717,7 +29717,7 @@
       "path": "jurisdiction-briefs/0864255.json",
       "kind": "json",
       "size_bytes": 18977,
-      "mtime": "2026-09-18T01:32:24.763Z",
+      "mtime": "2026-09-18T05:40:23.067Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29745,7 +29745,7 @@
       "path": "jurisdiction-briefs/0867280.json",
       "kind": "json",
       "size_bytes": 25448,
-      "mtime": "2026-09-18T01:32:24.767Z",
+      "mtime": "2026-09-18T05:40:23.070Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29774,7 +29774,7 @@
       "path": "jurisdiction-briefs/0870195.json",
       "kind": "json",
       "size_bytes": 30703,
-      "mtime": "2026-09-18T01:32:24.771Z",
+      "mtime": "2026-09-18T05:40:23.074Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29803,7 +29803,7 @@
       "path": "jurisdiction-briefs/0873825.json",
       "kind": "json",
       "size_bytes": 15865,
-      "mtime": "2026-09-18T01:32:24.775Z",
+      "mtime": "2026-09-18T05:40:23.078Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -29831,8 +29831,8 @@
     {
       "path": "jurisdiction-briefs/0876795.json",
       "kind": "json",
-      "size_bytes": 15477,
-      "mtime": "2026-09-18T01:32:24.779Z",
+      "size_bytes": 15476,
+      "mtime": "2026-09-18T05:40:23.082Z",
       "shape": "object",
       "keys": [
         "geoid",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204853,
-      "mtime": "2026-09-17T21:49:27.514Z",
+      "mtime": "2026-09-18T05:37:17.075Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31761,7 +31761,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14391,
-      "mtime": "2026-09-18T01:32:25.922Z",
+      "mtime": "2026-09-18T05:40:24.211Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31784,7 +31784,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 5997,
-      "mtime": "2026-09-18T01:32:25.171Z",
+      "mtime": "2026-09-18T05:40:23.466Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",

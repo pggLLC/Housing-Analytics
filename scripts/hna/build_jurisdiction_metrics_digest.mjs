@@ -310,6 +310,36 @@ function sourceForMetric(metric, entry, summary) {
   if (metric.includes('score')) {
     return { source_id: 'hna-ranking-index-derived', geography_level: localLevel(entry), as_of: readJson(RANKING_PATH).metadata.generatedAt };
   }
+  // Workforce gap. Without this branch these fall through to the
+  // 'acs-profile' default below and get published as ACS 5-year figures,
+  // which they are not: the demand side is LODES workplace data. A metric
+  // built to stop a number meaning the wrong thing must not ship under the
+  // wrong source label.
+  if (metric === 'local_low_wage_jobs') {
+    const place = (m.workforce_gap_basis || '').startsWith('place');
+    return {
+      source_id: place ? 'lehd-lodes-wac-place' : 'lehd-lodes-wac-county',
+      geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
+      as_of: 'LEHD LODES WAC latest committed vintage',
+    };
+  }
+  if (metric === 'affordable_units_lte60') {
+    // Supply side: the same ACS-derived AMI gap file the resident gap uses.
+    const place = (m.workforce_gap_basis || '').startsWith('place');
+    return {
+      source_id: place ? 'ami-gap-place-acs' : 'ami-gap-county-acs',
+      geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
+      as_of: ACS_AS_OF,
+    };
+  }
+  if (metric === 'workforce_gap_units' || metric === 'workforce_gap_pct' || metric === 'workforce_gap_basis') {
+    const place = (m.workforce_gap_basis || '').startsWith('place');
+    return {
+      source_id: 'workforce-gap-lodes-wac-vs-ami-gap',
+      geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
+      as_of: 'LEHD LODES WAC vs ' + ACS_AS_OF,
+    };
+  }
   return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: ACS_AS_OF };
 }
 
