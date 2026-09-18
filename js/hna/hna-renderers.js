@@ -7592,9 +7592,16 @@
    * Replaces the v1 thresholded 45/30/25 blend (which had arbitrary
    * weights, no owner cost burden, and distorted resort markets) with
    * a transparent **percentile-normalised 4-component composite**.
-   * Each component contributes 0–25 points based on its statewide
-   * percentile rank, so the composite is 0–100 = "Colorado housing-need
-   * percentile":
+   * Each PRESENT component contributes its own percentile rank (0–100) and
+   * the composite is their mean, so an unmeasured component neither adds nor
+   * subtracts. It previously summed four `pct * 25 : 0` terms, which capped a
+   * three-component geography at 75 and made absence read as low need.
+   *
+   * The peer pool is the subject's own geography type: places are ranked
+   * against places, counties against counties. Components A, B and D come
+   * from the place's own CHAS when it has enough renter households to be
+   * stable; C (affordability pressure) is county-keyed with no place
+   * equivalent and stays the county's, disclosed in the card.
    *
    *   A. Tenure-Blended Cost Burden  (renter+owner CHAS cb30, weighted by HH counts)
    *   B. Deep Affordability Need     (≤30% AMI share of <100% renters)
@@ -7608,50 +7615,154 @@
   // Cached statewide distributions for percentile lookups. Built lazily on
   // first call and stamped with the CHAS file's generated timestamp so a
   // data refresh invalidates the cache automatically.
+  // Minimum renter households before a place's own CHAS shares are trusted.
+  // Matches _MIN_RATE_DENOMINATOR in build_ranking_index.py, for the same
+  // reason: 197 of the 482 places with place-level CHAS have fewer than 50
+  // renter households, and at that size a share of exactly 0.000 or 1.000 is
+  // noise, not a finding.
+  var SCORECARD_MIN_RENTER_HH = 50;
+
+  // One reader for both CHAS shapes, used for the subject AND for the peer
+  // pool. The two files name the same quantities differently, and the county
+  // file's `pct_` prefix is a misnomer -- both sides are fractions in 0..1
+  // (place medians 0.412 vs county 0.415, checked against the committed data).
+  // Reading them in two places would be two chances to get that wrong, and
+  // the bug this replaces was a like-for-unlike comparison.
+  function _scorecardComponents(rec, shape) {
+    if (!rec) return null;
+    const s = rec.summary || rec;
+    const byAmi = rec.renter_hh_by_ami || {};
+    const isPlace = shape === 'place';
+    const renterHH = Number(isPlace ? s.total_renter_hh : s.total_renter_hh) || 0;
+    const ownerHH  = Number(isPlace ? s.total_owner_hh  : s.total_owner_hh)  || 0;
+    const totalHH  = renterHH + ownerHH;
+    const cb30Renter = isPlace ? s.renter_cb30_share : s.pct_renter_cb30;
+    const cb30Owner  = isPlace ? s.owner_cb30_share  : s.pct_owner_cb30;
+    const cb50Renter = isPlace ? s.renter_cb50_share : s.pct_renter_cb50;
+
+    // A — tenure-blended cost burden
+    let blendedBurden = null;
+    if (totalHH > 0 && cb30Renter != null && cb30Owner != null) {
+      blendedBurden = (Number(cb30Renter) * renterHH + Number(cb30Owner) * ownerHH) / totalHH;
+    }
+    // B — deep-need share (lte30 of the <=100% AMI universe)
+    const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
+    const denomB = ['lte30', '31to50', '51to80', '81to100']
+      .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
+    const deepNeed = denomB > 0 ? lte30Tot / denomB : null;
+    // D — worst-case need (severely burdened renters)
+    const worstCase = (renterHH > 0 && cb50Renter != null) ? Number(cb50Renter) : null;
+
+    return {
+      blendedBurden, deepNeed, worstCase, renterHH,
+      cb30Renter: cb30Renter != null ? Number(cb30Renter) : null,
+      cb30Owner: cb30Owner != null ? Number(cb30Owner) : null,
+    };
+  }
+
+  // Cached statewide distributions for percentile lookups. Built lazily on
+  // first call and stamped with the CHAS file's generated timestamp so a
+  // data refresh invalidates the cache automatically.
+  /**
+   * The scoring policy as a pure function: which geography the score
+   * describes, which pool it is ranked in, and how the components combine.
+   *
+   * It lives here rather than inline in renderHnaScorecardPanel because a
+   * guard cannot call a renderer. The first version of
+   * test/need-severity-is-place-level.test.mjs reimplemented these three
+   * decisions in the test file, so reverting any of them in the renderer left
+   * the test green — a guard agreeing with its own copy of the logic rather
+   * than with the shipped one. Three sabotage mutations went undetected
+   * before this was extracted.
+   */
+  function _scorecardScore(subjectPlaceRec, countyRec, econRec, dist, isPlaceSubject) {
+    const placeParts = _scorecardComponents(subjectPlaceRec, 'place');
+    const usePlace = !!(isPlaceSubject && placeParts
+      && placeParts.renterHH >= SCORECARD_MIN_RENTER_HH);
+    const parts = usePlace ? placeParts : _scorecardComponents(countyRec, 'county');
+    const pool = usePlace ? dist.place : dist.county;
+
+    const affordPressure = (econRec && econRec.affordability_index != null)
+      ? Number(econRec.affordability_index) : null;
+
+    const pctA = _percentile(pool.blendedBurden,  parts && parts.blendedBurden);
+    const pctB = _percentile(pool.deepNeed,       parts && parts.deepNeed);
+    const pctC = _percentile(pool.affordPressure, affordPressure);
+    const pctD = _percentile(pool.worstCaseShare, parts && parts.worstCase);
+
+    // Each PRESENT component contributes its own percentile and the composite
+    // is their mean. The previous form summed `pct != null ? pct * 25 : 0`, so
+    // an unmeasured component silently subtracted up to 25 points and the
+    // result read as "low need" rather than "not measured".
+    const present = [pctA, pctB, pctC, pctD].filter((p) => p != null);
+    const composite = present.length >= 3
+      ? Math.round(present.reduce((a, p) => a + p, 0) / present.length * 100)
+      : null;
+
+    return {
+      composite, usePlace, parts, affordPressure, pool,
+      pctA, pctB, pctC, pctD,
+      present: present.length,
+      nMissing: 4 - present.length,
+    };
+  }
+
   var _scorecardDistCache = null;
-  function _buildScorecardDistributions(chasData, econData) {
+  function _buildScorecardDistributions(chasData, econData, placeChas) {
     const stamp =
       (chasData && chasData.meta && chasData.meta.generated) +
       '|' +
-      (econData && econData.updated);
+      (econData && econData.updated) +
+      '|' +
+      (placeChas && placeChas.meta && placeChas.meta.generated);
     if (_scorecardDistCache && _scorecardDistCache._stamp === stamp) {
       return _scorecardDistCache;
     }
-    const dist = { blendedBurden: [], deepNeed: [], affordPressure: [], worstCaseShare: [], _stamp: stamp };
+    // Two pools, because a place must be ranked against places. The previous
+    // version had ONE pool built from the 64 counties and ranked every
+    // subject against it. County figures are averages over their own places,
+    // so their spread is narrower than the places' -- ranking a place in it
+    // is not a like-for-like comparison. Same defect shape as #1731.
+    const empty = () => ({ blendedBurden: [], deepNeed: [], worstCaseShare: [], affordPressure: [] });
+    const dist = { county: empty(), place: empty(), _stamp: stamp };
     if (!chasData || !chasData.counties) { _scorecardDistCache = dist; return dist; }
 
-    Object.values(chasData.counties).forEach(rec => {
-      const s = rec.summary || {};
-      const byAmi = rec.renter_hh_by_ami || {};
-      const renterHH = Number(s.total_renter_hh) || 0;
-      const ownerHH  = Number(s.total_owner_hh)  || 0;
-      const totalHH  = renterHH + ownerHH;
-      // A — tenure-blended burden
-      if (totalHH > 0 && s.pct_renter_cb30 != null && s.pct_owner_cb30 != null) {
-        const blended = (Number(s.pct_renter_cb30) * renterHH + Number(s.pct_owner_cb30) * ownerHH) / totalHH;
-        dist.blendedBurden.push(blended);
-      }
-      // B — deep-need share (lte30 of ≤100% AMI universe, dropping 100plus)
-      const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
-      const denom = ['lte30','31to50','51to80','81to100']
-        .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
-      if (denom > 0) dist.deepNeed.push(lte30Tot / denom);
-      // D — worst-case need (HUD-aligned: severely-burdened renter share)
-      if (renterHH > 0 && s.pct_renter_cb50 != null) {
-        dist.worstCaseShare.push(Number(s.pct_renter_cb50));
-      }
-    });
-    // C — affordability pressure (keyed by county name in econData)
+    const push = (pool, c) => {
+      if (!c) return;
+      if (c.blendedBurden != null) pool.blendedBurden.push(c.blendedBurden);
+      if (c.deepNeed != null) pool.deepNeed.push(c.deepNeed);
+      if (c.worstCase != null) pool.worstCaseShare.push(c.worstCase);
+    };
+
+    Object.values(chasData.counties).forEach(rec => push(dist.county, _scorecardComponents(rec, 'county')));
+
+    // Places enter the pool on the same threshold the subject must clear, so
+    // a place is never ranked against rows that would themselves have been
+    // rejected as too thin to trust.
+    if (placeChas && placeChas.places) {
+      Object.values(placeChas.places).forEach(rec => {
+        const c = _scorecardComponents(rec, 'place');
+        if (c && c.renterHH >= SCORECARD_MIN_RENTER_HH) push(dist.place, c);
+      });
+    }
+
+    // C — affordability pressure is county-keyed and has no place equivalent,
+    // so both pools share it and a place's component C is its county's. That
+    // is disclosed in the rendered card rather than left for a reader to
+    // infer.
     if (econData && econData.counties) {
       Object.values(econData.counties).forEach(c => {
         if (c && c.affordability_index != null) {
-          dist.affordPressure.push(Number(c.affordability_index));
+          dist.county.affordPressure.push(Number(c.affordability_index));
+          dist.place.affordPressure.push(Number(c.affordability_index));
         }
       });
     }
-    // Sort each distribution for percentile lookup
-    ['blendedBurden','deepNeed','affordPressure','worstCaseShare'].forEach(k => {
-      dist[k].sort((a, b) => a - b);
+
+    ['county', 'place'].forEach(pool => {
+      ['blendedBurden', 'deepNeed', 'affordPressure', 'worstCaseShare'].forEach(k => {
+        dist[pool][k].sort((a, b) => a - b);
+      });
     });
     _scorecardDistCache = dist;
     return dist;
@@ -7670,18 +7781,27 @@
     return (below + 0.5 * equal) / sortedArr.length;
   }
 
-  function _scorecardCard(label, rawValueText, percentile, points, helperText) {
-    // Severity tied to the component's contribution (0..25). The same
-    // 4-band scheme used for the composite below.
-    let sev = '';
-    if (points >= 17.5) sev = 'var(--bad,#dc2626)';
-    else if (points >= 12.5) sev = 'var(--warn,#d97706)';
-    else if (points >= 7.5) sev = 'var(--accent,#1d4ed8)';
-    else sev = 'var(--good,#16a34a)';
+  function _scorecardCard(label, rawValueText, percentile, peerLabel, helperText) {
+    // Banded on the component's own percentile, using the SAME thresholds as
+    // the composite below. It used to band on a 0-25 "points" contribution,
+    // which stopped being meaningful when the composite became the mean of
+    // the present components rather than a sum of four fixed 25-point slots:
+    // with three components present each contributes up to 33, with four up
+    // to 25, so a fixed /25 label would have read differently for two
+    // geographies whose components were equally severe.
+    const p100 = percentile != null ? percentile * 100 : null;
+    let sev = 'var(--good,#16a34a)';
+    if (p100 != null) {
+      if (p100 >= 70) sev = 'var(--bad,#dc2626)';
+      else if (p100 >= 50) sev = 'var(--warn,#d97706)';
+      else if (p100 >= 30) sev = 'var(--accent,#1d4ed8)';
+    } else {
+      sev = 'var(--muted)';
+    }
 
-    const pctText = percentile != null
-      ? 'CO p' + Math.round(percentile * 100) + ' · ' + Math.round(points) + '/25 pts'
-      : 'No CO peer data';
+    const pctText = p100 != null
+      ? 'p' + Math.round(p100) + ' vs ' + peerLabel
+      : 'No peer data';
 
     return '<div style="padding:.65rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);">' +
       '<div style="font-size:1rem;color:var(--muted);font-weight:600">' + escHtml(label) + '</div>' +
@@ -7748,55 +7868,56 @@
     const isPlaceProxy = String(geoid).length !== 5;
     if (state) state._scorecard_source = isPlaceProxy ? 'county' : 'county_direct';
 
-    const dist = _buildScorecardDistributions(chasData, econData);
-    const s = countyRec.summary;
-    const byAmi = countyRec.renter_hh_by_ami || {};
+    const dist = _buildScorecardDistributions(chasData, econData, (state && state.combinedDatasets && state.combinedDatasets.placeChas) || null);
     const countyName = countyRec.name || '';
-
-    // ── Component A — Tenure-Blended Cost Burden ────────────────────
-    const renterHH = Number(s.total_renter_hh) || 0;
-    const ownerHH  = Number(s.total_owner_hh)  || 0;
-    const totalHH  = renterHH + ownerHH;
-    const renterCb30 = s.pct_renter_cb30 != null ? Number(s.pct_renter_cb30) : null;
-    const ownerCb30  = s.pct_owner_cb30  != null ? Number(s.pct_owner_cb30)  : null;
-    const blendedBurden = (totalHH > 0 && renterCb30 != null && ownerCb30 != null)
-      ? (renterCb30 * renterHH + ownerCb30 * ownerHH) / totalHH
+    // ── Subject resolution: the place itself, not its county ─────────
+    //
+    // This used to read every component off countyRec, so a place's "Need
+    // severity" WAS its county's, in full. Fruita showed Mesa County's 54 /
+    // "Elevated" -- Mesa ranks 32nd of 64 counties, the exact middle -- while
+    // Fruita itself ranks 73 of 546 statewide with 84% of its low-wage jobs
+    // unhoused. Every place in Mesa County showed the same 54, because the
+    // panel was not looking at them.
+    const placeChas = state && state.combinedDatasets && state.combinedDatasets.placeChas;
+    const placeKey = isPlaceProxy ? String(geoid).padStart(7, '0') : null;
+    const placeRec = (placeChas && placeChas.places && placeKey)
+      ? placeChas.places[placeKey] : null;
+    const econRec = (econData && econData.counties)
+      ? (econData.counties[countyName]
+         || econData.counties[countyName.replace(/\s+County$/i, '')]
+         || econData.counties[countyName + ' County'])
       : null;
 
-    // ── Component B — Deep Affordability Need ───────────────────────
-    const lte30Tot = (byAmi.lte30 && Number(byAmi.lte30.total)) || 0;
-    const denomB = ['lte30','31to50','51to80','81to100']
-      .reduce((sum, k) => sum + ((byAmi[k] && Number(byAmi[k].total)) || 0), 0);
-    const deepNeed = denomB > 0 ? lte30Tot / denomB : null;
+    // One call. Which geography the score describes, which pool it is ranked
+    // in, and how the components combine all live in _scorecardScore(), so a
+    // guard can exercise the same decisions this renderer makes instead of
+    // reimplementing them.
+    const scored = _scorecardScore(placeRec, countyRec, econRec, dist, isPlaceProxy);
+    const { usePlace, parts, affordPressure, pctA, pctB, pctC, pctD, nMissing } = scored;
 
-    // ── Component C — Affordability Pressure (resort-aware) ─────────
-    // co-county-economic-indicators.json is keyed by county NAME (no FIPS).
-    let affordPressure = null;
-    if (econData && econData.counties) {
-      const rec = econData.counties[countyName] ||
-                  econData.counties[countyName.replace(/\s+County$/i, '')] ||
-                  econData.counties[countyName + ' County'];
-      if (rec && rec.affordability_index != null) {
-        affordPressure = Number(rec.affordability_index);
-      }
+    const blendedBurden = parts ? parts.blendedBurden : null;
+    const deepNeed      = parts ? parts.deepNeed      : null;
+    const worstCase     = parts ? parts.worstCase     : null;
+    const scoreLevel    = usePlace ? 'place' : 'county';
+    if (state) state._scorecard_source = usePlace ? 'place' : (isPlaceProxy ? 'county' : 'county_direct');
+
+    // Named, not implied. The panel used to claim "vs. all 64 CO counties"
+    // for every subject, which was true of the pool and wrong about what was
+    // being ranked in it.
+    const peerLabel = usePlace
+      ? (dist.place.blendedBurden.length + ' CO places')
+      : (dist.county.blendedBurden.length + ' CO counties');
+    const countyPeerLabel = dist.county.affordPressure.length + ' CO counties';
+    const present = { length: scored.present };
+
+    // Below three components the mean is too thin to band. Say so instead of
+    // publishing a number backed by one or two inputs.
+    if (scored.composite == null) {
+      _scorecardUnavailable(container, 'Not scored',
+        `only ${scored.present} of 4 need components available`);
+      return;
     }
-
-    // ── Component D — Worst-Case Need (HUD-aligned) ─────────────────
-    const worstCase = s.pct_renter_cb50 != null ? Number(s.pct_renter_cb50) : null;
-
-    // ── Percentile ranks within Colorado ────────────────────────────
-    const pctA = _percentile(dist.blendedBurden,   blendedBurden);
-    const pctB = _percentile(dist.deepNeed,         deepNeed);
-    const pctC = _percentile(dist.affordPressure,  affordPressure);
-    const pctD = _percentile(dist.worstCaseShare,  worstCase);
-
-    // Each component contributes 0–25 points by percentile rank.
-    const scoreA = pctA != null ? pctA * 25 : 0;
-    const scoreB = pctB != null ? pctB * 25 : 0;
-    const scoreC = pctC != null ? pctC * 25 : 0;
-    const scoreD = pctD != null ? pctD * 25 : 0;
-    const composite = Math.round(scoreA + scoreB + scoreC + scoreD);
-    const nMissing = [pctA, pctB, pctC, pctD].filter(p => p == null).length;
+    const composite = scored.composite;
 
     // Composite severity bands (peer-normalised, percentile-style)
     let compSev, compLabel;
@@ -7821,12 +7942,26 @@
     // F254 (Codex Finding 14) — county-proxy provenance badge. Visible
     // whenever a place/CDP is selected since the scorecard pulls CHAS
     // and economic indicators at the county level for that geography.
-    const proxyBadgeHtml = isPlaceProxy
-      ? '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;line-height:1.5;color:var(--text)">' +
-          '<strong>County proxy:</strong> this scorecard uses ' + escHtml(countyName || 'the containing county') +
-          ' county-level CHAS and economic indicators because this panel is not yet available at place geography.' +
-        '</div>'
-      : '';
+    // Says which geography the numbers describe. It used to announce a
+    // county proxy for every place, which was accurate then and would be a
+    // falsehood now that components A, B and D are the place's own.
+    const proxyBadgeHtml = (() => {
+      const note = (html) => '<div role="note" style="margin:0 0 .55rem;padding:.45rem .6rem;border:1px solid var(--border);border-radius:6px;background:var(--bg2);font-size:1rem;line-height:1.5;color:var(--text)">' + html + '</div>';
+      if (usePlace) {
+        return note('<strong>Place-level:</strong> cost burden, deep-need share and worst-case need are ' +
+          escHtml(countyRec && placeRec && placeRec.name ? placeRec.name : 'this place') +
+          '\u2019s own CHAS. Affordability pressure is ' + escHtml(countyName || 'the containing county') +
+          ' county-level \u2014 that indicator is not published at place geography.');
+      }
+      if (isPlaceProxy) {
+        const why = placeParts
+          ? 'it has fewer than ' + SCORECARD_MIN_RENTER_HH + ' renter households, too few for its own shares to be stable'
+          : 'place-level CHAS is not available for it';
+        return note('<strong>County proxy:</strong> this scorecard uses ' + escHtml(countyName || 'the containing county') +
+          ' county-level CHAS and economic indicators because ' + why + '.');
+      }
+      return '';
+    })();
     container.innerHTML =
       '<h2 style="font-size:1.05rem;margin:0 0 .35rem">Housing Needs Scorecard <span style="font-weight:400;color:var(--muted);font-size:1rem">— v2 methodology</span></h2>' +
       proxyBadgeHtml +
@@ -7842,7 +7977,7 @@
           '<div style="font-size:1.9rem;font-weight:900;color:' + compSev + ';font-variant-numeric:tabular-nums;line-height:1">' + composite + '<span style="font-size:1rem;font-weight:700;color:var(--muted)">/100</span></div></div>' +
         '<div style="flex:1 1 auto"><div style="font-size:1rem;font-weight:700;color:' + compSev + '">' + compLabel + '</div>' +
           '<div style="font-size:1rem;color:var(--muted);margin-top:2px">' +
-            'Percentile rank across 4 components vs. all 64 CO counties' +
+            'Mean percentile across ' + present.length + ' of 4 components, vs ' + peerLabel +
             (nMissing > 0 ? ' · ' + nMissing + ' of 4 components unavailable for this geography' : '') +
           '</div></div>' +
       '</div>' +
@@ -7852,28 +7987,28 @@
         _scorecardCard(
           'A · Cost burden (blended)',
           pctStr(blendedBurden),
-          pctA, scoreA,
-          (renterCb30 != null ? 'Renter ' + pctStr(renterCb30) : '—') +
+          pctA, peerLabel,
+          (parts && parts.cb30Renter != null ? 'Renter ' + pctStr(parts.cb30Renter) : '—') +
           ' · ' +
-          (ownerCb30 != null ? 'Owner ' + pctStr(ownerCb30) : '—') +
+          (parts && parts.cb30Owner != null ? 'Owner ' + pctStr(parts.cb30Owner) : '—') +
           ' (weighted by HH counts)'
         ) +
         _scorecardCard(
           'B · Deep-need share',
           pctStr(deepNeed),
-          pctB, scoreB,
+          pctB, peerLabel,
           'Renters at ≤30% AMI as share of all ≤100% AMI renters'
         ) +
         _scorecardCard(
           'C · Affordability pressure',
           numStr(affordPressure) + 'x',
-          pctC, scoreC,
+          pctC, countyPeerLabel,
           'Median home price ÷ median household income · resort-aware'
         ) +
         _scorecardCard(
           'D · Worst-case need',
           pctStr(worstCase),
-          pctD, scoreD,
+          pctD, peerLabel,
           'Renters severely burdened (>50% income on housing) — HUD WCN signal'
         ) +
       '</div>' +
@@ -7897,7 +8032,7 @@
             '<li><strong>C · Affordability pressure.</strong> <code>median_home_price ÷ median_household_income</code>. Resort and high-cost markets (Pitkin 11.1x, Summit 8.6x) score high — appropriately — because they ARE expensive relative to local incomes. This is the lever percentile-normalisation pulls so resort distress surfaces without dwarfing urban distress. Source: <a href="https://data.census.gov/" target="_blank" rel="noopener" class="hna-source-link">ACS B19013 + B25077</a>.</li>' +
             '<li><strong>D · Worst-case need.</strong> Share of renters paying &gt;50% of income on housing — directly maps to <a href="https://www.huduser.gov/portal/publications/affhsg/wc_HsgNeeds25.html" target="_blank" rel="noopener" class="hna-source-link">HUD\'s Worst Case Housing Needs</a> framework. Source: HUD CHAS Table 7 (renter_cb50 share).</li>' +
           '</ul>' +
-          '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card color matches its 0–25 contribution.</p>' +
+          '<p style="margin:.4rem 0 .25rem"><strong>Severity bands:</strong> Highest need ≥70 · Elevated ≥50 · Moderate ≥30 · Lower &lt;30. Each card is banded on the same scale, using its own percentile.</p>' +
           '<p style="margin:.25rem 0;color:var(--muted);font-size:1rem"><strong>What this is NOT:</strong> a state-of-the-art econometric model. It\'s a transparent screening composite designed for early-stage LIHTC/HNA work. The four components are documented above; cross-check with primary HUD CHAS and Census ACS data before citing in formal needs assessments.</p>' +
         '</div>' +
       '</details>';
