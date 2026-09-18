@@ -124,10 +124,48 @@ test('the wrap audit counts line boxes, not box height', () => {
   // reported two lines while showing one: that version produced 1,091
   // "findings", of which the real count was 64.
   const wrap = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'text-wrap-audit.mjs'), 'utf8');
-  assert.ok(/selectNodeContents\(node\)/.test(wrap),
-    'line counting no longer uses the text range, so it is measuring the box again');
-  assert.ok(!/Math\.round\(\(r\.height - padY\) \/ lh\)/.test(wrap),
-    'the height-over-line-height estimate is back');
+
+  // Anchored on the METHOD, not on the variable it was called with.
+  //
+  // This used to require the literal `selectNodeContents(node)` and failed when
+  // the probe started measuring the element rather than one of its text nodes —
+  // a deliberate change, because an element can hold inline children whose
+  // lines a single text node does not see. The identifier was never the point;
+  // counting real line boxes instead of dividing a box height was.
+  assert.ok(/selectNodeContents\(/.test(wrap) && /getClientRects\(\)/.test(wrap),
+    'line counting no longer measures a Range\'s client rects, so it is back to '
+    + 'estimating from the box');
+  assert.ok(!/\.height\s*[-/]\s*(padY|lineHeight|lh)\b/.test(wrap),
+    'the height-over-line-height estimate is back: that version reported two lines '
+    + 'for any leaf with extra height and produced 1,091 findings, of which 64 were real');
+});
+
+test('the wrap audit looks at the pages people are on', () => {
+  // It reported zero for weeks while text wrapped in the site header on every
+  // page, and one reason was that its five-page list did not include the
+  // homepage — the page every visitor sees, and the one the wrap was reported
+  // on. A smoke check that skips the front door is not small, it is aimed
+  // wrong.
+  const wrap = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'text-wrap-audit.mjs'), 'utf8');
+  const list = /const PAGES = \[([\s\S]*?)\]/.exec(wrap);
+  assert.ok(list, 'the PAGES list has moved; this guard can no longer read it');
+  assert.ok(/^\s*'\/'\s*,/m.test(list[1]),
+    'the homepage is not in the wrap audit\'s page list');
+  const count = (list[1].match(/'\//g) || []).length;
+  assert.ok(count >= 8,
+    `only ${count} pages are audited; the guided path plus its entry points is more than that`);
+  assert.ok(/const WIDTHS = \[[^\]]*1024/.test(wrap),
+    'the audit no longer tests a mid width, which is where columns get tight');
+});
+
+test('available width is the content box, not the border box', () => {
+  // Measuring against the border box made a nav pill "fit in 125px" when 22px
+  // of that was padding and the text needed 123px. It does not fit, it wraps
+  // correctly, and it was reported as a defect on exactly that arithmetic.
+  const wrap = fs.readFileSync(path.join(ROOT, 'scripts', 'audit', 'text-wrap-audit.mjs'), 'utf8');
+  assert.ok(/paddingLeft/.test(wrap) && /paddingRight/.test(wrap),
+    'horizontal padding is no longer subtracted, so every padded element reports '
+    + 'more room than it has');
 });
 
 test('the advisory report stays out of the tracked data manifest', () => {
