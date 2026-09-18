@@ -24,9 +24,11 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 |---|---:|
 | acs-b25003 | 546 |
 | acs-b25075 | 1638 |
+| acs-grapi-and-hud-chas-blend | 546 |
 | acs-profile | 23474 |
 | acs-profile-dp02 | 1092 |
 | acs-profile-dp04 | 1100 |
+| acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
 | ami-gap-county-acs | 448 |
 | ami-gap-place-acs | 3374 |
@@ -35,8 +37,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | economic-housing-bridge | 4368 |
 | hna-affordable-ownership-need | 6552 |
 | hna-ranking-index-derived | 11466 |
-| hud-chas-county | 896 |
-| hud-chas-place-apportioned | 6748 |
+| hud-chas-county | 768 |
+| hud-chas-place-apportioned | 5784 |
 | hud-qct-dda | 1638 |
 | lehd-lodes-county | 738 |
 | lehd-lodes-county-earnings-bin-estimate | 546 |
