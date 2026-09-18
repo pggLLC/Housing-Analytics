@@ -197,7 +197,7 @@
       "heading": "Metric Digest",
       "paragraphs": [
         {
-          "text": "The metric digest ranks City of Fort Collins at #12 with an overall housing-need score of 83.3. It identifies 8,113 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 59.2% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
+          "text": "The metric digest ranks City of Fort Collins at #11 with an overall housing-need score of 83.5. It identifies 8,113 deeply affordable units missing at <=30% AMI. The deep-affordability gap rate is 66.7% of <=30% AMI households. 59.2% of renter households are cost burdened, and 0.9% of occupied households are overcrowded.",
           "cites": [
             "d1",
             "d2",
@@ -217,7 +217,7 @@
           ]
         },
         {
-          "text": "Demographics and demand: the population metric is 170,927. LEHD-based commuting signals show 48,393 in-commuters and a commute ratio of 58.9%. The digest's county-context projection shows 10,917 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
+          "text": "Demographics and demand: the population metric is 170,927. LEHD-based commuting signals show 48,393 in-commuters and a commute ratio of 58.9%. The digest's county-context projection shows 9,226 future units needed over 20 years, so that projection should be read as county context rather than a place trend.",
           "cites": [
             "d11",
             "d12",
@@ -492,7 +492,7 @@
     },
     {
       "id": "d1",
-      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-17T13:39:09Z)",
+      "label": "Ranking index rank - jurisdiction metrics digest (2026-09-18T01:29:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -501,7 +501,7 @@
     },
     {
       "id": "d2",
-      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-17T13:39:09Z)",
+      "label": "Overall housing-need score - jurisdiction metrics digest (2026-09-18T01:29:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -636,7 +636,7 @@
     },
     {
       "id": "d17",
-      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-17T13:39:09Z)",
+      "label": "Workforce housing pressure score - jurisdiction metrics digest (2026-09-18T01:29:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -645,7 +645,7 @@
     },
     {
       "id": "d18",
-      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-17T13:39:09Z)",
+      "label": "Ownership wage-affordability gap - jurisdiction metrics digest (2026-09-18T01:29:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
@@ -654,7 +654,7 @@
     },
     {
       "id": "d19",
-      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-17T13:39:09Z)",
+      "label": "Rent wage-affordability gap - jurisdiction metrics digest (2026-09-18T01:29:53Z)",
       "url": "data/hna/jurisdiction-metrics-digest/0827425.json",
       "kind": "data",
       "dataset": "jurisdiction-metrics-digest",
