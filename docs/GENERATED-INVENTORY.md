@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T01:15:59.844Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T05:36:58.462Z. Do not edit by hand.
 
 ---
 
@@ -1819,7 +1819,7 @@
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 5.6 KB |
-| `test/homepage-job-routing.test.js` | 3.9 KB |
+| `test/homepage-job-routing.test.js` | 5.8 KB |
 | `test/homepage-snapshot.test.js` | 4.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 11.8 KB |
