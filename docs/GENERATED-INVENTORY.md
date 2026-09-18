@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T13:21:47.237Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T13:39:50.072Z. Do not edit by hand.
 
 ---
 
@@ -82,7 +82,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 763.5 KB | ✅ | — |
+| `data/_manifest.json` | 763.6 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -971,7 +971,7 @@
 | `data/hna/projections/08123.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/08125.json` | 4.7 KB | ✅ | — |
 | `data/hna/projections/places.json` | 826.4 KB | ✅ | — |
-| `data/hna/ranking-index.json` | 2.68 MB | ✅ | — |
+| `data/hna/ranking-index.json` | 2.70 MB | ✅ | — |
 | `data/hna/ranking-scenarios/balanced.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/commuter-pressure.json` | 48.8 KB | ✅ | — |
 | `data/hna/ranking-scenarios/large-gap.json` | 48.8 KB | ✅ | — |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-362 test files found.
+363 test files found.
 
 | File | Size |
 |------|------|
@@ -1874,6 +1874,7 @@
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/paper-figures-fresh.test.js` | 20.3 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
+| `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
