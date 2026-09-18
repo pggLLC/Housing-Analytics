@@ -65,35 +65,32 @@ const WORKFORCE_PRESSURE = 70;
  * you to.
  */
 const KNOWN_FAILURES = {
-  // Updated 2026-09-17 after #1724 (absence in cost burden stops being a
-  // measured zero). That fix removed 115 fabricated 0% figures from the
-  // percentile pool, which moved these two WORSE without their own numbers
-  // changing at all: Keystone's cost burden is still 28.5%, but 28.5% no
-  // longer scores above 115 fake zeros, so its cost-burden pressure fell
-  // 43.8 -> 25.4 and its rank 278 -> 329.
+  // Updated 2026-09-17 after the workforce gap landed (#1732). Demand is now
+  // also read from the low-wage jobs a place HOSTS, and gap pressure is the
+  // max of the resident and workforce readings.
   //
-  // That is the pool getting honest, not a regression. It also makes the
-  // finding worse: Keystone now sits at 329 while carrying the highest
-  // workforce-housing pressure in the state.
+  // Snowmass Village came OFF this ledger: 1,624 local low-wage jobs against
+  // 406 affordable units gave it a workforce gap of 1,218 (75% of its
+  // low-wage jobs), its gap pressure went 10.1 -> 75.8 and its rank 363 ->
+  // 197. That is the defect this ledger was opened for, closed.
   //
-  // Nathrop came OFF this ledger in the same build. Its 0% was one of the
-  // fabricated ones; nulling it raised its cost-burden pressure 33.4 -> 39
-  // and its rank 282 -> 270, out of the bottom half. The test required its
-  // removal rather than letting a stale entry sit here.
-  // Both ranks moved WORSE in this build, and the cause is measured rather
-  // than guessed: the 20-year figure now comes from places.json, the same
-  // number the page shows. Snowmass's is -1 and Keystone's is small, so both
-  // lost future-pressure percentile against places with real growth. The
-  // projection is more accurate and these two rows got worse — recording that
-  // is the point of this ledger, not a reason to leave the figure wrong.
-  //
-  // The underlying defect is fixed separately by the workforce gap, which
-  // reads demand from local jobs instead of resident households and takes
-  // Snowmass to 197 and Keystone to 311.
-  '0840550': { name: 'Keystone (CDP)', rank: 339,
-    why: 'workforce pressure 90.4 — the highest in the state, above Aspen — with a gap score of 12.3' },
-  '0871755': { name: 'Snowmass Village (town)', rank: 363,
-    why: 'gap score 10.1 against a $2.5M median home value; 2,833 in-commuters into a town of 2,972' },
+  // The two CDPs below are NEW failures, and they are new for an honest
+  // reason rather than a regression: the workforce reading can only see a
+  // place that hosts a workforce. Cattle Creek has 59 local low-wage jobs and
+  // Nathrop has 41, against a state median of 215. Their need is residential,
+  // not employment-driven, so a job-based demand term has nothing to measure
+  // and they stay where they were. They were failing this rule before the
+  // change too; Snowmass and Keystone were simply worse, and the rule only
+  // reports the set.
+  '0840550': { name: 'Keystone (CDP)', rank: 311,
+    why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
+       + 'and rank 339 -> 311 — but still short of the top half' },
+  '0812470': { name: 'Cattle Creek (CDP)', rank: 307,
+    why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
+       + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
+  '0853010': { name: 'Nathrop (CDP)', rank: 317,
+    why: '23.9x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
+       + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };
 
 /** Ranks worse than this are the bottom half of the 546 ranked geographies. */
@@ -112,6 +109,7 @@ const places = fs.readdirSync(DIGEST_DIR).filter((f) => f.endsWith('.json'))
     need: value(d.metrics, 'overall_need_score'),
     rank: value(d.metrics, 'rank'),
     gap: value(d.metrics, 'gap_pressure_score'),
+    localLowWageJobs: value(d.metrics, 'local_low_wage_jobs'),
   }));
 
 function failing(priceThreshold = PRICE_TO_INCOME, workforceThreshold = WORKFORCE_PRESSURE) {
@@ -224,21 +222,42 @@ test('each ledger entry says what is wrong with it', () => {
 
 /* ── What the defect actually is, pinned so the fix is checkable ─────────── */
 
-test('the gap component is what sinks them', () => {
-  // The diagnosis, asserted rather than left in a comment: every expensive
-  // place that scores CORRECTLY has a high gap score, and all three failures
-  // have a low one. If a fix lands, this is the assertion that should change.
-  const expensive = places.filter((p) => (p.priceToIncome || 0) >= PRICE_TO_INCOME
-    && typeof p.gap === 'number');
-  const bad = expensive.filter((p) => KNOWN_FAILURES[p.geoid]);
-  const good = expensive.filter((p) => !KNOWN_FAILURES[p.geoid] && (p.rank || 999) <= BOTTOM_HALF);
-  assert.ok(bad.length >= 2 && good.length >= 4, 'not enough of either group to compare');
-  const worstGood = Math.min(...good.map((p) => p.gap));
-  const bestBad = Math.max(...bad.map((p) => p.gap));
-  assert.ok(bestBad < worstGood || bad.every((p) => p.gap < 45),
-    `the gap score no longer separates the credible rows from the incredible ones `
-    + `(failures up to ${bestBad}, correct rows down to ${worstGood}). The diagnosis in `
-    + 'this file is out of date — re-derive it before trusting the rest');
+test('what sinks the remaining failures is that they host no workforce', () => {
+  // Re-derived 2026-09-17. The old diagnosis was "the gap component sinks
+  // them", and it was right until the gap learned to read demand from jobs.
+  // It no longer holds: Keystone's gap pressure is 37.6 and Nathrop's is
+  // 46.9, both above rows that score correctly.
+  //
+  // The diagnosis now is about coverage, not weighting. A job-based demand
+  // term can only speak for a place that hosts jobs. Every remaining failure
+  // is an expensive place with almost no local employment, so the workforce
+  // reading has nothing to measure and the composite falls back to the
+  // resident gap — which is exactly the reading that cannot see them either.
+  //
+  // If this assertion starts failing, the remaining failures are no longer
+  // low-employment places and the fix needed is a different one.
+  const failing = Object.keys(KNOWN_FAILURES)
+    .map((g) => places.find((p) => p.geoid === g))
+    .filter(Boolean);
+  assert.ok(failing.length >= 2, 'not enough ledger rows resolved to compare');
+
+  const jobsOf = (p) => (typeof p.localLowWageJobs === 'number' ? p.localLowWageJobs : null);
+  const measured = failing.map(jobsOf).filter((v) => v !== null);
+  assert.ok(measured.length >= 2,
+    'the digests no longer carry local_low_wage_jobs — re-derive this diagnosis');
+
+  // Every expensive place that scores CORRECTLY hosts real employment.
+  const credible = places.filter((p) => (p.priceToIncome || 0) >= PRICE_TO_INCOME
+    && !KNOWN_FAILURES[p.geoid] && (p.rank || 999) <= BOTTOM_HALF
+    && typeof p.localLowWageJobs === 'number');
+  assert.ok(credible.length >= 4, 'not enough credible expensive rows to compare against');
+
+  const mostJobsAmongFailures = Math.max(...measured);
+  const medianCredibleJobs = [...credible.map(jobsOf)].sort((a, b) => a - b)[Math.floor(credible.length / 2)];
+  assert.ok(mostJobsAmongFailures < medianCredibleJobs,
+    `the remaining failures are no longer the low-employment places (busiest failure hosts `
+    + `${mostJobsAmongFailures} low-wage jobs, median credible row hosts ${medianCredibleJobs}). `
+    + 'The diagnosis in this file is out of date — re-derive it before trusting the rest');
 });
 
 console.log(failures === 0
