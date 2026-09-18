@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T13:39:50.072Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T14:28:25.261Z. Do not edit by hand.
 
 ---
 
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-363 test files found.
+364 test files found.
 
 | File | Size |
 |------|------|
@@ -1800,7 +1800,7 @@
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
-| `test/hna-phase2-stubs-wired.test.js` | 6.0 KB |
+| `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
 | `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
 | `test/hna-projection-integrity.test.js` | 17.5 KB |
 | `test/hna-prop123-relationship.test.js` | 6.7 KB |
@@ -1859,6 +1859,7 @@
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
 | `test/mobile-overflow-containment.test.js` | 4.4 KB |
 | `test/navigation-paths.test.js` | 555 B |
+| `test/need-severity-is-place-level.test.mjs` | 11.6 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/opportunity-finder-verifier-source.test.mjs` | 2.3 KB |
