@@ -271,7 +271,31 @@ function sourceForMetric(metric, entry, summary) {
       as_of: ACS_AS_OF,
     };
   }
-  if (metric.includes('burdened') || metric === 'cost_burden_pressure_score') {
+  // pct_cost_burdened is NOT CHAS, despite sitting in the family below. The
+  // builder chooses GRAPI deliberately -- build_ranking_index.py says so at
+  // the assignment: CHAS aggregation filters to <=100% AMI renters, which is
+  // a materially different number from "all renters" and is not what the UI
+  // label claims. The digest never got the memo and tagged it
+  // hud-chas-place-apportioned with an ACS as_of, so the label, the vintage
+  // and the value named three different things.
+  if (metric === 'pct_cost_burdened') {
+    return {
+      source_id: 'acs-profile-dp04-grapi',
+      geography_level: localLevel(entry),
+      as_of: ACS_AS_OF,
+    };
+  }
+  // The pressure score is a blend, so neither single label is true: 40% the
+  // GRAPI figure above, 30% CHAS severe, 30% CHAS deep-tier.
+  if (metric === 'cost_burden_pressure_score') {
+    const src = m._chas_source || 'county';
+    return {
+      source_id: 'acs-grapi-and-hud-chas-blend',
+      geography_level: contextLevel(entry, src),
+      as_of: ACS_AS_OF,
+    };
+  }
+  if (metric.includes('burdened')) {
     const src = m._chas_source || 'county';
     return {
       source_id: src === 'place' ? 'hud-chas-place-apportioned' : 'hud-chas-county',

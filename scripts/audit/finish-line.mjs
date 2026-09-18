@@ -161,9 +161,36 @@ export function measure({ runTests = false } = {}) {
         + 'it needs a gross-SF input (plan pass criterion 6)',
     'source scan');
 
-  add('O2', 'Open product work', UNMEASURED,
-    'Market Study V1 scoping (#1620) — page map, data availability, ranked defects, validation cases',
-    'issue #1620 open');
+  // O2 was hardcoded UNMEASURED with the evidence string 'issue #1620 open'.
+  // #1620 closed 2026-09-17, so the line kept asserting a fact that had
+  // stopped being true and no test could notice — the same defect #1720 fixed
+  // for G1, in the same file.
+  //
+  // Measured from the repo instead, on the same principle as O1: anchor on
+  // the artifacts §7 actually had to produce, plus their guards being wired
+  // into test:ci. A scoping item is done when the thing it scoped exists and
+  // cannot silently regress.
+  const o2Artifacts = [
+    ['recommendation.html', 'the step-7 recommendation page'],
+    ['js/workflow/recommendation-contract.js', 'the recommendation contract'],
+    ['js/market/sale-price-evidence.js', 'named sale-price evidence'],
+    ['js/project-market-study/study-geography.js', 'the study geography'],
+  ];
+  const o2Guards = ['test:entry-path', 'test:forsale-jurisdiction', 'test:recommendation', 'test:sale-price'];
+  const ciScript = (() => {
+    try { return JSON.parse(read('package.json')).scripts['test:ci'] || ''; } catch { return ''; }
+  })();
+  const missingArtifacts = o2Artifacts.filter(([f]) => read(f) === null).map(([, d]) => d);
+  const unwiredGuards = o2Guards.filter((g) => !ciScript.includes(g));
+  const o2Done = missingArtifacts.length === 0 && unwiredGuards.length === 0;
+  add('O2', 'Open product work', o2Done ? PASS : OPEN,
+    o2Done
+      ? `Market Study V1 scoping (#1620) shipped — ${o2Artifacts.length} artifacts present, `
+        + `${o2Guards.length} guards in test:ci`
+      : `Market Study V1 scoping (#1620) incomplete — `
+        + [missingArtifacts.length ? `missing: ${missingArtifacts.join(', ')}` : '',
+           unwiredGuards.length ? `not in test:ci: ${unwiredGuards.join(', ')}` : ''].filter(Boolean).join('; '),
+    'source scan + package.json');
 
   /* ── The definition itself ────────────────────────────────────────────── */
 
