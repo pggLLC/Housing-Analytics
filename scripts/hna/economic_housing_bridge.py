@@ -268,15 +268,36 @@ def compute_place_workforce_housing_layer(record: dict[str, Any]) -> dict[str, A
     }
 
 
-def _compute_layer_cli() -> None:
-    payload = json.load(sys.stdin)
+def _compute_layer_cli(in_path: str | None = None, out_path: str | None = None) -> None:
+    """Compute the workforce-housing layer.
+
+    Reads from *in_path* and writes to *out_path* when given; falls back to
+    stdin/stdout so the documented `< records.json` invocation still works.
+
+    The file path is the supported route, and #1717 is why. The caller sends
+    one record per ranked geography — 1.8 MB for 546 places — and reads about
+    420 KB back, through pipes whose buffer on macOS is 8 KB in each direction.
+    On 2026-09-16 that deadlocked: the Node parent blocked writing stdin while
+    this process blocked on json.load(sys.stdin), both at 0% CPU, and it sat
+    there for 38 minutes. Handing a path across means neither side is ever
+    waiting on the other to drain a buffer.
+    """
+    if in_path:
+        with open(in_path, "r", encoding="utf-8") as handle:
+            payload = json.load(handle)
+    else:
+        payload = json.load(sys.stdin)
     records = payload if isinstance(payload, list) else payload.get("records", [])
     result = {
         str(record.get("geoid")): compute_place_workforce_housing_layer(record)
         for record in records
         if record.get("geoid")
     }
-    json.dump(result, sys.stdout, sort_keys=True)
+    if out_path:
+        with open(out_path, "w", encoding="utf-8") as handle:
+            json.dump(result, handle, sort_keys=True)
+    else:
+        json.dump(result, sys.stdout, sort_keys=True)
 
 
 # ---------------------------------------------------------------------------
@@ -671,9 +692,26 @@ def compute_ownership_affordability(
     }
 
 
+def _flag_value(argv: list[str], flag: str) -> str | None:
+    if flag in argv:
+        index = argv.index(flag)
+        if index + 1 < len(argv):
+            return argv[index + 1]
+    return None
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "--compute-workforce-layer":
-        _compute_layer_cli()
+        _compute_layer_cli(
+            _flag_value(sys.argv, "--records"),
+            _flag_value(sys.argv, "--out"),
+        )
     else:
-        print("Usage: economic_housing_bridge.py --compute-workforce-layer < records.json", file=sys.stderr)
+        print(
+            "Usage: economic_housing_bridge.py --compute-workforce-layer "
+            "[--records in.json] [--out out.json]\n"
+            "       stdin/stdout are used when the paths are omitted, but large "
+            "payloads should use the files (see #1717).",
+            file=sys.stderr,
+        )
         sys.exit(2)

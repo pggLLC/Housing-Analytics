@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import vm from 'node:vm';
 
@@ -676,18 +677,56 @@ function buildEconomicRecords(ranking) {
   });
 }
 
+// Long enough that a slow machine finishes, short enough that a wedged pipe is
+// a failure someone reads rather than a run that never ends. Observed on
+// 2026-09-16: this call deadlocked with both processes idle at 0% CPU, and it
+// sat there for 38 minutes until it was killed by hand (#1717).
+const ECONOMIC_BRIDGE_TIMEOUT_MS = 5 * 60 * 1000;
+
 function buildEconomicLayer(ranking) {
-  const input = JSON.stringify(buildEconomicRecords(ranking));
-  const result = spawnSync('python3', [ECONOMIC_BRIDGE, '--compute-workforce-layer'], {
-    cwd: ROOT,
-    input,
-    encoding: 'utf8',
-    maxBuffer: 1024 * 1024 * 20,
-  });
-  if (result.status !== 0) {
-    throw new Error(result.stderr || result.stdout || 'economic_housing_bridge.py failed');
+  // Hand the payload across as files, not through pipes.
+  //
+  // This call used to write 1.8 MB to the child's stdin and read 420 KB back
+  // from its stdout, through buffers that are 8 KB each on macOS. On
+  // 2026-09-16 it deadlocked: parent and child both alive, both at 0% CPU,
+  // both waiting for the other to drain, for 38 minutes (#1717). Files remove
+  // the condition rather than surviving it — neither process ever blocks on
+  // the other's buffer.
+  //
+  // The timeout stays as a backstop. It is no longer the mechanism that ends
+  // a hang; it is what turns any FUTURE hang into a named failure instead of
+  // an indefinite wait.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'coho-econ-'));
+  const inPath = path.join(dir, 'records.json');
+  const outPath = path.join(dir, 'layer.json');
+  try {
+    fs.writeFileSync(inPath, JSON.stringify(buildEconomicRecords(ranking)));
+    const result = spawnSync('python3', [
+      ECONOMIC_BRIDGE, '--compute-workforce-layer', '--records', inPath, '--out', outPath,
+    ], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      timeout: ECONOMIC_BRIDGE_TIMEOUT_MS,
+      killSignal: 'SIGKILL',
+    });
+    if (result.error && result.error.code === 'ETIMEDOUT') {
+      throw new Error(
+        `economic_housing_bridge.py did not finish within ${ECONOMIC_BRIDGE_TIMEOUT_MS / 1000}s `
+        + 'and was killed. The pipe deadlock it used to hit is gone (#1717), so this is '
+        + 'something new — check the process tree before assuming it is the old fault.',
+      );
+    }
+    if (result.error) throw result.error;
+    if (result.status !== 0) {
+      throw new Error(result.stderr || result.stdout || 'economic_housing_bridge.py failed');
+    }
+    if (!fs.existsSync(outPath)) {
+      throw new Error('economic_housing_bridge.py exited 0 but wrote no output file');
+    }
+    return JSON.parse(fs.readFileSync(outPath, 'utf8') || '{}');
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
   }
-  return JSON.parse(result.stdout || '{}');
 }
 
 function digestMetric(metric, value, entry, summary, denom) {
@@ -904,9 +943,19 @@ function coverageMarkdown(digests, coverage) {
 }
 
 function main() {
+  /* ── Compute. Nothing in this half touches the working tree. ──────────────
+   *
+   * The destructive rmSync used to sit at the TOP of this function, ten lines
+   * above buildEconomicLayer(). So every one of the 546 tracked digests was
+   * deleted before the step that can hang, and any failure in between — a
+   * deadlock, a crash, an interrupt — left the repository with 546 files gone
+   * and nothing rebuilt. That is not a hypothetical: on 2026-09-16 the spawn
+   * deadlocked and the tree sat empty for 38 minutes (#1717).
+   *
+   * Ordering is the whole fix. Everything that can fail now happens before
+   * anything is removed, so a failure costs a rerun and not a recovery.
+   */
   const ranking = readJson(RANKING_PATH);
-  fs.rmSync(OUT_DIR, { recursive: true, force: true });
-  fs.mkdirSync(OUT_DIR, { recursive: true });
   const chasSources = {
     placeChas: loadOptionalJson(PLACE_CHAS_PATH)?.places || {},
     countyChas: loadOptionalJson(COUNTY_CHAS_PATH)?.counties || {},
@@ -917,6 +966,10 @@ function main() {
   };
   const economicLayer = buildEconomicLayer(ranking);
   const ownershipRecords = buildOwnershipRecords(ranking);
+  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords, chasSources, amiGapSources));
+  const coverageText = coverageMarkdown(digests, buildCoverage(digests));
+
+  /* ── Write. From here down, failures are disk failures. ───────────────── */
   writeJson(OWNERSHIP_OUT_PATH, {
     schema: 'hna-ownership-need/v1',
     generated_from: {
@@ -927,12 +980,12 @@ function main() {
     records: ownershipRecords,
   });
   refreshBriefTenureStrategy(ownershipRecords);
-  const digests = ranking.rankings.map((entry) => buildDigest(entry, ranking.metadata || {}, economicLayer, ownershipRecords, chasSources, amiGapSources));
+  fs.rmSync(OUT_DIR, { recursive: true, force: true });
+  fs.mkdirSync(OUT_DIR, { recursive: true });
   for (const digest of digests) {
     writeJson(path.join(OUT_DIR, `${digest.geography.geoid}.json`), digest);
   }
-  const coverage = buildCoverage(digests);
-  fs.writeFileSync(COVERAGE_PATH, coverageMarkdown(digests, coverage));
+  fs.writeFileSync(COVERAGE_PATH, coverageText);
   console.log(`[metric-digest] wrote ${path.relative(ROOT, OWNERSHIP_OUT_PATH)}`);
   console.log(`[metric-digest] wrote ${digests.length} files to ${path.relative(ROOT, OUT_DIR)}`);
   console.log(`[metric-digest] wrote ${path.relative(ROOT, COVERAGE_PATH)}`);
