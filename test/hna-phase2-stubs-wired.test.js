@@ -66,8 +66,20 @@ assert(scoreBody !== null, 'function exists');
 if (scoreBody) {
   assert(scoreBody.length > 300, 'body has substance (>300 chars)');
   assert(scoreBody.includes('hnaScorecardPanel'), 'targets #hnaScorecardPanel');
-  assert(scoreBody.includes('pct_renter_cb30'), 'reads CHAS cost-burden rate');
-  assert(/composite/i.test(scoreBody), 'builds a composite score');
+  // The panel used to read CHAS fields inline. It now delegates to
+  // _scorecardScore(), which was extracted so a guard could exercise the
+  // scoring policy instead of reimplementing it (see
+  // test/need-severity-is-place-level.test.mjs). Follow the delegation rather
+  // than asserting a field name that has legitimately moved — but still check
+  // the CHAS read exists SOMEWHERE, so deleting it cannot pass this test.
+  assert(scoreBody.includes('_scorecardScore('), 'delegates to the scoring policy');
+  const policyBody = extractFn(renderersSrc, '_scorecardScore');
+  assert(policyBody !== null, 'the scoring policy exists');
+  const componentsBody = extractFn(renderersSrc, '_scorecardComponents');
+  assert(componentsBody !== null, 'the CHAS component reader exists');
+  assert(componentsBody.includes('pct_renter_cb30'), 'reads CHAS cost-burden rate');
+  assert(componentsBody.includes('renter_cb30_share'), 'reads the place-level CHAS cost-burden rate');
+  assert(/composite/i.test(policyBody), 'builds a composite score');
 }
 
 console.log('\n[test] renderFastTrackCalculatorSection no longer a stub');
