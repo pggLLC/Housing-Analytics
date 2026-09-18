@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generatedAt": "2026-09-18T12:52:23Z",
+    "generatedAt": "2026-09-18T13:22:03Z",
     "version": "1.0",
     "totalCounties": 64,
     "totalPlaces": 272,
@@ -671,8 +671,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 98.9,
+      "percentileRank": 100,
       "medianComparison": 173.45,
+      "gapPercentile": 98.9,
       "rank": 1
     },
     {
@@ -826,8 +827,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 87.1,
+      "percentileRank": 99.8,
       "medianComparison": 7.96,
+      "gapPercentile": 87.1,
       "rank": 2
     },
     {
@@ -952,8 +954,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 98.1,
+      "percentileRank": 99.6,
       "medianComparison": 10.74,
+      "gapPercentile": 98.1,
       "rank": 3
     },
     {
@@ -1107,8 +1110,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 92.3,
+      "percentileRank": 99.4,
       "medianComparison": 21.55,
+      "gapPercentile": 92.3,
       "rank": 4
     },
     {
@@ -1266,8 +1270,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 82.3,
+      "percentileRank": 99.3,
       "medianComparison": 4.96,
+      "gapPercentile": 82.3,
       "rank": 5
     },
     {
@@ -1392,8 +1397,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 90,
+      "percentileRank": 99.1,
       "medianComparison": 3.02,
+      "gapPercentile": 90,
       "rank": 6
     },
     {
@@ -1547,8 +1553,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 91.5,
+      "percentileRank": 98.9,
       "medianComparison": 17.38,
+      "gapPercentile": 91.5,
       "rank": 7
     },
     {
@@ -1702,8 +1709,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 86,
+      "percentileRank": 98.7,
       "medianComparison": 7.02,
+      "gapPercentile": 86,
       "rank": 8
     },
     {
@@ -1857,8 +1865,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 88.9,
+      "percentileRank": 98.5,
       "medianComparison": 9.66,
+      "gapPercentile": 88.9,
       "rank": 9
     },
     {
@@ -1988,8 +1997,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 95.2,
+      "percentileRank": 98.3,
       "medianComparison": 277.96,
+      "gapPercentile": 95.2,
       "rank": 10
     },
     {
@@ -2147,8 +2157,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 66.4,
+      "percentileRank": 98.2,
       "medianComparison": 0.94,
+      "gapPercentile": 66.4,
       "rank": 11
     },
     {
@@ -2302,8 +2313,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 95.2,
+      "percentileRank": 98,
       "medianComparison": 36.17,
+      "gapPercentile": 95.2,
       "rank": 12
     },
     {
@@ -2457,8 +2469,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 91.9,
+      "percentileRank": 97.8,
       "medianComparison": 17.79,
+      "gapPercentile": 91.9,
       "rank": 13
     },
     {
@@ -2612,8 +2625,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 98.5,
+      "percentileRank": 97.6,
       "medianComparison": 153.08,
+      "gapPercentile": 98.5,
       "rank": 14
     },
     {
@@ -2738,8 +2752,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 90.9,
+      "percentileRank": 97.4,
       "medianComparison": 3.45,
+      "gapPercentile": 90.9,
       "rank": 15
     },
     {
@@ -2893,8 +2908,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 96.3,
+      "percentileRank": 97.2,
       "medianComparison": 61.83,
+      "gapPercentile": 96.3,
       "rank": 16
     },
     {
@@ -3048,8 +3064,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 73.1,
+      "percentileRank": 97.1,
       "medianComparison": 1.77,
+      "gapPercentile": 73.1,
       "rank": 17
     },
     {
@@ -3181,8 +3198,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 81,
+      "percentileRank": 96.9,
       "medianComparison": 30.74,
+      "gapPercentile": 81,
       "rank": 18
     },
     {
@@ -3336,8 +3354,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 98.2,
+      "percentileRank": 96.7,
       "medianComparison": 114.08,
+      "gapPercentile": 98.2,
       "rank": 19
     },
     {
@@ -3471,8 +3490,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 63.5,
+      "percentileRank": 96.5,
       "medianComparison": 8.7,
+      "gapPercentile": 63.5,
       "rank": 20
     },
     {
@@ -3602,8 +3622,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 98.4,
+      "percentileRank": 96.3,
       "medianComparison": 395.21,
+      "gapPercentile": 98.4,
       "rank": 21
     },
     {
@@ -3757,8 +3778,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 83.4,
+      "percentileRank": 96.1,
       "medianComparison": 5.68,
+      "gapPercentile": 83.4,
       "rank": 22
     },
     {
@@ -3884,8 +3906,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 82.8,
+      "percentileRank": 96,
       "medianComparison": 1.17,
+      "gapPercentile": 82.8,
       "rank": 23
     },
     {
@@ -4039,8 +4062,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 93,
+      "percentileRank": 95.8,
       "medianComparison": 24.7,
+      "gapPercentile": 93,
       "rank": 24
     },
     {
@@ -4170,8 +4194,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 93.7,
+      "percentileRank": 95.6,
       "medianComparison": 267.43,
+      "gapPercentile": 93.7,
       "rank": 25
     },
     {
@@ -4296,8 +4321,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 93.3,
+      "percentileRank": 95.4,
       "medianComparison": 5.51,
+      "gapPercentile": 93.3,
       "rank": 26
     },
     {
@@ -4451,8 +4477,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 99.3,
+      "percentileRank": 95.2,
       "medianComparison": 275.58,
+      "gapPercentile": 99.3,
       "rank": 27
     },
     {
@@ -4606,8 +4633,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 74.9,
+      "percentileRank": 95,
       "medianComparison": 2.34,
+      "gapPercentile": 74.9,
       "rank": 28
     },
     {
@@ -4761,8 +4789,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 96.7,
+      "percentileRank": 94.9,
       "medianComparison": 62.11,
+      "gapPercentile": 96.7,
       "rank": 29
     },
     {
@@ -4893,8 +4922,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 61.9,
+      "percentileRank": 94.7,
       "medianComparison": 8.53,
+      "gapPercentile": 61.9,
       "rank": 30
     },
     {
@@ -5019,8 +5049,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 96.7,
+      "percentileRank": 94.5,
       "medianComparison": 10,
+      "gapPercentile": 96.7,
       "rank": 31
     },
     {
@@ -5174,8 +5205,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 89.7,
+      "percentileRank": 94.3,
       "medianComparison": 13.19,
+      "gapPercentile": 89.7,
       "rank": 32
     },
     {
@@ -5300,8 +5332,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 100,
+      "percentileRank": 94.1,
       "medianComparison": 37.09,
+      "gapPercentile": 100,
       "rank": 33
     },
     {
@@ -5427,8 +5460,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 90.4,
+      "percentileRank": 93.9,
       "medianComparison": 3.06,
+      "gapPercentile": 90.4,
       "rank": 34
     },
     {
@@ -5558,8 +5592,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 90.5,
+      "percentileRank": 93.8,
       "medianComparison": 235.21,
+      "gapPercentile": 90.5,
       "rank": 35
     },
     {
@@ -5717,8 +5752,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 68.6,
+      "percentileRank": 93.6,
       "medianComparison": 1.17,
+      "gapPercentile": 68.6,
       "rank": 36
     },
     {
@@ -5871,8 +5907,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 79.3,
+      "percentileRank": 93.4,
       "medianComparison": 3.62,
+      "gapPercentile": 79.3,
       "rank": 37
     },
     {
@@ -6026,8 +6063,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 84.9,
+      "percentileRank": 93.2,
       "medianComparison": 6.81,
+      "gapPercentile": 84.9,
       "rank": 38
     },
     {
@@ -6152,8 +6190,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 93.8,
+      "percentileRank": 93,
       "medianComparison": 5.66,
+      "gapPercentile": 93.8,
       "rank": 39
     },
     {
@@ -6278,8 +6317,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 91.9,
+      "percentileRank": 92.8,
       "medianComparison": 4.55,
+      "gapPercentile": 91.9,
       "rank": 40
     },
     {
@@ -6433,8 +6473,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 83.8,
+      "percentileRank": 92.7,
       "medianComparison": 5.68,
+      "gapPercentile": 83.8,
       "rank": 41
     },
     {
@@ -6588,8 +6629,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 97.4,
+      "percentileRank": 92.5,
       "medianComparison": 67.6,
+      "gapPercentile": 97.4,
       "rank": 42
     },
     {
@@ -6743,8 +6785,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 91.1,
+      "percentileRank": 92.3,
       "medianComparison": 16.85,
+      "gapPercentile": 91.1,
       "rank": 43
     },
     {
@@ -6869,8 +6912,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 98.6,
+      "percentileRank": 92.1,
       "medianComparison": 13.83,
+      "gapPercentile": 98.6,
       "rank": 44
     },
     {
@@ -7024,8 +7068,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 99.6,
+      "percentileRank": 91.9,
       "medianComparison": 277.38,
+      "gapPercentile": 99.6,
       "rank": 45
     },
     {
@@ -7150,8 +7195,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 91.4,
+      "percentileRank": 91.7,
       "medianComparison": 4.13,
+      "gapPercentile": 91.4,
       "rank": 46
     },
     {
@@ -7281,8 +7327,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 92.1,
+      "percentileRank": 91.6,
       "medianComparison": 258.19,
+      "gapPercentile": 92.1,
       "rank": 47
     },
     {
@@ -7436,8 +7483,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 93.7,
+      "percentileRank": 91.4,
       "medianComparison": 24.91,
+      "gapPercentile": 93.7,
       "rank": 48
     },
     {
@@ -7591,8 +7639,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 92.6,
+      "percentileRank": 91.2,
       "medianComparison": 24.68,
+      "gapPercentile": 92.6,
       "rank": 49
     },
     {
@@ -7740,8 +7789,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 29.9,
+      "percentileRank": 91,
       "medianComparison": 0.08,
+      "gapPercentile": 29.9,
       "rank": 50
     },
     {
@@ -7866,8 +7916,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 96.2,
+      "percentileRank": 90.8,
       "medianComparison": 7.74,
+      "gapPercentile": 96.2,
       "rank": 51
     },
     {
@@ -8027,8 +8078,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 8.1,
+      "percentileRank": 90.6,
       "medianComparison": 0,
+      "gapPercentile": 8.1,
       "rank": 52
     },
     {
@@ -8153,8 +8205,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 97.1,
+      "percentileRank": 90.5,
       "medianComparison": 10.02,
+      "gapPercentile": 97.1,
       "rank": 53
     },
     {
@@ -8308,8 +8361,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 95.9,
+      "percentileRank": 90.3,
       "medianComparison": 53.94,
+      "gapPercentile": 95.9,
       "rank": 54
     },
     {
@@ -8434,8 +8488,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 99.5,
+      "percentileRank": 90.1,
       "medianComparison": 23.6,
+      "gapPercentile": 99.5,
       "rank": 55
     },
     {
@@ -8589,8 +8644,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 81.5,
+      "percentileRank": 89.9,
       "medianComparison": 4.06,
+      "gapPercentile": 81.5,
       "rank": 56
     },
     {
@@ -8744,8 +8800,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 94.5,
+      "percentileRank": 89.7,
       "medianComparison": 31.53,
+      "gapPercentile": 94.5,
       "rank": 57
     },
     {
@@ -8878,8 +8935,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 83.7,
+      "percentileRank": 89.5,
       "medianComparison": 1.36,
+      "gapPercentile": 83.7,
       "rank": 58
     },
     {
@@ -9004,8 +9062,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 95.7,
+      "percentileRank": 89.4,
       "medianComparison": 7.47,
+      "gapPercentile": 95.7,
       "rank": 59
     },
     {
@@ -9159,8 +9218,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 94.8,
+      "percentileRank": 89.2,
       "medianComparison": 35.62,
+      "gapPercentile": 94.8,
       "rank": 60
     },
     {
@@ -9314,8 +9374,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 45,
+      "percentileRank": 89,
       "medianComparison": 0.23,
+      "gapPercentile": 45,
       "rank": 61
     },
     {
@@ -9446,8 +9507,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 87.3,
+      "percentileRank": 88.8,
       "medianComparison": 105.4,
+      "gapPercentile": 87.3,
       "rank": 62
     },
     {
@@ -9596,8 +9658,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 90.8,
+      "percentileRank": 88.6,
       "medianComparison": 15.45,
+      "gapPercentile": 90.8,
       "rank": 63
     },
     {
@@ -9751,8 +9814,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 81.9,
+      "percentileRank": 88.4,
       "medianComparison": 4.15,
+      "gapPercentile": 81.9,
       "rank": 64
     },
     {
@@ -9906,8 +9970,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 97,
+      "percentileRank": 88.3,
       "medianComparison": 66.87,
+      "gapPercentile": 97,
       "rank": 65
     },
     {
@@ -10037,8 +10102,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 100,
+      "percentileRank": 88.1,
       "medianComparison": 548.13,
+      "gapPercentile": 100,
       "rank": 66
     },
     {
@@ -10171,8 +10237,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 68.9,
+      "percentileRank": 87.9,
       "medianComparison": 0.19,
+      "gapPercentile": 68.9,
       "rank": 67
     },
     {
@@ -10330,8 +10397,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 78.2,
+      "percentileRank": 87.7,
       "medianComparison": 3.45,
+      "gapPercentile": 78.2,
       "rank": 68
     },
     {
@@ -10485,8 +10553,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 93.4,
+      "percentileRank": 87.5,
       "medianComparison": 24.89,
+      "gapPercentile": 93.4,
       "rank": 69
     },
     {
@@ -10611,8 +10680,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 95.2,
+      "percentileRank": 87.3,
       "medianComparison": 7.3,
+      "gapPercentile": 95.2,
       "rank": 70
     },
     {
@@ -10766,8 +10836,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 90.4,
+      "percentileRank": 87.2,
       "medianComparison": 13.79,
+      "gapPercentile": 90.4,
       "rank": 71
     },
     {
@@ -10921,8 +10992,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 89.3,
+      "percentileRank": 87,
       "medianComparison": 11.43,
+      "gapPercentile": 89.3,
       "rank": 72
     },
     {
@@ -11076,8 +11148,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 73.8,
+      "percentileRank": 86.8,
       "medianComparison": 1.94,
+      "gapPercentile": 73.8,
       "rank": 73
     },
     {
@@ -11231,8 +11304,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 77.1,
+      "percentileRank": 86.6,
       "medianComparison": 3.32,
+      "gapPercentile": 77.1,
       "rank": 74
     },
     {
@@ -11362,8 +11436,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 82.5,
+      "percentileRank": 86.4,
       "medianComparison": 35.62,
+      "gapPercentile": 82.5,
       "rank": 75
     },
     {
@@ -11517,8 +11592,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 95.6,
+      "percentileRank": 86.2,
       "medianComparison": 46.87,
+      "gapPercentile": 95.6,
       "rank": 76
     },
     {
@@ -11673,8 +11749,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 73.4,
+      "percentileRank": 86.1,
       "medianComparison": 1.89,
+      "gapPercentile": 73.4,
       "rank": 77
     },
     {
@@ -11805,8 +11882,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 84.2,
+      "percentileRank": 85.9,
       "medianComparison": 1.36,
+      "gapPercentile": 84.2,
       "rank": 78
     },
     {
@@ -11931,8 +12009,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 94.3,
+      "percentileRank": 85.7,
       "medianComparison": 5.75,
+      "gapPercentile": 94.3,
       "rank": 79
     },
     {
@@ -12058,8 +12137,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 82.3,
+      "percentileRank": 85.5,
       "medianComparison": 1.15,
+      "gapPercentile": 82.3,
       "rank": 80
     },
     {
@@ -12213,8 +12293,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 79,
+      "percentileRank": 85.3,
       "medianComparison": 3.53,
+      "gapPercentile": 79,
       "rank": 81
     },
     {
@@ -12368,8 +12449,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 74.2,
+      "percentileRank": 85.1,
       "medianComparison": 2,
+      "gapPercentile": 74.2,
       "rank": 82
     },
     {
@@ -12499,8 +12581,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 96.8,
+      "percentileRank": 85,
       "medianComparison": 336.13,
+      "gapPercentile": 96.8,
       "rank": 83
     },
     {
@@ -12626,8 +12709,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 83.3,
+      "percentileRank": 84.8,
       "medianComparison": 1.36,
+      "gapPercentile": 83.3,
       "rank": 84
     },
     {
@@ -12761,8 +12845,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 78.9,
+      "percentileRank": 84.6,
       "medianComparison": 0.81,
+      "gapPercentile": 78.9,
       "rank": 85
     },
     {
@@ -12892,8 +12977,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 9.6,
+      "percentileRank": 84.4,
       "medianComparison": 0,
+      "gapPercentile": 9.6,
       "rank": 86
     },
     {
@@ -13047,8 +13133,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 87.8,
+      "percentileRank": 84.2,
       "medianComparison": 8,
+      "gapPercentile": 87.8,
       "rank": 87
     },
     {
@@ -13202,8 +13289,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 78.6,
+      "percentileRank": 84,
       "medianComparison": 3.47,
+      "gapPercentile": 78.6,
       "rank": 88
     },
     {
@@ -13358,8 +13446,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 75.6,
+      "percentileRank": 83.9,
       "medianComparison": 2.4,
+      "gapPercentile": 75.6,
       "rank": 89
     },
     {
@@ -13493,8 +13582,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 71.8,
+      "percentileRank": 83.7,
       "medianComparison": 0.4,
+      "gapPercentile": 71.8,
       "rank": 90
     },
     {
@@ -13628,8 +13718,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 53.6,
+      "percentileRank": 83.5,
       "medianComparison": 0,
+      "gapPercentile": 53.6,
       "rank": 91
     },
     {
@@ -13755,8 +13846,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 79.9,
+      "percentileRank": 83.3,
       "medianComparison": 0.91,
+      "gapPercentile": 79.9,
       "rank": 92
     },
     {
@@ -13910,8 +14002,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 88.6,
+      "percentileRank": 83.1,
       "medianComparison": 9.62,
+      "gapPercentile": 88.6,
       "rank": 93
     },
     {
@@ -14065,8 +14158,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 100,
+      "percentileRank": 82.9,
       "medianComparison": 548.13,
+      "gapPercentile": 100,
       "rank": 94
     },
     {
@@ -14194,8 +14288,9 @@
           "home_value_to_income"
         ]
       },
-      "percentileRank": 99,
+      "percentileRank": 82.8,
       "medianComparison": 13.85,
+      "gapPercentile": 99,
       "rank": 95
     },
     {
@@ -14320,8 +14415,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 92.8,
+      "percentileRank": 82.6,
       "medianComparison": 5.08,
+      "gapPercentile": 92.8,
       "rank": 96
     },
     {
@@ -14446,8 +14542,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 92.3,
+      "percentileRank": 82.4,
       "medianComparison": 4.83,
+      "gapPercentile": 92.3,
       "rank": 97
     },
     {
@@ -14577,8 +14674,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 88.9,
+      "percentileRank": 82.2,
       "medianComparison": 112.3,
+      "gapPercentile": 88.9,
       "rank": 98
     },
     {
@@ -14711,8 +14809,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 54.1,
+      "percentileRank": 82,
       "medianComparison": 0,
+      "gapPercentile": 54.1,
       "rank": 99
     },
     {
@@ -14842,8 +14941,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 79.4,
+      "percentileRank": 81.8,
       "medianComparison": 26.7,
+      "gapPercentile": 79.4,
       "rank": 100
     },
     {
@@ -14997,8 +15097,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 90,
+      "percentileRank": 81.7,
       "medianComparison": 13.47,
+      "gapPercentile": 90,
       "rank": 101
     },
     {
@@ -15127,8 +15228,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 75.1,
+      "percentileRank": 81.5,
       "medianComparison": 0.62,
+      "gapPercentile": 75.1,
       "rank": 102
     },
     {
@@ -15254,8 +15356,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 69.9,
+      "percentileRank": 81.3,
       "medianComparison": 0.23,
+      "gapPercentile": 69.9,
       "rank": 103
     },
     {
@@ -15387,8 +15490,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 58.4,
+      "percentileRank": 81.1,
       "medianComparison": 0,
+      "gapPercentile": 58.4,
       "rank": 104
     },
     {
@@ -15549,8 +15653,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 53.1,
+      "percentileRank": 80.9,
       "medianComparison": 0.4,
+      "gapPercentile": 53.1,
       "rank": 105
     },
     {
@@ -15683,8 +15788,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 32.1,
+      "percentileRank": 80.7,
       "medianComparison": 0,
+      "gapPercentile": 32.1,
       "rank": 106
     },
     {
@@ -15843,8 +15949,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 58.7,
+      "percentileRank": 80.6,
       "medianComparison": 0.58,
+      "gapPercentile": 58.7,
       "rank": 107
     },
     {
@@ -15998,8 +16105,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 68.3,
+      "percentileRank": 80.4,
       "medianComparison": 1.13,
+      "gapPercentile": 68.3,
       "rank": 108
     },
     {
@@ -16153,8 +16261,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 82.7,
+      "percentileRank": 80.2,
       "medianComparison": 5.3,
+      "gapPercentile": 82.7,
       "rank": 109
     },
     {
@@ -16285,8 +16394,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 70.3,
+      "percentileRank": 80,
       "medianComparison": 0.32,
+      "gapPercentile": 70.3,
       "rank": 110
     },
     {
@@ -16440,8 +16550,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 97.8,
+      "percentileRank": 79.8,
       "medianComparison": 74.32,
+      "gapPercentile": 97.8,
       "rank": 111
     },
     {
@@ -16599,8 +16710,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 63.8,
+      "percentileRank": 79.6,
       "medianComparison": 0.83,
+      "gapPercentile": 63.8,
       "rank": 112
     },
     {
@@ -16730,8 +16842,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 36.4,
+      "percentileRank": 79.4,
       "medianComparison": 0,
+      "gapPercentile": 36.4,
       "rank": 113
     },
     {
@@ -16889,8 +17002,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 83,
+      "percentileRank": 79.3,
       "medianComparison": 5.57,
+      "gapPercentile": 83,
       "rank": 114
     },
     {
@@ -17049,8 +17163,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 15.1,
+      "percentileRank": 79.1,
       "medianComparison": 0,
+      "gapPercentile": 15.1,
       "rank": 115
     },
     {
@@ -17209,8 +17324,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 3,
+      "percentileRank": 78.9,
       "medianComparison": 0,
+      "gapPercentile": 3,
       "rank": 116
     },
     {
@@ -17367,8 +17483,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 38.7,
+      "percentileRank": 78.7,
       "medianComparison": 0.17,
+      "gapPercentile": 38.7,
       "rank": 117
     },
     {
@@ -17497,8 +17614,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 77,
+      "percentileRank": 78.5,
       "medianComparison": 0.74,
+      "gapPercentile": 77,
       "rank": 118
     },
     {
@@ -17652,8 +17770,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 65.7,
+      "percentileRank": 78.3,
       "medianComparison": 0.92,
+      "gapPercentile": 65.7,
       "rank": 119
     },
     {
@@ -17778,8 +17897,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 97.6,
+      "percentileRank": 78.2,
       "medianComparison": 10.32,
+      "gapPercentile": 97.6,
       "rank": 120
     },
     {
@@ -17927,8 +18047,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 85.2,
+      "percentileRank": 78,
       "medianComparison": 6.91,
+      "gapPercentile": 85.2,
       "rank": 121
     },
     {
@@ -18062,8 +18183,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 53.1,
+      "percentileRank": 77.8,
       "medianComparison": 0,
+      "gapPercentile": 53.1,
       "rank": 122
     },
     {
@@ -18195,8 +18317,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 55.6,
+      "percentileRank": 77.6,
       "medianComparison": 6.08,
+      "gapPercentile": 55.6,
       "rank": 123
     },
     {
@@ -18325,8 +18448,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 89.5,
+      "percentileRank": 77.4,
       "medianComparison": 3.02,
+      "gapPercentile": 89.5,
       "rank": 124
     },
     {
@@ -18452,8 +18576,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 87.6,
+      "percentileRank": 77.2,
       "medianComparison": 2,
+      "gapPercentile": 87.6,
       "rank": 125
     },
     {
@@ -18607,8 +18732,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 43.5,
+      "percentileRank": 77.1,
       "medianComparison": 0.21,
+      "gapPercentile": 43.5,
       "rank": 126
     },
     {
@@ -18737,8 +18863,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 84.1,
+      "percentileRank": 76.9,
       "medianComparison": 58.62,
+      "gapPercentile": 84.1,
       "rank": 127
     },
     {
@@ -18870,8 +18997,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 61.7,
+      "percentileRank": 76.7,
       "medianComparison": 0,
+      "gapPercentile": 61.7,
       "rank": 128
     },
     {
@@ -19025,8 +19153,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 86.7,
+      "percentileRank": 76.5,
       "medianComparison": 7.19,
+      "gapPercentile": 86.7,
       "rank": 129
     },
     {
@@ -19180,8 +19309,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 94.1,
+      "percentileRank": 76.3,
       "medianComparison": 26.47,
+      "gapPercentile": 94.1,
       "rank": 130
     },
     {
@@ -19314,8 +19444,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 30.6,
+      "percentileRank": 76.1,
       "medianComparison": 0,
+      "gapPercentile": 30.6,
       "rank": 131
     },
     {
@@ -19459,8 +19590,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 69.7,
+      "percentileRank": 76,
       "medianComparison": 1.25,
+      "gapPercentile": 69.7,
       "rank": 132
     },
     {
@@ -19593,8 +19725,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 48.3,
+      "percentileRank": 75.8,
       "medianComparison": 0,
+      "gapPercentile": 48.3,
       "rank": 133
     },
     {
@@ -19723,8 +19856,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 50.8,
+      "percentileRank": 75.6,
       "medianComparison": 5.36,
+      "gapPercentile": 50.8,
       "rank": 134
     },
     {
@@ -19874,8 +20008,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 72,
+      "percentileRank": 75.4,
       "medianComparison": 1.45,
+      "gapPercentile": 72,
       "rank": 135
     },
     {
@@ -20007,8 +20142,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 25.4,
+      "percentileRank": 75.2,
       "medianComparison": 0,
+      "gapPercentile": 25.4,
       "rank": 136
     },
     {
@@ -20163,8 +20299,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 64.6,
+      "percentileRank": 75,
       "medianComparison": 0.83,
+      "gapPercentile": 64.6,
       "rank": 137
     },
     {
@@ -20325,8 +20462,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 50.6,
+      "percentileRank": 74.9,
       "medianComparison": 0.28,
+      "gapPercentile": 50.6,
       "rank": 138
     },
     {
@@ -20487,8 +20625,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 40.2,
+      "percentileRank": 74.7,
       "medianComparison": 0.17,
+      "gapPercentile": 40.2,
       "rank": 139
     },
     {
@@ -20618,8 +20757,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 68.3,
+      "percentileRank": 74.5,
       "medianComparison": 9.13,
+      "gapPercentile": 68.3,
       "rank": 140
     },
     {
@@ -20763,8 +20903,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 77.5,
+      "percentileRank": 74.3,
       "medianComparison": 3.32,
+      "gapPercentile": 77.5,
       "rank": 141
     },
     {
@@ -20919,8 +21060,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 5.5,
+      "percentileRank": 74.1,
       "medianComparison": 0,
+      "gapPercentile": 5.5,
       "rank": 142
     },
     {
@@ -21079,8 +21221,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 54.6,
+      "percentileRank": 73.9,
       "medianComparison": 0.43,
+      "gapPercentile": 54.6,
       "rank": 143
     },
     {
@@ -21234,8 +21377,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 84.1,
+      "percentileRank": 73.8,
       "medianComparison": 5.77,
+      "gapPercentile": 84.1,
       "rank": 144
     },
     {
@@ -21364,8 +21508,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 66,
+      "percentileRank": 73.6,
       "medianComparison": 0.15,
+      "gapPercentile": 66,
       "rank": 145
     },
     {
@@ -21516,8 +21661,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 14,
+      "percentileRank": 73.4,
       "medianComparison": 0,
+      "gapPercentile": 14,
       "rank": 146
     },
     {
@@ -21648,8 +21794,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 78.5,
+      "percentileRank": 73.2,
       "medianComparison": 0.75,
+      "gapPercentile": 78.5,
       "rank": 147
     },
     {
@@ -21777,8 +21924,9 @@
           "home_value_to_income"
         ]
       },
-      "percentileRank": 85.2,
+      "percentileRank": 73,
       "medianComparison": 1.38,
+      "gapPercentile": 85.2,
       "rank": 148
     },
     {
@@ -21936,8 +22084,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 46.5,
+      "percentileRank": 72.8,
       "medianComparison": 0.25,
+      "gapPercentile": 46.5,
       "rank": 149
     },
     {
@@ -22092,8 +22241,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 71.6,
+      "percentileRank": 72.7,
       "medianComparison": 1.42,
+      "gapPercentile": 71.6,
       "rank": 150
     },
     {
@@ -22247,8 +22397,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 77.9,
+      "percentileRank": 72.5,
       "medianComparison": 3.4,
+      "gapPercentile": 77.9,
       "rank": 151
     },
     {
@@ -22378,8 +22529,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 60.3,
+      "percentileRank": 72.3,
       "medianComparison": 7.57,
+      "gapPercentile": 60.3,
       "rank": 152
     },
     {
@@ -22510,8 +22662,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 65.1,
+      "percentileRank": 72.1,
       "medianComparison": 8.79,
+      "gapPercentile": 65.1,
       "rank": 153
     },
     {
@@ -22642,8 +22795,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 41.1,
+      "percentileRank": 71.9,
       "medianComparison": 0,
+      "gapPercentile": 41.1,
       "rank": 154
     },
     {
@@ -22774,8 +22928,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 25.4,
+      "percentileRank": 71.7,
       "medianComparison": 1.11,
+      "gapPercentile": 25.4,
       "rank": 155
     },
     {
@@ -22909,8 +23064,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 48.3,
+      "percentileRank": 71.6,
       "medianComparison": 0.26,
+      "gapPercentile": 48.3,
       "rank": 156
     },
     {
@@ -23071,8 +23227,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 2.2,
+      "percentileRank": 71.4,
       "medianComparison": 0,
+      "gapPercentile": 2.2,
       "rank": 157
     },
     {
@@ -23233,8 +23390,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 46.1,
+      "percentileRank": 71.2,
       "medianComparison": 0.25,
+      "gapPercentile": 46.1,
       "rank": 158
     },
     {
@@ -23395,8 +23553,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 43.9,
+      "percentileRank": 71,
       "medianComparison": 0.21,
+      "gapPercentile": 43.9,
       "rank": 159
     },
     {
@@ -23554,8 +23713,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 49.1,
+      "percentileRank": 70.8,
       "medianComparison": 0.26,
+      "gapPercentile": 49.1,
       "rank": 160
     },
     {
@@ -23687,8 +23847,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 63.6,
+      "percentileRank": 70.6,
       "medianComparison": 0.06,
+      "gapPercentile": 63.6,
       "rank": 161
     },
     {
@@ -23819,8 +23980,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 16.3,
+      "percentileRank": 70.5,
       "medianComparison": 0,
+      "gapPercentile": 16.3,
       "rank": 162
     },
     {
@@ -23954,8 +24116,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 44,
+      "percentileRank": 70.3,
       "medianComparison": 0,
+      "gapPercentile": 44,
       "rank": 163
     },
     {
@@ -24081,8 +24244,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 84.7,
+      "percentileRank": 70.1,
       "medianComparison": 1.36,
+      "gapPercentile": 84.7,
       "rank": 164
     },
     {
@@ -24207,8 +24371,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 86.6,
+      "percentileRank": 69.9,
       "medianComparison": 1.74,
+      "gapPercentile": 86.6,
       "rank": 165
     },
     {
@@ -24338,8 +24503,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 5.3,
+      "percentileRank": 69.7,
       "medianComparison": 0,
+      "gapPercentile": 5.3,
       "rank": 166
     },
     {
@@ -24469,8 +24635,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 85.7,
+      "percentileRank": 69.5,
       "medianComparison": 87.42,
+      "gapPercentile": 85.7,
       "rank": 167
     },
     {
@@ -24624,8 +24791,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 80.8,
+      "percentileRank": 69.4,
       "medianComparison": 4,
+      "gapPercentile": 80.8,
       "rank": 168
     },
     {
@@ -24779,8 +24947,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 71.2,
+      "percentileRank": 69.2,
       "medianComparison": 1.42,
+      "gapPercentile": 71.2,
       "rank": 169
     },
     {
@@ -24940,8 +25109,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 5.9,
+      "percentileRank": 69,
       "medianComparison": 0,
+      "gapPercentile": 5.9,
       "rank": 170
     },
     {
@@ -25099,8 +25269,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 70.1,
+      "percentileRank": 68.8,
       "medianComparison": 1.28,
+      "gapPercentile": 70.1,
       "rank": 171
     },
     {
@@ -25229,8 +25400,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 77.8,
+      "percentileRank": 68.6,
       "medianComparison": 15.49,
+      "gapPercentile": 77.8,
       "rank": 172
     },
     {
@@ -25360,8 +25532,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 74.6,
+      "percentileRank": 68.4,
       "medianComparison": 0.62,
+      "gapPercentile": 74.6,
       "rank": 173
     },
     {
@@ -25500,8 +25673,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 76,
+      "percentileRank": 68.3,
       "medianComparison": 3.04,
+      "gapPercentile": 76,
       "rank": 174
     },
     {
@@ -25660,8 +25834,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 6.6,
+      "percentileRank": 68.1,
       "medianComparison": 0,
+      "gapPercentile": 6.6,
       "rank": 175
     },
     {
@@ -25793,8 +25968,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 35.9,
+      "percentileRank": 67.9,
       "medianComparison": 0,
+      "gapPercentile": 35.9,
       "rank": 176
     },
     {
@@ -25924,8 +26100,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 1.4,
+      "percentileRank": 67.7,
       "medianComparison": 0,
+      "gapPercentile": 1.4,
       "rank": 177
     },
     {
@@ -26056,8 +26233,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 67.9,
+      "percentileRank": 67.5,
       "medianComparison": 0.19,
+      "gapPercentile": 67.9,
       "rank": 178
     },
     {
@@ -26190,8 +26368,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 61.2,
+      "percentileRank": 67.3,
       "medianComparison": 0,
+      "gapPercentile": 61.2,
       "rank": 179
     },
     {
@@ -26345,8 +26524,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 80.4,
+      "percentileRank": 67.2,
       "medianComparison": 3.89,
+      "gapPercentile": 80.4,
       "rank": 180
     },
     {
@@ -26507,8 +26687,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 63.5,
+      "percentileRank": 67,
       "medianComparison": 0.79,
+      "gapPercentile": 63.5,
       "rank": 181
     },
     {
@@ -26665,8 +26846,9 @@
           "opportunity_mobility_score"
         ]
       },
-      "percentileRank": 13.3,
+      "percentileRank": 66.8,
       "medianComparison": 0,
+      "gapPercentile": 13.3,
       "rank": 182
     },
     {
@@ -26816,8 +26998,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 72.7,
+      "percentileRank": 66.6,
       "medianComparison": 1.64,
+      "gapPercentile": 72.7,
       "rank": 183
     },
     {
@@ -26948,8 +27131,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 21.1,
+      "percentileRank": 66.4,
       "medianComparison": 0,
+      "gapPercentile": 21.1,
       "rank": 184
     },
     {
@@ -27080,8 +27264,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 2.9,
+      "percentileRank": 66.2,
       "medianComparison": 0,
+      "gapPercentile": 2.9,
       "rank": 185
     },
     {
@@ -27235,8 +27420,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 84.5,
+      "percentileRank": 66.1,
       "medianComparison": 6.53,
+      "gapPercentile": 84.5,
       "rank": 186
     },
     {
@@ -27362,8 +27548,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 88,
+      "percentileRank": 65.9,
       "medianComparison": 2.4,
+      "gapPercentile": 88,
       "rank": 187
     },
     {
@@ -27489,8 +27676,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 87.1,
+      "percentileRank": 65.7,
       "medianComparison": 1.94,
+      "gapPercentile": 87.1,
       "rank": 188
     },
     {
@@ -27639,8 +27827,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 50.9,
+      "percentileRank": 65.5,
       "medianComparison": 0.3,
+      "gapPercentile": 50.9,
       "rank": 189
     },
     {
@@ -27775,8 +27964,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 47.4,
+      "percentileRank": 65.3,
       "medianComparison": 0,
+      "gapPercentile": 47.4,
       "rank": 190
     },
     {
@@ -27906,8 +28096,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 69.4,
+      "percentileRank": 65.1,
       "medianComparison": 0.23,
+      "gapPercentile": 69.4,
       "rank": 191
     },
     {
@@ -28067,8 +28258,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 28.8,
+      "percentileRank": 65,
       "medianComparison": 0.08,
+      "gapPercentile": 28.8,
       "rank": 192
     },
     {
@@ -28193,8 +28385,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 79.4,
+      "percentileRank": 64.8,
       "medianComparison": 0.85,
+      "gapPercentile": 79.4,
       "rank": 193
     },
     {
@@ -28327,8 +28520,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 80.4,
+      "percentileRank": 64.6,
       "medianComparison": 0.92,
+      "gapPercentile": 80.4,
       "rank": 194
     },
     {
@@ -28460,8 +28654,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 31.1,
+      "percentileRank": 64.4,
       "medianComparison": 0,
+      "gapPercentile": 31.1,
       "rank": 195
     },
     {
@@ -28619,8 +28814,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 62,
+      "percentileRank": 64.2,
       "medianComparison": 0.74,
+      "gapPercentile": 62,
       "rank": 196
     },
     {
@@ -28778,8 +28974,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 18.5,
+      "percentileRank": 64,
       "medianComparison": 0,
+      "gapPercentile": 18.5,
       "rank": 197
     },
     {
@@ -28911,8 +29108,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 88.5,
+      "percentileRank": 63.9,
       "medianComparison": 2.49,
+      "gapPercentile": 88.5,
       "rank": 198
     },
     {
@@ -29043,8 +29241,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 23.9,
+      "percentileRank": 63.7,
       "medianComparison": 0,
+      "gapPercentile": 23.9,
       "rank": 199
     },
     {
@@ -29199,8 +29398,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 31.4,
+      "percentileRank": 63.5,
       "medianComparison": 0.11,
+      "gapPercentile": 31.4,
       "rank": 200
     },
     {
@@ -29332,8 +29532,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 42.1,
+      "percentileRank": 63.3,
       "medianComparison": 0,
+      "gapPercentile": 42.1,
       "rank": 201
     },
     {
@@ -29464,8 +29665,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 56.9,
+      "percentileRank": 63.1,
       "medianComparison": 0,
+      "gapPercentile": 56.9,
       "rank": 202
     },
     {
@@ -29623,8 +29825,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 65.3,
+      "percentileRank": 62.9,
       "medianComparison": 0.92,
+      "gapPercentile": 65.3,
       "rank": 203
     },
     {
@@ -29754,8 +29957,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 54.5,
+      "percentileRank": 62.8,
       "medianComparison": 0,
+      "gapPercentile": 54.5,
       "rank": 204
     },
     {
@@ -29886,8 +30090,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 55,
+      "percentileRank": 62.6,
       "medianComparison": 0,
+      "gapPercentile": 55,
       "rank": 205
     },
     {
@@ -30020,8 +30225,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 73.7,
+      "percentileRank": 62.4,
       "medianComparison": 0.57,
+      "gapPercentile": 73.7,
       "rank": 206
     },
     {
@@ -30153,8 +30359,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 77.5,
+      "percentileRank": 62.2,
       "medianComparison": 0.74,
+      "gapPercentile": 77.5,
       "rank": 207
     },
     {
@@ -30283,8 +30490,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 57.1,
+      "percentileRank": 62,
       "medianComparison": 6.34,
+      "gapPercentile": 57.1,
       "rank": 208
     },
     {
@@ -30416,8 +30624,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 60.3,
+      "percentileRank": 61.8,
       "medianComparison": 0,
+      "gapPercentile": 60.3,
       "rank": 209
     },
     {
@@ -30572,8 +30781,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 64.2,
+      "percentileRank": 61.7,
       "medianComparison": 0.83,
+      "gapPercentile": 64.2,
       "rank": 210
     },
     {
@@ -30707,8 +30917,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 47.6,
+      "percentileRank": 61.5,
       "medianComparison": 0.25,
+      "gapPercentile": 47.6,
       "rank": 211
     },
     {
@@ -30867,8 +31078,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 55.4,
+      "percentileRank": 61.3,
       "medianComparison": 0.45,
+      "gapPercentile": 55.4,
       "rank": 212
     },
     {
@@ -30993,8 +31205,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 85.6,
+      "percentileRank": 61.1,
       "medianComparison": 1.51,
+      "gapPercentile": 85.6,
       "rank": 213
     },
     {
@@ -31148,8 +31361,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 67.5,
+      "percentileRank": 60.9,
       "medianComparison": 1.09,
+      "gapPercentile": 67.5,
       "rank": 214
     },
     {
@@ -31303,8 +31517,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 88.2,
+      "percentileRank": 60.7,
       "medianComparison": 9.15,
+      "gapPercentile": 88.2,
       "rank": 215
     },
     {
@@ -31449,8 +31664,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 69,
+      "percentileRank": 60.6,
       "medianComparison": 1.21,
+      "gapPercentile": 69,
       "rank": 216
     },
     {
@@ -31594,8 +31810,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 86.3,
+      "percentileRank": 60.4,
       "medianComparison": 7.17,
+      "gapPercentile": 86.3,
       "rank": 217
     },
     {
@@ -31729,8 +31946,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 57.4,
+      "percentileRank": 60.2,
       "medianComparison": 0,
+      "gapPercentile": 57.4,
       "rank": 218
     },
     {
@@ -31859,8 +32077,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 76.2,
+      "percentileRank": 60,
       "medianComparison": 14.74,
+      "gapPercentile": 76.2,
       "rank": 219
     },
     {
@@ -31993,8 +32212,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 45.9,
+      "percentileRank": 59.8,
       "medianComparison": 0,
+      "gapPercentile": 45.9,
       "rank": 220
     },
     {
@@ -32143,8 +32363,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 69.4,
+      "percentileRank": 59.6,
       "medianComparison": 1.23,
+      "gapPercentile": 69.4,
       "rank": 221
     },
     {
@@ -32275,8 +32496,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 66.5,
+      "percentileRank": 59.4,
       "medianComparison": 0.17,
+      "gapPercentile": 66.5,
       "rank": 222
     },
     {
@@ -32402,8 +32624,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 89,
+      "percentileRank": 59.3,
       "medianComparison": 2.96,
+      "gapPercentile": 89,
       "rank": 223
     },
     {
@@ -32533,8 +32756,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 81.8,
+      "percentileRank": 59.1,
       "medianComparison": 1.04,
+      "gapPercentile": 81.8,
       "rank": 224
     },
     {
@@ -32693,8 +32917,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 12.5,
+      "percentileRank": 58.9,
       "medianComparison": 0,
+      "gapPercentile": 12.5,
       "rank": 225
     },
     {
@@ -32826,8 +33051,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 40.2,
+      "percentileRank": 58.7,
       "medianComparison": 0,
+      "gapPercentile": 40.2,
       "rank": 226
     },
     {
@@ -32981,8 +33207,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 60.9,
+      "percentileRank": 58.5,
       "medianComparison": 0.7,
+      "gapPercentile": 60.9,
       "rank": 227
     },
     {
@@ -33111,8 +33338,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 42.9,
+      "percentileRank": 58.3,
       "medianComparison": 2.75,
+      "gapPercentile": 42.9,
       "rank": 228
     },
     {
@@ -33243,8 +33471,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 64.6,
+      "percentileRank": 58.2,
       "medianComparison": 0.11,
+      "gapPercentile": 64.6,
       "rank": 229
     },
     {
@@ -33376,8 +33605,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 45.5,
+      "percentileRank": 58,
       "medianComparison": 0,
+      "gapPercentile": 45.5,
       "rank": 230
     },
     {
@@ -33532,8 +33762,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 59.4,
+      "percentileRank": 57.8,
       "medianComparison": 0.64,
+      "gapPercentile": 59.4,
       "rank": 231
     },
     {
@@ -33659,8 +33890,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 81.3,
+      "percentileRank": 57.6,
       "medianComparison": 1,
+      "gapPercentile": 81.3,
       "rank": 232
     },
     {
@@ -33785,8 +34017,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 94.7,
+      "percentileRank": 57.4,
       "medianComparison": 6.57,
+      "gapPercentile": 94.7,
       "rank": 233
     },
     {
@@ -33936,8 +34169,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 48.7,
+      "percentileRank": 57.2,
       "medianComparison": 0.26,
+      "gapPercentile": 48.7,
       "rank": 234
     },
     {
@@ -34092,8 +34326,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 67.2,
+      "percentileRank": 57.1,
       "medianComparison": 1.06,
+      "gapPercentile": 67.2,
       "rank": 235
     },
     {
@@ -34252,8 +34487,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 66.1,
+      "percentileRank": 56.9,
       "medianComparison": 0.94,
+      "gapPercentile": 66.1,
       "rank": 236
     },
     {
@@ -34414,8 +34650,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 22.1,
+      "percentileRank": 56.7,
       "medianComparison": 0.02,
+      "gapPercentile": 22.1,
       "rank": 237
     },
     {
@@ -34546,8 +34783,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 28.7,
+      "percentileRank": 56.5,
       "medianComparison": 0,
+      "gapPercentile": 28.7,
       "rank": 238
     },
     {
@@ -34678,8 +34916,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 72.7,
+      "percentileRank": 56.3,
       "medianComparison": 0.43,
+      "gapPercentile": 72.7,
       "rank": 239
     },
     {
@@ -34808,8 +35047,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 71.4,
+      "percentileRank": 56.1,
       "medianComparison": 9.55,
+      "gapPercentile": 71.4,
       "rank": 240
     },
     {
@@ -34944,8 +35184,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 31.6,
+      "percentileRank": 56,
       "medianComparison": 0,
+      "gapPercentile": 31.6,
       "rank": 241
     },
     {
@@ -35077,8 +35318,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 72.2,
+      "percentileRank": 55.8,
       "medianComparison": 0.42,
+      "gapPercentile": 72.2,
       "rank": 242
     },
     {
@@ -35212,8 +35454,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 13.4,
+      "percentileRank": 55.6,
       "medianComparison": 0,
+      "gapPercentile": 13.4,
       "rank": 243
     },
     {
@@ -35367,8 +35610,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 85.6,
+      "percentileRank": 55.4,
       "medianComparison": 7.02,
+      "gapPercentile": 85.6,
       "rank": 244
     },
     {
@@ -35498,8 +35742,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 66.7,
+      "percentileRank": 55.2,
       "medianComparison": 9.08,
+      "gapPercentile": 66.7,
       "rank": 245
     },
     {
@@ -35653,8 +35898,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 79.7,
+      "percentileRank": 55,
       "medianComparison": 3.62,
+      "gapPercentile": 79.7,
       "rank": 246
     },
     {
@@ -35812,8 +36058,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 57.2,
+      "percentileRank": 54.9,
       "medianComparison": 0.55,
+      "gapPercentile": 57.2,
       "rank": 247
     },
     {
@@ -35939,8 +36186,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 86.1,
+      "percentileRank": 54.7,
       "medianComparison": 1.7,
+      "gapPercentile": 86.1,
       "rank": 248
     },
     {
@@ -36071,8 +36319,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 75.6,
+      "percentileRank": 54.5,
       "medianComparison": 0.64,
+      "gapPercentile": 75.6,
       "rank": 249
     },
     {
@@ -36202,8 +36451,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 71.3,
+      "percentileRank": 54.3,
       "medianComparison": 0.34,
+      "gapPercentile": 71.3,
       "rank": 250
     },
     {
@@ -36333,8 +36583,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 70.8,
+      "percentileRank": 54.1,
       "medianComparison": 0.34,
+      "gapPercentile": 70.8,
       "rank": 251
     },
     {
@@ -36493,8 +36744,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 32.1,
+      "percentileRank": 53.9,
       "medianComparison": 0.11,
+      "gapPercentile": 32.1,
       "rank": 252
     },
     {
@@ -36625,8 +36877,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 52.6,
+      "percentileRank": 53.8,
       "medianComparison": 0,
+      "gapPercentile": 52.6,
       "rank": 253
     },
     {
@@ -36780,8 +37033,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 74.5,
+      "percentileRank": 53.6,
       "medianComparison": 2.19,
+      "gapPercentile": 74.5,
       "rank": 254
     },
     {
@@ -36908,8 +37162,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 22.2,
+      "percentileRank": 53.4,
       "medianComparison": 0.89,
+      "gapPercentile": 22.2,
       "rank": 255
     },
     {
@@ -37040,8 +37295,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 54,
+      "percentileRank": 53.2,
       "medianComparison": 5.85,
+      "gapPercentile": 54,
       "rank": 256
     },
     {
@@ -37196,8 +37452,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 53.9,
+      "percentileRank": 53,
       "medianComparison": 0.43,
+      "gapPercentile": 53.9,
       "rank": 257
     },
     {
@@ -37355,8 +37612,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 38,
+      "percentileRank": 52.8,
       "medianComparison": 0.17,
+      "gapPercentile": 38,
       "rank": 258
     },
     {
@@ -37487,8 +37745,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 59.3,
+      "percentileRank": 52.7,
       "medianComparison": 0,
+      "gapPercentile": 59.3,
       "rank": 259
     },
     {
@@ -37621,8 +37880,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 67,
+      "percentileRank": 52.5,
       "medianComparison": 0.17,
+      "gapPercentile": 67,
       "rank": 260
     },
     {
@@ -37781,8 +38041,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 13.7,
+      "percentileRank": 52.3,
       "medianComparison": 0,
+      "gapPercentile": 13.7,
       "rank": 261
     },
     {
@@ -37945,8 +38206,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 12.2,
+      "percentileRank": 52.1,
       "medianComparison": 0,
+      "gapPercentile": 12.2,
       "rank": 262
     },
     {
@@ -38096,8 +38358,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 42.4,
+      "percentileRank": 51.9,
       "medianComparison": 0.19,
+      "gapPercentile": 42.4,
       "rank": 263
     },
     {
@@ -38231,8 +38494,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 45,
+      "percentileRank": 51.7,
       "medianComparison": 0,
+      "gapPercentile": 45,
       "rank": 264
     },
     {
@@ -38380,8 +38644,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 54.2,
+      "percentileRank": 51.6,
       "medianComparison": 0.43,
+      "gapPercentile": 54.2,
       "rank": 265
     },
     {
@@ -38535,8 +38800,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 87.5,
+      "percentileRank": 51.4,
       "medianComparison": 7.98,
+      "gapPercentile": 87.5,
       "rank": 266
     },
     {
@@ -38665,8 +38931,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 58.7,
+      "percentileRank": 51.2,
       "medianComparison": 6.74,
+      "gapPercentile": 58.7,
       "rank": 267
     },
     {
@@ -38800,8 +39067,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 37.8,
+      "percentileRank": 51,
       "medianComparison": 0,
+      "gapPercentile": 37.8,
       "rank": 268
     },
     {
@@ -38933,8 +39201,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 41.6,
+      "percentileRank": 50.8,
       "medianComparison": 0,
+      "gapPercentile": 41.6,
       "rank": 269
     },
     {
@@ -39095,8 +39364,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 25.5,
+      "percentileRank": 50.6,
       "medianComparison": 0.04,
+      "gapPercentile": 25.5,
       "rank": 270
     },
     {
@@ -39245,8 +39515,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 55.7,
+      "percentileRank": 50.5,
       "medianComparison": 0.47,
+      "gapPercentile": 55.7,
       "rank": 271
     },
     {
@@ -39395,8 +39666,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 46.9,
+      "percentileRank": 50.3,
       "medianComparison": 0.25,
+      "gapPercentile": 46.9,
       "rank": 272
     },
     {
@@ -39527,8 +39799,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 46.4,
+      "percentileRank": 50.1,
       "medianComparison": 0,
+      "gapPercentile": 46.4,
       "rank": 273
     },
     {
@@ -39658,8 +39931,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 44.4,
+      "percentileRank": 49.9,
       "medianComparison": 3,
+      "gapPercentile": 44.4,
       "rank": 274
     },
     {
@@ -39821,8 +40095,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 24,
+      "percentileRank": 49.7,
       "medianComparison": 0.02,
+      "gapPercentile": 24,
       "rank": 275
     },
     {
@@ -39983,8 +40258,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 62.7,
+      "percentileRank": 49.5,
       "medianComparison": 0.77,
+      "gapPercentile": 62.7,
       "rank": 276
     },
     {
@@ -40143,8 +40419,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 60.5,
+      "percentileRank": 49.4,
       "medianComparison": 0.68,
+      "gapPercentile": 60.5,
       "rank": 277
     },
     {
@@ -40288,8 +40565,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 72.3,
+      "percentileRank": 49.2,
       "medianComparison": 1.57,
+      "gapPercentile": 72.3,
       "rank": 278
     },
     {
@@ -40448,8 +40726,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 32.5,
+      "percentileRank": 49,
       "medianComparison": 0.11,
+      "gapPercentile": 32.5,
       "rank": 279
     },
     {
@@ -40584,8 +40863,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 22.5,
+      "percentileRank": 48.8,
       "medianComparison": 0,
+      "gapPercentile": 22.5,
       "rank": 280
     },
     {
@@ -40718,8 +40998,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 39.7,
+      "percentileRank": 48.6,
       "medianComparison": 0,
+      "gapPercentile": 39.7,
       "rank": 281
     },
     {
@@ -40877,8 +41158,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 0.7,
+      "percentileRank": 48.4,
       "medianComparison": 0,
+      "gapPercentile": 0.7,
       "rank": 282
     },
     {
@@ -41013,8 +41295,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 48.8,
+      "percentileRank": 48.3,
       "medianComparison": 0,
+      "gapPercentile": 48.8,
       "rank": 283
     },
     {
@@ -41175,8 +41458,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 27.7,
+      "percentileRank": 48.1,
       "medianComparison": 0.08,
+      "gapPercentile": 27.7,
       "rank": 284
     },
     {
@@ -41335,8 +41619,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 30.3,
+      "percentileRank": 47.9,
       "medianComparison": 0.08,
+      "gapPercentile": 30.3,
       "rank": 285
     },
     {
@@ -41463,8 +41748,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 31.7,
+      "percentileRank": 47.7,
       "medianComparison": 1.77,
+      "gapPercentile": 31.7,
       "rank": 286
     },
     {
@@ -41595,8 +41881,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 52.2,
+      "percentileRank": 47.5,
       "medianComparison": 0,
+      "gapPercentile": 52.2,
       "rank": 287
     },
     {
@@ -41725,8 +42012,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 76.1,
+      "percentileRank": 47.3,
       "medianComparison": 0.72,
+      "gapPercentile": 76.1,
       "rank": 288
     },
     {
@@ -41885,8 +42173,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 60.1,
+      "percentileRank": 47.2,
       "medianComparison": 0.66,
+      "gapPercentile": 60.1,
       "rank": 289
     },
     {
@@ -42016,8 +42305,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 73,
+      "percentileRank": 47,
       "medianComparison": 10.04,
+      "gapPercentile": 73,
       "rank": 290
     },
     {
@@ -42176,8 +42466,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 35.1,
+      "percentileRank": 46.8,
       "medianComparison": 0.13,
+      "gapPercentile": 35.1,
       "rank": 291
     },
     {
@@ -42306,8 +42597,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 8.6,
+      "percentileRank": 46.6,
       "medianComparison": 0,
+      "gapPercentile": 8.6,
       "rank": 292
     },
     {
@@ -42439,8 +42731,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 25.8,
+      "percentileRank": 46.4,
       "medianComparison": 0,
+      "gapPercentile": 25.8,
       "rank": 293
     },
     {
@@ -42589,8 +42882,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 53.5,
+      "percentileRank": 46.2,
       "medianComparison": 0.42,
+      "gapPercentile": 53.5,
       "rank": 294
     },
     {
@@ -42720,8 +43014,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 64.9,
+      "percentileRank": 46.1,
       "medianComparison": 0.89,
+      "gapPercentile": 64.9,
       "rank": 295
     },
     {
@@ -42880,8 +43175,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 12.9,
+      "percentileRank": 45.9,
       "medianComparison": 0,
+      "gapPercentile": 12.9,
       "rank": 296
     },
     {
@@ -43040,8 +43336,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 25.8,
+      "percentileRank": 45.7,
       "medianComparison": 0.04,
+      "gapPercentile": 25.8,
       "rank": 297
     },
     {
@@ -43172,8 +43469,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 80.9,
+      "percentileRank": 45.5,
       "medianComparison": 0.96,
+      "gapPercentile": 80.9,
       "rank": 298
     },
     {
@@ -43332,8 +43630,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 43.2,
+      "percentileRank": 45.3,
       "medianComparison": 0.21,
+      "gapPercentile": 43.2,
       "rank": 299
     },
     {
@@ -43484,8 +43783,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 49.8,
+      "percentileRank": 45.1,
       "medianComparison": 0.26,
+      "gapPercentile": 49.8,
       "rank": 300
     },
     {
@@ -43644,8 +43944,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 20.7,
+      "percentileRank": 45,
       "medianComparison": 0,
+      "gapPercentile": 20.7,
       "rank": 301
     },
     {
@@ -43800,8 +44101,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 21.8,
+      "percentileRank": 44.8,
       "medianComparison": 0.02,
+      "gapPercentile": 21.8,
       "rank": 302
     },
     {
@@ -43961,8 +44263,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 52.4,
+      "percentileRank": 44.6,
       "medianComparison": 0.34,
+      "gapPercentile": 52.4,
       "rank": 303
     },
     {
@@ -44093,8 +44396,9 @@
           "home_value_to_income"
         ]
       },
-      "percentileRank": 39.2,
+      "percentileRank": 44.4,
       "medianComparison": 0,
+      "gapPercentile": 39.2,
       "rank": 304
     },
     {
@@ -44239,8 +44543,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 56.8,
+      "percentileRank": 44.2,
       "medianComparison": 0.53,
+      "gapPercentile": 56.8,
       "rank": 305
     },
     {
@@ -44371,8 +44676,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 32.5,
+      "percentileRank": 44,
       "medianComparison": 0,
+      "gapPercentile": 32.5,
       "rank": 306
     },
     {
@@ -44503,8 +44809,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 10.5,
+      "percentileRank": 43.9,
       "medianComparison": 0,
+      "gapPercentile": 10.5,
       "rank": 307
     },
     {
@@ -44663,8 +44970,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 18.1,
+      "percentileRank": 43.7,
       "medianComparison": 0,
+      "gapPercentile": 18.1,
       "rank": 308
     },
     {
@@ -44795,8 +45103,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 17.7,
+      "percentileRank": 43.5,
       "medianComparison": 0,
+      "gapPercentile": 17.7,
       "rank": 309
     },
     {
@@ -44925,8 +45234,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 69.8,
+      "percentileRank": 43.3,
       "medianComparison": 9.38,
+      "gapPercentile": 69.8,
       "rank": 310
     },
     {
@@ -45055,8 +45365,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 27.8,
+      "percentileRank": 43.1,
       "medianComparison": 0,
+      "gapPercentile": 27.8,
       "rank": 311
     },
     {
@@ -45215,8 +45526,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 52.8,
+      "percentileRank": 42.9,
       "medianComparison": 0.36,
+      "gapPercentile": 52.8,
       "rank": 312
     },
     {
@@ -45374,8 +45686,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 44.3,
+      "percentileRank": 42.8,
       "medianComparison": 0.21,
+      "gapPercentile": 44.3,
       "rank": 313
     },
     {
@@ -45509,8 +45822,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 6.7,
+      "percentileRank": 42.6,
       "medianComparison": 0,
+      "gapPercentile": 6.7,
       "rank": 314
     },
     {
@@ -45659,8 +45973,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 57.9,
+      "percentileRank": 42.4,
       "medianComparison": 0.58,
+      "gapPercentile": 57.9,
       "rank": 315
     },
     {
@@ -45792,8 +46107,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 12,
+      "percentileRank": 42.2,
       "medianComparison": 0,
+      "gapPercentile": 12,
       "rank": 316
     },
     {
@@ -45924,8 +46240,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 38.8,
+      "percentileRank": 42,
       "medianComparison": 0,
+      "gapPercentile": 38.8,
       "rank": 317
     },
     {
@@ -46070,8 +46387,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 63.1,
+      "percentileRank": 41.8,
       "medianComparison": 0.79,
+      "gapPercentile": 63.1,
       "rank": 318
     },
     {
@@ -46206,8 +46524,9 @@
           "home_value_to_income"
         ]
       },
-      "percentileRank": 36.2,
+      "percentileRank": 41.7,
       "medianComparison": 0.15,
+      "gapPercentile": 36.2,
       "rank": 319
     },
     {
@@ -46339,8 +46658,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 51.7,
+      "percentileRank": 41.5,
       "medianComparison": 0,
+      "gapPercentile": 51.7,
       "rank": 320
     },
     {
@@ -46489,8 +46809,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 35.4,
+      "percentileRank": 41.3,
       "medianComparison": 0.13,
+      "gapPercentile": 35.4,
       "rank": 321
     },
     {
@@ -46621,8 +46942,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 11.1,
+      "percentileRank": 41.1,
       "medianComparison": 0.42,
+      "gapPercentile": 11.1,
       "rank": 322
     },
     {
@@ -46754,8 +47076,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 65.6,
+      "percentileRank": 40.9,
       "medianComparison": 0.15,
+      "gapPercentile": 65.6,
       "rank": 323
     },
     {
@@ -46910,8 +47233,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 61.3,
+      "percentileRank": 40.7,
       "medianComparison": 0.74,
+      "gapPercentile": 61.3,
       "rank": 324
     },
     {
@@ -47042,8 +47366,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 15.9,
+      "percentileRank": 40.6,
       "medianComparison": 0.62,
+      "gapPercentile": 15.9,
       "rank": 325
     },
     {
@@ -47177,8 +47502,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 49.2,
+      "percentileRank": 40.4,
       "medianComparison": 3.77,
+      "gapPercentile": 49.2,
       "rank": 326
     },
     {
@@ -47337,8 +47663,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 47.2,
+      "percentileRank": 40.2,
       "medianComparison": 0.25,
+      "gapPercentile": 47.2,
       "rank": 327
     },
     {
@@ -47471,8 +47798,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 39.9,
+      "percentileRank": 40,
       "medianComparison": 0.17,
+      "gapPercentile": 39.9,
       "rank": 328
     },
     {
@@ -47621,8 +47949,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 62.4,
+      "percentileRank": 39.8,
       "medianComparison": 0.74,
+      "gapPercentile": 62.4,
       "rank": 329
     },
     {
@@ -47766,8 +48095,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 67.9,
+      "percentileRank": 39.6,
       "medianComparison": 1.09,
+      "gapPercentile": 67.9,
       "rank": 330
     },
     {
@@ -47897,8 +48227,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 14.8,
+      "percentileRank": 39.4,
       "medianComparison": 0,
+      "gapPercentile": 14.8,
       "rank": 331
     },
     {
@@ -48029,8 +48360,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 67.5,
+      "percentileRank": 39.3,
       "medianComparison": 0.17,
+      "gapPercentile": 67.5,
       "rank": 332
     },
     {
@@ -48161,8 +48493,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 68.4,
+      "percentileRank": 39.1,
       "medianComparison": 0.19,
+      "gapPercentile": 68.4,
       "rank": 333
     },
     {
@@ -48321,8 +48654,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 61.6,
+      "percentileRank": 38.9,
       "medianComparison": 0.74,
+      "gapPercentile": 61.6,
       "rank": 334
     },
     {
@@ -48458,8 +48792,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 20.6,
+      "percentileRank": 38.7,
       "medianComparison": 0.7,
+      "gapPercentile": 20.6,
       "rank": 335
     },
     {
@@ -48593,8 +48928,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 11.5,
+      "percentileRank": 38.5,
       "medianComparison": 0,
+      "gapPercentile": 11.5,
       "rank": 336
     },
     {
@@ -48748,8 +49084,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 81.2,
+      "percentileRank": 38.3,
       "medianComparison": 4,
+      "gapPercentile": 81.2,
       "rank": 337
     },
     {
@@ -48908,8 +49245,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 49.4,
+      "percentileRank": 38.2,
       "medianComparison": 0.26,
+      "gapPercentile": 49.4,
       "rank": 338
     },
     {
@@ -49067,8 +49405,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 1.1,
+      "percentileRank": 38,
       "medianComparison": 0,
+      "gapPercentile": 1.1,
       "rank": 339
     },
     {
@@ -49229,8 +49568,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 45.8,
+      "percentileRank": 37.8,
       "medianComparison": 0.23,
+      "gapPercentile": 45.8,
       "rank": 340
     },
     {
@@ -49375,8 +49715,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 44.6,
+      "percentileRank": 37.6,
       "medianComparison": 0.21,
+      "gapPercentile": 44.6,
       "rank": 341
     },
     {
@@ -49535,8 +49876,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 28,
+      "percentileRank": 37.4,
       "medianComparison": 0.08,
+      "gapPercentile": 28,
       "rank": 342
     },
     {
@@ -49668,8 +50010,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 73.2,
+      "percentileRank": 37.2,
       "medianComparison": 0.43,
+      "gapPercentile": 73.2,
       "rank": 343
     },
     {
@@ -49823,8 +50166,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 80.1,
+      "percentileRank": 37.1,
       "medianComparison": 3.83,
+      "gapPercentile": 80.1,
       "rank": 344
     },
     {
@@ -49973,8 +50317,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 42.8,
+      "percentileRank": 36.9,
       "medianComparison": 0.21,
+      "gapPercentile": 42.8,
       "rank": 345
     },
     {
@@ -50106,8 +50451,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 57.9,
+      "percentileRank": 36.7,
       "medianComparison": 0,
+      "gapPercentile": 57.9,
       "rank": 346
     },
     {
@@ -50234,8 +50580,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 34.9,
+      "percentileRank": 36.5,
       "medianComparison": 1.83,
+      "gapPercentile": 34.9,
       "rank": 347
     },
     {
@@ -50396,8 +50743,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 38.4,
+      "percentileRank": 36.3,
       "medianComparison": 0.17,
+      "gapPercentile": 38.4,
       "rank": 348
     },
     {
@@ -50555,8 +50903,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 8.9,
+      "percentileRank": 36.1,
       "medianComparison": 0,
+      "gapPercentile": 8.9,
       "rank": 349
     },
     {
@@ -50715,8 +51064,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 59.8,
+      "percentileRank": 36,
       "medianComparison": 0.66,
+      "gapPercentile": 59.8,
       "rank": 350
     },
     {
@@ -50846,8 +51196,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 74.6,
+      "percentileRank": 35.8,
       "medianComparison": 10.75,
+      "gapPercentile": 74.6,
       "rank": 351
     },
     {
@@ -50979,8 +51330,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 74.2,
+      "percentileRank": 35.6,
       "medianComparison": 0.57,
+      "gapPercentile": 74.2,
       "rank": 352
     },
     {
@@ -51141,8 +51493,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 25.1,
+      "percentileRank": 35.4,
       "medianComparison": 0.04,
+      "gapPercentile": 25.1,
       "rank": 353
     },
     {
@@ -51301,8 +51654,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 10,
+      "percentileRank": 35.2,
       "medianComparison": 0,
+      "gapPercentile": 10,
       "rank": 354
     },
     {
@@ -51463,8 +51817,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 39.5,
+      "percentileRank": 35,
       "medianComparison": 0.17,
+      "gapPercentile": 39.5,
       "rank": 355
     },
     {
@@ -51594,8 +51949,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 66.8,
+      "percentileRank": 34.9,
       "medianComparison": 1,
+      "gapPercentile": 66.8,
       "rank": 356
     },
     {
@@ -51722,8 +52078,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 30.2,
+      "percentileRank": 34.7,
       "medianComparison": 1.42,
+      "gapPercentile": 30.2,
       "rank": 357
     },
     {
@@ -51853,8 +52210,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 9.6,
+      "percentileRank": 34.5,
       "medianComparison": 0,
+      "gapPercentile": 9.6,
       "rank": 358
     },
     {
@@ -51984,8 +52342,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 16.2,
+      "percentileRank": 34.3,
       "medianComparison": 0,
+      "gapPercentile": 16.2,
       "rank": 359
     },
     {
@@ -52116,8 +52475,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 59.8,
+      "percentileRank": 34.1,
       "medianComparison": 0,
+      "gapPercentile": 59.8,
       "rank": 360
     },
     {
@@ -52248,8 +52608,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 38.3,
+      "percentileRank": 33.9,
       "medianComparison": 0,
+      "gapPercentile": 38.3,
       "rank": 361
     },
     {
@@ -52394,8 +52755,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 70.5,
+      "percentileRank": 33.8,
       "medianComparison": 1.28,
+      "gapPercentile": 70.5,
       "rank": 362
     },
     {
@@ -52545,8 +52907,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 24.7,
+      "percentileRank": 33.6,
       "medianComparison": 0.04,
+      "gapPercentile": 24.7,
       "rank": 363
     },
     {
@@ -52696,8 +53059,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 50.2,
+      "percentileRank": 33.4,
       "medianComparison": 0.26,
+      "gapPercentile": 50.2,
       "rank": 364
     },
     {
@@ -52828,8 +53192,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 4.8,
+      "percentileRank": 33.2,
       "medianComparison": 0,
+      "gapPercentile": 4.8,
       "rank": 365
     },
     {
@@ -52973,8 +53338,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 76.4,
+      "percentileRank": 33,
       "medianComparison": 3.06,
+      "gapPercentile": 76.4,
       "rank": 366
     },
     {
@@ -53107,8 +53473,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 4.3,
+      "percentileRank": 32.8,
       "medianComparison": 0,
+      "gapPercentile": 4.3,
       "rank": 367
     },
     {
@@ -53242,8 +53609,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 41.3,
+      "percentileRank": 32.7,
       "medianComparison": 0.19,
+      "gapPercentile": 41.3,
       "rank": 368
     },
     {
@@ -53404,8 +53772,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 32.8,
+      "percentileRank": 32.5,
       "medianComparison": 0.11,
+      "gapPercentile": 32.8,
       "rank": 369
     },
     {
@@ -53536,8 +53905,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 65.1,
+      "percentileRank": 32.3,
       "medianComparison": 0.13,
+      "gapPercentile": 65.1,
       "rank": 370
     },
     {
@@ -53688,8 +54058,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 35.8,
+      "percentileRank": 32.1,
       "medianComparison": 0.15,
+      "gapPercentile": 35.8,
       "rank": 371
     },
     {
@@ -53815,8 +54186,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 78,
+      "percentileRank": 31.9,
       "medianComparison": 0.75,
+      "gapPercentile": 78,
       "rank": 372
     },
     {
@@ -53945,8 +54317,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 46,
+      "percentileRank": 31.7,
       "medianComparison": 3,
+      "gapPercentile": 46,
       "rank": 373
     },
     {
@@ -54078,8 +54451,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 60.8,
+      "percentileRank": 31.6,
       "medianComparison": 0,
+      "gapPercentile": 60.8,
       "rank": 374
     },
     {
@@ -54206,8 +54580,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 23.8,
+      "percentileRank": 31.4,
       "medianComparison": 0.98,
+      "gapPercentile": 23.8,
       "rank": 375
     },
     {
@@ -54351,8 +54726,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 11.4,
+      "percentileRank": 31.2,
       "medianComparison": 0,
+      "gapPercentile": 11.4,
       "rank": 376
     },
     {
@@ -54483,8 +54859,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 26.8,
+      "percentileRank": 31,
       "medianComparison": 0,
+      "gapPercentile": 26.8,
       "rank": 377
     },
     {
@@ -54635,8 +55012,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 19.6,
+      "percentileRank": 30.8,
       "medianComparison": 0,
+      "gapPercentile": 19.6,
       "rank": 378
     },
     {
@@ -54761,8 +55139,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 76.6,
+      "percentileRank": 30.6,
       "medianComparison": 0.74,
+      "gapPercentile": 76.6,
       "rank": 379
     },
     {
@@ -54896,8 +55275,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 34,
+      "percentileRank": 30.5,
       "medianComparison": 0,
+      "gapPercentile": 34,
       "rank": 380
     },
     {
@@ -55057,8 +55437,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 22.5,
+      "percentileRank": 30.3,
       "medianComparison": 0.02,
+      "gapPercentile": 22.5,
       "rank": 381
     },
     {
@@ -55189,8 +55570,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 46.9,
+      "percentileRank": 30.1,
       "medianComparison": 0,
+      "gapPercentile": 46.9,
       "rank": 382
     },
     {
@@ -55340,8 +55722,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 40.6,
+      "percentileRank": 29.9,
       "medianComparison": 0.17,
+      "gapPercentile": 40.6,
       "rank": 383
     },
     {
@@ -55475,8 +55858,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 30.1,
+      "percentileRank": 29.7,
       "medianComparison": 0,
+      "gapPercentile": 30.1,
       "rank": 384
     },
     {
@@ -55602,8 +55986,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 62.7,
+      "percentileRank": 29.5,
       "medianComparison": 0.02,
+      "gapPercentile": 62.7,
       "rank": 385
     },
     {
@@ -55730,8 +56115,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 28.6,
+      "percentileRank": 29.4,
       "medianComparison": 1.4,
+      "gapPercentile": 28.6,
       "rank": 386
     },
     {
@@ -55875,8 +56261,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 24.4,
+      "percentileRank": 29.2,
       "medianComparison": 0.04,
+      "gapPercentile": 24.4,
       "rank": 387
     },
     {
@@ -56035,8 +56422,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 39.1,
+      "percentileRank": 29,
       "medianComparison": 0.17,
+      "gapPercentile": 39.1,
       "rank": 388
     },
     {
@@ -56167,8 +56555,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 34.4,
+      "percentileRank": 28.8,
       "medianComparison": 0,
+      "gapPercentile": 34.4,
       "rank": 389
     },
     {
@@ -56302,8 +56691,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 29.2,
+      "percentileRank": 28.6,
       "medianComparison": 0.08,
+      "gapPercentile": 29.2,
       "rank": 390
     },
     {
@@ -56437,8 +56827,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 58.9,
+      "percentileRank": 28.4,
       "medianComparison": 0,
+      "gapPercentile": 58.9,
       "rank": 391
     },
     {
@@ -56571,8 +56962,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 20.1,
+      "percentileRank": 28.3,
       "medianComparison": 0,
+      "gapPercentile": 20.1,
       "rank": 392
     },
     {
@@ -56702,8 +57094,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 34.3,
+      "percentileRank": 28.1,
       "medianComparison": 0.13,
+      "gapPercentile": 34.3,
       "rank": 393
     },
     {
@@ -56833,8 +57226,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 56.1,
+      "percentileRank": 27.9,
       "medianComparison": 0.49,
+      "gapPercentile": 56.1,
       "rank": 394
     },
     {
@@ -56968,8 +57362,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 23,
+      "percentileRank": 27.7,
       "medianComparison": 0,
+      "gapPercentile": 23,
       "rank": 395
     },
     {
@@ -57128,8 +57523,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 42.1,
+      "percentileRank": 27.5,
       "medianComparison": 0.19,
+      "gapPercentile": 42.1,
       "rank": 396
     },
     {
@@ -57261,8 +57657,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 39.7,
+      "percentileRank": 27.3,
       "medianComparison": 2.64,
+      "gapPercentile": 39.7,
       "rank": 397
     },
     {
@@ -57421,8 +57818,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 31,
+      "percentileRank": 27.2,
       "medianComparison": 0.09,
+      "gapPercentile": 31,
       "rank": 398
     },
     {
@@ -57571,8 +57969,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 22.9,
+      "percentileRank": 27,
       "medianComparison": 0.02,
+      "gapPercentile": 22.9,
       "rank": 399
     },
     {
@@ -57716,8 +58115,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 26.6,
+      "percentileRank": 26.8,
       "medianComparison": 0.06,
+      "gapPercentile": 26.6,
       "rank": 400
     },
     {
@@ -57868,8 +58268,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 37.6,
+      "percentileRank": 26.6,
       "medianComparison": 0.15,
+      "gapPercentile": 37.6,
       "rank": 401
     },
     {
@@ -58003,8 +58404,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 33.3,
+      "percentileRank": 26.4,
       "medianComparison": 1.83,
+      "gapPercentile": 33.3,
       "rank": 402
     },
     {
@@ -58140,8 +58542,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 51.7,
+      "percentileRank": 26.2,
       "medianComparison": 0.32,
+      "gapPercentile": 51.7,
       "rank": 403
     },
     {
@@ -58291,8 +58694,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 70.8,
+      "percentileRank": 26.1,
       "medianComparison": 1.4,
+      "gapPercentile": 70.8,
       "rank": 404
     },
     {
@@ -58421,8 +58825,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 52.4,
+      "percentileRank": 25.9,
       "medianComparison": 5.83,
+      "gapPercentile": 52.4,
       "rank": 405
     },
     {
@@ -58554,8 +58959,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 49.8,
+      "percentileRank": 25.7,
       "medianComparison": 0,
+      "gapPercentile": 49.8,
       "rank": 406
     },
     {
@@ -58686,8 +59092,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 50.2,
+      "percentileRank": 25.5,
       "medianComparison": 0,
+      "gapPercentile": 50.2,
       "rank": 407
     },
     {
@@ -58821,8 +59228,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 64.1,
+      "percentileRank": 25.3,
       "medianComparison": 0.11,
+      "gapPercentile": 64.1,
       "rank": 408
     },
     {
@@ -58952,8 +59360,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 62.2,
+      "percentileRank": 25.1,
       "medianComparison": 0.02,
+      "gapPercentile": 62.2,
       "rank": 409
     },
     {
@@ -59106,8 +59515,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 52,
+      "percentileRank": 25,
       "medianComparison": 0.34,
+      "gapPercentile": 52,
       "rank": 410
     },
     {
@@ -59251,8 +59661,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 75.3,
+      "percentileRank": 24.8,
       "medianComparison": 2.36,
+      "gapPercentile": 75.3,
       "rank": 411
     },
     {
@@ -59386,8 +59797,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 42.6,
+      "percentileRank": 24.6,
       "medianComparison": 0,
+      "gapPercentile": 42.6,
       "rank": 412
     },
     {
@@ -59536,8 +59948,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 8.5,
+      "percentileRank": 24.4,
       "medianComparison": 0,
+      "gapPercentile": 8.5,
       "rank": 413
     },
     {
@@ -59670,8 +60083,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 55,
+      "percentileRank": 24.2,
       "medianComparison": 0.43,
+      "gapPercentile": 55,
       "rank": 414
     },
     {
@@ -59804,8 +60218,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 51.2,
+      "percentileRank": 24,
       "medianComparison": 0,
+      "gapPercentile": 51.2,
       "rank": 415
     },
     {
@@ -59935,8 +60350,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 58.3,
+      "percentileRank": 23.9,
       "medianComparison": 0.58,
+      "gapPercentile": 58.3,
       "rank": 416
     },
     {
@@ -60068,8 +60484,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 27.3,
+      "percentileRank": 23.7,
       "medianComparison": 0,
+      "gapPercentile": 27.3,
       "rank": 417
     },
     {
@@ -60201,8 +60618,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 50.7,
+      "percentileRank": 23.5,
       "medianComparison": 0,
+      "gapPercentile": 50.7,
       "rank": 418
     },
     {
@@ -60329,8 +60747,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 7.9,
+      "percentileRank": 23.3,
       "medianComparison": 0.28,
+      "gapPercentile": 7.9,
       "rank": 419
     },
     {
@@ -60457,8 +60876,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 3.2,
+      "percentileRank": 23.1,
       "medianComparison": 0,
+      "gapPercentile": 3.2,
       "rank": 420
     },
     {
@@ -60590,8 +61010,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 19.1,
+      "percentileRank": 22.9,
       "medianComparison": 0,
+      "gapPercentile": 19.1,
       "rank": 421
     },
     {
@@ -60721,8 +61142,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 19.2,
+      "percentileRank": 22.8,
       "medianComparison": 0,
+      "gapPercentile": 19.2,
       "rank": 422
     },
     {
@@ -60853,8 +61275,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 43.1,
+      "percentileRank": 22.6,
       "medianComparison": 0,
+      "gapPercentile": 43.1,
       "rank": 423
     },
     {
@@ -60986,8 +61409,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 56.5,
+      "percentileRank": 22.4,
       "medianComparison": 0,
+      "gapPercentile": 56.5,
       "rank": 424
     },
     {
@@ -61116,8 +61540,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 41.3,
+      "percentileRank": 22.2,
       "medianComparison": 2.68,
+      "gapPercentile": 41.3,
       "rank": 425
     },
     {
@@ -61251,8 +61676,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 17.2,
+      "percentileRank": 22,
       "medianComparison": 0,
+      "gapPercentile": 17.2,
       "rank": 426
     },
     {
@@ -61379,8 +61805,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 17.5,
+      "percentileRank": 21.8,
       "medianComparison": 0.66,
+      "gapPercentile": 17.5,
       "rank": 427
     },
     {
@@ -61516,8 +61943,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 37.3,
+      "percentileRank": 21.7,
       "medianComparison": 0.15,
+      "gapPercentile": 37.3,
       "rank": 428
     },
     {
@@ -61668,8 +62096,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 33.2,
+      "percentileRank": 21.5,
       "medianComparison": 0.11,
+      "gapPercentile": 33.2,
       "rank": 429
     },
     {
@@ -61805,8 +62234,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 15.5,
+      "percentileRank": 21.3,
       "medianComparison": 0,
+      "gapPercentile": 15.5,
       "rank": 430
     },
     {
@@ -61937,8 +62367,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 3.3,
+      "percentileRank": 21.1,
       "medianComparison": 0,
+      "gapPercentile": 3.3,
       "rank": 431
     },
     {
@@ -62070,8 +62501,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 47.8,
+      "percentileRank": 20.9,
       "medianComparison": 0,
+      "gapPercentile": 47.8,
       "rank": 432
     },
     {
@@ -62203,8 +62635,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 56,
+      "percentileRank": 20.7,
       "medianComparison": 0,
+      "gapPercentile": 56,
       "rank": 433
     },
     {
@@ -62333,8 +62766,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 38.1,
+      "percentileRank": 20.6,
       "medianComparison": 2.62,
+      "gapPercentile": 38.1,
       "rank": 434
     },
     {
@@ -62468,8 +62902,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 27.3,
+      "percentileRank": 20.4,
       "medianComparison": 0.08,
+      "gapPercentile": 27.3,
       "rank": 435
     },
     {
@@ -62600,8 +63035,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 26.3,
+      "percentileRank": 20.2,
       "medianComparison": 0,
+      "gapPercentile": 26.3,
       "rank": 436
     },
     {
@@ -62732,8 +63168,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 37.3,
+      "percentileRank": 20,
       "medianComparison": 0,
+      "gapPercentile": 37.3,
       "rank": 437
     },
     {
@@ -62865,8 +63302,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 44.5,
+      "percentileRank": 19.8,
       "medianComparison": 0,
+      "gapPercentile": 44.5,
       "rank": 438
     },
     {
@@ -63025,8 +63463,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 5.2,
+      "percentileRank": 19.6,
       "medianComparison": 0,
+      "gapPercentile": 5.2,
       "rank": 439
     },
     {
@@ -63186,8 +63625,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 16.6,
+      "percentileRank": 19.4,
       "medianComparison": 0,
+      "gapPercentile": 16.6,
       "rank": 440
     },
     {
@@ -63322,8 +63762,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 15.3,
+      "percentileRank": 19.3,
       "medianComparison": 0,
+      "gapPercentile": 15.3,
       "rank": 441
     },
     {
@@ -63450,8 +63891,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 6.3,
+      "percentileRank": 19.1,
       "medianComparison": 0.21,
+      "gapPercentile": 6.3,
       "rank": 442
     },
     {
@@ -63596,8 +64038,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 59,
+      "percentileRank": 18.9,
       "medianComparison": 0.62,
+      "gapPercentile": 59,
       "rank": 443
     },
     {
@@ -63756,8 +64199,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 26.2,
+      "percentileRank": 18.7,
       "medianComparison": 0.06,
+      "gapPercentile": 26.2,
       "rank": 444
     },
     {
@@ -63884,8 +64328,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 1.6,
+      "percentileRank": 18.5,
       "medianComparison": 0,
+      "gapPercentile": 1.6,
       "rank": 445
     },
     {
@@ -64019,8 +64464,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 57.6,
+      "percentileRank": 18.3,
       "medianComparison": 0.57,
+      "gapPercentile": 57.6,
       "rank": 446
     },
     {
@@ -64178,8 +64624,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 7,
+      "percentileRank": 18.2,
       "medianComparison": 0,
+      "gapPercentile": 7,
       "rank": 447
     },
     {
@@ -64341,8 +64788,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 14.8,
+      "percentileRank": 18,
       "medianComparison": 0,
+      "gapPercentile": 14.8,
       "rank": 448
     },
     {
@@ -64491,8 +64939,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 26.9,
+      "percentileRank": 17.8,
       "medianComparison": 0.06,
+      "gapPercentile": 26.9,
       "rank": 449
     },
     {
@@ -64651,8 +65100,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 33.6,
+      "percentileRank": 17.6,
       "medianComparison": 0.13,
+      "gapPercentile": 33.6,
       "rank": 450
     },
     {
@@ -64787,8 +65237,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 17.7,
+      "percentileRank": 17.4,
       "medianComparison": 0,
+      "gapPercentile": 17.7,
       "rank": 451
     },
     {
@@ -64919,8 +65370,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 28.2,
+      "percentileRank": 17.2,
       "medianComparison": 0,
+      "gapPercentile": 28.2,
       "rank": 452
     },
     {
@@ -65055,8 +65507,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 18.2,
+      "percentileRank": 17.1,
       "medianComparison": 0,
+      "gapPercentile": 18.2,
       "rank": 453
     },
     {
@@ -65207,8 +65660,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 6.3,
+      "percentileRank": 16.9,
       "medianComparison": 0,
+      "gapPercentile": 6.3,
       "rank": 454
     },
     {
@@ -65341,8 +65795,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 36.8,
+      "percentileRank": 16.7,
       "medianComparison": 0,
+      "gapPercentile": 36.8,
       "rank": 455
     },
     {
@@ -65474,8 +65929,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 49.3,
+      "percentileRank": 16.5,
       "medianComparison": 0,
+      "gapPercentile": 49.3,
       "rank": 456
     },
     {
@@ -65629,8 +66085,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 76.8,
+      "percentileRank": 16.3,
       "medianComparison": 3.11,
+      "gapPercentile": 76.8,
       "rank": 457
     },
     {
@@ -65762,8 +66219,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 40.7,
+      "percentileRank": 16.1,
       "medianComparison": 0,
+      "gapPercentile": 40.7,
       "rank": 458
     },
     {
@@ -65897,8 +66355,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 11.1,
+      "percentileRank": 16,
       "medianComparison": 0,
+      "gapPercentile": 11.1,
       "rank": 459
     },
     {
@@ -66042,8 +66501,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 51.3,
+      "percentileRank": 15.8,
       "medianComparison": 0.3,
+      "gapPercentile": 51.3,
       "rank": 460
     },
     {
@@ -66182,8 +66642,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 15.9,
+      "percentileRank": 15.6,
       "medianComparison": 0,
+      "gapPercentile": 15.9,
       "rank": 461
     },
     {
@@ -66332,8 +66793,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 3.7,
+      "percentileRank": 15.4,
       "medianComparison": 0,
+      "gapPercentile": 3.7,
       "rank": 462
     },
     {
@@ -66492,8 +66954,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 7.7,
+      "percentileRank": 15.2,
       "medianComparison": 0,
+      "gapPercentile": 7.7,
       "rank": 463
     },
     {
@@ -66628,8 +67091,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 19.9,
+      "percentileRank": 15,
       "medianComparison": 0,
+      "gapPercentile": 19.9,
       "rank": 464
     },
     {
@@ -66763,8 +67227,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 11,
+      "percentileRank": 14.9,
       "medianComparison": 0,
+      "gapPercentile": 11,
       "rank": 465
     },
     {
@@ -66913,8 +67378,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 56.5,
+      "percentileRank": 14.7,
       "medianComparison": 0.51,
+      "gapPercentile": 56.5,
       "rank": 466
     },
     {
@@ -67044,8 +67510,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 0,
+      "percentileRank": 14.5,
       "medianComparison": 0,
+      "gapPercentile": 0,
       "rank": 467
     },
     {
@@ -67177,8 +67644,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 0,
+      "percentileRank": 14.3,
       "medianComparison": 0,
+      "gapPercentile": 0,
       "rank": 468
     },
     {
@@ -67331,8 +67799,9 @@
           "housing_gap_rate_lte30"
         ]
       },
-      "percentileRank": 10.3,
+      "percentileRank": 14.1,
       "medianComparison": 0,
+      "gapPercentile": 10.3,
       "rank": 469
     },
     {
@@ -67463,8 +67932,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 63.2,
+      "percentileRank": 13.9,
       "medianComparison": 0.06,
+      "gapPercentile": 63.2,
       "rank": 470
     },
     {
@@ -67596,8 +68066,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 23.4,
+      "percentileRank": 13.8,
       "medianComparison": 0,
+      "gapPercentile": 23.4,
       "rank": 471
     },
     {
@@ -67730,8 +68201,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 33.5,
+      "percentileRank": 13.6,
       "medianComparison": 0,
+      "gapPercentile": 33.5,
       "rank": 472
     },
     {
@@ -67890,8 +68362,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 34.7,
+      "percentileRank": 13.4,
       "medianComparison": 0.13,
+      "gapPercentile": 34.7,
       "rank": 473
     },
     {
@@ -68023,8 +68496,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 16.7,
+      "percentileRank": 13.2,
       "medianComparison": 0,
+      "gapPercentile": 16.7,
       "rank": 474
     },
     {
@@ -68186,8 +68660,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 4.4,
+      "percentileRank": 13,
       "medianComparison": 0,
+      "gapPercentile": 4.4,
       "rank": 475
     },
     {
@@ -68319,8 +68794,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 21.5,
+      "percentileRank": 12.8,
       "medianComparison": 0,
+      "gapPercentile": 21.5,
       "rank": 476
     },
     {
@@ -68471,8 +68947,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 33.9,
+      "percentileRank": 12.7,
       "medianComparison": 0.13,
+      "gapPercentile": 33.9,
       "rank": 477
     },
     {
@@ -68634,8 +69111,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 1.8,
+      "percentileRank": 12.5,
       "medianComparison": 0,
+      "gapPercentile": 1.8,
       "rank": 478
     },
     {
@@ -68794,8 +69272,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 45.4,
+      "percentileRank": 12.3,
       "medianComparison": 0.23,
+      "gapPercentile": 45.4,
       "rank": 479
     },
     {
@@ -68930,8 +69409,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 14.4,
+      "percentileRank": 12.1,
       "medianComparison": 0,
+      "gapPercentile": 14.4,
       "rank": 480
     },
     {
@@ -69082,8 +69562,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 41,
+      "percentileRank": 11.9,
       "medianComparison": 0.17,
+      "gapPercentile": 41,
       "rank": 481
     },
     {
@@ -69244,8 +69725,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 2.6,
+      "percentileRank": 11.7,
       "medianComparison": 0,
+      "gapPercentile": 2.6,
       "rank": 482
     },
     {
@@ -69377,8 +69859,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 35.4,
+      "percentileRank": 11.6,
       "medianComparison": 0,
+      "gapPercentile": 35.4,
       "rank": 483
     },
     {
@@ -69514,8 +69997,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 20.3,
+      "percentileRank": 11.4,
       "medianComparison": 0,
+      "gapPercentile": 20.3,
       "rank": 484
     },
     {
@@ -69665,8 +70149,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 1.5,
+      "percentileRank": 11.2,
       "medianComparison": 0,
+      "gapPercentile": 1.5,
       "rank": 485
     },
     {
@@ -69799,8 +70284,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 33,
+      "percentileRank": 11,
       "medianComparison": 0,
+      "gapPercentile": 33,
       "rank": 486
     },
     {
@@ -69932,8 +70418,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 9.1,
+      "percentileRank": 10.8,
       "medianComparison": 0,
+      "gapPercentile": 9.1,
       "rank": 487
     },
     {
@@ -70064,8 +70551,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 29.7,
+      "percentileRank": 10.6,
       "medianComparison": 0,
+      "gapPercentile": 29.7,
       "rank": 488
     },
     {
@@ -70192,8 +70680,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 19,
+      "percentileRank": 10.5,
       "medianComparison": 0.7,
+      "gapPercentile": 19,
       "rank": 489
     },
     {
@@ -70320,8 +70809,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 9.5,
+      "percentileRank": 10.3,
       "medianComparison": 0.32,
+      "gapPercentile": 9.5,
       "rank": 490
     },
     {
@@ -70454,8 +70944,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 36.5,
+      "percentileRank": 10.1,
       "medianComparison": 1.87,
+      "gapPercentile": 36.5,
       "rank": 491
     },
     {
@@ -70585,8 +71076,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 24.9,
+      "percentileRank": 9.9,
       "medianComparison": 0,
+      "gapPercentile": 24.9,
       "rank": 492
     },
     {
@@ -70717,8 +71209,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 3.8,
+      "percentileRank": 9.7,
       "medianComparison": 0,
+      "gapPercentile": 3.8,
       "rank": 493
     },
     {
@@ -70853,8 +71346,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 4.1,
+      "percentileRank": 9.5,
       "medianComparison": 0,
+      "gapPercentile": 4.1,
       "rank": 494
     },
     {
@@ -70981,8 +71475,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 14.3,
+      "percentileRank": 9.4,
       "medianComparison": 0.57,
+      "gapPercentile": 14.3,
       "rank": 495
     },
     {
@@ -71131,8 +71626,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 28.4,
+      "percentileRank": 9.2,
       "medianComparison": 0.08,
+      "gapPercentile": 28.4,
       "rank": 496
     },
     {
@@ -71262,8 +71758,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 15.8,
+      "percentileRank": 9,
       "medianComparison": 0,
+      "gapPercentile": 15.8,
       "rank": 497
     },
     {
@@ -71390,8 +71887,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 12.7,
+      "percentileRank": 8.8,
       "medianComparison": 0.55,
+      "gapPercentile": 12.7,
       "rank": 498
     },
     {
@@ -71523,8 +72021,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 5.7,
+      "percentileRank": 8.6,
       "medianComparison": 0,
+      "gapPercentile": 5.7,
       "rank": 499
     },
     {
@@ -71656,8 +72155,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 2.4,
+      "percentileRank": 8.4,
       "medianComparison": 0,
+      "gapPercentile": 2.4,
       "rank": 500
     },
     {
@@ -71786,8 +72286,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 47.6,
+      "percentileRank": 8.3,
       "medianComparison": 3.72,
+      "gapPercentile": 47.6,
       "rank": 501
     },
     {
@@ -71920,8 +72421,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 29.2,
+      "percentileRank": 8.1,
       "medianComparison": 0,
+      "gapPercentile": 29.2,
       "rank": 502
     },
     {
@@ -72051,8 +72553,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 0.5,
+      "percentileRank": 7.9,
       "medianComparison": 0,
+      "gapPercentile": 0.5,
       "rank": 503
     },
     {
@@ -72214,8 +72717,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 9.2,
+      "percentileRank": 7.7,
       "medianComparison": 0,
+      "gapPercentile": 9.2,
       "rank": 504
     },
     {
@@ -72350,8 +72854,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 17.3,
+      "percentileRank": 7.5,
       "medianComparison": 0,
+      "gapPercentile": 17.3,
       "rank": 505
     },
     {
@@ -72486,8 +72991,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 10.7,
+      "percentileRank": 7.3,
       "medianComparison": 0,
+      "gapPercentile": 10.7,
       "rank": 506
     },
     {
@@ -72648,8 +73154,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 48,
+      "percentileRank": 7.2,
       "medianComparison": 0.26,
+      "gapPercentile": 48,
       "rank": 507
     },
     {
@@ -72804,8 +73311,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 36.9,
+      "percentileRank": 7,
       "medianComparison": 0.15,
+      "gapPercentile": 36.9,
       "rank": 508
     },
     {
@@ -72956,8 +73464,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 17,
+      "percentileRank": 6.8,
       "medianComparison": 0,
+      "gapPercentile": 17,
       "rank": 509
     },
     {
@@ -73092,8 +73601,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 14.4,
+      "percentileRank": 6.6,
       "medianComparison": 0,
+      "gapPercentile": 14.4,
       "rank": 510
     },
     {
@@ -73225,8 +73735,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 12.9,
+      "percentileRank": 6.4,
       "medianComparison": 0,
+      "gapPercentile": 12.9,
       "rank": 511
     },
     {
@@ -73370,8 +73881,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 0.4,
+      "percentileRank": 6.2,
       "medianComparison": 0,
+      "gapPercentile": 0.4,
       "rank": 512
     },
     {
@@ -73526,8 +74038,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 30.6,
+      "percentileRank": 6.1,
       "medianComparison": 0.09,
+      "gapPercentile": 30.6,
       "rank": 513
     },
     {
@@ -73671,8 +74184,9 @@
         ],
         "approximation_basis": "county_value_used_directly"
       },
-      "percentileRank": 36.5,
+      "percentileRank": 5.9,
       "medianComparison": 0.15,
+      "gapPercentile": 36.5,
       "rank": 514
     },
     {
@@ -73832,8 +74346,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 0,
+      "percentileRank": 5.7,
       "medianComparison": 0,
+      "gapPercentile": 0,
       "rank": 515
     },
     {
@@ -73966,8 +74481,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 20.6,
+      "percentileRank": 5.5,
       "medianComparison": 0,
+      "gapPercentile": 20.6,
       "rank": 516
     },
     {
@@ -74103,8 +74619,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 21.4,
+      "percentileRank": 5.3,
       "medianComparison": 0.02,
+      "gapPercentile": 21.4,
       "rank": 517
     },
     {
@@ -74237,8 +74754,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 12.4,
+      "percentileRank": 5.1,
       "medianComparison": 0,
+      "gapPercentile": 12.4,
       "rank": 518
     },
     {
@@ -74397,8 +74915,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 29.5,
+      "percentileRank": 5,
       "medianComparison": 0.08,
+      "gapPercentile": 29.5,
       "rank": 519
     },
     {
@@ -74530,8 +75049,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 8.1,
+      "percentileRank": 4.8,
       "medianComparison": 0,
+      "gapPercentile": 8.1,
       "rank": 520
     },
     {
@@ -74657,8 +75177,9 @@
         ],
         "approximation_basis": "county_scaled_by_population_share"
       },
-      "percentileRank": 55.5,
+      "percentileRank": 4.6,
       "medianComparison": 0,
+      "gapPercentile": 55.5,
       "rank": 521
     },
     {
@@ -74785,8 +75306,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 27,
+      "percentileRank": 4.4,
       "medianComparison": 1.25,
+      "gapPercentile": 27,
       "rank": 522
     },
     {
@@ -74920,8 +75442,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 41.7,
+      "percentileRank": 4.2,
       "medianComparison": 0.19,
+      "gapPercentile": 41.7,
       "rank": 523
     },
     {
@@ -75053,8 +75576,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 34.9,
+      "percentileRank": 4,
       "medianComparison": 0,
+      "gapPercentile": 34.9,
       "rank": 524
     },
     {
@@ -75190,8 +75714,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 23.2,
+      "percentileRank": 3.9,
       "medianComparison": 0.02,
+      "gapPercentile": 23.2,
       "rank": 525
     },
     {
@@ -75325,8 +75850,9 @@
           "future_units_needed_20yr"
         ]
       },
-      "percentileRank": 22,
+      "percentileRank": 3.7,
       "medianComparison": 0,
+      "gapPercentile": 22,
       "rank": 526
     },
     {
@@ -75458,8 +75984,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 7.2,
+      "percentileRank": 3.5,
       "medianComparison": 0,
+      "gapPercentile": 7.2,
       "rank": 527
     },
     {
@@ -75594,8 +76121,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 6.2,
+      "percentileRank": 3.3,
       "medianComparison": 0,
+      "gapPercentile": 6.2,
       "rank": 528
     },
     {
@@ -75729,8 +76257,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 11.8,
+      "percentileRank": 3.1,
       "medianComparison": 0,
+      "gapPercentile": 11.8,
       "rank": 529
     },
     {
@@ -75864,8 +76393,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 13.9,
+      "percentileRank": 2.9,
       "medianComparison": 0,
+      "gapPercentile": 13.9,
       "rank": 530
     },
     {
@@ -75998,8 +76528,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 24.4,
+      "percentileRank": 2.8,
       "medianComparison": 0,
+      "gapPercentile": 24.4,
       "rank": 531
     },
     {
@@ -76131,8 +76662,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 43.5,
+      "percentileRank": 2.6,
       "medianComparison": 0,
+      "gapPercentile": 43.5,
       "rank": 532
     },
     {
@@ -76264,8 +76796,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 1.9,
+      "percentileRank": 2.4,
       "medianComparison": 0,
+      "gapPercentile": 1.9,
       "rank": 533
     },
     {
@@ -76400,8 +76933,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 3.3,
+      "percentileRank": 2.2,
       "medianComparison": 0,
+      "gapPercentile": 3.3,
       "rank": 534
     },
     {
@@ -76553,8 +77087,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 18.8,
+      "percentileRank": 2,
       "medianComparison": 0,
+      "gapPercentile": 18.8,
       "rank": 535
     },
     {
@@ -76687,8 +77222,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 7.7,
+      "percentileRank": 1.8,
       "medianComparison": 0,
+      "gapPercentile": 7.7,
       "rank": 536
     },
     {
@@ -76823,8 +77359,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 19.6,
+      "percentileRank": 1.7,
       "medianComparison": 0,
+      "gapPercentile": 19.6,
       "rank": 537
     },
     {
@@ -76960,8 +77497,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 23.6,
+      "percentileRank": 1.5,
       "medianComparison": 0.02,
+      "gapPercentile": 23.6,
       "rank": 538
     },
     {
@@ -77110,8 +77648,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 4.8,
+      "percentileRank": 1.3,
       "medianComparison": 0,
+      "gapPercentile": 4.8,
       "rank": 539
     },
     {
@@ -77265,8 +77804,9 @@
           "pct_deep_tier_burdened"
         ]
       },
-      "percentileRank": 21,
+      "percentileRank": 1.1,
       "medianComparison": 0.02,
+      "gapPercentile": 21,
       "rank": 540
     },
     {
@@ -77401,8 +77941,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 7.4,
+      "percentileRank": 0.9,
       "medianComparison": 0,
+      "gapPercentile": 7.4,
       "rank": 541
     },
     {
@@ -77537,8 +78078,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 18.7,
+      "percentileRank": 0.7,
       "medianComparison": 0,
+      "gapPercentile": 18.7,
       "rank": 542
     },
     {
@@ -77698,8 +78240,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 31.7,
+      "percentileRank": 0.6,
       "medianComparison": 0.11,
+      "gapPercentile": 31.7,
       "rank": 543
     },
     {
@@ -77834,8 +78377,9 @@
           "walkability_score"
         ]
       },
-      "percentileRank": 1,
+      "percentileRank": 0.4,
       "medianComparison": 0,
+      "gapPercentile": 1,
       "rank": 544
     },
     {
@@ -77967,8 +78511,9 @@
           "rent_to_income"
         ]
       },
-      "percentileRank": 10,
+      "percentileRank": 0.2,
       "medianComparison": 0,
+      "gapPercentile": 10,
       "rank": 545
     },
     {
@@ -78099,8 +78644,9 @@
           "qct_dda_score"
         ]
       },
-      "percentileRank": 4.8,
+      "percentileRank": 0,
       "medianComparison": 0.09,
+      "gapPercentile": 4.8,
       "rank": 546
     }
   ]
