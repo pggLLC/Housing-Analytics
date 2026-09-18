@@ -1,10 +1,10 @@
 {
   "meta": {
-    "generated_at_utc": "2026-09-11T11:44:47Z",
+    "generated_at_utc": "2026-09-18T11:42:02Z",
     "total_urls": 411,
-    "broken_count": 46,
-    "warning_count": 41,
-    "ok_count": 324,
+    "broken_count": 45,
+    "warning_count": 44,
+    "ok_count": 322,
     "notes": "WAF-protected city portals often return 403/406 to bare HEAD scrapers but load normally in real browsers \u2014 those are surfaced as 'warning' not 'broken'. True 404 / 5xx / DNS-dead URLs are reported as 'broken' and need a real fix."
   },
   "broken": [
@@ -150,16 +150,6 @@
       ]
     },
     {
-      "url": "https://www.foothillsunitedway.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08019/advocacy[0]",
-        "local-resources / county:08047/advocacy[0]",
-        "local-resources / county:08059/advocacy[1]",
-        "local-resources / county:08093/advocacy[0]"
-      ]
-    },
-    {
       "url": "https://www.gilpincounty.org/planning-zoning",
       "status": 0,
       "found_in": [
@@ -228,6 +218,13 @@
       ]
     },
     {
+      "url": "https://www.nwccog.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08057/housingAuthority[0]"
+      ]
+    },
+    {
       "url": "https://www.otterproducts.com/",
       "status": 0,
       "found_in": [
@@ -288,13 +285,6 @@
         "local-resources / county:08015/majorEmployers[1]",
         "local-resources / place:0867280/majorEmployers[1]",
         "local-resources / place:0867280/schoolDistrict"
-      ]
-    },
-    {
-      "url": "https://www.sanjuancountycolorado.us/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08111/housingAuthority[0]"
       ]
     },
     {
@@ -374,6 +364,15 @@
       "status": 403,
       "found_in": [
         "local-resources / place:0846465/housingAuthority[0]"
+      ]
+    },
+    {
+      "url": "https://www.bch.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08013/majorEmployers[6]",
+        "local-resources / place:0807850/hospital",
+        "local-resources / place:0807850/majorEmployers[4]"
       ]
     },
     {
@@ -497,6 +496,17 @@
       ]
     },
     {
+      "url": "https://www.hrrmc.com/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08015/majorEmployers[0]",
+        "local-resources / place:0810105/hospital",
+        "local-resources / place:0810105/majorEmployers[0]",
+        "local-resources / place:0867280/hospital",
+        "local-resources / place:0867280/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.lakewood.org/",
       "status": 403,
       "found_in": [
@@ -571,10 +581,11 @@
       ]
     },
     {
-      "url": "https://www.montezumacounty.org/",
+      "url": "https://www.memorialregionalhealth.com/",
       "status": 403,
       "found_in": [
-        "local-resources / county:08083/housingLead"
+        "local-resources / place:0817760/hospital",
+        "local-resources / place:0817760/majorEmployers[0]"
       ]
     },
     {
@@ -658,6 +669,19 @@
       ]
     },
     {
+      "url": "https://www.vvh.org/",
+      "status": 403,
+      "found_in": [
+        "local-resources / county:08045/majorEmployers[0]",
+        "local-resources / place:0812045/hospital",
+        "local-resources / place:0812045/majorEmployers[1]",
+        "local-resources / place:0830780/hospital",
+        "local-resources / place:0830780/majorEmployers[0]",
+        "local-resources / place:0831660/hospital",
+        "local-resources / place:0831660/majorEmployers[0]"
+      ]
+    },
+    {
       "url": "https://www.weldfoodbank.org/",
       "status": 403,
       "found_in": [
@@ -695,5 +719,5 @@
       ]
     }
   ],
-  "ok_count": 324
+  "ok_count": 322
 }
