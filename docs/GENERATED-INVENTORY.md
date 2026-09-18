@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-17T21:49:52.488Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T00:30:05.500Z. Do not edit by hand.
 
 ---
 
@@ -1836,7 +1836,7 @@
 | `test/inventory-mtime-sync.test.js` | 23.1 KB |
 | `test/inventory-sync-push.test.js` | 15.7 KB |
 | `test/jurisdiction-brief-metric-digest-sections.test.mjs` | 1.9 KB |
-| `test/jurisdiction-metrics-digest.test.js` | 25.9 KB |
+| `test/jurisdiction-metrics-digest.test.js` | 30.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 4.7 KB |
 | `test/land-disposition.test.js` | 7.8 KB |
