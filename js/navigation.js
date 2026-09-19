@@ -45,6 +45,7 @@
         { label: "Market Analysis",         href: "market-analysis.html",           desc: "Step 4: Site screening & PMA scoring" },
         { label: "Scenario Builder",        href: "hna-scenario-builder.html",      desc: "Step 5: 20-year demographic projections" },
         { label: "Deal Calculator",         href: "deal-calculator.html",           desc: "Step 6: LIHTC pro forma & capital stack" },
+        { label: "Recommendation",          href: "recommendation.html",            desc: "Step 7: what the seven steps add up to" },
         { label: "— For-Sale / Ownership —", isHeader: true },
         { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
         { label: "For-Sale Market Study",    href: "for-sale-market-study.html",     desc: "Demand, capture, absorption, land disposition" },
@@ -98,10 +99,13 @@
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Assistance programs for buyers" },
         { label: "Housing News",           href: "policy-briefs.html",             desc: "Auto-generated summaries — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
+        { label: "Working Paper",         href: "working-paper.html",             desc: "Instrumenting Housing Need — the methodology, written up" },
+        { label: "Methods",               href: "methods.html",                   desc: "How every figure in the paper is computed" },
         { label: "Market Intelligence",   href: "market-intelligence.html",       desc: "Statewide demand & supply data" },
         { label: "Housing Legislation",   href: "housing-legislation-2026.html",  desc: "2026 bills tracker" },
         { label: "CRA Expansion",         href: "cra-expansion-analysis.html",    desc: "CRA opportunity areas" },
         { label: "About this site",       href: "about.html",                     desc: "Methodology, sources, and privacy" },
+        { label: "Sitemap",               href: "sitemap.html",                   desc: "Every page on the site, in one list" },
       ]
     }
   ];
