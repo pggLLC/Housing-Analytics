@@ -112,8 +112,35 @@ const denverExpected = weightedAverage(denverRows, 'place_area_weight', 'change_
 approx(hpi.places['0820000'].change_10y, denverExpected.value, 0.000001, 'Denver place 10y HPI recompute');
 approx(hpi.places['0820000'].metric_weight_sum.change_10y, denverExpected.weight, 0.000001, 'Denver place weight sum recompute');
 
-const lowCoverage = placeRows.filter((row) => row.coverage_share_of_place_area < 0.8);
-assert(lowCoverage.length > 0, 'coverage guard is non-vacuous: at least one place is flagged below 80% modeled coverage');
+// Non-vacuity on the SCAN, not on the defect. This used to require at least
+// one place to be flagged below 80% modeled coverage — so improving coverage
+// everywhere would break the build, and the reflex after a data fix breaks a
+// test is to weaken the test (#1743).
+//
+// What matters is that the coverage share is present and in range on every
+// row, and that anything below the threshold is actually flagged. Both hold
+// at any population size, including zero low-coverage places.
+const COVERAGE_FLOOR = 0.8;
+assert(placeRows.length > 100, `only ${placeRows.length} place rows; the coverage scan is vacuous`);
+
+// Tolerance, not 1.0 exactly: the share is accumulated by summing tract area
+// weights, and Applewood, Evergreen and Louisville each land on 1.0001. That
+// is float accumulation over many tracts, not over-coverage.
+const SHARE_EPSILON = 0.001;
+const badShare = placeRows
+  .filter((row) => !(Number.isFinite(row.coverage_share_of_place_area)
+    && row.coverage_share_of_place_area >= 0
+    && row.coverage_share_of_place_area <= 1 + SHARE_EPSILON))
+  .map((row) => `${row.geoid}=${row.coverage_share_of_place_area}`);
+assert.deepEqual(badShare.slice(0, 5), [],
+  `${badShare.length} rows carry a coverage share outside 0..1 (+${SHARE_EPSILON})`);
+
+// There is deliberately no assertion that low-coverage places exist. An
+// earlier draft of this fix asserted `row.low_coverage === false` on them —
+// but no such field is emitted, so that filter was always empty and the
+// assertion always passed. A vacuous assertion written while removing vacuous
+// assertions; recorded here so the next reader does not restore it.
+const lowCoverage = placeRows.filter((row) => row.coverage_share_of_place_area < COVERAGE_FLOOR);
 
 const builder = fs.readFileSync(path.join(ROOT, 'scripts', 'market', 'build_fhfa_hpi_subcounty.py'), 'utf8');
 assert(builder.includes('FHFA_TRACT_HPI_PATH'), 'builder supports a local source CSV override for reproducible QA');

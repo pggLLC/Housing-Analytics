@@ -63,19 +63,60 @@ for (const geoid of ['08097', '08045']) {
   assert.ok(isOfficialFhfaUrl(row.fhfa_hpi.source_url), `${geoid}: FHFA county source URL should use an exact official hostname`);
 }
 
-const adjustedSummaries = fs.readdirSync(path.join(ROOT, 'data/hna/summary'))
+// Non-vacuity belongs on the SCAN, not on the defect.
+//
+// This used to assert `adjustedSummaries.length > 0` and
+// `suppressedSummaries.length > 0` — at least one place must have needed a
+// county fallback, and at least one must STILL be implausible afterwards.
+// Both break if the underlying data improves, and the reflex when a test
+// fails right after a data fix is to weaken the test. See #1743; the same
+// shape made test:polymarket-resolved require a settled market to exist,
+// which would have failed the fix for #1738.
+//
+// The floor is now on the population that was read. What replaces the
+// "must exist" assertions is stronger than they were: the suppression RULE
+// is checked in both directions against every profile carrying the inputs,
+// so it holds at any population size, including zero.
+const allProfiles = fs.readdirSync(path.join(ROOT, 'data/hna/summary'))
   .filter((file) => file.endsWith('.json'))
   .map((file) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/hna/summary', file), 'utf8')).acsProfile)
-  .filter((profile) => profile && profile.median_home_value && profile.median_home_value.source === 'county_zhvi_adjusted');
-assert(adjustedSummaries.length > 0, 'At least one low-confidence raw ACS place should inherit a county-adjusted value');
+  .filter((profile) => profile && profile.median_home_value);
+assert(allProfiles.length > 400,
+  `only ${allProfiles.length} summaries carry a median_home_value; the scan is vacuous`);
+
+const adjustedSummaries = allProfiles
+  .filter((profile) => profile.median_home_value.source === 'county_zhvi_adjusted');
 assert(
   adjustedSummaries.every((profile) => profile.median_home_value.acs_raw_value > 0 && profile.median_home_value.county_zhvi_to_acs_ratio > 0),
   'County-adjusted values should preserve raw ACS value and ratio provenance',
 );
 
+// scripts/hna/stamp_home_value_cascade.mjs suppresses income-to-own when an
+// acs_raw or county_zhvi_adjusted value is under 10x annual median gross
+// rent. Checked both ways: everything suppressed must meet the rule, and
+// nothing that meets the rule may escape it.
+const PRICE_TO_ANNUAL_RENT_FLOOR = 10;
+const cascadeSourced = allProfiles
+  .filter((p) => ['acs_raw', 'county_zhvi_adjusted'].includes(p.median_home_value.source))
+  .filter((p) => Number(p.median_home_value.value) > 0 && Number(p.DP04_0134E) > 0);
+assert(cascadeSourced.length > 0,
+  'no cascade-sourced profile carries both a value and a rent; the suppression rule cannot be checked');
+
+const ratioOf = (p) => Number(p.median_home_value.value) / (Number(p.DP04_0134E) * 12);
+const wronglySuppressed = cascadeSourced
+  .filter((p) => p.median_home_value.suppress_income_to_own && ratioOf(p) >= PRICE_TO_ANNUAL_RENT_FLOOR)
+  .map((p) => `${p.median_home_value.value}/${p.DP04_0134E}`);
+assert.deepEqual(wronglySuppressed.slice(0, 5), [],
+  `${wronglySuppressed.length} profiles suppress income-to-own while at or above ${PRICE_TO_ANNUAL_RENT_FLOOR}x annual rent`);
+
+const wronglyPublished = cascadeSourced
+  .filter((p) => !p.median_home_value.suppress_income_to_own && ratioOf(p) < PRICE_TO_ANNUAL_RENT_FLOOR)
+  .map((p) => `${p.median_home_value.value}/${p.DP04_0134E}`);
+assert.deepEqual(wronglyPublished.slice(0, 5), [],
+  `${wronglyPublished.length} profiles are below ${PRICE_TO_ANNUAL_RENT_FLOOR}x annual rent but still publish income-to-own`);
+
 const suppressedSummaries = adjustedSummaries
   .filter((profile) => profile.median_home_value.suppress_income_to_own);
-assert(suppressedSummaries.length > 0, 'Still implausible owner-value fallbacks should suppress income-to-own');
 
 assert(hnaUtils.includes('function homeValueInfo'), 'HNA utils should expose the shared home-value cascade helper');
 assert(/function homeValueInfo\(profile\) \{\n\s+return U\(\)\.homeValueInfo/.test(hnaRenderers), 'HNA renderers should delegate to the shared home-value cascade helper');
@@ -186,8 +227,55 @@ const rawAcsProfile = {
   DP03_0062E: 70000,
 };
 const zhviProfile = fruita;
-const adjustedProfile = adjustedSummaries[0];
-const suppressedProfile = suppressedSummaries[0];
+// Constructed, not harvested. These used to be adjustedSummaries[0] and
+// suppressedSummaries[0] — a production row borrowed as a fixture — which is
+// the real reason the `length > 0` assertions above could not simply be
+// deleted: an empty array makes [0] undefined and the narrative checks throw.
+//
+// So the behaviour is exercised against fixtures built here, the way
+// rawAcsProfile and the Fruita ZHVI profile already are, and production data
+// is checked separately for rule compliance further up. Both survive the data
+// improving until no place needs a fallback at all.
+const adjustedProfile = {
+  NAME: 'County-adjusted fixture',
+  _geoType: 'place',
+  _geoid: '0899998',
+  _acsYear: 2024,
+  DP04_0134E: 1400,
+  DP03_0062E: 68000,
+  median_home_value: {
+    value: 420000,
+    source: 'county_zhvi_adjusted',
+    confidence: 'low',
+    as_of: '2026-06',
+    acs_raw_value: 180000,
+    county_zhvi_to_acs_ratio: 2.3333,
+    adjustment_note: 'fixture',
+  },
+};
+// Below 10x annual gross rent (1400 * 12 * 10 = 168,000), so the cascade's
+// own rule says income-to-own must be suppressed.
+const suppressedProfile = {
+  NAME: 'Suppressed fixture',
+  _geoType: 'place',
+  _geoid: '0899997',
+  _acsYear: 2024,
+  DP04_0134E: 1400,
+  DP03_0062E: 68000,
+  median_home_value: {
+    value: 120000,
+    source: 'county_zhvi_adjusted',
+    confidence: 'low',
+    as_of: '2026-06',
+    acs_raw_value: 90000,
+    county_zhvi_to_acs_ratio: 1.3333,
+    suppress_income_to_own: true,
+    suppress_reason: 'fixture',
+  },
+};
+assert(suppressedProfile.median_home_value.value
+  < suppressedProfile.DP04_0134E * 12 * PRICE_TO_ANNUAL_RENT_FLOOR,
+  'the suppressed fixture must actually satisfy the suppression rule it stands for');
 
 assertNarrativeHomeValueAgreement(surfaceCtx, rawAcsProfile, 'raw ACS fixture');
 assertNarrativeHomeValueAgreement(surfaceCtx, zhviProfile, 'Fruita ZHVI');
