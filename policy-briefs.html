@@ -710,7 +710,7 @@
           '</div>' +
           '<h2 class="brief-title">' +
             (_lihtcTop3Titles.has(brief.title || '')
-              ? '<span class="brief-lihtc-priority" title="One of the 3 most LIHTC-relevant briefs in the current batch (scored by mentions of LIHTC mechanism + CHFA + tax credit terms)">★ LIHTC priority</span>'
+              ? '<span class="brief-lihtc-priority" title="Among the most LIHTC-relevant briefs in this batch (scored by mentions of LIHTC mechanism + CHFA + tax credit terms). A topic tag, not a ranking: this page orders by date.">LIHTC</span>'
               : '') +
             escapeHtml(brief.title || '') +
           '</h2>' +
@@ -954,9 +954,14 @@
             }
             return arts.some(_isRelevant);
           });
-          // F191 — Score by LIHTC relevance, sort desc, tag the top 3 so the
-          // most-actionable LIHTC briefs lead the page. Title is the dedup
-          // key for the "is in top 3" check inside renderBriefs.
+          // F191 scored by LIHTC relevance and ORDERED the page by it, so on a
+          // page titled "Housing News" the newest story was not at the top. On
+          // 2026-09-19 the order by age ran 0, 1, 5, 24, 60, 3, 38, 36, 58 days
+          // — a two-month-old brief above a three-day-old one, with nothing
+          // saying the sort was relevance rather than recency.
+          //
+          // Relevance still decides the LIHTC topic badge, which is what
+          // F191 was actually for. It no longer decides the order.
           var scored = list.map(function (b) {
             return { brief: b, score: _lihtcRelevance(b) };
           });
@@ -966,7 +971,39 @@
                   .filter(function (s) { return s.score > 0; })
                   .map(function (s) { return s.brief.title || ''; })
           );
-          briefs = scored.map(function (s) { return s.brief; });
+
+          // Newest first. A brief's date is the most recent article it cites;
+          // curated briefs carry no articles, so they fall back to `generated`.
+          // Anything undated sorts last rather than jumping to the top on a
+          // zero timestamp.
+          function _briefTime(b) {
+            var arts = Array.isArray(b.articles) ? b.articles : [];
+            var best = 0;
+            for (var i = 0; i < arts.length; i++) {
+              var t = Date.parse(arts[i] && arts[i].date);
+              if (!isNaN(t) && t > best) best = t;
+            }
+            if (!best) {
+              var g = Date.parse(b.generated);
+              if (!isNaN(g)) best = g;
+            }
+            return best;
+          }
+          // Sorted IN PLACE, and `briefs` points at the same array.
+          //
+          // The first render calls renderBriefs(list) directly, while
+          // applyFilters() reads `briefs`. F191 assigned a sorted copy to
+          // `briefs` only, so its ordering never applied on first paint — it
+          // appeared the moment the reader touched a filter and the list
+          // silently resequenced. Sorting `list` itself means both paths show
+          // the same order.
+          list.sort(function (a, b) {
+            var ta = _briefTime(a), tb = _briefTime(b);
+            if (ta !== tb) return tb - ta;
+            // Same day: the more LIHTC-relevant one leads.
+            return _lihtcRelevance(b) - _lihtcRelevance(a);
+          });
+          briefs = list;
 
           // Update pipeline status badge from metadata
           var pipelineEl = document.getElementById('alertPipelineStatus');
