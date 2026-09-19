@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { ciOrder } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 
@@ -451,7 +452,11 @@ test('percent/decimal guard rejects whole-percent rate input', () => {
 test('package.json wires the lifecycle suite after ownership finance and before ownership resale', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
   assert(pkg.scripts['test:shared-equity-lifecycle']);
-  const chain = pkg.scripts['test:ci'];
+  // Real run order, not string position. test:ci is a chain of ci:part-N
+  // groups now, so indexOf() on its text finds none of these names — and
+  // string position was never the same thing as execution order anyway.
+  const order = ciOrder(pkg.scripts);
+  const chain = { indexOf: (name) => order.indexOf(name) };
   // Ordering, not adjacency: later phases legitimately insert their suites
   // (resale-waterfall, land-disposition, Phase-3 datasets) between the
   // lifecycle and ownership-resale. The original exact-adjacency assertion

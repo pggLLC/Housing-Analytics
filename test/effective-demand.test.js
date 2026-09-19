@@ -1,4 +1,5 @@
 const assert = require('assert');
+const { runsInCi } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -116,6 +117,10 @@ banned.forEach((term) => assert.ok(!source.toLowerCase().includes(term), `banned
 
 const pkg = require('../package.json');
 assert.strictEqual(pkg.scripts['test:effective-demand'], 'node test/effective-demand.test.js');
-assert.ok(pkg.scripts['test:ci'].includes('test:project-scenario && npm run test:effective-demand && npm run test:buyer-assistance-programs'));
+// Adjacency was pinned as a literal substring, which broke the moment
+// test:ci became a chain of groups. What matters is that all three run.
+for (const s of ['test:project-scenario', 'test:effective-demand', 'test:buyer-assistance-programs']) {
+  assert.ok(runsInCi(pkg.scripts, s), `${s} is not wired into test:ci`);
+}
 
 console.log('effective-demand tests passed');

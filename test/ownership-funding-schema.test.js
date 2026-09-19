@@ -1,5 +1,6 @@
 'use strict';
 const assert = require('assert');
+const { ciOrder } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.join(__dirname, '..');
@@ -73,7 +74,8 @@ const pkg = require(path.join(ROOT, 'package.json'));
 assert.equal(pkg.scripts['test:buyer-assistance-programs'], 'node test/buyer-assistance-programs.test.js');
 assert.equal(pkg.scripts['test:stewardship-providers'], 'node test/stewardship-providers.test.js');
 assert.equal(pkg.scripts['test:ownership-funding-schema'], 'node test/ownership-funding-schema.test.js');
-const ci = pkg.scripts['test:ci'];
+// Real run order across the ci:part-N groups, not position in one string.
+const ci = { indexOf: (n) => ciOrder(pkg.scripts).indexOf(n) };
 assert(ci.indexOf('test:land-disposition') < ci.indexOf('test:buyer-assistance-programs'));
 assert(ci.indexOf('test:buyer-assistance-programs') < ci.indexOf('test:stewardship-providers'));
 assert(ci.indexOf('test:stewardship-providers') < ci.indexOf('test:ownership-funding-schema'));

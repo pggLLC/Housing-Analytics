@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { ciOrder } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -267,6 +268,10 @@ assert.throws(() => productionGuard(source.replace('Owner input required', '0'))
 
 const pkg = require('../package.json');
 assert.strictEqual(pkg.scripts['test:market-study-page'], 'node test/market-study-page.test.js');
-assert(pkg.scripts['test:ci'].indexOf('test:market-study-page') > pkg.scripts['test:ci'].indexOf('test:forsale-capture'));
+{
+  const o = ciOrder(pkg.scripts);
+  assert(o.indexOf('test:market-study-page') > o.indexOf('test:forsale-capture'),
+    'market-study-page must run after forsale-capture');
+}
 
 console.log('market-study-page tests passed');
