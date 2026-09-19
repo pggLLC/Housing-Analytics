@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T05:28:14.797Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T06:06:37.739Z. Do not edit by hand.
 
 ---
 
@@ -1757,7 +1757,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/fhfa-hpi-subcounty.test.js` | 6.8 KB |
+| `test/fhfa-hpi-subcounty.test.js` | 8.3 KB |
 | `test/file-manifest.test.js` | 4.6 KB |
 | `test/finish-line-holds.test.mjs` | 10.1 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
@@ -1794,8 +1794,8 @@
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.2 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
-| `test/hna-home-value-absence.test.js` | 4.0 KB |
-| `test/hna-home-value-cascade.test.js` | 13.1 KB |
+| `test/hna-home-value-absence.test.js` | 4.8 KB |
+| `test/hna-home-value-cascade.test.js` | 16.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
