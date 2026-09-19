@@ -56,9 +56,13 @@ test('the organisation is credited, and the domain resolves to a link', () => {
     // lists /\bindibuild\b/i under SENSITIVE_PATTERNS — alongside developer
     // passwords, the gate hash and contact CSV fields — as "legacy IndiBuild
     // brand text", added by the commit that renamed the public pipeline
-    // surface. Crediting IndiBuild on a public page therefore requires an
-    // owner decision to narrow that rule, not a test that quietly contradicts
-    // it. See the PR discussion.
+    // surface, so test:public-build fails on any public artifact containing
+    // it. Crediting IndiBuild would mean narrowing a rule whose other entries
+    // are secrets.
+    //
+    // Asked on #1757 and answered on 2026-09-19: leave it out. The paper
+    // credits Paul Glasgow and pggLLC. This is a recorded decision, not an
+    // oversight — if the rebrand is ever reversed, narrow the guard first.
     assert.ok(/href="https:\/\/pggllc\.com"/.test(src),
       `${p} mentions pggLLC but never links pggllc.com`);
   }
