@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-19T12:21:10.932Z",
+    "generated_at": "2026-09-19T12:29:26.632Z",
     "root": "data/",
     "file_count": 1615,
     "total_size_bytes": 152674802,
@@ -1290,7 +1290,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-19T11:55:52.475Z",
+      "mtime": "2026-09-19T12:29:11.163Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -29281,7 +29281,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 692,
-      "mtime": "2026-09-19T12:21:09.934Z",
+      "mtime": "2026-09-19T12:29:11.163Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204853,
-      "mtime": "2026-09-19T12:21:09.697Z",
+      "mtime": "2026-09-19T12:29:11.164Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30438,7 +30438,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1346881,
-      "mtime": "2026-09-19T11:55:52.499Z",
+      "mtime": "2026-09-19T12:29:11.177Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31319,7 +31319,7 @@
       "path": "market/pma_tract_display_geometry.geojson",
       "kind": "geojson",
       "size_bytes": 486865,
-      "mtime": "2026-09-19T11:55:52.524Z",
+      "mtime": "2026-09-19T12:29:11.200Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31476,7 +31476,7 @@
       "path": "market/tract_boundaries_co.geojson",
       "kind": "geojson",
       "size_bytes": 398215,
-      "mtime": "2026-09-19T11:55:52.553Z",
+      "mtime": "2026-09-19T12:29:11.218Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
