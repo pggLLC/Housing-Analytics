@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { runsInCi } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -157,6 +158,6 @@ assert(schema.required.includes('observation_class'));
 
 const pkg = require(path.join(ROOT, 'package.json'));
 assert.equal(pkg.scripts['test:public-land-contract'], 'node test/public-land-contract.test.js');
-assert(pkg.scripts['test:ci'].includes('test:public-land-contract'));
+assert(runsInCi(pkg.scripts, 'test:public-land-contract'), 'wired into test:ci');
 
 console.log('public-land-contract: PASS');

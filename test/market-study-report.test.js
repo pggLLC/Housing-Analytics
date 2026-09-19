@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { ciOrder } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -194,6 +195,10 @@ assert(html.includes('id="ms-s7"'));
 assert(html.includes('js/project-market-study/market-study-report.js'));
 const pkg = require('../package.json');
 assert.equal(pkg.scripts['test:market-study-report'], 'node test/market-study-report.test.js');
-assert(pkg.scripts['test:ci'].indexOf('test:market-study-report') > pkg.scripts['test:ci'].indexOf('test:market-study-page'));
+{
+  const o = ciOrder(pkg.scripts);
+  assert(o.indexOf('test:market-study-report') > o.indexOf('test:market-study-page'),
+    'market-study-report must run after market-study-page');
+}
 
 console.log('market-study-report tests passed');

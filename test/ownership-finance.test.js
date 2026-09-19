@@ -17,6 +17,7 @@
  */
 
 const assert = require('assert');
+const { runsInCi } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -269,7 +270,7 @@ test('both consumer pages load the engine BEFORE the HNA kernel', () => {
 test('package.json wires test:ownership-finance into test:ci', () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
   assert(pkg.scripts['test:ownership-finance'], 'script exists');
-  assert(pkg.scripts['test:ci'].includes('test:ownership-finance'), 'wired into test:ci');
+  assert(runsInCi(pkg.scripts, 'test:ownership-finance'), 'wired into test:ci');
 });
 
 // ---- Codex QA corrections (PR #1388 re-review) ----

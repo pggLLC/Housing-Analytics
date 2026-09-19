@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const { runsInCi } = require('./helpers/ci-wiring');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -84,6 +85,6 @@ for (const entry of entries) {
 }
 
 assert(pkg.scripts['test:tool-watch'] === 'node test/tool-watch.test.js', 'package exposes test:tool-watch');
-assert(pkg.scripts['test:ci'].includes('npm run test:tool-watch'), 'test:ci includes test:tool-watch');
+assert(runsInCi(pkg.scripts, 'test:tool-watch'), 'test:ci includes test:tool-watch');
 
 console.log(`tool-watch: PASS (${entries.length} tools, ${toolBrief.articles.length} brief source links)`);

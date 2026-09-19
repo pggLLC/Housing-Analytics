@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { runsInCi } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -255,6 +256,6 @@ const guardedText = [resaleSrc, JSON.stringify(data)].join('\n').toLowerCase();
 assert(resaleSrc.includes('SCREENING_CAVEAT'), 'screening-only caveat is carried in module');
 
 assert.equal(packageJson.scripts['test:ownership-resale'], 'node test/ownership-resale.test.js', 'package exposes test:ownership-resale');
-assert(packageJson.scripts['test:ci'].includes('npm run test:ownership-resale'), 'test:ci includes resale convention guard');
+assert(runsInCi(packageJson.scripts, 'test:ownership-resale'), 'test:ci includes resale convention guard');
 
 console.log('Ownership resale convention tests passed.');
