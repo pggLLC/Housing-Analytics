@@ -29,7 +29,11 @@ window.HNAUtils = {
   ACS_YEAR_FALLBACK: 2023,
   ACS_VINTAGES: [2024, 2023, 2022],
   DEBUG_HNA: false,
-  censusKey: () => null,
+  // A key must be configured for this harness to exercise anything: without
+  // one the controller now skips the request outright, because a keyless call
+  // to api.census.gov can only 302 to missing_key.html and fail CORS. This
+  // test is about how requests are BATCHED, which presupposes requests.
+  censusKey: () => 'test-census-key',
   redactKey: (url) => url
 };
 
