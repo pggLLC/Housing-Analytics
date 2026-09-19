@@ -2,6 +2,33 @@
 
 ## Symbols
 
+### `costPerGrossSf(tdc, grossSf)`
+
+Cost per gross square foot, or null.
+
+null, never 0 — and never omitted. $/SF is the figure a developer, lender
+or appraiser checks FIRST, because it is the one they can compare against
+everything else they have seen. A 0 would read as "this project costs
+nothing per foot"; an absent key reads as "this tool does not do that".
+Neither is true when the answer is "nobody entered a floor area".
+
+Gross area is deliberately not derived from unit count. Unit sizes sum to
+NET rentable area; dividing TDC by that overstates $/SF by however much
+circulation, mechanical and common space the building has — commonly
+15-25%. Guessing it would produce a plausible number that is wrong in a
+consistent direction, which is worse than no number at all.
+
+### `setCostPerSf(result)`
+
+Cost per gross SF, or a dash that says why.
+
+A bare "—" is the display equivalent of a coerced zero: it looks like an
+answer and means nothing. The reader cannot tell "this tool does not
+compute that" from "you have not told me the floor area" — and only one of
+those is fixable by them, in five seconds, with a field that is right
+there. So the absent state carries its reason in the title attribute and
+the note beneath.
+
 ### `getZoriPerBrRent(fips)`
 
 Q5: Per-BR ZORI market rent estimate.
