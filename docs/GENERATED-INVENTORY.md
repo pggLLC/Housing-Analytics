@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T14:37:40.436Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T15:01:54.214Z. Do not edit by hand.
 
 ---
 
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-368 test files found.
+369 test files found.
 
 | File | Size |
 |------|------|
@@ -1750,7 +1750,7 @@
 | `test/discover-local-resources-cdp.test.js` | 5.1 KB |
 | `test/econ-dash-co-unemployment.test.js` | 1021 B |
 | `test/econ-dash-series-labels.test.js` | 975 B |
-| `test/effective-demand.test.js` | 6.4 KB |
+| `test/effective-demand.test.js` | 6.6 KB |
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 11.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
@@ -1769,15 +1769,16 @@
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
 | `test/for-sale-study-follows-jurisdiction.test.mjs` | 19.0 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
-| `test/forsale-capture.test.js` | 10.2 KB |
+| `test/forsale-capture.test.js` | 10.3 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
-| `test/freshness-gates-run-first.test.mjs` | 4.4 KB |
+| `test/freshness-gates-run-first.test.mjs` | 7.3 KB |
 | `test/freshness-guard-dirty-tree.test.js` | 12.5 KB |
 | `test/funding-context-card.test.js` | 7.7 KB |
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 6.6 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 8.6 KB |
+| `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -1842,7 +1843,7 @@
 | `test/jurisdiction-metrics-digest.test.js` | 30.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 4.7 KB |
-| `test/land-disposition.test.js` | 7.8 KB |
+| `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
 | `test/lihtc-guide-accuracy.test.js` | 2.3 KB |
@@ -1853,8 +1854,8 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
-| `test/market-study-page.test.js` | 17.4 KB |
-| `test/market-study-report.test.js` | 11.4 KB |
+| `test/market-study-page.test.js` | 17.5 KB |
+| `test/market-study-report.test.js` | 11.5 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.2 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
@@ -1871,8 +1872,8 @@
 | `test/orphan-nav-cleanup.test.js` | 3.9 KB |
 | `test/ownership-answer-leads.test.js` | 6.4 KB |
 | `test/ownership-decision-chain.test.js` | 7.3 KB |
-| `test/ownership-finance.test.js` | 22.4 KB |
-| `test/ownership-funding-schema.test.js` | 5.5 KB |
+| `test/ownership-finance.test.js` | 22.5 KB |
+| `test/ownership-funding-schema.test.js` | 5.6 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 15.6 KB |
@@ -1941,7 +1942,7 @@
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
 | `test/send-test-email.js` | 6.2 KB |
-| `test/shared-equity-lifecycle.test.js` | 19.2 KB |
+| `test/shared-equity-lifecycle.test.js` | 19.5 KB |
 | `test/shared-money-format.test.js` | 6.6 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
