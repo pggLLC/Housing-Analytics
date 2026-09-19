@@ -38,14 +38,24 @@ jobs:
       # may appear in it.
       #
       # This step used to interpolate secrets.CENSUS_API_KEY and
-      # secrets.FRED_API_KEY, publishing both from 2026-02-26 until 2026-09-14.
-      # Neither was needed:
-      #   - Census answers every endpoint this site calls WITHOUT a key
-      #     (verified against acs5 detail + profile, 2023 and 2024 vintages).
+      # secrets.FRED_API_KEY, publishing both from 2026-02-26 until #1668 on
+      # 2026-09-14. Removing them was right and must not be undone: whatever
+      # this step writes is served to every visitor, so a browser key is a
+      # published key.
       #   - FRED cannot be called from a browser at all (CORS); FRED data is
       #     served from data/fred-data.json, built server-side.
-      # The ~18 workflows that legitimately use those secrets are unaffected —
-      # they run on the runner, not in the browser.
+      #   - Census: #1668 recorded that "Census answers every endpoint this
+      #     site calls WITHOUT a key". That is NO LONGER TRUE, and the site
+      #     must not rely on it. Measured 2026-09-19: a keyless acs5 request
+      #     returns 302 -> missing_key.html with X-DataWebAPI-KeyError: 1 and
+      #     no Access-Control-Allow-Origin, so the browser reports a CORS
+      #     failure. The fix is NOT to publish the key again — it is that the
+      #     browser does not need Census at all. Every figure a visitor sees
+      #     comes from the 547 cached summaries in data/hna/summary/ and the
+      #     other generated JSON; js/hna/hna-controller.js now skips the live
+      #     call outright when no key is configured (test:keyless-census).
+      # The ~16 workflows that legitimately use those secrets are unaffected —
+      # they run on the runner, and they are what builds those caches.
       #
       # Developers who want a key locally can still supply one: js/config.js
       # reads a localStorage override (coho_api_*), set via the Data Quality
