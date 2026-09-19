@@ -89,6 +89,14 @@ export const CHAIN = [
     why: 'pins the index generatedAt; a two-line diff here cost a CI round on #1692',
   },
   {
+    id: 'place-pages',
+    argv: ['python3', 'scripts/hna/build_place_pages.py'],
+    why: '482 places/<geoid>.html, rebuilt from place-chas. Gated by '
+       + 'test:place-pages-fresh, but it was NOT in this chain until '
+       + '2026-09-19, so build-hna-data.yml changed HNA data and left eight '
+       + 'pages stale on main with nothing to tell it otherwise',
+  },
+  {
     id: 'paper-figures',
     argv: ['npm', 'run', 'paper:build'],
     why: 'the working paper and methods page quote counts measured off the repo',
