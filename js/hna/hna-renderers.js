@@ -155,7 +155,15 @@
       // instead would have hidden 'production', which is computed from data
       // rather than from the section and populates on every view.
       const empty = !data.value || data.value === '—' || data.value === 'Loading';
-      tile.hidden = !!data.absent && empty;
+      // A tile with nothing in it is never shown, whether or not its renderer
+      // has reached the point of declaring the section absent. The strip
+      // unhides as soon as ANY tile has a value (see `hasValue` below), so
+      // gating only on `absent` put every not-yet-reported tile on screen
+      // reading "— Loading" — a card that looks broken rather than pending,
+      // and one that may sit there for as long as its renderer takes.
+      // Measured on production 2026-09-19: the strip appeared at 738ms and
+      // 'production' read "— Loading" until 17.6s.
+      tile.hidden = empty;
       if (href !== rawHref && !empty && readEl) {
         const where = (window.HNA_VIEW_ANCHORS || {})[rawHref.slice(1)];
         if (where && where.label) readEl.title = 'Shown in full on ' + where.label;
