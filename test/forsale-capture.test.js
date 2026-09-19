@@ -1,6 +1,7 @@
 'use strict';
 
 const assert = require('assert');
+const { ciOrder } = require('./helpers/ci-wiring');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -181,6 +182,10 @@ assert.ok(!source.includes('calculateabsorptionrisk'));
 
 const pkg = require('../package.json');
 assert.strictEqual(pkg.scripts['test:forsale-capture'], 'node test/forsale-capture.test.js');
-assert.ok(pkg.scripts['test:ci'].indexOf('test:forsale-capture') > pkg.scripts['test:ci'].indexOf('test:effective-demand'));
+{
+  const o = ciOrder(pkg.scripts);
+  assert.ok(o.indexOf('test:forsale-capture') > o.indexOf('test:effective-demand'),
+    'forsale-capture must run after effective-demand');
+}
 
 console.log('forsale-capture tests passed');

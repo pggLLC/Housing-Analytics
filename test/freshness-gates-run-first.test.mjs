@@ -41,8 +41,23 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
 const scripts = pkg.scripts || {};
 
-const ciSteps = String(scripts['test:ci'] || '').split('&&')
-  .map((s) => s.trim().replace(/^npm run /, '')).filter(Boolean);
+// test:ci is a chain of group scripts (ci:part-1 ... ci:part-N), so its steps
+// have to be flattened one level to get the real running order. It used to be
+// a single 7,595-character line holding all 213 steps, which meant any two
+// PRs that added a guard conflicted by construction — #1752 and #1753 did,
+// and resolving that conflict silently dropped one of the two new guards from
+// CI until it was caught by hand.
+//
+// Flattening keeps this guard measuring the order a run actually executes,
+// whether the steps live in one line or twenty.
+function flattenCi(name, depth) {
+  if (depth > 5) return [];
+  return String(scripts[name] || '').split('&&')
+    .map((s) => s.trim().replace(/^npm run /, ''))
+    .filter(Boolean)
+    .flatMap((step) => (/^ci:part-\d+$/.test(step) ? flattenCi(step, depth + 1) : [step]));
+}
+const ciSteps = flattenCi('test:ci', 0);
 const freshnessSteps = String(scripts['test:freshness'] || '').split('&&')
   .map((s) => s.trim().replace(/^npm run /, '')).filter(Boolean);
 
@@ -53,6 +68,47 @@ test('the suite has something to order', () => {
   assert.ok(ciSteps.length > 100, `test:ci has only ${ciSteps.length} steps`);
   assert.ok(freshnessSteps.length >= 10,
     `test:freshness has only ${freshnessSteps.length} steps — did it lose its contents?`);
+});
+
+test('test:ci stays split, so two PRs can add guards without colliding', () => {
+  // The suite ran as ONE 7,595-character line of 213 steps. Git sees that as a
+  // single line, so every PR that registers a guard edits it and any two such
+  // PRs conflict. #1752 and #1753 did exactly that, and resolving the conflict
+  // by taking one side dropped the other side's guard from CI — a new guard
+  // silently not running, which is the worst way for a guard to fail.
+  //
+  // The cap is generous: it is here to stop the groups being folded back into
+  // one line, not to police how they are organised.
+  const groups = Object.keys(scripts).filter((k) => /^ci:part-\d+$/.test(k));
+  assert.ok(groups.length >= 4,
+    `test:ci is split into only ${groups.length} group(s); it collapses back to a `
+    + 'single line that every guard-adding PR has to edit');
+
+  const longest = Math.max(...groups.map((g) => String(scripts[g]).length));
+  assert.ok(longest < 4000,
+    `the longest test:ci group is ${longest} characters; split it further before it `
+    + 'becomes the single line again');
+
+  // test:ci itself must only chain groups, not carry steps of its own — a step
+  // added directly to it would reintroduce the shared line.
+  const direct = String(scripts['test:ci'] || '').split('&&')
+    .map((x) => x.trim().replace(/^npm run /, '')).filter(Boolean)
+    .filter((x) => !/^ci:part-\d+$/.test(x));
+  assert.deepEqual(direct, [],
+    `test:ci runs these steps directly instead of via a group: ${direct.join(', ')}`);
+});
+
+test('splitting test:ci did not drop or reorder anything', () => {
+  // The split is only safe if the flattened order is exactly what ran before.
+  // Ordering is load-bearing here: the freshness block must stay at the front.
+  assert.ok(ciSteps.length > 200,
+    `only ${ciSteps.length} steps after flattening; the split lost some`);
+  const seen = new Set();
+  const dupes = ciSteps.filter((s) => (seen.has(s) ? true : (seen.add(s), false)));
+  assert.deepEqual(dupes, [], `these steps run twice after the split: ${dupes.join(', ')}`);
+  for (const s of ciSteps) {
+    assert.ok(scripts[s], `test:ci runs "${s}", which is not a script in package.json`);
+  }
 });
 
 test('test:freshness runs near the front of test:ci', () => {
