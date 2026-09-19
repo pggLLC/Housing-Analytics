@@ -142,6 +142,39 @@ test('G1 refuses to pass on a route that is empty, misordered or missing a page'
     `G1 no longer says it reads the component: "${g1 && g1.evidence}"`);
 });
 
+test('no finish-line item regresses from PASS by a wiring change', () => {
+  // #1755 split test:ci into ci:part-N groups. The O2 check resolved wiring
+  // with ciScript.includes(), so all four §7 guards read as unwired and the
+  // finish line went 12 pass -> 11 while every one of them was still running.
+  // Nothing failed; the report just quietly got worse.
+  //
+  // The count is pinned so a wiring change cannot degrade it silently. Real
+  // progress raises this number and the line is updated with it; that is a
+  // deliberate edit, which is the point.
+  const pass = items.filter((i) => i.state === 'PASS').length;
+  assert.ok(pass >= 12,
+    `${pass} finish-line items pass; it was 12 on 2026-09-19. Something regressed — `
+    + 'check whether a guard stopped being REACHABLE from test:ci rather than stopped existing');
+
+  // And the specific shape that caused it: no item may report a guard as
+  // unwired when it is reachable from test:ci.
+  const scripts = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).scripts;
+  const reach = new Set();
+  const q = ['test:ci'];
+  while (q.length) {
+    const n = q.shift();
+    if (reach.has(n) || !scripts[n]) continue;
+    reach.add(n);
+    for (const m of String(scripts[n]).matchAll(/npm run ([\w:.-]+)/g)) q.push(m[1]);
+  }
+  const falselyUnwired = items
+    .filter((i) => i.state !== 'PASS' && /not in test:ci: (.+)/.test(i.detail || ''))
+    .flatMap((i) => (i.detail.match(/not in test:ci: (.+)/) || [, ''])[1].split(', '))
+    .filter((g) => reach.has(g.trim()));
+  assert.deepEqual(falselyUnwired, [],
+    `the finish line calls these unwired, but they are reachable from test:ci: ${falselyUnwired.join(', ')}`);
+});
+
 test('every correctness-floor guard is still wired into test:ci', () => {
   // A PASS here means "a test holds this". If the test leaves test:ci, the
   // claim becomes an assertion about the past.
