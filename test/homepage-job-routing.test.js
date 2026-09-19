@@ -126,6 +126,42 @@ assert(
   'the ownership route target must still be a for-sale page by its own headline'
 );
 
+// The hero button names the thing it starts, and the page it opens names that
+// thing too. They disagreed for a week: the button said "Start a Housing
+// Market Study" while select-jurisdiction.html said, seven times, "begin your
+// Housing Needs Assessment". One click apart, in opposite words.
+//
+// Nothing noticed because each file was self-consistent. So this compares the
+// two rather than pinning either one: the noun phrase in the hero has to be a
+// phrase the destination page actually uses. Rewording both together is fine;
+// rewording one is what broke it.
+const heroCta = (() => {
+  const m = index.match(/<a href="select-jurisdiction\.html" class="btn"[\s\S]*?<\/a>/);
+  assert(m, 'the homepage hero must link to select-jurisdiction.html');
+  return m[0];
+})();
+
+const heroPhrase = (() => {
+  // "Start a Housing Needs Assessment" -> "Housing Needs Assessment"
+  const m = heroCta.match(/<span>\s*(?:Start|Begin|Open)\s+(?:a|an|your)\s+([^<]+?)\s*</i);
+  assert(m, `the hero CTA does not name what it starts: ${heroCta.replace(/\s+/g, ' ').slice(0, 120)}`);
+  return m[1].trim();
+})();
+
+const destination = fs.readFileSync(path.join(ROOT, 'select-jurisdiction.html'), 'utf8');
+assert(
+  destination.toLowerCase().includes(heroPhrase.toLowerCase()),
+  `the hero starts "${heroPhrase}" but select-jurisdiction.html never uses that phrase — `
+  + 'the button and the page it opens are describing different things'
+);
+
+// And the destination's own promise has to survive: if that sentence is
+// reworded away, the check above would pass against some other stray match.
+assert(
+  /begin your Housing Needs Assessment/i.test(destination),
+  'select-jurisdiction.html no longer tells the reader what they are beginning'
+);
+
 const leadMatch = index.match(/<p class="home-opening__lead">([\s\S]*?)<\/p>/);
 assert(leadMatch, 'homepage hero lead copy must exist');
 const heroLead = leadMatch[1].replace(/\s+/g, ' ').trim();

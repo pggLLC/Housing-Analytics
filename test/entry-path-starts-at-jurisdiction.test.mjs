@@ -193,14 +193,28 @@ test('the featured card is the one the reader should start on', () => {
 });
 
 test('one entry CTA, and it names the study', () => {
-  // #1620 §7 asks for a "Start a Housing Market Study" CTA. The page already
-  // had a primary button to the same place; a second one would have been two
-  // producers of the same call to action, competing for the same click.
+  // The page already had a primary button to this place; a second one would
+  // have been two producers of the same call to action, competing for the
+  // same click. That part is unchanged.
+  //
+  // What changed is the wording. This used to pin the literal string "Start a
+  // Housing Market Study", sourced from #1620 §7 — a scoping document whose
+  // own opening line says it was "produced by Claude" and is "an input to an
+  // owner decision, not a build order". It was implemented in #1713 anyway,
+  // and the button then disagreed with select-jurisdiction.html, which tells
+  // the reader seven times that they are beginning a Housing Needs
+  // Assessment. The owner chose the destination's wording on 2026-09-18.
+  //
+  // Pinning a literal here is what let the two drift apart in the first
+  // place, so this asserts the SHAPE — the CTA must name what it starts — and
+  // test/homepage-job-routing.test.js checks that the name matches the page
+  // it opens. Reword both together and both tests stay green; reword one and
+  // that one fails.
   const src = read('index.html');
   const ctas = [...src.matchAll(/<a href="([^"]+)" class="btn"[\s\S]*?<\/a>/g)];
   assert.strictEqual(ctas.length, 1, `${ctas.length} primary CTAs on the homepage; expected exactly one`);
   assert.strictEqual(ctas[0][1], JURIS, `the entry CTA points at ${ctas[0][1]}`);
-  assert.ok(ctas[0][0].includes('Start a Housing Market Study'),
+  assert.ok(/<span>\s*(?:Start|Begin|Open)\s+(?:a|an|your)\s+\S[^<]*</i.test(ctas[0][0]),
     'the entry CTA no longer names what the reader is starting');
   assert.ok(/Step 1 &mdash; pick a Colorado jurisdiction/.test(ctas[0][0]),
     'the CTA no longer says which step it opens, so it cannot be checked against the rail');
