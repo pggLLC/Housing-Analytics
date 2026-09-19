@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T13:36:01.181Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T13:50:56.498Z. Do not edit by hand.
 
 ---
 
@@ -63,7 +63,7 @@
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.6 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 52.1 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 53.8 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.6 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-366 test files found.
+367 test files found.
 
 | File | Size |
 |------|------|
@@ -1825,6 +1825,7 @@
 | `test/homepage-snapshot.test.js` | 4.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 14.0 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 4.1 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
