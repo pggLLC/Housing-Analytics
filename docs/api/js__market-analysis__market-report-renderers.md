@@ -23,6 +23,10 @@ Set the innerHTML of a section element.
 @param {string} id
 @param {string} html
 
+### `_esc(str)`
+
+HTML-escape text before inserting it into generated markup.
+
 ### `_unavailableCard(label)`
 
 Build an unavailable-data card.

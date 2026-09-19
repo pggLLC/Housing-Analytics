@@ -27,4 +27,22 @@ Usage:
   node scripts/audit/a11y-audit.mjs --page index.html
   node scripts/audit/a11y-audit.mjs --json-only
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `auditPage(browser, pagePath, axeScript)`
+
+Audit one page. Never throws: a page that cannot be audited comes back as
+`{ error }` so the run continues and the failure is reported per page.
+
+Previously only page.goto() was guarded. addScriptTag() and evaluate() were
+not, so when Chromium dropped the tab on deal-calculator.html — 219 form
+inputs, the heaviest page in the set — the rejection escaped this function
+and killed the whole audit. Two runs of the SAME commit (e7df0d0cc) on
+2026-09-16 disagreed: one passed, one failed. An accessibility gate that
+answers differently for identical code is not measuring accessibility, and
+what people learn from it is to ignore a red axe.
+
+The context is also closed in a `finally`. It was closed only on the success
+path, so every crash leaked a browser context for the remaining pages to
+compete with — which is the likeliest reason the last page in a 21-page run
+is the one that dies.

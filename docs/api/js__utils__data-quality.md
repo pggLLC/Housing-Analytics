@@ -20,8 +20,13 @@ Equals -666666666 (ACS/Census "not available" placeholder).
 ### `isMissingMetric(value)`
 
 Determine whether a metric value represents missing / unavailable data.
-Returns true for: null, undefined, NaN, non-finite numbers, and the
-ACS sentinel value (-666666666).
+Returns true for: null, undefined, empty string, NaN, non-finite numbers,
+and the ACS sentinel (-666666666) in either numeric or string form.
+
+The string form matters: every one of the 20 sentinel values in shipped
+`data/` is a STRING ("-666666666.0"), not a number, because the ACS API
+returns strings. Checking only `typeof value === 'number'` matched none of
+the real data.
 
 @param {*} value
 @returns {boolean}

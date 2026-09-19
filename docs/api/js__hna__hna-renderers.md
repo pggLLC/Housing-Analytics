@@ -20,6 +20,17 @@ Prevents javascript: and data: URL injection in href attributes.
 @param {string} url
 @returns {string}
 
+### `_resolveAnchor(href)`
+
+Same-page anchor -> the page that actually defines it.
+
+The generated assessment views (scripts/hna/build_hna_views.py) each carry
+a subset of the sections, and these hrefs come from JS constants, not from
+the markup — so a tile pointing at a section that view dropped is a dead
+click that editing the HTML cannot fix. Each view publishes
+window.HNA_VIEW_ANCHORS; the canonical page publishes none and is
+unaffected.
+
 ### `chartTheme()`
 
 Returns a color palette object keyed to CSS custom properties.
@@ -283,6 +294,11 @@ board) + local advocate orgs that aren't on file yet.
 getAssumptions — read the current values of the projection assumption controls.
 @returns {{ horizon: number, targetVac: number, headshipMode: string }}
 
+### `renderProjectionCalculationTrace(trace)`
+
+renderProjectionCalculationTrace — display the exact inputs already used
+by the projection result. Formatting only; no projection math lives here.
+
 ### `renderScenarioDataQuality(geoType, geoid)`
 
 renderScenarioDataQuality — update the scenarioDataQuality element to
@@ -429,15 +445,55 @@ figure is the total cumulative gap (not a sum across bands).
 @param {object|null} chasData - parsed chas_affordability_gap.json
 @param {object|null} acsAmiData - parsed co_ami_gap_by_county.json
 
-### `_setProvenanceBadge(state)`
+### `_scorecardScore(subjectPlaceRec, countyRec, econRec, dist, isPlaceSubject)`
 
-Set the provenance badge next to the CHAS chart title to make the
-methodology stamp glance-able. Three states:
-  'tiger'         → green "TIGER 2024 place-level"
-  'county'        → blue "County" (clean — user picked a county directly)
-  'county-approx' → amber "County-approx" (user picked a place/cdp not in
-                    TIGER coverage; chart shows containing county data)
+The scoring policy as a pure function: which geography the score
+describes, which pool it is ranked in, and how the components combine.
+
+It lives here rather than inline in renderHnaScorecardPanel because a
+guard cannot call a renderer. The first version of
+test/need-severity-is-place-level.test.mjs reimplemented these three
+decisions in the test file, so reverting any of them in the renderer left
+the test green — a guard agreeing with its own copy of the logic rather
+than with the shipped one. Three sabotage mutations went undetected
+before this was extracted.
+
+### `_scorecardUnavailable(container, value, read)`
+
+The scorecard has several legitimate reasons to render nothing — most
+commonly the statewide default view, where geoid is '08', there is no
+contextCounty, and the peer-normalised composite has no meaning because
+Colorado has no peer to rank against.
+
+Every one of those paths used to hide the panel and return without
+touching the decision strip, so the 'need' tile kept its initial
+placeholder and read "— Loading" forever. On the statewide view — the one
+every first-time visitor lands on — that permanent "Loading" was the very
+first data on the page, and it says "this site is broken" rather than
+"this measure does not apply here".
+
+Absence is a real answer; render it as one, and say what to do next.
+
+### `_setProvenanceBadge(state, opts)`
+
+Set the geography-provenance chip next to the CHAS chart title.
+
+Delegates to GeographyProvenance so the wording, the tooltip and the
+single-tract caveat stay identical everywhere a chip appears, and so the
+colours come from the theme's semantic tokens. The previous version wrote
+literal hex (#2563eb / #d97706 / #16a34a) into inline styles; measured
+against the card those scored as low as 2.86:1, well under the 4.5:1 that
+contrast-audit enforces. They passed CI only because the badge is hidden
+in the states the scanner visits.
+
+Legacy state names are kept so existing call sites read unchanged:
+  'tiger'         → apportioned (place CHAS built from N tracts)
+  'county'        → county (the user selected that county)
+  'county-approx' → county-proxy (place selected, county figure shown)
   'none'          → hidden
+
+@param {string} state
+@param {{tractCount?:number, countyName?:string}} [opts]
 
 ### `renderBedroomNeed(b25009)`
 

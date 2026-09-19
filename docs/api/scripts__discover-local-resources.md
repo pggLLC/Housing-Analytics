@@ -35,4 +35,16 @@ Exit codes:
   0 — completed (regardless of how many candidates found)
   2 — script-level failure
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `cdpGeoids(geoConfig)`
+
+GEOIDs of every Census-Designated Place, from the authoritative list in
+`data/hna/geo-config.json`.
+
+A CDP is unincorporated: it has no municipal government, so no official city
+website can exist for it. Probing URL patterns for one can only ever surface
+an unrelated organisation that happens to own the domain.
+
+@param {object|null} geoConfig
+@returns {Set<string>}

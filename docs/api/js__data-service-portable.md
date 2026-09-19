@@ -86,10 +86,22 @@ Fetch state DOT highway data from the USGS National Transportation Dataset.
 
 ### `fetchSchoolBoundaries(bbox)`
 
-Fetch ED school attendance boundaries and NCES school data.
-Uses the USGS ArcGIS service for attendance boundaries.
+Fetch NCES school locations inside a bounding box.
+
+Loads the committed `data/market/schools_co.geojson` — 1,941 real schools
+from the NCES Common Core of Data, School Locations 2021-22. This replaces
+an ArcGIS FeatureServer query that returned `{"error":{"code":400}}`; the
+hosting org still answers with 527 services, none of them school-related,
+so the layer was removed rather than renamed (#1541). The failure was
+silent — a `.catch` returning empty arrays — so every PMA run scored the
+schools dimension on nothing while still citing the source.
+
+`schoolDistricts` is deliberately empty: this file carries school *points*,
+not attendance-boundary polygons. The old code returned the same array for
+both, which is why "districts aligned" was really "schools nearby".
+
 @param {{minLat,minLon,maxLat,maxLon}} bbox
-@returns {Promise<{schoolDistricts: Array, schools: Array}>}
+@returns {Promise<{schoolDistricts: Array, schools: Array, _dataSource: string}>}
 
 ### `fetchNTDData(bbox)`
 
@@ -192,7 +204,7 @@ live API if local data is empty and a token is configured.
 
 @param {{lat:number,lon:number}} location
 @param {string} [climateVariable]
-@returns {Promise<{normals: object, extremes: object, resilienceScore: number, hazards: object, _stub: boolean, _dataSource: string}>}
+@returns {Promise<{normals: object, extremes: object, resilienceScore: number|null, hazards: object, _stub: boolean, _dataSource: string, unavailableReason?: string|null}>}
 
 ### `_loadUtilityData()`
 

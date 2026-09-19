@@ -40,9 +40,44 @@ CLI:
   node scripts/audit/url-health-sweep.mjs                 # full sweep + write cache
   node scripts/audit/url-health-sweep.mjs --diff-only     # print newly-broken since last sweep
   node scripts/audit/url-health-sweep.mjs --dry-run       # probe + report, don't write cache
+  node scripts/audit/url-health-sweep.mjs --list-urls     # print collected URLs, don't probe
 
 Exit codes:
   0 — sweep completed (regardless of how many URLs failed)
   2 — script-level failure (filesystem error, etc.)
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `probeUrl(url)`
+
+/*.md (markdown URL refs, link refs, and bare URLs)
+  async function walkMd(dir) {
+    let entries;
+    try { entries = await fs.readdir(dir, { withFileTypes: true }); } catch (_) { return; }
+    for (const e of entries) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) {
+        await walkMd(p);
+      } else if (e.isFile() && e.name.toLowerCase().endsWith('.md')) {
+        const src = await fs.readFile(p, 'utf8');
+        for (const line of src.split(/\r?\n/)) {
+          // A documented Content-Security-Policy value is a list of source
+          // expressions, not of fetchable documents. Probing them yields
+          // wildcard hosts and directive-separator fragments that can never
+          // return 200 (#1552).
+          if (looksLikeCspValue(line)) continue;
+          const rx = /https?:\/\/[^\s"'`<>)\]]+/g;
+          let m;
+          while ((m = rx.exec(line)) !== null) {
+            addUrl(urls, m[0]);
+          }
+        }
+      }
+    }
+  }
+  await walkMd(path.join(ROOT, 'docs'));
+
+  return [...urls].sort();
+}
+
+/* ── Probe ──────────────────────────────────────────────────────────

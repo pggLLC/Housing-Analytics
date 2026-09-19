@@ -18,6 +18,23 @@ Auto-dismisses after 4 seconds.
 
 Safely read visible text from a DOM element, returning '' on miss.
 
+### `_viewInfo()`
+
+The generated assessment views each hold a slice of the report and publish
+window.HNA_VIEW (scripts/hna/build_hna_views.py). Without this every one of
+them exported `housing-needs-assessment.pdf` with a cover reading
+"Housing Needs Assessment" — five downloads with the same name, and
+nothing inside to say which fifth of the report you were holding. The
+canonical page publishes no view and keeps the original names verbatim.
+
+### `_viewFilename(base)`
+
+'housing-needs-assessment.csv' -> 'housing-needs-assessment-who-lives-here.csv'
+
+### `_viewTitle(base)`
+
+'Housing Needs Assessment' -> 'Housing Needs Assessment — Who lives here'
+
 ### `_csvField(v)`
 
 Escape a CSV field: wrap in quotes and double any internal quotes.

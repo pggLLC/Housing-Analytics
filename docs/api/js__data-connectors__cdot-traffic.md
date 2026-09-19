@@ -1,12 +1,16 @@
 # `js/data-connectors/cdot-traffic.js`
 
-js/data-connectors/cdot-traffic.js
-Colorado Department of Transportation traffic count accessor.
+NO DATA SOURCE — this connector is dormant.
 
-Data source: data/market/cdot_traffic_co.json
-Real data: https://www.codot.gov/programs/statewideplanning/traffic-data
+It previously read a synthetic fixture that was never a real Colorado Department of Transportation
+extract. That fixture carried part of the PMA workforce composite until
+#1562 excluded it, and was deleted on 2026-09-09.
 
-Exposed as window.CdotTraffic.
+loadMetrics() resolves to the empty shape WITHOUT a network request. Do not
+restore a fetch until a real source exists — requesting a file that cannot
+exist produces console errors that fail the rendered site-audit gate.
+
+Real source when someone wires it up: CDOT Traffic Data.
 
 ## Symbols
 

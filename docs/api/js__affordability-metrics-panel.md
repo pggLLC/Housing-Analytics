@@ -35,6 +35,16 @@ for a county metric record.
 @param {number} medianGrossRent - county median gross rent ($/mo)
 @returns {object} ratios + flags
 
+### `_num(v)`
+
+Absent stays absent. Number(null) is 0 and Number('') is 0, so a plain
+coercion cannot tell "no data" from "genuinely zero" — and for income, rent
+or a home price, zero is never a real observation.
+
+### `_money(v)`
+
+Currency, or the same em dash the derived columns already use for absence.
+
 ### `render(mount)`
 
 Render the table for all counties.

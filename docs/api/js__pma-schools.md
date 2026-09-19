@@ -17,6 +17,10 @@ Exposed as window.PMASchools.
 
 ## Symbols
 
+### `numOrNull(v)`
+
+Absence-preserving numeric coercion: null stays null, never 0.
+
 ### `fetchSchoolBoundaries(boundingBox)`
 
 Fetch school attendance boundaries and NCES performance metrics.

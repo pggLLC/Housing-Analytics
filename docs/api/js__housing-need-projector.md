@@ -26,8 +26,8 @@ Format a number with comma thousands separator.
 
 ### `_vacancyDeficitFactor(vacancyRate)`
 
-Derive vacancy-deficit factor from vacancy_rate (%).
-vacancy_deficit_factor = max(0, 0.05 - vacancy_rate/100) * 10
+Derive vacancy-deficit factor from vacancy_rate (fraction, 0-1).
+vacancy_deficit_factor = max(0, 0.05 - vacancy_rate) * 10
 
 IMPORTANT: returns null when vacancyRate is null/undefined. Callers
 must treat null as "no adjustment available" — NOT as 0. A null
