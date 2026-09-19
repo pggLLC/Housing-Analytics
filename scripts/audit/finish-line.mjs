@@ -200,11 +200,14 @@ export function measure({ runTests = false } = {}) {
     ['js/project-market-study/study-geography.js', 'the study geography'],
   ];
   const o2Guards = ['test:entry-path', 'test:forsale-jurisdiction', 'test:recommendation', 'test:sale-price'];
-  const ciScript = (() => {
-    try { return JSON.parse(read('package.json')).scripts['test:ci'] || ''; } catch { return ''; }
-  })();
+  // Reachability, not substring — the same correction this file already
+  // applies to the correctness floor above. test:ci is a chain of ci:part-N
+  // groups since #1755, so `ciScript.includes('test:entry-path')` reported
+  // all four §7 guards as unwired and took the finish line from 12 pass to
+  // 11. They were running the whole time. reachableFromCi is already computed
+  // above for exactly this reason; O2 was added later and missed it.
   const missingArtifacts = o2Artifacts.filter(([f]) => read(f) === null).map(([, d]) => d);
-  const unwiredGuards = o2Guards.filter((g) => !ciScript.includes(g));
+  const unwiredGuards = o2Guards.filter((g) => !(reachableFromCi && reachableFromCi.has(g)));
   const o2Done = missingArtifacts.length === 0 && unwiredGuards.length === 0;
   add('O2', 'Open product work', o2Done ? PASS : OPEN,
     o2Done
