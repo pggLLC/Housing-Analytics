@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T21:08:19.159Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T22:03:47.684Z. Do not edit by hand.
 
 ---
 
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-370 test files found.
+372 test files found.
 
 | File | Size |
 |------|------|
@@ -1744,6 +1744,7 @@
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
+| `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
@@ -1760,7 +1761,7 @@
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 8.3 KB |
 | `test/file-manifest.test.js` | 4.6 KB |
-| `test/finish-line-holds.test.mjs` | 10.1 KB |
+| `test/finish-line-holds.test.mjs` | 11.8 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
@@ -1804,7 +1805,7 @@
 | `test/hna-ownership-need.test.js` | 22.5 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
 | `test/hna-phase2-stubs-wired.test.js` | 6.8 KB |
-| `test/hna-profile-fetch-batches.test.js` | 4.9 KB |
+| `test/hna-profile-fetch-batches.test.js` | 5.2 KB |
 | `test/hna-projection-integrity.test.js` | 17.5 KB |
 | `test/hna-prop123-relationship.test.js` | 6.7 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
@@ -1843,6 +1844,7 @@
 | `test/jurisdiction-metrics-digest.test.js` | 30.7 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 4.7 KB |
+| `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
 | `test/land-disposition.test.js` | 8.0 KB |
 | `test/lighthouse-audit.js` | 4.6 KB |
 | `test/lihtc-deal-predictor.test.js` | 12.4 KB |
@@ -2078,7 +2080,7 @@
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
 | `.github/workflows/data-sentinels-check.yml` | 6.1 KB |
 | `.github/workflows/data-source-monitoring.yml` | 13.5 KB |
-| `.github/workflows/deploy.yml` | 3.5 KB |
+| `.github/workflows/deploy.yml` | 4.2 KB |
 | `.github/workflows/developer-url-health.yml` | 3.0 KB |
 | `.github/workflows/discover-agenda-urls.yml` | 3.1 KB |
 | `.github/workflows/discover-local-resources-weekly.yml` | 6.4 KB |
