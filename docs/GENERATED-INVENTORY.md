@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-18T15:00:37.839Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T05:02:33.763Z. Do not edit by hand.
 
 ---
 
@@ -36,7 +36,7 @@
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.3 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.8 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.4 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
@@ -1646,7 +1646,7 @@
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 150.7 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
-| `data/polymarket-data.json` | 19.6 KB | ✅ | — |
+| `data/polymarket-data.json` | 17.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -1907,7 +1907,7 @@
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 2.7 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
-| `test/polymarket-resolved.test.js` | 2.9 KB |
+| `test/polymarket-resolved.test.js` | 7.8 KB |
 | `test/preservation.test.js` | 17.3 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
@@ -2089,7 +2089,7 @@
 | `.github/workflows/fetch-hmda-data.yml` | 3.9 KB |
 | `.github/workflows/fetch-kalshi.yml` | 5.1 KB |
 | `.github/workflows/fetch-parcel-zoning-data.yml` | 13.1 KB |
-| `.github/workflows/fetch-polymarket-data.yml` | 4.7 KB |
+| `.github/workflows/fetch-polymarket-data.yml` | 8.1 KB |
 | `.github/workflows/jurisdiction-briefs-monthly.yml` | 3.9 KB |
 | `.github/workflows/market_data_build.yml` | 16.6 KB |
 | `.github/workflows/merge-ref-gate.yml` | 3.6 KB |
