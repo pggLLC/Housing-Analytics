@@ -3582,6 +3582,26 @@
         .then((data) => { window.HNAState.state.homeValueCascade = data; return data; })
         .catch(() => { window.HNAState.state.homeValueCascade = null; return null; });
     }
+    // Place-level CHAS for the need scorecard (#1739). It must be loaded on a
+    // NORMAL render, not only when the combined-geography feature runs.
+    //
+    // #1739 read it from state.combinedDatasets.placeChas, and
+    // _loadCombinedDatasets() is called from exactly two places, both inside
+    // the combined-geography path. So on an ordinary single-jurisdiction view
+    // the dataset was never present, usePlace was always false, and the
+    // scorecard silently fell back to the containing county's score — the
+    // precise defect #1739 shipped to fix. Fruita showed Mesa County's 54
+    // again on hna-what-to-do.html, with scorecardSource 'county'.
+    //
+    // Loaded here on the same terms as the ownership cascade above: started
+    // early, awaited before the scorecard renders, never blocking the core
+    // CHAS and AMI-gap panels.
+    let placeChasPromise = null;
+    if ((geoType === 'place' || geoType === 'cdp') && !window.HNAState.state.placeChas) {
+      placeChasPromise = loadJson('data/hna/place-chas.json')
+        .then((data) => { window.HNAState.state.placeChas = data; return data; })
+        .catch(() => { window.HNAState.state.placeChas = null; return null; });
+    }
     let ownershipPermitsPromise = null;
     if ((geoType === 'place' || geoType === 'cdp' || geoType === 'county') && !window.HNAState.state.permitsDoc) {
       ownershipPermitsPromise = loadPermitsDoc()
@@ -3637,6 +3657,7 @@
     }
     if (window.HNARenderers.tryRenderAffordableOwnershipNeedFromState) {
       if (ownershipHomeValueCascadePromise) await ownershipHomeValueCascadePromise;
+      if (placeChasPromise) await placeChasPromise;
       if (ownershipPermitsPromise) await ownershipPermitsPromise;
       window.HNARenderers.tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty);
     }
