@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T15:01:54.214Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T21:08:19.159Z. Do not edit by hand.
 
 ---
 
@@ -60,7 +60,7 @@
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.8 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 140.1 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
-| `methods.html` | Computational Methods | Colorado Public Data Reference | 44.6 KB |
+| `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 53.8 KB |
@@ -72,7 +72,7 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 72.6 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 73.6 KB |
 
 ---
 
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-369 test files found.
+370 test files found.
 
 | File | Size |
 |------|------|
@@ -1879,6 +1879,7 @@
 | `test/pages-availability-check.js` | 15.6 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/paper-figures-fresh.test.js` | 20.3 KB |
+| `test/paper-names-its-author.test.mjs` | 4.7 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
