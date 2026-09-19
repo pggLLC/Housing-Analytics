@@ -7868,7 +7868,14 @@
     const isPlaceProxy = String(geoid).length !== 5;
     if (state) state._scorecard_source = isPlaceProxy ? 'county' : 'county_direct';
 
-    const dist = _buildScorecardDistributions(chasData, econData, (state && state.combinedDatasets && state.combinedDatasets.placeChas) || null);
+    // One source for both the subject and the peer pool. Resolving them
+    // separately is how the first pass at this fix left the pool empty: the
+    // subject read state.placeChas while the pool still read combinedDatasets,
+    // so every percentile came back null and the panel said "Not scored".
+    const placeChas = (state && state.placeChas)
+      || (state && state.combinedDatasets && state.combinedDatasets.placeChas)
+      || null;
+    const dist = _buildScorecardDistributions(chasData, econData, placeChas);
     const countyName = countyRec.name || '';
     // ── Subject resolution: the place itself, not its county ─────────
     //
@@ -7878,7 +7885,6 @@
     // Fruita itself ranks 73 of 546 statewide with 84% of its low-wage jobs
     // unhoused. Every place in Mesa County showed the same 54, because the
     // panel was not looking at them.
-    const placeChas = state && state.combinedDatasets && state.combinedDatasets.placeChas;
     const placeKey = isPlaceProxy ? String(geoid).padStart(7, '0') : null;
     const placeRec = (placeChas && placeChas.places && placeKey)
       ? placeChas.places[placeKey] : null;
@@ -7956,7 +7962,9 @@
       if (isPlaceProxy) {
         const why = placeParts
           ? 'it has fewer than ' + SCORECARD_MIN_RENTER_HH + ' renter households, too few for its own shares to be stable'
-          : 'place-level CHAS is not available for it';
+          : (placeChas
+              ? 'place-level CHAS does not cover it'
+              : 'place-level CHAS has not loaded yet');
         return note('<strong>County proxy:</strong> this scorecard uses ' + escHtml(countyName || 'the containing county') +
           ' county-level CHAS and economic indicators because ' + why + '.');
       }

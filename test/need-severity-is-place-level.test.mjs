@@ -215,6 +215,77 @@ test('every ranked place gets a score or an explicit reason', () => {
   }
 });
 
+test('the renderer is actually given place CHAS on a normal render', () => {
+  // THE GAP THIS FILE HAD.
+  //
+  // Every other test here extracts _scorecardScore and feeds it place-chas.json
+  // that the TEST loads. That proves the policy is right and says nothing about
+  // whether the running page ever has the data.
+  //
+  // It did not. #1739 read the dataset from
+  // state.combinedDatasets.placeChas, and _loadCombinedDatasets() is called
+  // from exactly two places, both inside the combined-geography feature. On an
+  // ordinary single-jurisdiction view it was never loaded, usePlace was always
+  // false, and the scorecard fell back to the containing county — the defect
+  // #1739 shipped to fix. Verified in a browser: Fruita rendered Mesa County's
+  // 54/100 with _scorecard_source 'county'. Every test in this file passed
+  // while that was true.
+  //
+  // So this checks the CHAIN across both files instead of the function.
+  const controller = fs.readFileSync(path.join(ROOT, 'js/hna/hna-controller.js'), 'utf8');
+
+  const loads = /place-chas\.json['"]\s*\)\s*\n?\s*\.then\(\s*\(data\)\s*=>\s*\{\s*window\.HNAState\.state\.placeChas\s*=\s*data/.test(controller);
+  assert.ok(loads,
+    'the controller does not load place-chas.json into state.placeChas; the scorecard '
+    + 'will silently fall back to the containing county');
+
+  // ...and the assignment must sit OUTSIDE _loadCombinedDatasets(), which also
+  // loads place-chas.json and is the path that left the normal render without
+  // it. An earlier draft of this check looked at the text before the first
+  // 'place-chas.json' match and found the combined loader every time — it was
+  // testing the wrong occurrence.
+  const assignIdx = controller.indexOf('window.HNAState.state.placeChas = data');
+  assert.ok(assignIdx > 0, 'no assignment of place-chas into state.placeChas');
+  const combinedStart = controller.indexOf('async function _loadCombinedDatasets');
+  assert.ok(combinedStart > 0, '_loadCombinedDatasets is gone; re-derive this check');
+  const combinedEnd = controller.indexOf('\n  }', combinedStart);
+  assert.ok(!(assignIdx > combinedStart && assignIdx < combinedEnd),
+    'state.placeChas is only assigned inside _loadCombinedDatasets, which a normal '
+    + 'single-jurisdiction render never calls');
+
+  // ...and it must be awaited before the scorecard renders, or the render wins
+  // the race and falls back anyway.
+  const awaitIdx = controller.indexOf('await placeChasPromise');
+  const renderIdx = controller.indexOf('renderHnaScorecardPanel(');
+  assert.ok(awaitIdx > 0, 'the place-chas load is never awaited');
+  assert.ok(awaitIdx < renderIdx,
+    'the place-chas load is awaited AFTER the scorecard renders, so the render still '
+    + 'falls back to the county');
+
+  // The renderer must read what the controller populates — in CODE. The first
+  // version tested this against the whole file and matched the explanatory
+  // comment two lines above the fix, so reverting the code still passed.
+  const rendererCode = SRC
+    .replace(/\/\*[\s\S]*?\*\//g, ' ')
+    .split('\n').map((l) => l.replace(/(^|[^:])\/\/.*$/, '$1')).join('\n');
+  assert.ok(/state\.placeChas/.test(rendererCode),
+    'the renderer never reads state.placeChas, so the controller load is wasted');
+
+  // Subject and peer pool must resolve from the SAME binding. Resolving them
+  // separately is how the first pass at this fix left the pool empty and the
+  // panel said "Not scored" while claiming source 'place'.
+  // Anchored on the CALL, not the signature. The first version used
+  // /_buildScorecardDistributions\(([^;]*?)\);/ which ran past the `) {` of the
+  // function DEFINITION and captured its parameter list — so it checked the
+  // signature, which always mentions placeChas and never combinedDatasets, and
+  // passed no matter what the call site said.
+  const poolCall = rendererCode.match(/=\s*_buildScorecardDistributions\(([^)\n]*)\)/);
+  assert.ok(poolCall, 'the pool is no longer built by a _buildScorecardDistributions call');
+  assert.ok(!/combinedDatasets/.test(poolCall[1]),
+    'the peer pool resolves its own placeChas instead of sharing the subject\'s binding: '
+    + poolCall[1].replace(/\s+/g, ' ').slice(0, 90));
+});
+
 test('the rendered disclosures match what the code actually does', () => {
   // Scan EXECUTABLE source only. The first version of this check matched the
   // explanatory comment that was written directly above the fix, and reported
