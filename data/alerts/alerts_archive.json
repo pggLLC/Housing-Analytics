@@ -1,11 +1,47 @@
 {
   "meta": {
-    "generated": "2026-09-17T11:54:43Z",
+    "generated": "2026-09-19T09:25:39Z",
     "feed_count": 6,
-    "alert_count": 266,
+    "alert_count": 269,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Muskogee senator studies impacts of state tax policy on affordable housing development - Tulsa World",
+      "date": "2026-09-19T05:00:00Z",
+      "source": "Tulsa World",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPeTl3R2pjS0ZBZ3VmUmRERUMwVTBFQ1hienRkMlgzX2Q5WTJQNXdwcEhYUEEyNjFjSXFubmR0VlZLQ01iN1dYdnpBMmFTRk5vOFM1VzhBRHk0VnJ4SEdPNlU0NF9LZHRQVjhnOGNfLVZibG00dVVSMERUckVoUTVUYnN0Z3BIUVFobEZWU1Y1anc1VWdsVXZ3bXZyQ0tnMHpxMUpXZXAxeHo0TVpfTlFjN1l3?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Muskogee senator studies impacts of state tax policy on affordable housing development \u00a0\u00a0 Tulsa World"
+    },
+    {
+      "title": "CHFA golf tournament raises $110,000 for Project Diakonia in Colorado - ColoradoBiz",
+      "date": "2026-09-18T22:01:04Z",
+      "source": "ColoradoBiz",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxORjJlU1B1dGZ4RzNsRDBoN1dPOTlGRlZxdExCVTBQd0U2M1p3VVhfT0hmMkNZdGNVc0NRdWhIdy1RX21iVzUzejJ3YVc5TC1DYWhoWDBmREt2S3lxVnV0T2JEblh3UC1GWXBHRUFtSzdNdG9NcnRUM2trdWM2ZlJPUU9kOFV5dnc?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "CHFA golf tournament raises $110,000 for Project Diakonia in Colorado \u00a0\u00a0 ColoradoBiz"
+    },
+    {
+      "title": "W&D Arranges $30M in LIHTC for Dallas Fort Worth Affordable Senior Housing - Yield PRO",
+      "date": "2026-09-18T18:18:46Z",
+      "source": "Yield PRO",
+      "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBvWHJoRTZuRGE1VHFiZFJKaFhsNU9BSDlGRnBsU0tobnRWYUZLS0s4SHNwOXBMLURfdU9TZnZPOGxCYS0xeWdEQVlsSWdGbnhiVHhzZw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "W&D Arranges $30M in LIHTC for Dallas Fort Worth Affordable Senior Housing \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Grand Lake unveils affordable apartments with artist studios - 9news.com",
+      "date": "2026-09-18T15:52:00Z",
+      "source": "9news.com",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNc1pYODNuZFAtMXFPb0pOMnNXYlRqbzdxYXhZN2Nhd0tTNVFKUTU4a0V6S1FJNmdHOXZKSE9JMURUNnM4dklPNnZPUlphUlhLRmF1blN5VGg1YUlmaUdtTlRadXhvNGhHMFJ5MnBPSDZPcUkzRDhTNERSUGRxRE9PMTJJSGVXRUNweE5jd3lBRkZrS3pJbUczUmhGdDY3eE94Qnl3VnlaOTJyOE8yUjNoVWNTdVhEUFRhUnJHblZwcVNGMnBQWVRlWk9jZw?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Grand Lake unveils affordable apartments with artist studios \u00a0\u00a0 9news.com"
+    },
     {
       "title": "Colorado mother, daughter homeless following eviction from low-income housing after both became students - CBS News",
       "date": "2026-09-17T04:22:49Z",
@@ -113,6 +149,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "Longmont Development Combines Family Housing and Childcare \u00a0\u00a0 Affordable Housing Finance"
+    },
+    {
+      "title": "Colorado Preservation Deal Protects Critical Workforce Housing - Affordable Housing Finance",
+      "date": "2026-09-14T13:06:00Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRG5KdnYySWJrMnJkeWk5bkdEdE9lYWJ1VXp1eWdyeHc1UURCQUlYS1M0UU5WdXRrOGtnbGEzdVlpMVNIbW50TkRKdnVCVm52ZF9ycXEwTVV5Zk5DMWhzWFhhUm54bnY1azZyalJzLU0zX3BOMV9PcHgzZWFKSGdIdmxDdlNQREtwalZzWUV2R1E1WWpKYlNzWVd3QVkxTjE5YjAzRFNfUmdWNHFy?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado Preservation Deal Protects Critical Workforce Housing \u00a0\u00a0 Affordable Housing Finance"
     },
     {
       "title": "How Three Communities Use Public Equity to Finance Mixed-Income Housing Development - urban.org",
@@ -763,6 +808,15 @@
       "summary": "Aurora grapples with affordable housing needs, deficits \u00a0\u00a0 Denver Gazette"
     },
     {
+      "title": "Construction underway on downtown Golden\u2019s affordable condos - Golden Transcript",
+      "date": "2026-08-18T07:00:00Z",
+      "source": "Golden Transcript",
+      "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOWHBrRVJnSk84UHp0cDYxV3ltMzB5QjNWc09EMjFiRnBUdGR6UVoyV0c5X3Jkbm9ha05ERmpXZktSNmRUREZCeUVSbkpscUpnOFpjY0s4d28xQ0NYanhWdkFuNWQxYk42dkt1TDA2eFhGX29OZWpnbEVpOXY3aFhBUlptT1JBWWUwN21UM2h6R1RyRkY1N3kya2NzMFRPbFpBdFJURER6QTFiX0htYlBOdGhFWjRoTFl3UlZRUGg1OThiMFhDRTlsaHR0TTJOblR0cHB2ZENkSVY1cm5NdE1MeTJYUUVmUQ?oc=5",
+      "topic": "construction",
+      "region": "Colorado",
+      "summary": "Construction underway on downtown Golden\u2019s affordable condos \u00a0\u00a0 Golden Transcript"
+    },
+    {
       "title": "Aurora grapples with affordable housing needs, deficits - Colorado Politics",
       "date": "2026-08-18T07:00:00Z",
       "source": "Colorado Politics",
@@ -779,6 +833,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Is this Colorado program addressing Silverthorne\u2019s housing needs? The town council isn\u2019t sure. \u00a0\u00a0 SummitDaily.com"
+    },
+    {
+      "title": "Eagle's largest affordable housing complex saved from open market sale - 9news.com",
+      "date": "2026-08-17T07:00:00Z",
+      "source": "9news.com",
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOczhRMmtZSVRWU2Nrd0t0dmZ6WUYwbW5ITHBHTGVoVExiQ0NTZENMNGQ3RTJ4MUZ4ZXE4VHZtY0drUlFkci1CN2dFTnpQVy1fdzhnSlEyTjVHUVpMNHNPT2k5TldHY0hnTW5VSl93TGRrc2RTOEJZY0tCRzRlZWk5bXFxanlkRGdoOUNIZlRlQUdid1pSLWZVeTdnX3p2eVB4Tnd2MHpnRGRSaklObEZ5ZExXVGRuaWQ1bkpN?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Eagle's largest affordable housing complex saved from open market sale \u00a0\u00a0 9news.com"
     },
     {
       "title": "Second affordable housing project on church land opens in Colorado Springs - Colorado Politics",
@@ -2363,42 +2426,6 @@
       "topic": "general",
       "region": "Colorado",
       "summary": "StarRise Wins Historic Double Honor at State Housing Awards \u00a0\u00a0 North Forty News"
-    },
-    {
-      "title": "Bipartisan affordable housing bill advances in Congress with goal to boost supply, limit corporate buying - KOAA News 5",
-      "date": "2026-06-21T00:27:09Z",
-      "source": "KOAA News 5",
-      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQcE5EU3JZdmRWQVNLZmZENVhjVjBkRE5RVFVURXJ0ZDlqeTdtOVFTZzBkblpvSzdZRC1fa25RUUJvRUNKNjdvM2gwODl0MzdXUXhYMndHUDQ4QzNXSms4dnZqR1p2MXYwTDQxRWphTFdINXViSndWSVRFUVlwaHFYaFNvWHRtdk9tc2RmMWZaOUEwcXd6c1A4c3V0ZDNIUW1XVDdZbWs2anVpeUNlX1ZUVzBzOHJQY0x2VlhKSjU5ZTRzcmwyS3h6WThIX2lPWHhucUU3dDQwNFZxdzZN?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Bipartisan affordable housing bill advances in Congress with goal to boost supply, limit corporate buying \u00a0\u00a0 KOAA News 5"
-    },
-    {
-      "title": "Developers of Wendy's Village, an affordable housing complex planned for teachers in Colorado Springs, Colo., completed their first homes in July 2025. - themercury.com",
-      "date": "2026-06-20T14:08:03Z",
-      "source": "themercury.com",
-      "url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxPQk10Vy15eVJYREZPOEtfZjg1NU5iUXoteTBoejBlSU9GRTBQYjJPaDhMVk1JcXJUc2FaUF9kSHdmbGc1Mm9Fdnlsb3Jsb21Wc0pSVlZJUkowSmhfUFpkaXNKOW9oQkZvVGtwU2xPWE9zelBQS1hWbFhhcjk0MWJYZWJuUzAwcF83Vi10Yl81YTNOTDNDX1VRdHVpcC12ZlA2eGg2VVhscXJiZ05NeTkzeUtoMmJFV0kzeF8yeTJydl80cUJ0RmJ6N0wzVlRLQVlBd0FreVFBeGVDWk04LUpUeFkta2h3M0JSdkdaQThPRURmN1huTGgwakxzRWt6WGxUTmN2Y0otWGpKU2ljazlyTUY4eDRZcExy?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado Springs",
-      "summary": "Developers of Wendy's Village, an affordable housing complex planned for teachers in Colorado Springs, Colo., completed their first homes in July 2025. \u00a0\u00a0 themercury.com"
-    },
-    {
-      "title": "Developers of Wendy's Village, an affordable housing complex planned for teachers in Colorado Springs, Colo., completed their first homes in July 2025. - IslanderNews.com",
-      "date": "2026-06-20T14:08:03Z",
-      "source": "IslanderNews.com",
-      "url": "https://news.google.com/rss/articles/CBMioAJBVV95cUxOQUV1VjRUNmxHbUc4SUVZaUJBNnVQM210YVFTeE0wam9HOXpuUkt1MUJqSjJzWXJWSmRSMUthb0YwcnJkbTNpVWdvLTJqR01HdnBXMnZ2Wk91WlMxVEJGOW9KMmVGWlA2aWZLNFpGUUREeTlkRFJneC1GMWR6bzYycFZtanhhbXIyN0JqNUx2UlNQNXJCVHY0S2syeHFUR3VlYXM1Vld5R3d1TTU1eVp0TGUyb2NOU1IzV19xOTlCSGstUFZMbTVtdTFRVWxwakdLQzBmMk8xbmRPS3BINHk5bEVIdHhuTHJISG52Z3VtbTlEY1ZtaHNveWRpcDFtMXdxS2RObi1ZcllCeWdfU0sxWTQtVWhvemJ3RWhnYnc3R0M?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado Springs",
-      "summary": "Developers of Wendy's Village, an affordable housing complex planned for teachers in Colorado Springs, Colo., completed their first homes in July 2025. \u00a0\u00a0 IslanderNews.com"
-    },
-    {
-      "title": "Michigan Senate approves low-income housing tax credit bills: Here\u2019s what to know - WILX",
-      "date": "2026-06-19T21:45:00Z",
-      "source": "WILX",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNdHJFSEt1LVl1UzA0cDNtUVdWbmJ3MVBWTzBMMDZnZG9SbDhwZU15V1Z2b1VrMzV3X011d3hGakV3bUFRQnIyLXNDcFQ1N29aRF84VjVJOVU2czJ3ZHpNQU1jUU5tVloyZktyU3ZRbHE2anlHX3FLUFlRSjhXQWxqU3FhaVJiUF9fRVBWSThvLXZ3MVRFZlRCZ216aEg4bDVtTHByLVJQcUplb0NxcGfSAcIBQVVfeXFMTW05VEhBdjA5TnBXMnJjSHBxMWNpN201NmUzajJtdmhuUVlmb0d0RFE1eGk4MmNJQ1JZOW5FdjVfRFpsUkgzenUyZnFudlZpd05tSXduYy1SWXhYT3BiT295WXpfMTY4S2s4NlEwRDRFZUZiellGM3BUdnZPWXVEcE5zbDB1ZFFCY18tbWFqYTY2dkF5eXRQdHlteUxUSnR2LThFMWUzN01ocm9SRTlEOGlUNndBWkp2NVdwOURqdDJTbHc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Michigan Senate approves low-income housing tax credit bills: Here\u2019s what to know \u00a0\u00a0 WILX"
     }
   ]
 }
