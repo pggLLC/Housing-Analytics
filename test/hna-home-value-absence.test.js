@@ -85,7 +85,21 @@ const nullGeoids = Object.keys(cascade.places).filter((g) => {
   return rec && rec.value == null;
 });
 
-assert(nullGeoids.length > 0, 'fixture sanity: the cascade should contain null-value places');
+// Non-vacuity on the SCAN, not on the defect (#1743). This used to require
+// the shipped cascade to contain null-value places, so a build in which every
+// place resolved to a real home value would fail — punishing the data for
+// getting better.
+//
+// The invariant below ("a null must render as null") is genuinely vacuous on
+// an empty set, so the floor moves to the population that was read, and the
+// resolver is additionally exercised against a constructed null rather than
+// relying on production data to supply one.
+assert(Object.keys(cascade.places).length > 400,
+  `only ${Object.keys(cascade.places).length} places in the cascade; the scan is vacuous`);
+assert.strictEqual(
+  U.homeValueInfo({ median_home_value: { value: null, source: 'acs_raw' } }).value, null,
+  'the resolver must return null for a null value even when production data has none',
+);
 
 const leaked = nullGeoids.filter(
   (g) => U.homeValueInfo({ median_home_value: cascade.places[g] }).value !== null
