@@ -323,6 +323,22 @@ jobs:
         run: |
           echo "── Rebuilding HNA ranking index ──"
           python3 scripts/hna/build_ranking_index.py 2>&1
+          # The index has THREE producers. build_ranking_index.py writes it and
+          # the two augmenters add fields and write it back, so running only the
+          # first DELETES their contribution — 31 metrics per jurisdiction,
+          # every recency and regional-recency field among them.
+          #
+          # That is #1698, which stood for three months. It recurred on
+          # 2026-09-19: this workflow took the committed index from 72 metrics
+          # to 41 and nothing reported it, because cron commits get no CI.
+          #
+          # scripts/rebuild-derived.mjs documents the ordering and its
+          # test/rebuild-derived-chain.test.mjs asserts it. These two lines are
+          # the part of that chain this workflow was missing.
+          echo "── Augmenting: recency ──"
+          node scripts/augment_ranking_index_recency.mjs 2>&1
+          echo "── Augmenting: LIHTC by geometry ──"
+          node scripts/augment_lihtc_by_geometry.mjs 2>&1
 
       - name: Phase 7.5 — Rebuild ranking scenario overlays
         if: ${{ inputs.statewide_only != true }}

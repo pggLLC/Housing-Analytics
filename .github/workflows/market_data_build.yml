@@ -293,8 +293,20 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           node scripts/build-home-snapshot.mjs
           npm run audit:file-manifest
+          # This workflow changes the record count in
+          # data/environmental/epa-superfund-co.json, which is the count
+          # js/data-source-inventory.js declares for epa-cleanup-co. Without
+          # reconciling it here, test:data-source-inventory-paths fails on main
+          # until some other workflow happens to run the reconciler, and every
+          # open PR inherits the failure on files it never touched.
+          #
+          # Same reasoning and the same line as fetch-fred-data.yml (#1736) and
+          # fetch-kalshi.yml: the workflow that changes the count is the one
+          # that should reconcile it. This run took epa-cleanup-co from 1141 to
+          # 1144 and left the declaration at 1141.
+          node scripts/audit/refresh-inventory-mtimes.mjs || true
           python3 scripts/rebuild_manifest.py
-          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json data/_manifest.json data/manifest.json
+          git add data/market/ data/environmental/epa-superfund-co.json data/home-snapshot.json data/_manifest.json data/manifest.json js/data-source-inventory.js
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
