@@ -65,6 +65,14 @@ const WORKFORCE_PRESSURE = 70;
  * you to.
  */
 const KNOWN_FAILURES = {
+  // Ranks nudged 2026-09-19 (Keystone 311 -> 312, Nathrop 317 -> 320) when the
+  // ranking index was restored from 41 metrics back to 72. A cron had rebuilt
+  // it with build_ranking_index.py alone, dropping both augmenters and with
+  // them every recency and regional-recency field; putting them back changes
+  // the opportunity percentile pools, so every rank moves a little. One and
+  // three places of movement is that repooling, not these two getting worse on
+  // their own inputs.
+
   // Updated 2026-09-17 after the workforce gap landed (#1732). Demand is now
   // also read from the low-wage jobs a place HOSTS, and gap pressure is the
   // max of the resident and workforce readings.
@@ -82,13 +90,13 @@ const KNOWN_FAILURES = {
   // and they stay where they were. They were failing this rule before the
   // change too; Snowmass and Keystone were simply worse, and the rule only
   // reports the set.
-  '0840550': { name: 'Keystone (CDP)', rank: 311,
+  '0840550': { name: 'Keystone (CDP)', rank: 312,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
        + 'and rank 339 -> 311 — but still short of the top half' },
   '0812470': { name: 'Cattle Creek (CDP)', rank: 307,
     why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
-  '0853010': { name: 'Nathrop (CDP)', rank: 317,
+  '0853010': { name: 'Nathrop (CDP)', rank: 320,
     why: '23.9x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
        + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };

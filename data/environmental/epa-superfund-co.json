@@ -2,8 +2,8 @@
   "meta": {
     "source": "EPA Envirofacts SEMS and FRS/ACRES",
     "state": "Colorado",
-    "retrieved_at": "2026-09-13T05:47:01Z",
-    "generated": "2026-09-13T05:47:01Z",
+    "retrieved_at": "2026-09-19T09:42:23Z",
+    "generated": "2026-09-19T09:42:23Z",
     "coverage_status": "full_statewide",
     "coverage_reason": "Statewide Colorado queries of EPA SEMS NPL sites and FRS-linked ACRES brownfield program records.",
     "query_urls": {
@@ -11,9 +11,9 @@
       "brownfields": "https://data.epa.gov/dmapservice/lookups.mv_new_geo_best_picks/state_code/equals/CO/join/frs.frs_program_facility/registry_id/equals/registry_id/and/pgm_sys_acrnm/equals/ACRES/1:10000/json"
     },
     "superfund_source_records": 24,
-    "brownfield_source_records": 1117,
+    "brownfield_source_records": 1120,
     "superfund_records": 24,
-    "brownfield_records": 1117,
+    "brownfield_records": 1120,
     "superfund_omitted_missing_coordinates": 0,
     "brownfield_omitted_missing_coordinates": 0,
     "note": "NPL query includes final, deleted, and proposed sites; ACRES records use EPA FRS representative coordinates."
@@ -327,6 +327,17 @@
       "county_fips": "08013",
       "county": "Boulder",
       "lat": 40.15988,
+      "lon": -105.10255,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "267122",
+      "registry_id": "110072252465",
+      "name": "10 S MAIN STREET",
+      "county_fips": null,
+      "county": "Boulder",
+      "lat": 40.1595,
       "lon": -105.10255,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
@@ -4539,8 +4550,8 @@
       "name": "DENVER URBAN GARDENS APDC AND CITY OF AURORA",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.74121,
-      "lon": -104.88228,
+      "lat": 39.740937,
+      "lon": -104.882616,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -4550,8 +4561,8 @@
       "name": "DENVER URBAN GARDENS ASIAN PACIFIC DEVELP CENTER",
       "county_fips": "08001",
       "county": "Arapahoe",
-      "lat": 39.74121,
-      "lon": -104.88228,
+      "lat": 39.740937,
+      "lon": -104.882616,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
@@ -9759,6 +9770,17 @@
       "riskLevel": "moderate"
     },
     {
+      "id": "268061",
+      "registry_id": "110072252477",
+      "name": "RAILROAD PLAZA",
+      "county_fips": null,
+      "county": "Alamosa County",
+      "lat": 37.465641,
+      "lon": -105.863889,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
       "id": "37321",
       "registry_id": "110038708137",
       "name": "RANCHERO",
@@ -10272,6 +10294,17 @@
       "county": "Montrose",
       "lat": 38.477868,
       "lon": -107.88123,
+      "status": "EPA ACRES program record",
+      "riskLevel": "moderate"
+    },
+    {
+      "id": "270772",
+      "registry_id": "110072252537",
+      "name": "SHERIDAN RIGHT OF WAY ON WEST RADCLIFF AVENUE",
+      "county_fips": null,
+      "county": "Arapahoe",
+      "lat": 39.63679,
+      "lon": -105.0141,
       "status": "EPA ACRES program record",
       "riskLevel": "moderate"
     },
