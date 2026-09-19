@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-18T12:12:25.368Z
+**Scan timestamp:** 2026-09-19T11:55:12.367Z
 
 ## Summary
 
@@ -389,7 +389,7 @@
 - `data/hna/jurisdiction-metrics-digest/0830340.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0830350.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0830420.json` (38 KB)
-- `data/hna/jurisdiction-metrics-digest/0830780.json` (40 KB)
+- `data/hna/jurisdiction-metrics-digest/0830780.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0830835.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0830890.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0830945.json` (38 KB)
@@ -449,7 +449,7 @@
 - `data/hna/jurisdiction-metrics-digest/0840900.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0841010.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0841065.json` (38 KB)
-- `data/hna/jurisdiction-metrics-digest/0841560.json` (40 KB)
+- `data/hna/jurisdiction-metrics-digest/0841560.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0841835.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0842000.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0842055.json` (39 KB)
@@ -893,7 +893,7 @@
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
 - `data/hna/projections/places.json` (826 KB)
-- `data/hna/ranking-index.json` (2746 KB)
+- `data/hna/ranking-index.json` (2761 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
 - `data/hna/ranking-scenarios/large-gap.json` (49 KB)
@@ -1551,7 +1551,7 @@
 - `data/market/walkability_co.geojson` (360 KB)
 - `data/market/walkability_scores_co.json` (338 KB)
 - `data/market/yardi-matrix-national-multifamily.json` (4 KB)
-- `data/market/zillow_co_metros.json` (106 KB)
+- `data/market/zillow_co_metros.json` (107 KB)
 - `data/market/zoning_compat_index_co.json` (3 KB)
 - `data/market/zori_rents_co.json` (24 KB)
 - `data/metadata/rent_burden_sources.json` (8 KB)
@@ -1583,7 +1583,7 @@
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy_briefs.json` (151 KB)
 - `data/policy_briefs_curated.json` (4 KB)
-- `data/polymarket-data.json` (20 KB)
+- `data/polymarket-data.json` (17 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
 - `data/processed/rent_burden_crosscheck.json` (650 KB)
 - `data/provenance/deal-calculator.json` (3 KB)
@@ -1599,7 +1599,7 @@
 - `data/source-registry.json` (6 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
 - `data/url-health.json` (324 KB)
-- `data/zillow/median_list_price_metro.csv` (839 KB)
-- `data/zillow/zhvi_metro.csv` (4355 KB)
-- `data/zillow/zori_metro.csv` (1030 KB)
+- `data/zillow/median_list_price_metro.csv` (847 KB)
+- `data/zillow/zhvi_metro.csv` (4373 KB)
+- `data/zillow/zori_metro.csv` (1042 KB)
 - `config/data-discovery-config.json` (1 KB)
