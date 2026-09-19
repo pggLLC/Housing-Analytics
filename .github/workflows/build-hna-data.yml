@@ -440,7 +440,28 @@ jobs:
         run: |
           echo "── Regenerating homepage snapshot and data manifests ──"
           node scripts/build-home-snapshot.mjs
+          # The rest of scripts/rebuild-derived.mjs. This workflow ran 8 of its
+          # 11 steps, hand-picked, and on 2026-09-19 that cost two separate
+          # breakages of main in one run: the ranking index lost 31 metrics per
+          # jurisdiction (#1698, recurring), and eight places/<geoid>.html sat
+          # stale against data this same workflow had just changed.
+          #
+          # Cron commits get no CI — GitHub runs no workflows for pushes made
+          # with GITHUB_TOKEN — so neither was reported until a human PR
+          # inherited the failure.
+          #
+          # test/every-gated-artifact-is-rebuildable.test.mjs now fails if this
+          # workflow rebuilds the index while skipping any other chain step.
+          echo "── Rebuilding place pages ──"
+          python3 scripts/hna/build_place_pages.py
+          echo "── Rebuilding paper figures ──"
+          npm run paper:build
+          echo "── Refreshing inventory counts ──"
+          node scripts/compute-inventory.mjs --write
+          node scripts/audit/build-data-manifest.mjs
           npm run audit:file-manifest
+          # Byte counts last: rebuild_manifest.py records sizes, so anything
+          # that writes a data file has to run before it.
           python3 scripts/rebuild_manifest.py
 
       - name: Commit and push
