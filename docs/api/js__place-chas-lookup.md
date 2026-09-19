@@ -6,14 +6,14 @@ Browser-side helper for the TIGER-derived place-level CHAS data
 produced by the TIGER spatial-join arc:
   PR-C1 — tract-level CHAS aggregations
   PR-C2 — TIGER place→tract spatial membership
-  PR-C3 (this) — place-level CHAS via area-weighted apportionment
+  PR-C3 (this) — place-level CHAS via tract apportionment
 
 The dashboard previously inherited the place's "primary county"
 CHAS rates, which was wrong for the 26 cross-county jurisdictions
 (Aurora, Erie, Longmont, etc.). With this module, place-level CHAS
-comes from summing the underlying tracts' CHAS counts weighted by
-what fraction of each tract sits inside the place — accurate for
-any place regardless of how many counties it spans.
+comes from summing the underlying tracts' CHAS counts using the
+population-share method documented in the data metadata. Records with
+missing population inputs retain an explicitly labeled area-share fallback.
 
 Public API
 ----------
@@ -43,6 +43,15 @@ Resolve a phantom geoid to its canonical TIGER GEOID. Returns the
 Lookup place CHAS by 7-digit place geoid. Phantom geoids are
  resolved to their canonical TIGER twin before lookup. Returns null
  if not present.
+
+### `metadata()`
+
+Return the file-level methodology and vintage metadata used by every
+place record. The returned object is read-only by convention.
+
+### `disclosure(geoid)`
+
+Build display-only disclosure from the exact record and file metadata.
 
 ### `compareToCounty(placeGeoid, countyChasRecord)`
 

@@ -22,10 +22,10 @@ Exposed as window.EnvironmentalScreening (browser) and module.exports (Node).
 @typedef {Object} EnvRiskResult
 @property {Object}  floodZone        — { zone, riskLevel, sfha, year100Flood, narrative }
 @property {Object}  soil             — { stability, liquefactionRisk, narrative }
-@property {Object}  hazmat           — { superfundSites, brownfieldSites, nearestSuperfundMi, narrative }
+@property {Object}  hazmat           — counts, risk, coverageStatus, unavailableReason, and narrative
 @property {Object}  culturalHeritage — { nhpd, tribalLand }
-@property {string}  riskBadge        — '🟢 Low' | '🟡 Moderate' | '🔴 High'
-@property {string}  overallRisk      — 'low' | 'moderate' | 'high'
+@property {string}  riskBadge        — '🟢 Low' | '🟡 Moderate' | '🔴 High' | '⚪ Unknown'
+@property {string}  overallRisk      — 'low' | 'moderate' | 'high' | 'unknown'
 @property {string}  narrative        — human-readable summary
 
 ## Symbols

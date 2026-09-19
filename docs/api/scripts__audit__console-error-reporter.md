@@ -25,6 +25,25 @@ Exit codes:
 
 ## Symbols
 
+### `INTERACTIONS`
+
+Interactions to exercise after a page loads.
+
+The audit used to load pages and listen, nothing more. That misses an entire
+class of error by construction: on 2026-09-16 the live site threw
+"activeBase.bringToBack is not a function" every time a reader changed the
+basemap, and this audit could not have caught it at any cadence, because
+nobody ever changed the basemap.
+
+Deliberately small and declarative. This is a smoke test for "does touching
+the controls throw", not a functional test — it should stay cheap enough
+that nobody is tempted to skip it, and it must never assert on OUTCOMES,
+only on whether the page threw. Outcome assertions belong in test/.
+
+### `exercise(page, pageName, note)`
+
+Run one page's interactions, swallowing interaction errors but not page errors.
+
 ### `messages`
 
 @type {Array<{level:string, text:string, location:object|null}>}

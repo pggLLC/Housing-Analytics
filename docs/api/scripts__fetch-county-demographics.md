@@ -30,3 +30,8 @@ Build a statewide aggregate row from individual county records.
 Count fields are summed; rate/median fields use population-weighted averages.
 This row is stored under `counties.Colorado` (FIPS "08") so downstream code
 can reference state totals without re-summing 64 counties.
+
+### `fetchNewestVintage(years)`
+
+Try each candidate vintage newest-first; resolve with the first that returns
+a usable county table. Sets ACS_YEAR to the vintage actually fetched.

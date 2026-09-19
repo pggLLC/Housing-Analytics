@@ -12,7 +12,7 @@ Required env vars (set via GitHub Actions secrets or a local .env):
   KALSHI_API_SECRET     — RSA private key in PEM format
 
 Optional env vars:
-  KALSHI_API_BASE_URL   — defaults to https://trading-api.kalshi.com
+  KALSHI_API_BASE_URL   — defaults to https://api.elections.kalshi.com
 
 Local usage (dry-run without credentials — writes empty items fallback):
   node scripts/kalshi/fetch_kalshi_prediction_markets.js
@@ -41,6 +41,25 @@ dashboard can fall back gracefully to its built-in mock data.
 @property {string|null} seriesTicker  — Kalshi series ticker (e.g. "KXMORTGAGE30")
 @property {string|null} eventTicker   — Kalshi event ticker (overrides seriesTicker search)
 @property {string[]}    keywords      — fallback keyword search terms
+
+### `normalizePem(raw)`
+
+normalizePem — rebuild a PEM whose line breaks were lost.
+
+Pasting a private key into a secrets field commonly flattens it onto one
+line, and OpenSSL then fails with
+  error:1E08010C:DECODER routines::unsupported
+which names no cause and reads like an unsupported key type. It is purely a
+formatting problem: the key material is intact, so re-wrap it rather than
+leaving the operator to discover this by character count. (A PKCS#8 RSA-2048
+key is 1704 characters with its newlines and 1676 without — exactly the
+difference that produced this bug.)
+
+Handles PKCS#1 ("BEGIN RSA PRIVATE KEY"), PKCS#8 ("BEGIN PRIVATE KEY"), and
+a bare base64 body with no header at all.
+
+@param {string} raw
+@returns {string|null} a well-formed PEM, or null if it cannot be rebuilt
 
 ### `kalshiAuthHeaders(method, apiPath)`
 
