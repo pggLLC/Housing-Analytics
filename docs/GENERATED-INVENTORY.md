@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T10:38:57.446Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T19:45:43.485Z. Do not edit by hand.
 
 ---
 
@@ -117,7 +117,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 9.3 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
+| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-373 test files found.
+374 test files found.
 
 | File | Size |
 |------|------|
@@ -1918,6 +1918,7 @@
 | `test/polymarket-resolved.test.js` | 7.8 KB |
 | `test/preservation.test.js` | 17.3 KB |
 | `test/pro-forma.test.js` | 8.7 KB |
+| `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
 | `test/prop123-historical.test.js` | 19.2 KB |
