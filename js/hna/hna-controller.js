@@ -2463,6 +2463,118 @@
     }
   }
 
+  /**
+   * How many homes does this jurisdiction need over the horizon?
+   *
+   * Two readings, and the answer is the larger. Never a blend — a blend lets a
+   * place average away a need it is already exporting.
+   *
+   * ── Reading 1: resident growth ──
+   *
+   * Households projected at the horizon, housed at the target vacancy, minus
+   * the stock that already exists. The subtlety is WHICH stock. Demand is
+   * computed at the ACTIVE-MARKET vacancy — deliberately, because in a resort
+   * county the headline vacancy counts second homes nobody can rent. Supply
+   * was then subtracted at the TOTAL stock, seasonal units included. Demand
+   * measured on the active market, supply counted with the empty chalets.
+   *
+   * Pitkin County, measured 2026-09-20: 13,677 units, 39.3% total vacancy,
+   * 6.7% active-market vacancy, 8,303 projected households.
+   *   needUnits = 8,303 / (1 - 0.067)          = 8,899
+   *   old: 8,899 - 13,677                      = -4,778  "surplus of 4,937 units"
+   *   new: 8,899 - (occupied / (1 - activeVac)) =    -5
+   * The published page told Aspen it had excess housing capacity.
+   *
+   * ── Reading 2: the workforce ──
+   *
+   * A place that has already priced out the people who work there shows no
+   * resident growth, because they are not residents. Boundary-bounded demand
+   * reads displacement as adequacy. #1733 built the jobs-side reading for the
+   * ranking index — workforce_gap_units, from LODES workplace-area counts
+   * against units affordable at <=60% AMI — and this page never used it.
+   * Pitkin: 9,682 people commute in, 9,353 local low-wage jobs,
+   * workforce_gap_units = 7,554. The same site held "7,554 units needed" and
+   * "surplus of 4,937 units" on the same day.
+   *
+   * Returns the figure AND which reading produced it, because a number this
+   * size is not actionable without knowing what it counts.
+   */
+  /**
+   * workforce_gap_units for one jurisdiction, from its metrics digest.
+   *
+   * The digest is per-jurisdiction and ~38KB, so this costs one small fetch
+   * rather than the whole ranking index. Returns null on any failure: the
+   * production figure then falls back to the resident-growth reading alone,
+   * which is the previous behaviour, rather than showing nothing.
+   */
+  const _workforceGapCache = Object.create(null);
+  async function _loadWorkforceGapUnits(geoid) {
+    if (!geoid) return null;
+    // Digests exist for counties (5-digit) and places/CDPs (7-digit), one per
+    // ranked jurisdiction. There is no statewide digest, and asking for one
+    // costs a 404 that Chromium logs as a console error — which is a real
+    // failure, not cosmetic: core-rendered-smoke.mjs counts console errors and
+    // this fetch failed all 12 HNA flows on its first CI run. A request that
+    // cannot succeed should not be made; see the same lesson in #1759.
+    const id = String(geoid);
+    if (id.length !== 5 && id.length !== 7) return null;
+    if (Object.prototype.hasOwnProperty.call(_workforceGapCache, geoid)) return _workforceGapCache[geoid];
+    let units = null;
+    try {
+      const doc = await loadJson('data/hna/jurisdiction-metrics-digest/' + geoid + '.json');
+      const m = doc && doc.metrics && doc.metrics.workforce_gap_units;
+      const v = m && typeof m === 'object' ? m.value : m;
+      units = window.HNAUtils.safeNum(v);
+    } catch (_) {
+      units = null;
+    }
+    _workforceGapCache[geoid] = units;
+    return units;
+  }
+
+  function _productionNeed(input) {
+    const num = (v) => (v == null || !Number.isFinite(Number(v)) ? null : Number(v));
+    const needUnits = num(input.needUnits);
+    const baseUnits = num(input.baseUnits);
+    const observedTotalVac = num(input.observedTotalVac);
+    const activeVac = num(input.activeVac);
+    const workforce = num(input.workforceGapUnits);
+
+    // The stock actually in the housing market. Falls back to the total when
+    // the vacancy split is unavailable — the same answer as before, rather
+    // than no answer.
+    let activeStock = baseUnits;
+    let stockBasis = 'total_stock';
+    if (baseUnits !== null && observedTotalVac !== null && activeVac !== null
+        && observedTotalVac > activeVac && observedTotalVac < 1 && activeVac < 1) {
+      const occupied = baseUnits * (1 - observedTotalVac);
+      activeStock = occupied / (1 - activeVac);
+      stockBasis = 'active_market_stock';
+    }
+
+    const growth = (needUnits !== null && activeStock !== null) ? (needUnits - activeStock) : null;
+
+    if (growth === null && workforce === null) return null;
+    if (workforce !== null && (growth === null || workforce > growth)) {
+      return {
+        units: workforce,
+        basis: 'workforce',
+        growthUnits: growth,
+        workforceUnits: workforce,
+        stockBasis,
+        activeStock,
+      };
+    }
+    return {
+      units: growth,
+      basis: 'resident_growth',
+      growthUnits: growth,
+      workforceUnits: workforce,
+      stockBasis,
+      activeStock,
+    };
+  }
+
   function formatIncrementalUnitsDisplay(incUnits) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
     const rounded = Math.round(Number(incUnits));
@@ -2472,9 +2584,20 @@
     return window.HNAUtils.fmtNum(rounded);
   }
 
-  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote) {
+  function formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote, basis) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) {
       return 'Projections loaded, but could not compute housing need (missing households/headship).';
+    }
+    // A figure this size is not actionable without knowing what it counts, and
+    // the two readings answer different questions. Say which one won.
+    if (basis === 'workforce') {
+      return `Workforce-based: ${window.HNAUtils.fmtNum(Math.round(Number(incUnits)))} units by ${endYear}. `
+        + 'This jurisdiction employs more low-wage workers than it has homes affordable to them, so the '
+        + 'demand its own residents show understates the need — people who cannot afford to live here '
+        + 'commute in and are not counted as households. Housing need is read from jobs (LEHD LODES '
+        + 'workplace-area counts against units affordable at \u226460% AMI) rather than from projected '
+        + 'household growth, and the larger of the two readings is shown.'
+        + projectionMethodNote;
     }
     const display = formatIncrementalUnitsDisplay(incUnits);
     const vacancy = window.HNAUtils.fmtPct(targetVac * 100);
@@ -2607,14 +2730,42 @@
     const hsH = (i>=0) ? headshipAt(i) : null;
     const hhH = (popH!==null && hsH!==null) ? (popH * hsH) : null;
     const needUnits = (hhH!==null) ? (hhH / (1.0 - targetVac)) : null;
-    let incUnits = (needUnits!==null && baseUnits!==null) ? (needUnits - baseUnits) : null;
+    // The larger of the resident-growth reading and the workforce reading; see
+    // _productionNeed. Subtracting the TOTAL stock from demand computed at the
+    // active-market vacancy is what published "surplus of 4,937 units" for a
+    // county where 9,682 people commute in because they cannot live there.
+    const _workforceGapUnits = await _loadWorkforceGapUnits(
+      (selection && selection.geoid) || countyFips5 || null);
+    const _need = _productionNeed({
+      needUnits,
+      baseUnits,
+      observedTotalVac: window.HNAUtils.safeNum(proj?.housing_need?.observed_total_vacancy),
+      activeVac: window.HNAUtils.safeNum(proj?.housing_need?.active_market_vacancy),
+      workforceGapUnits: _workforceGapUnits,
+    });
+    let incUnits = _need ? _need.units : null;
+    let incUnitsBasis = _need ? _need.basis : null;
     let projectionMethodNote = '';
     let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
       const placeIdx = placeProjectionRec.years.indexOf(baseYear + horizon);
       const placeInc = placeIdx >= 0 ? window.HNAUtils.safeNum(placeProjectionRec.incremental_units_needed[placeIdx]) : null;
       if (placeInc !== null){
-        incUnits = placeInc;
+        // The place series is a better RESIDENT-GROWTH reading than the
+        // county-scaled one, so it replaces that half — but it is still the
+        // resident half, and taking it raw here would throw away the workforce
+        // reading the county path had just applied. A place that exports its
+        // workforce must not read as needing nothing simply because a
+        // place-level projection exists for it.
+        const _placeNeed = _productionNeed({
+          needUnits: placeInc,
+          baseUnits: 0,
+          observedTotalVac: null,
+          activeVac: null,
+          workforceGapUnits: _workforceGapUnits,
+        });
+        incUnits = _placeNeed ? _placeNeed.units : placeInc;
+        incUnitsBasis = _placeNeed ? _placeNeed.basis : null;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         if (sh.permit == null) {
@@ -2722,7 +2873,14 @@
         production: {
           value: incUnitsDisplay,
           read: incUnits !== null && Number.isFinite(Number(incUnits))
-            ? (incUnits > 0 ? 'Gap remains' : (incUnits === 0 ? 'At target' : 'Surplus'))
+            // "Surplus" is a claim about a housing market, not an arithmetic
+            // sign. When the workforce reading is what produced the figure,
+            // the jurisdiction is short of homes by definition — the label has
+            // to say what the number means, not what side of zero it is on.
+            ? (incUnitsBasis === 'workforce' ? 'Workforce shortfall'
+              : incUnits > 0 ? 'Gap remains'
+              : incUnits === 0 ? 'At target'
+              : 'Surplus')
             : 'Unavailable',
           href: '#statUnitsNeed',
         },
@@ -2741,7 +2899,7 @@
         }
       }
     }
-    if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote);
+    if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = formatIncrementalUnitsNote(incUnits, endYear, targetVac, projectionMethodNote + countyDolaReconciliationNote, incUnitsBasis);
 
     // Update projection chart for selected geography
     const t = window.HNARenderers.chartTheme();
