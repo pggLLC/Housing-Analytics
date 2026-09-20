@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-20T05:43:18.924082Z",
+  "generated": "2026-09-20T05:44:42.455109Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -219,7 +219,7 @@
     "data/co-county-economic-indicators.json": {
       "featureCount": 64,
       "placeholder": false,
-      "bytes": 15341
+      "bytes": 15327
     },
     "data/co-demographics.json": {
       "featureCount": 0,

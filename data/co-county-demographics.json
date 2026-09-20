@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates (2024)",
   "source_url": "https://data.census.gov/",
   "note": "County-level fallback data refreshed weekly by CI. Live data fetched directly from Census ACS API at page load. The statewide aggregate is the top-level `statewide` key, not a row in `counties`.",
@@ -1368,7 +1368,7 @@
     "dataset": "2024/acs/acs5",
     "geography": "county",
     "state": "Colorado (FIPS 08)",
-    "refreshed_utc": "2026-09-19T11:30:52.332Z",
+    "refreshed_utc": "2026-09-20T05:44:26.932Z",
     "producer": "scripts/fetch-county-demographics.js"
   }
 }
