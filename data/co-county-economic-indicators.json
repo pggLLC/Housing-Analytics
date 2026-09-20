@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-19",
+  "updated": "2026-09-20",
   "source": "BLS LAUS (unemployment 2025 annual avg + 5-yr residential employment growth — replaces deprecated BLS QCEW endpoint), ACS 2024 5-year (home price, income, population)",
   "note": "Affordability index = median home price / median household income. Values refreshed weekly by CI workflow.",
   "counties": {
@@ -20,7 +20,7 @@
       "median_hh_income": 55397
     },
     "Arapahoe": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.9,
       "job_growth_5yr_pct": 9.48,
       "affordability_index": 5.55,
       "population_growth_5yr_pct": 2.37,
@@ -140,7 +140,7 @@
       "median_hh_income": 94718
     },
     "Dolores": {
-      "unemployment_rate": null,
+      "unemployment_rate": 4.2,
       "job_growth_5yr_pct": -3.93,
       "affordability_index": 3.81,
       "population_growth_5yr_pct": 30.96,
@@ -172,7 +172,7 @@
       "median_hh_income": 90363
     },
     "Elbert": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.4,
       "job_growth_5yr_pct": 19.05,
       "affordability_index": 5.35,
       "population_growth_5yr_pct": 8.39,
@@ -188,7 +188,7 @@
       "median_hh_income": 62664
     },
     "Garfield": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.2,
       "job_growth_5yr_pct": 4.86,
       "affordability_index": 5.79,
       "population_growth_5yr_pct": 5.8,
@@ -268,7 +268,7 @@
       "median_hh_income": 70259
     },
     "La Plata": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.8,
       "job_growth_5yr_pct": 3.35,
       "affordability_index": 6.87,
       "population_growth_5yr_pct": 1.28,
@@ -292,7 +292,7 @@
       "median_hh_income": 93765
     },
     "Las Animas": {
-      "unemployment_rate": null,
+      "unemployment_rate": 6.2,
       "job_growth_5yr_pct": -12.07,
       "affordability_index": 4.56,
       "population_growth_5yr_pct": 1.03,
@@ -364,7 +364,7 @@
       "median_hh_income": 73278
     },
     "Otero": {
-      "unemployment_rate": null,
+      "unemployment_rate": 5.4,
       "job_growth_5yr_pct": -7.42,
       "affordability_index": 3.13,
       "population_growth_5yr_pct": 0.21,
@@ -380,7 +380,7 @@
       "median_hh_income": 91020
     },
     "Park": {
-      "unemployment_rate": null,
+      "unemployment_rate": 4.0,
       "job_growth_5yr_pct": 12.02,
       "affordability_index": 5.13,
       "population_growth_5yr_pct": 0.22,
@@ -404,7 +404,7 @@
       "median_hh_income": 102645
     },
     "Prowers": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.8,
       "job_growth_5yr_pct": -4.37,
       "affordability_index": 3.0,
       "population_growth_5yr_pct": -0.93,
@@ -412,7 +412,7 @@
       "median_hh_income": 53508
     },
     "Pueblo": {
-      "unemployment_rate": null,
+      "unemployment_rate": 5.5,
       "job_growth_5yr_pct": 0.71,
       "affordability_index": 4.55,
       "population_growth_5yr_pct": 2.03,
@@ -436,7 +436,7 @@
       "median_hh_income": 64411
     },
     "Routt": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.3,
       "job_growth_5yr_pct": 4.41,
       "affordability_index": 8.03,
       "population_growth_5yr_pct": 0.05,
@@ -460,7 +460,7 @@
       "median_hh_income": 77824
     },
     "San Miguel": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.8,
       "job_growth_5yr_pct": 11.46,
       "affordability_index": 9.12,
       "population_growth_5yr_pct": -1.01,
@@ -468,7 +468,7 @@
       "median_hh_income": 79024
     },
     "Sedgwick": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.5,
       "job_growth_5yr_pct": -15.47,
       "affordability_index": 2.84,
       "population_growth_5yr_pct": -0.78,
@@ -476,7 +476,7 @@
       "median_hh_income": 52386
     },
     "Summit": {
-      "unemployment_rate": null,
+      "unemployment_rate": 3.0,
       "job_growth_5yr_pct": 6.44,
       "affordability_index": 8.56,
       "population_growth_5yr_pct": 1.2,
