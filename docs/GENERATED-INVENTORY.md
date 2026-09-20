@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T10:10:23.322Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T10:38:57.446Z. Do not edit by hand.
 
 ---
 
@@ -1827,7 +1827,7 @@
 | `test/homepage-job-routing.test.js` | 7.5 KB |
 | `test/homepage-snapshot.test.js` | 4.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
-| `test/housing-need-face-validity.test.mjs` | 14.0 KB |
+| `test/housing-need-face-validity.test.mjs` | 14.8 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 4.1 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
@@ -2062,7 +2062,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 28.3 KB |
+| `.github/workflows/build-hna-data.yml` | 28.7 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
@@ -2104,7 +2104,7 @@
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 10.8 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 11.1 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
