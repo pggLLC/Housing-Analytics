@@ -2510,6 +2510,14 @@
   const _workforceGapCache = Object.create(null);
   async function _loadWorkforceGapUnits(geoid) {
     if (!geoid) return null;
+    // Digests exist for counties (5-digit) and places/CDPs (7-digit), one per
+    // ranked jurisdiction. There is no statewide digest, and asking for one
+    // costs a 404 that Chromium logs as a console error — which is a real
+    // failure, not cosmetic: core-rendered-smoke.mjs counts console errors and
+    // this fetch failed all 12 HNA flows on its first CI run. A request that
+    // cannot succeed should not be made; see the same lesson in #1759.
+    const id = String(geoid);
+    if (id.length !== 5 && id.length !== 7) return null;
     if (Object.prototype.hasOwnProperty.call(_workforceGapCache, geoid)) return _workforceGapCache[geoid];
     let units = null;
     try {
