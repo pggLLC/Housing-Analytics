@@ -64,6 +64,10 @@ jobs:
         uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Step 9 of rebuild:derived is paper:build, which measures the repo's
+          # own commit history. actions/checkout defaults to fetch-depth: 1, and
+          # a shallow clone made it publish repo.first_commit = the build date.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v7
