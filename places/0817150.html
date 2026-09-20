@@ -31,14 +31,14 @@
   "low_confidence": false,
   "source": "population-apportionment",
   "summary": {
-    "total_renter_hh": 143.4,
-    "total_owner_hh": 163.8,
-    "renter_cb30_count": 41.0,
-    "renter_cb30_share": 0.2859,
-    "renter_cb50_count": 25.2,
-    "renter_cb50_share": 0.1757,
-    "owner_cb30_count": 48.8,
-    "owner_cb30_share": 0.2979,
+    "total_renter_hh": 46.0,
+    "total_owner_hh": 77.0,
+    "renter_cb30_count": 13.2,
+    "renter_cb30_share": 0.287,
+    "renter_cb50_count": 8.1,
+    "renter_cb50_share": 0.1761,
+    "owner_cb30_count": 22.9,
+    "owner_cb30_share": 0.2974,
     "owner_cb50_count": 0.0,
     "owner_cb50_share": 0.0
   },
@@ -58,21 +58,21 @@
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 25.2,
-      "cost_burdened_30pct": 25.2,
-      "cost_burdened_50pct": 25.2,
+      "total": 8.1,
+      "cost_burdened_30pct": 8.1,
+      "cost_burdened_50pct": 8.1,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 1.0
     },
     "81to100": {
-      "total": 15.8,
-      "cost_burdened_30pct": 15.8,
+      "total": 5.1,
+      "cost_burdened_30pct": 5.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 1.0,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 102.4,
+      "total": 32.8,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
@@ -81,55 +81,59 @@
   },
   "owner_hh_by_ami": {
     "lte30": {
-      "total": 14.2,
+      "total": 6.7,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "31to50": {
-      "total": 26.8,
-      "cost_burdened_30pct": 17.3,
+      "total": 12.6,
+      "cost_burdened_30pct": 8.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.6471,
       "pct_cost_burdened_50": 0.0
     },
     "51to80": {
-      "total": 42.5,
+      "total": 20.0,
       "cost_burdened_30pct": 0.0,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.0,
       "pct_cost_burdened_50": 0.0
     },
     "81to100": {
-      "total": 25.2,
-      "cost_burdened_30pct": 7.9,
+      "total": 11.8,
+      "cost_burdened_30pct": 3.7,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.3125,
       "pct_cost_burdened_50": 0.0
     },
     "100plus": {
-      "total": 55.1,
-      "cost_burdened_30pct": 23.6,
+      "total": 25.9,
+      "cost_burdened_30pct": 11.1,
       "cost_burdened_50pct": 0.0,
       "pct_cost_burdened_30": 0.4286,
       "pct_cost_burdened_50": 0.0
     }
   },
-  "tenure_anchor": {
-    "applied": false,
-    "status": "unavailable",
-    "reason": "missing_dp04_tenure",
-    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-    "acs_renter_hh": null,
-    "acs_owner_hh": 37.0,
-    "base_renter_hh": 143.4,
-    "base_owner_hh": 163.8
-  },
   "acs_anchor": {
     "applied": false,
-    "acs_occupied_hh": 1467,
-    "base_hh": 307.2
+    "acs_occupied_hh": 123,
+    "base_hh": 307.2,
+    "superseded_by": "tenure_anchor"
+  },
+  "tenure_anchor": {
+    "applied": true,
+    "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+    "renter_scale": 0.3208,
+    "owner_scale": 0.4701,
+    "acs_renter_hh": 46.0,
+    "acs_owner_hh": 77.0,
+    "base_renter_hh_before": 143.4,
+    "base_owner_hh_before": 163.8,
+    "renter_share_before": 0.4668,
+    "renter_share_after": 0.374,
+    "rates_preserved": true
   },
   "chas_meta": {
     "vintage_chas": "2018-2022",
@@ -146,11 +150,11 @@
     "recommendation": "Verify locally",
     "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
     "data_quality": "Medium",
-    "renter_cost_burdened": 41,
-    "owner_cost_burdened": 48.8,
-    "severe_renter_cost_burdened": 25.2,
-    "moderate_income_renter_households": 41,
-    "moderate_income_owner_cost_burdened": 7.9,
+    "renter_cost_burdened": 13.2,
+    "owner_cost_burdened": 22.9,
+    "severe_renter_cost_burdened": 8.1,
+    "moderate_income_renter_households": 13.2,
+    "moderate_income_owner_cost_burdened": 3.7,
     "existing_rental_gap_lte80": 0,
     "rental_pressure_tier": "Moderate",
     "ownership_pressure_tier": "Moderate",
@@ -203,7 +207,7 @@
           Colorado · Summit County
         </div>
         <h1>Copper Mountain</h1>
-        <p class="place-sub">~307 households · renter cost-burden 28.6%</p>
+        <p class="place-sub">~123 households · renter cost-burden 28.7%</p>
       </div>
     </div>
 
