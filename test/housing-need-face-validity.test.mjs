@@ -64,6 +64,21 @@ const WORKFORCE_PRESSURE = 70;
  * permission. Remove an entry when the place stops failing — the test tells
  * you to.
  */
+/*
+ * Ranks re-snapshotted 2026-09-20: Keystone 312 -> 316, Cattle Creek 307 -> 308.
+ *
+ * Both moved because rebuild-bps-permits.yml refreshed
+ * data/hna/projections/places.json and the chain rebuilt the index from it —
+ * a data refresh, not a scoring change. Nothing in the weighting or the
+ * components moved.
+ *
+ * Worth knowing about this rule: it cannot tell those two apart. It fails when
+ * a ledger place's rank rises for ANY reason, so an ordinary projections
+ * refresh reads the same as the methodology regressing. Re-snapshotting is
+ * therefore the right maintenance here, and would be exactly the wrong
+ * response to a real regression. Anyone updating these numbers should confirm,
+ * as was confirmed here, that the movement traces to an input rebuild.
+ */
 const KNOWN_FAILURES = {
   // Ranks nudged 2026-09-19 (Keystone 311 -> 312, Nathrop 317 -> 320) when the
   // ranking index was restored from 41 metrics back to 72. A cron had rebuilt
@@ -90,10 +105,10 @@ const KNOWN_FAILURES = {
   // and they stay where they were. They were failing this rule before the
   // change too; Snowmass and Keystone were simply worse, and the rule only
   // reports the set.
-  '0840550': { name: 'Keystone (CDP)', rank: 312,
+  '0840550': { name: 'Keystone (CDP)', rank: 316,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
        + 'and rank 339 -> 311 — but still short of the top half' },
-  '0812470': { name: 'Cattle Creek (CDP)', rank: 307,
+  '0812470': { name: 'Cattle Creek (CDP)', rank: 308,
     why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
   '0853010': { name: 'Nathrop (CDP)', rank: 320,
