@@ -91,8 +91,30 @@ jobs:
         # places.json reads the permit series, never the need block.
         run: python3 scripts/hna/build_permits.py
 
-      - name: Regenerate place pages
-        run: python3 scripts/hna/build_place_pages.py
+      - name: Rebuild the derived chain
+        # build_place_projections.py above rewrites
+        # data/hna/projections/places.json, which is an INPUT to the ranking
+        # index: scripts/hna/build_ranking_index.py loads it at
+        # load_place_projections() and consumes it per jurisdiction. This
+        # workflow used to rebuild place pages and stop, so every run left
+        # data/hna/ranking-index.json describing projections that no longer
+        # existed — and because a GITHUB_TOKEN push runs no workflows, nothing
+        # said so until the next human push happened to run the suite, where
+        # it presented as that PR failing on files it never touched.
+        #
+        # Measured 2026-09-20 (#1765): the 05:36Z HNA build produced a correct
+        # index with all 72 metrics; the 09:25Z run of THIS workflow rewrote
+        # places.json and left the index stale, and test:ranking-fresh failed
+        # on the next merge with a diff of purely projection-derived fields
+        # (future_units_needed_20yr, population_projection_20yr,
+        # future_units_basis).
+        #
+        # rebuild:derived, never a hand-picked subset: the index has three
+        # producers and running build_ranking_index.py alone drops the two
+        # augmenters' contribution (#1698, #1729). Step 8 of the chain is
+        # build_place_pages.py, so the place-page rebuild this replaces still
+        # happens, in its correct position.
+        run: npm run rebuild:derived
 
       - name: Validate data bounds
         run: node scripts/validate-critical-data.js
@@ -105,7 +127,25 @@ jobs:
         id: data-commit
         run: |
           echo "pushed=false" >> "$GITHUB_OUTPUT"
-          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/"
+          # The permits paths, PLUS everything rebuild:derived writes. Without
+          # the second half the chain would run and its output would be thrown
+          # away unpushed, which is indistinguishable from not running it.
+          # Measured from a full chain run on 2026-09-20 (#1765).
+          paths="data/hna/permits.json data/hna/source/bps data/hna/projections/places.json places/ data/hna/ranking-index.json data/hna/ranking-scenarios data/hna/jurisdiction-metrics-digest data/hna/ownership-need.json data/jurisdiction-briefs data/home-snapshot.json data/paper working-paper.html methods.html AGENTS.md README.md data/_manifest.json data/manifest.json"
+          # A path the chain starts writing that is missing from the list above
+          # would be silently dropped, which is the defect this fixes. Fail loudly
+          # instead.
+          # `:!x` rather than `:(exclude)x`: the parenthesised form is a glob
+          # pattern in some shells and silently stops excluding anything.
+          excludes=""
+          for p in $paths; do excludes="$excludes :!$p"; done
+          outside="$(git status --porcelain -- . $excludes | head -20)"
+          if [ -n "$outside" ]; then
+            echo "::error::rebuild:derived wrote files outside the committed path list:" >&2
+            echo "$outside" >&2
+            echo "Add them to \$paths and to PATHS below, or stop writing them." >&2
+            exit 1
+          fi
           if git diff --quiet -- $paths && [ -z "$(git status --porcelain -- $paths)" ]; then
             echo "BPS permits chain unchanged — nothing to commit."
             exit 0
@@ -125,6 +165,19 @@ jobs:
               "data/hna/source/bps",
               "data/hna/projections/places.json",
               "places/",
+              "data/hna/ranking-index.json",
+              "data/hna/ranking-scenarios",
+              "data/hna/jurisdiction-metrics-digest",
+              "data/hna/ownership-need.json",
+              "data/jurisdiction-briefs",
+              "data/home-snapshot.json",
+              "data/paper",
+              "working-paper.html",
+              "methods.html",
+              "AGENTS.md",
+              "README.md",
+              "data/_manifest.json",
+              "data/manifest.json",
           ]
 
           def run(args):
