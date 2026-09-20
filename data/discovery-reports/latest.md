@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-19T11:55:12.367Z
+**Scan timestamp:** 2026-09-20T12:18:06.128Z
 
 ## Summary
 
@@ -57,7 +57,7 @@
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
 - `data/discovery-reports/latest.json` (239 KB)
-- `data/environmental/epa-superfund-co.json` (323 KB)
+- `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
 - `data/fixtures/fruita-commons-compact.scenario.json` (5 KB)
@@ -194,7 +194,7 @@
 - `data/hna/jurisdiction-metrics-digest/0804620.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/08047.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/08049.json` (38 KB)
-- `data/hna/jurisdiction-metrics-digest/0804935.json` (40 KB)
+- `data/hna/jurisdiction-metrics-digest/0804935.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/08051.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0805120.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0805265.json` (39 KB)
@@ -449,7 +449,7 @@
 - `data/hna/jurisdiction-metrics-digest/0840900.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0841010.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0841065.json` (38 KB)
-- `data/hna/jurisdiction-metrics-digest/0841560.json` (39 KB)
+- `data/hna/jurisdiction-metrics-digest/0841560.json` (40 KB)
 - `data/hna/jurisdiction-metrics-digest/0841835.json` (39 KB)
 - `data/hna/jurisdiction-metrics-digest/0842000.json` (38 KB)
 - `data/hna/jurisdiction-metrics-digest/0842055.json` (39 KB)
@@ -1537,14 +1537,14 @@
 - `data/market/opportunity_insights_co.json` (163 KB)
 - `data/market/opportunity_zones_co.geojson` (831 KB)
 - `data/market/parcel_aggregates_co.json` (3 KB)
-- `data/market/pma_tract_display_geometry.geojson` (476 KB)
+- `data/market/pma_tract_display_geometry.geojson` (475 KB)
 - `data/market/qct_dda_designations_co.json` (0 KB)
 - `data/market/qct_dda_designations_co_normalized.json` (1 KB)
 - `data/market/redfin_place_market_tracker_co.json` (1532 KB)
 - `data/market/schools_co.geojson` (1214 KB)
 - `data/market/state-trend-analysis.json` (7 KB)
 - `data/market/tax-credit-transfer-pricing.json` (3 KB)
-- `data/market/tract_boundaries_co.geojson` (390 KB)
+- `data/market/tract_boundaries_co.geojson` (389 KB)
 - `data/market/transit_routes_co.geojson` (4764 KB)
 - `data/market/travel_time_matrix_co.json` (4331 KB)
 - `data/market/utility_capacity_co.geojson` (178 KB)
