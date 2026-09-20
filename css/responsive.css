@@ -253,6 +253,7 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     -webkit-overflow-scrolling: touch;
   }
 
+
   table {
     min-width: 540px;
   }
@@ -272,6 +273,17 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
+    /* The 540px floor above is for a table inside .table-container, where the
+       WRAPPER scrolls. Once the table is its own scroll container it must not
+       inherit that floor: min-width beats max-width in CSS, so the scroll box
+       itself became 540px on a 375px screen and pushed the page sideways
+       instead of scrolling its own contents. Measured on deal-calculator.html
+       (#dcWaterfallTable, #dcWaterfallAnnualTable): 27px of page overflow at
+       375px. The table's CONTENT still exceeds the box and still scrolls —
+       that is the intended pattern; only the box is capped. This is why
+       #dealCalcMount and the HNA tables each carried their own local
+       min-width override: one global defect, patched twice locally. */
+    min-width: 0;
   }
 
   /* DQS tables already hide lower-priority columns on narrow screens, so
@@ -284,15 +296,14 @@ p a, li a, td a, .note a, .sub a, .footer-wrap a {
     table-layout: auto;
   }
 
-  #dealCalcMount table,
-  #dc-rent-ach-table,
-  #dc-peers-table {
-    display: table;
-    min-width: 0;
-    width: 100%;
-    max-width: 100%;
-    table-layout: auto;
-  }
+  /* These three used to force `display: table` to escape the 540px floor the
+     generic rule above imposed. That floor is gone, so the override now does
+     the opposite of its purpose: it takes the tables OUT of the scroll
+     treatment, and a six-column peers table cannot fit 375px whatever its
+     table-layout — measured at 381px wide against a 375px viewport, scrolling
+     the page instead of itself. Removing it lets them scroll inside their own
+     box like every other uncontained table. The tighter cell padding below is
+     kept; that part was always about fitting more in, not about display mode. */
 
   #dc-rent-ach-table th,
   #dc-rent-ach-table td,
