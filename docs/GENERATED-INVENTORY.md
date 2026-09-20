@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-19T22:03:47.684Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T02:04:19.869Z. Do not edit by hand.
 
 ---
 
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-372 test files found.
+373 test files found.
 
 | File | Size |
 |------|------|
@@ -1755,6 +1755,7 @@
 | `test/energy-retrofit-funding.test.js` | 5.2 KB |
 | `test/entry-path-starts-at-jurisdiction.test.mjs` | 11.5 KB |
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
+| `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 4.2 KB |
