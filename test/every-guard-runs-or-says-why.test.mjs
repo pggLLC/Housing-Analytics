@@ -37,6 +37,15 @@
  * A guard covered either way is running. Requiring a declaration for one that
  * already runs is how an exemption list turns into a dumping ground (#1746).
  *
+ * A THIRD form exists and deliberately does NOT count: a guard's file appended
+ * to another script's command line. test:hna-provenance-disclosure used to end
+ * with `&& node test/hna-chas-vintage-disclosure.test.js`, so the CHAS
+ * disclosure guard ran in CI under a name that was not its own — invisible to
+ * `npm run test:hna-chas-vintage-disclosure`, and silently dropped if anyone
+ * edited the other script. That chain was removed and the guard wired
+ * explicitly. Counting such chains as "wired" would bless the hiding place;
+ * failing on them says make it explicit, which is the repair.
+ *
  * ── The ledger ──
  *
  * Whatever is left must appear in NOT_IN_CI with a reason. A tenth undeclared
