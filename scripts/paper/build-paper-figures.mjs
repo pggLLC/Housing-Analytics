@@ -103,6 +103,22 @@ function emergence() {
   // remote-tracking ref, and silently counting a feature branch's commits would
   // publish a number that is not the project's.
   const ref = git(['rev-parse', '--verify', '--quiet', 'origin/main']) ? 'origin/main' : 'HEAD';
+  // A shallow clone answers `git log` with a TRUNCATED history, not an empty
+  // one, so the absence branch below never fires and the figures come out
+  // confidently wrong. actions/checkout defaults to fetch-depth: 1, and on
+  // 2026-09-20 a workflow that runs this generator published
+  // repo.first_commit = "2026-09-20" — the paper claiming the project began
+  // the morning it was built — with commits_by_month collapsed from 8 rows to
+  // 1. Refuse rather than guess: the numbers are measurable and the
+  // environment is simply misconfigured, so the fix is fetch-depth: 0 on the
+  // workflow, not a quieter figure here.
+  if (git(['rev-parse', '--is-shallow-repository']) === 'true') {
+    throw new Error(
+      'refusing to measure repo history from a shallow clone — `git log` would '
+      + 'return a truncated history and publish it as the project\'s. '
+      + 'Set `fetch-depth: 0` on the actions/checkout step that runs paper:build.'
+    );
+  }
   const dates = git(['log', '--format=%cs', ref]);
   if (!dates) {
     return {
