@@ -1,3 +1,25 @@
+/**
+ * Mobile overflow CSS rules are present — NOT "mobile overflow is contained".
+ *
+ * This file reads stylesheet SOURCE TEXT and asserts that declarations whose
+ * purpose is to prevent overflow are still there. That is a genuine regression
+ * check — `min-width: 0` and `overflow-wrap: anywhere` are easy to delete by
+ * accident and hard to notice — and it is cheap, so it runs in the ci-checks
+ * chain where no browser is installed.
+ *
+ * It is NOT a measurement. It cannot see a rule overridden later in the
+ * cascade, an element that is not on the page at all, overflow caused by some
+ * other rule or container, or overflow on any page it does not name. It was
+ * called `mobile-overflow-containment`, which read as a promise it could not
+ * keep (#1745): 25 assertions, two stylesheets, and zero references to
+ * scrollWidth, getBoundingClientRect or any browser.
+ *
+ * The measurement lives in scripts/audit/mobile-overflow-audit.mjs, which
+ * drives real pages at 375px and asserts the document does not scroll
+ * sideways. When it was first run it found three defects on
+ * deal-calculator.html that every assertion in this file had been green
+ * through.
+ */
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');

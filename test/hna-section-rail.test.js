@@ -136,7 +136,7 @@ run('the rail owns a grid track instead of floating over the content', () => {
 
   // A grid item's default min-width is auto, so a bare `1fr` content track lets
   // one wide table or chart push the column past the viewport and reintroduce
-  // horizontal scrolling — which test:mobile-overflow-containment exists to stop.
+  // horizontal scrolling — which test:mobile-overflow-css-rules-present exists to stop.
   const grid = css.slice(css.indexOf('.hna-shell[data-has-rail="true"]'));
   assert.ok(/grid-template-columns:[^;]*minmax\(\s*0\s*,/.test(grid),
     'the content track uses minmax(0, …) so wide content cannot widen the page');

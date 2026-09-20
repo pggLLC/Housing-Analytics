@@ -78,6 +78,15 @@ jobs:
         env:
           AUDIT_BASE_URL: http://127.0.0.1:8080
 
+      - name: Run mobile overflow audit
+        # Here rather than in ci-checks: this needs the Chromium installed by
+        # the step above, and the ci-checks chain deliberately installs no
+        # browser. Gating, not advisory — "does the document scroll sideways"
+        # is a boolean the browser answers, with no heuristic in it.
+        run: node scripts/audit/mobile-overflow-audit.mjs
+        env:
+          AUDIT_BASE_URL: http://127.0.0.1:8080
+
       - name: Run site audit
         run: npm run audit:site
         env:
