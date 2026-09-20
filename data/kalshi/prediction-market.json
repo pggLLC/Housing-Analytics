@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13T08:14:29Z",
+  "updated": "2026-09-20T05:47:34Z",
   "source": "kalshi",
   "items": [
     {
@@ -7,41 +7,41 @@
       "label": "Total Housing Starts (Annualized)",
       "horizon": "year_end",
       "market": {
-        "id": "KXHOUSINGSTART-26SEP17-T1.500",
-        "title": "Will US housing starts for August 2026 be above 1.500M?",
-        "url": "https://kalshi.com/markets/KXHOUSINGSTART-26SEP17-T1.500"
+        "id": "KXHOUSINGSTART-26OCT20-T1.450",
+        "title": "Will US housing starts for September 2026 be above 1.450M?",
+        "url": "https://kalshi.com/markets/KXHOUSINGSTART-26OCT20-T1.450"
       },
       "outcomes": [
         {
-          "name": "Will US housing starts for August 2026 be above 1.500M?",
+          "name": "Will US housing starts for September 2026 be above 1.450M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.450M?",
+          "name": "Will US housing starts for September 2026 be above 1.400M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.400M?",
+          "name": "Will US housing starts for September 2026 be above 1.350M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.350M?",
+          "name": "Will US housing starts for September 2026 be above 1.300M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.300M?",
+          "name": "Will US housing starts for September 2026 be above 1.250M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.250M?",
+          "name": "Will US housing starts for September 2026 be above 1.200M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.200M?",
+          "name": "Will US housing starts for September 2026 be above 1.150M?",
           "prob": 0
         },
         {
-          "name": "Will US housing starts for August 2026 be above 1.150M?",
+          "name": "Will US housing starts for September 2026 be above 1.100M?",
           "prob": 0
         }
       ]
