@@ -1325,11 +1325,27 @@ def compute_metrics(
     # max(), never a blend — a blend lets a place average away a need it is
     # already exporting. This mirrors _productionNeed in js/hna/hna-controller.js
     # so the two surfaces cannot disagree again; a guard asserts they match.
+    # Keep the growth-only figure as its own metric. test:hna-projection-
+    # integrity asserts the index and data/hna/projections/places.json agree on
+    # the 20-year number for 400+ places, and that check is load-bearing: the
+    # ledger IS the place-level producer. Once the published figure became a
+    # max it stopped being the same quantity, and the guard fired on 303
+    # places. The right repair is to preserve the quantity the guard compares,
+    # not to relax the guard — so the ledger is still checked against growth,
+    # and the max is asserted on top of it.
+    future_units_growth_20yr = future_units_needed_20yr
     future_units_basis_reading = "resident_growth"
     if workforce_gap_units is not None and workforce_gap_units > 0:
         if future_units_needed_20yr is None or workforce_gap_units > future_units_needed_20yr:
             future_units_needed_20yr = int(workforce_gap_units)
             future_units_basis_reading = "workforce"
+            # Five tiny places (Wolcott, Leyner, Carbonate, Fulford, Lynn) have
+            # no projection at all, so projection_basis was never set — and the
+            # workforce reading has now given them a figure. A published number
+            # with no stated basis is exactly what test:hna-projection-integrity
+            # refuses, and rightly: it is where the figure came from. Name it.
+            if not projection_basis:
+                projection_basis = "workforce_gap_lodes_wac"
 
     sya = load_sya(county_fips5) if county_fips5 else None
     if sya:
@@ -1562,6 +1578,10 @@ def compute_metrics(
         # answers how many more households are projected, "workforce" answers
         # how many homes the jobs already here have no one to live in.
         "future_units_reading": future_units_basis_reading,
+        # The resident-growth component, before the workforce max. This is the
+        # quantity data/hna/projections/places.json produces, and what
+        # test:hna-projection-integrity compares against.
+        "future_units_growth_20yr": future_units_growth_20yr,
         "senior_share_growth_pp": senior_share_growth_pp,
         "overcrowding_rate_pct": overcrowding_rate,
         "population": population,

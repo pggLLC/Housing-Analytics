@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T19:58:14.182Z",
+    "generated_at": "2026-09-20T20:07:50.941Z",
     "root": "data/",
     "file_count": 1615,
-    "total_size_bytes": 158645244,
+    "total_size_bytes": 158667532,
     "kinds": {
       "json": 1580,
       "geojson": 31,
@@ -1456,7 +1456,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1251267,
-      "mtime": "2026-09-20T11:06:39.413Z",
+      "mtime": "2026-09-20T20:07:40.514Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -18588,8 +18588,8 @@
     {
       "path": "hna/ranking-index.json",
       "kind": "json",
-      "size_bytes": 2852647,
-      "mtime": "2026-09-20T19:54:58.212Z",
+      "size_bytes": 2874935,
+      "mtime": "2026-09-20T20:07:17.624Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18618,7 +18618,7 @@
       "path": "hna/ranking-scenarios/balanced.json",
       "kind": "json",
       "size_bytes": 49963,
-      "mtime": "2026-09-20T19:55:09.458Z",
+      "mtime": "2026-09-20T20:07:28.692Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18637,7 +18637,7 @@
       "path": "hna/ranking-scenarios/commuter-pressure.json",
       "kind": "json",
       "size_bytes": 49983,
-      "mtime": "2026-09-20T19:55:41.969Z",
+      "mtime": "2026-09-20T20:06:35.757Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18656,7 +18656,7 @@
       "path": "hna/ranking-scenarios/large-gap.json",
       "kind": "json",
       "size_bytes": 49974,
-      "mtime": "2026-09-20T19:55:30.983Z",
+      "mtime": "2026-09-20T20:06:25.049Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18675,7 +18675,7 @@
       "path": "hna/ranking-scenarios/rate-sensitive.json",
       "kind": "json",
       "size_bytes": 49983,
-      "mtime": "2026-09-20T19:55:20.288Z",
+      "mtime": "2026-09-20T20:07:39.674Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -18694,7 +18694,7 @@
       "path": "hna/ranking-scenarios/rural-lens.json",
       "kind": "json",
       "size_bytes": 49985,
-      "mtime": "2026-09-20T19:55:53.025Z",
+      "mtime": "2026-09-20T20:06:46.484Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204854,
-      "mtime": "2026-09-20T19:57:58.292Z",
+      "mtime": "2026-09-20T19:58:17.220Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31761,7 +31761,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14389,
-      "mtime": "2026-09-20T19:57:53.909Z",
+      "mtime": "2026-09-20T20:07:49.743Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31784,7 +31784,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 5997,
-      "mtime": "2026-09-20T19:57:53.206Z",
+      "mtime": "2026-09-20T20:07:48.996Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
