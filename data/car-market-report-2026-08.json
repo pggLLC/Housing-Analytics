@@ -1,6 +1,6 @@
 {
   "month": "2026-08",
-  "generated_at": "2026-09-13T05:36:29.912Z",
+  "generated_at": "2026-09-20T05:41:40.701Z",
   "source": "Colorado Association of REALTORS® (via ShowingTime, sourced from Colorado MLS)",
   "source_url": "https://marketstatsreports.showingtime.com/CAR-Colorado_hqac0/sst/202608/0SF.htm",
   "version": "1.1",
@@ -10,7 +10,7 @@
     "statewide": true,
     "metro": true
   },
-  "estimate_basis": "county rows are published ShowingTime data; statewide and metro figures are trend-projected from 2026-07",
+  "estimate_basis": "county rows are published ShowingTime data; statewide and metro figures are county rows are published ShowingTime data; statewide and metro figures are trend-projected from 2026-07",
   "statewide": {
     "median_sale_price": 592595,
     "active_listings": 22048,
