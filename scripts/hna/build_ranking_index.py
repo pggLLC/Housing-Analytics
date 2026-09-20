@@ -1308,6 +1308,29 @@ def compute_metrics(
                         future_units_needed_20yr = int(round(safe_float(future_units[-1]) * share))
                         projection_basis = "county_population_share"
 
+    # ── The workforce reading, applied to the published figure ────────────
+    #
+    # future_units_needed_20yr is the answer step 7 gives to "How many homes
+    # are needed?" and is pure resident-household growth. A jurisdiction that
+    # has already priced out the people who work there shows no growth,
+    # because they are not residents — boundary-bounded demand reads
+    # displacement as adequacy.
+    #
+    # workforce_gap_units is computed twenty lines above this, from the same
+    # inputs, and the two never met. Pitkin County's digest carried
+    # future_units_needed_20yr = -3 and workforce_gap_units = 7554 as adjacent
+    # keys, and the Recommendation page published "-3 homes over 20 years" for
+    # Aspen while the HNA page published 7,554 for the same county.
+    #
+    # max(), never a blend — a blend lets a place average away a need it is
+    # already exporting. This mirrors _productionNeed in js/hna/hna-controller.js
+    # so the two surfaces cannot disagree again; a guard asserts they match.
+    future_units_basis_reading = "resident_growth"
+    if workforce_gap_units is not None and workforce_gap_units > 0:
+        if future_units_needed_20yr is None or workforce_gap_units > future_units_needed_20yr:
+            future_units_needed_20yr = int(workforce_gap_units)
+            future_units_basis_reading = "workforce"
+
     sya = load_sya(county_fips5) if county_fips5 else None
     if sya:
         pressure = sya.get("seniorPressure", {})
@@ -1534,6 +1557,11 @@ def compute_metrics(
         # Which apportionment produced the figure above. Two methods existed
         # for years and nothing on the row said which one you were reading.
         "future_units_basis": projection_basis,
+        # Which of the two readings produced the figure. A number this size is
+        # not actionable without knowing what it counts: "resident_growth"
+        # answers how many more households are projected, "workforce" answers
+        # how many homes the jobs already here have no one to live in.
+        "future_units_reading": future_units_basis_reading,
         "senior_share_growth_pp": senior_share_growth_pp,
         "overcrowding_rate_pct": overcrowding_rate,
         "population": population,
