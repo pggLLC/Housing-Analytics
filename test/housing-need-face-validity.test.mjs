@@ -65,7 +65,19 @@ const WORKFORCE_PRESSURE = 70;
  * you to.
  */
 /*
- * Ranks re-snapshotted 2026-09-20: Keystone 312 -> 316, Cattle Creek 307 -> 308.
+ * Ranks re-snapshotted 2026-09-20, twice in one day.
+ *
+ * First: Keystone 312 -> 316, Cattle Creek 307 -> 308, when
+ * rebuild-bps-permits.yml refreshed projections/places.json.
+ *
+ * Then: Cattle Creek 308 -> 312, Nathrop 320 -> 324, when the production
+ * figure began taking max(resident growth, workforce). 365 of 546
+ * jurisdictions gained a workforce reading, so the ones that host no
+ * workforce fell relative to them. These two are on this ledger precisely
+ * BECAUSE the job-based reading correctly sees no gap for them — Cattle
+ * Creek has 59 local low-wage jobs — so a change that lifts places with a
+ * workforce is expected to push these down. The movement confirms the
+ * mechanism rather than contradicting it.
  *
  * Both moved because rebuild-bps-permits.yml refreshed
  * data/hna/projections/places.json and the chain rebuilt the index from it —
@@ -108,10 +120,10 @@ const KNOWN_FAILURES = {
   '0840550': { name: 'Keystone (CDP)', rank: 316,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
        + 'and rank 339 -> 311 — but still short of the top half' },
-  '0812470': { name: 'Cattle Creek (CDP)', rank: 308,
+  '0812470': { name: 'Cattle Creek (CDP)', rank: 312,
     why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
-  '0853010': { name: 'Nathrop (CDP)', rank: 320,
+  '0853010': { name: 'Nathrop (CDP)', rank: 324,
     why: '23.9x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
        + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };

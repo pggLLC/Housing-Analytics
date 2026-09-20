@@ -277,11 +277,32 @@ function assertRankingUsesTheSameLedgerAsThePage() {
     const entry = ledger[row.geoid];
     if (!entry || !Array.isArray(entry.incremental_units_needed) || !entry.incremental_units_needed.length) continue;
     const expected = Math.round(Number(entry.incremental_units_needed[entry.incremental_units_needed.length - 1]));
-    const actual = row.metrics && row.metrics.future_units_needed_20yr;
+    // future_units_needed_20yr is now max(resident growth, workforce), so it
+    // is no longer the same quantity the ledger produces. The ledger IS the
+    // resident-growth producer, so it is compared against the growth component
+    // — and the max is asserted separately below, which is strictly more than
+    // this check covered before.
+    const actual = row.metrics && (row.metrics.future_units_growth_20yr !== undefined
+      ? row.metrics.future_units_growth_20yr
+      : row.metrics.future_units_needed_20yr);
     compared += 1;
     if (actual !== expected) mismatched.push(`${row.name}: ranking ${actual}, ledger ${expected}`);
   }
   assert(compared >= 400, `only ${compared} places compared against the ledger`);
+
+  // The published figure must never fall below the growth component it is a
+  // max of. Without this, dropping the workforce half entirely would satisfy
+  // the equality check above and this guard would go quiet about it.
+  const belowGrowth = [];
+  for (const row of rows) {
+    const m = row.metrics || {};
+    if (typeof m.future_units_growth_20yr !== 'number' || typeof m.future_units_needed_20yr !== 'number') continue;
+    if (m.future_units_needed_20yr < m.future_units_growth_20yr) {
+      belowGrowth.push(`${row.name}: published ${m.future_units_needed_20yr} below growth ${m.future_units_growth_20yr}`);
+    }
+  }
+  assert.deepStrictEqual(belowGrowth, [],
+    `the published 20-year figure is a max and must not be under its own growth component: ${belowGrowth.join('; ')}`);
   assert.deepStrictEqual(mismatched.slice(0, 5), [],
     `the ranking index and the page disagree about the 20-year figure for ` +
     `${mismatched.length} places: ${mismatched.slice(0, 3).join('; ')}`);
