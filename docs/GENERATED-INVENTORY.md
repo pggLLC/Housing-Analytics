@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T09:37:17.578Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-20T10:10:23.322Z. Do not edit by hand.
 
 ---
 
@@ -1646,7 +1646,7 @@
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 151.1 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
-| `data/polymarket-data.json` | 17.4 KB | ✅ | — |
+| `data/polymarket-data.json` | 17.3 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
 | `data/provenance/hna-scenario-builder.json` | 3.2 KB | ✅ | — |
@@ -2104,7 +2104,7 @@
 | `.github/workflows/pab-allocations-annual.yml` | 3.7 KB |
 | `.github/workflows/pages-deploy-watchdog.yml` | 652 B |
 | `.github/workflows/qa-status.yml` | 10.0 KB |
-| `.github/workflows/rebuild-bps-permits.yml` | 7.6 KB |
+| `.github/workflows/rebuild-bps-permits.yml` | 10.8 KB |
 | `.github/workflows/rebuild-place-od-flows.yml` | 4.5 KB |
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
