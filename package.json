@@ -320,7 +320,7 @@
     "test:surfaces-agree": "node --test test/both-surfaces-answer-the-same-question.test.mjs"
   },
   "dependencies": {
-    "jsdom": "^30.0.1"
+    "jsdom": "^30.1.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
