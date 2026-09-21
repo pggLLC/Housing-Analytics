@@ -398,7 +398,12 @@
       // Skip if a callout already exists in the same chart card
       const card = h2.closest('.chart-card');
       if (!card) return;
+      // Detached callouts (narrow cards) sit AFTER the card, not inside it, so
+      // looking only inside would re-inject one on every _injectCallouts pass —
+      // and it runs three times per load.
       if (card.querySelector('.hna-dev-context')) return;
+      const next = card.nextElementSibling;
+      if (next && next.classList && next.classList.contains('hna-dev-context')) return;
 
       const key = _matchKey(h2);
       if (!key) return;
@@ -411,8 +416,37 @@
       const wrap = document.createElement('div');
       wrap.innerHTML = html;
       const node = wrap.firstChild;
-      if (intro) intro.parentNode.insertBefore(node, intro.nextSibling);
-      else h2.parentNode.insertBefore(node, h2.nextSibling);
+
+      // A narrow card is not a place for three paragraphs of prose.
+      //
+      // This callout goes into whatever chart-card its heading lives in, and
+      // some of those are span-4. Measured 2026-09-20 on
+      // hna-what-housing-exists at 1440px: six of eight callouts sat in
+      // span-12 or span-6 cards and read at 65-66 characters a line, and the
+      // two in span-4 cards read at 39 — a 343px column, which is a newspaper
+      // measure applied to explanatory text.
+      //
+      // Widening those cards is not available uniformly: "Bedroom Mix" sits in
+      // a 10-of-12 row and could grow, but "LIHTC, QCT & DDA" pairs with an
+      // 8-column Map to fill the row exactly, and widening it would displace
+      // the map.
+      //
+      // So a narrow card's callout is placed in the GRID immediately after the
+      // card instead of inside it, spanning the full row. It still reads as
+      // belonging to the card it follows, the card's own row is left intact,
+      // and the prose gets a real column — capped at 60ch by the measure rule
+      // in css/layout.css, so full-width does not mean full-bleed.
+      const grid = card.parentElement;
+      const narrow = /\bspan-(1|2|3|4)\b/.test(card.className || '');
+      if (narrow && grid) {
+        node.className += ' span-12';
+        node.setAttribute('data-dev-context-detached', 'true');
+        grid.insertBefore(node, card.nextSibling);
+      } else if (intro) {
+        intro.parentNode.insertBefore(node, intro.nextSibling);
+      } else {
+        h2.parentNode.insertBefore(node, h2.nextSibling);
+      }
       injected++;
     });
     return injected;
