@@ -1306,8 +1306,24 @@ def compute_metrics(
                 base_pop = safe_float(pop_dola[0]) if pop_dola else 0
                 last_pop = safe_float(pop_dola[-1]) if pop_dola else 0
                 if base_pop > 0:
-                    growth_factor = last_pop / base_pop
-                    population_projection_20yr = int(population * growth_factor)
+                    # Allocate the county's INCREMENTAL population growth by this
+                    # place's blended_share (0.5 x current household share + 0.5 x
+                    # its share of recent county building permits — the same
+                    # figure the units-needed ledger above already uses) rather
+                    # than scaling the place's own current population by the
+                    # county's overall growth factor. Pure population-share
+                    # scaling assumes the next 20 years of growth distribute
+                    # exactly like today's population; the permit half of the
+                    # blend is what makes it local — it puts growth where
+                    # building is actually happening now, not just where people
+                    # already live. Falls back to pure population-share when a
+                    # place has no ledger entry (10 of 482) or no permit data.
+                    blended_share = (place_proj or {}).get("shares", {}).get("blended")
+                    if blended_share is not None:
+                        population_projection_20yr = int(population + (last_pop - base_pop) * safe_float(blended_share))
+                    else:
+                        growth_factor = last_pop / base_pop
+                        population_projection_20yr = int(population * growth_factor)
                     future_units = proj.get("housing_need", {}).get("incremental_units_needed_dola", [])
                     if future_units and future_units_needed_20yr is None:
                         share = min(population / base_pop, 1.0)
