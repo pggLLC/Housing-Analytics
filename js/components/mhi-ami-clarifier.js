@@ -156,7 +156,7 @@
         var direction = delta > 0 ? 'above' : 'below';
         deltaHtml = '<p style="margin:0 0 .35rem;font-size:1.133rem;color:var(--text)">' +
           'HUD 4-person AMI is <strong>' + _fmtMoney(Math.abs(delta)) + ' (' + Math.abs(deltaPct) + '%) ' +
-          direction + '</strong> the local median household income — quoting one when the other is wanted is the single most common housing-data error.' +
+          direction + '</strong> the local median household income. These two are easy to mix up: income limits for affordable housing are set from the HUD figure, while the median describes what households here actually earn. Use the HUD figure when you are checking who qualifies.' +
           '</p>';
       }
 
