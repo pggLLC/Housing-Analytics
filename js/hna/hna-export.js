@@ -189,8 +189,10 @@
   function _loadRankingIndex() {
     if (_rankingIndexCache) return Promise.resolve(_rankingIndexCache);
     if (_rankingIndexPromise) return _rankingIndexPromise;
-    _rankingIndexPromise = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
-      .then(function (r) { return r.ok ? r.json() : null; })
+    var _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }); };
+    _rankingIndexPromise = _fetcher('data/hna/ranking-index.json', { cache: 'no-store' })
       .then(function (j) {
         if (!j) { _rankingIndexCache = null; return null; }
         // Build a geoid-indexed map for O(1) lookup. The source JSON

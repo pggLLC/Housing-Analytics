@@ -25,6 +25,17 @@
   window.dataFetchErrors = window.dataFetchErrors || [];
   var CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
+  // In-flight request de-duplication, keyed by resolved URL. Several
+  // independent modules can each kick off their own fetch for the same
+  // JSON asset around page-init time (e.g. data/hna/ranking-index.json is
+  // fetched separately by hna-export.js, hna-narratives.js and
+  // hna-renderers.js) — without this, near-simultaneous duplicate requests
+  // to the same URL can have one aborted by the browser (net::ERR_ABORTED),
+  // leaving that caller's promise to hang. Only genuinely concurrent calls
+  // share a promise; it is removed as soon as the request settles, so a
+  // later, non-overlapping call still gets a fresh fetch.
+  var _inflightRequests = Object.create(null);
+
   /**
    * Resolve a relative asset path against the detected base path.
    * - Absolute URLs (http/https/data) are returned unchanged.
@@ -206,6 +217,8 @@
   }
 
   function fetchAndCache(cacheKey, url, maxRetries, timeoutMs, options, relativePath, background) {
+    if (_inflightRequests[url]) return _inflightRequests[url];
+
     function attempt(n) {
       return new Promise(function (resolve, reject) {
         var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
@@ -255,7 +268,15 @@
       });
     }
 
-    return attempt(1);
+    var promise = attempt(1).then(function (data) {
+      delete _inflightRequests[url];
+      return data;
+    }, function (err) {
+      delete _inflightRequests[url];
+      throw err;
+    });
+    _inflightRequests[url] = promise;
+    return promise;
   }
 
   // Expose on window

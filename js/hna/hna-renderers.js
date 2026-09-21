@@ -1832,8 +1832,10 @@
   let _rankRecencyCache = null;
   function _loadRankRecency() {
     if (_rankRecencyCache) return _rankRecencyCache;
-    _rankRecencyCache = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
-      .then(r => r.ok ? r.json() : null)
+    const _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : (u) => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    _rankRecencyCache = _fetcher('data/hna/ranking-index.json', { cache: 'no-store' })
       .then(j => {
         const out = {};
         const rows = (j && Array.isArray(j.rankings)) ? j.rankings : [];
@@ -8126,9 +8128,12 @@
   let _amiCtxCache = null;
   function _loadAmiCtx() {
     if (_amiCtxCache) return _amiCtxCache;
+    const _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : (u) => fetch(u).then((r) => (r.ok ? r.json() : null));
     _amiCtxCache = Promise.all([
-      fetch('data/co_ami_gap_by_place.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
-      fetch('data/hna/ranking-index.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
+      _fetcher('data/co_ami_gap_by_place.json').catch(() => null),
+      _fetcher('data/hna/ranking-index.json').catch(() => null),
     ]).then(([gap, rank]) => {
       const place = (gap && gap.places) || {};
       const median = {};
