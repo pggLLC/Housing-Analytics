@@ -1482,7 +1482,7 @@
     var dimDescs  = [
       'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
       'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
-      'Upward pressure on market rents vs. AMI-restricted limits. High rent pressure = strong affordability gap and demand for restricted units.',
+      'How far market rents have pulled above the capped rents an income-restricted building may charge. The wider that gap, the more people are priced out of the open market and the more demand there is for restricted units.',
       'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
     ];
