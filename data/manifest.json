@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-21T14:32:19.929628Z",
+  "generated": "2026-09-21T17:57:31.121186Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7949,7 +7949,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13451
+      "bytes": 13954
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
