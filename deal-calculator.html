@@ -997,8 +997,19 @@
         var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
         var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
         if (jx) {
-          countyName = jx.name || jx.countyName || null;
-          cityName   = jx.displayName || jx.cityName   || null;
+          // jx.name is the SELECTED geography's own name, which for a
+          // place/CDP is a city name (e.g. "Fruita (city)") — assigning it
+          // to countyName unconditionally mislabeled it as a county
+          // ("Fruita (city) County"). Only a county selection's own name
+          // belongs in countyName; otherwise use jx.countyName (the true
+          // containing county) and put the place name in cityName.
+          if (jx.geoType === 'county') {
+            countyName = jx.name || jx.countyName || null;
+            cityName   = null;
+          } else {
+            countyName = jx.countyName || countyName;
+            cityName   = jx.displayName || jx.name || jx.cityName || cityName;
+          }
         }
       } catch (_) {}
 
