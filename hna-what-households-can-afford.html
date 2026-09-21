@@ -30,6 +30,15 @@
     .hna-decision-strip[hidden] {
       display: none;
     }
+    /* A tile whose section is absent from this view gets `hidden` set by
+       _paintDecisionStrip() in hna-renderers.js so it never renders a
+       permanent "— Loading" placeholder. Without this rule the tile's own
+       `display: flex` below (same author-origin specificity, author rules
+       always beat the UA default for [hidden]) wins over the browser's
+       native hidden behavior and the placeholder stays visible forever. */
+    .hna-decision-tile[hidden] {
+      display: none;
+    }
     .hna-decision-tile {
       min-width: 0;
       border: 1px solid var(--border);
