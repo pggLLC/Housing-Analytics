@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-21T16:27:43.978Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-21T16:29:24.292Z. Do not edit by hand.
 
 ---
 
@@ -31,7 +31,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.7 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.1 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.6 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -42,13 +42,13 @@
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.6 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.7 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.4 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 140.6 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.7 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 168.9 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.7 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.9 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 141.1 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 165.2 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.4 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.2 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 242.5 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 34.3 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
