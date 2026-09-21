@@ -1291,9 +1291,15 @@ def compute_metrics(
         if incremental:
             future_units_needed_20yr = int(round(safe_float(incremental[-1])))
             projection_basis = (place_proj or {}).get("method") or "place_ledger"
-        # For places without a ledger row: scale county projection by current
-        # population share.
-        if not incremental and county_fips5:
+        # population_projection_20yr is independent of the units-needed
+        # ledger above and must run whether or not this place has a ledger
+        # row: it used to be gated on `not incremental`, so any place WITH a
+        # ledger entry (472 of 482) silently kept the 0 default instead of a
+        # real figure — Fruita's page read "a -100.0% contraction... implies
+        # a net loss of ~5,307 households" from that leftover 0. The inner
+        # `future_units_needed_20yr is None` check below already keeps this
+        # block from overwriting a ledger-sourced units figure.
+        if county_fips5:
             proj = load_projection(county_fips5)
             if proj and population:
                 pop_dola = proj.get("population_dola", [])
@@ -1441,7 +1447,9 @@ def compute_metrics(
     #   - AMI gap fields: place_acs_direct → not approximated; county_proportional → approximated.
     #   - CHAS pct_burdened_* tiers: chas_source == "place" → not approximated; "county" → approximated.
     #   - LEHD in_commuters: lehd_source == "place" → not approximated; county_proportional → approximated.
-    #   - population_projection_20yr: always county-only (no place-level projection emits).
+    #   - population_projection_20yr: place-level values are always scaled
+    #     from the county DOLA projection by current population share, so
+    #     this is unconditional for every non-county geography.
     approximated_fields: list[str] = []
     if geo_type != "county":
         if ami_gap_source != "place_acs_direct":
