@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-21T14:10:25.557Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-21T16:27:43.978Z. Do not edit by hand.
 
 ---
 
@@ -1642,7 +1642,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 24.8 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 13.1 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 13.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy_briefs.json` | 151.1 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
