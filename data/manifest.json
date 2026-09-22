@@ -7602,9 +7602,9 @@
       "bytes": 733069
     },
     "data/market/fhfa_hpi_subcounty_co.json": {
-      "featureCount": 64,
+      "featureCount": 54,
       "placeholder": false,
-      "bytes": 526405
+      "bytes": 524279
     },
     "data/market/flood_zones_co.geojson": {
       "featureCount": 12537,
