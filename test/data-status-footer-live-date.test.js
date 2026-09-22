@@ -56,6 +56,25 @@ run('every HNA page takes its date from the live hna key, never a static date', 
   assert.ok(UPDATE_SOURCES.hna, 'the hna key exists');
 });
 
+run('no top-level page shows a typed date: every data-status bar has a live update key', () => {
+  // The general rule behind the HNA case. A static data-page-last-updated is
+  // a sentence about the data that nothing keeps true; #1825 found seven
+  // pages six months stale and every one a day early. Pages whose inputs are
+  // user-entered (land-value) carry no bar at all rather than a fake date.
+  const staticOnly = [];
+  for (const p of fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && !f.startsWith('og-'))) {
+    const body = /<body\b[^>]*>/.exec(read(p));
+    if (!body) continue;
+    if (/data-page-last-updated=/.test(body[0])) staticOnly.push(p + ': ' + (/data-page-last-updated="[^"]*"/.exec(body[0]) || [''])[0]);
+  }
+  assert.deepEqual(staticOnly, [], 'pages still carrying a typed date');
+  for (const p of fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'))) {
+    const body = /<body\b[^>]*>/.exec(read(p));
+    const key = body && /data-page-update-key="([^"]*)"/.exec(body[0]);
+    if (key) assert.ok(UPDATE_SOURCES[key[1]], `${p}: update key "${key[1]}" is defined`);
+  }
+});
+
 run('the hna key reads the vintage the badge reads: ranking-index generatedAt via the snapshot sidecar', () => {
   const snapshot = JSON.parse(read('data/home-snapshot.json'));
   const ranking = JSON.parse(read('data/hna/ranking-index.json'));
