@@ -1,15 +1,15 @@
 {
-  "generated": "2026-09-22T12:15:08.040115Z",
+  "generated": "2026-09-22T13:32:52.193105Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 782296
+      "bytes": 782288
     },
     "data/_qa-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 6257
+      "bytes": 6256
     },
     "data/affordable-housing/chfa-awards/2026-round-one.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 245155
+      "bytes": 245307
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4141,11 +4141,6 @@
       "placeholder": false,
       "bytes": 1630249
     },
-    "data/hna/place-decade-trends.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 194606
-    },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
       "placeholder": false,
@@ -7839,7 +7834,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14390
+      "bytes": 14391
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -7849,7 +7844,7 @@
     "data/pipeline/content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 43825
+      "bytes": 34942
     },
     "data/policy/affordability-models.json": {
       "featureCount": 0,
@@ -8050,6 +8045,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 114554
+    },
+    "data/table-header-tips.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 15617
     },
     "data/tax-abatement-inventory.json": {
       "featureCount": 0,
