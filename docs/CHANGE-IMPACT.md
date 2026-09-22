@@ -246,3 +246,9 @@ out.forEach(t=>{
 - **Sabotage-test with a count.** Break the fix, confirm the gate fires *and*
   how many things it reports. "The guard still passes" after a sabotage is a
   failure signal.
+- **A guard that pins user-facing copy must name what the copy has to agree
+  with** (#1746). Pin the claim — the figure equals the data file, the link
+  names what it opens, the second card does not contradict the first — not
+  the sentence. Sabotage both ways: a rewording stays green, a broken claim
+  fails, and each mutation is shown to have applied. See "Guards: pin the
+  agreement, not the copy" in `AGENTS.md`.
