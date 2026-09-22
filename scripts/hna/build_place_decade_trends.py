@@ -58,6 +58,14 @@ cohort is left OUT of this file entirely: a 15-year comparison with only
 one end of the comparison isn't a 15-year comparison, and the existing
 county-inherits fallback already covers that place honestly.
 
+meta records WHY each unusable (place, vintage) pair was not written, as
+three separate counts (see classify_cohort): cohorts_missing_geography
+(Census answered HTTP 204 — the place did not exist in that vintage),
+cohorts_suppressed (fields present but the median rent or income is
+suppressed), and cohorts_rejected_implausible (values present but failing
+the >= $200 rent / >= $5,000 income gate). Only the last one indicates a
+problem worth investigating.
+
 Usage:
   CENSUS_API_KEY=... python3 scripts/hna/build_place_decade_trends.py
   CENSUS_API_KEY=... python3 scripts/hna/build_place_decade_trends.py --limit 5   # smoke test
@@ -169,6 +177,49 @@ def is_plausible_cohort(rent, income) -> bool:
         return False
 
 
+# The three reasons a fetched vintage does not become a cohort. None of them
+# is written; they differ only in what they mean for the place:
+#   missing_geography — ACSExtractor returned no data fields at all for the
+#       place at that vintage (only its own _fetched_at/_geoid bookkeeping).
+#       Census answered HTTP 204 for both DP03 and DP04: the geography did not
+#       exist in that vintage (CDPs delineated after 2009/2014). Not an error,
+#       and not "implausible" — there was nothing to judge.
+#   suppressed — fields came back, but the median rent or median income is
+#       None: the Census suppressed the estimate (too few sample cases in a
+#       very small place). A legitimate outcome of the gate, not a bug.
+#   rejected_implausible — both medians are present but fail the gate above:
+#       a wrong variable ID (the first live run's $111 "income"), a sentinel,
+#       or some other value that must never be charted as history.
+COHORT_MISSING_GEOGRAPHY = 'missing_geography'
+COHORT_SUPPRESSED = 'suppressed'
+COHORT_REJECTED_IMPLAUSIBLE = 'rejected_implausible'
+
+
+def data_fields(fields: dict | None) -> dict:
+    """The ACS variables in an ACSExtractor result, without the extractor's
+    own ``_fetched_at`` / ``_geoid`` bookkeeping keys. ACSExtractor.fetch_all()
+    returns a dict for EVERY requested geoid, even one whose every table
+    fetch failed, so ``if not fields`` cannot tell "no data" from "data"."""
+    if not fields:
+        return {}
+    return {k: v for k, v in fields.items() if not k.startswith('_')}
+
+
+def classify_cohort(fields: dict | None, year: int) -> str | None:
+    """Why a fetched vintage is NOT usable as a cohort — one of the three
+    COHORT_* reasons — or None when it passes the plausibility gate."""
+    if not data_fields(fields):
+        return COHORT_MISSING_GEOGRAPHY
+    ids = VINTAGE_VARIABLES[year]
+    income = fields.get(ids['income'])
+    rent = fields.get(ids['rent'])
+    if rent is None or income is None:
+        return COHORT_SUPPRESSED
+    if not is_plausible_cohort(rent, income):
+        return COHORT_REJECTED_IMPLAUSIBLE
+    return None
+
+
 def fetch_cohort(geoids: list[str], year: int) -> dict:
     """Fetch DP03 (median household income) + DP04 (median gross rent, GRAPI
     rent-burden bins) for every geoid at one ACS 5-year vintage, requesting
@@ -177,7 +228,14 @@ def fetch_cohort(geoids: list[str], year: int) -> dict:
     raw variable ID actually requested for *year*."""
     variables = vintage_variables(year)
     fetcher = ACSExtractor(sorted(variables), geoids, year=year, variables=variables)
-    return fetcher.fetch_all()
+    results = fetcher.fetch_all()
+    if fetcher.no_content_count:
+        print(
+            f'[place-decade-trends] {year}: {fetcher.no_content_count} table fetches returned '
+            f'HTTP 204 (geography not published in this vintage; expected for CDPs delineated later)',
+            file=sys.stderr,
+        )
+    return results
 
 
 def build(geoids: list[str]) -> dict:
@@ -191,29 +249,33 @@ def build(geoids: list[str]) -> dict:
 
     out_places = {}
     skipped_incomplete = 0
-    rejected_implausible = 0
+    unusable = {COHORT_MISSING_GEOGRAPHY: 0, COHORT_SUPPRESSED: 0, COHORT_REJECTED_IMPLAUSIBLE: 0}
     for geoid in geoids:
         cohorts = []
         for year in VINTAGES:
             fields = (by_year.get(year) or {}).get(geoid)
-            if not fields:
-                continue
-            ids = VINTAGE_VARIABLES[year]
-            income = fields.get(ids['income'])
-            rent = fields.get(ids['rent'])
-            burden_pct = rent_burden_30_plus_pct(fields, year)
             # Plausibility gate. The first live run published 2009/2014
             # cohorts with null rent and "incomes" of 0-11 for every place
             # because it requested the 2024 variable IDs from every vintage
             # (see the module docstring). VINTAGE_VARIABLES is the real fix;
             # this gate stays as the backstop so a wrong field, a sentinel,
-            # or a suppressed estimate can never be written as history. A
-            # rejected cohort is counted, and the place then fails the
-            # earliest/latest check below and is omitted, so the renderer
-            # keeps its county fallback.
-            if not is_plausible_cohort(rent, income):
-                rejected_implausible += 1
+            # or a suppressed estimate can never be written as history. An
+            # unusable vintage is counted under WHY it was unusable (see
+            # classify_cohort: absent geography, suppressed median, or a
+            # value that is present but implausible), and the place then
+            # fails the earliest/latest check below and is omitted, so the
+            # renderer keeps its county fallback. The first correct run
+            # (2026-09-22) lumped all three under "implausible": 502 of
+            # them, of which 161 were CDPs that simply did not exist in
+            # 2009/2014 and most of the rest were suppressed medians.
+            reason = classify_cohort(fields, year)
+            if reason is not None:
+                unusable[reason] += 1
                 continue
+            ids = VINTAGE_VARIABLES[year]
+            income = fields.get(ids['income'])
+            rent = fields.get(ids['rent'])
+            burden_pct = rent_burden_30_plus_pct(fields, year)
             cohorts.append({
                 'year': year,
                 'median_gross_rent': rent,
@@ -254,7 +316,12 @@ def build(geoids: list[str]) -> dict:
             ),
             'place_count': len(out_places),
             'places_skipped_incomplete_history': skipped_incomplete,
-            'cohorts_rejected_implausible': rejected_implausible,
+            # Per-vintage-per-place counts of why a fetched vintage was not
+            # written (see classify_cohort). They sum to the number of
+            # (place, vintage) pairs that did not become a cohort.
+            'cohorts_missing_geography': unusable[COHORT_MISSING_GEOGRAPHY],
+            'cohorts_suppressed': unusable[COHORT_SUPPRESSED],
+            'cohorts_rejected_implausible': unusable[COHORT_REJECTED_IMPLAUSIBLE],
             'total_places_considered': len(geoids),
         },
         'places': out_places,
@@ -281,7 +348,10 @@ def main() -> int:
     print(
         f"[place-decade-trends] wrote {os.path.relpath(OUT_PATH, ROOT)}: "
         f"{meta['place_count']} places with full {VINTAGES[0]}-{VINTAGES[-1]} history, "
-        f"{meta['places_skipped_incomplete_history']} skipped (incomplete history)",
+        f"{meta['places_skipped_incomplete_history']} skipped (incomplete history); "
+        f"unusable cohorts: {meta['cohorts_missing_geography']} geography absent in that vintage, "
+        f"{meta['cohorts_suppressed']} median suppressed, "
+        f"{meta['cohorts_rejected_implausible']} rejected as implausible",
         file=sys.stderr,
     )
     return 0
