@@ -9,10 +9,10 @@
     "state": "Colorado",
     "state_fips": "08",
     "as_of": "2025-12-31",
-    "last_verified": "2026-07-19",
-    "review_by": "2026-10-18",
+    "last_verified": "2026-09-22",
+    "review_by": "2026-12-21",
     "latest_year": 2025,
-    "county_count": 64,
+    "county_count": 54,
     "tract_count": 966,
     "place_count": 352,
     "methodology": "FHFA annual tract HPI rows are filtered to Colorado Census tracts. Place indicators are area-weighted from direct FHFA tract indicators using TIGER 2024 place-to-tract membership. County rows are direct existing FHFA county HPI anchors.",
@@ -26,578 +26,488 @@
     "08001": {
       "county_fips": "08001",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 340.0,
-      "hpi_10y_base": 165.0,
-      "hpi_15y_base": 115.0,
-      "change_10y": 1.060606,
-      "change_15y": 1.956522
+      "hpi_latest": 1440.36,
+      "hpi_10y_base": 717.13,
+      "hpi_15y_base": 512.36,
+      "change_10y": 1.008506,
+      "change_15y": 1.811226
     },
     "08003": {
       "county_fips": "08003",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 230.0,
-      "hpi_10y_base": 120.0,
-      "hpi_15y_base": 90.0,
-      "change_10y": 0.916667,
-      "change_15y": 1.555556
+      "hpi_latest": 459.89,
+      "hpi_10y_base": 229.05,
+      "hpi_15y_base": 213.4,
+      "change_10y": 1.007815,
+      "change_15y": 1.155061
     },
     "08005": {
       "county_fips": "08005",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 370.0,
-      "hpi_10y_base": 175.0,
-      "hpi_15y_base": 125.0,
-      "change_10y": 1.114286,
-      "change_15y": 1.96
+      "hpi_latest": 1363.38,
+      "hpi_10y_base": 701.94,
+      "hpi_15y_base": 521.09,
+      "change_10y": 0.942303,
+      "change_15y": 1.6164
     },
     "08007": {
       "county_fips": "08007",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 290.0,
-      "hpi_10y_base": 145.0,
-      "hpi_15y_base": 105.0,
-      "change_10y": 1.0,
-      "change_15y": 1.761905
-    },
-    "08009": {
-      "county_fips": "08009",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 175.0,
-      "hpi_10y_base": 100.0,
-      "hpi_15y_base": 75.0,
-      "change_10y": 0.75,
-      "change_15y": 1.333333
+      "hpi_latest": 555.7,
+      "hpi_10y_base": 244.97,
+      "hpi_15y_base": 240.95,
+      "change_10y": 1.268441,
+      "change_15y": 1.306288
     },
     "08011": {
       "county_fips": "08011",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 92.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.793478,
-      "change_15y": 1.357143
+      "hpi_latest": 259.36,
+      "hpi_10y_base": null,
+      "hpi_15y_base": 94.08,
+      "change_10y": null,
+      "change_15y": 1.756803
     },
     "08013": {
       "county_fips": "08013",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 420.0,
-      "hpi_10y_base": 190.0,
-      "hpi_15y_base": 135.0,
-      "change_10y": 1.210526,
-      "change_15y": 2.111111
+      "hpi_latest": 1772.98,
+      "hpi_10y_base": 954.54,
+      "hpi_15y_base": 768.63,
+      "change_10y": 0.857418,
+      "change_15y": 1.306676
     },
     "08014": {
       "county_fips": "08014",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 395.0,
-      "hpi_10y_base": 180.0,
-      "hpi_15y_base": 128.0,
-      "change_10y": 1.194444,
-      "change_15y": 2.085938
+      "hpi_latest": 1084.37,
+      "hpi_10y_base": 554.97,
+      "hpi_15y_base": 431.28,
+      "change_10y": 0.953925,
+      "change_15y": 1.514306
     },
     "08015": {
       "county_fips": "08015",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 310.0,
-      "hpi_10y_base": 150.0,
-      "hpi_15y_base": 110.0,
-      "change_10y": 1.066667,
-      "change_15y": 1.818182
-    },
-    "08017": {
-      "county_fips": "08017",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 160.0,
-      "hpi_10y_base": 90.0,
-      "hpi_15y_base": 68.0,
-      "change_10y": 0.777778,
-      "change_15y": 1.352941
+      "hpi_latest": 955.03,
+      "hpi_10y_base": 393.71,
+      "hpi_15y_base": 365.57,
+      "change_10y": 1.425719,
+      "change_15y": 1.612441
     },
     "08019": {
       "county_fips": "08019",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 345.0,
-      "hpi_10y_base": 162.0,
-      "hpi_15y_base": 118.0,
-      "change_10y": 1.12963,
-      "change_15y": 1.923729
-    },
-    "08021": {
-      "county_fips": "08021",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 170.0,
-      "hpi_10y_base": 98.0,
-      "hpi_15y_base": 72.0,
-      "change_10y": 0.734694,
-      "change_15y": 1.361111
-    },
-    "08023": {
-      "county_fips": "08023",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 155.0,
-      "hpi_10y_base": 88.0,
-      "hpi_15y_base": 65.0,
-      "change_10y": 0.761364,
-      "change_15y": 1.384615
-    },
-    "08025": {
-      "county_fips": "08025",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 150.0,
-      "hpi_10y_base": 86.0,
-      "hpi_15y_base": 63.0,
-      "change_10y": 0.744186,
-      "change_15y": 1.380952
+      "hpi_latest": 618.65,
+      "hpi_10y_base": 303.79,
+      "hpi_15y_base": 257.29,
+      "change_10y": 1.03644,
+      "change_15y": 1.404485
     },
     "08027": {
       "county_fips": "08027",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 260.0,
-      "hpi_10y_base": 128.0,
-      "hpi_15y_base": 95.0,
-      "change_10y": 1.03125,
-      "change_15y": 1.736842
+      "hpi_latest": 342.06,
+      "hpi_10y_base": 172.61,
+      "hpi_15y_base": 165.41,
+      "change_10y": 0.981693,
+      "change_15y": 1.067952
     },
     "08029": {
       "county_fips": "08029",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 220.0,
-      "hpi_10y_base": 115.0,
-      "hpi_15y_base": 88.0,
-      "change_10y": 0.913043,
-      "change_15y": 1.5
+      "hpi_latest": 629.69,
+      "hpi_10y_base": 300.31,
+      "hpi_15y_base": 321.0,
+      "change_10y": 1.0968,
+      "change_15y": 0.961651
     },
     "08031": {
       "county_fips": "08031",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 385.0,
-      "hpi_10y_base": 180.0,
-      "hpi_15y_base": 130.0,
-      "change_10y": 1.138889,
-      "change_15y": 1.961538
-    },
-    "08033": {
-      "county_fips": "08033",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 185.0,
-      "hpi_10y_base": 100.0,
-      "hpi_15y_base": 76.0,
-      "change_10y": 0.85,
-      "change_15y": 1.434211
+      "hpi_latest": 2077.49,
+      "hpi_10y_base": 1136.62,
+      "hpi_15y_base": 845.07,
+      "change_10y": 0.827779,
+      "change_15y": 1.458364
     },
     "08035": {
       "county_fips": "08035",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 430.0,
-      "hpi_10y_base": 195.0,
-      "hpi_15y_base": 140.0,
-      "change_10y": 1.205128,
-      "change_15y": 2.071429
+      "hpi_latest": 1183.39,
+      "hpi_10y_base": 631.28,
+      "hpi_15y_base": 506.04,
+      "change_10y": 0.874588,
+      "change_15y": 1.338531
     },
     "08037": {
       "county_fips": "08037",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 520.0,
-      "hpi_10y_base": 220.0,
-      "hpi_15y_base": 160.0,
-      "change_10y": 1.363636,
-      "change_15y": 2.25
+      "hpi_latest": 1408.78,
+      "hpi_10y_base": 636.54,
+      "hpi_15y_base": 639.3,
+      "change_10y": 1.213184,
+      "change_15y": 1.203629
     },
     "08039": {
       "county_fips": "08039",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 375.0,
-      "hpi_10y_base": 170.0,
-      "hpi_15y_base": 123.0,
-      "change_10y": 1.205882,
-      "change_15y": 2.04878
+      "hpi_latest": 898.28,
+      "hpi_10y_base": 462.86,
+      "hpi_15y_base": 373.83,
+      "change_10y": 0.940716,
+      "change_15y": 1.40291
     },
     "08041": {
       "county_fips": "08041",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 325.0,
-      "hpi_10y_base": 158.0,
-      "hpi_15y_base": 113.0,
-      "change_10y": 1.056962,
-      "change_15y": 1.876106
+      "hpi_latest": 1277.58,
+      "hpi_10y_base": 623.43,
+      "hpi_15y_base": 570.09,
+      "change_10y": 1.049276,
+      "change_15y": 1.241015
     },
     "08043": {
       "county_fips": "08043",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 215.0,
-      "hpi_10y_base": 112.0,
-      "hpi_15y_base": 85.0,
-      "change_10y": 0.919643,
-      "change_15y": 1.529412
+      "hpi_latest": 605.28,
+      "hpi_10y_base": 272.32,
+      "hpi_15y_base": 265.78,
+      "change_10y": 1.222679,
+      "change_15y": 1.277372
     },
     "08045": {
       "county_fips": "08045",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 340.0,
-      "hpi_10y_base": 158.0,
-      "hpi_15y_base": 118.0,
-      "change_10y": 1.151899,
-      "change_15y": 1.881356
+      "hpi_latest": 1333.46,
+      "hpi_10y_base": 624.3,
+      "hpi_15y_base": 640.12,
+      "change_10y": 1.135928,
+      "change_15y": 1.083141
     },
     "08047": {
       "county_fips": "08047",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 350.0,
-      "hpi_10y_base": 162.0,
-      "hpi_15y_base": 120.0,
-      "change_10y": 1.160494,
-      "change_15y": 1.916667
+      "hpi_latest": 498.01,
+      "hpi_10y_base": 255.29,
+      "hpi_15y_base": 218.72,
+      "change_10y": 0.950762,
+      "change_15y": 1.276929
     },
     "08049": {
       "county_fips": "08049",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 370.0,
-      "hpi_10y_base": 170.0,
-      "hpi_15y_base": 125.0,
-      "change_10y": 1.176471,
-      "change_15y": 1.96
+      "hpi_latest": 800.03,
+      "hpi_10y_base": 320.38,
+      "hpi_15y_base": 321.38,
+      "change_10y": 1.497128,
+      "change_15y": 1.489358
     },
     "08051": {
       "county_fips": "08051",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 320.0,
-      "hpi_10y_base": 152.0,
-      "hpi_15y_base": 112.0,
-      "change_10y": 1.105263,
-      "change_15y": 1.857143
+      "hpi_latest": 1121.11,
+      "hpi_10y_base": 468.87,
+      "hpi_15y_base": 460.22,
+      "change_10y": 1.391089,
+      "change_15y": 1.436031
     },
     "08053": {
       "county_fips": "08053",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 275.0,
-      "hpi_10y_base": 138.0,
-      "hpi_15y_base": 102.0,
-      "change_10y": 0.992754,
-      "change_15y": 1.696078
+      "hpi_latest": 296.38,
+      "hpi_10y_base": 163.04,
+      "hpi_15y_base": 161.11,
+      "change_10y": 0.817836,
+      "change_15y": 0.839613
     },
     "08055": {
       "county_fips": "08055",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 175.0,
-      "hpi_10y_base": 98.0,
-      "hpi_15y_base": 73.0,
-      "change_10y": 0.785714,
-      "change_15y": 1.39726
-    },
-    "08057": {
-      "county_fips": "08057",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 180.0,
-      "hpi_10y_base": 100.0,
-      "hpi_15y_base": 75.0,
-      "change_10y": 0.8,
-      "change_15y": 1.4
+      "hpi_latest": 265.44,
+      "hpi_10y_base": 144.81,
+      "hpi_15y_base": 134.02,
+      "change_10y": 0.833023,
+      "change_15y": 0.9806
     },
     "08059": {
       "county_fips": "08059",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 380.0,
-      "hpi_10y_base": 178.0,
-      "hpi_15y_base": 128.0,
-      "change_10y": 1.134831,
-      "change_15y": 1.96875
-    },
-    "08061": {
-      "county_fips": "08061",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 150.0,
-      "hpi_10y_base": 86.0,
-      "hpi_15y_base": 64.0,
-      "change_10y": 0.744186,
-      "change_15y": 1.34375
+      "hpi_latest": 1461.08,
+      "hpi_10y_base": 733.71,
+      "hpi_15y_base": 567.32,
+      "change_10y": 0.991359,
+      "change_15y": 1.575407
     },
     "08063": {
       "county_fips": "08063",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 92.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.793478,
-      "change_15y": 1.357143
+      "hpi_latest": 413.04,
+      "hpi_10y_base": 232.79,
+      "hpi_15y_base": 199.33,
+      "change_10y": 0.774303,
+      "change_15y": 1.072142
     },
     "08065": {
       "county_fips": "08065",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 295.0,
-      "hpi_10y_base": 142.0,
-      "hpi_15y_base": 106.0,
-      "change_10y": 1.077465,
-      "change_15y": 1.783019
+      "hpi_latest": 1110.74,
+      "hpi_10y_base": 389.51,
+      "hpi_15y_base": 377.13,
+      "change_10y": 1.851634,
+      "change_15y": 1.945244
     },
     "08067": {
       "county_fips": "08067",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 340.0,
-      "hpi_10y_base": 158.0,
-      "hpi_15y_base": 118.0,
-      "change_10y": 1.151899,
-      "change_15y": 1.881356
+      "hpi_latest": 1722.95,
+      "hpi_10y_base": 907.48,
+      "hpi_15y_base": 831.79,
+      "change_10y": 0.898609,
+      "change_15y": 1.071376
     },
     "08069": {
       "county_fips": "08069",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 360.0,
-      "hpi_10y_base": 168.0,
-      "hpi_15y_base": 122.0,
-      "change_10y": 1.142857,
-      "change_15y": 1.95082
+      "hpi_latest": 1424.92,
+      "hpi_10y_base": 735.78,
+      "hpi_15y_base": 578.93,
+      "change_10y": 0.936611,
+      "change_15y": 1.461299
     },
     "08071": {
       "county_fips": "08071",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 94.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.755319,
-      "change_15y": 1.357143
+      "hpi_latest": 390.99,
+      "hpi_10y_base": 217.8,
+      "hpi_15y_base": 219.04,
+      "change_10y": 0.795179,
+      "change_15y": 0.785016
     },
     "08073": {
       "county_fips": "08073",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 160.0,
-      "hpi_10y_base": 90.0,
-      "hpi_15y_base": 68.0,
-      "change_10y": 0.777778,
-      "change_15y": 1.352941
+      "hpi_latest": 296.56,
+      "hpi_10y_base": 143.99,
+      "hpi_15y_base": 134.24,
+      "change_10y": 1.059587,
+      "change_15y": 1.209178
     },
     "08075": {
       "county_fips": "08075",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 200.0,
-      "hpi_10y_base": 108.0,
-      "hpi_15y_base": 82.0,
-      "change_10y": 0.851852,
-      "change_15y": 1.439024
+      "hpi_latest": 890.55,
+      "hpi_10y_base": 444.31,
+      "hpi_15y_base": 381.79,
+      "change_10y": 1.004344,
+      "change_15y": 1.332565
     },
     "08077": {
       "county_fips": "08077",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 265.0,
-      "hpi_10y_base": 132.0,
-      "hpi_15y_base": 99.0,
-      "change_10y": 1.007576,
-      "change_15y": 1.676768
+      "hpi_latest": 1249.41,
+      "hpi_10y_base": 594.66,
+      "hpi_15y_base": 606.69,
+      "change_10y": 1.101049,
+      "change_15y": 1.059388
     },
     "08079": {
       "county_fips": "08079",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 220.0,
-      "hpi_10y_base": 115.0,
-      "hpi_15y_base": 87.0,
-      "change_10y": 0.913043,
-      "change_15y": 1.528736
+      "hpi_latest": 278.81,
+      "hpi_10y_base": 123.13,
+      "hpi_15y_base": 122.82,
+      "change_10y": 1.264355,
+      "change_15y": 1.27007
     },
     "08081": {
       "county_fips": "08081",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 200.0,
-      "hpi_10y_base": 108.0,
-      "hpi_15y_base": 82.0,
-      "change_10y": 0.851852,
-      "change_15y": 1.439024
+      "hpi_latest": 475.98,
+      "hpi_10y_base": 248.43,
+      "hpi_15y_base": 279.81,
+      "change_10y": 0.915952,
+      "change_15y": 0.701083
     },
     "08083": {
       "county_fips": "08083",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 220.0,
-      "hpi_10y_base": 114.0,
-      "hpi_15y_base": 86.0,
-      "change_10y": 0.929825,
-      "change_15y": 1.55814
+      "hpi_latest": 874.36,
+      "hpi_10y_base": 434.65,
+      "hpi_15y_base": 458.31,
+      "change_10y": 1.011642,
+      "change_15y": 0.907792
     },
     "08085": {
       "county_fips": "08085",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 240.0,
-      "hpi_10y_base": 120.0,
-      "hpi_15y_base": 91.0,
-      "change_10y": 1.0,
-      "change_15y": 1.637363
+      "hpi_latest": 801.03,
+      "hpi_10y_base": 374.06,
+      "hpi_15y_base": 381.64,
+      "change_10y": 1.141448,
+      "change_15y": 1.098915
     },
     "08087": {
       "county_fips": "08087",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 195.0,
-      "hpi_10y_base": 105.0,
-      "hpi_15y_base": 80.0,
-      "change_10y": 0.857143,
-      "change_15y": 1.4375
+      "hpi_latest": 620.73,
+      "hpi_10y_base": 304.89,
+      "hpi_15y_base": 247.79,
+      "change_10y": 1.035915,
+      "change_15y": 1.505065
     },
     "08089": {
       "county_fips": "08089",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 93.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.774194,
-      "change_15y": 1.357143
+      "hpi_latest": 795.62,
+      "hpi_10y_base": 370.53,
+      "hpi_15y_base": 339.28,
+      "change_10y": 1.147249,
+      "change_15y": 1.345025
     },
     "08091": {
       "county_fips": "08091",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 320.0,
-      "hpi_10y_base": 152.0,
-      "hpi_15y_base": 112.0,
-      "change_10y": 1.105263,
-      "change_15y": 1.857143
+      "hpi_latest": 548.94,
+      "hpi_10y_base": 226.84,
+      "hpi_15y_base": 244.09,
+      "change_10y": 1.419944,
+      "change_15y": 1.248925
     },
     "08093": {
       "county_fips": "08093",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 330.0,
-      "hpi_10y_base": 155.0,
-      "hpi_15y_base": 115.0,
-      "change_10y": 1.129032,
-      "change_15y": 1.869565
+      "hpi_latest": 809.87,
+      "hpi_10y_base": 374.1,
+      "hpi_15y_base": 319.45,
+      "change_10y": 1.164849,
+      "change_15y": 1.535201
     },
     "08095": {
       "county_fips": "08095",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 155.0,
-      "hpi_10y_base": 88.0,
-      "hpi_15y_base": 66.0,
-      "change_10y": 0.761364,
-      "change_15y": 1.348485
+      "hpi_latest": 272.14,
+      "hpi_10y_base": 162.99,
+      "hpi_15y_base": 136.3,
+      "change_10y": 0.669673,
+      "change_15y": 0.996625
     },
     "08097": {
       "county_fips": "08097",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 590.0,
-      "hpi_10y_base": 240.0,
-      "hpi_15y_base": 175.0,
-      "change_10y": 1.458333,
-      "change_15y": 2.371429
+      "hpi_latest": 1066.04,
+      "hpi_10y_base": 464.8,
+      "hpi_15y_base": 534.9,
+      "change_10y": 1.293546,
+      "change_15y": 0.992971
     },
     "08099": {
       "county_fips": "08099",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 92.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.793478,
-      "change_15y": 1.357143
+      "hpi_latest": 442.15,
+      "hpi_10y_base": 193.06,
+      "hpi_15y_base": 184.47,
+      "change_10y": 1.290221,
+      "change_15y": 1.396867
     },
     "08101": {
       "county_fips": "08101",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 210.0,
-      "hpi_10y_base": 112.0,
-      "hpi_15y_base": 85.0,
-      "change_10y": 0.875,
-      "change_15y": 1.470588
+      "hpi_latest": 860.63,
+      "hpi_10y_base": 416.39,
+      "hpi_15y_base": 394.66,
+      "change_10y": 1.066884,
+      "change_15y": 1.180687
     },
     "08103": {
       "county_fips": "08103",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 195.0,
-      "hpi_10y_base": 105.0,
-      "hpi_15y_base": 80.0,
-      "change_10y": 0.857143,
-      "change_15y": 1.4375
+      "hpi_latest": 389.36,
+      "hpi_10y_base": 229.92,
+      "hpi_15y_base": 263.2,
+      "change_10y": 0.693459,
+      "change_15y": 0.479331
     },
     "08105": {
       "county_fips": "08105",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 180.0,
-      "hpi_10y_base": 100.0,
-      "hpi_15y_base": 75.0,
-      "change_10y": 0.8,
-      "change_15y": 1.4
+      "hpi_latest": 448.72,
+      "hpi_10y_base": 229.42,
+      "hpi_15y_base": 209.24,
+      "change_10y": 0.955889,
+      "change_15y": 1.144523
     },
     "08107": {
       "county_fips": "08107",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 470.0,
-      "hpi_10y_base": 208.0,
-      "hpi_15y_base": 152.0,
-      "change_10y": 1.259615,
-      "change_15y": 2.092105
-    },
-    "08109": {
-      "county_fips": "08109",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 170.0,
-      "hpi_10y_base": 96.0,
-      "hpi_15y_base": 72.0,
-      "change_10y": 0.770833,
-      "change_15y": 1.361111
+      "hpi_latest": 1028.49,
+      "hpi_10y_base": 444.27,
+      "hpi_15y_base": 446.64,
+      "change_10y": 1.315011,
+      "change_15y": 1.302727
     },
     "08111": {
       "county_fips": "08111",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 290.0,
-      "hpi_10y_base": 140.0,
-      "hpi_15y_base": 105.0,
-      "change_10y": 1.071429,
-      "change_15y": 1.761905
-    },
-    "08113": {
-      "county_fips": "08113",
-      "source_level": "fhfa_county_direct",
-      "hpi_latest": 510.0,
-      "hpi_10y_base": 218.0,
-      "hpi_15y_base": 158.0,
-      "change_10y": 1.33945,
-      "change_15y": 2.227848
+      "hpi_latest": 297.59,
+      "hpi_10y_base": 141.46,
+      "hpi_15y_base": 141.49,
+      "change_10y": 1.103704,
+      "change_15y": 1.103258
     },
     "08115": {
       "county_fips": "08115",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 148.0,
-      "hpi_10y_base": 84.0,
-      "hpi_15y_base": 63.0,
-      "change_10y": 0.761905,
-      "change_15y": 1.349206
+      "hpi_latest": 217.61,
+      "hpi_10y_base": 129.54,
+      "hpi_15y_base": 99.89,
+      "change_10y": 0.679867,
+      "change_15y": 1.178496
     },
     "08117": {
       "county_fips": "08117",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 495.0,
-      "hpi_10y_base": 215.0,
-      "hpi_15y_base": 157.0,
-      "change_10y": 1.302326,
-      "change_15y": 2.152866
+      "hpi_latest": 1307.95,
+      "hpi_10y_base": 554.61,
+      "hpi_15y_base": 512.62,
+      "change_10y": 1.358324,
+      "change_15y": 1.5515
     },
     "08119": {
       "county_fips": "08119",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 305.0,
-      "hpi_10y_base": 148.0,
-      "hpi_15y_base": 109.0,
-      "change_10y": 1.060811,
-      "change_15y": 1.798165
+      "hpi_latest": 573.72,
+      "hpi_10y_base": 283.57,
+      "hpi_15y_base": 251.32,
+      "change_10y": 1.023204,
+      "change_15y": 1.282827
     },
     "08121": {
       "county_fips": "08121",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 152.0,
-      "hpi_10y_base": 86.0,
-      "hpi_15y_base": 65.0,
-      "change_10y": 0.767442,
-      "change_15y": 1.338462
+      "hpi_latest": 347.53,
+      "hpi_10y_base": 156.62,
+      "hpi_15y_base": 123.02,
+      "change_10y": 1.218938,
+      "change_15y": 1.824988
     },
     "08123": {
       "county_fips": "08123",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 325.0,
-      "hpi_10y_base": 158.0,
-      "hpi_15y_base": 113.0,
-      "change_10y": 1.056962,
-      "change_15y": 1.876106
+      "hpi_latest": 1242.27,
+      "hpi_10y_base": 625.25,
+      "hpi_15y_base": 470.24,
+      "change_10y": 0.986837,
+      "change_15y": 1.641779
     },
     "08125": {
       "county_fips": "08125",
       "source_level": "fhfa_county_direct",
-      "hpi_latest": 165.0,
-      "hpi_10y_base": 92.0,
-      "hpi_15y_base": 70.0,
-      "change_10y": 0.793478,
-      "change_15y": 1.357143
+      "hpi_latest": 470.88,
+      "hpi_10y_base": 232.91,
+      "hpi_15y_base": 209.89,
+      "change_10y": 1.021725,
+      "change_15y": 1.243461
     }
   },
   "tracts": {

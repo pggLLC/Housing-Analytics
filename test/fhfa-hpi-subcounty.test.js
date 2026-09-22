@@ -52,7 +52,13 @@ const placeRows = Object.values(hpi.places || {});
 
 assert.strictEqual(hpi.zip5, undefined, 'artifact does not carry ZIP-modeled intermediate rows');
 assert.strictEqual(hpi.meta.crosswalk_file, undefined, 'artifact does not use the HUD ZIP crosswalk for FHFA HPI');
-assert.strictEqual(countyRows.length, 64, 'county direct anchors cover all Colorado counties');
+// Not all 64 Colorado counties: FHFA's All-Transactions county HPI omits
+// counties with too few repeat sales to publish (e.g. Baca, Cheyenne,
+// Costilla, Kiowa are absent from the raw series entirely). 50 is a floor
+// against the county source going empty or badly truncated, not the real
+// county count, which can drift as FHFA revises its per-county coverage.
+assert(countyRows.length >= 50 && countyRows.length <= 64,
+  `county direct anchors cover most Colorado counties (${countyRows.length})`);
 assert(tractRows.length > 900, `direct FHFA tract coverage is non-vacuous (${tractRows.length})`);
 assert(placeRows.length > 300, `place coverage is non-vacuous (${placeRows.length})`);
 assert.strictEqual(hpi.meta.county_count, countyRows.length, 'county_count matches counties');
@@ -62,8 +68,16 @@ assert.strictEqual(hpi.meta.place_count, placeRows.length, 'place_count matches 
 for (const row of countyRows) {
   assert.strictEqual(row.source_level, 'fhfa_county_direct', `${row.county_fips} is direct county source`);
   assert(/^08\d{3}$/.test(row.county_fips), `county FIPS is Colorado: ${row.county_fips}`);
-  assert(Number.isFinite(row.change_10y), `${row.county_fips} has 10y county change`);
+  assert(Number.isFinite(row.hpi_latest), `${row.county_fips} has a latest HPI level`);
 }
+
+// change_10y needs a published value at exactly latest_year - 10. A handful
+// of low-volume counties (e.g. Bent, 08011) have gaps in specific years —
+// that is a real FHFA suppression, not a defect — so this is a near-total
+// floor rather than a for-every-row assertion.
+const countiesWithChange10y = countyRows.filter((row) => Number.isFinite(row.change_10y));
+assert(countyRows.length - countiesWithChange10y.length <= 3,
+  `too many counties are missing a 10y HPI change (${countyRows.length - countiesWithChange10y.length} of ${countyRows.length})`);
 
 for (const row of tractRows) {
   assert.strictEqual(row.source_level, 'fhfa_tract_direct', `${row.tract} is direct tract source`);
