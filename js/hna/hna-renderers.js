@@ -1832,8 +1832,10 @@
   let _rankRecencyCache = null;
   function _loadRankRecency() {
     if (_rankRecencyCache) return _rankRecencyCache;
-    _rankRecencyCache = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
-      .then(r => r.ok ? r.json() : null)
+    const _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : (u) => fetch(u, { cache: 'no-store' }).then(r => r.ok ? r.json() : null);
+    _rankRecencyCache = _fetcher('data/hna/ranking-index.json', { cache: 'no-store' })
       .then(j => {
         const out = {};
         const rows = (j && Array.isArray(j.rankings)) ? j.rankings : [];
@@ -5112,13 +5114,17 @@
   }
 
   function renderAffordableOwnershipNeed(result, context) {
+    // container is the detailed panel this view may or may not carry (the
+    // split views only include a subset of the canonical page's sections).
+    // Its absence used to short-circuit the whole function before the
+    // ownership/confidence decision-strip tiles got a real value, so they
+    // sat on their "Loading" placeholder on any view without this section.
+    // The result is computed by the caller from state that has nothing to
+    // do with this DOM node; only the detailed HTML at the end of this
+    // function actually needs it.
     var container = document.getElementById('hnaAffordableOwnershipNeed');
-    if (!container) {
-      updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
-      return;
-    }
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5129,7 +5135,7 @@
       return;
     }
     if (!result || result.dataQuality === 'Unavailable') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5306,14 +5312,20 @@
       },
     });
 
-    var DETAIL_SUMMARY = 'font-size:1rem;font-weight:700;color:var(--accent);cursor:pointer;padding:.5rem 0;';
-    var DETAIL_BOX = 'margin:.6rem 0;border:1px solid var(--border);border-radius:8px;padding:0 .9rem;background:var(--bg2);';
-
     // The answer goes ABOVE the section's static framing when the page gives it
     // a mount; otherwise it stays at the top of this container, so the panel
     // still leads with the conclusion on any page that has not added one.
     var answerMount = document.getElementById('hnaOwnershipAnswer');
     if (answerMount) answerMount.innerHTML = verdictHtml;
+
+    // Everything below writes the detailed panel. On a view that doesn't
+    // carry #hnaAffordableOwnershipNeed there is nowhere to write it — the
+    // decision strip already has its real value from the updateDecisionStrip()
+    // call above, cross-linked to whichever view does carry the full section.
+    if (!container) return;
+
+    var DETAIL_SUMMARY = 'font-size:1rem;font-weight:700;color:var(--accent);cursor:pointer;padding:.5rem 0;';
+    var DETAIL_BOX = 'margin:.6rem 0;border:1px solid var(--border);border-radius:8px;padding:0 .9rem;background:var(--bg2);';
 
     container.innerHTML =
       (answerMount ? '' : verdictHtml) +
@@ -5399,22 +5411,27 @@
 
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
     try {
+      // This container is the detailed panel this view may or may not carry
+      // (the split views only include a subset of the canonical page's
+      // sections). It used to be the OUTERMOST guard, returning before the
+      // ownership result was ever computed — so a view without the section
+      // never got a real value for the ownership/confidence decision-strip
+      // tiles either, the same class of bug #1643 fixed for the em-dash
+      // case. The score is computed from state that has nothing to do with
+      // this DOM node; renderAffordableOwnershipNeed() itself now only
+      // skips writing the panel when container is null, so the computation
+      // below no longer needs to stop here.
       var container = document.getElementById('hnaAffordableOwnershipNeed');
-      // The absence signal has to be raised at the OUTERMOST guard. #1643 added
-      // `if (!el) return` at several layers of this chain, and the outer one
-      // swallows the call before the inner one can report anything — which is
-      // why the ownership and confidence tiles sat on an em dash rather than
-      // being dropped.
-      if (!container) {
-        updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
-        return;
-      }
       if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
         renderAffordableOwnershipNeed(null);
         return;
       }
       if (!geoType || !geoid) {
-        container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        updateDecisionStrip({
+          ownership: { value: 'Unavailable', read: 'Select a jurisdiction', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+          confidence: { value: 'Unavailable', read: 'Select a jurisdiction', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+        });
         return;
       }
       var stateRef = S() && S().state || {};
@@ -6238,6 +6255,144 @@
       });
   }
 
+  // F226 — Place-level companion to county-trends.json, built by
+  // scripts/hna/build_place_decade_trends.py from real place-geography ACS
+  // 2009/2014/2024 vintages (not scaled from the county). Only covers
+  // places with a full 2009→2024 history — see that script's own docstring
+  // for why a partial history is omitted rather than shown incomplete.
+  // Same tolerate-misses pattern as _loadCountyTrends.
+  var _placeTrendsCache = null;
+  function _loadPlaceTrends() {
+    if (_placeTrendsCache !== null) return Promise.resolve(_placeTrendsCache);
+    return fetch('data/hna/place-decade-trends.json')
+      .then(function (r) { return r.ok ? r.json() : { places: {} }; })
+      .then(function (j) { _placeTrendsCache = j; return j; })
+      .catch(function (e) {
+        console.warn('[HNA] place-decade-trends.json load failed', e);
+        _placeTrendsCache = { places: {} };
+        return _placeTrendsCache;
+      });
+  }
+
+  // F226b — The panel's intro paragraph (#decadeAffordTrendIntro) and its
+  // source badge (data-source on the enclosing .chart-card) are authored in
+  // housing-needs-assessment.html with the COUNTY wording: county-trends.json
+  // is built from the ACS detail tables B25064 / B19013 / B25070 and every
+  // selection inherited it when the panel shipped. A place served from
+  // place-decade-trends.json shows that place's own ACS cohorts, built from
+  // the DP03 / DP04 profile tables (the per-vintage variable IDs are recorded
+  // in that file's meta.vintage_variables), so both strings must follow
+  // whichever file served the cohorts. The county wording is repeated here
+  // verbatim so a county selection after a place selection restores it.
+  var DECADE_TREND_COPY = {
+    county: {
+      intro: 'Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Combines three publicly-available series at the county level. Sources: Census ACS 5-yr (2009, 2014, 2024); ' +
+        'FHFA House Price Index (annual, <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>); ' +
+        'DOLA State Demography Office 2024 mid-projection for population context.',
+      source: 'ACS 5-yr cohorts (B25064 median gross rent, B19013 median HH income, B25070 rent burden) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
+    },
+    // Place cohorts come from the DP03/DP04 profile tables at place geography.
+    // The FHFA index is only claimed when the record actually carries one:
+    // today every covered place has hpi null (the tract HPI file has no
+    // change_15y for them), the home-price card shows "—", and the provenance
+    // line already omits its FHFA sentence — the intro and badge must too.
+    place: {
+      intro: 'Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Combines publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
+        'at place geography (2009, 2014, 2024); FHFA House Price Index (annual, ' +
+        '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>, tract index aggregated to the place).',
+      // Static fallback when the place file carries no meta.vintage_variables;
+      // _placeDecadeSourceLine() prefers the IDs the file itself declares.
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
+    },
+    'place-no-hpi': {
+      intro: 'Rent and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Uses publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
+        'at place geography (2009, 2014, 2024). No FHFA house-price index is published for this place, ' +
+        'so the home-price card shows no value.',
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins)',
+      // The badge's vintage chip is authored as "… · FHFA HPI annual"; without
+      // an HPI that chip would claim the index too.
+      vintage: 'ACS 2009/2014/2024 cohorts'
+    }
+  };
+
+  /**
+   * Source-badge text for the place path, built from the variable IDs the
+   * place file says it fetched per vintage (they differ across vintages —
+   * see build_place_decade_trends.py's VINTAGE_VARIABLES) so the citation
+   * can't drift from the builder. Falls back to the static place wording.
+   */
+  function _placeDecadeSourceLine(meta, hasHpi) {
+    var fallback = DECADE_TREND_COPY[hasHpi ? 'place' : 'place-no-hpi'].source;
+    var vv = meta && meta.vintage_variables;
+    if (!vv || typeof vv !== 'object') return fallback;
+    function ids(fields) {
+      var out = [];
+      Object.keys(vv).sort().forEach(function (year) {
+        fields.forEach(function (f) {
+          var id = vv[year] && vv[year][f];
+          if (id && out.indexOf(id) < 0) out.push(id);
+        });
+      });
+      return out.join('/');
+    }
+    var income = ids(['income']);
+    var rent = ids(['rent']);
+    var grapi = ids(['grapi_30_34', 'grapi_35_plus']);
+    if (!income || !rent) return fallback;
+    return 'ACS 5-yr place-geography cohorts (' + income + ' median HH income, ' + rent + ' median gross rent' +
+      (grapi ? ', ' + grapi + ' GRAPI rent-burden bins' : '') + ')' +
+      (hasHpi ? ' + FHFA House Price Index' : '');
+  }
+
+  /**
+   * Point the panel's intro copy and source badge at whichever file served
+   * the cohorts. `mode` is 'county', 'place' or 'place-no-hpi'; `sourceText` overrides the
+   * mode's default badge text (the place path passes the file-derived line).
+   */
+  function _applyDecadeTrendCopy(panel, mode, sourceText) {
+    var copy = DECADE_TREND_COPY[mode] || DECADE_TREND_COPY.county;
+    var card = panel && panel.closest ? panel.closest('.chart-card') : null;
+    var intro = document.getElementById('decadeAffordTrendIntro');
+    // The authored paragraph is the county wording; only rewrite it when the
+    // path actually changes, so a county re-render leaves the glossary's
+    // inline tooltips on the original text alone.
+    var current = intro ? (intro.getAttribute('data-decade-copy') || 'county') : mode;
+    if (intro && current !== mode) {
+      intro.innerHTML = copy.intro;
+      intro.setAttribute('data-decade-copy', mode);
+      // glossary.js remembers "already wrapped" per section, so the replaced
+      // prose would otherwise never get its ACS / DOLA tooltips back.
+      if (window.CohoGlossary && typeof window.CohoGlossary.forget === 'function') {
+        window.CohoGlossary.forget(card || intro);
+      }
+    }
+    if (!card) return;
+    var source = sourceText || copy.source;
+    card.setAttribute('data-source', source);
+    if (copy.vintage) card.setAttribute('data-vintage', copy.vintage);
+    // source-badge.js renders the badge once from data-source at page load
+    // and its attach() is a no-op on a card that already carries one, so an
+    // attribute change alone would leave the stale citation on screen. Drop
+    // the badge and rebuild it from the updated attributes.
+    var stale = card.querySelector(':scope > .chart-source');
+    if (stale) stale.remove();
+    if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+      window.SourceBadge.attach(card, {
+        source:     source,
+        url:        card.getAttribute('data-source-url')  || null,
+        vintage:    card.getAttribute('data-vintage')     || null,
+        sourceType: card.getAttribute('data-source-type') || null
+      });
+    }
+  }
+
   /**
    * F199 — Decade affordability trend. Three ACS cohorts (2009 / 2014 / 2024)
    * × {median rent, median HHI, rent burden 30+} plus FHFA HPI relative to
@@ -6247,46 +6402,17 @@
    *   3. Affordability ratio table: annual rent / annual income at each cohort
    *      → tells you whether housing got more or less affordable.
    *
-   * Falls back to "not available" for non-county geographies (we don't have
-   * place-level historical ACS in the parquet) — placeholder with a link to
-   * the data.census.gov tables so the user can pull it themselves.
+   * F226 — For a place selection, tries data/hna/place-decade-trends.json
+   * FIRST (real place-geography ACS cohorts, built by
+   * scripts/hna/build_place_decade_trends.py) and only falls back to the
+   * county-inherits behavior below when that place isn't covered there
+   * (not every place has a reliable 2009 ACS 5-yr estimate — see that
+   * script's docstring). A county selection always uses the county file.
    */
-  function renderDecadeAffordTrend(geoType, geoid, contextCounty) {
-    var panel = document.getElementById('decadeAffordTrendPanel');
-    if (!panel) return;
-    var countyFips = (geoType === 'county') ? geoid : contextCounty;
-    var u = U();
-    var fmtMoney = u.fmtMoney;
-
-    if (!countyFips) {
-      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-        'Decade trends are published at the county level only. Pick a county or ' +
-        'place inside a county to see the historical comparison.</p>';
-      return;
-    }
-
-    _loadCountyTrends().then(function (data) {
-      var rec = data.counties && data.counties[countyFips];
-      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
-        panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-          'Historical trend data not cached for this county.</p>';
-        return;
-      }
-      // F223 — Explicit county-scope label when called from a place selection.
-      // The decade trend chart (ACS cohorts + FHFA HPI) is published at the
-      // county level only; this banner makes that obvious instead of letting
-      // the user assume the numbers are place-specific.
-      var scopeBanner = (geoType === 'place')
-        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
-            '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
-            'ACS 5-yr cohorts (B25064/B19013) and FHFA HPI publish at the county level only; ' +
-            'your selected place inherits these county-wide trends.' +
-          '</div>'
-        : '';
-      var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+  function _paintDecadeTrend(panel, u, fmtMoney, cohorts, hpi, scopeBanner) {
       var first = cohorts[0];
       var last  = cohorts[cohorts.length - 1];
-      var hpi = rec.hpi || {};
+      hpi = hpi || {};
 
       function _pctChange(a, b) {
         if (!a || !b || a <= 0) return null;
@@ -6401,6 +6527,87 @@
           }
         }
       });
+  }
+
+  function renderDecadeAffordTrend(geoType, geoid, contextCounty) {
+    var panel = document.getElementById('decadeAffordTrendPanel');
+    if (!panel) return;
+    var countyFips = (geoType === 'county') ? geoid : contextCounty;
+    var u = U();
+    var fmtMoney = u.fmtMoney;
+
+    if (!countyFips) {
+      // A statewide selection after a covered place would otherwise keep the
+      // place intro and DP03/DP04 badge above an empty panel.
+      _applyDecadeTrendCopy(panel, 'county');
+      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
+        'Decade trends are published at the county level only. Pick a county or ' +
+        'place inside a county to see the historical comparison.</p>';
+      return;
+    }
+
+    function _renderFromCounty() {
+      // County wording whether this is a county selection or a place falling
+      // back to its county — the cohorts come from county-trends.json either way.
+      _applyDecadeTrendCopy(panel, 'county');
+      _loadCountyTrends().then(function (data) {
+        var rec = data.counties && data.counties[countyFips];
+        if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
+          panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
+            'Historical trend data not cached for this county.</p>';
+          return;
+        }
+        // F223 — Explicit county-scope label when called from a place
+        // selection whose own place-level trend isn't available (see
+        // renderDecadeAffordTrend's place-first attempt above this call).
+        var scopeBanner = (geoType === 'place')
+          ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
+              '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
+              'ACS 5-yr cohorts and FHFA HPI aren\'t cached for this place yet, so it inherits ' +
+              'these county-wide trends.' +
+            '</div>'
+          : '';
+        var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+        _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, scopeBanner);
+      });
+    }
+
+    if (geoType !== 'place') {
+      _renderFromCounty();
+      return;
+    }
+
+    // A cohort is only usable if it carries a plausible rent AND income. The
+    // first live run of build_place_decade_trends.py published 2009/2014
+    // cohorts with null rent and "incomes" of 0–11: the ACS profile variable
+    // IDs it fetched (DP03_0062E, DP04_0134E, the GRAPI bins) are not stable
+    // across vintages, so the historical vintages returned different fields.
+    // The builder now requests each vintage's own IDs (VINTAGE_VARIABLES in
+    // scripts/hna/build_place_decade_trends.py) and applies the same gate
+    // before writing; this client-side check stays as the backstop so a
+    // record with any implausible cohort falls back to the county chart
+    // exactly as before #1799 — never rendered as if it were this place's
+    // history.
+    function _plausibleCohort(c) {
+      return c && Number(c.median_gross_rent) >= 200 && Number(c.median_hh_income) >= 5000;
+    }
+    _loadPlaceTrends().then(function (data) {
+      var rec = data.places && data.places[geoid];
+      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2 || !rec.acs_cohorts.every(_plausibleCohort)) {
+        _renderFromCounty();
+        return;
+      }
+      var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+      // No warning banner here — this genuinely IS this place's own data,
+      // not the county's. A small provenance line (not styled as a warning)
+      // instead, matching how the rest of the page cites place-level ACS.
+      var provenanceBanner = '<p style="margin:0 0 .6rem;font-size:.9rem;color:var(--muted);">' +
+        'Place-level ACS 5-yr cohorts (' + cohorts[0].year + '–' + cohorts[cohorts.length - 1].year + ') for ' +
+        (rec.place_name || 'this place') + (rec.hpi ? '; FHFA home-price index aggregated from Census-tract data.' : '.') +
+        '</p>';
+      var hasHpi = !!rec.hpi;
+      _applyDecadeTrendCopy(panel, hasHpi ? 'place' : 'place-no-hpi', _placeDecadeSourceLine(data.meta, hasHpi));
+      _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, provenanceBanner);
     });
   }
 
@@ -7842,8 +8049,16 @@
   }
 
   function renderHnaScorecardPanel(geoid) {
+    // container is the detailed panel this view may or may not carry (the
+    // split views only include a subset of the canonical page's sections).
+    // Its absence used to short-circuit the whole function, so the decision-
+    // strip "Need" tile never got a real value on those views and sat on its
+    // "Loading" placeholder forever (visible once #1780 stopped it from
+    // hiding under a stuck spinner). The score is computed from state that
+    // has nothing to do with this DOM node; only the detailed HTML below
+    // actually needs it, so container==null no longer skips the scoring —
+    // it only skips writing the panel nobody asked this view to show.
     const container = document.getElementById('hnaScorecardPanel');
-    if (!container) { updateDecisionStrip({ need: { absent: true } }); return; }
     if (!geoid) { _scorecardUnavailable(container, 'Not scored', 'Select a jurisdiction'); return; }
 
     const state = S() && S().state;
@@ -7947,6 +8162,12 @@
         tone: _decisionTone(compLabel),
       },
     });
+
+    // Everything below writes the detailed panel. On a view that doesn't
+    // carry #hnaScorecardPanel there is nowhere to write it — the decision
+    // strip already has its real value from the updateDecisionStrip() call
+    // above, cross-linked to whichever view does carry the full section.
+    if (!container) return;
 
     // Format helpers
     const pctStr = (v, digits) => v != null && Number.isFinite(v) ? (v * 100).toFixed(digits != null ? digits : 1) + '%' : '—';
@@ -8126,9 +8347,12 @@
   let _amiCtxCache = null;
   function _loadAmiCtx() {
     if (_amiCtxCache) return _amiCtxCache;
+    const _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : (u) => fetch(u).then((r) => (r.ok ? r.json() : null));
     _amiCtxCache = Promise.all([
-      fetch('data/co_ami_gap_by_place.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
-      fetch('data/hna/ranking-index.json').then((r) => (r.ok ? r.json() : null)).catch(() => null),
+      _fetcher('data/co_ami_gap_by_place.json').catch(() => null),
+      _fetcher('data/hna/ranking-index.json').catch(() => null),
     ]).then(([gap, rank]) => {
       const place = (gap && gap.places) || {};
       const median = {};
@@ -9028,6 +9252,9 @@
     renderWageAffordability,  // F198 — income needed to afford rent + buy + LIHTC, vs LEHD wage tiers
     // F199 + F200 — Decade trends (county-level)
     renderDecadeAffordTrend,
+    /** Internal — exposed for tests (test/hna-decade-trend-source-copy.test.js). */
+    _decadeTrendCopy: DECADE_TREND_COPY,
+    _placeDecadeSourceLine,
     renderHousingTypePace,
     // County-scope disclosure (place/cdp selections)
     renderCountyScopeNote: _renderCountyScopeNote,

@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Land Value &amp; Negotiation | COHO Analytics</title>
-  <meta name="description" content="Educational land value estimation and negotiation-support tool for early-stage LIHTC development in Colorado. Comparable sales analysis + residual land value + negotiation band." />
+  <meta name="description" content="Educational land value estimation and negotiation-support tool for early-stage affordable housing development in Colorado — LIHTC, workforce housing, NOAH preservation, community land trusts, and other paths. Comparable sales analysis + residual land value + negotiation band." />
   <meta property="og:title" content="Land Value &amp; Negotiation | COHO Analytics">
-  <meta property="og:description" content="Educational land valuation tool for early-stage LIHTC development. Not a formal appraisal.">
+  <meta property="og:description" content="Educational land valuation tool for early-stage affordable housing development, whatever the funding path. Not a formal appraisal.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/og-image.png">
   <link rel="stylesheet" href="css/site-theme.css">
@@ -65,11 +65,13 @@
     <!-- ── Editorial header ───────────────────────────────────────────── -->
     <div class="dc-hero">
       <div class="kicker">Land Value &amp; Negotiation</div>
-      <h1>What is a site worth to a LIHTC developer?</h1>
+      <h1>What is a site worth to an affordable housing developer?</h1>
       <p class="dc-lead">
-        Two valuation approaches, one tool. Enter your comparable sales to estimate market land value,
-        and model a residual bid based on your project's feasibility envelope. The negotiation band
-        between seller ask and developer max tells you where a deal actually has room to close.
+        Two valuation approaches, one tool — for any conventional path to affordable housing, not just
+        LIHTC. Enter your comparable sales to estimate market land value, and model a residual bid based
+        on your project's feasibility envelope, whatever mix of tax-credit equity, conventional debt,
+        soft funds, or philanthropic capital funds it. The negotiation band between seller ask and
+        developer max tells you where a deal actually has room to close.
       </p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;" role="note">
         <strong>Educational + negotiation-support only.</strong> This tool is not a formal appraisal.
@@ -84,7 +86,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       if (window.PageContext) PageContext.render('pageContext', {
         what: 'Two valuation paths in one place: (1) Market value from comparable sales you enter — you\u2019re the local knowledge source, the tool does the math; (2) Residual value from development feasibility — what your pro-forma can actually support. Outputs: market range, developer max bid, negotiation band, and a confidence score based on input completeness.',
-        why: 'Land is the single most negotiable line in a LIHTC pro forma. Sellers anchor on highest-and-best-use market value; developers anchor on what the deal can support given AMI-restricted rents. Knowing both gives you room to structure the offer — and to walk away from sites where the gap is unbridgeable.',
+        why: 'Land is the single most negotiable line in an affordable-housing pro forma, whether it’s financed with LIHTC equity, conventional debt and soft funds, employer or philanthropic capital, or a public land contribution. Sellers anchor on highest-and-best-use market value; developers anchor on what the deal can support given restricted rents or resale prices. Knowing both gives you room to structure the offer — and to walk away from sites where the gap is unbridgeable.',
         not: 'This does NOT replace a professional appraisal (MAI or state-certified). It does NOT access real-time MLS / assessor / CoStar data. It does NOT account for entitlement risk, environmental remediation, or off-site improvement costs unless you enter them. It does NOT model a ground-lease structure — that requires different inputs.',
         nextSteps: [
           { label: 'Market Analysis &amp; PMA', href: 'market-analysis.html', desc: 'Run PMA + site scoring for your chosen location' },
@@ -142,9 +144,9 @@
           <li><strong>County assessor:</strong> public record of sales, usually free via the assessor's web portal (e.g., <a href="https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Finance/Our-Divisions/Assessors-Office" target="_blank" rel="noopener">Denver</a>, <a href="https://www.bouldercounty.org/property-and-land/assessor/" target="_blank" rel="noopener">Boulder County</a>)</li>
           <li><strong>CoStar / LoopNet / Crexi:</strong> commercial platforms with filtering by land use, zoning, transaction date — paid subscription</li>
           <li><strong>MLS:</strong> land category; REALTOR access required for closed sales data</li>
-          <li><strong>LIHTC + affordable-housing peers:</strong> talk to other developers. Comparable <em>multifamily-entitled</em> land in your market is often sold off-market and doesn't appear in public databases</li>
+          <li><strong>Affordable-housing developer peers</strong> — LIHTC, workforce housing, NOAH, or community land trust: talk to other developers. Comparable <em>multifamily-entitled</em> land in your market is often sold off-market and doesn't appear in public databases</li>
           <li><strong>CHFA historical awards:</strong> prior LIHTC deals publicly disclose site acquisition costs — the
-            <a href="chfa-portfolio.html">CHFA Portfolio</a> page on this site shows project-level data for Colorado deals</li>
+            <a href="chfa-portfolio.html">CHFA Portfolio</a> page on this site shows project-level data for Colorado deals (a useful reference point even outside a LIHTC deal, since it's real local multifamily-land pricing)</li>
         </ul>
         <p style="line-height:1.7;">
           <strong>Adjustment judgment:</strong> Raw $/acre across heterogeneous parcels can mislead. A 2-acre infill
@@ -163,12 +165,18 @@
 Residual = (Equity + Debt + Soft Sources + Deferred Fee)
            − (Total Development Cost excluding land)
 
-Where:
-  Equity        = 9% or 4% credit × 10 years × syndicator price
-  Debt          = NOI ÷ DSCR ÷ mortgage constant
-  Soft Sources  = CHFA HTF, HOME, DOLA HTF, local trust fund, etc.
-  Deferred Fee  = ~50% of developer fee, paid from cash flow yrs 8-15
+Where "Equity + Debt" is whatever combination actually funds your deal, e.g.:
+  LIHTC          = 9% or 4% credit × 10 years × syndicator price + first mortgage
+  Workforce/NOAH = conventional acquisition debt + soft loans, no tax-credit equity
+  Public/CLT     = PHA or land-trust capital + philanthropic/program-related investment
+  Debt (any path)= NOI ÷ DSCR ÷ mortgage constant
+
+  Soft Sources  = CHFA HTF, HOME, DOLA HTF, local trust fund, employer contribution, etc.
+  Deferred Fee  = ~50% of developer fee, paid from cash flow yrs 8-15 (LIHTC deals) — enter $0 if your
+                  structure doesn't defer a fee
   TDC           = Hard + soft + developer fee (ex-land)
+
+The tool itself just takes one "equity + debt" number — use whatever capital stack actually applies.
 </pre>
         <p style="line-height:1.7;">
           If the seller's asking price is below your residual value, the deal has <strong>margin</strong> — room
@@ -178,9 +186,10 @@ Where:
         </p>
         <p style="line-height:1.7;">
           <strong>When residual is lower than market:</strong> common in resort/high-cost markets where land pricing
-          is driven by luxury demand, not LIHTC economics. Solutions: PHA land donation, ground lease (typically
-          99-year for LIHTC compliance), Prop 123 Land Banking Fund, or community benefits negotiation with
-          the seller to bridge the gap.
+          is driven by luxury demand, not affordable-housing economics — whatever the financing path. Solutions:
+          PHA land donation, a long-term ground lease (99 years is the LIHTC-compliance convention, but the term
+          is a negotiated point in any structure), Prop 123 Land Banking Fund, an employer or institutional land
+          contribution, or community benefits negotiation with the seller to bridge the gap.
         </p>
 
         <h3 style="margin-top:1.5rem;">Negotiation band interpretation</h3>
@@ -197,11 +206,19 @@ Where:
         </ul>
 
         <h3 style="margin-top:1.5rem;">Further reading</h3>
+        <p style="line-height:1.7;">
+          The valuation methods above apply regardless of financing path. The sources below are the ones with
+          the most public, citable material — several are LIHTC-specific because that's where the most detailed
+          published land-valuation writeups exist, not because the tool or the method is LIHTC-only. A workforce-housing,
+          NOAH, or community-land-trust deal uses the same two valuation approaches; ask your soft-funder or
+          syndicator-equivalent (PHA, employer, foundation) for their own underwriting benchmarks the way a
+          LIHTC deal would use Novogradac's or CohnReznick's.
+        </p>
         <ul style="line-height:1.8;">
-          <li><a href="https://www.appraisalinstitute.org" target="_blank" rel="noopener">Appraisal Institute</a> — MAI certification directory; <em>The Appraisal of Real Estate</em> (14th ed.) covers residual and sales-comparison methods formally</li>
+          <li><a href="https://www.appraisalinstitute.org" target="_blank" rel="noopener">Appraisal Institute</a> — MAI certification directory; <em>The Appraisal of Real Estate</em> (14th ed.) covers residual and sales-comparison methods formally, independent of financing type</li>
           <li><a href="https://www.novoco.com/resource-centers/affordable-housing-tax-credits" target="_blank" rel="noopener">Novogradac LIHTC Resource Center</a> — developer-perspective writeups on land valuation in LIHTC deals</li>
           <li><a href="https://www.cohnreznick.com/industries/affordable-housing" target="_blank" rel="noopener">CohnReznick Affordable Housing Credit Study</a> — operating-performance benchmarks that inform residual assumptions</li>
-          <li><a href="https://cdola.colorado.gov/prop-123" target="_blank" rel="noopener">DOLA Prop 123 Land Banking Fund</a> — Colorado-specific land-acquisition subsidy for future affordable-housing development</li>
+          <li><a href="https://cdola.colorado.gov/prop-123" target="_blank" rel="noopener">DOLA Prop 123 Land Banking Fund</a> — Colorado-specific land-acquisition subsidy for future affordable-housing development, open to LIHTC and non-LIHTC projects alike</li>
         </ul>
       </div>
     </section>

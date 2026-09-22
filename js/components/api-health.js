@@ -48,6 +48,15 @@
   function probe(src) {
     var t0 = Date.now();
     var testFn = src.test || function () {
+      // Route through the shared de-duped fetcher instead of firing our own
+      // independent GET for the same file. This probe and the page's real
+      // data-loading code often want the same asset (e.g. ranking-index.json,
+      // chfa-lihtc.json) around page-load; two unrelated concurrent requests
+      // for the identical URL can have one cancelled by the browser as
+      // net::ERR_ABORTED, which used to show up here as a false "unavailable".
+      if (typeof window.safeFetchJSON === 'function') {
+        return window.safeFetchJSON(src.path).then(function () { return true; });
+      }
       var url = (typeof window.resolveAssetUrl === 'function')
         ? window.resolveAssetUrl(src.path) : src.path;
       // Use GET with default cache. Immediately cancel the response body after

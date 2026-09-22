@@ -36,6 +36,11 @@ METRIC_KEYS = [
     "annual_change_latest",
     "change_5y",
     "change_10y",
+    # F226 — needed by scripts/hna/build_place_decade_trends.py's 15-year
+    # affordability-trend chart (2009 ACS baseline). change_since() already
+    # generalizes to any year offset, so this is additive: existing
+    # consumers of change_5y/change_10y are unaffected.
+    "change_15y",
 ]
 
 MIN_TRACTS = 900
@@ -154,6 +159,7 @@ def load_tract_metrics(path: Path) -> tuple[dict[str, dict], int]:
             "annual_change_latest": round_value(annual_change_latest),
             "change_5y": round_value(change_since(5)),
             "change_10y": round_value(change_since(10)),
+            "change_15y": round_value(change_since(15)),
         }
     return dict(sorted(tracts.items())), latest_year
 
@@ -163,18 +169,42 @@ def load_json(path: Path):
 
 
 def load_counties() -> dict[str, dict]:
+    """The county parquet is long/tidy: one (county_fips, hpi_year, hpi_value)
+    row per county-year. Derive the latest level and the 10y/15y lookback
+    changes the same way load_tract_metrics() does for tracts."""
     df = pd.read_parquet(COUNTY_HPI_PATH)
-    counties = {}
-    for row in df.itertuples(index=False):
-        fips = str(row.county_fips).zfill(5)
+    df["county_fips"] = df["county_fips"].astype(str).str.zfill(5)
+    df["hpi_year"] = pd.to_numeric(df["hpi_year"], errors="coerce")
+    df["hpi_value"] = pd.to_numeric(df["hpi_value"], errors="coerce")
+    df = df.dropna(subset=["county_fips", "hpi_year"])
+    df["hpi_year"] = df["hpi_year"].astype(int)
+    latest_year = int(df["hpi_year"].max())
+    by_county_year = {
+        (row.county_fips, int(row.hpi_year)): clean_number(row.hpi_value)
+        for row in df.itertuples(index=False)
+    }
+
+    counties: dict[str, dict] = {}
+    for fips in sorted(df["county_fips"].unique()):
+        hpi_latest = by_county_year.get((fips, latest_year))
+        if hpi_latest is None:
+            continue
+        hpi_10y_base = by_county_year.get((fips, latest_year - 10))
+        hpi_15y_base = by_county_year.get((fips, latest_year - 15))
+
+        def change_from(base):
+            if base is None or base <= 0:
+                return None
+            return (hpi_latest / base) - 1
+
         counties[fips] = {
             "county_fips": fips,
             "source_level": "fhfa_county_direct",
-            "hpi_latest": round_value(clean_number(row.hpi_latest), 4),
-            "hpi_10y_base": round_value(clean_number(row.hpi_10y_base), 4),
-            "hpi_15y_base": round_value(clean_number(row.hpi_15y_base), 4),
-            "change_10y": round_value(clean_number(row.hpi_change_10y)),
-            "change_15y": round_value(clean_number(row.hpi_change_15y)),
+            "hpi_latest": round_value(hpi_latest, 4),
+            "hpi_10y_base": round_value(hpi_10y_base, 4),
+            "hpi_15y_base": round_value(hpi_15y_base, 4),
+            "change_10y": round_value(change_from(hpi_10y_base)),
+            "change_15y": round_value(change_from(hpi_15y_base)),
         }
     return dict(sorted(counties.items()))
 
