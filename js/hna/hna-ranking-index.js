@@ -493,10 +493,13 @@
 
     const tr = thead.querySelector('tr') || document.createElement('tr');
     tr.innerHTML = allCols.map(col => {
-      if (!col.sortable) return `<th class="hca-th" scope="col">${col.label}</th>`;
+      // Every column carries its tip, sortable or not — the non-sortable
+      // headers (Rank, Geography, Type, Region) used to drop theirs, so a
+      // reader could learn what "Need Score" meant but not what "Type" was.
+      const tipAttr = col.tip ? ` title="${col.tip}"` : '';
+      if (!col.sortable) return `<th class="hca-th" scope="col"${tipAttr}>${col.label}</th>`;
       const isActive = _sortMetric === col.id;
       const dir = isActive ? _sortDir : '';
-      const tipAttr = col.tip ? ` title="${col.tip}"` : '';
       return `<th class="hca-th sortable ${isActive ? 'sort-' + dir : ''}" scope="col" data-metric="${col.id}" tabindex="0" role="columnheader" aria-sort="${isActive ? (dir === 'desc' ? 'descending' : 'ascending') : 'none'}"${tipAttr}>
         ${col.label}<span class="sort-icon" aria-hidden="true"></span>
       </th>`;

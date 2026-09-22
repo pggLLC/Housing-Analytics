@@ -1108,6 +1108,32 @@ table tr:last-child td { border-bottom: none; }
 table tr:hover td { background: var(--accent-dim); }
 .table-container { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
 
+/* Column-header definitions (js/components/table-header-tips.js). The "?"
+   is the visible affordance a native title never gave; the popover is the
+   definition, shown on hover, keyboard focus, or tap. The header itself is
+   uppercase/letterspaced by the rule above, so the popover resets both. */
+th.th-tip { position: relative; }
+.th-tip__btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 1.05rem; height: 1.05rem; margin-left: .35rem; padding: 0;
+  font-family: inherit; font-weight: 700; font-size: .68rem; line-height: 1; text-transform: none; letter-spacing: 0;
+  color: var(--accent); background: transparent; border: 1px solid var(--accent);
+  border-radius: 50%; cursor: help; vertical-align: middle; opacity: .8;
+}
+.th-tip__btn:hover, .th-tip__btn:focus-visible { opacity: 1; background: var(--accent); color: var(--on-accent, #fff); outline: none; }
+.th-tip__pop {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0; z-index: 60;
+  min-width: 14rem; max-width: 22rem; padding: .55rem .7rem;
+  font-size: var(--small); font-weight: 400; line-height: 1.45;
+  text-transform: none; letter-spacing: 0; white-space: normal; text-align: left;
+  color: var(--text) !important; background: var(--card, var(--bg)); border: 1px solid var(--border);
+  border-radius: 6px; box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+}
+th.th-tip:hover .th-tip__pop, th.th-tip:focus-within .th-tip__pop, th.th-tip.is-open .th-tip__pop { display: block; }
+/* Right-aligned numeric headers near the table edge: open the popover leftward. */
+th.th-tip.cc-num .th-tip__pop, th.th-tip.right .th-tip__pop, th.th-tip:last-child .th-tip__pop { left: auto; right: 0; }
+@media print { .th-tip__btn, .th-tip__pop { display: none !important; } }
+
 /* ================================================================
    11. FORM CONTROLS
    ================================================================ */

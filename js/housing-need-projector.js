@@ -546,11 +546,11 @@
     var table =
       '<table class="hnp-table" role="table" aria-label="Housing need projections">' +
       '<thead><tr>' +
-      '<th scope="col">Scenario</th>' +
-      '<th scope="col">5-Year Need</th>' +
-      '<th scope="col">10-Year Need</th>' +
-      '<th scope="col">20-Year Need</th>' +
-      '<th scope="col">Annual Gap</th>' +
+      '<th scope="col" title="Growth scenario: DOLA’s low, baseline and high household projections. Read the three together as a range, not the baseline as a forecast.">Scenario</th>' +
+      '<th scope="col" title="Homes needed by year 5 to house projected new households at a healthy vacancy rate, cumulative from the base year. All incomes, all tenures — not affordable-only, and not net of existing stock.">5-Year Need</th>' +
+      '<th scope="col" title="Same measure at year 10, cumulative from the base year.">10-Year Need</th>' +
+      '<th scope="col" title="Same measure at year 20, cumulative from the base year.">20-Year Need</th>' +
+      '<th scope="col" title="Average homes needed per year over the 20-year window (20-year need ÷ 20). Compare against the jurisdiction’s recent permitting pace.">Annual Gap</th>' +
       '</tr></thead>' +
       '<tbody>' + tableRows + '</tbody>' +
       '</table>';

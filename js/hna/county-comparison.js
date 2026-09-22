@@ -51,20 +51,28 @@
    * is always stated as a signed difference so a reader can disagree.
    */
   var DISPLAY_METRICS = [
-    { key: 'pct_cost_burdened',          label: 'Renters cost-burdened',      higherIsWorse: true },
-    { key: 'pct_renter_severe_burdened', label: 'Severe renter burden',       higherIsWorse: true },
-    { key: 'pct_owner_burdened_30plus',  label: 'Owners cost-burdened',       higherIsWorse: true },
+    { key: 'pct_cost_burdened',          label: 'Renters cost-burdened',      higherIsWorse: true,
+      tip: 'Share of renter households paying 30% or more of income on rent and utilities (ACS). HUD’s threshold for “cost-burdened.”' },
+    { key: 'pct_renter_severe_burdened', label: 'Severe renter burden',       higherIsWorse: true,
+      tip: 'Share of renter households paying 50% or more of income on housing — the households closest to displacement.' },
+    { key: 'pct_owner_burdened_30plus',  label: 'Owners cost-burdened',       higherIsWorse: true,
+      tip: 'Share of homeowner households paying 30% or more of income on mortgage, taxes, insurance and utilities.' },
     // Was "Gap rate at ≤30% AMI" — the bare word "gap" collided with three
     // other, unrelated "gap" figures elsewhere on the page (a household-count
     // AMI-tier gap, a dollar income gap, a project-level funding gap). This
     // one specifically is housing_gap_units ÷ low_income_households_lte30 —
     // the share of ≤30%-AMI households without an affordable UNIT, not a
     // cost-burden rate, even though it sits next to three cost-burden rows.
-    { key: 'housing_gap_rate_lte30',     label: 'Unmet unit-gap rate (≤30% AMI)',  higherIsWorse: true },
-    { key: 'overcrowding_rate_pct',      label: 'Overcrowding',               higherIsWorse: true },
-    { key: 'vacancy_rate_pct',           label: 'Vacancy',                    higherIsWorse: false },
-    { key: 'pct_renters',                label: 'Renter share',               higherIsWorse: null },
-    { key: 'pct_multifamily',            label: 'Multifamily share',          higherIsWorse: null }
+    { key: 'housing_gap_rate_lte30',     label: 'Unmet unit-gap rate (≤30% AMI)',  higherIsWorse: true,
+      tip: 'Of renter households earning up to 30% of area median income, the share with no home renting at a price they can afford (affordable-unit shortfall ÷ those households). A supply gap, not a cost-burden rate.' },
+    { key: 'overcrowding_rate_pct',      label: 'Overcrowding',               higherIsWorse: true,
+      tip: 'Share of occupied homes with more than one person per room (ACS).' },
+    { key: 'vacancy_rate_pct',           label: 'Vacancy',                    higherIsWorse: false,
+      tip: 'Share of homes vacant and on the market for rent or sale. Very low vacancy means a tight market; seasonal and second homes are excluded where the data allows.' },
+    { key: 'pct_renters',                label: 'Renter share',               higherIsWorse: null,
+      tip: 'Share of occupied homes that are rented rather than owned. Neither high nor low is “better” — it describes the market’s shape.' },
+    { key: 'pct_multifamily',            label: 'Multifamily share',          higherIsWorse: null,
+      tip: 'Share of housing units in buildings of five or more homes — the building type most affordable rental programs produce.' }
   ];
 
   function num(value) {
@@ -150,6 +158,7 @@
       rows.push({
         key: spec.key,
         label: spec.label,
+        tip: spec.tip || null,
         place: { value: pv, level: p.geography_level || null, confidence: p.confidence || null, denominator: num(p.denominator) },
         county: { value: cv, level: c.geography_level || null, confidence: c.confidence || null, denominator: num(c.denominator) },
         delta: delta,

@@ -53,7 +53,7 @@
         : (reading === 'better than the county' ? 'better' : 'neutral'));
     return '' +
       '<tr data-tone="' + esc(tone) + '">' +
-        '<th scope="row">' + esc(row.label) + '</th>' +
+        '<th scope="row"' + (row.tip ? ' title="' + esc(row.tip) + '"' : '') + '>' + esc(row.label) + '</th>' +
         '<td class="cc-num cc-place">' + esc(pct(row.place.value)) + '</td>' +
         '<td class="cc-num cc-county">' + esc(pct(row.county.value)) + '</td>' +
         '<td class="cc-num cc-delta">' + esc(C.formatDelta(row.delta)) +
@@ -83,10 +83,10 @@
           'households than the county containing it, so that comparison is guaranteed by arithmetic ' +
           'rather than informative.' + (asOf ? ' Source vintage: ' + esc(asOf) + '.' : '') + '</caption>' +
         '<thead><tr>' +
-          '<th scope="col">Measure</th>' +
-          '<th scope="col" class="cc-num">' + esc(placeName) + '</th>' +
-          '<th scope="col" class="cc-num">' + esc(countyName) + '</th>' +
-          '<th scope="col" class="cc-num">Difference</th>' +
+          '<th scope="col" title="The housing measure being compared. Each row is a rate (a share of households or units), never a count — a town always has fewer households than its county, so counts would compare nothing.">Measure</th>' +
+          '<th scope="col" class="cc-num" title="The selected jurisdiction’s own value, computed at its own geography (not scaled from the county).">' + esc(placeName) + '</th>' +
+          '<th scope="col" class="cc-num" title="The containing county’s value for the same measure, computed the same way.">' + esc(countyName) + '</th>' +
+          '<th scope="col" class="cc-num" title="Jurisdiction minus county, in percentage points. “Better” or “worse” is only stated where a higher value is clearly one or the other.">Difference</th>' +
         '</tr></thead>' +
         '<tbody>' + result.rows.map(function (r) { return rowHtml(r, C); }).join('') + '</tbody>' +
       '</table></div>';
