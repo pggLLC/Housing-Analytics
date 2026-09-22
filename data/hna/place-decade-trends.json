@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-22T15:13:22Z",
+    "generated": "2026-09-22T16:50:33Z",
     "vintage_years": [
       2009,
       2014,
@@ -30,7 +30,9 @@
     "hpi_source": "data/market/fhfa_hpi_subcounty_co.json (FHFA tract HPI aggregated to place via TIGER place-tract membership); omitted per-place when that file has no change_15y for the place",
     "place_count": 267,
     "places_skipped_incomplete_history": 215,
-    "cohorts_rejected_implausible": 502,
+    "cohorts_missing_geography": 161,
+    "cohorts_suppressed": 338,
+    "cohorts_rejected_implausible": 3,
     "total_places_considered": 482
   },
   "places": {
