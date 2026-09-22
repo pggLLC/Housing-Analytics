@@ -128,6 +128,14 @@
   text-decoration: underline;
 }
 
+/* Plain-language explainer under the caption. flex-basis:100% pushes it onto
+   its own full-width line beneath the label/link row instead of competing
+   for space in the space-between row above it. */
+.home-opening__map-explainer {
+  flex-basis: 100%;
+  line-height: 1.5;
+}
+
 .home-need-legend {
   display: flex;
   gap: var(--sp3);
