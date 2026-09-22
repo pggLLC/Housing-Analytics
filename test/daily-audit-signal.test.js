@@ -166,6 +166,9 @@ run('the daily audit restores its history from a durable artifact before it runs
     'the artifact must be unpacked where audit-history.js reads it');
   assert.match(restore, /downloadArtifact[\s\S]{0,600}exec\.exec\('unzip', \['-o', '-q', zipPath, '-d', dir\]\)/,
     'the download must be unzipped into that directory, overwriting any stale copy');
+  assert.match(restore, /workflow_run\.head_branch === 'main'/,
+    'artifacts are listed repository-wide, so a branch run\'s upload would otherwise be ' +
+    'compared against production findings from different code');
   assert.match(wf, /permissions:[\s\S]{0,120}actions:\s*read/,
     'listing and downloading artifacts needs actions: read on the job token');
   assert.doesNotMatch(wf, /uses:\s*actions\/cache/,
@@ -182,6 +185,8 @@ run('the daily audit saves its history back to the same artifact after it runs',
     'the save must run even when a later legacy check fails');
   assert.match(save, /name:\s*audit-history[\s\S]{0,200}overwrite:\s*true/,
     'a re-run of the same run must replace attempt 1\'s artifact, not fail on the name');
+  assert.match(save, /if:\s*always\(\)\s*&&\s*github\.ref == 'refs\/heads\/main'[^\n]*\n\s*uses:\s*actions\/upload-artifact/,
+    'a workflow_dispatch on a feature branch may read the production chain but must never write to it');
 });
 
 // ── The comparison itself classifies correctly once history is present ──────

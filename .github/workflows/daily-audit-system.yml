@@ -73,9 +73,16 @@ jobs:
               per_page: 20,
             });
             const usable = data.artifacts
+              .filter(a => !a.expired)
               // A re-run of this same run must not restore what attempt 1
               // uploaded a few minutes ago; it wants yesterday's chain.
-              .filter(a => !a.expired && !(a.workflow_run && a.workflow_run.id === context.runId))
+              .filter(a => !(a.workflow_run && a.workflow_run.id === context.runId))
+              // Only the production chain: the save step below uploads only
+              // from main, but this guard also covers any artifact of this
+              // name a branch run produced before that gate existed, so a
+              // scheduled run never compares the site against findings from
+              // different code.
+              .filter(a => a.workflow_run && a.workflow_run.head_branch === 'main')
               .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             if (usable.length === 0) {
@@ -116,12 +123,15 @@ jobs:
 
       # Saved immediately after the audit, and with if: always(), so a failure
       # in one of the legacy checks below cannot cost us the day's snapshot.
-      # Skipped only when the restore step itself errored (see above); a
-      # restore that found nothing still uploads, which is how the chain
-      # starts. overwrite: true lets a re-run of this run replace attempt 1's
-      # artifact instead of failing on the duplicate name.
+      # Skipped when the restore step itself errored (see above); a restore
+      # that found nothing still uploads, which is how the chain starts. Also
+      # skipped off main: a workflow_dispatch on a feature branch may read the
+      # production chain but must never write to it, or the next scheduled
+      # run would classify findings against audit output from different code.
+      # overwrite: true lets a re-run of this run replace attempt 1's artifact
+      # instead of failing on the duplicate name.
       - name: Save audit history
-        if: always() && steps.prior_history.outputs.restored != 'error'
+        if: always() && github.ref == 'refs/heads/main' && steps.prior_history.outputs.restored != 'error'
         uses: actions/upload-artifact@v7
         with:
           name: audit-history
