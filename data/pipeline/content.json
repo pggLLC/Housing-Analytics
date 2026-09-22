@@ -216,9 +216,10 @@
     },
     {
       "n": 6,
-      "title": "LIHTC Readiness",
-      "summary": "Assess each jurisdiction-site pairing against five readiness levels, from conceptual to fully funded.",
-      "what_this_means": "The federal Low-Income Housing Tax Credit (LIHTC), administered in Colorado by CHFA, supplies equity for most new affordable rental construction. Projects compete for 9% credits (competitive, scored annually) or 4% credits (paired with tax-exempt bonds, available on a rolling basis subject to a state allocation cap). A jurisdiction-site pairing can be assessed against five readiness levels.",
+      "title": "Financing Readiness — LIHTC rental and affordable ownership",
+      "summary": "Assess each jurisdiction-site pairing against five readiness levels — on whichever track the project is on: tax-credit rental or restricted ownership. The two tracks share the questions up to here; this is where they diverge, and where the obligations that follow closing differ most.",
+      "what_this_means": "Up to this step the path is the same for any project: where, who needs what, does the market support it, does the deal pencil. From here, two conventional financing tracks split. The federal Low-Income Housing Tax Credit (LIHTC), administered in Colorado by CHFA, supplies equity for most new affordable rental construction — projects compete for 9% credits (competitive, scored annually) or 4% credits (paired with tax-exempt bonds, available on a rolling basis subject to a state allocation cap). Affordable ownership — deed-restricted for-sale homes, community land trusts, shared-equity models — is financed instead with down-payment assistance, soft second mortgages, land held by a trust, and buyer mortgages, and keeps the home affordable at resale rather than at rent. Each track has its own five readiness levels below, and its own obligations after closing.",
+      "readiness_label": "LIHTC rental — the five readiness levels",
       "readiness_levels": [
         {"level": 1, "name": "Conceptual", "definition": "Need is documented and the jurisdiction is in the A or B bucket, but no specific site, sponsor, or financing structure is identified yet."},
         {"level": 2, "name": "Site identified", "definition": "A specific parcel is in view, with confirmed zoning, basic utility availability, and preliminary acreage and yield estimates."},
@@ -226,7 +227,50 @@
         {"level": 4, "name": "Application ready", "definition": "Site control is in place (option, contract, or letter of intent), a full financing stack is assembled in concept, environmental and design work has started, and local approvals are in process."},
         {"level": 5, "name": "Funded", "definition": "CHFA has reserved credits, the financing stack is closed or near closing, and the project is moving toward construction start."}
       ],
-      "why_it_matters": "Funding partners — lenders, equity investors, soft-debt sources — expect different levels of completion at different times. Naming the level explicitly prevents the common failure of approaching a funder before the project is far enough along, which usually produces a polite 'come back later' rather than a working relationship.",
+      "ownership_track": {
+        "title": "Affordable ownership — the five readiness levels",
+        "what_this_means": "Deed-restricted for-sale homes, community land trust (CLT) homes, and shared-equity models sell to income-qualified buyers at a below-market price and stay affordable through a resale formula, not a rent restriction. The same five-level shape applies, but the milestones are about the buyer pool, the subsidy per home, and the resale convention rather than a credit award. The levels mirror the site's ownership decision chain: site and price context, demand by price band, per-unit subsidy gap, developer funding stack, resale convention.",
+        "readiness_levels": [
+          {"level": 1, "name": "Conceptual", "definition": "Ownership need is documented (income-qualified households who could carry a mortgage at a restricted price, but not at market) and the jurisdiction is in the A or B bucket; no site, sponsor, or stewardship entity is identified yet."},
+          {"level": 2, "name": "Site and price band identified", "definition": "A parcel is in view with zoning that allows for-sale product, and the demand-by-price-band screen shows enough qualified buyers at the target restricted price — not just enough renters."},
+          {"level": 3, "name": "Subsidy gap sized", "definition": "The per-home gap between total development cost and the restricted sale price is quantified, and the sources that would fill it (down-payment assistance, soft seconds, land contribution, Prop 123 or local funds) are named in concept."},
+          {"level": 4, "name": "Stewardship and resale convention set", "definition": "A stewardship entity (CLT, housing authority, or program administrator) is committed, the resale formula is chosen (fixed cap, shared appreciation, or index-based), and the deed restriction or ground lease is drafted. Site control is in place and buyer-financing lenders who will underwrite restricted homes are identified."},
+          {"level": 5, "name": "Funded and enrolled", "definition": "Gap sources are committed, the restriction is recorded or ready to record, the buyer-qualification process is set up, and construction or acquisition is moving toward start."}
+        ],
+        "watch_outs": [
+          "A restricted price only works if buyers can get a mortgage on a restricted home — check that at least one lender will underwrite the deed restriction or ground lease before counting on the buyer pool.",
+          "Stewardship is a decades-long commitment; a resale formula with no entity to enforce it lapses at the first sale.",
+          "Ownership need and rental need are not the same households — a jurisdiction with acute renter cost burden can still have a thin qualified-buyer pool at the target price."
+        ],
+        "does_not_tell_you": "Which resale convention a jurisdiction will accept, or how long the restriction will hold — those are local policy and legal choices the ownership decision chain surfaces but cannot decide."
+      },
+      "after_closing": {
+        "label": "What follows closing — the obligations each track carries",
+        "intro": "Closing is not the finish line. Both tracks carry ongoing reporting, certification, and long-horizon obligations, and they are different in kind. These are the things a first-time sponsor most often discovers late.",
+        "tracks": [
+          {
+            "track": "LIHTC rental",
+            "obligations": [
+              {"what": "Placed-in-service documentation and first-year credit claim (IRS Form 8609 for each building)", "when": "At placed-in-service and the first credit year", "who_reports": "Owner / general partner", "to_whom": "CHFA and the IRS", "if_missed": "Credits cannot be claimed for the year; investor equity installments are typically conditioned on it"},
+              {"what": "Tenant income certification at move-in and annual recertification; rent held at or below the AMI-tier ceiling", "when": "Every lease-up and every year for the compliance period", "who_reports": "Property manager, reviewed by the owner", "to_whom": "CHFA (monitoring) and the investor (asset management)", "if_missed": "Noncompliance reported to the IRS on Form 8823; credit recapture and investor remedies"},
+              {"what": "Annual owner certification of continuing compliance and CHFA physical / file inspections", "when": "Annually, with inspections on CHFA's cycle", "who_reports": "Owner", "to_whom": "CHFA", "if_missed": "Findings escalate to 8823 reporting; repeated findings affect the sponsor's standing in future QAP rounds"},
+              {"what": "Investor and lender reporting — audited financials, operating budgets, reserve balances, debt-service coverage", "when": "Quarterly and annually through the 15-year compliance period", "who_reports": "Owner / general partner", "to_whom": "Equity investor (syndicator) and permanent lender", "if_missed": "Default under the partnership or loan agreements; loss of deferred developer fee"},
+              {"what": "Year 15 and the extended-use period — investor exit, qualified-contract or right-of-first-refusal decisions, resyndication or preservation planning, and the Land Use Restriction Agreement that keeps rents restricted for the extended term (typically to year 30 or beyond)", "when": "Planning from about year 12; the extended-use period runs after the credits end", "who_reports": "Owner, with the investor and CHFA", "to_whom": "CHFA and the recorded LURA", "if_missed": "Affordability can be lost at the end of the extended-use period, or a preservation opportunity missed"}
+            ]
+          },
+          {
+            "track": "Affordable ownership",
+            "obligations": [
+              {"what": "Recording the deed restriction, covenant, or ground lease before the first sale", "when": "At or before the first closing", "who_reports": "Developer / stewardship entity", "to_whom": "County clerk and recorder; the funding source's compliance office", "if_missed": "The home sells unrestricted and the public subsidy is lost on that home"},
+              {"what": "Buyer eligibility certification — income, asset, primary-residence, and first-time-buyer tests as the program requires", "when": "At every sale and resale", "who_reports": "Stewardship entity / program administrator", "to_whom": "Funding source (down-payment assistance, soft-second lender, Prop 123 or local program)", "if_missed": "Clawback of assistance; an ineligible buyer can void the restriction's enforceability"},
+              {"what": "Annual owner-occupancy certification and monitoring of refinance, home-equity borrowing, and rental of the home", "when": "Annually for the term of the restriction", "who_reports": "Homeowner, to the stewardship entity", "to_whom": "Stewardship entity", "if_missed": "Restriction violations that are hard to unwind after the fact; loss of the subsidy's purpose"},
+              {"what": "Resale administration — formula price calculation, right of first refusal or purchase option, buyer qualification, and any subsidy recapture at sale", "when": "At every resale", "who_reports": "Stewardship entity", "to_whom": "Seller, buyer, and the funding source", "if_missed": "The home leaves the affordable stock at market price"},
+              {"what": "Long-horizon stewardship — ground-lease renewals (CLTs typically 99 years), restriction terms of 30 to 99 years or perpetual, and the staffing and fees to administer them", "when": "For the life of the restriction", "who_reports": "Stewardship entity", "to_whom": "Its board and funders", "if_missed": "Restrictions lapse quietly when no one is left to enforce them"}
+            ]
+          }
+        ]
+      },
+      "why_it_matters": "Funding partners — lenders, equity investors, soft-debt sources, and the stewardship entities and buyer-assistance programs on the ownership side — expect different levels of completion at different times. Naming the level explicitly prevents the common failure of approaching a funder before the project is far enough along, which usually produces a polite 'come back later' rather than a working relationship.",
       "data_sources": [
         {"label": "CHFA Qualified Allocation Plan", "vintage": "2026 cycle", "what": "Scoring rules and policy priorities for the year"},
         {"label": "CHFA portfolio of past awards", "vintage": "Live", "what": "Sponsor track record and regional allocation patterns"},
@@ -240,8 +284,8 @@
         "The 4% bond cap can be exhausted partway through a year, deferring otherwise-ready projects to the next cycle.",
         "Colorado state LIHTC, MIHTC, and Prop 123 dollars have their own readiness conventions that overlap but do not perfectly align with the federal LIHTC levels."
       ],
-      "does_not_tell_you": "Whether CHFA will award credits to a specific project. The QAP is competitive and scoring outcomes depend on the full applicant pool each round.",
-      "next_step": "The current readiness level determines what goes into the evidence package in Step 7."
+      "does_not_tell_you": "Whether CHFA will award credits to a specific project — the QAP is competitive and scoring outcomes depend on the full applicant pool each round — or, on the ownership track, whether a stewardship entity will take the home on and which resale convention the jurisdiction will accept.",
+      "next_step": "The current readiness level, on whichever track, determines what goes into the evidence package in Step 7 — and the after-closing obligations above are what the evidence package should show the sponsor is prepared for."
     },
     {
       "n": 7,
