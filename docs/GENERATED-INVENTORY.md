@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T14:11:17.201Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T15:24:28.123Z. Do not edit by hand.
 
 ---
 
@@ -78,11 +78,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1582 JSON files found.
+1583 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 764.0 KB | ✅ | — |
+| `data/_manifest.json` | 764.3 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -502,7 +502,7 @@
 | `data/hna/jurisdiction-metrics-digest/0837545.json` | 39.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837600.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837655.json` | 38.3 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837820.json` | 40.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837820.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837875.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838370.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838425.json` | 38.4 KB | ✅ | — |
@@ -901,6 +901,7 @@
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
+| `data/hna/place-decade-trends.json` | 154.1 KB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
 | `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
@@ -1571,7 +1572,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 200.2 KB | ✅ | — |
+| `data/manifest.json` | 200.3 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1738,7 +1739,7 @@
 | `test/deal-calc-ami-bands.test.js` | 5.8 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
-| `test/deal-calc-for-sale-feasibility.test.js` | 14.2 KB |
+| `test/deal-calc-for-sale-feasibility.test.js` | 16.4 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
