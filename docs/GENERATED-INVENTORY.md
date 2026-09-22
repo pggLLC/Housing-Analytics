@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T16:25:47.432Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T18:13:29.496Z. Do not edit by hand.
 
 ---
 
@@ -502,7 +502,7 @@
 | `data/hna/jurisdiction-metrics-digest/0837545.json` | 39.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837600.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837655.json` | 38.3 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0837820.json` | 39.9 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0837820.json` | 40.1 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0837875.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838370.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0838425.json` | 38.4 KB | ✅ | — |
@@ -754,7 +754,7 @@
 | `data/hna/jurisdiction-metrics-digest/0884042.json` | 38.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0884440.json` | 40.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0884770.json` | 40.0 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0885045.json` | 39.8 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0885045.json` | 39.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0885155.json` | 39.8 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0885485.json` | 39.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0885705.json` | 39.8 KB | ✅ | — |
@@ -897,11 +897,11 @@
 | `data/hna/local-notes.json` | 751 B | ✅ | — |
 | `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
-| `data/hna/ownership-need.json` | 702.7 KB | ✅ | — |
+| `data/hna/ownership-need.json` | 702.6 KB | ✅ | — |
 | `data/hna/permits.json` | 243.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
-| `data/hna/place-decade-trends.json` | 154.1 KB | ✅ | — |
+| `data/hna/place-decade-trends.json` | 154.2 KB | ✅ | — |
 | `data/hna/place-lehd.json` | 1.82 MB | ✅ | — |
 | `data/hna/place-od-flows.json` | 80.8 KB | ✅ | — |
 | `data/hna/place-phantom-aliases.json` | 1.7 KB | ✅ | — |
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-380 test files found.
+381 test files found.
 
 | File | Size |
 |------|------|
@@ -1795,6 +1795,7 @@
 | `test/hna-comparison-place-cost-burden.test.js` | 3.9 KB |
 | `test/hna-county-comparison.test.js` | 9.1 KB |
 | `test/hna-county-scope-disclosures.test.js` | 4.2 KB |
+| `test/hna-decade-trend-source-copy.test.js` | 14.4 KB |
 | `test/hna-deep-dive-batch1.test.js` | 6.3 KB |
 | `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
