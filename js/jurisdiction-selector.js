@@ -578,7 +578,7 @@
             }
           }
           var hintHtml = countyLabel
-            ? ' <span class="sj-result-fips">· ' + _esc(countyLabel) + ' County</span>'
+            ? ' <span class="sj-result-fips">· ' + _esc(formatCountyName(countyLabel)) + '</span>'
             : (match && match.type === 'cdp' ? ' <span class="sj-result-fips">· CDP</span>' : '');
           li.innerHTML = _esc(cityName) + hintHtml;
         } else {

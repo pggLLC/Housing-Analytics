@@ -73,6 +73,47 @@
       if (html.indexOf(entry) === -1) throw new Error('MarketStudyReport: required caveat missing: ' + entry);
     });
   }
+
+  /**
+   * Every report before this led with nine sections of tables and ended
+   * on a screening-draft banner — a reader could fill in all 11 demand-
+   * funnel stages correctly and still be handed no sentence saying what
+   * the numbers add up to. This puts an answer, or an honest account of
+   * why there isn't one yet, at the top — same "the answer, first"
+   * pattern already used in js/hna/hna-renderers.js's ownership-need
+   * panel. Plain prose only: no badge() calls here, since the exported
+   * document's data-provenance-label counts are pinned exactly by
+   * BADGE_COUNTS in test/market-study-report.test.js and every value
+   * used below is already classified by the sections that compute it.
+   */
+  function verdictSection(model) {
+    var funnel = model.funnel;
+    var stageCount = funnel.stages.length;
+    var totalStages = Math.max(0, stageCount - 1); // exclude the auto-computed starting-pool row
+    var unresolvedList = funnel.unresolvedStages;
+    var unresolvedCount = unresolvedList.length;
+    if (funnel.effectiveDemand === NA) {
+      var resolvedCount = totalStages - unresolvedCount;
+      return '<section class="verdict"><h2>The screening answer, so far</h2>' +
+        '<p><strong>Not enough local data yet for even a screening-level answer.</strong> ' +
+        escape(resolvedCount + ' of ' + totalStages + ' demand-funnel stages have a local share entered') +
+        '; the remaining ' + unresolvedCount + ' — ' + escape(unresolvedList.join(', ')) +
+        ' — still need one before section 6 (Demand) and section 7 (Capture) can say anything. ' +
+        'The rest of this report does not depend on the funnel: costs, land, and settlement math are already complete below.</p></section>';
+    }
+    var thirtyMonth = (model.capture.scenarios || []).filter(function (item) { return item.selloutMonths === 30; })[0];
+    var penetration = thirtyMonth ? formatDenominator(thirtyMonth.totalProjectPenetration, 'rate') : null;
+    return '<section class="verdict"><h2>The screening answer, so far</h2>' +
+      '<p><strong>Effective demand: ' + display(funnel.effectiveDemand) + ' households</strong> against a ' +
+      display(model.scenario.program.total_units.value) + '-unit program.' +
+      (penetration
+        ? ' At a 30-month sellout pace, the program would need to capture ' + penetration +
+          ' of that pool. Whether that share is realistic is exactly what section 7 and the ' +
+          'competitive-supply gap it discloses exist to inform — this line states the arithmetic, not a conclusion.'
+        : '') +
+      '</p></section>';
+  }
+
   function buildReport(model, meta) {
     if (!model || !model.scenario || !model.derived || !model.funnel || !model.capture) {
       throw new Error('MarketStudyReport: a complete Phase-8 buildModel object is required');
@@ -148,7 +189,8 @@
     var validation = '<section><h2>8. Validation steps</h2><p>' + VERIFY + '</p><ul><li>Legal: deed-restriction and ground-lease enforceability; CDARA exposure for attached product.</li><li>Appraisal treatment.</li><li>Lender product acceptance.</li><li>Administrator capacity.</li><li>Assessor treatment of restricted value.</li></ul></section>';
     var legend = '<section><h2>9. Evidence legend</h2><p><strong>' + LEGEND + '</strong></p><dl><dt>Source confirmed</dt><dd>A cited primary source supports the value.</dd><dt>Calculated estimate</dt><dd>The value follows a stated screening method and assumptions.</dd><dt>Owner input required</dt><dd>Replace the screening placeholder with a project-specific input.</dd><dt>Not yet verified</dt><dd>A named document exists but its applicable terms still need review.</dd></dl><p><strong>Commitment-status rule:</strong> ' + COMMITMENT + '.</p><p>All time-shaped paths retain the suffix “' + SCENARIO + '.”</p></section>';
     var vintages = '<ul><li>Scenario: ' + escape(meta.vintages.scenario) + '</li><li>Home value: ' + escape(meta.vintages.homeValue) + '</li><li>Resale conventions: ' + escape(meta.vintages.conventions) + '</li></ul>';
-    var content = '<article class="report"><header><h1>Fruita Commons — For-Sale Fundamental Market Study</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '</header>' + project + affordability + costSection + land + equity + demand + capture + validation + legend + '<footer><strong>' + BANNER + '</strong></footer></article>';
+    var verdict = verdictSection(model);
+    var content = '<article class="report"><header><h1>Fruita Commons — For-Sale Fundamental Market Study</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '</header>' + verdict + project + affordability + costSection + land + equity + demand + capture + validation + legend + '<footer><strong>' + BANNER + '</strong></footer></article>';
     assertComplete(content);
     return Object.freeze({ title: 'Fruita Commons — For-Sale Fundamental Market Study', asOf: meta.asOf, content: content });
   }

@@ -3128,6 +3128,13 @@
           layer.bindTooltip('QCT ' + id, { sticky: true, className: 'pma-tooltip' });
         }
       });
+      // Visible by default, matching countyLayer/lihtcLayer below — QCT/DDA
+      // status is a primary screening input (it affects eligible basis), not
+      // an optional add-on, so it shouldn't be hidden behind the collapsed
+      // top-right layer-control toggle a first-time visitor has no reason to
+      // find. The legend already lists a QCT swatch unconditionally, which
+      // only makes sense if the layer is actually showing.
+      qctLayer.addTo(map);
       overlayMaps['Qualified Census Tracts'] = qctLayer;
     }
 
@@ -3142,6 +3149,7 @@
           layer.bindTooltip('DDA: ' + label, { sticky: true, className: 'pma-tooltip' });
         }
       });
+      ddaLayer.addTo(map);
       overlayMaps['Difficult Dev Areas'] = ddaLayer;
     }
 
