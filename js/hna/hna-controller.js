@@ -3616,9 +3616,11 @@
         window.HNARenderers.renderHousingTypeFeasibility(profile, geoType);
       }
       // F199 + F200 — Decade affordability trend + housing-type pace.
-      // Both are county-level (ACS cohort + BPS permits aren't cached for
-      // places); place selections render the containing county data with
-      // an implicit "county-level" framing already in the panel copy.
+      // F226 — the affordability trend now tries real place-level ACS
+      // cohorts first (data/hna/place-decade-trends.json) and only falls
+      // back to the containing county's data, with an explicit banner, for
+      // a place not yet covered there. Housing-type pace (permits) is still
+      // always county-level — Census BPS place records aren't cached here.
       try {
         if (window.HNARenderers.renderDecadeAffordTrend) {
           window.HNARenderers.renderDecadeAffordTrend(geoType, geoid, contextCounty);

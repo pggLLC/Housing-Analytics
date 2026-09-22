@@ -36,6 +36,11 @@ METRIC_KEYS = [
     "annual_change_latest",
     "change_5y",
     "change_10y",
+    # F226 — needed by scripts/hna/build_place_decade_trends.py's 15-year
+    # affordability-trend chart (2009 ACS baseline). change_since() already
+    # generalizes to any year offset, so this is additive: existing
+    # consumers of change_5y/change_10y are unaffected.
+    "change_15y",
 ]
 
 MIN_TRACTS = 900
@@ -154,6 +159,7 @@ def load_tract_metrics(path: Path) -> tuple[dict[str, dict], int]:
             "annual_change_latest": round_value(annual_change_latest),
             "change_5y": round_value(change_since(5)),
             "change_10y": round_value(change_since(10)),
+            "change_15y": round_value(change_since(15)),
         }
     return dict(sorted(tracts.items())), latest_year
 
