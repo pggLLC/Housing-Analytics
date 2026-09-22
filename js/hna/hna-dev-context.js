@@ -59,13 +59,12 @@
       project: 'ACS informs the cost-burden math, the HUD FMR reference informs the LIHTC rent ceiling CHFA sets, and ZORI provides a comparable-market read on what a market-rate apartment would charge today. Together they describe what a typical resident in this community is actually paying.',
     },
 
-    /* ── Age of Housing Stock ── Must stay ABOVE 'Housing stock' below: its
-       own h2 text ("Age of Housing Stock") contains the substring "housing
-       stock", so _matchKey's loose substring match would otherwise resolve
-       it to the "Housing stock by structure type" entry two headings later
-       on the same page (hna-what-housing-exists.html), duplicating all
-       three paragraphs verbatim. This entry already existed further down
-       the file with its own distinct content — moved here so it wins. */
+    /* ── Age of Housing Stock ──
+       Its own h2 text contains the substring "housing stock" (from the
+       unrelated "Housing stock by structure type" section below), but
+       _matchKey now picks the longest matching key, and "Age of Housing
+       Stock" is longer than "Housing stock" — so this distinct entry wins
+       regardless of declaration order. */
     'Age of Housing Stock': {
       why: 'Older housing stock (pre-1960) often carries lead-paint, asbestos, and accessibility-retrofit considerations. It can also mean residents are living in homes with fewer modern features — and a thoughtful, well-built affordable project here would offer real improvement.',
       demand: 'When the community has a heavy share of pre-1960 stock and relatively little new construction, many residents are paying high rents for homes that need significant work. A newly-built affordable project is a meaningful upgrade.',
@@ -150,16 +149,14 @@
     },
 
     /* ── Demographic projections wrapper (age pyramid + senior pressure) ──
-       Must stay ABOVE 'Age pyramid' below: this h2's own text contains the
-       substring "age pyramid", so _matchKey's loose substring match would
-       otherwise resolve it to the SAME entry as the "Age pyramid" sub-section
-       two headings down, duplicating all three paragraphs verbatim on the
-       page. A distinct, earlier-declared key breaks that collision.
+       This h2's text contains the substring "age pyramid" (from the "Age
+       pyramid" sub-section two headings down), but this key is longer, so
+       _matchKey's longest-match rule picks this distinct entry instead.
        Key text is the full compound phrase, not just "Demographic
-       projections" — that shorter phrase is itself a substring of
-       "Scenario-based demographic projections" (a different, unrelated
-       section on hna-where-its-heading.html), which would steal that
-       section's own callout. */
+       projections" — that shorter phrase is ALSO a substring of "Scenario-
+       based demographic projections" (a different, unrelated section on
+       hna-where-its-heading.html), which would give both headings the same
+       callout again. */
     'age pyramid & senior pressure': {
       why: 'Age pyramid and senior-growth pressure are two views of the same underlying population data — together they show not just who lives here today, but which age groups are growing fastest and what kind of housing they will need over the 15-30 year compliance horizon LIHTC and other affordable financing runs on.',
       demand: 'A community that is both aging in place and gaining young families at once has two distinct, and sometimes competing, housing needs — the two charts below break that combined signal apart so it does not get averaged away.',
@@ -381,20 +378,35 @@
     },
   };
 
-  // Match an h2's identity to an EXPLAIN key. Tries (in order):
-  //   1. exact id match
-  //   2. id contains the key (case-insensitive)
-  //   3. h2 text contains the key (case-insensitive)
+  // Match an h2's identity to an EXPLAIN key.
+  //   1. An exact id match always wins outright — unambiguous by definition.
+  //   2. Otherwise, among every key whose text is found (case-insensitive)
+  //      in either the id or the heading text, the LONGEST key wins.
+  //
+  // Longest-match-wins, not first-declared-wins: a loose substring match
+  // means a longer heading can accidentally contain a shorter, unrelated
+  // key — "Age of Housing Stock" contains "Housing stock"; "Demographic
+  // projections: age pyramid & senior pressure" contains "Age pyramid" —
+  // and silently inherit that OTHER section's callout, duplicating it
+  // verbatim on the same page. hna-section-takeaways.js hit the identical
+  // bug (see its own _matchKey) and fixed it the same way; mirroring that
+  // fix here means a new EXPLAIN key can't reopen this by landing in the
+  // wrong declaration order.
   function _matchKey(h2) {
     const id = (h2.id || '').toLowerCase();
     const text = (h2.textContent || '').toLowerCase();
+    let best = null;
+    let bestLen = -1;
     for (const key of Object.keys(EXPLAIN)) {
       const kl = key.toLowerCase();
       if (id === kl) return key;
-      if (id && id.includes(kl)) return key;
-      if (text && text.includes(kl)) return key;
+      const hit = (id && id.includes(kl)) || (text && text.includes(kl));
+      if (hit && kl.length > bestLen) {
+        best = key;
+        bestLen = kl.length;
+      }
     }
-    return null;
+    return best;
   }
 
   function _renderCallout(key) {
