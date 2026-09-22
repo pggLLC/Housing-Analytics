@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T18:57:33.071Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T19:31:54.152Z. Do not edit by hand.
 
 ---
 
@@ -1829,7 +1829,7 @@
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
-| `test/homepage-claims.test.js` | 5.6 KB |
+| `test/homepage-claims.test.js` | 7.9 KB |
 | `test/homepage-job-routing.test.js` | 7.5 KB |
 | `test/homepage-snapshot.test.js` | 4.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
@@ -1866,7 +1866,7 @@
 | `test/market-study-page.test.js` | 17.5 KB |
 | `test/market-study-report.test.js` | 12.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
-| `test/metric-semantics-wording.test.js` | 4.2 KB |
+| `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
 | `test/metric-truth-crosssurface.test.js` | 8.1 KB |
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
@@ -1933,7 +1933,7 @@
 | `test/provenance-label.test.js` | 2.2 KB |
 | `test/public-build-metadata.test.mjs` | 2.7 KB |
 | `test/public-config-no-secrets.test.js` | 4.8 KB |
-| `test/public-facing-numbers.test.js` | 6.4 KB |
+| `test/public-facing-numbers.test.js` | 7.1 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.1 KB |
 | `test/qap-simulator.test.js` | 10.6 KB |

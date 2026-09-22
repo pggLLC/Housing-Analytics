@@ -39,7 +39,9 @@ assertNotIncludes(hnaHtml, 'aria-label="Housing demand by AMI tier view"', 'old 
 
 assertIncludes(indexHtml, 'CO rental deficit ≤30% AMI', 'homepage <=30 AMI card names current rental deficit');
 assertIncludes(indexHtml, 'CO rental deficit ≤60% AMI', 'homepage <=60 AMI card names current rental deficit');
-assertIncludes(indexHtml, 'current renter households vs affordable units', 'homepage rental deficit cards explain current renter-vs-unit basis');
+// The cards' basis (renter households against homes they can afford) is
+// asserted as a claim against data/co_ami_gap_by_county.json in
+// test/homepage-claims.test.js, not as a sentence here (#1746).
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤30% AMI', 'homepage old <=30 generic deficit label is removed');
 assertNotIncludes(indexHtml, 'CO Housing Deficit ≤60% AMI', 'homepage old <=60 generic deficit label is removed');
 
