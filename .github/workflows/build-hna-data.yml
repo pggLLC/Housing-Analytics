@@ -501,7 +501,15 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa 2>/dev/null || true
+          # Every path the "Rebuild homepage snapshot and manifests" step writes
+          # is staged here. Until 2026-09-22 the list stopped at the manifests:
+          # the step rebuilt places/, the paper figures and the README/AGENTS.md
+          # inventory line, then threw them away when the runner was torn
+          # down (#1768). Cron commits get no CI, so main sat red on
+          # test:place-pages-fresh / test:paper-fresh / the inventory check
+          # until the next human PR inherited the failure.
+          git add data/hna data/policy/housing-policy-scorecard.json data/home-snapshot.json data/_manifest.json data/manifest.json data/jurisdiction-briefs docs/qa \
+                  places README.md AGENTS.md data/paper working-paper.html methods.html 2>/dev/null || true
           git diff --cached --quiet || git commit -m "chore: build HNA cache + scenarios data $(date -u +'%Y-%m-%d')"
           # F119 — was `git merge --strategy=ours origin/main` which is git's
           # most destructive merge: it accepts the merge commit but DISCARDS
@@ -537,11 +545,18 @@ jobs:
               #
               # Anything OUTSIDE this list still refuses recovery and fails
               # loudly — that guard is the point, and it stays.
-              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json)
+              # Extended 2026-09-22 to the full output of the rebuild step,
+              # now that the step's output is actually committed: the place
+              # pages, the paper figures and the inventory line collide with
+              # human PRs that regenerate the same files (every "merge main and
+              # regenerate" commit does), and the 2026-09-22 morning run
+              # aborted on exactly that. `places` is a directory: any
+              # conflicted path under it is derived.
+              derived_artifacts=(data/home-snapshot.json data/_manifest.json data/manifest.json places README.md AGENTS.md data/paper/figures.json data/paper/model-parameters.json working-paper.html methods.html)
               for conflicted in "${conflicted_paths[@]}"; do
                 is_derived=0
                 for derived in "${derived_artifacts[@]}"; do
-                  if [ "$conflicted" = "$derived" ]; then is_derived=1; break; fi
+                  if [ "$conflicted" = "$derived" ] || [ "${conflicted#"$derived"/}" != "$conflicted" ]; then is_derived=1; break; fi
                 done
                 if [ "$is_derived" -ne 1 ]; then
                   echo "Rebase conflict includes a non-derived path; refusing automatic recovery."
@@ -551,17 +566,21 @@ jobs:
               done
 
               # Drop the stale pre-race versions from the bot commit, rebase
-              # once onto freshly fetched main, then regenerate all three from
-              # the merged tree. Order matters and matches the build step
-              # above: home snapshot, then _manifest, then manifest, which
-              # reads the others. Any conflict on this second attempt fails
-              # normally and loudly.
+              # once onto freshly fetched main, then regenerate every derived
+              # artifact from the merged tree. Order matters and matches the
+              # build step above: home snapshot, place pages, paper figures,
+              # inventory line, then _manifest, then manifest, which records
+              # the byte sizes of everything before it. Any conflict on this
+              # second attempt fails normally and loudly.
               git rebase --abort
               git fetch origin main
               git restore --source=origin/main --staged --worktree "${derived_artifacts[@]}"
               git commit --amend --no-edit --allow-empty
               git rebase --autostash origin/main
               node scripts/build-home-snapshot.mjs
+              python3 scripts/hna/build_place_pages.py
+              npm run paper:build
+              node scripts/compute-inventory.mjs --write
               npm run audit:file-manifest
               python3 scripts/rebuild_manifest.py
               git add "${derived_artifacts[@]}"
