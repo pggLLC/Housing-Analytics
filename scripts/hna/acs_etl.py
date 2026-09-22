@@ -170,6 +170,22 @@ class ACSExtractor:
         or 2024.
     series : str
         ACS series to use (``'acs5'`` or ``'acs1'``).  Defaults to ``'acs5'``.
+    variables : dict[str, dict[str, str]] | None
+        Optional per-table override of WHICH variable IDs to request, as
+        ``{table_id: {variable_id: type_hint}}`` (type_hint is one of the
+        ``type`` values used in acs_field_mapping.json: ``integer``,
+        ``float``, ``percentage``, ``string``).  When a table has an entry
+        here, only those variables are requested and coerced for it, and
+        acs_field_mapping.json is not consulted for that table at all.
+
+        acs_field_mapping.json describes the CURRENT vintage's variable
+        numbering.  Census Data Profile variable numbers are not stable
+        across releases (e.g. median gross rent is DP04_0134E in 2024 but
+        DP04_0132E in 2009/2014), and the API rejects a request wholesale
+        when any one variable in it is unknown for that year — so a caller
+        fetching a historical vintage must pass that vintage's own IDs
+        here rather than the mapping's.  See
+        scripts/hna/build_place_decade_trends.py's VINTAGE_VARIABLES.
     """
 
     def __init__(
@@ -178,6 +194,7 @@ class ACSExtractor:
         geoids: list[str],
         year: int | None = None,
         series: str = 'acs5',
+        variables: dict[str, dict[str, str]] | None = None,
     ) -> None:
         self.table_ids   = list(table_ids)
         self.geoids      = list(geoids)
@@ -186,6 +203,7 @@ class ACSExtractor:
         self._api_key    = os.environ.get('CENSUS_API_KEY', '').strip()
         self._rate       = _RateLimiter()
         self._field_map  = load_field_mapping()
+        self._variables  = {t: dict(v) for t, v in (variables or {}).items()}
 
     # ------------------------------------------------------------------
     # Public API
@@ -240,7 +258,7 @@ class ACSExtractor:
         Returns a flat dict of ``{raw_field_id: raw_value}`` on success, or
         ``None`` on failure.
         """
-        variables = get_table_variables(table_id)
+        variables = self.table_variables(table_id)
         if not variables:
             return None
 
@@ -268,6 +286,14 @@ class ACSExtractor:
         row    = arr[1]
         raw    = {header[i]: row[i] for i in range(len(header))}
         return self._map_fields(table_id, raw)
+
+    def table_variables(self, table_id: str) -> list[str]:
+        """Variable IDs to request for *table_id*: the per-instance override
+        when one was given for this table, else acs_field_mapping.json's
+        (current-vintage) list."""
+        if table_id in self._variables:
+            return list(self._variables[table_id])
+        return get_table_variables(table_id)
 
     def _build_url(self, table_id: str, geoid: str, variables: list[str]) -> str:
         """Construct the Census API URL for a profile table query."""
@@ -299,9 +325,16 @@ class ACSExtractor:
         ``DP04_0001E``) because the existing codebase indexes data that way.
         The mapping metadata is available via ``load_field_mapping()`` for
         validation and UI use.
+
+        When a ``variables`` override was given for this table, its
+        ``{variable_id: type_hint}`` entries drive the coercion instead.
         """
-        table_map = self._field_map.get(table_id, {})
         out: dict[str, Any] = {}
+        if table_id in self._variables:
+            for field_id, type_hint in self._variables[table_id].items():
+                out[field_id] = _coerce_value(raw.get(field_id), type_hint or 'string')
+            return out
+        table_map = self._field_map.get(table_id, {})
         for field_id, meta in table_map.items():
             if field_id.startswith('_'):
                 continue
