@@ -131,8 +131,18 @@
           <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:#dc2626"></span>Highest</span>
         </div>
         <p class="home-opening__map-caption">
-          Overall housing-need score by county
+          <span>Overall housing-need score by county</span>
           <a href="hna-comparative-analysis.html">Compare all 546 jurisdictions →</a>
+          <!-- Inputs named here are the five sub-scores that make up
+               community_need_core in scripts/hna/build_ranking_index.py
+               (gap, cost burden, affordability, future pressure,
+               overcrowding) — keep this sentence in step with that list. -->
+          <span class="home-opening__map-explainer">
+            One 0–100 score per county, combining how many affordable homes it is short, how many
+            households pay more than they can afford, how rents and prices compare to local incomes,
+            expected growth pressure, and overcrowding. Red means the most need. Click any county to
+            open its full assessment.
+          </span>
         </p>
       </div>
       </div>
