@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T13:44:22.397Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T14:07:04.079Z. Do not edit by hand.
 
 ---
 
@@ -1621,7 +1621,7 @@
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
 | `data/paper/figures.json` | 14.1 KB | ✅ | — |
 | `data/paper/model-parameters.json` | 5.9 KB | ✅ | — |
-| `data/pipeline/content.json` | 34.1 KB | ✅ | — |
+| `data/pipeline/content.json` | 42.8 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
 | `data/policy/buyer-assistance-programs.json` | 1.9 KB | ✅ | — |
 | `data/policy/chfa-awards-historical.json` | 10.7 KB | ✅ | — |
@@ -1669,7 +1669,7 @@
 
 ## Test Files
 
-379 test files found.
+380 test files found.
 
 | File | Size |
 |------|------|
@@ -1892,6 +1892,7 @@
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
+| `test/pipeline-financing-tracks.test.js` | 3.8 KB |
 | `test/pipeline-guards-a1.test.js` | 2.2 KB |
 | `test/pipeline-guards-a2.test.js` | 4.9 KB |
 | `test/place-chas-coverage-panel.test.js` | 2.9 KB |
