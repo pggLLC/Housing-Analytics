@@ -101,13 +101,22 @@
         var avgPerYr = Number(values.average_lihtc_units_per_year);
         if (Number.isFinite(burdenPct)) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
         if (Number.isFinite(propertyCount) && propertyCount > 0) setText('snapLihtcCount', fmtInt(propertyCount));
+        var le60Growth = Number(values.annual_le60_household_growth);
         if (Number.isFinite(avgPerYr) && avgPerYr > 0) {
           setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
 
-          // Preserve the existing display formula exactly: estimated annual
-          // demand growth (6,500) less recent LIHTC production.
-          var deficitGrowth = Math.max(0, 6500 - avgPerYr);
-          setText('snapDeficitGrowth', '+' + fmtInt(deficitGrowth) + '/yr');
+          // Annual deficit growth = projected new ≤60%-AMI households per
+          // year − average LIHTC units placed in service per year. The
+          // household-growth figure is derived in
+          // scripts/build-home-snapshot.mjs (DOLA household growth × HUD
+          // CHAS ≤60% share, all tenures; basis recorded in
+          // snapshot.deficit_growth_basis). Until 2026-09-22 it was a
+          // literal 6,500 here. No fallback: without the basis the card
+          // stays "—" rather than showing a number nothing supports.
+          if (Number.isFinite(le60Growth) && le60Growth > 0) {
+            var deficitGrowth = Math.max(0, le60Growth - avgPerYr);
+            setText('snapDeficitGrowth', '+' + fmtInt(deficitGrowth) + '/yr');
+          }
         }
       })
       .catch(function () {});
