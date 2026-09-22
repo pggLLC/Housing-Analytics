@@ -6274,6 +6274,125 @@
       });
   }
 
+  // F226b — The panel's intro paragraph (#decadeAffordTrendIntro) and its
+  // source badge (data-source on the enclosing .chart-card) are authored in
+  // housing-needs-assessment.html with the COUNTY wording: county-trends.json
+  // is built from the ACS detail tables B25064 / B19013 / B25070 and every
+  // selection inherited it when the panel shipped. A place served from
+  // place-decade-trends.json shows that place's own ACS cohorts, built from
+  // the DP03 / DP04 profile tables (the per-vintage variable IDs are recorded
+  // in that file's meta.vintage_variables), so both strings must follow
+  // whichever file served the cohorts. The county wording is repeated here
+  // verbatim so a county selection after a place selection restores it.
+  var DECADE_TREND_COPY = {
+    county: {
+      intro: 'Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Combines three publicly-available series at the county level. Sources: Census ACS 5-yr (2009, 2014, 2024); ' +
+        'FHFA House Price Index (annual, <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>); ' +
+        'DOLA State Demography Office 2024 mid-projection for population context.',
+      source: 'ACS 5-yr cohorts (B25064 median gross rent, B19013 median HH income, B25070 rent burden) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
+    },
+    // Place cohorts come from the DP03/DP04 profile tables at place geography.
+    // The FHFA index is only claimed when the record actually carries one:
+    // today every covered place has hpi null (the tract HPI file has no
+    // change_15y for them), the home-price card shows "—", and the provenance
+    // line already omits its FHFA sentence — the intro and badge must too.
+    place: {
+      intro: 'Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Combines publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
+        'at place geography (2009, 2014, 2024); FHFA House Price Index (annual, ' +
+        '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>, tract index aggregated to the place).',
+      // Static fallback when the place file carries no meta.vintage_variables;
+      // _placeDecadeSourceLine() prefers the IDs the file itself declares.
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
+    },
+    'place-no-hpi': {
+      intro: 'Rent and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Uses publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
+        'at place geography (2009, 2014, 2024). No FHFA house-price index is published for this place, ' +
+        'so the home-price card shows no value.',
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins)',
+      // The badge's vintage chip is authored as "… · FHFA HPI annual"; without
+      // an HPI that chip would claim the index too.
+      vintage: 'ACS 2009/2014/2024 cohorts'
+    }
+  };
+
+  /**
+   * Source-badge text for the place path, built from the variable IDs the
+   * place file says it fetched per vintage (they differ across vintages —
+   * see build_place_decade_trends.py's VINTAGE_VARIABLES) so the citation
+   * can't drift from the builder. Falls back to the static place wording.
+   */
+  function _placeDecadeSourceLine(meta, hasHpi) {
+    var fallback = DECADE_TREND_COPY[hasHpi ? 'place' : 'place-no-hpi'].source;
+    var vv = meta && meta.vintage_variables;
+    if (!vv || typeof vv !== 'object') return fallback;
+    function ids(fields) {
+      var out = [];
+      Object.keys(vv).sort().forEach(function (year) {
+        fields.forEach(function (f) {
+          var id = vv[year] && vv[year][f];
+          if (id && out.indexOf(id) < 0) out.push(id);
+        });
+      });
+      return out.join('/');
+    }
+    var income = ids(['income']);
+    var rent = ids(['rent']);
+    var grapi = ids(['grapi_30_34', 'grapi_35_plus']);
+    if (!income || !rent) return fallback;
+    return 'ACS 5-yr place-geography cohorts (' + income + ' median HH income, ' + rent + ' median gross rent' +
+      (grapi ? ', ' + grapi + ' GRAPI rent-burden bins' : '') + ')' +
+      (hasHpi ? ' + FHFA House Price Index' : '');
+  }
+
+  /**
+   * Point the panel's intro copy and source badge at whichever file served
+   * the cohorts. `mode` is 'county', 'place' or 'place-no-hpi'; `sourceText` overrides the
+   * mode's default badge text (the place path passes the file-derived line).
+   */
+  function _applyDecadeTrendCopy(panel, mode, sourceText) {
+    var copy = DECADE_TREND_COPY[mode] || DECADE_TREND_COPY.county;
+    var card = panel && panel.closest ? panel.closest('.chart-card') : null;
+    var intro = document.getElementById('decadeAffordTrendIntro');
+    // The authored paragraph is the county wording; only rewrite it when the
+    // path actually changes, so a county re-render leaves the glossary's
+    // inline tooltips on the original text alone.
+    var current = intro ? (intro.getAttribute('data-decade-copy') || 'county') : mode;
+    if (intro && current !== mode) {
+      intro.innerHTML = copy.intro;
+      intro.setAttribute('data-decade-copy', mode);
+      // glossary.js remembers "already wrapped" per section, so the replaced
+      // prose would otherwise never get its ACS / DOLA tooltips back.
+      if (window.CohoGlossary && typeof window.CohoGlossary.forget === 'function') {
+        window.CohoGlossary.forget(card || intro);
+      }
+    }
+    if (!card) return;
+    var source = sourceText || copy.source;
+    card.setAttribute('data-source', source);
+    if (copy.vintage) card.setAttribute('data-vintage', copy.vintage);
+    // source-badge.js renders the badge once from data-source at page load
+    // and its attach() is a no-op on a card that already carries one, so an
+    // attribute change alone would leave the stale citation on screen. Drop
+    // the badge and rebuild it from the updated attributes.
+    var stale = card.querySelector(':scope > .chart-source');
+    if (stale) stale.remove();
+    if (window.SourceBadge && typeof window.SourceBadge.attach === 'function') {
+      window.SourceBadge.attach(card, {
+        source:     source,
+        url:        card.getAttribute('data-source-url')  || null,
+        vintage:    card.getAttribute('data-vintage')     || null,
+        sourceType: card.getAttribute('data-source-type') || null
+      });
+    }
+  }
+
   /**
    * F199 — Decade affordability trend. Three ACS cohorts (2009 / 2014 / 2024)
    * × {median rent, median HHI, rent burden 30+} plus FHFA HPI relative to
@@ -6418,6 +6537,9 @@
     var fmtMoney = u.fmtMoney;
 
     if (!countyFips) {
+      // A statewide selection after a covered place would otherwise keep the
+      // place intro and DP03/DP04 badge above an empty panel.
+      _applyDecadeTrendCopy(panel, 'county');
       panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
         'Decade trends are published at the county level only. Pick a county or ' +
         'place inside a county to see the historical comparison.</p>';
@@ -6425,6 +6547,9 @@
     }
 
     function _renderFromCounty() {
+      // County wording whether this is a county selection or a place falling
+      // back to its county — the cohorts come from county-trends.json either way.
+      _applyDecadeTrendCopy(panel, 'county');
       _loadCountyTrends().then(function (data) {
         var rec = data.counties && data.counties[countyFips];
         if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
@@ -6480,6 +6605,8 @@
         'Place-level ACS 5-yr cohorts (' + cohorts[0].year + '–' + cohorts[cohorts.length - 1].year + ') for ' +
         (rec.place_name || 'this place') + (rec.hpi ? '; FHFA home-price index aggregated from Census-tract data.' : '.') +
         '</p>';
+      var hasHpi = !!rec.hpi;
+      _applyDecadeTrendCopy(panel, hasHpi ? 'place' : 'place-no-hpi', _placeDecadeSourceLine(data.meta, hasHpi));
       _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, provenanceBanner);
     });
   }
@@ -9125,6 +9252,9 @@
     renderWageAffordability,  // F198 — income needed to afford rent + buy + LIHTC, vs LEHD wage tiers
     // F199 + F200 — Decade trends (county-level)
     renderDecadeAffordTrend,
+    /** Internal — exposed for tests (test/hna-decade-trend-source-copy.test.js). */
+    _decadeTrendCopy: DECADE_TREND_COPY,
+    _placeDecadeSourceLine,
     renderHousingTypePace,
     // County-scope disclosure (place/cdp selections)
     renderCountyScopeNote: _renderCountyScopeNote,
