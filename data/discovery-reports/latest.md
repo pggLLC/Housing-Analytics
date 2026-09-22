@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-21T14:03:11.738Z
+**Scan timestamp:** 2026-09-22T12:34:27.255Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1620 |
-| New (unregistered) | 1589 |
+| Files scanned | 1621 |
+| New (unregistered) | 1590 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -823,6 +823,7 @@
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1592 KB)
+- `data/hna/place-decade-trends.json` (190 KB)
 - `data/hna/place-lehd.json` (1868 KB)
 - `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
@@ -893,7 +894,7 @@
 - `data/hna/projections/08123.json` (5 KB)
 - `data/hna/projections/08125.json` (5 KB)
 - `data/hna/projections/places.json` (826 KB)
-- `data/hna/ranking-index.json` (2808 KB)
+- `data/hna/ranking-index.json` (2809 KB)
 - `data/hna/ranking-scenarios/balanced.json` (49 KB)
 - `data/hna/ranking-scenarios/commuter-pressure.json` (49 KB)
 - `data/hna/ranking-scenarios/large-gap.json` (49 KB)
@@ -1515,7 +1516,7 @@
 - `data/market/employment_centers_co.geojson` (756 KB)
 - `data/market/environmental_constraints_co.geojson` (499 KB)
 - `data/market/epa_sld_co.json` (716 KB)
-- `data/market/fhfa_hpi_subcounty_co.json` (514 KB)
+- `data/market/fhfa_hpi_subcounty_co.json` (512 KB)
 - `data/market/flood_zones_co.geojson` (5993 KB)
 - `data/market/flood_zones_co.json` (605 KB)
 - `data/market/fmr_co.json` (22 KB)
@@ -1579,7 +1580,7 @@
 - `data/policy/research-orgs-housing.json` (8 KB)
 - `data/policy/soft-funding-status.json` (25 KB)
 - `data/policy/stewardship-providers.json` (2 KB)
-- `data/policy/tax-credit-legislation.json` (13 KB)
+- `data/policy/tax-credit-legislation.json` (14 KB)
 - `data/policy/tool-watch.json` (5 KB)
 - `data/policy_briefs.json` (151 KB)
 - `data/policy_briefs_curated.json` (4 KB)
