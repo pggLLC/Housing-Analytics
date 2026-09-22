@@ -26,6 +26,12 @@
   // inline style properties, and var() resolution there is less reliable
   // across browsers than in a stylesheet. Same bands, same colors, as the
   // decision-strip tiles and the composite-score cards elsewhere in HNA.
+  //
+  // index.html's .home-need-legend swatches must use these exact four hex
+  // values too (also literal, not var(--good)/var(--accent)/etc — those
+  // tokens are the site's general UI colors and are NOT these severity
+  // colors, e.g. --accent is teal). Change a color here, change it there —
+  // test/home-need-map-legend-colors.test.js checks the two stay in sync.
   var BANDS = [
     { min: 70, color: '#dc2626', label: 'Highest' },
     { min: 50, color: '#d97706', label: 'Elevated' },
