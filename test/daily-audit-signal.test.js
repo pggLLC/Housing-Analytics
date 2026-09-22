@@ -139,18 +139,75 @@ run('no recommendation anywhere tells anyone to backfill an absent value', () =>
 });
 
 // ── The workflow must carry history between runs ────────────────────────────
+//
+// monitoring-reports/ is gitignored, so a fresh runner starts with no prior
+// snapshot and every finding is classified "new". The first fix carried the
+// directory in actions/cache; it restored correctly for exactly one day and
+// the entry was then evicted, so the email went straight back to reporting
+// every issue as new. The cache is best-effort storage. The history now rides
+// an artifact, which is kept for its retention period and never evicted early.
 
-run('the daily audit restores and saves its history across runs', () => {
-  const wf = fs.readFileSync(
-    path.join(ROOT, '.github', 'workflows', 'daily-audit-system.yml'), 'utf8');
-  assert.match(wf, /actions\/cache\/restore@v\d+[\s\S]{0,200}monitoring-reports\/audit-history/,
-    'without a restore step the runner starts with no prior snapshot, so every ' +
-    'finding is classified "new" and nothing can ever show as resolved');
-  assert.match(wf, /actions\/cache\/save@v\d+[\s\S]{0,200}monitoring-reports\/audit-history/,
+const WORKFLOW = path.join(ROOT, '.github', 'workflows', 'daily-audit-system.yml');
+
+run('the daily audit restores its history from a durable artifact before it runs', () => {
+  const wf = fs.readFileSync(WORKFLOW, 'utf8');
+  const auditAt = wf.indexOf('run: node test/daily-audit-system.js');
+  assert.ok(auditAt > 0, 'precondition: the workflow runs the audit');
+  const restoreAt = wf.indexOf('name: Restore prior audit history');
+  assert.ok(restoreAt > 0 && restoreAt < auditAt,
+    'without a restore step before the audit the runner has no prior snapshot, so ' +
+    'every finding is classified "new" and nothing can ever show as resolved');
+  assert.match(wf.slice(restoreAt, auditAt), /listArtifactsForRepo/,
+    'the restore must find the newest prior artifact, whichever run produced it');
+  assert.match(wf.slice(restoreAt, auditAt), /name:\s*'audit-history'/,
+    'the restore must look up the artifact by its fixed name');
+  const restore = wf.slice(restoreAt, auditAt);
+  assert.match(restore, /const dir = 'monitoring-reports\/audit-history'/,
+    'the artifact must be unpacked where audit-history.js reads it');
+  assert.match(restore, /downloadArtifact[\s\S]{0,600}exec\.exec\('unzip', \['-o', '-q', zipPath, '-d', dir\]\)/,
+    'the download must be unzipped into that directory, overwriting any stale copy');
+  assert.match(restore, /workflow_run\.head_branch === 'main'/,
+    'artifacts are listed repository-wide, so a branch run\'s upload would otherwise be ' +
+    'compared against production findings from different code');
+  assert.match(wf, /permissions:[\s\S]{0,120}actions:\s*read/,
+    'listing and downloading artifacts needs actions: read on the job token');
+  assert.doesNotMatch(wf, /uses:\s*actions\/cache/,
+    'actions/cache is best-effort and lost the history within a day; do not reintroduce it');
+});
+
+run('the daily audit saves its history back to the same artifact after it runs', () => {
+  const wf = fs.readFileSync(WORKFLOW, 'utf8');
+  const auditAt = wf.indexOf('run: node test/daily-audit-system.js');
+  const save = wf.slice(auditAt);
+  assert.match(save, /upload-artifact@v\d+\s*\n\s*with:\s*\n\s*name:\s*audit-history\s*\n\s*path:\s*monitoring-reports\/audit-history/,
     'without a save step tomorrow has nothing to compare against');
-  assert.match(wf, /restore-keys:\s*\|\s*\n\s*audit-history-/,
-    'the run-scoped key never hits on its own — the prefix restore-key is what ' +
-    'finds the most recent previous run');
+  assert.match(save, /if:\s*always\(\)[^\n]*\n\s*uses:\s*actions\/upload-artifact@v\d+\s*\n\s*with:\s*\n\s*name:\s*audit-history/,
+    'the save must run even when a later legacy check fails');
+  assert.match(save, /name:\s*audit-history[\s\S]{0,200}overwrite:\s*true/,
+    'a re-run of the same run must replace attempt 1\'s artifact, not fail on the name');
+  assert.match(save, /if:\s*always\(\)\s*&&\s*github\.ref == 'refs\/heads\/main'[^\n]*\n\s*uses:\s*actions\/upload-artifact/,
+    'a workflow_dispatch on a feature branch may read the production chain but must never write to it');
+});
+
+// ── The comparison itself classifies correctly once history is present ──────
+
+const { compareWithPrior } = require('./audit-modules/audit-history.js');
+
+run('an issue seen yesterday is persistent, a missing one is resolved, a fresh one is new', () => {
+  const a = { file: 'x.json', type: 'schema', description: 'field A missing', severity: 'high' };
+  const b = { file: 'y.json', type: 'link', description: 'broken link', severity: 'medium' };
+  const c = { file: 'z.html', type: 'ui', description: 'no h1', severity: 'low' };
+  const prior = { date: '2026-09-21', issues: [a, b] };
+  const result = compareWithPrior([a, c], prior);
+  assert.deepEqual(result.persistentIssues, [a]);
+  assert.deepEqual(result.resolvedIssues, [b]);
+  assert.deepEqual(result.newIssues, [c]);
+});
+
+run('with no prior snapshot everything is new and nothing is resolved or persistent', () => {
+  const a = { file: 'x.json', type: 'schema', description: 'field A missing' };
+  const result = compareWithPrior([a], null);
+  assert.deepEqual(result, { newIssues: [a], resolvedIssues: [], persistentIssues: [] });
 });
 
 console.log(failures === 0

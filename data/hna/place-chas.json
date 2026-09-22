@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-20T05:35:51Z",
+    "generated_at": "2026-09-22T16:23:34Z",
     "source_tract_chas": "data/market/chas_tract_co.json",
     "source_membership": "data/hna/place-tract-membership.json",
     "source_place_pop": "data/hna/place-lehd.json (place_pop)",
@@ -12,8 +12,8 @@
     "count_places": 482,
     "count_low_confidence": 0,
     "count_acs_anchored": 23,
-    "count_tenure_anchored": 406,
-    "count_tenure_anchor_unavailable": 76,
+    "count_tenure_anchored": 405,
+    "count_tenure_anchor_unavailable": 77,
     "coverage_warn_threshold": 0.8
   },
   "places": {
@@ -14372,48 +14372,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 31.0,
-        "total_owner_hh": 115.1,
-        "renter_cb30_count": 10.1,
-        "renter_cb30_share": 0.3258,
-        "renter_cb50_count": 5.3,
-        "renter_cb50_share": 0.171,
-        "owner_cb30_count": 22.1,
-        "owner_cb30_share": 0.192,
-        "owner_cb50_count": 7.7,
-        "owner_cb50_share": 0.0669
+        "total_renter_hh": 27.9,
+        "total_owner_hh": 100.0,
+        "renter_cb30_count": 9.1,
+        "renter_cb30_share": 0.3262,
+        "renter_cb50_count": 4.8,
+        "renter_cb50_share": 0.172,
+        "owner_cb30_count": 19.3,
+        "owner_cb30_share": 0.193,
+        "owner_cb50_count": 6.8,
+        "owner_cb50_share": 0.068
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 4.6,
-          "cost_burdened_30pct": 2.2,
-          "cost_burdened_50pct": 2.2,
+          "total": 4.1,
+          "cost_burdened_30pct": 2.0,
+          "cost_burdened_50pct": 2.0,
           "pct_cost_burdened_30": 0.4667,
           "pct_cost_burdened_50": 0.4667
         },
         "31to50": {
-          "total": 6.3,
-          "cost_burdened_30pct": 4.3,
-          "cost_burdened_50pct": 3.1,
+          "total": 5.6,
+          "cost_burdened_30pct": 3.9,
+          "cost_burdened_50pct": 2.8,
           "pct_cost_burdened_30": 0.7,
           "pct_cost_burdened_50": 0.5
         },
         "51to80": {
-          "total": 10.1,
-          "cost_burdened_30pct": 3.6,
+          "total": 9.1,
+          "cost_burdened_30pct": 3.2,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3538,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 1.5,
+          "total": 1.4,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 8.5,
+          "total": 7.7,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -14422,58 +14422,58 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 12.3,
-          "cost_burdened_30pct": 7.1,
-          "cost_burdened_50pct": 5.6,
+          "total": 10.7,
+          "cost_burdened_30pct": 6.2,
+          "cost_burdened_50pct": 4.9,
           "pct_cost_burdened_30": 0.5714,
           "pct_cost_burdened_50": 0.4571
         },
         "31to50": {
-          "total": 12.3,
-          "cost_burdened_30pct": 8.4,
+          "total": 10.7,
+          "cost_burdened_30pct": 7.3,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.6857,
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 20.3,
-          "cost_burdened_30pct": 2.7,
-          "cost_burdened_50pct": 1.4,
+          "total": 17.6,
+          "cost_burdened_30pct": 2.4,
+          "cost_burdened_50pct": 1.3,
           "pct_cost_burdened_30": 0.1391,
           "pct_cost_burdened_50": 0.0696
         },
         "81to100": {
-          "total": 6.1,
-          "cost_burdened_30pct": 2.5,
+          "total": 5.3,
+          "cost_burdened_30pct": 2.1,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.4,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 64.1,
-          "cost_burdened_30pct": 1.4,
-          "cost_burdened_50pct": 0.7,
+          "total": 55.7,
+          "cost_burdened_30pct": 1.3,
+          "cost_burdened_50pct": 0.6,
           "pct_cost_burdened_30": 0.0219,
           "pct_cost_burdened_50": 0.011
         }
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 146,
+        "acs_occupied_hh": 128,
         "base_hh": 103.8,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 1.2757,
-        "owner_scale": 1.4465,
-        "acs_renter_hh": 31.0,
-        "acs_owner_hh": 115.0,
+        "renter_scale": 1.1523,
+        "owner_scale": 1.2579,
+        "acs_renter_hh": 28.0,
+        "acs_owner_hh": 100.0,
         "base_renter_hh_before": 24.3,
         "base_owner_hh_before": 79.5,
         "renter_share_before": 0.2341,
-        "renter_share_after": 0.2122,
+        "renter_share_after": 0.2181,
         "rates_preserved": true
       }
     },
@@ -21144,48 +21144,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 174.1,
-        "total_owner_hh": 307.9,
-        "renter_cb30_count": 70.0,
-        "renter_cb30_share": 0.4021,
-        "renter_cb50_count": 28.2,
-        "renter_cb50_share": 0.162,
-        "owner_cb30_count": 70.2,
-        "owner_cb30_share": 0.228,
-        "owner_cb50_count": 27.3,
-        "owner_cb50_share": 0.0887
+        "total_renter_hh": 179.0,
+        "total_owner_hh": 294.0,
+        "renter_cb30_count": 72.0,
+        "renter_cb30_share": 0.4022,
+        "renter_cb50_count": 29.1,
+        "renter_cb50_share": 0.1626,
+        "owner_cb30_count": 67.1,
+        "owner_cb30_share": 0.2282,
+        "owner_cb50_count": 26.1,
+        "owner_cb50_share": 0.0888
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 41.0,
-          "cost_burdened_30pct": 27.2,
-          "cost_burdened_50pct": 16.6,
+          "total": 42.2,
+          "cost_burdened_30pct": 28.0,
+          "cost_burdened_50pct": 17.1,
           "pct_cost_burdened_30": 0.6621,
           "pct_cost_burdened_50": 0.4069
         },
         "31to50": {
-          "total": 42.5,
-          "cost_burdened_30pct": 23.0,
-          "cost_burdened_50pct": 9.3,
+          "total": 43.7,
+          "cost_burdened_30pct": 23.7,
+          "cost_burdened_50pct": 9.6,
           "pct_cost_burdened_30": 0.54,
           "pct_cost_burdened_50": 0.22
         },
         "51to80": {
-          "total": 41.0,
-          "cost_burdened_30pct": 13.3,
-          "cost_burdened_50pct": 2.3,
+          "total": 42.2,
+          "cost_burdened_30pct": 13.6,
+          "cost_burdened_50pct": 2.4,
           "pct_cost_burdened_30": 0.3241,
           "pct_cost_burdened_50": 0.0552
         },
         "81to100": {
-          "total": 19.8,
-          "cost_burdened_30pct": 6.5,
+          "total": 20.3,
+          "cost_burdened_30pct": 6.7,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3286,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 29.8,
+          "total": 30.6,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -21194,36 +21194,36 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 41.5,
-          "cost_burdened_30pct": 23.8,
-          "cost_burdened_50pct": 17.9,
+          "total": 39.6,
+          "cost_burdened_30pct": 22.7,
+          "cost_burdened_50pct": 17.1,
           "pct_cost_burdened_30": 0.5739,
           "pct_cost_burdened_50": 0.4304
         },
         "31to50": {
-          "total": 38.8,
-          "cost_burdened_30pct": 16.4,
-          "cost_burdened_50pct": 5.1,
+          "total": 37.1,
+          "cost_burdened_30pct": 15.7,
+          "cost_burdened_50pct": 4.9,
           "pct_cost_burdened_30": 0.4233,
           "pct_cost_burdened_50": 0.1302
         },
         "51to80": {
-          "total": 49.7,
-          "cost_burdened_30pct": 15.0,
-          "cost_burdened_50pct": 4.3,
+          "total": 47.5,
+          "cost_burdened_30pct": 14.3,
+          "cost_burdened_50pct": 4.1,
           "pct_cost_burdened_30": 0.3018,
           "pct_cost_burdened_50": 0.0873
         },
         "81to100": {
-          "total": 37.0,
-          "cost_burdened_30pct": 8.9,
+          "total": 35.3,
+          "cost_burdened_30pct": 8.5,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.239,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 140.9,
-          "cost_burdened_30pct": 6.1,
+          "total": 134.5,
+          "cost_burdened_30pct": 5.9,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0436,
           "pct_cost_burdened_50": 0.0
@@ -21231,21 +21231,21 @@
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 482,
+        "acs_occupied_hh": 473,
         "base_hh": 485.4,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 1.353,
-        "owner_scale": 0.8632,
-        "acs_renter_hh": 174.0,
-        "acs_owner_hh": 308.0,
+        "renter_scale": 1.3919,
+        "owner_scale": 0.824,
+        "acs_renter_hh": 179.0,
+        "acs_owner_hh": 294.0,
         "base_renter_hh_before": 128.6,
         "base_owner_hh_before": 356.8,
         "renter_share_before": 0.2649,
-        "renter_share_after": 0.3612,
+        "renter_share_after": 0.3784,
         "rates_preserved": true
       }
     },
@@ -21709,48 +21709,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 247.9,
-        "total_owner_hh": 314.9,
-        "renter_cb30_count": 132.3,
-        "renter_cb30_share": 0.5337,
-        "renter_cb50_count": 62.4,
+        "total_renter_hh": 189.1,
+        "total_owner_hh": 366.9,
+        "renter_cb30_count": 100.9,
+        "renter_cb30_share": 0.5336,
+        "renter_cb50_count": 47.6,
         "renter_cb50_share": 0.2517,
-        "owner_cb30_count": 56.7,
-        "owner_cb30_share": 0.1801,
-        "owner_cb50_count": 28.8,
-        "owner_cb50_share": 0.0915
+        "owner_cb30_count": 66.2,
+        "owner_cb30_share": 0.1804,
+        "owner_cb50_count": 33.6,
+        "owner_cb50_share": 0.0916
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 112.7,
-          "cost_burdened_30pct": 99.3,
-          "cost_burdened_50pct": 59.4,
+          "total": 85.9,
+          "cost_burdened_30pct": 75.7,
+          "cost_burdened_50pct": 45.3,
           "pct_cost_burdened_30": 0.88,
           "pct_cost_burdened_50": 0.5267
         },
         "31to50": {
-          "total": 37.6,
-          "cost_burdened_30pct": 27.0,
-          "cost_burdened_50pct": 3.0,
+          "total": 28.7,
+          "cost_burdened_30pct": 20.6,
+          "cost_burdened_50pct": 2.3,
           "pct_cost_burdened_30": 0.72,
           "pct_cost_burdened_50": 0.08
         },
         "51to80": {
-          "total": 52.6,
-          "cost_burdened_30pct": 6.0,
+          "total": 40.1,
+          "cost_burdened_30pct": 4.6,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.1143,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 22.5,
+          "total": 17.2,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 22.5,
+          "total": 17.2,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -21759,36 +21759,36 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 35.0,
-          "cost_burdened_30pct": 27.1,
-          "cost_burdened_50pct": 19.3,
+          "total": 40.8,
+          "cost_burdened_30pct": 31.6,
+          "cost_burdened_50pct": 22.5,
           "pct_cost_burdened_30": 0.775,
           "pct_cost_burdened_50": 0.55
         },
         "31to50": {
-          "total": 43.7,
-          "cost_burdened_30pct": 15.7,
-          "cost_burdened_50pct": 6.1,
+          "total": 50.9,
+          "cost_burdened_30pct": 18.3,
+          "cost_burdened_50pct": 7.1,
           "pct_cost_burdened_30": 0.36,
           "pct_cost_burdened_50": 0.14
         },
         "51to80": {
-          "total": 65.6,
-          "cost_burdened_30pct": 5.2,
-          "cost_burdened_50pct": 1.7,
+          "total": 76.5,
+          "cost_burdened_30pct": 6.1,
+          "cost_burdened_50pct": 2.0,
           "pct_cost_burdened_30": 0.08,
           "pct_cost_burdened_50": 0.0267
         },
         "81to100": {
-          "total": 30.6,
-          "cost_burdened_30pct": 1.7,
-          "cost_burdened_50pct": 1.7,
+          "total": 35.6,
+          "cost_burdened_30pct": 2.0,
+          "cost_burdened_50pct": 2.0,
           "pct_cost_burdened_30": 0.0571,
           "pct_cost_burdened_50": 0.0571
         },
         "100plus": {
-          "total": 140.0,
-          "cost_burdened_30pct": 7.0,
+          "total": 163.1,
+          "cost_burdened_30pct": 8.2,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.05,
           "pct_cost_burdened_50": 0.0
@@ -21796,21 +21796,21 @@
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 563,
+        "acs_occupied_hh": 556,
         "base_hh": 528.5,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 1.4931,
-        "owner_scale": 0.8692,
-        "acs_renter_hh": 248.0,
-        "acs_owner_hh": 315.0,
+        "renter_scale": 1.1379,
+        "owner_scale": 1.0127,
+        "acs_renter_hh": 189.0,
+        "acs_owner_hh": 367.0,
         "base_renter_hh_before": 166.1,
         "base_owner_hh_before": 362.4,
         "renter_share_before": 0.3143,
-        "renter_share_after": 0.4405,
+        "renter_share_after": 0.3401,
         "rates_preserved": true
       }
     },
@@ -22274,48 +22274,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 149.0,
-        "total_owner_hh": 395.0,
-        "renter_cb30_count": 36.1,
-        "renter_cb30_share": 0.2423,
-        "renter_cb50_count": 23.2,
-        "renter_cb50_share": 0.1557,
-        "owner_cb30_count": 93.6,
-        "owner_cb30_share": 0.237,
-        "owner_cb50_count": 31.0,
-        "owner_cb50_share": 0.0785
+        "total_renter_hh": 126.0,
+        "total_owner_hh": 663.0,
+        "renter_cb30_count": 30.5,
+        "renter_cb30_share": 0.2421,
+        "renter_cb50_count": 19.6,
+        "renter_cb50_share": 0.1556,
+        "owner_cb30_count": 157.0,
+        "owner_cb30_share": 0.2368,
+        "owner_cb50_count": 52.1,
+        "owner_cb50_share": 0.0786
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 36.7,
-          "cost_burdened_30pct": 25.6,
-          "cost_burdened_50pct": 23.2,
+          "total": 31.0,
+          "cost_burdened_30pct": 21.7,
+          "cost_burdened_50pct": 19.6,
           "pct_cost_burdened_30": 0.6995,
           "pct_cost_burdened_50": 0.6329
         },
         "31to50": {
-          "total": 12.2,
-          "cost_burdened_30pct": 1.0,
+          "total": 10.3,
+          "cost_burdened_30pct": 0.8,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.08,
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 26.8,
-          "cost_burdened_30pct": 9.5,
+          "total": 22.7,
+          "cost_burdened_30pct": 8.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.355,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 7.3,
+          "total": 6.2,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 66.0,
+          "total": 55.8,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -22324,58 +22324,58 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 53.5,
-          "cost_burdened_30pct": 48.0,
-          "cost_burdened_50pct": 22.3,
+          "total": 89.9,
+          "cost_burdened_30pct": 80.6,
+          "cost_burdened_50pct": 37.4,
           "pct_cost_burdened_30": 0.896,
           "pct_cost_burdened_50": 0.4162
         },
         "31to50": {
-          "total": 11.9,
-          "cost_burdened_30pct": 8.4,
-          "cost_burdened_50pct": 3.0,
+          "total": 19.9,
+          "cost_burdened_30pct": 14.1,
+          "cost_burdened_50pct": 5.0,
           "pct_cost_burdened_30": 0.7071,
           "pct_cost_burdened_50": 0.2523
         },
         "51to80": {
-          "total": 77.2,
-          "cost_burdened_30pct": 16.3,
-          "cost_burdened_50pct": 2.5,
+          "total": 129.6,
+          "cost_burdened_30pct": 27.3,
+          "cost_burdened_50pct": 4.3,
           "pct_cost_burdened_30": 0.2111,
           "pct_cost_burdened_50": 0.0333
         },
         "81to100": {
-          "total": 24.8,
-          "cost_burdened_30pct": 2.7,
+          "total": 41.6,
+          "cost_burdened_30pct": 4.5,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.1079,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 227.6,
-          "cost_burdened_30pct": 18.2,
-          "cost_burdened_50pct": 3.2,
+          "total": 382.0,
+          "cost_burdened_30pct": 30.5,
+          "cost_burdened_50pct": 5.4,
           "pct_cost_burdened_30": 0.0798,
           "pct_cost_burdened_50": 0.0141
         }
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 544,
+        "acs_occupied_hh": 789,
         "base_hh": 787.5,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 0.7606,
-        "owner_scale": 0.6677,
-        "acs_renter_hh": 149.0,
-        "acs_owner_hh": 395.0,
+        "renter_scale": 0.6432,
+        "owner_scale": 1.1207,
+        "acs_renter_hh": 126.0,
+        "acs_owner_hh": 663.0,
         "base_renter_hh_before": 195.9,
         "base_owner_hh_before": 591.6,
         "renter_share_before": 0.2488,
-        "renter_share_after": 0.2739,
+        "renter_share_after": 0.1597,
         "rates_preserved": true
       }
     },
@@ -35873,48 +35873,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 2.0,
-        "total_owner_hh": 33.0,
-        "renter_cb30_count": 0.5,
-        "renter_cb30_share": 0.25,
-        "renter_cb50_count": 0.2,
-        "renter_cb50_share": 0.1,
-        "owner_cb30_count": 5.7,
-        "owner_cb30_share": 0.1727,
-        "owner_cb50_count": 2.9,
-        "owner_cb50_share": 0.0879
+        "total_renter_hh": 5.0,
+        "total_owner_hh": 22.9,
+        "renter_cb30_count": 1.5,
+        "renter_cb30_share": 0.3,
+        "renter_cb50_count": 0.6,
+        "renter_cb50_share": 0.12,
+        "owner_cb30_count": 3.9,
+        "owner_cb30_share": 0.1703,
+        "owner_cb50_count": 2.0,
+        "owner_cb50_share": 0.0873
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 0.4,
-          "cost_burdened_30pct": 0.3,
-          "cost_burdened_50pct": 0.2,
+          "total": 1.1,
+          "cost_burdened_30pct": 0.7,
+          "cost_burdened_50pct": 0.6,
           "pct_cost_burdened_30": 0.6143,
           "pct_cost_burdened_50": 0.5
         },
         "31to50": {
-          "total": 0.4,
-          "cost_burdened_30pct": 0.1,
+          "total": 1.0,
+          "cost_burdened_30pct": 0.4,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3833,
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 0.4,
-          "cost_burdened_30pct": 0.1,
+          "total": 1.0,
+          "cost_burdened_30pct": 0.3,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3333,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 0.3,
-          "cost_burdened_30pct": 0.0,
+          "total": 0.7,
+          "cost_burdened_30pct": 0.1,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.1,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 0.5,
+          "total": 1.2,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -35923,36 +35923,36 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 3.2,
-          "cost_burdened_30pct": 1.9,
-          "cost_burdened_50pct": 1.3,
+          "total": 2.2,
+          "cost_burdened_30pct": 1.3,
+          "cost_burdened_50pct": 0.9,
           "pct_cost_burdened_30": 0.6364,
           "pct_cost_burdened_50": 0.4182
         },
         "31to50": {
-          "total": 4.4,
-          "cost_burdened_30pct": 1.1,
-          "cost_burdened_50pct": 0.6,
+          "total": 3.1,
+          "cost_burdened_30pct": 0.7,
+          "cost_burdened_50pct": 0.4,
           "pct_cost_burdened_30": 0.25,
           "pct_cost_burdened_50": 0.15
         },
         "51to80": {
-          "total": 6.3,
-          "cost_burdened_30pct": 0.8,
-          "cost_burdened_50pct": 0.2,
+          "total": 4.4,
+          "cost_burdened_30pct": 0.6,
+          "cost_burdened_50pct": 0.1,
           "pct_cost_burdened_30": 0.1391,
           "pct_cost_burdened_50": 0.0348
         },
         "81to100": {
-          "total": 5.1,
-          "cost_burdened_30pct": 1.5,
-          "cost_burdened_50pct": 0.8,
+          "total": 3.5,
+          "cost_burdened_30pct": 1.0,
+          "cost_burdened_50pct": 0.6,
           "pct_cost_burdened_30": 0.2889,
           "pct_cost_burdened_50": 0.1556
         },
         "100plus": {
-          "total": 14.0,
-          "cost_burdened_30pct": 0.4,
+          "total": 9.7,
+          "cost_burdened_30pct": 0.3,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.032,
           "pct_cost_burdened_50": 0.0
@@ -35960,21 +35960,21 @@
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 35,
+        "acs_occupied_hh": 28,
         "base_hh": 23.7,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 0.2469,
-        "owner_scale": 2.1154,
-        "acs_renter_hh": 2.0,
-        "acs_owner_hh": 33.0,
+        "renter_scale": 0.6173,
+        "owner_scale": 1.4744,
+        "acs_renter_hh": 5.0,
+        "acs_owner_hh": 23.0,
         "base_renter_hh_before": 8.1,
         "base_owner_hh_before": 15.6,
         "renter_share_before": 0.3418,
-        "renter_share_after": 0.0571,
+        "renter_share_after": 0.1792,
         "rates_preserved": true
       }
     },
@@ -35986,14 +35986,14 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 46.0,
-        "total_owner_hh": 77.0,
-        "renter_cb30_count": 13.2,
-        "renter_cb30_share": 0.287,
-        "renter_cb50_count": 8.1,
-        "renter_cb50_share": 0.1761,
-        "owner_cb30_count": 22.9,
-        "owner_cb30_share": 0.2974,
+        "total_renter_hh": 143.4,
+        "total_owner_hh": 163.8,
+        "renter_cb30_count": 41.0,
+        "renter_cb30_share": 0.2859,
+        "renter_cb50_count": 25.2,
+        "renter_cb50_share": 0.1757,
+        "owner_cb30_count": 48.8,
+        "owner_cb30_share": 0.2979,
         "owner_cb50_count": 0.0,
         "owner_cb50_share": 0.0
       },
@@ -36013,21 +36013,21 @@
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 8.1,
-          "cost_burdened_30pct": 8.1,
-          "cost_burdened_50pct": 8.1,
+          "total": 25.2,
+          "cost_burdened_30pct": 25.2,
+          "cost_burdened_50pct": 25.2,
           "pct_cost_burdened_30": 1.0,
           "pct_cost_burdened_50": 1.0
         },
         "81to100": {
-          "total": 5.1,
-          "cost_burdened_30pct": 5.1,
+          "total": 15.8,
+          "cost_burdened_30pct": 15.8,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 1.0,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 32.8,
+          "total": 102.4,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -36036,59 +36036,55 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 6.7,
+          "total": 14.2,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "31to50": {
-          "total": 12.6,
-          "cost_burdened_30pct": 8.1,
+          "total": 26.8,
+          "cost_burdened_30pct": 17.3,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.6471,
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 20.0,
+          "total": 42.5,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 11.8,
-          "cost_burdened_30pct": 3.7,
+          "total": 25.2,
+          "cost_burdened_30pct": 7.9,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3125,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 25.9,
-          "cost_burdened_30pct": 11.1,
+          "total": 55.1,
+          "cost_burdened_30pct": 23.6,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.4286,
           "pct_cost_burdened_50": 0.0
         }
       },
+      "tenure_anchor": {
+        "applied": false,
+        "status": "unavailable",
+        "reason": "missing_dp04_tenure",
+        "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
+        "acs_renter_hh": null,
+        "acs_owner_hh": 37.0,
+        "base_renter_hh": 143.4,
+        "base_owner_hh": 163.8
+      },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 123,
-        "base_hh": 307.2,
-        "superseded_by": "tenure_anchor"
-      },
-      "tenure_anchor": {
-        "applied": true,
-        "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 0.3208,
-        "owner_scale": 0.4701,
-        "acs_renter_hh": 46.0,
-        "acs_owner_hh": 77.0,
-        "base_renter_hh_before": 143.4,
-        "base_owner_hh_before": 163.8,
-        "renter_share_before": 0.4668,
-        "renter_share_after": 0.374,
-        "rates_preserved": true
+        "acs_occupied_hh": 1467,
+        "base_hh": 307.2
       }
     },
     "0817485": {
@@ -36438,48 +36434,48 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 838.0,
-        "total_owner_hh": 1684.9,
-        "renter_cb30_count": 270.7,
-        "renter_cb30_share": 0.323,
-        "renter_cb50_count": 162.3,
-        "renter_cb50_share": 0.1937,
-        "owner_cb30_count": 519.3,
-        "owner_cb30_share": 0.3082,
-        "owner_cb50_count": 125.0,
+        "total_renter_hh": 722.0,
+        "total_owner_hh": 1757.0,
+        "renter_cb30_count": 233.3,
+        "renter_cb30_share": 0.3231,
+        "renter_cb50_count": 139.8,
+        "renter_cb50_share": 0.1936,
+        "owner_cb30_count": 541.7,
+        "owner_cb30_share": 0.3083,
+        "owner_cb50_count": 130.3,
         "owner_cb50_share": 0.0742
       },
       "renter_hh_by_ami": {
         "lte30": {
-          "total": 126.9,
-          "cost_burdened_30pct": 108.3,
-          "cost_burdened_50pct": 108.2,
+          "total": 109.3,
+          "cost_burdened_30pct": 93.3,
+          "cost_burdened_50pct": 93.2,
           "pct_cost_burdened_30": 0.8539,
           "pct_cost_burdened_50": 0.853
         },
         "31to50": {
-          "total": 191.3,
-          "cost_burdened_30pct": 89.3,
-          "cost_burdened_50pct": 54.1,
+          "total": 164.8,
+          "cost_burdened_30pct": 77.0,
+          "cost_burdened_50pct": 46.6,
           "pct_cost_burdened_30": 0.4672,
           "pct_cost_burdened_50": 0.2826
         },
         "51to80": {
-          "total": 231.9,
-          "cost_burdened_30pct": 73.0,
+          "total": 199.8,
+          "cost_burdened_30pct": 62.9,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3147,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 91.2,
+          "total": 78.6,
           "cost_burdened_30pct": 0.1,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0008,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 196.7,
+          "total": 169.5,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -36488,36 +36484,36 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 218.2,
-          "cost_burdened_30pct": 122.8,
-          "cost_burdened_50pct": 82.7,
+          "total": 227.6,
+          "cost_burdened_30pct": 128.1,
+          "cost_burdened_50pct": 86.2,
           "pct_cost_burdened_30": 0.5628,
           "pct_cost_burdened_50": 0.3788
         },
         "31to50": {
-          "total": 280.4,
-          "cost_burdened_30pct": 172.4,
-          "cost_burdened_50pct": 14.5,
+          "total": 292.4,
+          "cost_burdened_30pct": 179.8,
+          "cost_burdened_50pct": 15.1,
           "pct_cost_burdened_30": 0.6149,
           "pct_cost_burdened_50": 0.0515
         },
         "51to80": {
-          "total": 410.4,
-          "cost_burdened_30pct": 126.1,
-          "cost_burdened_50pct": 27.8,
+          "total": 427.9,
+          "cost_burdened_30pct": 131.5,
+          "cost_burdened_50pct": 29.0,
           "pct_cost_burdened_30": 0.3073,
           "pct_cost_burdened_50": 0.0677
         },
         "81to100": {
-          "total": 205.9,
-          "cost_burdened_30pct": 79.9,
+          "total": 214.7,
+          "cost_burdened_30pct": 83.4,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.3884,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 570.0,
-          "cost_burdened_30pct": 18.1,
+          "total": 594.4,
+          "cost_burdened_30pct": 18.9,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0316,
           "pct_cost_burdened_50": 0.0
@@ -36525,21 +36521,21 @@
       },
       "acs_anchor": {
         "applied": false,
-        "acs_occupied_hh": 2523,
+        "acs_occupied_hh": 2479,
         "base_hh": 2212.5,
         "superseded_by": "tenure_anchor"
       },
       "tenure_anchor": {
         "applied": true,
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
-        "renter_scale": 1.16,
-        "owner_scale": 1.1308,
-        "acs_renter_hh": 838.0,
-        "acs_owner_hh": 1685.0,
+        "renter_scale": 0.9994,
+        "owner_scale": 1.1791,
+        "acs_renter_hh": 722.0,
+        "acs_owner_hh": 1757.0,
         "base_renter_hh_before": 722.4,
         "base_owner_hh_before": 1490.1,
         "renter_share_before": 0.3265,
-        "renter_share_after": 0.3322,
+        "renter_share_after": 0.2912,
         "rates_preserved": true
       }
     },
@@ -36551,16 +36547,16 @@
       "low_confidence": false,
       "source": "population-apportionment",
       "summary": {
-        "total_renter_hh": 1.9,
-        "total_owner_hh": 18.1,
-        "renter_cb30_count": 0.4,
-        "renter_cb30_share": 0.2105,
+        "total_renter_hh": 2.7,
+        "total_owner_hh": 25.3,
+        "renter_cb30_count": 0.6,
+        "renter_cb30_share": 0.2222,
         "renter_cb50_count": 0.0,
         "renter_cb50_share": 0.0,
-        "owner_cb30_count": 6.0,
-        "owner_cb30_share": 0.3315,
-        "owner_cb50_count": 1.9,
-        "owner_cb50_share": 0.105
+        "owner_cb30_count": 8.3,
+        "owner_cb30_share": 0.3281,
+        "owner_cb50_count": 2.6,
+        "owner_cb50_share": 0.1028
       },
       "renter_hh_by_ami": {
         "lte30": {
@@ -36578,21 +36574,21 @@
           "pct_cost_burdened_50": 0.0
         },
         "51to80": {
-          "total": 0.4,
-          "cost_burdened_30pct": 0.4,
+          "total": 0.6,
+          "cost_burdened_30pct": 0.6,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 1.0,
           "pct_cost_burdened_50": 0.0
         },
         "81to100": {
-          "total": 0.2,
+          "total": 0.3,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 1.3,
+          "total": 1.8,
           "cost_burdened_30pct": 0.0,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0,
@@ -36601,36 +36597,36 @@
       },
       "owner_hh_by_ami": {
         "lte30": {
-          "total": 1.0,
-          "cost_burdened_30pct": 0.7,
-          "cost_burdened_50pct": 0.5,
+          "total": 1.4,
+          "cost_burdened_30pct": 1.0,
+          "cost_burdened_50pct": 0.7,
           "pct_cost_burdened_30": 0.7059,
           "pct_cost_burdened_50": 0.4706
         },
         "31to50": {
-          "total": 1.2,
+          "total": 1.6,
           "cost_burdened_30pct": 0.2,
           "cost_burdened_50pct": 0.2,
           "pct_cost_burdened_30": 0.15,
           "pct_cost_burdened_50": 0.15
         },
         "51to80": {
-          "total": 5.5,
-          "cost_burdened_30pct": 4.1,
-          "cost_burdened_50pct": 1.0,
+          "total": 7.7,
+          "cost_burdened_30pct": 5.8,
+          "cost_burdened_50pct": 1.5,
           "pct_cost_burdened_30": 0.75,
           "pct_cost_burdened_50": 0.1875
         },
         "81to100": {
-          "total": 2.6,
+          "total": 3.6,
           "cost_burdened_30pct": 0.2,
           "cost_burdened_50pct": 0.0,
           "pct_cost_burdened_30": 0.0667,
           "pct_cost_burdened_50": 0.0
         },
         "100plus": {
-          "total": 7.8,
-          "cost_burdened_30pct": 0.8,
+          "total": 11.0,
+          "cost_burdened_30pct": 1.1,
           "cost_burdened_50pct": 0.2,
           "pct_cost_burdened_30": 0.1022,
           "pct_cost_burdened_50": 0.0219
@@ -36642,14 +36638,14 @@
         "reason": "missing_dp04_tenure",
         "source": "data/hna/summary DP04_0046E/DP04_0047E place-level tenure",
         "acs_renter_hh": null,
-        "acs_owner_hh": 20.0,
+        "acs_owner_hh": 28.0,
         "base_renter_hh": 3.7,
         "base_owner_hh": 34.4
       },
       "acs_anchor": {
         "applied": true,
-        "factor": 0.5249,
-        "acs_occupied_hh": 20,
+        "factor": 0.7349,
+        "acs_occupied_hh": 28,
         "base_hh_before": 38.1
       }
     },

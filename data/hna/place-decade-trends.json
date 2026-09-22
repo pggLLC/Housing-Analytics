@@ -1,0 +1,6442 @@
+{
+  "meta": {
+    "generated": "2026-09-22T16:50:33Z",
+    "vintage_years": [
+      2009,
+      2014,
+      2024
+    ],
+    "vintage_variables": {
+      "2009": {
+        "income": "DP03_0063E",
+        "rent": "DP04_0132E",
+        "grapi_30_34": "DP04_0139PE",
+        "grapi_35_plus": "DP04_0140PE"
+      },
+      "2014": {
+        "income": "DP03_0062E",
+        "rent": "DP04_0132E",
+        "grapi_30_34": "DP04_0139PE",
+        "grapi_35_plus": "DP04_0140PE"
+      },
+      "2024": {
+        "income": "DP03_0062E",
+        "rent": "DP04_0134E",
+        "grapi_30_34": "DP04_0141PE",
+        "grapi_35_plus": "DP04_0142PE"
+      }
+    },
+    "source": "ACS 5-Year DP03 (median household income) + DP04 (median gross rent, GRAPI rent-burden bins), place geography",
+    "hpi_source": "data/market/fhfa_hpi_subcounty_co.json (FHFA tract HPI aggregated to place via TIGER place-tract membership); omitted per-place when that file has no change_15y for the place",
+    "place_count": 267,
+    "places_skipped_incomplete_history": 215,
+    "cohorts_missing_geography": 161,
+    "cohorts_suppressed": 338,
+    "cohorts_rejected_implausible": 3,
+    "total_places_considered": 482
+  },
+  "places": {
+    "0800320": {
+      "place_name": "Acres Green",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1438,
+          "median_hh_income": 78000,
+          "rent_burden_30_plus": 0.659
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1433,
+          "median_hh_income": 84429,
+          "rent_burden_30_plus": 0.23399999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2750,
+          "median_hh_income": 142361,
+          "rent_burden_30_plus": 0.204
+        }
+      ],
+      "hpi": null
+    },
+    "0800870": {
+      "place_name": "Air Force Academy",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1165,
+          "median_hh_income": 70882,
+          "rent_burden_30_plus": 0.17300000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1481,
+          "median_hh_income": 68914,
+          "rent_burden_30_plus": 0.414
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2264,
+          "median_hh_income": 69474,
+          "rent_burden_30_plus": 0.542
+        }
+      ],
+      "hpi": null
+    },
+    "0800925": {
+      "place_name": "Akron",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 571,
+          "median_hh_income": 32125,
+          "rent_burden_30_plus": 0.35600000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 562,
+          "median_hh_income": 38889,
+          "rent_burden_30_plus": 0.447
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1067,
+          "median_hh_income": 57321,
+          "rent_burden_30_plus": 0.396
+        }
+      ],
+      "hpi": null
+    },
+    "0801090": {
+      "place_name": "Alamosa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 516,
+          "median_hh_income": 28271,
+          "rent_burden_30_plus": 0.586
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 608,
+          "median_hh_income": 26057,
+          "rent_burden_30_plus": 0.6509999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 837,
+          "median_hh_income": 49688,
+          "rent_burden_30_plus": 0.359
+        }
+      ],
+      "hpi": null
+    },
+    "0801145": {
+      "place_name": "Alamosa East",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 826,
+          "median_hh_income": 43712,
+          "rent_burden_30_plus": 0.405
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 655,
+          "median_hh_income": 32143,
+          "rent_burden_30_plus": 0.505
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1287,
+          "median_hh_income": 76683,
+          "rent_burden_30_plus": 0.363
+        }
+      ],
+      "hpi": null
+    },
+    "0801420": {
+      "place_name": "Allenspark",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1593,
+          "median_hh_income": 56250,
+          "rent_burden_30_plus": 0.614
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 447,
+          "median_hh_income": 47466,
+          "rent_burden_30_plus": 0.122
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1311,
+          "median_hh_income": 108056,
+          "rent_burden_30_plus": 0.5479999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0802355": {
+      "place_name": "Antonito",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 258,
+          "median_hh_income": 26071,
+          "rent_burden_30_plus": 0.457
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 480,
+          "median_hh_income": 22109,
+          "rent_burden_30_plus": 0.6659999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 640,
+          "median_hh_income": 35083,
+          "rent_burden_30_plus": 0.385
+        }
+      ],
+      "hpi": null
+    },
+    "0802575": {
+      "place_name": "Applewood",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1161,
+          "median_hh_income": 74052,
+          "rent_burden_30_plus": 0.5329999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1273,
+          "median_hh_income": 66297,
+          "rent_burden_30_plus": 0.602
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2211,
+          "median_hh_income": 130545,
+          "rent_burden_30_plus": 0.466
+        }
+      ],
+      "hpi": null
+    },
+    "0803015": {
+      "place_name": "Aristocrat Ranchettes",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1488,
+          "median_hh_income": 51524,
+          "rent_burden_30_plus": 0.6859999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1221,
+          "median_hh_income": 43828,
+          "rent_burden_30_plus": 0.47100000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1716,
+          "median_hh_income": 83689,
+          "rent_burden_30_plus": 0.767
+        }
+      ],
+      "hpi": null
+    },
+    "0803235": {
+      "place_name": "Arriba",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 492,
+          "median_hh_income": 27292,
+          "rent_burden_30_plus": 0.917
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 533,
+          "median_hh_income": 36667,
+          "rent_burden_30_plus": 0.375
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 606,
+          "median_hh_income": 43555,
+          "rent_burden_30_plus": 0.465
+        }
+      ],
+      "hpi": null
+    },
+    "0803455": {
+      "place_name": "Arvada",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 885,
+          "median_hh_income": 66125,
+          "rent_burden_30_plus": 0.483
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1020,
+          "median_hh_income": 69550,
+          "rent_burden_30_plus": 0.493
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1888,
+          "median_hh_income": 117348,
+          "rent_burden_30_plus": 0.519
+        }
+      ],
+      "hpi": null
+    },
+    "0803620": {
+      "place_name": "Aspen",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1319,
+          "median_hh_income": 56963,
+          "rent_burden_30_plus": 0.491
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1142,
+          "median_hh_income": 66635,
+          "rent_burden_30_plus": 0.38
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2081,
+          "median_hh_income": 74033,
+          "rent_burden_30_plus": 0.6759999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0804000": {
+      "place_name": "Aurora",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 835,
+          "median_hh_income": 49626,
+          "rent_burden_30_plus": 0.5539999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 983,
+          "median_hh_income": 52275,
+          "rent_burden_30_plus": 0.574
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1835,
+          "median_hh_income": 88368,
+          "rent_burden_30_plus": 0.603
+        }
+      ],
+      "hpi": null
+    },
+    "0804110": {
+      "place_name": "Avon",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1112,
+          "median_hh_income": 49544,
+          "rent_burden_30_plus": 0.361
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1246,
+          "median_hh_income": 50203,
+          "rent_burden_30_plus": 0.44
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2192,
+          "median_hh_income": 89027,
+          "rent_burden_30_plus": 0.7170000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0804935": {
+      "place_name": "Basalt",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1329,
+          "median_hh_income": 72368,
+          "rent_burden_30_plus": 0.33
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1700,
+          "median_hh_income": 68494,
+          "rent_burden_30_plus": 0.48
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2257,
+          "median_hh_income": 105855,
+          "rent_burden_30_plus": 0.455
+        }
+      ],
+      "hpi": null
+    },
+    "0805120": {
+      "place_name": "Battlement Mesa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 905,
+          "median_hh_income": 50438,
+          "rent_burden_30_plus": 0.308
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 912,
+          "median_hh_income": 64948,
+          "rent_burden_30_plus": 0.462
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1106,
+          "median_hh_income": 76152,
+          "rent_burden_30_plus": 0.262
+        }
+      ],
+      "hpi": null
+    },
+    "0805265": {
+      "place_name": "Bayfield",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 983,
+          "median_hh_income": 53849,
+          "rent_burden_30_plus": 0.456
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1134,
+          "median_hh_income": 61610,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1236,
+          "median_hh_income": 93125,
+          "rent_burden_30_plus": 0.41200000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0806090": {
+      "place_name": "Bennett",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 681,
+          "median_hh_income": 60865,
+          "rent_burden_30_plus": 0.312
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 947,
+          "median_hh_income": 50094,
+          "rent_burden_30_plus": 0.435
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1407,
+          "median_hh_income": 107736,
+          "rent_burden_30_plus": 0.19
+        }
+      ],
+      "hpi": null
+    },
+    "0806172": {
+      "place_name": "Berkley",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 919,
+          "median_hh_income": 35146,
+          "rent_burden_30_plus": 0.6579999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 997,
+          "median_hh_income": 49398,
+          "rent_burden_30_plus": 0.429
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1777,
+          "median_hh_income": 84637,
+          "rent_burden_30_plus": 0.5660000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0806255": {
+      "place_name": "Berthoud",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 666,
+          "median_hh_income": 65166,
+          "rent_burden_30_plus": 0.539
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 815,
+          "median_hh_income": 60828,
+          "rent_burden_30_plus": 0.46799999999999997
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1795,
+          "median_hh_income": 119385,
+          "rent_burden_30_plus": 0.384
+        }
+      ],
+      "hpi": null
+    },
+    "0807190": {
+      "place_name": "Blanca",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 613,
+          "median_hh_income": 14840,
+          "rent_burden_30_plus": 0.556
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 817,
+          "median_hh_income": 33438,
+          "rent_burden_30_plus": 0.7
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1106,
+          "median_hh_income": 68000,
+          "rent_burden_30_plus": 0.381
+        }
+      ],
+      "hpi": null
+    },
+    "0807410": {
+      "place_name": "Blue River",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1408,
+          "median_hh_income": 85595,
+          "rent_burden_30_plus": 0.775
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1385,
+          "median_hh_income": 85500,
+          "rent_burden_30_plus": 0.595
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2853,
+          "median_hh_income": 134250,
+          "rent_burden_30_plus": 0.262
+        }
+      ],
+      "hpi": null
+    },
+    "0807795": {
+      "place_name": "Boone",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 449,
+          "median_hh_income": 27813,
+          "rent_burden_30_plus": 0.39299999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 600,
+          "median_hh_income": 25313,
+          "rent_burden_30_plus": 0.433
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1250,
+          "median_hh_income": 77793,
+          "rent_burden_30_plus": 0.389
+        }
+      ],
+      "hpi": null
+    },
+    "0807850": {
+      "place_name": "Boulder",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 998,
+          "median_hh_income": 49920,
+          "rent_burden_30_plus": 0.6679999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1203,
+          "median_hh_income": 58062,
+          "rent_burden_30_plus": 0.625
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2018,
+          "median_hh_income": 87493,
+          "rent_burden_30_plus": 0.6609999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0808070": {
+      "place_name": "Bow Mar",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 2001,
+          "median_hh_income": 139519,
+          "rent_burden_30_plus": 0.278
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1964,
+          "median_hh_income": 171875,
+          "rent_burden_30_plus": 0.625
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 3501,
+          "median_hh_income": 241583,
+          "rent_burden_30_plus": 0.6
+        }
+      ],
+      "hpi": null
+    },
+    "0808400": {
+      "place_name": "Breckenridge",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1016,
+          "median_hh_income": 54212,
+          "rent_burden_30_plus": 0.511
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1024,
+          "median_hh_income": 54328,
+          "rent_burden_30_plus": 0.496
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1752,
+          "median_hh_income": 138191,
+          "rent_burden_30_plus": 0.6809999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0808675": {
+      "place_name": "Brighton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 857,
+          "median_hh_income": 65137,
+          "rent_burden_30_plus": 0.495
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1012,
+          "median_hh_income": 60319,
+          "rent_burden_30_plus": 0.479
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1779,
+          "median_hh_income": 107679,
+          "rent_burden_30_plus": 0.561
+        }
+      ],
+      "hpi": null
+    },
+    "0809115": {
+      "place_name": "Brookside",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 713,
+          "median_hh_income": 63500,
+          "rent_burden_30_plus": 0.33299999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1364,
+          "median_hh_income": 62813,
+          "rent_burden_30_plus": 0.429
+        }
+      ],
+      "hpi": null
+    },
+    "0809280": {
+      "place_name": "Broomfield",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1004,
+          "median_hh_income": 76240,
+          "rent_burden_30_plus": 0.429
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1248,
+          "median_hh_income": 80430,
+          "rent_burden_30_plus": 0.45399999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2126,
+          "median_hh_income": 123874,
+          "rent_burden_30_plus": 0.442
+        }
+      ],
+      "hpi": null
+    },
+    "0809555": {
+      "place_name": "Brush",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 590,
+          "median_hh_income": 39245,
+          "rent_burden_30_plus": 0.41600000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 760,
+          "median_hh_income": 40063,
+          "rent_burden_30_plus": 0.36
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 692,
+          "median_hh_income": 73382,
+          "rent_burden_30_plus": 0.67
+        }
+      ],
+      "hpi": null
+    },
+    "0810105": {
+      "place_name": "Buena Vista",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 793,
+          "median_hh_income": 39727,
+          "rent_burden_30_plus": 0.5429999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 776,
+          "median_hh_income": 42405,
+          "rent_burden_30_plus": 0.526
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2020,
+          "median_hh_income": 78323,
+          "rent_burden_30_plus": 0.68
+        }
+      ],
+      "hpi": null
+    },
+    "0810600": {
+      "place_name": "Burlington",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 420,
+          "median_hh_income": 39133,
+          "rent_burden_30_plus": 0.207
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 628,
+          "median_hh_income": 38824,
+          "rent_burden_30_plus": 0.391
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1154,
+          "median_hh_income": 74308,
+          "rent_burden_30_plus": 0.344
+        }
+      ],
+      "hpi": null
+    },
+    "0810985": {
+      "place_name": "Byers",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 698,
+          "median_hh_income": 62759,
+          "rent_burden_30_plus": 0.28600000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 810,
+          "median_hh_income": 57721,
+          "rent_burden_30_plus": 0.317
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1551,
+          "median_hh_income": 93571,
+          "rent_burden_30_plus": 0.495
+        }
+      ],
+      "hpi": null
+    },
+    "0811260": {
+      "place_name": "Calhan",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 663,
+          "median_hh_income": 42917,
+          "rent_burden_30_plus": 0.344
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 821,
+          "median_hh_income": 45417,
+          "rent_burden_30_plus": 0.41
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 943,
+          "median_hh_income": 62321,
+          "rent_burden_30_plus": 0.59
+        }
+      ],
+      "hpi": null
+    },
+    "0811810": {
+      "place_name": "Ca\u00f1on City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 613,
+          "median_hh_income": 34688,
+          "rent_burden_30_plus": 0.659
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 675,
+          "median_hh_income": 38540,
+          "rent_burden_30_plus": 0.501
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 997,
+          "median_hh_income": 64787,
+          "rent_burden_30_plus": 0.38
+        }
+      ],
+      "hpi": null
+    },
+    "0812045": {
+      "place_name": "Carbondale",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1053,
+          "median_hh_income": 71607,
+          "rent_burden_30_plus": 0.47600000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1311,
+          "median_hh_income": 59083,
+          "rent_burden_30_plus": 0.515
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2167,
+          "median_hh_income": 108324,
+          "rent_burden_30_plus": 0.428
+        }
+      ],
+      "hpi": null
+    },
+    "0812325": {
+      "place_name": "Cascade-Chipita Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 888,
+          "median_hh_income": 58798,
+          "rent_burden_30_plus": 0.29600000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1158,
+          "median_hh_income": 63988,
+          "rent_burden_30_plus": 0.525
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1416,
+          "median_hh_income": 119531,
+          "rent_burden_30_plus": 0.9009999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0812387": {
+      "place_name": "Castle Pines",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 2001,
+          "median_hh_income": 213929,
+          "rent_burden_30_plus": 0.09
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1389,
+          "median_hh_income": 137426,
+          "rent_burden_30_plus": 0.37799999999999995
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2211,
+          "median_hh_income": 191229,
+          "rent_burden_30_plus": 0.738
+        }
+      ],
+      "hpi": null
+    },
+    "0812415": {
+      "place_name": "Castle Rock",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1021,
+          "median_hh_income": 86777,
+          "rent_burden_30_plus": 0.452
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1219,
+          "median_hh_income": 86563,
+          "rent_burden_30_plus": 0.527
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2000,
+          "median_hh_income": 145197,
+          "rent_burden_30_plus": 0.625
+        }
+      ],
+      "hpi": null
+    },
+    "0812635": {
+      "place_name": "Cedaredge",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 755,
+          "median_hh_income": 34974,
+          "rent_burden_30_plus": 0.389
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 743,
+          "median_hh_income": 31683,
+          "rent_burden_30_plus": 0.706
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1213,
+          "median_hh_income": 47614,
+          "rent_burden_30_plus": 0.722
+        }
+      ],
+      "hpi": null
+    },
+    "0812815": {
+      "place_name": "Centennial",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1182,
+          "median_hh_income": 85185,
+          "rent_burden_30_plus": 0.47
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1344,
+          "median_hh_income": 90090,
+          "rent_burden_30_plus": 0.466
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2148,
+          "median_hh_income": 131928,
+          "rent_burden_30_plus": 0.47100000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0812855": {
+      "place_name": "Center",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 465,
+          "median_hh_income": 24576,
+          "rent_burden_30_plus": 0.43
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 355,
+          "median_hh_income": 22656,
+          "rent_burden_30_plus": 0.491
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 490,
+          "median_hh_income": 45750,
+          "rent_burden_30_plus": 0.14
+        }
+      ],
+      "hpi": null
+    },
+    "0813460": {
+      "place_name": "Cheraw",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 609,
+          "median_hh_income": 24886,
+          "rent_burden_30_plus": 0.519
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 567,
+          "median_hh_income": 42857,
+          "rent_burden_30_plus": 0.43799999999999994
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1021,
+          "median_hh_income": 52857,
+          "rent_burden_30_plus": 0.423
+        }
+      ],
+      "hpi": null
+    },
+    "0814175": {
+      "place_name": "Cheyenne Wells",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 361,
+          "median_hh_income": 46250,
+          "rent_burden_30_plus": 0.13
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 578,
+          "median_hh_income": 40521,
+          "rent_burden_30_plus": 0.23600000000000002
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 943,
+          "median_hh_income": 72759,
+          "rent_burden_30_plus": 0.384
+        }
+      ],
+      "hpi": null
+    },
+    "0814587": {
+      "place_name": "Cimarron Hills",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 857,
+          "median_hh_income": 50900,
+          "rent_burden_30_plus": 0.501
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 935,
+          "median_hh_income": 51421,
+          "rent_burden_30_plus": 0.419
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1664,
+          "median_hh_income": 80808,
+          "rent_burden_30_plus": 0.596
+        }
+      ],
+      "hpi": null
+    },
+    "0815165": {
+      "place_name": "Clifton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 727,
+          "median_hh_income": 42378,
+          "rent_burden_30_plus": 0.455
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 751,
+          "median_hh_income": 39418,
+          "rent_burden_30_plus": 0.551
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1107,
+          "median_hh_income": 52100,
+          "rent_burden_30_plus": 0.541
+        }
+      ],
+      "hpi": null
+    },
+    "0815302": {
+      "place_name": "Coal Creek",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1120,
+          "median_hh_income": 87024,
+          "rent_burden_30_plus": 0.847
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 981,
+          "median_hh_income": 94773,
+          "rent_burden_30_plus": 0.5489999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1868,
+          "median_hh_income": 134250,
+          "rent_burden_30_plus": 0.0
+        }
+      ],
+      "hpi": null
+    },
+    "0815550": {
+      "place_name": "Cokedale",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 950,
+          "median_hh_income": 63500,
+          "rent_burden_30_plus": 0.0
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1088,
+          "median_hh_income": 37000,
+          "rent_burden_30_plus": 0.4
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1135,
+          "median_hh_income": 50952,
+          "rent_burden_30_plus": 0.545
+        }
+      ],
+      "hpi": null
+    },
+    "0815935": {
+      "place_name": "Colorado City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 638,
+          "median_hh_income": 41192,
+          "rent_burden_30_plus": 0.701
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 968,
+          "median_hh_income": 52563,
+          "rent_burden_30_plus": 0.521
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1270,
+          "median_hh_income": 44868,
+          "rent_burden_30_plus": 0.669
+        }
+      ],
+      "hpi": null
+    },
+    "0816000": {
+      "place_name": "Colorado Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 770,
+          "median_hh_income": 53359,
+          "rent_burden_30_plus": 0.469
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 888,
+          "median_hh_income": 54228,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1648,
+          "median_hh_income": 84818,
+          "rent_burden_30_plus": 0.5429999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0816110": {
+      "place_name": "Columbine",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1335,
+          "median_hh_income": 80205,
+          "rent_burden_30_plus": 0.6409999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1541,
+          "median_hh_income": 82000,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2448,
+          "median_hh_income": 131232,
+          "rent_burden_30_plus": 0.687
+        }
+      ],
+      "hpi": null
+    },
+    "0816495": {
+      "place_name": "Commerce City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 822,
+          "median_hh_income": 57238,
+          "rent_burden_30_plus": 0.526
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 982,
+          "median_hh_income": 64672,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1880,
+          "median_hh_income": 111972,
+          "rent_burden_30_plus": 0.575
+        }
+      ],
+      "hpi": null
+    },
+    "0817375": {
+      "place_name": "Cortez",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 701,
+          "median_hh_income": 38085,
+          "rent_burden_30_plus": 0.41200000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 614,
+          "median_hh_income": 39141,
+          "rent_burden_30_plus": 0.525
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 984,
+          "median_hh_income": 54247,
+          "rent_burden_30_plus": 0.5589999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0817760": {
+      "place_name": "Craig",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 715,
+          "median_hh_income": 50950,
+          "rent_burden_30_plus": 0.45799999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 727,
+          "median_hh_income": 47928,
+          "rent_burden_30_plus": 0.58
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1045,
+          "median_hh_income": 72636,
+          "rent_burden_30_plus": 0.33399999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0817925": {
+      "place_name": "Crawford",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 610,
+          "median_hh_income": 24205,
+          "rent_burden_30_plus": 0.695
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 567,
+          "median_hh_income": 31719,
+          "rent_burden_30_plus": 0.667
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1109,
+          "median_hh_income": 58160,
+          "rent_burden_30_plus": 0.392
+        }
+      ],
+      "hpi": null
+    },
+    "0818310": {
+      "place_name": "Crested Butte",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1016,
+          "median_hh_income": 48462,
+          "rent_burden_30_plus": 0.423
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 997,
+          "median_hh_income": 60952,
+          "rent_burden_30_plus": 0.493
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1365,
+          "median_hh_income": 74479,
+          "rent_burden_30_plus": 0.5379999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0818530": {
+      "place_name": "Cripple Creek",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 830,
+          "median_hh_income": 32802,
+          "rent_burden_30_plus": 0.7070000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 916,
+          "median_hh_income": 32470,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1048,
+          "median_hh_income": 41840,
+          "rent_burden_30_plus": 0.6990000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0818640": {
+      "place_name": "Crook",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 350,
+          "median_hh_income": 38393,
+          "rent_burden_30_plus": 0.0
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 663,
+          "median_hh_income": 32083,
+          "rent_burden_30_plus": 0.8
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 845,
+          "median_hh_income": 31944,
+          "rent_burden_30_plus": 0.905
+        }
+      ],
+      "hpi": null
+    },
+    "0819080": {
+      "place_name": "Dacono",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 856,
+          "median_hh_income": 43309,
+          "rent_burden_30_plus": 0.6920000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 937,
+          "median_hh_income": 44817,
+          "rent_burden_30_plus": 0.602
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1827,
+          "median_hh_income": 104559,
+          "rent_burden_30_plus": 0.486
+        }
+      ],
+      "hpi": null
+    },
+    "0819355": {
+      "place_name": "De Beque",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 738,
+          "median_hh_income": 58472,
+          "rent_burden_30_plus": 0.152
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 956,
+          "median_hh_income": 43438,
+          "rent_burden_30_plus": 0.444
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1094,
+          "median_hh_income": 63558,
+          "rent_burden_30_plus": 0.33299999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0819630": {
+      "place_name": "Deer Trail",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 730,
+          "median_hh_income": 47708,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 738,
+          "median_hh_income": 32083,
+          "rent_burden_30_plus": 0.75
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1021,
+          "median_hh_income": 73906,
+          "rent_burden_30_plus": 0.7709999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0819795": {
+      "place_name": "Del Norte",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 558,
+          "median_hh_income": 28681,
+          "rent_burden_30_plus": 0.523
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 596,
+          "median_hh_income": 29022,
+          "rent_burden_30_plus": 0.342
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 861,
+          "median_hh_income": 40700,
+          "rent_burden_30_plus": 0.45799999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0819850": {
+      "place_name": "Delta",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 692,
+          "median_hh_income": 38960,
+          "rent_burden_30_plus": 0.536
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 797,
+          "median_hh_income": 41939,
+          "rent_burden_30_plus": 0.585
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 990,
+          "median_hh_income": 45250,
+          "rent_burden_30_plus": 0.624
+        }
+      ],
+      "hpi": null
+    },
+    "0820000": {
+      "place_name": "Denver",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 779,
+          "median_hh_income": 45438,
+          "rent_burden_30_plus": 0.504
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 913,
+          "median_hh_income": 51800,
+          "rent_burden_30_plus": 0.496
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1831,
+          "median_hh_income": 94718,
+          "rent_burden_30_plus": 0.47600000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0820275": {
+      "place_name": "Derby",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 995,
+          "median_hh_income": 40097,
+          "rent_burden_30_plus": 0.48200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 931,
+          "median_hh_income": 40736,
+          "rent_burden_30_plus": 0.5660000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1689,
+          "median_hh_income": 82138,
+          "rent_burden_30_plus": 0.331
+        }
+      ],
+      "hpi": null
+    },
+    "0820440": {
+      "place_name": "Dillon",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1164,
+          "median_hh_income": 75560,
+          "rent_burden_30_plus": 0.547
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1131,
+          "median_hh_income": 58182,
+          "rent_burden_30_plus": 0.5539999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1798,
+          "median_hh_income": 111250,
+          "rent_burden_30_plus": 0.504
+        }
+      ],
+      "hpi": null
+    },
+    "0820770": {
+      "place_name": "Dolores",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 904,
+          "median_hh_income": 39000,
+          "rent_burden_30_plus": 0.391
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 843,
+          "median_hh_income": 27031,
+          "rent_burden_30_plus": 0.33299999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 741,
+          "median_hh_income": 34861,
+          "rent_burden_30_plus": 0.873
+        }
+      ],
+      "hpi": null
+    },
+    "0822035": {
+      "place_name": "Durango",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 967,
+          "median_hh_income": 44841,
+          "rent_burden_30_plus": 0.573
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1149,
+          "median_hh_income": 53621,
+          "rent_burden_30_plus": 0.546
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1636,
+          "median_hh_income": 78602,
+          "rent_burden_30_plus": 0.5329999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0822145": {
+      "place_name": "Eads",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 511,
+          "median_hh_income": 36458,
+          "rent_burden_30_plus": 0.371
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 693,
+          "median_hh_income": 35417,
+          "rent_burden_30_plus": 0.40700000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 800,
+          "median_hh_income": 59479,
+          "rent_burden_30_plus": 0.317
+        }
+      ],
+      "hpi": null
+    },
+    "0822200": {
+      "place_name": "Eagle",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1069,
+          "median_hh_income": 58618,
+          "rent_burden_30_plus": 0.505
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1512,
+          "median_hh_income": 81571,
+          "rent_burden_30_plus": 0.526
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1820,
+          "median_hh_income": 110398,
+          "rent_burden_30_plus": 0.7
+        }
+      ],
+      "hpi": null
+    },
+    "0822860": {
+      "place_name": "Eaton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 586,
+          "median_hh_income": 56424,
+          "rent_burden_30_plus": 0.205
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 918,
+          "median_hh_income": 57137,
+          "rent_burden_30_plus": 0.24600000000000002
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1707,
+          "median_hh_income": 106294,
+          "rent_burden_30_plus": 0.696
+        }
+      ],
+      "hpi": null
+    },
+    "0823025": {
+      "place_name": "Eckley",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 477,
+          "median_hh_income": 19688,
+          "rent_burden_30_plus": 0.552
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 513,
+          "median_hh_income": 27083,
+          "rent_burden_30_plus": 0.275
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 935,
+          "median_hh_income": 60125,
+          "rent_burden_30_plus": 0.514
+        }
+      ],
+      "hpi": null
+    },
+    "0823135": {
+      "place_name": "Edgewater",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 702,
+          "median_hh_income": 42072,
+          "rent_burden_30_plus": 0.46399999999999997
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 838,
+          "median_hh_income": 42058,
+          "rent_burden_30_plus": 0.547
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1652,
+          "median_hh_income": 76591,
+          "rent_burden_30_plus": 0.614
+        }
+      ],
+      "hpi": null
+    },
+    "0823300": {
+      "place_name": "Edwards",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1416,
+          "median_hh_income": 86796,
+          "rent_burden_30_plus": 0.609
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1317,
+          "median_hh_income": 79014,
+          "rent_burden_30_plus": 0.525
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1845,
+          "median_hh_income": 81909,
+          "rent_burden_30_plus": 0.762
+        }
+      ],
+      "hpi": null
+    },
+    "0823740": {
+      "place_name": "Elizabeth",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 698,
+          "median_hh_income": 62250,
+          "rent_burden_30_plus": 0.648
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1173,
+          "median_hh_income": 55066,
+          "rent_burden_30_plus": 0.376
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1808,
+          "median_hh_income": 112986,
+          "rent_burden_30_plus": 0.29
+        }
+      ],
+      "hpi": null
+    },
+    "0823795": {
+      "place_name": "El Jebel",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1013,
+          "median_hh_income": 63750,
+          "rent_burden_30_plus": 0.48200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1473,
+          "median_hh_income": 80572,
+          "rent_burden_30_plus": 0.9179999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 3216,
+          "median_hh_income": 103042,
+          "rent_burden_30_plus": 0.716
+        }
+      ],
+      "hpi": null
+    },
+    "0824620": {
+      "place_name": "Empire",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 592,
+          "median_hh_income": 45179,
+          "rent_burden_30_plus": 0.4
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 700,
+          "median_hh_income": 49375,
+          "rent_burden_30_plus": 0.457
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1614,
+          "median_hh_income": 66797,
+          "rent_burden_30_plus": 0.623
+        }
+      ],
+      "hpi": null
+    },
+    "0824785": {
+      "place_name": "Englewood",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 773,
+          "median_hh_income": 42451,
+          "rent_burden_30_plus": 0.488
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 863,
+          "median_hh_income": 46776,
+          "rent_burden_30_plus": 0.501
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1668,
+          "median_hh_income": 86800,
+          "rent_burden_30_plus": 0.535
+        }
+      ],
+      "hpi": null
+    },
+    "0824950": {
+      "place_name": "Erie",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1206,
+          "median_hh_income": 99804,
+          "rent_burden_30_plus": 0.42
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1682,
+          "median_hh_income": 108857,
+          "rent_burden_30_plus": 0.34299999999999997
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2805,
+          "median_hh_income": 173349,
+          "rent_burden_30_plus": 0.385
+        }
+      ],
+      "hpi": null
+    },
+    "0825115": {
+      "place_name": "Estes Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 792,
+          "median_hh_income": 50000,
+          "rent_burden_30_plus": 0.579
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 926,
+          "median_hh_income": 56236,
+          "rent_burden_30_plus": 0.511
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1511,
+          "median_hh_income": 85956,
+          "rent_burden_30_plus": 0.49200000000000005
+        }
+      ],
+      "hpi": null
+    },
+    "0825280": {
+      "place_name": "Evans",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 817,
+          "median_hh_income": 44990,
+          "rent_burden_30_plus": 0.612
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1000,
+          "median_hh_income": 47798,
+          "rent_burden_30_plus": 0.519
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1582,
+          "median_hh_income": 75563,
+          "rent_burden_30_plus": 0.509
+        }
+      ],
+      "hpi": null
+    },
+    "0825390": {
+      "place_name": "Evergreen",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1379,
+          "median_hh_income": 93558,
+          "rent_burden_30_plus": 0.429
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1096,
+          "median_hh_income": 78596,
+          "rent_burden_30_plus": 0.537
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1959,
+          "median_hh_income": 150417,
+          "rent_burden_30_plus": 0.253
+        }
+      ],
+      "hpi": null
+    },
+    "0825610": {
+      "place_name": "Fairplay",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 884,
+          "median_hh_income": 50982,
+          "rent_burden_30_plus": 0.475
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1044,
+          "median_hh_income": 48111,
+          "rent_burden_30_plus": 0.526
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2166,
+          "median_hh_income": 107976,
+          "rent_burden_30_plus": 0.223
+        }
+      ],
+      "hpi": null
+    },
+    "0826270": {
+      "place_name": "Federal Heights",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 784,
+          "median_hh_income": 32332,
+          "rent_burden_30_plus": 0.606
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 893,
+          "median_hh_income": 36823,
+          "rent_burden_30_plus": 0.505
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1687,
+          "median_hh_income": 56597,
+          "rent_burden_30_plus": 0.6729999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0826600": {
+      "place_name": "Firestone",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1107,
+          "median_hh_income": 81821,
+          "rent_burden_30_plus": 0.483
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1313,
+          "median_hh_income": 81559,
+          "rent_burden_30_plus": 0.278
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2009,
+          "median_hh_income": 120150,
+          "rent_burden_30_plus": 0.431
+        }
+      ],
+      "hpi": null
+    },
+    "0826765": {
+      "place_name": "Flagler",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 798,
+          "median_hh_income": 34120,
+          "rent_burden_30_plus": 0.818
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 559,
+          "median_hh_income": 27500,
+          "rent_burden_30_plus": 0.605
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 901,
+          "median_hh_income": 48500,
+          "rent_burden_30_plus": 0.369
+        }
+      ],
+      "hpi": null
+    },
+    "0826875": {
+      "place_name": "Fleming",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 650,
+          "median_hh_income": 27857,
+          "rent_burden_30_plus": 0.7340000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 650,
+          "median_hh_income": 43177,
+          "rent_burden_30_plus": 0.607
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 952,
+          "median_hh_income": 52143,
+          "rent_burden_30_plus": 0.433
+        }
+      ],
+      "hpi": null
+    },
+    "0827040": {
+      "place_name": "Florence",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 644,
+          "median_hh_income": 34766,
+          "rent_burden_30_plus": 0.597
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 712,
+          "median_hh_income": 34119,
+          "rent_burden_30_plus": 0.675
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 754,
+          "median_hh_income": 50262,
+          "rent_burden_30_plus": 0.45799999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0827370": {
+      "place_name": "Fort Carson",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1034,
+          "median_hh_income": 35996,
+          "rent_burden_30_plus": 0.665
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1305,
+          "median_hh_income": 43632,
+          "rent_burden_30_plus": 0.67
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2180,
+          "median_hh_income": 66237,
+          "rent_burden_30_plus": 0.639
+        }
+      ],
+      "hpi": null
+    },
+    "0827425": {
+      "place_name": "Fort Collins",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 826,
+          "median_hh_income": 47843,
+          "rent_burden_30_plus": 0.623
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1036,
+          "median_hh_income": 53775,
+          "rent_burden_30_plus": 0.611
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1690,
+          "median_hh_income": 85070,
+          "rent_burden_30_plus": 0.5760000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0827700": {
+      "place_name": "Fort Lupton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 804,
+          "median_hh_income": 50145,
+          "rent_burden_30_plus": 0.41
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 935,
+          "median_hh_income": 47583,
+          "rent_burden_30_plus": 0.581
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1251,
+          "median_hh_income": 80889,
+          "rent_burden_30_plus": 0.59
+        }
+      ],
+      "hpi": null
+    },
+    "0827810": {
+      "place_name": "Fort Morgan",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 679,
+          "median_hh_income": 43917,
+          "rent_burden_30_plus": 0.368
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 660,
+          "median_hh_income": 42633,
+          "rent_burden_30_plus": 0.461
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1067,
+          "median_hh_income": 64158,
+          "rent_burden_30_plus": 0.509
+        }
+      ],
+      "hpi": null
+    },
+    "0827865": {
+      "place_name": "Fountain",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 924,
+          "median_hh_income": 54240,
+          "rent_burden_30_plus": 0.5660000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1180,
+          "median_hh_income": 56687,
+          "rent_burden_30_plus": 0.579
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1745,
+          "median_hh_income": 86242,
+          "rent_burden_30_plus": 0.71
+        }
+      ],
+      "hpi": null
+    },
+    "0827975": {
+      "place_name": "Fowler",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 502,
+          "median_hh_income": 27857,
+          "rent_burden_30_plus": 0.48200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 655,
+          "median_hh_income": 31080,
+          "rent_burden_30_plus": 0.65
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 761,
+          "median_hh_income": 44048,
+          "rent_burden_30_plus": 0.5429999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0828305": {
+      "place_name": "Fraser",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 866,
+          "median_hh_income": 43281,
+          "rent_burden_30_plus": 0.581
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 970,
+          "median_hh_income": 41250,
+          "rent_burden_30_plus": 0.662
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1660,
+          "median_hh_income": 89980,
+          "rent_burden_30_plus": 0.337
+        }
+      ],
+      "hpi": null
+    },
+    "0828360": {
+      "place_name": "Frederick",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1356,
+          "median_hh_income": 83284,
+          "rent_burden_30_plus": 0.47200000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1564,
+          "median_hh_income": 80727,
+          "rent_burden_30_plus": 0.41
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2381,
+          "median_hh_income": 129460,
+          "rent_burden_30_plus": 0.54
+        }
+      ],
+      "hpi": null
+    },
+    "0828690": {
+      "place_name": "Frisco",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1361,
+          "median_hh_income": 78125,
+          "rent_burden_30_plus": 0.34600000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1685,
+          "median_hh_income": 67444,
+          "rent_burden_30_plus": 0.278
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1954,
+          "median_hh_income": 113506,
+          "rent_burden_30_plus": 0.209
+        }
+      ],
+      "hpi": null
+    },
+    "0828745": {
+      "place_name": "Fruita",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 886,
+          "median_hh_income": 55898,
+          "rent_burden_30_plus": 0.479
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1018,
+          "median_hh_income": 54875,
+          "rent_burden_30_plus": 0.5820000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1472,
+          "median_hh_income": 87184,
+          "rent_burden_30_plus": 0.436
+        }
+      ],
+      "hpi": null
+    },
+    "0828800": {
+      "place_name": "Fruitvale",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 933,
+          "median_hh_income": 55816,
+          "rent_burden_30_plus": 0.28600000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1090,
+          "median_hh_income": 51632,
+          "rent_burden_30_plus": 0.594
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1686,
+          "median_hh_income": 77887,
+          "rent_burden_30_plus": 0.285
+        }
+      ],
+      "hpi": null
+    },
+    "0829185": {
+      "place_name": "Garden City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 540,
+          "median_hh_income": 20625,
+          "rent_burden_30_plus": 0.644
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 540,
+          "median_hh_income": 21667,
+          "rent_burden_30_plus": 0.628
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 971,
+          "median_hh_income": 41250,
+          "rent_burden_30_plus": 0.5870000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0829625": {
+      "place_name": "Genesee",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 2001,
+          "median_hh_income": 141484,
+          "rent_burden_30_plus": 0.21100000000000002
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 2001,
+          "median_hh_income": 138945,
+          "rent_burden_30_plus": 0.113
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2819,
+          "median_hh_income": 186667,
+          "rent_burden_30_plus": 0.58
+        }
+      ],
+      "hpi": null
+    },
+    "0829735": {
+      "place_name": "Georgetown",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 930,
+          "median_hh_income": 64872,
+          "rent_burden_30_plus": 0.358
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 826,
+          "median_hh_income": 69167,
+          "rent_burden_30_plus": 0.38
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1434,
+          "median_hh_income": 79118,
+          "rent_burden_30_plus": 0.8170000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0830340": {
+      "place_name": "Glendale",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 667,
+          "median_hh_income": 32511,
+          "rent_burden_30_plus": 0.40700000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 893,
+          "median_hh_income": 37654,
+          "rent_burden_30_plus": 0.507
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1815,
+          "median_hh_income": 71250,
+          "rent_burden_30_plus": 0.532
+        }
+      ],
+      "hpi": null
+    },
+    "0830420": {
+      "place_name": "Gleneagle",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1207,
+          "median_hh_income": 110914,
+          "rent_burden_30_plus": 0.157
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1138,
+          "median_hh_income": 106092,
+          "rent_burden_30_plus": 0.212
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2099,
+          "median_hh_income": 139653,
+          "rent_burden_30_plus": 0.6559999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0830780": {
+      "place_name": "Glenwood Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1047,
+          "median_hh_income": 51939,
+          "rent_burden_30_plus": 0.547
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1135,
+          "median_hh_income": 54544,
+          "rent_burden_30_plus": 0.5870000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1867,
+          "median_hh_income": 91481,
+          "rent_burden_30_plus": 0.47600000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0830835": {
+      "place_name": "Golden",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 875,
+          "median_hh_income": 57103,
+          "rent_burden_30_plus": 0.532
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 947,
+          "median_hh_income": 58630,
+          "rent_burden_30_plus": 0.519
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1953,
+          "median_hh_income": 98582,
+          "rent_burden_30_plus": 0.513
+        }
+      ],
+      "hpi": null
+    },
+    "0831550": {
+      "place_name": "Granada",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 475,
+          "median_hh_income": 27917,
+          "rent_burden_30_plus": 0.1
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 564,
+          "median_hh_income": 31786,
+          "rent_burden_30_plus": 0.539
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 754,
+          "median_hh_income": 49250,
+          "rent_burden_30_plus": 0.519
+        }
+      ],
+      "hpi": null
+    },
+    "0831605": {
+      "place_name": "Granby",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 809,
+          "median_hh_income": 57600,
+          "rent_burden_30_plus": 0.45
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 888,
+          "median_hh_income": 59375,
+          "rent_burden_30_plus": 0.49
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1276,
+          "median_hh_income": 72926,
+          "rent_burden_30_plus": 0.242
+        }
+      ],
+      "hpi": null
+    },
+    "0831660": {
+      "place_name": "Grand Junction",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 735,
+          "median_hh_income": 45710,
+          "rent_burden_30_plus": 0.47100000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 846,
+          "median_hh_income": 44887,
+          "rent_burden_30_plus": 0.556
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1142,
+          "median_hh_income": 70080,
+          "rent_burden_30_plus": 0.47200000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0832155": {
+      "place_name": "Greeley",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 691,
+          "median_hh_income": 42542,
+          "rent_burden_30_plus": 0.5429999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 764,
+          "median_hh_income": 47342,
+          "rent_burden_30_plus": 0.524
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1388,
+          "median_hh_income": 69881,
+          "rent_burden_30_plus": 0.599
+        }
+      ],
+      "hpi": null
+    },
+    "0832650": {
+      "place_name": "Green Mountain Falls",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 867,
+          "median_hh_income": 36346,
+          "rent_burden_30_plus": 0.617
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 829,
+          "median_hh_income": 51250,
+          "rent_burden_30_plus": 0.742
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1699,
+          "median_hh_income": 101827,
+          "rent_burden_30_plus": 0.0
+        }
+      ],
+      "hpi": null
+    },
+    "0833035": {
+      "place_name": "Greenwood Village",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1173,
+          "median_hh_income": 114460,
+          "rent_burden_30_plus": 0.41100000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1371,
+          "median_hh_income": 109180,
+          "rent_burden_30_plus": 0.408
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2123,
+          "median_hh_income": 149029,
+          "rent_burden_30_plus": 0.48100000000000004
+        }
+      ],
+      "hpi": null
+    },
+    "0833502": {
+      "place_name": "Gunbarrel",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1037,
+          "median_hh_income": 76156,
+          "rent_burden_30_plus": 0.43200000000000005
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1191,
+          "median_hh_income": 79935,
+          "rent_burden_30_plus": 0.45299999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1972,
+          "median_hh_income": 109407,
+          "rent_burden_30_plus": 0.446
+        }
+      ],
+      "hpi": null
+    },
+    "0833640": {
+      "place_name": "Gunnison",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 778,
+          "median_hh_income": 35139,
+          "rent_burden_30_plus": 0.556
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 829,
+          "median_hh_income": 40723,
+          "rent_burden_30_plus": 0.62
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1230,
+          "median_hh_income": 62189,
+          "rent_burden_30_plus": 0.6
+        }
+      ],
+      "hpi": null
+    },
+    "0833695": {
+      "place_name": "Gypsum",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1295,
+          "median_hh_income": 69688,
+          "rent_burden_30_plus": 0.8270000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1099,
+          "median_hh_income": 94211,
+          "rent_burden_30_plus": 0.314
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2183,
+          "median_hh_income": 115564,
+          "rent_burden_30_plus": 0.6409999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0834960": {
+      "place_name": "Haxtun",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 665,
+          "median_hh_income": 32117,
+          "rent_burden_30_plus": 0.517
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 613,
+          "median_hh_income": 41359,
+          "rent_burden_30_plus": 0.25
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 575,
+          "median_hh_income": 63375,
+          "rent_burden_30_plus": 0.7120000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0835070": {
+      "place_name": "Hayden",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 932,
+          "median_hh_income": 56250,
+          "rent_burden_30_plus": 0.527
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1006,
+          "median_hh_income": 54453,
+          "rent_burden_30_plus": 0.428
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1784,
+          "median_hh_income": 90804,
+          "rent_burden_30_plus": 0.324
+        }
+      ],
+      "hpi": null
+    },
+    "0836410": {
+      "place_name": "Highlands Ranch",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1207,
+          "median_hh_income": 104375,
+          "rent_burden_30_plus": 0.36200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1551,
+          "median_hh_income": 110221,
+          "rent_burden_30_plus": 0.373
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2531,
+          "median_hh_income": 159307,
+          "rent_burden_30_plus": 0.496
+        }
+      ],
+      "hpi": null
+    },
+    "0836610": {
+      "place_name": "Hillrose",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 875,
+          "median_hh_income": 41563,
+          "rent_burden_30_plus": 0.5720000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 930,
+          "median_hh_income": 32500,
+          "rent_burden_30_plus": 0.25
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1333,
+          "median_hh_income": 75625,
+          "rent_burden_30_plus": 0.5770000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0837215": {
+      "place_name": "Holly",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 456,
+          "median_hh_income": 19893,
+          "rent_burden_30_plus": 0.5489999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 525,
+          "median_hh_income": 31927,
+          "rent_burden_30_plus": 0.33799999999999997
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 330,
+          "median_hh_income": 33750,
+          "rent_burden_30_plus": 0.7659999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0837270": {
+      "place_name": "Holyoke",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 557,
+          "median_hh_income": 37105,
+          "rent_burden_30_plus": 0.307
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 633,
+          "median_hh_income": 42413,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1077,
+          "median_hh_income": 52482,
+          "rent_burden_30_plus": 0.276
+        }
+      ],
+      "hpi": null
+    },
+    "0837545": {
+      "place_name": "Hotchkiss",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 704,
+          "median_hh_income": 42083,
+          "rent_burden_30_plus": 0.429
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 809,
+          "median_hh_income": 34702,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1300,
+          "median_hh_income": 54545,
+          "rent_burden_30_plus": 0.682
+        }
+      ],
+      "hpi": null
+    },
+    "0837600": {
+      "place_name": "Hot Sulphur Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 793,
+          "median_hh_income": 49688,
+          "rent_burden_30_plus": 0.295
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 800,
+          "median_hh_income": 49583,
+          "rent_burden_30_plus": 0.3
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1484,
+          "median_hh_income": 106600,
+          "rent_burden_30_plus": 0.349
+        }
+      ],
+      "hpi": null
+    },
+    "0837820": {
+      "place_name": "Hudson",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 858,
+          "median_hh_income": 55846,
+          "rent_burden_30_plus": 0.456
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 942,
+          "median_hh_income": 48393,
+          "rent_burden_30_plus": 0.36
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1283,
+          "median_hh_income": 81250,
+          "rent_burden_30_plus": 0.478
+        }
+      ],
+      "hpi": null
+    },
+    "0837875": {
+      "place_name": "Hugo",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 666,
+          "median_hh_income": 32813,
+          "rent_burden_30_plus": 0.49200000000000005
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 659,
+          "median_hh_income": 34306,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 906,
+          "median_hh_income": 48958,
+          "rent_burden_30_plus": 0.078
+        }
+      ],
+      "hpi": null
+    },
+    "0838370": {
+      "place_name": "Idaho Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 737,
+          "median_hh_income": 49306,
+          "rent_burden_30_plus": 0.475
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 803,
+          "median_hh_income": 52064,
+          "rent_burden_30_plus": 0.425
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1548,
+          "median_hh_income": 89436,
+          "rent_burden_30_plus": 0.376
+        }
+      ],
+      "hpi": null
+    },
+    "0838535": {
+      "place_name": "Ignacio",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 758,
+          "median_hh_income": 43889,
+          "rent_burden_30_plus": 0.42200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 986,
+          "median_hh_income": 50547,
+          "rent_burden_30_plus": 0.39399999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1123,
+          "median_hh_income": 67593,
+          "rent_burden_30_plus": 0.617
+        }
+      ],
+      "hpi": null
+    },
+    "0838590": {
+      "place_name": "Iliff",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 600,
+          "median_hh_income": 31406,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 533,
+          "median_hh_income": 35250,
+          "rent_burden_30_plus": 0.278
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1125,
+          "median_hh_income": 57500,
+          "rent_burden_30_plus": 0.226
+        }
+      ],
+      "hpi": null
+    },
+    "0839855": {
+      "place_name": "Johnstown",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1130,
+          "median_hh_income": 73179,
+          "rent_burden_30_plus": 0.626
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1368,
+          "median_hh_income": 78298,
+          "rent_burden_30_plus": 0.386
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1835,
+          "median_hh_income": 128995,
+          "rent_burden_30_plus": 0.452
+        }
+      ],
+      "hpi": null
+    },
+    "0839965": {
+      "place_name": "Julesburg",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 457,
+          "median_hh_income": 31193,
+          "rent_burden_30_plus": 0.45899999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 556,
+          "median_hh_income": 41042,
+          "rent_burden_30_plus": 0.318
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 760,
+          "median_hh_income": 43500,
+          "rent_burden_30_plus": 0.6
+        }
+      ],
+      "hpi": null
+    },
+    "0840185": {
+      "place_name": "Keenesburg",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 875,
+          "median_hh_income": 54737,
+          "rent_burden_30_plus": 0.308
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 992,
+          "median_hh_income": 49635,
+          "rent_burden_30_plus": 0.685
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1474,
+          "median_hh_income": 83950,
+          "rent_burden_30_plus": 0.387
+        }
+      ],
+      "hpi": null
+    },
+    "0840377": {
+      "place_name": "Ken Caryl",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1115,
+          "median_hh_income": 81689,
+          "rent_burden_30_plus": 0.48
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1201,
+          "median_hh_income": 85655,
+          "rent_burden_30_plus": 0.413
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2127,
+          "median_hh_income": 118269,
+          "rent_burden_30_plus": 0.431
+        }
+      ],
+      "hpi": null
+    },
+    "0840515": {
+      "place_name": "Kersey",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 373,
+          "median_hh_income": 54583,
+          "rent_burden_30_plus": 0.268
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 579,
+          "median_hh_income": 50764,
+          "rent_burden_30_plus": 0.514
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 740,
+          "median_hh_income": 68281,
+          "rent_burden_30_plus": 0.879
+        }
+      ],
+      "hpi": null
+    },
+    "0840550": {
+      "place_name": "Keystone",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1291,
+          "median_hh_income": 55711,
+          "rent_burden_30_plus": 0.9109999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 679,
+          "median_hh_income": 47414,
+          "rent_burden_30_plus": 0.066
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 874,
+          "median_hh_income": 51591,
+          "rent_burden_30_plus": 0.285
+        }
+      ],
+      "hpi": null
+    },
+    "0840790": {
+      "place_name": "Kiowa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 790,
+          "median_hh_income": 40000,
+          "rent_burden_30_plus": 0.68
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 979,
+          "median_hh_income": 52778,
+          "rent_burden_30_plus": 0.368
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1183,
+          "median_hh_income": 92625,
+          "rent_burden_30_plus": 0.6
+        }
+      ],
+      "hpi": null
+    },
+    "0841010": {
+      "place_name": "Kit Carson",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 480,
+          "median_hh_income": 56250,
+          "rent_burden_30_plus": 0.2
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 700,
+          "median_hh_income": 58750,
+          "rent_burden_30_plus": 0.182
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 653,
+          "median_hh_income": 59875,
+          "rent_burden_30_plus": 0.259
+        }
+      ],
+      "hpi": null
+    },
+    "0841560": {
+      "place_name": "Kremmling",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 688,
+          "median_hh_income": 56010,
+          "rent_burden_30_plus": 0.214
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 925,
+          "median_hh_income": 52596,
+          "rent_burden_30_plus": 0.54
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1570,
+          "median_hh_income": 77407,
+          "rent_burden_30_plus": 0.467
+        }
+      ],
+      "hpi": null
+    },
+    "0841835": {
+      "place_name": "Lafayette",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1041,
+          "median_hh_income": 65319,
+          "rent_burden_30_plus": 0.527
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1175,
+          "median_hh_income": 71038,
+          "rent_burden_30_plus": 0.546
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2121,
+          "median_hh_income": 119040,
+          "rent_burden_30_plus": 0.544
+        }
+      ],
+      "hpi": null
+    },
+    "0842110": {
+      "place_name": "La Junta",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 602,
+          "median_hh_income": 32416,
+          "rent_burden_30_plus": 0.512
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 697,
+          "median_hh_income": 30010,
+          "rent_burden_30_plus": 0.614
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 642,
+          "median_hh_income": 52315,
+          "rent_burden_30_plus": 0.451
+        }
+      ],
+      "hpi": null
+    },
+    "0842330": {
+      "place_name": "Lake City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 581,
+          "median_hh_income": 47417,
+          "rent_burden_30_plus": 0.267
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 736,
+          "median_hh_income": 50500,
+          "rent_burden_30_plus": 0.49
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1180,
+          "median_hh_income": 61919,
+          "rent_burden_30_plus": 0.019
+        }
+      ],
+      "hpi": null
+    },
+    "0843000": {
+      "place_name": "Lakewood",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 855,
+          "median_hh_income": 52438,
+          "rent_burden_30_plus": 0.505
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 963,
+          "median_hh_income": 56134,
+          "rent_burden_30_plus": 0.512
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1806,
+          "median_hh_income": 89792,
+          "rent_burden_30_plus": 0.552
+        }
+      ],
+      "hpi": null
+    },
+    "0843110": {
+      "place_name": "Lamar",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 526,
+          "median_hh_income": 33455,
+          "rent_burden_30_plus": 0.47200000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 535,
+          "median_hh_income": 31741,
+          "rent_burden_30_plus": 0.504
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 858,
+          "median_hh_income": 53188,
+          "rent_burden_30_plus": 0.6459999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0843220": {
+      "place_name": "Laporte",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 649,
+          "median_hh_income": 49386,
+          "rent_burden_30_plus": 0.604
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 880,
+          "median_hh_income": 46320,
+          "rent_burden_30_plus": 0.51
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1354,
+          "median_hh_income": 87313,
+          "rent_burden_30_plus": 0.17300000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0843605": {
+      "place_name": "La Salle",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1033,
+          "median_hh_income": 46900,
+          "rent_burden_30_plus": 0.42700000000000005
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 944,
+          "median_hh_income": 51985,
+          "rent_burden_30_plus": 0.40700000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1559,
+          "median_hh_income": 95833,
+          "rent_burden_30_plus": 0.5
+        }
+      ],
+      "hpi": null
+    },
+    "0843660": {
+      "place_name": "Las Animas",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 582,
+          "median_hh_income": 27719,
+          "rent_burden_30_plus": 0.43
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 643,
+          "median_hh_income": 31948,
+          "rent_burden_30_plus": 0.644
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1211,
+          "median_hh_income": 51875,
+          "rent_burden_30_plus": 0.644
+        }
+      ],
+      "hpi": null
+    },
+    "0844100": {
+      "place_name": "La Veta",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 483,
+          "median_hh_income": 36932,
+          "rent_burden_30_plus": 0.5870000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 875,
+          "median_hh_income": 33090,
+          "rent_burden_30_plus": 0.809
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 696,
+          "median_hh_income": 52804,
+          "rent_burden_30_plus": 0.461
+        }
+      ],
+      "hpi": null
+    },
+    "0844320": {
+      "place_name": "Leadville",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 845,
+          "median_hh_income": 45223,
+          "rent_burden_30_plus": 0.519
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 948,
+          "median_hh_income": 39985,
+          "rent_burden_30_plus": 0.41200000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1195,
+          "median_hh_income": 86350,
+          "rent_burden_30_plus": 0.757
+        }
+      ],
+      "hpi": null
+    },
+    "0844375": {
+      "place_name": "Leadville North",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 763,
+          "median_hh_income": 50690,
+          "rent_burden_30_plus": 0.7809999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 699,
+          "median_hh_income": 69667,
+          "rent_burden_30_plus": 0.344
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1495,
+          "median_hh_income": 97604,
+          "rent_burden_30_plus": 0.306
+        }
+      ],
+      "hpi": null
+    },
+    "0844980": {
+      "place_name": "Limon",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 654,
+          "median_hh_income": 40903,
+          "rent_burden_30_plus": 0.43
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 709,
+          "median_hh_income": 39773,
+          "rent_burden_30_plus": 0.555
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 872,
+          "median_hh_income": 65776,
+          "rent_burden_30_plus": 0.382
+        }
+      ],
+      "hpi": null
+    },
+    "0845145": {
+      "place_name": "Lincoln Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 736,
+          "median_hh_income": 39339,
+          "rent_burden_30_plus": 0.409
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 714,
+          "median_hh_income": 41786,
+          "rent_burden_30_plus": 0.537
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1148,
+          "median_hh_income": 60036,
+          "rent_burden_30_plus": 0.55
+        }
+      ],
+      "hpi": null
+    },
+    "0845255": {
+      "place_name": "Littleton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 815,
+          "median_hh_income": 56403,
+          "rent_burden_30_plus": 0.505
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 937,
+          "median_hh_income": 62683,
+          "rent_burden_30_plus": 0.514
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1819,
+          "median_hh_income": 98839,
+          "rent_burden_30_plus": 0.5720000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0845530": {
+      "place_name": "Lochbuie",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 936,
+          "median_hh_income": 54412,
+          "rent_burden_30_plus": 0.759
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1140,
+          "median_hh_income": 49193,
+          "rent_burden_30_plus": 0.657
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2429,
+          "median_hh_income": 97009,
+          "rent_burden_30_plus": 0.096
+        }
+      ],
+      "hpi": null
+    },
+    "0845695": {
+      "place_name": "Log Lane Village",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 767,
+          "median_hh_income": 39205,
+          "rent_burden_30_plus": 0.353
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 812,
+          "median_hh_income": 33250,
+          "rent_burden_30_plus": 0.47100000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1440,
+          "median_hh_income": 61250,
+          "rent_burden_30_plus": 0.659
+        }
+      ],
+      "hpi": null
+    },
+    "0845955": {
+      "place_name": "Lone Tree",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1107,
+          "median_hh_income": 104787,
+          "rent_burden_30_plus": 0.318
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1302,
+          "median_hh_income": 110694,
+          "rent_burden_30_plus": 0.335
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2139,
+          "median_hh_income": 123741,
+          "rent_burden_30_plus": 0.379
+        }
+      ],
+      "hpi": null
+    },
+    "0845970": {
+      "place_name": "Longmont",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 894,
+          "median_hh_income": 57397,
+          "rent_burden_30_plus": 0.523
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 992,
+          "median_hh_income": 60218,
+          "rent_burden_30_plus": 0.544
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1816,
+          "median_hh_income": 90671,
+          "rent_burden_30_plus": 0.607
+        }
+      ],
+      "hpi": null
+    },
+    "0846355": {
+      "place_name": "Louisville",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1069,
+          "median_hh_income": 81882,
+          "rent_burden_30_plus": 0.46299999999999997
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1292,
+          "median_hh_income": 92121,
+          "rent_burden_30_plus": 0.628
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2166,
+          "median_hh_income": 147319,
+          "rent_burden_30_plus": 0.47100000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0846465": {
+      "place_name": "Loveland",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 806,
+          "median_hh_income": 53105,
+          "rent_burden_30_plus": 0.484
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 962,
+          "median_hh_income": 55580,
+          "rent_burden_30_plus": 0.512
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1730,
+          "median_hh_income": 84604,
+          "rent_burden_30_plus": 0.544
+        }
+      ],
+      "hpi": null
+    },
+    "0847070": {
+      "place_name": "Lyons",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 693,
+          "median_hh_income": 74659,
+          "rent_burden_30_plus": 0.5489999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1229,
+          "median_hh_income": 90603,
+          "rent_burden_30_plus": 0.368
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1981,
+          "median_hh_income": 122837,
+          "rent_burden_30_plus": 0.529
+        }
+      ],
+      "hpi": null
+    },
+    "0848060": {
+      "place_name": "Manassa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 532,
+          "median_hh_income": 28417,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 594,
+          "median_hh_income": 40515,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 744,
+          "median_hh_income": 60250,
+          "rent_burden_30_plus": 0.6940000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0848115": {
+      "place_name": "Mancos",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 688,
+          "median_hh_income": 34667,
+          "rent_burden_30_plus": 0.626
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 733,
+          "median_hh_income": 40000,
+          "rent_burden_30_plus": 0.45
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 820,
+          "median_hh_income": 65833,
+          "rent_burden_30_plus": 0.5820000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0848445": {
+      "place_name": "Manitou Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 658,
+          "median_hh_income": 41621,
+          "rent_burden_30_plus": 0.672
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 773,
+          "median_hh_income": 51628,
+          "rent_burden_30_plus": 0.44
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1283,
+          "median_hh_income": 85000,
+          "rent_burden_30_plus": 0.644
+        }
+      ],
+      "hpi": null
+    },
+    "0848500": {
+      "place_name": "Manzanola",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 632,
+          "median_hh_income": 21696,
+          "rent_burden_30_plus": 0.466
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 492,
+          "median_hh_income": 25625,
+          "rent_burden_30_plus": 0.55
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 774,
+          "median_hh_income": 36010,
+          "rent_burden_30_plus": 0.35700000000000004
+        }
+      ],
+      "hpi": null
+    },
+    "0849600": {
+      "place_name": "Mead",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1722,
+          "median_hh_income": 91500,
+          "rent_burden_30_plus": 0.217
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1193,
+          "median_hh_income": 86394,
+          "rent_burden_30_plus": 0.467
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1275,
+          "median_hh_income": 125357,
+          "rent_burden_30_plus": 0.344
+        }
+      ],
+      "hpi": null
+    },
+    "0849875": {
+      "place_name": "Meeker",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 651,
+          "median_hh_income": 52250,
+          "rent_burden_30_plus": 0.297
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 760,
+          "median_hh_income": 53176,
+          "rent_burden_30_plus": 0.375
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 981,
+          "median_hh_income": 66548,
+          "rent_burden_30_plus": 0.275
+        }
+      ],
+      "hpi": null
+    },
+    "0850012": {
+      "place_name": "Meridian",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1109,
+          "median_hh_income": 71505,
+          "rent_burden_30_plus": 0.218
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1257,
+          "median_hh_income": 69236,
+          "rent_burden_30_plus": 0.354
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1992,
+          "median_hh_income": 89877,
+          "rent_burden_30_plus": 0.479
+        }
+      ],
+      "hpi": null
+    },
+    "0850040": {
+      "place_name": "Merino",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 495,
+          "median_hh_income": 39167,
+          "rent_burden_30_plus": 0.40700000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 663,
+          "median_hh_income": 47708,
+          "rent_burden_30_plus": 0.633
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1118,
+          "median_hh_income": 61875,
+          "rent_burden_30_plus": 0.474
+        }
+      ],
+      "hpi": null
+    },
+    "0850480": {
+      "place_name": "Milliken",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1044,
+          "median_hh_income": 59652,
+          "rent_burden_30_plus": 0.36200000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1019,
+          "median_hh_income": 66649,
+          "rent_burden_30_plus": 0.54
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2102,
+          "median_hh_income": 107500,
+          "rent_burden_30_plus": 0.578
+        }
+      ],
+      "hpi": null
+    },
+    "0850920": {
+      "place_name": "Minturn",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1212,
+          "median_hh_income": 63750,
+          "rent_burden_30_plus": 0.51
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1196,
+          "median_hh_income": 65313,
+          "rent_burden_30_plus": 0.342
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2104,
+          "median_hh_income": 111944,
+          "rent_burden_30_plus": 0.64
+        }
+      ],
+      "hpi": null
+    },
+    "0851635": {
+      "place_name": "Monte Vista",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 536,
+          "median_hh_income": 29306,
+          "rent_burden_30_plus": 0.45799999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 516,
+          "median_hh_income": 39239,
+          "rent_burden_30_plus": 0.348
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 699,
+          "median_hh_income": 61684,
+          "rent_burden_30_plus": 0.418
+        }
+      ],
+      "hpi": null
+    },
+    "0851745": {
+      "place_name": "Montrose",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 713,
+          "median_hh_income": 44763,
+          "rent_burden_30_plus": 0.452
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 825,
+          "median_hh_income": 43281,
+          "rent_burden_30_plus": 0.491
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1197,
+          "median_hh_income": 70386,
+          "rent_burden_30_plus": 0.532
+        }
+      ],
+      "hpi": null
+    },
+    "0851800": {
+      "place_name": "Monument",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1236,
+          "median_hh_income": 88102,
+          "rent_burden_30_plus": 0.434
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1535,
+          "median_hh_income": 90133,
+          "rent_burden_30_plus": 0.604
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1929,
+          "median_hh_income": 128816,
+          "rent_burden_30_plus": 0.485
+        }
+      ],
+      "hpi": null
+    },
+    "0852075": {
+      "place_name": "Morrison",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1000,
+          "median_hh_income": 83500,
+          "rent_burden_30_plus": 0.055999999999999994
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 875,
+          "median_hh_income": 71250,
+          "rent_burden_30_plus": 0.273
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1700,
+          "median_hh_income": 122083,
+          "rent_burden_30_plus": 0.583
+        }
+      ],
+      "hpi": null
+    },
+    "0852350": {
+      "place_name": "Mountain View",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 881,
+          "median_hh_income": 40000,
+          "rent_burden_30_plus": 0.586
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 943,
+          "median_hh_income": 41417,
+          "rent_burden_30_plus": 0.56
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2083,
+          "median_hh_income": 106875,
+          "rent_burden_30_plus": 0.298
+        }
+      ],
+      "hpi": null
+    },
+    "0852550": {
+      "place_name": "Mountain Village",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 626,
+          "median_hh_income": 34875,
+          "rent_burden_30_plus": 0.375
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 836,
+          "median_hh_income": 32412,
+          "rent_burden_30_plus": 0.629
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1072,
+          "median_hh_income": 52923,
+          "rent_burden_30_plus": 0.5329999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0852570": {
+      "place_name": "Mount Crested Butte",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1171,
+          "median_hh_income": 50117,
+          "rent_burden_30_plus": 0.649
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 783,
+          "median_hh_income": 45781,
+          "rent_burden_30_plus": 0.489
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2129,
+          "median_hh_income": 85357,
+          "rent_burden_30_plus": 0.34700000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0853120": {
+      "place_name": "Naturita",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 445,
+          "median_hh_income": 22750,
+          "rent_burden_30_plus": 0.6
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 621,
+          "median_hh_income": 34519,
+          "rent_burden_30_plus": 0.535
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 894,
+          "median_hh_income": 27917,
+          "rent_burden_30_plus": 0.758
+        }
+      ],
+      "hpi": null
+    },
+    "0853175": {
+      "place_name": "Nederland",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 748,
+          "median_hh_income": 68472,
+          "rent_burden_30_plus": 0.62
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1049,
+          "median_hh_income": 62125,
+          "rent_burden_30_plus": 0.685
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1453,
+          "median_hh_income": 122917,
+          "rent_burden_30_plus": 0.24600000000000002
+        }
+      ],
+      "hpi": null
+    },
+    "0853395": {
+      "place_name": "New Castle",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1125,
+          "median_hh_income": 56445,
+          "rent_burden_30_plus": 0.644
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1614,
+          "median_hh_income": 71676,
+          "rent_burden_30_plus": 0.428
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1393,
+          "median_hh_income": 80084,
+          "rent_burden_30_plus": 0.7020000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0853780": {
+      "place_name": "Niwot",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 928,
+          "median_hh_income": 109680,
+          "rent_burden_30_plus": 0.69
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 860,
+          "median_hh_income": 101250,
+          "rent_burden_30_plus": 0.235
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1414,
+          "median_hh_income": 146492,
+          "rent_burden_30_plus": 0.711
+        }
+      ],
+      "hpi": null
+    },
+    "0854330": {
+      "place_name": "Northglenn",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 873,
+          "median_hh_income": 54364,
+          "rent_burden_30_plus": 0.392
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 986,
+          "median_hh_income": 53616,
+          "rent_burden_30_plus": 0.544
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1775,
+          "median_hh_income": 84030,
+          "rent_burden_30_plus": 0.616
+        }
+      ],
+      "hpi": null
+    },
+    "0854880": {
+      "place_name": "Norwood",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 883,
+          "median_hh_income": 38077,
+          "rent_burden_30_plus": 0.769
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 794,
+          "median_hh_income": 39750,
+          "rent_burden_30_plus": 0.607
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1618,
+          "median_hh_income": 57417,
+          "rent_burden_30_plus": 0.32899999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0854935": {
+      "place_name": "Nucla",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 292,
+          "median_hh_income": 48958,
+          "rent_burden_30_plus": 0.47
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 650,
+          "median_hh_income": 37222,
+          "rent_burden_30_plus": 0.435
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 929,
+          "median_hh_income": 42857,
+          "rent_burden_30_plus": 0.469
+        }
+      ],
+      "hpi": null
+    },
+    "0855155": {
+      "place_name": "Oak Creek",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 732,
+          "median_hh_income": 42841,
+          "rent_burden_30_plus": 0.6809999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 731,
+          "median_hh_income": 44265,
+          "rent_burden_30_plus": 0.38299999999999995
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1455,
+          "median_hh_income": 85313,
+          "rent_burden_30_plus": 0.716
+        }
+      ],
+      "hpi": null
+    },
+    "0855540": {
+      "place_name": "Olathe",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 661,
+          "median_hh_income": 31518,
+          "rent_burden_30_plus": 0.46799999999999997
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 745,
+          "median_hh_income": 36493,
+          "rent_burden_30_plus": 0.475
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 967,
+          "median_hh_income": 55767,
+          "rent_burden_30_plus": 0.552
+        }
+      ],
+      "hpi": null
+    },
+    "0855705": {
+      "place_name": "Olney Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 725,
+          "median_hh_income": 23281,
+          "rent_burden_30_plus": 0.217
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 688,
+          "median_hh_income": 28250,
+          "rent_burden_30_plus": 0.49
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1056,
+          "median_hh_income": 48500,
+          "rent_burden_30_plus": 0.462
+        }
+      ],
+      "hpi": null
+    },
+    "0855980": {
+      "place_name": "Orchard City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 929,
+          "median_hh_income": 47196,
+          "rent_burden_30_plus": 0.20800000000000002
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 739,
+          "median_hh_income": 38967,
+          "rent_burden_30_plus": 0.5539999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1174,
+          "median_hh_income": 55960,
+          "rent_burden_30_plus": 0.843
+        }
+      ],
+      "hpi": null
+    },
+    "0856035": {
+      "place_name": "Orchard Mesa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 879,
+          "median_hh_income": 50634,
+          "rent_burden_30_plus": 0.39799999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 937,
+          "median_hh_income": 51623,
+          "rent_burden_30_plus": 0.654
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1535,
+          "median_hh_income": 80359,
+          "rent_burden_30_plus": 0.589
+        }
+      ],
+      "hpi": null
+    },
+    "0856145": {
+      "place_name": "Ordway",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 515,
+          "median_hh_income": 31442,
+          "rent_burden_30_plus": 0.314
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 571,
+          "median_hh_income": 27583,
+          "rent_burden_30_plus": 0.494
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1036,
+          "median_hh_income": 54583,
+          "rent_burden_30_plus": 0.631
+        }
+      ],
+      "hpi": null
+    },
+    "0856365": {
+      "place_name": "Otis",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 521,
+          "median_hh_income": 28646,
+          "rent_burden_30_plus": 0.493
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 609,
+          "median_hh_income": 32917,
+          "rent_burden_30_plus": 0.514
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 822,
+          "median_hh_income": 55962,
+          "rent_burden_30_plus": 0.46799999999999997
+        }
+      ],
+      "hpi": null
+    },
+    "0856420": {
+      "place_name": "Ouray",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 850,
+          "median_hh_income": 53333,
+          "rent_burden_30_plus": 0.457
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 967,
+          "median_hh_income": 62969,
+          "rent_burden_30_plus": 0.285
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1346,
+          "median_hh_income": 78182,
+          "rent_burden_30_plus": 0.28300000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0856475": {
+      "place_name": "Ovid",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 458,
+          "median_hh_income": 31750,
+          "rent_burden_30_plus": 0.257
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 546,
+          "median_hh_income": 36000,
+          "rent_burden_30_plus": 0.313
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 906,
+          "median_hh_income": 44375,
+          "rent_burden_30_plus": 0.5
+        }
+      ],
+      "hpi": null
+    },
+    "0856860": {
+      "place_name": "Pagosa Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 779,
+          "median_hh_income": 45167,
+          "rent_burden_30_plus": 0.361
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 793,
+          "median_hh_income": 38214,
+          "rent_burden_30_plus": 0.5720000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1172,
+          "median_hh_income": 50785,
+          "rent_burden_30_plus": 0.523
+        }
+      ],
+      "hpi": null
+    },
+    "0856970": {
+      "place_name": "Palisade",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 692,
+          "median_hh_income": 43880,
+          "rent_burden_30_plus": 0.528
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 780,
+          "median_hh_income": 43354,
+          "rent_burden_30_plus": 0.529
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1203,
+          "median_hh_income": 80587,
+          "rent_burden_30_plus": 0.6
+        }
+      ],
+      "hpi": null
+    },
+    "0857025": {
+      "place_name": "Palmer Lake",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1027,
+          "median_hh_income": 62039,
+          "rent_burden_30_plus": 0.5579999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1040,
+          "median_hh_income": 59552,
+          "rent_burden_30_plus": 0.369
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1911,
+          "median_hh_income": 125357,
+          "rent_burden_30_plus": 0.153
+        }
+      ],
+      "hpi": null
+    },
+    "0857300": {
+      "place_name": "Paonia",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 833,
+          "median_hh_income": 46528,
+          "rent_burden_30_plus": 0.34700000000000003
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 833,
+          "median_hh_income": 44118,
+          "rent_burden_30_plus": 0.332
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 897,
+          "median_hh_income": 59574,
+          "rent_burden_30_plus": 0.366
+        }
+      ],
+      "hpi": null
+    },
+    "0857400": {
+      "place_name": "Parachute",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 791,
+          "median_hh_income": 44583,
+          "rent_burden_30_plus": 0.541
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 955,
+          "median_hh_income": 31302,
+          "rent_burden_30_plus": 0.713
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1073,
+          "median_hh_income": 58778,
+          "rent_burden_30_plus": 0.466
+        }
+      ],
+      "hpi": null
+    },
+    "0857630": {
+      "place_name": "Parker",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1131,
+          "median_hh_income": 87098,
+          "rent_burden_30_plus": 0.405
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1219,
+          "median_hh_income": 98170,
+          "rent_burden_30_plus": 0.436
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2096,
+          "median_hh_income": 133369,
+          "rent_burden_30_plus": 0.575
+        }
+      ],
+      "hpi": null
+    },
+    "0858235": {
+      "place_name": "Peetz",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 284,
+          "median_hh_income": 35750,
+          "rent_burden_30_plus": 0.0
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 517,
+          "median_hh_income": 36250,
+          "rent_burden_30_plus": 0.251
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 831,
+          "median_hh_income": 52500,
+          "rent_burden_30_plus": 0.455
+        }
+      ],
+      "hpi": null
+    },
+    "0858400": {
+      "place_name": "Penrose",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 839,
+          "median_hh_income": 47206,
+          "rent_burden_30_plus": 0.56
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 858,
+          "median_hh_income": 50000,
+          "rent_burden_30_plus": 0.35700000000000004
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1321,
+          "median_hh_income": 88109,
+          "rent_burden_30_plus": 0.5589999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0859005": {
+      "place_name": "Pierce",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1040,
+          "median_hh_income": 49514,
+          "rent_burden_30_plus": 0.703
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 768,
+          "median_hh_income": 60833,
+          "rent_burden_30_plus": 0.315
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1225,
+          "median_hh_income": 61250,
+          "rent_burden_30_plus": 0.615
+        }
+      ],
+      "hpi": null
+    },
+    "0860160": {
+      "place_name": "Platteville",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 669,
+          "median_hh_income": 53036,
+          "rent_burden_30_plus": 0.531
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 850,
+          "median_hh_income": 58750,
+          "rent_burden_30_plus": 0.32899999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1704,
+          "median_hh_income": 74500,
+          "rent_burden_30_plus": 0.816
+        }
+      ],
+      "hpi": null
+    },
+    "0860600": {
+      "place_name": "Poncha Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 731,
+          "median_hh_income": 39141,
+          "rent_burden_30_plus": 0.39399999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 890,
+          "median_hh_income": 42083,
+          "rent_burden_30_plus": 0.435
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1783,
+          "median_hh_income": 97139,
+          "rent_burden_30_plus": 0.282
+        }
+      ],
+      "hpi": null
+    },
+    "0862000": {
+      "place_name": "Pueblo",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 613,
+          "median_hh_income": 34029,
+          "rent_burden_30_plus": 0.588
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 725,
+          "median_hh_income": 34889,
+          "rent_burden_30_plus": 0.574
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1082,
+          "median_hh_income": 56664,
+          "rent_burden_30_plus": 0.528
+        }
+      ],
+      "hpi": null
+    },
+    "0862220": {
+      "place_name": "Pueblo West",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 908,
+          "median_hh_income": 62024,
+          "rent_burden_30_plus": 0.429
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 951,
+          "median_hh_income": 64560,
+          "rent_burden_30_plus": 0.47
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1345,
+          "median_hh_income": 96810,
+          "rent_burden_30_plus": 0.48200000000000004
+        }
+      ],
+      "hpi": null
+    },
+    "0862880": {
+      "place_name": "Rangely",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 657,
+          "median_hh_income": 59583,
+          "rent_burden_30_plus": 0.266
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 751,
+          "median_hh_income": 68559,
+          "rent_burden_30_plus": 0.31
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 770,
+          "median_hh_income": 66389,
+          "rent_burden_30_plus": 0.21100000000000002
+        }
+      ],
+      "hpi": null
+    },
+    "0863265": {
+      "place_name": "Red Cliff",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1213,
+          "median_hh_income": 51818,
+          "rent_burden_30_plus": 0.5720000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1389,
+          "median_hh_income": 68750,
+          "rent_burden_30_plus": 0.34600000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1239,
+          "median_hh_income": 72125,
+          "rent_burden_30_plus": 0.809
+        }
+      ],
+      "hpi": null
+    },
+    "0863375": {
+      "place_name": "Redlands",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1206,
+          "median_hh_income": 66401,
+          "rent_burden_30_plus": 0.435
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1243,
+          "median_hh_income": 65888,
+          "rent_burden_30_plus": 0.506
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1488,
+          "median_hh_income": 92391,
+          "rent_burden_30_plus": 0.6729999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0864090": {
+      "place_name": "Rico",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 538,
+          "median_hh_income": 40625,
+          "rent_burden_30_plus": 0.385
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1058,
+          "median_hh_income": 30313,
+          "rent_burden_30_plus": 0.46399999999999997
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1625,
+          "median_hh_income": 104250,
+          "rent_burden_30_plus": 0.45799999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0864200": {
+      "place_name": "Ridgway",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1200,
+          "median_hh_income": 57610,
+          "rent_burden_30_plus": 0.564
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1080,
+          "median_hh_income": 56000,
+          "rent_burden_30_plus": 0.51
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1577,
+          "median_hh_income": 83750,
+          "rent_burden_30_plus": 0.391
+        }
+      ],
+      "hpi": null
+    },
+    "0864255": {
+      "place_name": "Rifle",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 959,
+          "median_hh_income": 71649,
+          "rent_burden_30_plus": 0.33399999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 949,
+          "median_hh_income": 52539,
+          "rent_burden_30_plus": 0.5920000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1308,
+          "median_hh_income": 80000,
+          "rent_burden_30_plus": 0.39299999999999996
+        }
+      ],
+      "hpi": null
+    },
+    "0864970": {
+      "place_name": "Rockvale",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 578,
+          "median_hh_income": 35875,
+          "rent_burden_30_plus": 0.371
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 745,
+          "median_hh_income": 35855,
+          "rent_burden_30_plus": 0.743
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 983,
+          "median_hh_income": 46250,
+          "rent_burden_30_plus": 0.9520000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0865190": {
+      "place_name": "Rocky Ford",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 498,
+          "median_hh_income": 27248,
+          "rent_burden_30_plus": 0.5529999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 552,
+          "median_hh_income": 26209,
+          "rent_burden_30_plus": 0.585
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 775,
+          "median_hh_income": 40655,
+          "rent_burden_30_plus": 0.531
+        }
+      ],
+      "hpi": null
+    },
+    "0865740": {
+      "place_name": "Romeo",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 921,
+          "median_hh_income": 23333,
+          "rent_burden_30_plus": 1.0
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 657,
+          "median_hh_income": 21500,
+          "rent_burden_30_plus": 0.773
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 689,
+          "median_hh_income": 45469,
+          "rent_burden_30_plus": 0.146
+        }
+      ],
+      "hpi": null
+    },
+    "0866197": {
+      "place_name": "Roxborough Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1647,
+          "median_hh_income": 101002,
+          "rent_burden_30_plus": 1.0
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1712,
+          "median_hh_income": 100216,
+          "rent_burden_30_plus": 0.7
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 3244,
+          "median_hh_income": 173083,
+          "rent_burden_30_plus": 0.539
+        }
+      ],
+      "hpi": null
+    },
+    "0867280": {
+      "place_name": "Salida",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 625,
+          "median_hh_income": 37467,
+          "rent_burden_30_plus": 0.45899999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 730,
+          "median_hh_income": 38570,
+          "rent_burden_30_plus": 0.442
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1292,
+          "median_hh_income": 70045,
+          "rent_burden_30_plus": 0.58
+        }
+      ],
+      "hpi": null
+    },
+    "0867445": {
+      "place_name": "Salt Creek",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 725,
+          "median_hh_income": 25071,
+          "rent_burden_30_plus": 0.76
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 696,
+          "median_hh_income": 40938,
+          "rent_burden_30_plus": 0.225
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 750,
+          "median_hh_income": 51714,
+          "rent_burden_30_plus": 0.613
+        }
+      ],
+      "hpi": null
+    },
+    "0867830": {
+      "place_name": "Sanford",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 430,
+          "median_hh_income": 36354,
+          "rent_burden_30_plus": 0.159
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 456,
+          "median_hh_income": 51324,
+          "rent_burden_30_plus": 0.081
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1012,
+          "median_hh_income": 42143,
+          "rent_burden_30_plus": 0.562
+        }
+      ],
+      "hpi": null
+    },
+    "0868847": {
+      "place_name": "Security-Widefield",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1077,
+          "median_hh_income": 60315,
+          "rent_burden_30_plus": 0.439
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1164,
+          "median_hh_income": 57428,
+          "rent_burden_30_plus": 0.536
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1793,
+          "median_hh_income": 91142,
+          "rent_burden_30_plus": 0.585
+        }
+      ],
+      "hpi": null
+    },
+    "0869040": {
+      "place_name": "Seibert",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 395,
+          "median_hh_income": 35000,
+          "rent_burden_30_plus": 0.222
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 663,
+          "median_hh_income": 28750,
+          "rent_burden_30_plus": 0.8
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1175,
+          "median_hh_income": 48750,
+          "rent_burden_30_plus": 0.4
+        }
+      ],
+      "hpi": null
+    },
+    "0869150": {
+      "place_name": "Severance",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 981,
+          "median_hh_income": 76161,
+          "rent_burden_30_plus": 0.42100000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1361,
+          "median_hh_income": 85854,
+          "rent_burden_30_plus": 0.653
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2569,
+          "median_hh_income": 124572,
+          "rent_burden_30_plus": 0.203
+        }
+      ],
+      "hpi": null
+    },
+    "0869645": {
+      "place_name": "Sheridan",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 762,
+          "median_hh_income": 33351,
+          "rent_burden_30_plus": 0.634
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 967,
+          "median_hh_income": 36250,
+          "rent_burden_30_plus": 0.703
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1622,
+          "median_hh_income": 60608,
+          "rent_burden_30_plus": 0.6509999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0869810": {
+      "place_name": "Sherrelwood",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 850,
+          "median_hh_income": 43942,
+          "rent_burden_30_plus": 0.5579999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 955,
+          "median_hh_income": 47176,
+          "rent_burden_30_plus": 0.5670000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1702,
+          "median_hh_income": 75327,
+          "rent_burden_30_plus": 0.579
+        }
+      ],
+      "hpi": null
+    },
+    "0870195": {
+      "place_name": "Silt",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1032,
+          "median_hh_income": 65230,
+          "rent_burden_30_plus": 0.157
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1113,
+          "median_hh_income": 53750,
+          "rent_burden_30_plus": 0.507
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1859,
+          "median_hh_income": 93690,
+          "rent_burden_30_plus": 0.512
+        }
+      ],
+      "hpi": null
+    },
+    "0870250": {
+      "place_name": "Silver Cliff",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 725,
+          "median_hh_income": 45288,
+          "rent_burden_30_plus": 0.297
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 724,
+          "median_hh_income": 25550,
+          "rent_burden_30_plus": 0.564
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 969,
+          "median_hh_income": 33000,
+          "rent_burden_30_plus": 0.622
+        }
+      ],
+      "hpi": null
+    },
+    "0870360": {
+      "place_name": "Silver Plume",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 917,
+          "median_hh_income": 31875,
+          "rent_burden_30_plus": 0.609
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 805,
+          "median_hh_income": 46250,
+          "rent_burden_30_plus": 0.513
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 985,
+          "median_hh_income": 52083,
+          "rent_burden_30_plus": 0.0
+        }
+      ],
+      "hpi": null
+    },
+    "0870525": {
+      "place_name": "Silverthorne",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1013,
+          "median_hh_income": 70625,
+          "rent_burden_30_plus": 0.51
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1228,
+          "median_hh_income": 77065,
+          "rent_burden_30_plus": 0.82
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2081,
+          "median_hh_income": 125478,
+          "rent_burden_30_plus": 0.831
+        }
+      ],
+      "hpi": null
+    },
+    "0870580": {
+      "place_name": "Silverton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 770,
+          "median_hh_income": 44531,
+          "rent_burden_30_plus": 0.64
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 821,
+          "median_hh_income": 37206,
+          "rent_burden_30_plus": 0.667
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 992,
+          "median_hh_income": 77546,
+          "rent_burden_30_plus": 0.44299999999999995
+        }
+      ],
+      "hpi": null
+    },
+    "0870635": {
+      "place_name": "Simla",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 541,
+          "median_hh_income": 30966,
+          "rent_burden_30_plus": 0.263
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 869,
+          "median_hh_income": 54107,
+          "rent_burden_30_plus": 0.772
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1042,
+          "median_hh_income": 44688,
+          "rent_burden_30_plus": 0.519
+        }
+      ],
+      "hpi": null
+    },
+    "0871755": {
+      "place_name": "Snowmass Village",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 711,
+          "median_hh_income": 55672,
+          "rent_burden_30_plus": 0.23600000000000002
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1263,
+          "median_hh_income": 82816,
+          "rent_burden_30_plus": 0.287
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2042,
+          "median_hh_income": 102959,
+          "rent_burden_30_plus": 0.19
+        }
+      ],
+      "hpi": null
+    },
+    "0872395": {
+      "place_name": "South Fork",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 227,
+          "median_hh_income": 43667,
+          "rent_burden_30_plus": 0.6
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 997,
+          "median_hh_income": 36964,
+          "rent_burden_30_plus": 0.905
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 818,
+          "median_hh_income": 76250,
+          "rent_burden_30_plus": 0.08
+        }
+      ],
+      "hpi": null
+    },
+    "0873330": {
+      "place_name": "Springfield",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 404,
+          "median_hh_income": 28878,
+          "rent_burden_30_plus": 0.263
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 528,
+          "median_hh_income": 33578,
+          "rent_burden_30_plus": 0.49700000000000005
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 588,
+          "median_hh_income": 48295,
+          "rent_burden_30_plus": 0.514
+        }
+      ],
+      "hpi": null
+    },
+    "0873825": {
+      "place_name": "Steamboat Springs",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1139,
+          "median_hh_income": 64608,
+          "rent_burden_30_plus": 0.498
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1156,
+          "median_hh_income": 54218,
+          "rent_burden_30_plus": 0.529
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2017,
+          "median_hh_income": 104964,
+          "rent_burden_30_plus": 0.614
+        }
+      ],
+      "hpi": null
+    },
+    "0873935": {
+      "place_name": "Sterling",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 621,
+          "median_hh_income": 35069,
+          "rent_burden_30_plus": 0.28
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 627,
+          "median_hh_income": 36204,
+          "rent_burden_30_plus": 0.428
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1031,
+          "median_hh_income": 43283,
+          "rent_burden_30_plus": 0.509
+        }
+      ],
+      "hpi": null
+    },
+    "0874080": {
+      "place_name": "Stonegate",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1308,
+          "median_hh_income": 122375,
+          "rent_burden_30_plus": 0.418
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1513,
+          "median_hh_income": 112287,
+          "rent_burden_30_plus": 0.5660000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2170,
+          "median_hh_income": 159086,
+          "rent_burden_30_plus": 0.35600000000000004
+        }
+      ],
+      "hpi": null
+    },
+    "0874375": {
+      "place_name": "Strasburg",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 621,
+          "median_hh_income": 72928,
+          "rent_burden_30_plus": 0.7190000000000001
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 796,
+          "median_hh_income": 74018,
+          "rent_burden_30_plus": 0.456
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1362,
+          "median_hh_income": 117845,
+          "rent_burden_30_plus": 0.8190000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0874430": {
+      "place_name": "Stratmoor",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 765,
+          "median_hh_income": 34558,
+          "rent_burden_30_plus": 0.705
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 857,
+          "median_hh_income": 40059,
+          "rent_burden_30_plus": 0.488
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1324,
+          "median_hh_income": 65000,
+          "rent_burden_30_plus": 0.48100000000000004
+        }
+      ],
+      "hpi": null
+    },
+    "0874485": {
+      "place_name": "Stratton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 540,
+          "median_hh_income": 32321,
+          "rent_burden_30_plus": 0.175
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 683,
+          "median_hh_income": 43938,
+          "rent_burden_30_plus": 0.226
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2068,
+          "median_hh_income": 61583,
+          "rent_burden_30_plus": 0.695
+        }
+      ],
+      "hpi": null
+    },
+    "0874815": {
+      "place_name": "Sugar City",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 663,
+          "median_hh_income": 33438,
+          "rent_burden_30_plus": 0.33399999999999996
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 620,
+          "median_hh_income": 25500,
+          "rent_burden_30_plus": 0.615
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 812,
+          "median_hh_income": 47798,
+          "rent_burden_30_plus": 0.41
+        }
+      ],
+      "hpi": null
+    },
+    "0875640": {
+      "place_name": "Superior",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1219,
+          "median_hh_income": 97413,
+          "rent_burden_30_plus": 0.522
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1417,
+          "median_hh_income": 116250,
+          "rent_burden_30_plus": 0.366
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2457,
+          "median_hh_income": 159434,
+          "rent_burden_30_plus": 0.348
+        }
+      ],
+      "hpi": null
+    },
+    "0876795": {
+      "place_name": "Telluride",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1387,
+          "median_hh_income": 67857,
+          "rent_burden_30_plus": 0.534
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1339,
+          "median_hh_income": 61875,
+          "rent_burden_30_plus": 0.45
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 3056,
+          "median_hh_income": 102405,
+          "rent_burden_30_plus": 0.43799999999999994
+        }
+      ],
+      "hpi": null
+    },
+    "0877235": {
+      "place_name": "The Pinery",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 2001,
+          "median_hh_income": 119286,
+          "rent_burden_30_plus": 0.436
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1951,
+          "median_hh_income": 122581,
+          "rent_burden_30_plus": 0.45799999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2910,
+          "median_hh_income": 194446,
+          "rent_burden_30_plus": 0.336
+        }
+      ],
+      "hpi": null
+    },
+    "0877290": {
+      "place_name": "Thornton",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 971,
+          "median_hh_income": 65966,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1106,
+          "median_hh_income": 66160,
+          "rent_burden_30_plus": 0.524
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1895,
+          "median_hh_income": 103088,
+          "rent_burden_30_plus": 0.588
+        }
+      ],
+      "hpi": null
+    },
+    "0877510": {
+      "place_name": "Timnath",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1018,
+          "median_hh_income": 64286,
+          "rent_burden_30_plus": 0.314
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1031,
+          "median_hh_income": 78906,
+          "rent_burden_30_plus": 0.41100000000000003
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2206,
+          "median_hh_income": 178257,
+          "rent_burden_30_plus": 0.461
+        }
+      ],
+      "hpi": null
+    },
+    "0878280": {
+      "place_name": "Towaoc",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 252,
+          "median_hh_income": 19563,
+          "rent_burden_30_plus": 0.233
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 283,
+          "median_hh_income": 28587,
+          "rent_burden_30_plus": 0.586
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 424,
+          "median_hh_income": 22955,
+          "rent_burden_30_plus": 0.342
+        }
+      ],
+      "hpi": null
+    },
+    "0878610": {
+      "place_name": "Trinidad",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 659,
+          "median_hh_income": 33223,
+          "rent_burden_30_plus": 0.494
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 758,
+          "median_hh_income": 43614,
+          "rent_burden_30_plus": 0.539
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 910,
+          "median_hh_income": 52273,
+          "rent_burden_30_plus": 0.525
+        }
+      ],
+      "hpi": null
+    },
+    "0879100": {
+      "place_name": "Twin Lakes",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 726,
+          "median_hh_income": 42875,
+          "rent_burden_30_plus": 0.643
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 758,
+          "median_hh_income": 45607,
+          "rent_burden_30_plus": 0.444
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1596,
+          "median_hh_income": 95583,
+          "rent_burden_30_plus": 0.598
+        }
+      ],
+      "hpi": null
+    },
+    "0880040": {
+      "place_name": "Vail",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1371,
+          "median_hh_income": 68537,
+          "rent_burden_30_plus": 0.48700000000000004
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1178,
+          "median_hh_income": 66283,
+          "rent_burden_30_plus": 0.502
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1606,
+          "median_hh_income": 98893,
+          "rent_burden_30_plus": 0.466
+        }
+      ],
+      "hpi": null
+    },
+    "0880865": {
+      "place_name": "Victor",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 654,
+          "median_hh_income": 37500,
+          "rent_burden_30_plus": 0.74
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 752,
+          "median_hh_income": 38250,
+          "rent_burden_30_plus": 0.5489999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 945,
+          "median_hh_income": 55521,
+          "rent_burden_30_plus": 0.077
+        }
+      ],
+      "hpi": null
+    },
+    "0882130": {
+      "place_name": "Walden",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 688,
+          "median_hh_income": 26477,
+          "rent_burden_30_plus": 0.7
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 720,
+          "median_hh_income": 40250,
+          "rent_burden_30_plus": 0.47700000000000004
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1692,
+          "median_hh_income": 40972,
+          "rent_burden_30_plus": 0.6609999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0882350": {
+      "place_name": "Walsenburg",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 489,
+          "median_hh_income": 21681,
+          "rent_burden_30_plus": 0.59
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 652,
+          "median_hh_income": 25242,
+          "rent_burden_30_plus": 0.5579999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 744,
+          "median_hh_income": 51474,
+          "rent_burden_30_plus": 0.55
+        }
+      ],
+      "hpi": null
+    },
+    "0882460": {
+      "place_name": "Walsh",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 414,
+          "median_hh_income": 39313,
+          "rent_burden_30_plus": 0.115
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 440,
+          "median_hh_income": 38698,
+          "rent_burden_30_plus": 0.511
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 566,
+          "median_hh_income": 24196,
+          "rent_burden_30_plus": 0.478
+        }
+      ],
+      "hpi": null
+    },
+    "0883120": {
+      "place_name": "Welby",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 990,
+          "median_hh_income": 43901,
+          "rent_burden_30_plus": 0.7929999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1009,
+          "median_hh_income": 46309,
+          "rent_burden_30_plus": 0.555
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1656,
+          "median_hh_income": 80026,
+          "rent_burden_30_plus": 0.6759999999999999
+        }
+      ],
+      "hpi": null
+    },
+    "0883230": {
+      "place_name": "Wellington",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 929,
+          "median_hh_income": 61961,
+          "rent_burden_30_plus": 0.259
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1399,
+          "median_hh_income": 73658,
+          "rent_burden_30_plus": 0.552
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2473,
+          "median_hh_income": 107017,
+          "rent_burden_30_plus": 0.532
+        }
+      ],
+      "hpi": null
+    },
+    "0883450": {
+      "place_name": "Westcliffe",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 805,
+          "median_hh_income": 32813,
+          "rent_burden_30_plus": 0.6709999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 646,
+          "median_hh_income": 21389,
+          "rent_burden_30_plus": 0.6829999999999999
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 879,
+          "median_hh_income": 53929,
+          "rent_burden_30_plus": 0.39
+        }
+      ],
+      "hpi": null
+    },
+    "0883835": {
+      "place_name": "Westminster",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 929,
+          "median_hh_income": 62254,
+          "rent_burden_30_plus": 0.455
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1072,
+          "median_hh_income": 66300,
+          "rent_burden_30_plus": 0.484
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1882,
+          "median_hh_income": 100272,
+          "rent_burden_30_plus": 0.506
+        }
+      ],
+      "hpi": null
+    },
+    "0884042": {
+      "place_name": "West Pleasant View",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 936,
+          "median_hh_income": 40977,
+          "rent_burden_30_plus": 0.6509999999999999
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 939,
+          "median_hh_income": 49038,
+          "rent_burden_30_plus": 0.512
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1966,
+          "median_hh_income": 95817,
+          "rent_burden_30_plus": 0.522
+        }
+      ],
+      "hpi": null
+    },
+    "0884440": {
+      "place_name": "Wheat Ridge",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 803,
+          "median_hh_income": 45345,
+          "rent_burden_30_plus": 0.509
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 847,
+          "median_hh_income": 49003,
+          "rent_burden_30_plus": 0.55
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1579,
+          "median_hh_income": 90564,
+          "rent_burden_30_plus": 0.525
+        }
+      ],
+      "hpi": null
+    },
+    "0884770": {
+      "place_name": "Wiggins",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 607,
+          "median_hh_income": 45625,
+          "rent_burden_30_plus": 0.413
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 756,
+          "median_hh_income": 43155,
+          "rent_burden_30_plus": 0.48200000000000004
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1486,
+          "median_hh_income": 91681,
+          "rent_burden_30_plus": 0.19899999999999998
+        }
+      ],
+      "hpi": null
+    },
+    "0885045": {
+      "place_name": "Wiley",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 637,
+          "median_hh_income": 34792,
+          "rent_burden_30_plus": 0.594
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 789,
+          "median_hh_income": 36250,
+          "rent_burden_30_plus": 0.33299999999999996
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 950,
+          "median_hh_income": 60114,
+          "rent_burden_30_plus": 0.205
+        }
+      ],
+      "hpi": null
+    },
+    "0885155": {
+      "place_name": "Williamsburg",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 703,
+          "median_hh_income": 37444,
+          "rent_burden_30_plus": 0.579
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 950,
+          "median_hh_income": 44545,
+          "rent_burden_30_plus": 0.5
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1250,
+          "median_hh_income": 50250,
+          "rent_burden_30_plus": 0.278
+        }
+      ],
+      "hpi": null
+    },
+    "0885485": {
+      "place_name": "Windsor",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 930,
+          "median_hh_income": 75267,
+          "rent_burden_30_plus": 0.321
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1221,
+          "median_hh_income": 82724,
+          "rent_burden_30_plus": 0.511
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1793,
+          "median_hh_income": 127028,
+          "rent_burden_30_plus": 0.626
+        }
+      ],
+      "hpi": null
+    },
+    "0885705": {
+      "place_name": "Winter Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 726,
+          "median_hh_income": 55417,
+          "rent_burden_30_plus": 0.479
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 788,
+          "median_hh_income": 74167,
+          "rent_burden_30_plus": 0.092
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1648,
+          "median_hh_income": 68828,
+          "rent_burden_30_plus": 0.28800000000000003
+        }
+      ],
+      "hpi": null
+    },
+    "0886090": {
+      "place_name": "Woodland Park",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 821,
+          "median_hh_income": 58454,
+          "rent_burden_30_plus": 0.644
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 997,
+          "median_hh_income": 64248,
+          "rent_burden_30_plus": 0.537
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2007,
+          "median_hh_income": 99238,
+          "rent_burden_30_plus": 0.5770000000000001
+        }
+      ],
+      "hpi": null
+    },
+    "0886117": {
+      "place_name": "Woodmoor",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1417,
+          "median_hh_income": 109188,
+          "rent_burden_30_plus": 0.382
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 1226,
+          "median_hh_income": 115345,
+          "rent_burden_30_plus": 0.16399999999999998
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 2276,
+          "median_hh_income": 171875,
+          "rent_burden_30_plus": 0.27899999999999997
+        }
+      ],
+      "hpi": null
+    },
+    "0886310": {
+      "place_name": "Wray",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 500,
+          "median_hh_income": 35862,
+          "rent_burden_30_plus": 0.162
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 660,
+          "median_hh_income": 41853,
+          "rent_burden_30_plus": 0.309
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 805,
+          "median_hh_income": 57171,
+          "rent_burden_30_plus": 0.541
+        }
+      ],
+      "hpi": null
+    },
+    "0886475": {
+      "place_name": "Yampa",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 1018,
+          "median_hh_income": 49625,
+          "rent_burden_30_plus": 0.373
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 867,
+          "median_hh_income": 56500,
+          "rent_burden_30_plus": 0.636
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1556,
+          "median_hh_income": 75109,
+          "rent_burden_30_plus": 0.5
+        }
+      ],
+      "hpi": null
+    },
+    "0886750": {
+      "place_name": "Yuma",
+      "acs_cohorts": [
+        {
+          "year": 2009,
+          "median_gross_rent": 522,
+          "median_hh_income": 34096,
+          "rent_burden_30_plus": 0.258
+        },
+        {
+          "year": 2014,
+          "median_gross_rent": 624,
+          "median_hh_income": 40154,
+          "rent_burden_30_plus": 0.5720000000000001
+        },
+        {
+          "year": 2024,
+          "median_gross_rent": 1040,
+          "median_hh_income": 48338,
+          "rent_burden_30_plus": 0.557
+        }
+      ],
+      "hpi": null
+    }
+  }
+}
