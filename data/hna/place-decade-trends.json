@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated": "2026-09-22T16:50:33Z",
+    "generated": "2026-09-22T20:22:48Z",
     "vintage_years": [
       2009,
       2014,
@@ -33,6 +33,29 @@
     "cohorts_missing_geography": 161,
     "cohorts_suppressed": 338,
     "cohorts_rejected_implausible": 3,
+    "implausible_cohorts": [
+      {
+        "geoid": "0867005",
+        "place_name": "Saguache",
+        "year": 2009,
+        "median_gross_rent": 142,
+        "median_hh_income": 30048
+      },
+      {
+        "geoid": "0868105",
+        "place_name": "San Luis",
+        "year": 2009,
+        "median_gross_rent": 160,
+        "median_hh_income": 18462
+      },
+      {
+        "geoid": "0869700",
+        "place_name": "Sheridan Lake",
+        "year": 2009,
+        "median_gross_rent": 197,
+        "median_hh_income": 15000
+      }
+    ],
     "total_places_considered": 482
   },
   "places": {
