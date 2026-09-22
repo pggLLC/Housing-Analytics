@@ -125,7 +125,11 @@ __contrastScan();`;
 // back to documenting how the user can run the in-browser version.
 async function loadPuppeteer() {
   try {
-    const m = await import('puppeteer');
+    // RUNTIME_CONTRAST_PUPPETEER: path to a module exporting the puppeteer
+    // surface this script uses (launch/newPage/goto/evaluate/close). Lets
+    // test/runtime-contrast-scanner-errors.test.mjs drive the error paths
+    // without Chrome. Unset in every real run.
+    const m = await import(process.env.RUNTIME_CONTRAST_PUPPETEER || 'puppeteer');
     return m.default || m;
   } catch (e) {
     return null;
@@ -186,8 +190,12 @@ async function main() {
 
   if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
-  console.log('Starting local server on port ' + PORT + '…');
-  const server = await startServer();
+  // RUNTIME_CONTRAST_NO_SERVER: skip the static server (the fake-puppeteer
+  // test never fetches). Unset in every real run.
+  const server = process.env.RUNTIME_CONTRAST_NO_SERVER ? { kill() {} } : await (async () => {
+    console.log('Starting local server on port ' + PORT + '…');
+    return startServer();
+  })();
   process.on('exit', () => { try { server.kill(); } catch (_) {} });
 
   /* F159 — Added `--no-sandbox` + `--disable-setuid-sandbox` so puppeteer
@@ -195,18 +203,36 @@ async function main() {
      refuses to start there without these flags; locally they're no-op).
      `--disable-dev-shm-usage` avoids the /dev/shm too-small crash that
      containers sometimes hit on busy runners. */
-  const browser = await puppeteer.launch({
+  const launch = () => puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1280, height: 800 });
+  const newScanPage = async (b) => {
+    const pg = await b.newPage();
+    await pg.setViewport({ width: 1280, height: 800 });
+    return pg;
+  };
+  let browser = await launch();
+  let page = await newScanPage(browser);
 
   const pages = listPages();
   const modes = onlyLight ? ['light'] : onlyDark ? ['dark'] : ['light', 'dark'];
-  const totals = { pages: 0, scans: 0, failures: 0 };
+  const totals = { pages: 0, scans: 0, failures: 0, errors: 0 };
   const report = {};
+  // #1819 — on 2026-09-22 one renderer hang (Runtime.callFunctionOn timed
+  // out) turned into 47 sequential 30-second navigation timeouts on the
+  // same wedged page, until the 30-minute job cap killed the run. Two
+  // rules follow. (1) After any scan error the page is recycled — a fresh
+  // tab, or a fresh browser if the tab cannot be opened — so one dead
+  // renderer costs one scan, not the rest of the run. (2) Three errors in
+  // a row means the environment is broken, not the pages: stop, write the
+  // report, fail. A cancelled run renders grey and is easy to miss; a fast
+  // red one is not.
+  const MAX_CONSECUTIVE_ERRORS = 3;
+  let consecutiveErrors = 0;
+  let aborted = false;
 
+  scanLoop:
   for (const p of pages) {
     const url = 'http://localhost:' + PORT + '/' + p;
     report[p] = {};
@@ -218,10 +244,22 @@ async function main() {
         report[p][mode] = failures;
         totals.scans++;
         totals.failures += failures.length;
+        consecutiveErrors = 0;
         process.stdout.write(' ' + failures.length + ' failures\n');
       } catch (e) {
+        totals.errors++;
+        consecutiveErrors++;
         process.stdout.write(' ERROR: ' + e.message + '\n');
         report[p][mode] = { error: e.message };
+        if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) { aborted = true; break scanLoop; }
+        try { await page.close(); } catch (_) {}
+        try {
+          page = await newScanPage(browser);
+        } catch (_) {
+          try { await browser.close(); } catch (__) {}
+          browser = await launch();
+          page = await newScanPage(browser);
+        }
       }
     }
   }
@@ -232,12 +270,20 @@ async function main() {
   const reportPath = join(OUT_DIR, 'report-' + Date.now() + '.json');
   writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log('\nReport written: ' + reportPath);
-  console.log('Pages scanned: ' + totals.pages + ' · Mode-scans: ' + totals.scans + ' · Total contrast failures: ' + totals.failures);
+  console.log('Pages scanned: ' + totals.pages + ' · Mode-scans: ' + totals.scans + ' · Total contrast failures: ' + totals.failures + ' · Scan errors: ' + totals.errors);
 
+  if (aborted) {
+    console.log('\n✗ Aborted after ' + MAX_CONSECUTIVE_ERRORS + ' consecutive scan errors — the browser or server is broken, not the pages. See the errors above.');
+  }
+  if (totals.errors > 0) {
+    // An unscanned page is not a pass. Before #1819 an ERROR'd page-mode
+    // contributed 0 failures and the run exited 0.
+    console.log('\n✗ ' + totals.errors + ' page-mode scan(s) could not be completed. A page that could not be scanned has not passed.');
+  }
   if (totals.failures > 0) {
     console.log('\n✗ Site has visible contrast failures. See report for per-page, per-mode breakdown.');
-    process.exit(1);
   }
+  if (totals.failures > 0 || totals.errors > 0) process.exit(1);
   console.log('✓ No contrast failures site-wide. Every visible text passes WCAG AA in both modes.');
   process.exit(0);
 }
