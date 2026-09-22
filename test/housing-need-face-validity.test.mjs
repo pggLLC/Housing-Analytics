@@ -92,6 +92,18 @@ const WORKFORCE_PRESSURE = 70;
  * as was confirmed here, that the movement traces to an input rebuild.
  */
 const KNOWN_FAILURES = {
+  // Re-snapshotted 2026-09-22: Cattle Creek 312 -> 313, when build-hna-data
+  // (bot commit d4b511043, the first run after #1808/#1811) rebuilt the CHAS,
+  // AMI-gap and summary inputs statewide. Confirmed as an input rebuild, not
+  // a scoring change, the way the note above asks: every raw metric on
+  // Cattle Creek's record is byte-identical before and after; only the
+  // percentile-pooled cost_burden_pressure_score moved (71.1 -> 70.6,
+  // overall_need_score unchanged at 40.1); it lost one place because
+  // La Junta (317 -> 302) and Franktown (322 -> 311) rose past it in a
+  // rebuild that moved 258 of 546 ranks; ranking-index metadata (weights,
+  // note, augmenters) identical. Keystone improved 316 -> 305 in the same
+  // rebuild and stays on the ledger — still short of the top half.
+
   // Ranks nudged 2026-09-19 (Keystone 311 -> 312, Nathrop 317 -> 320) when the
   // ranking index was restored from 41 metrics back to 72. A cron had rebuilt
   // it with build_ranking_index.py alone, dropping both augmenters and with
@@ -120,7 +132,7 @@ const KNOWN_FAILURES = {
   '0840550': { name: 'Keystone (CDP)', rank: 316,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
        + 'and rank 339 -> 311 — but still short of the top half' },
-  '0812470': { name: 'Cattle Creek (CDP)', rank: 312,
+  '0812470': { name: 'Cattle Creek (CDP)', rank: 313,
     why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
   '0853010': { name: 'Nathrop (CDP)', rank: 324,
