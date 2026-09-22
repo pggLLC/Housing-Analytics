@@ -138,7 +138,7 @@
       </div>
 
         <!-- F2.3 — Job routing. The homepage now orients new visitors around
-             the jobs they came to do before showing the full LIHTC workflow. -->
+             the jobs they came to do before showing the full workflow. -->
         <nav class="home-job-routes" aria-label="Choose a housing analysis path">
           <div class="home-job-route">
             <span class="home-job-route__kicker">Understand need</span>
@@ -234,11 +234,13 @@
     <section class="home-workflow" aria-labelledby="workflow-heading">
       <div class="home-container">
         <div class="home-section-intro">
-          <h2 id="workflow-heading">The LIHTC Development Workflow</h2>
-          <p>While every LIHTC development is unique, many follow a similar path.
-             This platform uses real Colorado data to walk through an example project,
-             helping you explore what might fit in a given context. Your inputs carry
-             forward so you can build on your analysis — not start over.</p>
+          <h2 id="workflow-heading">From public data to a housing decision</h2>
+          <p>Whatever path a project takes &mdash; tax-credit rental, deed-restricted or
+             shared-equity ownership, preserving homes that are already affordable &mdash;
+             the questions come in the same order: where, who needs what, does the market
+             support it, does the deal pencil, and what do you recommend. This platform
+             walks that path with real Colorado data. Your inputs carry forward so you
+             build on your analysis &mdash; not start over.</p>
         </div>
         <ol class="home-steps" aria-label="Workflow steps">
 
@@ -256,13 +258,14 @@
           <li class="home-step">
             <span class="home-step__num" aria-hidden="true">02</span>
             <div class="home-step__body">
-              <h3>LIHTC Opportunity Finder <span class="home-step__badge">NEW</span></h3>
-              <p><em>Optional — for readers deciding where to look.</em> Compare Colorado jurisdictions with QCT or DDA designations using public
-                 indicators: recent CHFA investment, housing need, basis-boost eligibility,
-                 population scale, and civic-capacity context. The weights can be viewed by
-                 4% bond or 9% competitive path so readers can see how the same public
-                 facts change under different financing structures.</p>
-              <a href="lihtc-opportunity-finder.html" aria-label="Step 2: LIHTC Opportunity Finder">Browse jurisdictions statewide →</a>
+              <h3>Opportunity Finder <span class="home-step__badge">NEW</span></h3>
+              <p><em>Optional — for readers deciding where to look.</em> Compare Colorado
+                 jurisdictions on public indicators: housing need, recent CHFA investment,
+                 QCT/DDA basis-boost eligibility, population scale, and civic-capacity
+                 context. The need and capacity signals apply to any project type; the
+                 weights can also be viewed by 4% bond or 9% competitive tax-credit path
+                 to see how the same public facts read under different financing structures.</p>
+              <a href="lihtc-opportunity-finder.html" aria-label="Step 2: Opportunity Finder">Browse jurisdictions statewide →</a>
             </div>
           </li>
 
@@ -294,8 +297,10 @@
             <div class="home-step__body">
               <h3>Scenario Builder</h3>
               <p>Design your unit mix and income targeting. Set rents by AMI tier against
-                 HUD Fair Market Rent limits. Choose between 9% competitive and 4%
-                 bond-financed credits. See how your mix addresses 20-year projected demand.</p>
+                 HUD Fair Market Rent limits and see how your mix addresses 20-year
+                 projected demand. If tax credits are part of the plan, choose between
+                 9% competitive and 4% bond-financed &mdash; the mix and demand math
+                 don't depend on the financing path.</p>
               <a href="hna-scenario-builder.html" aria-label="Step 5: Scenario builder">Go to scenario builder →</a>
             </div>
           </li>
@@ -304,9 +309,11 @@
             <span class="home-step__num" aria-hidden="true">06</span>
             <div class="home-step__body">
               <h3>Deal Calculator</h3>
-              <p>Size your LIHTC capital stack. Calculate equity proceeds, permanent loan
-                 capacity from NOI, and the gap that soft sources need to fill. Compare
-                 9% and 4% scenarios side by side. Identify CRA lenders and CHFA programs.</p>
+              <p>Size the capital stack. Calculate equity proceeds (tax-credit or
+                 conventional), permanent loan capacity from NOI, and the gap that soft
+                 sources need to fill. Compare 9% and 4% credit scenarios side by side,
+                 or switch to ownership mode to size the per-unit subsidy gap for
+                 deed-restricted and shared-equity homes. Identify CRA lenders and CHFA programs.</p>
               <a href="deal-calculator.html" aria-label="Step 6: Deal calculator">Go to deal calculator →</a>
             </div>
           </li>
@@ -328,32 +335,56 @@
       </div>
     </section>
 
-    <!-- ── 5. What is LIHTC ── -->
-    <section class="home-lihtc" aria-labelledby="lihtc-heading">
+    <!-- ── 5. Paths to affordable housing ──
+         Replaces the former "What is LIHTC?" explainer, which made the homepage
+         read as a LIHTC-only site. The workflow above is path-neutral; this
+         section names the main conventional paths side by side, each with its
+         own conventions and risks, and hands off to the Pipeline for depth.
+         Class names are kept (home-lihtc*) so the existing block styling
+         applies unchanged. -->
+    <section class="home-lihtc" aria-labelledby="paths-heading">
       <div class="home-container">
-        <h2 id="lihtc-heading">What is the Low-Income Housing Tax Credit?</h2>
+        <h2 id="paths-heading">Paths to affordable housing &mdash; and how they differ</h2>
 
-        <p>The Low-Income Housing Tax Credit (LIHTC) is the primary federal program
-           financing affordable rental housing — responsible for the construction or
-           rehabilitation of more than 3.5 million homes since 1986. It works by
-           awarding investors dollar-for-dollar federal tax credits in exchange for
-           funding homes restricted to households earning 30%–80% of Area Median Income.
-           States receive a per-capita credit allocation from the IRS, then award those
-           credits competitively through a Qualified Allocation Plan.</p>
+        <p>There is more than one conventional way to get an affordable home built or
+           kept. The tools above ask the same questions of each; what changes is the
+           capital, the timeline, and the obligations that follow closing.</p>
 
-        <p>In Colorado, CHFA (Colorado Housing and Finance Authority) allocates roughly
-           $30 million in annual tax credits — enough to support 20–30 new developments
-           each year across the state. Projects compete for these credits based on site
-           quality, market need, developer capacity, and community support. Most applicants
-           do not receive an award on their first attempt.</p>
+        <p><strong>Tax-credit rental (LIHTC).</strong> The largest federal source for
+           affordable rental homes: investors buy dollar-for-dollar federal credits, and
+           the homes stay restricted to households at 30&ndash;80% of Area Median Income.
+           In Colorado, CHFA awards the credits competitively under its Qualified
+           Allocation Plan; most applicants do not win on the first try, and a project
+           typically takes 3&ndash;7 years from site to move-in. The conventions to know:
+           the QAP scorecard, a 15-year compliance period that usually runs 30 or more,
+           and equity pricing that moves with the market.</p>
 
-        <p>A single LIHTC development typically takes 3–7 years from initial site
-           selection to residents moving in — navigating market studies, equity investor
-           selection, construction financing, and a 15-year compliance period that often
-           extends to 30 years or more. This platform exists to make that path clearer.</p>
+        <p><strong>Affordable ownership.</strong> Deed-restricted for-sale homes,
+           community land trusts, and shared-equity models keep a home affordable at
+           <em>resale</em> rather than at rent. The capital is different &mdash;
+           down-payment assistance, soft second mortgages, land held by a trust &mdash;
+           and so are the risks: the resale formula, stewardship of the restriction
+           over decades, and whether buyers can get financing.</p>
 
-        <a href="lihtc-guide-for-stakeholders.html" class="home-lihtc__link">
-          Read the complete LIHTC guide for Colorado →
+        <p><strong>Preservation.</strong> Buying and repairing homes that are already
+           affordable &mdash; tax-credit properties nearing the end of their compliance
+           period, older buildings that are affordable by default &mdash; is often faster
+           and cheaper than building. The risks sit in acquisition timing, rehab scope,
+           and keeping rents affordable through the transition.</p>
+
+        <p><strong>Public and partnership routes.</strong> Housing authorities,
+           employers, and Colorado's Prop 123 land banking can contribute land or capital
+           without a tax credit at all. The questions are the same; the capital stack is
+           what changes.</p>
+
+        <a href="pipeline.html" class="home-lihtc__link">
+          See how these paths fit together &mdash; the Affordable Housing Pipeline →
+        </a>
+        <a href="lihtc-guide-for-stakeholders.html" class="home-lihtc__link" style="margin-left:var(--sp4);">
+          The complete LIHTC guide for Colorado →
+        </a>
+        <a href="for-sale-market-study.html" class="home-lihtc__link" style="margin-left:var(--sp4);">
+          For-sale market study →
         </a>
       </div>
     </section>
@@ -376,10 +407,12 @@
 
           <div class="home-audience__item">
             <h3>First-time developers</h3>
-            <p>LIHTC development is a multi-year, multi-party process with specific
-               technical requirements at each stage. This reference explains the public
-               workflow from documenting community need and defining a Primary Market
-               Area to understanding how CHFA's QAP evaluates complete applications.</p>
+            <p>Affordable housing development &mdash; tax-credit rental or restricted
+               ownership &mdash; is a multi-year, multi-party process with specific
+               requirements at each stage. This reference explains the public workflow
+               from documenting community need and defining a Primary Market Area to how
+               CHFA's QAP evaluates an application and how ownership programs set
+               resale terms.</p>
           </div>
 
           <div class="home-audience__item">
