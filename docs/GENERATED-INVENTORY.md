@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-21T23:14:16.104Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T00:58:08.672Z. Do not edit by hand.
 
 ---
 
@@ -44,13 +44,13 @@
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.7 KB |
 | `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.9 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 141.1 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 165.2 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.4 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.2 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 165.3 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.5 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.3 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 34.3 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 36.0 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
