@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/pages/home.css">
+  <link rel="stylesheet" href="js/vendor/leaflet.css">
   <script src="js/path-resolver.js"></script>
   <script src="js/config.js"></script>
   <script src="js/site-state.js"></script>
@@ -30,6 +31,8 @@
   <script defer src="js/components/data-vintage-badge.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/vendor/leaflet.js"></script>
+  <script defer src="js/components/home-need-map.js"></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://cohoanalytics.com/#organization","name":"COHO Analytics","url":"https://cohoanalytics.com/"},{"@type":"WebSite","@id":"https://cohoanalytics.com/#website","url":"https://cohoanalytics.com/","name":"COHO Analytics","publisher":{"@id":"https://cohoanalytics.com/#organization"},"potentialAction":{"@type":"SearchAction","target":"https://cohoanalytics.com/search.html?q={search_term_string}","query-input":"required name=search_term_string"}}]}</script>
 </head>
 <body>
@@ -44,7 +47,9 @@
 
     <!-- ── 1. Opening ── -->
     <section class="home-opening" aria-labelledby="home-heading">
-      <div class="home-container">
+      <div class="home-container home-container--wide">
+      <div class="home-opening__grid">
+      <div class="home-opening__text">
         <h1 id="home-heading">Housing with dignity starts with clear data, thoughtful planning, and better decisions about the places people call home.</h1>
         <p class="home-opening__lead">
           Across Colorado, roughly half of renters now spend more than 30% of every paycheck
@@ -102,6 +107,28 @@
             Browse local housing profiles →
           </a>
         </div>
+      </div>
+
+      <!-- Homepage need-severity map — same overall_need_score composite
+           and severity bands used throughout the site (Need Severity
+           decision-strip tile, comparative ranking), not a separate metric
+           invented for this map. Colors every county; click routes straight
+           into that county's Needs Assessment, same destination as the
+           jurisdiction search above. -->
+      <div class="home-opening__map">
+        <div id="homeNeedMap" role="img" aria-label="Map of Colorado counties shaded by housing need severity"></div>
+        <div class="home-need-legend" aria-hidden="true">
+          <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:var(--good,#16a34a)"></span>Lower</span>
+          <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:var(--accent,#1d4ed8)"></span>Moderate</span>
+          <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:var(--warn,#d97706)"></span>Elevated</span>
+          <span class="home-need-legend__item"><span class="home-need-legend__swatch" style="background:var(--bad,#dc2626)"></span>Highest</span>
+        </div>
+        <p class="home-opening__map-caption">
+          Overall housing-need score by county
+          <a href="hna-comparative-analysis.html">Compare all 546 jurisdictions →</a>
+        </p>
+      </div>
+      </div>
 
         <!-- F2.3 — Job routing. The homepage now orients new visitors around
              the jobs they came to do before showing the full LIHTC workflow. -->
