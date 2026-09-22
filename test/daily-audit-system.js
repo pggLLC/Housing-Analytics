@@ -359,7 +359,13 @@ async function main() {
     const comparison = compareWithPrior(allIssues, priorSnapshot);
     const trend = loadTrendData();
 
-    console.log(`\n[history] New: ${comparison.newIssues.length}  Resolved: ${comparison.resolvedIssues.length}  Persistent: ${comparison.persistentIssues.length}`);
+    if (priorSnapshot) {
+        console.log(`\n[history] Compared to ${priorDate} — New: ${comparison.newIssues.length}  Resolved: ${comparison.resolvedIssues.length}  Persistent: ${comparison.persistentIssues.length}`);
+    } else {
+        // Every finding is "new" only because there is nothing to compare to.
+        // Say so, or a lost history dir reads as a site that regressed overnight.
+        console.log(`\n[history] No prior snapshot found — every finding is reported as new (${comparison.newIssues.length}); Resolved/Persistent cannot be determined on a first run.`);
+    }
 
     const snapshotFile = saveAuditSnapshot(auditResult);
     console.log(`[history] Snapshot saved: ${snapshotFile}`);
