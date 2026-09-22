@@ -55,6 +55,18 @@
       font-size: .76rem; color: var(--text-muted); margin-top: 1.7rem;
       display: flex; flex-wrap: wrap; gap: .5rem 1.6rem;
     }
+    .wp-actions {
+      display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.2rem;
+    }
+    .wp-action {
+      font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer;
+      padding: .5rem .9rem; border-radius: 6px; min-height: 40px;
+      border: 1px solid var(--accent); background: transparent; color: var(--accent);
+    }
+    .wp-action:hover, .wp-action:focus-visible { background: var(--accent); color: var(--on-accent, #fff); }
+    .wp-actions__note { font-size: .74rem; color: var(--text-muted); }
+    /* The download controls are page chrome — never part of the printed/saved paper. */
+    @media print { .wp-actions { display: none !important; } }
 
     .wp section { margin-top: 3.4rem; scroll-margin-top: 6rem; }
     .wp h2 {
@@ -208,6 +220,19 @@
           <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-22</span></span>
           <span>Figures regenerated from commit <code data-figure="generated_from_commit">6180a11f8</code></span>
         </p>
+        <!-- Download options. PDF goes through the browser's print dialog:
+             css/layout.css's @media print already strips the site chrome, and
+             a 12-section article renders far better that way than through
+             jsPDF's text layout (which the Recommendation page uses for its
+             one-screen summary). Word is the article's own HTML handed to
+             Word as a .doc — no library, opens in Word, LibreOffice and
+             Google Docs; the figures are the injected values on the page at
+             the moment of download. -->
+        <div class="wp-actions" role="group" aria-label="Download this paper">
+          <button type="button" id="wpDownloadPdf" class="wp-action">Download PDF</button>
+          <button type="button" id="wpDownloadWord" class="wp-action">Download Word (.doc)</button>
+          <span class="wp-actions__note">PDF opens your browser's print dialog — choose "Save as PDF".</span>
+        </div>
       </header>
 
       <section class="wp-exec" aria-labelledby="s-exec">
@@ -1235,6 +1260,47 @@
     </article>
   </main>
 
+  <script>
+  (function () {
+    'use strict';
+    var pdfBtn = document.getElementById('wpDownloadPdf');
+    var docBtn = document.getElementById('wpDownloadWord');
+    if (pdfBtn) pdfBtn.addEventListener('click', function () { window.print(); });
+
+    // Word download: the paper's own markup, handed to Word as a .doc. Word,
+    // LibreOffice and Google Docs all open HTML saved with that extension.
+    // The download controls themselves are stripped so they never end up in
+    // the document; figures are whatever the page shows at download time.
+    function buildWordDocument() {
+      var article = document.querySelector('article.wp');
+      if (!article) return null;
+      var clone = article.cloneNode(true);
+      clone.querySelectorAll('.wp-actions, button, script').forEach(function (n) { n.remove(); });
+      var title = (document.querySelector('article.wp h1') || {}).textContent || document.title;
+      return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">' +
+        '<head><meta charset="utf-8"><title>' + title.replace(/</g, '&lt;') + '</title>' +
+        '<style>body{font-family:Georgia,serif;font-size:11pt;line-height:1.45;max-width:7in;margin:1in auto}' +
+        'h1{font-size:22pt}h2{font-size:15pt;margin-top:18pt}h3{font-size:12pt}' +
+        'table{border-collapse:collapse}td,th{border:1px solid #999;padding:3pt 6pt;font-size:10pt}' +
+        'code{font-family:Consolas,monospace;font-size:10pt}dt{font-weight:bold;margin-top:8pt}</style></head>' +
+        '<body>' + clone.innerHTML + '</body></html>';
+    }
+    if (docBtn) docBtn.addEventListener('click', function () {
+      var html = buildWordDocument();
+      if (!html) return;
+      var blob = new Blob(['﻿', html], { type: 'application/msword' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'instrumenting-housing-need-working-paper.doc';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    });
+    window.__wpBuildWordDocument = buildWordDocument;
+  })();
+  </script>
   <script src="js/contrast-guard.js"></script>
   <footer id="site-footer"></footer>
 </body>
