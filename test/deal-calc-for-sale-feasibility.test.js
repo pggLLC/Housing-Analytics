@@ -103,9 +103,40 @@ assert.strictEqual(rentalAmiMix.hidden, false, 'rental AMI mix is visible in def
 assert.strictEqual(saleTargetWrap.hidden, true, 'ownership sale target is hidden in default rental mode');
 assert.strictEqual(unitsInput.closest('label').hidden, false, 'total units stays visible in default rental mode');
 
+// The calculator heading and its screening disclosure follow the mode:
+// LIHTC is a rental program, so the ownership mode must never sit under a
+// LIHTC title or a note about credit pricing, qualified basis and CHFA review.
+function visibleText(el) {
+  return Array.from(el.childNodes)
+    .filter(n => !(n.nodeType === 1 && n.hidden))
+    .map(n => n.textContent)
+    .join(' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+const calcTitle = document.getElementById('dealCalcTitle');
+const notes = Array.from(document.querySelectorAll('#dealCalcMount [role="note"][data-dc-mode]'));
+const rentalNote = notes.find(n => n.getAttribute('data-dc-mode') === 'rental');
+const ownershipNote = notes.find(n => n.getAttribute('data-dc-mode') === 'ownership');
+assert(calcTitle && rentalNote && ownershipNote, 'calculator heading and both mode disclosures render');
+assert.strictEqual(visibleText(calcTitle), 'LIHTC Feasibility Calculator', 'rental mode heading is the LIHTC calculator');
+assert.strictEqual(rentalNote.hidden, false, 'rental disclosure shows in rental mode');
+assert.strictEqual(ownershipNote.hidden, true, 'ownership disclosure is hidden in rental mode');
+assert(rentalNote.textContent.includes('qualified'), 'rental disclosure scopes qualified basis');
+assert(rentalNote.querySelector('a[href="docs/LIHTC_FEASIBILITY_CALCULATOR.md"]'), 'rental disclosure links the LIHTC methodology');
+
 const ownershipMode = document.getElementById('dc-mode-ownership');
 ownershipMode.checked = true;
 ownershipMode.dispatchEvent(new Event('change', { bubbles: true }));
+assert.strictEqual(visibleText(calcTitle), 'For-Sale Ownership Feasibility Calculator', 'ownership mode heading names the for-sale calculator, not LIHTC');
+assert(!visibleText(calcTitle).includes('LIHTC'), 'ownership mode heading does not say LIHTC');
+assert.strictEqual(rentalNote.hidden, true, 'LIHTC disclosure leaves ownership mode');
+assert.strictEqual(ownershipNote.hidden, false, 'ownership disclosure shows in ownership mode');
+['qualified basis', 'CHFA', 'Credit pricing'].forEach(phrase => {
+  assert(!ownershipNote.textContent.includes(phrase), 'ownership disclosure does not mention "' + phrase + '"');
+});
+assert(ownershipNote.textContent.includes('subsidy gap'), 'ownership disclosure scopes the subsidy gap');
+assert(ownershipNote.querySelector('a[href="housing-needs-assessment.html#affordable-ownership-need-section"]'), 'ownership disclosure links the ownership need methodology');
 assert.strictEqual(ownershipPanel.hidden, false, 'ownership mode reveals ownership feasibility panel');
 assert.strictEqual(rentalAmiMix.hidden, true, 'ownership mode hides rental AMI mix');
 assert.strictEqual(capitalStack.hidden, true, 'ownership mode hides rental capital stack outputs');

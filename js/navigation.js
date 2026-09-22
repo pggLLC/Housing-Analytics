@@ -49,7 +49,7 @@
         { label: "— For-Sale / Ownership —", isHeader: true },
         { label: "Ownership Need",           href: "housing-needs-assessment.html#affordable-ownership-need-section", desc: "Who can afford to buy, and what is missing" },
         { label: "For-Sale Market Study",    href: "for-sale-market-study.html",     desc: "Demand, capture, absorption, land disposition" },
-        { label: "For-Sale Feasibility",     href: "deal-calculator.html",           desc: "Buyer cash requirements in the Deal Calculator" },
+        { label: "For-Sale Feasibility",     href: "deal-calculator.html",           desc: "Per-unit subsidy gap for deed-restricted homes (Deal Calculator, ownership mode)" },
         { label: "Land Value & Negotiation", href: "land-value.html",                desc: "Site economics — serves both tracks" },
       ]
     },
