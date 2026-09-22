@@ -112,6 +112,39 @@ def test_build_omits_place_missing_earliest_or_latest_vintage(m, monkeypatch):
     assert '0828745' not in payload['places']
 
 
+def test_build_rejects_implausible_cohorts_from_wrong_vintage_fields(m, monkeypatch):
+    """The first live run (2026-09-22) published, for every one of 336 places,
+    a 2009 cohort with median_gross_rent null and median_hh_income of 0-11:
+    the ACS profile variable IDs the builder fetches are not stable across
+    vintages, so the 2009/2014 requests returned different fields under the
+    same IDs. These are the exact values Fruita came back with. Such a
+    cohort must be rejected at the source — counted, never written — so the
+    place fails the earliest/latest check and the renderer keeps its county
+    fallback, rather than charting "$111 -> $87,184" as 15 years of history.
+    """
+    fixture_by_year = {
+        2009: {'0828745': {'DP03_0062E': 111, 'DP04_0134E': None, 'DP04_0141PE': None, 'DP04_0142PE': None}},
+        2014: {'0828745': {'DP03_0062E': 54875, 'DP04_0134E': None, 'DP04_0141PE': None, 'DP04_0142PE': None}},
+        2024: {'0828745': {'DP03_0062E': 87184, 'DP04_0134E': 1472, 'DP04_0141PE': 8.6, 'DP04_0142PE': 35.0}},
+    }
+    monkeypatch.setattr(m, 'fetch_cohort', lambda geoids, year: fixture_by_year.get(year, {}))
+    monkeypatch.setattr(m, 'load_places', lambda: {'0828745': {'name': 'Fruita'}})
+    monkeypatch.setattr(m, 'load_hpi_subcounty', lambda: {})
+
+    payload = m.build(['0828745'])
+
+    assert payload['meta']['cohorts_rejected_implausible'] == 2
+    assert payload['meta']['place_count'] == 0
+    assert '0828745' not in payload['places']
+
+    # The gate itself, at its edges.
+    assert m.is_plausible_cohort(200, 5000) is True
+    assert m.is_plausible_cohort(199, 5000) is False
+    assert m.is_plausible_cohort(1472, 111) is False
+    assert m.is_plausible_cohort(None, 87184) is False
+    assert m.is_plausible_cohort('1472', '87184') is True
+
+
 def test_build_omits_hpi_block_when_subcounty_file_has_no_change_15y(m, monkeypatch):
     """The FHFA subcounty merge is additive-only: a place with full ACS
     history but no matching change_15y (subcounty file missing, stale, or

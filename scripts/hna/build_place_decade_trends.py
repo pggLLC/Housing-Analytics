@@ -101,6 +101,17 @@ def rent_burden_30_plus_pct(fields: dict) -> float | None:
     return round((g30 or 0) + (g35 or 0), 1)
 
 
+def is_plausible_cohort(rent, income) -> bool:
+    """A cohort counts only with a plausible median gross rent (>= $200/mo) AND
+    median household income (>= $5,000/yr). Anything else is a wrong field,
+    a sentinel, or a suppressed estimate — never publishable as history.
+    Mirrors _plausibleCohort() in js/hna/hna-renderers.js."""
+    try:
+        return float(rent) >= 200 and float(income) >= 5000
+    except (TypeError, ValueError):
+        return False
+
+
 def fetch_cohort(geoids: list[str], year: int) -> dict:
     """Fetch DP03 (median household income) + DP04 (median gross rent, GRAPI
     rent-burden bins) for every geoid at one ACS 5-year vintage."""
@@ -119,6 +130,7 @@ def build(geoids: list[str]) -> dict:
 
     out_places = {}
     skipped_incomplete = 0
+    rejected_implausible = 0
     for geoid in geoids:
         cohorts = []
         for year in VINTAGES:
@@ -128,7 +140,18 @@ def build(geoids: list[str]) -> dict:
             income = fields.get('DP03_0062E')
             rent = fields.get('DP04_0134E')
             burden_pct = rent_burden_30_plus_pct(fields)
-            if income is None and rent is None:
+            # Plausibility gate. The first live run published 2009/2014
+            # cohorts with null rent and "incomes" of 0-11 for every place:
+            # the ACS profile variable IDs above are NOT stable across
+            # vintages, so the historical vintages returned different
+            # fields under the same IDs. A cohort without a plausible rent
+            # AND income is dropped here rather than written as history
+            # (and the place then fails the earliest/latest check below and
+            # is omitted, so the renderer keeps its county fallback).
+            # Mapping the IDs per vintage is the real fix; this stops the
+            # wrong numbers from ever reaching the file until then.
+            if not is_plausible_cohort(rent, income):
+                rejected_implausible += 1
                 continue
             cohorts.append({
                 'year': year,
@@ -169,6 +192,7 @@ def build(geoids: list[str]) -> dict:
             ),
             'place_count': len(out_places),
             'places_skipped_incomplete_history': skipped_incomplete,
+            'cohorts_rejected_implausible': rejected_implausible,
             'total_places_considered': len(geoids),
         },
         'places': out_places,
