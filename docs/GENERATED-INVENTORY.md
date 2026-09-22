@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T10:31:33.331Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T10:35:13.010Z. Do not edit by hand.
 
 ---
 
@@ -50,10 +50,10 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 36.0 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 36.5 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
-| `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 14.6 KB |
+| `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.6 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
@@ -1589,7 +1589,7 @@
 | `data/market/dola_demographics_co.json` | 24.3 KB | ✅ | — |
 | `data/market/dola_rent_survey_co.json` | 730 B | ✅ | — |
 | `data/market/epa_sld_co.json` | 715.9 KB | ✅ | — |
-| `data/market/fhfa_hpi_subcounty_co.json` | 514.1 KB | ✅ | — |
+| `data/market/fhfa_hpi_subcounty_co.json` | 512.0 KB | ✅ | — |
 | `data/market/flood_zones_co.json` | 605.2 KB | ✅ | — |
 | `data/market/fmr_co.json` | 22.2 KB | ✅ | — |
 | `data/market/fmr_tract_map_co.json` | 101.1 KB | ✅ | — |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-376 test files found.
+377 test files found.
 
 | File | Size |
 |------|------|
@@ -1761,7 +1761,7 @@
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
-| `test/fhfa-hpi-subcounty.test.js` | 8.3 KB |
+| `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
 | `test/file-manifest.test.js` | 4.6 KB |
 | `test/finish-line-holds.test.mjs` | 11.8 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
@@ -1795,7 +1795,7 @@
 | `test/hna-county-scope-disclosures.test.js` | 4.2 KB |
 | `test/hna-deep-dive-batch1.test.js` | 6.3 KB |
 | `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
-| `test/hna-dev-context-collision.test.js` | 2.9 KB |
+| `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.2 KB |
@@ -1824,6 +1824,7 @@
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
+| `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 5.6 KB |
 | `test/homepage-job-routing.test.js` | 7.5 KB |
