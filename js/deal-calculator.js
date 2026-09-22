@@ -1202,11 +1202,17 @@
   function render(mount) {
     mount.innerHTML = `
 <section class="chart-card" style="margin-top:2rem;" aria-labelledby="dealCalcTitle">
+  <!-- The heading and the screening disclosure follow the Deal Mode toggle
+       below (updateDealModeUi): LIHTC is a rental program, so the for-sale
+       ownership mode must not sit under a LIHTC title or a disclosure about
+       credit pricing, qualified basis and CHFA review — none of which apply
+       to a deed-restricted sale-price gap. -->
   <h2 id="dealCalcTitle" style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">
-    LIHTC Feasibility Calculator
+    <span data-dc-mode="rental">LIHTC Feasibility Calculator</span>
+    <span data-dc-mode="ownership" hidden>For-Sale Ownership Feasibility Calculator</span>
   </h2>
-  <!-- Screening-level model disclosure -->
-  <div role="note" style="display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);font-size:var(--tiny);">
+  <!-- Screening-level model disclosure — rental LIHTC mode -->
+  <div role="note" data-dc-mode="rental" style="display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);font-size:var(--tiny);">
     <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🔎</span>
     <div>
       <strong style="color:var(--text);">Model class: screening-level</strong> —
@@ -1217,10 +1223,24 @@
       <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">Methodology →</a>
     </div>
   </div>
+  <!-- Screening-level model disclosure — for-sale ownership mode -->
+  <div role="note" data-dc-mode="ownership" hidden style="display:flex;align-items:flex-start;gap:0.5rem;margin-bottom:var(--sp3);padding:0.5rem 0.75rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--bg2);font-size:var(--tiny);">
+    <span style="font-size:1rem;flex-shrink:0;" aria-hidden="true">🔎</span>
+    <div>
+      <strong style="color:var(--text);">Model class: screening-level</strong> —
+      outputs are planning estimates only. The max affordable sale price comes from HUD AMI and the
+      HNA ownership finance assumptions (mortgage rate and term, down payment, taxes, insurance, HOA)
+      at the target AMI band; the subsidy gap is development cost per unit minus that price. This tool
+      does not underwrite buyer qualification, appraisal, construction lending, or the legal terms of
+      the recorded restriction. Not a substitute for lender underwriting, program-administrator review,
+      or legal counsel.
+      <a href="housing-needs-assessment.html#affordable-ownership-need-section" style="color:var(--accent);">Ownership need methodology →</a>
+    </div>
+  </div>
   <p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">
     Early-stage feasibility sizing tool. Not a final underwriting or award prediction model.
     Outputs depend on assumptions and local soft-funding availability.
-    See <a href="docs/LIHTC_FEASIBILITY_CALCULATOR.md" style="color:var(--accent);">methodology notes</a> for scope and limitations.
+    See the methodology note above for scope and limitations.
   </p>
 
   <!-- Deal Mode Toggle -->
