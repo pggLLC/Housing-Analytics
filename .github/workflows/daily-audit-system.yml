@@ -12,6 +12,7 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read
+      actions: read   # list + download the prior run's audit-history artifact
 
     steps:
       # ── Setup ───────────────────────────────────────────────────────────────
@@ -35,21 +36,72 @@ jobs:
       # ── Audit history ────────────────────────────────────────────────────────
       # monitoring-reports/ is gitignored, so a fresh runner starts with no
       # prior snapshot. loadPriorSnapshot() then returns null and every finding
-      # is classified "new" -- the daily email has been reporting the same 51
-      # issues as 51 NEW issues every morning, and nothing has ever been able to
-      # show as Resolved or Persistent. Carrying the history dir across runs is
-      # the whole fix; the comparison logic itself is correct.
+      # is classified "new": the daily email reported the same ~50 issues as
+      # NEW every morning, and nothing could ever show as Resolved or
+      # Persistent. The comparison logic is correct; the history dir just has
+      # to survive from one run to the next.
       #
-      # The key is unique per run so the save always succeeds, and restore-keys
-      # prefix-matches the most recent previous run. The cache is read and
-      # written daily, so it stays well inside the 7-day eviction window.
+      # The first attempt carried it in actions/cache. That worked for exactly
+      # one day (2026-09-21 restored 09-20 and reported 52 persistent) and then
+      # the entry was gone the next morning: the cache is best-effort storage
+      # that GitHub may evict at any time, well inside its nominal 7-day
+      # window. Artifacts are not evicted early and are kept for the retention
+      # period, so the history now rides an artifact named `audit-history`:
+      # each run downloads the newest one before the audit and re-uploads the
+      # whole directory (prior snapshots + today's) after it. A single missed
+      # day therefore does not break the chain; only 90 consecutive missed
+      # days would.
       - name: Restore prior audit history
-        uses: actions/cache/restore@v6
+        id: prior_history
+        continue-on-error: true
+        uses: actions/github-script@v9
         with:
-          path: monitoring-reports/audit-history
-          key: audit-history-${{ github.run_id }}
-          restore-keys: |
-            audit-history-
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'monitoring-reports/audit-history';
+            // 'error' until proven otherwise: an exception below leaves this
+            // value in place, and the save step then skips the upload so a
+            // transient API failure cannot replace the 90-day chain with a
+            // one-day artifact holding only today's snapshot.
+            core.setOutput('restored', 'error');
+
+            const { data } = await github.rest.actions.listArtifactsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'audit-history',
+              per_page: 20,
+            });
+            const usable = data.artifacts
+              // A re-run of this same run must not restore what attempt 1
+              // uploaded a few minutes ago; it wants yesterday's chain.
+              .filter(a => !a.expired && !(a.workflow_run && a.workflow_run.id === context.runId))
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            if (usable.length === 0) {
+              core.warning('No prior audit-history artifact found: every finding will be reported as new today and the chain starts from this run.');
+              core.setOutput('restored', 'none');
+              return;
+            }
+
+            const prior = usable[0];
+            const download = await github.rest.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: prior.id,
+              archive_format: 'zip',
+            });
+            const zipPath = path.join(process.env.RUNNER_TEMP, 'audit-history.zip');
+            fs.writeFileSync(zipPath, Buffer.from(download.data));
+            fs.mkdirSync(dir, { recursive: true });
+            await exec.exec('unzip', ['-o', '-q', zipPath, '-d', dir]);
+
+            const snapshots = fs.readdirSync(dir)
+              .filter(f => /^audit-\d{4}-\d{2}-\d{2}\.json$/.test(f))
+              .sort();
+            const runId = prior.workflow_run ? prior.workflow_run.id : 'unknown';
+            core.info(`Restored ${snapshots.length} snapshot(s) from artifact ${prior.id} (run ${runId}, created ${prior.created_at}); latest: ${snapshots[snapshots.length - 1] || 'none'}`);
+            core.setOutput('restored', 'yes');
 
       # ── Full Daily Audit ─────────────────────────────────────────────────────
       - name: Run Daily Audit System
@@ -64,12 +116,19 @@ jobs:
 
       # Saved immediately after the audit, and with if: always(), so a failure
       # in one of the legacy checks below cannot cost us the day's snapshot.
+      # Skipped only when the restore step itself errored (see above); a
+      # restore that found nothing still uploads, which is how the chain
+      # starts. overwrite: true lets a re-run of this run replace attempt 1's
+      # artifact instead of failing on the duplicate name.
       - name: Save audit history
-        if: always()
-        uses: actions/cache/save@v6
+        if: always() && steps.prior_history.outputs.restored != 'error'
+        uses: actions/upload-artifact@v7
         with:
+          name: audit-history
           path: monitoring-reports/audit-history
-          key: audit-history-${{ github.run_id }}
+          retention-days: 90
+          overwrite: true
+          if-no-files-found: warn
 
       # ── Legacy Checks (kept for compatibility) ───────────────────────────────
       - name: Verify script loads
