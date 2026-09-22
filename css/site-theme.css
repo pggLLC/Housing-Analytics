@@ -1931,7 +1931,23 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
   color: var(--good, #047857) !important;
 }
 
-@media (max-width: 480px) {
+/* The width at which the full-size workflow rail stops fitting.
+ *
+ * Derived from the rail's own geometry, not chosen: a full-size step is
+ * min-width 80px and a connector 20px, so seven steps need
+ * (7 x 80) + (6 x 20) + 36px of wrap padding = 716px.
+ *
+ * It was 480px, sized when the rail had five steps. Step 7 landed in #1715
+ * and pushed the minimum from 580px to 680px, which opened a band between
+ * 481px and 716px where the rail neither compacted nor scrolled — the wrap is
+ * overflow:hidden, so the last step was silently CLIPPED. On the deal
+ * calculator at 666px the reader lost "Recommendation" entirely: no
+ * scrollbar, no ellipsis, nothing to say a seventh step existed.
+ *
+ * js/components/workflow-progress.js computes the same number from
+ * STEPS.length, and test:entry-path asserts the two agree — so an eighth step
+ * fails the build here rather than re-opening the same gap. */
+@media (max-width: 716px) {
   .wf-progress-wrap,
   .workflow-progress {
     box-sizing: border-box !important;
