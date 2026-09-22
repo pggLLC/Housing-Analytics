@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T16:11:10.402Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T16:25:47.432Z. Do not edit by hand.
 
 ---
 
@@ -1721,8 +1721,8 @@
 | `test/county-from-coords.test.js` | 6.2 KB |
 | `test/cross-county-disclosure.test.js` | 6.0 KB |
 | `test/cross-surface-vintage-labels.test.js` | 6.6 KB |
-| `test/daily-audit-signal.test.js` | 8.0 KB |
-| `test/daily-audit-system.js` | 16.7 KB |
+| `test/daily-audit-signal.test.js` | 11.6 KB |
+| `test/daily-audit-system.js` | 17.1 KB |
 | `test/data-freshness-v2.test.js` | 4.8 KB |
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
@@ -2084,7 +2084,7 @@
 | `.github/workflows/contrast-audit.yml` | 10.3 KB |
 | `.github/workflows/coverage-audit-nightly.yml` | 2.6 KB |
 | `.github/workflows/create-phase3-sub-issues.yml` | 21.8 KB |
-| `.github/workflows/daily-audit-system.yml` | 4.0 KB |
+| `.github/workflows/daily-audit-system.yml` | 7.9 KB |
 | `.github/workflows/data-freshness-check.yml` | 8.0 KB |
 | `.github/workflows/data-quality-check.yml` | 6.5 KB |
 | `.github/workflows/data-refresh.yml` | 5.9 KB |
