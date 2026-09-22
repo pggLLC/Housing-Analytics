@@ -250,6 +250,7 @@ def build(geoids: list[str]) -> dict:
     out_places = {}
     skipped_incomplete = 0
     unusable = {COHORT_MISSING_GEOGRAPHY: 0, COHORT_SUPPRESSED: 0, COHORT_REJECTED_IMPLAUSIBLE: 0}
+    implausible: list[dict] = []
     for geoid in geoids:
         cohorts = []
         for year in VINTAGES:
@@ -271,6 +272,27 @@ def build(geoids: list[str]) -> dict:
             reason = classify_cohort(fields, year)
             if reason is not None:
                 unusable[reason] += 1
+                if reason == COHORT_REJECTED_IMPLAUSIBLE:
+                    # The only one of the three that can mean a bug (a wrong
+                    # variable ID, a sentinel). Name it, in the run log and
+                    # in meta, so it can be looked at without re-fetching:
+                    # the first correct run reported 3 of these and nothing
+                    # said which places or what values.
+                    ids = VINTAGE_VARIABLES[year]
+                    rec = {
+                        'geoid': geoid,
+                        'place_name': places.get(geoid, {}).get('name'),
+                        'year': year,
+                        'median_gross_rent': fields.get(ids['rent']),
+                        'median_hh_income': fields.get(ids['income']),
+                    }
+                    implausible.append(rec)
+                    print(
+                        f"[place-decade-trends] implausible cohort rejected: {geoid} "
+                        f"({rec['place_name']}) {year}: rent={rec['median_gross_rent']} "
+                        f"income={rec['median_hh_income']} (gate: rent >= 200 and income >= 5000)",
+                        file=sys.stderr,
+                    )
                 continue
             ids = VINTAGE_VARIABLES[year]
             income = fields.get(ids['income'])
@@ -322,6 +344,11 @@ def build(geoids: list[str]) -> dict:
             'cohorts_missing_geography': unusable[COHORT_MISSING_GEOGRAPHY],
             'cohorts_suppressed': unusable[COHORT_SUPPRESSED],
             'cohorts_rejected_implausible': unusable[COHORT_REJECTED_IMPLAUSIBLE],
+            # Each implausible rejection, named (geoid, place, year, the two
+            # medians as fetched) so the file itself says which places
+            # tripped the gate and on what values. Always a list, empty when
+            # nothing was rejected.
+            'implausible_cohorts': implausible,
             'total_places_considered': len(geoids),
         },
         'places': out_places,

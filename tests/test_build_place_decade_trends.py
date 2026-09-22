@@ -190,6 +190,41 @@ def test_build_counts_implausible_values_under_their_own_vintage_ids(m, monkeypa
     assert '0828745' not in payload['places']
 
 
+def test_build_names_each_implausible_rejection_in_meta_and_the_log(m, monkeypatch, capsys):
+    """A rejected-as-implausible cohort is the only unusable kind that can
+    mean a bug, so the builder must say WHICH place, vintage and values
+    tripped the gate — in meta (inspectable from the committed file) and
+    in the run log. The first correct run reported 3 and named none.
+    Suppressed and absent vintages are not listed: they are expected."""
+    fixture_by_year = {
+        2009: {'0828745': {'DP03_0063E': 111, 'DP04_0132E': 650, 'DP04_0139PE': 10.0, 'DP04_0140PE': 38.0}},
+        2014: {'0828745': {'DP03_0062E': 54875, 'DP04_0132E': None}},  # suppressed, not listed
+        2024: {'0828745': LATEST_OK},
+    }
+    payload = _build_one(m, monkeypatch, fixture_by_year)
+
+    assert payload['meta']['cohorts_rejected_implausible'] == 1
+    assert payload['meta']['implausible_cohorts'] == [{
+        'geoid': '0828745', 'place_name': 'Fruita', 'year': 2009,
+        'median_gross_rent': 650, 'median_hh_income': 111,
+    }]
+    err = capsys.readouterr().err
+    assert 'implausible cohort rejected: 0828745 (Fruita) 2009: rent=650 income=111' in err
+    assert err.count('implausible cohort rejected') == 1
+    json.dumps(payload)  # the list must stay serialisable
+
+
+def test_build_implausible_list_is_empty_not_absent_when_nothing_rejected(m, monkeypatch):
+    fixture_by_year = {
+        2009: {'0828745': {'_fetched_at': 'x', '_geoid': '0828745'}},
+        2014: {'0828745': {'DP03_0062E': None, 'DP04_0132E': 820}},
+        2024: {'0828745': LATEST_OK},
+    }
+    payload = _build_one(m, monkeypatch, fixture_by_year)
+    assert payload['meta']['implausible_cohorts'] == []
+    assert payload['meta']['cohorts_rejected_implausible'] == 0
+
+
 def test_build_counts_extractor_bookkeeping_only_as_missing_geography(m, monkeypatch):
     """ACSExtractor.fetch_all() returns a dict for EVERY requested geoid,
     even one whose DP03 and DP04 fetches both came back HTTP 204 because the
