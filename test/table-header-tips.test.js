@@ -79,7 +79,11 @@ for (const p of CORE_PAGES) {
     const inner = m[2];
     if (/\btitle=|data-tip=|data-tip-skip/.test(attrs)) continue;
     if (/<(input|select|button|textarea)\b/.test(inner)) continue;
-    const text = normalize(inner.replace(/<[^>]+>/g, ''));
+    // Strip markup until none remains — a header's inner HTML can nest
+    // (a sort icon inside a span), and one pass can leave a fragment behind.
+    let plain = inner;
+    for (let prev = null; prev !== plain;) { prev = plain; plain = plain.replace(/<[^>]*>/g, ''); }
+    const text = normalize(plain);
     if (!text) continue;
     if (!Object.prototype.hasOwnProperty.call(tips, text)) uncovered.push(`${p}: "${text}"`);
   }
