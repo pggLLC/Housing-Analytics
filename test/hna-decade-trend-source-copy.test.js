@@ -69,6 +69,17 @@ const PLACE_DOC = {
     },
   },
   places: {
+    // A record WITH an HPI: none exist in the committed file today, so this
+    // fixture is the only thing that exercises the FHFA-citing variant.
+    '0800001': {
+      place_name: 'Testville',
+      acs_cohorts: [
+        { year: 2009, median_gross_rent: 800, median_hh_income: 50000, rent_burden_30_plus: 0.40 },
+        { year: 2014, median_gross_rent: 900, median_hh_income: 52000, rent_burden_30_plus: 0.42 },
+        { year: 2024, median_gross_rent: 1300, median_hh_income: 70000, rent_burden_30_plus: 0.45 },
+      ],
+      hpi: { latest: 240, base_15y: 100, change_15y_pct: 1.4 },
+    },
     '0828745': {
       place_name: 'Fruita',
       acs_cohorts: [
@@ -163,8 +174,14 @@ async function run(name, fn) {
       assert.doesNotMatch(text, COUNTY_TABLE_IDS, 'place source must not cite B25064/B19013/B25070: ' + text);
       assert.doesNotMatch(text, AT_COUNTY_LEVEL, 'place source must not say "at the county level"');
       assert.match(text, /place-geography/, 'place source names place geography');
-      assert.match(text, /FHFA House Price Index/, 'place source keeps the HPI citation');
     }
+    // Fruita's record has hpi null (as does every committed place today): the
+    // home-price card shows "—", so neither the intro nor the badge may claim
+    // an FHFA index was served.
+    assert.doesNotMatch(s.badge, /FHFA/, 'no FHFA citation on the badge without an HPI: ' + s.badge);
+    assert.doesNotMatch(s.intro, /aggregated to the place/, 'no FHFA aggregation claim in the intro without an HPI');
+    assert.match(s.intro, /No FHFA house-price index is published for this place/, 'intro says why the home-price card is empty');
+    assert.doesNotMatch(s.panel, /aggregated from Census-tract data/, 'provenance line omits its FHFA sentence too');
     // The citation is built from the IDs the file itself declares per vintage.
     for (const id of ['DP03_0063E', 'DP03_0062E', 'DP04_0132E', 'DP04_0134E', 'DP04_0139PE', 'DP04_0142PE']) {
       assert.ok(s.badge.includes(id), 'badge cites ' + id + ' from meta.vintage_variables: ' + s.badge);
@@ -174,6 +191,34 @@ async function run(name, fn) {
     const card = dom.window.document.querySelector('.chart-card');
     assert.deepEqual(dom.window.__glossaryForgot, [card],
       'the renderer asks the glossary to forget the card once, so the swapped intro is re-decorated');
+    dom.window.SourceBadge._disconnect();
+  });
+
+  await run('a place record that DOES carry an HPI cites the FHFA index on both strings', async () => {
+    const dom = boot();
+    dom.window.HNARenderers.renderDecadeAffordTrend('place', '0800001', '08077');
+    await settle();
+    const s = read(dom);
+    assert.match(s.panel, /for Testville; FHFA home-price index aggregated from Census-tract data/, 'provenance line cites FHFA');
+    assert.match(s.intro, /FHFA HPI/, 'intro cites FHFA');
+    assert.match(s.intro, /tract index aggregated to the place/, 'intro says how the index reached the place');
+    assert.match(s.badge, /\+ FHFA House Price Index/, 'badge cites FHFA');
+    assert.doesNotMatch(s.badge, COUNTY_TABLE_IDS);
+    dom.window.SourceBadge._disconnect();
+  });
+
+  await run('a statewide selection after a place selection resets to the county wording above the empty panel', async () => {
+    const dom = boot();
+    dom.window.HNARenderers.renderDecadeAffordTrend('place', '0828745', '08077');
+    await settle();
+    assert.doesNotMatch(read(dom).intro, AT_COUNTY_LEVEL, 'precondition: place copy applied');
+    dom.window.HNARenderers.renderDecadeAffordTrend('state', '08', null);
+    await settle();
+    const s = read(dom);
+    assert.match(s.panel, /published at the county level only/, 'statewide empty state rendered');
+    assert.match(s.intro, AT_COUNTY_LEVEL, 'county intro restored');
+    assert.match(s.badge, COUNTY_TABLE_IDS, 'county badge restored');
+    assert.doesNotMatch(s.badge, /place-geography/, 'no place citation left above an empty panel');
     dom.window.SourceBadge._disconnect();
   });
 
@@ -208,11 +253,15 @@ async function run(name, fn) {
     const dom = boot();
     const R = dom.window.HNARenderers;
     for (const meta of [undefined, null, {}, { vintage_variables: null }, { vintage_variables: { 2024: {} } }]) {
-      const line = R._placeDecadeSourceLine(meta);
-      assert.equal(line, R._decadeTrendCopy.place.source, 'static fallback for ' + JSON.stringify(meta));
-      assert.doesNotMatch(line, COUNTY_TABLE_IDS);
-      assert.match(line, /DP03/);
-      assert.match(line, /DP04/);
+      for (const hasHpi of [false, true]) {
+        const line = R._placeDecadeSourceLine(meta, hasHpi);
+        const expected = R._decadeTrendCopy[hasHpi ? 'place' : 'place-no-hpi'].source;
+        assert.equal(line, expected, 'static fallback for ' + JSON.stringify(meta) + ' hasHpi=' + hasHpi);
+        assert.doesNotMatch(line, COUNTY_TABLE_IDS);
+        assert.match(line, /DP03/);
+        assert.match(line, /DP04/);
+        if (hasHpi) assert.match(line, /FHFA/); else assert.doesNotMatch(line, /FHFA/);
+      }
     }
     dom.window.SourceBadge._disconnect();
   });

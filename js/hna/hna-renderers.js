@@ -6290,18 +6290,35 @@
         'Combines three publicly-available series at the county level. Sources: Census ACS 5-yr (2009, 2014, 2024); ' +
         'FHFA House Price Index (annual, <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>); ' +
         'DOLA State Demography Office 2024 mid-projection for population context.',
-      source: 'ACS 5-yr cohorts (B25064 median gross rent, B19013 median HH income, B25070 rent burden) + FHFA House Price Index'
+      source: 'ACS 5-yr cohorts (B25064 median gross rent, B19013 median HH income, B25070 rent burden) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
     },
+    // Place cohorts come from the DP03/DP04 profile tables at place geography.
+    // The FHFA index is only claimed when the record actually carries one:
+    // today every covered place has hpi null (the tract HPI file has no
+    // change_15y for them), the home-price card shows "—", and the provenance
+    // line already omits its FHFA sentence — the intro and badge must too.
     place: {
       intro: 'Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? ' +
-        'Combines three publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Combines publicly-available series for this place\'s own geography, not the county\'s. ' +
         'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
         'at place geography (2009, 2014, 2024); FHFA House Price Index (annual, ' +
-        '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>, tract index aggregated to the place); ' +
-        'DOLA State Demography Office 2024 mid-projection for population context.',
+        '<a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>, tract index aggregated to the place).',
       // Static fallback when the place file carries no meta.vintage_variables;
       // _placeDecadeSourceLine() prefers the IDs the file itself declares.
-      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins) + FHFA House Price Index'
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins) + FHFA House Price Index',
+      vintage: 'ACS 2009/2014/2024 cohorts · FHFA HPI annual'
+    },
+    'place-no-hpi': {
+      intro: 'Rent and income compared to 2009 — does housing pace incomes, or outpace them? ' +
+        'Uses publicly-available series for this place\'s own geography, not the county\'s. ' +
+        'Sources: Census ACS 5-yr profile tables DP03 (median household income) and DP04 (median gross rent, rent burden) ' +
+        'at place geography (2009, 2014, 2024). No FHFA house-price index is published for this place, ' +
+        'so the home-price card shows no value.',
+      source: 'ACS 5-yr place-geography cohorts (DP03 median HH income, DP04 median gross rent and GRAPI rent-burden bins)',
+      // The badge's vintage chip is authored as "… · FHFA HPI annual"; without
+      // an HPI that chip would claim the index too.
+      vintage: 'ACS 2009/2014/2024 cohorts'
     }
   };
 
@@ -6311,9 +6328,10 @@
    * see build_place_decade_trends.py's VINTAGE_VARIABLES) so the citation
    * can't drift from the builder. Falls back to the static place wording.
    */
-  function _placeDecadeSourceLine(meta) {
+  function _placeDecadeSourceLine(meta, hasHpi) {
+    var fallback = DECADE_TREND_COPY[hasHpi ? 'place' : 'place-no-hpi'].source;
     var vv = meta && meta.vintage_variables;
-    if (!vv || typeof vv !== 'object') return DECADE_TREND_COPY.place.source;
+    if (!vv || typeof vv !== 'object') return fallback;
     function ids(fields) {
       var out = [];
       Object.keys(vv).sort().forEach(function (year) {
@@ -6327,14 +6345,15 @@
     var income = ids(['income']);
     var rent = ids(['rent']);
     var grapi = ids(['grapi_30_34', 'grapi_35_plus']);
-    if (!income || !rent) return DECADE_TREND_COPY.place.source;
+    if (!income || !rent) return fallback;
     return 'ACS 5-yr place-geography cohorts (' + income + ' median HH income, ' + rent + ' median gross rent' +
-      (grapi ? ', ' + grapi + ' GRAPI rent-burden bins' : '') + ') + FHFA House Price Index';
+      (grapi ? ', ' + grapi + ' GRAPI rent-burden bins' : '') + ')' +
+      (hasHpi ? ' + FHFA House Price Index' : '');
   }
 
   /**
    * Point the panel's intro copy and source badge at whichever file served
-   * the cohorts. `mode` is 'county' or 'place'; `sourceText` overrides the
+   * the cohorts. `mode` is 'county', 'place' or 'place-no-hpi'; `sourceText` overrides the
    * mode's default badge text (the place path passes the file-derived line).
    */
   function _applyDecadeTrendCopy(panel, mode, sourceText) {
@@ -6357,6 +6376,7 @@
     if (!card) return;
     var source = sourceText || copy.source;
     card.setAttribute('data-source', source);
+    if (copy.vintage) card.setAttribute('data-vintage', copy.vintage);
     // source-badge.js renders the badge once from data-source at page load
     // and its attach() is a no-op on a card that already carries one, so an
     // attribute change alone would leave the stale citation on screen. Drop
@@ -6517,6 +6537,9 @@
     var fmtMoney = u.fmtMoney;
 
     if (!countyFips) {
+      // A statewide selection after a covered place would otherwise keep the
+      // place intro and DP03/DP04 badge above an empty panel.
+      _applyDecadeTrendCopy(panel, 'county');
       panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
         'Decade trends are published at the county level only. Pick a county or ' +
         'place inside a county to see the historical comparison.</p>';
@@ -6582,7 +6605,8 @@
         'Place-level ACS 5-yr cohorts (' + cohorts[0].year + '–' + cohorts[cohorts.length - 1].year + ') for ' +
         (rec.place_name || 'this place') + (rec.hpi ? '; FHFA home-price index aggregated from Census-tract data.' : '.') +
         '</p>';
-      _applyDecadeTrendCopy(panel, 'place', _placeDecadeSourceLine(data.meta));
+      var hasHpi = !!rec.hpi;
+      _applyDecadeTrendCopy(panel, hasHpi ? 'place' : 'place-no-hpi', _placeDecadeSourceLine(data.meta, hasHpi));
       _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, provenanceBanner);
     });
   }
