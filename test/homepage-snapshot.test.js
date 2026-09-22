@@ -28,13 +28,33 @@ function flushPromises() {
 async function testSnapshotFidelity() {
   const generator = await import(pathToFileURL(path.join(ROOT, 'scripts/build-home-snapshot.mjs')).href);
   const committed = require('../data/home-snapshot.json');
+  const projections = require('../data/hna/projections/08.json');
+  const amiGap = require('../data/co_ami_gap_by_county.json');
+  const summary = require('../data/hna/summary/08.json');
   const recomputed = generator.buildSnapshot({
     ranking: require('../data/hna/ranking-index.json'),
     acs: require('../data/market/acs_tract_metrics_co.json'),
     chfa: require('../data/chfa-lihtc.json'),
+    projections,
+    amiGap,
+    summary,
     now: new Date(committed.generated),
   });
-  assert.deepEqual(committed.values, recomputed.values, 'all three homepage values equal a fresh recomputation from the source files');
+  assert.deepEqual(committed.values, recomputed.values, 'all four homepage values equal a fresh recomputation from the source files');
+  assert.deepEqual(committed.deficit_growth_basis, recomputed.deficit_growth_basis, 'the deficit-growth basis reproduces from the source files');
+  // The ≤60%-AMI household-growth figure must agree with the files it is
+  // derived from, re-derived here independently of the generator: DOLA
+  // statewide household growth per year × HUD CHAS share of ALL households
+  // at ≤60% AMI (the card subtracts rental LIHTC supply from it, so the
+  // tenure basis is recorded, not assumed).
+  const years = projections.years;
+  const households = projections.housing_need.households_dola;
+  const growthPerYear = (households[households.length - 1] - households[0]) / (years[years.length - 1] - years[0]);
+  const le60Share = amiGap.statewide.all_households_le_ami_pct['60'] / summary.acsProfile.DP02_0001E;
+  assert.equal(committed.values.annual_le60_household_growth, Math.round(growthPerYear * le60Share),
+    'annual_le60_household_growth equals DOLA household growth/yr × CHAS all-tenure ≤60% share');
+  assert.equal(committed.deficit_growth_basis.tenure, 'all', 'the basis states its tenure');
+  assert(committed.values.annual_le60_household_growth > 0, 'the derived growth is a positive number of households');
   assert.deepEqual(committed.source_vintages, recomputed.source_vintages, 'vintage sidecar entries reproduce the source timestamps');
   assert(Buffer.byteLength(JSON.stringify(committed)) < 5 * 1024, 'homepage snapshot remains below 5 KB');
 }
@@ -64,9 +84,38 @@ async function testHomepageRendering() {
   assert.equal(document.getElementById('snapCostBurden').textContent, snapshot.values.renter_cost_burden_pct.toFixed(1) + '%');
   assert.equal(document.getElementById('snapLihtcCount').textContent, snapshot.values.lihtc_property_count.toLocaleString());
   assert.equal(document.getElementById('snapAvgUnitsPerYr').textContent, snapshot.values.average_lihtc_units_per_year.toLocaleString());
+  assert.equal(
+    document.getElementById('snapDeficitGrowth').textContent,
+    '+' + Math.max(0, snapshot.values.annual_le60_household_growth - snapshot.values.average_lihtc_units_per_year).toLocaleString() + '/yr',
+    'annual deficit growth renders from the snapshot basis, not a literal'
+  );
   assert(calls.includes('data/home-snapshot.json'), 'homepage requests the compact snapshot');
   assert(!calls.includes('data/market/acs_tract_metrics_co.json'), 'homepage does not fetch the tract-level ACS file');
   assert(!calls.includes('data/chfa-lihtc.json'), 'homepage does not fetch the CHFA feature collection');
+}
+
+async function testNoLiteralFallback() {
+  // Before 2026-09-22 js/index.js held a literal 6,500 for the household
+  // growth. Without the derived basis the card must stay "—", never revert
+  // to a number nothing in the data supports.
+  const dom = new JSDOM(`<!doctype html><body>
+    <span id="snapAvgUnitsPerYr">—</span>
+    <span id="snapDeficitGrowth">—</span>
+  </body>`, { url: 'http://127.0.0.1/index.html' });
+  installDom(dom);
+  const committed = require('../data/home-snapshot.json');
+  const withoutBasis = { ...committed, values: { ...committed.values } };
+  delete withoutBasis.values.annual_le60_household_growth;
+  window.DataService = {
+    baseData: (name) => 'data/' + name,
+    getJSON: (url) => (url === 'data/home-snapshot.json' ? Promise.resolve(withoutBasis) : Promise.reject(new Error('not used in fixture'))),
+  };
+  freshRequire('js/index.js');
+  document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  await flushPromises();
+  await flushPromises();
+  assert.equal(document.getElementById('snapAvgUnitsPerYr').textContent, committed.values.average_lihtc_units_per_year.toLocaleString(), 'supply pace still renders');
+  assert.equal(document.getElementById('snapDeficitGrowth').textContent, '—', 'no household-growth basis → no deficit-growth figure (no literal fallback)');
 }
 
 async function runBadgeFixture(snapshot, sourceResult) {
@@ -109,6 +158,7 @@ async function testVintageSidecarAndFallback() {
 (async function main() {
   await testSnapshotFidelity();
   await testHomepageRendering();
+  await testNoLiteralFallback();
   await testVintageSidecarAndFallback();
   console.log('homepage snapshot delivery: PASS');
 })().catch((error) => {

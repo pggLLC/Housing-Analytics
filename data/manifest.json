@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-22T19:20:27.078401Z",
+  "generated": "2026-09-22T20:30:59.967806Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 782653
+      "bytes": 782686
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7289,7 +7289,7 @@
     "data/home-snapshot.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 692
+      "bytes": 1348
     },
     "data/hud-fmr-income-limits.json": {
       "featureCount": 64,
