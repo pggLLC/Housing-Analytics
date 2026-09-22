@@ -383,6 +383,16 @@
       loadTerms(function (terms) {
         try { autoTooltip(terms, root || null); } catch (e) { /* non-fatal */ }
       });
+    },
+    // For renderers that REPLACE a section's prose. "Already wrapped" is
+    // remembered per section so late-arriving content is not re-wrapped on
+    // every pass — but that memory outlives the wrapped span when the
+    // section's innerHTML is swapped, so the new text would never get its
+    // first-occurrence tooltip back. Forgetting the section gives it a fresh
+    // key; the next sweep (observer or rescan) treats it as new content.
+    forget: function (el) {
+      var host = el && el.closest ? el.closest('section, .chart-card, article, main') : null;
+      if (host && host.__glKey) delete host.__glKey;
     }
   };
 
