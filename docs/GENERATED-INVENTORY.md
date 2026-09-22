@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T15:24:28.123Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T15:39:45.311Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.2 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 37.2 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 38.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
