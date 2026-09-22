@@ -331,15 +331,26 @@
     });
   }
 
+  // F227 — This page makes LIVE Census API calls straight from the visitor's
+  // own browser (unlike almost everything else on the site, which reads
+  // cached JSON that GitHub Actions builds server-side using the repo's own
+  // CENSUS_API_KEY secret). That secret is deliberately never embedded in
+  // the public JS bundle (see js/config.js's own comment on this), so it
+  // can never satisfy this check — a repo maintainer confirming "the GitHub
+  // secret is set" does not fix this message, because it isn't the same
+  // key. Only a VISITOR's own free personal key, added via this browser's
+  // localStorage on the Data Quality Dashboard, does. The original message
+  // ("Configure CENSUS_API_KEY") didn't say whose key, or where — leading a
+  // reader to reasonably assume the site's own configuration was broken.
   function renderApiKeyRequired(label, grid, vintageEl) {
     if (vintageEl) {
-      vintageEl.textContent = label + " unavailable without CENSUS_API_KEY";
+      vintageEl.textContent = label + " needs your own free Census API key";
     }
     if (grid) {
       grid.innerHTML = `
         <div class="card" style="padding:14px" data-contrast-surface>
-          <div style="font-weight:800">Census API key required</div>
-          <div style="color:var(--muted);margin-top:6px">Cached state data remains available. Configure CENSUS_API_KEY for live national, county, or place Census profile lookups.</div>
+          <div style="font-weight:800">This lookup runs live in your browser</div>
+          <div style="color:var(--muted);margin-top:6px">Cached state data remains available without one. National, county, and place lookups need a free Census API key stored in <em>your</em> browser (not a site-wide setting) — get one at <a href="https://api.census.gov/data/key_signup.html" target="_blank" rel="noopener">api.census.gov/data/key_signup.html</a>, then add it on the <a href="dashboard-data-quality.html#apiKeyForm">Data Quality Dashboard</a>.</div>
         </div>
       `;
     }
