@@ -51,6 +51,7 @@
   <script src="js/components/property-lookup-links.js"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
   <!-- F161 — Pipeline CRUD. Only used by visitors with an a developer
        session; the public detail panel never references them otherwise. -->
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -1930,7 +1931,7 @@
                 <th data-sort="county" data-priority="secondary" title="Containing Colorado county. Sort to group by county.">County</th>
                 <th data-sort="lastYear" data-priority="tertiary" title="Most recent LIHTC YR_PIS">Last funded</th>
                 <th data-sort="projectCount" data-priority="tertiary" title="LIHTC projects in jurisdiction">Projects</th>
-                <th data-sort="needScore" data-priority="tertiary" title="HNA need percentile (0–100p)">Need p</th>
+                <th data-sort="needScore" data-priority="tertiary" title="Need percentile: where this jurisdiction's housing-need score ranks among all Colorado jurisdictions of its type, 0–100 (higher = more need). Different from Score, which is the composite for the active deal type that this need percentile feeds into.">Need pctl</th>
                 <th data-sort="population" data-priority="tertiary" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
                 <th data-sort="captureAdvantage" data-priority="primary" title="Market capture advantage = 2BR FMR (FY2026) minus LIHTC 60% AMI 2BR max rent (from HUD income limits FY2026). Positive = LIHTC undercuts market (good lease-up). Negative = LIHTC above market (needs deeper AMI mix).">Capture</th>
                 <th data-sort="civicScore" data-priority="secondary" title="Civic-capacity score: Prop 123 + HNA + comp plan + housing authority + nonprofits + IZ + local funding (0–100); icons: Prop 123 / HNA / Comp plan">Civic</th>

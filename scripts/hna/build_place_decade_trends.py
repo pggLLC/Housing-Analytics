@@ -25,6 +25,20 @@ scripts/market/build_fhfa_hpi_subcounty.py aggregates FHFA tract HPI up to),
 and merges in each place's 15-year home-price change from
 data/market/fhfa_hpi_subcounty_co.json when available.
 
+Variable IDs are NOT stable across ACS profile vintages. The first live run
+(build-hna-data.yml run 35722034824, 2026-09-22) requested the 2024 IDs from
+acs_field_mapping.json for every vintage: the 2009 DP03 response returned
+the "$200,000 or more" household COUNT under DP03_0062E (Fruita: 111), and
+every 2009/2014 DP04 request failed with HTTP 400 (964 of them = 482 places
+x 2 vintages) because the Census API rejects a request wholesale when any
+one variable in it is unknown for that year — DP04_0142PE/DP04_0143PE do
+not exist in the 2009 or 2014 profile — so rent and the GRAPI bins came
+back null for both historical vintages. VINTAGE_VARIABLES below carries each
+vintage's own IDs (verified against the public
+api.census.gov/data/<year>/acs/acs5/profile/variables.json), and
+fetch_cohort() passes exactly those four IDs per vintage to ACSExtractor
+instead of the mapping file's current-vintage list.
+
 Requires CENSUS_API_KEY (see scripts/hna/acs_etl.py's ACSExtractor) — keyless
 Census API calls always fail (the .github/workflows/build-hna-data.yml
 "Environment check" step hard-gates on this for the same reason). Run this
@@ -66,6 +80,47 @@ OUT_PATH = os.path.join(ROOT, 'data', 'hna', 'place-decade-trends.json')
 
 VINTAGES = [2009, 2014, 2024]
 
+# The four semantic fields a cohort needs, and the ACS type each is coerced
+# to (same type vocabulary as acs_field_mapping.json).
+COHORT_FIELD_TYPES = {
+    'income': 'integer',          # Median household income (dollars)
+    'rent': 'integer',            # Median gross rent (dollars), occupied units paying rent
+    'grapi_30_34': 'percentage',  # Gross rent as % of household income: 30.0-34.9%
+    'grapi_35_plus': 'percentage',  # Gross rent as % of household income: 35.0%+
+}
+
+# Per-vintage ACS 5-year PROFILE variable IDs for those four fields. Each
+# row was read off the public variables.json for that year (the labels are
+# quoted in tests/test_build_place_decade_trends.py). Where the numbering
+# shifted between vintages:
+#   - median household income: DP03_0063E in 2009 (DP03_0062E there is the
+#     "$200,000 or more" household count), DP03_0062E from 2014 on.
+#   - median gross rent: DP04_0132E in 2009 and 2014 (DP04_0134E there is
+#     the GRAPI universe count), DP04_0134E in 2024.
+#   - GRAPI 30.0-34.9% / 35.0%+: DP04_0139PE / DP04_0140PE in 2009 and 2014,
+#     DP04_0141PE / DP04_0142PE in 2024 (DP04_0141PE was "Not computed" in
+#     the older vintages; DP04_0142PE did not exist).
+# The 2024 row must stay identical to acs_field_mapping.json's IDs — a test
+# enforces that so the two can't drift apart.
+VINTAGE_VARIABLES = {
+    2009: {'income': 'DP03_0063E', 'rent': 'DP04_0132E', 'grapi_30_34': 'DP04_0139PE', 'grapi_35_plus': 'DP04_0140PE'},
+    2014: {'income': 'DP03_0062E', 'rent': 'DP04_0132E', 'grapi_30_34': 'DP04_0139PE', 'grapi_35_plus': 'DP04_0140PE'},
+    2024: {'income': 'DP03_0062E', 'rent': 'DP04_0134E', 'grapi_30_34': 'DP04_0141PE', 'grapi_35_plus': 'DP04_0142PE'},
+}
+
+
+def vintage_variables(year: int) -> dict[str, dict[str, str]]:
+    """The ACSExtractor ``variables`` override for one vintage:
+    ``{table_id: {variable_id: type_hint}}`` covering exactly the four cohort
+    fields — nothing else, so a 2024-only ID can never sneak into a 2009
+    request and void the whole batch."""
+    ids = VINTAGE_VARIABLES[year]
+    out: dict[str, dict[str, str]] = {}
+    for field, var_id in ids.items():
+        table_id = var_id.split('_', 1)[0]
+        out.setdefault(table_id, {})[var_id] = COHORT_FIELD_TYPES[field]
+    return out
+
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')
@@ -91,20 +146,37 @@ def load_hpi_subcounty() -> dict:
     return data.get('places', {})
 
 
-def rent_burden_30_plus_pct(fields: dict) -> float | None:
+def rent_burden_30_plus_pct(fields: dict, year: int = VINTAGES[-1]) -> float | None:
     """Share of renter households paying >=30% of income on rent, as a
-    percentage. GRAPI bins: DP04_0141PE = 30-34.9%, DP04_0142PE = 35%+."""
-    g30 = fields.get('DP04_0141PE')
-    g35 = fields.get('DP04_0142PE')
+    percentage: the sum of that vintage's GRAPI 30-34.9% and 35%+ bins
+    (see VINTAGE_VARIABLES for which IDs those are in *year*)."""
+    ids = VINTAGE_VARIABLES[year]
+    g30 = fields.get(ids['grapi_30_34'])
+    g35 = fields.get(ids['grapi_35_plus'])
     if g30 is None and g35 is None:
         return None
     return round((g30 or 0) + (g35 or 0), 1)
 
 
+def is_plausible_cohort(rent, income) -> bool:
+    """A cohort counts only with a plausible median gross rent (>= $200/mo) AND
+    median household income (>= $5,000/yr). Anything else is a wrong field,
+    a sentinel, or a suppressed estimate — never publishable as history.
+    Mirrors _plausibleCohort() in js/hna/hna-renderers.js."""
+    try:
+        return float(rent) >= 200 and float(income) >= 5000
+    except (TypeError, ValueError):
+        return False
+
+
 def fetch_cohort(geoids: list[str], year: int) -> dict:
     """Fetch DP03 (median household income) + DP04 (median gross rent, GRAPI
-    rent-burden bins) for every geoid at one ACS 5-year vintage."""
-    fetcher = ACSExtractor(['DP03', 'DP04'], geoids, year=year)
+    rent-burden bins) for every geoid at one ACS 5-year vintage, requesting
+    that vintage's own variable IDs (VINTAGE_VARIABLES) rather than
+    acs_field_mapping.json's current-vintage list. Results are keyed by the
+    raw variable ID actually requested for *year*."""
+    variables = vintage_variables(year)
+    fetcher = ACSExtractor(sorted(variables), geoids, year=year, variables=variables)
     return fetcher.fetch_all()
 
 
@@ -119,16 +191,28 @@ def build(geoids: list[str]) -> dict:
 
     out_places = {}
     skipped_incomplete = 0
+    rejected_implausible = 0
     for geoid in geoids:
         cohorts = []
         for year in VINTAGES:
             fields = (by_year.get(year) or {}).get(geoid)
             if not fields:
                 continue
-            income = fields.get('DP03_0062E')
-            rent = fields.get('DP04_0134E')
-            burden_pct = rent_burden_30_plus_pct(fields)
-            if income is None and rent is None:
+            ids = VINTAGE_VARIABLES[year]
+            income = fields.get(ids['income'])
+            rent = fields.get(ids['rent'])
+            burden_pct = rent_burden_30_plus_pct(fields, year)
+            # Plausibility gate. The first live run published 2009/2014
+            # cohorts with null rent and "incomes" of 0-11 for every place
+            # because it requested the 2024 variable IDs from every vintage
+            # (see the module docstring). VINTAGE_VARIABLES is the real fix;
+            # this gate stays as the backstop so a wrong field, a sentinel,
+            # or a suppressed estimate can never be written as history. A
+            # rejected cohort is counted, and the place then fails the
+            # earliest/latest check below and is omitted, so the renderer
+            # keeps its county fallback.
+            if not is_plausible_cohort(rent, income):
+                rejected_implausible += 1
                 continue
             cohorts.append({
                 'year': year,
@@ -158,6 +242,7 @@ def build(geoids: list[str]) -> dict:
         'meta': {
             'generated': _utc_now(),
             'vintage_years': VINTAGES,
+            'vintage_variables': {str(y): VINTAGE_VARIABLES[y] for y in VINTAGES},
             'source': (
                 'ACS 5-Year DP03 (median household income) + DP04 (median gross rent, '
                 'GRAPI rent-burden bins), place geography'
@@ -169,6 +254,7 @@ def build(geoids: list[str]) -> dict:
             ),
             'place_count': len(out_places),
             'places_skipped_incomplete_history': skipped_incomplete,
+            'cohorts_rejected_implausible': rejected_implausible,
             'total_places_considered': len(geoids),
         },
         'places': out_places,

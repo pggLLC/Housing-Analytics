@@ -182,12 +182,15 @@
       step.appendChild(bb);
     }
 
-    // Readiness levels (only on Step 6)
-    if (Array.isArray(s.readiness_levels) && s.readiness_levels.length) {
+    // Readiness levels (Step 6). Shared by both financing tracks: the LIHTC
+    // levels live on the step itself, the ownership levels under
+    // s.ownership_track, and both render through the same list markup so
+    // the two tracks read as peers rather than one as the default.
+    function renderLevels(label, levels) {
       var rb = el('div', { class: 'ipp-block' });
-      rb.appendChild(el('div', { class: 'ipp-block__label', text: 'The five readiness levels' }));
+      rb.appendChild(el('div', { class: 'ipp-block__label', text: label }));
       var rl = el('ul', { class: 'ipp-levels' });
-      s.readiness_levels.forEach(function (r) {
+      levels.forEach(function (r) {
         var li = el('li', { class: 'ipp-level' });
         li.appendChild(el('div', { class: 'ipp-level__n', text: 'Level ' + r.level }));
         var n = el('div');
@@ -197,7 +200,60 @@
         rl.appendChild(li);
       });
       rb.appendChild(rl);
-      step.appendChild(rb);
+      return rb;
+    }
+    if (Array.isArray(s.readiness_levels) && s.readiness_levels.length) {
+      step.appendChild(renderLevels(s.readiness_label || 'The five readiness levels', s.readiness_levels));
+    }
+    var ot = s.ownership_track;
+    if (ot && Array.isArray(ot.readiness_levels) && ot.readiness_levels.length) {
+      if (ot.what_this_means) {
+        var ob = el('div', { class: 'ipp-block' });
+        ob.appendChild(el('div', { class: 'ipp-block__label', text: 'Affordable ownership — what this means' }));
+        ob.appendChild(el('p', { text: ot.what_this_means }));
+        step.appendChild(ob);
+      }
+      step.appendChild(renderLevels(ot.title || 'Affordable ownership — the five readiness levels', ot.readiness_levels));
+      if (Array.isArray(ot.watch_outs) && ot.watch_outs.length) {
+        var ow = el('div', { class: 'ipp-block' });
+        ow.appendChild(el('div', { class: 'ipp-block__label', text: 'Watch-outs on the ownership track' }));
+        var owl = el('ul');
+        ot.watch_outs.forEach(function (w) { owl.appendChild(el('li', { text: w })); });
+        ow.appendChild(owl);
+        step.appendChild(ow);
+      }
+      if (ot.does_not_tell_you) {
+        var od = el('div', { class: 'ipp-block ipp-block--not' });
+        od.appendChild(el('div', { class: 'ipp-block__label', text: 'What the ownership track does not tell you' }));
+        od.appendChild(el('p', { text: ot.does_not_tell_you }));
+        step.appendChild(od);
+      }
+    }
+
+    // What follows closing (Step 6): the ongoing reporting, certification and
+    // long-horizon obligations each track carries. Rendered as one list per
+    // track with the same five fields, so a reader can compare like with like.
+    var ac = s.after_closing;
+    if (ac && Array.isArray(ac.tracks) && ac.tracks.length) {
+      var ab = el('div', { class: 'ipp-block' });
+      ab.appendChild(el('div', { class: 'ipp-block__label', text: ac.label || 'What follows closing' }));
+      if (ac.intro) ab.appendChild(el('p', { text: ac.intro }));
+      ac.tracks.forEach(function (t) {
+        ab.appendChild(el('h4', { text: t.track, style: 'margin: 0.9rem 0 0.35rem;' }));
+        var ul = el('ul', { class: 'ipp-levels' });
+        (t.obligations || []).forEach(function (o) {
+          var li = el('li', { class: 'ipp-level' });
+          var body = el('div');
+          body.appendChild(el('span', { class: 'ipp-level__name', text: o.what }));
+          body.appendChild(el('span', { class: 'ipp-level__def', text:
+            'When: ' + o.when + ' · Who reports: ' + o.who_reports + ' · To whom: ' + o.to_whom +
+            ' · If missed: ' + o.if_missed }));
+          li.appendChild(body);
+          ul.appendChild(li);
+        });
+        ab.appendChild(ul);
+      });
+      step.appendChild(ab);
     }
 
     // Site lenses (only on Step 5)
