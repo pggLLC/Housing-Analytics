@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T22:02:21.328Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T22:10:06.335Z. Do not edit by hand.
 
 ---
 
@@ -1674,7 +1674,7 @@
 
 | File | Size |
 |------|------|
-| `test/a11y-audit-never-silently-skips.test.mjs` | 9.2 KB |
+| `test/a11y-audit-never-silently-skips.test.mjs` | 13.2 KB |
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
 | `test/absence-confident-value-static-guard.test.mjs` | 8.4 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
