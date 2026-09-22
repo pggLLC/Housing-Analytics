@@ -39,12 +39,23 @@ assert.equal(
 const indexHtml = read('index.html');
 const jurisdictionTokens = [...indexHtml.matchAll(/\ball\s+(\d+)\s+Colorado\s+(?:jurisdictions|geographies)\b/g)]
   .map((m) => Number(m[1]));
-assert(jurisdictionTokens.length >= 2, 'homepage exposes jurisdiction/geography count tokens');
+// How often the homepage names the count, and in which sentence, is a copy
+// choice (#1746 — it went from three routes to one on 2026-09-22). What must
+// hold: every count it states is the canonical one, at least one link into
+// the comparative page says how many geographies it opens (non-vacuity of
+// the scan), and that page agrees — the loop below checks the target.
+assert(jurisdictionTokens.length >= 1, 'homepage states the geography count at least once');
 for (const count of jurisdictionTokens) {
   assert.equal(count, rankingCount, `homepage count ${count} matches ranking-index count ${rankingCount}`);
 }
-assert(indexHtml.includes(`Explore all ${rankingCount} Colorado jurisdictions`), 'homepage hero link uses canonical jurisdiction count');
-assert(indexHtml.includes(`ranks all ${rankingCount} Colorado`), 'homepage comparative path uses canonical ranking count');
+const comparativeLinks = [...indexHtml.matchAll(/<a\s+href="hna-comparative-analysis\.html"[^>]*>([\s\S]*?)<\/a>/g)]
+  .map((m) => m[1].replace(/\s+/g, ' ').trim());
+assert(comparativeLinks.length >= 1, 'homepage links into the comparative page');
+const countedLinks = comparativeLinks.filter((text) => /\ball\s+\d+\b/.test(text));
+assert(countedLinks.length >= 1, 'a homepage link into the comparative page names how many geographies it opens');
+for (const text of countedLinks) {
+  assert.equal(Number(/\ball\s+(\d+)\b/.exec(text)[1]), rankingCount, `comparative link "${text}" names the canonical count`);
+}
 assert(!/all\s+645\s+Colorado\s+jurisdictions/.test(indexHtml), 'homepage no longer uses stale 645 jurisdiction count');
 
 // Every other surface that advertises the geography universe must agree with
