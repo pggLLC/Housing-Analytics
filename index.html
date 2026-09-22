@@ -131,7 +131,7 @@
         </div>
         <p class="home-opening__map-caption">
           <span>Overall housing-need score by county</span>
-          <a href="hna-comparative-analysis.html">Compare all 546 jurisdictions →</a>
+          <a href="hna-comparative-analysis.html">Explore all 546 Colorado jurisdictions →</a>
           <!-- Inputs named here are the five sub-scores that make up
                community_need_core in scripts/hna/build_ranking_index.py
                (gap, cost burden, affordability, future pressure,
@@ -139,7 +139,8 @@
           <span class="home-opening__map-explainer">
             One 0–100 score per county, combining how many affordable homes it is short, how many
             households pay more than they can afford, how rents and prices compare to local incomes,
-            expected growth pressure, and overcrowding. Red means the most need. Click any county to
+            expected growth pressure, and overcrowding. Red means the most need. The same score ranks all 546 Colorado
+            geographies (counties, places, and CDPs) on the comparison page. Click any county to
             open its full assessment.
           </span>
         </p>
@@ -468,13 +469,13 @@
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO rental deficit ≤30% AMI (inner tier)</span>
             <span class="home-snapshot__val" id="snapGap30">—</span>
-            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · current renter households vs affordable units: renter households earning up to 30% of area median income, minus homes that rent for what they can afford. Almost no homes rent that low, so this is the deepest shortfall.</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · first cumulative threshold — current renter households vs affordable units: renter households earning up to 30% of area median income, minus homes that rent for what they can afford. Almost no homes rent that low, so this is the deepest shortfall.</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO rental deficit ≤60% AMI (includes ≤30%)</span>
             <span class="home-snapshot__val" id="snapGap60">—</span>
-            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · Same subtraction for everyone earning up to 60% AMI (the ≤30% households included). More households — but many more homes rent at a ≤60%-affordable price, so the net shortfall is <em>smaller</em>, not because need falls but because the homes counted as affordable grow faster than the households do. Both counts include homes that are occupied, some by higher-income renters; neither means a vacant home is available (statewide 4-person AMI: $107,200).</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · Same subtraction for everyone earning up to 60% AMI (includes every household counted at ≤30% AMI). More households — but the wider tier raises the affordable-rent ceiling, so many more homes count as affordable and the net shortfall is <em>smaller</em>, not because need falls but because the homes counted as affordable grow faster than the households do. The counted priced-affordable homes are renter-occupied, not necessarily vacant or available; some are rented by higher-income households (statewide 4-person AMI: $107,200).</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
