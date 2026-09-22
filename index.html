@@ -481,7 +481,7 @@
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">20-yr Units Needed (Statewide)</span>
             <span class="home-snapshot__val" id="snapUnits20">—</span>
-            <span class="home-snapshot__note"><a href="data/hna/projections/08.json">DOLA projection</a> · base year 2024</span>
+            <span class="home-snapshot__note"><a href="data/hna/projections/08.json">DOLA projection</a> · additional homes Colorado needs by 2044 to house projected household growth at a healthy vacancy rate, all incomes · counts growth only: not today's shortfall, and not reduced by existing affordable or naturally affordable homes · base year 2024</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
@@ -510,13 +510,16 @@
                added each year minus LIHTC + preservation units produced. This
                is the annual shortfall-growth estimate: new ≤60%-AMI households
                per year minus recent LIHTC and preservation production.
-               Computed from CHAS demand growth (≈6,500 new ≤60%-AMI HH/yr
-               from DOLA projections) minus 10-yr LIHTC supply pace. -->
+               Computed from projected new ≤60%-AMI households per year
+               (DOLA statewide household growth × HUD CHAS ≤60%-AMI share of
+               all households; derived in scripts/build-home-snapshot.mjs as
+               values.annual_le60_household_growth, basis in
+               deficit_growth_basis) minus the 10-yr LIHTC supply pace. -->
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Annual deficit growth ≤60% AMI</span>
             <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
             <span class="home-snapshot__note">
-              CHAS demand growth − CHFA supply rate · gap deepens each year ·
+              Projected new ≤60%-AMI households per year (DOLA household growth × HUD CHAS ≤60% share, all tenures) − average LIHTC units placed in service per year · how much deeper the shortfall gets each year at the current pace ·
               Sources: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent);">HUD CHAS 2018-2022</a>,
               <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent);">DOLA SDO 2024 mid-projection</a>,
               <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA HousingTaxCreditProperties</a>,

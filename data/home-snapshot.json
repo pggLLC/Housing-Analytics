@@ -1,9 +1,21 @@
 {
-  "generated": "2026-09-22T20:26:16.798Z",
+  "generated": "2026-09-22T21:49:44.310Z",
   "values": {
     "renter_cost_burden_pct": 49.9,
     "lihtc_property_count": 926,
-    "average_lihtc_units_per_year": 3735
+    "average_lihtc_units_per_year": 3735,
+    "annual_le60_household_growth": 6406
+  },
+  "deficit_growth_basis": {
+    "dola_household_growth_per_year": 20222,
+    "projection_years": [
+      2024,
+      2044
+    ],
+    "le60_households_all_tenure": 785576,
+    "total_households_acs": 2479892,
+    "le60_share_all_tenure": 0.3168,
+    "tenure": "all"
   },
   "lihtc_window": {
     "start_year_exclusive": 2015,
@@ -22,6 +34,18 @@
     "data/chfa-lihtc.json": {
       "updated": "2026-09-20T10:08:00.074Z",
       "source": "fetchedAt"
+    },
+    "data/hna/projections/08.json": {
+      "updated": "2026-09-22T19:55:36Z",
+      "source": "updated"
+    },
+    "data/co_ami_gap_by_county.json": {
+      "updated": "2026-09-12T13:29:55Z",
+      "source": "meta.generated_at"
+    },
+    "data/hna/summary/08.json": {
+      "updated": "2026-09-22T19:55:41Z",
+      "source": "updated"
     }
   }
 }
