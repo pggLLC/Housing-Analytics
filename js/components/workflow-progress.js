@@ -57,6 +57,31 @@
     return '';
   }
 
+  /* ── The width at which the full-size rail stops fitting ──────────────────
+   *
+   * Derived, not picked. A full-size step is min-width 80px and a connector
+   * min-width 20px, so N steps need (N * 80) + ((N - 1) * 20) plus the wrap's
+   * 36px of side padding. At seven steps that is 716px.
+   *
+   * It used to be a literal 480, sized for six steps when the rail had five.
+   * Adding step 7 (#1715) pushed the minimum from 580px to 680px, which opened
+   * a band between 481px and 716px where the rail neither compacted nor
+   * scrolled: `.wf-progress-wrap` is `overflow:hidden`, so the last step was
+   * silently CLIPPED. On the deal calculator at 666px the reader simply lost
+   * "Recommendation" — no scrollbar, no ellipsis, nothing to indicate a
+   * seventh step existed.
+   *
+   * test:entry-path asserts this stays in step with STEPS.length, so adding an
+   * eighth step fails the build rather than re-opening the same gap. */
+  var STEP_MIN_PX = 80;
+  var CONNECTOR_MIN_PX = 20;
+  var WRAP_PADDING_PX = 36;
+  function compactBelowPx() {
+    return (STEPS.length * STEP_MIN_PX)
+      + ((STEPS.length - 1) * CONNECTOR_MIN_PX)
+      + WRAP_PADDING_PX;
+  }
+
   /* ── Inject CSS once ────────────────────────────────────────────────────── */
 
   function ensureStyles() {
@@ -73,7 +98,12 @@
       '.wf-progress-wrap{box-sizing:border-box;width:100%;max-width:1200px;margin:0 auto;padding:10px 18px;' +
         'position:sticky;top:var(--site-header-h,58px);z-index:900;background:var(--bg);' +
         'border-bottom:1px solid var(--border);overflow:hidden;}',
-      '.wf-progress-steps{display:flex;align-items:center;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;}',
+      // Scroll rather than clip. A rail that cannot fit must still be
+      // reachable: `overflow:hidden` on the wrap turns an overflowing strip
+      // into a step the reader never learns about.
+      '.wf-progress-steps{display:flex;align-items:center;gap:0;width:100%;max-width:1200px;margin:0 auto;min-width:0;'
+        + 'overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}',
+      '.wf-progress-steps::-webkit-scrollbar{display:none;}',
       '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;',
         'text-decoration:none;color:var(--muted);min-width:80px;}',
       '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;',
@@ -85,7 +115,7 @@
       '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
       '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
       '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
-      '@media(max-width:480px){',
+      '@media(max-width:' + compactBelowPx() + 'px){',
       '  .wf-progress-wrap{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:8px 10px;overflow:hidden;}',
       '  .wf-progress-steps{box-sizing:border-box;width:100%;max-width:100%;min-width:0;gap:0;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;}',
       '  .wf-progress-steps::-webkit-scrollbar{display:none;}',

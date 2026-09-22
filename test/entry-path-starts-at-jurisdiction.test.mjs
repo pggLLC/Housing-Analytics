@@ -158,6 +158,108 @@ test('the WorkflowState step map is derived, not duplicated', () => {
   }
 });
 
+/* ── The rail has to fit, or scroll — never silently clip ────────────────── */
+
+test('every step is a direct child of the strip', () => {
+  // Structural, not textual. Step 7 shipped nested INSIDE step 6 on the deal
+  // calculator, because that is the one page where step 6 is the active step —
+  // a <div> rather than an <a> — and the insertion anchor matched one level
+  // too early. The rail then rendered across four vertical positions with the
+  // seventh step hanging below.
+  //
+  // A regex cannot see this: `<div class="wf-step-connector"></div>` supplies
+  // a closing </div> that stops a non-greedy match early, which is both how
+  // the bug got in and how my first check for it reported zero. So the markup
+  // is parsed.
+  const VOID = /^(br|img|input|meta|link|hr|source|area|base|col|embed|param|track|wbr)$/i;
+  const offenders = [];
+  for (const f of railed) {
+    const src = read(f);
+    // Start immediately after the strip's own opening tag, then walk tags
+    // keeping a depth counter. A step is a direct child exactly when depth is
+    // 0 at the moment its tag opens.
+    const openTag = /<div[^>]*class="[^"]*wf-progress-steps[^"]*"[^>]*>/.exec(src);
+    if (!openTag) continue;
+    const body = src.slice(openTag.index + openTag[0].length);
+    let depth = 0;
+    const tagRe = /<(\/?)([a-zA-Z0-9]+)([^>]*?)(\/?)>/g;
+    let m;
+    while ((m = tagRe.exec(body))) {
+      const [, closing, tag, attrs, selfClose] = m;
+      if (closing) {
+        if (depth === 0) break;      // the strip itself closed
+        depth -= 1;
+        continue;
+      }
+      if (VOID.test(tag) || selfClose) continue;
+      const stepAttr = /data-step="(\d+)"/.exec(attrs);
+      const isStep = /class="[^"]*\bwf-step\b/.test(attrs);
+      if (isStep && stepAttr && depth !== 0) {
+        offenders.push(`${f}: step ${stepAttr[1]} is nested ${depth} level(s) deep, not a direct child`);
+      }
+      depth += 1;
+    }
+  }
+  assert.deepStrictEqual([...offenders], [], offenders.join('; '));
+});
+
+test('the compaction breakpoint is wide enough for the steps that exist', () => {
+  // Derived, not picked, and asserted in BOTH producers.
+  //
+  // A full-size step is min-width 80px, a connector 20px, and the wrap adds
+  // 36px of side padding. Seven steps therefore need 716px. The breakpoint was
+  // 480px — correct when the rail had five steps — so adding step 7 opened a
+  // band between 481px and 716px where the rail neither compacted nor
+  // scrolled, and `overflow:hidden` on the wrap CLIPPED the last step. At
+  // 666px a reader simply never learned "Recommendation" existed.
+  const component = read('js/components/workflow-progress.js');
+  const steps = [...component.matchAll(/\{ num: (\d+), key:/g)].length;
+  assert.ok(steps >= 6, `only ${steps} steps parsed from the component`);
+
+  const needed = (steps * 80) + ((steps - 1) * 20) + 36;
+
+  const derived = /return \(STEPS\.length \* STEP_MIN_PX\)/.test(component);
+  assert.ok(derived,
+    'the component no longer derives the compaction width from STEPS.length, so it '
+    + 'will not follow the next step that is added');
+
+  const css = read('css/site-theme.css');
+  const bp = /@media \(max-width: (\d+)px\) \{\s*\.wf-progress-wrap,/.exec(css);
+  assert.ok(bp, 'the rail compaction breakpoint is gone from site-theme.css');
+  assert.ok(Number(bp[1]) >= needed,
+    `site-theme.css compacts the rail below ${bp[1]}px, but ${steps} steps need ${needed}px. `
+    + `Between ${Number(bp[1]) + 1}px and ${needed}px the rail neither compacts nor fits, and `
+    + 'the wrap clips it.');
+});
+
+test('the strip scrolls rather than clipping when it cannot fit', () => {
+  // The safety net, for widths below even the compact minimum. Clipping loses
+  // a step with no indication; scrolling keeps it reachable.
+  const component = read('js/components/workflow-progress.js');
+  const joined = component.replace(/'\s*\+\s*'/g, '').replace(/'\s*\n\s*\+\s*'/g, '');
+  // Only the BASE rule counts. The compaction block also sets overflow-x:auto,
+  // so matching anywhere passes while the full-size rail still clips — which is
+  // exactly what the first version of this assertion did.
+  const base = joined.slice(0, joined.indexOf('@media'));
+  assert.ok(/\.wf-progress-steps\{[^}]*overflow-x:auto/.test(base),
+    'the strip no longer scrolls at full size, so an overflowing rail is clipped by the '
+    + "wrap's overflow:hidden");
+});
+
+test('no page keeps its own copy of the rail CSS', () => {
+  // Ten pages carried a fork of the component's rail styles, each hardcoding
+  // `top:70px` and its own breakpoint. They were appended after the component's
+  // and won, so #1640's "pin to the measured header" fix never reached them —
+  // and neither would any later fix. One producer.
+  const offenders = [];
+  for (const f of fs.readdirSync(ROOT).filter((x) => x.endsWith('.html'))) {
+    const src = read(f);
+    if (/['.]wf-progress-wrap\{/.test(src) || /['.]wf-step\{/.test(src)) offenders.push(f);
+  }
+  assert.deepStrictEqual([...offenders], [],
+    `these define rail CSS the component already owns: ${offenders.join(', ')}`);
+});
+
 test('the homepage cards open on the jurisdiction', () => {
   const src = read('index.html');
   const cards = [...src.matchAll(/<li class="home-step[^"]*">\s*<span class="home-step__num"[^>]*>(\d+)<\/span>[\s\S]*?href="([^"]+)" aria-label="Step (\d+):/g)]

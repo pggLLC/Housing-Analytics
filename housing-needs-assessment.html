@@ -3410,16 +3410,6 @@
        users keep their 5-step orientation while scrolling deep into
        the page. Padding tightened from 14px → 10px since the bar is
        now persistent and shouldn't eat scroll real estate. */
-    '.wf-progress-wrap{max-width:1200px;margin:0 auto;padding:10px 18px;position:sticky;top:70px;z-index:900;background:var(--bg);border-bottom:1px solid var(--border);}',
-    '.wf-progress-steps{display:flex;align-items:center;gap:0;max-width:1200px;margin:0 auto;}',
-    '.wf-step{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--muted);min-width:80px;}',
-    '.wf-step__num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;background:var(--bg2);color:var(--muted);border:2px solid var(--border);z-index:1;}',
-    '.wf-step__label{font-size:.68rem;color:var(--muted);margin-top:4px;line-height:1.2;font-weight:600;}',
-    '.wf-step--active .wf-step__num{background:var(--accent);color:var(--on-accent,#fff);border-color:var(--accent);}',
-    '.wf-step--active .wf-step__label{color:var(--accent);}',
-    '.wf-step--done .wf-step__num{background:var(--good,#047857);color:#fff;border-color:var(--good,#047857);}',
-    '.wf-step--done .wf-step__label{color:var(--good,#047857);}',
-    '.wf-step-connector{flex:1;height:2px;background:var(--border);min-width:20px;margin-bottom:18px;}',
     /* Jurisdiction banner */
     '.hna-jurisdiction-banner{max-width:1200px;margin:12px auto 0;padding:0 18px;}',
     '.hna-jurisdiction-banner__inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:color-mix(in oklab,var(--card) 60%,var(--accent) 40%);border:1px solid color-mix(in oklab,var(--border) 40%,var(--accent) 60%);border-radius:8px;flex-wrap:wrap;}',
@@ -3441,8 +3431,6 @@
     '.hna-continue-btn:hover{opacity:.9;}',
     '.hna-save-confirmation{padding:8px 16px;font-size:.85rem;font-weight:700;color:var(--good,#047857);margin-top:8px;}',
     '@media(max-width:640px){',
-    '  .wf-progress-steps{gap:0;overflow-x:auto;}',
-    '  .wf-step{min-width:60px;}',
     '  .hna-continue-panel__inner{flex-direction:column;align-items:flex-start;}',
     /* F225 — Mobile body overflow fixes. The HNA page was producing a
        body 3x wider than the viewport on 375px because of:
