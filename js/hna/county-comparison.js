@@ -54,7 +54,13 @@
     { key: 'pct_cost_burdened',          label: 'Renters cost-burdened',      higherIsWorse: true },
     { key: 'pct_renter_severe_burdened', label: 'Severe renter burden',       higherIsWorse: true },
     { key: 'pct_owner_burdened_30plus',  label: 'Owners cost-burdened',       higherIsWorse: true },
-    { key: 'housing_gap_rate_lte30',     label: 'Gap rate at ≤30% AMI',  higherIsWorse: true },
+    // Was "Gap rate at ≤30% AMI" — the bare word "gap" collided with three
+    // other, unrelated "gap" figures elsewhere on the page (a household-count
+    // AMI-tier gap, a dollar income gap, a project-level funding gap). This
+    // one specifically is housing_gap_units ÷ low_income_households_lte30 —
+    // the share of ≤30%-AMI households without an affordable UNIT, not a
+    // cost-burden rate, even though it sits next to three cost-burden rows.
+    { key: 'housing_gap_rate_lte30',     label: 'Unmet unit-gap rate (≤30% AMI)',  higherIsWorse: true },
     { key: 'overcrowding_rate_pct',      label: 'Overcrowding',               higherIsWorse: true },
     { key: 'vacancy_rate_pct',           label: 'Vacancy',                    higherIsWorse: false },
     { key: 'pct_renters',                label: 'Renter share',               higherIsWorse: null },
