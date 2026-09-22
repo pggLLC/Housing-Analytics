@@ -19,6 +19,16 @@ updates:
         update-types:
           - "minor"
           - "patch"
+    ignore:
+      # puppeteer 25.11 rolls to Chrome 153, which hangs the runtime DOM
+      # contrast scanner on ubuntu-latest at for-sale-market-study.html
+      # [dark] (Runtime.callFunctionOn timed out; then every navigation on
+      # the wedged page times out until the 30-min job cap). Reproduced
+      # twice on the runner (#1775), not reproducible on macOS Chrome 153.
+      # Lift this once the hang is understood — see the tracking issue
+      # linked from #1775.
+      - dependency-name: "puppeteer"
+        versions: [">=25.11.0"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
