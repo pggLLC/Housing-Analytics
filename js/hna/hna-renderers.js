@@ -5114,13 +5114,17 @@
   }
 
   function renderAffordableOwnershipNeed(result, context) {
+    // container is the detailed panel this view may or may not carry (the
+    // split views only include a subset of the canonical page's sections).
+    // Its absence used to short-circuit the whole function before the
+    // ownership/confidence decision-strip tiles got a real value, so they
+    // sat on their "Loading" placeholder on any view without this section.
+    // The result is computed by the caller from state that has nothing to
+    // do with this DOM node; only the detailed HTML at the end of this
+    // function actually needs it.
     var container = document.getElementById('hnaAffordableOwnershipNeed');
-    if (!container) {
-      updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
-      return;
-    }
     if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5131,7 +5135,7 @@
       return;
     }
     if (!result || result.dataQuality === 'Unavailable') {
-      container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
+      if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Ownership data unavailable for this geography.</p>';
       _combinedSetText('statOwnGap', 'Unavailable');
       _combinedSetText('statOwnGapModerateRenters', 'Unavailable');
       _combinedSetText('statOwnGapOwnerBurden', 'Unavailable');
@@ -5308,14 +5312,20 @@
       },
     });
 
-    var DETAIL_SUMMARY = 'font-size:1rem;font-weight:700;color:var(--accent);cursor:pointer;padding:.5rem 0;';
-    var DETAIL_BOX = 'margin:.6rem 0;border:1px solid var(--border);border-radius:8px;padding:0 .9rem;background:var(--bg2);';
-
     // The answer goes ABOVE the section's static framing when the page gives it
     // a mount; otherwise it stays at the top of this container, so the panel
     // still leads with the conclusion on any page that has not added one.
     var answerMount = document.getElementById('hnaOwnershipAnswer');
     if (answerMount) answerMount.innerHTML = verdictHtml;
+
+    // Everything below writes the detailed panel. On a view that doesn't
+    // carry #hnaAffordableOwnershipNeed there is nowhere to write it — the
+    // decision strip already has its real value from the updateDecisionStrip()
+    // call above, cross-linked to whichever view does carry the full section.
+    if (!container) return;
+
+    var DETAIL_SUMMARY = 'font-size:1rem;font-weight:700;color:var(--accent);cursor:pointer;padding:.5rem 0;';
+    var DETAIL_BOX = 'margin:.6rem 0;border:1px solid var(--border);border-radius:8px;padding:0 .9rem;background:var(--bg2);';
 
     container.innerHTML =
       (answerMount ? '' : verdictHtml) +
@@ -5401,22 +5411,27 @@
 
   function tryRenderAffordableOwnershipNeedFromState(profile, geoType, geoid, label, contextCounty) {
     try {
+      // This container is the detailed panel this view may or may not carry
+      // (the split views only include a subset of the canonical page's
+      // sections). It used to be the OUTERMOST guard, returning before the
+      // ownership result was ever computed — so a view without the section
+      // never got a real value for the ownership/confidence decision-strip
+      // tiles either, the same class of bug #1643 fixed for the em-dash
+      // case. The score is computed from state that has nothing to do with
+      // this DOM node; renderAffordableOwnershipNeed() itself now only
+      // skips writing the panel when container is null, so the computation
+      // below no longer needs to stop here.
       var container = document.getElementById('hnaAffordableOwnershipNeed');
-      // The absence signal has to be raised at the OUTERMOST guard. #1643 added
-      // `if (!el) return` at several layers of this chain, and the outer one
-      // swallows the call before the inner one can report anything — which is
-      // why the ownership and confidence tiles sat on an em dash rather than
-      // being dropped.
-      if (!container) {
-        updateDecisionStrip({ ownership: { absent: true }, confidence: { absent: true } });
-        return;
-      }
       if (!window.HNAOwnershipNeed || typeof window.HNAOwnershipNeed.computeOwnershipNeed !== 'function') {
         renderAffordableOwnershipNeed(null);
         return;
       }
       if (!geoType || !geoid) {
-        container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        if (container) container.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a jurisdiction to load ownership indicators.</p>';
+        updateDecisionStrip({
+          ownership: { value: 'Unavailable', read: 'Select a jurisdiction', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+          confidence: { value: 'Unavailable', read: 'Select a jurisdiction', href: '#affordable-ownership-need-section', tone: 'unavailable' },
+        });
         return;
       }
       var stateRef = S() && S().state || {};
@@ -7844,8 +7859,16 @@
   }
 
   function renderHnaScorecardPanel(geoid) {
+    // container is the detailed panel this view may or may not carry (the
+    // split views only include a subset of the canonical page's sections).
+    // Its absence used to short-circuit the whole function, so the decision-
+    // strip "Need" tile never got a real value on those views and sat on its
+    // "Loading" placeholder forever (visible once #1780 stopped it from
+    // hiding under a stuck spinner). The score is computed from state that
+    // has nothing to do with this DOM node; only the detailed HTML below
+    // actually needs it, so container==null no longer skips the scoring —
+    // it only skips writing the panel nobody asked this view to show.
     const container = document.getElementById('hnaScorecardPanel');
-    if (!container) { updateDecisionStrip({ need: { absent: true } }); return; }
     if (!geoid) { _scorecardUnavailable(container, 'Not scored', 'Select a jurisdiction'); return; }
 
     const state = S() && S().state;
@@ -7949,6 +7972,12 @@
         tone: _decisionTone(compLabel),
       },
     });
+
+    // Everything below writes the detailed panel. On a view that doesn't
+    // carry #hnaScorecardPanel there is nowhere to write it — the decision
+    // strip already has its real value from the updateDecisionStrip() call
+    // above, cross-linked to whichever view does carry the full section.
+    if (!container) return;
 
     // Format helpers
     const pctStr = (v, digits) => v != null && Number.isFinite(v) ? (v * 100).toFixed(digits != null ? digits : 1) + '%' : '—';
