@@ -68,23 +68,54 @@ assert(
   'hero cost-burden claim must disclose the CHAS 2018-2022 vintage inline'
 );
 
+// The two cumulative AMI cards. What is pinned below is what each card has
+// to AGREE with — the data file js/index.js renders it from, and the other
+// card — never the sentence used to say it (#1746: three copy edits on
+// 2026-09-22 were each held by this block asserting the previous wording).
+// Reword freely. A rewording that stops stating the basis, drops the
+// ≤30%-inside-≤60% relationship the data has, shows an AMI figure the data
+// does not carry, or loses the occupancy caveat, fails.
+const amiGapData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'co_ami_gap_by_county.json'), 'utf8'));
+const statewideGap = amiGapData.statewide.gap_units_minus_households_le_ami_pct;
 const gap30Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤30% AMI', '</div>');
 const gap60Card = htmlBlock('<span class="home-snapshot__key">CO rental deficit ≤60% AMI', '</div>');
 const gap30Note = new JSDOM(gap30Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
 const gap60Note = new JSDOM(gap60Card).window.document.querySelector('.home-snapshot__note').textContent.trim();
 assert.notEqual(gap30Note, gap60Note, 'the two cumulative AMI cards must not carry identical sublabels');
-assert(gap30Card.includes('inner tier') && gap30Card.includes('first cumulative threshold'), '≤30% card identifies the inner cumulative tier');
-assert(gap60Card.includes('includes ≤30%') && gap60Card.includes('includes every household counted at ≤30% AMI'), '≤60% card states that it contains the ≤30% household group');
-assert(
-  index.includes('the wider tier raises the affordable-rent ceiling') &&
-    index.includes('not because need falls'),
-  'homepage explains why the wider cumulative tier can have a smaller deficit'
-);
-assert(
-  index.includes('counted priced-affordable homes are renter-occupied, not necessarily vacant or available') &&
-    index.includes('statewide 4-person AMI: $107,200'),
-  'homepage carries the occupancy caveat and identifies the statewide AMI basis'
-);
+for (const [tier, card] of [['≤30%', gap30Card], ['≤60%', gap60Card]]) {
+  assert(card.includes('data/co_ami_gap_by_county.json'),
+    `${tier} card links the file js/index.js renders its figure from`);
+}
+// Basis: the figure is renter households against homes they can afford
+// (statewide.demand_tenure is "renter"; gap = units − households). Each card
+// must say so in those terms, in whatever sentence.
+assert.equal(amiGapData.statewide.demand_tenure, 'renter', 'fixture: the gap demand side is renter households');
+assert(/renter households/i.test(gap30Note) && /afford/i.test(gap30Note),
+  '≤30% card states its basis: renter households against what they can afford');
+// The tiers are cumulative in the data (≤60% contains ≤30%), so the ≤60%
+// card must say it includes the ≤30% group — the reader otherwise adds them.
+assert(/≤30%/.test(gap60Note) && /includ/i.test(gap60Note),
+  '≤60% card states that it includes the ≤30% households (the data tiers are cumulative)');
+// In the data the WIDER tier's deficit is the smaller number. That reads as
+// a contradiction, so the card must acknowledge it and attribute it to the
+// count of affordable homes, not to need falling. If the data ever flips,
+// drop this requirement with it — that is why it is conditional.
+if (-statewideGap['60'] < -statewideGap['30']) {
+  assert(/smaller/i.test(gap60Note) && /need/i.test(gap60Note) && /homes|units/i.test(gap60Note),
+    '≤60% deficit is smaller than ≤30% in the data, so the card must explain why (need vs counted homes)');
+}
+// The AMI figure shown must be the one the data was built on, for the
+// household size the data names (ami_4person) — a copy edit cannot leave a
+// stale number behind.
+const amiShown = /AMI[^$]{0,40}\$([\d,]+)/.exec(gap60Note);
+assert(amiShown, '≤60% card states the statewide AMI dollar basis');
+assert.equal(Number(amiShown[1].replace(/,/g, '')), amiGapData.statewide.ami_4person,
+  'the AMI figure on the homepage equals statewide.ami_4person in data/co_ami_gap_by_county.json');
+assert(/4-person/.test(gap60Note), 'the AMI basis names the 4-person household the data uses');
+// Occupancy caveat: the counted homes are occupied, not necessarily vacant or
+// available — the claim, in any words.
+assert(/occupied/i.test(gap60Note) && /vacant|available/i.test(gap60Note),
+  '≤60% card carries the occupancy caveat (occupied; not necessarily vacant/available)');
 
 const routes = htmlBlock('<nav class="home-job-routes"', '</nav>');
 assert(
