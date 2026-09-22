@@ -119,32 +119,47 @@ def test_build_omits_place_missing_earliest_or_latest_vintage(m, monkeypatch):
     assert '0828745' not in payload['places']
 
 
-def test_build_rejects_implausible_cohorts_from_wrong_vintage_fields(m, monkeypatch):
+LATEST_OK = {'DP03_0062E': 87184, 'DP04_0134E': 1472, 'DP04_0141PE': 8.6, 'DP04_0142PE': 35.0}
+
+
+def _build_one(m, monkeypatch, fixture_by_year):
+    monkeypatch.setattr(m, 'fetch_cohort', lambda geoids, year: fixture_by_year.get(year, {}))
+    monkeypatch.setattr(m, 'load_places', lambda: {'0828745': {'name': 'Fruita'}})
+    monkeypatch.setattr(m, 'load_hpi_subcounty', lambda: {})
+    return m.build(['0828745'])
+
+
+def _unusable(meta):
+    return {k: meta[k] for k in ('cohorts_missing_geography', 'cohorts_suppressed', 'cohorts_rejected_implausible')}
+
+
+def test_build_counts_wrong_vintage_fields_as_suppressed_not_implausible(m, monkeypatch):
     """The first live run (2026-09-22) published, for every one of 336 places,
     a 2009 cohort with median_gross_rent null and median_hh_income of 0-11:
     the ACS profile variable IDs the builder fetches are not stable across
     vintages, so the 2009/2014 requests returned different fields under the
     same IDs. These are the exact values Fruita came back with. Such a
-    cohort must be rejected at the source — counted, never written — so the
-    place fails the earliest/latest check and the renderer keeps its county
-    fallback, rather than charting "$111 -> $87,184" as 15 years of history.
+    cohort must never be written, so the place fails the earliest/latest
+    check and the renderer keeps its county fallback, rather than charting
+    "$111 -> $87,184" as 15 years of history.
+
+    Which counter it lands in: with the builder reading each vintage's own
+    IDs, these dicts (2024 IDs under every vintage) have NO value under the
+    2009/2014 rent or income IDs — rent reads as None — so the cohort is
+    classified as SUPPRESSED (a median is absent), not as implausible.
+    The $111 never reaches the gate because it sits under DP03_0062E, which
+    is not 2009's income ID. Either way: counted, not written.
     """
-    # These dicts are shaped exactly as the first run's responses were: the
-    # 2024 IDs under every vintage. With the builder now reading each
-    # vintage's own IDs, the 2009/2014 income and rent are simply absent
-    # (None) and the gate rejects the cohort — belt and braces.
     fixture_by_year = {
         2009: {'0828745': {'DP03_0062E': 111, 'DP04_0134E': None, 'DP04_0141PE': None, 'DP04_0142PE': None}},
         2014: {'0828745': {'DP03_0062E': 54875, 'DP04_0134E': None, 'DP04_0141PE': None, 'DP04_0142PE': None}},
-        2024: {'0828745': {'DP03_0062E': 87184, 'DP04_0134E': 1472, 'DP04_0141PE': 8.6, 'DP04_0142PE': 35.0}},
+        2024: {'0828745': LATEST_OK},
     }
-    monkeypatch.setattr(m, 'fetch_cohort', lambda geoids, year: fixture_by_year.get(year, {}))
-    monkeypatch.setattr(m, 'load_places', lambda: {'0828745': {'name': 'Fruita'}})
-    monkeypatch.setattr(m, 'load_hpi_subcounty', lambda: {})
+    payload = _build_one(m, monkeypatch, fixture_by_year)
 
-    payload = m.build(['0828745'])
-
-    assert payload['meta']['cohorts_rejected_implausible'] == 2
+    assert _unusable(payload['meta']) == {
+        'cohorts_missing_geography': 0, 'cohorts_suppressed': 2, 'cohorts_rejected_implausible': 0,
+    }
     assert payload['meta']['place_count'] == 0
     assert '0828745' not in payload['places']
 
@@ -154,6 +169,133 @@ def test_build_rejects_implausible_cohorts_from_wrong_vintage_fields(m, monkeypa
     assert m.is_plausible_cohort(1472, 111) is False
     assert m.is_plausible_cohort(None, 87184) is False
     assert m.is_plausible_cohort('1472', '87184') is True
+
+
+def test_build_counts_implausible_values_under_their_own_vintage_ids(m, monkeypatch):
+    """The $111 "income" the first run wrote, now sitting under 2009's OWN
+    income ID with a real rent beside it, is the case the gate exists for:
+    both medians present, one of them impossible. That, and only that, is
+    cohorts_rejected_implausible."""
+    fixture_by_year = {
+        2009: {'0828745': {'DP03_0063E': 111, 'DP04_0132E': 650, 'DP04_0139PE': 10.0, 'DP04_0140PE': 38.0}},
+        2014: {'0828745': {'DP03_0062E': 54875, 'DP04_0132E': 150, 'DP04_0139PE': 9.0, 'DP04_0140PE': 37.0}},
+        2024: {'0828745': LATEST_OK},
+    }
+    payload = _build_one(m, monkeypatch, fixture_by_year)
+
+    assert _unusable(payload['meta']) == {
+        'cohorts_missing_geography': 0, 'cohorts_suppressed': 0, 'cohorts_rejected_implausible': 2,
+    }
+    assert payload['meta']['place_count'] == 0
+    assert '0828745' not in payload['places']
+
+
+def test_build_counts_extractor_bookkeeping_only_as_missing_geography(m, monkeypatch):
+    """ACSExtractor.fetch_all() returns a dict for EVERY requested geoid,
+    even one whose DP03 and DP04 fetches both came back HTTP 204 because the
+    geography did not exist in that vintage (CDPs delineated after 2009):
+    that dict holds only the extractor's own _fetched_at/_geoid keys. The
+    first correct run (2026-09-22) counted 161 such vintages as
+    "implausible". They are cohorts_missing_geography — nothing was fetched,
+    so nothing was judged — and are still never written."""
+    fixture_by_year = {
+        2009: {'0828745': {'_fetched_at': '2026-09-22T15:00:00Z', '_geoid': '0828745'}},
+        2014: {'0828745': {'_fetched_at': '2026-09-22T15:00:00Z', '_geoid': '0828745'}},
+        2024: {'0828745': dict(LATEST_OK, _fetched_at='2026-09-22T15:00:00Z', _geoid='0828745')},
+    }
+    payload = _build_one(m, monkeypatch, fixture_by_year)
+
+    assert _unusable(payload['meta']) == {
+        'cohorts_missing_geography': 2, 'cohorts_suppressed': 0, 'cohorts_rejected_implausible': 0,
+    }
+    assert payload['meta']['place_count'] == 0
+    assert payload['meta']['places_skipped_incomplete_history'] == 1
+    assert '0828745' not in payload['places']
+
+    # A geoid the fetch returned nothing at all for (a monkeypatched {} or a
+    # None entry) is the same case.
+    assert m.classify_cohort(None, 2009) == m.COHORT_MISSING_GEOGRAPHY
+    assert m.classify_cohort({}, 2009) == m.COHORT_MISSING_GEOGRAPHY
+    assert m.data_fields({'_fetched_at': 'x', '_geoid': 'y'}) == {}
+    assert m.data_fields({'_geoid': 'y', 'DP03_0063E': 45000}) == {'DP03_0063E': 45000}
+
+
+def test_build_counts_suppressed_medians_as_suppressed(m, monkeypatch):
+    """A very small place whose 2009 median rent the Census suppressed:
+    fields present (income, the GRAPI bins) but rent None. A legitimate
+    gate outcome — counted as cohorts_suppressed, never written, and the
+    place keeps its county fallback. Income None alone is the same case."""
+    fixture_by_year = {
+        2009: {'0828745': {'DP03_0063E': 45000, 'DP04_0132E': None, 'DP04_0139PE': 10.0, 'DP04_0140PE': 38.0,
+                           '_fetched_at': '2026-09-22T15:00:00Z', '_geoid': '0828745'}},
+        2014: {'0828745': {'DP03_0062E': None, 'DP04_0132E': 820, 'DP04_0139PE': 9.0, 'DP04_0140PE': 37.0}},
+        2024: {'0828745': LATEST_OK},
+    }
+    payload = _build_one(m, monkeypatch, fixture_by_year)
+
+    assert _unusable(payload['meta']) == {
+        'cohorts_missing_geography': 0, 'cohorts_suppressed': 2, 'cohorts_rejected_implausible': 0,
+    }
+    assert payload['meta']['place_count'] == 0
+    assert '0828745' not in payload['places']
+
+
+def test_classify_cohort_reasons_are_disjoint_and_ordered(m):
+    """One reason per (place, vintage), checked in the order absent ->
+    suppressed -> implausible, and None for a usable cohort."""
+    ok = {'DP03_0063E': 45000, 'DP04_0132E': 650}
+    assert m.classify_cohort(ok, 2009) is None
+    assert m.classify_cohort({'_fetched_at': 'x', '_geoid': 'y'}, 2009) == 'missing_geography'
+    assert m.classify_cohort({'DP03_0063E': 45000, 'DP04_0132E': None}, 2009) == 'suppressed'
+    assert m.classify_cohort({'DP03_0063E': None, 'DP04_0132E': 650}, 2009) == 'suppressed'
+    assert m.classify_cohort({'DP03_0063E': 111, 'DP04_0132E': 650}, 2009) == 'rejected_implausible'
+    assert m.classify_cohort({'DP03_0063E': 45000, 'DP04_0132E': 199}, 2009) == 'rejected_implausible'
+    # Year selects the IDs: the same numbers under 2024's IDs are absent in 2009.
+    assert m.classify_cohort({'DP03_0062E': 45000, 'DP04_0134E': 650}, 2009) == 'suppressed'
+    assert m.classify_cohort({'DP03_0062E': 45000, 'DP04_0134E': 650}, 2024) is None
+    assert {m.COHORT_MISSING_GEOGRAPHY, m.COHORT_SUPPRESSED, m.COHORT_REJECTED_IMPLAUSIBLE} == {
+        'missing_geography', 'suppressed', 'rejected_implausible'}
+
+
+class _NoContentResponse:
+    status = 204
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        return False
+
+    @staticmethod
+    def read():
+        return b''
+
+
+def test_extractor_logs_http_204_as_absent_geography_not_failure(m, monkeypatch):
+    """A 204 from the Census API means the geography is not published in
+    that vintage. ACSExtractor must say so (and count it) rather than log
+    it under the same "Failed ... HTTP" line as a 400 or 500, and must still
+    return the bookkeeping-only dict build() classifies as missing_geography."""
+    from contextlib import redirect_stderr
+    from io import StringIO
+    import urllib.request
+
+    ov = m.vintage_variables(2009)
+    ex = m.ACSExtractor(sorted(ov), ['0828745'], year=2009, variables=ov)
+    monkeypatch.setattr(ex._rate, 'wait', lambda: None)
+    monkeypatch.setattr(urllib.request, 'urlopen', lambda *a, **k: _NoContentResponse())
+
+    stderr = StringIO()
+    with redirect_stderr(stderr):
+        results = ex.fetch_all()
+
+    log = stderr.getvalue()
+    assert ex.no_content_count == 2  # DP03 + DP04
+    assert log.count('No content table=') == 2
+    assert 'HTTP 204 (geography not published in this vintage)' in log
+    assert 'Failed table=' not in log
+    assert m.data_fields(results['0828745']) == {}
+    assert m.classify_cohort(results['0828745'], 2009) == m.COHORT_MISSING_GEOGRAPHY
 
 
 def test_build_omits_hpi_block_when_subcounty_file_has_no_change_15y(m, monkeypatch):
@@ -345,7 +487,9 @@ def test_build_reads_each_vintage_by_its_own_ids_and_records_the_map(m, monkeypa
 
     payload = m.build(['0828745'])
 
-    assert payload['meta']['cohorts_rejected_implausible'] == 0
+    assert _unusable(payload['meta']) == {
+        'cohorts_missing_geography': 0, 'cohorts_suppressed': 0, 'cohorts_rejected_implausible': 0,
+    }
     assert payload['meta']['place_count'] == 1
     c2009, c2014, c2024 = payload['places']['0828745']['acs_cohorts']
     assert (c2009['median_hh_income'], c2009['median_gross_rent']) == (45000, 650)
