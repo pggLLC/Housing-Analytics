@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "05a7e6c97",
+  "generated_from_commit": "eee1d7d8a",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "05a7e6c97",
+    "extracted_at_commit": "eee1d7d8a",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
