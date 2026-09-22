@@ -213,8 +213,10 @@
   var _rankingPromise = null;
   function _loadRanking() {
     if (_rankingCache || _rankingPromise) return _rankingPromise;
-    _rankingPromise = fetch('data/hna/ranking-index.json', { cache: 'no-store' })
-      .then(function (r) { return r.ok ? r.json() : null; })
+    var _fetcher = (typeof window.safeFetchJSON === 'function')
+      ? window.safeFetchJSON
+      : function (u) { return fetch(u, { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }); };
+    _rankingPromise = _fetcher('data/hna/ranking-index.json', { cache: 'no-store' })
       .then(function (j) {
         if (!j) return null;
         var rows = Array.isArray(j.rankings) ? j.rankings

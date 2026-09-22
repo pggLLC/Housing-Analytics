@@ -75,6 +75,89 @@
   border-bottom-color: currentColor;
 }
 
+/* Text + map, side by side. Deliberately plain — no card border, no shadow,
+   no hover motion — to stay consistent with this page's "no hero cards or
+   hover animations" rule above; the map earns its place as a data view, not
+   as decoration. */
+.home-opening__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  gap: var(--sp6);
+  align-items: start;
+}
+
+.home-opening__text {
+  min-width: 0;
+}
+
+.home-opening__map {
+  min-width: 0;
+}
+
+#homeNeedMap {
+  height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg2);
+}
+
+/* Leaflet needs an explicit stacking context or its panes can bleed above
+   the site header on some browsers. */
+#homeNeedMap .leaflet-container {
+  border-radius: 8px;
+  background: var(--bg2);
+  font-family: inherit;
+}
+
+.home-opening__map-caption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp2);
+  margin-top: var(--sp2);
+  font-size: var(--tiny);
+  color: var(--muted);
+}
+
+.home-opening__map-caption a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.home-opening__map-caption a:hover {
+  text-decoration: underline;
+}
+
+/* Plain-language explainer under the caption. flex-basis:100% pushes it onto
+   its own full-width line beneath the label/link row instead of competing
+   for space in the space-between row above it. */
+.home-opening__map-explainer {
+  flex-basis: 100%;
+  line-height: 1.5;
+}
+
+.home-need-legend {
+  display: flex;
+  gap: var(--sp3);
+  flex-wrap: wrap;
+  font-size: var(--tiny);
+  color: var(--muted);
+  margin-top: var(--sp2);
+}
+
+.home-need-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.home-need-legend__swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
 /* F2.3: Job-routing rail under the jurisdiction-first CTA. The detailed
    six-step LIHTC workflow remains lower on the page; this rail answers
    "what are you here to do?" for first-time visitors. */
@@ -765,6 +848,14 @@
 
 /* ── Tablet (≤900px) ── */
 @media (max-width: 900px) {
+  .home-opening__grid {
+    grid-template-columns: 1fr;
+  }
+
+  #homeNeedMap {
+    height: 280px;
+  }
+
   .home-paths__grid {
     grid-template-columns: 1fr;
   }

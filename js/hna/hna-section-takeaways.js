@@ -415,7 +415,7 @@
         ? ' — about ' + _fmtMoney(Math.abs(gap)) + ' above the local median household income of ' + _fmtMoney(c.medianHhInc)
         : ' — comfortably below the local median household income of ' + _fmtMoney(c.medianHhInc);
       return '<strong>Buying at the median requires ~' + _fmtMoney(incomeNeeded) + ' in income</strong>' +
-        gapClause + '. That gap is ' + framing + '.';
+        gapClause + '. That income gap is ' + framing + '.';
     },
 
     // F223 — Housing Gap & Affordability Analysis (matches that h2). The

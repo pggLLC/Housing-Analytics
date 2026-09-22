@@ -158,6 +158,24 @@ model.funnel.stages.forEach((stage) => assert(preview.includes(stage.basis)));
 assert(preview.includes('Owner input required'));
 assert(preview.includes(model.funnel.unresolvedStages.join(', ')));
 
+// The verdict section leads the report with an answer, or an honest account
+// of why there isn't one yet, instead of leaving nine tables of data with no
+// synthesis — reported as missing after "the effective demand funnel is
+// really difficult to understand ... what else is missing to make a clear
+// ownership decision."
+const verdictHeading = 'The screening answer, so far';
+assert(preview.indexOf(verdictHeading) < preview.indexOf('1. Project summary'),
+  'the verdict section must lead the report, before section 1');
+assert(preview.includes('Not enough local data yet for even a screening-level answer.'));
+assert(preview.includes('0 of ' + (model.funnel.stages.length - 1) + ' demand-funnel stages have a local share entered'));
+
+const resolvedVerdictPreview = Report.renderReportPreview(resolvedReport);
+assert(resolvedVerdictPreview.indexOf(verdictHeading) < resolvedVerdictPreview.indexOf('1. Project summary'));
+assert(resolvedVerdictPreview.includes('Effective demand: ' + resolved.funnel.effectiveDemand.toLocaleString('en-US', { maximumFractionDigits: 3 }) + ' households'));
+assert(resolvedVerdictPreview.includes(resolved.scenario.program.total_units.value + '-unit program'));
+assert(resolvedVerdictPreview.includes('would need to capture'));
+assert(resolvedVerdictPreview.includes(denominator), 'verdict penetration figure must match the same denominator section 7 uses');
+
 assert(!/<script\b/i.test(exported));
 assert(!/<link\b/i.test(exported));
 assert(!/src=["'](?:https?:)?\/\//i.test(exported));

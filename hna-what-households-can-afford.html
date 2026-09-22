@@ -30,6 +30,15 @@
     .hna-decision-strip[hidden] {
       display: none;
     }
+    /* A tile whose section is absent from this view gets `hidden` set by
+       _paintDecisionStrip() in hna-renderers.js so it never renders a
+       permanent "— Loading" placeholder. Without this rule the tile's own
+       `display: flex` below (same author-origin specificity, author rules
+       always beat the UA default for [hidden]) wins over the browser's
+       native hidden behavior and the placeholder stays visible forever. */
+    .hna-decision-tile[hidden] {
+      display: none;
+    }
     .hna-decision-tile {
       min-width: 0;
       border: 1px solid var(--border);
@@ -149,6 +158,7 @@
   <script defer src="js/components/next-action-cta.js" data-next-action-auto="true" data-from-page="hna"></script>
   <script defer src="js/navigation.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/table-header-tips.js"></script>
   <script src="js/components/rent-triangulation.js"></script>
   <script src="js/components/mhi-ami-clarifier.js"></script>
   <script defer src="js/dark-mode-toggle.js"></script>
@@ -253,7 +263,7 @@
     <!-- Injected by navigation.js -->
   </header>
 
-  <!-- Workflow progress bar (Step 3 of 6) — outside <main class="js-glossary-auto"> so it sticks independently -->
+  <!-- Workflow progress bar (Step 3 of 7) — outside <main class="js-glossary-auto"> so it sticks independently -->
   <div class="wf-progress-wrap" id="hnaWorkflowProgress">
     <div class="wf-progress-steps" role="navigation" aria-label="Workflow steps">
       <a class="wf-step wf-step--done" href="select-jurisdiction.html" data-step="1">
@@ -567,7 +577,7 @@
           <div class="stat"><div class="k">Median home value</div><div class="v" id="statHomeValue">—</div><div id="statHomeValueYoy" class="yoy"></div><div class="s" id="statHomeValueSrc">—</div></div>
           <div class="stat"><div class="k">Median gross rent</div><div class="v" id="statRent">—</div><div id="statRentYoy" class="yoy"></div><div class="s" id="statRentSrc">—</div></div>
 
-          <div class="stat"><div class="k">Tenure</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0046/0047 · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
+          <div class="stat"><div class="k">Renter-occupied (tenure)</div><div class="v" id="statTenure">—</div><div class="s" id="statTenureSrc">ACS DP04 0047 (renter share; owner share is 0046) · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Rent burdened (≥30%)</div><div class="v" id="statRentBurden">—</div><div class="s" id="statRentBurdenSrc">ACS DP04 GRAPI bins · <a href="https://data.census.gov/table/ACSDP5Y2024.DP04" target="_blank" rel="noopener">data.census.gov</a></div></div>
           <div class="stat"><div class="k">Income needed to buy (est.)</div><div class="v" id="statIncomeNeed">—</div><div class="s" id="statIncomeNeedNote">30% of income rule</div><div class="s" id="statIncomeNeedSrc" style="font-size:.68rem;opacity:.85">—</div></div>
           <div class="stat"><div class="k">Mean commute time</div><div class="v" id="statCommute">—</div><div class="s" id="statCommuteSrc">ACS S0801 mean travel time (min) · <a href="https://data.census.gov/table/ACSST5Y2024.S0801" target="_blank" rel="noopener">data.census.gov</a></div></div>
@@ -800,7 +810,7 @@
            data-vintage="ACS 2009/2014/2024 cohorts · FHFA HPI annual"
            data-source-type="transformed">
         <h2 id="hnaH2DecadeAffordTrend">How Affordable Has Housing Become Over the Last 15 Years?</h2>
-        <p>Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? Combines three publicly-available series at the county level. Sources: Census ACS 5-yr (2009, 2014, 2024); FHFA House Price Index (annual, <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>); DOLA State Demography Office 2024 mid-projection for population context.</p>
+        <p id="decadeAffordTrendIntro">Rent, home prices, and income compared to 2009 — does housing pace incomes, or outpace them? Combines three publicly-available series at the county level. Sources: Census ACS 5-yr (2009, 2014, 2024); FHFA House Price Index (annual, <a href="https://www.fhfa.gov/data/hpi" target="_blank" rel="noopener">FHFA HPI</a>); DOLA State Demography Office 2024 mid-projection for population context.</p>
         <div id="decadeAffordTrendPanel"></div>
       </div>
 
