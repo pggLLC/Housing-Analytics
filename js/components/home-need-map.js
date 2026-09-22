@@ -84,6 +84,17 @@
           boxZoom: false,
           keyboard: false,
           tap: false,
+          // Approximate Colorado center/zoom. Without an explicit initial
+          // view, the map has no valid projection at the moment the
+          // GeoJSON layer is added — L.Path computes each county's SVG
+          // path immediately on add, against whatever transform exists at
+          // that instant, and an invalid one collapses every path to the
+          // degenerate "M0 0" (rendered but invisible). fitBounds() below
+          // still refines to the data's exact extent; this just guarantees
+          // there is never a view-less instant for the layer to project
+          // against in the first place.
+          center: [39.0, -105.5],
+          zoom: 7,
         });
 
         var layer = window.L.geoJSON(boundaries, {
