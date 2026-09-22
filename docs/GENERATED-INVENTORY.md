@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T22:26:53.205Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T23:58:38.114Z. Do not edit by hand.
 
 ---
 
@@ -1729,7 +1729,7 @@
 | `test/data-scope.test.js` | 6.4 KB |
 | `test/data-source-inventory-drift.test.js` | 5.9 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
-| `test/data-status-footer-live-date.test.js` | 4.0 KB |
+| `test/data-status-footer-live-date.test.js` | 5.1 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
 | `test/data-trust-center.test.js` | 4.6 KB |
 | `test/dc-constants.test.js` | 6.9 KB |
