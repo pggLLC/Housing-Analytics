@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T13:05:21.858Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T13:44:22.397Z. Do not edit by hand.
 
 ---
 
@@ -16,7 +16,7 @@
 | `article-fair-housing-rollback.html` | Fair Housing Without the Rulebook | Colorado Public Data Reference | 17.9 KB |
 | `article-pricing.html` | Tax Credit Equity Markets | Colorado Public Data Reference | 9.2 KB |
 | `census-dashboard.html` | Multifamily Lens | COHO Analytics | 16.2 KB |
-| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 31.6 KB |
+| `chfa-portfolio.html` | CHFA Multifamily Portfolio | COHO Analytics | 31.7 KB |
 | `colorado-deep-dive.html` | Colorado Affordable Housing Deep Dive | COHO Analytics | 136.1 KB |
 | `colorado-elections.html` | Colorado Elections &amp; Housing Policy | COHO Analytics | 11.6 KB |
 | `colorado-market.html` | Colorado Deep Dive | COHO Analytics | 1006 B |
@@ -24,65 +24,65 @@
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
 | `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
-| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.4 KB |
-| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.8 KB |
-| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.2 KB |
-| `data-explorer.html` | Data Explorer | COHO Analytics | 17.5 KB |
+| `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
+| `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
+| `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.3 KB |
+| `data-explorer.html` | Data Explorer | COHO Analytics | 17.6 KB |
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
-| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.7 KB |
+| `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
 | `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.6 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
-| `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.6 KB |
+| `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.8 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.4 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.4 KB |
-| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.6 KB |
-| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.7 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.9 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 141.1 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 165.3 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.5 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
+| `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
+| `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 36.8 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 139.0 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 141.2 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 165.4 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.6 KB |
 | `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 138.3 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.0 KB |
-| `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.1 KB |
+| `ic-summary.html` | IC Summary — COHO Analytics | 17.2 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 37.2 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
-| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.6 KB |
+| `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
-| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.2 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.8 KB |
+| `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.3 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 133.1 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 140.2 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
 | `policy-briefs.html` | Housing News | COHO Analytics | 54.6 KB |
-| `preservation.html` | Preservation Tracking | COHO Analytics | 17.6 KB |
+| `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
-| `regional.html` | Regional Analysis | COHO Analytics | 26.6 KB |
+| `regional.html` | Regional Analysis | COHO Analytics | 26.7 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 73.6 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 73.7 KB |
 
 ---
 
 ## Data Files (`data/**/*.json`)
 
-1581 JSON files found.
+1582 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 763.6 KB | ✅ | — |
+| `data/_manifest.json` | 764.0 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1571,7 +1571,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 200.1 KB | ✅ | — |
+| `data/manifest.json` | 200.2 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1661,6 +1661,7 @@
 | `data/schema/semantic-label-evidence.json` | 6.0 KB | ✅ | — |
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
+| `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
 | `data/url-health.json` | 324.5 KB | ✅ | — |
 
@@ -1668,7 +1669,7 @@
 
 ## Test Files
 
-378 test files found.
+379 test files found.
 
 | File | Size |
 |------|------|
@@ -1964,6 +1965,7 @@
 | `test/source-url-sweep-skip-templates.test.js` | 2.7 KB |
 | `test/split-lihtc-by-county.js` | 8.3 KB |
 | `test/stewardship-providers.test.js` | 3.8 KB |
+| `test/table-header-tips.test.js` | 5.6 KB |
 | `test/tax-credit-equity-markets.test.js` | 7.3 KB |
 | `test/tax-credit-insights-data.test.js` | 4.4 KB |
 | `test/test-fallback-mechanisms.js` | 1.4 KB |
