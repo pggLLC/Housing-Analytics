@@ -6255,6 +6255,25 @@
       });
   }
 
+  // F226 — Place-level companion to county-trends.json, built by
+  // scripts/hna/build_place_decade_trends.py from real place-geography ACS
+  // 2009/2014/2024 vintages (not scaled from the county). Only covers
+  // places with a full 2009→2024 history — see that script's own docstring
+  // for why a partial history is omitted rather than shown incomplete.
+  // Same tolerate-misses pattern as _loadCountyTrends.
+  var _placeTrendsCache = null;
+  function _loadPlaceTrends() {
+    if (_placeTrendsCache !== null) return Promise.resolve(_placeTrendsCache);
+    return fetch('data/hna/place-decade-trends.json')
+      .then(function (r) { return r.ok ? r.json() : { places: {} }; })
+      .then(function (j) { _placeTrendsCache = j; return j; })
+      .catch(function (e) {
+        console.warn('[HNA] place-decade-trends.json load failed', e);
+        _placeTrendsCache = { places: {} };
+        return _placeTrendsCache;
+      });
+  }
+
   /**
    * F199 — Decade affordability trend. Three ACS cohorts (2009 / 2014 / 2024)
    * × {median rent, median HHI, rent burden 30+} plus FHFA HPI relative to
@@ -6264,46 +6283,17 @@
    *   3. Affordability ratio table: annual rent / annual income at each cohort
    *      → tells you whether housing got more or less affordable.
    *
-   * Falls back to "not available" for non-county geographies (we don't have
-   * place-level historical ACS in the parquet) — placeholder with a link to
-   * the data.census.gov tables so the user can pull it themselves.
+   * F226 — For a place selection, tries data/hna/place-decade-trends.json
+   * FIRST (real place-geography ACS cohorts, built by
+   * scripts/hna/build_place_decade_trends.py) and only falls back to the
+   * county-inherits behavior below when that place isn't covered there
+   * (not every place has a reliable 2009 ACS 5-yr estimate — see that
+   * script's docstring). A county selection always uses the county file.
    */
-  function renderDecadeAffordTrend(geoType, geoid, contextCounty) {
-    var panel = document.getElementById('decadeAffordTrendPanel');
-    if (!panel) return;
-    var countyFips = (geoType === 'county') ? geoid : contextCounty;
-    var u = U();
-    var fmtMoney = u.fmtMoney;
-
-    if (!countyFips) {
-      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-        'Decade trends are published at the county level only. Pick a county or ' +
-        'place inside a county to see the historical comparison.</p>';
-      return;
-    }
-
-    _loadCountyTrends().then(function (data) {
-      var rec = data.counties && data.counties[countyFips];
-      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
-        panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
-          'Historical trend data not cached for this county.</p>';
-        return;
-      }
-      // F223 — Explicit county-scope label when called from a place selection.
-      // The decade trend chart (ACS cohorts + FHFA HPI) is published at the
-      // county level only; this banner makes that obvious instead of letting
-      // the user assume the numbers are place-specific.
-      var scopeBanner = (geoType === 'place')
-        ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
-            '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
-            'ACS 5-yr cohorts (B25064/B19013) and FHFA HPI publish at the county level only; ' +
-            'your selected place inherits these county-wide trends.' +
-          '</div>'
-        : '';
-      var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+  function _paintDecadeTrend(panel, u, fmtMoney, cohorts, hpi, scopeBanner) {
       var first = cohorts[0];
       var last  = cohorts[cohorts.length - 1];
-      var hpi = rec.hpi || {};
+      hpi = hpi || {};
 
       function _pctChange(a, b) {
         if (!a || !b || a <= 0) return null;
@@ -6418,6 +6408,65 @@
           }
         }
       });
+  }
+
+  function renderDecadeAffordTrend(geoType, geoid, contextCounty) {
+    var panel = document.getElementById('decadeAffordTrendPanel');
+    if (!panel) return;
+    var countyFips = (geoType === 'county') ? geoid : contextCounty;
+    var u = U();
+    var fmtMoney = u.fmtMoney;
+
+    if (!countyFips) {
+      panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
+        'Decade trends are published at the county level only. Pick a county or ' +
+        'place inside a county to see the historical comparison.</p>';
+      return;
+    }
+
+    function _renderFromCounty() {
+      _loadCountyTrends().then(function (data) {
+        var rec = data.counties && data.counties[countyFips];
+        if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
+          panel.innerHTML = '<p style="color:var(--muted);font-size:1.133rem;">' +
+            'Historical trend data not cached for this county.</p>';
+          return;
+        }
+        // F223 — Explicit county-scope label when called from a place
+        // selection whose own place-level trend isn't available (see
+        // renderDecadeAffordTrend's place-first attempt above this call).
+        var scopeBanner = (geoType === 'place')
+          ? '<div style="margin:0 0 .75rem;padding:.5rem .75rem;border-left:3px solid var(--warn);background:var(--warn-dim);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.4;color:var(--text);">' +
+              '<strong style="color:var(--warn);">📍 ' + (rec.county_name || 'County') + ' figures.</strong> ' +
+              'ACS 5-yr cohorts and FHFA HPI aren\'t cached for this place yet, so it inherits ' +
+              'these county-wide trends.' +
+            '</div>'
+          : '';
+        var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+        _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, scopeBanner);
+      });
+    }
+
+    if (geoType !== 'place') {
+      _renderFromCounty();
+      return;
+    }
+
+    _loadPlaceTrends().then(function (data) {
+      var rec = data.places && data.places[geoid];
+      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
+        _renderFromCounty();
+        return;
+      }
+      var cohorts = rec.acs_cohorts.slice().sort(function (a, b) { return a.year - b.year; });
+      // No warning banner here — this genuinely IS this place's own data,
+      // not the county's. A small provenance line (not styled as a warning)
+      // instead, matching how the rest of the page cites place-level ACS.
+      var provenanceBanner = '<p style="margin:0 0 .6rem;font-size:.9rem;color:var(--muted);">' +
+        'Place-level ACS 5-yr cohorts (' + cohorts[0].year + '–' + cohorts[cohorts.length - 1].year + ') for ' +
+        (rec.place_name || 'this place') + (rec.hpi ? '; FHFA home-price index aggregated from Census-tract data.' : '.') +
+        '</p>';
+      _paintDecadeTrend(panel, u, fmtMoney, cohorts, rec.hpi, provenanceBanner);
     });
   }
 

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T10:35:13.010Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T11:19:31.573Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.1 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 36.5 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 37.2 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
@@ -1668,7 +1668,7 @@
 
 ## Test Files
 
-377 test files found.
+378 test files found.
 
 | File | Size |
 |------|------|
@@ -2028,6 +2028,7 @@
 | `tests/test_build_hna_data_batch_b.py` | 4.6 KB |
 | `tests/test_build_hna_data_concurrency.py` | 7.9 KB |
 | `tests/test_build_hna_data_http_204.py` | 2.6 KB |
+| `tests/test_build_place_decade_trends.py` | 7.0 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
@@ -2066,7 +2067,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 28.7 KB |
+| `.github/workflows/build-hna-data.yml` | 30.3 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
