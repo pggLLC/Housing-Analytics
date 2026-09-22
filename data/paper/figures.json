@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "1b79b8487",
+  "generated_from_commit": "de46b80d2",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -241,13 +241,13 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 355879,
+    "hand_written_lines": 351863,
     "generated_place_page_lines": 226826,
-    "top_level_pages": 67,
-    "html_nonblank_lines": 51289,
-    "html_distinct_lines": 17332,
-    "html_distinct_share": 0.338,
-    "substantial_tools": 30,
+    "top_level_pages": 63,
+    "html_nonblank_lines": 47571,
+    "html_distinct_lines": 18547,
+    "html_distinct_share": 0.39,
+    "substantial_tools": 26,
     "declared_data_sources": 63,
     "estimate": {
       "declared": "analyst-constructed; not repository methodology",
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "1b79b8487",
+    "extracted_at_commit": "de46b80d2",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
