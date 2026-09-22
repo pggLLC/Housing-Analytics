@@ -55,18 +55,6 @@
       font-size: .76rem; color: var(--text-muted); margin-top: 1.7rem;
       display: flex; flex-wrap: wrap; gap: .5rem 1.6rem;
     }
-    .wp-actions {
-      display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.2rem;
-    }
-    .wp-action {
-      font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer;
-      padding: .5rem .9rem; border-radius: 6px; min-height: 40px;
-      border: 1px solid var(--accent); background: transparent; color: var(--accent);
-    }
-    .wp-action:hover, .wp-action:focus-visible { background: var(--accent); color: var(--on-accent, #fff); }
-    .wp-actions__note { font-size: .74rem; color: var(--text-muted); }
-    /* The download controls are page chrome — never part of the printed/saved paper. */
-    @media print { .wp-actions { display: none !important; } }
 
     .wp section { margin-top: 3.4rem; scroll-margin-top: 6rem; }
     .wp h2 {
@@ -218,21 +206,8 @@
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
           <span><code>pggLLC/Housing-Analytics</code></span>
           <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-22</span></span>
-          <span>Figures regenerated from commit <code data-figure="generated_from_commit">7e337cdb0</code></span>
+          <span>Figures regenerated from commit <code data-figure="generated_from_commit">c95f1aa1d</code></span>
         </p>
-        <!-- Download options. PDF goes through the browser's print dialog:
-             css/layout.css's @media print already strips the site chrome, and
-             a 12-section article renders far better that way than through
-             jsPDF's text layout (which the Recommendation page uses for its
-             one-screen summary). Word is the article's own HTML handed to
-             Word as a .doc — no library, opens in Word, LibreOffice and
-             Google Docs; the figures are the injected values on the page at
-             the moment of download. -->
-        <div class="wp-actions" role="group" aria-label="Download this paper">
-          <button type="button" id="wpDownloadPdf" class="wp-action">Download PDF</button>
-          <button type="button" id="wpDownloadWord" class="wp-action">Download Word (.doc)</button>
-          <span class="wp-actions__note">PDF opens your browser's print dialog — choose "Save as PDF".</span>
-        </div>
       </header>
 
       <section class="wp-exec" aria-labelledby="s-exec">
@@ -314,7 +289,7 @@
               person-years</b>, or
               <span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
               months for a team of <span data-figure="scope.estimate.team_size">7</span>, over
-              <span data-figure="scope.hand_written_lines" data-figure-format="comma">352,333</span>
+              <span data-figure="scope.hand_written_lines" data-figure-format="comma">352,335</span>
               hand-written lines and
               <span data-figure="scope.declared_data_sources">63</span> data sources. An
               analyst estimate, declared as one in &sect;07.
@@ -384,7 +359,7 @@
             <tbody>
               <tr><th scope="row">Geographies</th><td data-figure="inventory.geographies">546</td><td class="lbl"><span data-figure="inventory.counties">64</span> counties &middot; <span data-figure="inventory.incorporated_places">272</span> places &middot; <span data-figure="inventory.cdps">210</span> CDPs</td></tr>
               <tr><th scope="row">Places with apportioned CHAS detail</th><td data-figure="inventory.places_with_chas">482</td><td class="lbl">Tenure &times; AMI band &times; cost burden</td></tr>
-              <tr><th scope="row">Data files</th><td data-figure="inventory.data_files" data-figure-format="comma">1,654</td><td class="lbl">Tracked JSON, CSV, GeoJSON and Parquet</td></tr>
+              <tr><th scope="row">Data files</th><td data-figure="inventory.data_files" data-figure-format="comma">1,653</td><td class="lbl">Tracked JSON, CSV, GeoJSON and Parquet</td></tr>
               <tr><th scope="row">HTML pages</th><td data-figure="inventory.html_pages_total">557</td><td class="lbl"><span data-figure="inventory.html_pages_toplevel">63</span> top-level; <span data-figure="inventory.place_pages">484</span> generated per place</td></tr>
               <tr><th scope="row">Build &amp; fetch scripts</th><td data-figure="inventory.scripts">265</td><td class="lbl">Python and Node, run on schedule</td></tr>
               <tr><th scope="row">Workflows</th><td data-figure="inventory.workflows">71</td><td class="lbl"><span data-figure="inventory.scheduled_workflows">59</span> carry a live cron &mdash; also the system&rsquo;s main liability, &sect;08</td></tr>
@@ -429,7 +404,7 @@
             A change to any of them is made by changing its generator and re-running it; CI fails a
             pull request whose generated files drift from what their sources would produce. That is
             the mechanism by which a one-person project stays internally consistent across
-            <span data-figure="inventory.data_files" data-figure-format="comma">1,654</span> data files.
+            <span data-figure="inventory.data_files" data-figure-format="comma">1,653</span> data files.
           </p>
           <p>
             The third category &mdash; the watchers &mdash; exists because the first two run
@@ -939,7 +914,7 @@
           <p>
             A funder deciding whether to support an existing system is really asking what it would
             cost to commission one. The scope is measurable:
-            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">352,333</span></strong>
+            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">352,335</span></strong>
             hand-written lines &mdash; excluding
             <span data-figure="scope.generated_place_page_lines" data-figure-format="comma">226,826</span>
             generated lines of place pages &mdash;
@@ -1249,7 +1224,7 @@
         <div class="col">
           <p class="wp-sources">
             Figures reflect the repository at commit
-            <code data-figure="generated_from_commit">7e337cdb0</code>. The underlying data refreshes
+            <code data-figure="generated_from_commit">c95f1aa1d</code>. The underlying data refreshes
             continuously; a reader reproducing these tables later should expect vintage drift and is
             encouraged to check each metric&rsquo;s own <code>as_of</code> field rather than this
             page&rsquo;s date.
@@ -1260,47 +1235,6 @@
     </article>
   </main>
 
-  <script>
-  (function () {
-    'use strict';
-    var pdfBtn = document.getElementById('wpDownloadPdf');
-    var docBtn = document.getElementById('wpDownloadWord');
-    if (pdfBtn) pdfBtn.addEventListener('click', function () { window.print(); });
-
-    // Word download: the paper's own markup, handed to Word as a .doc. Word,
-    // LibreOffice and Google Docs all open HTML saved with that extension.
-    // The download controls themselves are stripped so they never end up in
-    // the document; figures are whatever the page shows at download time.
-    function buildWordDocument() {
-      var article = document.querySelector('article.wp');
-      if (!article) return null;
-      var clone = article.cloneNode(true);
-      clone.querySelectorAll('.wp-actions, button, script').forEach(function (n) { n.remove(); });
-      var title = (document.querySelector('article.wp h1') || {}).textContent || document.title;
-      return '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">' +
-        '<head><meta charset="utf-8"><title>' + title.replace(/</g, '&lt;') + '</title>' +
-        '<style>body{font-family:Georgia,serif;font-size:11pt;line-height:1.45;max-width:7in;margin:1in auto}' +
-        'h1{font-size:22pt}h2{font-size:15pt;margin-top:18pt}h3{font-size:12pt}' +
-        'table{border-collapse:collapse}td,th{border:1px solid #999;padding:3pt 6pt;font-size:10pt}' +
-        'code{font-family:Consolas,monospace;font-size:10pt}dt{font-weight:bold;margin-top:8pt}</style></head>' +
-        '<body>' + clone.innerHTML + '</body></html>';
-    }
-    if (docBtn) docBtn.addEventListener('click', function () {
-      var html = buildWordDocument();
-      if (!html) return;
-      var blob = new Blob(['﻿', html], { type: 'application/msword' });
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'instrumenting-housing-need-working-paper.doc';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-    });
-    window.__wpBuildWordDocument = buildWordDocument;
-  })();
-  </script>
   <script src="js/contrast-guard.js"></script>
   <footer id="site-footer"></footer>
 </body>
