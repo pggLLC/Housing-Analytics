@@ -6457,9 +6457,12 @@
     // cohorts with null rent and "incomes" of 0–11: the ACS profile variable
     // IDs it fetched (DP03_0062E, DP04_0134E, the GRAPI bins) are not stable
     // across vintages, so the historical vintages returned different fields.
-    // Until the builder maps IDs per vintage, a record with any implausible
-    // cohort falls back to the county chart exactly as before #1799 — never
-    // rendered as if it were this place's history.
+    // The builder now requests each vintage's own IDs (VINTAGE_VARIABLES in
+    // scripts/hna/build_place_decade_trends.py) and applies the same gate
+    // before writing; this client-side check stays as the backstop so a
+    // record with any implausible cohort falls back to the county chart
+    // exactly as before #1799 — never rendered as if it were this place's
+    // history.
     function _plausibleCohort(c) {
       return c && Number(c.median_gross_rent) >= 200 && Number(c.median_hh_income) >= 5000;
     }

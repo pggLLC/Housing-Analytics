@@ -3,10 +3,11 @@
     "description": "Centralized field mapping for ACS DP03 (Selected Economic Characteristics — median household income only), DP04 (Housing Characteristics) and DP05 (Demographic Estimates) profile tables.",
     "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates",
     "tables": ["DP03", "DP04", "DP05"],
-    "updated": "2026-09"
+    "updated": "2026-09",
+    "vintage_note": "These are the CURRENT vintage's variable IDs. Census Data Profile variable numbers are not stable across releases (median gross rent is DP04_0134E in 2024 but DP04_0132E in 2009/2014; median household income is DP03_0062E from 2014 on but DP03_0063E in 2009; the GRAPI 30-34.9%/35%+ bins are DP04_0141PE/DP04_0142PE in 2024 but DP04_0139PE/DP04_0140PE in 2009/2014), and the Census API rejects a request wholesale when any one variable in it is unknown for that year. Callers fetching a historical vintage pass that vintage's own IDs via ACSExtractor's `variables` override — see VINTAGE_VARIABLES in scripts/hna/build_place_decade_trends.py."
   },
   "DP03": {
-    "_description": "Selected Economic Characteristics — only the one field scripts/hna/build_place_decade_trends.py needs. The site's main per-jurisdiction DP03 fetch (median income, employment, etc.) runs through scripts/hna/build_hna_data.py, not this ACSExtractor class — this entry exists only so ACSExtractor can also pull median household income for the historical (2009/2014) vintages that builder needs.",
+    "_description": "Selected Economic Characteristics — only the one field scripts/hna/build_place_decade_trends.py needs, at the CURRENT vintage's numbering. The site's main per-jurisdiction DP03 fetch (median income, employment, etc.) runs through scripts/hna/build_hna_data.py, not this ACSExtractor class. The decade-trends builder requests its historical (2009/2014) vintages with those vintages' own IDs via ACSExtractor's `variables` override — in the 2009 profile DP03_0062E is the \"$200,000 or more\" household COUNT and median household income is DP03_0063E.",
     "DP03_0062E": { "name": "median_household_income", "type": "integer", "required": false, "description": "Median household income (dollars)" }
   },
   "DP04": {
