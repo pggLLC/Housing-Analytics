@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-22T13:32:50.615Z",
+    "generated_at": "2026-09-22T13:55:35.658Z",
     "root": "data/",
     "file_count": 1616,
-    "total_size_bytes": 158808100,
+    "total_size_bytes": 158816983,
     "kinds": {
       "json": 1581,
       "geojson": 31,
@@ -15,7 +15,7 @@
       "path": "_qa-status.json",
       "kind": "json",
       "size_bytes": 6256,
-      "mtime": "2026-09-22T13:04:56.636Z",
+      "mtime": "2026-09-22T13:55:02.047Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-22T13:14:40.678Z",
+      "mtime": "2026-09-22T13:55:02.047Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1263,7 +1263,7 @@
       "path": "discovery-reports/latest.json",
       "kind": "json",
       "size_bytes": 245307,
-      "mtime": "2026-09-22T13:04:56.639Z",
+      "mtime": "2026-09-22T13:55:02.048Z",
       "shape": "object",
       "keys": [
         "scanTimestamp",
@@ -30407,7 +30407,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 204972,
-      "mtime": "2026-09-22T13:32:47.429Z",
+      "mtime": "2026-09-22T13:55:32.510Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31761,7 +31761,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14391,
-      "mtime": "2026-09-22T13:32:43.022Z",
+      "mtime": "2026-09-22T13:55:28.218Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31784,7 +31784,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 5997,
-      "mtime": "2026-09-22T13:32:42.521Z",
+      "mtime": "2026-09-22T13:55:27.722Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -31801,8 +31801,8 @@
     {
       "path": "pipeline/content.json",
       "kind": "json",
-      "size_bytes": 34942,
-      "mtime": "2026-09-22T12:15:13.923Z",
+      "size_bytes": 43825,
+      "mtime": "2026-09-22T13:54:51.643Z",
       "shape": "object",
       "keys": [
         "_meta",
@@ -32789,7 +32789,7 @@
       "path": "table-header-tips.json",
       "kind": "json",
       "size_bytes": 15617,
-      "mtime": "2026-09-22T13:04:55.382Z",
+      "mtime": "2026-09-22T13:55:02.049Z",
       "shape": "object",
       "keys": [
         "_meta",
