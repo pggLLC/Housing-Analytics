@@ -98,10 +98,9 @@
                        border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;">
             </ul>
           </div>
-          <a href="hna-comparative-analysis.html" class="home-opening__explore"
-             style="display:block;margin-top:.5rem;font-size:.92rem;">
-            Not sure where to start? Explore all 546 Colorado jurisdictions →
-          </a>
+          <!-- The "compare all 546" route lives once, under the map (where the
+               county shading makes it concrete). It used to appear three times
+               on this page. -->
           <a href="places/index.html" class="home-opening__explore"
              style="display:block;margin-top:.5rem;font-size:.92rem;">
             Browse local housing profiles →
@@ -216,29 +215,11 @@
       <button id="homeResumeNewBtn" class="home-resume__new" type="button">Start new project</button>
     </div>
 
-    <!-- ── 3. Entry paths ── -->
-    <div class="home-paths" role="navigation" aria-label="Platform entry points">
-      <div class="home-container">
-        <div class="home-paths__grid">
-          <div class="home-path">
-            <span class="home-path__eyebrow">Jurisdiction selected?</span>
-            <h3>Start with a jurisdiction</h3>
-            <p>Select a Colorado county, city, or community to begin. The selected
-               jurisdiction sets AMI limits, FMR rent ceilings, QCT/DDA designations,
-               and which data loads throughout the workflow.</p>
-            <a href="select-jurisdiction.html">Select a jurisdiction →</a>
-          </div>
-          <div class="home-path">
-            <span class="home-path__eyebrow">Exploring your options?</span>
-            <h3>Compare jurisdictions</h3>
-            <p>Not sure where to focus? The Comparative Analysis ranks all 546 Colorado
-               geographies (64 counties + 272 incorporated places + 210 CDPs) by housing
-               need, cost burden, AMI gaps, and LIHTC development history.</p>
-            <a href="hna-comparative-analysis.html">Compare all jurisdictions →</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- ── 3. (Removed) Entry paths ──
+         "Start with a jurisdiction" duplicated the Start button in the opening,
+         and "Compare jurisdictions" was the third compare-all-546 link on the
+         page. Both routes still exist once each: the opening CTA and the map
+         caption. -->
 
     <!-- ── 4. Workflow steps ── -->
     <section class="home-workflow" aria-labelledby="workflow-heading">
@@ -487,13 +468,13 @@
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO rental deficit ≤30% AMI (inner tier)</span>
             <span class="home-snapshot__val" id="snapGap30">—</span>
-            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · first cumulative threshold · current renter households vs affordable units; those units are priced-affordable</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · Renter households earning up to 30% of area median income, minus homes that rent for what they can afford. Almost no homes rent that low, so this is the deepest shortfall.</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">CO rental deficit ≤60% AMI (includes ≤30%)</span>
             <span class="home-snapshot__val" id="snapGap60">—</span>
-            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · wider cumulative threshold · includes every household counted at ≤30% AMI<br> The deficit narrows because the wider tier raises the affordable-rent ceiling — not because need falls; counted priced-affordable homes are renter-occupied, not necessarily vacant or available (statewide 4-person AMI: $107,200).</span>
+            <span class="home-snapshot__note"><a href="data/co_ami_gap_by_county.json">AMI Gap</a> · Same subtraction for everyone earning up to 60% AMI (the ≤30% households included). More households — but many more homes rent at a ≤60%-affordable price, so the net shortfall is <em>smaller</em>, not because need falls but because the homes counted as affordable grow faster than the households do. Both counts include homes that are occupied, some by higher-income renters; neither means a vacant home is available (statewide 4-person AMI: $107,200).</span>
           </div>
 
           <div class="home-snapshot__item" role="listitem">
