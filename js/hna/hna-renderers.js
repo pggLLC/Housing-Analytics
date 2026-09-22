@@ -6452,9 +6452,20 @@
       return;
     }
 
+    // A cohort is only usable if it carries a plausible rent AND income. The
+    // first live run of build_place_decade_trends.py published 2009/2014
+    // cohorts with null rent and "incomes" of 0–11: the ACS profile variable
+    // IDs it fetched (DP03_0062E, DP04_0134E, the GRAPI bins) are not stable
+    // across vintages, so the historical vintages returned different fields.
+    // Until the builder maps IDs per vintage, a record with any implausible
+    // cohort falls back to the county chart exactly as before #1799 — never
+    // rendered as if it were this place's history.
+    function _plausibleCohort(c) {
+      return c && Number(c.median_gross_rent) >= 200 && Number(c.median_hh_income) >= 5000;
+    }
     _loadPlaceTrends().then(function (data) {
       var rec = data.places && data.places[geoid];
-      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2) {
+      if (!rec || !rec.acs_cohorts || rec.acs_cohorts.length < 2 || !rec.acs_cohorts.every(_plausibleCohort)) {
         _renderFromCounty();
         return;
       }

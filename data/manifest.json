@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-22T12:11:55.891474Z",
+  "generated": "2026-09-22T12:19:35.764617Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -4140,11 +4140,6 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 1630249
-    },
-    "data/hna/place-decade-trends.json": {
-      "featureCount": 0,
-      "placeholder": false,
-      "bytes": 194606
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
