@@ -189,7 +189,7 @@
           '<p class="lvt-note">This calculates the maximum a developer can pay for land based on project economics. Pull values from your Deal Calculator if available.</p>' +
           '<div class="lvt-row">' +
             '<label class="lvt-label">Total Development Cost (excl. land)<input type="number" id="lvtTdc" class="lvt-input" step="100000" min="0" placeholder="e.g. 18000000"></label>' +
-            '<label class="lvt-label">LIHTC equity + first mortgage<input type="number" id="lvtEquityDebt" class="lvt-input" step="100000" min="0" placeholder="e.g. 16000000"></label>' +
+            '<label class="lvt-label">Equity + first mortgage (tax-credit, conventional, or other)<input type="number" id="lvtEquityDebt" class="lvt-input" step="100000" min="0" placeholder="e.g. 16000000"></label>' +
           '</div>' +
           '<div class="lvt-row">' +
             '<label class="lvt-label">Soft sources (HTF, HOME, local)<input type="number" id="lvtSoft" class="lvt-input" step="50000" min="0" placeholder="e.g. 1500000"></label>' +
