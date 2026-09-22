@@ -300,6 +300,32 @@ jobs:
           echo "── Rebuilding place-level AMI gap from ACS ──"
           python3 scripts/hna/build_place_ami_gap.py 2>&1 || echo "::warning::Place AMI gap rebuild failed (non-critical; build_ranking_index.py will fall back to county-scaled)"
 
+      - name: Phase 6.6 — Rebuild place-level decade affordability trends
+        if: ${{ inputs.statewide_only != true }}
+        # Builds data/hna/place-decade-trends.json — real place-geography ACS
+        # 2009/2014/2024 cohorts for the "How Affordable Has Housing Become
+        # Over the Last 15 Years?" chart on hna-what-households-can-afford.html,
+        # which previously always showed the containing COUNTY's figures for
+        # every place (with a disclosure banner) because no one had fetched
+        # the historical place vintages. renderDecadeAffordTrend() in
+        # hna-renderers.js prefers this file when a place has full 2009→2024
+        # coverage and falls back to the existing county-inherits behavior,
+        # banner included, for any place this file doesn't cover.
+        #
+        # Historical Census data barely changes once published, so this does
+        # not need to run every week — but it's harmless and cheap (~482
+        # places × 3 vintages × 2 tables, well inside the Census API's rate
+        # limit) to refresh alongside everything else here.
+        #
+        # Non-blocking: on failure, the previous committed file (or its
+        # absence) is preserved, and the renderer's county fallback keeps the
+        # chart working either way.
+        env:
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+        run: |
+          echo "── Rebuilding place-level decade affordability trends ──"
+          python3 scripts/hna/build_place_decade_trends.py 2>&1 || echo "::warning::Place decade-trends rebuild failed (non-critical; renderDecadeAffordTrend falls back to county-level)"
+
       - name: Phase 7 — Rebuild HNA ranking index
         if: ${{ inputs.statewide_only != true }}
         # Regenerates data/hna/ranking-index.json — the file consumed by

@@ -1,9 +1,13 @@
 {
   "_meta": {
-    "description": "Centralized field mapping for ACS DP04 (Housing Characteristics) and DP05 (Demographic Estimates) profile tables.",
+    "description": "Centralized field mapping for ACS DP03 (Selected Economic Characteristics — median household income only), DP04 (Housing Characteristics) and DP05 (Demographic Estimates) profile tables.",
     "source": "U.S. Census Bureau — American Community Survey 5-Year Estimates",
-    "tables": ["DP04", "DP05"],
-    "updated": "2024"
+    "tables": ["DP03", "DP04", "DP05"],
+    "updated": "2026-09"
+  },
+  "DP03": {
+    "_description": "Selected Economic Characteristics — only the one field scripts/hna/build_place_decade_trends.py needs. The site's main per-jurisdiction DP03 fetch (median income, employment, etc.) runs through scripts/hna/build_hna_data.py, not this ACSExtractor class — this entry exists only so ACSExtractor can also pull median household income for the historical (2009/2014) vintages that builder needs.",
+    "DP03_0062E": { "name": "median_household_income", "type": "integer", "required": false, "description": "Median household income (dollars)" }
   },
   "DP04": {
     "_description": "Selected Housing Characteristics",
