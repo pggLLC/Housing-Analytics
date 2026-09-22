@@ -22,6 +22,7 @@
 import assert from 'node:assert';
 import { execFileSync, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -51,11 +52,43 @@ const test = (name, fn) => {
  * workflow must invoke this file. Skipped-here plus unrun-everywhere would be
  * the same silent pass this whole file exists to prevent.
  */
-const NO_BROWSER = 'playwright chromium is not installed';
+const CANNOT_RUN = 'the audit cannot run in this environment';
+
+/**
+ * Why the audit could not run here — or null if it ran.
+ *
+ * This used to look only for a missing browser. A missing `axe-core` produces
+ * a completely different message, fell through the check, and surfaced as
+ * "the failure does not name what went wrong" — which reads as a defect in the
+ * audit's error handling rather than "this lane has no dependencies". A guard
+ * built to stop an unrunnable check reporting misleadingly had that exact
+ * blind spot, one dependency over.
+ *
+ * A missing dependency is only an ENVIRONMENT problem when nothing is
+ * installed. In a populated node_modules, `axe-core` going missing is a real
+ * defect — the audit's own dependency removed — and must fail rather than
+ * skip. That distinction is the point of checking the directory.
+ */
+function unrunnableReason(output, root = ROOT) {
+  if (/Executable doesn't exist|playwright install/i.test(output)) {
+    return 'playwright chromium is not installed — run: npx playwright install chromium';
+  }
+  const missingModule = /([\w@/-]+) not found in node_modules|Cannot find module '([^']+)'/i.exec(output);
+  if (missingModule) {
+    const name = missingModule[1] || missingModule[2];
+    let installed = 0;
+    try { installed = fs.readdirSync(path.join(root, 'node_modules')).length; } catch { installed = 0; }
+    if (installed === 0) return `dependencies are not installed (${name} is missing) — run: npm ci`;
+    // node_modules exists and is populated, so this is not an empty lane.
+    return null;
+  }
+  return null;
+}
+
 const browserTest = (name, fn) => {
   try { fn(); pass(name); } catch (e) {
-    if (e.message.startsWith(NO_BROWSER)) {
-      skip(`${name} — SKIPPED: no browser in this lane; runs in a11y-audit.yml`);
+    if (e.message.startsWith(CANNOT_RUN)) {
+      skip(`${name} — SKIPPED: ${e.message.slice(CANNOT_RUN.length + 2)}; runs in a11y-audit.yml`);
       return;
     }
     fail(`${name} — ${e.message}`);
@@ -63,6 +96,49 @@ const browserTest = (name, fn) => {
 };
 
 console.log('a11y-audit-never-silently-skips');
+
+test('an unrunnable lane is told apart from a broken audit', () => {
+  // The detector itself, exercised directly — the branch it guards only fires
+  // when a dependency is genuinely absent, so running the suite in a healthy
+  // environment never reaches it. Left untested it regressed silently once
+  // already: it knew one way to be unrunnable and reported every other way as
+  // a defect in the audit.
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'a11y-guard-'));
+  const bare = path.join(tmp, 'bare');
+  const stocked = path.join(tmp, 'stocked');
+  fs.mkdirSync(bare, { recursive: true });
+  fs.mkdirSync(path.join(stocked, 'node_modules', 'anything'), { recursive: true });
+  try {
+    const MISSING_AXE = 'axe-core not found in node_modules. Run `npm ci`.';
+
+    // Each reason carries the command that un-skips it. A skip that does not
+    // say how to stop skipping is how a lane stays unrunnable indefinitely.
+    assert.match(unrunnableReason("Executable doesn't exist at /ms-playwright/chromium", stocked) || '',
+      /playwright chromium is not installed .* npx playwright install chromium/,
+      'a missing browser is no longer recognised, or no longer says how to fix it');
+
+    // The case this fix is for: nothing installed at all.
+    assert.match(unrunnableReason(MISSING_AXE, bare) || '',
+      /dependencies are not installed \(axe-core is missing\) .* npm ci/,
+      'a lane with no node_modules still reports a missing dependency as an audit defect');
+    assert.match(unrunnableReason("Cannot find module 'playwright'", bare) || '',
+      /dependencies are not installed/,
+      'only axe-core is recognised; any missing module means the lane is not set up');
+
+    // And the distinction that keeps this honest: with dependencies present, a
+    // missing one is a REAL defect and must fail rather than skip.
+    assert.strictEqual(unrunnableReason(MISSING_AXE, stocked), null,
+      'axe-core going missing from a populated node_modules is the audit losing its '
+      + 'own dependency — that must fail, not skip');
+
+    // Ordinary output must never be mistaken for an unrunnable lane.
+    assert.strictEqual(unrunnableReason('62 pages audited, 0 violations', stocked), null);
+    assert.strictEqual(unrunnableReason('3 pages could not be audited: foo.html', stocked), null,
+      'a genuine audit failure was swallowed as an environment problem');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
 
 test('a page that cannot be audited is counted, not skipped', () => {
   assert.ok(/const unaudited = results\.filter\(r => r\.error\)/.test(SRC),
@@ -140,11 +216,12 @@ browserTest('an unaudited page really does fail the run', () => {
     'scripts/audit/a11y-audit.mjs', '--page', '__no_such_page__.html', '--json-only', '--quiet',
   ], { cwd: ROOT, encoding: 'utf8', timeout: 180_000 });
 
-  if (/Executable doesn't exist|playwright install/i.test((out.stderr || '') + (out.stdout || ''))) {
-    // No browser in this environment. Say so rather than passing quietly —
-    // an unrunnable check reporting success is the defect under test.
-    throw new Error(NO_BROWSER + ', so this assertion could not run here. '
-      + 'Run: npx playwright install chromium');
+  const why = unrunnableReason((out.stderr || '') + (out.stdout || ''));
+  if (why) {
+    // Say what is missing rather than passing quietly, and rather than
+    // failing with a message about the audit that is not about the audit —
+    // an unrunnable check reporting either is the defect under test.
+    throw new Error(`${CANNOT_RUN}: ${why}`);
   }
   assert.strictEqual(out.status, 1,
     `a page that could not be audited exited ${out.status}; it must be non-zero`);
@@ -164,9 +241,12 @@ browserTest('a single-page probe does not overwrite the site baseline', () => {
   const out = spawnSync('node', [
     'scripts/audit/a11y-audit.mjs', '--page', '__no_such_page__.html', '--json-only', '--quiet',
   ], { cwd: ROOT, encoding: 'utf8', timeout: 180_000 });
-  if (/Executable doesn't exist|playwright install/i.test((out.stderr || '') + (out.stdout || ''))) {
-    throw new Error(NO_BROWSER + ', so this assertion could not run here. '
-      + 'Run: npx playwright install chromium');
+  const why = unrunnableReason((out.stderr || '') + (out.stdout || ''));
+  if (why) {
+    // Say what is missing rather than passing quietly, and rather than
+    // failing with a message about the audit that is not about the audit —
+    // an unrunnable check reporting either is the defect under test.
+    throw new Error(`${CANNOT_RUN}: ${why}`);
   }
   const after = fs.readFileSync(baselinePath, 'utf8');
   assert.strictEqual(after, before,
