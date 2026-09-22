@@ -24,8 +24,13 @@ const tips = mapDoc.tips;
 // Same normalization the component applies (kept in step by assertion below).
 // Static markup carries HTML entities the browser would have decoded; the
 // test decodes the ones that occur in header text.
+// Single-pass decode of the named entities that occur in header text. One
+// pass (not chained replaces) so an entity produced by one replacement is
+// never re-decoded by the next. This is decoding for comparison, not
+// sanitization — the result is only ever compared against map keys.
+const ENTITY = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&le;': '≤', '&ge;': '≥', '&nbsp;': ' ' };
 function decodeEntities(s) {
-  return s.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&le;/g, '≤').replace(/&ge;/g, '≥').replace(/&nbsp;/g, ' ');
+  return s.replace(/&(?:amp|lt|gt|le|ge|nbsp);/g, (m) => ENTITY[m]);
 }
 function normalize(text) {
   return decodeEntities(String(text || '')).replace(/\s+/g, ' ').replace(/[▲▼↑↓⇅↕?]+\s*$/, '').trim().toLowerCase();
