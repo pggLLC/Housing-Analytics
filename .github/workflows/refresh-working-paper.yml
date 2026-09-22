@@ -34,7 +34,7 @@ jobs:
           # fetch depth instead and publish it as the project's history.
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '20'
 
@@ -68,7 +68,7 @@ jobs:
         # issue #1654; every data workflow in this repo now closes it the same
         # way.
         if: steps.commit.outputs.changed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             await github.rest.actions.createWorkflowDispatch({
