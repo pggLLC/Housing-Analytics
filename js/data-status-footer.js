@@ -25,7 +25,14 @@
     fred:     { file: 'data/fred-data.json',   field: 'updated' },
     lihtc:    { file: 'data/chfa-lihtc.json',  field: 'fetchedAt' },
     manifest: { file: 'data/manifest.json',    field: 'generated' },
-    ami:      { file: 'data/co_ami_gap_by_county.json', field: ['meta', 'generated'] }
+    ami:      { file: 'data/co_ami_gap_by_county.json', field: ['meta', 'generated_at'] },  // the file writes generated_at; 'generated' resolved to nothing
+    // HNA pages: the ranking index's generatedAt, read through the 1 KB
+    // vintage sidecar scripts/build-home-snapshot.mjs maintains (the same
+    // entry js/components/data-vintage-badge.js uses) rather than the
+    // multi-megabyte index itself. Until 2026-09-22 every HNA page carried a
+    // static data-page-last-updated="2026-03-22" and told readers the data
+    // was six months old on the day it was rebuilt.
+    hna:      { file: 'data/home-snapshot.json', field: ['source_vintages', 'data/hna/ranking-index.json', 'updated'] }
   };
 
   var PREFIX = typeof __PATH_PREFIX !== 'undefined' ? __PATH_PREFIX : '';
@@ -52,7 +59,10 @@
   function formatDate(iso) {
     if (!iso) return null;
     try {
-      var d = new Date(iso);
+      // A date-only string ("2026-03-22") parses as UTC midnight, which
+      // toLocaleDateString renders as the previous day anywhere west of
+      // Greenwich — every static date on the site was showing one day early.
+      var d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(String(iso)) ? iso + 'T12:00:00' : iso);
       if (isNaN(d.getTime())) return null;
       return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     } catch (_) {
