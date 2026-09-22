@@ -59,6 +59,19 @@
       project: 'ACS informs the cost-burden math, the HUD FMR reference informs the LIHTC rent ceiling CHFA sets, and ZORI provides a comparable-market read on what a market-rate apartment would charge today. Together they describe what a typical resident in this community is actually paying.',
     },
 
+    /* ── Age of Housing Stock ── Must stay ABOVE 'Housing stock' below: its
+       own h2 text ("Age of Housing Stock") contains the substring "housing
+       stock", so _matchKey's loose substring match would otherwise resolve
+       it to the "Housing stock by structure type" entry two headings later
+       on the same page (hna-what-housing-exists.html), duplicating all
+       three paragraphs verbatim. This entry already existed further down
+       the file with its own distinct content — moved here so it wins. */
+    'Age of Housing Stock': {
+      why: 'Older housing stock (pre-1960) often carries lead-paint, asbestos, and accessibility-retrofit considerations. It can also mean residents are living in homes with fewer modern features — and a thoughtful, well-built affordable project here would offer real improvement.',
+      demand: 'When the community has a heavy share of pre-1960 stock and relatively little new construction, many residents are paying high rents for homes that need significant work. A newly-built affordable project is a meaningful upgrade.',
+      project: 'A newly-built LIHTC project offers high-quality, accessible, energy-efficient homes that older stock often cannot. This is part of a project\'s story to CHFA on physical condition, ADA accessibility, and energy efficiency.',
+    },
+
     /* ── Housing stock / structure type ── */
     'Housing stock': {
       why: 'The structure mix (single-family / 2-4 unit / 5+ unit) reveals whether the market has multifamily infrastructure or is single-family-dominant. LIHTC deals are almost always 5+ units.',
@@ -134,6 +147,23 @@
       why: 'Education profile predicts long-term income trajectory and informs supportive-services design (workforce training partnerships, etc).',
       demand: 'Lower Bachelor\'s+ share with high cost burden often points to a workforce concentrated in service, trade, and care occupations where current local wages have not kept pace with current local rents — durable affordable housing addresses today\'s cost-burden gap and reduces displacement risk while household incomes shift over time.',
       project: 'Education stats feed QAP "community need" scoring + workforce-training partnership decisions (which boost CHFA + DOH scoring). Higher-education jurisdictions may suit family or workforce housing.',
+    },
+
+    /* ── Demographic projections wrapper (age pyramid + senior pressure) ──
+       Must stay ABOVE 'Age pyramid' below: this h2's own text contains the
+       substring "age pyramid", so _matchKey's loose substring match would
+       otherwise resolve it to the SAME entry as the "Age pyramid" sub-section
+       two headings down, duplicating all three paragraphs verbatim on the
+       page. A distinct, earlier-declared key breaks that collision.
+       Key text is the full compound phrase, not just "Demographic
+       projections" — that shorter phrase is itself a substring of
+       "Scenario-based demographic projections" (a different, unrelated
+       section on hna-where-its-heading.html), which would steal that
+       section's own callout. */
+    'age pyramid & senior pressure': {
+      why: 'Age pyramid and senior-growth pressure are two views of the same underlying population data — together they show not just who lives here today, but which age groups are growing fastest and what kind of housing they will need over the 15-30 year compliance horizon LIHTC and other affordable financing runs on.',
+      demand: 'A community that is both aging in place and gaining young families at once has two distinct, and sometimes competing, housing needs — the two charts below break that combined signal apart so it does not get averaged away.',
+      project: 'Use the age pyramid to see the overall shape, then the senior-growth chart below to check whether that shape is intensifying. Together they help decide whether a project should lean senior/age-restricted, family-oriented, or a mixed approach.',
     },
 
     /* ── Age pyramid ── */
@@ -213,13 +243,6 @@
       why: 'Whether the community has been permitting enough homes to keep up with its own growing need is one of the clearest signals of where a partnership can help. Both CHFA and DOH look at this when reading the case for new construction.',
       demand: 'When the community\'s annual permitting is below its annual need-growth rate, the gap compounds. A five-year permit pace at half of need-growth means new construction is not catching up on its own — a real opening for a partnership project.',
       project: 'This gap often appears in CHFA application narratives: "the community has permitted X homes per year against a need of Y per year, so this project would close Z% of the annual shortfall." It is concrete and grounded in the community\'s own data.',
-    },
-
-    /* ── Age of Housing Stock ── */
-    'Age of Housing Stock': {
-      why: 'Older housing stock (pre-1960) often carries lead-paint, asbestos, and accessibility-retrofit considerations. It can also mean residents are living in homes with fewer modern features — and a thoughtful, well-built affordable project here would offer real improvement.',
-      demand: 'When the community has a heavy share of pre-1960 stock and relatively little new construction, many residents are paying high rents for homes that need significant work. A newly-built affordable project is a meaningful upgrade.',
-      project: 'A newly-built LIHTC project offers high-quality, accessible, energy-efficient homes that older stock often cannot. This is part of a project\'s story to CHFA on physical condition, ADA accessibility, and energy efficiency.',
     },
 
     /* ── Bedroom Mix ── */
