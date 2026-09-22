@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-22T12:19:35.764617Z",
+  "generated": "2026-09-22T12:34:33.751407Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -299,7 +299,7 @@
     "data/discovery-reports/latest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 245155
+      "bytes": 245307
     },
     "data/environmental/epa-superfund-co.json": {
       "featureCount": 0,
@@ -4140,6 +4140,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 1630249
+    },
+    "data/hna/place-decade-trends.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 194606
     },
     "data/hna/place-lehd.json": {
       "featureCount": 0,
