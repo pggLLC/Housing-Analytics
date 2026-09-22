@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T15:24:28.123Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-22T16:02:53.183Z. Do not edit by hand.
 
 ---
 
@@ -50,7 +50,7 @@
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
 | `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 243.1 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.2 KB |
-| `index.html` | Colorado Affordable Housing Data Reference | 37.2 KB |
+| `index.html` | Colorado Affordable Housing Data Reference | 38.8 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
 | `insights.html` | Market Insights | Colorado Public Data Reference | 35.8 KB |
 | `land-value.html` | Land Value &amp; Negotiation | COHO Analytics | 16.6 KB |
@@ -1788,7 +1788,7 @@
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
 | `test/hna-ami-chas-disclosure.test.js` | 1.9 KB |
-| `test/hna-build-rebase-recovery.test.js` | 4.6 KB |
+| `test/hna-build-rebase-recovery.test.js` | 6.9 KB |
 | `test/hna-car-loader.test.js` | 4.1 KB |
 | `test/hna-chapter-handoff.test.mjs` | 7.8 KB |
 | `test/hna-chas-vintage-disclosure.test.js` | 5.4 KB |
@@ -2071,7 +2071,7 @@
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
 | `.github/workflows/backfill-hna-value-brackets.yml` | 4.6 KB |
 | `.github/workflows/backfill_housing_brief.yml` | 1.5 KB |
-| `.github/workflows/build-hna-data.yml` | 30.3 KB |
+| `.github/workflows/build-hna-data.yml` | 31.8 KB |
 | `.github/workflows/build-rent-burden-crosscheck.yml` | 3.7 KB |
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |

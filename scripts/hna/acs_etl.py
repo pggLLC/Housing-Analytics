@@ -204,6 +204,9 @@ class ACSExtractor:
         self._rate       = _RateLimiter()
         self._field_map  = load_field_mapping()
         self._variables  = {t: dict(v) for t, v in (variables or {}).items()}
+        # Number of table fetches that returned HTTP 204 (geography not
+        # published in this vintage). Not failures; see _fetch_table.
+        self.no_content_count = 0
 
     # ------------------------------------------------------------------
     # Public API
@@ -265,6 +268,20 @@ class ACSExtractor:
         url = self._build_url(table_id, geoid, variables)
         self._rate.wait()
         status, body = _http_get(url)
+
+        if status == 204:
+            # HTTP 204 (no content) is the Census API's answer when the
+            # geography is not published in that vintage — e.g. a CDP
+            # delineated after the 2009 or 2014 ACS 5-year profile — not a
+            # failed request. Logged as such (and counted on the instance)
+            # so a run log doesn't read 161 absent geographies as errors.
+            self.no_content_count += 1
+            print(
+                f"[acs_etl] No content table={table_id} geoid={geoid} year={self.year}: "
+                f"HTTP 204 (geography not published in this vintage)",
+                file=sys.stderr,
+            )
+            return None
 
         if status != 200:
             print(
