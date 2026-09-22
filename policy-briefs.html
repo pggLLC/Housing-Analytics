@@ -1010,6 +1010,16 @@
           if (pipelineEl && data && data.meta) {
             var meta = data.meta;
             var generated  = meta.generated ? new Date(meta.generated) : null;
+            // generate_policy_briefs.py's meta object has never included a
+            // feed_count field (only generated/brief_count/source_alerts/
+            // methodology) — fetch_google_alerts.py tracks a real feed count
+            // at fetch time, but it never reaches this file. Defaulting to 0
+            // made every run since this badge shipped read "0 feeds · N
+            // alerts", which looks like a broken pipeline that somehow still
+            // produced alerts from nowhere. Only show a feed count when the
+            // data actually has one; alert/brief counts are the real,
+            // populated signal that the pipeline ran.
+            var hasFeedCount = typeof meta.feed_count === 'number';
             var feedCount  = meta.feed_count || 0;
             var alertCount = meta.source_alerts || meta.alert_count || 0;
             var briefCount = meta.brief_count || list.length;
@@ -1018,12 +1028,13 @@
               ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
               : '—';
 
-            var isActive = feedCount > 0 || alertCount > 0;
+            var isActive = (hasFeedCount && feedCount > 0) || alertCount > 0;
             var isStale = ageDays !== null && ageDays > 30;
 
             if (isActive && !isStale) {
-              pipelineEl.textContent = '✓ Pipeline active · ' + feedCount + ' feed' + (feedCount === 1 ? '' : 's') +
-                ' · ' + alertCount + ' alert' + (alertCount === 1 ? '' : 's') +
+              pipelineEl.textContent = '✓ Pipeline active · ' +
+                (hasFeedCount ? feedCount + ' feed' + (feedCount === 1 ? '' : 's') + ' · ' : '') +
+                alertCount + ' alert' + (alertCount === 1 ? '' : 's') +
                 ' · ' + briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
                 ' · Last fetch: ' + dateStr;
               pipelineEl.style.borderColor = 'var(--good)';
