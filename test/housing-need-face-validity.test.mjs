@@ -35,7 +35,9 @@
  *   - a fourth place failing breaks the build,
  *   - a listed place getting worse breaks the build — measured on its own
  *     EVIDENCE, not its rank or need score, because both of those are
- *     normalized across the dataset and move when other places move,
+ *     normalized across the dataset and move when other places move; plus a
+ *     wide floor under its need score (NEED_SCORE_BAND), so a scoring change
+ *     that sinks it with unchanged inputs is still caught,
  *   - a listed place being FIXED also breaks the build, with instructions to
  *     delete its entry.
  *
@@ -103,29 +105,23 @@ const WORKFORCE_PRESSURE = 70;
  * STRENGTHENS while the place is still under-read, and that is what is
  * asserted.
  *
- * rankWhenPinned and needWhenPinned are recorded as context for a reader and
- * are deliberately NOT asserted. Re-snapshotting them is never required.
+ * Evidence alone cannot see the other way a ledger place gets worse: a scoring
+ * change that sinks it while its inputs stay the same — the case this ledger
+ * was opened for. So needWhenPinned IS asserted, but only as a wide floor:
+ * the largest drift measured above is 4.2 points, and NEED_SCORE_BAND is 10,
+ * more than double that, so it cannot fire on a data build and fires only
+ * when the composite itself has moved against the place. rankWhenPinned is
+ * context for a reader and is not asserted. Re-snapshotting either is never
+ * required by drift; the band is re-based only when the ledger entry is.
  */
 const KNOWN_FAILURES = {
-  // Re-snapshotted 2026-09-22: Cattle Creek 312 -> 313, when build-hna-data
-  // (bot commit d4b511043, the first run after #1808/#1811) rebuilt the CHAS,
-  // AMI-gap and summary inputs statewide. Confirmed as an input rebuild, not
-  // a scoring change, the way the note above asks: every raw metric on
-  // Cattle Creek's record is byte-identical before and after; only the
-  // percentile-pooled cost_burden_pressure_score moved (71.1 -> 70.6,
-  // overall_need_score unchanged at 40.1); it lost one place because
-  // La Junta (317 -> 302) and Franktown (322 -> 311) rose past it in a
-  // rebuild that moved 258 of 546 ranks; ranking-index metadata (weights,
-  // note, augmenters) identical. Keystone improved 316 -> 305 in the same
-  // rebuild and stays on the ledger — still short of the top half.
-
-  // Ranks nudged 2026-09-19 (Keystone 311 -> 312, Nathrop 317 -> 320) when the
-  // ranking index was restored from 41 metrics back to 72. A cron had rebuilt
-  // it with build_ranking_index.py alone, dropping both augmenters and with
-  // them every recency and regional-recency field; putting them back changes
-  // the opportunity percentile pools, so every rank moves a little. One and
-  // three places of movement is that repooling, not these two getting worse on
-  // their own inputs.
+  // History, for the record only — rank is no longer asserted and none of
+  // these needed a code change: ranks moved on 2026-09-19 (the index restored
+  // from 41 metrics to 72, repooling every percentile) and on 2026-09-22
+  // (build-hna-data d4b511043 rebuilt CHAS/AMI-gap/summary inputs and moved
+  // 258 of 546 ranks; every ledger place's own inputs were byte-identical).
+  // Both are the drift the rationale above measures, not these places
+  // getting worse.
 
   // Updated 2026-09-17 after the workforce gap landed (#1732). Demand is now
   // also read from the low-wage jobs a place HOSTS, and gap pressure is the
@@ -148,21 +144,28 @@ const KNOWN_FAILURES = {
     evidence: { workforce: 90.4, priceToIncome: 24.9 },
     needWhenPinned: 40.7, rankWhenPinned: 305,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
-       + 'and rank 339 -> 311 — but still short of the top half' },
+       + '— but still short of the top half' },
   '0812470': { name: 'Cattle Creek (CDP)',
     evidence: { workforce: 84.2, priceToIncome: 24.57 },
     needWhenPinned: 40.1, rankWhenPinned: 313,
-    why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
+    why: 'a house costs 24.57x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
   '0853010': { name: 'Nathrop (CDP)',
     evidence: { workforce: 81.9, priceToIncome: 23.88 },
     needWhenPinned: 39.1, rankWhenPinned: 324,
-    why: '23.9x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
+    why: '23.88x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
        + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };
 
 /** Ranks worse than this are the bottom half of the 546 ranked geographies. */
 const BOTTOM_HALF = 273;
+/**
+ * How far a ledger place's need score may fall below needWhenPinned before it
+ * counts as the scoring turning against it. Data-build drift measured at most
+ * 4.2 points across 1,446 comparisons (see the rationale above KNOWN_FAILURES);
+ * 10 is more than double that, so this fires only on a scoring change.
+ */
+const NEED_SCORE_BAND = 10;
 
 const read = (f) => JSON.parse(fs.readFileSync(path.join(DIGEST_DIR, f), 'utf8'));
 const value = (m, k) => (m[k] || {}).value;
@@ -272,6 +275,10 @@ test('every place on the ledger still fails — entries cannot go stale', () => 
  */
 function regression(place, entry) {
   if (!place) return `${entry.name} has left the dataset`;
+  // A place the site now reads correctly is not "more wrong" whatever its
+  // evidence did; 'entries cannot go stale' owns that case and says to delete
+  // the entry. Reporting it here too would claim it is still under-read.
+  if (typeof place.rank === 'number' && place.rank <= BOTTOM_HALF) return null;
   const now = { workforce: place.workforce, priceToIncome: place.priceToIncome };
   for (const [field, pinned] of Object.entries(entry.evidence)) {
     const current = now[field];
@@ -283,6 +290,16 @@ function regression(place, entry) {
     if (current > pinned) {
       return `${entry.name}: ${field} ${pinned} -> ${current} while it is still read as low need`
         + ` (rank ${place.rank}) — the evidence got stronger and the site still does not see it`;
+    }
+  }
+  if (typeof entry.needWhenPinned === 'number') {
+    if (typeof place.need !== 'number') {
+      return `${entry.name} no longer publishes a need score, so this cannot be checked`;
+    }
+    if (place.need < entry.needWhenPinned - NEED_SCORE_BAND) {
+      return `${entry.name}: need score ${entry.needWhenPinned} -> ${place.need} with its own evidence unchanged`
+        + ` — more than ${NEED_SCORE_BAND} points below where it was pinned, which no data build has ever`
+        + ' produced; the scoring itself has moved against it';
     }
   }
   return null;
@@ -302,8 +319,8 @@ test('and that comparison would actually notice', () => {
   // works. Pinning stable evidence made this sharper, not safer: the old rank
   // comparison fired constantly on drift, which disguised the fact that a
   // broken comparator looks exactly like a clean one. Probe it directly.
-  const pinned = { name: 'probe', evidence: { workforce: 84.2, priceToIncome: 24.57 } };
-  const at = (workforce, priceToIncome) => ({ name: 'probe', workforce, priceToIncome, rank: 400 });
+  const pinned = { name: 'probe', evidence: { workforce: 84.2, priceToIncome: 24.57 }, needWhenPinned: 40.1 };
+  const at = (workforce, priceToIncome, need = 40.1) => ({ name: 'probe', workforce, priceToIncome, need, rank: 400 });
 
   assert.ok(regression(at(90.0, 24.57), pinned),
     'workforce pressure rising is no longer detected — the check above would pass vacuously');
@@ -318,9 +335,19 @@ test('and that comparison would actually notice', () => {
     'unchanged evidence is reported as a regression');
   assert.strictEqual(regression(at(80.0, 20.0), pinned), null,
     'evidence WEAKENING is reported as a regression — that is the place improving');
-  assert.strictEqual(regression({ ...at(84.2, 24.57), need: 1, rank: 546 }, pinned), null,
-    'need score or rank is being compared again — those are the relative measures '
-    + 'this file stopped using');
+  assert.strictEqual(regression({ ...at(84.2, 24.57), rank: 546 }, pinned), null,
+    'rank is being compared again — it is relative and this file stopped using it');
+  assert.strictEqual(regression(at(84.2, 24.57, 40.1 - 4.2), pinned), null,
+    'need score drift inside the band is reported — the band must stay wider than any measured drift');
+  assert.ok(regression(at(84.2, 24.57, 40.1 - NEED_SCORE_BAND - 0.1), pinned),
+    'a need score collapsing with unchanged evidence is no longer detected — a scoring regression '
+    + 'against a ledger place would ship green');
+  assert.match(String(regression({ ...at(84.2, 24.57), need: null }, pinned)), /no longer publishes a need score/,
+    'a need score that stopped being published is not reported as absent — null < n is true, so '
+    + 'without the absence branch this would be misreported as a collapse, or worse, pass');
+  assert.strictEqual(regression({ ...at(90.0, 24.57, 20), rank: 200 }, pinned), null,
+    'a place the site now reads correctly is reported as more wrong — that case belongs to '
+    + "'entries cannot go stale'");
 });
 
 test('the ledger stays short', () => {
@@ -331,16 +358,65 @@ test('the ledger stays short', () => {
     + 'exceptions, it is the normal output of the scoring');
 });
 
-test('each ledger entry says what is wrong with it', () => {
-  for (const [geoid, entry] of Object.entries(KNOWN_FAILURES)) {
-    assert.ok(entry.name && entry.why && entry.why.length > 25,
-      `${geoid} is on the ledger with no explanation; an unexplained entry is an exemption`);
-    assert.ok(entry.evidence && Object.keys(entry.evidence).length >= 2,
-      `${geoid} records no evidence, so there is nothing to compare it against`);
-    for (const [field, v] of Object.entries(entry.evidence)) {
-      assert.ok(typeof v === 'number', `${geoid} pins a non-numeric ${field}`);
-    }
+/**
+ * What is malformed about a ledger entry, or null. Separated from the test so
+ * it can be probed: every real entry is well-formed, so the loop below would
+ * be green with any of these checks deleted.
+ */
+function entryProblem(geoid, entry) {
+  if (!(entry.name && entry.why && entry.why.length > 25)) {
+    return `${geoid} is on the ledger with no explanation; an unexplained entry is an exemption`;
   }
+  if (!(entry.evidence && Object.keys(entry.evidence).length >= 2)) {
+    return `${geoid} records no evidence, so there is nothing to compare it against`;
+  }
+  // Exactly the two fields regression() reads: a typo key would otherwise
+  // fail later as "no longer publishes <typo>", pointing at the wrong place.
+  const keys = Object.keys(entry.evidence).sort();
+  if (keys.join(',') !== 'priceToIncome,workforce') {
+    return `${geoid} pins evidence fields the comparison does not read: ${keys.join(', ')}`;
+  }
+  for (const [field, v] of Object.entries(entry.evidence)) {
+    if (typeof v !== 'number') return `${geoid} pins a non-numeric ${field}`;
+  }
+  if (typeof entry.needWhenPinned !== 'number') {
+    return `${geoid} records no needWhenPinned, so the need-score floor cannot be applied`;
+  }
+  if (typeof entry.rankWhenPinned !== 'number') return `${geoid} records a non-numeric rankWhenPinned`;
+  // Prose must agree with the fields it sits beside: a quoted "Nx" is the
+  // pinned price-to-income, and rank is context, never quoted as a number.
+  const quotedRatio = entry.why.match(/(\d+(?:\.\d+)?)x\b/);
+  if (quotedRatio && Number(quotedRatio[1]) !== entry.evidence.priceToIncome) {
+    return `${geoid}'s why quotes ${quotedRatio[1]}x but pins priceToIncome ${entry.evidence.priceToIncome}`;
+  }
+  if (/\brank \d/.test(entry.why)) {
+    return `${geoid}'s why quotes a rank; rank is relative and drifts, keep it out of the prose`;
+  }
+  return null;
+}
+
+test('each ledger entry says what is wrong with it', () => {
+  const problems = Object.entries(KNOWN_FAILURES).map(([g, e]) => entryProblem(g, e)).filter(Boolean);
+  assert.deepStrictEqual(problems, [], problems.join('; '));
+});
+
+test('and a malformed entry would actually be noticed', () => {
+  const ok = { name: 'probe', evidence: { workforce: 84.2, priceToIncome: 24.57 },
+    needWhenPinned: 40.1, rankWhenPinned: 313,
+    why: 'a house costs 24.57x local income, and this sentence is long enough to count' };
+  assert.strictEqual(entryProblem('p', ok), null, 'a well-formed entry is reported as malformed');
+  const bad = (patch, expect, label) => assert.match(String(entryProblem('p', { ...ok, ...patch })), expect,
+    `${label} is no longer detected`);
+  bad({ why: 'short' }, /no explanation/, 'a missing explanation');
+  bad({ evidence: { workforce: 84.2, priceToincome: 24.57 } }, /fields the comparison does not read/, 'a typo evidence key');
+  bad({ evidence: { workforce: 84.2 } }, /records no evidence/, 'a single pinned field');
+  bad({ evidence: { workforce: '84.2', priceToIncome: 24.57 } }, /non-numeric workforce/, 'a non-numeric pin');
+  bad({ needWhenPinned: undefined }, /no needWhenPinned/, 'a missing needWhenPinned');
+  bad({ rankWhenPinned: '313' }, /non-numeric rankWhenPinned/, 'a non-numeric rankWhenPinned');
+  bad({ why: 'a house costs 24.6x local income, and this sentence is long enough to count' },
+    /quotes 24.6x but pins/, 'prose disagreeing with the pinned ratio');
+  bad({ why: 'improved, and rank 339 -> 311, which is long enough to count as prose' },
+    /quotes a rank/, 'prose quoting a rank');
 });
 
 /* ── What the defect actually is, pinned so the fix is checkable ─────────── */
