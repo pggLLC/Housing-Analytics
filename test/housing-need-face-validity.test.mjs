@@ -33,7 +33,9 @@
  * numbers. That ledger is NOT an exemption list:
  *
  *   - a fourth place failing breaks the build,
- *   - a listed place getting worse breaks the build,
+ *   - a listed place getting worse breaks the build — measured on its own
+ *     EVIDENCE, not its rank or need score, because both of those are
+ *     normalized across the dataset and move when other places move,
  *   - a listed place being FIXED also breaks the build, with instructions to
  *     delete its entry.
  *
@@ -65,31 +67,44 @@ const WORKFORCE_PRESSURE = 70;
  * you to.
  */
 /*
- * Ranks re-snapshotted 2026-09-20, twice in one day.
+ * ── Why this ledger pins evidence, not scores or ranks ──
  *
- * First: Keystone 312 -> 316, Cattle Creek 307 -> 308, when
- * rebuild-bps-permits.yml refreshed projections/places.json.
+ * It used to pin each place's RANK and fail when the rank rose. That fired
+ * three times in three days (307->308, 308->312, 312->313), every one a false
+ * alarm, because rank is RELATIVE: a place slides down when some OTHER place
+ * improves, with nothing about it changing. Measured across d4b511043, the
+ * scheduled build that last broke this file: for all three ledger places every
+ * own-input metric was byte-identical and only rank moved. That commit touched
+ * no scoring code. The rule was reporting other places getting BETTER as these
+ * places getting worse. The same flaw ran the other way unnoticed — Keystone
+ * improving 316 -> 305 rotted its pin by 11 places in silence.
  *
- * Then: Cattle Creek 308 -> 312, Nathrop 320 -> 324, when the production
- * figure began taking max(resident growth, workforce). 365 of 546
- * jurisdictions gained a workforce reading, so the ones that host no
- * workforce fell relative to them. These two are on this ledger precisely
- * BECAUSE the job-based reading correctly sees no gap for them — Cattle
- * Creek has 59 local low-wage jobs — so a change that lifts places with a
- * workforce is expected to push these down. The movement confirms the
- * mechanism rather than contradicting it.
+ * The obvious repair, pinning overall_need_score instead, was measured and
+ * REJECTED. Across three consecutive scheduled data builds (1,446 place
+ * comparisons, no scoring code touched):
  *
- * Both moved because rebuild-bps-permits.yml refreshed
- * data/hna/projections/places.json and the chain rebuilt the index from it —
- * a data refresh, not a scoring change. Nothing in the weighting or the
- * components moved.
+ *   workforce_housing_pressure_score   0.0% changed
+ *   local_low_wage_jobs                0.0% changed
+ *   gap_pressure_score                 0.0% changed
+ *   home_value_to_income               1.2% changed
+ *   overall_need_score                19.3% changed   <- not absolute
  *
- * Worth knowing about this rule: it cannot tell those two apart. It fails when
- * a ledger place's rank rises for ANY reason, so an ordinary projections
- * refresh reads the same as the methodology regressing. Re-snapshotting is
- * therefore the right maintenance here, and would be exactly the wrong
- * response to a real regression. Anyone updating these numbers should confirm,
- * as was confirmed here, that the movement traces to an input rebuild.
+ * Need score moved by up to 4.2 points on builds that changed no code, and of
+ * the 140 places whose need score FELL, 134 had every one of their own inputs
+ * byte-identical. It is normalized across the dataset, so it is a relative
+ * measure too — the same category error as rank, just harder to see. No
+ * tolerance rescues it: the movement runs continuously from 0.1 to 4.2 with no
+ * break to cut at.
+ *
+ * So the pin is the place's own EVIDENCE — the numbers that come from this
+ * place's own prices, incomes and jobs and cannot be disturbed by a neighbour.
+ * The ledger's claim about each row is "its own evidence says extreme, yet the
+ * site reads it as low need". That claim gets more wrong when the evidence
+ * STRENGTHENS while the place is still under-read, and that is what is
+ * asserted.
+ *
+ * rankWhenPinned and needWhenPinned are recorded as context for a reader and
+ * are deliberately NOT asserted. Re-snapshotting them is never required.
  */
 const KNOWN_FAILURES = {
   // Re-snapshotted 2026-09-22: Cattle Creek 312 -> 313, when build-hna-data
@@ -129,13 +144,19 @@ const KNOWN_FAILURES = {
   // and they stay where they were. They were failing this rule before the
   // change too; Snowmass and Keystone were simply worse, and the rule only
   // reports the set.
-  '0840550': { name: 'Keystone (CDP)', rank: 316,
+  '0840550': { name: 'Keystone (CDP)',
+    evidence: { workforce: 90.4, priceToIncome: 24.9 },
+    needWhenPinned: 40.7, rankWhenPinned: 305,
     why: 'improved by the workforce gap — 538 low-wage jobs, 199 unhoused, gap pressure 12.3 -> 37.6 '
        + 'and rank 339 -> 311 — but still short of the top half' },
-  '0812470': { name: 'Cattle Creek (CDP)', rank: 313,
+  '0812470': { name: 'Cattle Creek (CDP)',
+    evidence: { workforce: 84.2, priceToIncome: 24.57 },
+    needWhenPinned: 40.1, rankWhenPinned: 313,
     why: 'a house costs 24.6x local income and affordability intensity is 99.2, but it hosts only 59 '
        + 'low-wage jobs and has 59 affordable units, so the job-based reading correctly sees no gap' },
-  '0853010': { name: 'Nathrop (CDP)', rank: 324,
+  '0853010': { name: 'Nathrop (CDP)',
+    evidence: { workforce: 81.9, priceToIncome: 23.88 },
+    needWhenPinned: 39.1, rankWhenPinned: 324,
     why: '23.9x price-to-income and 98.4 affordability intensity against 41 local low-wage jobs — '
        + 'below the 50-job floor, so no workforce percentage is even published for it' },
 };
@@ -238,17 +259,68 @@ test('every place on the ledger still fails — entries cannot go stale', () => 
     + `KNOWN_FAILURES so the ledger keeps meaning something: ${fixed.join(', ')}`);
 });
 
-test('no place on the ledger has got worse', () => {
-  const worse = [];
-  for (const [geoid, entry] of Object.entries(KNOWN_FAILURES)) {
-    const place = places.find((p) => p.geoid === geoid);
-    if (!place) { worse.push(`${entry.name} has left the dataset`); continue; }
-    if ((place.rank || 0) > entry.rank) {
-      worse.push(`${entry.name}: rank ${entry.rank} -> ${place.rank}`);
+/**
+ * Why this place is more wrong than when it was pinned, or null if it is not.
+ *
+ * Compared on the place's own EVIDENCE of extremity, never on its need score
+ * or its rank — both of those are normalized across the dataset and move when
+ * other places move. See the rationale above KNOWN_FAILURES for the
+ * measurements behind that choice.
+ *
+ * Separated from the loop so it can be exercised directly: nothing is worse
+ * today, so the loop below is green whether or not this function works.
+ */
+function regression(place, entry) {
+  if (!place) return `${entry.name} has left the dataset`;
+  const now = { workforce: place.workforce, priceToIncome: place.priceToIncome };
+  for (const [field, pinned] of Object.entries(entry.evidence)) {
+    const current = now[field];
+    if (typeof current !== 'number') {
+      // Absence is not agreement. Evidence that stopped being published cannot
+      // be compared, and must not pass quietly.
+      return `${entry.name} no longer publishes ${field}, so this cannot be checked`;
+    }
+    if (current > pinned) {
+      return `${entry.name}: ${field} ${pinned} -> ${current} while it is still read as low need`
+        + ` (rank ${place.rank}) — the evidence got stronger and the site still does not see it`;
     }
   }
+  return null;
+}
+
+test('no place on the ledger has got worse', () => {
+  const worse = Object.entries(KNOWN_FAILURES)
+    .map(([geoid, entry]) => regression(places.find((p) => p.geoid === geoid), entry))
+    .filter(Boolean);
   assert.deepStrictEqual(worse, [],
     `these were already wrong and are now more wrong: ${worse.join('; ')}`);
+});
+
+test('and that comparison would actually notice', () => {
+  // The assertion above passes on an empty list, and the list is empty in
+  // every healthy run, so it says nothing about whether the comparison still
+  // works. Pinning stable evidence made this sharper, not safer: the old rank
+  // comparison fired constantly on drift, which disguised the fact that a
+  // broken comparator looks exactly like a clean one. Probe it directly.
+  const pinned = { name: 'probe', evidence: { workforce: 84.2, priceToIncome: 24.57 } };
+  const at = (workforce, priceToIncome) => ({ name: 'probe', workforce, priceToIncome, rank: 400 });
+
+  assert.ok(regression(at(90.0, 24.57), pinned),
+    'workforce pressure rising is no longer detected — the check above would pass vacuously');
+  assert.ok(regression(at(84.2, 30.0), pinned),
+    'price-to-income rising is no longer detected');
+  assert.ok(regression(at(undefined, 24.57), pinned),
+    'evidence that stopped being published is no longer detected');
+  assert.ok(regression(undefined, pinned),
+    'a place leaving the dataset is no longer detected');
+
+  assert.strictEqual(regression(at(84.2, 24.57), pinned), null,
+    'unchanged evidence is reported as a regression');
+  assert.strictEqual(regression(at(80.0, 20.0), pinned), null,
+    'evidence WEAKENING is reported as a regression — that is the place improving');
+  assert.strictEqual(regression({ ...at(84.2, 24.57), need: 1, rank: 546 }, pinned), null,
+    'need score or rank is being compared again — those are the relative measures '
+    + 'this file stopped using');
 });
 
 test('the ledger stays short', () => {
@@ -263,7 +335,11 @@ test('each ledger entry says what is wrong with it', () => {
   for (const [geoid, entry] of Object.entries(KNOWN_FAILURES)) {
     assert.ok(entry.name && entry.why && entry.why.length > 25,
       `${geoid} is on the ledger with no explanation; an unexplained entry is an exemption`);
-    assert.ok(typeof entry.rank === 'number', `${geoid} records no rank to compare against`);
+    assert.ok(entry.evidence && Object.keys(entry.evidence).length >= 2,
+      `${geoid} records no evidence, so there is nothing to compare it against`);
+    for (const [field, v] of Object.entries(entry.evidence)) {
+      assert.ok(typeof v === 'number', `${geoid} pins a non-numeric ${field}`);
+    }
   }
 });
 
