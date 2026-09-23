@@ -145,7 +145,22 @@
     var currentDone = completed.indexOf(currentStep) !== -1;
     var completedCount = completed.length;
     var nextIncomplete = null;
-    var priorIncompleteIsAdvisoryOnly = currentStep === 'market';
+    // Only the jurisdiction is a prerequisite: every page keys its data off
+    // it. The analyses before a page (HNA, Market Analysis, Scenario Builder)
+    // are context the page can quote, never inputs it needs — the deal
+    // calculator reads its own HUD/CHFA data and only the active project's
+    // jurisdiction from WorkflowState. Until 2026-09-23 any skipped prior
+    // step raised the amber "Earlier Step Incomplete → Go to …" warning, so a
+    // reader who took the HNA's own "Next step → Deal Calculator" link was
+    // told to go back to Market Analysis, then Scenario Builder. The site
+    // offers those jumps; it must not scold them. Skipped analyses are named
+    // in one quiet line under the page's own guidance instead.
+    var PREREQUISITE_STEPS = { jurisdiction: 1 };
+    var skippedContext = [];
+    for (var si = 0; si < currentIdx; si++) {
+      var sk = STEP_KEYS[si];
+      if (completed.indexOf(sk) === -1 && !PREREQUISITE_STEPS[sk]) skippedContext.push(sk);
+    }
     for (var ni = 0; ni < STEP_KEYS.length; ni++) {
       if (completed.indexOf(STEP_KEYS[ni]) === -1) {
         nextIncomplete = STEP_KEYS[ni];
@@ -187,8 +202,8 @@
       actionUrl   = STEP_URLS[nextKey];
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
-    } else if (!currentDone && firstIncompleteBeforeCurrent && !priorIncompleteIsAdvisoryOnly) {
-      // State 1: Prior steps incomplete
+    } else if (!currentDone && firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent]) {
+      // State 1: a prerequisite (the jurisdiction) is missing
       var priorKey = firstIncompleteBeforeCurrent;
       icon    = '\u26A0\uFE0F';  // warning
       variant = 'skipped';
@@ -206,6 +221,12 @@
       body    = STEP_ACTIONS[currentStep];
       if (nextAfterCurrent) {
         body += ' When you\'re done, you\'ll continue to ' + STEP_LABELS[nextAfterCurrent] + '.';
+      }
+      if (skippedContext.length) {
+        var names = [];
+        for (var ci = 0; ci < skippedContext.length; ci++) names.push(STEP_LABELS[skippedContext[ci]]);
+        body += ' <span class="wf-next-action__advisory">Optional context not yet run: ' + names.join(', ') +
+          ' (<a href="' + STEP_URLS[skippedContext[0]] + '">open ' + STEP_LABELS[skippedContext[0]] + '</a>). Results here do not depend on it.</span>';
       }
       actionUrl   = null;
       actionLabel = null;
