@@ -137,7 +137,7 @@ async function loadPuppeteer() {
 }
 
 // The static server the scanner reads from. http-server is a declared
-// devDependency (since #1831) so `npm ci` installs it and no run depends on
+// devDependency (since #1832) so `npm ci` installs it and no run depends on
 // npx fetching it from the registry: on 2026-09-23 the scanner's first run
 // in its own job (#1829) waited a fixed 1.5 s for `npx http-server`, which
 // was still downloading, and every scan hit ERR_CONNECTION_REFUSED.
