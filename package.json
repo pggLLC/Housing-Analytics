@@ -335,6 +335,7 @@
     "chrome-launcher": "^1.2.1",
     "color": "^5.0.3",
     "glob": "^13.0.6",
+    "http-server": "^14.1.1",
     "lighthouse": "^13.5.0",
     "mapshaper": "^0.7.61",
     "node-fetch": "^2.7.0",
@@ -344,6 +345,7 @@
     "puppeteer": "^25.11.0",
     "stylelint": "^17.15.0",
     "stylelint-config-recommended": "^18.0.0",
+    "wait-on": "^8.0.3",
     "wcag-contrast": "^3.0.0"
   },
   "overrides": {
