@@ -2060,6 +2060,9 @@ html.dark-mode .wf-next-action--next .wf-next-action__cta { color: #0a0f1d; }
   background: color-mix(in oklab, var(--card) 80%, var(--accent) 8%);
   border-color: color-mix(in oklab, var(--border) 50%, var(--accent) 20%);
 }
+/* Skipped analyses are context, not prerequisites: one quiet line. */
+.wf-next-action__advisory { display: block; margin-top: .25rem; font-size: .85em; color: var(--muted); }
+.wf-next-action__advisory a { color: var(--link, var(--accent)); }
 /* Variant: skipped (warning) */
 .wf-next-action--skipped .wf-next-action__inner {
   background: color-mix(in oklab, var(--card) 60%, var(--warn) 8%);
