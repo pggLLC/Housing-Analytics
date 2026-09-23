@@ -77,10 +77,17 @@ test('the rail component agrees with the markup', () => {
 test('choosing a jurisdiction opens part 1, not the full report', () => {
   // The moment that actually matters: this is where a novice meets the
   // assessment for the first time.
+  // Pins the CLAIM, not the statement's shape (#1746): the chapters are the
+  // DEFAULT destination. Since 2026-09-23 the redirect also honours a ?next=
+  // allowlist, so a reader sent to pick a jurisdiction from the deal
+  // calculator is returned there — the default when nothing asked for
+  // anything else must still be part 1, never the 53-section report.
   const src = read('js/jurisdiction-selector.js');
-  assert.ok(src.includes(`global.location.href = '${CHAPTER}'`),
-    'the post-selection redirect no longer opens the chapters');
-  assert.ok(!/global\.location\.href = 'housing-needs-assessment\.html'/.test(src),
+  const redirect = /global\.location\.href = ([^;]+);/.exec(src);
+  assert.ok(redirect, 'the post-selection redirect is gone entirely');
+  assert.ok(redirect[1].includes(`'${CHAPTER}'`),
+    `the post-selection redirect no longer defaults to the chapters: ${redirect[1]}`);
+  assert.ok(!redirect[1].includes("'housing-needs-assessment.html'"),
     'the redirect into the full report is back');
 });
 
