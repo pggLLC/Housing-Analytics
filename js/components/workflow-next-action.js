@@ -22,27 +22,87 @@
 
   /* ── Constants ─────────────────────────────────────────────────────── */
 
-  // F21 made Opportunity Finder step 1 of a 6-step flow (see
-  // workflow-progress.js STEPS for the canonical list). This banner was
-  // still on the old 5-step model, so the same page would show
-  // "Step 2 of 5" while the sticky stepper bar showed "step 3 of 6".
-  // Mirror the 6-step model here so denominators line up everywhere.
-  var STEP_KEYS = ['opportunity', 'jurisdiction', 'hsa', 'market', 'scenario', 'deal'];
-  var STEP_LABELS = {
-    opportunity:  'Opportunity Finder',
-    jurisdiction: 'Select Jurisdiction',
-    hsa:          'Housing Needs Assessment',
-    market:       'Market Analysis',
-    scenario:     'Scenario Builder',
-    deal:         'Deal Calculator'
+  /* ── The step sequence: read, never re-declared ──────────────────────
+   *
+   * workflow-progress.js STEPS is the canonical list and this file consumes
+   * it. It used to keep a parallel copy, and the copy drifted — six keys with
+   * Opportunity Finder first, against the rail's seven with Jurisdiction
+   * first. Two producers of one sequence, so the same screen could show the
+   * rail reading "step 1 of 7" and this banner reading "Step 2 of 6".
+   *
+   * The comment that stood here described an EARLIER instance of the same
+   * drift ("Step 2 of 5" against "step 3 of 6") and its fix was to re-type the
+   * list correctly. That is why it came back: a copy kept in step by hand goes
+   * out of step the next time the other one moves. It moved twice — the first
+   * two steps swapped, and step 7 was added.
+   *
+   * Missing step 7 was not a cosmetic fault. Recommendation is the synthesis:
+   * workflow-progress.js calls it out as the step without which "the reader
+   * finished the route holding six pages and no answer". Absent from this
+   * list, the deal calculator announced itself as "Step 6 of 6" and pointed
+   * nowhere, so the guided path ended one page short of its own conclusion.
+   *
+   * The fallback exists only for a page that loads this file without the rail;
+   * on every guided-path page workflow-progress.js is loaded first.
+   */
+  var FALLBACK_STEPS = [
+    { key: 'jurisdiction',   label: 'Select Jurisdiction',      href: 'select-jurisdiction.html' },
+    { key: 'opportunity',    label: 'Opportunity Finder',       href: 'lihtc-opportunity-finder.html' },
+    { key: 'hsa',            label: 'Housing Needs Assessment', href: 'hna-what-housing-exists.html' },
+    { key: 'market',         label: 'Market Analysis',          href: 'market-analysis.html' },
+    { key: 'scenario',       label: 'Scenario Builder',         href: 'hna-scenario-builder.html' },
+    { key: 'deal',           label: 'Deal Calculator',          href: 'deal-calculator.html' },
+    { key: 'recommendation', label: 'Recommendation',           href: 'recommendation.html' }
+  ];
+
+  var _canon = null;
+  /** {keys, labels, urls} from the rail, resolved once the rail has loaded. */
+  function canon() {
+    if (_canon) return _canon;
+    var WP = global.WorkflowProgress;
+    var fromRail = WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]'
+      && WP.STEPS.length ? WP.STEPS : null;
+    var list = fromRail || FALLBACK_STEPS;
+    var out = { keys: [], labels: {}, urls: {} };
+    for (var i = 0; i < list.length; i++) {
+      out.keys.push(list[i].key);
+      out.labels[list[i].key] = STEP_LABEL_OVERRIDES[list[i].key] || list[i].label;
+      out.urls[list[i].key] = list[i].href;
+    }
+    // Only cache once the real list is in hand, so a fallback read during an
+    // unlucky early call cannot freeze the wrong sequence for the page.
+    if (fromRail) _canon = out;
+    return out;
+  }
+
+  /* The rail's labels are short enough to fit a 7-node strip ("Deal",
+   * "Scenarios"). Prose needs the full name. Keys absent here use the rail's. */
+  var STEP_LABEL_OVERRIDES = {
+    hsa:      'Housing Needs Assessment',
+    scenario: 'Scenario Builder',
+    deal:     'Deal Calculator'
   };
-  var STEP_URLS = {
-    opportunity:  'lihtc-opportunity-finder.html',
-    jurisdiction: 'select-jurisdiction.html',
-    hsa:          'housing-needs-assessment.html',
-    market:       'market-analysis.html',
-    scenario:     'hna-scenario-builder.html',
-    deal:         'deal-calculator.html'
+
+  /* Steps a reader is not gated on finishing: Opportunity Finder is statewide
+   * discovery, and Recommendation is the output, not a task. */
+  var UNTRACKED_STEPS = { opportunity: 1, recommendation: 1 };
+
+  /* Other pages that ARE a step, beyond the one the rail links to.
+   *
+   * The rail carries one href per step — the page the guided route sends you
+   * to. A step can be served by more than one page: step 3 is the needs
+   * assessment, whose rail href is the first chapter, while
+   * housing-needs-assessment.html is the same step's full 53-section report.
+   * Without this, a reader on the full report gets no banner at all, because
+   * URL detection is the only path on a page that renders no rail.
+   *
+   * Keys are page filenames; values are step keys that must exist in the rail. */
+  var STEP_URL_ALIASES = {
+    'housing-needs-assessment.html':      'hsa',
+    'hna-who-lives-here.html':            'hsa',
+    'hna-what-households-can-afford.html': 'hsa',
+    'hna-where-its-heading.html':         'hsa',
+    'hna-what-to-do.html':                'hsa'
   };
   var STEP_ACTIONS = {
     opportunity:  'Find a jurisdiction with strong LIHTC opportunity to focus your analysis.',
@@ -50,7 +110,8 @@
     hsa:          'Review affordability gaps and housing need indicators.',
     market:       'Run a PMA scoring analysis for your target site.',
     scenario:     'Build demographic projection scenarios.',
-    deal:         'Model your capital stack and pro forma.'
+    deal:         'Model your capital stack and pro forma.',
+    recommendation: 'Read the synthesis of everything the earlier steps computed.'
   };
 
   /* ── Detect current page step ──────────────────────────────────────── */
@@ -65,8 +126,12 @@
     // Housing Needs Assessment" banner ON the HNA page (and similar on
     // market/scenario/deal). URL filenames map 1:1 to funnel steps regardless.
     var loc = (global.location.pathname.split('/').pop() || '').toLowerCase();
-    for (var key in STEP_URLS) {
-      if (loc === STEP_URLS[key]) return key;
+    var urls = canon().urls;
+    if (STEP_URL_ALIASES[loc] && canon().keys.indexOf(STEP_URL_ALIASES[loc]) !== -1) {
+      return STEP_URL_ALIASES[loc];
+    }
+    for (var key in urls) {
+      if (loc === urls[key]) return key;
     }
     // Fallback: data-step attribute (only consulted if the URL isn't a known
     // funnel page; numbering follows the 6-step progress-bar scheme:
@@ -74,7 +139,8 @@
     var scriptTag = document.querySelector('script[data-step]');
     if (scriptTag) {
       var num = parseInt(scriptTag.getAttribute('data-step'), 10);
-      if (num >= 1 && num <= STEP_KEYS.length) return STEP_KEYS[num - 1];
+      var ks = canon().keys;
+      if (num >= 1 && num <= ks.length) return ks[num - 1];
     }
     return null;
   }
@@ -141,9 +207,19 @@
     // jurisdiction…" because the page's own current-step short-circuit
     // ignores the completed list for the current step.
     if (completed.indexOf('opportunity') === -1) completed.push('opportunity');
+    var CANON = canon();
+    var STEP_KEYS = CANON.keys;
+    var STEP_LABELS = CANON.labels;
+    var STEP_URLS = CANON.urls;
     var currentIdx = STEP_KEYS.indexOf(currentStep);
     var currentDone = completed.indexOf(currentStep) !== -1;
-    var completedCount = completed.length;
+    // Counted over TRACKED steps only. `completed` carries an auto-added
+    // 'opportunity', so comparing its raw length against the tracked total
+    // declared the workflow finished one real step early.
+    var completedCount = 0;
+    for (var cc = 0; cc < completed.length; cc++) {
+      if (!UNTRACKED_STEPS[completed[cc]]) completedCount++;
+    }
     var nextIncomplete = null;
     // Only the jurisdiction is a prerequisite: every page keys its data off
     // it. The analyses before a page (HNA, Market Analysis, Scenario Builder)
@@ -182,7 +258,10 @@
 
     // "All done" = all real tracked steps from STEP_META complete. OF is
     // a discovery step (auto-complete above) so we don't gate on it here.
-    var trackedCount = STEP_KEYS.length - 1; // minus 'opportunity'
+    var trackedCount = 0;
+    for (var tk = 0; tk < STEP_KEYS.length; tk++) {
+      if (!UNTRACKED_STEPS[STEP_KEYS[tk]]) trackedCount++;
+    }
     if (completedCount >= trackedCount) {
       // State 4: All done
       icon    = '\u2705';  // checkmark
@@ -272,7 +351,14 @@
     setTimeout(init, 0);
   }
 
-  // Expose for testing
-  global.WorkflowNextAction = { render: _render };
+  // Expose for testing. `steps` is the resolved sequence this banner is
+  // using, so a guard can prove it equals the rail's rather than trusting
+  // that it still reads from it.
+  global.WorkflowNextAction = {
+    render: _render,
+    steps: function () { return canon(); },
+    fallbackSteps: function () { return FALLBACK_STEPS.slice(); },
+    urlAliases: function () { return STEP_URL_ALIASES; }
+  };
 
 })(typeof window !== 'undefined' ? window : this);
