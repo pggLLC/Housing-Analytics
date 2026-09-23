@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-23T10:02:04Z",
+  "generated": "2026-09-23T12:17:49Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -120,7 +120,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
-      "last_update": "2026-09-22T12:11:56Z",
+      "last_update": "2026-09-23T11:44:58Z",
       "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
     },
     {
