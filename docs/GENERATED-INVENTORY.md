@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T03:22:24.902Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T03:46:21.542Z. Do not edit by hand.
 
 ---
 
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-384 test files found.
+385 test files found.
 
 | File | Size |
 |------|------|
@@ -2019,6 +2019,7 @@
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
+| `test/workflow-next-action-prerequisites.test.js` | 3.7 KB |
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
