@@ -62,7 +62,7 @@ setInterval(() => {}, 1000);
 `;
 const DEAD_SERVER = `setInterval(() => {}, 1000);`; // never listens
 
-function runScanner(deadOn, serverScript) {
+function runScanner(deadOn, serverScript, serverTimeoutMs) {
   const dir = mkdtempSync(join(tmpdir(), 'contrast-scanner-'));
   for (const p of ['a.html', 'b.html', 'c.html', 'd.html']) writeFileSync(join(dir, p), '<html></html>');
   const fake = join(dir, 'fake-puppeteer.mjs');
@@ -76,7 +76,7 @@ function runScanner(deadOn, serverScript) {
     writeFileSync(bin, '#!/bin/sh\nexec "' + process.execPath + '" "' + join(dir, 'server.mjs') + '"\n');
     fs.chmodSync(bin, 0o755);
     env.RUNTIME_CONTRAST_SERVER_BIN = bin;
-    env.RUNTIME_CONTRAST_SERVER_TIMEOUT = '6000';
+    env.RUNTIME_CONTRAST_SERVER_TIMEOUT = String(serverTimeoutMs);
   } else {
     env.RUNTIME_CONTRAST_NO_SERVER = '1';
   }
@@ -141,16 +141,17 @@ run('the scanner waits for the static server instead of sleeping a fixed 1.5 s',
   // #1829's first run in its own job: `npx http-server` was still downloading
   // when the fixed sleep ended, every scan hit ERR_CONNECTION_REFUSED, and the
   // run aborted after three. A server that takes 2.5 s must simply be waited for.
-  const r = runScanner('', SLOW_SERVER);
+  // Generous cap: on a loaded machine node start-up plus the 2.5 s delay has brushed 6 s.
+  const r = runScanner('', SLOW_SERVER, 15000);
   assert.equal(r.status, 0, r.out);
   assert.match(r.out, /Static server ready on port 8765/);
   assert.match(r.out, /Mode-scans: 8 /);
 });
 
 run('a server that never comes up fails clearly, before any scan is attempted', () => {
-  const r = runScanner('', DEAD_SERVER);
+  const r = runScanner('', DEAD_SERVER, 3000);
   assert.equal(r.status, 1);
-  assert.match(r.out, /Static server did not become ready at http:\/\/localhost:8765\/ within 6000 ms/);
+  assert.match(r.out, /Static server did not become ready at http:\/\/localhost:8765\/ within 3000 ms/);
   assert.ok(!/\[light\]/.test(r.out), 'no scan attempted without a server');
 });
 
