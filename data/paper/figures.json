@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "bb39e151c",
+  "generated_from_commit": "c534c1372",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-09-23",
-    "total_commits": 6966,
+    "total_commits": 6969,
     "partial_month": "2026-09",
     "commits_by_month": [
       {
@@ -44,8 +44,8 @@
       },
       {
         "month": "2026-09",
-        "commits": 798,
-        "pct_of_peak": 58.5
+        "commits": 801,
+        "pct_of_peak": 58.7
       }
     ]
   },
@@ -63,7 +63,7 @@
     "cdps": 210,
     "place_pages": 484,
     "scheduled_workflows": 59,
-    "test_files": 335,
+    "test_files": 336,
     "absence_test_cases": 144,
     "absence_tests": 52,
     "lihtc_features": 926
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 355765,
+    "hand_written_lines": 356017,
     "generated_place_page_lines": 226824,
     "top_level_pages": 63,
     "html_nonblank_lines": 47559,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "bb39e151c",
+    "extracted_at_commit": "c534c1372",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
@@ -501,7 +501,9 @@
         {
           "parameter": "property tax rate",
           "registry_default": 0.0065,
-          "constants_file": 0.006
+          "constants_file": 0.006,
+          "expected": true,
+          "reason": "the deal-calculator and HNA ownership surfaces answer different questions and are documented as deliberately differing — see the SCOPE block in js/config/financial-constants.js, pinned by test/affordability-defaults-inventory.test.js"
         }
       ],
       "distinct_ratio_types": [

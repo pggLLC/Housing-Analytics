@@ -2,6 +2,23 @@ export const BROWSER_USER_AGENT =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
   'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36';
 
+/**
+ * The Accept header a browser sends, and the sweeps must send with it.
+ *
+ * A browser User-Agent alone is not a browser-shaped request. Node's fetch
+ * defaults to a wildcard Accept, and some hosts content-negotiate on it:
+ * measured 2026-09-23, leg.colorado.gov returns 406 to the wildcard and 200
+ * to this value, with the same User-Agent either way. That made two live
+ * Colorado bill citations read as hard failures in the sweep while resolving
+ * fine for any actual reader (#1840).
+ *
+ * Paired with BROWSER_USER_AGENT deliberately: a sweep that claims to check
+ * what a reader would reach has to ask the way a reader asks.
+ */
+export const BROWSER_ACCEPT =
+  'text/html,application/xhtml+xml,application/xml;q=0.9,' +
+  'image/avif,image/webp,*/*;q=0.8';
+
 export const CONFIRMED_FAILURE_SWEEPS = 2;
 
 /**

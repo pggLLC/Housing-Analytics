@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-23T13:00:43.557830Z",
+  "generated": "2026-09-23T17:18:51.846173Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7839,12 +7839,12 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14391
+      "bytes": 14678
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5997
+      "bytes": 6280
     },
     "data/pipeline/content.json": {
       "featureCount": 0,

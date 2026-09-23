@@ -1,5 +1,5 @@
 {
-  "extracted_at_commit": "bb39e151c",
+  "extracted_at_commit": "c534c1372",
   "ranking": {
     "source_file": "scripts/hna/build_ranking_index.py",
     "axis_weights": {
@@ -190,7 +190,9 @@
       {
         "parameter": "property tax rate",
         "registry_default": 0.0065,
-        "constants_file": 0.006
+        "constants_file": 0.006,
+        "expected": true,
+        "reason": "the deal-calculator and HNA ownership surfaces answer different questions and are documented as deliberately differing — see the SCOPE block in js/config/financial-constants.js, pinned by test/affordability-defaults-inventory.test.js"
       }
     ],
     "distinct_ratio_types": [
