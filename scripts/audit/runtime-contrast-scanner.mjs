@@ -203,16 +203,30 @@ async function main() {
      refuses to start there without these flags; locally they're no-op).
      `--disable-dev-shm-usage` avoids the /dev/shm too-small crash that
      containers sometimes hit on busy runners. */
-  const launch = () => puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-  });
+  // Launch-option hooks for diagnosing browser-level hangs (#1819). All unset
+  // in real runs: headless "new", the puppeteer-pinned Chrome, no extra args,
+  // puppeteer's default protocolTimeout.
+  //   RUNTIME_CONTRAST_HEADLESS         new | true | shell
+  //   RUNTIME_CONTRAST_EXECUTABLE_PATH  path to a specific Chrome binary
+  //   RUNTIME_CONTRAST_CHROME_ARGS      extra args, comma-separated
+  //   RUNTIME_CONTRAST_PROTOCOL_TIMEOUT ms before a hung CDP call throws
+  const headlessEnv = process.env.RUNTIME_CONTRAST_HEADLESS;
+  const headless = headlessEnv === 'true' ? true : (headlessEnv || 'new');
+  const extraArgs = (process.env.RUNTIME_CONTRAST_CHROME_ARGS || '').split(',').map((a) => a.trim()).filter(Boolean);
+  const launchOptions = {
+    headless,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', ...extraArgs]
+  };
+  if (process.env.RUNTIME_CONTRAST_EXECUTABLE_PATH) launchOptions.executablePath = process.env.RUNTIME_CONTRAST_EXECUTABLE_PATH;
+  if (process.env.RUNTIME_CONTRAST_PROTOCOL_TIMEOUT) launchOptions.protocolTimeout = Number(process.env.RUNTIME_CONTRAST_PROTOCOL_TIMEOUT);
+  const launch = () => puppeteer.launch(launchOptions);
   const newScanPage = async (b) => {
     const pg = await b.newPage();
     await pg.setViewport({ width: 1280, height: 800 });
     return pg;
   };
   let browser = await launch();
+  console.log('Browser: ' + (await browser.version()) + ' · headless=' + String(headless) + (launchOptions.executablePath ? ' · ' + launchOptions.executablePath : '') + (extraArgs.length ? ' · args ' + extraArgs.join(' ') : ''));
   let page = await newScanPage(browser);
 
   const pages = listPages();
