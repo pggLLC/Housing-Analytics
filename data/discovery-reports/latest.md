@@ -1,13 +1,13 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-22T12:34:27.255Z
+**Scan timestamp:** 2026-09-23T12:43:53.996Z
 
 ## Summary
 
 | Metric | Count |
 |---|---|
-| Files scanned | 1621 |
-| New (unregistered) | 1590 |
+| Files scanned | 1622 |
+| New (unregistered) | 1591 |
 | Registered | 30 |
 | Stale (overdue) | 0 |
 | Aging (due soon) | 0 |
@@ -56,7 +56,7 @@
 - `data/derived/market-analysis/neighborhood_access.json` (2789 KB)
 - `data/derived/market-analysis/site_opportunities.json` (9 KB)
 - `data/derived/market-analysis/subsidy_layers.json` (2 KB)
-- `data/discovery-reports/latest.json` (239 KB)
+- `data/discovery-reports/latest.json` (240 KB)
 - `data/environmental/epa-superfund-co.json` (324 KB)
 - `data/environmental/fema-flood-co.geojson` (2 KB)
 - `data/fixtures/fruita-commons-broad-income.scenario.json` (5 KB)
@@ -823,7 +823,7 @@
 - `data/hna/permits.json` (243 KB)
 - `data/hna/place-chas-coverage-stats.json` (12 KB)
 - `data/hna/place-chas.json` (1592 KB)
-- `data/hna/place-decade-trends.json` (190 KB)
+- `data/hna/place-decade-trends.json` (155 KB)
 - `data/hna/place-lehd.json` (1868 KB)
 - `data/hna/place-od-flows.json` (81 KB)
 - `data/hna/place-phantom-aliases.json` (2 KB)
@@ -1560,7 +1560,7 @@
 - `data/paper/compute-footprint.json` (2 KB)
 - `data/paper/figures.json` (14 KB)
 - `data/paper/model-parameters.json` (6 KB)
-- `data/pipeline/content.json` (34 KB)
+- `data/pipeline/content.json` (43 KB)
 - `data/policy/affordability-models.json` (14 KB)
 - `data/policy/buyer-assistance-programs.json` (2 KB)
 - `data/policy/chfa-awards-historical.json` (11 KB)
@@ -1598,6 +1598,7 @@
 - `data/resort-workforce-housing-programs.json` (15 KB)
 - `data/schema/semantic-label-evidence.json` (6 KB)
 - `data/source-registry.json` (6 KB)
+- `data/table-header-tips.json` (15 KB)
 - `data/tax-abatement-inventory.json` (21 KB)
 - `data/url-health.json` (324 KB)
 - `data/zillow/median_list_price_metro.csv` (847 KB)
