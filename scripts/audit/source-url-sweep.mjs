@@ -20,7 +20,7 @@ import path from "node:path";
 import readline from "node:readline";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { BROWSER_USER_AGENT } from "./url-health-policy.mjs";
+import { BROWSER_USER_AGENT, BROWSER_ACCEPT } from "./url-health-policy.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -611,14 +611,14 @@ async function probeUrl(url) {
         method: "HEAD",
         redirect: "follow",
         signal: ac.signal,
-        headers: { "User-Agent": BROWSER_USER_AGENT },
+        headers: { "User-Agent": BROWSER_USER_AGENT, "Accept": BROWSER_ACCEPT },
       });
       if (!res.ok) {
         res = await fetch(url, {
           method: "GET",
           redirect: "follow",
           signal: ac.signal,
-          headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT },
+          headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT, "Accept": BROWSER_ACCEPT },
         });
       }
     } catch (_) {
@@ -626,7 +626,7 @@ async function probeUrl(url) {
         method: "GET",
         redirect: "follow",
         signal: ac.signal,
-        headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT },
+        headers: { Range: "bytes=0-0", "User-Agent": BROWSER_USER_AGENT, "Accept": BROWSER_ACCEPT },
       });
     }
 

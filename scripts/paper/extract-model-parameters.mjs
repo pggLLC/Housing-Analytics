@@ -179,6 +179,30 @@ function affordability() {
   // Do the registry and the constants file agree? Published rather than
   // reconciled: a reader deserves to know which number reached which surface.
   const defaultModel = models.find((m) => m.is_default) || models[0] || null;
+  //
+  // A divergence is EXPECTED when the two surfaces are documented as answering
+  // different questions. js/config/financial-constants.js states the scope in
+  // full: the constants there serve the deal-calculator and rent-vs-buy
+  // surfaces, the registry serves the HNA ownership model, and they
+  // "deliberately differ" — down payment, property tax rate, and insurance
+  // (which is a UNIT difference, dollars against a rate of value).
+  //
+  // Recording that here is the difference between a report and an alarm. Until
+  // 2026-09-23 every run printed "[paper] DIVERGENCE property tax rate" with
+  // no way to tell it from a real one, so the line was permanent and therefore
+  // unread — the same shape as a GOTCHA comment nobody reads (#1695). An
+  // expected pair is stated, with its values; anything else is a finding
+  // (#1841), and test:paper-model-divergence fails on it.
+  const EXPECTED_DIVERGENCE = [{
+    parameter: 'property tax rate',
+    registry_default: 0.0065,
+    constants_file: 0.006,
+    reason: 'the deal-calculator and HNA ownership surfaces answer different '
+      + 'questions and are documented as deliberately differing — see the SCOPE '
+      + 'block in js/config/financial-constants.js, pinned by '
+      + 'test/affordability-defaults-inventory.test.js',
+  }];
+
   const divergence = [];
   if (defaultModel && constants_file.property_tax_rate != null
       && defaultModel.property_tax_rate != null
@@ -188,6 +212,15 @@ function affordability() {
       registry_default: defaultModel.property_tax_rate,
       constants_file: constants_file.property_tax_rate,
     });
+  }
+  // Tag each one. An expected entry must match on BOTH values: if either side
+  // moves, the documented pair is stale and this stops being expected.
+  for (const d of divergence) {
+    const known = EXPECTED_DIVERGENCE.find((e) => e.parameter === d.parameter
+      && e.registry_default === d.registry_default
+      && e.constants_file === d.constants_file);
+    d.expected = Boolean(known);
+    d.reason = known ? known.reason : null;
   }
   if (defaultModel && constants_file.housing_cost_pct != null
       && defaultModel.housing_ratio != null
@@ -265,8 +298,12 @@ if (process.argv.includes('--stdout')) {
   console.log(`[paper] ${out.affordability.model_count} affordability models, `
     + `ratio types: ${(out.affordability.distinct_ratio_types || []).join(', ')}`);
   for (const d of out.affordability.divergence || []) {
-    console.log(`[paper] DIVERGENCE ${d.parameter}: registry ${d.registry_default} `
-      + `vs constants file ${d.constants_file}`);
+    // Expected pairs are reported as such rather than shouted. An unexpected
+    // one keeps the loud form, because that is the one worth looking at.
+    const head = d.expected ? 'divergence (expected)' : 'DIVERGENCE';
+    console.log(`[paper] ${head} ${d.parameter}: registry ${d.registry_default} `
+      + `vs constants file ${d.constants_file}`
+      + (d.expected ? ' — deliberate, see js/config/financial-constants.js' : ''));
   }
   console.log(`[paper] apportionment weight rule: ${out.apportionment.weight_rule}`);
   if (unavailable.length) {
