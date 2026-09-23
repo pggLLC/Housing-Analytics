@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T01:25:21.067Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T03:01:26.543Z. Do not edit by hand.
 
 ---
 
@@ -1951,7 +1951,7 @@
 | `test/rendered-absence-not-zero.test.js` | 4.2 KB |
 | `test/required-fetch-preserves-data.test.js` | 5.1 KB |
 | `test/resale-waterfall.test.js` | 11.9 KB |
-| `test/runtime-contrast-scanner-errors.test.mjs` | 5.7 KB |
+| `test/runtime-contrast-scanner-errors.test.mjs` | 7.5 KB |
 | `test/sale-price-evidence-is-named.test.mjs` | 14.7 KB |
 | `test/scenario-presets-shared.test.js` | 4.9 KB |
 | `test/semantic-label-guard.test.js` | 5.1 KB |
