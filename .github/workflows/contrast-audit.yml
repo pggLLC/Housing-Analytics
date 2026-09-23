@@ -58,14 +58,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install chromium
 
-      - name: Install Puppeteer-bundled Chromium
-        # F159 — The runtime DOM scanner (added below) uses puppeteer,
-        # which ships its OWN Chrome download separate from Playwright's.
-        # The puppeteer postinstall normally handles it, but `npm ci` runs
-        # with --ignore-scripts implicitly in some configs; force the
-        # install here so the scanner step doesn't error with
-        # "Could not find Chrome (ver. X)".
-        run: npx puppeteer browsers install chrome
 
       - name: Discover HTML pages
         id: discover
@@ -183,24 +175,14 @@ jobs:
       # cascade, or a JS-injected element whose color depends on theme
       # state the static tests don't model. The runtime scanner does.
       # Scanner exits 1 on any failure → workflow fails → blocks the PR.
-      - name: Run runtime DOM contrast scanner (49 pages × 2 modes)
-        env:
-          # http-server is already running on 8080 from the step above;
-          # the scanner spawns its own on 8765, so they coexist.
-          PUPPETEER_DOWNLOAD_BASE_URL: https://storage.googleapis.com/chrome-for-testing-public
-        run: |
-          echo "── Running site-wide WCAG 4.5:1 / 3:1 runtime contrast scan ──"
-          node scripts/audit/runtime-contrast-scanner.mjs
-          echo "── Runtime scan complete ──"
 
       - name: Validate accessibility compliance
         if: failure()
         run: |
           echo "❌ WCAG Accessibility Gate FAILED"
-          echo "   One of: Stage-3 pytest, per-page Playwright audit, or"
-          echo "   runtime DOM scanner (F159) reported failures."
-          echo "   Review wcag-test-output.txt, contrast-reports/summary.md,"
-          echo "   and audit-report/runtime-contrast/report-*.json."
+          echo "   Stage-3 pytest or the per-page Playwright audit reported failures."
+          echo "   Review wcag-test-output.txt and contrast-reports/summary.md."
+          echo "   (The runtime DOM scanner runs in its own job: runtime-contrast-scan.)"
           exit 1
 
       - name: Upload audit reports and test results
@@ -211,7 +193,6 @@ jobs:
           path: |
             contrast-reports/
             wcag-test-output.txt
-            audit-report/runtime-contrast/
           retention-days: 30
 
       - name: Comment on pull request
@@ -261,3 +242,43 @@ jobs:
       # object rather than exporting one -- so `{ ...process.env }` inherited an
       # environment that never had it. Zero issues in this repository's history match
       # alert.js's title formats, across fifteen callers.
+
+  # F159 runtime DOM contrast scanner, in its own job (#1819). It used to run
+  # third in the job above, after the Playwright per-page audit and the
+  # Stage-3 pytest gate, with their browser processes and a second
+  # http-server still alive — the only condition under which it has ever
+  # hung (twice on 2026-09-22, both killed at the 30-minute cap; fourteen
+  # isolated runs of the same scanner on the same Chrome never did). A job
+  # of its own gives it a clean runner, and the two audits report
+  # separately instead of one grey cancel hiding the other's result.
+  runtime-contrast-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Puppeteer-bundled Chrome
+        # `npm ci` can run with scripts disabled, so puppeteer's postinstall
+        # download is not guaranteed; install the pinned Chrome explicitly.
+        run: npx puppeteer browsers install chrome
+      - name: Run runtime DOM contrast scanner (every page × light + dark)
+        env:
+          PUPPETEER_DOWNLOAD_BASE_URL: https://storage.googleapis.com/chrome-for-testing-public
+        run: |
+          echo "── Running site-wide WCAG 4.5:1 / 3:1 runtime contrast scan ──"
+          node scripts/audit/runtime-contrast-scanner.mjs
+          echo "── Runtime scan complete ──"
+      - name: Upload runtime scan report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: runtime-contrast-scan
+          path: audit-report/runtime-contrast/
+          retention-days: 30
