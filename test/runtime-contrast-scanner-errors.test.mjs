@@ -10,7 +10,7 @@
 // instead of running to the job cap.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
+import fs, { mkdtempSync, writeFileSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -54,25 +54,40 @@ export default {
 };
 `;
 
-function runScanner(deadOn) {
+// Server scripts for the readiness cases. Args from the scanner are ignored.
+const SLOW_SERVER = `
+import http from 'node:http';
+setTimeout(() => { http.createServer((req, res) => res.end('ok')).listen(8765); }, 2500); // slower than the old fixed 1.5 s sleep
+setInterval(() => {}, 1000);
+`;
+const DEAD_SERVER = `setInterval(() => {}, 1000);`; // never listens
+
+function runScanner(deadOn, serverScript, serverTimeoutMs) {
   const dir = mkdtempSync(join(tmpdir(), 'contrast-scanner-'));
   for (const p of ['a.html', 'b.html', 'c.html', 'd.html']) writeFileSync(join(dir, p), '<html></html>');
   const fake = join(dir, 'fake-puppeteer.mjs');
   writeFileSync(fake, FAKE_PUPPETEER);
   const log = join(dir, 'fake.log');
   writeFileSync(log, '');
-  const r = spawnSync(process.execPath, [SCANNER], {
-    cwd: dir,
-    env: { ...process.env, RUNTIME_CONTRAST_PUPPETEER: fake, RUNTIME_CONTRAST_NO_SERVER: '1', DEAD_ON: deadOn, FAKE_LOG: log },
-    encoding: 'utf8',
-  });
+  const env = { ...process.env, RUNTIME_CONTRAST_PUPPETEER: fake, DEAD_ON: deadOn, FAKE_LOG: log };
+  if (serverScript) {
+    const bin = join(dir, 'server.sh');
+    writeFileSync(join(dir, 'server.mjs'), serverScript);
+    writeFileSync(bin, '#!/bin/sh\nexec "' + process.execPath + '" "' + join(dir, 'server.mjs') + '"\n');
+    fs.chmodSync(bin, 0o755);
+    env.RUNTIME_CONTRAST_SERVER_BIN = bin;
+    env.RUNTIME_CONTRAST_SERVER_TIMEOUT = String(serverTimeoutMs);
+  } else {
+    env.RUNTIME_CONTRAST_NO_SERVER = '1';
+  }
+  const r = spawnSync(process.execPath, [SCANNER], { cwd: dir, env, encoding: 'utf8', timeout: 30000 });
   const reportDir = join(dir, 'audit-report', 'runtime-contrast');
-  const reportFile = readdirSync(reportDir).find((f) => f.startsWith('report-'));
+  const reportFile = fs.existsSync(reportDir) ? readdirSync(reportDir).find((f) => f.startsWith('report-')) : null;
   return {
     status: r.status,
     out: r.stdout + r.stderr,
     log: readFileSync(log, 'utf8').trim().split('\n'),
-    report: JSON.parse(readFileSync(join(reportDir, reportFile), 'utf8')),
+    report: reportFile ? JSON.parse(readFileSync(join(reportDir, reportFile), 'utf8')) : null,
   };
 }
 
@@ -120,6 +135,24 @@ run('three consecutive errors abort the run instead of running to the job cap', 
   assert.match(r.out, /Scan errors: 3/, 'stopped at three, not eight');
   assert.equal(r.report['c.html'], undefined, 'no scans attempted past the abort');
   assert.equal(r.log.filter((l) => l === 'browser.close').length, 1, 'browser is closed on abort');
+});
+
+run('the scanner waits for the static server instead of sleeping a fixed 1.5 s', () => {
+  // #1829's first run in its own job: `npx http-server` was still downloading
+  // when the fixed sleep ended, every scan hit ERR_CONNECTION_REFUSED, and the
+  // run aborted after three. A server that takes 2.5 s must simply be waited for.
+  // Generous cap: on a loaded machine node start-up plus the 2.5 s delay has brushed 6 s.
+  const r = runScanner('', SLOW_SERVER, 15000);
+  assert.equal(r.status, 0, r.out);
+  assert.match(r.out, /Static server ready on port 8765/);
+  assert.match(r.out, /Mode-scans: 8 /);
+});
+
+run('a server that never comes up fails clearly, before any scan is attempted', () => {
+  const r = runScanner('', DEAD_SERVER, 3000);
+  assert.equal(r.status, 1);
+  assert.match(r.out, /Static server did not become ready at http:\/\/localhost:8765\/ within 3000 ms/);
+  assert.ok(!/\[light\]/.test(r.out), 'no scan attempted without a server');
 });
 
 if (failures) { console.error('runtime-contrast-scanner-errors: FAIL'); process.exitCode = 1; }

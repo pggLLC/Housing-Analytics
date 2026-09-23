@@ -136,16 +136,53 @@ async function loadPuppeteer() {
   }
 }
 
+// The static server the scanner reads from. http-server is a declared
+// devDependency (since #1831) so `npm ci` installs it and no run depends on
+// npx fetching it from the registry: on 2026-09-23 the scanner's first run
+// in its own job (#1829) waited a fixed 1.5 s for `npx http-server`, which
+// was still downloading, and every scan hit ERR_CONNECTION_REFUSED.
+//   RUNTIME_CONTRAST_SERVER_BIN      test hook: a command to run instead
+//   RUNTIME_CONTRAST_SERVER_TIMEOUT  ms to wait for the port (default 30000)
+function serverCommand() {
+  if (process.env.RUNTIME_CONTRAST_SERVER_BIN) return [process.env.RUNTIME_CONTRAST_SERVER_BIN, []];
+  const local = join(SCRIPT_DIR, '..', '..', 'node_modules', '.bin', 'http-server');
+  if (existsSync(local)) return [local, []];
+  return ['npx', ['http-server']];
+}
+
+async function waitForServer(url, timeoutMs) {
+  const deadline = Date.now() + timeoutMs;
+  let lastError = null;
+  while (Date.now() < deadline) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(1000) });
+      if (res.status > 0) return;
+    } catch (e) {
+      lastError = e;
+    }
+    await new Promise(r => setTimeout(r, 250));
+  }
+  throw new Error('Static server did not become ready at ' + url + ' within ' + timeoutMs + ' ms' + (lastError ? ' (' + (lastError.cause && lastError.cause.code || lastError.message) + ')' : ''));
+}
+
 async function startServer() {
-  return new Promise((resolve, reject) => {
-    const proc = spawn('npx', ['http-server', '.', '-p', String(PORT), '-c', '60', '-g', '-b', '--silent'], {
-      stdio: 'ignore',
-      cwd: ROOT,
-      detached: false
-    });
-    setTimeout(() => resolve(proc), 1500);
-    proc.on('error', reject);
+  const [cmd, preArgs] = serverCommand();
+  const proc = spawn(cmd, [...preArgs, '.', '-p', String(PORT), '-c', '60', '-g', '-b', '--silent'], {
+    stdio: 'ignore',
+    cwd: ROOT,
+    detached: false
   });
+  let spawnError = null;
+  proc.on('error', (e) => { spawnError = e; });
+  const timeoutMs = Number(process.env.RUNTIME_CONTRAST_SERVER_TIMEOUT) || 30000;
+  try {
+    await waitForServer('http://localhost:' + PORT + '/', timeoutMs);
+  } catch (e) {
+    try { proc.kill(); } catch (_) {}
+    throw spawnError ? new Error('Static server failed to start (' + cmd + '): ' + spawnError.message) : e;
+  }
+  console.log('Static server ready on port ' + PORT + ' (' + cmd + ')');
+  return proc;
 }
 
 function listPages() {
