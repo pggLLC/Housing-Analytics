@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T15:25:56.592Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-23T21:42:11.207Z. Do not edit by hand.
 
 ---
 
@@ -1620,8 +1620,8 @@
 | `data/metadata/rent_burden_sources.json` | 8.3 KB | ✅ | — |
 | `data/multifamily-inventory-co.json` | 90.7 KB | ✅ | — |
 | `data/paper/compute-footprint.json` | 1.8 KB | ✅ | — |
-| `data/paper/figures.json` | 14.1 KB | ✅ | — |
-| `data/paper/model-parameters.json` | 5.9 KB | ✅ | — |
+| `data/paper/figures.json` | 14.3 KB | ✅ | — |
+| `data/paper/model-parameters.json` | 6.1 KB | ✅ | — |
 | `data/pipeline/content.json` | 42.8 KB | ✅ | — |
 | `data/policy/affordability-models.json` | 14.1 KB | ✅ | — |
 | `data/policy/buyer-assistance-programs.json` | 1.9 KB | ✅ | — |
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-388 test files found.
+389 test files found.
 
 | File | Size |
 |------|------|
@@ -1962,6 +1962,7 @@
 | `test/send-test-email.js` | 6.2 KB |
 | `test/shared-equity-lifecycle.test.js` | 19.5 KB |
 | `test/shared-money-format.test.js` | 6.6 KB |
+| `test/signals-that-cry-wolf.test.mjs` | 8.1 KB |
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
