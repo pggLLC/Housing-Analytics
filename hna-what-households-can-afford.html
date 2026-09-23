@@ -250,6 +250,7 @@
        heading so developers can read every chart with deal-screening
        context. -->
   <script defer src="js/hna/hna-dev-context.js"></script>
+  <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
 <!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
@@ -2205,6 +2206,20 @@
     // Fix #2: update progress bar step completion from WorkflowState
     if (window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 3);
 
+    // The assessment counts as done once it has been read: save the snapshot
+    // automatically when the headline stats have rendered for the selected
+    // geography, and on the way out through a next-step link. Before this a
+    // reader following the page's own "Next step → Deal Calculator" was told
+    // there that the HNA "hasn't been completed yet" (js/hna/hna-workflow-autosave.js).
+    if (window.HnaWorkflowAutosave) {
+      HnaWorkflowAutosave.init({
+        save: function () {
+          var ok = saveHnaToProject();
+          if (ok && window.WorkflowProgress) WorkflowProgress.refreshSteps('hnaWorkflowProgress', 3);
+          return ok;
+        }
+      });
+    }
     var saveBtn = document.getElementById('hnaSaveProjectBtn');
     var confirm = document.getElementById('hnaSaveConfirmation');
     if (saveBtn) {
