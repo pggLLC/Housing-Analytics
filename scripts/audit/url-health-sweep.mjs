@@ -52,6 +52,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   BROWSER_USER_AGENT,
+  BROWSER_ACCEPT,
   checkUrl,
   diffConfirmedSweeps,
   isSkippableUrl,
@@ -312,7 +313,7 @@ async function probeUrl(url) {
     try {
       res = await fetch(url, {
         method: 'HEAD', redirect: 'follow', signal: ac.signal,
-        headers: { 'User-Agent': BROWSER_USER_AGENT }
+        headers: { 'User-Agent': BROWSER_USER_AGENT, 'Accept': BROWSER_ACCEPT }
       });
       // Some otherwise-live servers reject or mishandle HEAD with statuses
       // beyond 403/405 (FHLB Topeka returns 500). Confirm every non-OK HEAD
@@ -320,13 +321,13 @@ async function probeUrl(url) {
       if (!res.ok) {
         res = await fetch(url, {
           method: 'GET', redirect: 'follow', signal: ac.signal,
-          headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT }
+          headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT, 'Accept': BROWSER_ACCEPT }
         });
       }
     } catch (_) {
       res = await fetch(url, {
         method: 'GET', redirect: 'follow', signal: ac.signal,
-        headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT }
+        headers: { Range: 'bytes=0-0', 'User-Agent': BROWSER_USER_AGENT, 'Accept': BROWSER_ACCEPT }
       });
     }
     clearTimeout(timeout);
