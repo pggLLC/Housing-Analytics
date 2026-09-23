@@ -864,7 +864,72 @@
     // The moment a novice actually meets the assessment. This used to land
     // them in the 53-section full report; it now opens part 1 of 5, which
     // links onward to the rest and to the full report.
-    global.location.href = 'hna-what-housing-exists.html';
+    //
+    // Unless the reader was sent here from somewhere else. The homepage links
+    // into every guided-path page except this one, so someone who clicked
+    // "Deal Calculator" and was asked for a jurisdiction first is returned to
+    // the deal calculator, not deposited at step 3 having lost what they came
+    // for.
+    global.location.href = returnTarget() || 'hna-what-housing-exists.html';
+  }
+
+  /**
+   * Where to go after a jurisdiction is chosen, from ?next=.
+   *
+   * ALLOWLISTED, because this is a redirect target a stranger can put in a
+   * link. Only the guided path's own pages are accepted, matched by exact
+   * filename against workflow-progress.js STEPS — the canonical sequence, so
+   * this cannot drift from the rail the way a second hard-coded list would.
+   * Anything else, including any absolute URL, is ignored rather than
+   * sanitised: a value this function does not recognise is not a destination.
+   */
+  /**
+   * Relabel the continue button when the reader is being sent back somewhere.
+   *
+   * The button reads "Begin Housing Needs Assessment", which is true for the
+   * normal route and false for a reader returned to the deal calculator. A
+   * control that names a destination it does not go to is the same defect as
+   * a number that means something other than it says.
+   */
+  function syncContinueLabel() {
+    var target = returnTarget();
+    if (!target) return;
+    var btn = global.document && global.document.getElementById('sjContinueBtn');
+    if (!btn) return;
+    var label = null;
+    try {
+      var NA = global.WorkflowNextAction;
+      var steps = (global.WorkflowProgress || {}).STEPS || [];
+      for (var i = 0; i < steps.length; i++) {
+        if (steps[i].href === target) {
+          label = (NA && NA.steps && NA.steps().labels[steps[i].key]) || steps[i].label;
+          break;
+        }
+      }
+    } catch (e) { /* fall through to the generic wording */ }
+    btn.textContent = label ? ('Continue to ' + label + ' \u2192') : 'Continue \u2192';
+  }
+
+  function returnTarget() {
+    var raw;
+    try {
+      raw = new global.URLSearchParams(global.location.search).get('next');
+    } catch (e) { return null; }
+    if (!raw) return null;
+    var WP = global.WorkflowProgress;
+    var steps = (WP && Object.prototype.toString.call(WP.STEPS) === '[object Array]')
+      ? WP.STEPS : [];
+    for (var i = 0; i < steps.length; i++) {
+      // Return the RAIL's own href, not the string from the URL. They are
+      // equal here, so this changes no behaviour — but the value that reaches
+      // location.href now provably originates from workflow-progress.js
+      // rather than from a query parameter. The `next` param only selects
+      // which known destination to use; it never becomes one.
+      if (steps[i].href === raw && steps[i].href !== 'select-jurisdiction.html') {
+        return steps[i].href;
+      }
+    }
+    return null;
   }
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -898,6 +963,12 @@
     el.sjClearBtn      = document.getElementById('sjClearBtn');
     el.sjContinueBtn   = document.getElementById('sjContinueBtn');
     el.sjActionNote    = document.getElementById('sjActionNote');
+    // Say where the button actually goes when ?next= is steering it. Run
+    // again on load: this file is included before workflow-next-action.js on
+    // select-jurisdiction.html, so the fuller step names ("Deal Calculator"
+    // rather than the rail's "Deal") are not available on the first pass.
+    syncContinueLabel();
+    if (global.addEventListener) global.addEventListener('load', syncContinueLabel);
     el.sjRecent        = document.getElementById('sjRecent');
     el.sjRecentList    = document.getElementById('sjRecentList');
 
@@ -1003,5 +1074,10 @@
   } else {
     init();
   }
+
+  // Expose for testing. returnTarget is the allowlist that decides where a
+  // reader is sent after choosing a jurisdiction; a guard has to exercise the
+  // real one rather than restate its rules.
+  global.JurisdictionSelector = { returnTarget: returnTarget };
 
 }(window));

@@ -38,7 +38,7 @@ console.log('workflow-next-action-prerequisites');
 
 run('deal calculator after the HNA, market and scenario skipped: guidance plus a quiet context line, no warning', () => {
   const r = render('deal-calculator.html', ['opportunity', 'jurisdiction', 'hsa']);
-  assert.ok(!r.text.includes('Earlier Step Incomplete'), 'no amber warning: ' + r.text);
+  assert.ok(!/wf-next-action--skipped/.test(r.cls), 'no amber warning: ' + r.text);
   assert.match(r.cls, /wf-next-action--current/);
   assert.match(r.text, /Model your capital stack/);
   assert.match(r.text, /Optional context not yet run: Market Analysis, Scenario Builder/);
@@ -47,23 +47,38 @@ run('deal calculator after the HNA, market and scenario skipped: guidance plus a
 });
 
 run('a missing jurisdiction is a real prerequisite and still warns', () => {
+  // Pins the AGREEMENT, not the sentence (#1746): the banner must warn, and
+  // it must offer the jurisdiction page. The wording was "Earlier Step
+  // Incomplete / Select Jurisdiction hasn't been completed yet" until
+  // 2026-09-23, when it became "Choose a jurisdiction first" — the site sends
+  // readers straight here from the homepage, so it must not tell them they
+  // skipped a step they were never shown. A rewording must stay green; losing
+  // the warning or the link must not.
   const r = render('deal-calculator.html', ['opportunity']);
-  assert.match(r.text, /Earlier Step Incomplete/);
-  assert.match(r.text, /Select Jurisdiction hasn't been completed yet/);
-  assert.match(r.cls, /wf-next-action--skipped/);
-  assert.match(r.html, /href="select-jurisdiction\.html"/);
+  assert.match(r.cls, /wf-next-action--skipped/, 'the prerequisite no longer warns');
+  assert.match(r.text, /jurisdiction/i, 'the warning does not mention the jurisdiction');
+  assert.match(r.html, /href="select-jurisdiction\.html/,
+    'the warning does not offer the jurisdiction page');
+});
+
+run('and it carries the reader back to the page they asked for', () => {
+  // The homepage links into every guided-path page except step 1, so being
+  // asked for a jurisdiction must not cost the reader their destination.
+  const r = render('deal-calculator.html', ['opportunity']);
+  assert.match(r.html, /href="select-jurisdiction\.html\?next=deal-calculator\.html"/,
+    'the jurisdiction prompt drops the destination, stranding the reader at the top of the path');
 });
 
 run('a jurisdiction in the URL counts as the prerequisite met', () => {
   const r = render('deal-calculator.html', [], { jurisdictionInUrl: true });
-  assert.ok(!r.text.includes('Earlier Step Incomplete'), r.text);
+  assert.ok(!/wf-next-action--skipped/.test(r.cls), r.text);
   assert.match(r.text, /Optional context not yet run: Housing Needs Assessment, Market Analysis, Scenario Builder/);
 });
 
 run('nothing skipped: plain current-step guidance, no context line', () => {
   const r = render('hna-scenario-builder.html', ['opportunity', 'jurisdiction', 'hsa', 'market']);
   assert.ok(!r.text.includes('Optional context'), r.text);
-  assert.ok(!r.text.includes('Earlier Step Incomplete'), r.text);
+  assert.ok(!/wf-next-action--skipped/.test(r.cls), r.text);
 });
 
 run('current step done: continue to the next one', () => {

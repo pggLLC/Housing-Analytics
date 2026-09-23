@@ -282,14 +282,32 @@
       actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
     } else if (!currentDone && firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent]) {
-      // State 1: a prerequisite (the jurisdiction) is missing
+      // State 1: a prerequisite (the jurisdiction) is missing.
+      //
+      // The site itself sends people here: the homepage links directly into
+      // every guided-path page except step 1, so a first-time reader who picks
+      // "Deal Calculator" off a job tile arrives with no jurisdiction. Telling
+      // them an "Earlier Step" is "Incomplete" blames them for skipping a step
+      // they were never shown, and dropping them on step 1 loses the thing
+      // they actually asked for.
+      //
+      // So: say what the page needs, and carry the destination so choosing a
+      // jurisdiction returns them here instead of stranding them at the top of
+      // the path. `next` is read back through an allowlist in
+      // jurisdiction-selector.js — it is a URL a stranger can set.
       var priorKey = firstIncompleteBeforeCurrent;
       icon    = '\u26A0\uFE0F';  // warning
       variant = 'skipped';
-      heading = 'Earlier Step Incomplete';
-      body    = STEP_LABELS[priorKey] + ' hasn\'t been completed yet. Results on this page may be more useful after completing prior steps.';
+      heading = 'Choose a jurisdiction first';
+      body    = 'This page reads its numbers from one Colorado community, so it has '
+              + 'nothing to show until you pick one. You\'ll come straight back here.';
       actionUrl   = STEP_URLS[priorKey];
-      actionLabel = 'Go to ' + STEP_LABELS[priorKey] + ' \u2192';
+      var here = STEP_URLS[currentStep];
+      if (priorKey === 'jurisdiction' && here) {
+        actionUrl += (actionUrl.indexOf('?') === -1 ? '?' : '&')
+          + 'next=' + encodeURIComponent(here);
+      }
+      actionLabel = 'Choose a jurisdiction \u2192';
 
     } else if (!currentDone) {
       // State 2: Current step incomplete, all priors done
