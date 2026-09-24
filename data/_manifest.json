@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T22:22:26.223Z",
+    "generated_at": "2026-09-24T22:27:40.638Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 164643666,
+    "total_size_bytes": 159991262,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -423,8 +423,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 5554544,
-      "mtime": "2026-09-24T22:14:21.549Z",
+      "size_bytes": 902141,
+      "mtime": "2026-09-24T22:27:32.671Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -30458,8 +30458,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205467,
-      "mtime": "2026-09-24T22:22:23.487Z",
+      "size_bytes": 205466,
+      "mtime": "2026-09-24T22:27:37.935Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31813,7 +31813,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14678,
-      "mtime": "2026-09-24T22:22:24.315Z",
+      "mtime": "2026-09-24T22:27:38.691Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32228,7 +32228,7 @@
       "path": "policy/policy-watch.json",
       "kind": "json",
       "size_bytes": 10786,
-      "mtime": "2026-09-24T22:22:16.794Z",
+      "mtime": "2026-09-24T22:27:31.831Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32470,7 +32470,7 @@
       "path": "policy_briefs.json",
       "kind": "json",
       "size_bytes": 225843,
-      "mtime": "2026-09-24T22:22:16.795Z",
+      "mtime": "2026-09-24T22:27:31.835Z",
       "shape": "object",
       "keys": [
         "meta",
