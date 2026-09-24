@@ -19,8 +19,21 @@
     .ht-panel { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
     .ht-panel h2 { margin-top: 0; font-size: 1.15rem; color: var(--text); }
     .ht-panel .ht-intro { font-size: .88rem; color: var(--muted); line-height: 1.55; margin-bottom: .75rem; }
-    .ht-chart-wrap { position: relative; height: 340px; margin: 0.75rem 0; }
-    .ht-stat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: .5rem; margin: 0; padding: 0; }
+    .ht-chart-wrap { position: relative; height: 340px; margin: 0.25rem 0 0.75rem; }
+    @media (max-width: 600px) { .ht-chart-wrap { height: 280px; } }
+    .ht-chart-head { display: flex; justify-content: space-between; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .ht-chart-title { font-size: .95rem; font-weight: 700; color: var(--text); margin: .5rem 0 0; }
+    .ht-seg { display: inline-flex; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+    .ht-seg button { font: inherit; font-size: .8rem; padding: .3rem .8rem; border: 0; background: var(--card); color: var(--muted); cursor: pointer; }
+    .ht-seg button + button { border-left: 1px solid var(--border); }
+    .ht-seg button[aria-pressed="true"] { background: var(--accent); color: var(--card); font-weight: 700; }
+    .ht-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+    .ht-stat-caption { font-size: .78rem; font-weight: 700; color: var(--muted); margin: 1rem 0 .4rem; }
+    .ht-table-toggle { margin: 0 0 .5rem; font-size: .82rem; }
+    .ht-table-toggle summary { cursor: pointer; color: var(--accent); }
+    .ht-data-table { margin-top: .5rem; font-size: .8rem; font-variant-numeric: tabular-nums; }
+    .ht-data-table th[scope="row"] { font-weight: 600; color: var(--text); background: none; border-bottom: 1px solid var(--border); }
+    .ht-stat-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .5rem; margin: 0; padding: 0; }
     .ht-stat-list > div { padding: .5rem .65rem; border: 1px solid var(--border); border-radius: 6px; background: var(--bg2); }
     .ht-stat-list dt { font-size: .68rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 700; }
     .ht-stat-list dd { font-size: 1.05rem; font-weight: 700; color: var(--text); margin: 2px 0 0; }
@@ -112,46 +125,57 @@
       });
       </script>
 
-      <!-- Panel 1: CHFA Award History -->
+      <!-- Panel 1: Annual awards by credit type -->
       <section class="ht-panel" aria-labelledby="htCHFAHeading">
-        <h2 id="htCHFAHeading">CHFA Annual Award History</h2>
+        <h2 id="htCHFAHeading">Awards per Year, by Credit Type</h2>
         <p class="ht-intro">
-          Annual 9% competitive vs. 4% PAB-backed award counts with aggregate scoring statistics.
-          <strong>Important:</strong> the underlying dataset is a <em>synthesized sample</em> assembled from CHFA's
-          public award announcements (see <code>data/policy/chfa-awards-historical.json</code> \u2014
-          <code>meta.note</code> field). Use the CHFA-sourced panels only for directional calibration;
-          verify specific numbers against
-          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA's current award history</a>
-          before citing them in an application.
+          Every Colorado LIHTC project in CHFA&rsquo;s live property feed, counted by the year its
+          credits were reserved. 9% credits are competitive and capped; 4% credits come with
+          tax-exempt bond financing and are not. Switch to <strong>Units</strong> to see how much
+          housing each year&rsquo;s awards represent &mdash; 4% deals are typically about twice the size.
         </p>
-        <div class="ht-chart-wrap" data-source="CHFA \u2014 Annual Housing Credit Awards" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-vintage="2015\u20132025" data-source-type="raw">
-          <canvas id="chfaTimelineChart" role="img" aria-label="CHFA annual awards by credit type, 2015\u20132025"></canvas>
+        <div class="ht-chart-head">
+          <p class="ht-chart-title" id="chfaChartTitle">Colorado LIHTC awards per year</p>
+          <div class="ht-seg" role="group" aria-label="Measure">
+            <button type="button" data-award-metric="projects" aria-pressed="true">Projects</button>
+            <button type="button" data-award-metric="units" aria-pressed="false">Units</button>
+          </div>
         </div>
+        <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-vintage="1987&ndash;2025" data-source-type="raw">
+          <canvas id="chfaTimelineChart" role="img" aria-label="Stacked bar chart: Colorado LIHTC awards per year, 9% competitive vs 4% bond-financed" aria-describedby="chfaChartDesc"></canvas>
+        </div>
+        <p id="chfaChartDesc" class="sr-only">Stacked bar chart of Colorado LIHTC awards per year, split into 9% competitive and 4% bond-financed credits. The data table below lists every value.</p>
+        <div id="chfaTable"></div>
+        <div id="dealStats"></div>
         <div id="chfaStats"></div>
         <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
-          Source: <a href="data/policy/chfa-awards-historical.json">chfa-awards-historical.json</a>
-          \u00b7 Verify current QAP cycle at
-          <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">CHFA QAP</a>
+          Chart and typical-deal figures: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a> (CHFA live feed).
+          Scoring figures: <a href="data/policy/chfa-awards-historical.json">chfa-awards-historical.json</a>,
+          a sample synthesized from CHFA&rsquo;s public award announcements &mdash; verify against
+          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA&rsquo;s award history</a>
+          and the <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">current QAP</a>
+          before citing them in an application.
         </p>
       </section>
 
       <!-- Panel 2: LIHTC Stock Trajectory -->
       <section class="ht-panel" aria-labelledby="htStockHeading">
-        <h2 id="htStockHeading">LIHTC Stock Trajectory (HUD Database)</h2>
+        <h2 id="htStockHeading">LIHTC Stock Trajectory</h2>
         <p class="ht-intro">
-          Cumulative Colorado LIHTC projects placed-in-service over time (line, left axis) with
-          annual placement counts (bars, right axis). Shows when each wave of state investment
-          landed \u2014 the mid-2010s multifamily expansion, the 2019\u20132021 acceleration, and
-          the lag from allocation to placement.
+          Units in Colorado LIHTC projects, added up by the year each project was placed in service
+          (opened), not the year it was awarded &mdash; placement usually trails the award by two to
+          three years. Hover a year for that year&rsquo;s additions.
         </p>
-        <div class="ht-chart-wrap" data-source="HUD LIHTC Database — CO placed-in-service projects" data-source-url="https://www.huduser.gov/portal/datasets/lihtc.html" data-vintage="1987–current" data-source-type="raw">
-          <canvas id="stockTimelineChart" role="img" aria-label="Cumulative CO LIHTC projects over time"></canvas>
+        <p class="ht-chart-title" id="stockChartTitle">Cumulative units in Colorado LIHTC projects placed in service</p>
+        <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-vintage="1987&ndash;2025" data-source-type="raw">
+          <canvas id="stockTimelineChart" role="img" aria-label="Line chart: cumulative units in Colorado LIHTC projects by year placed in service"></canvas>
         </div>
+        <div id="stockTable"></div>
         <div id="stockStats"></div>
         <p style="font-size:.72rem;color:var(--faint);margin:.75rem 0 0;">
           Source: <a href="data/chfa-lihtc.json">chfa-lihtc.json</a>
-          (CHFA HousingTaxCreditProperties live feed, 926 projects through 2025) \u00b7 cross-reference
-          <a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA award history</a>
+          (CHFA HousingTaxCreditProperties live feed, 926 projects through 2025) &middot; cross-reference
+          <a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC database</a>
         </p>
       </section>
 
@@ -170,7 +194,7 @@
                     data-jurisdiction-search data-jurisdiction-search-type="County"
                     data-jurisdiction-search-label="Search counties"
                     data-jurisdiction-search-placeholder="Type a county name…">
-              <option value="">Loading\u2026</option>
+              <option value="">Loading&hellip;</option>
             </select>
           </label>
           <label for="benchUnits">Target unit count (optional)
