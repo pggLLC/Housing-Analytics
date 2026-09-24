@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T13:30:39.315Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T13:49:14.402Z. Do not edit by hand.
 
 ---
 
@@ -1671,7 +1671,7 @@
 
 ## Test Files
 
-396 test files found.
+397 test files found.
 
 | File | Size |
 |------|------|
@@ -1827,6 +1827,7 @@
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-section-rail.test.js` | 7.9 KB |
+| `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
