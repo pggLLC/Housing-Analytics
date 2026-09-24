@@ -1,11 +1,56 @@
 {
   "meta": {
-    "generated": "2026-09-19T09:25:39Z",
+    "generated": "2026-09-24T12:01:12Z",
     "feed_count": 6,
-    "alert_count": 269,
+    "alert_count": 254,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "Colorado mountain town breaks ground on affordable housing complex - CBS News",
+      "date": "2026-09-23T15:26:39Z",
+      "source": "CBS News",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxORVRXMDNxM1paN2MtQURRcEkxTU1xUkc1N3g5cFVNSTFUZWR5UExmU01KYnV6M2N0VHJVVGxtem5PcmcycHZEcDNZX2pIWnNoUWpGcTRhMW1xNHJiNFlFU3hkR0FqUGNrMmM5R3UtOGpsQjYxb3RUc0hGcHc4OC1GZ2VSR0VLMy1kY2N4Z1BvTUVPb2R1?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Colorado mountain town breaks ground on affordable housing complex \u00a0\u00a0 CBS News"
+    },
+    {
+      "title": "Frisco breaks ground on new affordable housing complex - CBS News",
+      "date": "2026-09-23T14:12:00Z",
+      "source": "CBS News",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNUng4NXgtZ1FCek9mRmRnNnhRSUtBcVE1QUh3MWN3XzNZZFVsOGN5bEdiQ045WmtBaExzbG4wWkdtSlBBSTlwUXl1amxkenpaRmRZTm14bnh2dkd5anlnTjhOSE9ydmpwZ1pVR0tOcTJDdzJIQmpSTDVRcy1wUUMzNzloVjdGaG92Y2RGNll3VTVuUGc4YTdiUkhB?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Frisco breaks ground on new affordable housing complex \u00a0\u00a0 CBS News"
+    },
+    {
+      "title": "Governor Hochul Announces Revitalization of 341 Units of Affordable Public Housing in Troy - Homes and Community Renewal (.gov)",
+      "date": "2026-09-22T21:21:29Z",
+      "source": "Homes and Community Renewal (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNc1FkX0MyQ091Um5fTzhwajVmLUZSZ1hrc094ZGlORFRYR2JOOUY0WUhHazYwXzV0U0c5d0ptQTIwRzBlZVRhT0xMTFdqZl9oVGd6djVVdlVKWkJNZWhaSFFweU5WNzJERlN4bjNPWkVNOU96SzR3M0FRUWMwTDFldXpmSy1pbW54bnUyaTIyOTRaN1hRd3lsSjFkSnJBUktOTDR5VmVsamY?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Governor Hochul Announces Revitalization of 341 Units of Affordable Public Housing in Troy \u00a0\u00a0 Homes and Community Renewal (.gov)"
+    },
+    {
+      "title": "New affordable housing coming to southeast Colorado Springs - KOAA News 5",
+      "date": "2026-09-22T00:17:06Z",
+      "source": "KOAA News 5",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPMVI0bHRpSktKVjhRT2ptZVNGeTM0UmpVSjNGbWhfRUJXQm1GQTVjMUhyS3FBYk1QcC1PQVY2bVlDTS1zXzc2UW9WSkRHenBJRndqWXFqa0FOSU04YjdkTFlGcUhaVGVycFBYd2o2SWJlQUFESW54cng4NjB1U1owRzFrV0Y2ZjJGQVRfeEVfaTNOWDMza2pPeTRLbWNrUmhsOHQybk11YjYwcGVfRnFQemVMa2pybzFkSlRDbXZUSGxLZ0ozWjRXOQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado Springs",
+      "summary": "New affordable housing coming to southeast Colorado Springs \u00a0\u00a0 KOAA News 5"
+    },
+    {
+      "title": "\u201cTaylor Swift Tax\u201d Hits Providence: 350+ Non-Owner Occupied Luxury Properties Get Billed to Fund Low-Income Housing - RINewsToday",
+      "date": "2026-09-19T08:10:48Z",
+      "source": "RINewsToday",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9sa1ptYkxNTUZlTUFXcHlLVHk1TERJQnRMMkU2TlVTWFJ5dnpTYmFwZGRYOVMwalhnTVg2Rk5JcTRfa3k0Ry1GbVJRZEpPYWZEUEN0NFMwaWs1MlE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "\u201cTaylor Swift Tax\u201d Hits Providence: 350+ Non-Owner Occupied Luxury Properties Get Billed to Fund Low-Income Housing \u00a0\u00a0 RINewsToday"
+    },
     {
       "title": "Muskogee senator studies impacts of state tax policy on affordable housing development - Tulsa World",
       "date": "2026-09-19T05:00:00Z",
@@ -32,6 +77,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "W&D Arranges $30M in LIHTC for Dallas Fort Worth Affordable Senior Housing \u00a0\u00a0 Yield PRO"
+    },
+    {
+      "title": "Hot Water Innovations in Multifamily Affordable Housing - Department of Energy (.gov)",
+      "date": "2026-09-18T18:00:00Z",
+      "source": "Department of Energy (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNUWtzVXBoeDgwcjVYbmpUcnNCMUpnVzYzRDdRdVRrU0lCZHBZSzYxbnJPV1FqN3l4bzBfY0p2QWYyaFhuNmxPUkNyeGFVYlJhOG9RS2c2XzBULTVrQWZfWmxHVnRVYWdVUnkyU0lZTHgyZnJYLTBuYTB2ZndhVFdHWGh6WjJfT1g4MC1PU0t2Q2NicU1Y?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Hot Water Innovations in Multifamily Affordable Housing \u00a0\u00a0 Department of Energy (.gov)"
     },
     {
       "title": "Grand Lake unveils affordable apartments with artist studios - 9news.com",
@@ -131,6 +185,15 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "NJHMFA OKs financing for Freehold affordable housing \u00a0\u00a0 ROI-NJ"
+    },
+    {
+      "title": "Tips for Evaluating an Equity Proposal - Affordable Housing Finance",
+      "date": "2026-09-14T23:28:28Z",
+      "source": "Affordable Housing Finance",
+      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1JbjJtV0N3OTlDZlk4WkpRaXd3RERfZ0RLQ2pDdkJlQ2ZNbWJXaEcxUXljOWowaFV0T3FMOHFTa2xFRkx2dFNVVXdvNEw1ZDFVSXpycGFoRXJDMVBOS0luckwtMzNPRWpaN3ZaU3d1MTJaU0pDdFkxcEVR?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Tips for Evaluating an Equity Proposal \u00a0\u00a0 Affordable Housing Finance"
     },
     {
       "title": "A New CRA Proposal Could Spell Trouble for the LIHTC Equity Market - Tax Credit Advisor",
@@ -466,6 +529,15 @@
       "summary": "Cannington, Rice: Accessibility must be housing priority \u00a0\u00a0 Boston Herald"
     },
     {
+      "title": "Gov. Polis attends groundbreaking for Grand Junction Workforce Housing - The Grand Junction Daily Sentinel",
+      "date": "2026-09-02T07:00:00Z",
+      "source": "The Grand Junction Daily Sentinel",
+      "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxQQzRLWE9yaFpyY0w3V3JJbHdwSk5sYzRPMXNQYkU0MkhQSUVtLUwya3I3NmJCOFJBajd3UjI5Z21yTlBlZHFxcWxiNWhsdHREN2haVnVURy1FOHNOUG1CazVOMFhZc01HUEZ4YmJXY3JSaFk1WXJHRmJXa1JxRGo3dVhuSTFJenFpWGp4T2s5OGVlZzVONmM0RFpMcnl2a2gtQjl0eHQ1RWdDZ1NWVTF4NkdzeE43b2dtVHN2MHF5S3cyTHRzMUdOQXF1ZFZPMlNZNkdaMmg2R3FsOEhEZzJrcEE5LUpnd2ZCLWwtX29DdFFpUXItYW0zSFV5M23SAYICQVVfeXFMTlBZeDB1bU1qZE9kVk80bXZXbFhHbldJTm9uRW8zOXYxbUJIVzJxdVcyZUpOTWc3VGVGZlgxUEZFTjUtc2lHVWU2MmdIXzBXVlVqU1FTaVJsX20zYTJVQWtvWGw1MDBwQnl5ZnAzT2lZdTBpdWVfYTZuRnEyMDJvQllFTkJuMloxVEhmeVpkSTk4WlI5VHVGZHFOYkNILW1MNmRENkt6MzRaeHV2OU03SHBPb3hYUXE4NzNoTnpiVk9MOHZ3MlVCSUxTS09YenZid0xaX2tyRklZNmlfeVdFZTRGQ2lFNmNXN2dLcDJOSWRNd0hnU1hNaGlzQk1kQndMb2l3?oc=5",
+      "topic": "general",
+      "region": "Grand Junction",
+      "summary": "Gov. Polis attends groundbreaking for Grand Junction Workforce Housing \u00a0\u00a0 The Grand Junction Daily Sentinel"
+    },
+    {
       "title": "To spur more housing construction, Denver changed its parking rules - marketplace.org",
       "date": "2026-09-02T07:00:00Z",
       "source": "marketplace.org",
@@ -527,6 +599,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "\u201cI don\u2019t have to worry about political bosses\u201d: Lopez talks about running unaffiliated, making Colorado affordable and openness to debate \u00a0\u00a0 KJCT"
+    },
+    {
+      "title": "Providing affordable housing for lowest-income workers vital to city | Jill Gaebler - Colorado Springs Gazette",
+      "date": "2026-08-29T07:00:00Z",
+      "source": "Colorado Springs Gazette",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNZE1lbzNSc3pxblhGNU03UFV0aDVNRVR5ZTBySGc3d2xUR2Z3aHg1Y0ZwRFktYm91ay05RkpwcW00alJvODk3djdjOVpxaGtRU29MS29aS1M5QnBLVlBNZWU3a2kzWEQ3a3ZMbDhzajNTdjdadTdfUnlvcDBscFkwR183dldyeW1uZk42ZEY2YThaUGxqX3Q2aEpZdmlfYzFrbkpvN2lJQ3lhbHpTdzJpcGRybw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado Springs",
+      "summary": "Providing affordable housing for lowest-income workers vital to city | Jill Gaebler \u00a0\u00a0 Colorado Springs Gazette"
     },
     {
       "title": "Ponderosa Pines set to bring affordable housing options to Parker - Parker Chronicle",
@@ -653,6 +734,15 @@
       "topic": "affordable_housing",
       "region": "Statewide",
       "summary": "Affordable housing slated for 2000 E. Colorado Blvd. in Pasadena \u00a0\u00a0 Urbanize LA"
+    },
+    {
+      "title": "Governor Stein Announces $69 Million to Support Affordable Rental Housing in Western North Carolina - NC Commerce (.gov)",
+      "date": "2026-08-25T07:00:00Z",
+      "source": "NC Commerce (.gov)",
+      "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPLURYd3lEcTkyazlLVlU1MDNnaS1FSzN3MXg1eXpNT1E3cUZ0WHlmYjJqR2tfZFFfYjV5SktwUkctVzhvdi1RbWYtQzRENUtWaW5CZXFfSURHS0I3T0RsN2EyeHNUcTRPZmJVbXZCeDhzY1B3S3VTNWQzMHhHRXlFQVQ1bmxsc3FtenZiekJVQS1DRWNIQlItcVJFaWZwZl9kdW5obG9uTlNMdHFZa2tqbTVHMHBZRDZRamtJU0FkcFRPVUNvM194dmFMb1lacGRmTkdTWURhbjlJcjgyOTBicURCSklQUQ?oc=5",
+      "topic": "rent",
+      "region": "Colorado",
+      "summary": "Governor Stein Announces $69 Million to Support Affordable Rental Housing in Western North Carolina \u00a0\u00a0 NC Commerce (.gov)"
     },
     {
       "title": "New Aurora housing community aims to reduce recidivism among formerly incarcerated individuals - Denver7",
@@ -833,6 +923,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Is this Colorado program addressing Silverthorne\u2019s housing needs? The town council isn\u2019t sure. \u00a0\u00a0 SummitDaily.com"
+    },
+    {
+      "title": "Second affordable housing project on church land opens in Colorado Springs - Colorado Springs Gazette",
+      "date": "2026-08-17T07:00:00Z",
+      "source": "Colorado Springs Gazette",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNTlg5R01ad3VCWld4QmlNaXZxM2s2a0tUNEhSZlVlOGdYRGpWQUhoQ3NSdWlVcWdXMmJfbDVfelFiYjVJUndGMnQ1UENLWGhzd2h6Y3lsdUZ3dGtsbVZnOUtJcjFWdkwzT2drdFVSY1REUmNVSVctamRDY2pyZVg4NnVWS3BJZlB1YkMxRnFoUjlUTkt5dVpoZzAxQkpkSHQ5ZDVIeWdTSHlidw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado Springs",
+      "summary": "Second affordable housing project on church land opens in Colorado Springs \u00a0\u00a0 Colorado Springs Gazette"
     },
     {
       "title": "Eagle's largest affordable housing complex saved from open market sale - 9news.com",
@@ -1220,6 +1319,15 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "Housing and healthcare need less red tape to lower costs, Colorado's Hickenlooper tells CNBC \u00a0\u00a0 CNBC"
+    },
+    {
+      "title": "The Cost of Homebuilding in Colorado: How Colorado\u2019s Regulatory Environment Impacts the Price of New Homes - Common Sense Institute",
+      "date": "2026-07-29T07:00:00Z",
+      "source": "Common Sense Institute",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQMDRCZHRaYkk1cldEUXdRLWdZc016bXdjR1FqQ3lZbDVsWk1wLTYtTGM3MUZfZ25lNWpETHN4M2R3UjkxelBYQy1PRm9UNjItSUNSNk9rMDNoeDB4dUw0YnhmNGY0NHJFVXBZRkV6TldWRzk2SktoWVFsVWltTi14R3RqYWtBRmVTQ0JzeVloaE9yQWk4VmJhNXhGa2x4OFlldy1XUTNCX2szTEZUNm1WUnF6U0FTeWlaS0dBWHZldnF1YWl3THg1RjV0VTVZdGRMYzdDdWVVUXVYLWlIZzJ0SDQ0dw?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "The Cost of Homebuilding in Colorado: How Colorado\u2019s Regulatory Environment Impacts the Price of New Homes \u00a0\u00a0 Common Sense Institute"
     },
     {
       "title": "Expanding Financial Coaching and Counseling Services Across Colorado - Colorado Attorney General (.gov)",
@@ -2183,249 +2291,6 @@
       "topic": "affordable_housing",
       "region": "Colorado",
       "summary": "PNC Fund to Support More Than 1,700 Affordable Homes \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "HUD Income and Rent Limits - RaleighNC.gov",
-      "date": "2026-06-26T07:00:00Z",
-      "source": "RaleighNC.gov",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQYXJ1eF9Ub0wyTGcwSlc4RGM2N3M1Z1loc0tuUHc5RDJGUTlXVTgyTFROV1VoZlVTMFhrU1Y1WVZFYy1WRXUtOHpJSFJ0R08xQ1djYkhTYUROTjlSMjFhOVJHQmVzTlVnV1BDdWd4bnNMckpMRWtDYkNnSHNEc3NfTUlJNXM5QjV5WGlOMVpaNGpsQ3RUclhj?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "HUD Income and Rent Limits \u00a0\u00a0 RaleighNC.gov"
-    },
-    {
-      "title": "This Month\u2019s Big Story: \u2018Affording Colorado\u2019 - KKTV",
-      "date": "2026-06-26T07:00:00Z",
-      "source": "KKTV",
-      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9JTGlCZ1JGcXBPTmR3cldwSkZ3dTRja05xYnJBR3pPNktCMWh0QXoxQ1RJUV90d1lxZEI4QXNOY3B1bGxNU1V2U3ZvRWZjUHFhWU9QTUw2dEhiSTc0Ujh1UWFiVXE2Q0hwdENFeHdTMG5LbXFHNVBoVlJ0QXdBQdIBkgFBVV95cUxQSUpKcnZzOGRjWE1tWTh1NjR4aTJwc2t3dHVLZXR1SDFSamxpOEphTHN2N2tPYndSZTJDLXhiU2psYl9aYmM4emlSTUJ1QkdBRXF6NFZJZzl4ZmFCdk9NX2NhR1lub0k2ZEdfczJ2eUFGYjA3V0NKRTJUeHhZZzJvTTYwUjMtMkY4ZnZSbEZzeEMwZw?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "This Month\u2019s Big Story: \u2018Affording Colorado\u2019 \u00a0\u00a0 KKTV"
-    },
-    {
-      "title": "Modular apartments could help solve Denver's affordable housing crisis - CBS News",
-      "date": "2026-06-26T00:29:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNcW0wa044c3ZPdF95YmJNb01WdngxRUh5NjAyYm14WDJSajdHbk96d2Q2UFdxSjhvcDJ2UUNZTk1KY1hwcWJITzdRc3lUVF8zSzR1RU1QV1VyeHc5aVplRXRHZnktN0xKWmY0U1QxWTBaREVwTC1kWmNuakNHTUg3NVlwMUZaSm5KendNMERxb2wyWUpHcUJzMFc0Q1VSZHZacTg3ZXVvM0pxb3c4Unc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Modular apartments could help solve Denver's affordable housing crisis \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "Company's modular apartments could help solve Denver's affordable housing crisis with \"a framework that can be repeated\" - CBS News",
-      "date": "2026-06-25T23:28:00Z",
-      "source": "CBS News",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNSVEwYmo5T2dibnhjSXZuaC1ubFNtTlo2cW5seWctOVJMcmR1OFBlV0dFWXgtb21uU3BnXzg5blY5d3pKVjlZbG02LTFuQjI2aEVmNVltaHh2dHNyR1lHLU1BZVZDWE41bHloZzZERmt6MHgtaV9sVlRGbVo3SlFydHJPSHpxUjhTbEE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Company's modular apartments could help solve Denver's affordable housing crisis with \"a framework that can be repeated\" \u00a0\u00a0 CBS News"
-    },
-    {
-      "title": "Colorado lawmaker says president is holding housing affordability bill hostage - Denver7",
-      "date": "2026-06-25T22:56:19Z",
-      "source": "Denver7",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPMjQ5TWttdEdSSDFCNWhVbGFjVE90MEJXTGVTcHljeUtkOUNaR3JQQkp2dHpwRHNMMHk5N192T1R4LWY0aElIUXBXOFJyVUVBTkRTdG8wZWhUUW4xOTd2aG01bGRGbmpXWkVzYjZiNGZKVjhmX3lHR1JYSFFvRnI5R3FFSXpIdGhUbFZVVGFPSG5rc1JJVC1MOWxxTXZSTkhsZjJzS1ZJRUhZa2hEd1o3RVZhOWktRG8?oc=5",
-      "topic": "general",
-      "region": "Denver",
-      "summary": "Colorado lawmaker says president is holding housing affordability bill hostage \u00a0\u00a0 Denver7"
-    },
-    {
-      "title": "Denver's affordable housing fix is 93 years away, new report finds - Axios",
-      "date": "2026-06-25T12:22:16Z",
-      "source": "Axios",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQY0U3RjJDZ2dhTGpzRE9xZUhDNnJTSHotbnIzZ0FkcFdHUFN3UzJWd2F1N2I1cmV5bWZIZUNZZDRxVDFDMUhfMEhKcFB0c25NV0lzUUdicVdPcUxVdmVwVUpIa2E2OXNCaFp6UlRYZlZMaERha1JCSzZGOXFqNjhTeDctSVFYZWdVQklSeHBwMG8xMEc1NmpzOXJsb0Q?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Denver's affordable housing fix is 93 years away, new report finds \u00a0\u00a0 Axios"
-    },
-    {
-      "title": "Can a giant robot glue gun help solve Colorado\u2019s housing crisis? - The Colorado Sun",
-      "date": "2026-06-25T10:08:00Z",
-      "source": "The Colorado Sun",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPQkxicTl4empXdHNsWWYxV1dfV0gtTjh4eEFJVlBzeDJldnFYTnNkMG1ZbXB3M2IzTTd4SWQ2MWxyTjBBbFFqUXlaa3FPQjdMSF94UnEwWVo4dnRIOGFoQjJZV1plaHVmZUhranYwTWpZTWY2aDhyZE1OaHNVQXNaeHZySDU0c2JDb0xQakdjbDhHOVU?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Can a giant robot glue gun help solve Colorado\u2019s housing crisis? \u00a0\u00a0 The Colorado Sun"
-    },
-    {
-      "title": "Housing New Mexico Awards LIHTCS to Five Developments - Affordable Housing Finance",
-      "date": "2026-06-25T07:00:00Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOYkx1STBMaEFWRy1xb2ZLdnk1c0h0b2Zyc3hwN3JXNlIzMDliRk14RG55YmdCMk9CSVVvTnN6Tm5xbU5CNERGWlVscW1Tb1ZBWENZMWFoNmxPdjV2MFNrLXpHbGtTNkYxdEM3blhnaHVvMWFhNWFsTVBUX2NuU25qNmtZWU5BMXcwbTFBQmxQcVRsRXc?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Housing New Mexico Awards LIHTCS to Five Developments \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Health in All Policies: How Social Connection Is Linked to Affordability - Colorado Health Institute",
-      "date": "2026-06-24T07:00:00Z",
-      "source": "Colorado Health Institute",
-      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPRDZjR1RRVE5Xend2ZkVkRTlRckNJdWozV3dMdWZGX0pwMzdBWTBlay1QZFdibnZDM1AxSVpuWVBqUEppcVJaeVU3b0JHUXdyUnR0eW5CemY5TVBBek5UU0hweHM5NXZWeDhLZGFhNjZnMG9oWWpGZFNIeVNHUWlxVUxLQzlER0JSQTNGdDVXTXBjc1ZvRllteEIyZGVEU29sR0F1eV8wUF9JZEk?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Health in All Policies: How Social Connection Is Linked to Affordability \u00a0\u00a0 Colorado Health Institute"
-    },
-    {
-      "title": "New ROAD to Housing Act would reshape affordable housing - Nixon Peabody",
-      "date": "2026-06-24T07:00:00Z",
-      "source": "Nixon Peabody",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNajVrNkZ2ZVU2UU1QbWJnMXpadzZyQjhNUFU5Z1lPMVZxVUNLUk1ZWkZqQWoyOW85SXN5LVlkWENkX2FOQXlSQ1ZremhaS3R5YlNGaXJRUloxRXJ3Ujd5MDlpMEdJcEk4Qk1Zd2YydFdoQ25DSGNwU0NzeHk1T18zckU4ejNHMlJZZWttX09qdFJZUzJackJJalB1NzBHc3I1MTJYVE4ycm9FeXVQbFdZVEl3?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "New ROAD to Housing Act would reshape affordable housing \u00a0\u00a0 Nixon Peabody"
-    },
-    {
-      "title": "Legislation to Create More Affordable Home Ownership Opportunities Goes Into Effect - Colorado Senate Democrats",
-      "date": "2026-06-23T15:55:23Z",
-      "source": "Colorado Senate Democrats",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNTk5rYUNYVDNzZGlBNlU3bThTVFFLaF9ONjVhTWNBVEd4MlpTRjdUbHFZeGJ1TlEtV1BZeEF2WkttS2x5QjloMXg5a0RQVkF3SS1QVThNQ25xdzhXYVNFdU1rMEYtOW1CaFZfUlN1TGd5R21TVHowY0ItSzJTRWFLckM2RFlCVFdoTnRvVVVHS29XZGUxaVd2WUc5SGE4M1JVcldHSk5ZcFBla2J6YkNMcWxzWlFfSUIweXc?oc=5",
-      "topic": "policy",
-      "region": "Statewide",
-      "summary": "Legislation to Create More Affordable Home Ownership Opportunities Goes Into Effect \u00a0\u00a0 Colorado Senate Democrats"
-    },
-    {
-      "title": "Colorado Legislature Wrestles with Shortfall, Passes Budget - Enterprise Community Partners",
-      "date": "2026-06-23T12:00:00Z",
-      "source": "Enterprise Community Partners",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPTG54a0xmd0s2NkFfUGc2aTNvMWlZTUxDZGVMQ29oNVpVbU9jc3VqaUE4Ymh4eFBaRjhMeUZwSlhJWHlhTWpjaVJldTF5ak5TZUNHTjRrZnFnTWhOX2ZTcXVPSmZnUlpKWTdkdEJvQ21wSjF4SGJIbTRKQnFBM3p5UlNIdkFXeTVQZmVnVDJmeDZSQS1YOGZuUGJ0dlFxYW5WekhBcjZLOWItRU5UWTlJ?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado Legislature Wrestles with Shortfall, Passes Budget \u00a0\u00a0 Enterprise Community Partners"
-    },
-    {
-      "title": "Governor Polis visits Colorado Springs supportive housing for young adults who experienced homelessness - KKTV",
-      "date": "2026-06-23T11:47:00Z",
-      "source": "KKTV",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNNjY4N3NTTmdVejAxZkEteExyb25Wc3JyOFdqR1hlM3d3dnVGMGRnakZiQlp1ZnU0MW1VZFdOMG92U1Q2TnpyenFQSUZBTVM0THlRZ2k3SnZYeXdnR0VqMG5jc3JUVzE1R0U0Q2tUcVlRX0VMMzVhaEFqbGNubXRBSHpMckRwVTRQYzZFbmNNLUp5bmMwY3lyYmZlWXpYa0hNZk5vME5SUTI1Y1o3NjRTcVZ5RGdhZnBuVGFPbGpZRTdhYXFLa2ZqT3RWczjSAeABQVVfeXFMUFEtVkVVQ1ZzdWY5S1V0VnpEaHROcmNvdDItN2JWMjRkaVYtbFl0SUE3NjJiaHR1MzhuakY1WDFUV1lGcFBULU1KWDhCd0VhWHI5SEZrY0U0a0J5TWtWbUJQZi12S3dHTTFwakJvM1dNcm8zTnJJQXZZRXFIYmZiZUhUekt2aG85TmdjSllQYTFuZVlsRGl3S1FyWmMxNncwLTJWY21iTlVVYW5pUlYweXpVMy1icUViZTZZVUNsb3UtUkw3bDRnWm9McDlfdUx4WTkxTVA1emVYNU5GSHRTT1Y?oc=5",
-      "topic": "homelessness",
-      "region": "Colorado Springs",
-      "summary": "Governor Polis visits Colorado Springs supportive housing for young adults who experienced homelessness \u00a0\u00a0 KKTV"
-    },
-    {
-      "title": "Housing Resources of Western Colorado expanding home rehabilitation loan program - The Grand Junction Daily Sentinel",
-      "date": "2026-06-23T07:22:05Z",
-      "source": "The Grand Junction Daily Sentinel",
-      "url": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxOM3JRT1J6WXhSTjIzbGRXNkd4UnhoRHpzX0VCQi0zd0FQeGVUMl9qeUg0elU4dklCVFRGR3J1NU9WSkJRaXp4bWxoSmlPS3RYQ2tFVDVGR3lweXAxZ3AzTWhPWVFMZFRLTVZOX2ZGck1qM2ZfOXZXSmZwVFE3ME1QSlZpbE9qN2VzRWZrMUIwRWdOSGNEZGFaUkl5WVBjaC03VUxFZFZ4TnlENWg2RTJGSWxxQUVsUU9kaS1CWWJxMWdZZ184OU5Qc1B1dU5yYmRoZTRjczZ5VjV5VkFKQkxaaGtmU2dra1I1aHhORDNvR0xpbGhCUU5GUlNyREFVWWRHUnZjUWc0TkZnOTTSAZACQVVfeXFMTmpNZS1rRGhzc0pzcm9ZcFgzSVlxRlVWQ3I3MGN4S0dXakh3YU80YjQ3d1p4UU5PYVZncDlMa1A2VW9LV0N3c0VQVUxaZVZnZ21OSjV3eUN0VWtnMng5Z0xCTG4zVEdUMmEwRmNoZ2JSRUhQWU9zRE5FSGc1VlRnTU02eER5UzhOaGdNeXhiYnpHZHZWZ3dUWWsxc1JfdE1OdnlNQ2YxRi1yT194V2ZrRXRnVjJ1Y2RPeTFST05hMjNEcWowazdIZ0R2Q1VlMGtJTFZXQjc1bHVndUFzcGVSTkxtall3M21zcTlrVGg2Zk91VGNLclZvSUlvbjlvWDFHSF9SdzNPeWhpN253TFAxWWk?oc=5",
-      "topic": "general",
-      "region": "Grand Junction",
-      "summary": "Housing Resources of Western Colorado expanding home rehabilitation loan program \u00a0\u00a0 The Grand Junction Daily Sentinel"
-    },
-    {
-      "title": "Legislation to Create More Affordable Home Ownership Opportunities Goes Into Effect - Colorado House Democrats",
-      "date": "2026-06-23T07:00:00Z",
-      "source": "Colorado House Democrats",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNZFc3R3JGZHpjRmxFWUd4MExBSnlGWjVZV2l0YkdheU8xcmk3eFNuMGUtWE5TclBUQS16NUZKcmZSOTA3aHYwc2NoRWpZTVlLR1NhZmpEOWxWN2IwbGhrUnlyNnBkZnJIODNobXhhNVhYQlotZDYta2pSTld4a2hvQjIyQXN4aXpNM3lIWWwxLUZZdS1vM2FkbEVVZXZRV3RQWkV1VXUzWnlkVVJJZGl5anFhV3dSYm8?oc=5",
-      "topic": "policy",
-      "region": "Statewide",
-      "summary": "Legislation to Create More Affordable Home Ownership Opportunities Goes Into Effect \u00a0\u00a0 Colorado House Democrats"
-    },
-    {
-      "title": "Colorado\u2019s 2026 Legislative Outcomes on Housing Stability - Enterprise Community Partners",
-      "date": "2026-06-23T07:00:00Z",
-      "source": "Enterprise Community Partners",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPd0xBeUFaTklvVHhsZUVxV2ZVSlJwNjRjS3JNc1l5TGpDV3VYcnBrWUdmMWRIZXA5VUdNZmRxZVBpWGVTRTl5bURCRlVPNFh3MGpPMVFxaUo2RGctaDc0UGlKRzR1TWI2OTFIWi1hbDhvUkFnMWRwY25kdnZHemtFNnJhTFA2eEhRbzV6ejExT25mU3FGbUFfNXlXMkFHV2hpSkI1aDZrSXVWZm9IX0Jz?oc=5",
-      "topic": "general",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s 2026 Legislative Outcomes on Housing Stability \u00a0\u00a0 Enterprise Community Partners"
-    },
-    {
-      "title": "Tiny Home Manufacturer Looks to Fill Affordable Housing Gap - SoCo Digest",
-      "date": "2026-06-23T01:12:18Z",
-      "source": "SoCo Digest",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOUVZ5d3BQeEpPUndpZm0wUlFMZC02MEtnZVFMNGVpczR2ZThKRWllN0hvc3dtWXBEUTMzVmpoOU56dDE4bGFFdk5hQkpfMERvT0tMRnlhWGhaYXRNVEhoOVRNb3c5VVp5eFVsVHdKT2ZtOE1xbU12XzJ0MkVad1BBaWdfSnd0UjdVNEo2MXhncVhnbk9tcUYtTkgtVnc0UWhURFE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Tiny Home Manufacturer Looks to Fill Affordable Housing Gap \u00a0\u00a0 SoCo Digest"
-    },
-    {
-      "title": "Governor Jared Polis visits Pueblo, Colorado Springs - KKTV",
-      "date": "2026-06-22T22:58:00Z",
-      "source": "KKTV",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQWGVJamlxSWlEM2llM295V25GRmhUbVhfS0JxZmJiOHVjR0xDaUNlX2drQm1VcEFWLWs3OTNmenVkcHc0U1pvdUtlODBTY0plMjhaYkYzQ0lNUFhONmVMa3JMLWZzSVJMRVV6SUNmQ25NZkhjckNQQjRsWXRjWjhwakJPR3BFMmExWFNfYTdBZmJfWjky?oc=5",
-      "topic": "general",
-      "region": "Colorado Springs",
-      "summary": "Governor Jared Polis visits Pueblo, Colorado Springs \u00a0\u00a0 KKTV"
-    },
-    {
-      "title": "Gov. Whitmer announces construction of more than 600 affordable rental units across Michigan - Michigan Public",
-      "date": "2026-06-22T22:39:00Z",
-      "source": "Michigan Public",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPQ2hXMm9qQnFFeGo0N1hQRGVvUjFtT0RvZTg2VkFCOEJ1RlZxMkNROE1Md0x3Y0lWWUJoaTVwRTluck5Mb21hNTAyZTVpT21wanB0dVM4VFBKNnJEWFpmZEY1LWlSN3Q1bTFCMzlHWmhqMHR0YzJBYXg0V0VlTVF0b3R6OTlwdHRCV01zejNfaEFXbWNjNld4VUI3bVZGRFBYWDYzTFR3R1JfeUc1UFZLRlBjb3hZLWdrUzE3WGJKZ01iVGx1cm5yQWhNYTE?oc=5",
-      "topic": "rent",
-      "region": "Colorado",
-      "summary": "Gov. Whitmer announces construction of more than 600 affordable rental units across Michigan \u00a0\u00a0 Michigan Public"
-    },
-    {
-      "title": "The Richman Group Closes $535 Million in Two LIHTC Funds - Affordable Housing Finance",
-      "date": "2026-06-22T20:49:51Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNblVjYXBMenRZMGp4ZHl6Sy1FQ1RhaTQxVFJiQlhhVFZYSHE1aENuc3JDRWNNeDZucEI0SDBzSzJGWmc1anVQRXp4UU1BQ0x5cUdKWWlWQ0x4Rl9oMlRkc3ZrX3BOSW1kenh0NWFtNXJvUjMzSDF4TDkxazFsckFoUGkyT1M5ekxhUDZDZHBSaDA?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "The Richman Group Closes $535 Million in Two LIHTC Funds \u00a0\u00a0 Affordable Housing Finance"
-    },
-    {
-      "title": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure - Tax Credit Advisor",
-      "date": "2026-06-22T16:00:00Z",
-      "source": "Tax Credit Advisor",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPUGFUWnU2SU8wNzMwVEdvNVFabjFZUkNEZzZtTENZWnNSMEp3Y3VWWGd2VjkxQ1F0UERHNTl1c0ptZmdGQzZZX1hZSXhNc2o4Y0FXdHlUS0pLMTY0ZjM4VHgtVmhaczg1OTZsaVdULWNLZWpQeGtVMGxBbE9DTVdTcFo5UnQ5SEE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Life on the Grid: How Affordable Housing Can Overcome America\u2019s Aging Energy Infrastructure \u00a0\u00a0 Tax Credit Advisor"
-    },
-    {
-      "title": "Denver rolls out 90-day review for affordable housing - City and County of Denver",
-      "date": "2026-06-22T07:00:00Z",
-      "source": "City and County of Denver",
-      "url": "https://news.google.com/rss/articles/CBMixgJBVV95cUxQczc3THphbnVSc0ZoZG1oUk9KVV8zbVpWZlJwa0UtMUk2U0Rhc0JvR3kwTEJEaDFvLXVBQWVfejBmNjJDTFFXanpOVXNBTFFXZ1k1Y3pzek9Ia0t2dlJ5OXFKQlVrdGJvVmpfLTlqX3Nwc04wTWs3d2pfc0RobkViVzlROHZGaGNfU19yMndKZGNHaWxhZVNhQjRqbnU5OUZ1UHduNGcyT0dncHpyRTFDWGZKZ3hNRUVwNC1GbnFnazlWdkJEQnY3eGZGNGxVT2RzRWRyNEc5c2Q0YkFZUlRKeXZGVXN0MnZwMk9pU2JvZHhuaXpFTEFlamdaUFNLcmsxTGYyTWJTbDR2MHRnTUpZNUhqbnl5Z3VJY2hNbWo2YTZBbUtNb3gzaTNLNHFHNkRuUlQ4VXNmazdiUU1IZTlKSFRZY3E5QQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Denver rolls out 90-day review for affordable housing \u00a0\u00a0 City and County of Denver"
-    },
-    {
-      "title": "Michigan backs 13 housing developments with $19 million in tax credits - Manistee News Advocate",
-      "date": "2026-06-22T07:00:00Z",
-      "source": "Manistee News Advocate",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNTDkxTXN0Q3RMZHNzMWVCQnhPNW1ESDVqWGN1Mi1GNGxxOXpYSWdmNnRRZnQ5QVNnRGwzVkpVeEhpbjladk1QTUgzeVlpQTJySDlfelhpZXhFb3ZaVS0tbjUzTmF6ampEd25GZTJpTDFhSU9GcHhRTE1hZzJ2aGl5MlZYLWh4R3hhRXgxQUY3cmkyTGVu?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Michigan backs 13 housing developments with $19 million in tax credits \u00a0\u00a0 Manistee News Advocate"
-    },
-    {
-      "title": "Michigan backs 13 housing developments with $19 million in tax credits - Midland Daily News",
-      "date": "2026-06-22T07:00:00Z",
-      "source": "Midland Daily News",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxNZmw2MlBNOHdpREhEeE5IX1o2bFJ3dWxnYVpJeDRYR3hMQmFKaTZvb2JVODI3enJMVlFRR2JTNUx6TFRCdjVvbDVDZzY3cENFUTZKSE5XYksxdFkxWlFCeHNwdllvUjNSSFdrWklPWTNPUEVjSVNHVEVmcGU5ZERJYlhvNWt0MmRsRzBTZVpJMkY2QQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Michigan backs 13 housing developments with $19 million in tax credits \u00a0\u00a0 Midland Daily News"
-    },
-    {
-      "title": "Denver rolls out 90-day review for affordable housing - City and County of Denver",
-      "date": "2026-06-22T07:00:00Z",
-      "source": "City and County of Denver",
-      "url": "https://news.google.com/rss/articles/CBMiywJBVV95cUxORWhXZ2lKU0ZKRkVVUzRoYmI2ZVc0RXRvMy1FemlILXp5ZFpSZ3FpS0NicVJwZUg4RERhM3RMTExIUDFTX0d2ZThQcnUzcGJZc2xPTHUxa3BZOWlHM2Rzd0IxMEtVTTI3UGNFNEVWSTJXR1pfdko3RzdFQnh5SkZEU3ZaY2dnMDFzSmM3T1FMeHdxOUlvc2hncXZXQmJwWWJZdk1SNG5zbXBEeGxsOEpOWjNHSGFQRG5GeGI0dVBNRFgtMWs2c3VpQzVNRDd1bUhRLXlhcE9PWXRJcFhIT0tMMmtueU83Qm1TektHUVN5SEhhamlYNDRnUU9TX1JWN3V6cExCbk9YRXFDMjlSNHZ1bEp1MHJUYnhSLTdlM3lheWJPZHZBNU0yMFdldWFKeHZXS0FCVFlJMVpObnlwZGNsenZIMHAwQTg4LXJr?oc=5",
-      "topic": "affordable_housing",
-      "region": "Denver",
-      "summary": "Denver rolls out 90-day review for affordable housing \u00a0\u00a0 City and County of Denver"
-    },
-    {
-      "title": "Affordable Housing, by Citigroup - Brown Political Review",
-      "date": "2026-06-21T20:29:29Z",
-      "source": "Brown Political Review",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1fZ25zNjVKTWx1cnpxOHJIMUpnNVlKRXUwMnR6OS1DeGhYMmcza0JjWmpwSUNaSXdtUUpSVzIxcHR4dDNLZk5GTy1VbU9yVUEybUFqS2x1YThiLVJ1WUFyX0QzSVFnenZvOE9OV0p0RDBEdGM?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Affordable Housing, by Citigroup \u00a0\u00a0 Brown Political Review"
-    },
-    {
-      "title": "StarRise Wins Historic Double Honor at State Housing Awards - North Forty News",
-      "date": "2026-06-21T13:00:00Z",
-      "source": "North Forty News",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPNGEwR0NPU2RqOG0xOGpNbUtNX1Vnc2UtRW5paXBYVG0wcGpXd2dNWjdKb3ZqWm1lQVBkdlBSeVVHc0R5ckRlSG14MVVUTnZLR09YZVlFcFhOREFEVzVLTloxRnhITm1VclgyYTZObWNvUWFlNmNROFVrem4zell4V1hzR0l3LXZWRGt4YzIwakR4ZU5iSExZTG11V0U4MEN3WFdScGdseE16Ull4SXc?oc=5",
-      "topic": "general",
-      "region": "Colorado",
-      "summary": "StarRise Wins Historic Double Honor at State Housing Awards \u00a0\u00a0 North Forty News"
     }
   ]
 }
