@@ -60,7 +60,9 @@ const LOAD_TIME_RENDERERS = [
 ];
 LOAD_TIME_RENDERERS.forEach(([file, call]) => {
   window.eval(read(file));
-  const inline = Array.from(pageSrc.matchAll(/<script>([\s\S]*?)<\/script>/g), (m) => m[1])
+  // Read from the parsed DOM, not by pattern-matching markup: the page is
+  // already parsed, and a regex over HTML misses script-tag variants.
+  const inline = Array.from(document.querySelectorAll('script:not([src])'), (el) => el.textContent)
     .filter((src) => src.includes(call));
   assert(inline.length, 'no inline call to ' + call + ' found in deal-calculator.html');
   inline.forEach((src) => window.eval(src));
