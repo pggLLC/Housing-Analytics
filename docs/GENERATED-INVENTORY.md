@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T19:39:52.373Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T19:58:17.235Z. Do not edit by hand.
 
 ---
 
@@ -1672,7 +1672,7 @@
 
 ## Test Files
 
-404 test files found.
+405 test files found.
 
 | File | Size |
 |------|------|
@@ -2033,6 +2033,7 @@
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
+| `test/walkthrough-record.test.mjs` | 6.6 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
