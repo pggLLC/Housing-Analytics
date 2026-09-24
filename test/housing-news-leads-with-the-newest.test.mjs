@@ -53,6 +53,9 @@ async function runPage(briefs, curated = { briefs: [] }, digests = {}) {
         return Promise.resolve({ ok: true, json: () => Promise.resolve(u.includes('curated') ? curated : briefs) });
       };
       window.console.warn = () => {};
+      // The page grades digest figures with the real contract, loaded by a
+      // <script src> jsdom does not fetch.
+      window.eval(fs.readFileSync(path.join(ROOT, 'js', 'workflow', 'recommendation-contract.js'), 'utf8'));
     },
   });
   const doc = dom.window.document;
@@ -125,7 +128,9 @@ function fixture() {
 function digest(name, metrics) {
   const m = {};
   for (const [k, v] of Object.entries(metrics)) {
-    m[k] = { value: v, confidence: v === null ? 'missing' : 'high', as_of: 'ACS 2020-2024 5-year' };
+    m[k] = v !== null && typeof v === 'object'
+      ? { as_of: 'ACS 2020-2024 5-year', geography_level: 'place', ...v }
+      : { value: v, confidence: v === null ? 'missing' : 'high', as_of: 'ACS 2020-2024 5-year', geography_level: 'place' };
   }
   return { geography: { name }, metrics: m };
 }
@@ -194,6 +199,13 @@ test('a story naming a place shows that place\'s numbers, and a missing number i
   const digests = {
     '0873935': digest('Sterling (city)', { pct_cost_burdened: 50.9, gross_rent_median: 1031, housing_gap_units: 485 }),
     '0828690': digest('Frisco (town)', { pct_cost_burdened: null, gross_rent_median: 1954, housing_gap_units: 0 }),
+    // Grand Lake as committed: a burden rate on 38 renter households, under the
+    // 50-household floor. The HNA and the Recommendation page call it unusable.
+    '0820000': digest('Denver (city)', {
+      pct_cost_burdened: { value: 34, confidence: 'low', denominator: 38, min_denominator: 50, denominator_floor_applied: true },
+      gross_rent_median: 1870,
+      housing_gap_units: { value: 29051, confidence: 'medium', geography_level: 'county' },
+    }),
   };
   const { window } = await runPage(fixture(), { briefs: [] }, digests);
   const doc = window.document;
@@ -213,9 +225,14 @@ test('a story naming a place shows that place\'s numbers, and a missing number i
   assert.doesNotMatch(frisco, /\b0 units/, 'a zero gap was rendered as a real number');
   assert.equal(lineFor(/Frisco breaks ground/).querySelector('a').getAttribute('href'),
     'housing-needs-assessment.html?geoid=0828690', 'the local line does not open the place\'s assessment');
-  const denver = lineFor(/Denver council/);
-  assert.equal(denver.querySelectorAll('a').length, 1, 'a place with no digest lost its assessment link');
-  assert.doesNotMatch(denver.textContent, /\d/, 'numbers appeared for a place with no digest');
+  const denver = lineFor(/Denver council/).textContent;
+  assert.doesNotMatch(denver, /34%/, 'a rent-burden rate below the evidence floor was shown as a local fact');
+  assert.match(denver, /rent-burden rate withheld/, 'a withheld rate is not disclosed');
+  assert.match(denver, /median gross rent \$1,870/);
+  assert.doesNotMatch(denver, /29,051/, 'a county figure was shown as the city\'s own');
+  const pueblo = lineFor(/Pueblo breaks ground/);
+  assert.equal(pueblo.querySelectorAll('a').length, 1, 'a place with no digest lost its assessment link');
+  assert.doesNotMatch(pueblo.textContent, /\d/, 'numbers appeared for a place with no digest');
 });
 
 test('filtering keeps the order and shows only matches', async () => {

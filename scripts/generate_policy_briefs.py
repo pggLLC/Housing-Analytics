@@ -266,12 +266,14 @@ AMBIGUOUS_PLACE_NAMES = {
     'Kit Carson', 'Stonegate', 'Security-Widefield', 'Dinosaur', 'Silt', 'Loma', 'Rye',
 }
 # Counties whose name is unique to Colorado, so "<name> County" alone places a
-# story in Colorado.
+# story in Colorado. Every other Colorado county name also names a county in
+# another state (El Paso TX, Summit OH/UT, Otero NM, Adams, Douglas, …) and
+# needs Colorado context.
 DISTINCT_COUNTY_NAMES = {
     'Larimer', 'Arapahoe', 'Pitkin', 'Routt', 'La Plata', 'Archuleta', 'Alamosa', 'Saguache',
     'Huerfano', 'Rio Blanco', 'Gilpin', 'Chaffee', 'Ouray', 'Broomfield', 'Costilla', 'Conejos',
-    'Montezuma', 'Las Animas', 'Weld', 'Moffat', 'Prowers', 'Otero', 'Kit Carson', 'Hinsdale',
-    'Eagle', 'Summit', 'Mesa', 'Gunnison', 'El Paso',
+    'Montezuma', 'Las Animas', 'Weld', 'Moffat', 'Prowers', 'Kit Carson', 'Hinsdale',
+    'Eagle', 'Mesa', 'Gunnison',
 }
 
 

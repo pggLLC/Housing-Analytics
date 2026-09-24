@@ -87,9 +87,16 @@ def test_a_county_name_shared_with_other_states_needs_colorado_context(geos):
         alert('Adams County weighs rental rules', 'Patch'),
         alert('Larimer County meets housing requirements', 'Patch'),
         alert('Adams County, Colorado weighs rental rules', 'Patch'),
+        # El Paso, Summit and Otero counties exist in Texas, Ohio/Utah and New Mexico.
+        alert('El Paso County approves affordable housing', 'El Paso Times'),
+        alert('Summit County weighs short-term rental tax', 'Akron Beacon Journal'),
+        alert('El Paso County approves affordable housing plan', 'Colorado Springs Gazette'),
     ], geos)
     s = by_title(stories)
     assert 'Adams County weighs rental rules' not in s
+    assert 'El Paso County approves affordable housing' not in s, 'a Texas county was filed as Colorado'
+    assert 'Summit County weighs short-term rental tax' not in s
+    assert s['El Paso County approves affordable housing plan']['places'][0]['geoid'] == '08041'
     assert s['Larimer County meets housing requirements']['places'][0]['geoid'] == '08069'
     assert s['Adams County, Colorado weighs rental rules']['places'][0]['geoid'] == '08001'
 

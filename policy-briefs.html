@@ -123,6 +123,7 @@
     .news-related ul { font-size: .88rem; color: var(--muted); line-height: 2; margin: 0; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/workflow/recommendation-contract.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -310,40 +311,52 @@
       }
       return digestCache[geoid];
     }
-    function metric(doc, key) {
-      var m = doc && doc.metrics && doc.metrics[key];
-      if (!m || typeof m.value !== 'number' || !isFinite(m.value) || m.confidence === 'missing') return null;
-      return m;
+    // Each figure is graded by RecommendationContract.evidence(), the same
+    // reading the Housing Needs Assessment and the Recommendation page make of
+    // the digest. A figure it calls insufficient (no value, low confidence, a
+    // rate on too few households) is withheld, and a figure from another
+    // geography level standing in for this place is left out: the line is
+    // about this place or it says nothing.
+    var LEVEL = { place: 'place', cdp: 'cdp', county: 'county' };
+    function graded(doc, key, label, type) {
+      var contract = window.RecommendationContract;
+      if (!contract || typeof contract.evidence !== 'function') return { usable: false };
+      var item = contract.evidence(doc && doc.metrics, key, label, { requestedLevel: LEVEL[type] || null });
+      var usable = item.state !== 'insufficient' && !item.borrowedFrom &&
+        typeof item.value === 'number' && isFinite(item.value);
+      return { usable: usable, value: item.value, asOf: item.asOf, withheld: item.value !== null && !usable };
     }
     function localLine(doc, place) {
-      var parts = [], vintages = [];
-      var burden = metric(doc, 'pct_cost_burdened');
-      if (burden && burden.value > 0) {
+      var parts = [], vintages = [], notes = [];
+      var burden = graded(doc, 'pct_cost_burdened', 'Rent-burdened renter share', place.type);
+      if (burden.usable && burden.value > 0) {
         parts.push(burden.value.toFixed(0) + '% of renter households rent-burdened');
-        vintages.push(burden.as_of);
+        vintages.push(burden.asOf);
+      } else if (burden.withheld) {
+        notes.push('rent-burden rate withheld: too few renter households for a reliable rate');
       }
-      var rent = metric(doc, 'gross_rent_median');
-      if (rent && rent.value > 0) {
+      var rent = graded(doc, 'gross_rent_median', 'Median gross rent', place.type);
+      if (rent.usable && rent.value > 0) {
         parts.push('median gross rent $' + Math.round(rent.value).toLocaleString('en-US'));
-        vintages.push(rent.as_of);
+        vintages.push(rent.asOf);
       }
-      var gap = metric(doc, 'housing_gap_units');
-      if (gap && gap.value > 0) {
+      var gap = graded(doc, 'housing_gap_units', 'Units short at 30% AMI', place.type);
+      if (gap.usable && gap.value > 0) {
         parts.push(Math.round(gap.value).toLocaleString('en-US') + ' units short for households at or below 30% AMI');
-        vintages.push(gap.as_of);
+        vintages.push(gap.asOf);
       }
       var name = (doc && doc.geography && doc.geography.name) || place.name;
       var link = '<a href="housing-needs-assessment.html?geoid=' + encodeURIComponent(place.geoid) + '">' +
         escapeHtml(name) + ' housing needs</a>';
-      if (!parts.length) return link;
+      if (!parts.length && !notes.length) return link;
       var vintage = vintages.filter(function (v, i) { return v && vintages.indexOf(v) === i; }).join('; ');
-      return '<span class="story__local-name">' + escapeHtml(name) + ':</span> ' + escapeHtml(parts.join(' · ')) +
+      return '<span class="story__local-name">' + escapeHtml(name) + ':</span> ' + escapeHtml(parts.concat(notes).join(' · ')) +
         (vintage ? ' <span class="story__local-src">(' + escapeHtml(vintage) + ')</span>' : '') + ' · ' + link;
     }
     function fillLocalLines() {
       document.querySelectorAll('.story__local[data-geoid]:not([data-filled])').forEach(function (el) {
         el.setAttribute('data-filled', 'pending');
-        var place = { geoid: el.getAttribute('data-geoid'), name: el.getAttribute('data-name') };
+        var place = { geoid: el.getAttribute('data-geoid'), name: el.getAttribute('data-name'), type: el.getAttribute('data-type') };
         loadDigest(place.geoid).then(function (doc) {
           el.innerHTML = localLine(doc, place);
           el.setAttribute('data-filled', doc ? 'yes' : 'no-data');
@@ -382,7 +395,8 @@
         ? '<a class="story__link" href="' + escapeHtml(s.link) + '" target="_blank" rel="noopener">' + highlight(s.title) + '</a>'
         : highlight(s.title);
       var local = s.places.length
-        ? '<div class="story__local" data-geoid="' + escapeHtml(s.places[0].geoid) + '" data-name="' + escapeHtml(s.places[0].name) + '"></div>'
+        ? '<div class="story__local" data-geoid="' + escapeHtml(s.places[0].geoid) + '" data-name="' + escapeHtml(s.places[0].name) +
+          '" data-type="' + escapeHtml(s.places[0].type || '') + '"></div>'
         : '';
       return '<article class="story' + (lead ? ' story--lead' : '') + '" data-date="' + escapeHtml(s.date) + '">' +
         '<' + tag + '>' + head + '</' + tag + '>' +
