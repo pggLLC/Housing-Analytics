@@ -317,6 +317,20 @@
     return value === null ? 'n/a' : fmt(value, 'percent');
   }
 
+  /** Same threshold as the digest builder's confidenceFromMultiplier: < 0.90 → low. */
+  const LOW_EVIDENCE_MULTIPLIER = 0.90;
+  function getEvidenceGrade(entry) {
+    const m = entry && entry.metrics ? Number(entry.metrics.score_confidence_multiplier) : NaN;
+    if (!Number.isFinite(m) || m >= LOW_EVIDENCE_MULTIPLIER) return { low: false, multiplier: Number.isFinite(m) ? m : null, title: '' };
+    const dq = entry.dataQuality || {};
+    const parts = [];
+    if (Array.isArray(dq.imputed_score_factors) && dq.imputed_score_factors.length) parts.push(dq.imputed_score_factors.length + ' score factor(s) imputed');
+    if (Array.isArray(dq.approximated_fields) && dq.approximated_fields.length) parts.push(dq.approximated_fields.length + ' field(s) approximated from the county');
+    if (entry.metrics.home_value_confidence === 'low' || entry.metrics.home_value_confidence === 'acs_raw') parts.push('home value low-confidence');
+    const title = 'Low evidence — score confidence ' + m.toFixed(2) + (parts.length ? ': ' + parts.join(', ') : '') + '. The rank stands; the inputs behind it are thin.';
+    return { low: true, multiplier: m, title };
+  }
+
   function getSeasonalVacancyDisclosure(entry) {
     if (!entry || entry.type === 'county') return null;
     const rawRental = numericMetric(entry, 'raw_rental_vacancy_rate_pct');
@@ -410,6 +424,17 @@
     const smallGeoBadge = (pop && pop > 0 && pop < 5000)
       ? `<span class="hca-dq-badge" title="Population ${Math.round(pop).toLocaleString()} — ACS estimates for geographies under 5,000 may have high margins of error (30-50%)" aria-label="Small geography" style="cursor:help;">📊</span>`
       : '';
+    // Evidence grade, from the index's own score_confidence_multiplier — the
+    // same signal the per-jurisdiction digests turn into confidence "low"
+    // below 0.90 (scripts/hna/build_jurisdiction_metrics_digest.mjs,
+    // confidenceFromMultiplier) and that the HNA decision strip and the
+    // Recommendation page defer to. 220 of 546 rows sit below it. Without
+    // this, a 396-person CDP's "100% rent burdened" read here as a plain
+    // number while every other surface called it low evidence (2026-09-24).
+    const evidence = getEvidenceGrade(entry);
+    const evidenceBadge = evidence.low
+      ? `<span class="hca-dq-badge hca-evidence-badge" title="${evidence.title}" aria-label="Low evidence">Low evidence</span>`
+      : '';
     const vacancyDisclosure = getSeasonalVacancyDisclosure(entry);
     const vacancyBadge = vacancyDisclosure
       ? `<span class="hca-dq-badge hca-vacancy-context-badge" title="${vacancyDisclosure.title}" aria-label="${vacancyDisclosure.badge}">${vacancyDisclosure.badge}</span>`
@@ -431,7 +456,7 @@
     tr.innerHTML = [
       `<td class="hca-td hca-td-num" data-label="Rank"><span class="hca-rank ${badgeClass}">#${entry.rank}</span></td>`,
       ...scenarioCells,
-      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}${vacancyBadge}</td>`,
+      `<td class="hca-td hca-td-name" data-label="Name"><a class="hca-hna-link" href="${hnaLink(entry)}" title="Open full HNA for ${entry.name}">${entry.name}</a>${dqBadge}${smallGeoBadge}${evidenceBadge}${vacancyBadge}</td>`,
       `<td class="hca-td" data-label="Type"><span class="hca-type-badge ${typeClass}">${typeLabel(entry.type)}</span></td>`,
       `<td class="hca-td" data-label="Region">${entry.region || '—'}</td>`,
       ...METRIC_COLUMNS.map(col => {
@@ -1091,6 +1116,7 @@
     resetScenario,
     getScenarioDelta,
     getSeasonalVacancyDisclosure,
+    getEvidenceGrade,
     scenarioPath,
     exportCSV,
     getScorecardData: function () { return _scorecardData; },
