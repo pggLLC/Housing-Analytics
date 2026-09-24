@@ -78,6 +78,17 @@
     .ms-assistance-qualifier { display: block; margin-top: 2px; color: var(--muted); font-size: .78rem; font-weight: 400; }
     .ms-control-note { display: block; margin: 4px 0 12px; color: var(--muted); font-size: .86rem; }
     .ms-share-input { width: 100px; }
+    .ms-start { margin: 0 0 18px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 14px 16px; background: var(--card); }
+    .ms-start h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .ms-start p, .ms-start li { line-height: 1.55; max-width: 80ch; }
+    .ms-start ul { margin: 6px 0 10px; padding-left: 22px; }
+    .ms-start dl { display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 6px 14px; margin: 10px 0 0; }
+    .ms-start dt { font-weight: 700; }
+    .ms-start dd { margin: 0; color: var(--muted); line-height: 1.5; }
+    .ms-start summary { cursor: pointer; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+    .ms-plain { margin: 4px 0 12px; max-width: 80ch; line-height: 1.55; }
+    .ms-term { color: var(--muted); font-size: .8rem; font-weight: 400; }
+    @media (max-width: 700px) { .ms-start dl { grid-template-columns: 1fr; } .ms-start dd { margin-bottom: 6px; } }
     .ms-footer-note { margin-top: 24px; border-top: 1px solid var(--border); padding-top: 18px; color: var(--muted); line-height: 1.55; }
     @media (max-width: 700px) { .ms-shell { padding-inline: 12px; } .ms-grid, .ms-card-grid, .ms-controls { grid-template-columns: 1fr; } }
   </style>
@@ -91,11 +102,47 @@
       <h1>For-Sale Market Study <span class="ms-pill">screening</span></h1>
       <p>Use this page to screen how a proposed for-sale project might serve local buyers, perform under different land and resale structures, and sell over time. It cannot confirm market demand or project feasibility. Supply the project-specific assumptions and evidence you have; anything you do not supply is marked as unavailable instead of being guessed.</p>
     </header>
+    <section class="ms-start" id="ms-start" aria-labelledby="ms-start-heading">
+      <h2 id="ms-start-heading">New to this? Start here</h2>
+      <p><strong>The question this page answers:</strong> if your community built a small group of homes for sale at below-market prices, could local working households afford them, would enough of them actually buy, and what happens to the price when an owner later sells?</p>
+      <p>You do not need to fill anything in to learn from it. Read the sections in order:</p>
+      <ul>
+        <li><strong>Local sale prices</strong> — what homes around you have recently sold for.</li>
+        <li><strong>1. The project</strong> — how many homes, and the most each income group could pay compared with typical local home values.</li>
+        <li><strong>2. The land</strong> — four ways to handle the land under the homes, and what each one trades off.</li>
+        <li><strong>3. Reselling</strong> — how a resale formula tries to keep the home affordable for the next buyer, whether it succeeds, and what the seller walks away with.</li>
+        <li><strong>4. Where the money goes</strong> — one sale, line by line.</li>
+        <li><strong>5. Who could buy</strong> — local households narrowed down to likely buyers. This step needs local evidence you supply.</li>
+        <li><strong>6. How fast they might sell</strong> — only works once section 5 is filled in.</li>
+        <li><strong>7. Report</strong> — the same screen as a formal draft you can download, once sections 5 and 6 can be screened for your area.</li>
+      </ul>
+      <p><strong>"Owner input required"</strong> is not an error. It marks a number that has to come from the project's sponsor, or from local evidence you enter in section 5; the page leaves it blank rather than guess.</p>
+      <details>
+        <summary>What the terms on this page mean</summary>
+        <dl>
+          <dt>AMI (Area Median Income)</dt><dd>The middle income for the area, set each year by HUD. "80% of AMI" means a household earning 80% of that middle income.</dd>
+          <dt>Income group (AMI band)</dt><dd>A range of incomes, such as 80–90% of AMI. Each home in the project is priced for one group.</dd>
+          <dt>Most they could pay</dt><dd>The highest home price a household in the middle of that group could afford, counting the mortgage payment, property taxes, homeowner's insurance and mortgage insurance.</dd>
+          <dt>Gap</dt><dd>How far the typical local home value is above what that group can pay. Down-payment help or public funds would have to cover it.</dd>
+          <dt>Resale formula (shared equity)</dt><dd>A rule written into the deed or lease that caps what an owner can sell for, aiming to keep the home affordable. Whether it does depends on how prices and incomes move. The owner still builds some wealth, but less than on the open market.</dd>
+          <dt>Ground lease / CLT</dt><dd>The buyer owns the house but leases the land, usually from a community land trust (CLT) or the town, for a small monthly fee. Leaving the land out of the price is what makes the home cheaper.</dd>
+          <dt>Deed restriction</dt><dd>The buyer owns house and land outright, but a legal restriction on the deed limits who can buy it next and for how much.</dd>
+          <dt>Steward</dt><dd>The organization that checks buyers qualify and enforces the resale formula over time.</dd>
+          <dt>Net proceeds</dt><dd>What the seller walks away with after the mortgage, selling costs and any public help are repaid.</dd>
+          <dt>Recapture</dt><dd>Public money paid back to the town or agency when a home is sold.</dd>
+          <dt>Buyer funnel (effective demand)</dt><dd>Start from a rough count of local moderate-income renter households, then narrow it by shares you supply for who could and would buy. The result is an estimate that depends on those shares, not a count of committed buyers.</dd>
+          <dt>Capture</dt><dd>The share of that estimated buyer pool the project would need to sell all its homes. A very high share is a warning sign.</dd>
+          <dt>Scenario, not a prediction</dt><dd>A "what if" run — for example, "if home values and incomes both rise 3% a year". It shows how the math behaves, not what will happen.</dd>
+          <dt>Calculated estimate</dt><dd>A number this page worked out from stated assumptions, not one taken from a published source.</dd>
+        </dl>
+      </details>
+    </section>
     <div id="marketStudyMount" aria-live="polite">
       <div class="ms-warning">Loading real project fixtures and policy datasets…</div>
     </div>
     <section id="ms-s7" class="chart-card ms-section">
       <h2>7. Report (screening draft)</h2>
+      <p class="ms-plain"><strong>In plain terms:</strong> the same screen written up as a formal draft for the professionals who would check it — lenders, appraisers, attorneys and market analysts. It uses their technical vocabulary; the sections above explain the same numbers in everyday words.</p>
       <p><button id="marketStudyReportDownload" type="button">Download self-contained HTML</button></p>
       <div id="marketStudyReportPreview" aria-live="polite"></div>
     </section>
