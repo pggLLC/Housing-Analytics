@@ -2979,7 +2979,7 @@
     var eff = document.getElementById('dc-gsf-efficiency');
     var effNote = document.getElementById('dc-gsf-efficiency-note');
     var meta = _unitSizeStandards && _unitSizeStandards.meta && _unitSizeStandards.meta.efficiency;
-    if (eff && meta && isFinite(meta.default) && !eff.dataset.userSet) eff.value = String(meta.default);
+    if (eff && meta && Number.isFinite(meta.default) && !eff.dataset.userSet) eff.value = String(meta.default);
     if (effNote) {
       effNote.textContent = meta
         ? 'Efficiency default ' + meta.default + ' (benchmarks ' + meta.range[0] + ' to ' + meta.range[1] + ', trade press, not a regulation). Change it here; the working updates.'
