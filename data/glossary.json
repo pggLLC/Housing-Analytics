@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-24T13:10:49Z",
+  "updated": "2026-09-24T20:46:00Z",
   "terms": [
     {
       "term": "LIHTC",
@@ -320,6 +320,131 @@
       "term": "recapture",
       "full": "Subsidy Recapture",
       "definition": "Repayment of public homebuyer assistance when a home is sold, so the money can help another buyer. Programs use it on its own or together with a capped resale price."
+    },
+    {
+      "term": "LODES",
+      "full": "LEHD Origin-Destination Employment Statistics",
+      "definition": "Census Bureau data on where people work and where workers live, down to the city block. This site uses it for local jobs, wages and commuting."
+    },
+    {
+      "term": "WAC",
+      "full": "Workplace Area Characteristics",
+      "definition": "The part of LODES that counts jobs by where the job is located, broken down by wage band and industry."
+    },
+    {
+      "term": "OD",
+      "full": "Origin-Destination",
+      "definition": "The part of LODES that links each worker's home area to their work area. It is used to measure commuting into and out of a place."
+    },
+    {
+      "term": "NAICS",
+      "full": "North American Industry Classification System",
+      "definition": "The standard codes used to group businesses and jobs by industry, such as construction or health care."
+    },
+    {
+      "term": "SDO",
+      "full": "State Demography Office",
+      "definition": "Colorado's official source of population and household estimates and forecasts, part of DOLA."
+    },
+    {
+      "term": "GRAPI",
+      "full": "Gross Rent as a Percentage of Household Income",
+      "definition": "A Census measure of how much of a renter household's income goes to gross rent — rent plus the utilities and fuels the renter pays. Paying 30% or more is usually called cost-burdened."
+    },
+    {
+      "term": "MTSP",
+      "full": "Multifamily Tax Subsidy Projects",
+      "definition": "HUD's income limits for tax-credit housing. They set who qualifies for LIHTC homes and, with the Section 42 formula, the maximum rents."
+    },
+    {
+      "term": "BPS",
+      "full": "Building Permits Survey",
+      "definition": "The Census Bureau's count of new housing units authorized by building permits, by county and place."
+    },
+    {
+      "term": "DOH",
+      "full": "Colorado Division of Housing",
+      "definition": "The state housing agency, part of DOLA, that funds affordable housing and runs state housing programs. Also written CDOH."
+    },
+    {
+      "term": "CDOH",
+      "full": "Colorado Division of Housing",
+      "definition": "The state housing agency, part of DOLA, that funds affordable housing and runs state housing programs. Also written DOH."
+    },
+    {
+      "term": "PHA",
+      "full": "Public Housing Agency",
+      "definition": "A local agency that runs public housing, housing vouchers, or both, under HUD rules."
+    },
+    {
+      "term": "PBV",
+      "full": "Project-Based Voucher",
+      "definition": "A housing voucher tied to specific units in a building rather than to a tenant, so the rent help stays with the building."
+    },
+    {
+      "term": "PIH",
+      "full": "HUD Office of Public and Indian Housing",
+      "definition": "The HUD office that oversees public housing agencies and the housing voucher programs."
+    },
+    {
+      "term": "AFFH",
+      "full": "Affirmatively Furthering Fair Housing",
+      "definition": "The Fair Housing Act duty for HUD-funded jurisdictions to take active steps against segregation and to widen housing choice."
+    },
+    {
+      "term": "ZORI",
+      "full": "Zillow Observed Rent Index",
+      "definition": "Zillow's measure of typical asking rents on new leases. It usually runs ahead of Census rents, which include long-time tenants."
+    },
+    {
+      "term": "ZHVI",
+      "full": "Zillow Home Value Index",
+      "definition": "Zillow's estimate of the typical home value in an area."
+    },
+    {
+      "term": "FHFA",
+      "full": "Federal Housing Finance Agency",
+      "definition": "The federal agency that oversees Fannie Mae and Freddie Mac. It publishes the House Price Index."
+    },
+    {
+      "term": "HPI",
+      "full": "House Price Index",
+      "definition": "FHFA's measure of how home prices change over time, based on repeat sales of the same homes."
+    },
+    {
+      "term": "IRC",
+      "full": "Internal Revenue Code",
+      "definition": "Federal tax law. Section 42 of the Internal Revenue Code creates the Low-Income Housing Tax Credit and its rent formula."
+    },
+    {
+      "term": "HB",
+      "full": "House Bill",
+      "definition": "A bill that started in the state House of Representatives. Colorado bills are numbered by year, as in HB 24-1434."
+    },
+    {
+      "term": "CAR",
+      "full": "Colorado Association of REALTORS",
+      "definition": "The statewide realtors' association. It publishes monthly market reports on home sales, prices and inventory."
+    },
+    {
+      "term": "HH",
+      "full": "Households",
+      "definition": "Shorthand for households: all the people who live together in one home."
+    },
+    {
+      "term": "MF",
+      "full": "Multifamily",
+      "definition": "Buildings with several homes in them, such as apartments."
+    },
+    {
+      "term": "DPA",
+      "full": "Down Payment Assistance",
+      "definition": "Grants or loans that help a homebuyer cover the down payment, and sometimes closing costs."
+    },
+    {
+      "term": "MCC",
+      "full": "Mortgage Credit Certificate",
+      "definition": "A federal tax credit for part of the mortgage interest a qualifying homebuyer pays each year."
     }
   ]
 }
