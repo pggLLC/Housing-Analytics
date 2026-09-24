@@ -1,0 +1,131 @@
+name: CHFA QAP Watch
+# Weekly check of CHFA's Housing Tax Credit QAP pages. Records every linked
+# document (QAP, summary of changes, redline, amendments) with a content hash,
+# keeps the extracted text of the QAP documents in
+# data/audit/chfa-qap-watch.json, and opens or updates a tracking issue when a
+# document is added, changed or removed, when the dates or dollar amounts on a
+# QAP page change, or when CHFA cannot be reached.
+#
+# Why the text is committed: Claude Code sessions may run behind an egress
+# policy that does not allow chfainfo.com. GitHub Actions can reach it, so the
+# text lands in the repo where any session can read it.
+#
+# Mirrors upstream-vintage-watch.yml. The file is only rewritten when
+# something besides timestamps changed, so a quiet week adds no commit.
+on:
+  schedule:
+    - cron: '21 5 * * 3'   # Wednesdays 05:21 UTC (lands ~02:30 MT with GitHub's usual delay)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: chfa-qap-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+
+      - name: Install PDF parser
+        run: python3 -m pip install --quiet pypdf==5.1.0
+
+      - name: Run QAP watcher
+        run: python3 scripts/audit/chfa_qap_watch.py --summary "$RUNNER_TEMP/chfa-qap-run.json"
+
+      - name: Open / update tracking issue
+        uses: actions/github-script@v9
+        env:
+          RUN_SUMMARY: ${{ runner.temp }}/chfa-qap-run.json
+        with:
+          script: |
+            const fs = require('fs');
+            const run = JSON.parse(fs.readFileSync(process.env.RUN_SUMMARY, 'utf8'));
+            const c = run.changes || {};
+            const failures = run.fetch_failures || [];
+            if (!run.has_changes && failures.length === 0) {
+              core.info('No QAP changes and no fetch failures.');
+              return;
+            }
+            const MARKER = '<!-- chfa-qap-watch-tracker -->';
+            const fence = (lines) => lines && lines.length ? '```\n' + lines.slice(0, 30).join('\n') + '\n```' : '_none_';
+            const parts = [MARKER, '', `# CHFA QAP watch: ${run.generated_at}`, ''];
+            if (c.baseline) {
+              parts.push('Baseline recorded. The current QAP documents and their text are now in `data/audit/chfa-qap-watch.json`.', '');
+            }
+            for (const d of c.new_documents || []) {
+              parts.push(`## New document: [${d.title}](${d.url})`, '', 'Lines with amounts or limits:', fence(d.key_lines), '');
+            }
+            for (const d of c.changed_documents || []) {
+              parts.push(`## Changed: [${d.title}](${d.url})`, '',
+                'Lines added:', fence(d.key_lines && d.key_lines.added), '',
+                'Lines removed:', fence(d.key_lines && d.key_lines.removed), '');
+            }
+            for (const d of c.removed_documents || []) {
+              parts.push(`## Removed from CHFA's pages: [${d.title}](${d.url})`, '');
+            }
+            for (const p of c.changed_pages || []) {
+              parts.push(`## Dates or amounts changed on [${p.id}](${p.url})`, '',
+                'Added:', fence(p.key_lines && p.key_lines.added), '',
+                'Removed:', fence(p.key_lines && p.key_lines.removed), '');
+            }
+            if (failures.length) {
+              parts.push(run.all_fetches_failed
+                ? '## CHFA could not be reached. Nothing was updated.'
+                : '## Some CHFA addresses failed');
+              parts.push('', ...failures.map(f => `- ${f.url}: ${f.error}`), '');
+            }
+            parts.push('## Next steps', '',
+              '- Read the change in CHFA\'s PDF before relying on it. The text in the watch file is machine-extracted.',
+              '- Check `data/chfa-qap-calendar.json` and `data/policy/tax-credit-legislation.json` against it.',
+              '',
+              `<sub>Managed by [chfa-qap-watch.yml](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/main/.github/workflows/chfa-qap-watch.yml). Close this issue once the change has been reviewed.</sub>`);
+            const body = parts.join('\n').slice(0, 60000);
+            const { data: open } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100,
+            });
+            const existing = open.find(i => i.body && i.body.includes(MARKER));
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: run.all_fetches_failed ? 'CHFA QAP watch could not reach CHFA' : 'CHFA QAP documents changed',
+                body,
+              });
+            }
+
+      - name: Commit refreshed watch result
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          python3 scripts/rebuild_manifest.py
+          git add data/audit/chfa-qap-watch.json data/manifest.json
+          if git diff --cached --quiet; then
+            echo "No change to commit."
+            exit 0
+          fi
+          git commit -m "chore: refresh chfa-qap-watch $(date -u +'%Y-%m-%d')"
+          # Rebase onto current main rather than merging with -s ours (F119):
+          # a real conflict must surface in the job log, not be discarded.
+          git fetch origin main
+          git rebase --autostash origin/main
+          python3 scripts/rebuild_manifest.py
+          if ! git diff --quiet -- data/manifest.json; then
+            git add data/manifest.json
+            git commit --amend --no-edit
+          fi
+          git push
