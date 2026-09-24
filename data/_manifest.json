@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T13:56:45.126Z",
+    "generated_at": "2026-09-24T14:01:20.952Z",
     "root": "data/",
     "file_count": 1617,
-    "total_size_bytes": 158988250,
+    "total_size_bytes": 158988274,
     "kinds": {
       "json": 1582,
       "geojson": 31,
@@ -1470,8 +1470,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 23182,
-      "mtime": "2026-09-24T13:10:49.644Z",
+      "size_bytes": 23206,
+      "mtime": "2026-09-24T14:01:09.820Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30423,7 +30423,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205098,
-      "mtime": "2026-09-24T13:56:38.298Z",
+      "mtime": "2026-09-24T13:56:48.379Z",
       "shape": "object",
       "keys": [
         "generated",

@@ -289,7 +289,7 @@
     {
       "term": "CLT",
       "full": "Community Land Trust",
-      "definition": "A nonprofit that owns land permanently and leases it to the owners of the homes built on it. Because the land is left out of the purchase price, the home costs less; in return, a resale formula limits what the owner can sell it for so it stays affordable for the next buyer."
+      "definition": "A nonprofit that owns land permanently and leases it to the owners of the homes built on it. Because the land is left out of the purchase price, the home costs less; in return, a resale formula limits what the owner can sell it for, aiming to keep it affordable for the next buyer."
     },
     {
       "term": "HAMFI",
@@ -319,7 +319,7 @@
     {
       "term": "recapture",
       "full": "Subsidy Recapture",
-      "definition": "Repayment of public homebuyer assistance when a home is sold, so the money can help another buyer. It is an alternative to capping the resale price."
+      "definition": "Repayment of public homebuyer assistance when a home is sold, so the money can help another buyer. Programs use it on its own or together with a capped resale price."
     }
   ]
 }
