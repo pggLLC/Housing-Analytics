@@ -18,4 +18,8 @@ Mount:  Looks for an element with id="workflowNextAction" on the page.
 
 Depends on: workflow-state-core.js, workflow-state-api.js
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `canon()`
+
+{keys, labels, urls} from the rail, resolved once the rail has loaded.
