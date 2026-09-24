@@ -194,3 +194,21 @@ test('the committed data renders newest first, every story reachable', async () 
   const advertised = Number((doc.getElementById('newsCount').textContent.match(/^(\d+)/) || [])[1]);
   assert.equal(dates.length, advertised, 'the header count and the stories a reader can reach disagree');
 });
+
+test('every control the page renders has a 44px touch target (rule 14)', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  doc.querySelector('.news-chip').click(); // renders the Clear control too
+  const css = [...doc.querySelectorAll('style')].map((s) => s.textContent).join('\n');
+  const rulesFor = (sel) => [...css.matchAll(/([^{}]+)\{([^}]*)\}/g)]
+    .filter(([, sels]) => sels.split(',').some((x) => x.trim() === sel)).map(([, , body]) => body);
+  const controls = [...doc.querySelectorAll('.news-toolbar button, .news-toolbar input, .news-toolbar select, #newsRiver button')];
+  assert.ok(controls.length >= 3, 'the scan found almost no controls; this guard would pass vacuously');
+  const missing = controls.filter((el) => {
+    const sels = [...el.classList].map((c) => '.' + c);
+    if (el.closest('.news-search') && el.tagName === 'INPUT') sels.push('.news-search input');
+    if (el.closest('.news-place') && el.tagName === 'SELECT') sels.push('.news-place select');
+    return !sels.some((sel) => rulesFor(sel).some((body) => /min-height:\s*44px/.test(body)));
+  }).map((el) => el.outerHTML.slice(0, 80));
+  assert.deepEqual(missing, [], 'controls below the 44px minimum');
+});
