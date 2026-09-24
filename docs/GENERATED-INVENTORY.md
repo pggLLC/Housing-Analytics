@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T01:11:27.712Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T01:35:30.659Z. Do not edit by hand.
 
 ---
 
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-392 test files found.
+393 test files found.
 
 | File | Size |
 |------|------|
@@ -1809,6 +1809,7 @@
 | `test/hna-home-value-cascade.test.js` | 16.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
+| `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
