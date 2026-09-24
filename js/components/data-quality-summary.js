@@ -37,7 +37,7 @@
     degraded:    { label: 'Degraded',    icon: '▲', cls: 'dqs-warn' },
     fallback:    { label: 'Fallback',    icon: '◆', cls: 'dqs-warn' },
     unavailable: { label: 'Unavailable', icon: '✕', cls: 'dqs-error' },
-    stub:        { label: 'Snapshot only', icon: '◇', cls: 'dqs-warn' }
+    stub:        { label: 'Partial snapshot', icon: '◇', cls: 'dqs-warn' }
   };
 
   /* ── HTML escaping ───────────────────────────────────────────────── */
