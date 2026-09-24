@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T13:12:37.610Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T13:30:39.315Z. Do not edit by hand.
 
 ---
 
@@ -899,7 +899,7 @@
 | `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 702.7 KB | ✅ | — |
-| `data/hna/permits.json` | 243.2 KB | ✅ | — |
+| `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
 | `data/hna/place-decade-trends.json` | 154.7 KB | ✅ | — |
@@ -1671,7 +1671,7 @@
 
 ## Test Files
 
-395 test files found.
+396 test files found.
 
 | File | Size |
 |------|------|
@@ -1903,6 +1903,7 @@
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
+| `test/permit-declared-value.test.mjs` | 5.9 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
