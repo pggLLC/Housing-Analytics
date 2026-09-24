@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T20:44:01.801Z",
+    "generated_at": "2026-09-24T21:27:24.538Z",
     "root": "data/",
-    "file_count": 1618,
-    "total_size_bytes": 159072878,
+    "file_count": 1619,
+    "total_size_bytes": 159083784,
     "kinds": {
-      "json": 1583,
+      "json": 1584,
       "geojson": 31,
       "csv": 4
     }
@@ -30422,8 +30422,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205224,
-      "mtime": "2026-09-24T19:28:53.728Z",
+      "size_bytes": 205344,
+      "mtime": "2026-09-24T21:26:36.363Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32187,6 +32187,34 @@
       "primary_array_key": null,
       "primary_array_length": null,
       "primary_array_first_keys": null
+    },
+    {
+      "path": "policy/policy-watch.json",
+      "kind": "json",
+      "size_bytes": 10786,
+      "mtime": "2026-09-24T21:27:22.895Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries"
+      ],
+      "key_count": 3,
+      "primary_array_key": "entries",
+      "primary_array_length": 6,
+      "primary_array_first_keys": [
+        "id",
+        "section",
+        "status",
+        "date",
+        "title",
+        "detail",
+        "programs",
+        "source",
+        "verification",
+        "evidence",
+        "not_in_source"
+      ]
     },
     {
       "path": "policy/prop123_jurisdictions.json",
