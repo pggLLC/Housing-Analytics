@@ -1375,7 +1375,7 @@
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Gross building area (SF)
             <span style="opacity:.7">&mdash; optional</span></span>
-          <input id="dc-gross-sf" type="number" min="0" step="1000" aria-describedby="dc-gross-sf-help"
+          <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="not entered" aria-describedby="dc-gross-sf-help"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
           <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
             Total constructed area including circulation and common space &mdash; not the sum of unit sizes. Enter it to see cost per square foot.</span>
