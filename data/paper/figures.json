@@ -1,10 +1,10 @@
 {
-  "generated_from_commit": "14854c714",
+  "generated_from_commit": "84f675a34",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
     "last_commit": "2026-09-24",
-    "total_commits": 7019,
+    "total_commits": 7020,
     "partial_month": "2026-09",
     "commits_by_month": [
       {
@@ -44,8 +44,8 @@
       },
       {
         "month": "2026-09",
-        "commits": 851,
-        "pct_of_peak": 62.3
+        "commits": 852,
+        "pct_of_peak": 62.4
       }
     ]
   },
@@ -53,17 +53,17 @@
     "places_with_chas": 482,
     "html_pages_toplevel": 64,
     "html_pages_total": 558,
-    "workflows": 71,
-    "scripts": 266,
+    "workflows": 72,
+    "scripts": 267,
     "docs": 480,
-    "data_files": 1656,
+    "data_files": 1657,
     "geographies": 546,
     "counties": 64,
     "incorporated_places": 272,
     "cdps": 210,
     "place_pages": 484,
-    "scheduled_workflows": 59,
-    "test_files": 352,
+    "scheduled_workflows": 60,
+    "test_files": 353,
     "absence_test_cases": 148,
     "absence_tests": 54,
     "lihtc_features": 926
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 358943,
+    "hand_written_lines": 359776,
     "generated_place_page_lines": 226824,
     "top_level_pages": 64,
     "html_nonblank_lines": 47698,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "14854c714",
+    "extracted_at_commit": "84f675a34",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {

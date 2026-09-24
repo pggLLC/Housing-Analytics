@@ -1,0 +1,18 @@
+{
+ "schema": "chfa-qap-watch/1",
+ "generated_at": null,
+ "note": "Written by scripts/audit/chfa_qap_watch.py (weekly, .github/workflows/chfa-qap-watch.yml). Not yet run: the first run records the current CHFA QAP documents and their text as a baseline.",
+ "source_pages": [],
+ "documents": [],
+ "changes": {
+  "baseline": false,
+  "new_documents": [],
+  "changed_documents": [],
+  "removed_documents": [],
+  "changed_pages": []
+ },
+ "has_changes": false,
+ "fetch_failures": [],
+ "extraction_failures": [],
+ "all_fetches_failed": false
+}
