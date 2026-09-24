@@ -2092,7 +2092,8 @@ html.dark-mode .wf-next-action--next .wf-next-action__cta { color: #0a0f1d; }
   color: var(--accent);
   border: 1px solid var(--accent);
 }
-.wf-next-action--current .wf-next-action__cta:hover { background: var(--accent); color: #fff; }
+.wf-next-action--current .wf-next-action__cta:hover { background: var(--accent); color: var(--on-accent, #fff); }
+html.dark-mode .wf-next-action--current .wf-next-action__cta:hover { color: #0a0f1d; }
 .wf-next-action--skipped .wf-next-action__cta {
   /* F132 — was `color: #fff !important` on var(--warn). White on amber
      #d97706 light = 2.5:1; on yellow #fbbf24 dark = 1.4:1. Now use a
