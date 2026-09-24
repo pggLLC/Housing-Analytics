@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T14:01:20.952Z",
+    "generated_at": "2026-09-24T14:15:49.008Z",
     "root": "data/",
     "file_count": 1617,
     "total_size_bytes": 158988274,
@@ -29296,7 +29296,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 1348,
-      "mtime": "2026-09-24T13:56:29.581Z",
+      "mtime": "2026-09-24T14:15:40.006Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30423,7 +30423,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205098,
-      "mtime": "2026-09-24T13:56:48.379Z",
+      "mtime": "2026-09-24T14:15:46.824Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31777,7 +31777,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14677,
-      "mtime": "2026-09-24T13:56:29.591Z",
+      "mtime": "2026-09-24T14:15:40.008Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31800,7 +31800,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-24T13:56:29.591Z",
+      "mtime": "2026-09-24T14:15:40.008Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
