@@ -3357,14 +3357,15 @@
   // announcement, seen on production after a homepage map click. Loads are now
   // serialized: a call waits for the one in flight, so the LAST geography
   // requested is always the one on screen.
-  let _updateChain = Promise.resolve();
-  function update(){
-    const run = _updateChain.then(() => _updateImpl());
-    _updateChain = run.catch(() => {});
-    return run;
-  }
-
-  async function _updateImpl(){
+  // Serialized inside update() itself (not a wrapper) because other guards
+  // read update()'s body from source to check what it calls.
+  let _updateGate = Promise.resolve();
+  async function update(){
+    const previous = _updateGate;
+    let release;
+    _updateGate = new Promise(function (r) { release = r; });
+    await previous;
+    try {
     var ws = document.getElementById('hnaWaitingState');
     if (ws) ws.style.display = 'none';
     window.HNARenderers.showAllChartsLoading();
@@ -4082,6 +4083,9 @@
 
     // Hide all chart loading overlays now that rendering is complete (Recommendation 3.1)
     window.HNARenderers.hideChartLoading();
+      } finally {
+      release();
+    }
   }
 
 

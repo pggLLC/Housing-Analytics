@@ -46,12 +46,15 @@ run('the HNA pages hide their live region with a class the global stylesheet def
   assert.equal(cs.width, '1px');
 });
 
-run('HNA loads are serialized: update() queues behind the run in flight', () => {
+run('HNA loads are serialized: update() waits for the run in flight and releases when done', () => {
   const src = read('js/hna/hna-controller.js');
-  assert.match(src, /let _updateChain = Promise\.resolve\(\);/, 'a chain promise exists');
-  assert.match(src, /function update\(\)\{\s*const run = _updateChain\.then\(\(\) => _updateImpl\(\)\);\s*_updateChain = run\.catch\(\(\) => \{\}\);\s*return run;\s*\}/, 'update() chains onto it and returns the run');
-  assert.match(src, /async function _updateImpl\(\)\{/, 'the real load is the implementation');
-  assert.equal((src.match(/async function update\(\)/g) || []).length, 0, 'no second, unserialized update()');
+  const start = src.indexOf('  async function update(){');
+  assert.ok(start > -1, 'update() exists under its own name (other guards read its body)');
+  const body = src.slice(start, start + 600);
+  assert.match(body, /const previous = _updateGate;/, 'takes the gate');
+  assert.match(body, /_updateGate = new Promise\(function \(r\) \{ release = r; \}\);/, 'installs a new gate for the next caller');
+  assert.match(body, /await previous;\s*try \{/, 'waits for the previous run before doing anything, inside try');
+  assert.match(src, /\} finally \{\s*release\(\);\s*\}\s*\n\s*\}/, 'releases the gate in finally, so a failed load cannot block the next');
 });
 
 run('the first-county fallback only fires when nothing was restored', () => {
