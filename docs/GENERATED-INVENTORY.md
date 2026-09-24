@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T14:15:43.887Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T21:48:01.258Z. Do not edit by hand.
 
 ---
 
@@ -32,18 +32,18 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.9 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.0 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.4 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.3 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.5 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.4 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.5 KB |
 | `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 140.7 KB |
 | `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.8 KB |
 | `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
@@ -70,7 +70,7 @@
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
 | `regional.html` | Regional Analysis | COHO Analytics | 26.7 KB |
 | `search.html` | Search · Colorado Affordable Housing Data Reference | 4.2 KB |
-| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
+| `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.6 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
 | `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.2 KB |
@@ -79,11 +79,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1583 JSON files found.
+1585 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 764.3 KB | ✅ | — |
+| `data/_manifest.json` | 765.5 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -99,6 +99,7 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 172.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 537 B | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
@@ -141,7 +142,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.19 MB | ✅ | — |
-| `data/glossary.json` | 20.7 KB | ✅ | — |
+| `data/glossary.json` | 27.8 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
@@ -1573,7 +1574,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 200.3 KB | ✅ | — |
+| `data/manifest.json` | 200.5 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1646,6 +1647,7 @@
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
+| `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 142.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 17.4 KB | ✅ | — |
@@ -1671,7 +1673,7 @@
 
 ## Test Files
 
-398 test files found.
+406 test files found.
 
 | File | Size |
 |------|------|
@@ -1746,12 +1748,17 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 16.4 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
+| `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
+| `test/deal-calc-permit-cost-context.test.js` | 4.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
+| `test/deal-calc-unit-size-derivation.test.js` | 10.2 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
 | `test/deal-calculator-glossary.test.js` | 3.3 KB |
 | `test/deal-tracker-wording.test.js` | 7.6 KB |
 | `test/decision-tiles-never-rest-on-loading.test.mjs` | 6.0 KB |
+| `test/deep-dive-hmda-loads-on-page-load.test.js` | 3.3 KB |
+| `test/dependency-overrides-hold.test.mjs` | 4.6 KB |
 | `test/developable-land-context.test.js` | 6.5 KB |
 | `test/developer-brief-hna.test.js` | 1.3 KB |
 | `test/developer-geoids.test.js` | 6.6 KB |
@@ -1787,6 +1794,7 @@
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 6.6 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
+| `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
@@ -1875,7 +1883,7 @@
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 2.6 KB |
 | `test/market-study-page.test.js` | 17.5 KB |
-| `test/market-study-report.test.js` | 12.8 KB |
+| `test/market-study-report.test.js` | 17.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
@@ -2026,6 +2034,7 @@
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
+| `test/walkthrough-record.test.mjs` | 6.6 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
@@ -2054,6 +2063,7 @@
 | `tests/test_build_place_decade_trends.py` | 27.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
+| `tests/test_chfa_qap_watch.py` | 14.4 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
@@ -2078,7 +2088,7 @@
 
 ## GitHub Actions Workflows
 
-71 workflow files found.
+72 workflow files found.
 
 | File | Size |
 |------|------|
@@ -2095,7 +2105,8 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/ci-checks.yml` | 16.0 KB |
+| `.github/workflows/chfa-qap-watch.yml` | 7.1 KB |
+| `.github/workflows/ci-checks.yml` | 16.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |

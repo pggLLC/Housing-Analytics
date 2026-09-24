@@ -325,8 +325,12 @@
         body += ' <span class="wf-next-action__advisory">Optional context not yet run: ' + names.join(', ') +
           ' (<a href="' + STEP_URLS[skippedContext[0]] + '">open ' + STEP_LABELS[skippedContext[0]] + '</a>). Results here do not depend on it.</span>';
       }
-      actionUrl   = null;
-      actionLabel = null;
+      // #1837 F3: from step 4 on, "what do I do next" had no forward control;
+      // the only link in this state was the optional-context one, which points
+      // BACK. The route must always offer the next step, whether or not this
+      // one has been marked done — no later step needs this one's output.
+      actionUrl   = nextAfterCurrent ? STEP_URLS[nextAfterCurrent] : null;
+      actionLabel = nextAfterCurrent ? 'Go on to ' + STEP_LABELS[nextAfterCurrent] + ' \u2192' : null;
 
     } else {
       // Edge case: hide

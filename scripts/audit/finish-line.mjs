@@ -58,6 +58,8 @@ const ROUTE_SOURCE = 'js/components/workflow-progress.js';
  * twelve hard-coded rails to each other, so reading the component reads what
  * the pages actually render.
  */
+import { readWalkthrough } from './walkthrough-record.mjs';
+
 export const GUIDED_PATH = readGuidedPath();
 
 function readGuidedPath() {
@@ -70,6 +72,7 @@ function readGuidedPath() {
 }
 
 const PASS = 'PASS', OPEN = 'OPEN', UNMEASURED = 'UNMEASURED';
+const WALKTHROUGH_DIR = path.join(ROOT, 'docs/walkthroughs');
 
 /**
  * Decide G1 from a route and a file-existence oracle.
@@ -124,10 +127,18 @@ export function measure({ runTests = false } = {}) {
   // Whether a novice can actually FINISH the path is a human judgement about
   // comprehension. It is not derivable from the repo, and pretending otherwise
   // is how "shipped" gets mistaken for "works".
-  add('G3', 'Guided path', UNMEASURED,
-    'no walkthrough recorded — needs one person, unfamiliar with the tool, completing all '
-      + (GUIDED_PATH.length || 'of the') + ' steps',
-    'requires a human');
+  //
+  // So this does not judge — it reads a record of a judgement someone made.
+  // It was hardcoded UNMEASURED until 2026-09-24, which was honest but left a
+  // walkthrough that DID happen with nowhere to land, and meant the finish
+  // line could never reach a full count however much real work was done.
+  //
+  // A negative verdict is a complete record, not a missing one: it reports
+  // OPEN with the reader's own blockers. A form that can only express success
+  // is the defect this repo keeps removing. See walkthrough-record.mjs for
+  // what a record has to contain and why.
+  const walk = readWalkthrough(WALKTHROUGH_DIR, GUIDED_PATH);
+  add('G3', 'Guided path', walk.state, walk.detail, walk.record || 'requires a human');
 
   /* ── The correctness floor ────────────────────────────────────────────── */
 

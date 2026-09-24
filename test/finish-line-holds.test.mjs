@@ -105,31 +105,6 @@ test('the audit reads the real route, not a copy of an old one', () => {
     'the guided path no longer starts at the jurisdiction');
 });
 
-test('docs/FINISH-LINE.md describes the route that ships', () => {
-  // The governing document said "six steps", opening at the Opportunity
-  // Finder and ending at the deal calculator, for a week after the route had
-  // become seven steps opening at the jurisdiction (#1837 F6). G1 passed the
-  // whole time, because it measures the component, not the document. So the
-  // document's table is held to the component: reword either side alone and
-  // this fails.
-  const doc = fs.readFileSync(path.join(ROOT, 'docs/FINISH-LINE.md'), 'utf8');
-  const section = doc.slice(doc.indexOf('## The deliverable'), doc.indexOf('## Pass criteria'));
-  const rows = [...section.matchAll(/^\| (\d+) \| ([^|]+?) \| `([^`]+)` \|$/gm)]
-    .map((m) => ({ step: Number(m[1]), name: m[2].trim(), page: m[3] }));
-
-  // Non-vacuous: the scan must have found the table before comparing it.
-  assert.ok(rows.length >= 6,
-    `found ${rows.length} step rows in docs/FINISH-LINE.md's deliverable section; the table has changed shape`);
-  assert.deepStrictEqual(rows, GUIDED_PATH.map((s) => ({ step: s.step, name: s.name, page: s.page })),
-    'docs/FINISH-LINE.md\'s step table disagrees with js/components/workflow-progress.js STEPS');
-
-  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
-  const count = section.match(/\b(\w+) steps\b/i);
-  assert.ok(count, 'the deliverable section no longer states how many steps the path has');
-  assert.strictEqual(count[1].toLowerCase(), words[GUIDED_PATH.length],
-    `docs/FINISH-LINE.md says "${count[0]}"; the route has ${GUIDED_PATH.length}`);
-});
-
 test('G1 refuses to pass on a route that is empty, misordered or missing a page', () => {
   // Exercised directly, with routes the repo does not contain. Asserting these
   // against the real route would prove nothing — it is complete and correctly

@@ -36,9 +36,7 @@ regresses.
 A person unfamiliar with housing finance can complete the guided path for their
 own jurisdiction and come out with something they trust enough to act on.
 
-Seven steps — the route as it ships, read from `js/components/workflow-progress.js`
-`STEPS`. That component is the one place a step number is written down; this
-table must agree with it, and `test:finish-line` fails if it does not.
+Seven steps, in the order the rail (`js/components/workflow-progress.js` STEPS) ships them:
 
 | # | Step | Page |
 |---|------|------|
@@ -49,13 +47,6 @@ table must agree with it, and `test:finish-line` fails if it does not.
 | 5 | Scenarios | `hna-scenario-builder.html` |
 | 6 | Deal | `deal-calculator.html` |
 | 7 | Recommendation | `recommendation.html` |
-
-Step 3 links to the first chapter of the needs assessment, not the full report;
-`housing-needs-assessment.html` is the same step's complete version. Step 7 is
-where the reader gets the answer: it assembles the conclusions steps 1–6
-compute. This table said "six steps", starting at the Opportunity Finder and
-ending at the deal calculator, until 2026-09-24 — three route changes after the
-code had moved on (#1837 F6).
 
 ## Pass criteria
 

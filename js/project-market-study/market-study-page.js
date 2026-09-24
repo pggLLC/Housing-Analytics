@@ -79,6 +79,22 @@
   function pill(value) { return ProvenanceLabel.html(typeof value === 'object' ? value : { classification: value }, { compact: true }); }
   function provenance(value) { return ProvenanceLabel.html(value); }
   function caveat() { return '<p class="ms-caveat">Screening arithmetic for analyst review; verify source evidence and owner inputs before project use.</p>'; }
+  // Plain-language labels live in market-study-report.js so the page and the
+  // downloaded report describe every field the same way.
+  // Looked up at call time: this factory also runs once before the report
+  // module is loaded (the bare-global pass in Node).
+  function humanize(id) { return MarketStudyReport.humanize(id); }
+  function plainLabel(group, id) {
+    var labels = MarketStudyReport.PLAIN_LABELS[group];
+    return (labels && labels[id]) || humanize(id);
+  }
+  function stageLabel(id) { return plainLabel('stages', id); }
+  function affordabilityAnswer(item) {
+    if (typeof item.preservesAffordability !== 'boolean') return noviceText(item.preservesAffordabilityLabel);
+    return (item.preservesAffordability ? '<strong>Yes</strong> — ' : '<strong>No</strong> — ') + noviceText(item.preservesAffordabilityLabel);
+  }
+  function plain(text) { return `<p class="ms-plain"><strong>In plain terms:</strong> ${text}</p>`; }
+  function heading(text, term) { return `<h2>${text}${term ? ` <span class="ms-term">(${term})</span>` : ''}</h2>`; }
   function marketPathLabel(value) { return value.replace(/\s+—\s+scenario, not a prediction$/, ''); }
   function assistanceForBand(scenario, band) {
     return scenario.assistance_ranges.find(function (item) {
@@ -184,20 +200,21 @@
       return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td class="ms-affordability-gap"><strong>${display(row.gapVsLocalPrice, 'money')}</strong></td><td>${assistanceFinding(row, assistance)}</td><td>${pill(row)}</td></tr>`;
     });
     var partners = model.scenario.partners.map(function (partner) {
-      return `<li><strong>${partner.role}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
+      return `<li><strong>${humanize(partner.role)}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
     }).join('');
-    return `<section id="ms-s1" class="chart-card ms-section"><h2>1. Scenario selector and program comparison</h2><label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Units', 'Type', 'Size', 'Evidence'], mixRows, 'Unit mix')}${table(['Units', 'AMI band', 'Max affordable price', 'Gap vs local price', 'Assistance remaining gap', 'Evidence'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>TDC-dependent fields</h3><p>TDC per unit: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Subsidy per unit: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Values still needed:</strong> ${model.scenario.meta.owner_inputs_pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    var pending = model.scenario.meta.owner_inputs_pending;
+    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p><p class="ms-caveat">Values still needed: ${pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
   function renderLand(model) {
     var rows = model.landOutcomes.map(function (item) {
       var fields = Object.keys(item.row.assessments).map(function (key) {
         var field = item.row.assessments[key];
-        return `<li><strong>${key}</strong>: ${field.value} ${provenance(field)}</li>`;
+        return `<li><strong>${plainLabel('landFields', key)}</strong>: ${humanize(field.value)} ${provenance(field)}</li>`;
       }).join('');
-      return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong>' : ''}</p><p>Initial per-unit affordability benefit: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Monthly housing cost at year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>15 assessment fields</summary><ul>${fields}</ul></details></article>`;
+      return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong> — an idea to check, not a finding' : ''}</p><p>Upfront price reduction per home: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Buyer's monthly housing cost in year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>What this option means in practice (15 questions)</summary><ul>${fields}</ul></details></article>`;
     }).join('');
-    return `<section id="ms-s2" class="chart-card ms-section"><h2>2. Land-disposition comparison</h2><p>Rows remain in policy-dataset order. Dollar figures below are direct lifecycle-engine outputs using the disclosed screening inputs.</p><div class="ms-card-grid">${rows}</div></section>`;
+    return `<section id="ms-s2" class="chart-card ms-section">${heading('2. What to do with the land', 'land-disposition comparison')}${plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Open each card to see the trade-offs.')}<p class="ms-caveat">The options are listed in a fixed order, not ranked. Dollar figures are calculated from the same example assumptions for every option.</p><div class="ms-card-grid">${rows}</div></section>`;
   }
 
   function renderConventions(model) {
@@ -208,11 +225,11 @@
     var cards = model.conventionResults.map(function (result) {
       var rows = HORIZONS.map(function (year) {
         var item = result.results[year];
-        return `<tr><td>${display(year)} years</td><td>${display(item.ownerNetProceeds, 'money')}</td><td>${display(item.appraisalConstrainedPrice, 'money')}</td><td>${display(item.nextBuyerMaxAffordablePrice, 'money')}</td><td>${noviceText(item.preservesAffordabilityLabel)}</td></tr>`;
+        return `<tr><td>${display(year)} years</td><td>${display(item.ownerNetProceeds, 'money')}</td><td>${display(item.appraisalConstrainedPrice, 'money')}</td><td>${display(item.nextBuyerMaxAffordablePrice, 'money')}</td><td>${affordabilityAnswer(item)}</td></tr>`;
       });
-      return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${provenance(result)}</p><p>${result.scenarioLabel}</p>${table(['Horizon', 'Owner net proceeds', 'Restricted resale price', 'Next-buyer capacity', 'Affordability outcome'], rows, `${result.conventionLabel} outcomes`)}</article>`;
+      return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${provenance(result)}</p><p>${result.scenarioLabel}</p>${table(['Years owned', 'Seller walks away with (net proceeds)', 'Capped resale price', 'Most the next buyer could pay', 'Still affordable to the next buyer?'], rows, `${result.conventionLabel} outcomes`)}</article>`;
     }).join('');
-    return `<section id="ms-s3" class="chart-card ms-section"><h2>3. Shared-equity conventions</h2><label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span><div class="ms-card-grid">${cards}</div></section>`;
+    return `<section id="ms-s3" class="chart-card ms-section">${heading('3. What happens when an owner sells', 'shared-equity resale formulas')}${plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the last column checks whether it does. Each card below is one common formula. Compare two things: what the seller walks away with, and whether the capped price is still within reach of the next buyer. The market path menu sets one yearly rate that home values, incomes and inflation all follow, so it moves the resale price and what the next buyer can pay together.')}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span><div class="ms-card-grid">${cards}</div></section>`;
   }
 
   function renderSettlement(model) {
@@ -228,31 +245,32 @@
     });
     var warning = model.settlement.ownerNetTransparencyWarning
       ? `<div class="ms-warning" role="alert" data-transparency-warning="visible"><strong>Owner-net transparency warning:</strong> ${model.settlement.ownerNetTransparencyNote}</div>` : '';
-    return `<section id="ms-s4" class="chart-card ms-section"><h2>4. Resale settlement viewer</h2><div class="ms-controls"><label>Convention <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
+    return `<section id="ms-s4" class="chart-card ms-section">${heading('4. Where the money goes at resale', 'resale settlement')}${plain('pick a resale formula and a year to follow one sale line by line: selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. A shortfall means there was not enough money to pay that line in full.')}<div class="ms-controls"><label>Resale formula <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
   }
 
   function renderFunnel(model) {
     var rows = model.funnel.stages.map(function (stage) {
       if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
       var assumption = model.assumptions[stage.id];
-      return `<tr><td>${stage.id.replace(/_/g, ' ')}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stage.id.replace(/_/g, ' ')} share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
+      return `<tr><td>${stageLabel(stage.id)}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stageLabel(stage.id)} — share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
     });
-    var howTo = `<div class="ms-warning"><strong>How this funnel works:</strong> the Starting pool row above is computed for you from public CHAS data — nothing to enter there. Each stage below it multiplies the running total by the share you type in, top to bottom, in order. This is strict and sequential: the moment ANY stage is left blank, that stage and every stage after it — including the final effective-demand number — go unavailable too, even if you go on to fill in later stages. There is no way to get a partial answer; the chain has to be unbroken from top to bottom. Deliberately no default values are pre-filled — each "Evidence basis" cell in the last column says what kind of local source that share should come from (buyer surveys, lender or broker records, comparable-project data); this tool will not guess numbers a study is supposed to be the one to supply.</div>`;
-    return `<section id="ms-s5" class="chart-card ms-section"><h2>5. Effective-demand funnel</h2>${howTo}<p><strong>Owner inputs pending:</strong> session-only shares; reload clears every entry. No values are stored.</p><p><strong>Unresolved stages (blocking the funnel from this point down):</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.join(', ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
+    var howTo = `<div class="ms-warning"><strong>How to fill this in:</strong> the first row, the starting pool, is filled in for you from public HUD data (CHAS). For each row after it, type the share of the remaining households that pass that step, as a decimal — 0.5 means half. Each step shrinks the pool, top to bottom. If a row is left blank, every row below it stays blank too, because the page will not guess. The <em>Evidence basis</em> column says where a real share should come from: buyer surveys, lender or broker records, or results from similar projects.</div>`;
+    return `<section id="ms-s5" class="chart-card ms-section">${heading('5. How many local households could buy', 'effective-demand funnel')}${plain('this starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups. It is a potential pool, not committed buyers. Each step below narrows it by a share you supply, so the result is only as good as the evidence behind those shares.')}${howTo}<p class="ms-caveat">Nothing you type is saved — reloading the page clears it.</p><p><strong>Steps still blank:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.map(stageLabel).join('; ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
   }
 
   function figure(value, kind) {
-    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${noviceText(value.denominator.basis)}</span></span>`;
+    var shown = unavailable(value.value) && value.denominator.value === 0 ? 'None — the pool is empty' : display(value.value, kind);
+    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
-      return `<tr><td>${item.scenarioLabel}</td><td>${MarketStudyReport.formatSchedule(item.monthlyClosings, model.scenario.program.total_units.value)}</td><td>${MarketStudyReport.formatAnnualClosings(item.annualClosings)}</td><td>${MarketStudyReport.formatAnnualCapture(item.annualCaptureRate)}</td><td>${figure(item.totalProjectPenetration, 'rate')}</td><td>${figure(item.grossContractsNeeded)}</td><td>${String(item.poolDepletionModeled)}</td></tr>`;
+      return `<tr><td>${item.scenarioLabel}</td><td>${MarketStudyReport.formatSchedule(item.monthlyClosings, model.scenario.program.total_units.value)}</td><td>${MarketStudyReport.formatAnnualClosings(item.annualClosings)}</td><td>${MarketStudyReport.formatAnnualCapture(item.annualCaptureRate)}</td><td>${figure(item.totalProjectPenetration, 'rate')}</td><td>${figure(item.grossContractsNeeded)}</td><td>${item.poolDepletionModeled ? 'Yes' : 'No'}</td></tr>`;
     });
     var amiRows = Object.keys(model.capture.captureByAmiBand).map(function (key) {
       var item = model.capture.captureByAmiBand[key];
-      return `<tr><td>${key}</td><td>${display(item.numerator)}</td><td>${figure(item, 'rate')}</td><td>${item.reason || ''}</td></tr>`;
+      return `<tr><td>${key}</td><td>${display(item.numerator)}</td><td>${figure(item, 'rate')}</td><td>${MarketStudyReport.plainReason(item.reason)}</td></tr>`;
     });
-    return `<section id="ms-s6" class="chart-card ms-section"><h2>6. Capture scenarios</h2>${table(['Pace', 'Monthly closings', 'Annual closings', 'Annual capture and denominator', 'Project penetration and denominator', 'Gross contracts and denominator', 'Pool depletion included'], scenarioRows, 'Capture scenarios')}${table(['AMI band', 'Scenario units', 'Capture and denominator', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Competitive-supply limitation:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Capture humility:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
+    return `<section id="ms-s6" class="chart-card ms-section">${heading('6. How fast the homes might sell', 'capture scenarios')}${plain('given the estimated buyer pool from section 5, this asks what share of those buyers the project would have to sign up to sell every home in two, two and a half, three or four years. The bigger the share, the harder the sales job. It stays blank until section 5 is complete.')}${table(['Sales pace', 'Homes closing each month', 'Homes closing each year', 'Share of ready buyers needed each year', 'Share of all ready buyers the project needs', 'Signed contracts needed (some fall through)', 'Pool only shrinks as homes sell (no new buyers added)'], scenarioRows, 'Capture scenarios')}${table(['Income group (AMI band)', 'Homes in this group', 'Share of this group\'s ready buyers needed', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Other homes for sale are not counted:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Treat these as rough arithmetic:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
   }
 
   function esc(value) {
@@ -329,12 +347,14 @@
       }).join('');
       return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable">'
         + '<h2>Local sale prices</h2>'
+        + plain('this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.')
         + '<p class="ms-unavailable">' + esc(evidence.label) + '.</p>'
         + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p>'
         + '<ul class="ms-reasons">' + reasons + '</ul></section>';
     }
     return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(evidence.state) + '">'
       + '<h2>Local sale prices</h2>'
+        + plain('what homes near you have recently sold for — roughly the price a buyer with no help would face. The gaps in section 1 are measured against a separate typical home-value estimate, so the two figures can differ.')
       + '<p class="ms-sale-price"><strong>' + display(evidence.value, 'money') + '</strong> '
       + '<span class="ms-pill">' + esc(evidence.label) + '</span></p>'
       + (evidence.period
@@ -358,8 +378,8 @@
       renderSalePrice(data),
       renderScenario(model, data), renderLand(model), renderConventions(model),
       renderSettlement(model),
-      model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. Effective-demand funnel', reason),
-      model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. Capture scenarios', reason)
+      model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. How many local households could buy', reason),
+      model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. How fast the homes might sell', reason)
     ].join('');
     var preview = mount.ownerDocument.getElementById('marketStudyReportPreview');
     var download = mount.ownerDocument.getElementById('marketStudyReportDownload');
