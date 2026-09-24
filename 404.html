@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <meta name="robots" content="noindex">
+  <title>Page not found | Colorado Affordable Housing Data Reference</title>
+  <meta name="description" content="That page is not here. Find a Colorado jurisdiction, search the site, or start from the homepage.">
+  <!-- GitHub Pages serves this file for ANY missing URL, at any depth
+       (/places/x.html, /data/y.json), so every asset path here is root-absolute:
+       the relative paths the other pages use would resolve under the missing
+       URL's folder and 404 in turn. -->
+  <link rel="stylesheet" href="/css/site-theme.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <script src="/js/path-resolver.js"></script>
+  <script src="/js/config.js"></script>
+  <script src="/js/fetch-helper.js"></script>
+  <script src="/js/data-service-portable.js"></script>
+  <script defer src="/js/navigation.js"></script>
+  <script defer src="/js/dark-mode-toggle.js"></script>
+  <script defer src="/js/mobile-menu.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <main id="main-content">
+    <div class="container" style="max-width:900px;">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="padding-top:var(--sp4);">
+        <a href="/index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span aria-current="page">Page not found</span>
+      </nav>
+
+      <div class="page-hero" style="border:none;padding-left:0;padding-right:0;">
+        <h1>That page is not here</h1>
+        <p class="page-sub">
+          There is no page at <code id="nf-path">this address</code>. Pages move when the site's
+          workflow changes; the places below are always current.
+        </p>
+      </div>
+
+      <section class="chart-card" aria-label="Where to go instead" style="margin-bottom:var(--sp4);">
+        <ul style="list-style:none;padding:0;margin:0;display:grid;gap:.6rem;">
+          <li><a href="/select-jurisdiction.html"><strong>Pick a Colorado jurisdiction</strong></a> — start a Housing Needs Assessment for a county, city, town or CDP.</li>
+          <li><a href="/hna-comparative-analysis.html"><strong>Compare all 546 jurisdictions</strong></a> — ranked by housing need.</li>
+          <li><a href="/places/index.html"><strong>Browse place profiles</strong></a> — every city, town and CDP.</li>
+          <li><a href="/search.html"><strong>Search the site</strong></a> — pages, datasets and place profiles.</li>
+          <li><a href="/sitemap.html"><strong>Sitemap</strong></a> — every page, listed.</li>
+        </ul>
+      </section>
+
+      <p style="font-size:.85rem;color:var(--muted);">
+        Think this link should work? It may be a data file path that moved in a refresh —
+        the <a href="/data-explorer.html">Data Explorer</a> lists every current file.
+      </p>
+
+    </div>
+  </main>
+
+  <script>
+    // Show the address that missed, as text — never as markup.
+    (function () {
+      var el = document.getElementById('nf-path');
+      if (el) el.textContent = window.location.pathname + window.location.search;
+    })();
+  </script>
+  <script src="/js/contrast-guard.js"></script>
+</body>
+</html>
