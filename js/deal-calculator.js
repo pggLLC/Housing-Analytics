@@ -25,6 +25,8 @@
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
+  var _unitSizeStandards = null; // #1814: reference unit sizes for the gross-area estimate (never auto-applied)
+  var UnitSize = window.DealCalcUnitSize || (typeof require === 'function' ? require('./deal-calculator-unit-size.js') : null);
   var _resaleSelection = { subsidyType: 'none', selectedConventionId: null };
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
@@ -1318,12 +1320,36 @@
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Gross building area (SF)
             <span style="opacity:.7">&mdash; optional</span></span>
-          <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="e.g. 62000"
-            aria-describedby="dc-gross-sf-help"
+          <input id="dc-gross-sf" type="number" min="0" step="1000" aria-describedby="dc-gross-sf-help"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
           <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
             Total constructed area including circulation and common space &mdash; not the sum of unit sizes. Enter it to see cost per square foot.</span>
         </label>
+        <!-- #1814: estimate gross area from the unit mix. Colorado's CHFA QAP
+             sets no minimum unit size by bedroom count, so the references are
+             other jurisdictions' standards and say so. Nothing fills in until
+             the user picks a reference and clicks Use; typing in the field
+             above always wins. -->
+        <details id="dc-gsf-estimate" style="margin:-.35rem 0 var(--sp2);font-size:var(--small);">
+          <summary style="cursor:pointer;color:var(--muted);">Estimate gross area from the unit mix</summary>
+          <p id="dc-gsf-colorado-note" style="margin:.35rem 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+            Colorado's CHFA Qualified Allocation Plan sets no minimum unit size by bedroom count, so there is no Colorado standard to derive from.
+            The references below are other jurisdictions' figures, labelled as such. Multiplying your mix by one of them is a screening estimate, not a design.
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;">
+            <label style="display:block;">Reference standard
+              <select id="dc-gsf-standard" style="display:block;width:100%;margin-top:.15rem;min-height:44px;">
+                <option value="">&mdash; choose a reference &mdash;</option>
+              </select>
+            </label>
+            <label style="display:block;">Efficiency (net &divide; gross)
+              <input id="dc-gsf-efficiency" type="number" min="0.5" max="1" step="0.01" value="0.80" style="display:block;width:100%;margin-top:.15rem;">
+            </label>
+          </div>
+          <p id="dc-gsf-efficiency-note" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Efficiency default loads with the reference data.</p>
+          <p id="dc-gsf-working" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--text);line-height:1.45;" aria-live="polite">Choose a reference standard to see an estimate.</p>
+          <button type="button" id="dc-gsf-apply" disabled style="margin-top:.45rem;min-height:44px;">Use this estimate as gross area</button>
+        </details>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Total Units</span>
@@ -2492,7 +2518,7 @@
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
-      'dc-own-resale-appreciation',
+      'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
       // (Per-tranche fields wired below via renderSoftTranches.)
     ];
     DEAL_AMI_BANDS.forEach(function (pct) {
@@ -2501,6 +2527,12 @@
         ids.push('dc-units-' + pct + '-' + br);
       });
     });
+    var gsfApply = document.getElementById('dc-gsf-apply');
+    if (gsfApply) gsfApply.addEventListener('click', applyGrossSfEstimate);
+    var gsfField = document.getElementById('dc-gross-sf');
+    if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
+    var gsfEff = document.getElementById('dc-gsf-efficiency');
+    if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
@@ -2864,7 +2896,102 @@
   // -------------------------------------------------------------------
   // Core calculation
   // -------------------------------------------------------------------
+  // ── #1814: gross-area estimate from the unit mix ───────────────────────
+  function setUnitSizeStandards(data) {
+    _unitSizeStandards = data && Array.isArray(data.standards) ? data : null;
+    var sel = document.getElementById('dc-gsf-standard');
+    if (sel) {
+      while (sel.options.length > 1) sel.remove(1);
+      (_unitSizeStandards ? _unitSizeStandards.standards : []).forEach(function (std) {
+        var opt = document.createElement('option');
+        opt.value = std.id;
+        opt.textContent = std.label + ' — ' + std.jurisdiction + (std.applies_to_colorado ? '' : ' (not Colorado)');
+        sel.appendChild(opt);
+      });
+    }
+    var eff = document.getElementById('dc-gsf-efficiency');
+    var effNote = document.getElementById('dc-gsf-efficiency-note');
+    var meta = _unitSizeStandards && _unitSizeStandards.meta && _unitSizeStandards.meta.efficiency;
+    if (eff && meta && isFinite(meta.default) && !eff.dataset.userSet) eff.value = String(meta.default);
+    if (effNote) {
+      effNote.textContent = meta
+        ? 'Efficiency default ' + meta.default + ' (benchmarks ' + meta.range[0] + ' to ' + meta.range[1] + ', trade press, not a regulation). Change it here; the working updates.'
+        : 'Reference data unavailable; enter gross area directly.';
+    }
+    updateGrossSfEstimate();
+  }
+
+  /** Units by bedroom type across every checked AMI tier (split rows win over the tier dropdown). */
+  function collectBedroomMix() {
+    var mix = {};
+    SPLIT_BR_TYPES.forEach(function (b) { mix[b] = 0; });
+    DEAL_AMI_BANDS.forEach(function (pct) {
+      var chk = document.getElementById('dc-chk-' + pct);
+      if (!chk || !chk.checked) return;
+      var splitTotal = 0;
+      SPLIT_BR_TYPES.forEach(function (br) {
+        var el = document.getElementById('dc-units-' + pct + '-' + br);
+        var n = parseInt(el && el.value, 10);
+        if (isFinite(n) && n > 0) { mix[br] += n; splitTotal += n; }
+      });
+      if (splitTotal > 0) return;
+      var uInput = document.getElementById('dc-units-' + pct);
+      var brSel = document.getElementById('dc-br-' + pct);
+      var u = parseInt(uInput && uInput.value, 10);
+      var br = (brSel && brSel.value) || '2br';
+      if (isFinite(u) && u > 0 && mix.hasOwnProperty(br)) mix[br] += u;
+    });
+    return mix;
+  }
+
+  function selectedUnitSizeStandard() {
+    var sel = document.getElementById('dc-gsf-standard');
+    if (!sel || !sel.value || !_unitSizeStandards) return null;
+    return _unitSizeStandards.standards.filter(function (std) { return std.id === sel.value; })[0] || null;
+  }
+
+  function computeGrossSfEstimate() {
+    if (!UnitSize) return null;
+    var eff = document.getElementById('dc-gsf-efficiency');
+    return UnitSize.derive({
+      standard: selectedUnitSizeStandard(),
+      mix: collectBedroomMix(),
+      efficiency: eff ? eff.value : NaN
+    });
+  }
+
+  function updateGrossSfEstimate() {
+    var working = document.getElementById('dc-gsf-working');
+    var btn = document.getElementById('dc-gsf-apply');
+    if (!working || !btn || !UnitSize) return;
+    var result = computeGrossSfEstimate();
+    working.textContent = UnitSize.workingText(result, selectedUnitSizeStandard());
+    btn.disabled = !(result && result.status === 'ok');
+  }
+
+  function applyGrossSfEstimate() {
+    var result = computeGrossSfEstimate();
+    if (!result || result.status !== 'ok') return;
+    var field = document.getElementById('dc-gross-sf');
+    var help = document.getElementById('dc-gross-sf-help');
+    if (!field) return;
+    var std = selectedUnitSizeStandard();
+    field.value = String(result.grossSf);
+    field.setAttribute('data-derived', result.standardId || 'estimate');
+    if (help) help.textContent = 'Estimated from the unit mix: ' + UnitSize.workingText(result, std) + ' Typing a value here replaces the estimate.';
+    recalculate();
+  }
+
+  function clearGrossSfDerivation() {
+    var field = document.getElementById('dc-gross-sf');
+    var help = document.getElementById('dc-gross-sf-help');
+    if (!field || !field.hasAttribute('data-derived')) return;
+    field.removeAttribute('data-derived');
+    if (help) help.textContent = 'Total constructed area including circulation and common space — not the sum of unit sizes. Enter it to see cost per square foot.';
+  }
+
   function recalculate() {
+    updateGrossSfEstimate();
     function fmt(n) {
       if (!isFinite(n)) return '—';
       return '$' + Math.round(n).toLocaleString('en-US');
@@ -4563,6 +4690,14 @@
       if (currentDealMode() === 'ownership') recalculate();
     });
 
+    fetch(_gapResolver('data/policy/unit-size-standards.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      setUnitSizeStandards(data);
+    }).catch(function () {
+      setUnitSizeStandards(null);
+    });
+
     fetch(_gapResolver('data/policy/resale-conventions.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
@@ -6134,6 +6269,10 @@
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
     computeOwnershipResale:     computeOwnershipResale,
+    setUnitSizeStandards:       setUnitSizeStandards,
+    collectBedroomMix:          collectBedroomMix,
+    computeGrossSfEstimate:     computeGrossSfEstimate,
+    applyGrossSfEstimate:       applyGrossSfEstimate,
     computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
