@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T00:22:22.265Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T00:48:10.118Z. Do not edit by hand.
 
 ---
 
@@ -72,7 +72,7 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 73.7 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.2 KB |
 
 ---
 
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-390 test files found.
+391 test files found.
 
 | File | Size |
 |------|------|
@@ -2028,6 +2028,7 @@
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
+| `test/working-paper-download.test.js` | 4.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `test/xss-hmda-lookup.test.js` | 1.6 KB |
