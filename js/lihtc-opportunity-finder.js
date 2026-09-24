@@ -2139,7 +2139,7 @@
     if (p123) {
       var dateTxt = p123.filing_date ? ' · ' + escHtml(p123.filing_date) : '';
       var fastTrack = p123.fast_track
-        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700">FAST</span>'
+        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700" title="Eligible for Prop 123 fast-track approval of affordable housing">fast-track</span>'
         : '';
       return '<span class="lof-prop123-pill lof-prop123-yes" ' +
         'title="Filed with DOLA' + (p123.filing_date ? ' on ' + p123.filing_date : '') +

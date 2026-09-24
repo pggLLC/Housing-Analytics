@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T21:29:13.649Z",
+    "generated_at": "2026-09-24T22:19:41.899Z",
     "root": "data/",
     "file_count": 1619,
-    "total_size_bytes": 158999162,
+    "total_size_bytes": 159007215,
     "kinds": {
       "json": 1584,
       "geojson": 31,
@@ -447,7 +447,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-24T21:11:26.129Z",
+      "mtime": "2026-09-24T22:13:10.720Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1493,8 +1493,8 @@
     {
       "path": "glossary.json",
       "kind": "json",
-      "size_bytes": 28421,
-      "mtime": "2026-09-24T20:46:00.736Z",
+      "size_bytes": 36474,
+      "mtime": "2026-09-24T22:19:40.208Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -1502,7 +1502,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "terms",
-      "primary_array_length": 89,
+      "primary_array_length": 131,
       "primary_array_first_keys": [
         "term",
         "full",
@@ -30446,7 +30446,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205343,
-      "mtime": "2026-09-24T21:29:10.389Z",
+      "mtime": "2026-09-24T22:18:22.056Z",
       "shape": "object",
       "keys": [
         "generated",
