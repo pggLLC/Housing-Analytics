@@ -83,6 +83,10 @@ jobs:
                 parts.push(`The file changed, but its text could not be compared: ${d.extraction_error || 'no text on one side'}. Open the PDF.`, '');
               }
             }
+            for (const d of c.now_readable || []) {
+              parts.push(`## Now readable (unchanged file, text extracted for the first time): [${d.title}](${d.url})`, '',
+                'Lines with amounts or limits:', fence(d.key_lines), '');
+            }
             for (const d of c.removed_documents || []) {
               parts.push(`## Removed from CHFA's pages: [${d.title}](${d.url})`, '');
             }
