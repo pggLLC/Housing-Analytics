@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-24T21:04:03.529826Z",
+  "generated": "2026-09-24T22:16:53.012956Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 783868
+      "bytes": 783869
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -209,7 +209,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 9569
+      "bytes": 12936
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -7959,7 +7959,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13954
+      "bytes": 14255
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
