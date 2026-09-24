@@ -224,6 +224,35 @@ def _units_from_row(row: list[str]) -> tuple[int, int, int] | None:
     return sf + mf, sf, mf
 
 
+def _values_from_row(row: list[str]) -> tuple[int, int] | None:
+    """Extract (value_sf, value_mf) reported construction valuation, in dollars.
+
+    Same 24-column block as _units_from_row; Value sits one slot after each
+    group's Units, so the indices are those +1.
+
+    WHAT THIS NUMBER IS. BPS "Value" is the construction cost the applicant
+    declared to the permitting office for the STRUCTURE. It excludes land,
+    soft costs, fees and financing, so it is not total development cost — a
+    Colorado LIHTC deal's TDC runs materially higher. Jurisdictions differ in
+    how rigorously they collect it and it is widely understood to understate.
+
+    It is fit for one purpose: comparing counties against each other, and
+    sanity-checking a figure somebody typed. Anything that presents it as a
+    development budget is misusing it (#1842).
+    """
+    if len(row) < 24 + 6:
+        return None
+    block = row[-24:]
+    try:
+        v1 = safe_int(block[2])
+        v2 = safe_int(block[5])
+        v34 = safe_int(block[8])
+        v5p = safe_int(block[11])
+    except IndexError:
+        return None
+    return v1, v2 + v34 + v5p
+
+
 def parse_county_year(lines: list[str]) -> dict[str, dict[str, Any]]:
     """Return {county_geoid5: {name, total, sf, mf}} for Colorado."""
     out: dict[str, dict[str, Any]] = {}
@@ -235,12 +264,17 @@ def parse_county_year(lines: list[str]) -> dict[str, dict[str, Any]]:
         if units is None:
             continue
         total, sf, mf = units
+        values = _values_from_row(row) or (0, 0)
         rec = out.setdefault(
-            geoid, {"name": row[5].strip(), "total": 0, "sf": 0, "mf": 0}
+            geoid,
+            {"name": row[5].strip(), "total": 0, "sf": 0, "mf": 0,
+             "value_sf": 0, "value_mf": 0},
         )
         rec["total"] += total
         rec["sf"] += sf
         rec["mf"] += mf
+        rec["value_sf"] += values[0]
+        rec["value_mf"] += values[1]
     return out
 
 
@@ -266,11 +300,72 @@ def parse_place_year(lines: list[str]) -> dict[str, dict[str, Any]]:
         # Name column is index 16 when the name has no comma; anchor from
         # the end instead (name = everything between col 15 and the block).
         name = ",".join(row[16:-24]).strip() or geoid
-        rec = out.setdefault(geoid, {"name": name, "total": 0, "sf": 0, "mf": 0})
+        values = _values_from_row(row) or (0, 0)
+        rec = out.setdefault(
+            geoid,
+            {"name": name, "total": 0, "sf": 0, "mf": 0,
+             "value_sf": 0, "value_mf": 0},
+        )
         rec["total"] += total
         rec["sf"] += sf
         rec["mf"] += mf
+        rec["value_sf"] += values[0]
+        rec["value_mf"] += values[1]
     return out
+
+
+# A county needs at least this many multifamily units over the window before a
+# per-unit figure means anything. MEASURED, not chosen: across the 2021-2025
+# window the inter-quartile spread of $/unit is 188,929 for counties with
+# 10-24 units and 96,027 at 50-99, against 25,784 once a county clears 1,000.
+# Below 50 units one building sets the number. Fifty is where a county has
+# plausibly permitted more than a single project, and it is stated here so the
+# next person can re-derive it rather than inherit it.
+MIN_MF_UNITS_FOR_PER_UNIT = 50
+
+
+def declared_value_per_unit(
+    values: list[int | None],
+    units: list[int | None],
+    years: list[int],
+    n: int,
+) -> dict[str, Any]:
+    """Declared construction value per permitted unit over the last n years.
+
+    NOT a construction cost benchmark, and it must never be presented as one.
+    Measured across 2021-2025, Pitkin County reports $1,906,660 per
+    multifamily unit and Fremont County $44,404 — a 43x spread that is real
+    and is MIX, not price. Pitkin permits luxury condominiums; Fremont does
+    not. The figure describes what a county actually built and what the
+    applicant declared it was worth, so it answers "what is going up here",
+    never "what would my project cost here" (#1842).
+
+    Absent rather than zero when the window carries too few units to mean
+    anything: `value` is None and `basis` says why.
+    """
+    window_years = years[-n:]
+    vs = values[-n:]
+    us = units[-n:]
+    total_units = sum(u for u in us if isinstance(u, (int, float)))
+    total_value = sum(v for v in vs if isinstance(v, (int, float)))
+    window = f"{window_years[0]}-{window_years[-1]}" if window_years else None
+    if total_units < MIN_MF_UNITS_FOR_PER_UNIT:
+        return {
+            "value": None,
+            "units": total_units,
+            "window": window,
+            "basis": f"fewer than {MIN_MF_UNITS_FOR_PER_UNIT} multifamily units "
+                     f"permitted in {window}; one building would set the figure",
+        }
+    return {
+        "value": round(total_value / total_units),
+        "units": total_units,
+        "declared_value": total_value,
+        "window": window,
+        "basis": "BPS declared construction value per permitted multifamily unit — "
+                 "structure only, excludes land, soft costs, fees and financing; "
+                 "reflects what was built, not what building costs",
+    }
 
 
 def trailing_avg(series: list[int | None], years: list[int], n: int) -> dict[str, Any]:
@@ -515,7 +610,20 @@ def main() -> int:
     # --- Assemble series ---------------------------------------------------
     def build_series(
         by_year: dict[int, dict[str, dict[str, Any]]],
+        with_value: bool = False,
     ) -> dict[str, dict[str, Any]]:
+        """Assemble per-geography series. `with_value` is COUNTIES ONLY.
+
+        Declared construction value is published at county level and not at
+        place level, for two reasons. A place's multifamily permits are far
+        thinner than a county's — most Colorado municipalities would fall
+        under the unit floor every year and publish nothing but a suppression
+        note — and CDPs are unincorporated, so their permits are issued by the
+        county and never appear in a place row at all (see the cdp_note in
+        meta). A per-place figure would therefore be absent, misleading, or
+        both, and it would put the value series into 216 rendered place pages
+        to say so.
+        """
         geoids = sorted({g for ym in by_year.values() for g in ym})
         recs: dict[str, dict[str, Any]] = {}
         for geoid in geoids:
@@ -544,9 +652,23 @@ def main() -> int:
                 "avg_annual_sf_5yr": trailing_avg(sf, years, 5),
                 "avg_annual_mf_5yr": trailing_avg(mf, years, 5),
             }
+            if with_value:
+                value_sf = [
+                    (by_year[y][geoid].get("value_sf") if geoid in by_year[y] else None)
+                    for y in years
+                ]
+                value_mf = [
+                    (by_year[y][geoid].get("value_mf") if geoid in by_year[y] else None)
+                    for y in years
+                ]
+                recs[geoid]["value_sf"] = value_sf
+                recs[geoid]["value_mf"] = value_mf
+                recs[geoid]["declared_value_per_unit_mf_5yr"] = declared_value_per_unit(
+                    value_mf, mf, years, 5
+                )
         return recs
 
-    county_recs = build_series(county_by_year)
+    county_recs = build_series(county_by_year, with_value=True)
     place_recs_raw = build_series(place_by_year)
 
     # Key places by the registry GEOID (phantom-alias aware); drop

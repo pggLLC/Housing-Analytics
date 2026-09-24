@@ -2507,8 +2507,10 @@
    * production figure then falls back to the resident-growth reading alone,
    * which is the previous behaviour, rather than showing nothing.
    */
-  const _workforceGapCache = Object.create(null);
-  async function _loadWorkforceGapUnits(geoid) {
+  // One fetch of the jurisdiction's metrics digest per geoid, shared by the
+  // workforce-gap reading and the decision strip's evidence check below.
+  const _digestCache = Object.create(null);
+  async function _loadDigest(geoid) {
     if (!geoid) return null;
     // Digests exist for counties (5-digit) and places/CDPs (7-digit), one per
     // ranked jurisdiction. There is no statewide digest, and asking for one
@@ -2518,18 +2520,52 @@
     // cannot succeed should not be made; see the same lesson in #1759.
     const id = String(geoid);
     if (id.length !== 5 && id.length !== 7) return null;
-    if (Object.prototype.hasOwnProperty.call(_workforceGapCache, geoid)) return _workforceGapCache[geoid];
-    let units = null;
-    try {
-      const doc = await loadJson('data/hna/jurisdiction-metrics-digest/' + geoid + '.json');
-      const m = doc && doc.metrics && doc.metrics.workforce_gap_units;
-      const v = m && typeof m === 'object' ? m.value : m;
-      units = window.HNAUtils.safeNum(v);
-    } catch (_) {
-      units = null;
+    if (Object.prototype.hasOwnProperty.call(_digestCache, id)) return _digestCache[id];
+    let doc = null;
+    try { doc = await loadJson('data/hna/jurisdiction-metrics-digest/' + id + '.json'); }
+    catch (_) { doc = null; }
+    _digestCache[id] = doc;
+    return doc;
+  }
+
+  async function _loadWorkforceGapUnits(geoid) {
+    const doc = await _loadDigest(geoid);
+    const m = doc && doc.metrics && doc.metrics.workforce_gap_units;
+    const v = m && typeof m === 'object' ? m.value : m;
+    return window.HNAUtils.safeNum(v);
+  }
+
+  /**
+   * Whether the digest's rent-burden rate is usable — the same reading the
+   * Recommendation page makes (js/workflow/recommendation-contract.js): a
+   * rate whose confidence is low or missing, or whose denominator sits under
+   * the floor, is not evidence. Pure: exported for the test.
+   */
+  function _rentBurdenEvidence(metric) {
+    if (!metric || typeof metric !== 'object') return null;
+    const n = Number.isFinite(Number(metric.denominator)) ? Number(metric.denominator) : null;
+    if (metric.confidence === 'missing' || metric.value == null) return { usable: false, why: 'not published for this geography' };
+    if (metric.denominator_floor_applied === true) return { usable: false, why: 'too few renter households for a rate' };
+    if (metric.confidence === 'low') return { usable: false, why: n !== null ? 'a low-confidence rate on ' + n + ' renter households' : 'a low-confidence estimate' };
+    return { usable: true, why: null };
+  }
+
+  /**
+   * The decision strip's "Affordability pressure" tile is painted from the
+   * ACS profile by renderSnapshot(). For Cattle Creek (CDP, 396 people) that
+   * read "100.0% — High" while the Recommendation page, reading the same
+   * digest, called the measure unusable (2026-09-24). The strip now defers
+   * to the digest's grade of pct_cost_burdened: an unusable rate keeps its
+   * number but reads as low evidence. Runs at the end of update(), after
+   * every renderer that writes the tile.
+   */
+  async function _applyDigestEvidenceToStrip(geoid) {
+    const doc = await _loadDigest(geoid);
+    const ev = _rentBurdenEvidence(doc && doc.metrics && doc.metrics.pct_cost_burdened);
+    if (!ev || ev.usable) return;
+    if (window.HNARenderers && typeof window.HNARenderers.updateDecisionStrip === 'function') {
+      window.HNARenderers.updateDecisionStrip({ affordability: { read: 'Low evidence — ' + ev.why, tone: 'unavailable' } });
     }
-    _workforceGapCache[geoid] = units;
-    return units;
   }
 
   function _productionNeed(input) {
@@ -4070,6 +4106,10 @@
       }
     }
 
+    // The strip's affordability tile defers to the digest's evidence grade;
+    // last, so no renderer above overwrites it (see _applyDigestEvidenceToStrip).
+    try { await _applyDigestEvidenceToStrip(geoid); } catch (_) { /* the tile keeps the snapshot's read */ }
+
     // Announce completion to screen readers (WCAG 4.1.3 / Rule 11)
     if (typeof window.__announceUpdate === 'function') {
       window.__announceUpdate(`Data loaded for ${label}`);
@@ -4251,6 +4291,22 @@
     buildSelect();
     if (restoredGeoId) {
       window.HNAState.els.geoSelect.value = restoredGeoId;
+    }
+    // An address that names a geography which does not exist — a typo, a
+    // retired GEOID with no alias, a stale link — must say so. Until
+    // 2026-09-24 it loaded nothing: blank stats, four 404s, the generic
+    // "select a geography" line, and a banner still naming the last saved
+    // jurisdiction. The registry (awaited above) lists all 546 geographies,
+    // so it is the check; regional/combined addresses and the state are not
+    // registry entries and are left alone.
+    let unknownGeoid = null;
+    const _combined = window.HNAState.state.combinedMembers && window.HNAState.state.combinedMembers.length;
+    if (restoredGeoId && restoredGeoType !== 'state' && !String(restoredGeoId).startsWith('region:') && !_combined && !_registryHasGeoid(restoredGeoId)) {
+      unknownGeoid = String(restoredGeoId);
+      window.HNAState.els.geoSelect.value = '';
+      const wsText = document.querySelector('#hnaWaitingState .hna-waiting-text');
+      if (wsText) wsText.textContent = 'No Colorado geography has the ID ' + unknownGeoid + '. Choose a county, city, town or CDP above to load housing data.';
+      console.warn('[HNA] unknown geography in address: ' + unknownGeoid);
     }
     _syncCombinedPanel();
     if (urlCombinedMode === 'regional') {
@@ -4471,7 +4527,8 @@
     });
 
     ensureMap();
-    update();
+    // Nothing to load for an unknown geography; the waiting state says why.
+    if (!unknownGeoid) update();
   }
 
 
@@ -4500,6 +4557,7 @@
   window.__HNA_renderChasAffordabilityGap = window.HNARenderers.renderChasAffordabilityGap;
   window.__HNA_fetchAcsProfileForTest = fetchAcsProfile;
   window.__HNA_buildCensusUrlForTest = _buildCensusUrl;
+  window.__HNA_rentBurdenEvidenceForTest = _rentBurdenEvidence;
 
   if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
