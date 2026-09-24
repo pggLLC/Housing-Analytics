@@ -33,6 +33,7 @@ on:
     workflows:
       - "Build HNA Data Cache"
       - "Build Market Data"
+      - "CHFA QAP Watch"
       - "Configure Alerts & Generate Policy Briefs"
       - "Data Refresh Pipeline"
       - "Data Source Monitoring"
