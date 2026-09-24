@@ -12,6 +12,7 @@ import json
 import re
 from datetime import date
 from pathlib import Path
+from urllib.parse import urlparse
 
 import pytest
 
@@ -71,7 +72,7 @@ def test_the_file_is_well_formed(doc):
     for e in entries:
         assert e['section'] in SECTIONS, e['id']
         assert e['title'].strip() and e.get('status'), e['id']
-        assert re.match(r'^https://', e['source']['url']), e['id']
+        assert urlparse(e['source']['url']).scheme == 'https' and urlparse(e['source']['url']).netloc, e['id']
         v = e['verification']
         assert v['level'] in LEVELS, f"{e['id']}: unknown verification level {v['level']!r}"
         assert date.fromisoformat(v['checked']) <= as_of, f"{e['id']} was checked after the file's as_of"
