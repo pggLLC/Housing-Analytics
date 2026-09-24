@@ -4,6 +4,22 @@
    Single source of truth. All pages must link this CSS LAST.
    ================================================================ */
 
+/* Screen-reader-only utility. Defined here as well as in accessibility.css
+   because pages that do not load that file (the six HNA pages) carry
+   aria-live regions with this class: their "Data loaded for …"
+   announcements were visible in the hero until 2026-09-23. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ── Self-hosted fonts (run scripts/download-fonts.sh to populate assets/fonts/) ──
    Removing the Google Fonts CDN import eliminates the external dependency,
    prevents GDPR-relevant third-party requests, and removes a render-blocking
