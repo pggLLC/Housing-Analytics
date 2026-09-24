@@ -64,6 +64,12 @@
 
       /* Selection badge */
       '.sj-selection{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:var(--radius-sm);background:var(--bg2);border:1.5px solid var(--border);margin-bottom:0;}',
+      // The summary card is `hidden` until a county is chosen, but the rule
+      // above sets display:flex and an author rule beats the attribute's UA
+      // display:none — so every first-time visitor saw the placeholder card
+      // ("Adams County / Change") with Continue disabled (2026-09-23). The
+      // attribute must win.
+      '.sj-selection[hidden]{display:none !important;}',
       '.sj-selection__badge{flex:1;}',
       '.sj-selection__badge strong{display:block;font-size:.95rem;color:var(--text-strong);}',
       '.sj-selection__sub{font-size:var(--small);color:var(--muted);}',
