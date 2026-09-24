@@ -162,14 +162,10 @@ def pdf_text(data: bytes) -> tuple:
     except ImportError:
         return None, None, 'pypdf is not installed'
     except Exception as exc:
+        # A broken environment (e.g. a cryptography backend that panics on import,
+        # which raises a BaseException) is deliberately not caught: the run fails
+        # loudly rather than recording every QAP document as unreadable.
         return None, None, f'pypdf could not be loaded: {exc.__class__.__name__}: {exc}'
-    except BaseException as exc:
-        # A broken optional crypto backend makes the import raise pyo3's
-        # PanicException, which derives from BaseException, not Exception.
-        # Only that is turned into a recorded failure; anything else propagates.
-        if type(exc).__name__ != 'PanicException':
-            raise
-        return None, None, 'pypdf could not be loaded: PanicException (broken cryptography backend)'
     try:
         reader = PdfReader(io.BytesIO(data))
         parts = [(page.extract_text() or '') for page in reader.pages]
