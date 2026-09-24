@@ -1,0 +1,58 @@
+{
+  "schema": "unit-size-standards/v1",
+  "meta": {
+    "purpose": "Reference unit sizes by bedroom count, used by the deal calculator to ESTIMATE gross building area from a unit mix on request. Nothing here auto-fills: the user picks a reference standard, sees the working, and clicks to apply. Every figure below is from a jurisdiction other than Colorado and is labelled as such on screen.",
+    "colorado": {
+      "has_statewide_minimum": false,
+      "note": "Colorado CHFA's Housing Tax Credit Qualified Allocation Plan sets no minimum unit size by bedroom count. Unit sizes appear in the QAP only as applicant-supplied fields (unit mix and size worksheet, market study review). Verified by full-text search of the 2025-2026 QAP and the 2027-2028 QAP third draft for 'square feet', 'unit size' and 'minimum'.",
+      "last_verified": "2026-09-24",
+      "review_by": "2027-03-31",
+      "sources": [
+        { "title": "CHFA Housing Tax Credit Qualified Allocation Plan 2025-2026", "url": "https://www.chfainfo.com/getattachment/02ccecd8-bca7-4045-b9bb-9fa5723628dc/2025-2026-QAP.pdf" },
+        { "title": "CHFA Housing Tax Credit Qualified Allocation Plan 2027-2028, third draft", "url": "https://www.chfainfo.com/getattachment/5a4b9075-596f-4866-a896-cea260e25e7f/2027-2028-QAP-ThirdDraft.pdf" },
+        { "title": "CHFA QAP index page", "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" }
+      ]
+    },
+    "efficiency": {
+      "label": "Building efficiency: net rentable area divided by gross building area",
+      "default": 0.80,
+      "range": [0.70, 0.85],
+      "note": "Trade-press benchmarks, not a regulatory figure. Meeks (2005) reports conventional apartments averaging 70 to 75 percent net-to-gross with 82 percent or higher achievable through efficient layouts; Hildahl (2022) illustrates 85 percent. The default of 0.80 sits inside that range and is shown on screen so it can be changed.",
+      "sources": [
+        { "title": "Donald Meeks, AIA, 'Cost Cutters', Multifamily Executive, 2005-06-03", "url": "https://www.multifamilyexecutive.com/design-development/design/cost-cutters_o", "quote": "apartments have been far less efficient, with an average ratio of 70 percent to 75 percent" },
+        { "title": "Blair Hildahl, 'Apartment Developers: Higher Efficiency = Higher ROI', BASE4, 2022-06-08", "url": "https://www.base-4.com/apartment-efficiency-save-millions/", "quote": "100,000 square feet of gross area has 85,000 square feet of actual rentable space" }
+      ],
+      "last_verified": "2026-09-24",
+      "review_by": "2027-03-31"
+    },
+    "fruita_fixture_note": "The repo's worked example (data/fixtures/fruita-commons-*.scenario.json) carries modeled unit ranges averaging about 1,135 net SF per unit. The old gross-area placeholder of 62,000 SF for 60 units (about 1,033 gross SF per unit) described a smaller program than that example and was removed; the field now stays blank until entered or estimated."
+  },
+  "standards": [
+    {
+      "id": "nc-qap-2026-appendix-b",
+      "jurisdiction": "North Carolina",
+      "applies_to_colorado": false,
+      "kind": "design_minimum",
+      "label": "NC Housing Finance Agency 2026 QAP Appendix B design minimums",
+      "measure": "Heated square feet, measured interior wall to interior wall, excluding exterior walls and unheated areas",
+      "sizes": { "studio": 375, "1br": 660, "2br": 900, "3br": 1100, "4br": 1250 },
+      "source_url": "https://www.nchfa.com/sites/default/files/page_attachments/2026FinalAppendixB1.pdf",
+      "source_note": "Appendix B, 2026 Design Quality Standards and Requirements, section C.1 'All residential units must meet minimum unit size requirements'. Studio 375, 1 Bedroom 660, 2 Bedroom 900, 3 Bedroom 1,100, 4 Bedroom 1,250 square feet.",
+      "last_verified": "2026-09-24",
+      "review_by": "2027-03-31"
+    },
+    {
+      "id": "wa-rcw-36-70a-819",
+      "jurisdiction": "Washington",
+      "applies_to_colorado": false,
+      "kind": "statutory_ceiling_on_required_size",
+      "label": "Washington RCW 36.70A.819 affordable unit size (largest size a city may require)",
+      "measure": "Square feet; the statute caps what cities and counties may require of affordable units, so these are floors of what an affordable unit must be allowed to be, not design minimums",
+      "sizes": { "studio": 400, "1br": 550, "2br": 750, "3br": 1000, "4br": null },
+      "source_url": "https://apps.leg.wa.gov/rcw/default.aspx?cite=36.70A.819",
+      "source_note": "2025 c 139 s 9: '400 square feet for a studio unit; 550 square feet for a one-bedroom unit; 750 square feet for a two-bedroom unit; and 1,000 square feet for a three-bedroom unit.' No four-bedroom figure, so a mix with 4BR units cannot be estimated under this reference.",
+      "last_verified": "2026-09-24",
+      "review_by": "2027-03-31"
+    }
+  ]
+}
