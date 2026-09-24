@@ -25,6 +25,8 @@
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
+  var _unitSizeStandards = null; // #1814: reference unit sizes for the gross-area estimate (never auto-applied)
+  var UnitSize = window.DealCalcUnitSize || (typeof require === 'function' ? require('./deal-calculator-unit-size.js') : null);
   var _resaleSelection = { subsidyType: 'none', selectedConventionId: null };
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
@@ -437,7 +439,7 @@
     while (mount.firstChild) mount.removeChild(mount.firstChild);
     var title = document.createElement('p');
     title.style.cssText = 'margin:.55rem 0 .2rem;font-weight:700;font-size:var(--tiny);color:var(--text);';
-    title.textContent = 'Resale convention screen - screening only';
+    title.textContent = 'Resident and public interest at resale: convention screen - screening only';
     mount.appendChild(title);
 
     if (!screen || !Array.isArray(screen.rows) || !screen.rows.length) {
@@ -459,6 +461,59 @@
     }
   }
 
+  /**
+   * The public / steward is the third actor on the ownership panel (#1815).
+   * Its claim used to live only inside the resale comparison table. This row
+   * lifts the selected mechanism's moderate-scenario outcome onto the panel:
+   * the capped next-buyer price (how the public interest is expressed under
+   * fixed, lesser-of and shared-appreciation conventions) and any subsidy the
+   * public recovers in cash (recapture conventions). Screening only.
+   */
+  function selectedPublicInterestOutcome(screen) {
+    var comparison = screen && screen.comparison;
+    if (!comparison || !Array.isArray(comparison.rows) || !comparison.rows.length) return null;
+    var row = null;
+    for (var i = 0; i < comparison.rows.length; i++) {
+      if (comparison.rows[i].conventionId === comparison.selectedConventionId) { row = comparison.rows[i]; break; }
+    }
+    if (!row) {
+      for (var k = 0; k < comparison.rows.length; k++) {
+        if (!comparison.rows[k].disabled) { row = comparison.rows[k]; break; }
+      }
+    }
+    if (!row || !Array.isArray(row.outcomes)) return null;
+    var idx = 0;
+    (comparison.scenarios || []).forEach(function (scenario, n) { if (scenario.id === 'moderate') idx = n; });
+    var outcome = row.outcomes[idx] || row.outcomes[0];
+    if (!outcome) return null;
+    return { label: row.label, outcome: outcome };
+  }
+
+  function renderPublicInterestRow(screen) {
+    var value = document.getElementById('dc-own-public-recovery');
+    var label = document.getElementById('dc-own-public-convention');
+    if (!value) return;
+    function fmt(n) { return isFinite(n) && n != null ? ('$' + Math.round(n).toLocaleString('en-US')) : '—'; }
+    var picked = selectedPublicInterestOutcome(screen);
+    if (!picked) {
+      value.textContent = '—';
+      value.removeAttribute('title');
+      if (label) label.textContent = 'selected mechanism';
+      return;
+    }
+    if (label) label.textContent = picked.label;
+    var outcome = picked.outcome;
+    if (outcome.maxResalePrice == null) {
+      value.textContent = '—';
+      value.setAttribute('title', outcome.unavailableReason || 'Resale inputs unavailable.');
+      return;
+    }
+    var recovered = Number(outcome.publicSubsidyRecaptured) || 0;
+    value.textContent = 'Next buyer price capped at ' + fmt(outcome.maxResalePrice) +
+      (recovered > 0 ? ' · ' + fmt(recovered) + ' subsidy recovered' : ' · no cash recovery');
+    value.setAttribute('title', outcome.preservationLabel || '');
+  }
+
   function renderForSaleFeasibility(result) {
     result = result || {};
     function fmt(n) {
@@ -476,6 +531,7 @@
       setText('dc-own-max-price', '—');
       setText('dc-own-gap-per-unit', '—');
       setText('dc-own-total-gap', '—');
+      renderPublicInterestRow(null);
       var message = result.status === 'missing-ami'
         ? 'Select a county to load HUD AMI and price the ownership affordability limit.'
         : (result.status === 'missing-helper'
@@ -493,10 +549,11 @@
     setText('dc-own-total-gap', fmt(result.totalSubsidyGap));
     var note = result.rawGapPerUnit <= 0
       ? 'Screening result: no per-unit subsidy gap at this AMI under the shared HNA PITI assumptions.'
-      : 'Formula: development cost per unit minus max affordable sale price from the HNA ownership module.';
+      : 'Formula (bridge): developer cost per unit minus the resident\'s max affordable sale price from the HNA ownership module. Public subsidy fills this gap.';
     setText('dc-own-note', note);
     renderDeveloperOwnershipFundingStack(result.developerFundingStack);
     renderOwnershipResaleScreen(result.ownershipResale);
+    renderPublicInterestRow(result.ownershipResale);
   }
 
   /**
@@ -1318,12 +1375,36 @@
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Gross building area (SF)
             <span style="opacity:.7">&mdash; optional</span></span>
-          <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="e.g. 62000"
-            aria-describedby="dc-gross-sf-help"
+          <input id="dc-gross-sf" type="number" min="0" step="1000" placeholder="not entered" aria-describedby="dc-gross-sf-help"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);color:var(--text);">
           <span id="dc-gross-sf-help" style="display:block;margin-top:.2rem;font-size:var(--small);color:var(--muted);">
             Total constructed area including circulation and common space &mdash; not the sum of unit sizes. Enter it to see cost per square foot.</span>
         </label>
+        <!-- #1814: estimate gross area from the unit mix. Colorado's CHFA QAP
+             sets no minimum unit size by bedroom count, so the references are
+             other jurisdictions' standards and say so. Nothing fills in until
+             the user picks a reference and clicks Use; typing in the field
+             above always wins. -->
+        <details id="dc-gsf-estimate" style="margin:-.35rem 0 var(--sp2);font-size:var(--small);">
+          <summary style="cursor:pointer;color:var(--muted);">Estimate gross area from the unit mix</summary>
+          <p id="dc-gsf-colorado-note" style="margin:.35rem 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+            Colorado's CHFA Qualified Allocation Plan sets no minimum unit size by bedroom count, so there is no Colorado standard to derive from.
+            The references below are other jurisdictions' figures, labelled as such. Multiplying your mix by one of them is a screening estimate, not a design.
+          </p>
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;">
+            <label style="display:block;">Reference standard
+              <select id="dc-gsf-standard" style="display:block;width:100%;margin-top:.15rem;min-height:44px;">
+                <option value="">&mdash; choose a reference &mdash;</option>
+              </select>
+            </label>
+            <label style="display:block;">Efficiency (net &divide; gross)
+              <input id="dc-gsf-efficiency" type="number" min="0.5" max="1" step="0.01" value="0.80" style="display:block;width:100%;margin-top:.15rem;">
+            </label>
+          </div>
+          <p id="dc-gsf-efficiency-note" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Efficiency default loads with the reference data.</p>
+          <p id="dc-gsf-working" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--text);line-height:1.45;" aria-live="polite">Choose a reference standard to see an estimate.</p>
+          <button type="button" id="dc-gsf-apply" disabled style="margin-top:.45rem;min-height:44px;">Use this estimate as gross area</button>
+        </details>
 
         <label style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">Total Units</span>
@@ -1973,26 +2054,38 @@
         </div>
 
         <div id="dc-ownership-feasibility" data-dc-mode="ownership" hidden style="margin-top:var(--sp3);padding:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
-          <dl style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
-            <dt style="color:var(--muted);">Development cost / unit</dt>
+          <p id="dc-own-actor-legend" style="margin:0 0 .5rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+            Each row names whose money it describes.
+            <strong>Resident</strong>: the household at the target AMI.
+            <strong>Developer / operator</strong>: the project's cost side.
+            <strong>Bridge</strong>: the gap between the two, which public subsidy must fill.
+            <strong>Public interest</strong>: the steward's claim on the home and its resale proceeds.
+          </p>
+          <dl id="dc-own-rows" style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+            <dt data-actor="developer" style="color:var(--muted);">Development cost / unit <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Development cost / gross SF</dt>
+            <dt data-actor="developer" style="color:var(--muted);">Development cost / gross SF <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-sf" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>)</dt>
+            <dt data-actor="resident" style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>) <span class="dc-own-actor" data-actor="resident">Resident</span></dt>
             <dd id="dc-own-max-price" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Subsidy gap / unit</dt>
+            <dt data-actor="bridge" style="color:var(--muted);">Subsidy gap / unit <span class="dc-own-actor" data-actor="bridge">Bridge: developer cost − resident capacity</span></dt>
             <dd id="dc-own-gap-per-unit" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
 
-            <dt style="color:var(--muted);">Total ownership gap</dt>
+            <dt data-actor="bridge" style="color:var(--muted);">Total ownership gap <span class="dc-own-actor" data-actor="bridge">Bridge</span></dt>
             <dd id="dc-own-total-gap" style="font-weight:700;text-align:right;">—</dd>
+
+            <dt data-actor="public" style="color:var(--muted);">Public interest at resale (<span id="dc-own-public-convention">selected mechanism</span>, moderate scenario) <span class="dc-own-actor" data-actor="public">Public interest</span></dt>
+            <dd id="dc-own-public-recovery" style="font-weight:700;text-align:right;">—</dd>
           </dl>
           <p id="dc-own-note" style="margin:.45rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
             Select a county to load HUD AMI and price the ownership affordability limit.
           </p>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.55rem;font-size:var(--tiny);">
+          <p data-actor="resident" style="margin:.55rem 0 0;font-weight:700;font-size:var(--tiny);color:var(--text);">Resident over time <span class="dc-own-actor" data-actor="resident">Resident</span></p>
+          <p style="margin:.1rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Equity the household builds while it owns the home. These inputs drive the resale screen below.</p>
+          <div data-actor="resident" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.35rem;font-size:var(--tiny);">
             <label>Holding period (years)
               <input id="dc-own-resale-years" type="number" min="0" step="1" value="5" style="width:100%;margin-top:.15rem;">
             </label>
@@ -2006,12 +2099,12 @@
               <input id="dc-own-resale-appreciation" type="number" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
             </label>
           </div>
-          <div id="dc-own-resale-screen" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+          <div id="dc-own-resale-screen" data-actor="public" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
             <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
               Resale convention screen loads after source data.
             </p>
           </div>
-          <div id="dc-own-funding-stack" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+          <div id="dc-own-funding-stack" data-actor="developer" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
             <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
               Developer ownership funding stack loads after source data.
             </p>
@@ -2492,7 +2585,7 @@
       'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-equity-price',
       'dc-vacancy', 'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
       'dc-own-resale-years', 'dc-own-resale-principal', 'dc-own-resale-costs',
-      'dc-own-resale-appreciation',
+      'dc-own-resale-appreciation', 'dc-gsf-standard', 'dc-gsf-efficiency',
       // (Per-tranche fields wired below via renderSoftTranches.)
     ];
     DEAL_AMI_BANDS.forEach(function (pct) {
@@ -2501,6 +2594,12 @@
         ids.push('dc-units-' + pct + '-' + br);
       });
     });
+    var gsfApply = document.getElementById('dc-gsf-apply');
+    if (gsfApply) gsfApply.addEventListener('click', applyGrossSfEstimate);
+    var gsfField = document.getElementById('dc-gross-sf');
+    if (gsfField) gsfField.addEventListener('input', clearGrossSfDerivation);
+    var gsfEff = document.getElementById('dc-gsf-efficiency');
+    if (gsfEff) gsfEff.addEventListener('input', function () { gsfEff.dataset.userSet = '1'; });
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', recalculate);
@@ -2864,7 +2963,102 @@
   // -------------------------------------------------------------------
   // Core calculation
   // -------------------------------------------------------------------
+  // ── #1814: gross-area estimate from the unit mix ───────────────────────
+  function setUnitSizeStandards(data) {
+    _unitSizeStandards = data && Array.isArray(data.standards) ? data : null;
+    var sel = document.getElementById('dc-gsf-standard');
+    if (sel) {
+      while (sel.options.length > 1) sel.remove(1);
+      (_unitSizeStandards ? _unitSizeStandards.standards : []).forEach(function (std) {
+        var opt = document.createElement('option');
+        opt.value = std.id;
+        opt.textContent = std.label + ' — ' + std.jurisdiction + (std.applies_to_colorado ? '' : ' (not Colorado)');
+        sel.appendChild(opt);
+      });
+    }
+    var eff = document.getElementById('dc-gsf-efficiency');
+    var effNote = document.getElementById('dc-gsf-efficiency-note');
+    var meta = _unitSizeStandards && _unitSizeStandards.meta && _unitSizeStandards.meta.efficiency;
+    if (eff && meta && Number.isFinite(meta.default) && !eff.dataset.userSet) eff.value = String(meta.default);
+    if (effNote) {
+      effNote.textContent = meta
+        ? 'Efficiency default ' + meta.default + ' (benchmarks ' + meta.range[0] + ' to ' + meta.range[1] + ', trade press, not a regulation). Change it here; the working updates.'
+        : 'Reference data unavailable; enter gross area directly.';
+    }
+    updateGrossSfEstimate();
+  }
+
+  /** Units by bedroom type across every checked AMI tier (split rows win over the tier dropdown). */
+  function collectBedroomMix() {
+    var mix = {};
+    SPLIT_BR_TYPES.forEach(function (b) { mix[b] = 0; });
+    DEAL_AMI_BANDS.forEach(function (pct) {
+      var chk = document.getElementById('dc-chk-' + pct);
+      if (!chk || !chk.checked) return;
+      var splitTotal = 0;
+      SPLIT_BR_TYPES.forEach(function (br) {
+        var el = document.getElementById('dc-units-' + pct + '-' + br);
+        var n = parseInt(el && el.value, 10);
+        if (isFinite(n) && n > 0) { mix[br] += n; splitTotal += n; }
+      });
+      if (splitTotal > 0) return;
+      var uInput = document.getElementById('dc-units-' + pct);
+      var brSel = document.getElementById('dc-br-' + pct);
+      var u = parseInt(uInput && uInput.value, 10);
+      var br = (brSel && brSel.value) || '2br';
+      if (isFinite(u) && u > 0 && mix.hasOwnProperty(br)) mix[br] += u;
+    });
+    return mix;
+  }
+
+  function selectedUnitSizeStandard() {
+    var sel = document.getElementById('dc-gsf-standard');
+    if (!sel || !sel.value || !_unitSizeStandards) return null;
+    return _unitSizeStandards.standards.filter(function (std) { return std.id === sel.value; })[0] || null;
+  }
+
+  function computeGrossSfEstimate() {
+    if (!UnitSize) return null;
+    var eff = document.getElementById('dc-gsf-efficiency');
+    return UnitSize.derive({
+      standard: selectedUnitSizeStandard(),
+      mix: collectBedroomMix(),
+      efficiency: eff ? eff.value : NaN
+    });
+  }
+
+  function updateGrossSfEstimate() {
+    var working = document.getElementById('dc-gsf-working');
+    var btn = document.getElementById('dc-gsf-apply');
+    if (!working || !btn || !UnitSize) return;
+    var result = computeGrossSfEstimate();
+    working.textContent = UnitSize.workingText(result, selectedUnitSizeStandard());
+    btn.disabled = !(result && result.status === 'ok');
+  }
+
+  function applyGrossSfEstimate() {
+    var result = computeGrossSfEstimate();
+    if (!result || result.status !== 'ok') return;
+    var field = document.getElementById('dc-gross-sf');
+    var help = document.getElementById('dc-gross-sf-help');
+    if (!field) return;
+    var std = selectedUnitSizeStandard();
+    field.value = String(result.grossSf);
+    field.setAttribute('data-derived', result.standardId || 'estimate');
+    if (help) help.textContent = 'Estimated from the unit mix: ' + UnitSize.workingText(result, std) + ' Typing a value here replaces the estimate.';
+    recalculate();
+  }
+
+  function clearGrossSfDerivation() {
+    var field = document.getElementById('dc-gross-sf');
+    var help = document.getElementById('dc-gross-sf-help');
+    if (!field || !field.hasAttribute('data-derived')) return;
+    field.removeAttribute('data-derived');
+    if (help) help.textContent = 'Total constructed area including circulation and common space — not the sum of unit sizes. Enter it to see cost per square foot.';
+  }
+
   function recalculate() {
+    updateGrossSfEstimate();
     function fmt(n) {
       if (!isFinite(n)) return '—';
       return '$' + Math.round(n).toLocaleString('en-US');
@@ -4563,6 +4757,14 @@
       if (currentDealMode() === 'ownership') recalculate();
     });
 
+    fetch(_gapResolver('data/policy/unit-size-standards.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      setUnitSizeStandards(data);
+    }).catch(function () {
+      setUnitSizeStandards(null);
+    });
+
     fetch(_gapResolver('data/policy/resale-conventions.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
@@ -6134,6 +6336,11 @@
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
     computeOwnershipResale:     computeOwnershipResale,
+    setUnitSizeStandards:       setUnitSizeStandards,
+    collectBedroomMix:          collectBedroomMix,
+    computeGrossSfEstimate:     computeGrossSfEstimate,
+    applyGrossSfEstimate:       applyGrossSfEstimate,
+    renderForSaleFeasibility:   renderForSaleFeasibility,
     computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,

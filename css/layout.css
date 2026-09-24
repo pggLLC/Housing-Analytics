@@ -295,3 +295,19 @@ main th li {
     margin: 1cm;
   }
 }
+
+/* Ownership panel actor pills (#1815): every output row names whose money it describes. */
+.dc-own-actor {
+  display: inline-block;
+  margin-left: .35rem;
+  padding: 0 .4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: var(--tiny);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--muted);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.dc-own-actor[data-actor="bridge"] { color: var(--accent); border-color: var(--accent); }
