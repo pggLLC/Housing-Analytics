@@ -1,15 +1,16 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T01:35:30.659Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T02:05:53.467Z. Do not edit by hand.
 
 ---
 
 ## Root HTML Pages
 
-63 pages found.
+64 pages found.
 
 | File | Title | Size |
 |------|-------|------|
+| `404.html` | Page not found | Colorado Affordable Housing Data Reference | 3.5 KB |
 | `LIHTC-dashboard.html` | LIHTC Allocations | COHO Analytics | 1.5 KB |
 | `about.html` | About | COHO Analytics | 14.7 KB |
 | `article-co-housing-costs.html` | Colorado Housing Costs: County-Level Analysis | Colorado Public Data Reference | 43.9 KB |
@@ -1670,7 +1671,7 @@
 
 ## Test Files
 
-393 test files found.
+394 test files found.
 
 | File | Size |
 |------|------|
@@ -1697,6 +1698,7 @@
 | `test/basemap-provider-single-source.test.js` | 8.1 KB |
 | `test/boards-advocates-search-links.test.js` | 3.1 KB |
 | `test/both-surfaces-answer-the-same-question.test.mjs` | 5.9 KB |
+| `test/branded-404.test.js` | 2.1 KB |
 | `test/bridge-token-guidance.test.js` | 2.4 KB |
 | `test/buyer-assistance-programs.test.js` | 2.6 KB |
 | `test/caching.test.js` | 7.3 KB |
@@ -1879,7 +1881,7 @@
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
 | `test/navigation-pill-label.test.js` | 2.7 KB |
-| `test/navigation-reaches-every-page.test.mjs` | 4.4 KB |
+| `test/navigation-reaches-every-page.test.mjs` | 4.5 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
