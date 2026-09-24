@@ -42,8 +42,8 @@ def make_pdf(lines):
     objs = [
         "<< /Type /Catalog /Pages 2 0 R >>",
         "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
-        "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R "
-        "/Resources << /Font << /F1 5 0 R >> >> >>",
+        ("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R "
+         + "/Resources << /Font << /F1 5 0 R >> >> >>"),
         f"<< /Length {len(content)} >>\nstream\n{content}\nendstream",
         "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
     ]
@@ -204,6 +204,43 @@ def test_main_does_not_rewrite_on_a_quiet_week(tmp_path, monkeypatch):
     assert (tmp_path / "run.json").exists()
 
 
+def test_membership_on_a_failed_page_survives_until_that_page_is_checked():
+    """A document listed on two pages, one of which fails, must not be reported
+    removed later just because the page that did load stopped listing it."""
+    both = site("$1,700,000")
+    both[HEARING_URL] = (200, {}, qap_page([(QAP_PDF, "2027-2028 QAP (final)")]))
+    first = watch.run(fetch=fetcher(both), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
+    assert next(d for d in first["documents"] if d["url"] == QAP_PDF)["found_on"] == ["qap", "hearing"]
+
+    hearing_down = dict(both)
+    hearing_down[HEARING_URL] = OSError("503")
+    second = watch.run(fetch=fetcher(hearing_down), previous=first, now="2026-10-07T05:21:00Z", pages=PAGES)
+    assert next(d for d in second["documents"] if d["url"] == QAP_PDF)["found_on"] == ["qap", "hearing"]
+
+    gone_from_qap = site("$1,700,000", extra_links=())
+    gone_from_qap[QAP_URL] = (200, {}, qap_page([(SUMMARY_PDF, "Summary of Changes"), (FORM_PDF, "Checklist")]))
+    gone_from_qap[HEARING_URL] = OSError("503")
+    third = watch.run(fetch=fetcher(gone_from_qap), previous=second, now="2026-10-14T05:21:00Z", pages=PAGES)
+    assert third["changes"]["removed_documents"] == [], "hearing page was never checked without the QAP link"
+    assert QAP_PDF in {d["url"] for d in third["documents"]}
+
+
+def test_unreadable_new_version_is_an_extraction_failure_not_deleted_lines(monkeypatch):
+    first = watch.run(fetch=fetcher(site("$1,850,000")), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
+    real_fake = watch.pdf_text
+    monkeypatch.setattr(watch, "pdf_text", lambda data: (None, None, "text extraction failed: encrypted")
+                        if b"1,700,000" in data else real_fake(data))
+    r = watch.run(fetch=fetcher(site("$1,700,000")), previous=first, now="2026-10-07T05:21:00Z", pages=PAGES)
+    changed = {c["url"]: c for c in r["changes"]["changed_documents"]}
+    assert changed[QAP_PDF]["key_lines"] is None, "no text is not the same as every line deleted"
+    assert "encrypted" in changed[QAP_PDF]["extraction_error"]
+    assert {f["url"] for f in r["extraction_failures"]} >= {QAP_PDF}
+    # an image-only PDF (empty text layer) counts as a failure too
+    monkeypatch.setattr(watch, "pdf_text", lambda data: ("   \n  ", 1, None))
+    r2 = watch.run(fetch=fetcher(site("$1,600,000")), previous=first, now="2026-10-14T05:21:00Z", pages=PAGES)
+    assert any(f["url"] == QAP_PDF and "image-only" in f["error"] for f in r2["extraction_failures"])
+
+
 def test_real_pdf_text_extraction():
     pytest.importorskip("pypdf")
     text, pages, err = watch.pdf_text(make_pdf(["The maximum federal credit per development is $1,700,000 annually."]))
@@ -217,7 +254,14 @@ def test_workflow_agrees_with_the_script():
     workflow uses."""
     wf = WORKFLOW.read_text()
     rel = watch.OUT_FILE.relative_to(ROOT).as_posix()
-    assert f"git add {rel} data/manifest.json" in wf
+    # AGENTS.md rule 3: both manifests, _manifest first, then schema validation,
+    # and all of it only when the watch file changed (a quiet week commits nothing).
+    commit_step = wf[wf.index("Commit refreshed watch result"):]
+    gate = commit_step.index(f"git diff --quiet -- {rel}")
+    first_manifest = commit_step.index("npm run audit:file-manifest")
+    assert gate < first_manifest < commit_step.index("python3 scripts/rebuild_manifest.py") \
+        < commit_step.index("node scripts/validate-schemas.js")
+    assert f"git add {rel} data/_manifest.json data/manifest.json" in commit_step
     assert re.search(r'--summary\s+"?\$RUNNER_TEMP/', wf), "run summary must be written outside data/"
     assert "pypdf" in wf, "the workflow must install the PDF parser the script imports"
     crons = re.findall(r"cron:\s*'([^']+)'", wf)

@@ -161,10 +161,15 @@ def pdf_text(data: bytes) -> tuple:
         from pypdf import PdfReader  # imported lazily: only needed for documents
     except ImportError:
         return None, None, 'pypdf is not installed'
-    except BaseException as exc:  # e.g. a broken optional crypto backend raises a pyo3 panic
-        if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+    except Exception as exc:
+        return None, None, f'pypdf could not be loaded: {exc.__class__.__name__}: {exc}'
+    except BaseException as exc:
+        # A broken optional crypto backend makes the import raise pyo3's
+        # PanicException, which derives from BaseException, not Exception.
+        # Only that is turned into a recorded failure; anything else propagates.
+        if type(exc).__name__ != 'PanicException':
             raise
-        return None, None, f'pypdf could not be loaded: {exc.__class__.__name__}'
+        return None, None, 'pypdf could not be loaded: PanicException (broken cryptography backend)'
     try:
         reader = PdfReader(io.BytesIO(data))
         parts = [(page.extract_text() or '') for page in reader.pages]
@@ -250,10 +255,15 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             docs_seen.setdefault(link['url'], {'title': link['title'], 'found_on': []})['found_on'].append(page_id)
 
     ok_pages = {p['id'] for p in page_out if p['ok']}
-    documents, new_docs, changed_docs = [], [], []
+    documents, new_docs, changed_docs, extraction_failures = [], [], [], []
     for url, seen in docs_seen.items():
         prev = prev_docs.get(url, {})
-        doc = {'url': url, 'title': seen['title'], 'found_on': seen['found_on'],
+        # A page that failed this run cannot say whether it still lists the document,
+        # so its earlier membership is kept; otherwise a later removal on the pages
+        # that did load would be reported while the failed page still lists it.
+        found_on = seen['found_on'] + [p for p in prev.get('found_on') or []
+                                       if p not in ok_pages and p not in seen['found_on']]
+        doc = {'url': url, 'title': seen['title'], 'found_on': found_on,
                'first_seen_at': prev.get('first_seen_at', now), 'last_checked_at': now}
         try:
             status, headers, body = fetch(url)
@@ -279,8 +289,11 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             if keep_text:
                 text, npages, err = pdf_text(body)
                 doc['pages'] = npages
-                if text is None:
-                    doc['text_error'] = err
+                if text is None or not text.strip():
+                    # Unreadable, encrypted or image-only: there is no text to compare,
+                    # which is not the same as every line having been deleted.
+                    doc['text_error'] = err or 'no extractable text (scanned or image-only PDF)'
+                    extraction_failures.append({'url': url, 'title': doc['title'], 'error': doc['text_error']})
                 else:
                     doc['text_chars'] = len(text)
                     doc['text_truncated'] = len(text) > MAX_DOC_TEXT_CHARS
@@ -288,10 +301,13 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                     doc['key_lines'] = key_lines(text)
         documents.append(doc)
         if not prev:
-            new_docs.append({'url': url, 'title': doc['title'], 'key_lines': doc.get('key_lines', [])[:MAX_DIFF_LINES]})
+            new_docs.append({'url': url, 'title': doc['title'], 'key_lines': doc.get('key_lines', [])[:MAX_DIFF_LINES],
+                             'extraction_error': doc.get('text_error')})
         elif not unchanged:
+            compare = 'key_lines' in doc and 'key_lines' in prev
             changed_docs.append({'url': url, 'title': doc['title'],
-                                 'key_lines': line_diff(prev.get('key_lines'), doc.get('key_lines'))})
+                                 'key_lines': line_diff(prev['key_lines'], doc['key_lines']) if compare else None,
+                                 'extraction_error': doc.get('text_error')})
 
     removed = []
     for url, prev in prev_docs.items():
@@ -326,6 +342,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'changes': changes,
         'has_changes': bool(changes['baseline'] or changes['new_documents'] or changed_docs or removed or changed_pages),
         'fetch_failures': failures,
+        'extraction_failures': extraction_failures,
         'all_fetches_failed': not ok_pages,
     }
 
@@ -347,7 +364,8 @@ def main(argv: list | None = None) -> int:
           f" · baseline: {c['baseline']} · new: {len(c['new_documents'])}"
           f" · changed: {len(c['changed_documents'])} · removed: {len(c['removed_documents'])}"
           f" · pages with changed dates/amounts: {len(c['changed_pages'])}"
-          f" · fetch failures: {len(result['fetch_failures'])}")
+          f" · fetch failures: {len(result['fetch_failures'])}"
+          f" · extraction failures: {len(result['extraction_failures'])}")
     for f in result['fetch_failures']:
         print(f"  ✗ {f['url']}: {f['error']}")
 
@@ -371,7 +389,8 @@ def _write_run_summary(path: str | None, result: dict) -> int:
     if not path:
         return 0
     path = Path(path)
-    summary = {k: result[k] for k in ('generated_at', 'changes', 'has_changes', 'fetch_failures', 'all_fetches_failed')}
+    summary = {k: result[k] for k in ('generated_at', 'changes', 'has_changes', 'fetch_failures',
+                                      'extraction_failures', 'all_fetches_failed')}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(summary, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
     return 0

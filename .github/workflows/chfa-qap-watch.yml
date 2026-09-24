@@ -38,6 +38,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
       - name: Install PDF parser
         run: python3 -m pip install --quiet pypdf==5.1.0
 
@@ -54,7 +59,8 @@ jobs:
             const run = JSON.parse(fs.readFileSync(process.env.RUN_SUMMARY, 'utf8'));
             const c = run.changes || {};
             const failures = run.fetch_failures || [];
-            if (!run.has_changes && failures.length === 0) {
+            const unreadable = run.extraction_failures || [];
+            if (!run.has_changes && failures.length === 0 && unreadable.length === 0) {
               core.info('No QAP changes and no fetch failures.');
               return;
             }
@@ -68,9 +74,13 @@ jobs:
               parts.push(`## New document: [${d.title}](${d.url})`, '', 'Lines with amounts or limits:', fence(d.key_lines), '');
             }
             for (const d of c.changed_documents || []) {
-              parts.push(`## Changed: [${d.title}](${d.url})`, '',
-                'Lines added:', fence(d.key_lines && d.key_lines.added), '',
-                'Lines removed:', fence(d.key_lines && d.key_lines.removed), '');
+              parts.push(`## Changed: [${d.title}](${d.url})`, '');
+              if (d.key_lines) {
+                parts.push('Lines added:', fence(d.key_lines.added), '',
+                  'Lines removed:', fence(d.key_lines.removed), '');
+              } else {
+                parts.push(`The file changed, but its text could not be compared: ${d.extraction_error || 'no text on one side'}. Open the PDF.`, '');
+              }
             }
             for (const d of c.removed_documents || []) {
               parts.push(`## Removed from CHFA's pages: [${d.title}](${d.url})`, '');
@@ -79,6 +89,10 @@ jobs:
               parts.push(`## Dates or amounts changed on [${p.id}](${p.url})`, '',
                 'Added:', fence(p.key_lines && p.key_lines.added), '',
                 'Removed:', fence(p.key_lines && p.key_lines.removed), '');
+            }
+            if (unreadable.length) {
+              parts.push('## PDFs whose text could not be extracted', '',
+                ...unreadable.map(f => `- [${f.title}](${f.url}): ${f.error}`), '');
             }
             if (failures.length) {
               parts.push(run.all_fetches_failed
@@ -112,20 +126,27 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          python3 scripts/rebuild_manifest.py
-          git add data/audit/chfa-qap-watch.json data/manifest.json
-          if git diff --cached --quiet; then
-            echo "No change to commit."
+          # The watcher leaves its file untouched on a quiet week. Check that before
+          # touching the manifests: rebuild_manifest.py always stamps a new time,
+          # so rebuilding unconditionally would commit every week.
+          if git diff --quiet -- data/audit/chfa-qap-watch.json; then
+            echo "Watch file unchanged; nothing to commit."
             exit 0
           fi
+          # AGENTS.md rule 3, in order: _manifest first (manifest.json records its size).
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          node scripts/validate-schemas.js
+          git add data/audit/chfa-qap-watch.json data/_manifest.json data/manifest.json
           git commit -m "chore: refresh chfa-qap-watch $(date -u +'%Y-%m-%d')"
           # Rebase onto current main rather than merging with -s ours (F119):
           # a real conflict must surface in the job log, not be discarded.
           git fetch origin main
           git rebase --autostash origin/main
+          npm run audit:file-manifest
           python3 scripts/rebuild_manifest.py
-          if ! git diff --quiet -- data/manifest.json; then
-            git add data/manifest.json
+          if ! git diff --quiet -- data/_manifest.json data/manifest.json; then
+            git add data/_manifest.json data/manifest.json
             git commit --amend --no-edit
           fi
           git push
