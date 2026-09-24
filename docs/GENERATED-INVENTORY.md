@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T00:48:10.118Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T01:11:27.712Z. Do not edit by hand.
 
 ---
 
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-391 test files found.
+392 test files found.
 
 | File | Size |
 |------|------|
@@ -1877,6 +1877,7 @@
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
+| `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 4.4 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
