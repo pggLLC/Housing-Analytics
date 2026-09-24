@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T15:34:23.006Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T16:06:14.548Z. Do not edit by hand.
 
 ---
 
@@ -38,7 +38,7 @@
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 9.4 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.0 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
@@ -141,7 +141,7 @@
 | `data/fixtures/fruita-commons-family.scenario.json` | 5.0 KB | ✅ | — |
 | `data/fixtures/fruita-commons.scenario.json` | 4.9 KB | ✅ | — |
 | `data/fred-data.json` | 1.19 MB | ✅ | — |
-| `data/glossary.json` | 20.7 KB | ✅ | — |
+| `data/glossary.json` | 22.7 KB | ✅ | — |
 | `data/hmda/co-county-aggregates.json` | 240.8 KB | ✅ | — |
 | `data/hmda/co-state-trends.json` | 3.6 KB | ✅ | — |
 | `data/hna/benchmarks.json` | 9.1 KB | ✅ | — |
@@ -1671,7 +1671,7 @@
 
 ## Test Files
 
-399 test files found.
+400 test files found.
 
 | File | Size |
 |------|------|
@@ -1746,6 +1746,7 @@
 | `test/deal-calc-for-sale-feasibility.test.js` | 16.4 KB |
 | `test/deal-calc-minimum-set-aside.test.js` | 6.4 KB |
 | `test/deal-calc-mortgage-math.test.js` | 1.4 KB |
+| `test/deal-calc-ownership-actor-labels.test.js` | 6.2 KB |
 | `test/deal-calc-screening-apply.test.js` | 3.6 KB |
 | `test/deal-calc-studio-units.test.js` | 2.7 KB |
 | `test/deal-calc-workflow-prefill.test.js` | 4.8 KB |
