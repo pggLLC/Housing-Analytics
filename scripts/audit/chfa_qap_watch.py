@@ -168,10 +168,18 @@ def pdf_text(data: bytes) -> tuple:
         return None, None, f'pypdf could not be loaded: {exc.__class__.__name__}: {exc}'
     try:
         reader = PdfReader(io.BytesIO(data))
+        if reader.is_encrypted:
+            # CHFA's full QAP drafts are AES-encrypted with an owner password only:
+            # they open with an empty user password, but pypdf needs the
+            # `cryptography` package to do it. Without it every draft plan, the
+            # documents this watcher exists for, came back unreadable (first live
+            # run, 2026-09-24: 8 of 54 documents).
+            reader.decrypt('')
         parts = [(page.extract_text() or '') for page in reader.pages]
         return '\n'.join(parts), len(reader.pages), None
     except Exception as exc:  # malformed or encrypted PDF
-        return None, None, f'text extraction failed: {exc.__class__.__name__}: {exc}'
+        hint = ' (encrypted PDF: install the cryptography package)' if 'cryptography' in str(exc) else ''
+        return None, None, f'text extraction failed: {exc.__class__.__name__}: {exc}{hint}'
 
 
 def key_lines(text: str, pattern: re.Pattern = KEY_LINE_RE) -> list[str]:

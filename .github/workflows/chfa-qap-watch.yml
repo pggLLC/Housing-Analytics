@@ -44,7 +44,8 @@ jobs:
           node-version: '22'
 
       - name: Install PDF parser
-        run: python3 -m pip install --quiet pypdf==5.1.0
+        # cryptography: CHFA's full QAP drafts are AES-encrypted; pypdf needs it to open them.
+        run: python3 -m pip install --quiet pypdf==5.1.0 cryptography==50.0.1
 
       - name: Run QAP watcher
         run: python3 scripts/audit/chfa_qap_watch.py --summary "$RUNNER_TEMP/chfa-qap-run.json"

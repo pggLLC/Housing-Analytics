@@ -15,6 +15,7 @@ Run: python3 -m pytest tests/test_chfa_qap_watch.py -q
 """
 
 import importlib.util
+import io
 import re
 from pathlib import Path
 
@@ -101,7 +102,7 @@ def fetcher(pages):
 def fake_pdf_text(monkeypatch, request):
     """Most tests do not need a real PDF parser: read the text back out of make_pdf's
     content stream. test_real_pdf_text_extraction uses pypdf itself."""
-    if request.node.name == "test_real_pdf_text_extraction":
+    if request.node.name.startswith("test_real_"):
         return
 
     def fake(data):
@@ -248,6 +249,32 @@ def test_real_pdf_text_extraction():
     text, pages, err = watch.pdf_text(make_pdf(["The maximum federal credit per development is $1,700,000 annually."]))
     assert err is None and pages == 1
     assert "$1,700,000" in text
+
+
+def test_real_encrypted_pdf_text_extraction():
+    """CHFA's full QAP drafts are AES-256 encrypted with an owner password only.
+    The first live run read none of them; this is that case, with a real PDF."""
+    pypdf = pytest.importorskip("pypdf")
+    pytest.importorskip("cryptography")
+    reader = pypdf.PdfReader(io.BytesIO(make_pdf(["Maximum Credit Award: no more than $1,700,000 in 2027."])))
+    writer = pypdf.PdfWriter(clone_from=reader)
+    writer.encrypt(user_password="", owner_password="chfa-owner", algorithm="AES-256")
+    buf = io.BytesIO()
+    writer.write(buf)
+    assert pypdf.PdfReader(io.BytesIO(buf.getvalue())).is_encrypted, "the fixture is not encrypted"
+    text, pages, err = watch.pdf_text(buf.getvalue())
+    assert err is None, err
+    assert "$1,700,000" in text
+
+
+def test_workflow_and_ci_install_the_same_pdf_stack():
+    """The watcher needs cryptography to open encrypted drafts, and CI needs the
+    same pin or the encrypted-PDF test above silently skips."""
+    pins = lambda text: dict(re.findall(r"\b(pypdf|cryptography)==([\d.]+)", text))
+    wf = pins(WORKFLOW.read_text())
+    ci = pins((ROOT / ".github" / "workflows" / "ci-checks.yml").read_text())
+    assert set(wf) == {"pypdf", "cryptography"}, f"the watcher installs {wf}"
+    assert wf == ci, f"watcher pins {wf} but ci-checks pins {ci}"
 
 
 def test_workflow_agrees_with_the_script():
