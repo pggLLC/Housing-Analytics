@@ -25,6 +25,7 @@
   var _softFundingStatus = null; // #1236: non-scored jurisdiction funding context
   var _developerOwnershipFunding = null; // #1167 OWN-3: developer-facing ownership funding stack
   var _resaleConventions = null; // #1167 OWN-4: pluggable resale convention screen
+  var _permits = null; // #1842: BPS permit-declared structure cost, context under the TDC input; never an input
   var _resaleSelection = { subsidyType: 'none', selectedConventionId: null };
   var _pabByGeoid = null;   // F25: PAB direct allocations (county FIPS / place geoid)
   var _pabMeta = null;      // F25: PAB allocations metadata
@@ -1361,6 +1362,7 @@
           <span style="font-size:var(--small);color:var(--muted);">Total Development Cost ($)</span>
           <input id="dc-tdc" type="number" min="0" step="100000" value="20000000"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);">
+          <span id="dc-tdc-permit-context" role="note" hidden style="display:block;margin-top:.3rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;"></span>
         </label>
 
         <!-- Gross building area. NO default value, deliberately.
@@ -2931,7 +2933,57 @@
   // -------------------------------------------------------------------
   // Core calculation
   // -------------------------------------------------------------------
+  // ── #1842: permit-declared structure cost as CONTEXT under the TDC input ──
+  //
+  // Census BPS "Value" is what applicants declared to the permitting office
+  // for the STRUCTURE: no land, soft costs, fees or financing, so it is not
+  // TDC and runs well under a Colorado LIHTC budget. It is fit for one job —
+  // a relative county cost index and a sanity check on a figure somebody
+  // typed. So it is rendered as a note the reader can compare against, and
+  // it never populates a field: not TDC, and never the $/SF input, whose
+  // whole discipline is that nothing invents a figure for it.
+  function setPermitsData(data) {
+    _permits = data && data.counties && typeof data.counties === 'object' ? data : null;
+    renderPermitContext(_countyFips);
+  }
+
+  function permitRecordFor(fips) {
+    if (!_permits || !fips) return null;
+    var county = _permits.counties[String(fips)];
+    if (!county || !county.declared_value_per_unit_mf_5yr) return null;
+    return { name: county.name, rec: county.declared_value_per_unit_mf_5yr };
+  }
+
+  function renderPermitContext(fips) {
+    var el = document.getElementById('dc-tdc-permit-context');
+    if (!el) return;
+    var found = permitRecordFor(fips);
+    if (!found) { el.hidden = true; el.textContent = ''; return; }
+    var rec = found.rec;
+    var text;
+    if (typeof rec.value === 'number' && rec.value > 0) {
+      text = 'For comparison: permit-declared structure cost in ' + found.name + ', ' + (rec.window || '') +
+        ': $' + Math.round(rec.value).toLocaleString('en-US') + ' per multifamily unit across ' +
+        (Number(rec.units) || 0).toLocaleString('en-US') + ' permitted units (Census Building Permits Survey). ' +
+        'Structure only: it excludes land, soft costs, fees and financing, so it is not total development cost.';
+      var tdcEl = document.getElementById('dc-tdc');
+      var unitsEl = document.getElementById('dc-units');
+      var tdc = parseFloat(tdcEl && tdcEl.value);
+      var units = parseFloat(unitsEl && unitsEl.value);
+      if (Number.isFinite(tdc) && tdc > 0 && Number.isFinite(units) && units > 0) {
+        var perUnit = tdc / units;
+        text += ' Your TDC works out to $' + Math.round(perUnit).toLocaleString('en-US') + ' per unit, ' +
+          (perUnit / rec.value).toFixed(1) + '\u00d7 that figure.';
+      }
+    } else {
+      text = 'Permit-declared structure cost in ' + found.name + ': not shown; ' + (rec.basis || 'too few permitted units to mean anything') + '.';
+    }
+    el.textContent = text;
+    el.hidden = false;
+  }
+
   function recalculate() {
+    renderPermitContext(_countyFips);
     function fmt(n) {
       if (!isFinite(n)) return '—';
       return '$' + Math.round(n).toLocaleString('en-US');
@@ -4630,6 +4682,14 @@
       if (currentDealMode() === 'ownership') recalculate();
     });
 
+    fetch(_gapResolver('data/hna/permits.json')).then(function (r) {
+      return r.ok ? r.json() : null;
+    }).then(function (data) {
+      setPermitsData(data);
+    }).catch(function () {
+      setPermitsData(null);
+    });
+
     fetch(_gapResolver('data/policy/resale-conventions.json')).then(function (r) {
       return r.ok ? r.json() : null;
     }).then(function (data) {
@@ -6201,6 +6261,8 @@
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
     computeOwnershipResale:     computeOwnershipResale,
+    setPermitsData:             setPermitsData,
+    renderPermitContext:        renderPermitContext,
     renderForSaleFeasibility:   renderForSaleFeasibility,
     computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
