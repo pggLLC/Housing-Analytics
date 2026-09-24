@@ -1,6 +1,6 @@
 # Data Source Discovery Report
 
-**Scan timestamp:** 2026-09-23T12:43:53.996Z
+**Scan timestamp:** 2026-09-24T12:42:00.568Z
 
 ## Summary
 
@@ -28,7 +28,7 @@
 - `data/affordable-housing/properties.json` (1488 KB)
 - `data/affordable-housing/property-aliases.json` (1 KB)
 - `data/affordable-housing/regrid-parcels-by-place.json` (4 KB)
-- `data/alerts/alerts_archive.json` (182 KB)
+- `data/alerts/alerts_archive.json` (172 KB)
 - `data/amenities/parks_co.geojson` (1247 KB)
 - `data/amenities/transit_stops_co.geojson` (2343 KB)
 - `data/audit/quarantine-candidates.json` (0 KB)
@@ -1582,7 +1582,7 @@
 - `data/policy/stewardship-providers.json` (2 KB)
 - `data/policy/tax-credit-legislation.json` (14 KB)
 - `data/policy/tool-watch.json` (5 KB)
-- `data/policy_briefs.json` (151 KB)
+- `data/policy_briefs.json` (143 KB)
 - `data/policy_briefs_curated.json` (4 KB)
 - `data/polymarket-data.json` (17 KB)
 - `data/processed/co_county_housing_indicators.geojson` (430 KB)
