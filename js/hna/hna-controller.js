@@ -4292,6 +4292,22 @@
     if (restoredGeoId) {
       window.HNAState.els.geoSelect.value = restoredGeoId;
     }
+    // An address that names a geography which does not exist — a typo, a
+    // retired GEOID with no alias, a stale link — must say so. Until
+    // 2026-09-24 it loaded nothing: blank stats, four 404s, the generic
+    // "select a geography" line, and a banner still naming the last saved
+    // jurisdiction. The registry (awaited above) lists all 546 geographies,
+    // so it is the check; regional/combined addresses and the state are not
+    // registry entries and are left alone.
+    let unknownGeoid = null;
+    const _combined = window.HNAState.state.combinedMembers && window.HNAState.state.combinedMembers.length;
+    if (restoredGeoId && restoredGeoType !== 'state' && !String(restoredGeoId).startsWith('region:') && !_combined && !_registryHasGeoid(restoredGeoId)) {
+      unknownGeoid = String(restoredGeoId);
+      window.HNAState.els.geoSelect.value = '';
+      const wsText = document.querySelector('#hnaWaitingState .hna-waiting-text');
+      if (wsText) wsText.textContent = 'No Colorado geography has the ID ' + unknownGeoid + '. Choose a county, city, town or CDP above to load housing data.';
+      console.warn('[HNA] unknown geography in address: ' + unknownGeoid);
+    }
     _syncCombinedPanel();
     if (urlCombinedMode === 'regional') {
       const regionalMode = document.querySelector('input[name="combinedGeoMode"][value="regional"]');
@@ -4511,7 +4527,8 @@
     });
 
     ensureMap();
-    update();
+    // Nothing to load for an unknown geography; the waiting state says why.
+    if (!unknownGeoid) update();
   }
 
 
