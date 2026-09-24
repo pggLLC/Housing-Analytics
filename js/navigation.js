@@ -207,9 +207,18 @@
       var proj = window.WorkflowState && window.WorkflowState.getActiveProject();
       var jx = proj && (proj.jurisdiction || (proj.steps && proj.steps.jurisdiction));
       if (jx && (jx.name || jx.countyName)) {
-        county = jx.name || jx.countyName;
-        if (jx.type === 'city' && jx.displayName) {
-          city = jx.displayName.replace(/\s*\((?:city|town|CDP)\)/i, '');
+        // Two shapes reach here. The selector and the URL context write
+        // name = the place ("Fruita (city)") with countyName = its county;
+        // older saved projects wrote name = the county with displayName =
+        // the place. Reading `name` as the county in both cases produced
+        // "Fruita (city) · Fruita" on every page (2026-09-23).
+        var isPlace = /^(city|town|cdp|place)$/i.test(jx.type || '');
+        county = jx.countyName || (!isPlace ? jx.name : null) || jx.name;
+        if (isPlace) {
+          var placeLabel = jx.displayName || jx.name || '';
+          if (placeLabel && placeLabel !== county) {
+            city = placeLabel.replace(/\s*\((?:city|town|CDP)\)/i, '');
+          }
         }
       }
     } catch (_) {}
