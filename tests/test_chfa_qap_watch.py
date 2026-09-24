@@ -7,7 +7,9 @@ project by word of mouth, and because data/chfa-qap-calendar.json linked two
 CHFA pages that returned 404 for three months without anything noticing.
 
 These tests run the watcher against a fake CHFA (no network) and small PDFs
-built in the test, so no fixture files are added under data/.
+built in the test, so no fixture files are added under data/. The fake site
+lives on chfa.localhost so the source-URL sweep, which probes every URL a PR
+adds, never fetches a fixture address.
 
 Run: python3 -m pytest tests/test_chfa_qap_watch.py -q
 """
@@ -26,12 +28,12 @@ spec = importlib.util.spec_from_file_location("chfa_qap_watch", SRC)
 watch = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(watch)
 
-QAP_URL = "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
-HEARING_URL = "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+QAP_URL = "https://chfa.localhost/rental-housing/housing-credit/qualified-allocation-plan"
+HEARING_URL = "https://chfa.localhost/rental-housing/housing-credit/qap-hearing"
 PAGES = [("qap", QAP_URL), ("hearing", HEARING_URL)]
-QAP_PDF = "https://www.chfainfo.com/getattachment/aaaa/2027-2028-QAP.pdf"
-SUMMARY_PDF = "https://www.chfainfo.com/getattachment/bbbb/2027-2028-QAP-Summary-of-Changes.pdf"
-FORM_PDF = "https://www.chfainfo.com/getattachment/cccc/Application-Checklist.pdf"
+QAP_PDF = "https://chfa.localhost/getattachment/aaaa/2027-2028-QAP.pdf"
+SUMMARY_PDF = "https://chfa.localhost/getattachment/bbbb/2027-2028-QAP-Summary-of-Changes.pdf"
+FORM_PDF = "https://chfa.localhost/getattachment/cccc/Application-Checklist.pdf"
 
 
 def make_pdf(lines):
@@ -115,7 +117,7 @@ def test_document_links_finds_documents_and_nothing_else():
                                            (QAP_PDF, "QAP again")]).decode(), QAP_URL)
     urls = [l["url"] for l in links]
     # non-vacuity: the scan found the documents it should
-    assert urls == [QAP_PDF, "https://www.chfainfo.com/files/local.pdf"]
+    assert urls == [QAP_PDF, "https://chfa.localhost/files/local.pdf"]
     assert all(not u.endswith("/contact") for u in urls)
 
 
@@ -177,7 +179,7 @@ def test_everything_down_is_flagged_and_keeps_previous_documents():
 
 
 def test_removed_only_when_its_page_loaded_without_it():
-    extra = "https://www.chfainfo.com/getattachment/dddd/2027-2028-QAP-Redline.pdf"
+    extra = "https://chfa.localhost/getattachment/dddd/2027-2028-QAP-Redline.pdf"
     pages = site("$1,700,000", extra_links=[(extra, "Redline")])
     pages[extra] = (200, {}, make_pdf(["Redline: maximum $1,700,000"]))
     first = watch.run(fetch=fetcher(pages), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
