@@ -33,11 +33,15 @@ function test(name, fn) {
 console.log('\nOwnership / rental separation (PC-2)');
 console.log('='.repeat(62));
 
-/* ── The calculator, rendered ─────────────────────────────────────────── */
+/* ── The whole page, with the calculator rendered into it ─────────────── */
 
-const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
-  url: 'http://127.0.0.1/deal-calculator.html'
-});
+// The page itself, not a bare mount. A first version scanned only
+// #dealCalcMount and passed while the page heading, stress tests, capital
+// waterfall, QAP tools and LIHTC education — all outside the mount — were
+// still on screen in ownership mode (Codex review of #1874). The page's own
+// scripts do not run here; the calculator is rendered into its real mount.
+const pageSrc = read('deal-calculator.html');
+const dom = new JSDOM(pageSrc, { url: 'http://127.0.0.1/deal-calculator.html', runScripts: 'outside-only' });
 global.document = dom.window.document;
 global.window = dom.window;
 global.HTMLElement = dom.window.HTMLElement;
@@ -46,11 +50,27 @@ window.DealCalculatorMath = require('../js/deal-calculator-math.js');
 require('../js/hna/hna-ownership-need.js');
 require('../js/hna/ownership-resale.js');
 require('../js/deal-calculator.js');
+
+// Page components that render LIHTC content at load, outside the calculator.
+// Loaded with the page's own inline calls to them, so what is scanned below
+// is what a browser shows, not only the static markup.
+const LOAD_TIME_RENDERERS = [
+  ['js/components/development-realism.js', 'DevRealism.'],
+  ['js/components/data-quality-summary.js', 'DataQualitySummary.render'],
+];
+LOAD_TIME_RENDERERS.forEach(([file, call]) => {
+  window.eval(read(file));
+  const inline = Array.from(pageSrc.matchAll(/<script>([\s\S]*?)<\/script>/g), (m) => m[1])
+    .filter((src) => src.includes(call));
+  assert(inline.length, 'no inline call to ' + call + ' found in deal-calculator.html');
+  inline.forEach((src) => window.eval(src));
+});
 document.dispatchEvent(new Event('DOMContentLoaded', { bubbles: true }));
+assert(document.getElementById('dealColorado').textContent.length > 100,
+  'the Colorado factors checklist did not render; the scan would not see it');
 
 // The page's own save function, taken from the page rather than retyped, so
 // this cannot pass against a copy that has drifted from what ships.
-const pageSrc = read('deal-calculator.html');
 const start = pageSrc.indexOf('function readDealState()');
 const end = pageSrc.indexOf('// Expose for deal-comparison.js', start);
 assert(start > 0 && end > start, 'readDealState() could not be located in deal-calculator.html');
@@ -68,14 +88,14 @@ function setMode(mode) {
 const LIHTC_TERMS = /(tax credit|eligible basis|\bNOI\b|\bLIHTC\b|credit equity|annual credits|supportable first mortgage)/i;
 
 function visibleLihtcText() {
-  const mount = document.getElementById('dealCalcMount');
+  const mount = document.querySelector('main');
   const chooser = document.getElementById('dc-mode-rental').closest('fieldset');
   const hits = [];
   const walker = document.createTreeWalker(mount, dom.window.NodeFilter.SHOW_TEXT);
   let node;
   while ((node = walker.nextNode())) {
     const el = node.parentElement;
-    if (!el || el.closest('[hidden]') || el.closest('script,style,template')) continue;
+    if (!el || el.closest('[hidden]') || el.closest('script,style,template,noscript')) continue;
     // The mode chooser names both paths by design: "Rental (LIHTC)" is how a
     // reader picks the rental path, not a leak into the ownership one.
     if (chooser && chooser.contains(el)) continue;
@@ -130,6 +150,41 @@ test('a mode-hidden element stays hidden even with an inline display', () => {
   const inlineDisplay = Array.from(document.querySelectorAll('[data-dc-mode]'))
     .filter((el) => /display\s*:/.test(el.getAttribute('style') || ''));
   assert(inlineDisplay.length > 0, 'no mode-tagged element carries an inline display; this check has nothing to hold');
+});
+
+/* ── The export ──────────────────────────────────────────────────────── */
+
+require('../js/deal-calculator-share.js');
+
+// PC-2's own list, stated independently of how the exporter decides: tax
+// credits (credit rate, set-aside, equity pricing), eligible basis (basis %,
+// QCT/DDA), NOI, and LIHTC debt (DCR). Plus the LIHTC-only stress and
+// waterfall inputs that live outside the calculator.
+const PC2_KEYS = ['rate-9', 'minimum-set-aside', 'equity-price', 'basis-pct', 'qct-dda',
+  'noi', 'auto-noi', 'dcr', 'stress-equity-price', 'wf-lp-equity'];
+
+test('the JSON export and share URL carry no LIHTC input in ownership mode', () => {
+  const share = window.__DealCalcShare;
+  assert(share && typeof share.buildSnapshot === 'function', 'the exporter no longer exposes buildSnapshot()');
+
+  setMode('rental');
+  const rental = share.buildSnapshot();
+  assert.strictEqual(rental.dealMode, 'rental');
+  const missing = PC2_KEYS.filter((k) => !(k in rental.inputs));
+  assert.deepStrictEqual(missing, [], 'rental export lacks ' + missing.join(', ') + '; these checks would pass vacuously');
+
+  setMode('ownership');
+  const own = share.buildSnapshot();
+  assert.strictEqual(own.dealMode, 'ownership');
+  const leaked = PC2_KEYS.filter((k) => k in own.inputs);
+  assert.deepStrictEqual(leaked, [], 'ownership JSON export carries ' + leaked.join(', '));
+  assert.deepStrictEqual(own.tranches, [], 'ownership JSON export carries soft-funding tranches');
+  const params = new URL(own.url).searchParams;
+  const inUrl = PC2_KEYS.filter((k) => params.has(k)).concat(params.has('tr') ? ['tr'] : []);
+  assert.deepStrictEqual(inUrl, [], 'ownership share URL carries ' + inUrl.join(', '));
+  ['tdc', 'units', 'sale-target-ami'].forEach((k) =>
+    assert(k in own.inputs, 'ownership export dropped the ownership input ' + k));
+  assert.strictEqual(own.inputs['mode-rental'], 'ownership', 'the export does not say it is an ownership deal');
 });
 
 /* ── The save, fed to the Recommendation ─────────────────────────────── */
