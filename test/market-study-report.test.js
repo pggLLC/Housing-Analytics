@@ -218,14 +218,41 @@ assert(resolvedVerdictPreview.includes(denominator), 'verdict penetration figure
   assert.deepStrictEqual(reportSteps, pageSteps, 'the page and the report name the funnel steps differently');
 }
 
-// A buyer pool that earlier sales used up is a measured result, not a missing
-// input. It must never be labelled as one.
+// A zero buyer pool is a measured result, not a missing input, and "empty
+// from the start" is a different fact from "used up by earlier sales".
+// Asserted on state, not wording: each rendered line is compared with the
+// line the same formatter gives a genuinely missing input, and with lines for
+// the other zero case, so the copy can be reworded freely.
 {
-  const zeroPoolYears = resolved.capture.scenarios.flatMap((item) => item.annualCaptureRate).filter((entry) => entry.denominator.value === 0);
-  assert(zeroPoolYears.length > 0, 'no used-up pool in the resolved fixture — this check would pass vacuously');
-  const resolvedCaptureText = captureSection.textContent;
-  assert(!/Owner input required — pool 0/.test(resolvedCaptureText), 'a used-up buyer pool is labelled as a missing owner input');
-  assert.strictEqual((resolvedCaptureText.match(/none — the buyer pool is used up by earlier sales/g) || []).length, zeroPoolYears.length);
+  const lineBody = (line) => line.replace(/^Year \d+: /, '');
+  // The value part only: the pool figure after " — " differs between cases.
+  const valuePart = (body) => body.split(' — ')[0];
+  const missingInput = valuePart(lineBody(Report.formatAnnualCapture([{ value: 'not_available', denominator: { value: 'not_available' } }])));
+  assert(missingInput.length > 0, 'could not read the missing-input label from the formatter');
+  const zeroShares = Object.assign({}, shares, { contract_fallout: 0 });
+  const zeroModel = Page.buildModel(data, { assumptions: zeroShares });
+  assert.strictEqual(zeroModel.funnel.effectiveDemand, 0, 'fixture no longer produces a zero-demand funnel');
+  const zeroReport = Report.renderReportPreview(Report.buildReport(zeroModel, meta));
+  const depleted = [];
+  const emptyFromStart = [];
+  [[resolved, Report.renderReportPreview(resolvedReport)], [zeroModel, zeroReport]].forEach(([m, rendered]) => {
+    m.capture.scenarios.forEach((item) => {
+      const lines = Report.formatAnnualCapture(item.annualCaptureRate).split('<br>');
+      assert(rendered.includes(lines.join('<br>')), 'the report does not render the shared capture formatter output');
+      let hadBuyers = false;
+      item.annualCaptureRate.forEach((entry, index) => {
+        if (entry.denominator.value === 0) (hadBuyers ? depleted : emptyFromStart).push(lineBody(lines[index]));
+        if (entry.denominator.value > 0) hadBuyers = true;
+      });
+    });
+  });
+  assert(depleted.length > 0 && emptyFromStart.length > 0, 'the fixtures no longer cover both zero-pool cases');
+  [...depleted, ...emptyFromStart].forEach((body) => {
+    assert.notStrictEqual(valuePart(body), missingInput, 'a zero buyer pool is labelled as a missing input: ' + body);
+  });
+  const depletedSet = new Set(depleted);
+  emptyFromStart.forEach((body) => assert(!depletedSet.has(body),
+    'a pool that was empty from the start is described the same way as one used up by sales: ' + body));
 }
 
 assert(!/<script\b/i.test(exported));

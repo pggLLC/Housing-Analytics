@@ -144,8 +144,19 @@
   }
   function formatAnnualCapture(values) {
     if (!Array.isArray(values)) return display(values);
+    // A pool that had buyers in an earlier year and has none now was used up
+    // by sales. A pool with no buyers from the start is a measured zero — for
+    // example an entered share of 0 — and saying it was "used up" would be a
+    // false explanation.
+    var hadBuyers = false;
     return values.map(function (entry, index) {
-      if (zeroPool(entry)) return 'Year ' + (index + 1) + ': none — the buyer pool is used up by earlier sales';
+      var earlierPool = hadBuyers;
+      if (entry && entry.denominator && typeof entry.denominator.value === 'number' && entry.denominator.value > 0) hadBuyers = true;
+      if (zeroPool(entry)) {
+        return 'Year ' + (index + 1) + ': none — ' + (earlierPool
+          ? 'the buyer pool is used up by earlier sales'
+          : 'the estimated buyer pool is empty from the start');
+      }
       return 'Year ' + (index + 1) + ': ' + (unavailable(entry.value) ? display(entry.value) : entry.value.toLocaleString('en-US', { style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1 })) + ' — pool ' + rounded(entry.denominator.value, 2);
     }).join('<br>');
   }
