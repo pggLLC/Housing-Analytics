@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-24T11:53:21.153299Z",
+  "generated": "2026-09-24T12:01:38.163409Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -74,7 +74,7 @@
     "data/alerts/alerts_archive.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 186854
+      "bytes": 176473
     },
     "data/allocations.json": {
       "featureCount": 0,
@@ -7964,7 +7964,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 154717
+      "bytes": 146257
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
