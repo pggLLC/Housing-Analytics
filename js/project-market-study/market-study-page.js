@@ -79,55 +79,16 @@
   function pill(value) { return ProvenanceLabel.html(typeof value === 'object' ? value : { classification: value }, { compact: true }); }
   function provenance(value) { return ProvenanceLabel.html(value); }
   function caveat() { return '<p class="ms-caveat">Screening arithmetic for analyst review; verify source evidence and owner inputs before project use.</p>'; }
-  /**
-   * Plain-language layer. The engines speak in field ids because the report
-   * and the tests address them that way; a first-time reader should not have
-   * to. These maps only relabel — every value shown next to them is still the
-   * engine's own.
-   */
-  var STAGE_LABELS = {
-    household_size_compatibility: 'Household size fits the homes offered',
-    first_time_buyer_share: 'Would be first-time buyers',
-    tenure_preference: 'Want to own rather than rent',
-    down_payment_readiness: 'Have a down payment saved',
-    debt_credit_readiness: 'Credit and debts would pass a lender',
-    mortgage_readiness: 'Could get a mortgage approved',
-    unit_type_preference: 'Would take the home types offered',
-    location_preference: 'Would live at this location',
-    shared_equity_acceptance: 'Would accept a capped resale price',
-    purchase_readiness_window: 'Ready to buy during the sales period',
-    contract_fallout: 'Signed contracts that actually close'
-  };
-  var LAND_FIELD_LABELS = {
-    appraised_value_treatment: 'How an appraiser values it',
-    buyer_mortgageability: 'Can buyers get a mortgage?',
-    property_tax_implication: 'Property taxes',
-    ground_rent_burden: 'Monthly land fee for the buyer',
-    future_affordability: 'What keeps it affordable later',
-    public_control: 'How much control the public keeps',
-    foreclosure_exposure: 'If an owner is foreclosed on',
-    resale_administration: 'Who oversees resales',
-    steward_replaceability: 'Can the steward be replaced?',
-    public_subsidy_preservation: 'Does the public investment stay in the home?',
-    administrative_cost: 'Ongoing administration effort',
-    buyer_acceptance: 'How buyers are likely to react',
-    legal_document_complexity: 'Legal paperwork',
-    failure_risk: 'Main way it could fail',
-    initial_benefit: 'Where the upfront savings come from'
-  };
-  var PENDING_LABELS = {
-    tdc_build_up: 'a breakdown of total development cost (TDC)',
-    land_value: 'the land value',
-    phasing: 'the construction phasing',
-    hrwc_terms: 'the steward\'s terms (Housing Resources of Western Colorado)',
-    development_partner: 'a development partner',
-    lender: 'a lender'
-  };
-  function humanize(id) {
-    var words = String(id).replace(/_/g, ' ');
-    return words.charAt(0).toUpperCase() + words.slice(1);
+  // Plain-language labels live in market-study-report.js so the page and the
+  // downloaded report describe every field the same way.
+  // Looked up at call time: this factory also runs once before the report
+  // module is loaded (the bare-global pass in Node).
+  function humanize(id) { return MarketStudyReport.humanize(id); }
+  function plainLabel(group, id) {
+    var labels = MarketStudyReport.PLAIN_LABELS[group];
+    return (labels && labels[id]) || humanize(id);
   }
-  function stageLabel(id) { return STAGE_LABELS[id] || humanize(id); }
+  function stageLabel(id) { return plainLabel('stages', id); }
   function affordabilityAnswer(item) {
     if (typeof item.preservesAffordability !== 'boolean') return noviceText(item.preservesAffordabilityLabel);
     return (item.preservesAffordability ? '<strong>Yes</strong> — ' : '<strong>No</strong> — ') + noviceText(item.preservesAffordabilityLabel);
@@ -242,14 +203,14 @@
       return `<li><strong>${humanize(partner.role)}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
     }).join('');
     var pending = model.scenario.meta.owner_inputs_pending;
-    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return PENDING_LABELS[id] || humanize(id); }).join('; ')}.</p><p class="ms-caveat">Values still needed: ${pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p><p class="ms-caveat">Values still needed: ${pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
   function renderLand(model) {
     var rows = model.landOutcomes.map(function (item) {
       var fields = Object.keys(item.row.assessments).map(function (key) {
         var field = item.row.assessments[key];
-        return `<li><strong>${LAND_FIELD_LABELS[key] || humanize(key)}</strong>: ${humanize(field.value)} ${provenance(field)}</li>`;
+        return `<li><strong>${plainLabel('landFields', key)}</strong>: ${humanize(field.value)} ${provenance(field)}</li>`;
       }).join('');
       return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong> — an idea to check, not a finding' : ''}</p><p>Upfront price reduction per home: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Buyer's monthly housing cost in year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>What this option means in practice (15 questions)</summary><ul>${fields}</ul></details></article>`;
     }).join('');
@@ -298,7 +259,8 @@
   }
 
   function figure(value, kind) {
-    return `<span class="ms-figure">${display(value.value, kind)} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${noviceText(value.denominator.basis)}</span></span>`;
+    var shown = unavailable(value.value) && value.denominator.value === 0 ? 'None — the pool is empty' : display(value.value, kind);
+    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
@@ -306,7 +268,7 @@
     });
     var amiRows = Object.keys(model.capture.captureByAmiBand).map(function (key) {
       var item = model.capture.captureByAmiBand[key];
-      return `<tr><td>${key}</td><td>${display(item.numerator)}</td><td>${figure(item, 'rate')}</td><td>${item.reason || ''}</td></tr>`;
+      return `<tr><td>${key}</td><td>${display(item.numerator)}</td><td>${figure(item, 'rate')}</td><td>${MarketStudyReport.plainReason(item.reason)}</td></tr>`;
     });
     return `<section id="ms-s6" class="chart-card ms-section">${heading('6. How fast the homes might sell', 'capture scenarios')}${plain('given the estimated buyer pool from section 5, this asks what share of those buyers the project would have to sign up to sell every home in two, two and a half, three or four years. The bigger the share, the harder the sales job. It stays blank until section 5 is complete.')}${table(['Sales pace', 'Homes closing each month', 'Homes closing each year', 'Share of ready buyers needed each year', 'Share of all ready buyers the project needs', 'Signed contracts needed (some fall through)', 'Pool only shrinks as homes sell (no new buyers added)'], scenarioRows, 'Capture scenarios')}${table(['Income group (AMI band)', 'Homes in this group', 'Share of this group\'s ready buyers needed', 'Data limitation'], amiRows, 'AMI capture cross-tab')}<div class="ms-warning"><strong>Other homes for sale are not counted:</strong> ${model.capture.competitiveSupplyNote}</div><div class="ms-warning"><strong>Treat these as rough arithmetic:</strong> ${model.capture.captureHumilityCaveat}</div></section>`;
   }
