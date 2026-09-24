@@ -39,15 +39,22 @@ function run(name, fn) {
 
 console.log('jurisdiction-picker-hidden-card');
 
-run('with the real injected CSS, a hidden selection card is not displayed', () => {
+run('the injected stylesheet gives the hidden state a rule that outranks the flex rule', () => {
+  // jsdom resolves `hidden` with its own precedence, so a computed-style
+  // assertion passes with or without the fix (sabotage-tested: it did not
+  // fire). Assert the mechanism the bug is about instead: an author rule for
+  // .sj-selection[hidden] that sets display:none, with higher specificity
+  // than the .sj-selection{display:flex} rule it must beat, marked !important
+  // so no later rule can reopen the hole.
   const css = injectedCss();
-  const dom = new JSDOM(`<!doctype html><html><head><style>${css}</style></head><body>
-    <div class="sj-selection" id="sjSelection" hidden><strong id="sjSelectionName"></strong><button>Change</button></div>
-    <div class="sj-selection" id="shown"><strong>Mesa County</strong></div>
-  </body></html>`);
-  const w = dom.window;
-  assert.equal(w.getComputedStyle(w.document.getElementById('sjSelection')).display, 'none', 'hidden card: display must be none');
-  assert.equal(w.getComputedStyle(w.document.getElementById('shown')).display, 'flex', 'a shown card keeps its flex layout');
+  const flexRule = /\.sj-selection\{[^}]*display:\s*flex[^}]*\}/.exec(css);
+  assert.ok(flexRule, 'the card is laid out with display:flex (the rule that overrode `hidden`)');
+  const hiddenRule = /\.sj-selection\[hidden\]\{[^}]*display:\s*none\s*!important[^}]*\}/.exec(css);
+  assert.ok(hiddenRule, '.sj-selection[hidden] must set display:none !important');
+  assert.ok(hiddenRule.index > flexRule.index, 'and come after the flex rule, so order can never decide against it');
+  // A shown card must still lay out as flex.
+  const dom = new JSDOM(`<!doctype html><html><head><style>${css}</style></head><body><div class="sj-selection" id="shown"><strong>Mesa County</strong></div></body></html>`);
+  assert.equal(dom.window.getComputedStyle(dom.window.document.getElementById('shown')).display, 'flex');
 });
 
 run('the markup carries no county name before one is chosen', () => {
