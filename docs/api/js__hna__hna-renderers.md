@@ -386,7 +386,20 @@ announcement.
 @param {string} [opts.mode]       'county' | 'place-apportioned'
 @param {string} [opts.confidence] 'high' | 'medium' | 'low'
 
-### `renderDecadeAffordTrend(geoType, geoid, contextCounty)`
+### `_placeDecadeSourceLine(meta, hasHpi)`
+
+Source-badge text for the place path, built from the variable IDs the
+place file says it fetched per vintage (they differ across vintages —
+see build_place_decade_trends.py's VINTAGE_VARIABLES) so the citation
+can't drift from the builder. Falls back to the static place wording.
+
+### `_applyDecadeTrendCopy(panel, mode, sourceText)`
+
+Point the panel's intro copy and source badge at whichever file served
+the cohorts. `mode` is 'county', 'place' or 'place-no-hpi'; `sourceText` overrides the
+mode's default badge text (the place path passes the file-derived line).
+
+### `_paintDecadeTrend(panel, u, fmtMoney, cohorts, hpi, scopeBanner)`
 
 F199 — Decade affordability trend. Three ACS cohorts (2009 / 2014 / 2024)
 × {median rent, median HHI, rent burden 30+} plus FHFA HPI relative to
@@ -396,9 +409,12 @@ the 15-year baseline (= 2009). Renders:
   3. Affordability ratio table: annual rent / annual income at each cohort
      → tells you whether housing got more or less affordable.
 
-Falls back to "not available" for non-county geographies (we don't have
-place-level historical ACS in the parquet) — placeholder with a link to
-the data.census.gov tables so the user can pull it themselves.
+F226 — For a place selection, tries data/hna/place-decade-trends.json
+FIRST (real place-geography ACS cohorts, built by
+scripts/hna/build_place_decade_trends.py) and only falls back to the
+county-inherits behavior below when that place isn't covered there
+(not every place has a reliable 2009 ACS 5-yr estimate — see that
+script's docstring). A county selection always uses the county file.
 
 ### `renderHousingTypePace(geoType, geoid, contextCounty)`
 
