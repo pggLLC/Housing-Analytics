@@ -36,16 +36,17 @@ regresses.
 A person unfamiliar with housing finance can complete the guided path for their
 own jurisdiction and come out with something they trust enough to act on.
 
-Six steps:
+Seven steps, in the order the rail (`js/components/workflow-progress.js` STEPS) ships them:
 
 | # | Step | Page |
 |---|------|------|
-| 1 | Opportunity Finder | `lihtc-opportunity-finder.html` |
-| 2 | Jurisdiction | `select-jurisdiction.html` |
-| 3 | Needs Assessment | `housing-needs-assessment.html` |
+| 1 | Jurisdiction | `select-jurisdiction.html` |
+| 2 | Opportunity Finder | `lihtc-opportunity-finder.html` |
+| 3 | Needs Assessment | `hna-what-housing-exists.html` |
 | 4 | Market Analysis | `market-analysis.html` |
 | 5 | Scenarios | `hna-scenario-builder.html` |
 | 6 | Deal | `deal-calculator.html` |
+| 7 | Recommendation | `recommendation.html` |
 
 ## Pass criteria
 

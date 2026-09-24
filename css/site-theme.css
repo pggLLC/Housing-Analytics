@@ -2084,6 +2084,16 @@ html.dark-mode .wf-next-action--next .wf-next-action__cta { color: #0a0f1d; }
   background: color-mix(in oklab, var(--card) 60%, var(--warn) 8%);
   border-color: color-mix(in oklab, var(--border) 40%, var(--warn) 30%);
 }
+/* Current-step state (#1837): the forward link is an offer, not a verdict,
+   so it reads as an outlined secondary control rather than the filled
+   "Step Complete" button. */
+.wf-next-action--current .wf-next-action__cta {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.wf-next-action--current .wf-next-action__cta:hover { background: var(--accent); color: var(--on-accent, #fff); }
+html.dark-mode .wf-next-action--current .wf-next-action__cta:hover { color: #0a0f1d; }
 .wf-next-action--skipped .wf-next-action__cta {
   /* F132 — was `color: #fff !important` on var(--warn). White on amber
      #d97706 light = 2.5:1; on yellow #fbbf24 dark = 1.4:1. Now use a
