@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-09-22T20:22:58Z",
+    "ranking_index_generated_at": "2026-09-24T13:30:58Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -5512,29 +5512,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0828305": {
-      "geoid": "0828305",
-      "name": "Fraser (town)",
-      "type": "place",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 115.6,
-      "owner_cost_burdened": 127,
-      "severe_renter_cost_burdened": 37.6,
-      "moderate_income_renter_households": 128.9,
-      "moderate_income_owner_cost_burdened": 36.6,
-      "existing_rental_gap_lte80": 12,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0870250": {
       "geoid": "0870250",
       "name": "Silver Cliff (town)",
@@ -5574,6 +5551,29 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0828305": {
+      "geoid": "0828305",
+      "name": "Fraser (town)",
+      "type": "place",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 115.6,
+      "owner_cost_burdened": 127,
+      "severe_renter_cost_burdened": 37.6,
+      "moderate_income_renter_households": 128.9,
+      "moderate_income_owner_cost_burdened": 36.6,
+      "existing_rental_gap_lte80": 12,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
