@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T02:05:53.467Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T13:49:14.402Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 182.5 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 172.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
@@ -899,7 +899,7 @@
 | `data/hna/local-resources-candidates.json` | 38.0 KB | ✅ | — |
 | `data/hna/local-resources.json` | 177.3 KB | ✅ | — |
 | `data/hna/ownership-need.json` | 702.7 KB | ✅ | — |
-| `data/hna/permits.json` | 243.2 KB | ✅ | — |
+| `data/hna/permits.json` | 270.2 KB | ✅ | — |
 | `data/hna/place-chas-coverage-stats.json` | 11.6 KB | ✅ | — |
 | `data/hna/place-chas.json` | 1.55 MB | ✅ | — |
 | `data/hna/place-decade-trends.json` | 154.7 KB | ✅ | — |
@@ -1646,7 +1646,7 @@
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
 | `data/policy/tax-credit-legislation.json` | 13.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
-| `data/policy_briefs.json` | 151.1 KB | ✅ | — |
+| `data/policy_briefs.json` | 142.8 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 17.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1671,7 +1671,7 @@
 
 ## Test Files
 
-394 test files found.
+397 test files found.
 
 | File | Size |
 |------|------|
@@ -1827,9 +1827,11 @@
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
 | `test/hna-section-rail.test.js` | 7.9 KB |
+| `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
 | `test/hna-surplus-semantics.test.js` | 11.7 KB |
 | `test/hna-takeaways-chas-disclosure.test.js` | 1.4 KB |
+| `test/hna-unknown-geoid.test.js` | 2.8 KB |
 | `test/hna-view-content-parity.test.js` | 6.9 KB |
 | `test/hna-workflow-autosave.test.js` | 4.2 KB |
 | `test/home-jurisdiction-search.test.js` | 4.4 KB |
@@ -1902,6 +1904,7 @@
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
 | `test/perf-deep-dive-lazy-tract.test.js` | 1.1 KB |
+| `test/permit-declared-value.test.mjs` | 5.9 KB |
 | `test/phantom-alias-no-orphans.test.js` | 3.3 KB |
 | `test/phase3-comparison-ideas.test.js` | 5.3 KB |
 | `test/pipeline-financing-tracks.test.js` | 3.8 KB |
