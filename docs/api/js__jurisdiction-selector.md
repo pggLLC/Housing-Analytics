@@ -7,4 +7,13 @@ COHO Analytics LIHTC workflow).
 ES5 IIFE — no build step required.
 Depends on: workflow-state.js (optional), site-state.js (optional).
 
-_No documented symbols — module has a file-header comment only._
+## Symbols
+
+### `syncContinueLabel()`
+
+Relabel the continue button when the reader is being sent back somewhere.
+
+The button reads "Begin Housing Needs Assessment", which is true for the
+normal route and false for a reader returned to the deal calculator. A
+control that names a destination it does not go to is the same defect as
+a number that means something other than it says.

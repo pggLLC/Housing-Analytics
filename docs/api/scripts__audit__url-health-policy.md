@@ -2,6 +2,20 @@
 
 ## Symbols
 
+### `BROWSER_ACCEPT`
+
+The Accept header a browser sends, and the sweeps must send with it.
+
+A browser User-Agent alone is not a browser-shaped request. Node's fetch
+defaults to a wildcard Accept, and some hosts content-negotiate on it:
+measured 2026-09-23, leg.colorado.gov returns 406 to the wildcard and 200
+to this value, with the same User-Agent either way. That made two live
+Colorado bill citations read as hard failures in the sweep while resolving
+fine for any actual reader (#1840).
+
+Paired with BROWSER_USER_AGENT deliberately: a sweep that claims to check
+what a reader would reach has to ask the way a reader asks.
+
 ### `HEALTHY_STATUSES`
 
 'auth' and 'ratelimit' are recorded, surfaced on the dashboard and kept in

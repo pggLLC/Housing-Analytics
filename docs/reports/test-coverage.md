@@ -1,6 +1,6 @@
 # Test coverage report
 
-_Auto-generated 2026-09-19 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
+_Auto-generated 2026-09-24 by `scripts/generate-test-coverage.mjs` (weekly via `docs-sync.yml`)._
 
 This is an **assertion-count** report, not line-coverage. Pattern-matched counts of `assert()`, `assert.X()`, `expect()`, `self.assert*()`, and bare pytest `assert` statements. Deliberate choice — a c8/nyc lift comes later once the test density justifies the instrumentation cost (see #655).
 
@@ -8,9 +8,9 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 
 | Runtime | Test files | Assertions |
 |---|---:|---:|
-| JavaScript (`test/`) | 266 | 7263 |
-| Python (`tests/`)   | 28 | 647 |
-| **Total** | **294** | **7910** |
+| JavaScript (`test/`) | 279 | 7496 |
+| Python (`tests/`)   | 29 | 754 |
+| **Total** | **308** | **8250** |
 
 ## JavaScript — per file
 
@@ -23,37 +23,38 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/jurisdiction-metrics-digest.test.js` | `jurisdiction-metrics-digest` | 630 | 116 |
 | `test/integration/analytics.test.js` | `analytics` | 334 | 111 |
 | `test/compliance-checklist.test.js` | `compliance-checklist` | 537 | 102 |
-| `test/ownership-finance.test.js` | `ownership-finance` | 469 | 100 |
+| `test/ownership-finance.test.js` | `ownership-finance` | 470 | 100 |
 | `test/unit/site-selection-score.test.js` | `site-selection-score` | 629 | 94 |
 | `test/prop123-historical.test.js` | `prop123-historical` | 414 | 89 |
 | `test/analytics.test.js` | `analytics` | 401 | 84 |
 | `test/integration/economic-indicators.test.js` | `economic-indicators` | 225 | 83 |
-| `test/market-study-page.test.js` | `market-study-page` | 273 | 83 |
+| `test/market-study-page.test.js` | `market-study-page` | 278 | 83 |
 | `test/hna-ownership-strategy.test.js` | `hna-ownership-strategy` | 189 | 82 |
 | `test/integration/projections.test.js` | `projections` | 363 | 82 |
 | `test/hna-ownership-need.test.js` | `hna-ownership-need` | 503 | 80 |
 | `test/chfa-pma-checklist.test.js` | `chfa-pma-checklist` | 421 | 78 |
-| `test/ownership-resale.test.js` | `ownership-resale` | 261 | 70 |
+| `test/deal-calc-for-sale-feasibility.test.js` | `deal-calc-for-sale-feasibility` | 286 | 75 |
+| `test/ownership-resale.test.js` | `ownership-resale` | 262 | 70 |
 | `test/preservation.test.js` | `preservation` | 416 | 70 |
-| `test/shared-equity-lifecycle.test.js` | `shared-equity-lifecycle` | 472 | 70 |
+| `test/shared-equity-lifecycle.test.js` | `shared-equity-lifecycle` | 477 | 70 |
 | `test/prop123.test.js` | `prop123` | 331 | 67 |
-| `test/deal-calc-for-sale-feasibility.test.js` | `deal-calc-for-sale-feasibility` | 255 | 62 |
 | `test/inventory-mtime-sync.test.js` | `inventory-mtime-sync` | 502 | 62 |
 | `test/hna-home-value-cascade.test.js` | `hna-home-value-cascade` | 288 | 60 |
 | `test/travel-time-matrix.test.js` | `travel-time-matrix` | 106 | 59 |
+| `test/market-study-report.test.js` | `market-study-report` | 223 | 57 |
 | `test/redfin-place-market-tracker.test.js` | `redfin-place-market-tracker` | 85 | 56 |
 | `test/unit/pma-employment-centers.test.js` | `pma-employment-centers` | 331 | 56 |
 | `test/acs-integration.test.js` | `acs-integration` | 421 | 54 |
 | `test/hna-ranking-index.test.js` | `hna-ranking-index` | 600 | 54 |
 | `test/unit/scenario-storage.test.js` | `scenario-storage` | 292 | 54 |
 | `test/integration/hna-ranking.test.js` | `hna-ranking` | 302 | 53 |
-| `test/forsale-capture.test.js` | `forsale-capture` | 187 | 52 |
+| `test/forsale-capture.test.js` | `forsale-capture` | 192 | 52 |
+| `test/hna-decade-trend-source-copy.test.js` | `hna-decade-trend-source-copy` | 288 | 52 |
 | `test/soft-funding-tracker.test.js` | `soft-funding-tracker` | 445 | 52 |
 | `test/developable-land-context.test.js` | `developable-land-context` | 95 | 51 |
-| `test/fhfa-hpi-subcounty.test.js` | `fhfa-hpi-subcounty` | 152 | 50 |
-| `test/market-study-report.test.js` | `market-study-report` | 200 | 49 |
+| `test/fhfa-hpi-subcounty.test.js` | `fhfa-hpi-subcounty` | 166 | 51 |
+| `test/hna-projection-integrity.test.js` | `hna-projection-integrity` | 351 | 49 |
 | `test/unit/pma-competitive-set.test.js` | `pma-competitive-set` | 188 | 49 |
-| `test/hna-projection-integrity.test.js` | `hna-projection-integrity` | 330 | 48 |
 | `test/regrid-cache-honesty.test.js` | `regrid-cache-honesty` | 207 | 48 |
 | `test/lihtc-deal-predictor.test.js` | `lihtc-deal-predictor` | 323 | 46 |
 | `test/pma-confidence.test.js` | `pma-confidence` | 198 | 46 |
@@ -65,11 +66,12 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/lodes-tract-od.test.js` | `lodes-tract-od` | 86 | 42 |
 | `test/pma-commute-shaped.test.js` | `pma-commute-shaped` | 142 | 42 |
 | `test/pma-transit.test.js` | `pma-transit` | 351 | 42 |
-| `test/ownership-funding-schema.test.js` | `ownership-funding-schema` | 82 | 41 |
+| `test/ownership-funding-schema.test.js` | `ownership-funding-schema` | 84 | 41 |
 | `test/smoke.test.js` | `smoke` | 252 | 40 |
 | `test/canonical-geography-contract.test.js` | `canonical-geography-contract` | 142 | 39 |
 | `test/data-scope.test.js` | `data-scope` | 131 | 39 |
 | `test/unit/pma-justification.test.js` | `pma-justification` | 133 | 39 |
+| `test/daily-audit-signal.test.js` | `daily-audit-signal` | 217 | 38 |
 | `test/hna-phase2-stubs-wired.test.js` | `hna-phase2-stubs-wired` | 156 | 38 |
 | `test/unit/cohort-component-model.test.js` | `cohort-component-model` | 307 | 38 |
 | `test/jurisdiction-select-search.test.js` | `jurisdiction-select-search` | 201 | 37 |
@@ -81,12 +83,12 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/phase3-comparison-ideas.test.js` | `phase3-comparison-ideas` | 129 | 35 |
 | `test/co-lihtc-map.test.js` | `co-lihtc-map` | 186 | 34 |
 | `test/funding-context-card.test.js` | `funding-context-card` | 143 | 34 |
-| `test/land-disposition.test.js` | `land-disposition` | 165 | 34 |
+| `test/land-disposition.test.js` | `land-disposition` | 167 | 34 |
 | `test/place-chas-lookup.test.js` | `place-chas-lookup` | 161 | 33 |
 | `test/pma-barrier-aware.test.js` | `pma-barrier-aware` | 192 | 33 |
 | `test/hna-county-comparison.test.js` | `hna-county-comparison` | 194 | 32 |
 | `test/pma-tract-display.test.js` | `pma-tract-display` | 196 | 32 |
-| `test/tool-watch.test.js` | `tool-watch` | 90 | 32 |
+| `test/tool-watch.test.js` | `tool-watch` | 91 | 32 |
 | `test/workflow-state-set-jurisdiction.test.js` | `workflow-state-set-jurisdiction` | 225 | 32 |
 | `test/co-historical-allocations.test.js` | `co-historical-allocations` | 282 | 31 |
 | `test/hna-geography-provenance.test.js` | `hna-geography-provenance` | 125 | 31 |
@@ -101,7 +103,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/inventory-sync-push.test.js` | `inventory-sync-push` | 353 | 29 |
 | `test/place-pages.test.js` | `place-pages` | 140 | 29 |
 | `test/pma-barrier-data.test.js` | `pma-barrier-data` | 126 | 29 |
-| `test/public-land-contract.test.js` | `public-land-contract` | 163 | 29 |
+| `test/public-land-contract.test.js` | `public-land-contract` | 164 | 29 |
 | `test/unit/pma-commuting.test.js` | `pma-commuting` | 106 | 29 |
 | `test/unit/pma-infrastructure.test.js` | `pma-infrastructure` | 122 | 29 |
 | `test/data-freshness-v2.test.js` | `data-freshness-v2` | 114 | 28 |
@@ -109,6 +111,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hna-dp04-codes.test.js` | `hna-dp04-codes` | 147 | 28 |
 | `test/homepage-job-routing.test.js` | `homepage-job-routing` | 178 | 28 |
 | `test/opportunity-zones-data.test.js` | `opportunity-zones-data` | 64 | 28 |
+| `test/public-facing-numbers.test.js` | `public-facing-numbers` | 135 | 28 |
 | `test/qap-simulator.test.js` | `qap-simulator` | 205 | 28 |
 | `test/shared-money-format.test.js` | `shared-money-format` | 125 | 28 |
 | `test/console-audit-exercises-controls.test.js` | `console-audit-exercises-controls` | 195 | 27 |
@@ -117,17 +120,15 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/hna-scope-badges.test.js` | `hna-scope-badges` | 137 | 27 |
 | `test/housekeeping-neutral-defaults.test.js` | `housekeeping-neutral-defaults` | 137 | 27 |
 | `test/polymarket-resolved.test.js` | `polymarket-resolved` | 154 | 27 |
-| `test/public-facing-numbers.test.js` | `public-facing-numbers` | 124 | 27 |
 | `test/stewardship-providers.test.js` | `stewardship-providers` | 63 | 27 |
 | `test/unit/pma-schools.test.js` | `pma-schools` | 105 | 27 |
 | `test/pma-commute-context.test.js` | `pma-commute-context` | 126 | 26 |
 | `test/website-monitor.test.js` | `website-monitor` | 187 | 26 |
 | `test/energy-retrofit-funding.test.js` | `energy-retrofit-funding` | 123 | 25 |
 | `test/hud-zip-tract-crosswalk.test.js` | `hud-zip-tract-crosswalk` | 75 | 25 |
-| `test/mobile-overflow-containment.test.js` | `mobile-overflow-containment` | 77 | 25 |
+| `test/mobile-overflow-css-rules-present.test.js` | `mobile-overflow-css-rules-present` | 99 | 25 |
 | `test/tax-credit-insights-data.test.js` | `tax-credit-insights-data` | 92 | 25 |
 | `test/unit/pma-opportunities.test.js` | `pma-opportunities` | 113 | 25 |
-| `test/daily-audit-signal.test.js` | `daily-audit-signal` | 160 | 24 |
 | `test/deal-tracker-wording.test.js` | `deal-tracker-wording` | 219 | 24 |
 | `test/hna-deep-dive-batch2.test.js` | `hna-deep-dive-batch2` | 135 | 24 |
 | `test/metric-truth-crosssurface.test.js` | `metric-truth-crosssurface` | 166 | 24 |
@@ -138,10 +139,12 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/unit/pma-transit.test.js` | `pma-transit` | 103 | 24 |
 | `test/dc-dscr-stress.test.js` | `dc-dscr-stress` | 162 | 23 |
 | `test/deal-calc-correctness.test.js` | `deal-calc-correctness` | 45 | 23 |
-| `test/effective-demand.test.js` | `effective-demand` | 122 | 23 |
+| `test/effective-demand.test.js` | `effective-demand` | 127 | 23 |
 | `test/hna-provenance-disclosure.test.js` | `hna-provenance-disclosure` | 109 | 23 |
+| `test/homepage-claims.test.js` | `homepage-claims` | 160 | 23 |
 | `test/ownership-decision-chain.test.js` | `ownership-decision-chain` | 160 | 23 |
 | `test/a11y-contrast-labels.test.js` | `a11y-contrast-labels` | 57 | 22 |
+| `test/hna-build-rebase-recovery.test.js` | `hna-build-rebase-recovery` | 136 | 22 |
 | `test/caching.test.js` | `caching` | 221 | 21 |
 | `test/glossary-reaches-rendered-content.test.js` | `glossary-reaches-rendered-content` | 140 | 21 |
 | `test/hna-reading-path.test.js` | `hna-reading-path` | 117 | 21 |
@@ -152,6 +155,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/cross-county-disclosure.test.js` | `cross-county-disclosure` | 135 | 20 |
 | `test/data-trust-center.test.js` | `data-trust-center` | 113 | 20 |
 | `test/foreclosure-performance.test.js` | `foreclosure-performance` | 111 | 20 |
+| `test/homepage-snapshot.test.js` | `homepage-snapshot` | 168 | 20 |
 | `test/integration/market-analysis.test.js` | `market-analysis` | 130 | 20 |
 | `test/planned-sources-are-not-unknown.test.js` | `planned-sources-are-not-unknown` | 163 | 20 |
 | `test/policy-briefs-curated.test.js` | `policy-briefs-curated` | 62 | 20 |
@@ -167,23 +171,24 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/orphan-nav-cleanup.test.js` | `orphan-nav-cleanup` | 84 | 19 |
 | `test/package-4-user-visible.test.js` | `package-4-user-visible` | 223 | 19 |
 | `test/pma-real-schools.test.js` | `pma-real-schools` | 134 | 19 |
+| `test/working-paper-download.test.js` | `working-paper-download` | 91 | 19 |
 | `test/data-trust-center-badges.test.js` | `data-trust-center-badges` | 93 | 18 |
 | `test/fetch-error-surface.test.js` | `fetch-error-surface` | 121 | 18 |
-| `test/homepage-claims.test.js` | `homepage-claims` | 129 | 18 |
+| `test/pipeline-financing-tracks.test.js` | `pipeline-financing-tracks` | 67 | 18 |
 | `test/basemap-provider-single-source.test.js` | `basemap-provider-single-source` | 183 | 17 |
 | `test/data-source-inventory-drift.test.js` | `data-source-inventory-drift` | 161 | 17 |
 | `test/f116-r1-matching.test.js` | `f116-r1-matching` | 146 | 17 |
 | `test/hna-deep-dive-batch1.test.js` | `hna-deep-dive-batch1` | 123 | 17 |
 | `test/hna-orphan-charts-wired.test.js` | `hna-orphan-charts-wired` | 130 | 17 |
-| `test/hna-profile-fetch-batches.test.js` | `hna-profile-fetch-batches` | 128 | 17 |
+| `test/hna-profile-fetch-batches.test.js` | `hna-profile-fetch-batches` | 132 | 17 |
 | `test/input-provenance.test.js` | `input-provenance` | 152 | 17 |
 | `test/pipeline-guards-a2.test.js` | `pipeline-guards-a2` | 132 | 17 |
 | `test/semantic-label-guard.test.js` | `semantic-label-guard` | 102 | 17 |
 | `test/unit-mix-validation.test.js` | `unit-mix-validation` | 133 | 17 |
 | `test/data-quality-check.test.js` | `data-quality-check` | 215 | 16 |
-| `test/hna-build-rebase-recovery.test.js` | `hna-build-rebase-recovery` | 93 | 16 |
 | `test/ownership-answer-leads.test.js` | `ownership-answer-leads` | 131 | 16 |
 | `test/place-lehd-apportionment.test.js` | `place-lehd-apportionment` | 98 | 16 |
+| `test/workflow-next-action-prerequisites.test.js` | `workflow-next-action-prerequisites` | 92 | 16 |
 | `test/xss-projection-surfaces.test.js` | `xss-projection-surfaces` | 162 | 16 |
 | `test/affordable-housing-preservation-risk.test.js` | `affordable-housing-preservation-risk` | 39 | 15 |
 | `test/ami-gap-evidence-language.test.js` | `ami-gap-evidence-language` | 117 | 15 |
@@ -205,7 +210,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/acs-sentinel-absence.test.js` | `acs-sentinel-absence` | 110 | 13 |
 | `test/discover-local-resources-cdp.test.js` | `discover-local-resources-cdp` | 132 | 13 |
 | `test/hna-comparison-place-cost-burden.test.js` | `hna-comparison-place-cost-burden` | 81 | 13 |
-| `test/homepage-snapshot.test.js` | `homepage-snapshot` | 118 | 13 |
+| `test/hna-live-region-and-load-order.test.js` | `hna-live-region-and-load-order` | 68 | 13 |
 | `test/kalshi-signing-and-write.test.js` | `kalshi-signing-and-write` | 112 | 13 |
 | `test/data-map-coverage.test.js` | `data-map-coverage` | 89 | 12 |
 | `test/deal-calc-workflow-prefill.test.js` | `deal-calc-workflow-prefill` | 117 | 12 |
@@ -218,40 +223,48 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 | `test/pages-deploy-watchdog.test.js` | `pages-deploy-watchdog` | 101 | 11 |
 | `test/pma-small-area-confidence.test.js` | `pma-small-area-confidence` | 42 | 11 |
 | `test/census-dashboard-scope.test.js` | `census-dashboard-scope` | 69 | 10 |
+| `test/data-status-footer-live-date.test.js` | `data-status-footer-live-date` | 102 | 10 |
 | `test/hna-car-loader.test.js` | `hna-car-loader` | 132 | 10 |
 | `test/hna-labor-market-renderers.test.js` | `hna-labor-market-renderers` | 95 | 10 |
+| `test/hna-workflow-autosave.test.js` | `hna-workflow-autosave` | 90 | 10 |
 | `test/lihtc-opportunity-finder-zori-capture.test.js` | `lihtc-opportunity-finder-zori-capture` | 104 | 10 |
 | `test/phantom-alias-no-orphans.test.js` | `phantom-alias-no-orphans` | 69 | 10 |
 | `test/pipeline-guards-a1.test.js` | `pipeline-guards-a1` | 51 | 10 |
+| `test/table-header-tips.test.js` | `table-header-tips` | 100 | 10 |
 | `test/api-config-wrapper-url-sanitization.test.js` | `api-config-wrapper-url-sanitization` | 94 | 9 |
 | `test/developer-brief-hna.test.js` | `developer-brief-hna` | 22 | 9 |
 | `test/local-resources-discovery.test.js` | `local-resources-discovery` | 47 | 9 |
 | `test/source-maintenance-declarations.test.js` | `source-maintenance-declarations` | 186 | 9 |
+| `test/jurisdiction-picker-hidden-card.test.js` | `jurisdiction-picker-hidden-card` | 69 | 8 |
 | `test/qct-dda-same-origin.test.js` | `qct-dda-same-origin` | 71 | 8 |
 | `test/hna-rent-burden-bins.test.js` | `hna-rent-burden-bins` | 92 | 7 |
 | `test/hna-takeaways-chas-disclosure.test.js` | `hna-takeaways-chas-disclosure` | 28 | 7 |
 | `test/mi-supply-co-vs-national.test.js` | `mi-supply-co-vs-national` | 47 | 7 |
 | `test/place-chas-tenure-anchor.test.js` | `place-chas-tenure-anchor` | 87 | 7 |
 | `test/boards-advocates-search-links.test.js` | `boards-advocates-search-links` | 68 | 6 |
+| `test/branded-404.test.js` | `branded-404` | 47 | 6 |
 | `test/bridge-token-guidance.test.js` | `bridge-token-guidance` | 60 | 6 |
 | `test/hna-extended-fetch-tenure.test.js` | `hna-extended-fetch-tenure` | 70 | 6 |
 | `test/hna-race-ethnicity-dp05.test.js` | `hna-race-ethnicity-dp05` | 154 | 6 |
 | `test/lof-lazy-oz.test.js` | `lof-lazy-oz` | 25 | 6 |
 | `test/metric-trust-map-metadata.test.js` | `metric-trust-map-metadata` | 38 | 6 |
+| `test/navigation-pill-label.test.js` | `navigation-pill-label` | 61 | 6 |
 | `test/chart-id-coherence.test.js` | `chart-id-coherence` | 127 | 5 |
 | `test/econ-dash-series-labels.test.js` | `econ-dash-series-labels` | 35 | 5 |
 | `test/hna-ami-chas-disclosure.test.js` | `hna-ami-chas-disclosure` | 38 | 5 |
+| `test/home-need-map-legend-colors.test.js` | `home-need-map-legend-colors` | 80 | 5 |
 | `test/nodemailer-v9-smoke.test.js` | `nodemailer-v9-smoke` | 32 | 5 |
 | `test/registry-cross-county-consistency.test.js` | `registry-cross-county-consistency` | 59 | 5 |
 | `test/econ-dash-co-unemployment.test.js` | `econ-dash-co-unemployment` | 30 | 4 |
 | `test/geo-config-county-consistency.test.js` | `geo-config-county-consistency` | 70 | 4 |
+| `test/hna-dev-context-collision.test.js` | `hna-dev-context-collision` | 121 | 4 |
 | `test/local-resources-entry-completeness.test.js` | `local-resources-entry-completeness` | 88 | 4 |
 | `test/mcm-palette.test.js` | `mcm-palette` | 25 | 4 |
 | `test/source-url-sweep-skip-templates.test.js` | `source-url-sweep-skip-templates` | 64 | 4 |
 | `test/xss-hmda-lookup.test.js` | `xss-hmda-lookup` | 46 | 4 |
 | `test/cross-surface-vintage-labels.test.js` | `cross-surface-vintage-labels` | 142 | 3 |
 | `test/deal-calc-mortgage-math.test.js` | `deal-calc-mortgage-math` | 53 | 3 |
-| `test/metric-semantics-wording.test.js` | `metric-semantics-wording` | 67 | 3 |
+| `test/metric-semantics-wording.test.js` | `metric-semantics-wording` | 69 | 3 |
 | `test/perf-deep-dive-lazy-tract.test.js` | `perf-deep-dive-lazy-tract` | 34 | 3 |
 | `test/place-glossary-path.test.js` | `place-glossary-path` | 53 | 3 |
 | `test/data-source-inventory-paths.test.js` | `data-source-inventory-paths` | 45 | 2 |
@@ -287,6 +300,7 @@ This is an **assertion-count** report, not line-coverage. Pattern-matched counts
 
 | File | Target module | Lines | Assertions |
 |---|---|---:|---:|
+| `tests/test_build_place_decade_trends.py` | `build_place_decade_trends.py` | 538 | 107 |
 | `tests/test_sentinel_normalization.py` | `sentinel_normalization.py` | 305 | 67 |
 | `tests/test_stage2_temporal.py` | `stage2_temporal.py` | 756 | 65 |
 | `tests/test_stage3_accessibility.py` | `stage3_accessibility.py` | 509 | 57 |

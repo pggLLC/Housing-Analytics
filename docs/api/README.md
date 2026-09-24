@@ -1,6 +1,6 @@
 # API reference
 
-_Auto-generated from JSDoc — 2026-09-19. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
+_Auto-generated from JSDoc — 2026-09-24. Regenerated weekly by `.github/workflows/docs-sync.yml` and on every `npm run docs:api`._
 
 Only modules with at least one JSDoc-commented symbol are indexed. To get a module on this page, add a `/** ... */` comment on any exported function, constant, or class.
 
@@ -60,7 +60,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`housing-predictions.js`](./js__housing-predictions.md) | housing-predictions. | 3 |
 | [`ic-summary.js`](./js__ic-summary.md) | ic-summary. | 0 |
 | [`iframe-spinner.js`](./js__iframe-spinner.md) | js/iframe-spinner. | 2 |
-| [`jurisdiction-selector.js`](./js__jurisdiction-selector.md) | jurisdiction-selector. | 0 |
+| [`jurisdiction-selector.js`](./js__jurisdiction-selector.md) | jurisdiction-selector. | 1 |
 | [`legislative-tracker.js`](./js__legislative-tracker.md) | js/legislative-tracker. | 6 |
 | [`lihtc-concept-card-renderer.js`](./js__lihtc-concept-card-renderer.md) | js/lihtc-concept-card-renderer. | 6 |
 | [`lihtc-deal-predictor-enhanced.js`](./js__lihtc-deal-predictor-enhanced.md) | js/lihtc-deal-predictor-enhanced. | 9 |
@@ -160,6 +160,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`export-panel.js`](./js__components__export-panel.md) | export-panel. | 1 |
 | [`fetch-error-surface.js`](./js__components__fetch-error-surface.md) | fetch-error-surface. | 0 |
 | [`funding-context-card.js`](./js__components__funding-context-card.md) | js/components/funding-context-card. | 0 |
+| [`home-need-map.js`](./js__components__home-need-map.md) | js/components/home-need-map. | 0 |
 | [`homeownership-programs.js`](./js__components__homeownership-programs.md) | js/components/homeownership-programs. | 0 |
 | [`hos-renderer.js`](./js__components__hos-renderer.md) | js/components/hos-renderer. | 0 |
 | [`housing-type-need.js`](./js__components__housing-type-need.md) | js/components/housing-type-need. | 0 |
@@ -194,13 +195,15 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`subject-income-eligibility.js`](./js__components__subject-income-eligibility.md) | js/components/subject-income-eligibility. | 0 |
 | [`subject-project.js`](./js__components__subject-project.md) | js/components/subject-project. | 0 |
 | [`subject-rent-comparison.js`](./js__components__subject-rent-comparison.md) | js/components/subject-rent-comparison. | 0 |
+| [`table-header-tips.js`](./js__components__table-header-tips.md) | table-header-tips. | 0 |
 | [`tax-abatement.js`](./js__components__tax-abatement.md) | js/components/tax-abatement. | 0 |
 | [`tax-credit-equity-markets.js`](./js__components__tax-credit-equity-markets.md) | js/components/tax-credit-equity-markets. | 0 |
 | [`tornado-sensitivity.js`](./js__components__tornado-sensitivity.md) | js/components/tornado-sensitivity. | 0 |
 | [`vacancy-context.js`](./js__components__vacancy-context.md) | js/components/vacancy-context. | 1 |
 | [`watchlist.js`](./js__components__watchlist.md) | _no header_ | 3 |
-| [`workflow-next-action.js`](./js__components__workflow-next-action.md) | workflow-next-action. | 0 |
+| [`workflow-next-action.js`](./js__components__workflow-next-action.md) | workflow-next-action. | 1 |
 | [`workflow-progress.js`](./js__components__workflow-progress.md) | workflow-progress. | 0 |
+| [`working-paper-download.js`](./js__components__working-paper-download.md) | working-paper-download. | 0 |
 
 ## `js/config/`
 
@@ -244,16 +247,17 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`geography-provenance.js`](./js__hna__geography-provenance.md) | Shared geography-provenance chips. | 3 |
 | [`hna-chapter-handoff.js`](./js__hna__hna-chapter-handoff.md) | hna-chapter-handoff. | 0 |
 | [`hna-comparison.js`](./js__hna__hna-comparison.md) | js/hna/hna-comparison. | 4 |
-| [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 8 |
+| [`hna-controller.js`](./js__hna__hna-controller.md) | hna-controller. | 10 |
 | [`hna-export.js`](./js__hna__hna-export.md) | _no header_ | 14 |
 | [`hna-market-bridge.js`](./js__hna__hna-market-bridge.md) | js/hna/hna-market-bridge. | 2 |
 | [`hna-narratives.js`](./js__hna__hna-narratives.md) | hna-narratives. | 0 |
 | [`hna-ownership-need.js`](./js__hna__hna-ownership-need.md) | js/hna/hna-ownership-need. | 0 |
 | [`hna-ownership-strategy.js`](./js__hna__hna-ownership-strategy.md) | Tier-1 ownership strategy screening renderer. | 0 |
 | [`hna-ranking-index.js`](./js__hna__hna-ranking-index.md) | js/hna/hna-ranking-index. | 0 |
-| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 50 |
+| [`hna-renderers.js`](./js__hna__hna-renderers.md) | hna-renderers. | 52 |
 | [`hna-section-takeaways.js`](./js__hna__hna-section-takeaways.md) | hna-section-takeaways. | 0 |
 | [`hna-utils.js`](./js__hna__hna-utils.md) | hna-utils. | 17 |
+| [`hna-workflow-autosave.js`](./js__hna__hna-workflow-autosave.md) | hna-workflow-autosave. | 0 |
 | [`ownership-decision-chain.js`](./js__hna__ownership-decision-chain.md) | js/hna/ownership-decision-chain. | 0 |
 | [`ownership-finance.js`](./js__hna__ownership-finance.md) | js/hna/ownership-finance. | 9 |
 | [`reading-path.js`](./js__hna__reading-path.md) | The guided reading path. | 3 |
@@ -285,7 +289,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`forsale-capture.js`](./js__project-market-study__forsale-capture.md) | Pure for-sale capture, penetration, and phased-sales scenario arithmetic. | 0 |
 | [`land-disposition.js`](./js__project-market-study__land-disposition.md) | Structured land-control comparison for the Tier-2 project layer. | 0 |
 | [`market-study-page.js`](./js__project-market-study__market-study-page.md) | Display-only controller for the for-sale market-study comparison workflow. | 4 |
-| [`market-study-report.js`](./js__project-market-study__market-study-report.md) | Honest, self-contained screening-report assembly from a Phase-8 model. | 0 |
+| [`market-study-report.js`](./js__project-market-study__market-study-report.md) | Honest, self-contained screening-report assembly from a Phase-8 model. | 1 |
 | [`project-scenario.js`](./js__project-market-study__project-scenario.md) | Pure project-scenario/v1 loader, validator, derivation, and adapter. | 1 |
 | [`resale-waterfall.js`](./js__project-market-study__resale-waterfall.md) | Shared-equity closing snapshot and limited-pool resale distribution. | 0 |
 | [`shared-equity-lifecycle.js`](./js__project-market-study__shared-equity-lifecycle.md) | Shared-equity lifecycle scenario engine. | 0 |
@@ -387,6 +391,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`heal-local-resource-links.mjs`](./scripts__audit__heal-local-resource-links.md) | heal-local-resource-links. | 0 |
 | [`inline-contrast-check.mjs`](./scripts__audit__inline-contrast-check.md) | F122 + F127 — accent-contrast check | 0 |
 | [`inline-heading-typography.mjs`](./scripts__audit__inline-heading-typography.md) | F124 — inline-heading-typography | 0 |
+| [`mobile-overflow-audit.mjs`](./scripts__audit__mobile-overflow-audit.md) | Does the page scroll sideways on a phone? | 2 |
 | [`no-phantom-css-vars.mjs`](./scripts__audit__no-phantom-css-vars.md) | no-phantom-css-vars. | 0 |
 | [`pages-deploy-watchdog.mjs`](./scripts__audit__pages-deploy-watchdog.md) | Detect GitHub Pages deploys that are missing, failed, or stuck behind a | 0 |
 | [`qa-status-generator.mjs`](./scripts__audit__qa-status-generator.md) | scripts/audit/qa-status-generator. | 3 |
@@ -401,7 +406,7 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`sync-manifest-mtimes.mjs`](./scripts__audit__sync-manifest-mtimes.md) | sync-manifest-mtimes. | 0 |
 | [`text-wrap-audit.mjs`](./scripts__audit__text-wrap-audit.md) | text-wrap-audit. | 2 |
 | [`upstream-vintage-watch.mjs`](./scripts__audit__upstream-vintage-watch.md) | scripts/audit/upstream-vintage-watch. | 3 |
-| [`url-health-policy.mjs`](./scripts__audit__url-health-policy.md) | _no header_ | 5 |
+| [`url-health-policy.mjs`](./scripts__audit__url-health-policy.md) | _no header_ | 6 |
 | [`url-health-sweep.mjs`](./scripts__audit__url-health-sweep.md) | url-health-sweep. | 1 |
 | [`verify-opportunity-finder.mjs`](./scripts__audit__verify-opportunity-finder.md) | verify-opportunity-finder. | 0 |
 
