@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09T16:57:03Z",
+  "updated": "2026-09-24T13:10:49Z",
   "terms": [
     {
       "term": "LIHTC",
@@ -285,6 +285,41 @@
       "term": "stabilization",
       "full": "Operating Stabilization",
       "definition": "Stabilization is the point when a property has reached a sustainable occupancy and operating pattern after lease-up. Lenders and investors care because permanent debt and long-term performance are tested against stabilized, not opening-month, results."
+    },
+    {
+      "term": "CLT",
+      "full": "Community Land Trust",
+      "definition": "A nonprofit that owns land permanently and leases it to the owners of the homes built on it. Because the land is left out of the purchase price, the home costs less; in return, a resale formula limits what the owner can sell it for, aiming to keep it affordable for the next buyer."
+    },
+    {
+      "term": "HAMFI",
+      "full": "HUD Area Median Family Income",
+      "definition": "HUD's version of area median income used in its CHAS tables. It plays the same role as AMI: income groups are described as a percentage of it, such as 80% of HAMFI."
+    },
+    {
+      "term": "ground lease",
+      "full": "Ground Lease",
+      "definition": "An arrangement where the buyer owns the house but leases the land under it, usually for 99 years, from a community land trust, housing authority or town. The buyer pays a small monthly land fee, and the lease sets the rules for resale."
+    },
+    {
+      "term": "deed restriction",
+      "full": "Deed Restriction",
+      "definition": "A legal limit recorded on a property's deed. For affordable for-sale homes it usually caps the resale price and requires the next buyer to meet an income limit, while the owner still owns both house and land."
+    },
+    {
+      "term": "covenant",
+      "full": "Restrictive Covenant",
+      "definition": "A recorded promise tied to a property that binds current and future owners, such as a limit on resale price or on who can buy. It works much like a deed restriction."
+    },
+    {
+      "term": "net proceeds",
+      "full": "Seller's Net Proceeds",
+      "definition": "What a seller walks away with after paying selling costs, the mortgage balance and anything owed back to public programs."
+    },
+    {
+      "term": "recapture",
+      "full": "Subsidy Recapture",
+      "definition": "Repayment of public homebuyer assistance when a home is sold, so the money can help another buyer. Programs use it on its own or together with a capped resale price."
     }
   ]
 }
