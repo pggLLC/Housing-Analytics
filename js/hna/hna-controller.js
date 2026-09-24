@@ -3348,7 +3348,24 @@
   // ---------------------------------------------------------------------------
 
 
+  // update() is called from several triggers during init (the initial load,
+  // the URL/WorkflowState apply, select change events, the theme hook), and on
+  // 2026-09-23 two of them raced: a load for the select's DEFAULT county (Adams,
+  // see the fallback in init) and the load for the URL's county (Mesa) ran
+  // concurrently, and whichever finished last painted — Mesa's stats under
+  // Adams County's local-resources panel and an "Data loaded for Adams County"
+  // announcement, seen on production after a homepage map click. Loads are now
+  // serialized: a call waits for the one in flight, so the LAST geography
+  // requested is always the one on screen.
+  // Serialized inside update() itself (not a wrapper) because other guards
+  // read update()'s body from source to check what it calls.
+  let _updateGate = Promise.resolve();
   async function update(){
+    const previous = _updateGate;
+    let release;
+    _updateGate = new Promise(function (r) { release = r; });
+    await previous;
+    try {
     var ws = document.getElementById('hnaWaitingState');
     if (ws) ws.style.display = 'none';
     window.HNARenderers.showAllChartsLoading();
@@ -4066,6 +4083,9 @@
 
     // Hide all chart loading overlays now that rendering is complete (Recommendation 3.1)
     window.HNARenderers.hideChartLoading();
+      } finally {
+      release();
+    }
   }
 
 
@@ -4238,8 +4258,12 @@
       if (regionalMode) regionalMode.checked = true;
     }
 
-    // For county type, ensure a county is selected (first in list when no match)
-    if (window.HNAState.els.geoType.value === 'county' && !window.HNAState.els.geoSelect.value){
+    // For county type, ensure a county is selected (first in list) — but only
+    // when NOTHING was restored. When a URL or saved project named a county
+    // that is not yet an option (list still populating), falling back to the
+    // first option loaded Adams County's data for a Mesa County URL
+    // (2026-09-23); the restored selection is re-applied once the list lands.
+    if (window.HNAState.els.geoType.value === 'county' && !window.HNAState.els.geoSelect.value && !restoredGeoId){
       const firstOpt = window.HNAState.els.geoSelect.options[0];
       if (firstOpt) window.HNAState.els.geoSelect.value = firstOpt.value;
     }

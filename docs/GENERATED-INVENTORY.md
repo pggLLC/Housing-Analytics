@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T00:22:22.265Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T01:35:30.659Z. Do not edit by hand.
 
 ---
 
@@ -72,7 +72,7 @@
 | `select-jurisdiction.html` | Select Jurisdiction | COHO Analytics | 14.4 KB |
 | `sitemap.html` | Sitemap | COHO Analytics | 11.6 KB |
 | `state-allocation-map.html` | LIHTC Allocations | COHO Analytics | 797 B |
-| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 73.7 KB |
+| `working-paper.html` | Instrumenting Housing Need | Colorado Public Data Reference | 75.2 KB |
 
 ---
 
@@ -1670,7 +1670,7 @@
 
 ## Test Files
 
-390 test files found.
+393 test files found.
 
 | File | Size |
 |------|------|
@@ -1809,6 +1809,7 @@
 | `test/hna-home-value-cascade.test.js` | 16.9 KB |
 | `test/hna-jurisdiction-normalization.test.js` | 6.1 KB |
 | `test/hna-labor-market-renderers.test.js` | 4.0 KB |
+| `test/hna-live-region-and-load-order.test.js` | 3.6 KB |
 | `test/hna-orphan-charts-wired.test.js` | 5.2 KB |
 | `test/hna-ownership-need.test.js` | 22.5 KB |
 | `test/hna-ownership-strategy.test.js` | 13.6 KB |
@@ -1877,6 +1878,7 @@
 | `test/mi-supply-co-vs-national.test.js` | 1.4 KB |
 | `test/mobile-overflow-css-rules-present.test.js` | 5.6 KB |
 | `test/navigation-paths.test.js` | 555 B |
+| `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 4.4 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
@@ -2028,6 +2030,7 @@
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
+| `test/working-paper-download.test.js` | 4.9 KB |
 | `test/xss-comparison-surfaces.test.js` | 14.5 KB |
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `test/xss-hmda-lookup.test.js` | 1.6 KB |
