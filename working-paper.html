@@ -25,6 +25,7 @@
   <script defer src="js/dark-mode-toggle.js"></script>
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/components/working-paper-download.js"></script>
   <script defer src="js/components/table-header-tips.js"></script>
   <style>
     /* Scoped to .wp so nothing here can leak into the rest of the site.
@@ -56,6 +57,19 @@
       font-size: .76rem; color: var(--text-muted); margin-top: 1.7rem;
       display: flex; flex-wrap: wrap; gap: .5rem 1.6rem;
     }
+
+    .wp-actions {
+      display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.2rem;
+    }
+    .wp-action {
+      font-family: inherit; font-size: .82rem; font-weight: 700; cursor: pointer;
+      padding: .5rem .9rem; border-radius: 6px; min-height: 40px;
+      border: 1px solid var(--accent); background: transparent; color: var(--accent);
+    }
+    .wp-action:hover, .wp-action:focus-visible { background: var(--accent); color: var(--on-accent, #fff); }
+    .wp-actions__note { font-size: .74rem; color: var(--text-muted); }
+    /* The download controls are page chrome — never part of the printed/saved paper. */
+    @media print { .wp-actions { display: none !important; } }
 
     .wp section { margin-top: 3.4rem; scroll-margin-top: 6rem; }
     .wp h2 {
@@ -207,8 +221,18 @@
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
           <span><code>pggLLC/Housing-Analytics</code></span>
           <span>Observation window <span data-figure="repo.first_commit">2026-02-20</span> &rarr; <span data-figure="repo.last_commit">2026-09-24</span></span>
-          <span>Figures regenerated from commit <code data-figure="generated_from_commit">9effc3f58</code></span>
+          <span>Figures regenerated from commit <code data-figure="generated_from_commit">b125dfb69</code></span>
         </p>
+        <!-- Download options (js/components/working-paper-download.js). PDF
+             goes through the browser's print dialog; Word is the article's own
+             HTML handed to Word as a .doc. Restored 2026-09-23 after #1804's
+             inline version was lost to a merge that treated this page as a
+             regenerated artifact. -->
+        <div class="wp-actions" role="group" aria-label="Download this paper">
+          <button type="button" id="wpDownloadPdf" class="wp-action">Download PDF</button>
+          <button type="button" id="wpDownloadWord" class="wp-action">Download Word (.doc)</button>
+          <span class="wp-actions__note">PDF opens your browser's print dialog — choose "Save as PDF".</span>
+        </div>
       </header>
 
       <section class="wp-exec" aria-labelledby="s-exec">
@@ -290,7 +314,7 @@
               person-years</b>, or
               <span data-figure="scope.estimate.calendar_months_low">12</span>&ndash;<span data-figure="scope.estimate.calendar_months_high">21</span>
               months for a team of <span data-figure="scope.estimate.team_size">7</span>, over
-              <span data-figure="scope.hand_written_lines" data-figure-format="comma">356,712</span>
+              <span data-figure="scope.hand_written_lines" data-figure-format="comma">356,736</span>
               hand-written lines and
               <span data-figure="scope.declared_data_sources">63</span> data sources. An
               analyst estimate, declared as one in &sect;07.
@@ -915,7 +939,7 @@
           <p>
             A funder deciding whether to support an existing system is really asking what it would
             cost to commission one. The scope is measurable:
-            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">356,712</span></strong>
+            <strong><span data-figure="scope.hand_written_lines" data-figure-format="comma">356,736</span></strong>
             hand-written lines &mdash; excluding
             <span data-figure="scope.generated_place_page_lines" data-figure-format="comma">226,824</span>
             generated lines of place pages &mdash;
@@ -1225,7 +1249,7 @@
         <div class="col">
           <p class="wp-sources">
             Figures reflect the repository at commit
-            <code data-figure="generated_from_commit">9effc3f58</code>. The underlying data refreshes
+            <code data-figure="generated_from_commit">b125dfb69</code>. The underlying data refreshes
             continuously; a reader reproducing these tables later should expect vintage drift and is
             encouraged to check each metric&rsquo;s own <code>as_of</code> field rather than this
             page&rsquo;s date.
