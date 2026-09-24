@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-24T15:52:15.201124Z",
+  "generated": "2026-09-24T17:05:27.917662Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 782686
+      "bytes": 783310
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7960,6 +7960,11 @@
       "featureCount": 0,
       "placeholder": false,
       "bytes": 4840
+    },
+    "data/policy/unit-size-standards.json": {
+      "featureCount": 0,
+      "placeholder": false,
+      "bytes": 4891
     },
     "data/policy_briefs.json": {
       "featureCount": 0,
