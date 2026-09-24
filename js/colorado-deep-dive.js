@@ -271,9 +271,17 @@
    * error path, freshness label, source attribution. The KPIs include
    * year-over-year deltas where the prior year is available.
    * ───────────────────────────────────────────────────────────────── */
+  // The HMDA section sits OUTSIDE the tab panels (it is visible on every
+  // tab), so it must load with the page. It used to load only when the
+  // Market Conditions tab was activated, leaving "Loading HMDA data…" on
+  // screen indefinitely for anyone who never clicked that tab. Idempotent:
+  // the panel init still calls it, but the fetch runs once.
+  var _hmdaLoadStarted = false;
   function loadHmdaKpis() {
     var section = document.getElementById('hmdaSection');
     if (!section) return;
+    if (_hmdaLoadStarted) return;
+    _hmdaLoadStarted = true;
     var loadingEl = document.getElementById('hmdaLoading');
     var contentEl = document.getElementById('hmdaContent');
     var errorEl   = document.getElementById('hmdaError');
@@ -854,6 +862,8 @@ function initPolicyPanel(panelId) {
     } catch (e) { /* ignore */ }
     stampFreshness();
     setupTabs();
+    /* HMDA credit-access cards are visible on every tab, so load them now. */
+    try { loadHmdaKpis(); } catch (e) { handleDataError('hmda', e); }
     /* Bootstrap Prop 123 section on DOMContentLoaded whenever the table is present. */
     if (document.getElementById('prop123TableBody')) {
       try { initProp123Section(); } catch (e) { /* ignore */ }
