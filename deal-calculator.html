@@ -1088,8 +1088,38 @@
         var el = document.getElementById(id);
         return el ? el.checked : null;
       }
+      function outText(id) {
+        var el = document.getElementById(id);
+        var t = el ? String(el.textContent || '').trim() : '';
+        // '—' is the panel's placeholder for "not computed", not a value.
+        return t && t !== '\u2014' && t !== '-' ? t : null;
+      }
+      var modeEl = document.querySelector('input[name="dc-deal-mode"]:checked');
+      var dealMode = modeEl && modeEl.value === 'ownership' ? 'ownership' : 'rental';
+
+      // PC-2: an ownership save carries no tax-credit, basis, NOI or LIHTC-debt
+      // field at all. The rental panel is still computed (and still sits in
+      // the DOM, hidden) in ownership mode, so reading it here is what put
+      // "Annual credits $1,440,000" on an ownership project's Recommendation.
+      if (dealMode === 'ownership') {
+        return {
+          completedAt: new Date().toISOString(),
+          dealMode:    'ownership',
+          tdc:         safeVal('dc-tdc'),
+          units:       safeVal('dc-units'),
+          countyFips:  safeVal('dc-county-select'),
+          saleTargetAmiPct: safeVal('dc-sale-target-ami'),
+          outputs: {
+            costPerUnit:        outText('dc-own-cost-per-unit'),
+            maxAffordablePrice: outText('dc-own-max-price'),
+            subsidyGapPerUnit:  outText('dc-own-gap-per-unit'),
+            totalOwnershipGap:  outText('dc-own-total-gap')
+          }
+        };
+      }
       return {
         completedAt:  new Date().toISOString(),
+        dealMode:     'rental',
         creditType:   safeChecked('dc-rate-9') ? '9%' : '4%',
         tdc:          safeVal('dc-tdc'),
         units:        safeVal('dc-units'),

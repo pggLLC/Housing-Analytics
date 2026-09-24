@@ -2364,6 +2364,11 @@ html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4
   margin: 0.75rem 0;
 }
 .pipeline-status-banner[hidden] { display: none; }
+/* Deal-calculator mode gating (PC-2): an element tagged for one deal mode is
+   hidden in the other. Many carry an inline display, which beats the UA
+   [hidden] rule, so the Eligible Basis slider stayed on screen in ownership
+   mode while the attribute said it was hidden. */
+[data-dc-mode][hidden] { display: none !important; }
 
 @media(max-width:480px){
   .data-reliability-badge,.freshness-badge{font-size:.72rem;padding:.2rem .5rem;}
