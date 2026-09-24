@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T22:20:58.039Z",
+    "generated_at": "2026-09-24T22:22:26.223Z",
     "root": "data/",
     "file_count": 1620,
     "total_size_bytes": 164643666,
@@ -30459,7 +30459,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205467,
-      "mtime": "2026-09-24T22:20:55.443Z",
+      "mtime": "2026-09-24T22:22:23.487Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31813,7 +31813,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14678,
-      "mtime": "2026-09-24T22:20:56.207Z",
+      "mtime": "2026-09-24T22:22:24.315Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32228,7 +32228,7 @@
       "path": "policy/policy-watch.json",
       "kind": "json",
       "size_bytes": 10786,
-      "mtime": "2026-09-24T22:20:48.815Z",
+      "mtime": "2026-09-24T22:22:16.794Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32470,7 +32470,7 @@
       "path": "policy_briefs.json",
       "kind": "json",
       "size_bytes": 225843,
-      "mtime": "2026-09-24T22:20:48.819Z",
+      "mtime": "2026-09-24T22:22:16.795Z",
       "shape": "object",
       "keys": [
         "meta",
