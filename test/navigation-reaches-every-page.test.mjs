@@ -44,6 +44,7 @@ const jsBlob = fs.readdirSync(jsDir).filter((f) => f.endsWith('.js'))
 /** Pages that are deliberately not linked from anywhere. Each needs a reason. */
 const UNLINKED_BY_DESIGN = {
   'og-card.html': 'social preview card rendered by crawlers, never navigated to',
+  '404.html': 'served by GitHub Pages for any missing URL; reached by a broken link or typo, never by navigation',
   'colorado-market.html':
     'redirect stub (1006 bytes) to colorado-deep-dive.html; exists to catch old '
     + 'inbound links and bookmarks, so being unlinked is the point',
