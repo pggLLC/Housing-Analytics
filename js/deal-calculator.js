@@ -437,7 +437,7 @@
     while (mount.firstChild) mount.removeChild(mount.firstChild);
     var title = document.createElement('p');
     title.style.cssText = 'margin:.55rem 0 .2rem;font-weight:700;font-size:var(--tiny);color:var(--text);';
-    title.textContent = 'Resale convention screen - screening only';
+    title.textContent = 'Resident and public interest at resale: convention screen - screening only';
     mount.appendChild(title);
 
     if (!screen || !Array.isArray(screen.rows) || !screen.rows.length) {
@@ -459,6 +459,59 @@
     }
   }
 
+  /**
+   * The public / steward is the third actor on the ownership panel (#1815).
+   * Its claim used to live only inside the resale comparison table. This row
+   * lifts the selected mechanism's moderate-scenario outcome onto the panel:
+   * the capped next-buyer price (how the public interest is expressed under
+   * fixed, lesser-of and shared-appreciation conventions) and any subsidy the
+   * public recovers in cash (recapture conventions). Screening only.
+   */
+  function selectedPublicInterestOutcome(screen) {
+    var comparison = screen && screen.comparison;
+    if (!comparison || !Array.isArray(comparison.rows) || !comparison.rows.length) return null;
+    var row = null;
+    for (var i = 0; i < comparison.rows.length; i++) {
+      if (comparison.rows[i].conventionId === comparison.selectedConventionId) { row = comparison.rows[i]; break; }
+    }
+    if (!row) {
+      for (var k = 0; k < comparison.rows.length; k++) {
+        if (!comparison.rows[k].disabled) { row = comparison.rows[k]; break; }
+      }
+    }
+    if (!row || !Array.isArray(row.outcomes)) return null;
+    var idx = 0;
+    (comparison.scenarios || []).forEach(function (scenario, n) { if (scenario.id === 'moderate') idx = n; });
+    var outcome = row.outcomes[idx] || row.outcomes[0];
+    if (!outcome) return null;
+    return { label: row.label, outcome: outcome };
+  }
+
+  function renderPublicInterestRow(screen) {
+    var value = document.getElementById('dc-own-public-recovery');
+    var label = document.getElementById('dc-own-public-convention');
+    if (!value) return;
+    function fmt(n) { return isFinite(n) && n != null ? ('$' + Math.round(n).toLocaleString('en-US')) : '—'; }
+    var picked = selectedPublicInterestOutcome(screen);
+    if (!picked) {
+      value.textContent = '—';
+      value.removeAttribute('title');
+      if (label) label.textContent = 'selected mechanism';
+      return;
+    }
+    if (label) label.textContent = picked.label;
+    var outcome = picked.outcome;
+    if (outcome.maxResalePrice == null) {
+      value.textContent = '—';
+      value.setAttribute('title', outcome.unavailableReason || 'Resale inputs unavailable.');
+      return;
+    }
+    var recovered = Number(outcome.publicSubsidyRecaptured) || 0;
+    value.textContent = 'Next buyer price capped at ' + fmt(outcome.maxResalePrice) +
+      (recovered > 0 ? ' · ' + fmt(recovered) + ' subsidy recovered' : ' · no cash recovery');
+    value.setAttribute('title', outcome.preservationLabel || '');
+  }
+
   function renderForSaleFeasibility(result) {
     result = result || {};
     function fmt(n) {
@@ -476,6 +529,7 @@
       setText('dc-own-max-price', '—');
       setText('dc-own-gap-per-unit', '—');
       setText('dc-own-total-gap', '—');
+      renderPublicInterestRow(null);
       var message = result.status === 'missing-ami'
         ? 'Select a county to load HUD AMI and price the ownership affordability limit.'
         : (result.status === 'missing-helper'
@@ -493,10 +547,11 @@
     setText('dc-own-total-gap', fmt(result.totalSubsidyGap));
     var note = result.rawGapPerUnit <= 0
       ? 'Screening result: no per-unit subsidy gap at this AMI under the shared HNA PITI assumptions.'
-      : 'Formula: development cost per unit minus max affordable sale price from the HNA ownership module.';
+      : 'Formula (bridge): developer cost per unit minus the resident\'s max affordable sale price from the HNA ownership module. Public subsidy fills this gap.';
     setText('dc-own-note', note);
     renderDeveloperOwnershipFundingStack(result.developerFundingStack);
     renderOwnershipResaleScreen(result.ownershipResale);
+    renderPublicInterestRow(result.ownershipResale);
   }
 
   /**
@@ -1973,26 +2028,38 @@
         </div>
 
         <div id="dc-ownership-feasibility" data-dc-mode="ownership" hidden style="margin-top:var(--sp3);padding:var(--sp2);border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
-          <dl style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
-            <dt style="color:var(--muted);">Development cost / unit</dt>
+          <p id="dc-own-actor-legend" style="margin:0 0 .5rem;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
+            Each row names whose money it describes.
+            <strong>Resident</strong>: the household at the target AMI.
+            <strong>Developer / operator</strong>: the project's cost side.
+            <strong>Bridge</strong>: the gap between the two, which public subsidy must fill.
+            <strong>Public interest</strong>: the steward's claim on the home and its resale proceeds.
+          </p>
+          <dl id="dc-own-rows" style="display:grid;grid-template-columns:1fr auto;gap:0.45rem 0.75rem;font-size:var(--small);margin:0;">
+            <dt data-actor="developer" style="color:var(--muted);">Development cost / unit <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-unit" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Development cost / gross SF</dt>
+            <dt data-actor="developer" style="color:var(--muted);">Development cost / gross SF <span class="dc-own-actor" data-actor="developer">Developer / operator</span></dt>
             <dd id="dc-own-cost-per-sf" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>)</dt>
+            <dt data-actor="resident" style="color:var(--muted);">Max affordable sale price (<span id="dc-own-target-label">80% AMI</span>) <span class="dc-own-actor" data-actor="resident">Resident</span></dt>
             <dd id="dc-own-max-price" style="font-weight:700;text-align:right;">—</dd>
 
-            <dt style="color:var(--muted);">Subsidy gap / unit</dt>
+            <dt data-actor="bridge" style="color:var(--muted);">Subsidy gap / unit <span class="dc-own-actor" data-actor="bridge">Bridge: developer cost − resident capacity</span></dt>
             <dd id="dc-own-gap-per-unit" style="font-weight:700;text-align:right;color:var(--accent);">—</dd>
 
-            <dt style="color:var(--muted);">Total ownership gap</dt>
+            <dt data-actor="bridge" style="color:var(--muted);">Total ownership gap <span class="dc-own-actor" data-actor="bridge">Bridge</span></dt>
             <dd id="dc-own-total-gap" style="font-weight:700;text-align:right;">—</dd>
+
+            <dt data-actor="public" style="color:var(--muted);">Public interest at resale (<span id="dc-own-public-convention">selected mechanism</span>, moderate scenario) <span class="dc-own-actor" data-actor="public">Public interest</span></dt>
+            <dd id="dc-own-public-recovery" style="font-weight:700;text-align:right;">—</dd>
           </dl>
           <p id="dc-own-note" style="margin:.45rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
             Select a county to load HUD AMI and price the ownership affordability limit.
           </p>
-          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.55rem;font-size:var(--tiny);">
+          <p data-actor="resident" style="margin:.55rem 0 0;font-weight:700;font-size:var(--tiny);color:var(--text);">Resident over time <span class="dc-own-actor" data-actor="resident">Resident</span></p>
+          <p style="margin:.1rem 0 0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">Equity the household builds while it owns the home. These inputs drive the resale screen below.</p>
+          <div data-actor="resident" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;margin-top:.35rem;font-size:var(--tiny);">
             <label>Holding period (years)
               <input id="dc-own-resale-years" type="number" min="0" step="1" value="5" style="width:100%;margin-top:.15rem;">
             </label>
@@ -2006,12 +2073,12 @@
               <input id="dc-own-resale-appreciation" type="number" step="1000" placeholder="0" style="width:100%;margin-top:.15rem;">
             </label>
           </div>
-          <div id="dc-own-resale-screen" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+          <div id="dc-own-resale-screen" data-actor="public" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
             <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
               Resale convention screen loads after source data.
             </p>
           </div>
-          <div id="dc-own-funding-stack" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
+          <div id="dc-own-funding-stack" data-actor="developer" style="margin-top:.45rem;border-top:1px solid var(--border);padding-top:.45rem;">
             <p style="margin:0;font-size:var(--tiny);color:var(--muted);line-height:1.45;">
               Developer ownership funding stack loads after source data.
             </p>
@@ -6134,6 +6201,7 @@
     computeDscrStressScenarios: computeDscrStressScenarios,
     computeForSaleFeasibility:  computeForSaleFeasibility,
     computeOwnershipResale:     computeOwnershipResale,
+    renderForSaleFeasibility:   renderForSaleFeasibility,
     computeDeveloperOwnershipFundingStack: computeDeveloperOwnershipFundingStack,
     applyNovogradacPricingDefaults: _applyNovogradacPricingDefaults,
     findPeerDeals:              findPeerDeals,
