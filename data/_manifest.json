@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T15:52:12.480Z",
+    "generated_at": "2026-09-24T16:19:09.016Z",
     "root": "data/",
-    "file_count": 1617,
-    "total_size_bytes": 158988274,
+    "file_count": 1618,
+    "total_size_bytes": 158993291,
     "kinds": {
-      "json": 1582,
+      "json": 1583,
       "geojson": 31,
       "csv": 4
     }
@@ -424,7 +424,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-24T15:36:42.162Z",
+      "mtime": "2026-09-24T16:18:11.132Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1471,7 +1471,7 @@
       "path": "glossary.json",
       "kind": "json",
       "size_bytes": 23206,
-      "mtime": "2026-09-24T15:51:58.946Z",
+      "mtime": "2026-09-24T16:18:11.133Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -29296,7 +29296,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 1348,
-      "mtime": "2026-09-24T15:51:59.335Z",
+      "mtime": "2026-09-24T16:18:54.328Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30422,8 +30422,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205098,
-      "mtime": "2026-09-24T15:52:07.708Z",
+      "size_bytes": 205224,
+      "mtime": "2026-09-24T16:19:04.160Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31777,7 +31777,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14677,
-      "mtime": "2026-09-24T15:52:00.439Z",
+      "mtime": "2026-09-24T16:18:55.670Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31800,7 +31800,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-24T15:51:59.680Z",
+      "mtime": "2026-09-24T16:18:54.685Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32368,6 +32368,34 @@
         "status",
         "capability_summary",
         "relevance_to_coho",
+        "source_url",
+        "source_note",
+        "last_verified",
+        "review_by"
+      ]
+    },
+    {
+      "path": "policy/unit-size-standards.json",
+      "kind": "json",
+      "size_bytes": 4891,
+      "mtime": "2026-09-24T16:17:31.187Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "standards"
+      ],
+      "key_count": 3,
+      "primary_array_key": "standards",
+      "primary_array_length": 2,
+      "primary_array_first_keys": [
+        "id",
+        "jurisdiction",
+        "applies_to_colorado",
+        "kind",
+        "label",
+        "measure",
+        "sizes",
         "source_url",
         "source_note",
         "last_verified",
