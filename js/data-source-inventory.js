@@ -867,7 +867,7 @@
       provider: 'Internal / DOLA',
       url: null,
       localFile: 'data/hna/projections/',
-      lastUpdated: '2026-09-22',
+      lastUpdated: '2026-09-24',
       updateFrequency: 'Annual',
       maxAgeDays: 400,
       geoUnit: 'County / Municipality',
