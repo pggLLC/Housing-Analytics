@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0",
-  "generated": "2026-09-24T00:22:16Z",
+  "generated": "2026-09-24T12:59:53Z",
   "description": "Comprehensive inventory of all data sources used in Housing Analytics. Each entry documents the file location, origin, refresh method, and fallback behavior.",
   "sources": [
     {
@@ -110,7 +110,7 @@
       "update_method": "live",
       "status": "live",
       "fallback_rule": "Use cached fred-data.json snapshot; display cache-age warning badge on charts",
-      "last_update": "2026-09-23T09:54:01Z",
+      "last_update": "2026-09-24T09:55:04Z",
       "description": "Macroeconomic time-series data from FRED including mortgage rates, housing starts, and price indices. Fetched via Cloudflare Worker proxy and cached locally as fallback."
     },
     {
@@ -120,7 +120,7 @@
       "update_method": "cached",
       "status": "cached",
       "fallback_rule": "Show statewide Colorado demographics only; disable county-level breakdowns",
-      "last_update": "2026-09-23T11:44:58Z",
+      "last_update": "2026-09-24T11:53:21Z",
       "description": "County-level demographic statistics for Colorado including population, housing units, tenure, and income distribution. Used in the Census and regional dashboards."
     },
     {
