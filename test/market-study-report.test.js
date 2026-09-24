@@ -176,6 +176,58 @@ assert(resolvedVerdictPreview.includes(resolved.scenario.program.total_units.val
 assert(resolvedVerdictPreview.includes('would need to capture'));
 assert(resolvedVerdictPreview.includes(denominator), 'verdict penetration figure must match the same denominator section 7 uses');
 
+// Plain language: the report is read by people who have never seen the
+// engines, so no engine field id may reach them except in the one line that
+// exists to name the field ids. Scanned on rendered text, both states.
+{
+  const engineIds = new Set([
+    ...EffectiveDemand.STAGE_IDS,
+    ...Object.keys(scenarios[0].costs),
+    ...scenarios[0].meta.owner_inputs_pending,
+    ...scenarios[0].partners.map((partner) => partner.role),
+    ...model.landOutcomes.flatMap((item) => Object.keys(item.row.assessments)),
+    ...model.landOutcomes.flatMap((item) => Object.values(item.row.assessments).map((field) => field.value)),
+    'pool_zero_see_data_limitations', 'contract_fallout',
+  ].filter((id) => /_/.test(id)));
+  assert(engineIds.size > 40, 'the id scan lost its inputs and would pass vacuously');
+  [preview, Report.renderReportPreview(resolvedReport)].forEach((content) => {
+    const doc = new JSDOM(content).window.document;
+    doc.querySelectorAll('.field-ids').forEach((node) => node.remove());
+    // Text node by text node: textContent runs adjacent table cells together
+    // ("…compatibilityOwner input required"), which hides an id from \b.
+    const walker = doc.createTreeWalker(doc.body, 4 /* NodeFilter.SHOW_TEXT */);
+    const chunks = [];
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) chunks.push(node.nodeValue);
+    const words = chunks.join(' ');
+    assert(words.length > 5000, 'the rendered report is too short to be the report');
+    const leaked = Array.from(engineIds).filter((id) => new RegExp(`\\b${id}\\b`).test(words));
+    assert.deepStrictEqual(leaked, [], 'engine field ids reached the reader: ' + leaked.join(', '));
+  });
+}
+
+// The page and the downloaded report name every funnel step the same way,
+// because both read Report.PLAIN_LABELS. Asserted on what each renders.
+{
+  const pageDomLabels = new JSDOM('<main><div id="mount"></div></main>');
+  Page.render(pageDomLabels.window.document.getElementById('mount'), model, data);
+  const pageSteps = Array.from(pageDomLabels.window.document.querySelectorAll('#ms-s5 tbody tr td:first-child')).map((td) => td.textContent.trim());
+  const reportDoc = new JSDOM(preview).window.document;
+  const demandSection = Array.from(reportDoc.querySelectorAll('section')).find((section) => section.querySelector('h2').textContent.startsWith('6. Demand'));
+  const reportSteps = Array.from(demandSection.querySelectorAll('tbody tr td:first-child')).map((td) => td.textContent.trim());
+  assert.strictEqual(reportSteps.length, EffectiveDemand.STAGE_IDS.length + 1, 'the report funnel table lost rows');
+  assert.deepStrictEqual(reportSteps, pageSteps, 'the page and the report name the funnel steps differently');
+}
+
+// A buyer pool that earlier sales used up is a measured result, not a missing
+// input. It must never be labelled as one.
+{
+  const zeroPoolYears = resolved.capture.scenarios.flatMap((item) => item.annualCaptureRate).filter((entry) => entry.denominator.value === 0);
+  assert(zeroPoolYears.length > 0, 'no used-up pool in the resolved fixture — this check would pass vacuously');
+  const resolvedCaptureText = captureSection.textContent;
+  assert(!/Owner input required — pool 0/.test(resolvedCaptureText), 'a used-up buyer pool is labelled as a missing owner input');
+  assert.strictEqual((resolvedCaptureText.match(/none — the buyer pool is used up by earlier sales/g) || []).length, zeroPoolYears.length);
+}
+
 assert(!/<script\b/i.test(exported));
 assert(!/<link\b/i.test(exported));
 assert(!/src=["'](?:https?:)?\/\//i.test(exported));
