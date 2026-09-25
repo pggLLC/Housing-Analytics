@@ -101,6 +101,7 @@ const FLOWS = [
     path: '/market-analysis.html',
     mustContain: ['Public Market Analysis', 'screening tool'],
     requiredSelectors: ['#pmaMap', '.pma-intro-text'],
+    interact: pmaTractDefaultInteraction,
   },
   {
     name: 'Deal Calculator',
@@ -115,6 +116,70 @@ const FLOWS = [
     requiredSelectors: ['#drhStatTotal', '[data-panel="overview"]'],
   },
 ];
+
+/**
+ * PMA, audit F13: the Tract picker is the default method (CHFA requires a PMA
+ * of whole census tracts), but a map click used to run a circular buffer
+ * regardless, and a click on a picker tract fell through the county-boundary
+ * fill to the map, moving the site. Driven with real mouse clicks because the
+ * defect was about which layer receives the click, which only a browser with
+ * layout can tell. Desktop only: the map is the interaction surface.
+ * Returns a list of failures.
+ */
+async function pmaTractDefaultInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') return [];
+  const failures = [];
+  const ready = await page.waitForFunction(() => window.PMAEngine && window.PMAEngine._map
+    && window.PMAEngine._map() && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 })
+    .then(() => true).catch(() => false);
+  if (!ready) return ['PMA map or tract picker never initialised'];
+  const method = await page.evaluate(() => window.PMAUIController.getMethod());
+  if (method !== 'tract') failures.push(`default method is ${method}, not tract`);
+  const SITE = [39.1589, -108.729];          // Fruita, Mesa County
+  await page.evaluate((c) => { const m = window.PMAEngine._map(); m.setView(c, 12);
+    m.getContainer().scrollIntoView({ block: 'center' }); }, SITE);
+  await page.waitForTimeout(800);
+  const toScreen = (c) => page.evaluate((cc) => { const m = window.PMAEngine._map();
+    const r = m.getContainer().getBoundingClientRect(); const pt = m.latLngToContainerPoint(cc);
+    return [r.left + pt.x, r.top + pt.y]; }, c);
+  let [x, y] = await toScreen(SITE);
+  await page.mouse.click(x, y);
+  const opened = await page.waitForFunction(() => window.PMATractPicker.getSelectedGeoids().length > 0,
+    null, { timeout: 15000 }).then(() => true).catch(() => false);
+  const first = await page.evaluate(() => ({
+    boundary: document.getElementById('pmaScoreBoundary') && document.getElementById('pmaScoreBoundary').dataset.boundary,
+    picked: window.PMATractPicker.getSelectedGeoids().slice(),
+    site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+  }));
+  if (!opened) failures.push('a map click in tract mode did not open the tract picker');
+  if (first.boundary === 'buffer') failures.push('a map click in tract mode produced a circular-buffer result');
+  // An unselected tract a few miles out, clicked on screen.
+  const target = await page.evaluate(async (args) => {
+    const [site, picked] = args; const sel = new Set(picked);
+    const r = await fetch('data/market/tract_centroids_co.json'); const d = await r.json();
+    const list = Array.isArray(d.tracts || d) ? (d.tracts || d) : Object.values(d.tracts || d);
+    const lat = (t) => t.lat || t.latitude; const lon = (t) => t.lon || t.lng || t.longitude;
+    const mi = (t) => Math.hypot((lat(t) - site[0]) * 69, (lon(t) - site[1]) * 53);
+    const t = list.filter((t) => !sel.has(t.geoid || t.GEOID) && mi(t) > 3 && mi(t) < 6)
+      .sort((a, b) => mi(a) - mi(b))[0];
+    return t ? [lat(t), lon(t)] : null;
+  }, [SITE, first.picked]);
+  if (!target) return failures.concat('no unselected tract near the site to click');
+  [x, y] = await toScreen(target);
+  await page.mouse.click(x, y);
+  await page.waitForTimeout(1500);
+  const second = await page.evaluate(() => ({
+    picked: window.PMATractPicker.getSelectedGeoids().length,
+    site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+  }));
+  if (second.site[0] !== first.site[0] || second.site[1] !== first.site[1]) {
+    failures.push('clicking a tract moved the site instead of toggling the tract');
+  }
+  if (second.picked !== first.picked.length + 1) {
+    failures.push(`clicking an unselected tract changed the selection from ${first.picked.length} to ${second.picked}`);
+  }
+  return failures;
+}
 
 const TIGERWEB_URL_PATTERN = /tigerweb\.geo\.census\.gov/i;
 const CHFA_LIHTC_URL_PATTERN = /services\.arcgis\.com\/VTyQ9soqVukalItT\//i;
@@ -375,6 +440,9 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
     const count = await page.locator(selector).count().catch(() => 0);
     if (count === 0) missingSelectors.push(selector);
   }
+  const interactionFailures = typeof flow.interact === 'function'
+    ? await flow.interact(page, viewport).catch(err => [`interaction threw: ${err.message}`])
+    : [];
   const blankCards = await collectBlankCards(page).catch(err => [{ selector: 'audit-error', text: err.message, width: 0, height: 0 }]);
   const overflow = await collectMobileOverflow(page).catch(err => ({ overflowPx: 0, offenders: [{ selector: 'audit-error', width: 0, left: 0, right: 0, error: err.message }] }));
 
@@ -384,6 +452,7 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
   if (missingText.length) hardFailures.push(`Missing expected text: ${missingText.join(', ')}`);
   if (missingSelectors.length) hardFailures.push(`Missing selector(s): ${missingSelectors.join(', ')}`);
   if (blankCards.length) hardFailures.push(`${blankCards.length} visible blank/loading card(s)`);
+  for (const f of interactionFailures) hardFailures.push(`Interaction: ${f}`);
   if (viewport.name === 'mobile' && overflow.overflowPx > 2) hardFailures.push(`Document overflows mobile viewport by ${overflow.overflowPx}px`);
 
   await context.close();

@@ -818,15 +818,7 @@
           }
           var coords = _getLastCoords();
           if (picker && mapRef && coords) {
-            picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
-              .then(function (r) {
-                // picker.init resets rationale to ''; mirror that in the textarea
-                var ta = $id('pmaTractRationale');
-                if (ta) ta.value = '';
-                _wireTractRationaleInput();
-                _onTractSelectionChange(r.selected);
-              })
-              .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+            _startTractPicker(coords.lat, coords.lon);
           } else {
             // Tract tab activated but no site placed yet — at least wire up
             // the rationale textarea so input handlers exist when picker inits.
@@ -869,6 +861,42 @@
       if (m) return { lat: parseFloat(m[1]), lon: parseFloat(m[2]) };
     }
     return null;
+  }
+
+  /* Start the tract picker at a site: the tab activation and a map click in
+     tract mode both come here, so the two cannot drift. */
+  function _startTractPicker(lat, lon) {
+    var picker = window.PMATractPicker;
+    var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
+    if (!picker || !mapRef || typeof picker.init !== 'function') return false;
+    picker.init(mapRef, lat, lon, _onTractSelectionChange)
+      .then(function (r) {
+        // picker.init resets rationale to ''; mirror that in the textarea
+        var ta = $id('pmaTractRationale');
+        if (ta) ta.value = '';
+        _wireTractRationaleInput();
+        _onTractSelectionChange(r.selected);
+      })
+      .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+    return true;
+  }
+
+  /* A map click in tract mode: open the picker at the site and say what to
+     do next, instead of silently running a circular buffer. Returns false
+     when the picker cannot start, so the caller falls back to its old path. */
+  function beginTractPma(lat, lon) {
+    if (!TRACT_PICKER_ENABLED || !_startTractPicker(lat, lon)) return false;
+    var circle = $id('pmaScoreCircle');
+    if (circle) { circle.textContent = '\u2014'; circle.style.borderColor = ''; circle.style.background = ''; }
+    var tier = $id('pmaScoreTier');
+    if (tier) tier.textContent = 'Site placed \u2014 review the pre-selected census tracts on the map, then Run Analysis';
+    var boundary = $id('pmaScoreBoundary');
+    if (boundary) {
+      boundary.dataset.boundary = 'pending';
+      boundary.textContent = 'PMA: whole census tracts, not yet run';
+      boundary.hidden = false;
+    }
+    return true;
   }
 
   function _onTractSelectionChange(geoids) {
@@ -1271,6 +1299,7 @@
   if (typeof window !== 'undefined') {
     window.PMAUIController = {
       getMethod:        function () { return _method; },
+      beginTractPma:    beginTractPma,
       getLastScoreRun:  function () { return _lastScoreRun; },
       runEnhanced:      _runEnhancedAnalysis,
       showChartLoading: _showChartLoading,

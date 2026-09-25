@@ -1354,6 +1354,31 @@
   }
 
   /* ── Render results ─────────────────────────────────────────────── */
+  /**
+   * Say, on the score card itself, what boundary the score was computed on.
+   *
+   * CHFA's Market Study Guide requires a PMA of whole census tracts; a
+   * circular buffer is a screening proxy. The card used to show the same
+   * "Marginal Site" score either way, with only "Relative indicator only"
+   * beneath it, so a buffer screen read as a PMA result (audit F13).
+   */
+  function renderScoreBoundary(result) {
+    var node = el('pmaScoreBoundary');
+    if (!node) return;
+    var isTract = result && result.boundaryMethod === 'tract-picker';
+    node.dataset.boundary = isTract ? 'tract' : 'buffer';
+    if (isTract) {
+      node.textContent = 'PMA: ' + (result.tractCount || 'selected') + ' whole census tracts you selected';
+      node.style.color = 'var(--muted)';
+    } else {
+      var mi = result && result.bufferMiles != null ? (+result.bufferMiles).toFixed(1) + '-mile ' : '';
+      node.textContent = 'Screening only \u2014 ' + mi + 'circular buffer, not a CHFA market area '
+        + '(CHFA requires whole census tracts; use the Tract picker)';
+      node.style.color = 'var(--warn-text, #8a6914)';
+    }
+    node.hidden = false;
+  }
+
   function renderScore(result) {
     var tier = scoreTier(result.overall);
     var scoreEl = el('pmaScoreCircle');
@@ -1367,6 +1392,7 @@
     }
     setText('pmaScoreTier', tier.label + ' Site');
     setText('pmaTractCount', result.tractCount || '—');
+    renderScoreBoundary(result);
     renderPmaSiteSummary(result);
     renderPmaFundingContext(result);
 
@@ -2927,6 +2953,17 @@
         return;
       }
       placeSiteMarker(e.latlng.lat, e.latlng.lng);
+      // The Tract picker is the default method (CHFA requires whole census
+      // tracts). A click used to run a circular buffer regardless of the
+      // selected method, so the first result anyone saw was a radius screen
+      // under a tab reading "Tract picker" (audit F13). In tract mode the
+      // click places the site and opens the picker there; the analysis runs
+      // on the tracts once they are reviewed.
+      var uic = window.PMAUIController;
+      if (uic && typeof uic.getMethod === 'function' && uic.getMethod() === 'tract'
+          && typeof uic.beginTractPma === 'function' && uic.beginTractPma(e.latlng.lat, e.latlng.lng)) {
+        return;
+      }
       runAnalysis(e.latlng.lat, e.latlng.lng);
     });
 
