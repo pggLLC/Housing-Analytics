@@ -77,6 +77,7 @@
     statBaseUnitsSrc: document.getElementById('statBaseUnitsSrc'),
     statTargetVac: document.getElementById('statTargetVac'),
     statUnitsNeed: document.getElementById('statUnitsNeed'),
+    statUnitsNeedBasis: document.getElementById('statUnitsNeedBasis'),
     statNetMig: document.getElementById('statNetMig'),
     needNote: document.getElementById('needNote'),
 
@@ -2123,6 +2124,7 @@
       if (window.HNAState.els.statBaseUnitsSrc) window.HNAState.els.statBaseUnitsSrc.textContent = '—';
       if (window.HNAState.els.statTargetVac) window.HNAState.els.statTargetVac.textContent = '—';
       if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = '—';
+      if (window.HNAState.els.statUnitsNeedBasis) { window.HNAState.els.statUnitsNeedBasis.textContent = '—'; window.HNAState.els.statUnitsNeedBasis.dataset.basis = 'unavailable'; }
       if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = '—';
       if (window.HNAState.els.needNote) window.HNAState.els.needNote.textContent = 'Projections module not available yet (run the Build HNA data workflow).';
       const projectionScopeBadge = document.getElementById('projectionScopeBadge');
@@ -2611,6 +2613,16 @@
     };
   }
 
+  function unitsNeedBasisLabel(basis, usedPlaceProjection) {
+    if (basis === 'workforce') return 'Workforce reading: jobs vs. affordable homes';
+    if (basis === 'resident_growth') {
+      return usedPlaceProjection
+        ? 'Resident growth: place projection'
+        : 'Resident growth: DOLA household projection';
+    }
+    return 'Basis unavailable';
+  }
+
   function formatIncrementalUnitsDisplay(incUnits) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
     const rounded = Math.round(Number(incUnits));
@@ -2651,6 +2663,7 @@
       if (window.HNAState.els.statBaseUnits) window.HNAState.els.statBaseUnits.textContent = 'Not available';
       if (window.HNAState.els.statBaseUnitsSrc) window.HNAState.els.statBaseUnitsSrc.textContent = unavailable;
       if (window.HNAState.els.statUnitsNeed) window.HNAState.els.statUnitsNeed.textContent = 'Not available';
+      if (window.HNAState.els.statUnitsNeedBasis) { window.HNAState.els.statUnitsNeedBasis.textContent = 'Not available'; window.HNAState.els.statUnitsNeedBasis.dataset.basis = 'unavailable'; }
       if (window.HNAState.els.statNetMig) window.HNAState.els.statNetMig.textContent = 'Not available';
       if (window.HNARenderers.renderProjectionCalculationTrace) {
         window.HNARenderers.renderProjectionCalculationTrace({ available: false, message: unavailable });
@@ -2864,6 +2877,14 @@
     if (els.statTargetVac) els.statTargetVac.textContent = window.HNAUtils.fmtPct(targetVac * 100);
     const incUnitsDisplay = formatIncrementalUnitsDisplay(incUnits);
     if (els.statUnitsNeed) els.statUnitsNeed.textContent = incUnitsDisplay;
+    // Name the reading that produced the figure. The subtitle used to read
+    // "DOLA forecast" whatever won, and for 365 of 546 jurisdictions the
+    // figure is the workforce reading (jobs against homes affordable at
+    // <=60% AMI), not a DOLA projection at all.
+    if (els.statUnitsNeedBasis) {
+      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection);
+      els.statUnitsNeedBasis.dataset.basis = incUnitsBasis || 'unavailable';
+    }
     if (window.HNARenderers.renderProjectionCalculationTrace) {
       if (usedPlaceProjection) {
         const placeShares = placeProjectionRec.shares || {};

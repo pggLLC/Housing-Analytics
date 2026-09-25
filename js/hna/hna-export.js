@@ -1043,7 +1043,7 @@
       drawStatGrid([
         { label: 'Baseline housing units',  value: data.housingStock.baselineUnits || _elText('statBaseUnits'), sub: 'DP04 total' },
         { label: 'Target vacancy rate',     value: data.housingStock.targetVacancyRate || _elText('statTargetVac'), sub: 'Policy target' },
-        { label: 'Net new units needed',    value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: 'Negative = surplus' },
+        { label: 'Net new units needed',    value: data.housingStock.unitsNeeded || _elText('statUnitsNeed'), sub: _elText('statUnitsNeedBasis') || 'Negative = surplus' },
         { label: '% multifamily',           value: data.housingStock.pctMultifamily != null ? data.housingStock.pctMultifamily + '%' : null, sub: 'DP04 structure' },
         { label: '% single-family detached', value: data.housingStock.pctSfDetached != null ? data.housingStock.pctSfDetached + '%' : null, sub: 'DP04 structure' },
         { label: 'Renters cost-burdened ≥30%', value: data.snapshot.rentBurden30Plus, sub: 'CHAS or DP04' },
