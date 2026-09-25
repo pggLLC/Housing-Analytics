@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:21:43.734Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:37:40.272Z. Do not edit by hand.
 
 ---
 
@@ -32,13 +32,13 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.0 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.8 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.3 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.8 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.2 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
