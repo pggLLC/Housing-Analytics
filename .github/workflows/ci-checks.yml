@@ -71,8 +71,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Generated files (the inventory line in README.md/AGENTS.md, the working
+      # paper's figures, both data manifests) are regenerated and committed to
+      # main by archive-audit-post-merge.yml after every merge. PRs used to
+      # commit them too, so every merge made every other open PR conflict on
+      # them, and a conflicting PR runs no CI at all: on 2026-09-25 one PR lost
+      # its place in the queue eight times this way. On a PR they are now
+      # regenerated here from the PR's own tree before anything checks them,
+      # so a PR never needs to commit them. On main they are still verified
+      # exactly as committed.
       - name: Verify README + AGENTS.md inventory
-        run: node scripts/compute-inventory.mjs
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            node scripts/compute-inventory.mjs --write
+          fi
+          node scripts/compute-inventory.mjs
 
       - name: Enforce tracked data-file size ceilings
         run: node scripts/check-data-file-sizes.mjs
@@ -309,6 +322,16 @@ jobs:
         # pypdf: tests/test_chfa_qap_watch.py extracts text from a real PDF,
         # the same way chfa-qap-watch.yml does.
         run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0 cryptography==50.0.1
+
+      - name: Regenerate paper figures and manifests (PRs only)
+        # See "Verify README + AGENTS.md inventory" above. Order matters:
+        # the paper quotes the inventory line, and rebuild_manifest.py
+        # records the byte count of data/_manifest.json, so it runs last.
+        if: github.event_name == 'pull_request'
+        run: |
+          npm run -s paper:build
+          npm run -s audit:file-manifest
+          python3 scripts/rebuild_manifest.py
 
       - name: Run unified CI test suite
         run: npm run test:ci
