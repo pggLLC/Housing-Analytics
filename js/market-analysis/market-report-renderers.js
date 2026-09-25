@@ -142,6 +142,7 @@
   function _band(score) {
     var u = window.MAUtils;
     if (u && typeof u.opportunityBand === 'function') return u.opportunityBand(score);
+    if (typeof score !== 'number' || isNaN(score)) return null;
     if (score >= 70) return 'High';
     if (score >= 45) return 'Moderate';
     return 'Lower';
@@ -161,21 +162,34 @@
     }
 
     var band       = _band(scores.final_score);
-    var bandColor  = (band === 'High') ? 'var(--good)' : (band === 'Moderate') ? 'var(--warn)' : 'var(--bad)';
+    var bandColor  = (band === 'High') ? 'var(--good)' : (band === 'Moderate') ? 'var(--warn)'
+      : band ? 'var(--bad)' : 'var(--muted)';
+    // A second model on a second scale. It was headed "Composite Score"
+    // with an "Opportunity Band" beside the PMA score's own tier, and
+    // nothing said which one was the answer (audit F2).
+    var bands = (window.MAUtils && window.MAUtils.OPPORTUNITY_BANDS) || [];
+    var legend = bands.map(function (b, i) {
+      var hi = i > 0 ? bands[i - 1].min - 1 : 100;
+      return b.label + ' ' + (b.min === -Infinity ? '0\u2013' + hi : b.min + '\u2013' + hi);
+    }).join(' \u00b7 ');
     var narrative  = scores.narrative || '';
 
     var html = (
       '<div style="display:grid;gap:1rem;">' +
         '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">' +
           '<div>' +
-            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Composite Score</div>' +
-            _scoreBadge(scores.final_score) +
+            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Site-selection index (secondary)</div>' +
+            '<span data-score-role="secondary" data-score="' + _esc(String(scores.final_score)) + '">' + _scoreBadge(scores.final_score) + '</span>' +
           '</div>' +
           '<div>' +
-            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Opportunity Band</div>' +
-            '<span class="pill" style="background:' + bandColor + ';color:#fff;border-color:' + bandColor + ';font-weight:700;">' + band + '</span>' +
+            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Opportunity band</div>' +
+            '<span class="pill" style="background:' + bandColor + ';color:#fff;border-color:' + bandColor + ';font-weight:700;">' + (band || 'Not available') + '</span>' +
           '</div>' +
         '</div>' +
+        '<p class="ma-score-scale" style="margin:0;font-size:var(--tiny);color:var(--muted);">' +
+          'A separate site-selection model on its own scale (' + legend + '). ' +
+          'The primary result is the PMA score in the Site Score card; the two are not comparable.' +
+        '</p>' +
         (narrative
           ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.55;">' + _esc(narrative) + '</p>'
           : '') +

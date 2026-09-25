@@ -109,10 +109,22 @@
    * @param {number} score
    * @returns {string} "High" | "Moderate" | "Lower"
    */
+  // The site-selection index's bands: a different model and a different
+  // scale from the PMA score (market-analysis-scoring.js SCORE_TIERS). The
+  // label and its legend both read this table (audit F2).
+  var OPPORTUNITY_BANDS = [
+    { min: 70, label: 'High' },
+    { min: 45, label: 'Moderate' },
+    { min: -Infinity, label: 'Lower' }
+  ];
+
   function opportunityBand(score) {
-    if (typeof score !== 'number' || isNaN(score)) return 'Lower';
-    if (score >= 70) return 'High';
-    if (score >= 45) return 'Moderate';
+    // No score is no band. It used to read 'Lower', a low rating for a site
+    // nothing had been measured about.
+    if (typeof score !== 'number' || isNaN(score)) return null;
+    for (var i = 0; i < OPPORTUNITY_BANDS.length; i++) {
+      if (score >= OPPORTUNITY_BANDS[i].min) return OPPORTUNITY_BANDS[i].label;
+    }
     return 'Lower';
   }
 
@@ -152,6 +164,7 @@
     formatPct:       formatPct,
     formatCurrency:  formatCurrency,
     opportunityBand: opportunityBand,
+    OPPORTUNITY_BANDS: OPPORTUNITY_BANDS,
     scoreColor:      scoreColor,
     truncate:        truncate
   };

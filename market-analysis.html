@@ -579,9 +579,10 @@
         <div class="pma-card" data-pma-keep>
           <h2>Site Score</h2>
           <div id="pmaScoreWrap" class="pma-score-wrap">
-            <div class="pma-score-circle" id="pmaScoreCircle" aria-label="Overall PMA score">—</div>
+            <div class="pma-score-circle" id="pmaScoreCircle" data-score-role="primary" aria-label="PMA score, the primary result">—</div>
             <div class="pma-score-meta">
-              <div class="pma-score-label">Overall PMA Score (0–100)</div>
+              <div class="pma-score-label">PMA score (0–100) — the primary result</div>
+              <div class="pma-score-scale" id="pmaScoreScale" style="font-size:.75rem;color:var(--muted);margin-top:2px;"></div>
               <div class="pma-score-note" style="font-size:.75rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
               <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.75rem;margin-top:2px;" hidden></div>
               <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>

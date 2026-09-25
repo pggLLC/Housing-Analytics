@@ -81,6 +81,7 @@
     if (utils && typeof utils.opportunityBand === 'function') {
       return utils.opportunityBand(score);
     }
+    if (typeof score !== 'number' || isNaN(score)) return null;
     if (score >= 70) return 'High';
     if (score >= 45) return 'Moderate';
     return 'Lower';
