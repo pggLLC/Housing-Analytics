@@ -97,7 +97,7 @@
       label: "Insights",
       items: [
         { label: "Help for Homebuyers",     href: "help-for-homebuyers.html",       desc: "Assistance programs for buyers" },
-        { label: "Housing News",           href: "policy-briefs.html",             desc: "Auto-generated summaries — always check the linked source" },
+        { label: "Housing News",           href: "policy-briefs.html",             desc: "Colorado housing headlines, newest first — always check the linked source" },
         { label: "Market Insights",       href: "insights.html",                  desc: "Analysis & commentary" },
         { label: "Working Paper",         href: "working-paper.html",             desc: "Instrumenting Housing Need — the methodology, written up" },
         { label: "Methods",               href: "methods.html",                   desc: "How every figure in the paper is computed" },

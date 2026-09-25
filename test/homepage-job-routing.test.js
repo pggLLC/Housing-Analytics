@@ -73,10 +73,22 @@ assert(
   navigation.includes('Browse every dataset with previews'),
   'navigation File Browser description must use public dataset-browsing language'
 );
-assert(
-  navigation.includes('Auto-generated summaries — always check the linked source'),
-  'navigation Housing News description must use public caution language'
-);
+// The Housing News description must agree with the page it opens, not pin a
+// sentence. It keeps the caution to open the source, and it may only promise
+// machine summaries while policy-briefs.html actually shows machine-written
+// text (the 2026-09-24 rebuild removed the per-topic summaries).
+{
+  const newsPage = fs.readFileSync(path.join(ROOT, 'policy-briefs.html'), 'utf8');
+  const entry = navigation.match(/label:\s*"Housing News",[^}]*desc:\s*"([^"]+)"/);
+  assert(entry, 'navigation has no Housing News entry with a description');
+  const desc = entry[1];
+  assert(/check the linked source/i.test(desc), 'navigation Housing News description must keep the caution to check the source');
+  const pageSummarizes = /machine-summari[sz]ed|auto-generated summar/i.test(newsPage);
+  assert.equal(/auto-generated|machine-summari/i.test(desc), pageSummarizes,
+    pageSummarizes
+      ? 'Housing News shows machine summaries but the navigation does not say so'
+      : 'navigation promises auto-generated summaries that policy-briefs.html no longer shows');
+}
 for (const oldPhrase of [
   'QA coverage',
   'Inspect every JSON / GeoJSON / CSV in data/ with schema previews',
