@@ -1542,7 +1542,7 @@
           </div>
         </div>
 
-        <label style="display:block;margin-bottom:var(--sp2);">
+        <label data-dc-mode="rental" style="display:block;margin-bottom:var(--sp2);">
           <span style="font-size:var(--small);color:var(--muted);">
             Eligible Basis %: <strong id="dc-basis-pct-label">80</strong>%
           </span>
@@ -1551,7 +1551,7 @@
             style="display:block;width:100%;margin-top:0.25rem;">
         </label>
 
-        <div style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
+        <div data-dc-mode="rental" style="margin-top:var(--sp2);margin-bottom:var(--sp2);padding:0.6rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);">
           <label style="display:flex;align-items:center;gap:0.5rem;min-height:44px;cursor:pointer;">
             <input id="dc-qct-dda" type="checkbox"
               style="width:16px;height:16px;flex-shrink:0;">
@@ -1586,9 +1586,9 @@
                Colorado deals. Both links so the user can sanity-check the
                numbers the calculator uses. -->
           <span style="font-size:var(--small);color:var(--muted);">
-            County (sets HUD FMR / AMI &mdash; CHFA applies LIHTC rent &amp; income limits.
-            <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--link);">HUD Income Limits ↗</a> ·
-            <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--link);">CHFA Rent &amp; Income Limits ↗</a>)
+            County (sets HUD FMR / AMI<span data-dc-mode="rental"> &mdash; CHFA applies LIHTC rent &amp; income limits</span>.
+            <a href="https://www.huduser.gov/portal/datasets/il.html" target="_blank" rel="noopener" style="color:var(--link);">HUD Income Limits ↗</a><span data-dc-mode="rental"> ·
+            <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--link);">CHFA Rent &amp; Income Limits ↗</a></span>)
           </span>
           <select id="dc-county-select"
             style="display:block;width:100%;margin-top:0.25rem;padding:0.4rem 0.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg2);color:var(--text);font-size:var(--small);">
@@ -1645,7 +1645,7 @@
             </div>
           </div>
         </details>
-        <div id="dc-fmr-note" style="font-size:var(--tiny);color:var(--warn, #e6a23c);margin-top:-0.25rem;margin-bottom:var(--sp2);">
+        <div id="dc-fmr-note" data-dc-mode="rental" style="font-size:var(--tiny);color:var(--warn, #e6a23c);margin-top:-0.25rem;margin-bottom:var(--sp2);">
           Select a county above to load HUD-published AMI rent limits for that county.
         </div>
         <!-- Cross-county jurisdiction disclosure: surfaces when the chosen
@@ -1670,7 +1670,7 @@
       </fieldset>
 
       <!-- Debt / Mortgage Inputs -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Operating Income &amp; NOI</legend>
 
         <!-- Auto-compute NOI toggle -->
@@ -1745,7 +1745,7 @@
             aria-label="Developer fee rate percentage"
             style="display:block;width:100%;margin-top:0.25rem;">
           <span style="font-size:var(--tiny);color:var(--muted);">
-            Typical CHFA range: 12–18% of TDC. Only a portion is includable in eligible basis.
+            Typical CHFA range: 12–18% of TDC.<span data-dc-mode="rental"> Only a portion is includable in eligible basis.</span>
           </span>
         </label>
         <label style="display:block;margin-bottom:var(--sp2);">
@@ -1788,7 +1788,7 @@
         </div>
       </fieldset>
 
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Debt Sizing</legend>
 
         <label style="display:block;margin-bottom:var(--sp2);">
@@ -1821,7 +1821,7 @@
       <!-- G — Multi-tranche soft debt. Replaces the single-source picker.
            Each tranche is { program, amount, mode (loan|grant), rate, term }
            and aggregates into the sources/uses + pro forma debt service. -->
-      <fieldset style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
+      <fieldset data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-top:var(--sp3);">
         <legend style="font-size:var(--small);font-weight:700;padding:0 0.4rem;">Soft Funding Stack</legend>
         <p style="font-size:var(--tiny);color:var(--muted);margin:0 0 var(--sp2);">
           Stack up to 5 subordinate sources (CHFA HTF, Prop 123, local PHA, sponsor loan, impact fees, etc.).
@@ -1863,7 +1863,7 @@
            inline-editable tunable constants for non-standard underwriting
            boxes (e.g. a bank using 28 % rent burden, or a lender using
            tighter stress percentages). -->
-      <details id="dc-formulas-panel" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);background:var(--bg2);">
+      <details id="dc-formulas-panel" data-dc-mode="rental" style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp3);margin-bottom:var(--sp3);background:var(--bg2);">
         <summary style="font-size:var(--small);font-weight:700;cursor:pointer;list-style:none;display:flex;align-items:center;gap:0.5rem;">
           <span aria-hidden="true">▶</span>
           Methodology &amp; Formulas
@@ -2192,7 +2192,7 @@
              complexity and are not from a published source — they
              are a screening sanity check, not an underwriting
              reference. -->
-        <details id="dc-design-reference" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
+        <details id="dc-design-reference" data-dc-mode="rental" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:.55rem .75rem;background:var(--bg2);">
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);">Building type, amenities, and expenses — reference</summary>
           <p style="margin:.45rem 0 .35rem;font-size:var(--tiny);color:var(--muted);line-height:1.5;">
             How design and operating choices typically affect the LIHTC pro-forma. None of these inputs auto-adjust the calculation above — they are CHFA-aligned planning context for sponsor + GC conversations.
@@ -2555,7 +2555,7 @@
   </div><!-- /#dc-calc-grid -->
 
   <!-- Collapsible Assumptions Panel -->
-  <details style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);">
+  <details data-dc-mode="rental" style="margin-top:var(--sp3);border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2) var(--sp3);">
     <summary style="font-size:var(--small);font-weight:700;cursor:pointer;user-select:none;list-style:none;display:flex;align-items:center;gap:0.4rem;">
       <span>&#9660;</span> Assumptions
     </summary>
