@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T18:01:14.085475Z",
+  "generated": "2026-09-25T18:15:14.894690Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -209,7 +209,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13556
+      "bytes": 14178
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -264,7 +264,7 @@
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 67585
+      "bytes": 67629
     },
     "data/core/neighborhood-context.json": {
       "featureCount": 64,
@@ -4124,7 +4124,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 181592
+      "bytes": 181584
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7954,7 +7954,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25351
+      "bytes": 25939
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
@@ -8019,7 +8019,7 @@
     "data/provenance/market-analysis.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2314
+      "bytes": 2336
     },
     "data/qct-colorado.json": {
       "featureCount": 224,
