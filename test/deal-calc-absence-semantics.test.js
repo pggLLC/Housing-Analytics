@@ -146,6 +146,68 @@ test('a broken unit mix assigns NaN, not 0', () => {
     'the unit-mix error path assigns 0 again');
 });
 
+test('a deal with no county has an unknown rent roll, not a $0 one', () => {
+  // Units are priced at the county's AMI rent ceilings; with no county there
+  // are none, and the sum used to read $0 — an NOI of -$399,000, a $0 first
+  // mortgage and $0 sensitivity bars for anyone arriving without a
+  // jurisdiction (G3 dry run, 2026-09-25).
+  assert.ok(/if \(!_amiLimits && !_amiLimitsByBr\) \{\s*\n\s*annualRents = NaN;/.test(SRC),
+    'the no-county path no longer marks the rent roll unknown');
+});
+
+test('a blank manual NOI is unknown, not $0', () => {
+  assert.ok(!/noi = safeVal\('dc-noi'\) \|\| 0;/.test(SRC),
+    "manual NOI is read with `|| 0` again, so a blank field sizes a $0 mortgage");
+});
+
+test('an unknown NOI sizes an unknown mortgage, not a $0 one', () => {
+  // `NaN > 0` is false, so `(mc > 0 && noi > 0) ? ... : 0` turned an unknown
+  // NOI into a computed-looking $0 in Sources & Uses, and a funding gap equal
+  // to TDC minus equity.
+  assert.ok(/var mortgage = !isFinite\(noi\) \? NaN/.test(SRC),
+    'mortgage sizing no longer keeps an unknown NOI unknown');
+});
+
+test('auto-balance does not call an uncomputable gap balanced', () => {
+  assert.ok(/if \(autoBalance && !isFinite\(gapBeforeDeferred\)\)/.test(SRC),
+    'an unknown gap falls through to "Deal is balanced without deferring fee"');
+});
+
+test('the sensitivity chart is not drawn from an unknown NOI', () => {
+  assert.ok(/var sensitivityKnown = isFinite\(noi\) && annualRents > 0;/.test(SRC),
+    'the sensitivity gate is gone');
+  assert.ok(/window\.TornadoSensitivity && tdc > 0 && sensitivityKnown/.test(SRC),
+    'the chart renders without checking NOI and rents are known — its bars '
+    + 'coerce them with `|| 0` and draw $0 ranges');
+});
+
+test('the absence messages name the cause, not always "select a county"', () => {
+  // A county can be selected and NOI still unknown (a blank manual NOI, a
+  // broken unit mix). Telling that reader to select a county sends them to
+  // fix something that is not broken (Codex review, #1905).
+  assert.ok(/'Enter NOI, or turn on auto-compute\.'/.test(SRC), 'manual-NOI cause is not named');
+  assert.ok(/unitMixError\s*\?\s*'Fix the unit mix/.test(SRC), 'unit-mix cause is not named');
+  for (const [what, re] of [
+    ['auto-balance note', /Nothing to balance yet[^;]*;/],
+    ['sensitivity note', /Sensitivity needs a known NOI[^;]*;/],
+  ]) {
+    const m = SRC.match(re);
+    assert.ok(m, `${what} not found`);
+    assert.ok(!/Select a county/.test(m[0]), `${what} hard-codes the no-county remedy`);
+    assert.ok(/UnknownReason/.test(m[0]), `${what} does not use the carried reason`);
+  }
+});
+
+test('percent labels on the sensitivity chart are rounded before printing', () => {
+  // vacFrac() * 100 turns 7% into 7.000000000000001, which was printed as
+  // "Vacancy 5.000000000000001% to 9%". Executed, not grepped: take the label
+  // expression from the source and run it on the value that exposed the bug.
+  const m = SRC.match(/note: ('Vacancy ' \+[\s\S]*?'%'),\n/);
+  assert.ok(m, 'could not find the vacancy label expression');
+  const label = vm.runInNewContext(m[1], { vu: 0.07 * 100, Math });
+  assert.strictEqual(label, 'Vacancy 5% to 9%', `label printed as "${label}"`);
+});
+
 test('the rents input is not re-coerced by a || 0 default', () => {
   // `+inputs.annualRents || 0` turns NaN back into 0 and undoes the fix one
   // function away from where it was made.
