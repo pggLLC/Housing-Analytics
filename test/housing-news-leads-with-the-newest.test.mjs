@@ -1,90 +1,359 @@
-#!/usr/bin/env node
 /**
- * A page called Housing News leads with the newest story.
+ * Housing News (policy-briefs.html) — behavioural guard.
  *
- * ── What was wrong ──
+ * History. F191 ordered the page by LIHTC relevance, so on a page titled
+ * "Housing News" a two-month-old story sat above a three-day-old one. It was
+ * then fixed to sort newest first, and this file pinned the variable names of
+ * that fix. On 2026-09-24 the page was rebuilt from topic cards into a list
+ * of headlines, because the card format itself hid news: each topic card
+ * showed at most 25 articles with no way to see the rest, which left 41 of 96
+ * in-scope stories unreachable by any click, filter or search.
  *
- * F191 scored briefs by LIHTC relevance and ordered the page by that score.
- * On 2026-09-19 the rendered order, by age in days, was:
- *
- *     0, 1, 5, 24, 60, 3, 38, 36, 58
- *
- * A two-month-old brief sat above a three-day-old one, on a page whose title
- * is "Housing News", with nothing saying the sort was relevance rather than
- * recency. The site is also not a LIHTC newsletter — of the feeds in
- * scripts/alert_feeds.txt, only one of six is LIHTC-specific; the rest are
- * Colorado affordable housing, zoning and land use, housing policy and the
- * legislature, CHFA, and NCSHA.
- *
- * ── And it never applied on first paint anyway ──
- *
- * The initial render calls renderBriefs(list), while applyFilters() reads
- * `briefs`. F191 assigned its sorted copy to `briefs` only, so the ordering
- * it intended appeared only once the reader touched a filter — at which point
- * the list silently resequenced under them. The list is now sorted in place
- * and `briefs` points at the same array, so both paths agree.
- *
- * ── What this guard holds ──
- *
- * The ordering rule, in source, and that relevance is not the sort key. The
- * rendered order itself is verified in a browser rather than here; a static
- * test cannot run the page.
+ * So this guard no longer pins source text. It runs the page in jsdom
+ * against a stubbed fetch and asserts what a reader gets:
+ *   - stories are newest first, before and after filtering;
+ *   - every story is reachable (no per-topic cap);
+ *   - the page shows the pipeline's stories as given: it does not re-decide
+ *     scope or merge headlines itself (tests/test_news_stories.py covers
+ *     those rules in scripts/generate_policy_briefs.py);
+ *   - a story naming a place can be filtered by that place and its region,
+ *     and shows that place's own numbers from its metrics digest, with no
+ *     missing value rendered as 0;
+ *   - tool evaluations and research briefs go to their own panels;
+ *   - no clickable container wraps links (the old role="button" card).
+ * The last test runs the committed data, so the page is checked against what
+ * it will actually render.
  */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
+import { JSDOM } from 'jsdom';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SRC = fs.readFileSync(path.join(ROOT, 'policy-briefs.html'), 'utf8');
-// executable source only: the explanation above this fix names the old
-// behaviour, and a comment must not be able to satisfy these assertions.
-const code = SRC
-  .replace(/\/\*[\s\S]*?\*\//g, ' ')
-  .split('\n').map((l) => l.replace(/(^|[^:])\/\/.*$/, '$1')).join('\n');
+const HTML = fs.readFileSync(path.join(ROOT, 'policy-briefs.html'), 'utf8');
 
-test('the page still renders briefs at all', () => {
-  assert.ok(/renderBriefs\(/.test(code), 'renderBriefs is gone; re-derive this guard');
-  assert.ok(/briefsGrid/.test(code), 'the briefs grid is gone');
+async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = null) {
+  const dom = new JSDOM(HTML, {
+    runScripts: 'dangerously',
+    url: 'http://localhost/policy-briefs.html',
+    beforeParse(window) {
+      window.fetch = (url) => {
+        const u = String(url);
+        const digest = u.match(/jurisdiction-metrics-digest\/(\d+)\.json/);
+        if (digest) {
+          const doc = digests[digest[1]];
+          return Promise.resolve({ ok: !!doc, json: () => Promise.resolve(doc) });
+        }
+        if (u.includes('policy-watch.json')) {
+          return Promise.resolve({ ok: !!watch, json: () => Promise.resolve(watch) });
+        }
+        if (u.includes('glossary.json')) {
+          const terms = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'glossary.json'), 'utf8'));
+          return Promise.resolve({ ok: true, json: () => Promise.resolve(terms) });
+        }
+        return Promise.resolve({ ok: true, json: () => Promise.resolve(u.includes('curated') ? curated : briefs) });
+      };
+      window.console.warn = () => {};
+      // The page grades digest figures with the real contract, loaded by a
+      // <script src> jsdom does not fetch.
+      window.eval(fs.readFileSync(path.join(ROOT, 'js', 'workflow', 'recommendation-contract.js'), 'utf8'));
+    },
+  });
+  const doc = dom.window.document;
+  for (let i = 0; i < 200; i++) {
+    const status = doc.getElementById('briefsStatus');
+    if (doc.querySelector('.story') || (status && !/Loading/.test(status.textContent))) break;
+    await new Promise((r) => setTimeout(r, 5));
+  }
+  return dom;
+}
+
+const settle = () => new Promise((r) => setTimeout(r, 20));
+
+function expandAll(doc) {
+  for (let i = 0; i < 100; i++) {
+    const more = doc.getElementById('newsMore');
+    if (!more) return;
+    more.click();
+  }
+  throw new Error('"Show earlier" never ran out');
+}
+
+const visibleStories = (doc) => [...doc.querySelectorAll('.story')].filter((el) => !el.closest('[hidden]'));
+const storyDates = (doc) => visibleStories(doc).map((el) => el.getAttribute('data-date'));
+const isNewestFirst = (dates) => dates.every((d, i) => i === 0 || !d || !dates[i - 1] || dates[i - 1] >= d);
+
+function story(title, source, date, extra = {}) {
+  return { title, source, date, link: `https://news.localhost/${encodeURIComponent(title)}`,
+    scope: 'colorado', programs: [], places: [], regions: [], also: [], ...extra };
+}
+
+const STERLING = { geoid: '0873935', name: 'Sterling', type: 'place' };
+const FRISCO = { geoid: '0828690', name: 'Frisco', type: 'place' };
+
+function fixture() {
+  const bulk = [];
+  for (let i = 0; i < 60; i++) {
+    const day = String(1 + (i % 28)).padStart(2, '0');
+    const month = i < 28 ? '08' : i < 56 ? '07' : '06';
+    bulk.push(story(`Colorado housing story number ${i}`, 'Denver Post', `2026-${month}-${day}`));
+  }
+  const stories = [
+    ...bulk,
+    story('Pueblo breaks ground on 98 homes', 'KRDO', '2026-09-21', {
+      places: [{ geoid: '0862000', name: 'Pueblo', type: 'place' }], regions: ['Front Range'],
+      also: [{ source: 'Pueblo Chieftain', link: 'https://news.localhost/pueblo', date: '2026-09-20' }] }),
+    story('HUD rule change for public housing', 'Bisnow', '2026-09-22', { scope: 'federal', programs: ['HUD'] }),
+    story('Sterling housing project is recipient of Proposition 123 funds', 'Sterling Journal-Advocate', '2026-09-10', {
+      programs: ['Prop 123'], places: [STERLING], regions: ['Eastern Plains'] }),
+    story('Frisco breaks ground on new affordable housing complex', 'CBS News', '2026-09-23', {
+      places: [FRISCO], regions: ['Mountains'] }),
+    story('Denver council weighs Prop 123 opt-in', 'Denverite', '2026-09-05', {
+      programs: ['Prop 123'], places: [{ geoid: '0820000', name: 'Denver', type: 'place' }], regions: ['Front Range'] }),
+  ];
+  // Reversed: the page must order by date, not trust the file's order.
+  stories.reverse();
+  return {
+    meta: { generated: '2026-09-24T12:00:00Z' },
+    briefs: [
+      { policy_topic: 'Affordable Housing', articles: [{ title: 'A headline only in a brief - X', source: 'X', date: '2026-09-24' }] },
+      {
+        policy_topic: 'Tool Evaluations', is_tool_evaluation: true,
+        articles: [{ title: 'Novogradac Rent & Income Limit Calculator', source: 'Novogradac', link: 'https://news.localhost/tool', date: '2026-07-21' }],
+      },
+    ],
+    stories,
+  };
+}
+
+function digest(name, metrics) {
+  const m = {};
+  for (const [k, v] of Object.entries(metrics)) {
+    m[k] = v !== null && typeof v === 'object'
+      ? { as_of: 'ACS 2020-2024 5-year', geography_level: 'place', ...v }
+      : { value: v, confidence: v === null ? 'missing' : 'high', as_of: 'ACS 2020-2024 5-year', geography_level: 'place' };
+  }
+  return { geography: { name }, metrics: m };
+}
+
+test('stories are newest first, and the first screen leads with the newest', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  expandAll(doc);
+  const dates = storyDates(doc);
+  assert.ok(dates.length > 10, 'the page rendered almost nothing; this guard would pass vacuously');
+  assert.ok(isNewestFirst(dates), `stories are not newest first: ${dates.slice(0, 8).join(', ')}`);
+  const lead = doc.querySelector('.story--lead');
+  assert.ok(lead, 'no lead story');
+  const newest = dates.filter(Boolean).sort().pop();
+  assert.equal(lead.getAttribute('data-date'), newest, 'the lead story is not the newest one');
 });
 
-test('there is a date-based ordering, and it sorts newest first', () => {
-  assert.ok(/_briefTime/.test(code),
-    'no date function; the page cannot be ordering by recency');
-  // tb - ta is descending: newest first. ta - tb would bury today's news.
-  assert.ok(/return\s+tb\s*-\s*ta/.test(code),
-    'the date comparator is not newest-first');
+test('every in-scope story is reachable: no per-topic cap', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  expandAll(doc);
+  const titles = [...doc.querySelectorAll('.story .story__link')].map((a) => a.textContent);
+  const bulk = titles.filter((t) => /housing story number/.test(t));
+  // One topic brief carried 60 articles. The old card showed 25.
+  assert.equal(bulk.length, 60, `only ${bulk.length} of 60 stories from one topic are reachable`);
+  // 60 bulk + Pueblo + HUD + Sterling + Frisco + Denver.
+  assert.match(doc.getElementById('newsCount').textContent, /^65 stories/,
+    'the story count in the header does not match what the page can show');
 });
 
-test('LIHTC relevance is not the sort key', () => {
-  // The exact line that used to order the page.
-  assert.ok(!/\.sort\(function \(a, b\) \{ return b\.score - a\.score; \}\);\s*\n\s*_lihtcTop3Titles[\s\S]{0,200}briefs = scored/.test(code),
-    'the page is ordered by LIHTC relevance again');
-  // Relevance may still break ties and may still tag, but the primary
-  // comparison has to be time.
-  const cmp = code.match(/list\.sort\(function \(a, b\) \{([\s\S]*?)\}\);/);
-  assert.ok(cmp, 'the list is no longer sorted in place');
-  const firstReturn = (cmp[1].match(/return[^;]+;/) || [])[0] || '';
-  assert.ok(/t[ab]/.test(firstReturn),
-    `the first comparison is not by time: ${firstReturn.trim().slice(0, 60)}`);
+test('the page shows the pipeline stories as given, not headlines from the topic briefs', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  expandAll(doc);
+  const text = doc.getElementById('newsLatestBody').textContent + doc.getElementById('newsRiverBody').textContent;
+  assert.doesNotMatch(text, /A headline only in a brief/,
+    'the page built a story from a topic brief; scope and merging are the pipeline\'s job');
+  const pueblo = [...doc.querySelectorAll('.story')].filter((el) => /Pueblo breaks ground/.test(el.textContent));
+  assert.equal(pueblo.length, 1);
+  assert.match(pueblo[0].querySelector('.story__also').textContent, /Pueblo Chieftain/,
+    'the outlets the pipeline merged are not listed under the story');
+  assert.match(text, /HUD rule change/, 'a federal policy story was dropped');
 });
 
-test('the first render and the filtered render use the same order', () => {
-  // The bug that hid F191's own ordering: sorting a copy into `briefs` while
-  // the first paint renders `list`.
-  assert.ok(/briefs = list;/.test(code),
-    'briefs no longer points at the sorted list, so the first render and the '
-    + 'filtered render can disagree again');
-  assert.ok(!/briefs = list\.slice\(\)/.test(code),
-    'briefs is a sorted COPY again; the first render will show a different order');
+test('a place named in a headline filters by that place and by its region', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  const sel = doc.getElementById('regionFilter');
+  const group = (label) => [...sel.querySelectorAll('optgroup')].find((g) => g.label === label);
+  assert.ok(group('Places'), 'no Places group in the filter');
+  const sterling = [...group('Places').querySelectorAll('option')].find((o) => /^Sterling \(1\)$/.test(o.textContent));
+  assert.ok(sterling, 'Sterling is not offered as a place filter');
+  sel.value = sterling.value;
+  sel.dispatchEvent(new window.Event('change'));
+  let titles = [...doc.querySelectorAll('#newsRiverBody .story .story__link')].map((a) => a.textContent);
+  assert.deepEqual(titles, ['Sterling housing project is recipient of Proposition 123 funds']);
+  assert.ok([...group('Regions').querySelectorAll('option')].some((o) => o.value === 'Eastern Plains'),
+    'the region the pipeline gave Sterling is not a filter');
+  sel.value = 'Eastern Plains';
+  sel.dispatchEvent(new window.Event('change'));
+  titles = [...doc.querySelectorAll('#newsRiverBody .story .story__link')].map((a) => a.textContent);
+  assert.deepEqual(titles, ['Sterling housing project is recipient of Proposition 123 funds']);
 });
 
-test('the LIHTC badge is a topic tag, not a ranking claim', () => {
-  // This is not a LIHTC newsletter. A "priority" badge on a general Colorado
-  // housing news page asserts an ordering the page no longer uses.
-  assert.ok(!/>★ LIHTC priority</.test(code),
-    'the badge still claims LIHTC priority on a date-ordered news page');
-  assert.ok(/brief-lihtc-priority/.test(code),
-    'the LIHTC tag is gone entirely; it is still useful as a topic marker');
+test('a story naming a place shows that place\'s numbers, and a missing number is left out, not 0', async () => {
+  const digests = {
+    '0873935': digest('Sterling (city)', { pct_cost_burdened: 50.9, gross_rent_median: 1031, housing_gap_units: 485 }),
+    '0828690': digest('Frisco (town)', { pct_cost_burdened: null, gross_rent_median: 1954, housing_gap_units: 0 }),
+    // Grand Lake as committed: a burden rate on 38 renter households, under the
+    // 50-household floor. The HNA and the Recommendation page call it unusable.
+    '0820000': digest('Denver (city)', {
+      pct_cost_burdened: { value: 34, confidence: 'low', denominator: 38, min_denominator: 50, denominator_floor_applied: true },
+      gross_rent_median: 1870,
+      housing_gap_units: { value: 29051, confidence: 'medium', geography_level: 'county' },
+    }),
+  };
+  const { window } = await runPage(fixture(), { briefs: [] }, digests);
+  const doc = window.document;
+  expandAll(doc);
+  await settle();
+  const lineFor = (re) => [...doc.querySelectorAll('.story')].find((el) => re.test(el.textContent))
+    .querySelector('.story__local');
+  const sterling = lineFor(/Sterling housing project/).textContent;
+  assert.match(sterling, /Sterling \(city\):/);
+  assert.match(sterling, /51% of renter households rent-burdened/);
+  assert.match(sterling, /median gross rent \$1,031/);
+  assert.match(sterling, /485 units short/);
+  assert.match(sterling, /ACS 2020-2024 5-year/, 'the numbers are shown without their vintage');
+  const frisco = lineFor(/Frisco breaks ground/).textContent;
+  assert.match(frisco, /median gross rent \$1,954/);
+  assert.doesNotMatch(frisco, /rent-burdened/, 'a missing burden share was rendered');
+  assert.doesNotMatch(frisco, /\b0 units/, 'a zero gap was rendered as a real number');
+  assert.equal(lineFor(/Frisco breaks ground/).querySelector('a').getAttribute('href'),
+    'housing-needs-assessment.html?geoid=0828690', 'the local line does not open the place\'s assessment');
+  const denver = lineFor(/Denver council/).textContent;
+  assert.doesNotMatch(denver, /34%/, 'a rent-burden rate below the evidence floor was shown as a local fact');
+  assert.match(denver, /rent-burden rate withheld/, 'a withheld rate is not disclosed');
+  assert.match(denver, /median gross rent \$1,870/);
+  assert.doesNotMatch(denver, /29,051/, 'a county figure was shown as the city\'s own');
+  const pueblo = lineFor(/Pueblo breaks ground/);
+  assert.equal(pueblo.querySelectorAll('a').length, 1, 'a place with no digest lost its assessment link');
+  assert.doesNotMatch(pueblo.textContent, /\d/, 'numbers appeared for a place with no digest');
+});
+
+test('filtering keeps the order and shows only matches', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  const chip = doc.querySelector('.news-chip[data-program="Prop 123"]');
+  assert.ok(chip, 'no Prop 123 filter although two headlines mention it');
+  chip.click();
+  assert.equal(doc.getElementById('newsLatest').hidden, true, 'Latest should give way to the results');
+  const titles = [...doc.querySelectorAll('#newsRiverBody .story .story__link')].map((a) => a.textContent);
+  assert.deepEqual(titles, ['Sterling housing project is recipient of Proposition 123 funds', 'Denver council weighs Prop 123 opt-in']);
+  assert.ok(isNewestFirst(storyDates(doc)), 'filtered results are not newest first');
+  doc.getElementById('newsClear').click();
+  assert.ok(doc.querySelector('.story--lead'), 'clearing filters did not restore the full list');
+});
+
+test('tool evaluations and research briefs go to their own panels', async () => {
+  const curated = { briefs: [{ id: 'x', is_curated: true, source_reviewed: true, title: 'A reviewed research brief',
+    summary: 'First sentence. Second sentence. Third sentence.', sources: ['Minneapolis Fed'],
+    articles: [{ link: 'https://news.localhost/brief' }], generated: '2026-07-26T00:00:00Z' }] };
+  const { window } = await runPage(fixture(), curated);
+  const doc = window.document;
+  expandAll(doc);
+  const news = doc.getElementById('newsLatestBody').textContent + doc.getElementById('newsRiverBody').textContent;
+  assert.doesNotMatch(news, /Rent & Income Limit Calculator/, 'a tool evaluation is mixed into the news');
+  assert.match(doc.getElementById('toolWatchList').textContent, /Rent & Income Limit Calculator/);
+  assert.equal(doc.getElementById('toolWatchPanel').hidden, false);
+  assert.match(doc.getElementById('researchList').textContent, /Source-reviewed brief[\s\S]*A reviewed research brief/);
+});
+
+test('no clickable container wraps links', async () => {
+  const { window } = await runPage(fixture());
+  const nested = [...window.document.querySelectorAll('[role="button"]')].filter((el) => el.querySelector('a, button'));
+  assert.equal(nested.length, 0, 'an element with role="button" contains links; screen readers cannot reach them');
+});
+
+test('the committed data renders newest first, every story reachable', async () => {
+  const briefs = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy_briefs.json'), 'utf8'));
+  const curated = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy_briefs_curated.json'), 'utf8'));
+  const { window } = await runPage(briefs, curated);
+  const doc = window.document;
+  expandAll(doc);
+  const dates = storyDates(doc);
+  assert.ok(dates.length > 0, 'the committed data renders no stories');
+  assert.ok(isNewestFirst(dates), 'the committed data does not render newest first');
+  const advertised = Number((doc.getElementById('newsCount').textContent.match(/^(\d+)/) || [])[1]);
+  assert.equal(dates.length, advertised, 'the header count and the stories a reader can reach disagree');
+});
+
+test('every control the page renders has a 44px touch target (rule 14)', async () => {
+  const { window } = await runPage(fixture());
+  const doc = window.document;
+  doc.querySelector('.news-chip').click(); // renders the Clear control too
+  const css = [...doc.querySelectorAll('style')].map((s) => s.textContent).join('\n');
+  const rulesFor = (sel) => [...css.matchAll(/([^{}]+)\{([^}]*)\}/g)]
+    .filter(([, sels]) => sels.split(',').some((x) => x.trim() === sel)).map(([, , body]) => body);
+  const controls = [...doc.querySelectorAll('.news-toolbar button, .news-toolbar input, .news-toolbar select, #newsRiver button')];
+  assert.ok(controls.length >= 3, 'the scan found almost no controls; this guard would pass vacuously');
+  const missing = controls.filter((el) => {
+    const sels = [...el.classList].map((c) => '.' + c);
+    if (el.closest('.news-search') && el.tagName === 'INPUT') sels.push('.news-search input');
+    if (el.closest('.news-place') && el.tagName === 'SELECT') sels.push('.news-place select');
+    return !sels.some((sel) => rulesFor(sel).some((body) => /min-height:\s*44px/.test(body)));
+  }).map((el) => el.outerHTML.slice(0, 80));
+  assert.deepEqual(missing, [], 'controls below the 44px minimum');
+});
+
+test('neither glossary script splices definitions into headlines or local lines', async () => {
+  // Both js/glossary.js and js/components/inline-glossary.js must honour
+  // .no-glossary. Run the real glossary.js against the rendered page.
+  const digests = { '0873935': digest('Sterling (city)', { pct_cost_burdened: 50.9, gross_rent_median: 1031, housing_gap_units: 485 }) };
+  const f = fixture();
+  f.stories.push(story('HUD and CHFA announce AMI changes', 'Colorado Sun', '2026-09-24', {
+    programs: ['HUD', 'CHFA'], places: [STERLING], regions: ['Eastern Plains'] }));
+  const { window } = await runPage(f, { briefs: [] }, digests);
+  const doc = window.document;
+  expandAll(doc);
+  await settle();
+  window.eval(fs.readFileSync(path.join(ROOT, 'js', 'glossary.js'), 'utf8'));
+  await new Promise((r) => setTimeout(r, 400));
+  const wrapped = [...doc.querySelectorAll('.gl-tooltip-trigger')];
+  assert.ok(wrapped.length > 0, 'glossary.js wrapped nothing anywhere; this guard would pass vacuously');
+  const inNews = wrapped.filter((el) => el.closest('#newsLatestBody, #newsRiverBody, #toolWatchList'));
+  assert.deepEqual(inNews.map((el) => el.textContent.slice(0, 30)), [],
+    'glossary definitions were spliced into the news list');
+});
+
+test('the policy watch shows each entry with how it was checked, and what is not covered', async () => {
+  const watch = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy', 'policy-watch.json'), 'utf8'));
+  const { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
+  const doc = window.document;
+  const panel = doc.getElementById('policyWatchPanel');
+  assert.equal(panel.hidden, false, 'the policy watch panel is hidden although the file has entries');
+  const items = [...panel.querySelectorAll('.watch-item')];
+  assert.equal(items.length, watch.entries.length, 'not every entry is shown');
+  for (const [i, entry] of watch.entries.entries()) {
+    const item = items.find((el) => el.querySelector('.watch-item__title').textContent === entry.title);
+    assert.ok(item, `entry ${i} (${entry.id}) is not shown under its own title`);
+    assert.equal(item.querySelector('a').getAttribute('href'), entry.source.url, `${entry.id} does not link its source`);
+    const check = item.querySelector('.watch-item__check').textContent;
+    if (entry.verification.level === 'primary') {
+      assert.ok(check.startsWith('Checked against ' + entry.verification.against), `${entry.id}: ${check}`);
+    }
+  }
+  const gaps = [...panel.querySelectorAll('.watch-gaps li')].map((li) => li.textContent);
+  assert.deepEqual(gaps, watch.meta.known_gaps, 'the gaps the file declares are not all shown');
+});
+
+test('a reported entry says it was not checked against the primary document; no file hides the panel', async () => {
+  const watch = { schema: 'policy-watch/v1', meta: { as_of: '2026-09-24', known_gaps: [] }, entries: [{
+    id: 'x', section: 'ballot', status: 'on ballot', date: '2026-11-03', title: 'A county lodging tax for housing',
+    source: { label: 'Some Outlet', url: 'https://news.localhost/ballot' },
+    verification: { level: 'reported', by: 'Some Outlet', checked: '2026-09-24' } }] };
+  let { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
+  const check = window.document.querySelector('#policyWatchPanel .watch-item__check').textContent;
+  assert.match(check, /^As reported by Some Outlet/);
+  assert.match(check, /Not checked against a primary document/);
+  ({ window } = await runPage(fixture(), { briefs: [] }, {}, null));
+  assert.equal(window.document.getElementById('policyWatchPanel').hidden, true,
+    'the panel shows with no data behind it');
 });
