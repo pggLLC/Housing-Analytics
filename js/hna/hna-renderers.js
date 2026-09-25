@@ -2960,7 +2960,7 @@
       html += window.MethodFooter.html({
         sources: [
           { label: 'data/hna/local-resources.json (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/local-resources.json' },
-          { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/proposition-123' },
+          { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/prop123' },
           { label: 'Per-jurisdiction durable Google searches', url: '#' }
         ],
         vintage:    'curated entries verified Feb-Jun 2026; search blocks live',
