@@ -498,7 +498,7 @@
 
           <!-- F108 — Average LIHTC production (placed-in-service) over the
                last decade. The pace-of-supply number that, combined with
-               the deficit growth card next to it, makes the rate-of-loss
+               the coverage card next to it, makes the pace of new supply
                visible. -->
           <div class="home-snapshot__item" role="listitem">
             <span class="home-snapshot__key">Avg LIHTC units / yr (10-yr)</span>
@@ -506,24 +506,24 @@
             <span class="home-snapshot__note"><a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA HousingTaxCreditProperties</a> · placed-in-service</span>
           </div>
 
-          <!-- F108 — Annual deficit growth at ≤60% AMI: new ≤60%-AMI households
-               added each year minus LIHTC + preservation units produced. This
-               is the annual shortfall-growth estimate: new ≤60%-AMI households
-               per year minus recent LIHTC and preservation production.
-               Computed from projected new ≤60%-AMI households per year
-               (DOLA statewide household growth × HUD CHAS ≤60%-AMI share of
-               all households; derived in scripts/build-home-snapshot.mjs as
-               values.annual_le60_household_growth, basis in
-               deficit_growth_basis) minus the 10-yr LIHTC supply pace. -->
+          <!-- F108 / #1822 — Pace of NEW rental supply against projected
+               ≤60%-AMI RENTER household growth. Renter basis, because the
+               supply it is compared against is rental (the site's AMI-gap
+               methodology v2 made the same call); new construction only,
+               because acquisition/rehab preserves homes rather than adding
+               them. Published as a coverage ratio, not a net: a net of a few
+               hundred a year flips sign on a 10% input change. Derived in
+               scripts/build-home-snapshot.mjs (values.*, basis in
+               deficit_growth_basis); the standing shortfall is the two
+               deficit cards above. -->
           <div class="home-snapshot__item" role="listitem">
-            <span class="home-snapshot__key">Annual deficit growth ≤60% AMI</span>
+            <span class="home-snapshot__key">LIHTC new construction vs ≤60%-AMI renter growth</span>
             <span class="home-snapshot__val" id="snapDeficitGrowth">—</span>
             <span class="home-snapshot__note">
-              Projected new ≤60%-AMI households per year (DOLA household growth × HUD CHAS ≤60% share, all tenures) − average LIHTC units placed in service per year · how much deeper the shortfall gets each year at the current pace ·
+              New LIHTC construction (<span id="snapNewConstPerYr">—</span> units/yr, 10-yr average) covers this share of projected new ≤60%-AMI renter households (<span id="snapRenterGrowthPerYr">—</span>/yr: DOLA household growth × the HUD CHAS share of all households that are renters at ≤60% AMI), before any losses from the existing affordable stock, which no source here measures. Acquisition/rehab units (<span id="snapPreservationPerYr">—</span>/yr) preserve homes; they do not add to them. Today's standing shortfall is the two deficit cards above.
               Sources: <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener" style="color:var(--accent);">HUD CHAS 2018-2022</a>,
               <a href="https://demography.dola.colorado.gov/" target="_blank" rel="noopener" style="color:var(--accent);">DOLA SDO 2024 mid-projection</a>,
-              <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA HousingTaxCreditProperties</a>,
-              <a href="https://upforgrowth.org/" target="_blank" rel="noopener" style="color:var(--accent);">Up For Growth 2024 underproduction methodology</a>
+              <a href="https://www.chfainfo.com/rental-housing/housing-credit/" target="_blank" rel="noopener" style="color:var(--accent);">CHFA HousingTaxCreditProperties</a>
             </span>
           </div>
 
