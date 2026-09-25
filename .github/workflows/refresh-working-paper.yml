@@ -19,8 +19,10 @@ permissions:
   contents: write
   actions: write   # to dispatch deploy.yml — a workflow-token push does not
 
+# Shared with archive-audit-post-merge.yml, which refreshes the same figures
+# and manifests after every merge; the two never run at once.
 concurrency:
-  group: refresh-working-paper
+  group: paper-figures-refresh
   cancel-in-progress: false
 
 jobs:
@@ -51,6 +53,7 @@ jobs:
         # scheduled job that pushes an unverified page is how a paper goes
         # quietly wrong between readings.
         run: |
+          node scripts/validate-schemas.js
           npm run test:paper-fresh
           npm run test:file-manifest
 
