@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T13:05:33.070Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T13:46:11.457Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.3 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.3 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1777,7 +1777,7 @@
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
-| `test/file-manifest.test.js` | 4.6 KB |
+| `test/file-manifest.test.js` | 9.5 KB |
 | `test/finish-line-holds.test.mjs` | 13.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
@@ -1885,7 +1885,7 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
-| `test/map-pane-order.test.js` | 2.6 KB |
+| `test/map-pane-order.test.js` | 3.1 KB |
 | `test/market-study-page.test.js` | 17.5 KB |
 | `test/market-study-report.test.js` | 17.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
