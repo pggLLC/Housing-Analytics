@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T12:47:41.662Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T15:13:18.142Z. Do not edit by hand.
 
 ---
 
@@ -58,8 +58,8 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.9 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.1 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.0 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.7 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.3 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-414 test files found.
+415 test files found.
 
 | File | Size |
 |------|------|
@@ -1777,8 +1777,8 @@
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
 | `test/fhfa-hpi-subcounty.test.js` | 9.3 KB |
-| `test/file-manifest.test.js` | 4.6 KB |
-| `test/finish-line-holds.test.mjs` | 11.8 KB |
+| `test/file-manifest.test.js` | 9.5 KB |
+| `test/finish-line-holds.test.mjs` | 13.7 KB |
 | `test/fixtures/car-showingtime/202605-0SF.htm` | 1.3 KB |
 | `test/fixtures/car-showingtime/202605-0TC.htm` | 1.1 KB |
 | `test/fixtures/pma/barrier-downweight.fixture.json` | 412 B |
@@ -1885,7 +1885,7 @@
 | `test/lodes-tract-od.test.js` | 5.6 KB |
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
-| `test/map-pane-order.test.js` | 2.6 KB |
+| `test/map-pane-order.test.js` | 3.1 KB |
 | `test/market-study-page.test.js` | 17.5 KB |
 | `test/market-study-report.test.js` | 17.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
@@ -1935,6 +1935,7 @@
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
+| `test/pma-capture-denominator.test.js` | 3.9 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
 | `test/pma-competitive-set.test.js` | 12.8 KB |
@@ -2040,14 +2041,14 @@
 | `test/url-health-policy.test.mjs` | 13.0 KB |
 | `test/validate-site.js` | 9.5 KB |
 | `test/verify-script-loads.js` | 2.0 KB |
-| `test/walkthrough-record.test.mjs` | 6.6 KB |
+| `test/walkthrough-record.test.mjs` | 8.6 KB |
 | `test/wcag-pill-contrast.test.js` | 12.4 KB |
 | `test/website-monitor-config.js` | 1.4 KB |
 | `test/website-monitor-enhanced.js` | 13.2 KB |
 | `test/website-monitor-utils.js` | 3.6 KB |
 | `test/website-monitor.js` | 3.2 KB |
 | `test/website-monitor.test.js` | 7.4 KB |
-| `test/workflow-next-action-prerequisites.test.js` | 4.7 KB |
+| `test/workflow-next-action-prerequisites.test.js` | 6.1 KB |
 | `test/workflow-outcome-monitor.test.js` | 47.9 KB |
 | `test/workflow-state-set-jurisdiction.test.js` | 8.9 KB |
 | `test/workforce-gap-is-job-based.test.mjs` | 8.8 KB |
