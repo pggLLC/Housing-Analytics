@@ -275,7 +275,7 @@
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
     .place-hero h1 { margin: 0; font-size: 1.8rem; }
     .place-hero .place-sub { color: var(--muted); margin-top: .25rem; }
-    .place-grid { max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .place-grid { max-width: var(--page-max, 1920px); margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
     .place-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
     .place-card h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent, #096e65); }
     .place-stat { display: flex; justify-content: space-between; margin: .25rem 0; padding: .25rem 0; border-bottom: 1px dashed var(--border-soft, #e0e0e0); }
@@ -289,12 +289,12 @@
     .place-explain p { margin: .5rem 0; line-height: 1.5; }
     .place-explain ul { margin: .4rem 0; padding-left: 1.1rem; }
     .place-explain li { margin: .15rem 0; }
-    .place-disclosure { margin: 1rem auto; max-width: 1100px; padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
-    .place-tools { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+    .place-disclosure { margin: 1rem auto; max-width: var(--page-max, 1920px); padding: .75rem 1rem; background: rgba(59, 130, 246, .08); border: 1px solid rgba(59, 130, 246, .3); border-radius: 6px; font-size: .88rem; line-height: 1.5; }
+    .place-tools { max-width: var(--page-max, 1920px); margin: 2rem auto; padding: 0 1.5rem; }
     .place-tools h2 { font-size: 1.1rem; margin-bottom: .5rem; }
     .place-tools a { display: inline-block; margin: .25rem .5rem .25rem 0; padding: .35rem .75rem; border: 1px solid var(--accent, #096e65); border-radius: 4px; color: var(--accent, #096e65); text-decoration: none; font-size: .88rem; }
     .place-tools a:hover { background: var(--accent, #096e65); color: #fff; }
-    .place-source { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; font-size: .78rem; color: var(--muted); }
+    .place-source { max-width: var(--page-max, 1920px); margin: 2rem auto; padding: 0 1.5rem; font-size: .78rem; color: var(--muted); }
   </style>
 </head>
 <body>
@@ -302,7 +302,7 @@
 
   <main id="main-content">
     <div class="place-hero">
-      <div style="max-width: 1100px; margin: 0 auto;">
+      <div style="max-width: var(--page-max, 1920px); margin: 0 auto;">
         <div style="font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;">
           Colorado · Saguache County
         </div>
