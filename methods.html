@@ -30,7 +30,7 @@
        any background with alpha > 0.02 as opaque and computes luminance from
        r/g/b while ignoring alpha, so a low-alpha panel renders pale and is
        measured as dark. Same reasoning as working-paper.html. */
-    .mx { max-width: 1120px; margin: 0 auto; padding-inline: 4px; }
+    .mx { max-width: var(--page-max, 1920px); margin: 0 auto; padding-inline: 4px; }
     .mx .col { max-width: 72ch; }
     .mx p { margin: 0 0 1.1rem; line-height: 1.65; }
 

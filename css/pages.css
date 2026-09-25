@@ -210,7 +210,6 @@ html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
   color: var(--muted);
   font-size: clamp(1rem, 1.5vw, 1.15rem);
   line-height: 1.7;
-  max-width: 92ch;
   margin-inline: auto;
   margin-bottom: var(--sp4);
 }
@@ -450,7 +449,6 @@ html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
 .cta-section p {
   color: rgba(255,255,255,0.85) !important;
   font-size: 1.05rem;
-  max-width: 58ch;
   margin-inline: auto;
   margin-bottom: var(--sp4);
   line-height: 1.7;
@@ -487,7 +485,6 @@ html.light-mode .tag-green { background: #e6f4ee; color: #065f46 !important; }
      don't leave conspicuous empty space on the right. Still within the
      readable-line-length guideline; on narrower viewports the parent
      container's width takes over. */
-  max-width: 95ch;
   margin-bottom: var(--sp3);
 }
 .page-hero .page-meta {
@@ -650,7 +647,7 @@ mark {
    DASHBOARD LAYOUT
    ================================================================ */
 .dashboard-wrap {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin-inline: auto;
   padding: var(--sp4);
 }

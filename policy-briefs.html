@@ -29,7 +29,7 @@
     /* Housing News is a list of headlines, not a grid of cards: the headline is
        the link, one muted line of metadata sits under it, and hairlines separate
        rows. Cards are kept for the few self-contained items in the side column. */
-    .news-wrap { max-width: 1180px; margin: 0 auto; padding-inline: var(--sp4); }
+    .news-wrap { max-width: var(--page-max, 1920px); margin: 0 auto; padding-inline: var(--sp4); }
     .news-head { padding-block: var(--sp4) .75rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: .5rem 1.5rem; }
     .news-head h1 { margin: 0; font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.1; text-wrap: balance; }
     .news-head p { margin: .35rem 0 0; color: var(--muted); max-width: 62ch; }

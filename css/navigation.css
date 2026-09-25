@@ -19,7 +19,7 @@ header.site-header {
 }
 
 .nav-wrap {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ footer.site-footer {
 /* ── Main content area ────────────────────────────────────────────────── */
 
 main {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   padding: 18px;
 }
@@ -264,7 +264,7 @@ main {
 /* ── Footer grid ──────────────────────────────────────────────────────── */
 
 .footer-wrap {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   padding: 24px 18px;
   display: grid;
