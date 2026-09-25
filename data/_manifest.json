@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T07:43:22.771Z",
+    "generated_at": "2026-09-25T07:42:23.771Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162498286,
+    "total_size_bytes": 162498287,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -1492,7 +1492,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1252116,
-      "mtime": "2026-09-25T07:42:27.280Z",
+      "mtime": "2026-09-25T07:22:27.595Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30459,7 +30459,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205468,
-      "mtime": "2026-09-25T07:43:12.949Z",
+      "mtime": "2026-09-25T07:42:10.379Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31812,8 +31812,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14677,
-      "mtime": "2026-09-25T07:43:21.011Z",
+      "size_bytes": 14678,
+      "mtime": "2026-09-25T07:42:20.675Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31836,7 +31836,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-25T07:43:20.587Z",
+      "mtime": "2026-09-25T07:42:19.775Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
