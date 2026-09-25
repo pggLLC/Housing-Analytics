@@ -455,7 +455,7 @@
    ---------------------------------------------------------------- */
 .tab-guide {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 1rem;
   margin-bottom: var(--sp4, 1.25rem);
   padding: 1.25rem;

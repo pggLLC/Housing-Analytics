@@ -21,7 +21,7 @@
   <script defer src="js/mobile-menu.js"></script>
   <script defer src="js/site-search.js"></script>
   <style>
-    .search-shell { max-width: 760px; }
+    .search-shell { max-width: var(--page-max, 1920px); }
     .search-box {
       display: flex; align-items: center; gap: .5rem;
       border: 2px solid var(--accent); border-radius: 10px;

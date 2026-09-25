@@ -55,7 +55,7 @@
 
 .insight-featured-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
   gap: var(--sp3);
   margin-bottom: var(--sp4);
 }
@@ -134,7 +134,7 @@
    ---------------------------------------------------------------- */
 .insight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: var(--sp4);
   margin-bottom: var(--sp5);
 }

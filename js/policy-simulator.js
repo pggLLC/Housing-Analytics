@@ -410,7 +410,7 @@
       .ps-export-btn:hover { background: var(--bg2, #f5f5f5); }
       .ps-export-btn:focus-visible { outline: 2px solid var(--color-primary, #1a73e8); outline-offset: 2px; }
       .ps-cards-grid {
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
         gap: 1rem; margin-bottom: 1.5rem;
       }
       .ps-card {
@@ -438,7 +438,7 @@
       .ps-ami-fill { height: 100%; background: var(--ps-accent, #1a73e8); border-radius: 4px; }
       .ps-charts-section { margin-top: 1.5rem; }
       .ps-chart-heading { font-size: 1.1rem; font-weight: 600; margin: 0 0 .75rem; }
-      .ps-bar-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+      .ps-bar-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 1rem; margin-bottom: 1rem; }
       .ps-chart-card { background: var(--card, #fff); border: 1px solid var(--border, #e0e0e0); border-radius: var(--radius-lg, 8px); padding: 1rem; }
       .ps-chart-card--wide { width: 100%; max-width: 720px; }
       .ps-methodology { font-size: .8rem; color: var(--muted, #777); background: var(--bg2, #f9f9f9); border-left: 3px solid var(--border, #ccc); padding: .75rem 1rem; border-radius: 0 6px 6px 0; margin-top: 1rem; line-height: 1.5; }

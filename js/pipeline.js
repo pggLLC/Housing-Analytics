@@ -137,7 +137,8 @@
       ]));
     });
     t.appendChild(tb);
-    return t;
+    // Scrolls inside its own box on a narrow phone instead of widening the page.
+    return el('div', { class: 'table-wrap', role: 'region', tabindex: '0', 'aria-label': 'Data sources table' }, t);
   }
 
   function renderStep(s) {

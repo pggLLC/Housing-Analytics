@@ -48,7 +48,7 @@
   .ib-card-empty { color:var(--muted);font-style:italic;font-size:var(--small);padding:.5rem 0; }
 
   /* Stat grid */
-  .ib-stat-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--sp2);margin-top:.4rem; }
+  .ib-stat-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px, 100%),1fr));gap:var(--sp2);margin-top:.4rem; }
   .ib-stat-tile { background:var(--bg2);border-radius:var(--radius-sm);padding:.65rem .8rem;border-left:3px solid var(--accent); }
   .ib-stat-tile .label { font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.2rem; }
   .ib-stat-tile .value { font-size:1.15rem;font-weight:800;color:var(--text);line-height:1.1; }
@@ -59,7 +59,7 @@
   .ib-stat-tile.muted{ border-left-color:var(--muted); }
 
   /* Policy progress pills */
-  .ib-progress-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--sp2);margin-top:var(--sp2); }
+  .ib-progress-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:var(--sp2);margin-top:var(--sp2); }
   .ib-progress-pill { padding:.6rem .8rem;border-radius:var(--radius);border:1px solid var(--border);display:block;text-decoration:none;color:inherit; }
   .ib-progress-pill .label { font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:.25rem; }
   .ib-progress-pill .status { font-weight:700;font-size:.9rem; }

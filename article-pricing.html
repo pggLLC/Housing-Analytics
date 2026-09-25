@@ -92,7 +92,7 @@
               <h2 id="novogradac-heading" class="chart-title">Novogradac LIHTC Benchmarks</h2>
               <p class="chart-subtitle">National, regional, and Colorado-specific cents-per-credit-dollar benchmarks.</p>
             </div>
-            <div class="table-wrap" id="tceNovogradacTable" data-source="data/market/novogradac-equity-pricing.json" data-source-type="curated"></div>
+            <div class="table-wrap" role="region" tabindex="0" aria-label="Novogradac equity pricing table" id="tceNovogradacTable" data-source="data/market/novogradac-equity-pricing.json" data-source-type="curated"></div>
           </div>
         </section>
 
@@ -102,7 +102,7 @@
               <h2 id="transfer-heading" class="chart-title">Transfer and Syndication Snapshot</h2>
               <p class="chart-subtitle">Publicly verified pricing ranges stay numeric; unverified markets remain labeled VERIFY.</p>
             </div>
-            <div class="table-wrap" id="tceTransferPricing" data-source="data/market/tax-credit-transfer-pricing.json" data-source-type="curated"></div>
+            <div class="table-wrap" role="region" tabindex="0" aria-label="Tax credit transfer pricing table" id="tceTransferPricing" data-source="data/market/tax-credit-transfer-pricing.json" data-source-type="curated"></div>
           </div>
         </section>
 
@@ -114,7 +114,7 @@
             </div>
             <p>Traditional community-development credits such as LIHTC, HTC, and NMTC generally require ownership, partnership, or allocation structures. Transferable clean-energy credits are different: under IRC §6418, eligible credits can be sold for cash, while §6417 provides elective-pay treatment for eligible tax-exempt and governmental entities. That transferability divide is why clean-energy ITC/PTC markets can look closer to credit trading while LIHTC, HTC, and NMTC still price through syndication economics.</p>
             <p>Pricing also reflects tax treatment. Section 6418 transfer proceeds are excluded from seller income, and the buyer discount is not taxed as income. Non-transferable credits embed investor return in the partnership economics, depreciation, compliance exposure, and exit assumptions.</p>
-            <div class="table-wrap" id="tceExplainerMatrix" data-source="js/components/tax-credit-equity-markets.js" data-source-type="methodology"></div>
+            <div class="table-wrap" role="region" tabindex="0" aria-label="Equity market comparison table" id="tceExplainerMatrix" data-source="js/components/tax-credit-equity-markets.js" data-source-type="methodology"></div>
           </div>
         </section>
 
@@ -124,7 +124,7 @@
               <h2 id="policy-watch-heading" class="chart-title">Tax Credit Legislation Watch</h2>
               <p class="chart-subtitle">Status pills, effective dates, sunset dates, and source links are rendered from the shared policy JSON.</p>
             </div>
-            <div data-tax-credit-watch="lihtc,nmtc,htc,itc-ptc,cra,homebuyer" style="display:grid;gap:var(--sp3);"></div>
+            <div data-tax-credit-watch="lihtc,nmtc,htc,itc-ptc,cra,homebuyer" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--sp3);"></div>
           </div>
         </section>
 

@@ -1350,7 +1350,7 @@
        sources/uses, left-to-right. At 760-1080 px the grid collapses to
        2 cols (Inputs | Outputs); below 760 px it stacks to 1 col. The page
        container max-width is 1400 px (see deal-calculator.html). -->
-  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:var(--sp3);align-items:start;">
+  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px, 100%),1fr));gap:var(--sp3);align-items:start;">
 
     <!-- Inputs column -->
     <div id="dc-inputs-col" style="min-width:0;">
@@ -1841,7 +1841,7 @@
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);color:var(--accent);">
             ▸ Soft-funding program reference (14 sources, with descriptions + links)
           </summary>
-          <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
+          <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px, 100%),1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
         </details>
         <div id="dc-funding-context-card" data-funding-context-surface="deal-calculator" hidden style="margin-top:var(--sp3);"></div>
       </fieldset>
@@ -1950,7 +1950,7 @@
             <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
               stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
             </div>
-            <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+            <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:0.5rem;">
               <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
                 Rent stress &minus;
                 <input id="dc-const-rent-stress" type="number" min="0" max="50" step="1" value="10"
@@ -1968,7 +1968,7 @@
               </label>
             </div>
             <div style="margin-top:0.4rem;font-size:var(--tiny);color:var(--muted);">Combined-stress (multi-variable) deltas:</div>
-            <div style="margin-top:0.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+            <div style="margin-top:0.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:0.5rem;">
               <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
                 Rent &minus;
                 <input id="dc-const-comb-rent" type="number" min="0" max="50" step="1" value="5"
@@ -5629,7 +5629,7 @@
         '</tr></tfoot>' +
         '</table>' +
         // Bottom-line summary
-        '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 16px;font-size:.82rem;">' +
+        '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:8px 16px;font-size:.82rem;">' +
         '<div><strong style="color:var(--muted);">LP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.lpTotal) + '</span></div>' +
         '<div><strong style="color:var(--muted);">LP cash multiple:</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpMultiple) ? Number(wf.lpMultiple).toFixed(2) + 'x' : '—') + '</span></div>' +
         '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : '—') + '</span></div>' +

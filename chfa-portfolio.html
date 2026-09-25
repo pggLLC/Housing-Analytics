@@ -57,7 +57,7 @@
     }
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
       gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
@@ -293,7 +293,7 @@
     <span id="vintageLineBridge"></span>
     <details style="margin-top:.5rem;">
       <summary style="cursor:pointer;color:var(--accent);font-weight:600;">▸ Show 2026 R1 bridge awards (<span id="vintageR1Count">14</span>)</summary>
-      <div id="vintageR1List" style="margin-top:.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.45rem;"></div>
+      <div id="vintageR1List" style="margin-top:.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr));gap:.45rem;"></div>
     </details>
   </div>
 

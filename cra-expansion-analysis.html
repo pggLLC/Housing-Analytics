@@ -83,7 +83,7 @@
 <canvas id="scenarios-chart" role="img" aria-label="Line chart: LIHTC 9% credit pricing forecast under four CRA expansion scenarios (Baseline, Moderate, Aggressive, Transformative) through Q4 2027"></canvas><p class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">Chart data: Baseline scenario starts at $0.86 and ends at $0.86 (Q4 2027); Moderate Expansion $0.92; Aggressive Expansion $0.98; Transformative Reform $1.04.</p>
 </div>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 2rem; margin: 1.25rem 0;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr)); gap: 2rem; margin: 1.25rem 0;">
 <div class="chart-card">
 <div class="chart-header">
 <h3 class="chart-title">Scenario 1: Baseline (No Change)</h3>
@@ -152,7 +152,7 @@
 <h2>Key Predictive Factors</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">Demand Drivers (Positive Impact)</h3>
-<table style="width: 100%;">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Demand Drivers (Positive Impact) table"><table style="width: 100%;">
 <thead style="background: var(--color-background-alt);">
 <tr>
 <th style="padding: 1rem; text-align: left;">Factor</th>
@@ -181,11 +181,11 @@
 <td style="padding: 1rem;">Immediate</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </div>
 <div class="chart-card" style="margin: 2rem 0;">
 <h3 style="margin-bottom: 1.5rem;">Supply Pressures (Negative Impact)</h3>
-<table style="width: 100%;">
+<div class="table-wrap" role="region" tabindex="0" aria-label="Supply Pressures (Negative Impact) table"><table style="width: 100%;">
 <thead style="background: var(--color-background-alt);">
 <tr>
 <th style="padding: 1rem; text-align: left;">Factor</th>
@@ -208,12 +208,12 @@
 <td style="padding: 1rem;">2-4 quarters</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </div>
 <h2>Project Impact Calculator</h2>
 <div class="chart-card" style="margin: 2rem 0;">
 <p style="margin-bottom: 1.5rem; line-height: 1.7;">Example: $3M credit allocation project</p>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 1.5rem;">
 <div style="padding: 1.5rem; background: var(--color-background-alt); border-radius: 8px;">
 <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 0.5rem;">Baseline Scenario</div>
 <div style="font-size: 1.75rem; font-weight: 700; color: var(--color-primary); margin-bottom: 0.5rem;">$2.55M</div>

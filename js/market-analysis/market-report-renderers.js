@@ -179,7 +179,7 @@
         (narrative
           ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.55;">' + _esc(narrative) + '</p>'
           : '') +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.5rem;">' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(140px, 100%),1fr));gap:0.5rem;">' +
           _componentChip('Demand',      scores.demand_score) +
           _componentChip('Subsidy',     scores.subsidy_score) +
           _componentChip('Feasibility', scores.feasibility_score) +

@@ -39,7 +39,7 @@
       '.lt-heading{display:flex;align-items:center;gap:8px;margin:0 0 14px;',
         'font-size:.85rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;}',
       '.lt-heading svg{flex-shrink:0;}',
-      '.lt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}',
+      '.lt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px, 100%),1fr));gap:10px;}',
       '.lt-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;',
         'background:var(--card);}',
       '.lt-card__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;',

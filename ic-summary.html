@@ -40,6 +40,7 @@
 
   /* Profile cards row */
   .ic-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  @media (max-width: 600px) { .ic-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .ic-card { background: var(--bg2); border: 1px solid var(--border);
     border-radius: 6px; padding: 7px 9px; }
   .ic-card .ic-k { font-size: .68rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
@@ -52,8 +53,8 @@
   .ic-tier-row > div .ic-tier-k { font-size: .68rem; color: var(--muted); }
   .ic-tier-row > div .ic-tier-v { font-weight: 700; }
 
-  .ic-flowline { display: flex; gap: 14px; }
-  .ic-flowline > div { flex: 1; background: var(--bg2); border: 1px solid var(--border);
+  .ic-flowline { display: flex; flex-wrap: wrap; gap: 14px; }
+  .ic-flowline > div { flex: 1 1 120px; background: var(--bg2); border: 1px solid var(--border);
     border-radius: 6px; padding: 6px 9px; }
   .ic-callout {
     background: color-mix(in srgb, var(--ic-accent) 8%, transparent);
@@ -246,7 +247,7 @@
     <!-- Peers -->
     <div class="ic-section">
       <h2>Peer jurisdictions <span class="ic-sub ic-muted">same county · by population</span></h2>
-      <table class="ic-peers" id="icPeers">
+      <div class="table-wrap" role="region" tabindex="0" aria-label="Peer jurisdictions table"><table class="ic-peers" id="icPeers">
         <thead><tr>
           <th title="Other jurisdictions inside the same containing county.">Jurisdiction</th>
           <th class="num" title="Approximate population — ACS DP05 when cached, else the place-LEHD apportionment estimate.">Pop ≈</th>
@@ -255,7 +256,7 @@
           <th title="Labor-market character inferred from LEHD LODES block-classified flows. Bedroom = ≥70% of resident workers commute out (housing demand tracks regional job hubs). Mixed = 40–70%. Self-contained = <40% (local jobs anchor demand).">Labor market</th>
         </tr></thead>
         <tbody><tr><td colspan="5" class="ic-muted">Loading…</td></tr></tbody>
-      </table>
+      </table></div>
     </div>
 
     <!-- F151: CHFA award history — per-jurisdiction LIHTC timeline.
@@ -278,7 +279,7 @@
       <div id="icMultiSourceComp" style="margin:8px 0"></div>
       <h3 style="margin:14px 0 4px;">CHFA LIHTC comparables (recent placements)</h3>
       <p class="ic-muted" style="margin:0 0 6px">Recent CHFA-funded properties within market-area distance — anchors recent unit scale, mix, and credit type for IC comparison.</p>
-      <table class="ic-peers" id="icDeals">
+      <div class="table-wrap" role="region" tabindex="0" aria-label="CHFA LIHTC comparables table"><table class="ic-peers" id="icDeals">
         <thead><tr>
           <th title="Project name as listed in the HUD LIHTC database.">Project</th>
           <th title="City of record (LIHTC PROJ_CTY).">City</th>
@@ -288,7 +289,7 @@
           <th class="num" title="Great-circle distance from the selected jurisdiction's centroid to the project lat/long.">Distance</th>
         </tr></thead>
         <tbody><tr><td colspan="6" class="ic-muted">Loading…</td></tr></tbody>
-      </table>
+      </table></div>
       <p class="ic-muted" style="font-size:.72rem;margin-top:6px">Source: HUD LIHTC database (statewide CO snapshot, post-1980 placed-in-service). Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
     </div>
 

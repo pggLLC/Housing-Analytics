@@ -53,7 +53,7 @@
     }
     .mi-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
       gap: 0.75rem;
       margin-bottom: 1.25rem;
     }
@@ -127,7 +127,7 @@
     .btn-export:hover { background: var(--accent); color:var(--on-accent,#fff); }
     .risk-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
       gap: 0.75rem;
     }
     .risk-card {
@@ -162,7 +162,7 @@
     .site-entry-cta strong { display: block; font-size: 1rem; margin-bottom: 0.25rem; }
     .econ-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
       gap: 0.75rem;
       margin-bottom: 1.25rem;
     }
@@ -451,7 +451,7 @@
   <!-- Consolidated Data Sources -->
   <section class="mi-section" aria-labelledby="sources-heading" style="border-top:1px solid var(--border);padding-top:1.5rem;">
     <h2 id="sources-heading">Data Sources</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:.85rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:6px 16px;font-size:.85rem">
       <div><strong>ACS 5-Year</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B25070, B25014, B11001)</div>
       <div><strong>HUD LIHTC</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Database</a></div>
       <div><strong>CHFA</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado Housing Finance Authority</a></div>

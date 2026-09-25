@@ -291,7 +291,7 @@
       '<div style="background:var(--bg2);border-radius:6px;padding:8px 4px 0;">' + chartSvg + '</div>' +
 
       // Stats row
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:10px;">' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px, 100%),1fr));gap:8px;margin-top:10px;">' +
         '<div style="text-align:center;padding:6px;border-radius:4px;background:var(--bg2);">' +
           '<div style="font-size:.68rem;color:var(--muted);">Current</div>' +
           '<div style="font-size:1rem;font-weight:800;">$' + current.toFixed(2) + '</div>' +

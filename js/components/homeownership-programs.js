@@ -98,7 +98,7 @@
       if (!group.length) return '';
       return '<section aria-labelledby="homebuyer-' + esc(level) + '-heading" style="margin:var(--sp4) 0;">' +
         '<h2 id="homebuyer-' + esc(level) + '-heading">' + esc(LEVEL_LABELS[level]) + '</h2>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp3);">' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr));gap:var(--sp3);">' +
           group.map(renderProgramCard).join('') +
         '</div>' +
       '</section>';
