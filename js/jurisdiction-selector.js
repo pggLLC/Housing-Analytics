@@ -209,7 +209,8 @@
     cityFocusIdx:    -1,
     geoConfig:       null,   // loaded from data/hna/geo-config.json
     citiesForCounty: [],     // incorporated places for the selected county
-    allCdps:         []      // all CDPs (no county filter — containingCounty missing for most)
+    allCdps:         [],     // all CDPs (no county filter — containingCounty missing for most)
+    restoring:       false   // true while a saved choice is being shown, so it is not re-saved
   };
 
   /* ─────────────────────────────────────────────────────────────────────────
@@ -506,6 +507,8 @@
     // Enable continue button
     el.sjContinueBtn.disabled = false;
     el.sjActionNote.textContent = 'Ready to begin. You can optionally select a city above.';
+
+    persistSelection();
   }
 
   function handleCountyKeydown(e) {
@@ -554,6 +557,8 @@
       el.sjSelectionName.textContent = formatCountyName(state.selectedCounty.name);
       el.sjSelectionSub.textContent = cityName ? cityName + ', CO' : '';
     }
+
+    persistSelection();
   }
 
   function renderCityResults(items, isGlobalSearch) {
@@ -632,6 +637,9 @@
     el.citySearch.value = match.name;
     selectCity(match.name);
     state.selectedCity = match;
+    // Again, now that state.selectedCity carries the place record: selectCity
+    // saved it by name, and a CDP that shares a name needs the geoid.
+    persistSelection();
     el.sjActionNote.textContent = 'Ready: ' + match.name +
       (countyFips ? ' (auto-set ' + (state.selectedCounty ? formatCountyName(state.selectedCounty.name) + ')' : 'county)') : ')') +
       '. Click Continue.';
@@ -796,13 +804,22 @@
     }
     if (!county) { return; }
 
-    selectCounty(county);
+    // Showing a saved choice is not making one. selectCounty() saves on pick,
+    // and here it would save the county alone before the city is restored —
+    // or for good, if geo-config has not loaded and the place cannot be
+    // looked up — overwriting the place the reader chose last time.
+    state.restoring = true;
+    try {
+      selectCounty(county);
 
-    // Restore city if saved
-    if (step.type === 'city' && step.displayName) {
-      var cityName = step.displayName;
-      el.citySearch.value = cityName;
-      selectCity(cityName);
+      // Restore city if saved
+      if (step.type === 'city' && step.displayName) {
+        var cityName = step.displayName;
+        el.citySearch.value = cityName;
+        selectCity(cityName);
+      }
+    } finally {
+      state.restoring = false;
     }
   }
 
@@ -812,6 +829,32 @@
 
   function handleContinue() {
     if (!state.selectedCounty) { return; }
+    persistSelection();
+
+    // The moment a novice actually meets the assessment. This used to land
+    // them in the 53-section full report; it now opens part 1 of 5, which
+    // links onward to the rest and to the full report.
+    //
+    // Unless the reader was sent here from somewhere else. The homepage links
+    // into every guided-path page except this one, so someone who clicked
+    // "Deal Calculator" and was asked for a jurisdiction first is returned to
+    // the deal calculator, not deposited at step 3 having lost what they came
+    // for.
+    global.location.href = returnTarget() || 'hna-what-housing-exists.html';
+  }
+
+  /**
+   * Save the current pick as the project's jurisdiction.
+   *
+   * Runs on every pick, not only on Continue. Step 1 has other ways out — the
+   * "Step 1 of 7 · Go on to Opportunity Finder" box, the step rail, the site
+   * nav — and until 2026-09-25 each of them left with nothing saved: the
+   * header still read "+ Choose jurisdiction" after a pick, and steps 3-7
+   * showed the State of Colorado. Following the numbered steps, 1 then 2,
+   * was the likeliest way to lose the choice (G3 dry run).
+   */
+  function persistSelection() {
+    if (!state.selectedCounty || state.restoring) { return; }
 
     var fips       = state.selectedCounty.fips;
     var countyName = formatCountyName(state.selectedCounty.name);
@@ -866,17 +909,6 @@
         console.warn('[jurisdiction-selector] SiteState.setCounty failed:', e);
       }
     }
-
-    // The moment a novice actually meets the assessment. This used to land
-    // them in the 53-section full report; it now opens part 1 of 5, which
-    // links onward to the rest and to the full report.
-    //
-    // Unless the reader was sent here from somewhere else. The homepage links
-    // into every guided-path page except this one, so someone who clicked
-    // "Deal Calculator" and was asked for a jurisdiction first is returned to
-    // the deal calculator, not deposited at step 3 having lost what they came
-    // for.
-    global.location.href = returnTarget() || 'hna-what-housing-exists.html';
   }
 
   /**

@@ -1,4 +1,4 @@
-// test/smoke-market-analysis.js
+// test/smoke-market-analysis.test.js
 //
 // Smoke tests for the Market Analysis feature.
 // Checks:
@@ -14,7 +14,7 @@
 // 10. Python builder exists
 //
 // Usage:
-//   node test/smoke-market-analysis.js
+//   npm run test:smoke-market-analysis   (wired into ci:part-4)
 //
 // Exit code 0 = all checks passed; non-zero = one or more failures.
 
@@ -59,7 +59,7 @@ if (fileExists('market-analysis.html')) {
     { pattern: /id=["']pmaBufferSelect["']/,       label: '#pmaBufferSelect present' },
     { pattern: /id=["']pmaScoreCircle["']/,        label: '#pmaScoreCircle present' },
     { pattern: /id=["']pmaRadarChart["']/,         label: '#pmaRadarChart (radar chart canvas) present' },
-    { pattern: /id=["']pmaLihtcCount["']/,         label: '#pmaLihtcCount present' },
+    { pattern: /id=["']pmaAffordableCount["']/,    label: '#pmaAffordableCount present' },
     { pattern: /id=["']pmaLihtcUnits["']/,         label: '#pmaLihtcUnits present' },
     { pattern: /id=["']pmaCaptureRate["']/,         label: '#pmaCaptureRate present' },
     { pattern: /id=["']pmaProposedUnits["']/,       label: '#pmaProposedUnits (simulator) present' },
@@ -76,6 +76,27 @@ if (fileExists('market-analysis.html')) {
     if (c.pattern.test(html)) pass(c.label);
     else fail(c.label + ' — missing from market-analysis.html');
   });
+
+  // Every element js/market-analysis.js writes by literal id must exist in
+  // the page. #709 removed #pmaLihtcUnits from the HTML but left its
+  // setText() in place, so the write silently hit nothing for five months
+  // while this file pinned the id itself and was never run.
+  if (fileExists('js/market-analysis.js')) {
+    const writerSrc = readFile('js/market-analysis.js');
+    const written = new Set();
+    const re = /set(?:Text|Html)\(\s*'([A-Za-z][\w-]*)'/g;
+    let m;
+    while ((m = re.exec(writerSrc)) !== null) written.add(m[1]);
+    if (written.size < 5) {
+      fail('found only ' + written.size + " setText/setHtml('id') writes in js/market-analysis.js — the scan has drifted");
+    } else {
+      const orphans = [...written].filter(function (id) {
+        return !new RegExp('id=["\']' + id + '["\']').test(html);
+      });
+      if (orphans.length) fail('js/market-analysis.js writes ids missing from market-analysis.html: ' + orphans.join(', '));
+      else pass('all ' + written.size + ' ids written by js/market-analysis.js exist in market-analysis.html');
+    }
+  }
 } else {
   fail('market-analysis.html not found');
 }
@@ -92,7 +113,7 @@ if (fileExists('js/market-analysis.js')) {
     { pattern: /simulateCapture/,         label: 'simulateCapture function present' },
     { pattern: /WEIGHTS/,                 label: 'WEIGHTS constant defined' },
     { pattern: /RISK/,                    label: 'RISK thresholds defined' },
-    { pattern: /demand.*0\.30|0\.30.*demand/s, label: 'Demand weight 30% present' },
+    { pattern: /WEIGHTS\s*=\s*PMAScoring\.WEIGHTS/, label: 'WEIGHTS come from the shared PMAMarketScoring module' },
     { pattern: /exportJson|exportCsv/,    label: 'Export functions present' },
     { pattern: /PMAEngine/,               label: 'PMAEngine public API exposed on window' },
     { pattern: /DataService\.getJSON|DataService\.baseData/, label: 'Uses DataService (no raw fetch)' },
@@ -103,6 +124,33 @@ if (fileExists('js/market-analysis.js')) {
   });
 } else {
   fail('js/market-analysis.js not found');
+}
+
+// The published weight table must agree with the weights the engine scores
+// with. #1156 moved WEIGHTS into js/market-analysis-scoring.js; the old check
+// grepped market-analysis.js for a "0.30" literal that no longer lives there.
+if (fileExists('js/market-analysis-scoring.js') && fileExists('docs/PMA_SCORING.md')) {
+  const WEIGHTS = require(path.join(ROOT, 'js/market-analysis-scoring.js')).WEIGHTS;
+  const DOC_ROW_KEY = {
+    'Demand': 'demand', 'Capture Risk': 'captureRisk', 'Rent Pressure': 'rentPressure',
+    'Land / Supply': 'landSupply', 'Workforce': 'workforce',
+  };
+  const doc = readFile('docs/PMA_SCORING.md');
+  const rows = [...doc.matchAll(/^\|\s*\*\*([^*]+)\*\*\s*\|\s*(\d+)%\s*\|/gm)];
+  const seen = new Set();
+  rows.forEach(function (r) {
+    const key = DOC_ROW_KEY[r[1].trim()];
+    if (!key) return;
+    seen.add(key);
+    const docPct = Number(r[2]);
+    const enginePct = Math.round(WEIGHTS[key] * 100);
+    if (docPct === enginePct) pass('PMA_SCORING.md ' + r[1].trim() + ' weight ' + docPct + '% matches engine');
+    else fail('PMA_SCORING.md says ' + r[1].trim() + ' is ' + docPct + '% but WEIGHTS.' + key + ' = ' + WEIGHTS[key]);
+  });
+  const missing = Object.keys(WEIGHTS).filter(function (k) { return !seen.has(k); });
+  if (missing.length) fail('PMA_SCORING.md weight table has no row for WEIGHTS: ' + missing.join(', '));
+} else {
+  fail('js/market-analysis-scoring.js or docs/PMA_SCORING.md not found');
 }
 
 // ─── 3. Data artifacts ───────────────────────────────────────────────────────
@@ -270,7 +318,6 @@ if (fileExists('.github/workflows/market_data_build.yml')) {
     { pattern: /workflow_dispatch/,             label: 'Has workflow_dispatch trigger' },
     { pattern: /schedule/,                      label: 'Has schedule trigger' },
     { pattern: /build_public_market_data\.py/,  label: 'Runs build_public_market_data.py' },
-    { pattern: /co-county-boundaries\.json/,    label: 'Generates co-county-boundaries.json' },
     { pattern: /git commit/,                    label: 'Commits artifacts back to repo' },
   ];
   pass('.github/workflows/market_data_build.yml exists');
@@ -280,6 +327,28 @@ if (fileExists('.github/workflows/market_data_build.yml')) {
   });
 } else {
   fail('.github/workflows/market_data_build.yml not found');
+}
+
+// The overlay files the page loads must be committed by some workflow — not a
+// particular one. The county-boundary build moved from the retired
+// generate-market-analysis-data.yml to cache-hud-gis-data.yml in the April
+// consolidation (6fb7f2c55); a later rename (992478a3f) pointed this check at
+// market_data_build.yml, which has never produced the file.
+if (fileExists('js/market-analysis.js')) {
+  const pageSrc = readFile('js/market-analysis.js');
+  const wfDir = path.join(ROOT, '.github/workflows');
+  const workflows = fs.readdirSync(wfDir).filter(function (f) { return /\.ya?ml$/.test(f); })
+    .map(function (f) { return { name: f, src: fs.readFileSync(path.join(wfDir, f), 'utf8') }; });
+  ['co-county-boundaries.json', 'qct-colorado.json', 'dda-colorado.json'].forEach(function (file) {
+    if (pageSrc.indexOf(file.replace(/\.json$/, '')) === -1) {
+      fail(file + ' is no longer loaded by js/market-analysis.js — update this list');
+      return;
+    }
+    const committedBy = new RegExp('git add[^\\n]*data/' + file.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&'));
+    const committers = workflows.filter(function (w) { return committedBy.test(w.src); });
+    if (committers.length) pass(file + ' (loaded by the page) is committed by ' + committers.map(function (w) { return w.name; }).join(', '));
+    else fail(file + ' is loaded by js/market-analysis.js but no workflow `git add`s it');
+  });
 }
 
 // ─── 12. Overlay data files ───────────────────────────────────────────────────
@@ -706,11 +775,24 @@ if (fileExists('js/market-analysis.js')) {
     { pattern: /PMADataCache/,                     label: 'market-analysis.js references PMADataCache' },
     { pattern: /LIHTCConceptCardRenderer/,          label: 'market-analysis.js references LIHTCConceptCardRenderer' },
     { pattern: /HousingNeedsFitAnalyzer/,           label: 'market-analysis.js references HousingNeedsFitAnalyzer' },
-    { pattern: /restored.*from PMADataCache|PMADataCache.*restored/i, label: 'ACS cache restore log message present' },
   ].forEach(function(c) {
     if (c.pattern.test(maSrc2)) pass(c.label);
     else fail(c.label + ' — not found in js/market-analysis.js');
   });
+
+  // The restore path, not its log line: the debug console.log was removed on
+  // purpose (audit fix L1, ffda193de). What must hold is that ACS metrics are
+  // restored from the cache, and that every key runAnalysis() restores is a
+  // key the loader actually stores — a get() of a never-set key restores nothing.
+  const restored = new Set([...maSrc2.matchAll(/_cache\.get\(\s*'([\w-]+)'\s*\)/g)].map(function (m) { return m[1]; }));
+  const stored = new Set([...maSrc2.matchAll(/PMADataCache\.set\(\s*'([\w-]+)'/g)].map(function (m) { return m[1]; }));
+  if (!restored.has('acsMetrics')) {
+    fail('runAnalysis() no longer restores acsMetrics from PMADataCache (found: ' + ([...restored].join(', ') || 'none') + ')');
+  } else {
+    const neverStored = [...restored].filter(function (k) { return !stored.has(k); });
+    if (neverStored.length) fail('runAnalysis() restores cache keys the loader never sets: ' + neverStored.join(', '));
+    else pass('ACS cache restore: all ' + restored.size + ' restored keys (' + [...restored].join(', ') + ') are set by the loader');
+  }
 }
 
 // ─── Summary ──────────────────────────────────────────────────────────────────

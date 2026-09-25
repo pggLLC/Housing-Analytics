@@ -101,6 +101,31 @@ const FLOWS = [
     path: '/market-analysis.html',
     mustContain: ['Public Market Analysis', 'screening tool'],
     requiredSelectors: ['#pmaMap', '.pma-intro-text'],
+    interact: pmaTractDefaultInteraction,
+  },
+  {
+    // A deferred re-run must not bring a previous site back. The affordable
+    // inventory is held until the second site is pending, so the first run
+    // takes the stale-cache path and the cache-ready re-run fires while the
+    // second site waits for its tracts (Codex review of #1888).
+    name: 'PMA deferred re-run',
+    path: '/market-analysis.html',
+    mustContain: ['Public Market Analysis', 'screening tool'],
+    requiredSelectors: ['#pmaMap'],
+    beforeLoad: holdAffordableInventory,
+    interact: pmaDeferredRerunInteraction,
+  },
+  {
+    // When tract data cannot be read, the picker says so and what to do,
+    // rather than leaving an empty picker under "review the pre-selected
+    // tracts" (Codex review of #1888). Malformed JSON rather than a 404, so
+    // the page logs no console error of its own.
+    name: 'PMA tract data unavailable',
+    path: '/market-analysis.html',
+    mustContain: ['Public Market Analysis'],
+    requiredSelectors: ['#pmaMap'],
+    beforeLoad: (page) => page.route(/tract_boundaries_co\.geojson/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '{' })),
+    interact: pmaTractDataUnavailableInteraction,
   },
   {
     name: 'Deal Calculator',
@@ -115,6 +140,227 @@ const FLOWS = [
     requiredSelectors: ['#drhStatTotal', '[data-panel="overview"]'],
   },
 ];
+
+/**
+ * PMA, audit F13: the Tract picker is the default method (CHFA requires a PMA
+ * of whole census tracts), but a map click used to run a circular buffer
+ * regardless, and a click on a picker tract fell through the county-boundary
+ * fill to the map, moving the site. Driven with real mouse clicks because the
+ * defect was about which layer receives the click, which only a browser with
+ * layout can tell. Desktop only: the map is the interaction surface.
+ * Returns a list of failures.
+ */
+async function pmaTractDefaultInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') return [];
+  const failures = [];
+  const ready = await page.waitForFunction(() => window.PMAEngine && window.PMAEngine._map
+    && window.PMAEngine._map() && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 })
+    .then(() => true).catch(() => false);
+  if (!ready) return ['PMA map or tract picker never initialised'];
+  const method = await page.evaluate(() => window.PMAUIController.getMethod());
+  if (method !== 'tract') failures.push(`default method is ${method}, not tract`);
+  const SITE = [39.1589, -108.729];          // Fruita, Mesa County
+  await page.evaluate((c) => { const m = window.PMAEngine._map(); m.setView(c, 12);
+    m.getContainer().scrollIntoView({ block: 'center' }); }, SITE);
+  await page.waitForTimeout(800);
+  const toScreen = (c) => page.evaluate((cc) => { const m = window.PMAEngine._map();
+    const r = m.getContainer().getBoundingClientRect(); const pt = m.latLngToContainerPoint(cc);
+    return [r.left + pt.x, r.top + pt.y]; }, c);
+  let [x, y] = await toScreen(SITE);
+  await page.mouse.click(x, y);
+  const opened = await page.waitForFunction(() => window.PMATractPicker.getSelectedGeoids().length > 0,
+    null, { timeout: 15000 }).then(() => true).catch(() => false);
+  const first = await page.evaluate(() => ({
+    boundary: document.getElementById('pmaScoreBoundary') && document.getElementById('pmaScoreBoundary').dataset.boundary,
+    picked: window.PMATractPicker.getSelectedGeoids().slice(),
+    site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+  }));
+  if (!opened) failures.push('a map click in tract mode did not open the tract picker');
+  if (first.boundary === 'buffer') failures.push('a map click in tract mode produced a circular-buffer result');
+  // An unselected tract a few miles out, clicked on screen.
+  const target = await page.evaluate(async (args) => {
+    const [site, picked] = args; const sel = new Set(picked);
+    const r = await fetch('data/market/tract_centroids_co.json'); const d = await r.json();
+    const list = Array.isArray(d.tracts || d) ? (d.tracts || d) : Object.values(d.tracts || d);
+    const lat = (t) => t.lat || t.latitude; const lon = (t) => t.lon || t.lng || t.longitude;
+    const mi = (t) => Math.hypot((lat(t) - site[0]) * 69, (lon(t) - site[1]) * 53);
+    const t = list.filter((t) => !sel.has(t.geoid || t.GEOID) && mi(t) > 3 && mi(t) < 6)
+      .sort((a, b) => mi(a) - mi(b))[0];
+    return t ? [lat(t), lon(t)] : null;
+  }, [SITE, first.picked]);
+  if (!target) return failures.concat('no unselected tract near the site to click');
+  [x, y] = await toScreen(target);
+  await page.mouse.click(x, y);
+  await page.waitForTimeout(1500);
+  const second = await page.evaluate(() => ({
+    picked: window.PMATractPicker.getSelectedGeoids().length,
+    site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+  }));
+  if (second.site[0] !== first.site[0] || second.site[1] !== first.site[1]) {
+    failures.push('clicking a tract moved the site instead of toggling the tract');
+  }
+  if (second.picked !== first.picked.length + 1) {
+    failures.push(`clicking an unselected tract changed the selection from ${first.picked.length} to ${second.picked}`);
+  }
+  // Run it, then place a second site by typed coordinates -- the address box
+  // is the other way in, and it used to run a buffer too. The first site's
+  // results must not stay on screen, or stay exportable, under the new site.
+  await page.click('#pmaRunBtn');
+  const ran = await page.waitForFunction(() => {
+    const b = document.getElementById('pmaScoreBoundary');
+    return b && b.dataset.boundary === 'tract';
+  }, null, { timeout: 20000 }).then(() => true).catch(() => false);
+  if (!ran) failures.push('Run Analysis on the picked tracts did not produce a tract-based result');
+  // The exportable-result check below must be able to fail: a result exists
+  // after a run, so its absence later means it was cleared.
+  if (ran && !(await page.evaluate(() => !!window.PMAEngine._state.getLastResult()))) {
+    failures.push('a completed run left no result to export');
+  }
+  if (ran && !(await page.evaluate(() => !!(window.PMADelineation && window.PMADelineation.getLastPmaPolygon())))) {
+    failures.push('a completed run drew no PMA boundary, so the boundary-cleared check below tests nothing');
+  }
+  // Audit F3: every capture rate names its denominator, they all use the
+  // same one, and each displayed rate is its numerator over that
+  // denominator. The headline and simulator divided by CHAS-eligible renters
+  // while showing the ACS renter total; the scenario table divided by the
+  // total, so one project read 16.7% and 10.1% on the same screen.
+  if (ran) {
+    await page.waitForTimeout(1500);
+    const cap = await page.evaluate(() => {
+      const num = (t) => { const m = String(t || '').replace(/,/g, '').match(/-?\d+(\.\d+)?/); return m ? Number(m[0]) : null; };
+      const r = window.PMAEngine._state.getLastResult();
+      const den = window.PMAEngine.captureDenominator(r);
+      const sim = document.getElementById('pmaSimResult');
+      const scen = document.getElementById('pmaScenarioResult');
+      const simVals = sim ? [...sim.querySelectorAll('.pma-stat-value')].map((e) => e.textContent) : [];
+      const baseRow = scen ? [...scen.querySelectorAll('tbody tr')].find((tr) => Number(tr.dataset.units) > 0) : null;
+      return {
+        expected: den ? den.value : null,
+        headlineDen: document.getElementById('pmaCaptureDenominator').dataset.denominator,
+        headlineText: document.getElementById('pmaCaptureDenominator').textContent,
+        simDen: sim && sim.dataset.denominator,
+        scenDen: scen && scen.dataset.denominator,
+        headlineRate: num(document.getElementById('pmaCaptureRate').textContent),
+        lihtcUnits: num(document.getElementById('pmaCaptureDenominator').dataset.numerator),
+        simUnits: num(simVals[0]), simRate: num(simVals[1]), simShown: num(simVals[3]),
+        scenUnits: baseRow ? num(baseRow.cells[0].textContent) : null,
+        scenRate: baseRow ? num(baseRow.cells[2].textContent) : null,
+      };
+    });
+    const d = cap.expected;
+    const near = (a, b) => a != null && b != null && Math.abs(a - b) <= 0.051;
+    if (!d) failures.push('the tract analysis produced no capture-rate denominator');
+    else {
+      for (const [where, v] of [['headline', cap.headlineDen], ['simulator', cap.simDen], ['scenario table', cap.scenDen]]) {
+        if (Number(v) !== d) failures.push(`the ${where} capture rate declares denominator ${v}; the analysis divides by ${d}`);
+      }
+      if (!cap.headlineText.includes(d.toLocaleString())) failures.push('the headline capture rate does not show its denominator');
+      if (cap.simShown !== d) failures.push(`the simulator shows ${cap.simShown} beside its rate; it divides by ${d}`);
+      if (!near(cap.headlineRate, Math.round(cap.lihtcUnits / d * 1000) / 10)) failures.push(`headline ${cap.headlineRate}% is not ${cap.lihtcUnits} existing units / ${d}`);
+      if (!near(cap.simRate, Math.round(cap.simUnits / d * 1000) / 10)) failures.push(`simulator ${cap.simRate}% is not ${cap.simUnits} units / ${d}`);
+      if (!near(cap.scenRate, Math.round(cap.scenUnits / d * 1000) / 10)) failures.push(`scenario ${cap.scenRate}% is not ${cap.scenUnits} units / ${d}`);
+    }
+  }
+
+  // Audit F2: one primary score. The scenario table's no-project row is
+  // scored with the headline's inputs and must equal it; the site-selection
+  // index is marked secondary; each scale carries its own legend.
+  if (ran) {
+    const sc = await page.evaluate(() => {
+      const circle = document.getElementById('pmaScoreCircle');
+      const noProject = document.querySelector('#pmaScenarioResult tbody tr[data-units="0"]');
+      return {
+        primaryRole: circle.dataset.scoreRole,
+        primary: Number(circle.textContent),
+        noProject: noProject ? Number(noProject.dataset.score) : null,
+        primaryCount: document.querySelectorAll('[data-score-role="primary"]').length,
+        scale: (document.getElementById('pmaScoreScale') || {}).textContent || '',
+        secondary: document.querySelectorAll('#maExecSummaryContent [data-score-role="secondary"]').length,
+        secondaryScale: ((document.querySelector('#maExecSummaryContent .ma-score-scale') || {}).textContent) || '',
+      };
+    });
+    if (sc.primaryRole !== 'primary' || sc.primaryCount !== 1) failures.push(`expected one score marked primary, found ${sc.primaryCount}`);
+    if (sc.noProject === null) failures.push('the scenario table has no no-project row');
+    else if (sc.noProject !== sc.primary) failures.push(`the scenario table's no-project score ${sc.noProject} is not the PMA score ${sc.primary}`);
+    if (!/Strong/.test(sc.scale) || !/Weak/.test(sc.scale)) failures.push('the PMA score shows no scale legend');
+    if (sc.secondary && !/own scale/.test(sc.secondaryScale)) failures.push('the site-selection index does not say it is on its own scale');
+  }
+
+  const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
+  await page.fill('#pmaAddressInput', SITE2.join(', '));
+  await page.click('#pmaAddressSearchBtn');
+  await page.waitForFunction((c) => Math.abs(window.PMAEngine._lastLat - c[0]) < 1e-6
+    && window.PMATractPicker.getSelectedGeoids().length > 0, SITE2, { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(1000);
+  const third = await page.evaluate(() => {
+    const vis = (e) => !!e && e.getClientRects().length > 0;
+    const dim = document.getElementById('pmaDimList');
+    const csv = document.getElementById('pmaExportCsvBtn');
+    return {
+      boundary: document.getElementById('pmaScoreBoundary').dataset.boundary,
+      site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+      priorVisible: vis(dim),
+      csvEnabled: !!csv && !csv.disabled,
+      lastResult: !!window.PMAEngine._state.getLastResult(),
+      priorBoundary: !!(window.PMADelineation && window.PMADelineation.getLastPmaPolygon && window.PMADelineation.getLastPmaPolygon()),
+    };
+  });
+  if (Math.abs(third.site[0] - SITE2[0]) > 1e-6) failures.push('typed coordinates did not place the site');
+  if (third.boundary === 'buffer') failures.push('typed coordinates in tract mode produced a circular-buffer result');
+  if (third.priorVisible) failures.push("the previous site's dimension scores stayed on screen for the new site");
+  if (third.csvEnabled || third.lastResult) failures.push("the previous site's result stayed exportable for the new site");
+  if (third.priorBoundary) failures.push("the previous site's PMA boundary stayed on the map for the new site");
+  return failures;
+}
+
+async function holdAffordableInventory(page) {
+  let release;
+  const held = new Promise((r) => { release = r; });
+  page.__releaseAffordableInventory = release;
+  await page.route(/affordable-housing\/properties\.json/, async (route) => { await held; await route.continue(); });
+}
+
+async function pmaDeferredRerunInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') { if (page.__releaseAffordableInventory) page.__releaseAffordableInventory(); return []; }
+  const failures = [];
+  page.on('dialog', (d) => d.accept().catch(() => {}));
+  const place = async (c) => {
+    await page.fill('#pmaAddressInput', c.join(', '));
+    await page.click('#pmaAddressSearchBtn');
+    await page.waitForFunction((cc) => Math.abs(window.PMAEngine._lastLat - cc[0]) < 1e-6
+      && window.PMATractPicker.getSelectedGeoids().length > 0, c, { timeout: 20000 });
+  };
+  try {
+    await page.waitForFunction(() => window.PMAEngine && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 });
+    await place([39.1589, -108.729]);
+    await page.click('#pmaRunBtn');
+    await page.waitForFunction(() => document.getElementById('pmaScoreBoundary').dataset.boundary === 'tract', null, { timeout: 30000 });
+    const stale = await page.evaluate(() => !!document.getElementById('pma-affordable-loading-notice'));
+    if (!stale) failures.push('the first run did not take the stale-inventory path, so this check tested nothing');
+    await place([39.0639, -108.5506]);
+  } finally {
+    page.__releaseAffordableInventory();
+  }
+  await page.waitForTimeout(5000);
+  const after = await page.evaluate(() => ({
+    boundary: document.getElementById('pmaScoreBoundary').dataset.boundary,
+    hasResult: !!window.PMAEngine._state.getLastResult(),
+  }));
+  if (after.boundary !== 'pending' || after.hasResult) {
+    failures.push(`the late inventory re-ran the previous site under the new one (boundary ${after.boundary}, result ${after.hasResult})`);
+  }
+  return failures;
+}
+
+async function pmaTractDataUnavailableInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') return [];
+  await page.waitForFunction(() => window.PMAEngine && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 });
+  await page.fill('#pmaAddressInput', '39.1589, -108.729');
+  await page.click('#pmaAddressSearchBtn');
+  const said = await page.waitForFunction(() => document.getElementById('pmaScoreBoundary').dataset.boundary === 'unavailable',
+    null, { timeout: 15000 }).then(() => true).catch(() => false);
+  return said ? [] : ['with tract data unreadable, the page still asks the analyst to review tracts it could not load'];
+}
 
 const TIGERWEB_URL_PATTERN = /tigerweb\.geo\.census\.gov/i;
 const CHFA_LIHTC_URL_PATTERN = /services\.arcgis\.com\/VTyQ9soqVukalItT\//i;
@@ -348,6 +594,7 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
     });
   });
 
+  if (typeof flow.beforeLoad === 'function') await flow.beforeLoad(page, viewport);
   try {
     await page.goto(baseUrl + flow.path, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT_MS });
     try { await page.waitForLoadState('networkidle', { timeout: 12000 }); } catch (_) {}
@@ -375,6 +622,9 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
     const count = await page.locator(selector).count().catch(() => 0);
     if (count === 0) missingSelectors.push(selector);
   }
+  const interactionFailures = typeof flow.interact === 'function'
+    ? await flow.interact(page, viewport).catch(err => [`interaction threw: ${err.message}`])
+    : [];
   const blankCards = await collectBlankCards(page).catch(err => [{ selector: 'audit-error', text: err.message, width: 0, height: 0 }]);
   const overflow = await collectMobileOverflow(page).catch(err => ({ overflowPx: 0, offenders: [{ selector: 'audit-error', width: 0, left: 0, right: 0, error: err.message }] }));
 
@@ -384,6 +634,7 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
   if (missingText.length) hardFailures.push(`Missing expected text: ${missingText.join(', ')}`);
   if (missingSelectors.length) hardFailures.push(`Missing selector(s): ${missingSelectors.join(', ')}`);
   if (blankCards.length) hardFailures.push(`${blankCards.length} visible blank/loading card(s)`);
+  for (const f of interactionFailures) hardFailures.push(`Interaction: ${f}`);
   if (viewport.name === 'mobile' && overflow.overflowPx > 2) hardFailures.push(`Document overflows mobile viewport by ${overflow.overflowPx}px`);
 
   await context.close();
