@@ -34,7 +34,7 @@ import { JSDOM } from 'jsdom';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = fs.readFileSync(path.join(ROOT, 'policy-briefs.html'), 'utf8');
 
-async function runPage(briefs, curated = { briefs: [] }, digests = {}) {
+async function runPage(briefs, curated = { briefs: [] }, digests = {}, watch = null) {
   const dom = new JSDOM(HTML, {
     runScripts: 'dangerously',
     url: 'http://localhost/policy-briefs.html',
@@ -45,6 +45,9 @@ async function runPage(briefs, curated = { briefs: [] }, digests = {}) {
         if (digest) {
           const doc = digests[digest[1]];
           return Promise.resolve({ ok: !!doc, json: () => Promise.resolve(doc) });
+        }
+        if (u.includes('policy-watch.json')) {
+          return Promise.resolve({ ok: !!watch, json: () => Promise.resolve(watch) });
         }
         if (u.includes('glossary.json')) {
           const terms = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'glossary.json'), 'utf8'));
@@ -318,4 +321,39 @@ test('neither glossary script splices definitions into headlines or local lines'
   const inNews = wrapped.filter((el) => el.closest('#newsLatestBody, #newsRiverBody, #toolWatchList'));
   assert.deepEqual(inNews.map((el) => el.textContent.slice(0, 30)), [],
     'glossary definitions were spliced into the news list');
+});
+
+test('the policy watch shows each entry with how it was checked, and what is not covered', async () => {
+  const watch = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'policy', 'policy-watch.json'), 'utf8'));
+  const { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
+  const doc = window.document;
+  const panel = doc.getElementById('policyWatchPanel');
+  assert.equal(panel.hidden, false, 'the policy watch panel is hidden although the file has entries');
+  const items = [...panel.querySelectorAll('.watch-item')];
+  assert.equal(items.length, watch.entries.length, 'not every entry is shown');
+  for (const [i, entry] of watch.entries.entries()) {
+    const item = items.find((el) => el.querySelector('.watch-item__title').textContent === entry.title);
+    assert.ok(item, `entry ${i} (${entry.id}) is not shown under its own title`);
+    assert.equal(item.querySelector('a').getAttribute('href'), entry.source.url, `${entry.id} does not link its source`);
+    const check = item.querySelector('.watch-item__check').textContent;
+    if (entry.verification.level === 'primary') {
+      assert.ok(check.startsWith('Checked against ' + entry.verification.against), `${entry.id}: ${check}`);
+    }
+  }
+  const gaps = [...panel.querySelectorAll('.watch-gaps li')].map((li) => li.textContent);
+  assert.deepEqual(gaps, watch.meta.known_gaps, 'the gaps the file declares are not all shown');
+});
+
+test('a reported entry says it was not checked against the primary document; no file hides the panel', async () => {
+  const watch = { schema: 'policy-watch/v1', meta: { as_of: '2026-09-24', known_gaps: [] }, entries: [{
+    id: 'x', section: 'ballot', status: 'on ballot', date: '2026-11-03', title: 'A county lodging tax for housing',
+    source: { label: 'Some Outlet', url: 'https://news.localhost/ballot' },
+    verification: { level: 'reported', by: 'Some Outlet', checked: '2026-09-24' } }] };
+  let { window } = await runPage(fixture(), { briefs: [] }, {}, watch);
+  const check = window.document.querySelector('#policyWatchPanel .watch-item__check').textContent;
+  assert.match(check, /^As reported by Some Outlet/);
+  assert.match(check, /Not checked against a primary document/);
+  ({ window } = await runPage(fixture(), { briefs: [] }, {}, null));
+  assert.equal(window.document.getElementById('policyWatchPanel').hidden, true,
+    'the panel shows with no data behind it');
 });

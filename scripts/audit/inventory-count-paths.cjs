@@ -54,6 +54,7 @@ const JSON_COUNT_PATHS = {
   'kalshi-housing': 'items',
   'data-manifest': 'files',
   'housing-legislation-2026': 'entries',
+  'policy-watch': 'entries',
   'regrid-parcels': 'counties',
 };
 

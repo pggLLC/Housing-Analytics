@@ -57,7 +57,7 @@
     @media (max-width: 960px) {
       .news-layout { display: flex; flex-direction: column; gap: 1.5rem; }
       .news-main, .news-aside { display: contents; }
-      #newsLatest { order: 1; } #researchPanel { order: 2; } #newsRiver { order: 3; } #toolWatchPanel { order: 4; } #aboutFeed { order: 5; }
+      #newsLatest { order: 1; } #policyWatchPanel { order: 2; } #researchPanel { order: 3; } #newsRiver { order: 4; } #toolWatchPanel { order: 5; } #aboutFeed { order: 6; }
     }
 
     .news-label { display: flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
@@ -109,6 +109,18 @@
     .research-card h3 a:hover { color: var(--link); text-decoration: underline; }
     .research-card p { margin: 0; color: var(--muted); font-size: .85rem; }
     .research-card__meta { margin-top: .5rem; font-size: .78rem; color: var(--faint); }
+    .watch-group + .watch-group { margin-top: 1rem; }
+    .watch-group h3 { margin: 0 0 .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+    .watch-list { list-style: none; margin: 0; padding: 0; }
+    .watch-item { padding-block: .55rem; border-bottom: 1px solid var(--border); }
+    .watch-item__title { font-weight: 600; font-size: .9rem; line-height: 1.35; }
+    .watch-item__title a { color: var(--text); text-decoration: none; }
+    .watch-item__title a:hover { color: var(--link); text-decoration: underline; }
+    .watch-item p { margin: .25rem 0 0; font-size: .82rem; color: var(--muted); line-height: 1.45; }
+    .watch-item__meta { margin-top: .3rem; font-size: .74rem; color: var(--faint); }
+    .watch-item__status { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+    .watch-item__check { display: block; margin-top: .15rem; }
+    .watch-gaps { margin: .75rem 0 0; padding-left: 1.1rem; font-size: .78rem; color: var(--muted); }
     .tool-list { list-style: none; margin: 0; padding: 0; }
     .tool-list li { padding-block: .45rem; border-bottom: 1px solid var(--border); }
     .tool-list a { color: var(--link); text-decoration: none; font-weight: 600; }
@@ -178,10 +190,15 @@
         </section>
       </div>
 
-      <aside class="news-aside" aria-label="Research and about this feed">
+      <aside class="news-aside" aria-label="Policy watch, research and about this feed">
         <section id="researchPanel" class="news-panel" aria-labelledby="researchLabel">
           <h2 class="news-label" id="researchLabel">Research &amp; analysis</h2>
           <div id="researchList"></div>
+        </section>
+        <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
+          <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>
+          <div id="policyWatchList" class="no-glossary"></div>
+          <p class="news-note" id="policyWatchAsOf"></p>
         </section>
         <section id="toolWatchPanel" class="news-panel" aria-labelledby="toolWatchLabel" hidden>
           <h2 class="news-label" id="toolWatchLabel">Tools we're evaluating</h2>
@@ -193,6 +210,7 @@
           <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
           <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
           <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
+          <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results.</p>
           <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
           <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research.</p>
         </details>
@@ -217,6 +235,9 @@
     var BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs.json')
       : 'data/policy_briefs.json';
+    var POLICY_WATCH_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy/policy-watch.json')
+      : 'data/policy/policy-watch.json';
     var CURATED_BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs_curated.json')
       : 'data/policy_briefs_curated.json';
@@ -562,6 +583,57 @@
       }).join('');
     }
 
+    // ── Policy watch ─────────────────────────────────────────────────────
+    // data/policy/policy-watch.json: rule changes, ballot questions and people
+    // in housing roles. Every entry says how it was checked: against the
+    // primary document, or as reported by a named outlet. What the file does
+    // not yet cover is listed, not left for the reader to assume.
+    var WATCH_SECTIONS = [['qap', 'CHFA allocation plan'], ['ballot', 'On the ballot'], ['people', 'People and roles']];
+    function longDate(iso) {
+      var t = Date.parse(String(iso || '') + 'T12:00:00Z');
+      return isNaN(t) ? '' : MONTH[new Date(t).getUTCMonth()] + ' ' + new Date(t).getUTCDate() + ', ' + new Date(t).getUTCFullYear();
+    }
+    function checkLine(v) {
+      if (!v || !v.level) return 'Not yet checked';
+      var when = longDate(v.checked);
+      if (v.level === 'primary') return 'Checked against ' + (v.against || 'the primary source') + (when ? ' on ' + when : '');
+      if (v.level === 'reported') return 'As reported by ' + (v.by || 'the linked outlet') + (when ? '; link checked ' + when : '') + '. Not checked against a primary document.';
+      return 'Not yet checked';
+    }
+    function renderPolicyWatch(doc) {
+      var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
+      if (!entries.length) return;
+      var html = '';
+      WATCH_SECTIONS.forEach(function (sec) {
+        var items = entries.filter(function (e) { return e.section === sec[0]; });
+        if (!items.length) return;
+        items.sort(function (a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
+        html += '<div class="watch-group"><h3>' + escapeHtml(sec[1]) + '</h3><ul class="watch-list">' +
+          items.map(function (e) {
+            var url = e.source && e.source.url;
+            var title = url ? '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(e.title) + '</a>' : escapeHtml(e.title);
+            var meta = [];
+            if (e.status) meta.push('<span class="watch-item__status">' + escapeHtml(e.status) + '</span>');
+            if (e.date) meta.push(escapeHtml(longDate(e.date)));
+            if (e.source && e.source.label) meta.push(escapeHtml(e.source.label));
+            return '<li class="watch-item"><div class="watch-item__title">' + title + '</div>' +
+              (e.detail ? '<p>' + escapeHtml(e.detail) + '</p>' : '') +
+              '<div class="watch-item__meta">' + meta.join(' · ') +
+              '<span class="watch-item__check">' + escapeHtml(checkLine(e.verification)) + '</span></div></li>';
+          }).join('') + '</ul></div>';
+      });
+      var gaps = doc.meta && Array.isArray(doc.meta.known_gaps) ? doc.meta.known_gaps : [];
+      if (gaps.length) {
+        html += '<div class="watch-group"><h3>Not yet covered</h3><ul class="watch-gaps">' +
+          gaps.map(function (g) { return '<li>' + escapeHtml(g) + '</li>'; }).join('') + '</ul></div>';
+      }
+      $('policyWatchList').innerHTML = html;
+      var asOf = doc.meta && doc.meta.as_of ? longDate(doc.meta.as_of) : '';
+      $('policyWatchAsOf').textContent = (asOf ? 'Updated ' + asOf + '. ' : '') +
+        'Curated by COHO, not a feed. Open the source before relying on an entry.';
+      $('policyWatchPanel').hidden = false;
+    }
+
     function renderToolWatch(briefList) {
       var tool = briefList.filter(function (brief) { return brief.is_tool_evaluation; })[0];
       if (!tool || !Array.isArray(tool.articles) || !tool.articles.length) return;
@@ -593,9 +665,13 @@
         }),
         fetcher(CURATED_BRIEFS_URL, {}, 15000)
           .then(function (res) { return res.ok ? res.json() : { briefs: [] }; })
-          .catch(function () { return { briefs: [] }; })
+          .catch(function () { return { briefs: [] }; }),
+        fetcher(POLICY_WATCH_URL, {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; })
       ]).then(function (payloads) {
         var data = payloads[0], curatedData = payloads[1];
+        renderPolicyWatch(payloads[2]);
         var list = Array.isArray(data) ? data : (data && Array.isArray(data.briefs) ? data.briefs : []);
         var curated = Array.isArray(curatedData) ? curatedData
           : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
