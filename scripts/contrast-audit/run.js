@@ -58,7 +58,21 @@ const THRESHOLD_LARGE    = 3.0;
  * Each fix:       { tag, text, fg_before, fg_after, fix_applied, bg_effective,
  *                   bg_fixed, ratio_before, ratio_after, threshold, isLarge, passes_after_fix }
  */
+/* A page whose markup is only a <meta http-equiv="refresh"> (e.g.
+ * indibuild-pipeline-public.html → pipeline.html) navigates away while it is
+ * being scanned, and page.evaluate() dies with "Execution context was
+ * destroyed". Its target is audited in its own right, so it is reported as a
+ * redirect rather than scanned, and never as a pass. */
+var META_REFRESH_RE = /<meta[^>]+http-equiv=["']?refresh["']?[^>]*content=["']?\s*\d+\s*;\s*url=([^"'>\s]+)/i;
+
 async function auditPage(page, url, doFix) {
+  // The markup is fetched separately: the browser may have evicted the
+  // navigation response's body by the time it is read ("No resource with
+  // given identifier found"), which turned heavy pages into scan errors.
+  const raw = await page.request.get(url, { timeout: 30000 });
+  if (!raw.ok()) throw new Error('HTTP ' + raw.status() + ' for ' + url);
+  const refresh = META_REFRESH_RE.exec(await raw.text());
+  if (refresh) return { redirect: refresh[1] };
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
   return page.evaluate(function (params) {
@@ -218,6 +232,8 @@ async function auditPage(page, url, doFix) {
 
   let totalViolations = 0;
   let totalFixed      = 0;
+  let totalErrors     = 0;
+  let totalRedirects  = 0;
 
   const report = {
     timestamp:   new Date().toISOString(),
@@ -233,8 +249,19 @@ async function auditPage(page, url, doFix) {
       result = await auditPage(page, url, FIX_MODE);
     } catch (err) {
       console.error('[contrast-audit] Error auditing ' + url + ':', err.message);
+      totalErrors += 1;
       report.pages.push({ url: url, error: err.message, violations: [], fixes: [],
         summary: { violations: 0, fixed: 0, passed: false, error: true } });
+      continue;
+    }
+
+    if (result.redirect) {
+      totalRedirects += 1;
+      report.pages.push({ url: url, redirect: result.redirect, violations: [], fixes: [],
+        summary: { violations: 0, fixed: 0, passed: null, redirect: true } });
+      if (!JSON_MODE) {
+        console.log('[contrast-audit] REDIRECT: ' + pagePath + ' → ' + result.redirect + ' (not scanned)');
+      }
       continue;
     }
 
@@ -284,8 +311,10 @@ async function auditPage(page, url, doFix) {
   report.totals = {
     violations:     totalViolations,
     fixed:          totalFixed,
-    pages_audited:  PAGES.length,
-    passed:         totalViolations === 0
+    errors:         totalErrors,
+    redirects:      totalRedirects,
+    pages_audited:  PAGES.length - totalErrors - totalRedirects,
+    passed:         totalViolations === 0 && totalErrors === 0
   };
 
   /* ── Output ─────────────────────────────────────────────────────────── */
@@ -319,12 +348,21 @@ async function auditPage(page, url, doFix) {
         console.error('\n[contrast-audit] ' + totalViolations + ' contrast violation(s) found.');
         console.error('[contrast-audit] Re-run with CONTRAST_FIX=1 to apply fixes automatically.');
       }
+    } else if (totalErrors > 0) {
+      console.error('\n[contrast-audit] ' + totalErrors + ' page(s) could not be scanned; they are not a pass.');
+    } else if (totalRedirects === PAGES.length) {
+      console.log('\n[contrast-audit] Nothing scanned: every page is a redirect.');
     } else {
       console.log('\n[contrast-audit] All pages passed contrast audit.');
     }
   }
 
+  /* 1 = violations found; 2 = a page could not be scanned. An unscanned page
+   * is never reported as a pass. */
   if (totalViolations > 0) {
     process.exit(1);
+  }
+  if (totalErrors > 0) {
+    process.exit(2);
   }
 }());
