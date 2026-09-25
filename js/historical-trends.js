@@ -10,7 +10,7 @@
  * Data sources (all local, no external API):
  *   - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
  *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export, 926 CO projects through 2025 (preferred)
- *   - data/market/hud_lihtc_co.geojson         — Legacy HUD LIHTC snapshot, 716 CO projects (YR_PIS through ~2020) — fallback only
+ *   - data/market/hud_lihtc_co.geojson         — fallback copy with the same CHFA-style fields, used only if chfa-lihtc.json fails
  *
  * No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
  * support time-series rent trends. Add it when multi-year ACS ingestion is in place.
@@ -34,15 +34,6 @@
 
   function esc(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  function groupBy(arr, keyFn) {
-    var out = {};
-    arr.forEach(function (x) {
-      var k = keyFn(x);
-      (out[k] = out[k] || []).push(x);
-    });
-    return out;
   }
 
   function _resolveUrl(path) {
@@ -117,8 +108,8 @@
 
   // Normalised project rows from the LIHTC feed. Units that are missing stay
   // null (never 0) so they are excluded from sums and medians, not counted.
-  function _projects() {
-    return (state.lihtcFeatures || []).map(function (f) {
+  function _projects(features) {
+    return (features || state.lihtcFeatures || []).map(function (f) {
       var p = f.properties || {};
       var alloc = parseInt(p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC, 10);
       var pis = parseInt(p.YR_PIS, 10);
@@ -240,67 +231,98 @@
         _fmt(agg.nine.units[i]), _fmt(agg.four.units[i]), _fmt(agg.other.units[i])];
     }).reverse());
 
-    // "What a deal looks like" — last ten award years in the feed.
-    var lastYr = years[years.length - 1];
-    var recent = rows.filter(function (r) { return r.alloc > lastYr - 10; });
-    function sizes(b) {
-      return recent.filter(function (r) { return r.bucket === b && r.units != null; })
-        .map(function (r) { return r.units; });
-    }
-    var nineN = recent.filter(function (r) { return r.bucket === 'nine'; }).length;
-    var fourN = recent.filter(function (r) { return r.bucket === 'four'; }).length;
+    var d = dealStats(state.lihtcFeatures);
     var dealEl = document.getElementById('dealStats');
-    if (dealEl) {
-      var med9 = _median(sizes('nine')), med4 = _median(sizes('four'));
+    if (dealEl && d) {
       dealEl.innerHTML =
-        '<p class="ht-stat-caption">Typical deal, ' + (lastYr - 9) + '–' + lastYr + ' awards (CHFA live feed)</p>' +
+        '<p class="ht-stat-caption">Typical deal, ' + d.fromYear + '–' + d.toYear + ' awards (CHFA live feed)</p>' +
         '<dl class="ht-stat-list">' +
-          '<div><dt>Projects awarded</dt><dd>' + _fmt(recent.length) + '</dd></div>' +
-          '<div><dt>Avg awards / yr</dt><dd>' + Math.round(recent.length / 10) + '</dd></div>' +
-          '<div><dt>Median 9% project</dt><dd>' + (med9 != null ? med9 + ' units' : 'Unavailable') + '</dd></div>' +
-          '<div><dt>Median 4% project</dt><dd>' + (med4 != null ? med4 + ' units' : 'Unavailable') + '</dd></div>' +
-          '<div><dt>9% share of projects</dt><dd>' +
-            (nineN + fourN ? Math.round(100 * nineN / (nineN + fourN)) + '%' : 'Unavailable') + '</dd></div>' +
+          '<div><dt>Projects awarded</dt><dd>' + _fmt(d.projects) + '</dd></div>' +
+          '<div><dt>Avg awards / yr</dt><dd>' + Math.round(d.projects / (d.toYear - d.fromYear + 1)) + '</dd></div>' +
+          '<div><dt>Median 9% project</dt><dd>' + (d.median9 != null ? d.median9 + ' units' : 'Unavailable') + '</dd></div>' +
+          '<div><dt>Median 4% project</dt><dd>' + (d.median4 != null ? d.median4 + ' units' : 'Unavailable') + '</dd></div>' +
+          '<div><dt>9% share of projects</dt><dd>' + (d.share9 != null ? d.share9 + '%' : 'Unavailable') + '</dd></div>' +
         '</dl>';
     }
   }
 
+  // Typical deal over the last ten award years in the feed. Pure.
+  function dealStats(features) {
+    var rows = _projects(features).filter(function (r) { return r.alloc != null; });
+    if (!rows.length) return null;
+    var toYear = Math.max.apply(null, rows.map(function (r) { return r.alloc; }));
+    var fromYear = toYear - 9;
+    var recent = rows.filter(function (r) { return r.alloc >= fromYear; });
+    function sizes(b) {
+      return recent.filter(function (r) { return r.bucket === b && r.units != null; })
+        .map(function (r) { return r.units; });
+    }
+    var n9 = recent.filter(function (r) { return r.bucket === 'nine'; }).length;
+    var n4 = recent.filter(function (r) { return r.bucket === 'four'; }).length;
+    return {
+      fromYear: fromYear, toYear: toYear, projects: recent.length,
+      median9: _median(sizes('nine')), median4: _median(sizes('four')),
+      share9: n9 + n4 ? Math.round(100 * n9 / (n9 + n4)) : null
+    };
+  }
+
   // Latest CHFA round, parsed from CHFA's own award report. The live property
-  // feed lags a round by months, so this is shown beside the chart rather than
-  // added to it as a partial year. Credits missing from a record stay out of
-  // sums (null is not $0).
+  // feed lags a round by months, so the round is shown beside the chart rather
+  // than added to it as a partial year. Pure: returns numbers, or null where a
+  // figure cannot be computed. A missing credit or unit count is excluded from
+  // sums, never counted as 0.
+  function summarizeRound(round, features) {
+    var awards = (round && round.awards) || [];
+    if (!awards.length) return null;
+    var meta = round.metadata || {};
+    function pos(v) { return typeof v === 'number' && v > 0; }
+    function sum(arr) { return arr.reduce(function (s, v) { return s + v; }, 0); }
+    var units = awards.map(function (a) { return a.total_units; }).filter(pos);
+    var with9 = awards.filter(function (a) { return pos(a.federal_9pct_credit) && pos(a.total_units); });
+    var fed9 = awards.map(function (a) { return a.federal_9pct_credit; }).filter(pos);
+    var m = String(meta.round || meta.announcement_date || '').match(/(19|20)\d{2}/);
+    var roundYear = m ? parseInt(m[0], 10) : null;
+    // Has the live feed caught up? Then these awards may be in the chart too.
+    var inFeed = roundYear != null && _projects(features).some(function (r) { return r.alloc != null && r.alloc >= roundYear; });
+    return {
+      name: meta.round || null,
+      announced: meta.announcement_date || null,
+      roundYear: roundYear,
+      inFeed: inFeed,
+      developments: awards.length,
+      units: units.length ? sum(units) : null,
+      medianUnits: _median(units),
+      federal9Total: fed9.length ? sum(fed9) : null,
+      federal9PerUnit: with9.length
+        ? Math.round(sum(with9.map(function (a) { return a.federal_9pct_credit; })) /
+                     sum(with9.map(function (a) { return a.total_units; })))
+        : null,
+      withStateCredit: awards.filter(function (a) { return pos(a.state_credit); }).length
+    };
+  }
+
   function _renderLatestRound() {
     var el = document.getElementById('chfaStats');
-    if (!el || !state.round) return;
-    var meta = state.round.metadata || {};
-    var awards = state.round.awards || [];
-    if (!awards.length) return;
-    function nums(key) {
-      return awards.map(function (a) { return a[key]; })
-        .filter(function (v) { return typeof v === 'number' && v > 0; });
-    }
-    function sum(arr) { return arr.reduce(function (s, v) { return s + v; }, 0); }
-    var units = nums('total_units');
-    var fed9 = nums('federal_9pct_credit');
-    var units9 = sum(awards.filter(function (a) {
-      return a.federal_9pct_credit > 0 && a.total_units > 0;
-    }).map(function (a) { return a.total_units; }));
-    var withState = nums('state_credit').length;
+    if (!el) return;
+    var r = summarizeRound(state.round, state.lihtcFeatures);
+    if (!r) return;
+    function show(v, fmt) { return v != null ? fmt(v) : 'Unavailable'; }
     function money(v) {
-      return v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + Math.round(v / 1000) + 'K';
+      return v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + _fmt(Math.round(v));
     }
     el.innerHTML =
-      '<p class="ht-stat-caption">Latest round: ' + esc(meta.round || 'CHFA') +
-        (meta.announcement_date ? ' (announced ' + esc(meta.announcement_date) + ')' : '') +
-        ' — not yet in the live feed</p>' +
+      '<p class="ht-stat-caption">Latest round: ' + esc(r.name || 'CHFA') +
+        (r.announced ? ' (announced ' + esc(r.announced) + ')' : '') +
+        (r.inFeed
+          ? ' — the live feed now has ' + r.roundYear + ' awards, so these may also be counted in the chart'
+          : ' — not yet in the live feed or the chart') + '</p>' +
       '<dl class="ht-stat-list">' +
-        '<div><dt>Developments</dt><dd>' + awards.length + '</dd></div>' +
-        '<div><dt>Units</dt><dd>' + (units.length ? _fmt(sum(units)) : 'Unavailable') + '</dd></div>' +
-        '<div><dt>Median development</dt><dd>' + (units.length ? _median(units) + ' units' : 'Unavailable') + '</dd></div>' +
-        '<div><dt>Federal 9% credits / yr</dt><dd>' + (fed9.length ? money(sum(fed9)) : 'Unavailable') + '</dd></div>' +
-        '<div><dt>9% credit per unit / yr</dt><dd>' +
-          (fed9.length && units9 ? '$' + _fmt(Math.round(sum(fed9) / units9)) : 'Unavailable') + '</dd></div>' +
-        '<div><dt>With state credits too</dt><dd>' + withState + ' of ' + awards.length + '</dd></div>' +
+        '<div><dt>Developments</dt><dd>' + r.developments + '</dd></div>' +
+        '<div><dt>Units</dt><dd>' + show(r.units, _fmt) + '</dd></div>' +
+        '<div><dt>Median development</dt><dd>' + show(r.medianUnits, function (v) { return v + ' units'; }) + '</dd></div>' +
+        '<div><dt>Federal 9% credits / yr</dt><dd>' + show(r.federal9Total, money) + '</dd></div>' +
+        '<div><dt>9% credit per unit / yr</dt><dd>' + show(r.federal9PerUnit, function (v) { return '$' + _fmt(v); }) + '</dd></div>' +
+        '<div><dt>With state credits too</dt><dd>' + r.withStateCredit + ' of ' + r.developments + '</dd></div>' +
       '</dl>';
   }
 
@@ -560,5 +582,9 @@
     });
   }
 
-  global.HistoricalTrends = { render: render };
+  global.HistoricalTrends = {
+    render: render,
+    // Pure helpers, exposed for test/historical-trends-real-data.test.js
+    _internal: { summarizeRound: summarizeRound, dealStats: dealStats, creditBucket: _creditBucket, projects: _projects }
+  };
 })(typeof window !== 'undefined' ? window : this);

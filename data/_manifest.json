@@ -31812,8 +31812,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14677,
-      "mtime": "2026-09-24T22:12:55.258Z",
+      "size_bytes": 14678,
+      "mtime": "2026-09-25T05:56:46.834Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
