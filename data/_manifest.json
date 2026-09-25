@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T18:00:09.406Z",
+    "generated_at": "2026-09-25T18:09:58.818Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162456694,
+    "total_size_bytes": 162457962,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -888,8 +888,8 @@
     {
       "path": "chfa-qap-calendar.json",
       "kind": "json",
-      "size_bytes": 13556,
-      "mtime": "2026-09-25T12:55:18.605Z",
+      "size_bytes": 14178,
+      "mtime": "2026-09-25T18:09:57.360Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -1143,8 +1143,8 @@
     {
       "path": "core/educational-content.json",
       "kind": "json",
-      "size_bytes": 67585,
-      "mtime": "2026-09-25T12:55:18.614Z",
+      "size_bytes": 67629,
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -16831,8 +16831,8 @@
     {
       "path": "hna/local-resources.json",
       "kind": "json",
-      "size_bytes": 181592,
-      "mtime": "2026-09-25T12:55:18.695Z",
+      "size_bytes": 181584,
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -32338,8 +32338,8 @@
     {
       "path": "policy/soft-funding-status.json",
       "kind": "json",
-      "size_bytes": 25351,
-      "mtime": "2026-09-25T12:55:19.121Z",
+      "size_bytes": 25939,
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -32656,8 +32656,8 @@
     {
       "path": "provenance/market-analysis.json",
       "kind": "json",
-      "size_bytes": 2314,
-      "mtime": "2026-09-25T12:55:19.125Z",
+      "size_bytes": 2336,
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "_comment",
