@@ -1644,7 +1644,6 @@
     }
 
     setText('pmaLihtcCount', result.lihtcCount);
-    setText('pmaLihtcUnits', result.lihtcUnits);
     setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
