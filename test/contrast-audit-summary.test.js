@@ -29,7 +29,7 @@ function test(name, fn) {
   console.log('  ✓ ' + name);
 }
 
-const page = (over) => Object.assign({ url: 'http://x/p.html', violations: [], fixes: [] }, over);
+const page = (over) => Object.assign({ url: 'p.html', violations: [], fixes: [] }, over);
 const REPORTS = {
   'clean.html':    { pages: [page({ summary: { violations: 0, passed: true } })], totals: { violations: 0, errors: 0 } },
   'bad.html':      { pages: [page({ violations: [{}, {}, {}], summary: { violations: 3, passed: false } })], totals: { violations: 3, errors: 0 } },
