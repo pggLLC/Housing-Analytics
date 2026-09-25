@@ -37,6 +37,10 @@ const DEAD_URLS = [
 const HUB = 'https://cdola.colorado.gov/prop123';
 const OEDIT_FUND_HOST = 'coloradoaffordablehousingfinancingfund.com';
 
+// Compare hosts exactly: a substring test would accept any URL that merely
+// contains the host name somewhere (CodeQL js/incomplete-url-substring-sanitization).
+const hostOf = (u) => { try { return new URL(u).hostname; } catch { return null; } };
+
 // A description of the whole program must name both agencies with their shares.
 function assertSplit(text, where) {
   assert.match(text, /60%[^.]*OEDIT|OEDIT[^.]*60%/, `${where}: must say OEDIT oversees 60%`);
@@ -66,11 +70,11 @@ assert.match(soft['PROP123-AHTF'].adminEntity, /DOLA/, 'PROP123-AHTF adminEntity
 // Land banking is an OEDIT/CHFA program, not a DOLA one.
 assert.match(soft['PROP123-LBTF'].adminEntity, /OEDIT/, 'land banking is administered by OEDIT/CHFA');
 assert.doesNotMatch(soft['PROP123-LBTF'].adminEntity, /DOLA/, 'land banking is not a DOLA program');
-assert.ok(soft['PROP123-LBTF'].contactUrl.includes(OEDIT_FUND_HOST), 'land banking contact must be the OEDIT fund site');
+assert.equal(hostOf(soft['PROP123-LBTF'].contactUrl), OEDIT_FUND_HOST, 'land banking contact must be the OEDIT fund site');
 const landValue = read('land-value.html');
 const landLink = landValue.match(/<a href="([^"]+)"[^>]*>([^<]*Land Banking[^<]*)<\/a>/);
 assert.ok(landLink, 'land-value.html must link the Prop 123 land-banking program');
-assert.ok(landLink[1].includes(OEDIT_FUND_HOST), 'the land-banking link must go to the OEDIT fund site');
+assert.equal(hostOf(landLink[1]), OEDIT_FUND_HOST, 'the land-banking link must go to the OEDIT fund site');
 assert.doesNotMatch(landLink[2], /DOLA/, 'the land-banking link must not be labelled DOLA');
 
 // ── 3. No line says Prop 123 is administered by DOLA alone ───────────
@@ -107,9 +111,13 @@ assert.deepEqual(deadLinks, [], `use ${HUB} (or commitment-filings / the OEDIT f
 // An allow-list entry is what hid the 404: a sweep that skips a URL can never
 // report it. (Covered by the scan above too; named here for the reason.)
 for (const sweep of ['scripts/audit/source-url-sweep.mjs', 'scripts/audit/url-health-sweep.mjs']) {
-  const src = read(sweep);
-  assert.ok(src.includes(HUB), `${sweep}: expected the live hub in its list (non-vacuity)`);
-  for (const url of DEAD_URLS) assert.ok(!src.includes(url), `${sweep} must not allow-list ${url}`);
+  // The allow-list entries, as exact strings.
+  const entries = [...read(sweep).matchAll(/^\s*["'](https?:\/\/[^"']+)["'],/gm)].map((m) => m[1]);
+  assert.ok(entries.includes(HUB), `${sweep}: expected the live hub in its list (non-vacuity)`);
+  for (const url of DEAD_URLS) {
+    const dead = entries.filter((e) => hostOf(e) + new URL(e).pathname.replace(/\/$/, '') === url);
+    assert.deepEqual(dead, [], `${sweep} must not allow-list ${url}`);
+  }
 }
 
 console.log(`prop123-administration: ${descriptions.length} descriptions carry the 60/40 split; ` +
