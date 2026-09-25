@@ -269,6 +269,11 @@
       // where the label has one line to work in. The definition still reaches
       // the reader through the prose around the table.
       if (parent.closest && parent.closest('option, optgroup, button, [role="button"], textarea, input, abbr, th')) return;
+      // .no-glossary is the site's opt-out, and inline-glossary.js already
+      // honours it. This script did not, so Housing News headlines and their
+      // local data lines, marked no-glossary, still came out with AMI, ACS and
+      // CHFA definitions spliced into them.
+      if (parent.closest && parent.closest('.no-glossary')) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
 
       var text = node.nodeValue;
