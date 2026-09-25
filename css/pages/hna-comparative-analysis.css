@@ -8,7 +8,7 @@
    Page layout
    ---------------------------------------------------------------- */
 .hca-main {
-  max-width: 1400px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   padding: 1.25rem var(--sp4, 1rem) 3rem;
 }

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated":   "2026-06-03",
-    "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
+    "generated":   "2026-09-24",
+    "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03; 2027 dates, QAP hearings and comment deadline re-verified 2026-09-24 against CHFA's QAP page (chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan), its hearing notice (chfainfo.com/rental-housing/housing-credit/qap-hearing), the 2027-28 QAP Third Draft (section 3.B.2) and Third Draft Summary of Changes dated 2026-09-11, and the August 26, 2026 hearing presentation. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
     "source_url":  "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192",
     "notes": [
       "Round 1 = 9% LIHTC + State Credit (highly competitive; February application)",
@@ -9,8 +9,9 @@
       "MIHTC (Middle Income Housing Tax Credit) is annual with its own LOI/app cycle (March/May)",
       "Every CHFA round requires a Letter of Intent (LOI) 60+ days before the application — LOI deadlines are the real first gate",
       "Prop 123 awards run through DOLA on a separate cycle — see cdola.colorado.gov/proposition-123",
-      "Annual Allocation Plan published in December for following calendar year",
-      "QAP draft + public comment period typically September-October each year"
+      "The QAP covers two years (2027-2028) and is the plan that sets cycle dates, credit maximums and scoring; it is drafted January-June, taken to public hearings and written comment in July-August, then goes to the CHFA Board and the Governor in September-October (CHFA's own timeline, August 26, 2026 hearing presentation).",
+      "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan.",
+      "status is a snapshot as of metadata.generated. js/components/qap-calendar.js also compares each event's date (or date_end, when present) with today, so an event whose date has passed renders as past even if this field has not been refreshed."
     ]
   },
   "events": [
@@ -39,7 +40,7 @@
       "category":    "9pct-r1-awards",
       "status":      "past",
       "details":     "R1 reservation announcements; 2026 R1 awards bridge file in data/affordable-housing/chfa-awards/2026-round-one.json until live ArcGIS catches up.",
-      "url":         "https://www.chfainfo.com/news-publications"
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/awards"
     },
     {
       "id":          "2026-mihtc-loi",
@@ -73,8 +74,8 @@
       "name":        "2026 R2 4% LIHTC + State Credit — application deadline",
       "date":        "2026-08-03",
       "category":    "4pct-r2-deadline",
-      "status":      "upcoming",
-      "details":     "R2 applications due August 3, 2026 by 5pm MT. R2 is the bond-driven 4% LIHTC paired with the Colorado State Credit (not 9% — that's R1). Pure 4% PAB-only deals stay on a rolling cycle outside this round.",
+      "status":      "past",
+      "details":     "R2 applications were due August 3, 2026 by 5pm MT. R2 is the bond-driven 4% LIHTC paired with the Colorado State Credit (not 9% — that's R1). Pure 4% PAB-only deals stay on a rolling cycle outside this round.",
       "url":         "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192"
     },
     {
@@ -85,48 +86,78 @@
       "category":    "4pct-r2-awards",
       "status":      "upcoming",
       "details":     "R2 reservations typically announced mid-December. Bridge file pattern in data/affordable-housing/chfa-awards/ will be used until live ArcGIS catches up.",
-      "url":         "https://www.chfainfo.com/news-publications"
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/awards"
     },
     {
-      "id":          "2027-qap-comment",
-      "name":        "2027 QAP draft — public comment period",
-      "date":        "2026-09-15",
-      "date_precision": "estimated",
-      "date_end":    "2026-10-30",
-      "category":    "qap-comment",
-      "status":      "upcoming",
-      "details":     "Draft 2027 Qualified Allocation Plan typically released for public comment in September-October. Critical window for developers + advocates to flag scoring concerns.",
-      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+      "id":         "2027-28-qap-hearing-1",
+      "name":       "2027-28 QAP draft — first public hearing (Zoom)",
+      "date":       "2026-07-14",
+      "date_precision": "exact",
+      "category":   "qap-hearing",
+      "status":     "past",
+      "details":    "First of three CHFA public hearings on the draft 2027-2028 Housing Tax Credit QAP, Tuesday July 14, 2026 at 11:00am via Zoom. The QAP now covers two years, 2027 and 2028.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
     },
     {
-      "id":          "2027-annual-plan",
-      "name":        "2027 Annual Allocation Plan published",
-      "date":        "2026-12-01",
+      "id":         "2027-28-qap-hearing-2",
+      "name":       "2027-28 QAP draft — second public hearing (Zoom)",
+      "date":       "2026-07-16",
+      "date_precision": "exact",
+      "category":   "qap-hearing",
+      "status":     "past",
+      "details":    "Second public hearing on the draft 2027-2028 QAP, Thursday July 16, 2026 at 1:00pm via Zoom.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+    },
+    {
+      "id":         "2027-28-qap-comment",
+      "name":       "2027-28 QAP draft — written comments due",
+      "date":       "2026-08-14",
+      "date_precision": "exact",
+      "category":   "qap-comment",
+      "status":     "past",
+      "details":    "CHFA accepted written comments on the draft 2027-2028 QAP up to August 14, 2026. Among the proposed changes: a Pilot Coordinated Funding and Concurrent Awards section that pairs competitive 2027 and 2028 tax-credit awards with state gap funding from the Division of Housing (DOH) and OEDIT.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+    },
+    {
+      "id":         "2027-28-qap-hearing-3",
+      "name":       "2027-28 QAP draft — third public hearing (Zoom)",
+      "date":       "2026-08-26",
+      "date_precision": "exact",
+      "category":   "qap-hearing",
+      "status":     "past",
+      "details":    "Third public hearing on the draft 2027-2028 QAP, Wednesday August 26, 2026 at 10:00am via Zoom. CHFA then posted a Third Draft and Summary of Changes dated September 11, 2026.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qap-hearing"
+    },
+    {
+      "id":         "2027-28-qap-adoption",
+      "name":       "2027-28 QAP — CHFA Board approval, then Governor approval",
+      "date":       "2026-09-01",
       "date_precision": "estimated",
-      "category":    "annual-plan",
-      "status":      "upcoming",
-      "details":     "CHFA's 2027 Annual Allocation Plan typically published in December. Sets cycle dates, credit ceiling, set-asides for the upcoming year.",
-      "url":         "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+      "date_end":   "2026-10-31",
+      "category":   "qap-adoption",
+      "status":     "upcoming",
+      "details":    "CHFA's timeline (August 26, 2026 hearing presentation) puts the final draft before the CHFA Board, then the Board-approved plan before the Governor, in September-October 2026. CHFA has not published a specific date. For comparison, the 2025-26 QAP Second Amendment was adopted by the Board on September 26, 2025 and approved by the Governor on November 13, 2025.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":          "2027-r1-loi",
       "name":        "2027 R1 (9% + State) — Letter of Intent due",
       "date":        "2026-12-01",
-      "date_precision": "estimated",
+      "date_precision": "exact",
       "category":    "9pct-r1-loi",
       "status":      "upcoming",
-      "details":     "Estimated based on the 2026 R1 LOI cadence (LOI due 60+ days before application). LOI is the operative gate — without it on file, you cannot submit the R1 application. Verify exact date once CHFA publishes the 2027 calendar.",
-      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192"
+      "details":     "December 1, 2026 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). LOI is the operative gate — without it on file, you cannot submit the R1 application. CHFA's Dates and Deadlines page still lists 2026 dates only.",
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":          "2027-r1-deadline",
       "name":        "2027 R1 9% LIHTC + State Credit — application deadline",
       "date":        "2027-02-01",
-      "date_precision": "estimated",
+      "date_precision": "exact",
       "category":    "9pct-r1-deadline",
       "status":      "upcoming",
-      "details":     "Estimated based on CHFA's historical early-February R1 deadline (R1 = 9% + State Credit). LOI prerequisite is due ~Dec 1, 2026 — see the LOI event. Verify exact date on CHFA's Dates and Deadlines page once 2027 calendar is published.",
-      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192"
+      "details":     "February 1, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). R1 = 9% + State Credit. LOI prerequisite is due Dec 1, 2026 — see the LOI event. 2027 is the first round of the proposed DOH/OEDIT coordinated gap-funding pilot.",
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "id":          "2027-r1-awards",
@@ -136,7 +167,27 @@
       "category":    "9pct-r1-awards",
       "status":      "upcoming",
       "details":     "R1 reservation announcements typically late May.",
-      "url":         "https://www.chfainfo.com/news-publications"
+      "url":         "https://www.chfainfo.com/rental-housing/housing-credit/awards"
+    },
+    {
+      "id":         "2027-r2-loi",
+      "name":       "2027 R2 (4% + State) — Letter of Intent due",
+      "date":       "2027-06-01",
+      "date_precision": "exact",
+      "category":   "4pct-r2-loi",
+      "status":     "upcoming",
+      "details":    "June 1, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted).",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2027-r2-deadline",
+      "name":       "2027 R2 4% LIHTC + State Credit — application deadline",
+      "date":       "2027-08-02",
+      "date_precision": "exact",
+      "category":   "4pct-r2-deadline",
+      "status":     "upcoming",
+      "details":    "August 2, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). R2 pairs federal 4% credit with accelerated State Credit.",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     }
   ],
   "rolling_programs": [
@@ -144,19 +195,19 @@
       "name":      "4% LIHTC + PAB (Private Activity Bond)",
       "category":  "4pct-rolling",
       "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis (no fixed deadline). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
-      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+      "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "name":      "MIHTC (Middle Income Housing Tax Credit)",
       "category":  "mihtc-annual",
       "description":"State-only Middle Income tax credit serving 80-120% AMI. Annual cycle typically R1-aligned. Small allocation; competitive.",
-      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending"
+      "url":       "https://www.chfainfo.com/rental-housing/housing-credit/colorado-state-affordable-housing-tax-credit"
     },
     {
       "name":      "Colorado State LIHTC",
       "category":  "state-paired",
       "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals.",
-      "url":       "https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap"
+      "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "name":      "Proposition 123 — Affordable Housing Fund",
