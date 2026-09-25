@@ -27,7 +27,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readWalkthrough, VERDICTS } from '../scripts/audit/walkthrough-record.mjs';
+import { readWalkthrough, recordFiles, VERDICTS } from '../scripts/audit/walkthrough-record.mjs';
 import { GUIDED_PATH } from '../scripts/audit/finish-line.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -159,6 +159,24 @@ test('the shipped template is present, and is not itself a passing record', () =
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test('the walker guide sends people down the route G3 scores, and is never read as a record', () => {
+  const body = fs.readFileSync(path.join(DIR, 'GUIDE.md'), 'utf8');
+  // The fallback links must be the route itself, in order: a guide that
+  // sends a walker to a retired page records a walk of a different path.
+  const linked = [...body.matchAll(/^\|\s*(\d+)\s*\|\s*<https:\/\/cohoanalytics\.com\/([^>]+)>\s*\|$/gm)]
+    .map((m) => ({ step: Number(m[1]), page: m[2] }));
+  assert.ok(linked.length > 0, 'found no step links in GUIDE.md — the scan checked nothing');
+  assert.deepStrictEqual(linked, GUIDED_PATH.map((s) => ({ step: s.step, page: s.page })),
+    'GUIDE.md step links disagree with the STEPS table in workflow-progress.js');
+  // One prompt section per step, numbered as the template numbers them.
+  const sections = [...body.matchAll(/^###\s+(\d+)\./gm)].map((m) => Number(m[1]));
+  assert.deepStrictEqual(sections, GUIDED_PATH.map((s) => s.step),
+    'GUIDE.md walker sections do not match the guided path');
+  // The guide lives beside the records; it must not be scored as one.
+  assert.ok(!recordFiles(DIR).some((f) => path.basename(f) === 'GUIDE.md'),
+    'GUIDE.md is being read as a walkthrough record');
 });
 
 console.log(failures === 0
