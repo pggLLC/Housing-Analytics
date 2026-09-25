@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T19:00:35.504Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T20:26:30.459Z. Do not edit by hand.
 
 ---
 
@@ -117,7 +117,7 @@
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
-| `data/chfa-qap-calendar.json` | 13.8 KB | ✅ | — |
+| `data/chfa-qap-calendar.json` | 16.1 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
@@ -1646,7 +1646,7 @@
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
 | `data/policy/soft-funding-status.json` | 25.3 KB | ✅ | — |
 | `data/policy/stewardship-providers.json` | 1.8 KB | ✅ | — |
-| `data/policy/tax-credit-legislation.json` | 13.6 KB | ✅ | — |
+| `data/policy/tax-credit-legislation.json` | 14.0 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 220.5 KB | ✅ | — |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-421 test files found.
+422 test files found.
 
 | File | Size |
 |------|------|
@@ -1939,6 +1939,7 @@
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
+| `test/pma-boundary-clear-race.test.js` | 3.1 KB |
 | `test/pma-capture-denominator.test.js` | 3.9 KB |
 | `test/pma-commute-context.test.js` | 5.7 KB |
 | `test/pma-commute-shaped.test.js` | 7.3 KB |
@@ -2077,7 +2078,7 @@
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
-| `tests/test_chfa_qap_watch.py` | 22.6 KB |
+| `tests/test_chfa_qap_watch.py` | 22.7 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
@@ -2122,7 +2123,7 @@
 | `.github/workflows/car-data-update.yml` | 2.4 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 10.8 KB |
-| `.github/workflows/ci-checks.yml` | 16.1 KB |
+| `.github/workflows/ci-checks.yml` | 17.4 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 6.0 KB |
