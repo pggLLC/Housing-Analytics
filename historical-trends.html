@@ -73,6 +73,7 @@
   </header>
 
   <main id="main-content" class="js-glossary-auto">
+    <div id="aria-live-region" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
     <div style="max-width:1200px;margin:0 auto;padding:1.5rem 18px;">
 
       <!-- Editorial header -->
@@ -163,13 +164,14 @@
       <section class="ht-panel" aria-labelledby="htStockHeading">
         <h2 id="htStockHeading">LIHTC Stock Trajectory</h2>
         <p class="ht-intro">
-          Units in Colorado LIHTC projects, added up by the year each project was placed in service
-          (opened), not the year it was awarded &mdash; placement usually trails the award by two to
-          three years. Hover a year for that year&rsquo;s additions.
+          Units in Colorado LIHTC projects, added up by the year CHFA awarded their credits. CHFA&rsquo;s
+          feed does not record when a project opened; projects usually open two to three years after
+          the award, so the most recent years include buildings still under construction.
+          Hover a year for that year&rsquo;s additions.
         </p>
-        <p class="ht-chart-title" id="stockChartTitle">Cumulative units in Colorado LIHTC projects placed in service</p>
+        <p class="ht-chart-title" id="stockChartTitle">Cumulative units in Colorado LIHTC projects, by award year</p>
         <div class="ht-chart-wrap" data-source="CHFA HousingTaxCreditProperties_view" data-source-url="https://www.chfainfo.com/rental-housing/housing-credit" data-vintage="1987&ndash;2025" data-source-type="raw">
-          <canvas id="stockTimelineChart" role="img" aria-label="Line chart: cumulative units in Colorado LIHTC projects by year placed in service"></canvas>
+          <canvas id="stockTimelineChart" role="img" aria-label="Line chart: cumulative units in Colorado LIHTC projects by award year"></canvas>
         </div>
         <div id="stockTable"></div>
         <div id="stockStats"></div>
@@ -211,12 +213,11 @@
                 <th scope="col">City</th>
                 <th scope="col" style="text-align:right">Units</th>
                 <th scope="col" style="text-align:right">Year allocated</th>
-                <th scope="col" style="text-align:right">Year PIS</th>
                 <th scope="col">Credit type</th>
               </tr>
             </thead>
             <tbody id="benchTableBody">
-              <tr><td colspan="6" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>
+              <tr><td colspan="5" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>
             </tbody>
           </table>
         </div>

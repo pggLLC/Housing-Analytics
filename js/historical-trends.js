@@ -4,7 +4,7 @@
  * Renders three panels on historical-trends.html:
  *   1. Annual awards by credit type (projects or units, from the CHFA live feed)
  *      plus typical-deal tiles and the latest CHFA round's award-report figures
- *   2. LIHTC stock trajectory (cumulative units by placed-in-service year)
+ *   2. LIHTC stock trajectory (cumulative units by award year — the feed has no opening year)
  *   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
  *
  * Data sources (all local, no external API):
@@ -53,32 +53,45 @@
   /* Shared chart styling                                            */
   /* ─────────────────────────────────────────────────────────────── */
 
-  // Series colours, validated with the dataviz palette checker (lightness
-  // band, chroma floor, CVD separation, contrast) against each theme's card
-  // surface. Dark mode is its own selected pair, not an automatic flip.
-  var PALETTE = {
-    light: { nine: '#0a9484', four: '#c2570c', other: '#8a94a3' },
-    dark:  { nine: '#12a594', four: '#dd6b2a', other: '#7d8898' }
-  };
+  // Series colours come from the site's WCAG AA chart tokens
+  // (.github/copilot-instructions.md Rule 10), resolved at render time so a
+  // theme or token correction reaches these charts. Both themes pass the
+  // palette checker's colour-blind separation and contrast checks.
+  var TOKENS = { nine: '--chart-3', four: '--chart-6', other: '--chart-1' };
 
   function _cssVar(name, fallback) {
     var v = (getComputedStyle(document.documentElement).getPropertyValue(name) || '').trim();
     return v || fallback;
   }
 
-  // Theme is read from the rendered --card token so the manual toggle and
-  // prefers-color-scheme both work. Scriptable colour options call this on
-  // every chart.update(), which chart-theme.js triggers on a theme change.
-  function _isDark() {
-    var m = _cssVar('--card', '#ffffff').match(/^#([0-9a-f]{6})$/i);
-    if (!m) return false;
-    var n = parseInt(m[1], 16);
-    var lum = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
-    return lum < 0.4;
+  // Scriptable colour options re-read the token on every chart.update(),
+  // which chart-theme.js triggers on a theme change (manual toggle or OS).
+  function _color(key) {
+    return function () { return _cssVar(TOKENS[key], '#096e65'); };
   }
 
-  function _color(key) {
-    return function () { return PALETTE[_isDark() ? 'dark' : 'light'][key]; };
+  // Token colour at low alpha, for the area fill under a line.
+  function _tint(key, alpha) {
+    return function () {
+      var m = _cssVar(TOKENS[key], '#096e65').match(/^#([0-9a-f]{6})$/i);
+      if (!m) return 'transparent';
+      var n = parseInt(m[1], 16);
+      return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + alpha + ')';
+    };
+  }
+
+  // Screen-reader announcement for user-driven updates (Rule 11). Uses the
+  // page's #aria-live-region; defines the shared hook if no other script has.
+  function _announce(msg) {
+    if (typeof global.__announceUpdate !== 'function') {
+      global.__announceUpdate = function (m) {
+        var region = document.getElementById('aria-live-region');
+        if (!region) return;
+        region.textContent = '';
+        requestAnimationFrame(function () { region.textContent = m; });
+      };
+    }
+    global.__announceUpdate(msg);
   }
 
   function _surface() { return _cssVar('--card', '#ffffff'); }
@@ -108,16 +121,17 @@
 
   // Normalised project rows from the LIHTC feed. Units that are missing stay
   // null (never 0) so they are excluded from sums and medians, not counted.
+  // There is deliberately no placed-in-service year: CHFA's feed has none, and
+  // scripts/fetch-chfa-lihtc.js copies AwardYear into YR_PIS as a proxy, so
+  // YR_PIS must never be presented as the year a project opened.
   function _projects(features) {
     return (features || state.lihtcFeatures || []).map(function (f) {
       var p = f.properties || {};
       var alloc = parseInt(p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC, 10);
-      var pis = parseInt(p.YR_PIS, 10);
       var units = parseInt(p.N_UNITS || p.TOTAL_UNITS, 10);
       var thisYear = new Date().getFullYear();
       return {
         alloc: alloc > 1985 && alloc <= thisYear ? alloc : null,
-        pis: pis > 1985 && pis <= thisYear ? pis : null,
         units: units > 0 ? units : null,
         bucket: _creditBucket(p.CREDIT || p.TypeOfCredits)
       };
@@ -335,13 +349,13 @@
     var ctx = document.getElementById('stockTimelineChart');
     if (!ctx) return;
 
-    var rows = _projects().filter(function (r) { return r.pis != null; });
+    var rows = _projects().filter(function (r) { return r.alloc != null; });
     if (!rows.length) return;
-    var years = _yearRange(rows.map(function (r) { return r.pis; }));
+    var years = _yearRange(rows.map(function (r) { return r.alloc; }));
     var unitsByYr = years.map(function () { return 0; });
     var projByYr = years.map(function () { return 0; });
     rows.forEach(function (r) {
-      var i = years.indexOf(r.pis);
+      var i = years.indexOf(r.alloc);
       projByYr[i] += 1;
       if (r.units != null) unitsByYr[i] += r.units;
     });
@@ -354,10 +368,10 @@
       data: {
         labels: years,
         datasets: [{
-          label: 'Units in LIHTC projects placed in service (cumulative)',
+          label: 'Units in Colorado LIHTC projects, by award year (cumulative)',
           data: cumUnits,
           borderColor: _color('nine'),
-          backgroundColor: function () { return _isDark() ? 'rgba(18,165,148,0.14)' : 'rgba(10,148,132,0.12)'; },
+          backgroundColor: _tint('nine', 0.14),
           fill: 'origin',
           borderWidth: 2,
           tension: 0,
@@ -381,7 +395,7 @@
               label: function (c) { return ' ' + _fmt(cumUnits[c.dataIndex]) + ' units in ' + _fmt(cumProj[c.dataIndex]) + ' projects'; },
               footer: function (items) {
                 var i = items[0].dataIndex;
-                return '+' + _fmt(unitsByYr[i]) + ' units in ' + _fmt(projByYr[i]) + ' projects that year';
+                return '+' + _fmt(unitsByYr[i]) + ' units in ' + _fmt(projByYr[i]) + ' projects awarded that year';
               }
             }
           }
@@ -398,8 +412,8 @@
       }
     });
 
-    _dataTable('stockTable', 'Colorado LIHTC projects and units by placed-in-service year',
-      ['Year placed in service', 'Projects', 'Units', 'Cumulative projects', 'Cumulative units'],
+    _dataTable('stockTable', 'Colorado LIHTC projects and units by award year, cumulative',
+      ['Award year', 'Projects', 'Units', 'Cumulative projects', 'Cumulative units'],
       years.map(function (y, i) {
         return [y, projByYr[i], _fmt(unitsByYr[i]), _fmt(cumProj[i]), _fmt(cumUnits[i])];
       }).reverse());
@@ -407,14 +421,14 @@
     var statsEl = document.getElementById('stockStats');
     if (statsEl) {
       var lastYr = years[years.length - 1];
-      var recent = rows.filter(function (r) { return r.pis > lastYr - 5; });
+      var recent = rows.filter(function (r) { return r.alloc > lastYr - 5; });
       var recentUnits = recent.reduce(function (s, r) { return s + (r.units || 0); }, 0);
       statsEl.innerHTML =
         '<dl class="ht-stat-list">' +
           '<div><dt>Total CO LIHTC projects</dt><dd>' + _fmt(state.lihtcFeatures.length) + '</dd></div>' +
           '<div><dt>Total LIHTC units</dt><dd>' + _fmt(u) + '</dd></div>' +
           '<div><dt>Years of data</dt><dd>' + years[0] + '–' + lastYr + '</dd></div>' +
-          '<div><dt>Placed in service ' + (lastYr - 4) + '–' + lastYr + '</dt><dd>' +
+          '<div><dt>Awarded ' + (lastYr - 4) + '–' + lastYr + '</dt><dd>' +
             _fmt(recent.length) + ' projects · ' + _fmt(recentUnits) + ' units</dd></div>' +
         '</dl>';
     }
@@ -429,6 +443,7 @@
           o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
         });
         _renderAwardsPanel();
+        _announce('Awards chart now shows ' + (awardMetric === 'units' ? 'units' : 'projects') + ' awarded per year.');
       });
     });
   }
@@ -466,7 +481,7 @@
     var targetUnits = parseInt((sizeEl && sizeEl.value) || '0', 10) || 0;
 
     if (!county) {
-      tbody.innerHTML = '<tr><td colspan="6" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>';
       if (summaryEl) summaryEl.textContent = '';
       return;
     }
@@ -482,13 +497,12 @@
         units:    parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
         liUnits:  parseInt(p.LI_UNITS || 0, 10) || 0,
         yrAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
-        yrPis:    parseInt(p.YR_PIS || 0, 10) || null,
         credit:   p.CREDIT || ''
       };
     });
 
     if (!feats.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
       if (summaryEl) summaryEl.textContent = '';
       return;
     }
@@ -511,7 +525,6 @@
         '<td>' + esc(p.city) + '</td>' +
         '<td style="text-align:right">' + unitsCell + '</td>' +
         '<td style="text-align:right">' + (p.yrAlloc || '—') + '</td>' +
-        '<td style="text-align:right">' + (p.yrPis || '—') + '</td>' +
         '<td>' + esc(p.credit || '—') + '</td>' +
       '</tr>';
     }).join('');
@@ -526,6 +539,8 @@
         ' · avg <strong>' + avgUnits + '</strong> units/project' +
         (isFinite(mostRecent) && mostRecent > 0 ? ' · most recent allocation: <strong>' + mostRecent + '</strong>' : '');
     }
+    _announce(feats.length + ' LIHTC projects in ' + county + '; showing the ' + Math.min(20, feats.length) +
+      (targetUnits > 0 ? ' closest to ' + targetUnits + ' units.' : ' most recent.'));
   }
 
   /* ─────────────────────────────────────────────────────────────── */

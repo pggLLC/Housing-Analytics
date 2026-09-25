@@ -121,4 +121,26 @@ assert.strictEqual(r.inFeed, maxFeedYear >= yr, 'inFeed reflects the real feed')
 const caughtUp = feed.concat([{ properties: { AwardYear: yr, N_UNITS: 50, CREDIT: '9% Competitive' } }]);
 assert.strictEqual(summarizeRound(round, caughtUp).inFeed, true, 'a feed with the round year flips inFeed');
 
+// 8. No placed-in-service claim from the feed's YR_PIS. CHFA's feed has no
+//    opening year; scripts/fetch-chfa-lihtc.js copies AwardYear into YR_PIS.
+const jsCode = js.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+const pisIsProxy = feed.every((f) => f.properties.YR_PIS === f.properties.AwardYear);
+if (pisIsProxy) {
+  assert(!/YR_PIS/.test(jsCode), `${JS_REL} reads YR_PIS, which is AwardYear under another name in ${FEED_REL}`);
+  assert(!/Year PIS|placed in service \d|Placed in service/i.test(html + jsCode),
+    'page labels an award-year figure as placed in service');
+}
+
+// 9. Rule 10: series colours come from the --chart-N tokens.
+const tokenMap = jsCode.match(/TOKENS\s*=\s*\{([^}]*)\}/);
+assert(tokenMap, 'series colours are declared in one TOKENS map');
+(tokenMap[1].match(/'[^']*'/g) || []).forEach((t) =>
+  assert(/^'--chart-[1-7]'$/.test(t), `series colour ${t} is not an approved --chart-N token`));
+assert(!/backgroundColor:\s*'#[0-9a-f]{3,6}'/i.test(jsCode), 'no hardcoded hex backgroundColor');
+
+// 10. Rule 11: the metric toggle is announced through the page's live region.
+assert(/id="aria-live-region"[^>]*aria-live="polite"[^>]*aria-atomic="true"/.test(html), 'page has a polite, atomic live region');
+const toggle = jsCode.slice(jsCode.indexOf('function _wireAwardToggle'));
+assert(/_announce\(/.test(toggle.slice(0, 800)), 'the Projects/Units toggle announces the new measure');
+
 console.log(`historical-trends real-data guard: PASS (${feed.length} feed projects, ${r.developments} round awards, 4%/9% median ${d.median4}/${d.median9})`);
