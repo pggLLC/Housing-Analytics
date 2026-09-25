@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T08:59:21.383Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T12:26:18.203Z. Do not edit by hand.
 
 ---
 
@@ -1668,7 +1668,7 @@
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
 | `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
-| `data/url-health.json` | 324.5 KB | ✅ | — |
+| `data/url-health.json` | 326.9 KB | ✅ | — |
 
 ---
 
@@ -1914,7 +1914,7 @@
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 16.9 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
-| `test/paper-figures-fresh.test.js` | 20.3 KB |
+| `test/paper-figures-fresh.test.js` | 20.6 KB |
 | `test/paper-names-its-author.test.mjs` | 4.7 KB |
 | `test/parcel-source-honesty.test.js` | 5.4 KB |
 | `test/percentile-agrees-with-rank.test.mjs` | 5.1 KB |
@@ -2103,7 +2103,7 @@
 |------|------|
 | `.github/workflows/a11y-audit.yml` | 3.6 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
-| `.github/workflows/archive-audit-post-merge.yml` | 4.9 KB |
+| `.github/workflows/archive-audit-post-merge.yml` | 7.1 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
 | `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.8 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.0 KB |
@@ -2157,7 +2157,7 @@
 | `.github/workflows/redeploy-zip.yml` | 2.2 KB |
 | `.github/workflows/refresh-co-demographics.yml` | 3.8 KB |
 | `.github/workflows/refresh-state-trend-analysis.yml` | 2.5 KB |
-| `.github/workflows/refresh-working-paper.yml` | 3.0 KB |
+| `.github/workflows/refresh-working-paper.yml` | 3.5 KB |
 | `.github/workflows/run-all-workflows.yml` | 17.3 KB |
 | `.github/workflows/scrape-agenda-items.yml` | 3.1 KB |
 | `.github/workflows/site-audit.yml` | 3.0 KB |
