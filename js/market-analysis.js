@@ -1705,7 +1705,11 @@
     if (capDenEl) {
       var exUnits = Number(result.lihtcUnits) || 0;
       capDenEl.textContent = capDen
-        ? exUnits.toLocaleString() + ' existing LIHTC units ' + _denominatorLine(capDen)
+        // result.lihtcUnits is every existing affordable unit in the PMA,
+        // LIHTC and other subsidized (runAnalysis adds HUD MF, USDA RD, PBV
+        // and preservation units to it), so it is not labelled LIHTC-only
+        // (Codex review of #1900).
+        ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
         : _denominatorLine(null);
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
       capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
