@@ -214,6 +214,15 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
     assert(qapWatch.includes('actions: write'), `${qapWatchWorkflow} can dispatch downstream workflows`);
     assert(qapWatch.includes("workflow_id: 'deploy.yml'"), `${qapWatchWorkflow} dispatches deploy.yml after pushing`);
     assert(qapWatch.includes("if: steps.watch-commit.outputs.pushed == 'true'"), `${qapWatchWorkflow} only dispatches when it pushed a commit`);
+    // The dispatch must wait for the branch API to show the pushed SHA, or it
+    // deploys the previous commit (the qa-status.yml F-WD-01 race). Check the
+    // wait comes before the dispatch, not merely that both appear.
+    const qapDispatchStep = qapWatch.slice(qapWatch.indexOf('- name: Trigger Pages deploy'));
+    const waitAt = qapDispatchStep.indexOf('github.rest.repos.getBranch');
+    const shaCheckAt = qapDispatchStep.indexOf('currentSha === pushedSha');
+    const dispatchAt = qapDispatchStep.indexOf('createWorkflowDispatch');
+    assert(waitAt !== -1 && shaCheckAt !== -1 && waitAt < dispatchAt && shaCheckAt < dispatchAt,
+        `${qapWatchWorkflow} waits for main to reach the pushed SHA before dispatching deploy.yml`);
 });
 
 test('robots.txt: public crawler policy does not pretend to protect private paths', () => {

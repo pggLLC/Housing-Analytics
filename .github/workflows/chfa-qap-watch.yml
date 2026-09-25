@@ -168,10 +168,40 @@ jobs:
           PUSHED_SHA: ${{ steps.watch-commit.outputs.pushed_sha }}
         with:
           script: |
+            // Same race guard as qa-status.yml (F-WD-01): the branch API can
+            // lag the push by a few seconds, and a dispatch made before it
+            // catches up resolves `ref: 'main'` to the previous SHA, so Pages
+            // deploys the old commit and the watchdog still flags this one.
+            // Poll until main is the pushed SHA (up to 30 s), then dispatch.
+            const pushedSha = process.env.PUSHED_SHA;
+            const maxWaitMs = 30000;
+            const pollIntervalMs = 3000;
+            const deadline = Date.now() + maxWaitMs;
+
+            let currentSha = null;
+            while (Date.now() < deadline) {
+              const { data: branch } = await github.rest.repos.getBranch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: 'main',
+              });
+              currentSha = branch.commit.sha;
+              if (currentSha === pushedSha) break;
+              core.info(`Waiting for GitHub API to reflect pushed SHA ${pushedSha} (currently ${currentSha})…`);
+              await new Promise(resolve => setTimeout(resolve, pollIntervalMs));
+            }
+
+            if (currentSha !== pushedSha) {
+              core.warning(
+                `GitHub API HEAD (${currentSha}) still does not match pushed SHA ` +
+                `(${pushedSha}) after ${maxWaitMs / 1000}s; dispatching anyway.`
+              );
+            }
+
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
               repo: context.repo.repo,
               workflow_id: 'deploy.yml',
               ref: 'main',
             });
-            core.notice(`Dispatched deploy.yml for chfa-qap-watch commit ${process.env.PUSHED_SHA}.`);
+            core.notice(`Dispatched deploy.yml for chfa-qap-watch commit ${pushedSha}.`);
