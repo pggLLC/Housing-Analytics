@@ -229,7 +229,7 @@ node test/test_legislative_tracker.js
 # Run existing test suite alongside Phase 3 tests
 node test/test_chfa_award_predictor.js
 node test/test_soft_funding_tracker.js
-node test/smoke-market-analysis.js
+npm run test:smoke-market-analysis
 ```
 
 ### Test Coverage Summary

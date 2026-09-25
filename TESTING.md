@@ -32,7 +32,7 @@ tests/                          # Python pytest test suite
 
 test/                           # JavaScript test suites (Node.js, no pytest)
   hna-functionality-check.js    # HNA module smoke tests
-  smoke-market-analysis.js      # Market analysis smoke tests (sections 1–18)
+  smoke-market-analysis.test.js # Market analysis smoke tests (npm run test:smoke-market-analysis)
   unit/                         # Unit tests for individual modules
   integration/                  # Integration tests for multi-module flows
 ```
@@ -86,7 +86,7 @@ python3 scripts/pre-commit-checks.py
 node test/hna-functionality-check.js
 
 # Market analysis smoke tests
-node test/smoke-market-analysis.js
+npm run test:smoke-market-analysis
 ```
 
 ## CI/CD Integration
