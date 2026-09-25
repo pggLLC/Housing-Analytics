@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T20:40:08.136Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T20:53:52.986Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.0 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.9 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 140.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.3 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-423 test files found.
+424 test files found.
 
 | File | Size |
 |------|------|
@@ -1937,6 +1937,7 @@
 | `test/place-lehd-apportionment.test.js` | 4.8 KB |
 | `test/place-pages.test.js` | 5.4 KB |
 | `test/planned-sources-are-not-unknown.test.js` | 8.1 KB |
+| `test/pma-affordable-supply-label.test.js` | 3.0 KB |
 | `test/pma-barrier-aware.test.js` | 8.0 KB |
 | `test/pma-barrier-data.test.js` | 6.4 KB |
 | `test/pma-boundary-clear-race.test.js` | 3.1 KB |
@@ -1998,7 +1999,7 @@
 | `test/site-review-build-pause-regressions.test.js` | 11.0 KB |
 | `test/smoke-f139.test.js` | 11.7 KB |
 | `test/smoke-fmr.test.js` | 10.6 KB |
-| `test/smoke-market-analysis.js` | 34.2 KB |
+| `test/smoke-market-analysis.js` | 34.3 KB |
 | `test/smoke.test.js` | 10.1 KB |
 | `test/soft-funding-tracker.test.js` | 16.5 KB |
 | `test/source-liveness-local-path.test.py` | 1.5 KB |
