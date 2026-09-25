@@ -271,18 +271,15 @@
       actionUrl   = null;
       actionLabel = null;
 
-    } else if (currentDone && nextIncomplete) {
-      // State 3: Current step done, next step exists
-      var nextKey = nextIncomplete;
-      icon    = '\u2192';  // arrow
-      variant = 'next';
-      heading = 'Step Complete';
-      body    = STEP_ACTIONS[nextKey];
-      actionUrl   = STEP_URLS[nextKey];
-      actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
-
-    } else if (!currentDone && firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent]) {
-      // State 1: a prerequisite (the jurisdiction) is missing.
+    } else if (firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent] && !UNTRACKED_STEPS[currentStep]) {
+      // State 1: a prerequisite (the jurisdiction) is missing. Untracked steps
+      // (the Opportunity Finder is statewide discovery) read nothing from a
+      // jurisdiction, so they get their own guidance instead of a prompt that
+      // would be false there. Checked BEFORE
+      // "current step done": the HNA chapters mark themselves complete on
+      // read (#1833), so a first-time visitor with no jurisdiction used to see
+      // "Step Complete → Continue to Jurisdiction" — a verdict on a step they
+      // had not taken, pointing back to the start with no way back here.
       //
       // The site itself sends people here: the homepage links directly into
       // every guided-path page except step 1, so a first-time reader who picks
@@ -309,8 +306,20 @@
       }
       actionLabel = 'Choose a jurisdiction \u2192';
 
-    } else if (!currentDone) {
-      // State 2: Current step incomplete, all priors done
+    } else if (currentDone && nextIncomplete && !UNTRACKED_STEPS[currentStep]) {
+      // State 3: Current step done, next step exists. Not for untracked steps:
+      // "Step Complete" on a statewide page a reader has just opened is a
+      // verdict on nothing; they get the current-step guidance below instead.
+      var nextKey = nextIncomplete;
+      icon    = '\u2192';  // arrow
+      variant = 'next';
+      heading = 'Step Complete';
+      body    = STEP_ACTIONS[nextKey];
+      actionUrl   = STEP_URLS[nextKey];
+      actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
+
+    } else if (!currentDone || UNTRACKED_STEPS[currentStep]) {
+      // State 2: Current step incomplete (or untracked), all priors done
       var nextAfterCurrent = currentIdx < STEP_KEYS.length - 1 ? STEP_KEYS[currentIdx + 1] : null;
       icon    = '\uD83D\uDCCB';  // clipboard
       variant = 'current';
