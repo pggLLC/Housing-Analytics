@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T15:13:18.142Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T17:41:30.460Z. Do not edit by hand.
 
 ---
 
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-415 test files found.
+416 test files found.
 
 | File | Size |
 |------|------|
@@ -1743,7 +1743,7 @@
 | `test/dc-dscr-stress.test.js` | 6.5 KB |
 | `test/dc-peer-deals.test.js` | 8.2 KB |
 | `test/dc-rent-achievability.test.js` | 6.0 KB |
-| `test/deal-calc-absence-semantics.test.js` | 8.9 KB |
+| `test/deal-calc-absence-semantics.test.js` | 12.0 KB |
 | `test/deal-calc-ami-bands.test.js` | 5.8 KB |
 | `test/deal-calc-correctness.test.js` | 3.4 KB |
 | `test/deal-calc-equity-pricing.test.js` | 7.7 KB |
@@ -1872,6 +1872,7 @@
 | `test/jurisdiction-metrics-digest.test.js` | 30.7 KB |
 | `test/jurisdiction-picker-hidden-card.test.js` | 3.8 KB |
 | `test/jurisdiction-return-trip.test.mjs` | 8.0 KB |
+| `test/jurisdiction-saved-on-pick.test.mjs` | 6.1 KB |
 | `test/jurisdiction-select-search.test.js` | 9.0 KB |
 | `test/kalshi-signing-and-write.test.js` | 4.7 KB |
 | `test/keyless-census-is-not-attempted.test.mjs` | 5.5 KB |
