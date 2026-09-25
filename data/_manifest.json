@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T06:00:14.396Z",
+    "generated_at": "2026-09-25T06:21:19.420Z",
     "root": "data/",
     "file_count": 1619,
     "total_size_bytes": 162103161,
@@ -31813,7 +31813,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14678,
-      "mtime": "2026-09-25T06:00:12.561Z",
+      "mtime": "2026-09-25T06:21:17.497Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32442,7 +32442,7 @@
       "path": "policy_briefs.json",
       "kind": "json",
       "size_bytes": 225843,
-      "mtime": "2026-09-25T06:00:04.565Z",
+      "mtime": "2026-09-25T06:20:50.461Z",
       "shape": "object",
       "keys": [
         "meta",
