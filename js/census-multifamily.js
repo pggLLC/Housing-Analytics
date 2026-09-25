@@ -337,7 +337,9 @@ function renderInventory(record, inv) {
     </div>
   `).join("");
 
-  // Year placed in service chart
+  // Award-year chart. The builder fills yr_pis_distribution from the CHFA
+  // feed's YR_PIS, which is AwardYear under another name — CHFA publishes
+  // no placed-in-service year — so the chart is labelled an award year.
   const dist = inv.yr_pis_distribution || {};
   const decades = Object.keys(dist).sort();
   const values = decades.map((d) => dist[d]);
@@ -348,7 +350,7 @@ function renderInventory(record, inv) {
       type: "bar",
       data: {
         labels: decades.map((d) => `${d}s`),
-        datasets: [{ label: "LIHTC projects placed in service", data: values, backgroundColor: "#0b6e6d" }],
+        datasets: [{ label: "LIHTC projects by CHFA award year", data: values, backgroundColor: "#0b6e6d" }],
       },
       options: {
         responsive: true,

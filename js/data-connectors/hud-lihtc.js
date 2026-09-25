@@ -7,11 +7,16 @@
  *   2. data/market/hud_lihtc_co.geojson — normalized derivative (HUD schema)
  *   3. Live CHFA ArcGIS FeatureServer  — 15 s timeout, public
  *   4. Live HUD ArcGIS FeatureServer   — 15 s timeout, public
- *   5. Embedded sentinel records       — ~60 hard-coded projects, last resort
+ *   (none) — when all four fail, load() rejects and getSource() returns
+ *            'unavailable'. There is no stand-in data.
  *
  * Field normalization: all sources are mapped to the CHFA canonical schema
  * (PROJECT, PROJ_CTY, N_UNITS, YR_ALLOC, CREDIT, LI_UNITS, YR_PIS, CNTY_FIPS,
  * CNTY_NAME, STATEFP, COUNTYFP, QCT, DDA) before returning.
+ *
+ * YR_PIS is passed through but is NOT a placed-in-service year for the two
+ * local tiers: CHFA publishes none, and scripts/fetch-chfa-lihtc.js copies
+ * AwardYear into it. Read AwardYear (or YR_ALLOC) and label it an award year.
  *
  * Exposes window.HudLihtc.
  */
@@ -48,24 +53,12 @@
    */
   var ARCGIS_CO_WHERE = "Proj_St='CO' OR Proj_St='08' OR Proj_St='Colorado'";
 
-  /**
-   * Embedded sentinel — a representative geographic spread of Colorado LIHTC
-   * projects used only when all four primary sources are unavailable.
-   * Uses the canonical CHFA field schema (N_UNITS, PROJ_CTY, etc.).
-   * @const {Object}
-   */
-  var EMBEDDED_SENTINEL = {type:'FeatureCollection',_source:'embedded',features:[
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:120,LI_UNITS:120,YR_PIS:2018,YR_ALLOC:2016,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:150,LI_UNITS:150,YR_PIS:2021,YR_ALLOC:2019,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',PROJ_ST:'CO',N_UNITS:100,LI_UNITS:100,YR_PIS:2021,YR_ALLOC:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Boulder',CNTY_FIPS:'08013',STATEFP:'08',COUNTYFP:'013'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:130,LI_UNITS:130,YR_PIS:2018,YR_ALLOC:2016,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'El Paso',CNTY_FIPS:'08041',STATEFP:'08',COUNTYFP:'041'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',PROJ_ST:'CO',N_UNITS:104,LI_UNITS:104,YR_PIS:2019,YR_ALLOC:2017,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Larimer',CNTY_FIPS:'08069',STATEFP:'08',COUNTYFP:'069'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2020,YR_ALLOC:2018,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'Weld',CNTY_FIPS:'08123',STATEFP:'08',COUNTYFP:'123'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2017,YR_ALLOC:2015,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Pueblo',CNTY_FIPS:'08101',STATEFP:'08',COUNTYFP:'101'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:85,LI_UNITS:85,YR_PIS:2021,YR_ALLOC:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Mesa',CNTY_FIPS:'08077',STATEFP:'08',COUNTYFP:'077'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1311,39.7500]},properties:{PROJECT:'Lakewood Affordable Flats',PROJ_CTY:'Lakewood',PROJ_ST:'CO',N_UNITS:92,LI_UNITS:92,YR_PIS:2020,YR_ALLOC:2018,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Jefferson',CNTY_FIPS:'08059',STATEFP:'08',COUNTYFP:'059'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',PROJ_ST:'CO',N_UNITS:62,LI_UNITS:62,YR_PIS:2021,YR_ALLOC:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'La Plata',CNTY_FIPS:'08067',STATEFP:'08',COUNTYFP:'067'}}
-  ]};
+  // No embedded sentinel. This file used to carry 10 hard-coded projects
+  // ("Lincoln Park Apartments", "Boulder Commons", …) with round unit counts
+  // and a uniform YR_PIS = YR_ALLOC + 2. None of them is a CHFA project, and
+  // they reached users as Peer Deals comps and PMA competitive supply when
+  // every real source failed. load() now rejects instead; callers render an
+  // explicit "unavailable" state.
 
   /**
    * Stored array of normalized GeoJSON Feature objects.
@@ -242,7 +235,8 @@
    *   Tier 2 – data/market/hud_lihtc_co.geojson (normalized derivative)
    *   Tier 3 – Live CHFA ArcGIS FeatureServer (15 s timeout)
    *   Tier 4 – Live HUD ArcGIS FeatureServer  (15 s timeout)
-   *   Tier 5 – Embedded sentinel               (~10 hard-coded projects)
+   *   No tier 5: when all four fail the promise rejects and getSource()
+   *   returns 'unavailable'.
    *
    * The promise is memoised — repeated calls return the same result.
    * All loaded features are normalized to the CHFA canonical schema.
@@ -265,13 +259,10 @@
         console.warn('[HudLihtc] Tier 3 (CHFA ArcGIS) unavailable; trying live HUD ArcGIS');
         return _tryArcGIS(HUD_ARCGIS_ENDPOINT, 'hud-arcgis');
       })
-      .catch(function () {
-        console.warn('[HudLihtc] All live sources failed; using embedded sentinel');
-        return {
-          features:   EMBEDDED_SENTINEL.features,
-          _source:    'embedded',
-          _fetchedAt: null
-        };
+      .catch(function (err) {
+        console.warn('[HudLihtc] All four LIHTC sources failed; no project data is available');
+        _source = 'unavailable';
+        throw new Error('LIHTC project data unavailable: the CHFA file, the HUD-schema file and both ArcGIS services failed (' + (err && err.message) + ')');
       })
       .then(function (result) {
         var rawFeatures = Array.isArray(result) ? result : (result.features || []);
@@ -448,7 +439,8 @@
 
   /**
    * Returns the source tier string for the loaded data
-   * (e.g. 'chfa-local', 'hud-local', 'chfa-arcgis', 'hud-arcgis', 'embedded').
+   * (e.g. 'chfa-local', 'hud-local', 'chfa-arcgis', 'hud-arcgis', or
+   * 'unavailable' when every source failed).
    * @returns {string|null}
    */
   function getSource() {
@@ -457,7 +449,7 @@
 
   /**
    * Returns the ISO-8601 UTC fetchedAt timestamp from the data file, or null
-   * when the data came from a live ArcGIS request or the embedded sentinel.
+   * when the data came from a live ArcGIS request or no source loaded.
    * @returns {string|null}
    */
   function getFetchedAt() {

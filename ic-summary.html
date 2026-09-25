@@ -277,20 +277,20 @@
       <h2>Comparable affordable properties nearby <span class="ic-sub ic-muted" id="icCompSub">5 nearest from unified affordable-housing dataset</span></h2>
       <p class="ic-muted" style="margin:0 0 6px">5 nearest deduped properties across LIHTC + CHFA Preservation + HUD MF + USDA RD + PBV-local — the comp set every IC committee asks for. Distance from jurisdiction centroid.</p>
       <div id="icMultiSourceComp" style="margin:8px 0"></div>
-      <h3 style="margin:14px 0 4px;">CHFA LIHTC comparables (recent placements)</h3>
+      <h3 style="margin:14px 0 4px;">CHFA LIHTC comparables (recent awards)</h3>
       <p class="ic-muted" style="margin:0 0 6px">Recent CHFA-funded properties within market-area distance — anchors recent unit scale, mix, and credit type for IC comparison.</p>
       <div class="table-wrap" role="region" tabindex="0" aria-label="CHFA LIHTC comparables table"><table class="ic-peers" id="icDeals">
         <thead><tr>
           <th title="Project name as listed in the HUD LIHTC database.">Project</th>
           <th title="City of record (LIHTC PROJ_CTY).">City</th>
-          <th class="num" title="Year placed in service (HUD YR_PIS). LIHTC database can list 8888 / 9999 for unknown — those rows are excluded.">Year</th>
+          <th class="num" title="Year CHFA awarded the credits (AwardYear). CHFA publishes no placed-in-service year; a project typically opens two to three years after its award, so recent rows may still be under construction.">Award year</th>
           <th class="num" title="LI (income-restricted) units — HUD LI_UNITS field.">LI units</th>
           <th title="Credit type as filed with HUD: 9% (competitive) or 4% (bond-financed).">Credit</th>
           <th class="num" title="Great-circle distance from the selected jurisdiction's centroid to the project lat/long.">Distance</th>
         </tr></thead>
         <tbody><tr><td colspan="6" class="ic-muted">Loading…</td></tr></tbody>
       </table></div>
-      <p class="ic-muted" style="font-size:.72rem;margin-top:6px">Source: HUD LIHTC database (statewide CO snapshot, post-1980 placed-in-service). Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
+      <p class="ic-muted" style="font-size:.72rem;margin-top:6px">Source: CHFA LIHTC feed (statewide CO snapshot, awards 2015 onward). Year is the credit award year, not the year the property opened. Distance from <code>data/co-place-centroids.json</code> + project lat/long.</p>
     </div>
 
     <div class="ic-footer">

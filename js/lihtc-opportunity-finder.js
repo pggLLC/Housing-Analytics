@@ -14,7 +14,9 @@
  *   - # of QCTs intersecting the place (via place-tract-membership)
  *   - DDA designation (containing county is one of CO's 10 nonmetro DDAs)
  *   - All LIHTC projects in the jurisdiction (matched by PROJ_CTY)
- *   - Last YR_PIS + years-since
+ *   - Last CHFA award year + years-since (CHFA publishes no placed-in-service
+ *     year; the feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js,
+ *     so this file reads AwardYear by name and never labels it an opening year)
  *   - HNA Scorecard composite for the containing county
  *   - Population (from co_ami_gap_by_place's implied HH counts)
  *   - Opportunity score, weighted differently for 4% vs 9% targets
@@ -47,7 +49,7 @@
     ddaFeatures: [],                // raw DDA polygons (for map rendering)
     placeMembership: {},            // place geoid → { name, tracts:[{tract_geoid, share_of_place_area}] }
     placeFromAmi: {},               // place geoid → AMI/HHs row (for population)
-    projects: [],                   // CHFA/HUD LIHTC project points (filtered to valid YR_PIS)
+    projects: [],                   // CHFA/HUD LIHTC project points (filtered to a valid award year)
     chasByFips: {},                 // 5-digit county FIPS → CHAS county record
     countyName: {},                 // 5-digit county FIPS → display name
     placeMeta: {},                  // place geoid → { label, containingCounty, type }
@@ -367,6 +369,13 @@
   /* ── Helpers ──────────────────────────────────────────────────────── */
 
   function $(id) { return document.getElementById(id); }
+  // CHFA award year (HUD-schema records: allocation year). Never YR_PIS —
+  // in the CHFA feed that is AwardYear under another name, and reading it
+  // invites labelling it an opening year. NaN when absent.
+  function _awardYear(p) {
+    p = p || {};
+    return parseInt(p.AwardYear || p.YR_ALLOC, 10);
+  }
   function escHtml(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -703,9 +712,9 @@
         if (g && g.length === 5) state.ddaCountyFips.add(g);
       });
 
-      // CHFA/HUD LIHTC projects, filtered to valid YR_PIS
+      // CHFA/HUD LIHTC projects, filtered to a valid award year
       state.projects = (parts[2].features || []).filter(function (f) {
-        var y = parseInt(f.properties && f.properties.YR_PIS, 10);
+        var y = _awardYear(f.properties);
         return Number.isFinite(y) && y >= 1980 && y <= 2030;
       });
 
@@ -1152,7 +1161,7 @@
       var best = null;
       for (var i = 0; i < list.length; i++) {
         var pr = list[i].properties || {};
-        var y = parseInt(pr.AwardYear || pr.YR_ALLOC || pr.YR_PIS, 10);
+        var y = _awardYear(pr);
         if (!Number.isFinite(y)) continue;
         if (!best || y > best.year) {
           best = {
@@ -1201,11 +1210,11 @@
       // LIHTC projects in the jurisdiction (matched by PROJ_CTY)
       var cityNameForLookup = placeNameToCity(label).toUpperCase();
       var inside = (projectsByCity[cityNameForLookup] || []);
-      var lastYearPis = inside.reduce(function (max, p) {
-        var y = parseInt(p.properties.YR_PIS, 10);
+      var lastAwardYearFeed = inside.reduce(function (max, p) {
+        var y = _awardYear(p.properties);
         return (Number.isFinite(y) && y > max) ? y : max;
       }, -Infinity);
-      if (lastYearPis === -Infinity) lastYearPis = null;
+      if (lastAwardYearFeed === -Infinity) lastAwardYearFeed = null;
       var totalUnits = inside.reduce(function (sum, p) {
         return sum + (+p.properties.N_UNITS || 0);
       }, 0);
@@ -1222,11 +1231,10 @@
       // opportunity score doesn't keep recommending jurisdictions that just
       // won a 2026 R1 award.
       //
-      // We also keep the YR_PIS-only `lastYearPis` field exposed in the row
-      // record so the historical-data panel (which talks about
-      // placed-in-service stock specifically) stays honest. Only the
-      // recency-scoring path uses the bridge-augmented year.
-      var lastYear = lastYearPis;
+      // We also keep the feed-only `lastAwardYearFeed` field exposed in the
+      // row record, before the bridge is folded in. Only the recency-scoring
+      // path uses the bridge-augmented year.
+      var lastYear = lastAwardYearFeed;
       if (r1Awards.length) {
         var bridgeYear = bridgeAwardYear(state.chfa2026R1Meta);
         if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) {
@@ -1245,7 +1253,7 @@
         projects.forEach(function (proj) {
           var pr = proj.properties || {};
           if (!predicate(pr)) return;
-          var y = parseInt(pr.AwardYear || pr.YR_ALLOC || pr.YR_PIS, 10);
+          var y = _awardYear(pr);
           if (Number.isFinite(y) && (max == null || y > max)) max = y;
         });
         return max;
@@ -1476,11 +1484,10 @@
         projectCount: inside.length,
         totalUnits:   totalUnits,
         // F146 — `lastYear` is the bridge-augmented max (CHFA 2026 R1 award
-        // year wins over the HUD YR_PIS when newer). `lastYearPis` keeps the
-        // pre-bridge HUD-only value so the historical-stock UI can still
-        // show YR_PIS specifically when it needs to.
+        // year wins over the feed's award year when newer).
+        // `lastAwardYearFeed` keeps the pre-bridge feed value.
         lastYear:     lastYear,
-        lastYearPis:  lastYearPis,
+        lastAwardYearFeed: lastAwardYearFeed,
         yearsSince:   lastYear != null ? CURRENT_YEAR - lastYear : null,
         // County-recency context (set when a more-recent award sits in a
         // neighboring town in the same county). Surfaces in the row +
@@ -1554,7 +1561,7 @@
             return {
               project: p.properties.PROJECT || '(unnamed)',
               city: p.properties.PROJ_CTY || '—',
-              year: p.properties.YR_PIS,
+              year: _awardYear(p.properties) || null,
               units: p.properties.N_UNITS || 0,
               credit: p.properties.TypeOfCredits || p.properties.CREDIT || '—',
               miles: dist
@@ -3179,11 +3186,11 @@
         '/mo vs LIHTC 60% AMI max — viable at 60% AMI with care on unit mix.');
     }
     // 2. Recency / saturation headroom
-    /* F146 — `op.lastYear` is now the max of YR_PIS *and* recent CHFA
+    /* F146 — `op.lastYear` is now the max of the feed award year *and* recent CHFA
        award rounds (2026 R1 bridge), so phrase the dry-spell text as
        "last LIHTC activity" rather than "placed-in-service" specifically;
-       the placed-in-service year is still available as op.lastYearPis if
-       a future copy needs to be PIS-specific. */
+       the feed-only award year is still available as op.lastAwardYearFeed.
+       No placed-in-service year exists in the feed. */
     if (op.yearsSince != null && op.yearsSince >= 10) {
       reasons.push('<strong>Long LIHTC dry spell:</strong> ' + op.yearsSince + ' years since last LIHTC activity (' + op.lastYear + ') — minimal saturation conflict.');
     } else if (op.lastYear == null && op.projectCount === 0) {
@@ -3524,7 +3531,7 @@
         // F116 — Bridge-data callout: 2026 R1 awards announced 2026-05-21
         // that the ArcGIS feed has not ingested yet. Surfaced as a pill so
         // the user immediately sees the freshest LIHTC activity even when
-        // YR_PIS-based recency math reads "never funded" or stale.
+        // feed-based recency math reads "never funded" or stale.
         ((op.r1Awards && op.r1Awards.length)
           ? '<br><span class="lof-pill lof-pill--accent" style="margin-top:6px;display:inline-block;" title="CHFA 2026 Round One — announced 2026-05-21. Not yet in the live HousingTaxCreditProperties ArcGIS feed (latest record dated 2025-12-16).">🏷 RECENT 2026 R1 AWARD' +
               (op.r1Awards.length > 1 ? ' (' + op.r1Awards.length + ')' : '') +
@@ -3578,7 +3585,7 @@
           : '<ul class="lof-nearest-list">' + op.nearestLihtc.map(function (n) {
               var inPma = n.miles <= 5 ? ' <span class="lof-pill lof-pill--accent">in 5mi PMA</span>' : n.miles <= 30 ? ' <span class="lof-pill">in 30mi rural PMA</span>' : '';
               return '<li><strong>' + n.miles.toFixed(1) + ' mi</strong> · ' +
-                escHtml(n.project) + ' (' + escHtml(n.city) + ', ' + (n.year || '?') + ', ' + n.units + 'u, ' + escHtml(n.credit) + ')' +
+                escHtml(n.project) + ' (' + escHtml(n.city) + ', awarded ' + (n.year || '?') + ', ' + n.units + 'u, ' + escHtml(n.credit) + ')' +
                 inPma + '</li>';
             }).join('') + '</ul>') +
       '</dd>' +
@@ -3719,9 +3726,9 @@
     var newsEl = $('lofDetailNews');
     if (newsEl) newsEl.innerHTML = _renderNewsPanel(op);
 
-    // Projects in jurisdiction, sorted by YR_PIS descending
+    // Projects in jurisdiction, newest award first
     var projects = op.projects.slice().sort(function (a, b) {
-      return (+b.properties.YR_PIS || 0) - (+a.properties.YR_PIS || 0);
+      return (_awardYear(b.properties) || 0) - (_awardYear(a.properties) || 0);
     });
     var projHtml = '';
     if (!projects.length) {
@@ -3732,7 +3739,7 @@
         return '<div class="lof-detail-project">' +
           '<div class="lof-detail-project-name">' + escHtml(pr.PROJECT || '(unnamed)') + '</div>' +
           '<div class="lof-detail-project-meta">' +
-            'YR_PIS ' + (pr.YR_PIS || '—') + ' · ' +
+            'Awarded ' + (_awardYear(pr) || '—') + ' · ' +
             (pr.N_UNITS || 0) + ' units (' + (pr.LI_UNITS || 0) + ' LI) · ' +
             (pr.CREDIT || '—') + ' credit · ' +
             'QCT ' + (pr.QCT === '1' || pr.QCT === 1 ? 'yes' : (pr.QCT || 'no')) +
@@ -4739,7 +4746,7 @@
     //   green   = 9% Competitive (incl. state-paired 9%)
     //   blue    = 4% Bond / Tax-Exempt (incl. state-paired 4%)
     //   purple  = State-only / TOC / MIHTC
-    // Tooltip shows project name, year placed in service, units, credit type.
+    // Tooltip shows project name, CHFA award year, units, credit type.
     var lihtcLayer = window.L.layerGroup();
     var colorByCat = {
       '9pct':  '#16a34a',   // green
@@ -4765,7 +4772,7 @@
         fillOpacity: 0.92
       });
       var name = props.PROJECT || props.ReportedName || 'LIHTC project';
-      var year = props.YR_PIS || props.AwardYear || '?';
+      var year = _awardYear(props) || '?';
       var units = props.N_UNITS || props.TotalUnits || '?';
       var li    = props.LI_UNITS;
       var credit = props.TypeOfCredits || props.CREDIT || 'LIHTC';
@@ -4773,7 +4780,7 @@
       marker.bindTooltip(
         '<strong>' + escHtml(name) + '</strong><br>' +
         escHtml(city) + (city ? ' · ' : '') + escHtml(String(credit)) + '<br>' +
-        'Placed in service: ' + escHtml(String(year)) +
+        'Awarded: ' + escHtml(String(year)) +
         ' · ' + escHtml(String(units)) + ' units' +
         (li != null ? ' (' + escHtml(String(li)) + ' LI)' : ''),
         { sticky: true }
