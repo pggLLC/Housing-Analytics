@@ -187,6 +187,11 @@ async function pmaTractDefaultInteraction(page, viewport) {
     return b && b.dataset.boundary === 'tract';
   }, null, { timeout: 20000 }).then(() => true).catch(() => false);
   if (!ran) failures.push('Run Analysis on the picked tracts did not produce a tract-based result');
+  // The exportable-result check below must be able to fail: a result exists
+  // after a run, so its absence later means it was cleared.
+  if (ran && !(await page.evaluate(() => !!window.PMAEngine._state.getLastResult()))) {
+    failures.push('a completed run left no result to export');
+  }
   const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
   await page.fill('#pmaAddressInput', SITE2.join(', '));
   await page.click('#pmaAddressSearchBtn');
@@ -202,7 +207,7 @@ async function pmaTractDefaultInteraction(page, viewport) {
       site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
       priorVisible: vis(dim),
       csvEnabled: !!csv && !csv.disabled,
-      lastResult: !!(window.PMAEngine && window.PMAEngine.getLastResult && window.PMAEngine.getLastResult()),
+      lastResult: !!window.PMAEngine._state.getLastResult(),
     };
   });
   if (Math.abs(third.site[0] - SITE2[0]) > 1e-6) failures.push('typed coordinates did not place the site');
