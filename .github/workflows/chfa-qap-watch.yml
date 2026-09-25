@@ -51,24 +51,36 @@ jobs:
       - name: Run QAP watcher
         run: python3 scripts/audit/chfa_qap_watch.py --summary "$RUNNER_TEMP/chfa-qap-run.json"
 
+      # Runs when the watcher refused an oversized write (exit 1) too, so the refusal
+      # reaches the tracking issue. (hashFiles cannot see runner.temp, so the summary's
+      # existence is checked in the script; it is absent only on an internal error.)
       - name: Open / update tracking issue
+        if: ${{ !cancelled() }}
         uses: actions/github-script@v9
         env:
           RUN_SUMMARY: ${{ runner.temp }}/chfa-qap-run.json
         with:
           script: |
             const fs = require('fs');
+            if (!fs.existsSync(process.env.RUN_SUMMARY)) {
+              core.info('No run summary: the watcher failed before writing one (see the step above).');
+              return;
+            }
             const run = JSON.parse(fs.readFileSync(process.env.RUN_SUMMARY, 'utf8'));
             const c = run.changes || {};
             const failures = run.fetch_failures || [];
             const unreadable = run.extraction_failures || [];
-            if (!run.has_changes && failures.length === 0 && unreadable.length === 0) {
+            if (!run.has_changes && failures.length === 0 && unreadable.length === 0 && !run.write_refused) {
               core.info('No QAP changes and no fetch failures.');
               return;
             }
             const MARKER = '<!-- chfa-qap-watch-tracker -->';
             const fence = (lines) => lines && lines.length ? '```\n' + lines.slice(0, 30).join('\n') + '\n```' : '_none_';
             const parts = [MARKER, '', `# CHFA QAP watch: ${run.generated_at}`, ''];
+            if (run.write_refused) {
+              parts.push('## The watch file was not updated', '', `The new result was too large: ${run.write_refused}.`,
+                'Lower `TEXT_BUDGET_BYTES` or `TEXT_CYCLES_KEPT` in `scripts/audit/chfa_qap_watch.py`. The changes below were detected but not recorded.', '');
+            }
             if (c.baseline) {
               parts.push('Baseline recorded. The current QAP documents and their text are now in `data/audit/chfa-qap-watch.json`.', '');
             }
@@ -123,7 +135,8 @@ jobs:
             } else {
               await github.rest.issues.create({
                 owner: context.repo.owner, repo: context.repo.repo,
-                title: run.all_fetches_failed ? 'CHFA QAP watch could not reach CHFA' : 'CHFA QAP documents changed',
+                title: run.write_refused ? 'CHFA QAP watch result too large to record'
+                  : run.all_fetches_failed ? 'CHFA QAP watch could not reach CHFA' : 'CHFA QAP documents changed',
                 body,
               });
             }
@@ -141,6 +154,9 @@ jobs:
             echo "pushed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          # Cron commits skip CI, so run the size guard ci-checks would have run: a
+          # file over the ceiling here fails every PR once it reaches main.
+          node scripts/check-data-file-sizes.mjs
           # AGENTS.md rule 3, in order: _manifest first (manifest.json records its size).
           npm run audit:file-manifest
           python3 scripts/rebuild_manifest.py
