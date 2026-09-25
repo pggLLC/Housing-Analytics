@@ -3575,7 +3575,9 @@
         // balanced" — a verdict about a gap nobody could compute.
         autoNote.textContent = 'Nothing to balance yet: the funding gap depends on the first mortgage, which needs a known NOI. ' +
           (noiUnknownReason || rentsUnknownReason || '');
-        autoNote.hidden = false;
+        // Rental sizing only: an ownership deal has no NOI-sized first
+        // mortgage, and must not show rental/LIHTC terms (PC-2).
+        autoNote.hidden = currentDealMode() === 'ownership';
       } else if (autoBalance) {
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
           autoNote.textContent = 'Hit cap: deferring max ' + fmt(deferredCap) +
