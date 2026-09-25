@@ -1548,7 +1548,6 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   margin: 0 0 .9rem;
   color: var(--muted);
   line-height: 1.55;
-  max-width: 62ch;
 }
 .hna-handoff__next strong { color: var(--text); }
 .hna-handoff__actions { margin: 0 0 .6rem; }
