@@ -639,7 +639,10 @@ function toGeoJsonFeature(esriFeature) {
   // credits — typically 2–3 years before the project is placed in service. For
   // saturation/recency scoring, AwardYear is actually the BETTER signal because
   // a 2024 award means "there's a deal coming" even if it hasn't been built yet.
-  // ComplianceStatus = "Active Compliance" indicates the project is already PIS.
+  // Consumers must read AwardYear by name and never label it placed in service
+  // (test/lihtc-award-year-not-pis.test.js). ComplianceStatus does not stand in
+  // for an opening year either: in the 2026-09 feed, 26 of the 32 2025 awards
+  // already read "Active Compliance".
   const project   = attrs.PROJECT   ?? attrs.ReportedName ?? attrs.PropertyNameProlink ?? attrs.PropertyNameHDS ?? null;
   const projAdd   = attrs.PROJ_ADD  ?? attrs.AddressDW ?? attrs.AddressProlink ?? attrs.CASS_Address ?? null;
   let projCty     = attrs.PROJ_CTY  ?? attrs.CityDW ?? attrs.CityProlink ?? attrs.CASS_City ?? null;

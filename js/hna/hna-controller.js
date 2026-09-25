@@ -897,12 +897,8 @@
         }
       } catch(e) {
         if (e.httpStatus !== 404) {
-          console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message, '— using embedded fallback.');
-          if (window.HNAState.els.lihtcMapStatus) {
-            window.HNAState.els.lihtcMapStatus.textContent =
-              'LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).';
-          }
-          return { ...window.HNAUtils.lihtcFallbackForCounty(null), _source: 'fallback' };
+          console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message);
+          throw lihtcUnavailable('data/chfa-lihtc.json could not be read');
         }
         console.warn('[HNA] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
       }
@@ -944,10 +940,10 @@
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
       } catch(e) {
-        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
+        console.warn('[HNA] LIHTC ArcGIS API unavailable.', e.message);
       }
 
-      return { ...window.HNAUtils.lihtcFallbackForCounty(null), _source: 'fallback' };
+      throw lihtcUnavailable('the CHFA file and both ArcGIS services failed');
     }
 
     if (countyFips5 && countyFips5.length === 5) {
@@ -1007,14 +1003,25 @@
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
             return { ...gj, _source: 'CHFA' };
           }
-          console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5, '— using embedded fallback.');
+          console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5);
         } catch(e) {
-          console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message, '— using embedded fallback.');
+          console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message);
         }
       }
     }
-    // Return embedded fallback filtered to county
-    return { ...window.HNAUtils.lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
+    // No stand-in records. This used to return an embedded list of 73
+    // "representative" projects (hna-utils LIHTC_FALLBACK_CO) that matched no
+    // CHFA project by name. A county with no CHFA projects and no remote
+    // answer is unknown here, not zero and not a made-up list.
+    throw lihtcUnavailable('no source returned projects for this county');
+  }
+
+  // Error marking a LIHTC load that produced no data. The render path shows
+  // "unavailable" and dashes for the counts rather than a zero.
+  function lihtcUnavailable(reason) {
+    const err = new Error('LIHTC project data unavailable: ' + reason);
+    err.lihtcUnavailable = true;
+    return err;
   }
 
   // Fetch QCT census tracts from HUD ArcGIS service for the county
@@ -1245,7 +1252,11 @@
       console.warn('[HNA] LIHTC render failed', e);
       if (window.HNAState.els.statLihtcCount) window.HNAState.els.statLihtcCount.textContent = '—';
       if (window.HNAState.els.statLihtcUnits) window.HNAState.els.statLihtcUnits.textContent = '—';
-      if (window.HNAState.els.lihtcMapStatus) window.HNAState.els.lihtcMapStatus.textContent = '';
+      if (window.HNAState.els.lihtcMapStatus) {
+        window.HNAState.els.lihtcMapStatus.textContent = (e && e.lihtcUnavailable)
+          ? 'LIHTC project data unavailable — no projects are shown, and the counts are unknown rather than zero.'
+          : '';
+      }
     }
 
     // QCT
@@ -1342,7 +1353,9 @@
           name: p.PROJECT || p.project || 'Unnamed project',
           city: p.PROJ_CTY || p.proj_cty || p.CITY || '',
           units,
-          year: parseInt(p.YR_PIS || p.yr_pis || 0, 10) || null,
+          // Award year: CHFA publishes no placed-in-service year, and the
+          // feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js.
+          year: parseInt(p.AwardYear || p.YR_ALLOC || 0, 10) || null,
           credit: p.CREDIT || p.TypeOfCredits || p.type_of_credits || '',
           distance: d
         });
@@ -1371,7 +1384,7 @@
       const rows = matches.map(m => {
         const meta = [
           m.units ? (m.units + ' LI units') : null,
-          m.year ? ('PIS ' + m.year) : null,
+          m.year ? ('awarded ' + m.year) : null,
           m.credit ? _escText(m.credit) : null,
           m.distance.toFixed(1) + ' mi'
         ].filter(Boolean).join(' · ');
