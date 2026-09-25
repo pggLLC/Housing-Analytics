@@ -3402,6 +3402,16 @@
     if (unitMixError) {
       annualRents = NaN;
     }
+    // Same for a deal with no county. The rent roll above prices each unit at
+    // the county's AMI rent ceiling, and before a county is chosen there are
+    // no ceilings, so every tier contributes nothing and the sum reads $0.
+    // That $0 is not a measurement: it produced an NOI of -$399,000 (expenses
+    // against no income), a $0 first mortgage and a sensitivity chart of $0
+    // bars for anyone reaching this page without a jurisdiction (G3 dry run,
+    // 2026-09-25).
+    if (!_amiLimits && !_amiLimitsByBr) {
+      annualRents = NaN;
+    }
 
     // Developer fee
     var devfeePctEl = document.getElementById('dc-devfee-pct');
@@ -3460,7 +3470,8 @@
       var noiComputedEl = document.getElementById('dc-noi-computed');
       if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
     } else {
-      noi = safeVal('dc-noi') || 0;
+      // A blank NOI field is an unknown NOI, not $0 of it.
+      noi = safeVal('dc-noi');
     }
 
     // Supportable first mortgage
@@ -3474,7 +3485,11 @@
     if (!isFinite(term) || term <= 0) term = 35;
 
     var mc = mortgageConstant(interestRate / 100, term);
-    var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
+    // A known NOI of zero or less supports no mortgage: that $0 is computed.
+    // An unknown NOI supports an unknown one, and must stay unknown — `NaN > 0`
+    // is false, so without the first test it fell through to the same $0.
+    var mortgage = !isFinite(noi) ? NaN
+      : (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
 
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
@@ -3539,7 +3554,12 @@
     // Mark the deferred row so the user sees the auto-balance decision.
     var autoNote = document.getElementById('dc-deferred-auto-note');
     if (autoNote) {
-      if (autoBalance) {
+      if (autoBalance && !isFinite(gapBeforeDeferred)) {
+        // NaN fails every comparison below, which used to land on "Deal is
+        // balanced" — a verdict about a gap nobody could compute.
+        autoNote.textContent = 'Nothing to balance yet: the funding gap depends on the first mortgage, which needs a rent roll. Select a county to load AMI rent limits.';
+        autoNote.hidden = false;
+      } else if (autoBalance) {
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
           autoNote.textContent = 'Hit cap: deferring max ' + fmt(deferredCap) +
             ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee). Remaining ' + fmt(gap) +
@@ -4179,7 +4199,16 @@
 
     // ── Tornado sensitivity chart ───────────────────────────────────
     // Renders 4 sensitivity bars showing how key variables affect the deal.
-    if (window.TornadoSensitivity && tdc > 0 && document.getElementById('tornadoChartMount')) {
+    // Every bar but equity is NOI or mortgage under a perturbation. With no
+    // known rent roll each of them is an unknown drawn as a $0 bar, so show
+    // why instead of a chart.
+    var tornadoMount = document.getElementById('tornadoChartMount');
+    var sensitivityKnown = isFinite(noi) && annualRents > 0;
+    if (tornadoMount && tdc > 0 && !sensitivityKnown) {
+      tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
+        'Sensitivity needs a rent roll. Select a county to load AMI rent limits.</p>';
+    }
+    if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
@@ -4226,7 +4255,11 @@
               color: 'var(--warn)' },
             { label: 'NOI (Vacancy)', low: vacLoEgi, high: vacHiEgi, base: noi,
               lowLabel: fmt(vacLoEgi), highLabel: fmt(vacHiEgi),
-              note: 'Vacancy ' + Math.max(1, vu - 2) + '% to ' + Math.min(15, vu + 2) + '%',
+              // vacFrac() * 100 is binary floating point: 7% arrives as
+              // 7.000000000000001 and was printed that way. Round to the
+              // tenth the input is entered in.
+              note: 'Vacancy ' + (Math.round(Math.max(1, vu - 2) * 10) / 10) + '% to ' +
+                (Math.round(Math.min(15, vu + 2) * 10) / 10) + '%',
               color: '#059669' }
           ]
         }, 'tornadoChartMount');
