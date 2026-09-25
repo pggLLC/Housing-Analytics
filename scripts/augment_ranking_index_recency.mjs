@@ -11,6 +11,10 @@
  *                          "never funded on record", treated as max opportunity)
  *   - recency_basis       ('award_year' | 'pis_year' | 'r1_bridge' | 'never_funded')
  *
+ * Counties are the exception: they aggregate by CHFA's CNTY_FIPS (and
+ * 2026 R1 awards by point-in-county-polygon), because a county name never
+ * matches a PROJ_CTY.
+ *
  * Matches CHFA records to jurisdictions by uppercased city name against
  * the entry's `name` field (stripping common LSAD suffixes — "city",
  * "town", "CDP"). This is the same matching logic compare.js + the OF
@@ -27,6 +31,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCountyIndex, countyForPoint } from './lib/county-boundaries.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -84,6 +89,7 @@ async function main() {
   const chfa  = JSON.parse(chfaText);
   const r1    = JSON.parse(r1Text);
   const centroids = JSON.parse(centText);
+  const countyIdx = await loadCountyIndex(REPO_ROOT);
   // byGeoid → { name, lat, lng } per place. Used for the F240
   // distance-threshold rollup. Falls back gracefully if missing.
   const centByGeoid = (centroids && centroids.byGeoid) || {};
@@ -98,12 +104,27 @@ async function main() {
   // Competitive (e.g., Rifle 2023) gets penalized on 4% recency even
   // though it has zero 4% history, and CHFA's geographic-spread logic
   // for bond cap doesn't track 9% Competitive at all.
+  //
+  // Counties are keyed by CHFA's own CNTY_FIPS, not by name: a county's
+  // name ("Denver County") never equals a PROJ_CTY, so name matching alone
+  // stamped all 64 counties with 0 projects and "never funded".
+  let unattributedToCounty = 0;
   const chfaByCity = new Map();
+  const chfaByCounty = new Map();
   for (const f of (chfa.features || [])) {
     const p = f.properties || {};
     const city = _normCity(p.PROJ_CTY || p.PROJ_CITY);
-    if (!city) continue;
-    const entry = chfaByCity.get(city) || {
+    const fips = /^08\d{3}$/.test(String(p.CNTY_FIPS || '')) ? String(p.CNTY_FIPS) : null;
+    if (city) _accumulate(chfaByCity, city, p);
+    if (fips) _accumulate(chfaByCounty, fips, p);
+    else unattributedToCounty++;
+  }
+  if (unattributedToCounty) {
+    throw new Error(unattributedToCounty + ' CHFA records lack a valid CNTY_FIPS; county LIHTC counts would be understated');
+  }
+
+  function _accumulate(map, key, p) {
+    const entry = map.get(key) || {
       count: 0, latestAward: null, latestPis: null,
       // F234 — credit-type-specific latest-year + counts
       count_9pct: 0, latest_9pct: null,
@@ -150,23 +171,30 @@ async function main() {
         if (entry.latest_competitive == null || yr > entry.latest_competitive) entry.latest_competitive = yr;
       }
     }
-    chfaByCity.set(city, entry);
+    map.set(key, entry);
   }
 
+  // R1 awards carry coordinates but no county, and a city name cannot stand
+  // in for one (Aurora spans three counties), so counties get them by
+  // point-in-polygon.
   const r1ByCity = new Map();
+  const r1ByCounty = new Map();
   for (const a of (r1.awards || [])) {
     const city = _normCity(a.city);
-    if (!city) continue;
-    r1ByCity.set(city, (r1ByCity.get(city) || 0) + 1);
+    if (city) r1ByCity.set(city, (r1ByCity.get(city) || 0) + 1);
+    const fips = countyForPoint(countyIdx, Number(a.lon), Number(a.lat));
+    if (fips) r1ByCounty.set(fips, (r1ByCounty.get(fips) || 0) + 1);
+    else console.warn('R1 award outside every county boundary (not counted for any county): ' + a.name);
   }
 
   // Annotate each ranking entry.
   let touched = 0;
   let neverFunded = 0;
   for (const e of (ri.rankings || [])) {
+    const isCounty = e.type === 'county';
     const cityKey = _normCity(e.name);
-    const chfaAgg = chfaByCity.get(cityKey) || null;
-    const r1n     = r1ByCity.get(cityKey) || 0;
+    const chfaAgg = (isCounty ? chfaByCounty.get(e.geoid) : chfaByCity.get(cityKey)) || null;
+    const r1n     = (isCounty ? r1ByCounty.get(e.geoid) : r1ByCity.get(cityKey)) || 0;
 
     const latestAward = chfaAgg && chfaAgg.latestAward;
     const latestPis   = chfaAgg && chfaAgg.latestPis;
@@ -353,7 +381,7 @@ async function main() {
   // Add metric descriptors so consumers can introspect.
   const newMetrics = [
     { id: 'latest_lihtc_year',   label: 'Latest LIHTC award year', description: 'Highest CHFA AwardYear or YR_PIS for any project in this jurisdiction; folds in 2026 R1 bridge awards.', unit: 'year', sortOrder: 'descending' },
-    { id: 'lihtc_project_count', label: 'LIHTC project count',     description: 'Count of CHFA LIHTC projects with PROJ_CTY matching this jurisdiction.', unit: 'count', sortOrder: 'descending' },
+    { id: 'lihtc_project_count', label: 'LIHTC project count',     description: 'Count of CHFA LIHTC projects: places match on PROJ_CTY; counties count every project whose CHFA CNTY_FIPS is the county.', unit: 'count', sortOrder: 'descending' },
     { id: 'r1_2026_count',       label: '2026 R1 awards',          description: 'Count of 2026 R1 bridge awards in this jurisdiction (not yet ingested into the CHFA ArcGIS feed).', unit: 'count', sortOrder: 'descending' },
     { id: 'drought_years',       label: 'Years since last LIHTC',  description: 'CURRENT_YEAR − latest_lihtc_year. null = never funded on record.', unit: 'years', sortOrder: 'descending' },
     { id: 'recency_score',       label: 'Recency / competition score', description: 'F146 formula: min(100, drought × 25). 100 = never funded (max opportunity); 0 = fresh award.', unit: 'score', sortOrder: 'descending' },
@@ -388,9 +416,9 @@ async function main() {
     { id: 'regional_recency_anchor',            label: 'Regional recency anchor',          description: 'F239 — { place, year, type, from_neighbor } describing which jurisdiction + award drove the regional ceiling. from_neighbor=true means the signal comes from a different place than this one.', unit: 'object', sortOrder: 'descending' },
   ];
   ri.metrics = ri.metrics || [];
-  const haveIds = new Set(ri.metrics.map(m => m.id));
   for (const m of newMetrics) {
-    if (!haveIds.has(m.id)) ri.metrics.push(m);
+    const i = ri.metrics.findIndex(x => x.id === m.id);
+    if (i === -1) ri.metrics.push(m); else ri.metrics[i] = m;
   }
 
   // Stamp metadata.
