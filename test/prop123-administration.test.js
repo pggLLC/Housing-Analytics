@@ -113,7 +113,9 @@ assert.deepEqual(deadLinks, [], `use ${HUB} (or commitment-filings / the OEDIT f
 for (const sweep of ['scripts/audit/source-url-sweep.mjs', 'scripts/audit/url-health-sweep.mjs']) {
   // The allow-list entries, as exact strings.
   const entries = [...read(sweep).matchAll(/^\s*["'](https?:\/\/[^"']+)["'],/gm)].map((m) => m[1]);
-  assert.ok(entries.includes(HUB), `${sweep}: expected the live hub in its list (non-vacuity)`);
+  // Exact membership. (Array#includes is exact too, but CodeQL reads it as a
+  // string substring test on a URL; Set#has says what it means.)
+  assert.ok(new Set(entries).has(HUB), `${sweep}: expected the live hub in its list (non-vacuity)`);
   for (const url of DEAD_URLS) {
     const dead = entries.filter((e) => hostOf(e) + new URL(e).pathname.replace(/\/$/, '') === url);
     assert.deepEqual(dead, [], `${sweep} must not allow-list ${url}`);
