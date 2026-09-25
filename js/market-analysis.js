@@ -1724,7 +1724,11 @@
     if (capDenEl) {
       var exUnits = Number(result.lihtcUnits) || 0;
       capDenEl.textContent = capDen
-        ? exUnits.toLocaleString() + ' existing LIHTC units ' + _denominatorLine(capDen)
+        // result.lihtcUnits is every existing affordable unit in the PMA,
+        // LIHTC and other subsidized (runAnalysis adds HUD MF, USDA RD, PBV
+        // and preservation units to it), so it is not labelled LIHTC-only
+        // (Codex review of #1900).
+        ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
         : _denominatorLine(null);
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
       capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
@@ -4230,6 +4234,13 @@
       // recompute the previous site and bring its results back under the
       // new site's marker (Codex review of #1888).
       _lastRunParams = null;
+      // The previous site's PMA boundary and SMA ring are drawn by
+      // PMADelineation, outside the layers placeSiteMarker() and the picker
+      // clear; they stayed on the map beside the new site (Codex review of
+      // #1900).
+      if (window.PMADelineation && typeof window.PMADelineation.removeAllBoundaries === 'function' && map) {
+        try { window.PMADelineation.removeAllBoundaries(map); } catch (_) {}
+      }
     }
     document.body.setAttribute('data-pma-result-state', pending ? 'pending' : 'current');
     PMA_RESULT_EXPORT_BTNS.forEach(function (id) {
