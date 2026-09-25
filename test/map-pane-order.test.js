@@ -36,6 +36,13 @@ const fillsZ = paneZIndex(panes, 'fillsPane');
 const pointsZ = paneZIndex(panes, 'pointsPane');
 assert(fillsZ < pointsZ, 'fillsPane remains below pointsPane');
 assert(pointsZ < 600, 'pointsPane remains below Leaflet markerPane');
+// The PMA tract picker draws in selectionPane. Below fillsPane, the county
+// layer's transparent fill takes its clicks and every tract click moves the
+// site instead (audit F13); above pointsPane it would cover the site and
+// project markers.
+const selectionZ = paneZIndex(panes, 'selectionPane');
+assert(fillsZ < selectionZ && selectionZ < pointsZ, 'selectionPane sits between fillsPane and pointsPane');
+assert(read('js/pma-tract-picker.js').includes('selectionPane'), 'the tract picker draws in selectionPane');
 
 const lofPage = read('lihtc-opportunity-finder.html');
 const pmaPage = read('market-analysis.html');

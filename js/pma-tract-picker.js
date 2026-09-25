@@ -144,13 +144,26 @@
     });
   }
 
+  /* The picker draws in the shared selectionPane (js/map-panes.js), above
+     the county/QCT/DDA fills, so its tracts receive the clicks. Falls back to
+     Leaflet's overlayPane where the shared stack is not loaded. */
+  function _selectionPane(map) {
+    var panes = window.MapPanes && typeof window.MapPanes.ensureStack === 'function'
+      ? window.MapPanes.ensureStack(map) : null;
+    return panes && panes.selectionPane ? panes.selectionPane : 'overlayPane';
+  }
+
   /* ── Hover handlers (declared at module scope so styling
    *    helpers can re-apply them per feature redraw) ──────────────── */
   function _onLayerEvents(feature, layer) {
     var gid = _featureGeoid(feature);
     if (!gid) return;
     layer.on({
-      click: function () {
+      click: function (e) {
+        // A tract toggle is not a new site. Without this the click also
+        // reached the map, which moved the site marker and re-ran the
+        // analysis on every tract the analyst added or removed.
+        if (e && window.L && window.L.DomEvent) window.L.DomEvent.stopPropagation(e);
         if (_selected.has(gid)) {
           _selected.delete(gid);
         } else {
@@ -266,6 +279,7 @@
       _tractLayer = window.L.geoJSON(
         { type: 'FeatureCollection', features: nearby },
         {
+          pane: _selectionPane(map),
           style: function (feature) {
             var gid = _featureGeoid(feature);
             return _selected.has(gid) ? STYLE_SELECTED : STYLE_UNSELECTED;
@@ -390,7 +404,10 @@
 
     if (!hullSegments.length) return;
     var lines = hullSegments.map(function (seg) {
-      return window.L.polyline(seg, STYLE_UNION_OUTLINE);
+      // Same pane as the tracts so the outline draws above the county fills;
+      // not interactive, so it never takes a click meant for a tract.
+      return window.L.polyline(seg, Object.assign({}, STYLE_UNION_OUTLINE,
+        { pane: _selectionPane(_map), interactive: false }));
     });
     _unionLayer = window.L.layerGroup(lines).addTo(_map);
   }

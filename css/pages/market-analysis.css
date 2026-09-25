@@ -1136,3 +1136,12 @@ label:has(.map-layer-cb:disabled) { opacity: .6; cursor: not-allowed; }
   align-items: center;
   gap: 8px;
 }
+
+/* A new site is placed in tract mode and its tracts are not yet run: hide
+   every result card from the previous site (js/market-analysis.js
+   setResultPending). Kept: the Site Score card, which says what to do next,
+   and the static "when to commission a study" guidance. */
+body[data-pma-result-state="pending"] .pma-panel > .pma-card:not([data-pma-keep]),
+body[data-pma-result-state="pending"] [data-pma-result] {
+  display: none !important;
+}
