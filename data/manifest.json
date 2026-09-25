@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T11:56:13.966330Z",
+  "generated": "2026-09-25T12:07:54.748059Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -8039,7 +8039,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21228
+      "bytes": 21218
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,

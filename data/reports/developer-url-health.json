@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at_utc": "2026-09-18T11:42:02Z",
+    "generated_at_utc": "2026-09-25T12:07:47Z",
     "total_urls": 411,
     "broken_count": 45,
     "warning_count": 44,
@@ -150,6 +150,13 @@
       ]
     },
     {
+      "url": "https://www.evbh.org/",
+      "status": 0,
+      "found_in": [
+        "local-resources / county:08037/advocacy[0]"
+      ]
+    },
+    {
       "url": "https://www.gilpincounty.org/planning-zoning",
       "status": 0,
       "found_in": [
@@ -215,13 +222,6 @@
       "found_in": [
         "local-resources / county:08059/majorEmployers[3]",
         "local-resources / place:0830835/majorEmployers[2]"
-      ]
-    },
-    {
-      "url": "https://www.nwccog.org/",
-      "status": 0,
-      "found_in": [
-        "local-resources / county:08057/housingAuthority[0]"
       ]
     },
     {
