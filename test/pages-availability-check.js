@@ -182,6 +182,7 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
         '.github/workflows/update-co-housing-costs.yml',
         '.github/workflows/data-source-monitoring.yml',
     ];
+    const qapWatchWorkflow = '.github/workflows/chfa-qap-watch.yml';
     assert(fileExists(archiveYml), 'archive-audit-post-merge.yml exists');
     assert(fileExists(watchdogYml), 'pages-deploy-watchdog.yml exists');
 
@@ -207,6 +208,12 @@ test('Deploy watchdog: automation commits cannot silently miss Pages deploy', ()
         assert(workflow.includes("workflow_id: 'deploy.yml'"), `${workflowPath} dispatches deploy.yml after pushing`);
         assert(workflow.includes("if: steps.data-commit.outputs.pushed == 'true'"), `${workflowPath} only dispatches when it pushed a commit`);
     }
+
+    assert(fileExists(qapWatchWorkflow), `${qapWatchWorkflow} exists`);
+    const qapWatch = fs.readFileSync(path.join(ROOT, qapWatchWorkflow), 'utf8');
+    assert(qapWatch.includes('actions: write'), `${qapWatchWorkflow} can dispatch downstream workflows`);
+    assert(qapWatch.includes("workflow_id: 'deploy.yml'"), `${qapWatchWorkflow} dispatches deploy.yml after pushing`);
+    assert(qapWatch.includes("if: steps.watch-commit.outputs.pushed == 'true'"), `${qapWatchWorkflow} only dispatches when it pushed a commit`);
 });
 
 test('robots.txt: public crawler policy does not pretend to protect private paths', () => {
