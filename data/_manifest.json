@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T12:17:03.903Z",
+    "generated_at": "2026-09-25T12:26:25.745Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162509255,
+    "total_size_bytes": 162509285,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -31812,8 +31812,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14676,
-      "mtime": "2026-09-25T12:17:00.164Z",
+      "size_bytes": 14706,
+      "mtime": "2026-09-25T12:26:23.496Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31829,7 +31829,7 @@
       ],
       "key_count": 10,
       "primary_array_key": "volatile",
-      "primary_array_length": 10,
+      "primary_array_length": 11,
       "primary_array_first_keys": null
     },
     {
