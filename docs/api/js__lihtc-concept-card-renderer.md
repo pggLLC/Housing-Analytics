@@ -54,4 +54,4 @@ Renders the full concept card into `container`.
 @param {HTMLElement}  container    - Target DOM element (e.g. #lihtcConceptCard).
 @param {Object}       rec          - DealRecommendation from LIHTCDealPredictor.predictConcept().
 @param {Object|null}  [hnsFit]     - Optional HNSFit from HousingNeedsFitAnalyzer.analyzeHousingNeedsFit().
-@param {Object|null}  [constraints] - Optional constraint data { environmental, publicLand, softFunding, chfaCompetitiveness }
+@param {Object|null}  [constraints] - Optional constraint data { environmental, publicLand, softFunding }

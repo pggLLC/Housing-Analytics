@@ -16,7 +16,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`census-geo.js`](./js__census-geo.md) | Census snapshot (ACS Profile) with geography dropdowns for: | 0 |
 | [`chart-fix.js`](./js__chart-fix.md) | chart-fix. | 0 |
 | [`chas-tier-shares.js`](./js__chas-tier-shares.md) | chas-tier-shares. | 2 |
-| [`chfa-award-predictor.js`](./js__chfa-award-predictor.md) | js/chfa-award-predictor. | 10 |
 | [`chfa-pma-checklist.js`](./js__chfa-pma-checklist.md) | _no header_ | 19 |
 | [`co-lihtc-map.js`](./js__co-lihtc-map.md) | co-lihtc-map. | 4 |
 | [`colorado-deep-dive.js`](./js__colorado-deep-dive.md) | colorado-deep-dive. | 0 |
@@ -110,7 +109,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`prop123-historical-tracker.js`](./js__prop123-historical-tracker.md) | _no header_ | 5 |
 | [`provenance-label.js`](./js__provenance-label.md) | Shared novice-facing provenance labels and markup. | 0 |
 | [`public-land-overlay.js`](./js__public-land-overlay.md) | js/public-land-overlay. | 4 |
-| [`qap-simulator.js`](./js__qap-simulator.md) | js/qap-simulator. | 2 |
 | [`rent-vs-buy-breakeven.js`](./js__rent-vs-buy-breakeven.md) | rent-vs-buy-breakeven. | 1 |
 | [`scroll-fix.js`](./js__scroll-fix.md) | js/scroll-fix. | 0 |
 | [`site-search.js`](./js__site-search.md) | js/site-search. | 0 |
@@ -185,7 +183,6 @@ Only modules with at least one JSDoc-commented symbol are indexed. To get a modu
 | [`pma-vintage-strip.js`](./js__components__pma-vintage-strip.md) | js/components/pma-vintage-strip. | 0 |
 | [`property-lookup-links.js`](./js__components__property-lookup-links.md) | js/components/property-lookup-links. | 0 |
 | [`qap-calendar.js`](./js__components__qap-calendar.md) | js/components/qap-calendar. | 0 |
-| [`qap-competitiveness-panel.js`](./js__components__qap-competitiveness-panel.md) | js/components/qap-competitiveness-panel. | 0 |
 | [`rent-triangulation.js`](./js__components__rent-triangulation.md) | js/components/rent-triangulation. | 0 |
 | [`report-stale-link.js`](./js__components__report-stale-link.md) | report-stale-link. | 0 |
 | [`resort-wfh.js`](./js__components__resort-wfh.md) | js/components/resort-wfh. | 0 |

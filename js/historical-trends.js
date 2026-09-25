@@ -2,14 +2,15 @@
  * js/historical-trends.js
  *
  * Renders three panels on historical-trends.html:
- *   1. CHFA annual award history (awards/year + credit-type split + county roll-up)
- *   2. LIHTC stock trajectory (cumulative projects by year, by county)
+ *   1. Annual awards by credit type (projects or units, from the CHFA live feed)
+ *      plus typical-deal tiles and the latest CHFA round's award-report figures
+ *   2. LIHTC stock trajectory (cumulative units by award year — the feed has no opening year)
  *   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
  *
  * Data sources (all local, no external API):
- *   - data/policy/chfa-awards-historical.json  — sample 2015–2025 awards + aggregate summary
+ *   - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
  *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export, 926 CO projects through 2025 (preferred)
- *   - data/market/hud_lihtc_co.geojson         — Legacy HUD LIHTC snapshot, 716 CO projects (YR_PIS through ~2020) — fallback only
+ *   - data/market/hud_lihtc_co.geojson         — fallback copy with the same CHFA-style fields, used only if chfa-lihtc.json fails
  *
  * No rent trajectory panel: current ACS dataset is single-vintage (2023) and does not
  * support time-series rent trends. Add it when multi-year ACS ingestion is in place.
@@ -22,7 +23,7 @@
   'use strict';
 
   var state = {
-    awards: null,         // chfa-awards-historical.json parsed
+    round: null,          // latest CHFA round (parsed award report)
     lihtcFeatures: null,  // chfa-lihtc.json features (fallback: hud_lihtc_co.geojson)
     charts: {}            // Chart.js instance map (for teardown on re-render)
   };
@@ -33,21 +34,6 @@
 
   function esc(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  function groupBy(arr, keyFn) {
-    var out = {};
-    arr.forEach(function (x) {
-      var k = keyFn(x);
-      (out[k] = out[k] || []).push(x);
-    });
-    return out;
-  }
-
-  function uniqueSorted(arr) {
-    return Array.from(new Set(arr)).sort(function (a, b) {
-      return typeof a === 'number' ? a - b : String(a).localeCompare(String(b));
-    });
   }
 
   function _resolveUrl(path) {
@@ -64,74 +50,294 @@
   }
 
   /* ─────────────────────────────────────────────────────────────── */
-  /* Panel 1: CHFA Award History                                     */
+  /* Shared chart styling                                            */
   /* ─────────────────────────────────────────────────────────────── */
 
-  function _renderChfaPanel() {
-    if (!state.awards || !global.Chart) return;
-    var awards = state.awards.awards || [];
-    var summary = state.awards.summary || {};
+  // Series colours come from the site's WCAG AA chart tokens
+  // (.github/copilot-instructions.md Rule 10), resolved at render time so a
+  // theme or token correction reaches these charts. Both themes pass the
+  // palette checker's colour-blind separation and contrast checks.
+  var TOKENS = { nine: '--chart-3', four: '--chart-6', other: '--chart-1' };
 
-    // By-year aggregation
-    var years = uniqueSorted((summary.yearsAnalyzed || []).concat(awards.map(function (a) { return a.year; })));
-    var byYear = groupBy(awards, function (a) { return a.year; });
-    var yearCounts = years.map(function (y) { return (byYear[y] || []).length; });
+  function _cssVar(name, fallback) {
+    var v = (getComputedStyle(document.documentElement).getPropertyValue(name) || '').trim();
+    return v || fallback;
+  }
 
-    // Credit-type split (9% vs 4%)
-    var nine = years.map(function (y) {
-      return (byYear[y] || []).filter(function (a) { return a.execution === '9%'; }).length;
+  // Scriptable colour options re-read the token on every chart.update(),
+  // which chart-theme.js triggers on a theme change (manual toggle or OS).
+  function _color(key) {
+    return function () { return _cssVar(TOKENS[key], '#096e65'); };
+  }
+
+  // Token colour at low alpha, for the area fill under a line.
+  function _tint(key, alpha) {
+    return function () {
+      var m = _cssVar(TOKENS[key], '#096e65').match(/^#([0-9a-f]{6})$/i);
+      if (!m) return 'transparent';
+      var n = parseInt(m[1], 16);
+      return 'rgba(' + (n >> 16) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + alpha + ')';
+    };
+  }
+
+  // Screen-reader announcement for user-driven updates (Rule 11). Uses the
+  // page's #aria-live-region; defines the shared hook if no other script has.
+  function _announce(msg) {
+    if (typeof global.__announceUpdate !== 'function') {
+      global.__announceUpdate = function (m) {
+        var region = document.getElementById('aria-live-region');
+        if (!region) return;
+        region.textContent = '';
+        requestAnimationFrame(function () { region.textContent = m; });
+      };
+    }
+    global.__announceUpdate(msg);
+  }
+
+  function _surface() { return _cssVar('--card', '#ffffff'); }
+
+  function _fmt(n) { return Number(n).toLocaleString(); }
+
+  function _median(arr) {
+    if (!arr.length) return null;
+    var s = arr.slice().sort(function (a, b) { return a - b; });
+    var mid = s.length >> 1;
+    return s.length % 2 ? s[mid] : Math.round((s[mid - 1] + s[mid]) / 2);
+  }
+
+  // Credit-type buckets. CHFA writes combined executions ("4% and State",
+  // "9% and State and TOC"); the federal credit is the leading token. A record
+  // naming both 9% and 4% (one in the feed) and MIHTC go to "Other".
+  function _creditBucket(credit) {
+    var c = String(credit || '');
+    var has9 = c.indexOf('9%') !== -1;
+    var has4 = c.indexOf('4%') !== -1;
+    if (has9 && !has4) return 'nine';
+    if (has4 && !has9) return 'four';
+    return 'other';
+  }
+
+  var BUCKET_LABEL = { nine: '9% competitive', four: '4% (bond-financed)', other: 'Other / mixed' };
+
+  // Normalised project rows from the LIHTC feed. Units that are missing stay
+  // null (never 0) so they are excluded from sums and medians, not counted.
+  // There is deliberately no placed-in-service year: CHFA's feed has none, and
+  // scripts/fetch-chfa-lihtc.js copies AwardYear into YR_PIS as a proxy, so
+  // YR_PIS must never be presented as the year a project opened.
+  function _projects(features) {
+    return (features || state.lihtcFeatures || []).map(function (f) {
+      var p = f.properties || {};
+      var alloc = parseInt(p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC, 10);
+      var units = parseInt(p.N_UNITS || p.TOTAL_UNITS, 10);
+      var thisYear = new Date().getFullYear();
+      return {
+        alloc: alloc > 1985 && alloc <= thisYear ? alloc : null,
+        units: units > 0 ? units : null,
+        bucket: _creditBucket(p.CREDIT || p.TypeOfCredits)
+      };
     });
-    var four = years.map(function (y) {
-      return (byYear[y] || []).filter(function (a) { return a.execution === '4%'; }).length;
-    });
+  }
 
-    // Destroy any existing chart
-    if (state.charts.chfaTimeline) state.charts.chfaTimeline.destroy();
+  function _yearRange(years) {
+    var lo = Math.min.apply(null, years), hi = Math.max.apply(null, years);
+    var out = [];
+    for (var y = lo; y <= hi; y++) out.push(y);
+    return out;
+  }
 
+  function _dataTable(elId, caption, headers, rows) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    el.innerHTML =
+      '<details class="ht-table-toggle"><summary>Show the numbers behind this chart</summary>' +
+      '<div style="overflow-x:auto;"><table class="ht-bench-table ht-data-table"><caption class="sr-only">' + esc(caption) + '</caption><thead><tr>' +
+      headers.map(function (h, i) { return '<th scope="col"' + (i ? ' style="text-align:right"' : '') + '>' + esc(h) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr>' + r.map(function (v, i) {
+          return i ? '<td style="text-align:right">' + esc(v) + '</td>' : '<th scope="row">' + esc(v) + '</th>';
+        }).join('') + '</tr>';
+      }).join('') +
+      '</tbody></table></div></details>';
+  }
+
+  /* ─────────────────────────────────────────────────────────────── */
+  /* Panel 1: Annual awards by credit type                           */
+  /* ─────────────────────────────────────────────────────────────── */
+
+  var awardMetric = 'projects';
+
+  function _renderAwardsPanel() {
+    if (!global.Chart) return;
     var ctx = document.getElementById('chfaTimelineChart');
     if (!ctx) return;
 
+    var rows = _projects().filter(function (r) { return r.alloc != null; });
+    if (!rows.length) return;
+    var years = _yearRange(rows.map(function (r) { return r.alloc; }));
+    var keys = ['nine', 'four', 'other'];
+    var agg = {};
+    keys.forEach(function (k) {
+      agg[k] = { projects: years.map(function () { return 0; }), units: years.map(function () { return 0; }) };
+    });
+    rows.forEach(function (r) {
+      var i = years.indexOf(r.alloc);
+      agg[r.bucket].projects[i] += 1;
+      if (r.units != null) agg[r.bucket].units[i] += r.units;
+    });
+
+    var metricLabel = awardMetric === 'units' ? 'Units awarded' : 'Projects awarded';
+
+    if (state.charts.chfaTimeline) state.charts.chfaTimeline.destroy();
     state.charts.chfaTimeline = new global.Chart(ctx, {
       type: 'bar',
       data: {
         labels: years,
-        datasets: [
-          { label: '9% competitive', data: nine, backgroundColor: '#096e65' },
-          { label: '4% PAB-backed',  data: four, backgroundColor: '#b45309' }
-        ]
+        datasets: keys.filter(function (k) {
+          return agg[k].projects.some(function (v) { return v > 0; });
+        }).map(function (k) {
+          return {
+            label: BUCKET_LABEL[k],
+            data: agg[k][awardMetric],
+            backgroundColor: _color(k),
+            borderColor: _surface,
+            borderWidth: { top: 2, right: 0, bottom: 0, left: 0 },
+            borderSkipped: false,
+            barPercentage: 0.8,
+            categoryPercentage: 0.9
+          };
+        })
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
         plugins: {
-          title:  { display: true, text: 'Colorado LIHTC awards per year (by credit type)' },
-          legend: { position: 'bottom' }
+          legend: { position: 'top', align: 'start', labels: { boxWidth: 12, boxHeight: 12, usePointStyle: true, pointStyle: 'rectRounded' } },
+          tooltip: {
+            footerColor: function () { return _cssVar('--text', '#0d1f35'); },
+            filter: function (it) { return it.parsed.y > 0; },
+            callbacks: {
+              label: function (c) { return ' ' + c.dataset.label + ': ' + _fmt(c.parsed.y); },
+              footer: function (items) {
+                var t = items.reduce(function (s, it) { return s + it.parsed.y; }, 0);
+                return 'Total: ' + _fmt(t) + (awardMetric === 'units' ? ' units' : ' projects');
+              }
+            }
+          }
         },
         scales: {
-          x: { stacked: true, title: { display: true, text: 'Year' } },
-          y: { stacked: true, title: { display: true, text: 'Project count (sample)' }, beginAtZero: true }
+          x: { stacked: true, grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, autoSkipPadding: 12 } },
+          y: {
+            stacked: true, beginAtZero: true,
+            title: { display: true, text: metricLabel },
+            ticks: { precision: 0, callback: function (v) { return _fmt(v); } },
+            border: { display: false }
+          }
         }
       }
     });
 
-    // Summary stats table
-    var statsEl = document.getElementById('chfaStats');
-    if (statsEl) {
-      statsEl.innerHTML =
+    _dataTable('chfaTable', 'Colorado LIHTC awards per year by credit type', [
+      'Award year', '9% projects', '4% projects', 'Other', '9% units', '4% units', 'Other units'
+    ], years.map(function (y, i) {
+      return [y, agg.nine.projects[i], agg.four.projects[i], agg.other.projects[i],
+        _fmt(agg.nine.units[i]), _fmt(agg.four.units[i]), _fmt(agg.other.units[i])];
+    }).reverse());
+
+    var d = dealStats(state.lihtcFeatures);
+    var dealEl = document.getElementById('dealStats');
+    if (dealEl && d) {
+      dealEl.innerHTML =
+        '<p class="ht-stat-caption">Typical deal, ' + d.fromYear + '–' + d.toYear + ' awards (CHFA live feed)</p>' +
         '<dl class="ht-stat-list">' +
-          '<div><dt>Awards tracked</dt><dd>' + (summary.totalAwards || awards.length) + '</dd></div>' +
-          '<div><dt>Years covered</dt><dd>' + (years.length ? (years[0] + '–' + years[years.length - 1]) : '—') + '</dd></div>' +
-          '<div><dt>Average score</dt><dd>' + (summary.avgScore || '—') + ' / 100</dd></div>' +
-          '<div><dt>Median score</dt><dd>' + (summary.medianScore || '—') + ' / 100</dd></div>' +
-          '<div><dt>Avg awards / yr</dt><dd>' + (summary.avgAwardsPerYear || '—') + '</dd></div>' +
-          '<div><dt>Avg applications / yr</dt><dd>' + (summary.avgApplicationsPerYear || '—') + '</dd></div>' +
-          '<div><dt>Award rate</dt><dd>' +
-            (summary.awardRate != null ? (Math.round(summary.awardRate * 100) + '%') : '—') +
-          '</dd></div>' +
-          '<div><dt>Family win rate</dt><dd>' +
-            (summary.familyWinRate != null ? (Math.round(summary.familyWinRate * 100) + '%') : '—') +
-          '</dd></div>' +
+          '<div><dt>Projects awarded</dt><dd>' + _fmt(d.projects) + '</dd></div>' +
+          '<div><dt>Avg awards / yr</dt><dd>' + Math.round(d.projects / (d.toYear - d.fromYear + 1)) + '</dd></div>' +
+          '<div><dt>Median 9% project</dt><dd>' + (d.median9 != null ? d.median9 + ' units' : 'Unavailable') + '</dd></div>' +
+          '<div><dt>Median 4% project</dt><dd>' + (d.median4 != null ? d.median4 + ' units' : 'Unavailable') + '</dd></div>' +
+          '<div><dt>9% share of projects</dt><dd>' + (d.share9 != null ? d.share9 + '%' : 'Unavailable') + '</dd></div>' +
         '</dl>';
     }
+  }
+
+  // Typical deal over the last ten award years in the feed. Pure.
+  function dealStats(features) {
+    var rows = _projects(features).filter(function (r) { return r.alloc != null; });
+    if (!rows.length) return null;
+    var toYear = Math.max.apply(null, rows.map(function (r) { return r.alloc; }));
+    var fromYear = toYear - 9;
+    var recent = rows.filter(function (r) { return r.alloc >= fromYear; });
+    function sizes(b) {
+      return recent.filter(function (r) { return r.bucket === b && r.units != null; })
+        .map(function (r) { return r.units; });
+    }
+    var n9 = recent.filter(function (r) { return r.bucket === 'nine'; }).length;
+    var n4 = recent.filter(function (r) { return r.bucket === 'four'; }).length;
+    return {
+      fromYear: fromYear, toYear: toYear, projects: recent.length,
+      median9: _median(sizes('nine')), median4: _median(sizes('four')),
+      share9: n9 + n4 ? Math.round(100 * n9 / (n9 + n4)) : null
+    };
+  }
+
+  // Latest CHFA round, parsed from CHFA's own award report. The live property
+  // feed lags a round by months, so the round is shown beside the chart rather
+  // than added to it as a partial year. Pure: returns numbers, or null where a
+  // figure cannot be computed. A missing credit or unit count is excluded from
+  // sums, never counted as 0.
+  function summarizeRound(round, features) {
+    var awards = (round && round.awards) || [];
+    if (!awards.length) return null;
+    var meta = round.metadata || {};
+    function pos(v) { return typeof v === 'number' && v > 0; }
+    function sum(arr) { return arr.reduce(function (s, v) { return s + v; }, 0); }
+    var units = awards.map(function (a) { return a.total_units; }).filter(pos);
+    var with9 = awards.filter(function (a) { return pos(a.federal_9pct_credit) && pos(a.total_units); });
+    var fed9 = awards.map(function (a) { return a.federal_9pct_credit; }).filter(pos);
+    var m = String(meta.round || meta.announcement_date || '').match(/(19|20)\d{2}/);
+    var roundYear = m ? parseInt(m[0], 10) : null;
+    // Has the live feed caught up? Then these awards may be in the chart too.
+    var inFeed = roundYear != null && _projects(features).some(function (r) { return r.alloc != null && r.alloc >= roundYear; });
+    return {
+      name: meta.round || null,
+      announced: meta.announcement_date || null,
+      roundYear: roundYear,
+      inFeed: inFeed,
+      developments: awards.length,
+      units: units.length ? sum(units) : null,
+      medianUnits: _median(units),
+      federal9Total: fed9.length ? sum(fed9) : null,
+      federal9PerUnit: with9.length
+        ? Math.round(sum(with9.map(function (a) { return a.federal_9pct_credit; })) /
+                     sum(with9.map(function (a) { return a.total_units; })))
+        : null,
+      withStateCredit: awards.filter(function (a) { return pos(a.state_credit); }).length
+    };
+  }
+
+  function _renderLatestRound() {
+    var el = document.getElementById('chfaStats');
+    if (!el) return;
+    var r = summarizeRound(state.round, state.lihtcFeatures);
+    if (!r) return;
+    function show(v, fmt) { return v != null ? fmt(v) : 'Unavailable'; }
+    function money(v) {
+      return v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + _fmt(Math.round(v));
+    }
+    el.innerHTML =
+      '<p class="ht-stat-caption">Latest round: ' + esc(r.name || 'CHFA') +
+        (r.announced ? ' (announced ' + esc(r.announced) + ')' : '') +
+        (r.inFeed
+          ? ' — the live feed now has ' + r.roundYear + ' awards, so these may also be counted in the chart'
+          : ' — not yet in the live feed or the chart') + '</p>' +
+      '<dl class="ht-stat-list">' +
+        '<div><dt>Developments</dt><dd>' + r.developments + '</dd></div>' +
+        '<div><dt>Units</dt><dd>' + show(r.units, _fmt) + '</dd></div>' +
+        '<div><dt>Median development</dt><dd>' + show(r.medianUnits, function (v) { return v + ' units'; }) + '</dd></div>' +
+        '<div><dt>Federal 9% credits / yr</dt><dd>' + show(r.federal9Total, money) + '</dd></div>' +
+        '<div><dt>9% credit per unit / yr</dt><dd>' + show(r.federal9PerUnit, function (v) { return '$' + _fmt(v); }) + '</dd></div>' +
+        '<div><dt>With state credits too</dt><dd>' + r.withStateCredit + ' of ' + r.developments + '</dd></div>' +
+      '</dl>';
   }
 
   /* ─────────────────────────────────────────────────────────────── */
@@ -140,84 +346,106 @@
 
   function _renderStockPanel() {
     if (!state.lihtcFeatures || !global.Chart) return;
-    var feats = state.lihtcFeatures;
-
-    // Year-allocated histogram → cumulative
-    var years = feats.map(function (f) {
-      var p = f.properties || {};
-      return parseInt(p.YR_ALLOC || p.YEAR_ALLOC || p.YR_PIS || 0, 10);
-    }).filter(function (y) { return y > 1985 && y <= new Date().getFullYear(); });
-
-    var minYr = Math.min.apply(null, years) || 1987;
-    var maxYr = Math.max.apply(null, years) || new Date().getFullYear();
-    var yrLabels = [];
-    for (var y = minYr; y <= maxYr; y++) yrLabels.push(y);
-
-    var byYear = {};
-    years.forEach(function (y) { byYear[y] = (byYear[y] || 0) + 1; });
-    var perYear = yrLabels.map(function (y) { return byYear[y] || 0; });
-    var cumul = perYear.reduce(function (acc, v, i) {
-      acc.push((acc[i - 1] || 0) + v);
-      return acc;
-    }, []);
-
-    if (state.charts.stockTimeline) state.charts.stockTimeline.destroy();
-
     var ctx = document.getElementById('stockTimelineChart');
     if (!ctx) return;
 
+    var rows = _projects().filter(function (r) { return r.alloc != null; });
+    if (!rows.length) return;
+    var years = _yearRange(rows.map(function (r) { return r.alloc; }));
+    var unitsByYr = years.map(function () { return 0; });
+    var projByYr = years.map(function () { return 0; });
+    rows.forEach(function (r) {
+      var i = years.indexOf(r.alloc);
+      projByYr[i] += 1;
+      if (r.units != null) unitsByYr[i] += r.units;
+    });
+    var cumUnits = [], cumProj = [], u = 0, n = 0;
+    years.forEach(function (_, i) { u += unitsByYr[i]; n += projByYr[i]; cumUnits.push(u); cumProj.push(n); });
+
+    if (state.charts.stockTimeline) state.charts.stockTimeline.destroy();
     state.charts.stockTimeline = new global.Chart(ctx, {
       type: 'line',
       data: {
-        labels: yrLabels,
-        datasets: [
-          {
-            label: 'Cumulative CO LIHTC projects',
-            data: cumul,
-            borderColor: '#14b8a6',
-            backgroundColor: 'rgba(9,110,101,0.15)',
-            fill: true,
-            tension: 0.15,
-            yAxisID: 'y'
-          },
-          {
-            label: 'Annual LIHTC placements',
-            data: perYear,
-            type: 'bar',
-            backgroundColor: 'rgba(180,83,9,0.7)',
-            yAxisID: 'y1'
-          }
-        ]
+        labels: years,
+        datasets: [{
+          label: 'Units in Colorado LIHTC projects, by award year (cumulative)',
+          data: cumUnits,
+          borderColor: _color('nine'),
+          backgroundColor: _tint('nine', 0.14),
+          fill: 'origin',
+          borderWidth: 2,
+          tension: 0,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBorderWidth: 2,
+          pointHoverBorderColor: _surface
+        }]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
         plugins: {
-          title:  { display: true, text: 'Colorado LIHTC stock trajectory (CHFA live data)' },
-          legend: { position: 'bottom' }
+          legend: { display: false },
+          tooltip: {
+            footerColor: function () { return _cssVar('--muted', '#374151'); },
+            footerFont: { weight: 'normal' },
+            callbacks: {
+              title: function (items) { return 'Through ' + items[0].label; },
+              label: function (c) { return ' ' + _fmt(cumUnits[c.dataIndex]) + ' units in ' + _fmt(cumProj[c.dataIndex]) + ' projects'; },
+              footer: function (items) {
+                var i = items[0].dataIndex;
+                return '+' + _fmt(unitsByYr[i]) + ' units in ' + _fmt(projByYr[i]) + ' projects awarded that year';
+              }
+            }
+          }
         },
         scales: {
-          x:  { title: { display: true, text: 'Year (YR_ALLOC)' } },
-          y:  { title: { display: true, text: 'Cumulative projects' }, position: 'left', beginAtZero: true },
-          y1: { title: { display: true, text: 'Annual placements' }, position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+          x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, autoSkipPadding: 16 } },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Units (cumulative)' },
+            ticks: { callback: function (v) { return _fmt(v); } },
+            border: { display: false }
+          }
         }
       }
     });
 
+    _dataTable('stockTable', 'Colorado LIHTC projects and units by award year, cumulative',
+      ['Award year', 'Projects', 'Units', 'Cumulative projects', 'Cumulative units'],
+      years.map(function (y, i) {
+        return [y, projByYr[i], _fmt(unitsByYr[i]), _fmt(cumProj[i]), _fmt(cumUnits[i])];
+      }).reverse());
+
     var statsEl = document.getElementById('stockStats');
     if (statsEl) {
-      var totalUnits = feats.reduce(function (s, f) {
-        var p = f.properties || {};
-        return s + (parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0);
-      }, 0);
-      var recentYears = years.filter(function (y) { return (new Date().getFullYear()) - y <= 5; });
+      var lastYr = years[years.length - 1];
+      var recent = rows.filter(function (r) { return r.alloc > lastYr - 5; });
+      var recentUnits = recent.reduce(function (s, r) { return s + (r.units || 0); }, 0);
       statsEl.innerHTML =
         '<dl class="ht-stat-list">' +
-          '<div><dt>Total CO LIHTC projects</dt><dd>' + feats.length.toLocaleString() + '</dd></div>' +
-          '<div><dt>Total LIHTC units</dt><dd>' + totalUnits.toLocaleString() + '</dd></div>' +
-          '<div><dt>Years of data</dt><dd>' + minYr + '–' + maxYr + '</dd></div>' +
-          '<div><dt>Projects placed in last 5 yrs</dt><dd>' + recentYears.length + '</dd></div>' +
+          '<div><dt>Total CO LIHTC projects</dt><dd>' + _fmt(state.lihtcFeatures.length) + '</dd></div>' +
+          '<div><dt>Total LIHTC units</dt><dd>' + _fmt(u) + '</dd></div>' +
+          '<div><dt>Years of data</dt><dd>' + years[0] + '–' + lastYr + '</dd></div>' +
+          '<div><dt>Awarded ' + (lastYr - 4) + '–' + lastYr + '</dt><dd>' +
+            _fmt(recent.length) + ' projects · ' + _fmt(recentUnits) + ' units</dd></div>' +
         '</dl>';
     }
+  }
+
+  function _wireAwardToggle() {
+    var btns = document.querySelectorAll('[data-award-metric]');
+    Array.prototype.forEach.call(btns, function (b) {
+      b.addEventListener('click', function () {
+        awardMetric = b.getAttribute('data-award-metric');
+        Array.prototype.forEach.call(btns, function (o) {
+          o.setAttribute('aria-pressed', o === b ? 'true' : 'false');
+        });
+        _renderAwardsPanel();
+        _announce('Awards chart now shows ' + (awardMetric === 'units' ? 'units' : 'projects') + ' awarded per year.');
+      });
+    });
   }
 
   /* ─────────────────────────────────────────────────────────────── */
@@ -253,7 +481,7 @@
     var targetUnits = parseInt((sizeEl && sizeEl.value) || '0', 10) || 0;
 
     if (!county) {
-      tbody.innerHTML = '<tr><td colspan="6" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">Select a county to see peer LIHTC projects.</td></tr>';
       if (summaryEl) summaryEl.textContent = '';
       return;
     }
@@ -269,13 +497,12 @@
         units:    parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
         liUnits:  parseInt(p.LI_UNITS || 0, 10) || 0,
         yrAlloc:  parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10) || null,
-        yrPis:    parseInt(p.YR_PIS || 0, 10) || null,
         credit:   p.CREDIT || ''
       };
     });
 
     if (!feats.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" class="ht-empty">No LIHTC projects found in this county.</td></tr>';
       if (summaryEl) summaryEl.textContent = '';
       return;
     }
@@ -298,7 +525,6 @@
         '<td>' + esc(p.city) + '</td>' +
         '<td style="text-align:right">' + unitsCell + '</td>' +
         '<td style="text-align:right">' + (p.yrAlloc || '—') + '</td>' +
-        '<td style="text-align:right">' + (p.yrPis || '—') + '</td>' +
         '<td>' + esc(p.credit || '—') + '</td>' +
       '</tr>';
     }).join('');
@@ -313,6 +539,8 @@
         ' · avg <strong>' + avgUnits + '</strong> units/project' +
         (isFinite(mostRecent) && mostRecent > 0 ? ' · most recent allocation: <strong>' + mostRecent + '</strong>' : '');
     }
+    _announce(feats.length + ' LIHTC projects in ' + county + '; showing the ' + Math.min(20, feats.length) +
+      (targetUnits > 0 ? ' closest to ' + targetUnits + ' units.' : ' most recent.'));
   }
 
   /* ─────────────────────────────────────────────────────────────── */
@@ -320,7 +548,7 @@
   /* ─────────────────────────────────────────────────────────────── */
 
   function render() {
-    var chfaUrl       = 'data/policy/chfa-awards-historical.json';
+    var roundUrl      = 'data/affordable-housing/chfa-awards/2026-round-one.json';
     // Prefer the fresh CHFA LIHTC cache (926 projects through 2025). Fall
     // back to the legacy HUD geojson snapshot (716 projects, last fresh
     // YR_PIS=2020) only if CHFA is unavailable. Inverted in F7 (2026-05-26)
@@ -336,14 +564,16 @@
     }
 
     Promise.all([
-      _fetchJson(chfaUrl).catch(function () { return null; }),
+      _fetchJson(roundUrl).catch(function () { return null; }),
       fetchLihtc()
     ]).then(function (results) {
-      state.awards = results[0];
+      state.round = results[0];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];
 
-      _renderChfaPanel();
+      _renderAwardsPanel();
+      _renderLatestRound();
       _renderStockPanel();
+      _wireAwardToggle();
       _renderCountyPicker();
       _renderBenchmark();
 
@@ -367,5 +597,9 @@
     });
   }
 
-  global.HistoricalTrends = { render: render };
+  global.HistoricalTrends = {
+    render: render,
+    // Pure helpers, exposed for test/historical-trends-real-data.test.js
+    _internal: { summarizeRound: summarizeRound, dealStats: dealStats, creditBucket: _creditBucket, projects: _projects }
+  };
 })(typeof window !== 'undefined' ? window : this);

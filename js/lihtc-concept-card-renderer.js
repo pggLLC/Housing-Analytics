@@ -304,44 +304,6 @@
       ].join(''));
     }
 
-    /* CHFA Competitiveness */
-    var award = constraints.chfaCompetitiveness;
-    if (award && typeof award === 'object') {
-      var pct  = Math.round((award.awardLikelihood || 0) * 100);
-      var band = award.competitiveBand || 'unknown';
-      var bandBadge = { strong: '🟢 Strong', moderate: '🟡 Moderate', weak: '🔴 Weak' }[band] || _cap(band);
-      var scoreQualifier = award.scoreCompleteness === 'partial' ? ' (partial estimate)' : '';
-      var scoreDisclosure = award.scoreDisclosure
-        ? '<p role="note" class="lihtc-cc-constraint-narrative"><strong>Partial score:</strong> ' + _esc(award.scoreDisclosure) + '</p>'
-        : '';
-      // Synthesized-data banner mirrors the deal-calculator panel. Underlying
-      // dataset is a public-sources sample, not CHFA's authoritative record.
-      var chfaBanner =
-        '<p style="margin:.35rem 0 .5rem;padding:6px 10px;border-left:3px solid var(--warn,#d97706);' +
-          'border-radius:0 4px 4px 0;background:var(--warn-dim,#fef3c7);font-size:.72rem;line-height:1.45;color:var(--text);">' +
-          '<strong style="color:var(--warn,#d97706);">⚠ Synthesized sample data.</strong> ' +
-          'Modelled from public CHFA announcements — directional only. Verify at ' +
-          '<a href="https://www.chfainfo.com/rental-housing/housing-credit" target="_blank" rel="noopener">CHFA award history</a>.' +
-        '</p>';
-      sections.push([
-        '<details class="lihtc-cc-constraint">',
-          '<summary role="button"><h4>🏆 CHFA Competitiveness ' + _esc(bandBadge) + '</h4></summary>',
-          chfaBanner,
-          '<dl class="lihtc-cc-constraint-grid">',
-            '<dt>Award Likelihood</dt><dd>' + _esc(bandBadge) + ' (' + pct + '%)</dd>',
-            '<dt>Est. QAP Score' + scoreQualifier + '</dt><dd>' + _esc(String(award.scoreEstimate || '—')) + ' / 100</dd>',
-            '<dt>Applications</dt><dd>~' + _esc(String((award.competitiveContext || {}).applicationsExpected || '—')) + ' expected</dd>',
-            '<dt>Funded</dt><dd>~' + _esc(String((award.competitiveContext || {}).fundingAvailable || '—')) + ' funded</dd>',
-          '</dl>',
-          scoreDisclosure,
-          award.narrative ? '<p class="lihtc-cc-constraint-narrative">' + _esc(award.narrative) + '</p>' : '',
-          award.caveats && award.caveats.length > 0
-            ? '<p class="lihtc-cc-constraint-narrative">⚡ ' + _esc(award.caveats[0]) + '</p>'
-            : '',
-        '</details>'
-      ].join(''));
-    }
-
     return sections.join('');
   }
 
@@ -353,7 +315,7 @@
    * @param {HTMLElement}  container    - Target DOM element (e.g. #lihtcConceptCard).
    * @param {Object}       rec          - DealRecommendation from LIHTCDealPredictor.predictConcept().
    * @param {Object|null}  [hnsFit]     - Optional HNSFit from HousingNeedsFitAnalyzer.analyzeHousingNeedsFit().
-   * @param {Object|null}  [constraints] - Optional constraint data { environmental, publicLand, softFunding, chfaCompetitiveness }
+   * @param {Object|null}  [constraints] - Optional constraint data { environmental, publicLand, softFunding }
    */
   function render(container, rec, hnsFit, constraints) {
     if (!container || !rec) return;
