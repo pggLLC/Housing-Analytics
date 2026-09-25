@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T12:48:09.944330Z",
+  "generated": "2026-09-25T20:40:38.251384Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -209,7 +209,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13556
+      "bytes": 16465
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -264,7 +264,7 @@
     "data/core/educational-content.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 67585
+      "bytes": 67629
     },
     "data/core/neighborhood-context.json": {
       "featureCount": 64,
@@ -4124,7 +4124,7 @@
     "data/hna/local-resources.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 181592
+      "bytes": 181584
     },
     "data/hna/ownership-need.json": {
       "featureCount": 0,
@@ -7294,7 +7294,7 @@
     "data/home-snapshot.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1348
+      "bytes": 2173
     },
     "data/hud-fmr-income-limits.json": {
       "featureCount": 64,
@@ -7954,7 +7954,7 @@
     "data/policy/soft-funding-status.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 25351
+      "bytes": 25939
     },
     "data/policy/stewardship-providers.json": {
       "featureCount": 0,
@@ -7964,7 +7964,7 @@
     "data/policy/tax-credit-legislation.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13954
+      "bytes": 14316
     },
     "data/policy/tool-watch.json": {
       "featureCount": 0,
@@ -8019,7 +8019,7 @@
     "data/provenance/market-analysis.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 2314
+      "bytes": 2336
     },
     "data/qct-colorado.json": {
       "featureCount": 224,

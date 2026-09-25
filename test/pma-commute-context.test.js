@@ -118,7 +118,7 @@ delete global.window;
 assert.equal(after, before, 'force-enabled synthetic PMACommuting path leaves D-lite output byte-identical');
 
 assert(engineSource.includes("ctx.render(map, lastResult)"), 'market-analysis refreshes commute context from the current PMA result');
-assert(engineSource.includes('computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx)'),
+assert(engineSource.includes('computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx)'),
   'computePma call signature remains unchanged');
 assert(!scoringSource.includes('commuteContext'), 'shared PMA scoring helper does not read commute context overlay state');
 

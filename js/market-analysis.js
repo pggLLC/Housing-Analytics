@@ -77,6 +77,7 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  var _scenarioScorer = null; // computePma bound to the last run's inputs
   // Re-render hook for the LIHTC concept card's constraint screening.
   // Set on each runAnalysis() so the async flood-zone loader (see
   // loadOverlays) can re-run the environmental screen once the ~28MB
@@ -1326,7 +1327,51 @@
     return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
   }
 
+  /**
+   * The one denominator every capture rate on this page divides by (audit
+   * F3). The headline and the simulator divided by CHAS LIHTC-eligible
+   * renters while showing the ACS renter total beside them, and the scenario
+   * table divided by that total: for Fruita, 100 units read 16.7% in one card
+   * and 10.1% in the next. null when there is no denominator at all; a rate
+   * over the scoring model's placeholder of 1 is not a rate.
+   */
+  function captureDenominator(result) {
+    var d = result && result.captureDenominator;
+    if (!d || !(Number(d.value) > 0) || d.source === 'fallback_1') return null;
+    var chas = d.source === 'chas_lihtc_eligible';
+    return {
+      value: Number(d.value),
+      source: d.source,
+      label: chas
+        ? 'LIHTC-eligible renter households (\u226480% AMI, HUD CHAS)'
+        : 'renter households of all incomes (ACS; CHAS unavailable)',
+      short: chas ? 'LIHTC-eligible renter HH (\u226480% AMI)' : 'Renter HH, all incomes (ACS)',
+    };
+  }
+
+  function _denominatorLine(den) {
+    return den
+      ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
+      : 'No renter-household count for this PMA, so no capture rate.';
+  }
+
   /* ── Tier label ─────────────────────────────────────────────────── */
+  /**
+   * The PMA score's scale, read off scoreTier() itself (0-100), so the
+   * legend under the score cannot disagree with the label beside it
+   * (audit F2). market-analysis-scoring.js is hash-pinned, so the scale is
+   * derived here rather than exported from it.
+   */
+  function scoreScaleLegend() {
+    var spans = [];
+    for (var v = 100; v >= 0; v--) {
+      var label = scoreTier(v).label;
+      if (!spans.length || spans[spans.length - 1].label !== label) spans.push({ label: label, hi: v, lo: v });
+      else spans[spans.length - 1].lo = v;
+    }
+    return spans.map(function (t) { return t.label + ' ' + t.lo + '\u2013' + t.hi; }).join(' \u00b7 ');
+  }
+
   function scoreTier(s) {
     return PMAScoring.scoreTier(s);
   }
@@ -1354,6 +1399,31 @@
   }
 
   /* ── Render results ─────────────────────────────────────────────── */
+  /**
+   * Say, on the score card itself, what boundary the score was computed on.
+   *
+   * CHFA's Market Study Guide requires a PMA of whole census tracts; a
+   * circular buffer is a screening proxy. The card used to show the same
+   * "Marginal Site" score either way, with only "Relative indicator only"
+   * beneath it, so a buffer screen read as a PMA result (audit F13).
+   */
+  function renderScoreBoundary(result) {
+    var node = el('pmaScoreBoundary');
+    if (!node) return;
+    var isTract = result && result.boundaryMethod === 'tract-picker';
+    node.dataset.boundary = isTract ? 'tract' : 'buffer';
+    if (isTract) {
+      node.textContent = 'PMA: ' + (result.tractCount || 'selected') + ' whole census tracts you selected';
+      node.style.color = 'var(--muted)';
+    } else {
+      var mi = result && result.bufferMiles != null ? (+result.bufferMiles).toFixed(1) + '-mile ' : '';
+      node.textContent = 'Screening only \u2014 ' + mi + 'circular buffer, not a CHFA market area '
+        + '(CHFA requires whole census tracts; use the Tract picker)';
+      node.style.color = 'var(--warn-text, #8a6914)';
+    }
+    node.hidden = false;
+  }
+
   function renderScore(result) {
     var tier = scoreTier(result.overall);
     var scoreEl = el('pmaScoreCircle');
@@ -1366,7 +1436,10 @@
       scoreEl.style.background = 'var(' + dimVar + ')';
     }
     setText('pmaScoreTier', tier.label + ' Site');
+    var scaleEl = el('pmaScoreScale');
+    if (scaleEl) scaleEl.textContent = 'Scale: ' + scoreScaleLegend();
     setText('pmaTractCount', result.tractCount || '—');
+    renderScoreBoundary(result);
     renderPmaSiteSummary(result);
     renderPmaFundingContext(result);
 
@@ -1643,8 +1716,35 @@
       }).join('');
     }
 
-    setText('pmaLihtcCount', result.lihtcCount);
-    setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
+    setText('pmaAffordableCount', result.affordableCount);
+    setText('pmaAffordableBreakdown',
+      result.lihtcCount + ' LIHTC · ' + result.otherAssistedCount + ' other assisted');
+    function _fmtUnits(n) { return n != null ? n.toLocaleString() : 'Value unavailable'; }
+    // Same figure the capture rate divides (affordableUnitsKnown), shown as
+    // unavailable when no project in the PMA reports a unit count.
+    setText('pmaLihtcUnits',
+      _fmtUnits(result.affordableUnits == null ? null : result.affordableUnitsKnown));
+    setText('pmaAffordableUnitsBreakdown',
+      _fmtUnits(result.lihtcUnits) + ' LIHTC · ' + _fmtUnits(result.otherAssistedUnits) + ' other assisted');
+    var unitsNote = el('pmaAffordableUnitsNote');
+    if (unitsNote) {
+      unitsNote.textContent = result.affordableUnitsUnavailableReason || '';
+      unitsNote.hidden = !result.affordableUnitsUnavailableReason;
+    }
+    var capDen = captureDenominator(result);
+    setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
+    var capDenEl = el('pmaCaptureDenominator');
+    if (capDenEl) {
+      // The capture numerator: existing affordable units from projects that
+      // report a unit count (LIHTC + other assisted), the same figure
+      // computePma scored and #pmaLihtcUnits shows.
+      var exUnits = result.affordableUnitsKnown;
+      capDenEl.textContent = capDen
+        ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
+        : _denominatorLine(null);
+      capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
+      capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
+    }
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
@@ -2106,8 +2206,14 @@
 
     // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
     // fall back to ACS total renter_hh when CHAS context is missing.
-    var simRenters = (result.captureDenominator && result.captureDenominator.value) || result.acs.renter_hh || 1;
-    var sim = simulateCapture(simRenters, proposed, amiMix);
+    var simDen = captureDenominator(result);
+    if (!simDen) {
+      simEl.innerHTML = '<div class="pma-empty">' + _denominatorLine(null) + '</div>';
+      simEl.dataset.denominator = '';
+      return;
+    }
+    var sim = simulateCapture(simDen.value, proposed, amiMix);
+    simEl.dataset.denominator = String(simDen.value);
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
@@ -2115,7 +2221,7 @@
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (result.acs.renter_hh || 0).toLocaleString() + '</div><div class="pma-stat-label">Renter HH (buffer)</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>';
   }
 
@@ -2215,25 +2321,33 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
-    var scenarios = ENH.generateScenarios(
+    var scenDen = captureDenominator(result);
+    var scenarioList = [{ label: 'No proposed project (the PMA score above)', proposedUnits: 0, amiMix: { ami60: 0 }, noProject: true }]
+      .concat(ENH.defaultScenarios(proposed));
+    var scenarios = scenDen ? ENH.generateScenarios(
       result.acs,
-      result.lihtcUnits || 0,
-      ENH.defaultScenarios(proposed)
-    );
+      result.affordableUnitsKnown,
+      scenarioList,
+      scenDen.value,
+      _scenarioScorer
+    ) : [];
+    el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
 
     if (!scenarios || !scenarios.length) {
-      el2.innerHTML = '<div class="pma-empty">Could not generate scenarios.</div>';
+      el2.innerHTML = '<div class="pma-empty">' + (scenDen ? 'Could not generate scenarios.' : _denominatorLine(null)) + '</div>';
       return;
     }
 
     var rows = scenarios.map(function (s) {
       var tier = scoreTier(s.overall);
-      return '<tr>' +
+      return '<tr data-units="' + s.proposedUnits + '" data-score="' + s.overall + '">' +
         '<td style="padding:0.25rem 0.5rem">' + s.label + '</td>' +
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>' +
+        (s.proposedUnits > 0
+          ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
+            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>'
+          : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
     }).join('');
 
@@ -2244,7 +2358,8 @@
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
-        '</tr></thead><tbody>' + rows + '</tbody></table>';
+        '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -2412,9 +2527,6 @@
         'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
       return;
     }
-    var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
-
     // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
     // preservation candidates) to the supply count BEFORE PMA scoring math.
     // The Capture Rate KPI + Competitive Density dimension previously used
@@ -2427,25 +2539,20 @@
     // runs (after user clicks "Run market analysis"), the props cache is
     // populated. Degrades gracefully: if cache empty, supply = LIHTC-only
     // and a methodology note flags the gap.
-    var nonLihtcUnits = 0;
-    var nonLihtcCount = 0;
-    if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
-      _nonLihtcPropsCache.forEach(function (p) {
-        if (p.lat == null || p.lng == null) return;
-        if (selectedTractBoundary) {
-          if (!pointInBoundary(+p.lng, +p.lat, selectedTractBoundary)) return;
-        } else if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) {
-          return;
-        }
-        nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
-        nonLihtcCount += 1;
-      });
-    }
-    // Combined "existing affordable" supply for PMA scoring. We keep the
-    // original lihtcUnits variable name (downstream code uses it widely)
-    // but its meaning is now "all existing affordable units in buffer."
-    lihtcUnits += nonLihtcUnits;
-    lihtcCount += nonLihtcCount;
+    //
+    // The two parts stay separate on the result (lihtcCount vs
+    // otherAssistedCount; affordableCount is their sum) so every surface can
+    // label what it counts. Projects without a reported unit count are
+    // counted and disclosed, not summed as 0 units — see
+    // js/market-analysis-supply.js.
+    var supplyBoundary = commuteShapedBoundary || selectedTractBoundary;
+    var nearbyOtherAssisted = (_nonLihtcPropsCache || []).filter(function (p) {
+      if (p.lat == null || p.lng == null) return false;
+      return supplyBoundary
+        ? pointInBoundary(+p.lng, +p.lat, supplyBoundary)
+        : haversine(lat, lon, +p.lat, +p.lng) <= effectiveBuffer;
+    });
+    var supply = window.PMAAffordableSupply.summarizeAffordableSupply(nearbyLihtc, nearbyOtherAssisted);
     // F222 — Cache race fix. Track last run's params so the cache-ready
     // event can re-fire runAnalysis with the same coords once props.json
     // arrives. Show a transient "loading inventory…" pill so the user
@@ -2483,7 +2590,15 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    var affordableUnitsKnown = supply.affordableUnitsKnown;
+    var pma          = computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    // The scenario table scores each unit count with exactly these inputs,
+    // so its no-project row is this score (audit F2). It used to call
+    // computePma(acs, existing, units) with no site, tracts, AMI or CHAS
+    // data, and read 58 beside a headline of 57.
+    _scenarioScorer = function (units) {
+      return computePma(acs, affordableUnitsKnown, units, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    };
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -2614,7 +2729,12 @@
       boundaryMethod: analysisMethod === 'tract' ? 'tract-picker' : 'buffer',
       tractGeoids: analysisMethod === 'tract' ? selectedTractGeoids.slice() : null,
       tractCount: bufTracts.length, acs: acs,
-      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      lihtcCount: supply.lihtcCount, lihtcUnits: supply.lihtcUnits,
+      otherAssistedCount: supply.otherAssistedCount, otherAssistedUnits: supply.otherAssistedUnits,
+      affordableCount: supply.affordableCount, affordableUnits: supply.affordableUnits,
+      affordableUnitsKnown: affordableUnitsKnown,
+      affordableUnitsUnknownCount: supply.unitsUnknownCount,
+      affordableUnitsUnavailableReason: supply.unitsUnavailableReason,
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -2636,6 +2756,7 @@
       window.PMACommuteContext.attachResult(lastResult);
     }
 
+    setResultPending(false);
     renderScore(lastResult);
     // Hide chart loading overlay after rendering
     var _uic2 = window.PMAUIController;
@@ -2685,7 +2806,7 @@
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
-        competitiveSetSize: lihtcCount || 0,
+        competitiveSetSize: supply.affordableCount,
         marketVacancy:      acs.vacancy_rate || null,
         // LIHTC recency — allows predictor to flag saturation (many recent
         // allocations = CHFA geo-distribution pressure) vs. gap (dormant
@@ -2910,7 +3031,7 @@
         return;
       }
       placeSiteMarker(e.latlng.lat, e.latlng.lng);
-      runAnalysis(e.latlng.lat, e.latlng.lng);
+      analyzeNewSite(e.latlng.lat, e.latlng.lng);
     });
 
     // Address-based site selection via free US Census Geocoder.
@@ -3007,7 +3128,7 @@
         }
         map.setView([pin.lat, pin.lon], 13);
         placeSiteMarker(pin.lat, pin.lon);
-        runAnalysis(pin.lat, pin.lon);
+        analyzeNewSite(pin.lat, pin.lon);
         _setStatus(
           'Pin dropped at ' + pin.lat.toFixed(4) + ', ' + pin.lon.toFixed(4) +
           (flippedLon ? ' (flipped positive lon to negative — CO is west of the prime meridian)' : ''),
@@ -3055,7 +3176,7 @@
           // Hand off to the same flow as a map click.
           map.setView([lat, lon], 13);
           placeSiteMarker(lat, lon);
-          runAnalysis(lat, lon);
+          analyzeNewSite(lat, lon);
           _setStatus('Placed at ' + (m.matchedAddress || q) +
                      ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')', 'ok');
         })
@@ -4090,6 +4211,58 @@
     });
   }
 
+  /* Every way of placing a site -- map click, typed coordinates, address
+     search -- comes here, so none of them can skip the selected method.
+     The Tract picker is the default (CHFA requires whole census tracts). Each
+     entry point used to run a circular buffer regardless, so the first result
+     anyone saw was a radius screen under a tab reading "Tract picker" (audit
+     F13). In tract mode the site opens the picker; the analysis runs on the
+     tracts once they are reviewed. */
+  function analyzeNewSite(lat, lon) {
+    var uic = window.PMAUIController;
+    if (uic && typeof uic.getMethod === 'function' && uic.getMethod() === 'tract'
+        && typeof uic.beginTractPma === 'function' && uic.beginTractPma(lat, lon)) {
+      setResultPending(true);
+      return;
+    }
+    runAnalysis(lat, lon);
+  }
+
+  /* While a new tract PMA waits to be run, the previous site's results must
+     not stay on screen or be exportable under a marker and boundary that now
+     mean a different site. lastResult is cleared (every export refuses
+     without it), the result cards are hidden by
+     body[data-pma-result-state="pending"] in css/pages/market-analysis.css,
+     and the export buttons are disabled. The next completed analysis
+     restores all three. */
+  var PMA_RESULT_EXPORT_BTNS = ['pmaExportBtn', 'pmaExportCsvBtn', 'pmaExportJsonBtn',
+    'pmaExportJson', 'pmaExportCsv', 'pmaExportMeta', 'pmaExportAuditJson'];
+  function setResultPending(pending) {
+    if (pending) {
+      lastResult = null;
+      // A deferred re-run (coho:affordable-cache-ready) would otherwise
+      // recompute the previous site and bring its results back under the
+      // new site's marker (Codex review of #1888).
+      _lastRunParams = null;
+      // The previous site's PMA boundary and SMA ring are drawn by
+      // PMADelineation, outside the layers placeSiteMarker() and the picker
+      // clear; they stayed on the map beside the new site (Codex review of
+      // #1900).
+      if (window.PMADelineation && typeof window.PMADelineation.removeAllBoundaries === 'function' && map) {
+        try { window.PMADelineation.removeAllBoundaries(map); } catch (_) {}
+      }
+    }
+    document.body.setAttribute('data-pma-result-state', pending ? 'pending' : 'current');
+    PMA_RESULT_EXPORT_BTNS.forEach(function (id) {
+      var b = el(id);
+      if (b) b.disabled = !!pending;
+    });
+    if (pending) {
+      var explainBtn = el('pmaExplainScoreBtn');
+      if (explainBtn) explainBtn.hidden = true;
+    }
+  }
+
   function placeSiteMarker(lat, lon) {
     siteLatLng = { lat: lat, lon: lon };
     // Keep PMAEngine shim up-to-date so other modules can read last site coords.
@@ -4542,8 +4715,24 @@
       supply: {
         lihtcProjectsInBuffer: r.lihtcCount,
         lihtcUnitsInBuffer:    r.lihtcUnits,
+        otherAssistedProjectsInBuffer: r.otherAssistedCount,
+        otherAssistedUnitsInBuffer:    r.otherAssistedUnits,
+        affordableProjectsInBuffer:    r.affordableCount,
+        affordableUnitsInBuffer:       r.affordableUnits,
+        projectsWithoutUnitCount:      r.affordableUnitsUnknownCount,
+        affordableUnitsUnavailableReason: r.affordableUnitsUnavailableReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
+      // The rate and the count it divides by travel together (F3).
+      captureRate: (function () {
+        var den = captureDenominator(r);
+        return {
+          existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
+          denominator: den ? den.value : null,
+          denominatorSource: den ? den.source : null,
+          denominatorLabel: den ? den.label : null
+        };
+      })(),
       summaryFromCard: (function () {
         var sumGet = function (id) { var e = document.getElementById(id); return e ? e.textContent.trim() : null; };
         return {
@@ -4652,9 +4841,15 @@
       ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
-      ['SECTION', 'LIHTC Supply in Buffer'],
+      ['SECTION', 'Existing Affordable Supply in Buffer'],
       ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
       ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['Other Assisted Projects (HUD MF / USDA RD / PBV / preservation)', fmtNum(sp.otherAssistedProjectsInBuffer)],
+      ['Other Assisted Units', fmtNum(sp.otherAssistedUnitsInBuffer)],
+      ['Existing Affordable Projects', fmtNum(sp.affordableProjectsInBuffer)],
+      ['Existing Affordable Units', fmtNum(sp.affordableUnitsInBuffer)],
+      ['Projects Without Unit Count', fmtNum(sp.projectsWithoutUnitCount)],
+      ['Unit Count Note', sp.affordableUnitsUnavailableReason || ''],
       ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
       ['', ''],
       ['SECTION', 'PMA Site Summary Card'],
@@ -4805,7 +5000,14 @@
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
-      ['capture_rate', r.capture],
+      ['other_assisted_count', r.otherAssistedCount],
+      ['other_assisted_units', r.otherAssistedUnits],
+      ['affordable_count', r.affordableCount],
+      ['affordable_units', r.affordableUnits],
+      ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
+      ['capture_rate', captureDenominator(r) ? r.capture : ''],
+      ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
+      ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
       ['dim_demand', d.demand],
       ['dim_capture_risk', d.captureRisk],
       ['dim_rent_pressure', d.rentPressure],
@@ -5396,6 +5598,8 @@
     computeCoverage:         computeCoverage,
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
+    captureDenominator:      captureDenominator,
+    scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
     isInProp123Jurisdiction: isInProp123Jurisdiction,

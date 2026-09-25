@@ -718,13 +718,27 @@
       runOptions.tractBoundary = pickerER.getBoundary();
     }
 
+    // The site this run belongs to, as the page records it (lat/lon above
+    // may be parsed from rounded display text, so compare like with like).
+    var engStart = window.PMAEngine;
+    var siteAtStart = engStart ? [engStart._lastLat, engStart._lastLon] : null;
+
     runner.run(lat, lon, runOptions)
     .on('progress', _progressUpdate)
     .on('complete', function (scoreRun) {
-      _lastScoreRun = scoreRun;
       _running = false;
       _hideChartLoading('pmaRadarChart');
       _progressComplete();
+      // The site moved while this run was in flight: its result, boundaries
+      // and permalink describe the previous site. Discard the whole
+      // completion rather than drawing it over the new one (Codex review of
+      // #1909).
+      var engNow = window.PMAEngine;
+      if (siteAtStart && engNow
+          && (engNow._lastLat !== siteAtStart[0] || engNow._lastLon !== siteAtStart[1])) {
+        return;
+      }
+      _lastScoreRun = scoreRun;
       _attachTractSelectionToScoreRun(scoreRun);
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
@@ -741,7 +755,11 @@
       // Render PMA delineation polygon and optional SMA ring
       var delineation = window.PMADelineation;
       var mapRef = window.PMAEngine && window.PMAEngine._map();
-      if (delineation && mapRef) {
+      // A new site placed while this run was finishing has already cleared
+      // the boundaries; drawing this run's would put the previous site's
+      // PMA back under the new marker.
+      var siteMoved = document.body.getAttribute('data-pma-result-state') === 'pending';
+      if (delineation && mapRef && !siteMoved) {
         var displayTracts = (scoreRun && Array.isArray(scoreRun.bufferTractsDetail))
           ? scoreRun.bufferTractsDetail.map(function (d) {
               return { geoid: d.geoid, share: d.share };
@@ -818,15 +836,7 @@
           }
           var coords = _getLastCoords();
           if (picker && mapRef && coords) {
-            picker.init(mapRef, coords.lat, coords.lon, _onTractSelectionChange)
-              .then(function (r) {
-                // picker.init resets rationale to ''; mirror that in the textarea
-                var ta = $id('pmaTractRationale');
-                if (ta) ta.value = '';
-                _wireTractRationaleInput();
-                _onTractSelectionChange(r.selected);
-              })
-              .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+            _startTractPicker(coords.lat, coords.lon);
           } else {
             // Tract tab activated but no site placed yet — at least wire up
             // the rationale textarea so input handlers exist when picker inits.
@@ -869,6 +879,63 @@
       if (m) return { lat: parseFloat(m[1]), lon: parseFloat(m[2]) };
     }
     return null;
+  }
+
+  /* Start the tract picker at a site: the tab activation and a map click in
+     tract mode both come here, so the two cannot drift. */
+  function _startTractPicker(lat, lon) {
+    var picker = window.PMATractPicker;
+    var mapRef = window.PMAEngine && window.PMAEngine._map && window.PMAEngine._map();
+    if (!picker || !mapRef || typeof picker.init !== 'function') return false;
+    picker.init(mapRef, lat, lon, _onTractSelectionChange)
+      .then(function (r) {
+        // picker.init resets rationale to ''; mirror that in the textarea
+        var ta = $id('pmaTractRationale');
+        if (ta) ta.value = '';
+        _wireTractRationaleInput();
+        _onTractSelectionChange(r.selected);
+      })
+      .catch(function (err) {
+        console.warn('[PMATractPicker] init failed:', err);
+        // The caller has already committed to the picker (the previous
+        // site's results are hidden and no buffer ran), so a silent failure
+        // left an empty picker and a pending card (Codex review of #1888).
+        // Say what failed and what to do instead.
+        _showTractPickerFailure();
+      });
+    return true;
+  }
+
+  function _showTractPickerFailure() {
+    var tier = $id('pmaScoreTier');
+    if (tier) {
+      tier.textContent = 'Census tract data did not load, so the tract picker could not open. '
+        + 'Reload the page to try again, or choose Buffer to screen this site with a radius.';
+    }
+    var boundary = $id('pmaScoreBoundary');
+    if (boundary) {
+      boundary.dataset.boundary = 'unavailable';
+      boundary.textContent = 'PMA: tract data unavailable';
+      boundary.hidden = false;
+    }
+  }
+
+  /* A map click in tract mode: open the picker at the site and say what to
+     do next, instead of silently running a circular buffer. Returns false
+     when the picker cannot start, so the caller falls back to its old path. */
+  function beginTractPma(lat, lon) {
+    if (!TRACT_PICKER_ENABLED || !_startTractPicker(lat, lon)) return false;
+    var circle = $id('pmaScoreCircle');
+    if (circle) { circle.textContent = '\u2014'; circle.style.borderColor = ''; circle.style.background = ''; }
+    var tier = $id('pmaScoreTier');
+    if (tier) tier.textContent = 'Site placed \u2014 review the pre-selected census tracts on the map, then Run Analysis';
+    var boundary = $id('pmaScoreBoundary');
+    if (boundary) {
+      boundary.dataset.boundary = 'pending';
+      boundary.textContent = 'PMA: whole census tracts, not yet run';
+      boundary.hidden = false;
+    }
+    return true;
   }
 
   function _onTractSelectionChange(geoids) {
@@ -1271,6 +1338,7 @@
   if (typeof window !== 'undefined') {
     window.PMAUIController = {
       getMethod:        function () { return _method; },
+      beginTractPma:    beginTractPma,
       getLastScoreRun:  function () { return _lastScoreRun; },
       runEnhanced:      _runEnhancedAnalysis,
       showChartLoading: _showChartLoading,

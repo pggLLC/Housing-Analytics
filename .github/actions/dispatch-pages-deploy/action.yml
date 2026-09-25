@@ -1,0 +1,28 @@
+name: 'Dispatch Pages deploy'
+description: >
+  Run deploy.yml for a commit this job pushed to main. A push made with the
+  workflow token does not trigger push workflows, so deploy.yml never runs for
+  it, and the site stays on the previous commit until something else deploys.
+  If nothing else pushes to main within the grace period, pages-deploy-watchdog
+  fails (#1875). Use this as the step right after the push.
+
+  It dispatches only when this job moved HEAD off the commit it started from
+  (so a run that committed nothing deploys nothing), and only once main
+  contains that commit. Dispatching earlier deploys main as it was before the
+  push and the watchdog still flags the commit (the race qa-status.yml's
+  F-WD-01 guard handles). The calling workflow needs `actions: write`.
+
+inputs:
+  github-token:
+    description: Token used for the compare call and the dispatch.
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - name: Dispatch deploy.yml once main contains this job's commit
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+      run: bash "$GITHUB_ACTION_PATH/dispatch.sh"
