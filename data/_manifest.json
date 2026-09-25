@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-24T22:14:29.660Z",
+    "generated_at": "2026-09-24T22:25:53.048Z",
     "root": "data/",
     "file_count": 1619,
-    "total_size_bytes": 164553173,
+    "total_size_bytes": 159900770,
     "kinds": {
       "json": 1584,
       "geojson": 31,
@@ -423,8 +423,8 @@
     {
       "path": "audit/chfa-qap-watch.json",
       "kind": "json",
-      "size_bytes": 5554544,
-      "mtime": "2026-09-24T22:14:21.549Z",
+      "size_bytes": 902141,
+      "mtime": "2026-09-24T22:25:33.981Z",
       "shape": "object",
       "keys": [
         "schema",
