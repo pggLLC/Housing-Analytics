@@ -459,17 +459,7 @@
       if (els[id]) els[id].textContent = '—';
     });
     if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
-    clearNeedReconciliation();
     clearDecisionStrip();
-  }
-
-  /** The need reconciliation (hna-controller.js renderNeedReconciliation)
-   *  explains the figures the resets blank; it goes with them, or it would
-   *  explain the previous geography's figures under the new one's name. */
-  function clearNeedReconciliation() {
-    const recon = document.getElementById('hnaNeedReconciliation');
-    if (recon) { recon.textContent = ''; recon.hidden = true; }
-    if (S() && S().state) S().state.needReconciliation = null;
   }
 
   // ---------------------------------------------------------------------------
@@ -2970,7 +2960,7 @@
       html += window.MethodFooter.html({
         sources: [
           { label: 'data/hna/local-resources.json (curated)', url: 'https://github.com/pggLLC/Housing-Analytics/blob/main/data/hna/local-resources.json' },
-          { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/prop123' },
+          { label: 'CHFA + DOLA Prop 123 status',             url: 'https://cdola.colorado.gov/proposition-123' },
           { label: 'Per-jurisdiction durable Google searches', url: '#' }
         ],
         vintage:    'curated entries verified Feb-Jun 2026; search blocks live',
@@ -3832,7 +3822,6 @@
     });
     const permitsNote = document.getElementById('permitsVsNeedNote');
     if (permitsNote) permitsNote.textContent = '—';
-    clearNeedReconciliation();
     if (els.needNote) {
       els.needNote.textContent = 'County-level projections are not shown for state-level view. Select a county, place, or CDP.';
     }

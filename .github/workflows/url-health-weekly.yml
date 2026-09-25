@@ -19,7 +19,6 @@ on:
   workflow_dispatch:        # manual trigger from Actions tab
 
 permissions:
-  actions: write   # dispatch deploy.yml after the data push
   contents: write           # to commit url-health.json
   issues:   write           # to file the weekly broken-URL issue
 
@@ -80,9 +79,6 @@ jobs:
             fi
             git push
           fi
-      - name: Dispatch Pages deploy for this run's commit
-        # A workflow-token push does not trigger deploy.yml (#1875).
-        uses: ./.github/actions/dispatch-pages-deploy
 
       - name: File issue for newly-broken URLs
         if: steps.sweep.outputs.broken_count != '0' && steps.sweep.outputs.broken_count != ''

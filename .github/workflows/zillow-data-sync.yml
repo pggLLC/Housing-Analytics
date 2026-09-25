@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      actions: write   # dispatch deploy.yml after the data push
       contents: write
 
     steps:
@@ -108,9 +107,6 @@ jobs:
             fi
             git push
           fi
-      - name: Dispatch Pages deploy for this run's commit
-        # A workflow-token push does not trigger deploy.yml (#1875).
-        uses: ./.github/actions/dispatch-pages-deploy
 
   # ──────────────────────────────────────────────────────────────────────────
   # 2. Bridge Public Data  — assessments & transactions for ALL of Colorado
@@ -121,7 +117,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
-      actions: write   # dispatch deploy.yml after the data push
       contents: write
 
     steps:
@@ -330,6 +325,3 @@ jobs:
             fi
             git push
           fi
-      - name: Dispatch Pages deploy for this run's commit
-        # A workflow-token push does not trigger deploy.yml (#1875).
-        uses: ./.github/actions/dispatch-pages-deploy

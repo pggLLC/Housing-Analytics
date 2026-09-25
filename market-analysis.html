@@ -747,20 +747,27 @@
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
                 <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
-                <dt>Capture rate</dt><dd>existing affordable units (LIHTC and other subsidized) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
+                <dt>Capture rate</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
             </div>
           </details>
           <div class="pma-stat-grid">
             <div class="pma-stat">
-              <div class="pma-stat-value" id="pmaLihtcCount">—</div>
-              <div class="pma-stat-label">LIHTC projects</div>
-              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD LIHTC DB</a></div>
+              <div class="pma-stat-value" id="pmaAffordableCount">—</div>
+              <div class="pma-stat-label">Existing affordable projects</div>
+              <div class="pma-stat-label" id="pmaAffordableBreakdown" style="font-size:.72rem"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · CHFA preservation</div>
+            </div>
+            <div class="pma-stat">
+              <div class="pma-stat-value" id="pmaLihtcUnits">—</div>
+              <div class="pma-stat-label">Existing affordable units (LIHTC + HUD MF, USDA RD, PBV)</div>
+              <div class="pma-stat-label" id="pmaAffordableUnitsBreakdown" style="font-size:.72rem"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">CHFA / HUD LIHTC</a> · HUD Multifamily Assisted · USDA RD · local PBV · CHFA preservation</div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
-              <div class="pma-stat-label">Capture rate (existing)</div>
+              <div class="pma-stat-label">Capture rate (existing affordable)</div>
               <div class="pma-stat-note" id="pmaCaptureDenominator" data-denominator="" style="font-size:var(--tiny);color:var(--muted)"></div>
               <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS</a></div>
             </div>
@@ -772,7 +779,7 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcProp123" style="color:var(--accent)">—</div>
               <div class="pma-stat-label">In Prop 123 jurisdictions</div>
-              <div class="kpi-source"><a href="https://cdola.colorado.gov/commitment-filings" target="_blank" rel="noopener">DOLA Prop 123 commitment filings</a></div>
+              <div class="kpi-source"><a href="https://cdola.colorado.gov/proposition-123" target="_blank" rel="noopener">DOLA Prop 123</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcLastFunded" style="font-size:.85rem;line-height:1.25;">—</div>
@@ -780,6 +787,7 @@
               <div class="kpi-source">HUD YR_ALLOC / YR_PIS</div>
             </div>
           </div>
+          <p class="pma-stat-note" id="pmaAffordableUnitsNote" role="note" style="font-size:.78rem;color:var(--warn);margin:.4rem 0 0" hidden></p>
         </div>
 
         <div class="pma-card" id="pmaFundingContextCard" data-funding-context-surface="pma" hidden></div>
@@ -1447,6 +1455,7 @@
   <script src="js/components/resort-wfh.js"></script>
   <script defer src="js/components/zori-rent-utils.js"></script>
   <script defer src="js/market-analysis-scoring.js"></script>
+  <script defer src="js/market-analysis-supply.js"></script>
   <script defer src="js/pma-barrier-aware.js"></script>
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/components/funding-context-card.js"></script>

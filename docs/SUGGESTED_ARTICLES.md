@@ -114,7 +114,7 @@ tracks commitment status and how compliance (or non-compliance) affects LIHTC pr
 viability in those jurisdictions.
 
 **Data sources:**
-- CDOLA commitment portal: <https://cdola.colorado.gov/commitment-filings>
+- CDOLA commitment portal: <https://cdola.colorado.gov/prop-123>
 - COHO HNA module: `housing-needs-assessment.html` (municipal analysis)
 - `data/hna/municipal/municipal-config.json`
 

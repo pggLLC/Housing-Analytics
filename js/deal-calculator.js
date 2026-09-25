@@ -5867,8 +5867,8 @@
         url: 'https://www.chfainfo.com/multifamily-finance/colorado-housing-investment-fund',
         type: 'Loan', notes: 'Deferred. 40-yr affordability minimum. ~3-5% rate typical. Stacks with 9% LIHTC.' },
       { k: 'prop123', name: 'Prop 123 — CO Affordable Housing Fund',
-        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. 60% is overseen by OEDIT and managed by CHFA (equity, concessionary debt incl. LIHTC gap finance, land banking); 40% goes to DOLA (homeownership, homelessness, local planning capacity).',
-        url: 'https://cdola.colorado.gov/prop123',
+        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. Administered by DOLA + DOH.',
+        url: 'https://cdola.colorado.gov/prop-123',
         type: 'Loan + Grant', notes: 'Zero-int deferred loans, grants for predev/land. Targets ≤60% AMI. First full allocation cycle Q3 2026.' },
       { k: 'local_pha', name: 'Local PHA / Housing Trust',
         desc: 'County or city housing trust funds + PHA capital reserves. Denver AHTF, Boulder HTF, Aspen HTF, etc.',
@@ -5926,13 +5926,9 @@
         if (!listEl) return;
         var html = PROGRAM_REF.map(function (p) {
           var url = p.url ?
-            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);overflow-wrap:anywhere;word-break:break-word;">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
+            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
             '<span style="font-size:var(--tiny);color:var(--faint);">(no external authority — sponsor/seller-specific)</span>';
-          // min-width:0 lets a grid card shrink below its longest unbroken word
-          // (a bare URL); overflow-wrap on the link lets that URL wrap. Without
-          // both, at phone width the HUD trust-fund link ran 443px wide inside
-          // a 375px screen and <details>{overflow:hidden} cut its tail off.
-          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);min-width:0;">' +
+          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
             '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp2);margin-bottom:0.25rem;">' +
               '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
               '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +

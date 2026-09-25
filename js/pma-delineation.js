@@ -40,9 +40,6 @@
   var _smaLayer         = null;   // Secondary Market Area ring
   var _commutingLayer   = null;   // commuting-based boundary polygon
   var _lastPmaPolygon   = null;   // GeoJSON FeatureCollection for export
-  // Bumped on every clear. The tract fills draw after an async geometry load;
-  // a draw started before a clear must not land after it.
-  var _drawGeneration   = 0;
   var _tractGeometryPromise = null;
   var _tractGeometryCache   = null;
 
@@ -143,9 +140,7 @@
   function _renderIncludedTracts(map, tracts, bMiles) {
     if (!tracts || !tracts.length) return Promise.resolve(null);
     var L = window.L;
-    var generation = _drawGeneration;
     return _loadTractGeometry().then(function (geometry) {
-      if (generation !== _drawGeneration) return null;
       var featureCollection = _featureCollectionForTracts(tracts, geometry.index);
       if (!featureCollection.features.length) return null;
 
@@ -194,7 +189,6 @@
     _smaLayer        = _removeLayer(map, _smaLayer);
     _commutingLayer  = _removeLayer(map, _commutingLayer);
     _lastPmaPolygon  = null;
-    _drawGeneration += 1;
   }
 
   /* ── Public render functions ──────────────────────────────────────── */
@@ -220,7 +214,6 @@
     _pmaPolygonLayer = _removeLayer(map, _pmaPolygonLayer);
     _pmaRingLayer    = _removeLayer(map, _pmaRingLayer);
     _lastPmaPolygon  = null;
-    _drawGeneration += 1;
 
     var bMiles = typeof bufferMiles === 'number' ? bufferMiles : 5;
 

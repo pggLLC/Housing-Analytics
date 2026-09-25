@@ -16,7 +16,6 @@ on:
   workflow_dispatch:         # manual trigger from the Actions tab
 
 permissions:
-  actions: write   # dispatch deploy.yml after the data push
   contents: write            # commit the refreshed JSON
   issues:   write            # file a follow-up if the fetch is blocked
 
@@ -68,9 +67,6 @@ jobs:
             fi
             git push
           fi
-      - name: Dispatch Pages deploy for this run's commit
-        # A workflow-token push does not trigger deploy.yml (#1875).
-        uses: ./.github/actions/dispatch-pages-deploy
 
       - name: File issue if fetch was blocked
         if: steps.refresh.outputs.ok == 'false'

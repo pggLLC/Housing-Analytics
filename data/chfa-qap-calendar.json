@@ -8,7 +8,7 @@
       "Round 2 = 4% LIHTC + State Credit (4% paired with State Credit; August application). Pure 4% / PAB is rolling outside this cycle.",
       "MIHTC (Middle Income Housing Tax Credit) is annual with its own LOI/app cycle (March/May)",
       "Every CHFA round requires a Letter of Intent (LOI) 60+ days before the application — LOI deadlines are the real first gate",
-      "Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds — see cdola.colorado.gov/prop123.",
+      "Prop 123 awards run through DOLA on a separate cycle — see cdola.colorado.gov/proposition-123",
       "The QAP covers two years (2027-2028) and is the plan that sets cycle dates, credit maximums and scoring; it is drafted January-June, taken to public hearings and written comment in July-August, then goes to the CHFA Board and the Governor in September-October (CHFA's own timeline, August 26, 2026 hearing presentation).",
       "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan.",
       "status is a snapshot as of metadata.generated. js/components/qap-calendar.js also compares each event's date (or date_end, when present) with today, so an event whose date has passed renders as past even if this field has not been refreshed."
@@ -212,8 +212,8 @@
     {
       "name":      "Proposition 123 — Affordable Housing Fund",
       "category":  "prop123",
-      "description":"Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds. DOLA's Prop 123 page links every program's current round.",
-      "url":       "https://cdola.colorado.gov/prop123"
+      "description":"Colorado statutory affordable-housing fund administered by DOLA. Separate cycle from CHFA — see cdola.colorado.gov/proposition-123 for current rounds.",
+      "url":       "https://cdola.colorado.gov/proposition-123"
     }
   ]
 }

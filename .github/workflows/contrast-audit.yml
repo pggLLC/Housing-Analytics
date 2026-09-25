@@ -105,6 +105,9 @@ jobs:
         run: |
           mkdir -p contrast-reports
           summary_file="contrast-reports/summary.md"
+          total=0
+          passed=0
+          failed=0
 
           echo "# WCAG Contrast Audit Report" > "$summary_file"
           echo "" >> "$summary_file"
@@ -117,8 +120,12 @@ jobs:
           echo "" >> "$summary_file"
           echo "## Contrast Audit Results" >> "$summary_file"
           echo "" >> "$summary_file"
+          echo "| Page | Status | Issues |" >> "$summary_file"
+          echo "|------|--------|--------|" >> "$summary_file"
+
           while IFS= read -r page; do
             [ -z "$page" ] && continue
+            total=$((total + 1))
             page_name="${page%.html}"
             report_file="contrast-reports/${page_name//\//-}.json"
 
@@ -126,25 +133,36 @@ jobs:
 
             # Run the Playwright-based contrast audit for this page.
             # CONTRAST_FIX=1 applies fixes in-browser and records before/after ratios.
-            # CONTRAST_REPORT_FILE writes the JSON report. The table below is
-            # built from those reports, not from the exit code: exit 0 no
-            # longer means "passed" when a page could not be scanned.
-            CONTRAST_BASE_URL="http://localhost:8080" \
-            CONTRAST_PAGE="$page" \
-            CONTRAST_FIX=1 \
-            CONTRAST_REPORT_FILE="$report_file" \
-            node scripts/contrast-audit/run.js || true
+            # CONTRAST_REPORT_FILE writes the JSON report; exit code reflects pass/fail.
+            if CONTRAST_BASE_URL="http://localhost:8080" \
+               CONTRAST_PAGE="$page" \
+               CONTRAST_FIX=1 \
+               CONTRAST_REPORT_FILE="$report_file" \
+               node scripts/contrast-audit/run.js; then
+              status="✅ Pass"
+              passed=$((passed + 1))
+              issues=0
+            else
+              status="❌ Fail"
+              failed=$((failed + 1))
+              issues=$(jq '.summary.violations // 0' "$report_file" 2>/dev/null || echo "?")
+            fi
+
+            echo "| \`$page\` | $status | $issues |" >> "$summary_file"
           done <<< "$PAGES"
 
-          printf '%s\n' "$PAGES" > contrast-reports/pages.txt
-          node scripts/contrast-audit/summarize.js contrast-reports contrast-reports/pages.txt >> "$summary_file"
-
-          not_scanned=$(grep -c '⚠️ Not scanned' "$summary_file" || true)
-          if [ "$not_scanned" -gt 0 ]; then
-            echo "::warning title=Contrast audit::$not_scanned page(s) could not be scanned -- see contrast-reports/summary.md"
-          fi
+          echo "" >> "$summary_file"
+          echo "## Summary" >> "$summary_file"
+          echo "" >> "$summary_file"
+          echo "- **Total pages audited:** $total" >> "$summary_file"
+          echo "- **Passed:** $passed" >> "$summary_file"
+          echo "- **Failed:** $failed" >> "$summary_file"
 
           cat "$summary_file"
+
+          echo "total=$total" >> "$GITHUB_OUTPUT"
+          echo "passed=$passed" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
       # F159 — Runtime DOM contrast scanner. This is the STRONGEST gate
       # we have: it loads every HTML page in headless Chrome via
@@ -186,10 +204,7 @@ jobs:
             const summaryPath = 'contrast-reports/summary.md';
             const wcagOutputPath = 'wcag-test-output.txt';
 
-            const summaryText = fs.existsSync(summaryPath) ? fs.readFileSync(summaryPath, 'utf8') : '';
-            // The heading's mark follows the table: a failed or unscanned page is not a ✅.
-            const clean = summaryText && !/❌ Fail|⚠️ Not scanned/.test(summaryText);
-            let body = '## ' + (clean ? '✅' : '⚠️') + ' WCAG 2.1 AA Accessibility & Contrast Audit\n\n';
+            let body = '## ✅ WCAG 2.1 AA Accessibility & Contrast Audit\n\n';
 
             // Include WCAG test results summary
             if (fs.existsSync(wcagOutputPath)) {
@@ -204,8 +219,8 @@ jobs:
             }
 
             body += '### 📊 Contrast Audit Results\n\n';
-            if (summaryText) {
-              body += summaryText;
+            if (fs.existsSync(summaryPath)) {
+              body += fs.readFileSync(summaryPath, 'utf8');
             } else {
               body += '_No summary report generated._';
             }

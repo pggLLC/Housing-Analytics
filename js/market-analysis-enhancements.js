@@ -270,6 +270,14 @@
         units:       result.lihtcUnits,
         prop123Count: result.prop123Count
       },
+      existingAffordable: {
+        count:              result.affordableCount,
+        units:              result.affordableUnits,
+        lihtcCount:         result.lihtcCount,
+        otherAssistedCount: result.otherAssistedCount,
+        unitsUnknownCount:  result.affordableUnitsUnknownCount,
+        unitsUnavailableReason: result.affordableUnitsUnavailableReason
+      },
       benchmark:  benchmark  || { available: false },
       pipeline:   pipeline   || { available: false },
       scenarios:  scenarios  || [],

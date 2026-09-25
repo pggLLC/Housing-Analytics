@@ -24,7 +24,6 @@ on:
         default: '30'
 
 permissions:
-  actions: write   # dispatch deploy.yml after the data push
   contents: write
   issues:   write
 
@@ -71,9 +70,6 @@ jobs:
             fi
             git push
           fi
-      - name: Dispatch Pages deploy for this run's commit
-        # A workflow-token push does not trigger deploy.yml (#1875).
-        uses: ./.github/actions/dispatch-pages-deploy
 
       - name: File issue with top candidates
         uses: actions/github-script@v9

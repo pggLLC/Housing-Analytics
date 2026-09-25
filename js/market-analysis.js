@@ -1697,18 +1697,30 @@
       }).join('');
     }
 
-    setText('pmaLihtcCount', result.lihtcCount);
-    setText('pmaLihtcUnits', result.lihtcUnits);
+    setText('pmaAffordableCount', result.affordableCount);
+    setText('pmaAffordableBreakdown',
+      result.lihtcCount + ' LIHTC · ' + result.otherAssistedCount + ' other assisted');
+    function _fmtUnits(n) { return n != null ? n.toLocaleString() : 'Value unavailable'; }
+    // Same figure the capture rate divides (affordableUnitsKnown), shown as
+    // unavailable when no project in the PMA reports a unit count.
+    setText('pmaLihtcUnits',
+      _fmtUnits(result.affordableUnits == null ? null : result.affordableUnitsKnown));
+    setText('pmaAffordableUnitsBreakdown',
+      _fmtUnits(result.lihtcUnits) + ' LIHTC · ' + _fmtUnits(result.otherAssistedUnits) + ' other assisted');
+    var unitsNote = el('pmaAffordableUnitsNote');
+    if (unitsNote) {
+      unitsNote.textContent = result.affordableUnitsUnavailableReason || '';
+      unitsNote.hidden = !result.affordableUnitsUnavailableReason;
+    }
     var capDen = captureDenominator(result);
     setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
     var capDenEl = el('pmaCaptureDenominator');
     if (capDenEl) {
-      var exUnits = Number(result.lihtcUnits) || 0;
+      // The capture numerator: existing affordable units from projects that
+      // report a unit count (LIHTC + other assisted), the same figure
+      // computePma scored and #pmaLihtcUnits shows.
+      var exUnits = result.affordableUnitsKnown;
       capDenEl.textContent = capDen
-        // result.lihtcUnits is every existing affordable unit in the PMA,
-        // LIHTC and other subsidized (runAnalysis adds HUD MF, USDA RD, PBV
-        // and preservation units to it), so it is not labelled LIHTC-only
-        // (Codex review of #1900).
         ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
         : _denominatorLine(null);
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
@@ -2293,7 +2305,7 @@
     var scenDen = captureDenominator(result);
     var scenarios = scenDen ? ENH.generateScenarios(
       result.acs,
-      result.lihtcUnits || 0,
+      result.affordableUnitsKnown,
       ENH.defaultScenarios(proposed),
       scenDen.value
     ) : [];
@@ -2491,9 +2503,6 @@
         'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
       return;
     }
-    var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
-
     // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
     // preservation candidates) to the supply count BEFORE PMA scoring math.
     // The Capture Rate KPI + Competitive Density dimension previously used
@@ -2506,25 +2515,20 @@
     // runs (after user clicks "Run market analysis"), the props cache is
     // populated. Degrades gracefully: if cache empty, supply = LIHTC-only
     // and a methodology note flags the gap.
-    var nonLihtcUnits = 0;
-    var nonLihtcCount = 0;
-    if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
-      _nonLihtcPropsCache.forEach(function (p) {
-        if (p.lat == null || p.lng == null) return;
-        if (selectedTractBoundary) {
-          if (!pointInBoundary(+p.lng, +p.lat, selectedTractBoundary)) return;
-        } else if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) {
-          return;
-        }
-        nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
-        nonLihtcCount += 1;
-      });
-    }
-    // Combined "existing affordable" supply for PMA scoring. We keep the
-    // original lihtcUnits variable name (downstream code uses it widely)
-    // but its meaning is now "all existing affordable units in buffer."
-    lihtcUnits += nonLihtcUnits;
-    lihtcCount += nonLihtcCount;
+    //
+    // The two parts stay separate on the result (lihtcCount vs
+    // otherAssistedCount; affordableCount is their sum) so every surface can
+    // label what it counts. Projects without a reported unit count are
+    // counted and disclosed, not summed as 0 units — see
+    // js/market-analysis-supply.js.
+    var supplyBoundary = commuteShapedBoundary || selectedTractBoundary;
+    var nearbyOtherAssisted = (_nonLihtcPropsCache || []).filter(function (p) {
+      if (p.lat == null || p.lng == null) return false;
+      return supplyBoundary
+        ? pointInBoundary(+p.lng, +p.lat, supplyBoundary)
+        : haversine(lat, lon, +p.lat, +p.lng) <= effectiveBuffer;
+    });
+    var supply = window.PMAAffordableSupply.summarizeAffordableSupply(nearbyLihtc, nearbyOtherAssisted);
     // F222 — Cache race fix. Track last run's params so the cache-ready
     // event can re-fire runAnalysis with the same coords once props.json
     // arrives. Show a transient "loading inventory…" pill so the user
@@ -2562,7 +2566,8 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    var affordableUnitsKnown = supply.affordableUnitsKnown;
+    var pma          = computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -2693,7 +2698,12 @@
       boundaryMethod: analysisMethod === 'tract' ? 'tract-picker' : 'buffer',
       tractGeoids: analysisMethod === 'tract' ? selectedTractGeoids.slice() : null,
       tractCount: bufTracts.length, acs: acs,
-      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      lihtcCount: supply.lihtcCount, lihtcUnits: supply.lihtcUnits,
+      otherAssistedCount: supply.otherAssistedCount, otherAssistedUnits: supply.otherAssistedUnits,
+      affordableCount: supply.affordableCount, affordableUnits: supply.affordableUnits,
+      affordableUnitsKnown: affordableUnitsKnown,
+      affordableUnitsUnknownCount: supply.unitsUnknownCount,
+      affordableUnitsUnavailableReason: supply.unitsUnavailableReason,
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -2765,7 +2775,7 @@
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
-        competitiveSetSize: lihtcCount || 0,
+        competitiveSetSize: supply.affordableCount,
         marketVacancy:      acs.vacancy_rate || null,
         // LIHTC recency — allows predictor to flag saturation (many recent
         // allocations = CHFA geo-distribution pressure) vs. gap (dormant
@@ -4674,6 +4684,12 @@
       supply: {
         lihtcProjectsInBuffer: r.lihtcCount,
         lihtcUnitsInBuffer:    r.lihtcUnits,
+        otherAssistedProjectsInBuffer: r.otherAssistedCount,
+        otherAssistedUnitsInBuffer:    r.otherAssistedUnits,
+        affordableProjectsInBuffer:    r.affordableCount,
+        affordableUnitsInBuffer:       r.affordableUnits,
+        projectsWithoutUnitCount:      r.affordableUnitsUnknownCount,
+        affordableUnitsUnavailableReason: r.affordableUnitsUnavailableReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
       // The rate and the count it divides by travel together (F3).
@@ -4794,9 +4810,15 @@
       ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
-      ['SECTION', 'LIHTC Supply in Buffer'],
+      ['SECTION', 'Existing Affordable Supply in Buffer'],
       ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
       ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['Other Assisted Projects (HUD MF / USDA RD / PBV / preservation)', fmtNum(sp.otherAssistedProjectsInBuffer)],
+      ['Other Assisted Units', fmtNum(sp.otherAssistedUnitsInBuffer)],
+      ['Existing Affordable Projects', fmtNum(sp.affordableProjectsInBuffer)],
+      ['Existing Affordable Units', fmtNum(sp.affordableUnitsInBuffer)],
+      ['Projects Without Unit Count', fmtNum(sp.projectsWithoutUnitCount)],
+      ['Unit Count Note', sp.affordableUnitsUnavailableReason || ''],
       ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
       ['', ''],
       ['SECTION', 'PMA Site Summary Card'],
@@ -4947,6 +4969,11 @@
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
+      ['other_assisted_count', r.otherAssistedCount],
+      ['other_assisted_units', r.otherAssistedUnits],
+      ['affordable_count', r.affordableCount],
+      ['affordable_units', r.affordableUnits],
+      ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
