@@ -12,6 +12,8 @@ function readJson(rel) {
   const {
     assertManifestCoverage,
     assertNoUnsafeShrink,
+    buildManifest,
+    carryCommittedMtimes,
     discoverDataFilePaths,
   } = await import('../scripts/audit/build-data-manifest.mjs');
 
@@ -78,6 +80,53 @@ function readJson(rel) {
     /refusing to write/,
     'short/null nightly manifests must be refused before write'
   );
+
+  // A checkout's mtimes are not change times. Regenerating the manifest after
+  // a merge rewrote all ~1,600 entries (2026-09-25, the first post-merge
+  // refresh after #1887) and conflicted every open PR touching it. An entry
+  // keeps its committed mtime unless the file is uncommitted or changed.
+  const prevM = { files: [
+    { path: 'a.json', kind: 'json', size_bytes: 10, mtime: '2026-01-01T00:00:00.000Z' },
+    { path: 'b.json', kind: 'json', size_bytes: 10, mtime: '2026-01-01T00:00:00.000Z' },
+    { path: 'c.json', kind: 'json', size_bytes: 10, mtime: '2026-01-01T00:00:00.000Z' },
+  ] };
+  const NOW = '2026-09-25T12:00:00.000Z';
+  const built = [
+    { path: 'a.json', kind: 'json', size_bytes: 10, mtime: NOW }, // untouched
+    { path: 'b.json', kind: 'json', size_bytes: 10, mtime: NOW }, // rewritten, not yet committed
+    { path: 'c.json', kind: 'json', size_bytes: 12, mtime: NOW }, // content changed
+    { path: 'd.json', kind: 'json', size_bytes: 10, mtime: NOW }, // new file
+  ];
+  const carried = Object.fromEntries(carryCommittedMtimes(built, prevM, new Set(['b.json'])).map((e) => [e.path, e.mtime]));
+  assert.strictEqual(carried['a.json'], '2026-01-01T00:00:00.000Z', 'an unchanged, committed file keeps its committed mtime');
+  assert.strictEqual(carried['b.json'], NOW, 'an uncommitted file gets its new mtime');
+  assert.strictEqual(carried['c.json'], NOW, 'a file whose recorded fields changed gets its new mtime');
+  assert.strictEqual(carried['d.json'], NOW, 'a new file gets its mtime');
+  assert(carryCommittedMtimes(built, prevM, null).every((e) => e.mtime === NOW),
+    'when git cannot say what is uncommitted, nothing is carried over');
+
+  // End to end on the real tree: a clean file whose mtime a checkout reset is
+  // still recorded with its committed mtime.
+  const { spawnSync } = require('child_process');
+  const probeRel = 'chfa-lihtc.json';
+  const probeAbs = path.join(ROOT, 'data', probeRel);
+  const clean = spawnSync('git', ['status', '--porcelain', '--', 'data/' + probeRel], { cwd: ROOT, encoding: 'utf8' }).stdout.trim() === '';
+  const committed = manifest.files.find((e) => e.path === probeRel);
+  assert(committed, `the committed manifest lists ${probeRel}`);
+  if (clean) {
+    const st = fs.statSync(probeAbs);
+    try {
+      fs.utimesSync(probeAbs, new Date(), new Date('2031-01-01T00:00:00Z'));
+      const fresh = await buildManifest({ write: false });
+      const e = fresh.files.find((x) => x.path === probeRel);
+      const sameFields = JSON.stringify({ ...e, mtime: null }) === JSON.stringify({ ...committed, mtime: null });
+      if (sameFields) {
+        assert.strictEqual(e.mtime, committed.mtime, 'a clean file with a reset mtime keeps its committed mtime in the manifest');
+      }
+    } finally {
+      fs.utimesSync(probeAbs, st.atime, st.mtime);
+    }
+  }
 
   const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/data-refresh.yml'), 'utf8');
   assert(workflow.includes('npm run audit:file-manifest'), 'daily data refresh regenerates data/_manifest.json');

@@ -150,6 +150,49 @@ export function assertNoUnsafeShrink(previousManifest, nextManifest, options = {
   return { previousCount, nextCount, shrink: Math.max(0, shrink), tolerance };
 }
 
+/**
+ * Data paths with uncommitted changes, relative to data/. null when git
+ * cannot say, in which case nothing is carried over.
+ */
+function uncommittedDataPaths() {
+  const r = spawnSync("git", ["status", "--porcelain", "--untracked-files=all", "--", "data"], {
+    cwd: REPO, encoding: "utf8",
+  });
+  if (r.status !== 0) return null;
+  const out = new Set();
+  for (const line of (r.stdout || "").split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    let p = line.slice(3);
+    if (p.includes(" -> ")) p = p.split(" -> ").pop();
+    p = p.replace(/^"|"$/g, "").replace(/^data\//, "");
+    out.add(p);
+  }
+  return out;
+}
+
+/**
+ * A file's mtime on disk is when this checkout wrote it, not when it
+ * changed: every fresh clone, and so every CI run, gives every file a new
+ * one. Regenerating the manifest after a merge therefore rewrote all ~1,600
+ * entries (3,250 lines, 2026-09-25, the first post-merge refresh after
+ * #1887), and any open PR that touched the manifest conflicted with it.
+ *
+ * An entry keeps the committed mtime when the file has no uncommitted
+ * change and every other field is what the committed manifest already
+ * says. A file a job has just rewritten is uncommitted, so it gets its new
+ * mtime. Exported for the test.
+ */
+export function carryCommittedMtimes(items, previous, uncommitted) {
+  if (!previous || !Array.isArray(previous.files) || !uncommitted) return items;
+  const prev = new Map(previous.files.filter((e) => e && e.path).map((e) => [e.path, e]));
+  const same = (a, b) => JSON.stringify({ ...a, mtime: null }) === JSON.stringify({ ...b, mtime: null });
+  return items.map((e) => {
+    const p = prev.get(e.path);
+    if (!p || uncommitted.has(e.path) || !same(e, p)) return e;
+    return { ...e, mtime: p.mtime };
+  });
+}
+
 function readExistingManifest(outPath) {
   if (!fs.existsSync(outPath)) return null;
   return JSON.parse(fs.readFileSync(outPath, "utf8"));
@@ -233,10 +276,11 @@ export async function buildManifest(options = {}) {
   const outPath = options.outPath || OUT;
   const shouldWrite = options.write !== false;
   const includedFiles = await discoverDataFiles();
-  const items = [];
+  let items = [];
   for (const f of includedFiles) {
     items.push(await probe(f));
   }
+  items = carryCommittedMtimes(items, readExistingManifest(outPath), uncommittedDataPaths());
   const out = {
     meta: {
       generated_at: new Date().toISOString(),
