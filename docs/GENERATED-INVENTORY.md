@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T08:12:41.993Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T08:28:44.197Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.1 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.4 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -40,16 +40,16 @@
 | `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.8 KB |
 | `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.2 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
-| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
+| `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 15.9 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
 | `hna-scenario-builder.html` | Projection Scenario Builder | COHO Analytics | 35.5 KB |
-| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 138.5 KB |
-| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 140.7 KB |
-| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 164.8 KB |
-| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 169.0 KB |
-| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 137.8 KB |
+| `hna-what-households-can-afford.html` | What households can afford — Housing Needs Assessment | COHO Analytics | 134.6 KB |
+| `hna-what-housing-exists.html` | What housing exists — Housing Needs Assessment | COHO Analytics | 135.0 KB |
+| `hna-what-to-do.html` | What to do about it — Housing Needs Assessment | COHO Analytics | 161.0 KB |
+| `hna-where-its-heading.html` | Where it&#x27;s heading — Housing Needs Assessment | COHO Analytics | 165.2 KB |
+| `hna-who-lives-here.html` | Who lives here — Housing Needs Assessment | COHO Analytics | 134.0 KB |
 | `housing-legislation-2026.html` | 21st Century ROAD to Housing Act Enacted | Colorado Public Data Reference | 15.4 KB |
-| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 242.6 KB |
+| `housing-needs-assessment.html` | Housing Needs Assessment | COHO Analytics | 237.0 KB |
 | `ic-summary.html` | IC Summary — COHO Analytics | 17.2 KB |
 | `index.html` | Colorado Affordable Housing Data Reference | 39.4 KB |
 | `indibuild-pipeline-public.html` | Redirecting | COHO | 394 B |
@@ -58,7 +58,7 @@
 | `lihtc-allocations.html` | LIHTC Allocations | COHO Analytics | 54.7 KB |
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 52.3 KB |
-| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.7 KB |
+| `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 131.3 KB |
 | `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 139.0 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.2 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
@@ -1798,6 +1798,7 @@
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
 | `test/helpers/ci-wiring.js` | 1.9 KB |
+| `test/historical-trends-real-data.test.js` | 8.2 KB |
 | `test/hmda-lookup.test.js` | 6.0 KB |
 | `test/hmda-trend-and-chas-badge.test.js` | 4.8 KB |
 | `test/hna-acs-var-coverage.test.js` | 4.1 KB |
@@ -1897,6 +1898,7 @@
 | `test/navigation-pill-label.test.js` | 2.7 KB |
 | `test/navigation-reaches-every-page.test.mjs` | 4.5 KB |
 | `test/need-severity-is-place-level.test.mjs` | 15.8 KB |
+| `test/no-synthesized-chfa-awards.test.js` | 3.9 KB |
 | `test/nodemailer-v9-smoke.test.js` | 1.0 KB |
 | `test/notify-cancelled-outcome.test.js` | 3.5 KB |
 | `test/one-canonical-step-sequence.test.mjs` | 6.2 KB |
@@ -1962,7 +1964,6 @@
 | `test/public-facing-numbers.test.js` | 7.1 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.1 KB |
-| `test/qap-simulator.test.js` | 10.6 KB |
 | `test/qct-dda-same-origin.test.js` | 3.0 KB |
 | `test/query-builder.test.js` | 14.6 KB |
 | `test/ranking-index-augmentation-present.test.js` | 9.6 KB |
@@ -2005,7 +2006,6 @@
 | `test/test-serverless-endpoints.js` | 2.2 KB |
 | `test/test-vendor-console-errors.js` | 1.5 KB |
 | `test/test_bps_and_status_freshness.py` | 9.4 KB |
-| `test/test_chfa_award_predictor.js` | 18.9 KB |
 | `test/test_environmental_screening.js` | 17.9 KB |
 | `test/test_fetch_epa_environmental.py` | 7.3 KB |
 | `test/test_fetch_fred_data.py` | 4.2 KB |
@@ -2014,7 +2014,7 @@
 | `test/test_housing_needs_fit_analyzer.js` | 12.7 KB |
 | `test/test_legislative_tracker.js` | 8.9 KB |
 | `test/test_lihtc_deal_predictor.js` | 22.1 KB |
-| `test/test_public_land_overlay.js` | 13.8 KB |
+| `test/test_public_land_overlay.js` | 12.0 KB |
 | `test/test_qcew_annual_slice.py` | 8.0 KB |
 | `test/test_soft_funding_tracker.js` | 12.6 KB |
 | `test/tigerweb-timeout.test.js` | 6.2 KB |
@@ -2055,7 +2055,7 @@
 | `test/xss-data-quality.test.js` | 5.1 KB |
 | `test/xss-hmda-lookup.test.js` | 1.6 KB |
 | `test/xss-navigation.test.js` | 3.5 KB |
-| `test/xss-projection-surfaces.test.js` | 6.4 KB |
+| `test/xss-projection-surfaces.test.js` | 4.4 KB |
 | `tests/build_counties_co_test.py` | 11.4 KB |
 | `tests/conftest.py` | 4.2 KB |
 | `tests/demographic_projections_test.py` | 19.4 KB |
@@ -2114,7 +2114,7 @@
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
 | `.github/workflows/chfa-qap-watch.yml` | 9.7 KB |
-| `.github/workflows/ci-checks.yml` | 16.2 KB |
+| `.github/workflows/ci-checks.yml` | 16.1 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
