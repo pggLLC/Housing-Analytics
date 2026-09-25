@@ -17,6 +17,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # paper:build counts commits and refuses a shallow clone, which would
+          # publish the fetch depth as the project's history.
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -40,6 +44,26 @@ jobs:
           # commits what it changes, so it is the right place to keep the line
           # honest. Regenerate, never hand-edit.
           node scripts/compute-inventory.mjs --write
+
+      - name: Refresh the working paper's repository figures
+        run: |
+          # The paper's figures about the repository itself (commit count and
+          # hash, line counts, the size of the test suite) are `volatile`: not
+          # gated per-PR, because they move on nearly every PR and gating them
+          # made any two open PRs conflict on data/paper/figures.json,
+          # methods.html and working-paper.html. They are refreshed here, after
+          # every merge, and weekly by refresh-working-paper.yml.
+          #
+          # Runs after compute-inventory: the paper quotes the AGENTS.md line.
+          # Manifests last, in order: rebuild_manifest.py records byte counts.
+          # A refresh that does not verify is abandoned, not committed.
+          npm run paper:build
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
+          if ! npm run -s test:paper-fresh || ! npm run -s test:file-manifest; then
+            echo "::warning::Working-paper refresh did not verify; leaving the committed figures unchanged."
+            git checkout -- working-paper.html methods.html data/paper data/_manifest.json data/manifest.json
+          fi
 
       - name: Commit and push updated, quarantined, and docs files
         id: commit_docs

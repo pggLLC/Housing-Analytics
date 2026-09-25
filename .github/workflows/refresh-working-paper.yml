@@ -39,25 +39,32 @@ jobs:
           node-version: '20'
 
       - name: Rebuild figures and inject them
-        run: npm run paper:build
+        run: |
+          npm run paper:build
+          # data/manifest.json records the byte count of data/paper/figures.json;
+          # committing the figures without it failed test:file-manifest on main.
+          npm run audit:file-manifest
+          python3 scripts/rebuild_manifest.py
 
       - name: Verify the page still agrees with the data
         # If this fails the refresh is abandoned rather than committed. A
         # scheduled job that pushes an unverified page is how a paper goes
         # quietly wrong between readings.
-        run: npm run test:paper-fresh
+        run: |
+          npm run test:paper-fresh
+          npm run test:file-manifest
 
       - name: Commit if anything changed
         id: commit
         run: |
-          if git diff --quiet -- working-paper.html data/paper/figures.json; then
+          if git diff --quiet -- working-paper.html methods.html data/paper data/_manifest.json data/manifest.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No change in the paper's figures this week."
             exit 0
           fi
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add working-paper.html data/paper/figures.json
+          git add working-paper.html methods.html data/paper data/_manifest.json data/manifest.json
           git commit -m "chore(paper): refresh working-paper figures $(date -u +%Y-%m-%d)"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
