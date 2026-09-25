@@ -741,7 +741,11 @@
       // Render PMA delineation polygon and optional SMA ring
       var delineation = window.PMADelineation;
       var mapRef = window.PMAEngine && window.PMAEngine._map();
-      if (delineation && mapRef) {
+      // A new site placed while this run was finishing has already cleared
+      // the boundaries; drawing this run's would put the previous site's
+      // PMA back under the new marker.
+      var siteMoved = document.body.getAttribute('data-pma-result-state') === 'pending';
+      if (delineation && mapRef && !siteMoved) {
         var displayTracts = (scoreRun && Array.isArray(scoreRun.bufferTractsDetail))
           ? scoreRun.bufferTractsDetail.map(function (d) {
               return { geoid: d.geoid, share: d.share };
@@ -1104,9 +1108,6 @@
               ? (r.acs.cost_burden_rate * 100).toFixed(1) + '%' : '—'),
           'LIHTC projects: '   + (r.lihtcCount  != null ? r.lihtcCount  : '—'),
           'LIHTC units: '      + (r.lihtcUnits  != null ? r.lihtcUnits  : '—'),
-          'Existing affordable projects (LIHTC + other assisted): ' + (r.affordableCount != null ? r.affordableCount : '—'),
-          'Existing affordable units: ' + (r.affordableUnits != null ? r.affordableUnits : '—') +
-              (r.affordableUnitsUnavailableReason ? ' (' + r.affordableUnitsUnavailableReason + ')' : ''),
           '',
           'See browser console for full result object.'
         ];
