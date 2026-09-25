@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T18:21:37.522Z",
+    "generated_at": "2026-09-25T18:32:13.378Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162457962,
+    "total_size_bytes": 162457960,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-25T18:21:23.489Z",
+      "mtime": "2026-09-25T18:31:59.429Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -889,7 +889,7 @@
       "path": "chfa-qap-calendar.json",
       "kind": "json",
       "size_bytes": 14178,
-      "mtime": "2026-09-25T18:21:23.492Z",
+      "mtime": "2026-09-25T18:09:57.360Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -1144,7 +1144,7 @@
       "path": "core/educational-content.json",
       "kind": "json",
       "size_bytes": 67629,
-      "mtime": "2026-09-25T18:21:23.493Z",
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -16832,7 +16832,7 @@
       "path": "hna/local-resources.json",
       "kind": "json",
       "size_bytes": 181584,
-      "mtime": "2026-09-25T18:21:23.494Z",
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -30460,7 +30460,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205468,
-      "mtime": "2026-09-25T18:21:31.641Z",
+      "mtime": "2026-09-25T18:32:07.483Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31813,8 +31813,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14706,
-      "mtime": "2026-09-25T18:21:33.513Z",
+      "size_bytes": 14704,
+      "mtime": "2026-09-25T18:32:09.525Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31837,7 +31837,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-25T18:21:32.581Z",
+      "mtime": "2026-09-25T18:32:08.521Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32339,7 +32339,7 @@
       "path": "policy/soft-funding-status.json",
       "kind": "json",
       "size_bytes": 25939,
-      "mtime": "2026-09-25T18:21:23.500Z",
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -32657,7 +32657,7 @@
       "path": "provenance/market-analysis.json",
       "kind": "json",
       "size_bytes": 2336,
-      "mtime": "2026-09-25T18:21:23.500Z",
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "_comment",
