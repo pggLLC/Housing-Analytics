@@ -78,7 +78,7 @@ function testScenarioBuilder() {
 
   const container = dom.window.document.getElementById('sbSavedScenarios');
   assert.strictEqual(container.querySelector('tag'), null, 'saved migration input does not become markup');
-  assert(container.textContent.includes('Migration NaN/yr'), 'non-numeric migration is coerced instead of interpreted as HTML');
+  assert(container.textContent.includes('Moving in (net) NaN/yr'), 'non-numeric migration is coerced instead of interpreted as HTML');
 
   saved = [scenario('normal', 'Normal scenario', 500)];
   dom.window.ScenarioBuilder.init();
@@ -87,9 +87,9 @@ function testScenarioBuilder() {
     '<div class="sb-saved-item" data-id="normal">\n' +
       '        <div class="sb-saved-name">Normal scenario</div>\n' +
       '        <div class="sb-saved-meta">\n' +
-      '          Fertility ×1.00 |\n' +
-      '          Migration 500/yr |\n' +
-      '          Mortality ×1.00\n' +
+      '          Births ×1.00 |\n' +
+      '          Moving in (net) 500/yr |\n' +
+      '          Deaths ×1.00\n' +
       '        </div>\n' +
       '        <div class="sb-saved-actions">\n' +
       '          <button class="btn btn-sm sb-load-btn" data-id="normal" type="button">Load</button>\n' +
@@ -105,7 +105,7 @@ function assertSourceGuards() {
   const projector = read('js/housing-need-projector.js');
   const scenarios = read('js/projections/scenario-builder.js');
   assert(projector.includes("'<strong>' + _escHtml(countyName) + '</strong>"), 'projector keeps county-name escape');
-  assert(scenarios.includes('Migration ${Number(s.parameters.net_migration_annual)}/yr'), 'scenario builder keeps numeric coercion');
+  assert(scenarios.includes('${Number(s.parameters.net_migration_annual)}/yr'), 'scenario builder keeps numeric coercion');
 }
 
 testHousingNeedProjector();
