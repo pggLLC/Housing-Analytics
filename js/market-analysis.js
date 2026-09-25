@@ -4145,7 +4145,13 @@
   var PMA_RESULT_EXPORT_BTNS = ['pmaExportBtn', 'pmaExportCsvBtn', 'pmaExportJsonBtn',
     'pmaExportJson', 'pmaExportCsv', 'pmaExportMeta', 'pmaExportAuditJson'];
   function setResultPending(pending) {
-    if (pending) lastResult = null;
+    if (pending) {
+      lastResult = null;
+      // A deferred re-run (coho:affordable-cache-ready) would otherwise
+      // recompute the previous site and bring its results back under the
+      // new site's marker (Codex review of #1888).
+      _lastRunParams = null;
+    }
     document.body.setAttribute('data-pma-result-state', pending ? 'pending' : 'current');
     PMA_RESULT_EXPORT_BTNS.forEach(function (id) {
       var b = el(id);
