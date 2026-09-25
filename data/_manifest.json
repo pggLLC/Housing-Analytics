@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T07:24:10.645Z",
+    "generated_at": "2026-09-25T07:42:23.771Z",
     "root": "data/",
     "file_count": 1620,
     "total_size_bytes": 162498287,
@@ -460,7 +460,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-25T07:23:55.273Z",
+      "mtime": "2026-09-25T07:42:10.340Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -888,7 +888,7 @@
       "path": "chfa-qap-calendar.json",
       "kind": "json",
       "size_bytes": 13556,
-      "mtime": "2026-09-25T07:23:55.275Z",
+      "mtime": "2026-09-25T07:42:10.341Z",
       "shape": "object",
       "keys": [
         "metadata",
@@ -30459,7 +30459,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205468,
-      "mtime": "2026-09-25T07:23:55.626Z",
+      "mtime": "2026-09-25T07:42:10.379Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31813,7 +31813,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14678,
-      "mtime": "2026-09-25T07:24:07.411Z",
+      "mtime": "2026-09-25T07:42:20.675Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31836,7 +31836,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-25T07:24:06.355Z",
+      "mtime": "2026-09-25T07:42:19.775Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
