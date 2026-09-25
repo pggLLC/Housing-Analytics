@@ -19,6 +19,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # dispatch deploy.yml after workflow-token push
   issues: write
 
 concurrency:
@@ -123,6 +124,7 @@ jobs:
             }
 
       - name: Commit refreshed watch result
+        id: watch-commit
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -131,6 +133,7 @@ jobs:
           # so rebuilding unconditionally would commit every week.
           if git diff --quiet -- data/audit/chfa-qap-watch.json; then
             echo "Watch file unchanged; nothing to commit."
+            echo "pushed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           # AGENTS.md rule 3, in order: _manifest first (manifest.json records its size).
@@ -150,3 +153,20 @@ jobs:
             git commit --amend --no-edit
           fi
           git push
+          echo "pushed=true" >> "$GITHUB_OUTPUT"
+          echo "pushed_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Pages deploy
+        if: steps.watch-commit.outputs.pushed == 'true'
+        uses: actions/github-script@v9
+        env:
+          PUSHED_SHA: ${{ steps.watch-commit.outputs.pushed_sha }}
+        with:
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'deploy.yml',
+              ref: 'main',
+            });
+            core.notice(`Dispatched deploy.yml for chfa-qap-watch commit ${process.env.PUSHED_SHA}.`);
