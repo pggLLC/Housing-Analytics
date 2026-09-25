@@ -15,7 +15,7 @@
 //   - the tile's declared basis equals the digest's future_units_reading, and
 //     a workforce figure equals the digest's workforce_gap_units;
 //   - for every digest, the Recommendation's production basis equals
-//     future_units_reading, and a workforce-based answer never cites DOLA.
+//     future_units_reading.
 
 const assert = require('assert');
 const fs = require('fs');
@@ -114,15 +114,26 @@ async function renderTile(selection, countyFips) {
     if (reading === 'workforce') {
       assert.strictEqual(t.value.replace(/,/g, ''), String(workforce),
         `a workforce-based tile shows ${t.value}; the digest's workforce gap is ${workforce}`);
-      assert(!/DOLA/.test(t.label), 'the workforce figure is labelled as DOLA: ' + t.label);
     }
     assert(t.label && t.label !== '—', 'the tile carries no basis label');
   });
 
-  await test('the page no longer hard-codes a DOLA subtitle on the units figure', () => {
-    const html = read('housing-needs-assessment.html');
-    const tile = html.match(/id="statUnitsNeed"[\s\S]*?<\/div><\/div>/)[0];
-    assert(!/DOLA forecast/.test(tile), 'the static subtitle still claims a DOLA forecast whatever the basis');
+  await test('the subtitle is written from the basis, for every basis, and differs between them', async () => {
+    // Structure, not wording (Codex review of #1884): whatever the labels say,
+    // each basis gets its own label, so the subtitle cannot claim one reading
+    // while the figure came from the other.
+    const rendered = await renderTile({ geoType: 'place', geoid: FRUITA, label: 'Fruita', contextCounty: '08077',
+      profile: { DP02_0001E: 5807, DP04_0001E: 6100, DP05_0001E: 14000 } }, '08077');
+    const src = read('js/hna/hna-controller.js');
+    const fn = src.match(/function unitsNeedBasisLabel\([\s\S]*?\n  \}/);
+    assert(fn, 'unitsNeedBasisLabel() is gone; the subtitle has no single producer');
+    const label = new Function(fn[0] + '; return unitsNeedBasisLabel;')();
+    const w = label('workforce', false);
+    const g = label('resident_growth', false);
+    const gp = label('resident_growth', true);
+    assert(w && g && gp && w !== g && w !== gp, `bases share a label: ${w} | ${g} | ${gp}`);
+    assert.strictEqual(rendered.label, label(rendered.basis, false),
+      'the rendered subtitle is not what unitsNeedBasisLabel gives for its declared basis');
   });
 
   /* ── The Recommendation, for every jurisdiction ───────────────────── */
@@ -141,7 +152,6 @@ async function renderTile(selection, countyFips) {
       if (d.metrics.future_units_needed_20yr && d.metrics.future_units_needed_20yr.value != null) {
         if (c.basis !== r) wrong.push(`${f}: ${c.basis} vs ${r}`);
         if (seen[c.basis] !== undefined) seen[c.basis] += 1;
-        if (c.basis === 'workforce' && /DOLA/.test(c.plain)) wrong.push(`${f}: workforce answer cites DOLA`);
       }
     }
     assert.deepStrictEqual(wrong.slice(0, 5), [], `${wrong.length} disagreements`);
