@@ -45,11 +45,17 @@ Rules that keep it honest
     If nothing could be fetched, the file is not rewritten.
   - The file is only rewritten when something other than timestamps changed,
     so a quiet week does not add a commit.
+  - A result larger than MAX_OUT_BYTES is never written. TEXT_BUDGET_BYTES
+    bounds retained text, but not key lines, page text or the document list,
+    and cron commits skip CI: an oversized file would land on main and fail
+    ci-checks for every PR, as the first run's 5.3 MiB file did. Instead the
+    run exits 1, the previous file stays, and the run summary carries
+    write_refused so the tracking issue says why.
 
 Exit codes
 ----------
   0  watch completed (with or without changes or fetch failures)
-  1  internal error
+  1  internal error, or the result was over MAX_OUT_BYTES and was not written
 
 Usage
 -----
@@ -222,6 +228,9 @@ TEXT_CYCLES_KEPT = 2
 # the fingerprints and key lines. If a cycle is unusually long, text goes from
 # the older kept cycle first, largest document first.
 TEXT_BUDGET_BYTES = 3_500_000
+# A hard ceiling on the whole serialized file, below the same 5 MiB guard. The
+# text budget does not bound everything else in the file; this does.
+MAX_OUT_BYTES = int(4.5 * 1024 * 1024)
 CYCLE_RE = re.compile(r'(20\d\d)\s*[-\u2013]\s*(?:20)?\d\d\b')
 YEAR_RE = re.compile(r'\b(20\d\d)\b')
 
@@ -404,7 +413,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'schema': SCHEMA,
         'generated_at': now,
         'note': ('Written by scripts/audit/chfa_qap_watch.py (weekly, .github/workflows/chfa-qap-watch.yml). '
-                 'Document text is extracted from CHFA PDFs by machine; quote CHFA\'s PDF, not this file.'),
+                 'Document text is extracted from CHFA PDFs by machine; quote CHFA\'s PDF, not this file. '
+                 'CHFA\'s drafts are redlines, and extraction runs struck and inserted characters together: '
+                 '"December 12, 20264" is December 1, 2026 replacing December 2, 2024. Read dates and '
+                 'amounts in a draft from the PDF.'),
         # The note above covers ACCURACY: the extraction may be imperfect, so
         # cite the PDF. This one covers TRUST, which is a different question.
         #
@@ -469,8 +481,16 @@ def main(argv: list | None = None) -> int:
     if previous and _content(previous) == _content(result):
         print('[chfa-qap-watch] no change since the last recorded run; file left as is')
         return _write_run_summary(args.summary, result)
+    payload = json.dumps(result, indent=1, ensure_ascii=False) + '\n'
+    size = len(payload.encode('utf-8'))
+    if size > MAX_OUT_BYTES:
+        result['write_refused'] = (f'result was {size} bytes, over MAX_OUT_BYTES ({MAX_OUT_BYTES}); '
+                                   'the previous file was left in place')
+        print(f"[chfa-qap-watch] {result['write_refused']}", file=sys.stderr)
+        _write_run_summary(args.summary, result)
+        return 1
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+    out.write_text(payload, encoding='utf-8')
     print(f'[chfa-qap-watch] wrote {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out}')
     return _write_run_summary(args.summary, result)
 
@@ -483,6 +503,7 @@ def _write_run_summary(path: str | None, result: dict) -> int:
     path = Path(path)
     summary = {k: result[k] for k in ('generated_at', 'changes', 'has_changes', 'fetch_failures',
                                       'extraction_failures', 'all_fetches_failed')}
+    summary['write_refused'] = result.get('write_refused')
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(summary, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
     return 0

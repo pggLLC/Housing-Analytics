@@ -363,3 +363,51 @@ def test_workflow_agrees_with_the_script():
     others = [p for p in (ROOT / ".github" / "workflows").glob("*.yml") if p.name != WORKFLOW.name]
     used = {m.split()[0] for p in others for m in re.findall(r"cron:\s*'([^']+)'", p.read_text())}
     assert minute not in used, f"minute {minute} is already used by another workflow"
+
+
+def test_main_refuses_to_write_a_result_over_the_ceiling(tmp_path, monkeypatch):
+    """TEXT_BUDGET_BYTES bounds retained text, not the rest of the file, and cron
+    commits skip CI: an oversized result must not replace the file."""
+    import json
+    out = tmp_path / "chfa-qap-watch.json"
+    out.write_text('{"previous": true}\n')
+    summary = tmp_path / "run.json"
+    monkeypatch.setattr(watch, "PAGES", PAGES)
+    monkeypatch.setattr(watch, "http_fetch", fetcher(site("$1,700,000")))
+    monkeypatch.setattr(watch, "MAX_OUT_BYTES", 1000)
+    assert watch.main(["--out", str(out), "--summary", str(summary)]) == 1
+    assert out.read_text() == '{"previous": true}\n', "an oversized result replaced the previous file"
+    refused = json.loads(summary.read_text())["write_refused"]
+    assert refused and "MAX_OUT_BYTES" in refused, "the tracking issue needs to know why nothing was written"
+    # non-vacuity: with room, the same run writes and reports no refusal
+    monkeypatch.setattr(watch, "MAX_OUT_BYTES", 10 * 1024 * 1024)
+    assert watch.main(["--out", str(out), "--summary", str(summary)]) == 0
+    assert '"previous"' not in out.read_text()
+    assert json.loads(summary.read_text())["write_refused"] is None
+
+
+def test_the_output_ceiling_sits_under_the_data_file_size_guard():
+    guard = (ROOT / "scripts" / "check-data-file-sizes.mjs").read_text()
+    limit = int(re.search(r"const defaultLimit = (\d+) \* MIB", guard).group(1)) * 1024 * 1024
+    rel = watch.OUT_FILE.relative_to(ROOT).as_posix()
+    assert rel not in guard, "the watch file must not need an exception to the size guard"
+    assert watch.TEXT_BUDGET_BYTES < watch.MAX_OUT_BYTES < limit
+
+
+def test_workflow_reports_a_refused_write_and_guards_its_own_commit():
+    wf = WORKFLOW.read_text()
+    issue_step = wf[wf.index("name: Open / update tracking issue"):wf.index("name: Commit refreshed watch result")]
+    # the watcher exits 1 on a refusal; the issue step must still run to say so
+    assert re.search(r"if:\s*\$\{\{\s*!cancelled\(\)\s*\}\}", issue_step)
+    assert "run.write_refused" in issue_step
+    assert "hashFiles" not in issue_step, "hashFiles cannot see runner.temp; the summary is checked in the script"
+    commit_step = wf[wf.index("Commit refreshed watch result"):]
+    # the same guard ci-checks runs, before anything is added, since cron commits skip CI
+    assert commit_step.index("node scripts/check-data-file-sizes.mjs") < commit_step.index("git add")
+    ci = (ROOT / ".github" / "workflows" / "ci-checks.yml").read_text()
+    assert "node scripts/check-data-file-sizes.mjs" in ci, "the commit step must run the guard ci-checks runs"
+
+
+def test_note_warns_that_redline_text_runs_together():
+    r = watch.run(fetch=fetcher(site("$1,700,000")), previous={}, now="2026-09-30T05:21:00Z", pages=PAGES)
+    assert "redline" in r["note"] and "from the PDF" in r["note"]
