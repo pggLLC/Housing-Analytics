@@ -354,7 +354,6 @@
 .home-section-intro p {
   font-size: var(--body);
   color: var(--muted);
-  max-width: 58ch;
 }
 
 .home-steps {

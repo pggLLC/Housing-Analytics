@@ -29,7 +29,6 @@
   color: var(--muted);
   font-size: 0.9rem;
   margin: 0 0 0.75rem;
-  max-width: 780px;
   line-height: 1.55;
   /* Browser-balanced wrapping prevents the orphan/widow lines the
      previous fixed max-width produced (last word on a line by
@@ -204,7 +203,6 @@
 }
 .hca-scenario-panel p {
   margin: 0;
-  max-width: 680px;
   font-size: 0.82rem;
   line-height: 1.45;
   color: var(--muted);

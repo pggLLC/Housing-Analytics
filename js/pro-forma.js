@@ -163,7 +163,7 @@
         '<h2 id="pfTitle" style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;">' +
           'Operating Pro Forma Projection' +
         '</h2>' +
-        '<p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);max-width:760px;">' +
+        '<p style="font-size:var(--small);color:var(--muted);margin-bottom:var(--sp3);">' +
           'Projects the deal-calculator\u2019s year-1 income and expense figures over a multi-year horizon ' +
           'using constant annual growth rates and fixed debt service.' +
         '</p>' +
