@@ -134,7 +134,7 @@ console.log(JSON.stringify(fresh.files.find(f => f.path === "your/file.json")));
 Purge duplicates before any manifest work:
 
 ```bash
-find . -path ./.git -prune -o -path ./node_modules -prune -o \( -name '* [0-9]' -o -name '* [0-9].*' \) -print -delete
+find . \( -path ./node_modules -o -path ./.git \) -prune -o \( -name "* [0-9].*" -o -name "* [0-9]" \) -prune -print -exec rm -rf {} +
 ```
 
 They reach `.git/refs` too, where they break plain git commands mid-operation.
