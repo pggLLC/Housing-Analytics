@@ -183,10 +183,15 @@
    * @param {object} acs - aggregated ACS metrics
    * @param {number} existingUnits - existing LIHTC units in buffer
    * @param {Array}  scenarioList - array of {label, proposedUnits, amiMix}
+   * @param {number} [denominator] - the renter-household count the page's
+   *   other capture rates divide by (market-analysis.js captureDenominator).
+   *   Without it the table used ACS renter_hh while the headline and the
+   *   simulator used CHAS LIHTC-eligible renters (audit F3).
    * @returns {Array} scenarioResults
    */
-  function generateScenarios(acs, existingUnits, scenarioList) {
+  function generateScenarios(acs, existingUnits, scenarioList, denominator) {
     if (!acs || !acs.renter_hh) return [];
+    var den = Number(denominator) > 0 ? Number(denominator) : acs.renter_hh;
 
     var computePma      = window.PMAEngine && window.PMAEngine.computePma;
     var simulateCapture = window.PMAEngine && window.PMAEngine.simulateCapture;
@@ -196,7 +201,7 @@
       var units   = scenario.proposedUnits || 0;
       var amiMix  = scenario.amiMix || { ami60: units };
       var pma     = computePma(acs, existingUnits, units);
-      var capture = simulateCapture(acs.renter_hh, units, amiMix);
+      var capture = simulateCapture(den, units, amiMix);
 
       return {
         label:        scenario.label || (units + ' units'),
