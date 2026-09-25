@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-24T21:48:01.258Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T05:57:55.688Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 765.5 KB | ✅ | — |
+| `data/_manifest.json` | 765.8 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -99,7 +99,7 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 172.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 537 B | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 881.0 KB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
@@ -2063,7 +2063,7 @@
 | `tests/test_build_place_decade_trends.py` | 27.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
-| `tests/test_chfa_qap_watch.py` | 14.4 KB |
+| `tests/test_chfa_qap_watch.py` | 19.8 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
@@ -2105,8 +2105,8 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/chfa-qap-watch.yml` | 7.1 KB |
-| `.github/workflows/ci-checks.yml` | 16.1 KB |
+| `.github/workflows/chfa-qap-watch.yml` | 7.5 KB |
+| `.github/workflows/ci-checks.yml` | 16.2 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
 | `.github/workflows/configure-alerts-feeds.yml` | 5.8 KB |
