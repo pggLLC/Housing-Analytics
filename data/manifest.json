@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-25T05:58:22.120736Z",
+  "generated": "2026-09-25T06:21:22.531672Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 784133
+      "bytes": 784126
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7844,7 +7844,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14677
+      "bytes": 14678
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -7974,7 +7974,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 146257
+      "bytes": 225843
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
