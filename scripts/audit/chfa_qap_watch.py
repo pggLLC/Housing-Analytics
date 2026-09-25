@@ -29,8 +29,9 @@ What it records (data/audit/chfa-qap-watch.json)
   - Each document linked from those pages (PDFs and /getattachment/ files):
     URL, link text, SHA-256, size, first-seen and last-changed times.
   - For QAP documents (plan, summary of changes, redline, amendments): the
-    extracted text, and the "key lines" -- lines with a dollar amount or a
-    limit word (maximum, cap, limit, per project, set-aside, basis boost).
+    "key lines" -- lines with a dollar amount or a limit word (maximum, cap,
+    limit, per project, set-aside, basis boost) -- and, for the newest
+    KEEP_TEXT_CYCLES QAP cycles only, the full extracted text.
   - What changed since the previous run: new, changed and removed documents,
     with the key lines added and removed, and pages whose key lines changed.
 
@@ -43,11 +44,24 @@ Rules that keep it honest
     If nothing could be fetched, the file is not rewritten.
   - The file is only rewritten when something other than timestamps changed,
     so a quiet week does not add a commit.
+  - The file stays under the repo's 5 MiB data-file ceiling
+    (scripts/check-data-file-sizes.mjs). CHFA lists every QAP back to 2016, and
+    storing all of their text made the first run 5.3 MiB and broke ci-checks on
+    every PR. So full text is kept for the current and previous QAP cycles only
+    (the draft under review and the plan in force), within MAX_TEXT_BYTES_TOTAL;
+    an older document keeps its hash and key lines and says why its text was
+    left out (text_omitted). If the result would still exceed MAX_OUT_BYTES,
+    nothing is written and the run exits 1, so the workflow fails visibly
+    instead of committing a file that breaks main.
+  - A document whose extraction failed is retried on the next run even when its
+    bytes are unchanged; otherwise a fix to the environment (CHFA's recent QAPs
+    are AES-encrypted and need the `cryptography` package) would never reach the
+    documents that failed before it.
 
 Exit codes
 ----------
   0  watch completed (with or without changes or fetch failures)
-  1  internal error
+  1  internal error, or the result would exceed MAX_OUT_BYTES (nothing written)
 
 Usage
 -----
@@ -90,7 +104,15 @@ MAX_DOC_TEXT_CHARS = 1_500_000
 MAX_PAGE_TEXT_CHARS = 200_000
 MAX_KEY_LINES = 600
 MAX_DIFF_LINES = 80
+# Size bounds. check-data-file-sizes.mjs fails ci-checks on any tracked data
+# file over 5 MiB; MAX_OUT_BYTES leaves headroom below it.
+KEEP_TEXT_CYCLES = 2
+MAX_TEXT_BYTES_TOTAL = 3 * 1024 * 1024
+MAX_OUT_BYTES = int(4.5 * 1024 * 1024)
 
+# A QAP cycle is named by its first year: "2027-28", "2027-2028", "2025_26".
+CYCLE_RANGE_RE = re.compile(r'(?<!\d)(20\d\d)\s*[-\u2013_]\s*(?:20)?(\d\d)(?!\d)')
+YEAR_RE = re.compile(r'(?<!\d)(20\d\d)(?!\d)')
 DOC_LINK_RE = re.compile(r'\.pdf(?:$|[?#])|/getattachment/', re.I)
 # Documents whose text is kept. Everything else is hashed only.
 QAP_DOC_RE = re.compile(r'qap|qualified[\s_-]*allocation|allocation[\s_-]*plan|summary[\s_-]*of[\s_-]*changes|redline|amend', re.I)
@@ -202,6 +224,52 @@ def is_qap_document(doc: dict) -> bool:
     return bool(QAP_DOC_RE.search(doc.get('title', '')) or QAP_DOC_RE.search(doc['url']))
 
 
+def qap_cycle(doc: dict) -> int | None:
+    """First year of the QAP cycle a document belongs to, or None.
+
+    A range ("2027-28") in the title or URL wins over a bare year, because a
+    hearing deck titled "July 2026 Public Hearing" belongs to the 2027-28 plan
+    and says so only in its file name."""
+    s = f"{doc.get('title', '')} {urllib.parse.unquote(doc.get('url', ''))}"
+    m = CYCLE_RANGE_RE.search(s)
+    if m:
+        return int(m.group(1))
+    years = [int(y) for y in YEAR_RE.findall(s)]
+    return max(years) if years else None
+
+
+def text_serialized_bytes(text: str) -> int:
+    return len(json.dumps(text, ensure_ascii=False).encode('utf-8'))
+
+
+def apply_text_retention(documents: list) -> None:
+    """Keep full text only for the newest KEEP_TEXT_CYCLES cycles, newest first,
+    within MAX_TEXT_BYTES_TOTAL. Everything else keeps its hash and key lines and
+    records why its text is absent. Mutates documents in place."""
+    cycles = sorted({c for c in (qap_cycle(d) for d in documents) if c is not None}, reverse=True)
+    kept_cycles = set(cycles[:KEEP_TEXT_CYCLES])
+    order = sorted(range(len(documents)), key=lambda i: -(qap_cycle(documents[i]) or 0))
+    used = 0
+    for i in order:
+        doc = documents[i]
+        doc.pop('text_omitted', None)
+        if 'text' not in doc:
+            continue
+        if qap_cycle(doc) not in kept_cycles:
+            doc.pop('text')
+            doc['text_omitted'] = (f'older QAP cycle: full text is kept only for the {KEEP_TEXT_CYCLES} newest '
+                                   f'cycles ({", ".join(str(c) for c in sorted(kept_cycles, reverse=True))}); '
+                                   'hash and key lines are kept')
+            continue
+        size = text_serialized_bytes(doc['text'])
+        if used + size > MAX_TEXT_BYTES_TOTAL:
+            doc.pop('text')
+            doc['text_omitted'] = (f'text budget: {MAX_TEXT_BYTES_TOTAL} bytes of document text already used by '
+                                   'newer documents; hash and key lines are kept')
+            continue
+        used += size
+
+
 def _content(result: dict) -> dict:
     """The parts of a result that matter for deciding whether to rewrite it."""
     strip = {'generated_at', 'checked_at', 'last_checked_at'}
@@ -276,12 +344,14 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                     'last_modified': headers.get('last-modified')})
         unchanged = prev.get('sha256') == digest
         keep_text = is_qap_document(doc)
-        if unchanged:
+        # Same bytes, but the last extraction failed: try again (see "Rules").
+        retry = unchanged and keep_text and bool(prev.get('text_error'))
+        if unchanged and not retry:
             for k in ('pages', 'text', 'text_chars', 'text_truncated', 'key_lines', 'text_error', 'last_changed_at'):
                 if k in prev:
                     doc[k] = prev[k]
         else:
-            doc['last_changed_at'] = now
+            doc['last_changed_at'] = prev.get('last_changed_at', now) if retry else now
             if keep_text:
                 text, npages, err = pdf_text(body)
                 doc['pages'] = npages
@@ -315,6 +385,8 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         else:  # its page could not be checked: keep it, unchanged
             documents.append(prev)
 
+    apply_text_retention(documents)
+
     changed_pages = [
         {'id': p['id'], 'url': p['url'], 'key_lines': line_diff(prev_pages[p['id']].get('key_lines'), p['key_lines'])}
         for p in page_out
@@ -332,7 +404,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'schema': SCHEMA,
         'generated_at': now,
         'note': ('Written by scripts/audit/chfa_qap_watch.py (weekly, .github/workflows/chfa-qap-watch.yml). '
-                 'Document text is extracted from CHFA PDFs by machine; quote CHFA\'s PDF, not this file.'),
+                 'Document text is extracted from CHFA PDFs by machine; quote CHFA\'s PDF, not this file. '
+                 'CHFA\'s drafts are redlines: struck and inserted characters run together in this text '
+                 '(e.g. "December 12, 20264" is December 1, 2026 replacing December 2, 2024). '
+                 f'Full text is kept for the {KEEP_TEXT_CYCLES} newest QAP cycles only; see text_omitted.'),
         'source_pages': page_out,
         'documents': documents,
         'changes': changes,
@@ -373,8 +448,15 @@ def main(argv: list | None = None) -> int:
     if previous and _content(previous) == _content(result):
         print('[chfa-qap-watch] no change since the last recorded run; file left as is')
         return _write_run_summary(args.summary, result)
+    payload = json.dumps(result, indent=1, ensure_ascii=False) + '\n'
+    size = len(payload.encode('utf-8'))
+    if size > MAX_OUT_BYTES:
+        print(f'[chfa-qap-watch] result is {size} bytes, over MAX_OUT_BYTES ({MAX_OUT_BYTES}); '
+              'not writing it. Tighten KEEP_TEXT_CYCLES / MAX_TEXT_BYTES_TOTAL.', file=sys.stderr)
+        _write_run_summary(args.summary, result)
+        return 1
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(result, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+    out.write_text(payload, encoding='utf-8')
     print(f'[chfa-qap-watch] wrote {out.relative_to(ROOT) if out.is_relative_to(ROOT) else out}')
     return _write_run_summary(args.summary, result)
 
