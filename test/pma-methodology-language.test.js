@@ -57,7 +57,7 @@ assert(
   'buffer-scored methods still use the existing circular buffer helper'
 );
 assert(
-  engineSource.includes('computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx)'),
+  engineSource.includes('computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx)'),
   'PMA scoring call signature remains unchanged'
 );
 

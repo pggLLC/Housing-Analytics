@@ -59,7 +59,7 @@ if (fileExists('market-analysis.html')) {
     { pattern: /id=["']pmaBufferSelect["']/,       label: '#pmaBufferSelect present' },
     { pattern: /id=["']pmaScoreCircle["']/,        label: '#pmaScoreCircle present' },
     { pattern: /id=["']pmaRadarChart["']/,         label: '#pmaRadarChart (radar chart canvas) present' },
-    { pattern: /id=["']pmaLihtcCount["']/,         label: '#pmaLihtcCount present' },
+    { pattern: /id=["']pmaAffordableCount["']/,    label: '#pmaAffordableCount present' },
     { pattern: /id=["']pmaLihtcUnits["']/,         label: '#pmaLihtcUnits present' },
     { pattern: /id=["']pmaCaptureRate["']/,         label: '#pmaCaptureRate present' },
     { pattern: /id=["']pmaProposedUnits["']/,       label: '#pmaProposedUnits (simulator) present' },
