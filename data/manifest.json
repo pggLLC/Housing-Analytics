@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-25T09:11:36.913201Z",
+  "generated": "2026-09-25T12:17:07.622438Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -339,7 +339,7 @@
     "data/fred-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 1252116
+      "bytes": 1252594
     },
     "data/glossary.json": {
       "featureCount": 0,
@@ -7844,7 +7844,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14678
+      "bytes": 14676
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
@@ -7989,7 +7989,7 @@
     "data/polymarket-data.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 17822
+      "bytes": 17800
     },
     "data/processed/co_county_housing_indicators.geojson": {
       "featureCount": 64,
@@ -8039,7 +8039,7 @@
     "data/reports/developer-url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 21228
+      "bytes": 21218
     },
     "data/reports/repo-link-audit.json": {
       "featureCount": 0,
@@ -8079,7 +8079,7 @@
     "data/url-health.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 332273
+      "bytes": 334744
     }
   }
 }
