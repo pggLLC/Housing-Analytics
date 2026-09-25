@@ -219,7 +219,7 @@
     <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
          Hydrated from WorkflowState/SiteState; updates on jurisdiction
          change. Same shared component used on HNA. -->
-    <div id="pmaRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
+    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
       <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
       <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
         Three rent measurements for the active jurisdiction so you can see which figure applies to which question
@@ -576,13 +576,14 @@
       <div class="pma-panel">
 
         <!-- Site Score -->
-        <div class="pma-card">
+        <div class="pma-card" data-pma-keep>
           <h2>Site Score</h2>
           <div id="pmaScoreWrap" class="pma-score-wrap">
             <div class="pma-score-circle" id="pmaScoreCircle" aria-label="Overall PMA score">—</div>
             <div class="pma-score-meta">
               <div class="pma-score-label">Overall PMA Score (0–100)</div>
               <div class="pma-score-note" style="font-size:.75rem;color:var(--muted);margin-top:2px;">Relative indicator only — not a CHFA threshold</div>
+              <div class="pma-score-boundary" id="pmaScoreBoundary" data-boundary="none" style="font-size:.75rem;margin-top:2px;" hidden></div>
               <div class="pma-score-tier" id="pmaScoreTier">Select a site to begin</div>
               <div style="font-size:var(--tiny);color:var(--faint);margin-top:0.3rem"><span id="pmaTractCount">—</span> ACS tracts in buffer</div>
             </div>
@@ -746,7 +747,7 @@
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
                 <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
-                <dt>Capture rate</dt><dd>existing LIHTC units ÷ renter households in buffer (ACS 2023)</dd>
+                <dt>Capture rate</dt><dd>existing affordable units (LIHTC and other subsidized) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
             </div>
@@ -760,11 +761,12 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
               <div class="pma-stat-label">Capture rate (existing)</div>
-              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
+              <div class="pma-stat-note" id="pmaCaptureDenominator" data-denominator="" style="font-size:var(--tiny);color:var(--muted)"></div>
+              <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS</a></div>
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaRenterHh">—</div>
-              <div class="pma-stat-label">Renter households</div>
+              <div class="pma-stat-label">Renter households (all incomes)</div>
               <div class="kpi-source"><a href="https://data.census.gov/table/ACSDP5Y2023.DP04" target="_blank" rel="noopener">ACS 2023</a></div>
             </div>
             <div class="pma-stat">
@@ -1020,7 +1022,7 @@
              boundary is so they don't mistake screening output for a
              market study.
         -->
-        <div class="pma-card" style="border:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);">
+        <div class="pma-card" data-pma-keep style="border:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);">
           <h2 style="display:flex;align-items:center;gap:8px;">
             When to commission a professional market study
             <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">Beyond screening</small>
