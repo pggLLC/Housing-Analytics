@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-24T20:46:00Z",
+  "updated": "2026-09-24T22:17:58Z",
   "terms": [
     {
       "term": "LIHTC",
@@ -445,6 +445,216 @@
       "term": "MCC",
       "full": "Mortgage Credit Certificate",
       "definition": "A federal tax credit for part of the mortgage interest a qualifying homebuyer pays each year."
+    },
+    {
+      "term": "URA",
+      "full": "Urban Renewal Authority",
+      "definition": "A city agency that can use tax increment financing and land write-downs to support redevelopment, including housing."
+    },
+    {
+      "term": "IZ",
+      "full": "Inclusionary Zoning",
+      "definition": "A local rule that requires or encourages new developments to include some affordable homes."
+    },
+    {
+      "term": "HERA",
+      "full": "Housing and Economic Recovery Act of 2008",
+      "definition": "A federal law. Its 'HERA Special' income limits are higher limits that apply to tax-credit projects placed in service by the end of 2008 in qualifying counties."
+    },
+    {
+      "term": "DSCR",
+      "full": "Debt Service Coverage Ratio",
+      "definition": "Net operating income divided by the year's mortgage payments. Lenders set a minimum, often around 1.15 to 1.25. Same idea as DCR."
+    },
+    {
+      "term": "HTF",
+      "full": "Housing Trust Fund",
+      "definition": "A public fund set aside for affordable housing. It can be local, state or national."
+    },
+    {
+      "term": "NHTF",
+      "full": "National Housing Trust Fund",
+      "definition": "A federal HUD program that funds homes for extremely low-income households, at or below 30% of AMI."
+    },
+    {
+      "term": "LOI",
+      "full": "Letter of Intent",
+      "definition": "A short, usually non-binding letter stating the intent to go ahead with a deal or a funding application."
+    },
+    {
+      "term": "PUPA",
+      "full": "Per Unit Per Annum",
+      "definition": "A cost per home per year, usually used for operating expenses."
+    },
+    {
+      "term": "LP",
+      "full": "Limited Partner",
+      "definition": "In a tax-credit deal, the investor who buys the credits and owns most of the partnership but does not run it."
+    },
+    {
+      "term": "GP",
+      "full": "General Partner",
+      "definition": "In a tax-credit deal, the developer or sponsor that manages the partnership and the property."
+    },
+    {
+      "term": "CDFI",
+      "full": "Community Development Financial Institution",
+      "definition": "A mission-driven lender certified by the U.S. Treasury's CDFI Fund."
+    },
+    {
+      "term": "NOFA",
+      "full": "Notice of Funding Availability",
+      "definition": "The announcement that a funding program is open for applications."
+    },
+    {
+      "term": "MIHTC",
+      "full": "Middle Income Housing Tax Credit",
+      "definition": "A Colorado state tax credit, administered by CHFA, for rental homes for households above the usual LIHTC income limits."
+    },
+    {
+      "term": "PSH",
+      "full": "Permanent Supportive Housing",
+      "definition": "Affordable housing paired with support services, usually for people who have experienced homelessness or live with a disability."
+    },
+    {
+      "term": "PIS",
+      "full": "Placed in Service",
+      "definition": "The date a project's homes are finished and ready to rent. The tax-credit period starts that year or, if the owner chooses, the next."
+    },
+    {
+      "term": "CHDO",
+      "full": "Community Housing Development Organization",
+      "definition": "A nonprofit certified to receive the share of federal HOME funds set aside for community groups."
+    },
+    {
+      "term": "VASH",
+      "full": "Veterans Affairs Supportive Housing",
+      "definition": "HUD rental vouchers for veterans who have experienced homelessness, paired with VA case management."
+    },
+    {
+      "term": "PILOT",
+      "full": "Payment in Lieu of Taxes",
+      "definition": "An agreed payment a property makes instead of regular property taxes."
+    },
+    {
+      "term": "LURA",
+      "full": "Land Use Restriction Agreement",
+      "definition": "A recorded agreement that keeps a property's rents and tenant incomes restricted for a set number of years."
+    },
+    {
+      "term": "ELI",
+      "full": "Extremely Low Income",
+      "definition": "Households earning 30% of AMI or less."
+    },
+    {
+      "term": "TABOR",
+      "full": "Taxpayer's Bill of Rights",
+      "definition": "Colorado's constitutional limit on how much revenue the state can keep and spend."
+    },
+    {
+      "term": "RTD",
+      "full": "Regional Transportation District",
+      "definition": "The Denver-area public transit agency."
+    },
+    {
+      "term": "GTFS",
+      "full": "General Transit Feed Specification",
+      "definition": "The standard format transit agencies use to publish routes, stops and schedules."
+    },
+    {
+      "term": "CDOT",
+      "full": "Colorado Department of Transportation",
+      "definition": "The state transportation agency."
+    },
+    {
+      "term": "WUI",
+      "full": "Wildland-Urban Interface",
+      "definition": "Areas where homes meet or mix with undeveloped wildland, with higher wildfire risk."
+    },
+    {
+      "term": "SFHA",
+      "full": "Special Flood Hazard Area",
+      "definition": "FEMA's high-risk flood zone: land with at least a 1% chance of flooding in any year."
+    },
+    {
+      "term": "OSM",
+      "full": "OpenStreetMap",
+      "definition": "A free, crowd-sourced world map. This site uses it for amenities such as grocery stores and schools."
+    },
+    {
+      "term": "TIGER",
+      "full": "TIGER/Line boundaries",
+      "definition": "Census Bureau map files of boundaries such as counties, places and census tracts."
+    },
+    {
+      "term": "CUP",
+      "full": "Conditional Use Permit",
+      "definition": "Local approval to use a site in a way the zoning allows only under conditions, often after a public hearing."
+    },
+    {
+      "term": "RD",
+      "full": "USDA Rural Development",
+      "definition": "The federal agency that finances housing in rural areas, including rental properties."
+    },
+    {
+      "term": "USDA",
+      "full": "U.S. Department of Agriculture",
+      "definition": "Federal department whose Rural Development agency finances rural housing."
+    },
+    {
+      "term": "FEMA",
+      "full": "Federal Emergency Management Agency",
+      "definition": "The federal disaster agency. It publishes the flood zone maps."
+    },
+    {
+      "term": "EPA",
+      "full": "U.S. Environmental Protection Agency",
+      "definition": "The federal environmental agency."
+    },
+    {
+      "term": "CDBG",
+      "full": "Community Development Block Grant",
+      "definition": "Flexible HUD funding for local governments that can support housing and community projects."
+    },
+    {
+      "term": "RAD",
+      "full": "Rental Assistance Demonstration",
+      "definition": "A HUD program that converts public housing to long-term project-based rental assistance so it can be refinanced and repaired."
+    },
+    {
+      "term": "MSA",
+      "full": "Metropolitan Statistical Area",
+      "definition": "A federally defined metro area: a core city plus the counties tied to it by commuting."
+    },
+    {
+      "term": "MLS",
+      "full": "Multiple Listing Service",
+      "definition": "The shared database real estate agents use to list and record home sales."
+    },
+    {
+      "term": "TOD",
+      "full": "Transit-Oriented Development",
+      "definition": "Housing built near frequent public transit."
+    },
+    {
+      "term": "NEPA",
+      "full": "National Environmental Policy Act",
+      "definition": "The federal law requiring an environmental review before federal funds are used on a project."
+    },
+    {
+      "term": "HOME",
+      "full": "HOME Investment Partnerships Program",
+      "definition": "HUD's largest federal block grant for affordable housing, given to states and local governments to build, buy or repair homes for low-income households."
+    },
+    {
+      "term": "LEED",
+      "full": "Leadership in Energy and Environmental Design",
+      "definition": "A widely used green building certification."
+    },
+    {
+      "term": "HTC",
+      "full": "Historic Tax Credit",
+      "definition": "A tax credit for rehabilitating certified historic buildings: 20% federal, and Colorado offers a state credit too."
     }
   ]
 }

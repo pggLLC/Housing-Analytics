@@ -294,7 +294,7 @@
             { name: 'FEMA Flood Zones', status: 'cached', vintage: '2026 (NFHL current effective)', coverage: 'Colorado', note: 'Polygon SFHA high-risk zones only (A/AE/AO/AH); Zone X/D moderate-low not included' },
             { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
             { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2023', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
-            { name: 'NHPD Preservation', status: 'stub', vintage: '2026-03-13', coverage: 'Colorado stub snapshot', note: 'Registration-gated source; verify current subsidy status. Loaded but not integrated into scoring.' }
+            { name: 'NHPD Preservation', status: 'stub', vintage: '2026-03-13', coverage: 'Partial: 20 Colorado projects only, not the full inventory; not refreshed', note: 'Registration-gated source; verify current subsidy status. Loaded but not integrated into scoring.' }
           ],
           limitations: 'PMA uses a circular buffer, not a professionally delineated market area. Amenity distances are point-based approximations. Employment detection requires 500+ job clusters (may fail in rural areas). Barrier analysis is heuristic only — the PMA boundary is not spatially modified.'
         });
@@ -1327,7 +1327,7 @@
         <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a>, and
         <a href="docs/PMA_DATA_ENHANCEMENTS.md">PMA_DATA_ENHANCEMENTS.md</a> for full methodology.
       </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:.82rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:6px 16px;font-size:.82rem">
         <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B01003, B25003, B25004, B25070, B25064)</div>
         <div><strong>HUD LIHTC Database</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Projects</a></div>
         <div><strong>CHFA ArcGIS</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado LIHTC Portfolio</a></div>

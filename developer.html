@@ -39,7 +39,7 @@
 
   .ib-stat-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
     gap: var(--sp3);
     margin-bottom: var(--sp4);
   }
@@ -121,7 +121,7 @@
 
   .ib-quick-links {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
     gap: var(--sp2);
     margin-top: var(--sp3);
   }

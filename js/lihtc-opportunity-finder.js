@@ -2126,7 +2126,7 @@
     if (p123) {
       var dateTxt = p123.filing_date ? ' · ' + escHtml(p123.filing_date) : '';
       var fastTrack = p123.fast_track
-        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700">FAST</span>'
+        ? ' <span style="font-size:.65rem;color:var(--accent);font-weight:700" title="Eligible for Prop 123 fast-track approval of affordable housing">fast-track</span>'
         : '';
       return '<span class="lof-prop123-pill lof-prop123-yes" ' +
         'title="Filed with DOLA' + (p123.filing_date ? ' on ' + p123.filing_date : '') +
@@ -2846,7 +2846,7 @@
     }
 
     return '<h4 class="lof-section-h" style="margin-top:14px;">Labor market &amp; commute</h4>' +
-      '<div class="lof-labor-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:6px 0">' +
+      '<div class="lof-labor-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px, 100%),1fr));gap:8px;margin:6px 0">' +
         '<div class="lof-labor-card" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;background:var(--card2)">' +
           '<div style="font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">Live &amp; work here</div>' +
           '<div style="font-size:1.05rem;font-weight:700">' + fmt(within) + '</div>' +

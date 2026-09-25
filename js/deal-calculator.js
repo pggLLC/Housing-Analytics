@@ -1350,7 +1350,7 @@
        sources/uses, left-to-right. At 760-1080 px the grid collapses to
        2 cols (Inputs | Outputs); below 760 px it stacks to 1 col. The page
        container max-width is 1400 px (see deal-calculator.html). -->
-  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:var(--sp3);align-items:start;">
+  <div id="dc-calc-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px, 100%),1fr));gap:var(--sp3);align-items:start;">
 
     <!-- Inputs column -->
     <div id="dc-inputs-col" style="min-width:0;">
@@ -1841,7 +1841,7 @@
           <summary style="cursor:pointer;font-weight:700;font-size:var(--small);color:var(--accent);">
             ▸ Soft-funding program reference (14 sources, with descriptions + links)
           </summary>
-          <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
+          <div id="dc-soft-funding-ref-list" style="margin-top:var(--sp2);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(360px, 100%),1fr));gap:var(--sp2) var(--sp3);font-size:var(--small);"></div>
         </details>
         <div id="dc-funding-context-card" data-funding-context-surface="deal-calculator" hidden style="margin-top:var(--sp3);"></div>
       </fieldset>
@@ -1950,7 +1950,7 @@
             <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;background:var(--card);padding:0.4rem 0.5rem;border-radius:3px;line-height:1.7;">
               stress_NOI = (rents × rent_mult) × (1 − (vacancy + vac_delta)) − (opex × opex_mult) − reserve − tax
             </div>
-            <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+            <div style="margin-top:0.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:0.5rem;">
               <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
                 Rent stress &minus;
                 <input id="dc-const-rent-stress" type="number" min="0" max="50" step="1" value="10"
@@ -1968,7 +1968,7 @@
               </label>
             </div>
             <div style="margin-top:0.4rem;font-size:var(--tiny);color:var(--muted);">Combined-stress (multi-variable) deltas:</div>
-            <div style="margin-top:0.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.5rem;">
+            <div style="margin-top:0.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:0.5rem;">
               <label style="font-size:var(--tiny);color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
                 Rent &minus;
                 <input id="dc-const-comb-rent" type="number" min="0" max="50" step="1" value="5"
@@ -2007,6 +2007,30 @@
               Whatever's left after equity, perm debt, and deferred fee. Bridged by the tranches you enter under &ldquo;Soft Funding Stack&rdquo;. Each tranche is either a <strong>loan</strong> (amortized and repayable, so it carries debt service) or a <strong>grant</strong> (which reduces eligible basis under &sect;42(d)(5)(A)). An impact-fee <em>waiver</em> is a grant; an impact-fee <em>deferral</em> is a loan &mdash; enter it as one, with its rate and term, or the model will treat repayable money as free.
             </p>
           </div>
+
+          <details style="margin-top:var(--sp3);font-size:var(--tiny);line-height:1.55;">
+            <summary style="cursor:pointer;font-weight:600;">What the terms in these formulas mean</summary>
+            <dl style="margin:0.5rem 0 0;display:grid;grid-template-columns:minmax(9rem,max-content) 1fr;gap:0.25rem 0.75rem;">
+              <dt><code>tier_pct</code></dt><dd style="margin:0;">The income tier a home is priced for, such as 60% of AMI.</dd>
+              <dt><code>MTSP_AMI</code></dt><dd style="margin:0;">HUD's income limit for tax-credit housing in the county, for the household size shown.</dd>
+              <dt><code>rent_burden</code></dt><dd style="margin:0;">The share of income a household is assumed to spend on rent (30% is standard).</dd>
+              <dt><code>units_at_tier</code></dt><dd style="margin:0;">How many homes are priced at that tier.</dd>
+              <dt><code>gross_rents</code></dt><dd style="margin:0;">Total yearly rent if every home rents at its ceiling.</dd>
+              <dt><code>opex</code></dt><dd style="margin:0;">Yearly operating expenses.</dd>
+              <dt><code>rep_reserve</code></dt><dd style="margin:0;">Money set aside each year for future repairs and replacements.</dd>
+              <dt><code>net_property_tax</code></dt><dd style="margin:0;">Property tax after any exemption.</dd>
+              <dt><code>DCR_target</code></dt><dd style="margin:0;">The minimum ratio of NOI to mortgage payments the lender requires.</dd>
+              <dt><code>mortgage_constant</code></dt><dd style="margin:0;">The yearly mortgage payment per dollar borrowed, set by the rate and term.</dd>
+              <dt><code>annual_debt_service</code></dt><dd style="margin:0;">Total mortgage payments for the year.</dd>
+              <dt><code>rent_mult</code>, <code>opex_mult</code>, <code>vac_delta</code></dt><dd style="margin:0;">The stress-test settings: how far rents drop, how much expenses rise, and how many points vacancy rises.</dd>
+              <dt><code>eligible_basis</code></dt><dd style="margin:0;">The share of development cost that tax credits can be claimed on.</dd>
+              <dt><code>credit_rate</code></dt><dd style="margin:0;">The yearly credit percentage: 9% (competitive) or about 4%.</dd>
+              <dt><code>equity_price</code></dt><dd style="margin:0;">What the investor pays for each $1 of tax credit.</dd>
+              <dt><code>supportable_mortgage</code></dt><dd style="margin:0;">The largest first mortgage the project's income can carry (formula 4).</dd>
+              <dt><code>deferred_dev_fee</code></dt><dd style="margin:0;">Part of the developer fee left in the deal and paid later from cash flow.</dd>
+              <dt><code>soft_sources</code></dt><dd style="margin:0;">Grants and low-cost loans entered under the Soft Funding Stack.</dd>
+            </dl>
+          </details>
 
           <div style="display:flex;gap:0.5rem;margin-top:var(--sp3);">
             <button type="button" id="dc-const-reset"
@@ -5629,7 +5653,7 @@
         '</tr></tfoot>' +
         '</table>' +
         // Bottom-line summary
-        '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 16px;font-size:.82rem;">' +
+        '<div style="margin-top:.8rem;padding:.5rem .65rem;background:var(--bg2);border-radius:6px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:8px 16px;font-size:.82rem;">' +
         '<div><strong style="color:var(--muted);">LP cash received:</strong> <span style="font-weight:700;">' + _fmtMoney(wf.lpTotal) + '</span></div>' +
         '<div><strong style="color:var(--muted);">LP cash multiple:</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpMultiple) ? Number(wf.lpMultiple).toFixed(2) + 'x' : '—') + '</span></div>' +
         '<div><strong style="color:var(--muted);">LP cash IRR (excl. credits):</strong> <span style="font-weight:700;">' + (!MoneyFormatter.isAbsent(wf.lpCashIrr) ? _fmtPct(wf.lpCashIrr) : '—') + '</span></div>' +

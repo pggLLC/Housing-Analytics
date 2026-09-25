@@ -103,7 +103,7 @@
           '<strong style="font-size:.95rem">Data section · 3 places to look</strong>' +
           '<span style="font-size:.72rem;color:var(--muted)">Pick a card to switch views</span>' +
         '</div>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:.5rem">' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(220px, 100%), 1fr));gap:.5rem">' +
           primary.map(_card).join('') +
         '</div>' +
         secondaryFooter +

@@ -417,9 +417,9 @@
       <div class="sb-saved-item" data-id="${_escHtml(s.id)}">
         <div class="sb-saved-name">${_escHtml(s.name)}</div>
         <div class="sb-saved-meta">
-          Fertility ×${s.parameters.fertility_multiplier.toFixed(2)} |
-          Migration ${Number(s.parameters.net_migration_annual)}/yr |
-          Mortality ×${s.parameters.mortality_multiplier.toFixed(2)}
+          Births ×${s.parameters.fertility_multiplier.toFixed(2)} |
+          Moving in (net) ${Number(s.parameters.net_migration_annual)}/yr |
+          Deaths ×${s.parameters.mortality_multiplier.toFixed(2)}
         </div>
         <div class="sb-saved-actions">
           <button class="btn btn-sm sb-load-btn" data-id="${_escHtml(s.id)}" type="button">Load</button>

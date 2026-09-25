@@ -3610,7 +3610,7 @@
       'Each pill is a tightly-scoped query (quoted phrases, OR groups, filetype:pdf, last-12-month recency) ' +
       'that lands on real agendas, minutes, and staff reports — not generic press.' +
       '</p>' +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.5rem">';
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr));gap:.5rem">';
 
     links.forEach(function (lk) {
       out +=
@@ -5379,7 +5379,7 @@
       // Open by default would put the reader back where they started.
       '<details style="' + DETAIL_BOX + '">' +
         '<summary style="' + DETAIL_SUMMARY + '">How that was screened &mdash; four pressure measures</summary>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.25rem 0 1rem;">' + cardHtml + '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px, 100%),1fr));gap:.8rem;margin:.25rem 0 1rem;">' + cardHtml + '</div>' +
       '</details>' +
       '<details style="' + DETAIL_BOX + '">' +
         '<summary style="' + DETAIL_SUMMARY + '">If you are taking this further &mdash; the developer decision chain</summary>' +
@@ -6022,7 +6022,7 @@
           '<span style="color:var(--muted);font-weight:400;font-size:1rem;">(' +
             Object.keys(patterns).length + ' patterns · cost · timeline · CO examples)</span>' +
         '</summary>' +
-        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:10px;">';
+        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:10px;">';
       Object.keys(patterns).forEach(function (key) {
         var p = patterns[key];
         var pmeta = PATTERN_LABELS[key] || { icon: '🏗️', label: key.replace(/_/g, ' ') };
@@ -6225,7 +6225,7 @@
         addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.5;';
         addendum.innerHTML =
           '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
-          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(140px, 100%), 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
             '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
             (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
             '<div><span style="color:var(--muted);font-size:1rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
@@ -6489,7 +6489,7 @@
       }
 
       // ── Summary cards ──────────────────────────────────────────────
-      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
           '<div style="font-size:1rem;color:var(--muted);">Median rent change</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(rentChange, false) + ';">' + _fmtPctChange(rentChange) + '</div>' +
@@ -6708,7 +6708,7 @@
       var firstYr = years[0];
 
       // ── Headline cards ────────────────────────────────────────────
-      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
           '<div style="font-size:1rem;color:var(--muted);">Total permits ' + firstYr + '–' + lastYr + '</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:var(--accent);">' + fmtNum(total) + '</div>' +
@@ -8266,7 +8266,7 @@
       '</div>' +
 
       // 4 component cards
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:.6rem;">' +
         _scorecardCard(
           'A · Cost burden (blended)',
           pctStr(blendedBurden),

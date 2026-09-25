@@ -152,7 +152,7 @@
       cats[s.category].push(s);
     });
 
-    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem">';
+    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:.75rem">';
     Object.keys(cats).sort().forEach(function (cat) {
       var catSources = cats[cat];
       var withScore = catSources.filter(function (s) { return s.freshnessScore !== null; });
