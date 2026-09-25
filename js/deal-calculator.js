@@ -3491,6 +3491,22 @@
     var mortgage = !isFinite(noi) ? NaN
       : (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
 
+    // Why NOI or the rent roll is unknown, carried with it so each message
+    // names the fix that applies rather than assuming there is no county.
+    var noiUnknownReason = null;
+    if (!(autoNoi && autoNoi.checked) && !isFinite(noi)) {
+      noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
+    } else if (unitMixError) {
+      noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
+    } else if (!_amiLimits && !_amiLimitsByBr) {
+      noiUnknownReason = 'Select a county to load AMI rent limits.';
+    }
+    var rentsUnknownReason = unitMixError
+      ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.'
+      : (!_amiLimits && !_amiLimitsByBr) ? 'Select a county to load AMI rent limits.'
+      : !(annualRents > 0) ? 'Add units to at least one AMI tier.'
+      : null;
+
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
     var annualDebtService = mc > 0 ? mortgage * mc : 0;
@@ -3557,7 +3573,8 @@
       if (autoBalance && !isFinite(gapBeforeDeferred)) {
         // NaN fails every comparison below, which used to land on "Deal is
         // balanced" — a verdict about a gap nobody could compute.
-        autoNote.textContent = 'Nothing to balance yet: the funding gap depends on the first mortgage, which needs a rent roll. Select a county to load AMI rent limits.';
+        autoNote.textContent = 'Nothing to balance yet: the funding gap depends on the first mortgage, which needs a known NOI. ' +
+          (noiUnknownReason || rentsUnknownReason || '');
         autoNote.hidden = false;
       } else if (autoBalance) {
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
@@ -4206,7 +4223,8 @@
     var sensitivityKnown = isFinite(noi) && annualRents > 0;
     if (tornadoMount && tdc > 0 && !sensitivityKnown) {
       tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
-        'Sensitivity needs a rent roll. Select a county to load AMI rent limits.</p>';
+        'Sensitivity needs a known NOI and rent roll. ' +
+        ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '') + '</p>';
     }
     if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {

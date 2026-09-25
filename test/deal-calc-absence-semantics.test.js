@@ -181,6 +181,23 @@ test('the sensitivity chart is not drawn from an unknown NOI', () => {
     + 'coerce them with `|| 0` and draw $0 ranges');
 });
 
+test('the absence messages name the cause, not always "select a county"', () => {
+  // A county can be selected and NOI still unknown (a blank manual NOI, a
+  // broken unit mix). Telling that reader to select a county sends them to
+  // fix something that is not broken (Codex review, #1905).
+  assert.ok(/'Enter NOI, or turn on auto-compute\.'/.test(SRC), 'manual-NOI cause is not named');
+  assert.ok(/unitMixError\s*\?\s*'Fix the unit mix/.test(SRC), 'unit-mix cause is not named');
+  for (const [what, re] of [
+    ['auto-balance note', /Nothing to balance yet[^;]*;/],
+    ['sensitivity note', /Sensitivity needs a known NOI[^;]*;/],
+  ]) {
+    const m = SRC.match(re);
+    assert.ok(m, `${what} not found`);
+    assert.ok(!/Select a county/.test(m[0]), `${what} hard-codes the no-county remedy`);
+    assert.ok(/UnknownReason/.test(m[0]), `${what} does not use the carried reason`);
+  }
+});
+
 test('percent labels on the sensitivity chart are rounded before printing', () => {
   // vacFrac() * 100 turns 7% into 7.000000000000001, which was printed as
   // "Vacancy 5.000000000000001% to 9%". Executed, not grepped: take the label
