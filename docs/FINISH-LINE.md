@@ -52,21 +52,26 @@ Seven steps, in the order the rail (`js/components/workflow-progress.js` STEPS) 
 
 | id | criterion | source |
 |----|-----------|--------|
-| PC-6 | Cost per square foot is available in the deal path | owner's plan, quoted 2026-09-15 |
-| PC-1 | **NOT RECORDED** | owner's plan — text not in the repo |
-| PC-2 | **NOT RECORDED** | owner's plan — text not in the repo |
+| PC-1 | **NOT RECORDED** — only its title is known: *cross-surface integrity* | Codex/Claude reconciliation, 2026-09-24, as cited by #1878 |
+| PC-2 | An ownership project never displays or exports tax credits, eligible basis, NOI or LIHTC debt unless the user intentionally adds a rental component | Codex/Claude reconciliation, 2026-09-24, quoted in #1874 and `test/ownership-rental-separation.test.js` |
 | PC-3 | **NOT RECORDED** | owner's plan — text not in the repo |
 | PC-4 | **NOT RECORDED** | owner's plan — text not in the repo |
 | PC-5 | **NOT RECORDED** | owner's plan — text not in the repo |
+| PC-6 | Cost per square foot is available in the deal path | owner's plan, quoted 2026-09-15 |
 | PC-7+ | **NOT RECORDED** | unknown how many criteria exist |
 
-**This table is deliberately incomplete and says so.** PC-6 is the only pass
-criterion whose text reached this repo — it surfaced because a session happened
-to quote it. The rest exist in the owner's plan. Until they are pasted in,
-`finish-line.mjs` reports D2 as OPEN, and no session can honestly claim the
-program is finished. Filling this table in is the highest-value thing the owner
-can do for the remaining schedule; everything else is guesswork dressed as
-progress.
+**This table is deliberately incomplete and says so.** A criterion is recorded
+only when its full text is here. PC-2 and PC-6 reached the repo because a PR or
+a session happened to quote them word for word. PC-1 is known by its title
+alone, and a title is not a criterion, so it still counts as unrecorded.
+
+The rest live in the Codex/Claude reconciliation of 2026-09-24, which the cloud
+Claude Code session behind #1874 and #1878 worked from, and in the owner's plan
+it reconciled. Until they are pasted in, `finish-line.mjs` reports D2 as OPEN,
+and no session can honestly claim the program is finished. Filling this table
+in is the highest-value thing the owner can do for the remaining schedule;
+everything else is guesswork dressed as progress. Do not write substitutes: a
+criterion nobody agreed to measures nothing.
 
 ## Phases, as given by the owner (2026-09-15)
 

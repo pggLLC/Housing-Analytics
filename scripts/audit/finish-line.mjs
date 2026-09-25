@@ -232,9 +232,12 @@ export function measure({ runTests = false } = {}) {
   /* ── The definition itself ────────────────────────────────────────────── */
 
   const doc = read('docs/FINISH-LINE.md');
-  const recorded = doc ? (doc.match(/^\| ?(PC-\d+)/gm) || []).length : 0;
+  // A row is a recorded criterion only when its text is there. Counting every
+  // PC row reported "7 pass criteria recorded" beside D2's "6 not in the repo".
+  const rows = doc ? doc.split('\n').filter((l) => /^\| ?PC-\d+/.test(l)) : [];
+  const recorded = rows.filter((l) => !l.includes('NOT RECORDED')).length;
   add('D1', 'The definition', recorded > 0 ? PASS : OPEN,
-    recorded > 0 ? `${recorded} pass criteria recorded in docs/FINISH-LINE.md`
+    recorded > 0 ? `${recorded} of ${rows.length} pass criteria recorded in docs/FINISH-LINE.md`
       : 'docs/FINISH-LINE.md records no pass criteria',
     'docs/FINISH-LINE.md');
 
