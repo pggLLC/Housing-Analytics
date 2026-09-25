@@ -1,5 +1,5 @@
 // js/data-source-inventory.js
-// Registry of 63 data sources used or explicitly tracked by Housing Analytics.
+// Registry of 64 data sources used or explicitly tracked by Housing Analytics.
 // Exposed as window.DataSourceInventory.
 
 (function () {
@@ -239,7 +239,7 @@
       provider: 'St. Louis Fed (FRED)',
       url: 'https://fred.stlouisfed.org/',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Daily',
       maxAgeDays: 35,
       geoUnit: 'State / National',
@@ -990,7 +990,7 @@
       provider: 'Federal Reserve',
       url: 'https://fred.stlouisfed.org/series/CPIAUCSL',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Monthly',
       maxAgeDays: 35,
       geoUnit: 'National',
@@ -1008,7 +1008,7 @@
       provider: 'Federal Reserve',
       url: 'https://fred.stlouisfed.org/series/CUUR0000SAH1',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Monthly',
       maxAgeDays: 35,
       geoUnit: 'National',
@@ -1026,7 +1026,7 @@
       provider: 'Federal Reserve',
       url: 'https://fred.stlouisfed.org/series/UNRATE',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Monthly',
       maxAgeDays: 35,
       geoUnit: 'National',
@@ -1044,12 +1044,12 @@
       provider: 'Federal Reserve / Freddie Mac',
       url: 'https://fred.stlouisfed.org/series/MORTGAGE30US',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Weekly',
       maxAgeDays: 14,
       geoUnit: 'National',
       coverage: 'National',
-      features: 664,
+      features: 665,
       description: '30-year fixed mortgage rate from Freddie Mac Primary Mortgage Market Survey via FRED.',
       tags: ['fred', 'mortgage', 'interest-rate'],
       apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=MORTGAGE30US'
@@ -1062,12 +1062,12 @@
       provider: 'Federal Reserve / Census',
       url: 'https://fred.stlouisfed.org/series/COBPPRIV',
       localFile: 'data/fred-data.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Monthly',
       maxAgeDays: 45,
       geoUnit: 'State',
       coverage: 'Colorado',
-      features: 151,
+      features: 152,
       description: 'Colorado total private housing units authorized by building permits.',
       tags: ['fred', 'permits', 'housing-supply'],
       apiEndpoint: 'https://api.stlouisfed.org/fred/series/observations?series_id=COBPPRIV'
@@ -1156,12 +1156,12 @@
       provider: 'Internal (Generated)',
       url: null,
       localFile: 'data/manifest.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'On deploy',
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1615,
+      features: 1616,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1183,6 +1183,24 @@
       features: 15,
       description: '15 tax-credit legislation watchlist entries with status, source, and verification metadata.',
       tags: ['legislation', 'policy', 'colorado'],
+      apiEndpoint: null
+    },
+    {
+      id: 'policy-watch',
+      name: 'Policy Watch (Housing News)',
+      category: 'Policy',
+      format: 'JSON',
+      provider: 'CHFA / Internal curation',
+      url: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan',
+      localFile: 'data/policy/policy-watch.json',
+      lastUpdated: '2026-09-25',
+      updateFrequency: 'Manual, as checked',
+      maxAgeDays: 90,
+      geoUnit: 'Statewide',
+      coverage: 'CHFA allocation-plan changes, ballot questions and housing roles; hand-curated',
+      features: 6,
+      description: '6 policy watch entries, each with a verification level and, for primary-checked entries, the exact source wording; topics not yet checked are listed as known gaps.',
+      tags: ['policy', 'qap', 'chfa', 'colorado'],
       apiEndpoint: null
     },
     // ── Regional ────────────────────────────────────────────────

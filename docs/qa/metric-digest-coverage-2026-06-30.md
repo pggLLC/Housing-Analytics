@@ -25,13 +25,16 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-b25003 | 546 |
 | acs-b25075 | 1638 |
 | acs-grapi-and-hud-chas-blend | 546 |
-| acs-profile | 24566 |
+| acs-profile | 11466 |
 | acs-profile-dp02 | 1092 |
 | acs-profile-dp04 | 1100 |
 | acs-profile-dp04-grapi | 546 |
 | acs-profile-dp05 | 1092 |
 | ami-gap-county-acs | 448 |
 | ami-gap-place-acs | 3374 |
+| chfa-2026-r1-awards | 546 |
+| chfa-lihtc-and-2026-r1-awards | 2184 |
+| chfa-lihtc-properties | 10370 |
 | county-housing-cost-trends-acs-cohorts | 2730 |
 | dola-demographic-projections | 2184 |
 | economic-housing-bridge | 4368 |

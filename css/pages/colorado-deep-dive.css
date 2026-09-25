@@ -271,7 +271,6 @@
    Market trends analysis text
    ---------------------------------------------------------------- */
 .trends-prose {
-  max-width: 80ch;
   line-height: 1.75;
 }
 
@@ -368,7 +367,6 @@
   font-size: 1rem;
   color: var(--muted, #476080);
   line-height: 1.6;
-  max-width: 70ch;
   margin-bottom: 0;
 }
 
@@ -457,7 +455,7 @@
    ---------------------------------------------------------------- */
 .tab-guide {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: 1rem;
   margin-bottom: var(--sp4, 1.25rem);
   padding: 1.25rem;

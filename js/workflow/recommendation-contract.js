@@ -162,6 +162,9 @@
       verdict: verdict && verdict.verdict || null,
       plain: verdict && verdict.plain
         || 'There is not enough evidence here to answer this one.',
+      // What produced the answer, as state, where a conclusion has more than
+      // one possible method (production: workforce vs resident_growth).
+      basis: verdict && verdict.basis || null,
       evidence: items,
       // What would have to be true to answer it. Named, so the reader knows
       // whether this is fixable by them (open the step) or not (no data
@@ -269,13 +272,27 @@
     ], function (items) {
       var future = num(items[0].value);
       var gap = num(items[1].value);
+      // Which reading produced the 20-year figure. For most jurisdictions it
+      // is the workforce reading (jobs against homes affordable to the people
+      // doing them), which the digest has carried under a DOLA source id; the
+      // sentence says what the number counts rather than inheriting that.
+      var reading = metrics.future_units_reading ? metrics.future_units_reading.value : null;
+      var growth = metrics.future_units_growth_20yr ? num(metrics.future_units_growth_20yr.value) : null;
+      var how = '';
+      if (future !== null && reading === 'workforce') {
+        how = ', read from jobs: more lower-wage workers are employed here than there are homes they can afford'
+          + (growth === null ? '' : ' (resident growth alone would need about ' + growth.toLocaleString('en-US') + ')');
+      } else if (future !== null && reading === 'resident_growth') {
+        how = ', from projected household growth';
+      }
       return {
         verdict: future === null
           ? 'Gap of ' + gap.toLocaleString('en-US') + ' homes today'
           : future.toLocaleString('en-US') + ' homes over 20 years',
-        plain: (future === null ? '' : 'Roughly ' + future.toLocaleString('en-US') + ' additional homes over 20 years')
+        plain: (future === null ? '' : 'Roughly ' + future.toLocaleString('en-US') + ' additional homes over 20 years' + how)
           + (gap === null ? '' : (future === null ? 'A gap of ' : ', against a gap of ')
-            + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.'
+            + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.',
+        basis: reading
       };
     });
 
@@ -308,8 +325,13 @@
       var mult = num(items[0].value);
       var tier = band(mult, [0.97, 0.92], ['High', 'Moderate', 'Limited']);
       return {
-        verdict: tier + ' data confidence',
-        plain: tier + ' confidence in the scores above; they are a screening read, not a study.'
+        // "Public-data" is load-bearing. This multiplier grades the digest's
+        // evidence and nothing else; it read as confidence in the whole
+        // recommendation while the reader had run no market analysis and no
+        // scenarios. build() appends which project steps it does not cover.
+        verdict: tier + ' public-data confidence',
+        plain: tier + ' confidence in the public data behind the scores above; '
+          + 'they are a screening read, not a study.'
       };
     });
 
@@ -373,10 +395,27 @@
       fields: [['score', 'Site score'], ['label', 'Tier']] },
     { key: 'scenario', label: 'Scenarios', href: 'hna-scenario-builder.html',
       fields: [['county', 'County']] },
+    // Rental and ownership saves carry different fields, and each is quoted
+    // only under its own mode (PC-2). An ownership project quoting "Annual
+    // credits" and "First mortgage" is the defect this split exists to stop:
+    // the rental panel is computed even in ownership mode, and the old save
+    // read it regardless.
     { key: 'deal', label: 'Deal test', href: 'deal-calculator.html',
-      fields: [['outputs.gap', 'Funding gap'], ['outputs.annualCredits', 'Annual credits'],
-        ['outputs.firstMortgage', 'First mortgage']] }
+      fieldsByMode: {
+        rental: [['outputs.gap', 'Funding gap'], ['outputs.annualCredits', 'Annual credits'],
+          ['outputs.firstMortgage', 'First mortgage']],
+        ownership: [['outputs.maxAffordablePrice', 'Max affordable sale price'],
+          ['outputs.subsidyGapPerUnit', 'Subsidy gap per unit'],
+          ['outputs.totalOwnershipGap', 'Total ownership gap']]
+      } }
   ];
+
+  var MODE_LABEL = { rental: 'rental (LIHTC)', ownership: 'for-sale ownership' };
+
+  /* The analysis steps a recommendation about a PROJECT depends on. The
+     jurisdiction and HNA steps describe the place, which the digest already
+     covers; these three describe the project, which it cannot. */
+  var PROJECT_STEPS = ['market', 'scenario', 'deal'];
 
   function dig(source, path) {
     return path.split('.').reduce(function (acc, part) {
@@ -393,17 +432,39 @@
           status: 'not_run', recordedAt: null, fields: []
         };
       }
-      var fields = step.fields.map(function (pair) {
+      var mode = null;
+      var note = null;
+      var pairs = step.fields || [];
+      if (step.fieldsByMode) {
+        mode = data.dealMode === 'ownership' || data.dealMode === 'rental' ? data.dealMode : null;
+        if (mode) {
+          pairs = step.fieldsByMode[mode];
+        } else {
+          // Saved before the calculator recorded its mode. The values could
+          // be either path's, and quoting LIHTC figures for what may have
+          // been an ownership project is the defect, so none are quoted.
+          pairs = [];
+          note = 'Saved before the calculator recorded whether this was a rental or an '
+            + 'ownership deal, so its figures are not quoted. Reopen the step and save again.';
+        }
+      }
+      var fields = pairs.map(function (pair) {
         var value = dig(data, pair[0]);
         return {
           label: pair[1],
           value: (value === null || value === undefined || value === '') ? null : String(value)
         };
       }).filter(function (field) { return field.value !== null; });
-      return {
+      var record = {
         key: step.key, label: step.label, href: step.href,
         status: 'recorded', recordedAt: data.completedAt, fields: fields
       };
+      if (step.fieldsByMode) {
+        record.mode = mode;
+        if (mode) record.label = step.label + ' \u2014 ' + MODE_LABEL[mode];
+        if (note) record.note = note;
+      }
+      return record;
     });
   }
 
@@ -447,6 +508,22 @@
     }
     var level = digest.geography.type === 'county' ? 'county' : 'place';
     var conclusions = buildConclusions(digest.metrics, level);
+    var project = projectRecord(input.project);
+    var head = headline(conclusions, digest.geography.name);
+    var notRun = project.filter(function (step) {
+      return PROJECT_STEPS.indexOf(step.key) !== -1 && step.status === 'not_run';
+    }).map(function (step) { return step.label; });
+    if (notRun.length) {
+      var list = notRun.join(', ');
+      var gapLine = ' Not yet run for this project: ' + list + '.';
+      conclusions.forEach(function (item) {
+        if (item.id === 'confidence' && item.verdict) {
+          item.plain += ' It does not cover your project: ' + list
+            + (notRun.length === 1 ? ' has' : ' have') + ' not been run.';
+        }
+      });
+      if (head.state !== INSUFFICIENT) head.plain += gapLine;
+    }
     return {
       schema: SCHEMA,
       geography: {
@@ -457,9 +534,10 @@
       },
       generatedAt: input.generatedAt || null,
       digestGeneratedAt: (digest.generated_from || {}).ranking_index_generated_at || null,
-      headline: headline(conclusions, digest.geography.name),
+      headline: head,
       conclusions: conclusions,
-      project: projectRecord(input.project),
+      project: project,
+      projectStepsNotRun: notRun,
       sources: sourcesOf(conclusions)
     };
   }
@@ -471,6 +549,7 @@
     PROVISIONAL: PROVISIONAL,
     INSUFFICIENT: INSUFFICIENT,
     STEPS: STEPS.map(function (s) { return { key: s.key, label: s.label, href: s.href }; }),
+    PROJECT_STEPS: PROJECT_STEPS.slice(),
     evidence: evidence,
     worst: worst,
     buildConclusions: buildConclusions,

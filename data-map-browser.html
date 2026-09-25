@@ -33,15 +33,15 @@
   <script defer src="js/mobile-menu.js"></script>
 
   <style>
-    .dmb-hero { max-width: 1180px; margin: 0 auto; padding: 18px 16px 6px; }
+    .dmb-hero { max-width: var(--page-max, 1920px); margin: 0 auto; padding: 18px 16px 6px; }
     .dmb-hero h1 { margin: 0 0 6px; }
-    .dmb-hero p { margin: 0 0 .2rem; color: var(--muted); max-width: 80ch; font-size: .92rem; }
+    .dmb-hero p { margin: 0 0 .2rem; color: var(--muted); font-size: .92rem; }
 
     .dmb-shell {
       display: grid;
       grid-template-columns: 320px 1fr;
       gap: 12px;
-      max-width: 1180px;
+      max-width: var(--page-max, 1920px);
       margin: 12px auto 32px;
       padding: 0 16px;
     }

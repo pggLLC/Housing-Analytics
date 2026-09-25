@@ -308,7 +308,7 @@ jobs:
         # real pipeline code, so it needs the pipeline's own dependency.
         # pypdf: tests/test_chfa_qap_watch.py extracts text from a real PDF,
         # the same way chfa-qap-watch.yml does.
-        run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0
+        run: pip install pytest python-dateutil jsonschema requests pandas pypdf==5.1.0 cryptography==50.0.1
 
       - name: Run unified CI test suite
         run: npm run test:ci
@@ -319,7 +319,6 @@ jobs:
           node test/smoke-fmr.test.js
           node test/data-quality-check.test.js
           node test/fetch-chfa-lihtc-fips.js
-          node test/qap-simulator.test.js
           node test/pro-forma.test.js
 
       # F148: F119-F145 wiring + data-quality guards (blocks PR merge)

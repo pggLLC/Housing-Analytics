@@ -75,7 +75,7 @@
     var fallbackPct = ((t.uncovered_county_fallback / t.registry_places) * 100).toFixed(1);
 
     var html = '';
-    html += '<div class="pc-cov-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;margin-bottom:1rem;">';
+    html += '<div class="pc-cov-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:.6rem;margin-bottom:1rem;">';
     html += _statCard('✓ Direct TIGER place-CHAS', t.covered_direct, directPct + '%',
       'rgba(34,197,94,0.10)', 'rgba(34,197,94,0.5)',
       'Tract-aggregated; methodologically consistent with the cross-county arc.');

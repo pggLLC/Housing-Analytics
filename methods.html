@@ -30,7 +30,7 @@
        any background with alpha > 0.02 as opaque and computes luminance from
        r/g/b while ignoring alpha, so a low-alpha panel renders pale and is
        measured as dark. Same reasoning as working-paper.html. */
-    .mx { max-width: 1120px; margin: 0 auto; padding-inline: 4px; }
+    .mx { max-width: var(--page-max, 1920px); margin: 0 auto; padding-inline: 4px; }
     .mx .col { max-width: 72ch; }
     .mx p { margin: 0 0 1.1rem; line-height: 1.65; }
 
@@ -123,7 +123,7 @@
         <p class="mx-byline">
           <span>Paul Glasgow &mdash; <a href="https://pggllc.com">pggLLC</a>, working with AI</span>
           <span>COHO Analytics &mdash; the sole product of pggLLC</span>
-          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">84f675a34</code></span>
+          <span>Constants extracted from source at commit <code data-figure="methods.extracted_at_commit">ec59542ad</code></span>
           <span>Companion to the <a href="working-paper.html">working paper</a></span>
         </p>
       </header>

@@ -71,7 +71,7 @@
       '  border-radius: var(--radius, 6px); max-width: 640px;',
       '}',
       '.pab-form__grid {',
-      '  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));',
+      '  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));',
       '  gap: .55rem .75rem; margin-bottom: .6rem;',
       '}',
       '.pab-form__field { display: flex; flex-direction: column; gap: .15rem; }',

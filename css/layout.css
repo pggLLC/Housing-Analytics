@@ -8,7 +8,7 @@
    Container helpers
    ---------------------------------------------------------------- */
 .container {
-  max-width: 1240px;
+  max-width: var(--page-max, 1920px);
   margin-inline: auto;
   padding-inline: var(--sp4);
 }
@@ -179,62 +179,23 @@
 .page-header .subtitle {
   color: var(--muted) !important;
   font-size: 1rem;
-  max-width: 72ch;
   margin: 0;
 }
 
 /* ----------------------------------------------------------------
-   Readable measure for prose
+   Prose width: no sitewide measure cap
    ----------------------------------------------------------------
-   A line much past ~75 characters makes the eye hunt for the start of
-   the next one; the reader loses their place and the page feels heavy
-   before a single word is judged.
+   A 60ch cap on every `main p`, `main li` and the HNA narrative mount
+   (#execNarrative, .hna-narrative-mount) used to live here. Owner
+   decision, 2026-09-25: remove it. Inside a full-width card the cap left
+   the text filling about half the box, with the right half empty, and a
+   four-paragraph narrative ran roughly twice as tall as it needed to,
+   which meant more scrolling. That is the same complaint F139 fixed on
+   .page-disclosure in site-theme.css.
 
-   Measured on 2026-09-20 at a 1440px viewport, market-analysis.html:
-   116 prose blocks, of which only 41 sat between 45 and 80 characters
-   per line. 56 ran OVER 80 — the widest at 171 — and the executive
-   narrative on the HNA ran 158 characters wide at 14px.
-
-   max-width only caps. It cannot make anything narrower than the
-   container it is already in, so this is inert inside the narrow cards
-   where prose is a different problem (see the 37-character case in
-   .hna-dev-context, which needs a layout change rather than a cap) and
-   bites only where a line had grown too long to track.
-
-   The value is 60ch, not the 72ch used by .page-header .subtitle,
-   because `ch` is the advance width of "0" and this font's digits are
-   narrower than its average letter: measured on .pma-intro-text,
-   max-width:72ch rendered 722px and fit 90 actual characters, not 72.
-   60ch lands at roughly 75 characters, which is the top of the
-   comfortable band rather than well past it.
-
-   Table cells are excluded: a cell's width is the column's business,
-   and capping it would fight the table layout. */
-main p,
-main li,
-main aside,
-/* Narrative mounts are divs, so the element selectors above miss them —
-   and they were the worst offenders on the page: #execNarrative rendered
-   171 characters per line. */
-#execNarrative,
-.hna-narrative-mount,
-main blockquote,
-main .pctx-section,
-main .pctx-text,
-main .cp-item__notes,
-main .qc-item__details,
-main .dc-cra-card__role,
-main .devr-item-note,
-main .devr-intro {
-  max-width: 60ch;
-}
-
-main td p,
-main th p,
-main td li,
-main th li {
-  max-width: none;
-}
+   Prose now fills its container. If one component really needs a
+   narrower line, cap that component; don't bring back a blanket rule
+   on `main p`. */
 
 /* ----------------------------------------------------------------
    Skip link (accessibility)

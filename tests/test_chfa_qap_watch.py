@@ -16,6 +16,7 @@ Run: python3 -m pytest tests/test_chfa_qap_watch.py -q
 """
 
 import importlib.util
+import io
 import re
 from pathlib import Path
 
@@ -102,7 +103,7 @@ def fetcher(pages):
 def fake_pdf_text(monkeypatch, request):
     """Most tests do not need a real PDF parser: read the text back out of make_pdf's
     content stream. test_real_pdf_text_extraction uses pypdf itself."""
-    if request.node.name == "test_real_pdf_text_extraction":
+    if request.node.name.startswith("test_real_"):
         return
 
     def fake(data):
@@ -244,11 +245,99 @@ def test_unreadable_new_version_is_an_extraction_failure_not_deleted_lines(monke
     assert any(f["url"] == QAP_PDF and "image-only" in f["error"] for f in r2["extraction_failures"])
 
 
+def test_an_unchanged_document_that_could_not_be_read_is_read_again(monkeypatch):
+    """The first live run could not open CHFA's encrypted drafts. Once extraction
+    works, the same unchanged files must be read, not skipped as unchanged."""
+    real_fake = watch.pdf_text
+    monkeypatch.setattr(watch, "pdf_text", lambda data: (None, None, "text extraction failed: DependencyError")
+                        if b"maximum federal credit" in data else real_fake(data))
+    first = watch.run(fetch=fetcher(site("$1,700,000")), previous={}, now="2026-09-24T22:12:57Z", pages=PAGES)
+    assert {f["url"] for f in first["extraction_failures"]} == {QAP_PDF}
+    # Same files, same bytes, still unreadable: reported again, not silently carried over.
+    again = watch.run(fetch=fetcher(site("$1,700,000")), previous=first, now="2026-09-30T05:21:00Z", pages=PAGES)
+    assert {f["url"] for f in again["extraction_failures"]} == {QAP_PDF}, "a cached failure was dropped"
+    # Extraction fixed, files unchanged: the text arrives and the run says so.
+    monkeypatch.setattr(watch, "pdf_text", real_fake)
+    fixed = watch.run(fetch=fetcher(site("$1,700,000")), previous=again, now="2026-10-07T05:21:00Z", pages=PAGES)
+    doc = {d["url"]: d for d in fixed["documents"]}[QAP_PDF]
+    assert any("$1,700,000" in line for line in doc["key_lines"]), "the unchanged file was never re-read"
+    assert fixed["extraction_failures"] == []
+    readable = {d["url"]: d for d in fixed["changes"]["now_readable"]}
+    assert QAP_PDF in readable and fixed["has_changes"], "the newly readable text is not reported"
+    assert fixed["changes"]["changed_documents"] == [], "an unchanged file is not a changed document"
+
+
+def test_text_is_kept_only_for_the_newest_two_cycles():
+    docs = [
+        {"title": "2027-28 QAP - Third Draft (PDF)", "url": "https://chfa.localhost/a/2027-2028-QAP-ThirdDraft.pdf", "text": "x"},
+        {"title": "August 2026 Public Hearing Presentation (PDF of PPT)",
+         "url": "https://chfa.localhost/b/2027-28-CHFA-QAP-PublicHearing-Presentation-Aug2026.pdf", "text": "x"},
+        {"title": "2025-26 QAP", "url": "https://chfa.localhost/c/2025-2026-QAP.pdf", "text": "x"},
+        {"title": "2023-24 QAP", "url": "https://chfa.localhost/d/2023-24-QAP.pdf", "text": "x"},
+        {"title": "2016 QAP", "url": "https://chfa.localhost/e/CHFA_QAP_2016.pdf", "text": "x"},
+        {"title": "Webinar Slides (PDF)", "url": "https://chfa.localhost/f/slides.pdf", "text": "x"},
+    ]
+    watch.prune_text(docs)
+    kept = [d["title"] for d in docs if "text" in d]
+    assert kept == ["2027-28 QAP - Third Draft (PDF)", "August 2026 Public Hearing Presentation (PDF of PPT)", "2025-26 QAP"], kept
+    assert all(d["text_retained"] is False for d in docs if "text" not in d)
+
+
+def test_retained_text_stays_within_budget_oldest_cycle_first(monkeypatch):
+    monkeypatch.setattr(watch, "TEXT_BUDGET_BYTES", 250)
+    docs = [
+        {"title": "2027-28 QAP", "url": "https://chfa.localhost/a.pdf", "text": "n" * 100},
+        {"title": "2025-26 QAP", "url": "https://chfa.localhost/b.pdf", "text": "o" * 120},
+        {"title": "2025-26 QAP Amended", "url": "https://chfa.localhost/c.pdf", "text": "o" * 90},
+    ]
+    watch.prune_text(docs)
+    assert sum(len(d.get("text", "")) for d in docs) <= 250
+    assert "text" in docs[0], "the newest cycle lost its text before the older one"
+    assert "text" not in docs[1] and "text" in docs[2], "the largest older-cycle document goes first"
+
+
+def test_the_text_budget_sits_under_the_data_file_size_guard():
+    """The committed file must pass scripts/check-data-file-sizes.mjs; the first live
+    run wrote 5.3 MiB and turned main red."""
+    guard = (ROOT / "scripts" / "check-data-file-sizes.mjs").read_text()
+    limit_mib = int(re.search(r"const defaultLimit = (\d+) \* MIB", guard).group(1))
+    assert "chfa-qap-watch" not in guard, "the watch file must fit the default ceiling, not an exception"
+    assert watch.TEXT_BUDGET_BYTES <= 0.75 * limit_mib * 1024 * 1024
+    committed = watch.OUT_FILE.stat().st_size
+    assert committed <= 0.8 * limit_mib * 1024 * 1024, f"the committed watch file is {committed:,} bytes"
+
+
 def test_real_pdf_text_extraction():
     pytest.importorskip("pypdf")
     text, pages, err = watch.pdf_text(make_pdf(["The maximum federal credit per development is $1,700,000 annually."]))
     assert err is None and pages == 1
     assert "$1,700,000" in text
+
+
+def test_real_encrypted_pdf_text_extraction():
+    """CHFA's full QAP drafts are AES-256 encrypted with an owner password only.
+    The first live run read none of them; this is that case, with a real PDF."""
+    pypdf = pytest.importorskip("pypdf")
+    pytest.importorskip("cryptography")
+    reader = pypdf.PdfReader(io.BytesIO(make_pdf(["Maximum Credit Award: no more than $1,700,000 in 2027."])))
+    writer = pypdf.PdfWriter(clone_from=reader)
+    writer.encrypt(user_password="", owner_password="chfa-owner", algorithm="AES-256")
+    buf = io.BytesIO()
+    writer.write(buf)
+    assert pypdf.PdfReader(io.BytesIO(buf.getvalue())).is_encrypted, "the fixture is not encrypted"
+    text, pages, err = watch.pdf_text(buf.getvalue())
+    assert err is None, err
+    assert "$1,700,000" in text
+
+
+def test_workflow_and_ci_install_the_same_pdf_stack():
+    """The watcher needs cryptography to open encrypted drafts, and CI needs the
+    same pin or the encrypted-PDF test above silently skips."""
+    pins = lambda text: dict(re.findall(r"\b(pypdf|cryptography)==([\d.]+)", text))
+    wf = pins(WORKFLOW.read_text())
+    ci = pins((ROOT / ".github" / "workflows" / "ci-checks.yml").read_text())
+    assert set(wf) == {"pypdf", "cryptography"}, f"the watcher installs {wf}"
+    assert wf == ci, f"watcher pins {wf} but ci-checks pins {ci}"
 
 
 def test_workflow_agrees_with_the_script():

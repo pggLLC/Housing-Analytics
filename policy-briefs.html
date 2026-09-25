@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
   <title>Housing News | COHO Analytics</title>
-  <meta name="description" content="Colorado affordable housing news, including machine-summarized headlines and source-reviewed research briefs.">
+  <meta name="description" content="Colorado affordable housing headlines, newest first, plus the federal policy that shapes Colorado deals and source-reviewed research briefs.">
   <meta property="og:title" content="Housing News | COHO Analytics">
   <meta property="og:description" content="Colorado affordable housing headlines and source-reviewed research briefs, with links to the underlying sources.">
   <meta property="og:type" content="website">
@@ -26,354 +26,200 @@
   <script defer src="js/home-jurisdiction-search.js"></script>
   <script defer src="js/components/jurisdiction-select-search.js"></script>
   <style>
-    /* Container safety — every nested element wraps cleanly within the card */
-    .brief-card,
-    .brief-card * {
-      min-width: 0;
-      overflow-wrap: anywhere;
-      word-break: normal;
+    /* Housing News is a list of headlines, not a grid of cards: the headline is
+       the link, one muted line of metadata sits under it, and hairlines separate
+       rows. Cards are kept for the few self-contained items in the side column. */
+    .news-wrap { max-width: var(--page-max, 1920px); margin: 0 auto; padding-inline: var(--sp4); }
+    .news-head { padding-block: var(--sp4) .75rem; display: flex; flex-wrap: wrap; align-items: flex-end; gap: .5rem 1.5rem; }
+    .news-head h1 { margin: 0; font-size: clamp(1.75rem, 4vw, 2.25rem); line-height: 1.1; text-wrap: balance; }
+    .news-head p { margin: .35rem 0 0; color: var(--muted); max-width: 62ch; }
+    .news-head__meta { margin-left: auto; display: flex; flex-wrap: wrap; gap: .25rem .9rem; align-items: baseline; font-size: .8rem; color: var(--faint); }
+    .news-head__meta a { color: var(--link); font-weight: 600; text-decoration: none; }
+    .news-head__meta a:hover { text-decoration: underline; }
+    #alertPipelineStatus { font-family: var(--font-mono); font-size: .75rem; }
+
+    .news-toolbar { border-block: 1px solid var(--border); background: var(--bg); padding-block: .6rem; }
+    .news-toolbar__row { display: flex; flex-wrap: wrap; gap: .6rem 1rem; align-items: center; }
+    .news-search { flex: 1 1 260px; }
+    .news-search input { width: 100%; font: inherit; font-size: .95rem; color: var(--text); background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: .55rem .75rem; min-height: 44px; }
+    .news-place select { font: inherit; font-size: .9rem; color: var(--text); background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: .5rem .6rem; max-width: 100%; min-height: 44px; }
+    .news-facet { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin-top: .55rem; }
+    .news-facet__label { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin-right: .15rem; }
+    .news-chip { font: inherit; font-size: .82rem; color: var(--muted); background: transparent; border: 1px solid var(--border-strong); border-radius: 999px; padding: .15rem .8rem; cursor: pointer; min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; }
+    .news-chip:hover { border-color: var(--accent); color: var(--text); }
+    .news-chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+    .news-chip .n { font-family: var(--font-mono); font-size: .72rem; opacity: .75; margin-left: .3rem; }
+    .news-chip:focus-visible, .news-more:focus-visible, .news-linkbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+    .news-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 2.25rem; padding-block: 1.25rem 3rem; }
+    .news-main, .news-aside { min-width: 0; }
+    .news-aside { display: flex; flex-direction: column; gap: 1.6rem; }
+    @media (max-width: 960px) {
+      .news-layout { display: flex; flex-direction: column; gap: 1.5rem; }
+      .news-main, .news-aside { display: contents; }
+      #newsLatest { order: 1; } #policyWatchPanel { order: 2; } #researchPanel { order: 3; } #newsRiver { order: 4; } #toolWatchPanel { order: 5; } #aboutFeed { order: 6; }
     }
 
-    .briefs-hero {
-      padding: var(--sp6) var(--sp4) var(--sp4);
-      border-bottom: 1px solid var(--border);
-    }
-    .briefs-hero h1 { font-size: 1.75rem; margin: 0 0 .5rem; }
-    /* F192 — Hero + disclosure text now fills the 980px content column instead
-       of capping at 70-80ch (770-880px), which left awkward blank space to
-       the right of every paragraph on wide screens. Browser overflow + the
-       grid's 980px max-width still keep line length readable. */
-    .briefs-hero p { color: var(--muted); margin: 0; }
+    .news-label { display: flex; align-items: center; gap: .6rem; font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 .6rem; }
+    .news-label::after { content: ""; flex: 1; height: 1px; background: var(--border-strong); }
 
-    /* "What this page does" callout — public-trust disclosure */
-    .briefs-disclosure {
-      margin-top: var(--sp3);
-      padding: var(--sp2) var(--sp3);
-      background: var(--bg2);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 6px 6px 0;
-      font-size: .85rem;
-      line-height: 1.55;
-      color: var(--text);
-    }
-    .briefs-disclosure strong { color: var(--text); }
+    .story { padding-block: .8rem; }
+    .story h2, .story h3 { margin: 0; font-size: 1.03rem; line-height: 1.35; font-weight: 700; }
+    .story.story--lead h2 { font-size: clamp(1.3rem, 2.4vw, 1.65rem); line-height: 1.2; text-wrap: balance; }
+    .story a.story__link { color: var(--text); text-decoration: none; }
+    .story a.story__link:hover { color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+    .story__meta { margin-top: .25rem; display: flex; flex-wrap: wrap; align-items: baseline; font-size: .82rem; color: var(--muted); }
+    .story__meta > * { white-space: nowrap; }
+    .story__meta > .story__pub { white-space: normal; overflow-wrap: anywhere; font-weight: 600; color: var(--text); }
+    .story__meta > *:not(:last-child):not(.no-sep)::after { content: "·"; padding-inline: .45rem; color: var(--faint); }
+    .story__date { font-family: var(--font-mono); font-size: .76rem; color: var(--faint); }
+    .story__prog { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); }
+    .story__alt::before { content: "·"; padding-inline: .45rem; color: var(--faint); }
+    .story__alt a, .story__also a { color: var(--link); text-decoration: none; font-size: .78rem; }
+    .story__alt a:hover, .story__also a:hover { text-decoration: underline; }
+    @media (hover: hover) { .story__alt { opacity: 0; transition: opacity .15s; } .story:hover .story__alt, .story:focus-within .story__alt { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .story__alt { transition: none; } }
+    .story__also { margin-top: .15rem; font-size: .78rem; color: var(--faint); }
+    .story__local { margin-top: .2rem; font-size: .8rem; color: var(--muted); }
+    .story__local:empty { display: none; }
+    .story__local-name { font-weight: 600; color: var(--text); }
+    .story__local-src { color: var(--faint); }
+    .story__local a { color: var(--link); }
+    mark { background: var(--accent-dim); color: inherit; border-radius: 2px; }
 
-    /* F191 — Filter section made smaller + less prominent. Collapsed by default
-       so headlines lead the page; opens to a compact 4-select grid. */
-    .briefs-controls-wrap { padding: .35rem var(--sp4); border-bottom: 1px solid var(--border); background: var(--bg2); }
-    .briefs-controls-summary {
-      cursor: pointer; user-select: none; font-size: .78rem; color: var(--muted);
-      display: flex; align-items: center; gap: .4rem; padding: .3rem 0;
-      list-style: none; font-weight: 600;
-    }
-    .briefs-controls-summary::-webkit-details-marker { display: none; }
-    .briefs-controls-summary::before { content: "▸"; transition: transform .15s ease; }
-    details[open] > .briefs-controls-summary::before { transform: rotate(90deg); }
-    .briefs-controls-summary input[type="search"] {
-      margin-left: auto; padding: 3px 8px; border: 1px solid var(--border);
-      border-radius: var(--radius-sm); background: var(--bg); color: var(--text);
-      font-size: .8rem; min-width: 200px;
-    }
-    .briefs-controls {
-      display: flex; flex-wrap: wrap; gap: .4rem .5rem; align-items: center;
-      padding: .4rem 0 .3rem; font-size: .76rem;
-    }
-    .briefs-controls label { color: var(--muted); font-size: .72rem; font-weight: 600; }
-    .briefs-controls select { font-size: .75rem; padding: 2px 6px; }
-    /* F191 — LIHTC priority badge on top-3 most relevant briefs */
-    .brief-lihtc-priority {
-      display: inline-block; padding: 1px 7px; border-radius: 9999px;
-      font-size: .65rem; font-weight: 700; letter-spacing: .03em;
-      background: var(--accent-dim); color: var(--accent);
-      margin-right: .4rem; vertical-align: middle;
-    }
+    .news-latest-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.75rem; }
+    .news-latest-grid .story, #newsLatest .story--lead { border-bottom: 1px solid var(--border); }
+    @media (max-width: 640px) { .news-latest-grid { grid-template-columns: minmax(0, 1fr); } }
+    .news-week h3.news-week__head { margin: 1.4rem 0 0; padding-bottom: .35rem; border-bottom: 1px solid var(--border-strong); font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); display: flex; justify-content: space-between; gap: 1rem; }
+    .news-week__range { font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .news-week .story + .story { border-top: 1px solid var(--border); }
+    .news-results { display: flex; flex-wrap: wrap; gap: .4rem .9rem; align-items: baseline; font-size: .9rem; color: var(--muted); }
+    .news-linkbtn { font: inherit; font-size: .85rem; font-weight: 600; color: var(--link); background: none; border: 0; padding: 0 .25rem; cursor: pointer; min-height: 44px; min-width: 44px; }
+    .news-linkbtn:hover { text-decoration: underline; }
+    .news-more { margin-top: 1.2rem; width: 100%; font: inherit; font-weight: 600; font-size: .9rem; color: var(--text); background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: .65rem 1rem; cursor: pointer; min-height: 44px; }
+    .news-more:hover { border-color: var(--accent); }
+    #briefsStatus { padding-block: 1rem; color: var(--muted); }
 
-    /* Single full-width column — briefs read like article cards, not
-       a 3-column dashboard. Header + each card stretch the container width. */
-    .briefs-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      padding: var(--sp4);
-      max-width: 980px;
-      margin: 0 auto;
-    }
-    .briefs-hero,
-    .briefs-controls {
-      max-width: 100%;
-    }
-    .briefs-hero h1 {
-      font-size: 1.85rem;
-    }
-    /* F192 — Don't recap .briefs-hero p (the bare-base rule above sets no
-       max-width); the duplicate 80ch here was re-clamping the paragraph. */
-
-    .brief-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: var(--sp3) var(--sp3);
-      display: flex; flex-direction: column; gap: .6rem;
-      cursor: pointer;
-      transition: border-color .2s, box-shadow .2s;
-    }
-    .brief-card:hover { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-    .brief-card[aria-expanded="true"] { border-color: var(--accent); }
-    .brief-card:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .brief-topic {
-      display: inline-block;
-      font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-      padding: 2px 8px; border-radius: 999px;
-      background: color-mix(in srgb, var(--accent) 15%, transparent);
-      color: var(--accent);
-    }
-    /* Machine-summarized disclosure pill on every card */
-    .brief-llm-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem;
-      font-size: .68rem;
-      font-weight: 600;
-      color: var(--muted);
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 1px 8px;
-      border-radius: 999px;
-      letter-spacing: .03em;
-      white-space: normal;
-    }
-    .brief-llm-tag::before {
-      content: "🤖";
-      font-size: .85em;
-    }
-    .brief-source-reviewed::before {
-      content: "✓";
-    }
-
-    .brief-title {
-      font-size: 1rem; font-weight: 700; line-height: 1.35; margin: 0;
-    }
-    .brief-summary { font-size: .87rem; color: var(--muted); line-height: 1.55; }
-    .brief-implications {
-      font-size: .83rem; color: var(--text);
-      border-left: 3px solid var(--accent); padding-left: .65rem;
-      line-height: 1.5;
-    }
-
-    /* Meta row — dates + counts + source TEXT badges (not links) */
-    .brief-meta { font-size: .72rem; color: var(--muted); margin-top: auto; }
-    .brief-meta__row {
-      display: flex; flex-wrap: wrap; gap: .35rem .55rem;
-      align-items: center;
-    }
-    .brief-meta__source {
-      padding: 1px 8px; border-radius: 999px;
-      background: var(--bg2); border: 1px solid var(--border);
-      color: var(--muted);
-      white-space: normal;
-    }
-    .brief-meta__source--linked {
-      color: var(--accent);
-      border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
-    }
-    .brief-meta__source--linked:hover {
-      background: color-mix(in srgb, var(--accent) 10%, transparent);
-    }
-
-    .brief-regions { display: flex; flex-wrap: wrap; gap: .3rem; }
-    .region-tag {
-      font-size: .68rem; padding: 1px 7px; border-radius: 999px;
-      background: var(--bg2); border: 1px solid var(--border); color: var(--muted);
-    }
-
-    #briefsStatus { padding: var(--sp4); color: var(--muted); font-size: .9rem; }
-    #briefsLiveRegion { position: absolute; left: -9999px; }
-
-    /* Expanded articles panel */
-    .brief-articles { display: none; margin-top: .6rem; padding-top: .6rem; border-top: 1px solid var(--border); }
-    .brief-card[aria-expanded="true"] .brief-articles { display: block; }
-    .brief-articles__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .5rem; }
-
-    /* Article item — grid layout with stacked metadata; no nowrap children */
-    .brief-articles__item {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: .25rem;
-      padding: .55rem .7rem;
-      border-radius: 6px;
-      background: var(--bg2);
-      font-size: .82rem;
-      line-height: 1.45;
-    }
-    .brief-articles__item:hover { background: color-mix(in srgb, var(--accent) 6%, var(--bg2)); }
-    .brief-articles__title {
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.4;
-    }
-    .brief-articles__meta {
-      display: flex; flex-wrap: wrap; gap: .35rem .6rem;
-      align-items: center;
-      font-size: .72rem;
-      color: var(--muted);
-    }
-    .brief-articles__date { white-space: normal; }
-    .brief-articles__source { color: var(--muted); white-space: normal; }
-    .brief-articles__open {
-      display: inline-flex;
-      align-items: center;
-      gap: .25rem;
-      font-size: .72rem; font-weight: 600;
-      color: var(--accent);
-      border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
-      border-radius: 4px;
-      padding: 2px 9px;
-      text-decoration: none;
-      white-space: normal;
-      margin-left: auto;
-    }
-    .brief-articles__open:hover {
-      background: color-mix(in srgb, var(--accent) 10%, transparent);
-      text-decoration: none;
-    }
-    /* F134 — secondary "search ↗" fallback link, shown for news.google.com
-       deep links that frequently 403. Quieter chip styling so the primary
-       "Open article" button remains the visual hierarchy lead. */
-    .brief-articles__fallback {
-      display: inline-flex; align-items: center; gap: .25rem;
-      font-size: .68rem; font-weight: 600;
-      color: var(--muted);
-      border: 1px dashed var(--border-strong);
-      border-radius: 4px;
-      padding: 2px 7px;
-      text-decoration: none;
-      white-space: normal;
-      margin-left: .35rem;
-    }
-    .brief-articles__fallback:hover {
-      color: var(--text-strong);
-      border-color: var(--accent);
-      background: color-mix(in srgb, var(--accent) 8%, transparent);
-    }
-
-    .brief-expand-hint { font-size: .72rem; color: var(--muted); margin-top: .3rem; }
-    .brief-articles__warn {
-      font-size: .72rem; color: var(--muted);
-      padding-top: .3rem;
-      border-top: 1px dashed var(--border);
-      margin-top: .4rem;
-    }
-
-    /* Mobile-specific: "Open" button drops to its own row */
-    @media (max-width: 480px) {
-      .brief-articles__open { margin-left: 0; }
-    }
+    .news-panel p, .news-panel li { font-size: .88rem; }
+    .research-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: .9rem 1rem; }
+    .research-card + .research-card { margin-top: .75rem; }
+    .research-card__kick { font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .research-card h3 { margin: .3rem 0 .45rem; font-size: 1rem; line-height: 1.35; }
+    .research-card h3 a { color: var(--text); text-decoration: none; }
+    .research-card h3 a:hover { color: var(--link); text-decoration: underline; }
+    .research-card p { margin: 0; color: var(--muted); font-size: .85rem; }
+    .research-card__meta { margin-top: .5rem; font-size: .78rem; color: var(--faint); }
+    .watch-group + .watch-group { margin-top: 1rem; }
+    .watch-group h3 { margin: 0 0 .35rem; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+    .watch-list { list-style: none; margin: 0; padding: 0; }
+    .watch-item { padding-block: .55rem; border-bottom: 1px solid var(--border); }
+    .watch-item__title { font-weight: 600; font-size: .9rem; line-height: 1.35; }
+    .watch-item__title a { color: var(--text); text-decoration: none; }
+    .watch-item__title a:hover { color: var(--link); text-decoration: underline; }
+    .watch-item p { margin: .25rem 0 0; font-size: .82rem; color: var(--muted); line-height: 1.45; }
+    .watch-item__meta { margin-top: .3rem; font-size: .74rem; color: var(--faint); }
+    .watch-item__status { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; color: var(--accent); }
+    .watch-item__check { display: block; margin-top: .15rem; }
+    .watch-gaps { margin: .75rem 0 0; padding-left: 1.1rem; font-size: .78rem; color: var(--muted); }
+    .tool-list { list-style: none; margin: 0; padding: 0; }
+    .tool-list li { padding-block: .45rem; border-bottom: 1px solid var(--border); }
+    .tool-list a { color: var(--link); text-decoration: none; font-weight: 600; }
+    .tool-list a:hover { text-decoration: underline; }
+    .tool-list span { display: block; font-size: .78rem; color: var(--faint); }
+    .news-note { margin-top: .5rem; font-size: .78rem; color: var(--faint); line-height: 1.45; }
+    details.news-about { border-top: 1px solid var(--border-strong); padding-top: .75rem; }
+    details.news-about summary { cursor: pointer; font-weight: 700; font-size: .9rem; }
+    details.news-about p { font-size: .85rem; color: var(--muted); line-height: 1.55; margin: .55rem 0 0; }
+    .news-related { border-top: 1px solid var(--border); padding-block: 1.25rem 2rem; }
+    .news-related h2 { font-size: 1rem; margin: 0 0 .5rem; }
+    .news-related ul { font-size: .88rem; color: var(--muted); line-height: 2; margin: 0; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/workflow/recommendation-contract.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <main id="main-content" class="js-glossary-auto">
-    <section class="briefs-hero" aria-labelledby="pageTitleBriefs">
-      <div style="padding:0 var(--sp4) var(--sp4);">
-        <div class="kicker">Colorado • Intelligence</div>
+    <header class="news-wrap news-head" aria-labelledby="pageTitleBriefs">
+      <div>
         <h1 id="pageTitleBriefs">Housing News</h1>
-        <p>
-          Colorado affordable housing headlines + federal policy that shapes
-          Colorado deals (HUD, Congress, Treasury, LIHTC trade press). Other-state
-          stories are filtered out. Automated topics are summarized by a language
-          model; selected primary-source briefs are separately curated and labeled.
-        </p>
+        <p>Colorado affordable-housing headlines, newest first, plus the federal policy that shapes Colorado deals.</p>
+      </div>
+      <div class="news-head__meta">
+        <span id="newsCount" aria-live="polite"></span>
+        <span id="alertPipelineStatus" aria-live="polite" aria-atomic="true">Checking the feed…</span>
+        <a href="#aboutFeed" id="aboutFeedLink">About this feed</a>
+      </div>
+    </header>
 
-        <div class="briefs-disclosure">
-          <p style="margin:0 0 .35rem;"><strong>What this page does.</strong>
-            Pulls headlines from public RSS feeds about Colorado affordable
-            housing each day and summarizes them using a language model
-            (<span id="briefsModelName">GPT-4o-mini</span>). It also includes
-            selected research briefs reviewed against linked primary sources.
-          </p>
-          <p style="margin:0 0 .35rem;"><strong>What this page is not.</strong>
-            Editorial reporting. Cards labeled “Machine-summarized” have not
-            been independently fact-checked. Cards labeled “Source-reviewed”
-            have been checked against the linked sources but remain analytical
-            summaries, not substitutes for the original research.
-          </p>
-          <p style="margin:0;"><strong>How to use it.</strong>
-            Read the summary, then click into the brief to see the underlying
-            headlines. Open the original article before quoting a fact in a
-            deal memo, board meeting, or grant application.
-          </p>
+    <div class="news-toolbar">
+      <div class="news-wrap">
+        <div class="news-toolbar__row" role="search" aria-label="Search and filter headlines">
+          <label class="news-search">
+            <span class="visually-hidden sr-only">Search headlines</span>
+            <input id="briefSearch" type="search" placeholder="Search headlines and publishers" autocomplete="off" aria-label="Search headlines and publishers">
+          </label>
+          <label class="news-place">
+            <span class="visually-hidden sr-only">Place</span>
+            <select id="regionFilter" aria-label="Filter by region or place"
+                    data-jurisdiction-search data-jurisdiction-search-type="Region or place"
+                    data-jurisdiction-search-label="Search regions and places in the headlines"
+                    data-jurisdiction-search-placeholder="Type a region or place…">
+              <option value="">All places</option>
+            </select>
+          </label>
         </div>
-
-        <div id="alertPipelineStatus" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;font-size:var(--tiny);color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:.25rem .65rem;" aria-live="polite" aria-atomic="true">
-          ⏳ Checking pipeline status…
+        <div class="news-facet" id="programChips" role="group" aria-label="Filter by program">
+          <span class="news-facet__label">Program</span>
         </div>
       </div>
-    </section>
-
-    <!-- F191 — Filter section collapsed into <details> so headlines lead the
-         page. Search stays visible in the summary for the most common action;
-         topic/agency/region/signal selects render inside when expanded. -->
-    <div class="briefs-controls-wrap">
-      <details>
-        <summary class="briefs-controls-summary" role="search" aria-label="Filter policy briefs">
-          <span>Filters &amp; search</span>
-          <input id="briefSearch" type="search" placeholder="Search briefs…" aria-label="Search policy briefs"
-                 onclick="event.stopPropagation()" onkeydown="event.stopPropagation()">
-          <span id="briefsCount" style="font-size:.72rem;color:var(--muted);"></span>
-        </summary>
-        <div class="briefs-controls">
-          <label for="topicFilter">Topic:</label>
-          <select id="topicFilter" aria-label="Select policy topic">
-            <option value="">All Topics</option>
-          </select>
-          <label for="entityFilter">Agency:</label>
-          <select id="entityFilter" aria-label="Filter by agency or subject">
-            <option value="">All Subjects</option>
-            <option value="CHFA">CHFA</option>
-            <option value="CDOH">CDOH</option>
-            <option value="HUD">HUD</option>
-            <option value="DOLA">DOLA</option>
-            <option value="LIHTC">LIHTC</option>
-            <option value="Section 8">Section 8</option>
-            <option value="Prop 123">Prop 123</option>
-            <option value="CRA">CRA</option>
-          </select>
-          <label for="regionFilter">Region:</label>
-          <select id="regionFilter" aria-label="Filter by jurisdiction or region"
-                  data-jurisdiction-search data-jurisdiction-search-type="Available brief tag"
-                  data-jurisdiction-search-label="Search available jurisdiction and region tags"
-                  data-jurisdiction-search-placeholder="Type a jurisdiction or region…">
-            <option value="">All jurisdictions</option>
-          </select>
-          <label for="signalFilter">Signal:</label>
-          <select id="signalFilter" aria-label="Filter by signal type">
-            <option value="">All Signals</option>
-            <option value="legislative">Legislative</option>
-            <option value="funding">Funding</option>
-            <option value="market">Market Shift</option>
-            <option value="enforcement">Enforcement</option>
-            <option value="community">Community Impact</option>
-          </select>
-        </div>
-      </details>
     </div>
 
-    <div id="briefsLiveRegion" aria-live="polite" aria-atomic="true"></div>
+    <div class="news-wrap news-layout">
+      <div class="news-main">
+        <section id="newsLatest" aria-labelledby="newsLatestLabel">
+          <h2 class="news-label" id="newsLatestLabel">Latest</h2>
+          <div id="newsLatestBody" class="no-glossary"></div>
+        </section>
+        <section id="newsRiver" aria-labelledby="newsRiverLabel">
+          <h2 class="news-label" id="newsRiverLabel">Earlier</h2>
+          <div id="briefsLiveRegion" class="visually-hidden sr-only" aria-live="polite" aria-atomic="true"></div>
+          <div id="briefsStatus" role="status">Loading headlines…</div>
+          <div id="newsRiverBody" class="no-glossary"></div>
+        </section>
+      </div>
 
-    <div id="signalStats" style="display:none;padding:.5rem var(--sp4);font-size:.78rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:.5rem;" aria-label="Signal summary"></div>
+      <aside class="news-aside" aria-label="Policy watch, research and about this feed">
+        <section id="researchPanel" class="news-panel" aria-labelledby="researchLabel">
+          <h2 class="news-label" id="researchLabel">Research &amp; analysis</h2>
+          <div id="researchList"></div>
+        </section>
+        <section id="policyWatchPanel" class="news-panel" aria-labelledby="policyWatchLabel" hidden>
+          <h2 class="news-label" id="policyWatchLabel">Policy watch</h2>
+          <div id="policyWatchList" class="no-glossary"></div>
+          <p class="news-note" id="policyWatchAsOf"></p>
+        </section>
+        <section id="toolWatchPanel" class="news-panel" aria-labelledby="toolWatchLabel" hidden>
+          <h2 class="news-label" id="toolWatchLabel">Tools we're evaluating</h2>
+          <ul class="tool-list no-glossary" id="toolWatchList"></ul>
+          <p class="news-note">Analysis tools COHO compares its own features against. These are not news or endorsements.</p>
+        </section>
+        <details id="aboutFeed" class="news-panel news-about">
+          <summary>About this feed</summary>
+          <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
+          <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
+          <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
+          <p><strong>Policy watch</strong> is curated by hand, not pulled from a feed. Each entry says how it was checked: against the primary document, with the exact wording it rests on kept in the data, or as reported by a named outlet. Topics nobody has checked yet are listed as not covered, rather than filled in from search results.</p>
+          <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
+          <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research.</p>
+        </details>
+      </aside>
+    </div>
 
-    <div id="briefsStatus" role="status">Loading policy briefs…</div>
-    <div id="briefsGrid" class="briefs-grid" aria-label="Policy briefs"></div>
-
-    <section style="padding:var(--sp4);border-top:1px solid var(--border);margin-top:var(--sp4);">
-      <h2 style="margin:0 0 .5rem;">Related Datasets</h2>
-      <ul style="font-size:.85rem;color:var(--muted);line-height:2;">
+    <section class="news-wrap news-related" aria-labelledby="relatedLabel">
+      <h2 id="relatedLabel">Related datasets</h2>
+      <ul>
         <li><a href="colorado-deep-dive.html">Colorado LIHTC Deep Dive Map</a></li>
         <li><a href="housing-needs-assessment.html">Housing Needs Assessment</a></li>
         <li><a href="lihtc-allocations.html">LIHTC Dashboard</a></li>
@@ -389,704 +235,465 @@
     var BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs.json')
       : 'data/policy_briefs.json';
+    var POLICY_WATCH_URL = (typeof window.resolveAssetUrl === 'function')
+      ? window.resolveAssetUrl('data/policy/policy-watch.json')
+      : 'data/policy/policy-watch.json';
     var CURATED_BRIEFS_URL = (typeof window.resolveAssetUrl === 'function')
       ? window.resolveAssetUrl('data/policy_briefs_curated.json')
       : 'data/policy_briefs_curated.json';
 
-    var briefs = [];
-    var topicFilter  = document.getElementById('topicFilter');
-    var regionFilter = document.getElementById('regionFilter');
-    var entityFilter = document.getElementById('entityFilter');
-    var signalFilter = document.getElementById('signalFilter');
-    var briefSearch  = document.getElementById('briefSearch');
-    var statusEl = document.getElementById('briefsStatus');
-    var gridEl = document.getElementById('briefsGrid');
-    var countEl = document.getElementById('briefsCount');
-    var liveEl = document.getElementById('briefsLiveRegion');
+    // Headlines are shown this many at a time. There is no cap: "Show earlier"
+    // reaches every story. The old page showed 25 articles per topic card with no
+    // way to see the rest, which left 41 of 96 stories unreachable (2026-09-24).
+    var PAGE = 25;
+    var LATEST_COUNT = 5;
 
-    /* ── Entity & signal detection ── */
-    var ENTITY_PATTERNS = {
-      'CHFA':      /\bCHFA\b|Colorado Housing and Finance Authority/i,
-      'CDOH':      /\bCDOH\b|Division of Housing|Colorado Division of Housing/i,
-      'HUD':       /\bHUD\b|Department of Housing and Urban Development/i,
-      'DOLA':      /\bDOLA\b|Department of Local Affairs/i,
-      'LIHTC':     /\bLIHTC\b|Low.Income Housing Tax Credit|tax credit/i,
-      'Section 8': /\bSection 8\b|Housing Choice Voucher|HCV\b/i,
-      'Prop 123':  /\bProp(?:osition)?\s*123\b/i,
-      'CRA':       /\bCRA\b|Community Reinvestment Act/i,
-    };
-
-    var SIGNAL_PATTERNS = {
-      'legislative': /\bbill\b|legislat|statute|amendment|signed into law|passed|sponsor|senate|house\s+bill|HB\s*\d|SB\s*\d/i,
-      'funding':     /\ballocation|fund(?:ing|ed)|grant|award|subsidy|capital|invest|bond|credit.*alloc/i,
-      'market':      /\brent.*(?:increase|decrease|rise|fall)|vacancy|construction cost|permit|housing start|market shift|price/i,
-      'enforcement': /\bcompliance|enforcement|violation|audit|fair housing|discriminat|lawsuit/i,
-      'community':   /\bcommunity|neighborhood|resident|opposition|support|NIMBY|public hearing|town hall/i,
-    };
-
-    function detectEntities(brief) {
-      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
-      var entities = [];
-      for (var key in ENTITY_PATTERNS) {
-        if (ENTITY_PATTERNS[key].test(text)) entities.push(key);
-      }
-      return entities;
-    }
-
-    function detectSignals(brief) {
-      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
-      var signals = [];
-      for (var key in SIGNAL_PATTERNS) {
-        if (SIGNAL_PATTERNS[key].test(text)) signals.push(key);
-      }
-      return signals;
-    }
-
-    var SIGNAL_LABELS = {
-      'legislative': 'Legislative',
-      'funding': 'Funding',
-      'market': 'Market',
-      'enforcement': 'Enforcement',
-      'community': 'Community',
-    };
-
-    function daysSince(dateObj) {
-      return Math.floor((Date.now() - dateObj.getTime()) / 86400000);
-    }
+    var $ = function (id) { return document.getElementById(id); };
+    var state = { q: '', programs: [], place: '', shown: PAGE };
+    var stories = [];
 
     function escapeHtml(s) {
-      return String(s || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function highlight(text) {
+      var t = escapeHtml(text);
+      if (!state.q) return t;
+      var q = escapeHtml(state.q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return t.replace(new RegExp('(' + q + ')', 'ig'), '<mark>$1</mark>');
     }
 
-    function formatDate(iso) {
-      if (!iso) return '';
-      try {
-        return new Date(iso).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-      } catch (e) { return iso.slice(0, 7); }
+    // ── Stories come from the pipeline ───────────────────────────────────
+    // scripts/generate_policy_briefs.py decides scope (Colorado or federal;
+    // other states out), merges the same headline from several outlets, and
+    // tags programs, places and regions. The page does not keep its own copy
+    // of those rules, so the page and the data cannot disagree about them.
+    // Places are matched against data/hna/geo-config.json and regions follow
+    // the county map the ranking index uses.
+    var PROGRAM_LABELS = {
+      'LIHTC': 'LIHTC & tax credits', 'CHFA': 'CHFA', 'Prop 123': 'Prop 123',
+      'Division of Housing': 'Division of Housing / DOLA', 'HUD': 'HUD', 'Section 8': 'Section 8'
+    };
+    var PROGRAM_ORDER = Object.keys(PROGRAM_LABELS);
+    var WIDE_STATE = 'Statewide', WIDE_FEDERAL = 'Federal & national';
+
+    function storyTime(s) {
+      var t = Date.parse((s.date || '') + 'T12:00:00Z');
+      return isNaN(t) ? 0 : t;
     }
 
-    // F191 — Compute LIHTC relevance score for a brief. Higher score = more
-    // directly relevant to a LIHTC developer's day-to-day work. The top 3
-    // by score get a "LIHTC priority" pill + render first.
-    //
-    // Weights are tuned for the audience: LIHTC developer/asset manager.
-    // CHFA + tax-credit-mechanism terms score highest because they're
-    // immediately actionable. Generic "affordable housing" scores low
-    // because it's table-stakes context, not LIHTC-specific signal.
-    var _LIHTC_TERMS = [
-      // Strong (direct LIHTC mechanism, +10 each)
-      { re: /\blihtc\b|low.income housing tax credit/i,             w: 10 },
-      { re: /\bqap\b|qualified allocation plan/i,                    w: 10 },
-      { re: /section 42\b|§\s*42|irc.*42/i,                          w: 10 },
-      // High (allocator + state credit + Year-15, +5–7 each)
-      { re: /\bchfa\b/i,                                              w:  7 },
-      { re: /\bmihtc\b|middle.income housing tax credit/i,           w:  7 },
-      { re: /\bstate (housing )?tax credit/i,                         w:  6 },
-      { re: /year[\s-]?15|year 15 exit/i,                            w:  6 },
-      { re: /\btax credit\b/i,                                        w:  5 },
-      { re: /\b9[%\s-]+lihtc|9%.* (competitive|round)/i,             w:  5 },
-      { re: /\b4[%\s-]+(bond|lihtc)/i,                                w:  5 },
-      { re: /pab\b|private activity bond/i,                          w:  5 },
-      // Medium (adjacent funding stack, +3–4 each)
-      { re: /preserv/i,                                               w:  4 },
-      { re: /prop(osition)?\s*123/i,                                  w:  4 },
-      { re: /\b(usda|rural development|rural housing)/i,              w:  3 },
-      { re: /\b(section 8|housing choice voucher|hcv)/i,             w:  3 },
-      { re: /\bcdoh\b|division of housing/i,                           w:  3 },
-      // Low (context, +1–2 each)
-      { re: /affordable housing/i,                                    w:  2 },
-      { re: /\bhud\b/i,                                                w:  2 },
-      { re: /\bcra\b|community reinvestment act/i,                    w:  2 },
-      { re: /\binclusionary\b|iz ordinance/i,                          w:  2 }
-    ];
-    function _lihtcRelevance(brief) {
-      if (!brief) return 0;
-      var text = [
-        brief.title || '',
-        brief.summary || '',
-        brief.policy_topic || '',
-        (brief.tags || []).join(' '),
-        (brief.signals || []).join(' '),
-        (brief.regions || []).join(' ')
-      ].join(' ');
-      var s = 0;
-      _LIHTC_TERMS.forEach(function (t) {
-        if (t.re.test(text)) s += t.w;
+    function readStories(data) {
+      var list = data && Array.isArray(data.stories) ? data.stories : [];
+      return list.filter(function (s) { return s && s.title && (s.scope === 'colorado' || s.scope === 'federal'); })
+        .map(function (s) {
+          return {
+            title: String(s.title), source: String(s.source || 'Unknown publisher'), link: s.link || '',
+            date: String(s.date || '').slice(0, 10), scope: s.scope,
+            programs: Array.isArray(s.programs) ? s.programs : [],
+            places: Array.isArray(s.places) ? s.places.filter(function (p) { return p && p.geoid && p.name; }) : [],
+            regions: Array.isArray(s.regions) ? s.regions : [],
+            also: Array.isArray(s.also) ? s.also : []
+          };
+        })
+        .sort(function (a, b) { return storyTime(b) - storyTime(a); });
+    }
+
+    function placeLabel(s) {
+      if (s.places.length) return s.places.slice(0, 2).map(function (p) { return p.name; }).join(', ');
+      if (s.regions.length) return s.regions[0];
+      return s.scope === 'federal' ? WIDE_FEDERAL : WIDE_STATE;
+    }
+    // Every filter value a story answers to: its regions, its places, or the
+    // wider-coverage bucket when it names no place.
+    function placeValues(s) {
+      var v = s.regions.slice();
+      s.places.forEach(function (p) { v.push('geo:' + p.geoid); });
+      if (!v.length) v.push(s.scope === 'federal' ? WIDE_FEDERAL : WIDE_STATE);
+      return v;
+    }
+
+    // ── Local data line ──────────────────────────────────────────────────
+    // A story that names a Colorado place gets one line of that place's own
+    // numbers, read from the same per-geography digest the Housing Needs
+    // Assessment uses, with its vintage. A value the digest does not have is
+    // left out, never shown as 0.
+    var digestCache = {};
+    function digestUrl(geoid) {
+      var path = 'data/hna/jurisdiction-metrics-digest/' + encodeURIComponent(geoid) + '.json';
+      return typeof window.resolveAssetUrl === 'function' ? window.resolveAssetUrl(path) : path;
+    }
+    function loadDigest(geoid) {
+      if (!digestCache[geoid]) {
+        var fetcher = window.fetchWithTimeout || fetch;
+        digestCache[geoid] = fetcher(digestUrl(geoid), {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; });
+      }
+      return digestCache[geoid];
+    }
+    // Each figure is graded by RecommendationContract.evidence(), the same
+    // reading the Housing Needs Assessment and the Recommendation page make of
+    // the digest. A figure it calls insufficient (no value, low confidence, a
+    // rate on too few households) is withheld, and a figure from another
+    // geography level standing in for this place is left out: the line is
+    // about this place or it says nothing.
+    var LEVEL = { place: 'place', cdp: 'cdp', county: 'county' };
+    function graded(doc, key, label, type) {
+      var contract = window.RecommendationContract;
+      if (!contract || typeof contract.evidence !== 'function') return { usable: false };
+      var item = contract.evidence(doc && doc.metrics, key, label, { requestedLevel: LEVEL[type] || null });
+      var usable = item.state !== 'insufficient' && !item.borrowedFrom &&
+        typeof item.value === 'number' && isFinite(item.value);
+      return { usable: usable, value: item.value, asOf: item.asOf, withheld: item.value !== null && !usable };
+    }
+    function localLine(doc, place) {
+      var parts = [], vintages = [], notes = [];
+      var burden = graded(doc, 'pct_cost_burdened', 'Rent-burdened renter share', place.type);
+      if (burden.usable && burden.value > 0) {
+        parts.push(burden.value.toFixed(0) + '% of renter households rent-burdened');
+        vintages.push(burden.asOf);
+      } else if (burden.withheld) {
+        notes.push('rent-burden rate withheld: too few renter households for a reliable rate');
+      }
+      var rent = graded(doc, 'gross_rent_median', 'Median gross rent', place.type);
+      if (rent.usable && rent.value > 0) {
+        parts.push('median gross rent $' + Math.round(rent.value).toLocaleString('en-US'));
+        vintages.push(rent.asOf);
+      }
+      var gap = graded(doc, 'housing_gap_units', 'Units short at 30% AMI', place.type);
+      if (gap.usable && gap.value > 0) {
+        parts.push(Math.round(gap.value).toLocaleString('en-US') + ' units short for households at or below 30% AMI');
+        vintages.push(gap.asOf);
+      }
+      var name = (doc && doc.geography && doc.geography.name) || place.name;
+      var link = '<a href="housing-needs-assessment.html?geoid=' + encodeURIComponent(place.geoid) + '">' +
+        escapeHtml(name) + ' housing needs</a>';
+      if (!parts.length && !notes.length) return link;
+      var vintage = vintages.filter(function (v, i) { return v && vintages.indexOf(v) === i; }).join('; ');
+      return '<span class="story__local-name">' + escapeHtml(name) + ':</span> ' + escapeHtml(parts.concat(notes).join(' · ')) +
+        (vintage ? ' <span class="story__local-src">(' + escapeHtml(vintage) + ')</span>' : '') + ' · ' + link;
+    }
+    function fillLocalLines() {
+      document.querySelectorAll('.story__local[data-geoid]:not([data-filled])').forEach(function (el) {
+        el.setAttribute('data-filled', 'pending');
+        var place = { geoid: el.getAttribute('data-geoid'), name: el.getAttribute('data-name'), type: el.getAttribute('data-type') };
+        loadDigest(place.geoid).then(function (doc) {
+          el.innerHTML = localLine(doc, place);
+          el.setAttribute('data-filled', doc ? 'yes' : 'no-data');
+        });
       });
-      return s;
     }
 
-    // Set on the top-3 most relevant brief titles after load
-    var _lihtcTop3Titles = new Set();
+    var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    function shortDate(t) { var d = new Date(t); return MON[d.getUTCMonth()] + ' ' + d.getUTCDate(); }
+    function weekStart(t) { var d = new Date(t); d.setUTCHours(12, 0, 0, 0); d.setUTCDate(d.getUTCDate() - d.getUTCDay()); return d.getTime(); }
 
-    function renderBriefs(list) {
-      gridEl.innerHTML = '';
-      if (!list.length) {
-        statusEl.textContent = 'No briefs match the selected filters.';
-        statusEl.style.display = 'block';
-        countEl.textContent = '';
+    function storyHtml(s, lead) {
+      var tag = lead ? 'h2' : 'h3';
+      var meta = [];
+      meta.push('<span class="story__pub">' + highlight(s.source) + '</span>');
+      meta.push('<span>' + escapeHtml(placeLabel(s)) + '</span>');
+      var t = storyTime(s);
+      meta.push('<span class="story__date">' + (t ? shortDate(t) : 'Undated') + '</span>');
+      s.programs.forEach(function (p) {
+        if (PROGRAM_LABELS[p]) meta.push('<span class="story__prog">' + escapeHtml(p === 'Division of Housing' ? 'DOH / DOLA' : p) + '</span>');
+      });
+      var alt = '';
+      if (/news\.google\.com\/rss\/articles/i.test(s.link)) {
+        // F134 — Google News article links sometimes return 403. The fallback
+        // searches Google News for the same headline and publisher.
+        var q = encodeURIComponent(s.title + ' ' + s.source);
+        alt = '<span class="story__alt"><a href="https://news.google.com/search?q=' + q + '&amp;hl=en-US&amp;gl=US&amp;ceid=US:en" target="_blank" rel="noopener" title="If the publisher link is blocked, search Google News for this headline">Alt. link</a></span>';
+      }
+      var also = s.also.length
+        ? '<div class="story__also">Also: ' + s.also.map(function (a) {
+            return a.link ? '<a href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' + highlight(a.source) + '</a>' : highlight(a.source);
+          }).join(', ') + '</div>'
+        : '';
+      var head = s.link
+        ? '<a class="story__link" href="' + escapeHtml(s.link) + '" target="_blank" rel="noopener">' + highlight(s.title) + '</a>'
+        : highlight(s.title);
+      var local = s.places.length
+        ? '<div class="story__local" data-geoid="' + escapeHtml(s.places[0].geoid) + '" data-name="' + escapeHtml(s.places[0].name) +
+          '" data-type="' + escapeHtml(s.places[0].type || '') + '"></div>'
+        : '';
+      return '<article class="story' + (lead ? ' story--lead' : '') + '" data-date="' + escapeHtml(s.date) + '">' +
+        '<' + tag + '>' + head + '</' + tag + '>' +
+        '<div class="story__meta">' + meta.join('') + alt + '</div>' + local + also + '</article>';
+    }
+
+    function matches(s, skip) {
+      if (skip !== 'program' && state.programs.length &&
+          !s.programs.some(function (p) { return state.programs.indexOf(p) !== -1; })) return false;
+      if (skip !== 'place' && state.place && placeValues(s).indexOf(state.place) === -1) return false;
+      if (state.q) {
+        var hay = (s.title + ' ' + s.source + ' ' + s.also.map(function (a) { return a.source; }).join(' ') + ' ' +
+          s.places.map(function (p) { return p.name; }).join(' ')).toLowerCase();
+        if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
+      }
+      return true;
+    }
+    function filtering() { return !!(state.q || state.programs.length || state.place); }
+
+    function renderWeeks(list, now) {
+      var html = '', groups = [], cur = null;
+      list.slice(0, state.shown).forEach(function (s) {
+        var t = storyTime(s);
+        var ws = t ? weekStart(t) : 0;
+        if (!cur || cur.ws !== ws) { cur = { ws: ws, items: [] }; groups.push(cur); }
+        cur.items.push(s);
+      });
+      var thisWeek = weekStart(now);
+      groups.forEach(function (g) {
+        var label, range = '';
+        if (!g.ws) { label = 'Undated'; }
+        else {
+          var diff = Math.round((thisWeek - g.ws) / 864e5);
+          var d = new Date(g.ws);
+          label = diff === 0 ? 'This week' : diff === 7 ? 'Last week' : 'Week of ' + MONTH[d.getUTCMonth()] + ' ' + d.getUTCDate();
+          range = shortDate(g.ws) + '–' + shortDate(g.ws + 6 * 864e5);
+        }
+        html += '<div class="news-week"><h3 class="news-week__head">' + escapeHtml(label) +
+          (range ? '<span class="news-week__range">' + range + '</span>' : '') + '</h3>' +
+          g.items.map(function (s) { return storyHtml(s, false); }).join('') + '</div>';
+      });
+      var rest = list.length - Math.min(list.length, state.shown);
+      if (rest > 0) {
+        html += '<button type="button" class="news-more" id="newsMore">Show ' + Math.min(PAGE, rest) +
+          ' earlier ' + (Math.min(PAGE, rest) === 1 ? 'story' : 'stories') + ' · ' + rest + ' remaining</button>';
+      }
+      return html;
+    }
+
+    function updateFacets() {
+      document.querySelectorAll('#programChips .news-chip').forEach(function (b) {
+        var name = b.getAttribute('data-program');
+        var n = stories.filter(function (s) { return matches(s, 'program') && s.programs.indexOf(name) !== -1; }).length;
+        b.setAttribute('aria-pressed', state.programs.indexOf(name) !== -1 ? 'true' : 'false');
+        b.querySelector('.n').textContent = n;
+      });
+    }
+
+    function render() {
+      var now = Date.now();
+      updateFacets();
+      var list = stories.filter(function (s) { return matches(s); });
+      $('briefsStatus').hidden = true;
+      if (filtering()) {
+        $('newsLatest').hidden = true;
+        $('newsRiverLabel').textContent = 'Results';
+        var head = '<div class="news-results"><span><strong>' + list.length + '</strong> ' +
+          (list.length === 1 ? 'story matches' : 'stories match') + '</span>' +
+          '<button type="button" class="news-linkbtn" id="newsClear">Clear search and filters</button></div>';
+        $('newsRiverBody').innerHTML = head + (list.length ? renderWeeks(list, now)
+          : '<p>No stories match. Try a shorter search or remove a filter.</p>');
+        $('newsClear').addEventListener('click', clearAll);
+      } else {
+        $('newsLatest').hidden = false;
+        $('newsRiverLabel').textContent = 'Earlier';
+        var top = list.slice(0, LATEST_COUNT);
+        $('newsLatestBody').innerHTML = top.length
+          ? storyHtml(top[0], true) + '<div class="news-latest-grid">' +
+            top.slice(1).map(function (s) { return storyHtml(s, false); }).join('') + '</div>'
+          : '';
+        $('newsRiverBody').innerHTML = renderWeeks(list.slice(LATEST_COUNT), now);
+      }
+      var more = $('newsMore');
+      if (more) more.addEventListener('click', function () { state.shown += PAGE; render(); });
+      var msg = filtering() ? list.length + ' of ' + stories.length + ' stories shown' : stories.length + ' stories';
+      $('briefsLiveRegion').textContent = msg;
+      fillLocalLines();
+    }
+
+    function clearAll() {
+      state.q = ''; state.programs = []; state.place = ''; state.shown = PAGE;
+      $('briefSearch').value = '';
+      var sel = $('regionFilter'); sel.value = ''; sel.dispatchEvent(new Event('change'));
+      render();
+    }
+
+    function buildFilters() {
+      var chipHost = $('programChips');
+      PROGRAM_ORDER.forEach(function (name) {
+        if (!stories.some(function (s) { return s.programs.indexOf(name) !== -1; })) return;
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'news-chip';
+        b.setAttribute('data-program', name);
+        b.setAttribute('aria-pressed', 'false');
+        b.innerHTML = escapeHtml(PROGRAM_LABELS[name]) + '<span class="n"></span>';
+        b.addEventListener('click', function () {
+          var i = state.programs.indexOf(name);
+          if (i === -1) state.programs.push(name); else state.programs.splice(i, 1);
+          state.shown = PAGE; render();
+        });
+        chipHost.appendChild(b);
+      });
+      if (!chipHost.querySelector('.news-chip')) chipHost.hidden = true;
+
+      var counts = {}, regionNames = [], placeNames = {};
+      stories.forEach(function (s) {
+        placeValues(s).forEach(function (v) { counts[v] = (counts[v] || 0) + 1; });
+        s.regions.forEach(function (r) { if (regionNames.indexOf(r) === -1) regionNames.push(r); });
+        s.places.forEach(function (p) { placeNames['geo:' + p.geoid] = p.name; });
+      });
+      var sel = $('regionFilter');
+      function addGroup(label, values, text) {
+        if (!values.length) return;
+        var group = document.createElement('optgroup'); group.label = label;
+        values.forEach(function (v) {
+          var o = document.createElement('option'); o.value = v; o.textContent = text(v) + ' (' + counts[v] + ')';
+          group.appendChild(o);
+        });
+        sel.appendChild(group);
+      }
+      addGroup('Regions', regionNames.sort(), function (v) { return v; });
+      addGroup('Places', Object.keys(placeNames).sort(function (a, b) {
+        return counts[b] - counts[a] || placeNames[a].localeCompare(placeNames[b]);
+      }), function (v) { return placeNames[v]; });
+      addGroup('Wider coverage', [WIDE_STATE, WIDE_FEDERAL].filter(function (v) { return counts[v]; }), function (v) { return v; });
+      sel.addEventListener('change', function () { state.place = sel.value; state.shown = PAGE; render(); });
+
+      var timer = null;
+      $('briefSearch').addEventListener('input', function (e) {
+        clearTimeout(timer);
+        timer = setTimeout(function () { state.q = e.target.value.trim(); state.shown = PAGE; render(); }, 200);
+      });
+      $('aboutFeedLink').addEventListener('click', function () { $('aboutFeed').open = true; });
+    }
+
+    function renderResearch(curated) {
+      var host = $('researchList');
+      if (!curated.length) {
+        host.innerHTML = '<p class="news-note">No research briefs yet.</p>';
         return;
       }
-      statusEl.style.display = 'none';
-      countEl.textContent = list.length + ' brief' + (list.length === 1 ? '' : 's');
-      if (liveEl) liveEl.textContent = countEl.textContent + ' displayed';
-
-      list.forEach(function (brief) {
-        var regions = Array.isArray(brief._regions) ? brief._regions : (Array.isArray(brief.regions) ? brief.regions : []);
-        var sources = Array.isArray(brief.sources) ? brief.sources : [];
-        var entities = brief._entities || [];
-        var signals  = brief._signals || [];
-
-        var regionTags = regions.map(function (r) {
-          return '<span class="region-tag">' + escapeHtml(r) + '</span>';
-        }).join('');
-        var entityTags = entities.map(function (e) {
-          return '<span class="region-tag" style="background:color-mix(in srgb, var(--accent) 18%, transparent);color:var(--accent);font-weight:600">' + escapeHtml(e) + '</span>';
-        }).join('');
-        var signalTags = signals.map(function (s) {
-          var label = SIGNAL_LABELS[s] || s;
-          return '<span class="region-tag" style="background:color-mix(in srgb, var(--warn) 15%, transparent);color:var(--warn)">' + escapeHtml(label) + '</span>';
-        }).join('');
-        // Source badges — render as plain TEXT pills unless the value parses
-        // as a URL. The data file ships publisher names ("CBS News",
-        // "Urbanize Atlanta"), so the previous `<a href="${name}">` produced
-        // broken self-links resolving to /CBS%20News etc. Only wrap as <a>
-        // when the value is a real http(s) URL.
-        var sourceBadges = sources.slice(0, 5).map(function (s) {
-          var raw = (s || '').trim();
-          if (!raw) return '';
-          var isUrl = /^https?:\/\//i.test(raw);
-          if (isUrl) {
-            var host = raw.replace(/^https?:\/\//i, '').split('/')[0];
-            return '<a class="brief-meta__source brief-meta__source--linked" href="' +
-              escapeHtml(raw) + '" target="_blank" rel="noopener">' +
-              escapeHtml(host) + ' ↗</a>';
-          }
-          return '<span class="brief-meta__source">' + escapeHtml(raw) + '</span>';
-        }).filter(Boolean).join('');
-
-        // Strip trailing " - Publisher" or " – Publisher" from article titles
-        // (Google News RSS appends the source to the title; show it separately).
-        function _splitTitleSource(rawTitle, fallbackSource) {
-          var t = String(rawTitle || '').trim();
-          // Match " - Source" or " – Source" at the end, when Source has no
-          // additional hyphens (avoids slicing "21st-Century" type titles).
-          var m = t.match(/^(.+?)\s+[-–]\s+([^-–]{2,80})$/);
-          if (m) {
-            return { title: m[1].trim(), source: m[2].trim() };
-          }
-          return { title: t, source: (fallbackSource || '').trim() };
-        }
-
-        // F134b — Filter articles to Colorado + federal/national policy.
-        // Rule order (revised): explicit other-state markers EXCLUDE before
-        // the federal-policy allowlist applies. Otherwise a Tennessee story
-        // published by "Affordable Housing Finance" (a trade pub) slips
-        // through as "national policy" — which is exactly what was leaking
-        // Tennessee, Iowa, and Delaware articles into the Colorado feed.
-        // The federal allowlist now also requires actual federal-policy
-        // KEYWORDS (HUD, Congress, etc.), not just being a trade publication.
-        function _isRelevantArticle(a) {
-          if (brief.is_tool_evaluation || brief.is_curated) return true;
-          var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
-          // 1) Explicit other-state markers → EXCLUDE FIRST. A Pasadena, CA
-          // story has "Colorado Boulevard" in the address — the word "colorado"
-          // alone would otherwise mark it as in-scope. Other-state mentions
-          // always trump generic Colorado word-matches.
-          if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|seattle|portland|burbank|felton|tulsa|indianapolis|trumann|newport|reese apartments|streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog)\b/i.test(hay)) {
-            return false;
-          }
-          // 2) Explicit Colorado markers → include
-          if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|carbondale|glenwood springs|steamboat|telluride|crested butte|salida|cortez|manitou springs|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) {
-            return true;
-          }
-          // 3) Federal / national policy KEYWORDS → include
-          if (/\b(federal|u\.s\. congress|congressional|u\.s\. senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) {
-            return true;
-          }
-          // 4) Default: EXCLUDE — if a story doesn't show an explicit CO or
-          // federal marker, treat it as out-of-scope rather than ambient
-          // context. The prior "default include" leaked Wisconsin (WHEDA),
-          // Delaware, San Diego, Indianapolis, and Tulsa stories.
-          return false;
-        }
-        // Brief-level scrub: if the LLM-generated summary or implications
-        // reference other states, mark the brief as cross-state-contaminated
-        // so the renderer can surface a warning + filter the body. (The
-        // generator should ultimately be re-prompted, but this prevents
-        // leakage in the meantime.)
-        var briefBody = String((brief.summary || '') + ' ' + (brief.implications || '')).toLowerCase();
-        var crossStateMatch = briefBody.match(/\b(tennessee|iowa|delaware|virginia|ohio|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|georgia\b|missouri|wisconsin|indiana|maryland|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|connecticut|new jersey|maine|vermont|montana|wyoming|idaho|hawaii|alaska|illinois)\b/);
-        brief._crossStateLeak = crossStateMatch ? crossStateMatch[0] : null;
-        // Build articles panel — grid layout, no nowrap children, explicit
-        // "Open article ↗" button per row so users see an affordance.
-        var rawArticles = Array.isArray(brief.articles) ? brief.articles : [];
-        var articles = rawArticles.filter(_isRelevantArticle);
-        var articlesHtml = '';
-        if (articles.length) {
-          var items = articles.slice(0, 25).map(function (a) {
-            var split = _splitTitleSource(a.title, a.source);
-            var title = escapeHtml(split.title || 'Untitled');
-            var source = escapeHtml(split.source);
-            // F134 — news.google.com/rss/articles URLs sometimes return 403
-            // due to geographic restrictions / API changes / token expiry.
-            // Add a secondary "via Google News search" fallback that targets
-            // the article title — always reachable. Primary link still tries
-            // the deep link first.
-            var googleSearchUrl = 'https://news.google.com/search?q=' +
-              encodeURIComponent(split.title + (split.source ? ' ' + split.source : '')) +
-              '&hl=en-US&gl=US&ceid=US:en';
-            var isGoogleNews = a.link && /news\.google\.com\/rss\/articles/i.test(a.link);
-            var openLink = a.link
-              ? '<a class="brief-articles__open" href="' + escapeHtml(a.link) +
-                '" target="_blank" rel="noopener" aria-label="Open article in new tab">Open article ↗</a>'
-              : '';
-            var fallbackLink = isGoogleNews
-              ? ' <a class="brief-articles__fallback" href="' + escapeHtml(googleSearchUrl) +
-                '" target="_blank" rel="noopener" aria-label="Search for this article on Google News" title="If the direct link is blocked, search Google News instead">search ↗</a>'
-              : '';
-            var metaRow =
-              '<div class="brief-articles__meta">' +
-                (a.date ? '<span class="brief-articles__date">' + escapeHtml(a.date) + '</span>' : '') +
-                (source ? '<span class="brief-articles__source">· ' + source + '</span>' : '') +
-                openLink + fallbackLink +
-              '</div>';
-            return '<li class="brief-articles__item">' +
-              '<div class="brief-articles__title">' + title + '</div>' +
-              metaRow +
-            '</li>';
-          }).join('');
-          articlesHtml = '<div class="brief-articles">' +
-            '<strong style="font-size:.8rem;color:var(--muted)">Articles (' + articles.length + ')</strong>' +
-            '<ul class="brief-articles__list">' + items + '</ul>' +
-            (articles.length > 25 ? '<p style="font-size:.72rem;color:var(--muted);margin:.4rem 0 0">Showing 25 of ' + articles.length + ' articles</p>' : '') +
-            '<p class="brief-articles__warn">Headlines are linked to the original publisher. Verify any quoted fact at the source before using it in a deal memo or board meeting.</p>' +
-          '</div>';
-        }
-
-        // Parse headlines from summary for fallback article display when
-        // the brief doesn't carry structured articles.
-        var fallbackArticles = '';
-        if (!articles.length && brief.summary) {
-          var headlineMatch = brief.summary.match(/Notable headlines include:\s*(.+?)(?:\.\s*Coverage|\.$)/);
-          if (headlineMatch) {
-            var headlines = headlineMatch[1].split(/;\s*/);
-            var fallbackItems = headlines.map(function (h) {
-              var fbSplit = _splitTitleSource(h, '');
-              return '<li class="brief-articles__item">' +
-                '<div class="brief-articles__title">' + escapeHtml(fbSplit.title) + '</div>' +
-                (fbSplit.source ? '<div class="brief-articles__meta"><span class="brief-articles__source">· ' + escapeHtml(fbSplit.source) + '</span></div>' : '') +
-              '</li>';
-            }).join('');
-            fallbackArticles = '<div class="brief-articles">' +
-              '<strong style="font-size:.8rem;color:var(--muted)">Headlines (' + headlines.length + ')</strong>' +
-              '<ul class="brief-articles__list">' + fallbackItems + '</ul>' +
-            '</div>';
-          }
-        }
-
-        var card = document.createElement('article');
-        card.className = 'brief-card';
-        card.setAttribute('aria-label', brief.title || 'Policy Brief');
-        card.setAttribute('aria-expanded', 'false');
-        // Keyboard support — make the card act like a button so screen-reader
-        // + keyboard users can expand it (Enter/Space).
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.innerHTML =
-          '<div style="display:flex;flex-wrap:wrap;gap:.3rem;align-items:center">' +
-            '<span class="brief-topic">' + escapeHtml(brief.policy_topic || '') + '</span>' +
-            signalTags +
-            (brief.is_curated
-              ? '<span class="brief-llm-tag brief-source-reviewed" title="Reviewed against the linked primary sources">Source-reviewed</span>'
-              : '<span class="brief-llm-tag" title="Summary written by GPT-4o-mini, not editorially reviewed">Machine-summarized</span>') +
-            (brief._crossStateLeak
-              ? '<span class="brief-llm-tag" style="background:rgba(168,70,8,.12);color:var(--warn,#a84608);border:1px solid var(--warn,#a84608)" title="The summary references another state (' + escapeHtml(brief._crossStateLeak) + ') — the LLM brief generator pulled cross-state context. Read the title + body skeptically; the brief is still about CO-flagged alerts but the comparison framing leaked.">' + 'Cross-state leak: ' + escapeHtml(brief._crossStateLeak) + '</span>'
-              : '') +
-          '</div>' +
-          '<h2 class="brief-title">' +
-            (_lihtcTop3Titles.has(brief.title || '')
-              ? '<span class="brief-lihtc-priority" title="Among the most LIHTC-relevant briefs in this batch (scored by mentions of LIHTC mechanism + CHFA + tax credit terms). A topic tag, not a ranking: this page orders by date.">LIHTC</span>'
-              : '') +
-            escapeHtml(brief.title || '') +
-          '</h2>' +
-          (brief.summary ? '<p class="brief-summary">' + escapeHtml(brief.summary) + '</p>' : '') +
-          (brief.implications ? '<blockquote class="brief-implications">' + escapeHtml(brief.implications) + '</blockquote>' : '') +
-          '<div class="brief-regions" aria-label="Tags">' +
-            entityTags + regionTags +
-          '</div>' +
-          '<div class="brief-meta">' +
-            '<div class="brief-meta__row">' +
-              '<span>' + escapeHtml(formatDate(brief.generated)) + '</span>' +
-              (brief.alert_count ? '<span>· ' + brief.alert_count + ' alert' + (brief.alert_count === 1 ? '' : 's') + '</span>' : '') +
-            '</div>' +
-            (sourceBadges ?
-              '<div class="brief-meta__row" style="margin-top:.35rem;">' +
-                '<span style="color:var(--muted);">Sources:</span>' +
-                sourceBadges +
-              '</div>' : '') +
-          '</div>' +
-          '<div class="brief-expand-hint">Click to ' + ((articles.length || fallbackArticles) ? 'explore articles' : 'expand') + ' ▾</div>' +
-          (articlesHtml || fallbackArticles);
-
-        function _toggleCard() {
-          var expanded = card.getAttribute('aria-expanded') === 'true';
-          card.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          var hint = card.querySelector('.brief-expand-hint');
-          if (hint) hint.textContent = expanded
-            ? 'Click to explore articles ▾'
-            : 'Click to collapse ▴';
-        }
-        card.addEventListener('click', function (e) {
-          // Don't toggle when clicking interactive elements
-          if (e.target.closest('a, button')) return;
-          _toggleCard();
-        });
-        card.addEventListener('keydown', function (e) {
-          if (e.target !== card) return;  // ignore key events from nested links
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            _toggleCard();
-          }
-        });
-
-        gridEl.appendChild(card);
-      });
+      host.innerHTML = curated.map(function (brief) {
+        var link = (brief.articles && brief.articles[0] && brief.articles[0].link) || '';
+        var sentences = String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' ');
+        var label = brief.is_curated && brief.source_reviewed ? 'Source-reviewed brief' : 'Research brief';
+        var when = Date.parse(brief.generated);
+        return '<article class="research-card"><div class="research-card__kick">' + escapeHtml(label) + '</div>' +
+          '<h3>' + (link ? '<a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">' + escapeHtml(brief.title) + '</a>' : escapeHtml(brief.title)) + '</h3>' +
+          (sentences ? '<p>' + escapeHtml(sentences) + '</p>' : '') +
+          '<div class="research-card__meta">' + escapeHtml((brief.sources || []).slice(0, 2).join(', ')) +
+          (isNaN(when) ? '' : ' · ' + shortDate(when) + ', ' + new Date(when).getUTCFullYear()) + '</div></article>';
+      }).join('');
     }
 
-    function applyFilters() {
-      var topic  = topicFilter.value;
-      var region = regionFilter.value;
-      var entity = entityFilter.value;
-      var signal = signalFilter.value;
-      var query  = (briefSearch.value || '').toLowerCase().trim();
-
-      // F134 — region filter now matches the explicit regions array OR any
-      // mention in title/summary/implications/articles. Previously a brief
-      // tagged ["Colorado"] but with body text mentioning "Aurora" would
-      // miss the "Aurora" filter, so the user's expectation of "bring up
-      // all" matching items wasn't met.
-      function _regionMentioned(b, r) {
-        if (Array.isArray(b._regions) && b._regions.indexOf(r) !== -1) return true;
-        var rPat = new RegExp('\\b' + r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
-        var hay = (b.title || '') + ' ' + (b.summary || '') + ' ' + (b.implications || '');
-        if (rPat.test(hay)) return true;
-        // Also walk through the articles list — a regional sub-story may
-        // be the most relevant piece of the brief for that filter.
-        if (Array.isArray(b.articles)) {
-          for (var i = 0; i < b.articles.length; i++) {
-            var a = b.articles[i];
-            if (rPat.test((a.title || '') + ' ' + (a.source || ''))) return true;
-          }
-        }
-        return false;
+    // ── Policy watch ─────────────────────────────────────────────────────
+    // data/policy/policy-watch.json: rule changes, ballot questions and people
+    // in housing roles. Every entry says how it was checked: against the
+    // primary document, or as reported by a named outlet. What the file does
+    // not yet cover is listed, not left for the reader to assume.
+    var WATCH_SECTIONS = [['qap', 'CHFA allocation plan'], ['ballot', 'On the ballot'], ['people', 'People and roles']];
+    function longDate(iso) {
+      var t = Date.parse(String(iso || '') + 'T12:00:00Z');
+      return isNaN(t) ? '' : MONTH[new Date(t).getUTCMonth()] + ' ' + new Date(t).getUTCDate() + ', ' + new Date(t).getUTCFullYear();
+    }
+    function checkLine(v) {
+      if (!v || !v.level) return 'Not yet checked';
+      var when = longDate(v.checked);
+      if (v.level === 'primary') return 'Checked against ' + (v.against || 'the primary source') + (when ? ' on ' + when : '');
+      if (v.level === 'reported') return 'As reported by ' + (v.by || 'the linked outlet') + (when ? '; link checked ' + when : '') + '. Not checked against a primary document.';
+      return 'Not yet checked';
+    }
+    function renderPolicyWatch(doc) {
+      var entries = doc && Array.isArray(doc.entries) ? doc.entries : [];
+      if (!entries.length) return;
+      var html = '';
+      WATCH_SECTIONS.forEach(function (sec) {
+        var items = entries.filter(function (e) { return e.section === sec[0]; });
+        if (!items.length) return;
+        items.sort(function (a, b) { return String(b.date || '').localeCompare(String(a.date || '')); });
+        html += '<div class="watch-group"><h3>' + escapeHtml(sec[1]) + '</h3><ul class="watch-list">' +
+          items.map(function (e) {
+            var url = e.source && e.source.url;
+            var title = url ? '<a href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' + escapeHtml(e.title) + '</a>' : escapeHtml(e.title);
+            var meta = [];
+            if (e.status) meta.push('<span class="watch-item__status">' + escapeHtml(e.status) + '</span>');
+            if (e.date) meta.push(escapeHtml(longDate(e.date)));
+            if (e.source && e.source.label) meta.push(escapeHtml(e.source.label));
+            return '<li class="watch-item"><div class="watch-item__title">' + title + '</div>' +
+              (e.detail ? '<p>' + escapeHtml(e.detail) + '</p>' : '') +
+              '<div class="watch-item__meta">' + meta.join(' · ') +
+              '<span class="watch-item__check">' + escapeHtml(checkLine(e.verification)) + '</span></div></li>';
+          }).join('') + '</ul></div>';
+      });
+      var gaps = doc.meta && Array.isArray(doc.meta.known_gaps) ? doc.meta.known_gaps : [];
+      if (gaps.length) {
+        html += '<div class="watch-group"><h3>Not yet covered</h3><ul class="watch-gaps">' +
+          gaps.map(function (g) { return '<li>' + escapeHtml(g) + '</li>'; }).join('') + '</ul></div>';
       }
-
-      var filtered = briefs.filter(function (b) {
-        var topicMatch  = !topic  || (b.policy_topic || '') === topic;
-        var regionMatch = !region || _regionMentioned(b, region);
-        var entityMatch = !entity || (b._entities && b._entities.indexOf(entity) !== -1);
-        var signalMatch = !signal || (b._signals && b._signals.indexOf(signal) !== -1);
-        // F250 — Search now reads underlying article titles/sources too.
-        // Many briefs surface specific terms (CHFA, named projects, jurisdiction
-        // names) only inside the articles[] array, not the brief's own
-        // summary. Without this, searching "CHFA" returned 0 even when an
-        // article titled "CHFA to sell LoDo office building" was present.
-        var articleHay = '';
-        if (Array.isArray(b.articles)) {
-          for (var ai = 0; ai < b.articles.length; ai++) {
-            var ar = b.articles[ai];
-            articleHay += ' ' + (ar.title || '') + ' ' + (ar.source || '');
-          }
-        }
-        var searchMatch = !query  || (
-          ((b.title || '') + ' ' + (b.summary || '') + ' ' + (b.implications || '') + ' ' +
-           (b._entities || []).join(' ') + ' ' + (b.sources || []).join(' ') + articleHay)
-            .toLowerCase().indexOf(query) !== -1
-        );
-        return topicMatch && regionMatch && entityMatch && signalMatch && searchMatch;
-      });
-      renderBriefs(filtered);
+      $('policyWatchList').innerHTML = html;
+      var asOf = doc.meta && doc.meta.as_of ? longDate(doc.meta.as_of) : '';
+      $('policyWatchAsOf').textContent = (asOf ? 'Updated ' + asOf + '. ' : '') +
+        'Curated by COHO, not a feed. Open the source before relying on an entry.';
+      $('policyWatchPanel').hidden = false;
     }
 
-    // Auto-detect Colorado regions from brief text when data lacks explicit regions
-    var CO_REGION_PATTERNS = {
-      'Denver Metro':    /\bDenver|Aurora|Lakewood|Centennial|Westminster|Thornton|Arvada|Broomfield\b/i,
-      'Front Range':     /\bFront Range|Colorado Springs|El Paso County|Pueblo|Fort Collins|Loveland|Larimer|Boulder\b/i,
-      'Western Slope':   /\bWestern Slope|Grand Junction|Mesa County|Montrose|Delta|Glenwood|Aspen|Pitkin|Eagle\b/i,
-      'Mountain':        /\bSummit County|Vail|Steamboat|Breckenridge|Telluride|San Miguel|Routt\b/i,
-      'Eastern Plains':  /\bEastern Plains|Greeley|Weld County|Morgan|Logan|Sterling|Yuma\b/i,
-      'San Luis Valley': /\bSan Luis|Alamosa|Costilla|Conejos|Saguache\b/i,
-      'Southwest':       /\bDurango|La Plata|Cortez|Montezuma|Archuleta|Pagosa\b/i,
-    };
-
-    function detectRegions(brief) {
-      if (Array.isArray(brief.regions) && brief.regions.length) return brief.regions;
-      var text = (brief.title || '') + ' ' + (brief.summary || '') + ' ' + (brief.implications || '');
-      var found = [];
-      for (var key in CO_REGION_PATTERNS) {
-        if (CO_REGION_PATTERNS[key].test(text)) found.push(key);
-      }
-      return found;
+    function renderToolWatch(briefList) {
+      var tool = briefList.filter(function (brief) { return brief.is_tool_evaluation; })[0];
+      if (!tool || !Array.isArray(tool.articles) || !tool.articles.length) return;
+      $('toolWatchList').innerHTML = tool.articles.map(function (a) {
+        return '<li>' + (a.link ? '<a href="' + escapeHtml(a.link) + '" target="_blank" rel="noopener">' + escapeHtml(a.title) + '</a>' : escapeHtml(a.title)) +
+          '<span>' + escapeHtml(a.source || '') + '</span></li>';
+      }).join('');
+      $('toolWatchPanel').hidden = false;
     }
 
-    function populateFilters(list) {
-      // Enrich each brief with detected entities, signals, and regions
-      list.forEach(function (b) {
-        b._entities = detectEntities(b);
-        b._signals  = detectSignals(b);
-        b._regions  = detectRegions(b);
-      });
-
-      var topics = Array.from(new Set(list.map(function (b) { return b.policy_topic || ''; }).filter(Boolean)));
-      var regions = Array.from(new Set(
-        list.flatMap ? list.flatMap(function (b) { return b._regions || []; })
-          : [].concat.apply([], list.map(function (b) { return b._regions || []; }))
-      )).filter(Boolean);
-
-      topics.sort();
-
-      // P3 — Count briefs per jurisdiction tag so users can see "Denver (3)"
-      // and so we can sort specific cities first, generic state-level
-      // labels ("Colorado", "Statewide") at the bottom. Also includes
-      // entity / agency tags so users can filter to "CHFA", "DOLA", etc.
-      var jurisCounts = {};
-      briefs.forEach(function (b) {
-        var tags = (b._regions || b.regions || []);
-        tags.forEach(function (t) {
-          if (!t) return;
-          jurisCounts[t] = (jurisCounts[t] || 0) + 1;
-        });
-      });
-      var GENERIC = { 'Colorado': 1, 'Statewide': 1, 'US': 1, 'United States': 1, 'National': 1 };
-      var jurisSorted = Object.keys(jurisCounts).sort(function (a, b) {
-        var aGen = GENERIC[a] ? 1 : 0;
-        var bGen = GENERIC[b] ? 1 : 0;
-        if (aGen !== bGen) return aGen - bGen;  // specific first
-        var cmp = jurisCounts[b] - jurisCounts[a];  // higher count first
-        if (cmp !== 0) return cmp;
-        return a.localeCompare(b);
-      });
-
-      topics.forEach(function (t) {
-        var opt = document.createElement('option');
-        opt.value = t;
-        opt.textContent = t;
-        topicFilter.appendChild(opt);
-      });
-      jurisSorted.forEach(function (r) {
-        var opt = document.createElement('option');
-        opt.value = r;
-        opt.textContent = r + ' (' + jurisCounts[r] + ')';
-        regionFilter.appendChild(opt);
-      });
-
-      topicFilter.addEventListener('change', applyFilters);
-      regionFilter.addEventListener('change', applyFilters);
-      entityFilter.addEventListener('change', applyFilters);
-      signalFilter.addEventListener('change', applyFilters);
-      var _searchTimer = null;
-      briefSearch.addEventListener('input', function () {
-        clearTimeout(_searchTimer);
-        _searchTimer = setTimeout(applyFilters, 250);
-      });
+    function renderPipelineStatus(meta) {
+      var el = $('alertPipelineStatus');
+      if (!meta || !meta.generated) { el.textContent = ''; return; }
+      var generated = new Date(meta.generated);
+      if (isNaN(generated.getTime())) { el.textContent = ''; return; }
+      var ageDays = Math.floor((Date.now() - generated.getTime()) / 864e5);
+      var dateStr = generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      el.textContent = ageDays > 30
+        ? 'Feed stale · last updated ' + dateStr + ' (' + ageDays + ' days ago)'
+        : 'Updated ' + dateStr;
     }
 
     function loadBriefs() {
       var fetcher = window.fetchWithTimeout || fetch;
       Promise.all([
-        fetcher(BRIEFS_URL, {}, 15000)
-          .then(function (res) {
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            return res.json();
-          }),
+        fetcher(BRIEFS_URL, {}, 15000).then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        }),
         fetcher(CURATED_BRIEFS_URL, {}, 15000)
-          .then(function (res) {
-            if (!res.ok) return { briefs: [] };
-            return res.json();
-          })
-          .catch(function () { return { briefs: [] }; })
-      ])
-        .then(function (payloads) {
-          var data = payloads[0];
-          var curatedData = payloads[1];
-          var list = Array.isArray(data) ? data
-            : (data && Array.isArray(data.briefs) ? data.briefs : []);
-          var curatedList = Array.isArray(curatedData) ? curatedData
-            : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
-          var seenBriefs = new Set(list.map(function (brief) {
-            return String(brief.id || brief.title || '').toLowerCase();
-          }));
-          curatedList.forEach(function (brief) {
-            var key = String(brief.id || brief.title || '').toLowerCase();
-            if (key && !seenBriefs.has(key)) {
-              list.unshift(brief);
-              seenBriefs.add(key);
-            }
-          });
-          // F134b — Drop briefs whose articles are ALL non-Colorado AND
-          // non-federal. Mirror the article-level filter: CO and federal/
-          // national-policy stories belong on this page; other-state
-          // stories don't. Same rule order as render-time _isRelevantArticle.
-          function _isRelevant(a) {
-            if (a && a.is_tool_evaluation) return true;
-            var hay = ((a.title || '') + ' ' + (a.source || '')).toLowerCase();
-            if (/\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i.test(hay)) return true;
-            if (/\b(federal|congress|congressional|senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|tax credit advisor|affordable housing finance|housingwire|yield pro|shelterforce|novogradac|white house|supreme court|gao\b|cbo\b)\b/i.test(hay)) return true;
-            if (/\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|seattle|portland|streets\.mn|richland source|citybiz|ohfa|streetsblog)\b/i.test(hay)) return false;
-            return true; // default include — assume national context
-          }
-          list = list.filter(function (b) {
-            if (b.is_tool_evaluation || b.is_curated) return true;
-            var arts = Array.isArray(b.articles) ? b.articles : [];
-            if (!arts.length) {
-              // No articles at all — keep the brief if its title/regions
-              // suggest Colorado or federal/national context.
-              var titleHay = (b.title || '').toLowerCase();
-              return /\bcolorado|\bdenver|\bfederal|\bhud\b|\bcongress|\bnational\b/i.test(titleHay) ||
-                (Array.isArray(b.regions) && b.regions.some(function (r) {
-                  return /colorado|denver|statewide|federal|national|us\b|united states/i.test(r);
-                }));
-            }
-            return arts.some(_isRelevant);
-          });
-          // F191 scored by LIHTC relevance and ORDERED the page by it, so on a
-          // page titled "Housing News" the newest story was not at the top. On
-          // 2026-09-19 the order by age ran 0, 1, 5, 24, 60, 3, 38, 36, 58 days
-          // — a two-month-old brief above a three-day-old one, with nothing
-          // saying the sort was relevance rather than recency.
-          //
-          // Relevance still decides the LIHTC topic badge, which is what
-          // F191 was actually for. It no longer decides the order.
-          var scored = list.map(function (b) {
-            return { brief: b, score: _lihtcRelevance(b) };
-          });
-          scored.sort(function (a, b) { return b.score - a.score; });
-          _lihtcTop3Titles = new Set(
-            scored.slice(0, 3)
-                  .filter(function (s) { return s.score > 0; })
-                  .map(function (s) { return s.brief.title || ''; })
-          );
-
-          // Newest first. A brief's date is the most recent article it cites;
-          // curated briefs carry no articles, so they fall back to `generated`.
-          // Anything undated sorts last rather than jumping to the top on a
-          // zero timestamp.
-          function _briefTime(b) {
-            var arts = Array.isArray(b.articles) ? b.articles : [];
-            var best = 0;
-            for (var i = 0; i < arts.length; i++) {
-              var t = Date.parse(arts[i] && arts[i].date);
-              if (!isNaN(t) && t > best) best = t;
-            }
-            if (!best) {
-              var g = Date.parse(b.generated);
-              if (!isNaN(g)) best = g;
-            }
-            return best;
-          }
-          // Sorted IN PLACE, and `briefs` points at the same array.
-          //
-          // The first render calls renderBriefs(list) directly, while
-          // applyFilters() reads `briefs`. F191 assigned a sorted copy to
-          // `briefs` only, so its ordering never applied on first paint — it
-          // appeared the moment the reader touched a filter and the list
-          // silently resequenced. Sorting `list` itself means both paths show
-          // the same order.
-          list.sort(function (a, b) {
-            var ta = _briefTime(a), tb = _briefTime(b);
-            if (ta !== tb) return tb - ta;
-            // Same day: the more LIHTC-relevant one leads.
-            return _lihtcRelevance(b) - _lihtcRelevance(a);
-          });
-          briefs = list;
-
-          // Update pipeline status badge from metadata
-          var pipelineEl = document.getElementById('alertPipelineStatus');
-          if (pipelineEl && data && data.meta) {
-            var meta = data.meta;
-            var generated  = meta.generated ? new Date(meta.generated) : null;
-            // generate_policy_briefs.py's meta object has never included a
-            // feed_count field (only generated/brief_count/source_alerts/
-            // methodology) — fetch_google_alerts.py tracks a real feed count
-            // at fetch time, but it never reaches this file. Defaulting to 0
-            // made every run since this badge shipped read "0 feeds · N
-            // alerts", which looks like a broken pipeline that somehow still
-            // produced alerts from nowhere. Only show a feed count when the
-            // data actually has one; alert/brief counts are the real,
-            // populated signal that the pipeline ran.
-            var hasFeedCount = typeof meta.feed_count === 'number';
-            var feedCount  = meta.feed_count || 0;
-            var alertCount = meta.source_alerts || meta.alert_count || 0;
-            var briefCount = meta.brief_count || list.length;
-            var ageDays    = generated ? daysSince(generated) : null;
-            var dateStr = generated
-              ? generated.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-              : '—';
-
-            var isActive = (hasFeedCount && feedCount > 0) || alertCount > 0;
-            var isStale = ageDays !== null && ageDays > 30;
-
-            if (isActive && !isStale) {
-              pipelineEl.textContent = '✓ Pipeline active · ' +
-                (hasFeedCount ? feedCount + ' feed' + (feedCount === 1 ? '' : 's') + ' · ' : '') +
-                alertCount + ' alert' + (alertCount === 1 ? '' : 's') +
-                ' · ' + briefCount + ' brief' + (briefCount === 1 ? '' : 's') +
-                ' · Last fetch: ' + dateStr;
-              pipelineEl.style.borderColor = 'var(--good)';
-              pipelineEl.style.color = 'var(--good)';
-            } else if (isStale) {
-              pipelineEl.textContent = '⚠ Pipeline stale · Last fetch: ' + dateStr + ' (' + ageDays + 'd ago)';
-              pipelineEl.style.borderColor = 'var(--warn)';
-              pipelineEl.style.color = 'var(--warn)';
-            } else {
-              pipelineEl.textContent = '○ Pipeline not yet active · No feeds configured — see docs/alerts-pipeline.md';
-              pipelineEl.style.borderColor = 'var(--border-strong)';
-              pipelineEl.style.color = 'var(--muted)';
-            }
-          }
-
-          if (!list.length) {
-            statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
-            return;
-          }
-          populateFilters(list);
-
-          // Render signal stats summary
-          var statsEl = document.getElementById('signalStats');
-          if (statsEl) {
-            var signalCounts = {};
-            list.forEach(function (b) {
-              (b._signals || []).forEach(function (s) {
-                signalCounts[s] = (signalCounts[s] || 0) + 1;
-              });
-            });
-            var statsHtml = Object.keys(SIGNAL_LABELS).map(function (key) {
-              var count = signalCounts[key] || 0;
-              if (!count) return '';
-              return '<span style="background:color-mix(in srgb, var(--warn) 12%, transparent);' +
-                'border:1px solid color-mix(in srgb, var(--warn) 25%, transparent);' +
-                'padding:2px 8px;border-radius:999px;">' +
-                SIGNAL_LABELS[key] + '&nbsp;<strong>' + count + '</strong></span>';
-            }).filter(Boolean).join('');
-            if (statsHtml) {
-              statsEl.innerHTML = '<span style="font-weight:600;">Signals:</span> ' + statsHtml;
-              statsEl.style.display = 'flex';
-            }
-          }
-
-          renderBriefs(list);
-        })
-        .catch(function (err) {
-          statusEl.textContent = 'No policy briefs available yet. Briefs are generated automatically from housing news alerts. Configure RSS feeds in scripts/alert_feeds.txt to activate.';
-          console.warn('[policy-briefs] Could not load briefs:', err.message);
-          var pipelineEl = document.getElementById('alertPipelineStatus');
-          if (pipelineEl) pipelineEl.textContent = '— Pipeline status unavailable';
-        });
+          .then(function (res) { return res.ok ? res.json() : { briefs: [] }; })
+          .catch(function () { return { briefs: [] }; }),
+        fetcher(POLICY_WATCH_URL, {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; })
+      ]).then(function (payloads) {
+        var data = payloads[0], curatedData = payloads[1];
+        renderPolicyWatch(payloads[2]);
+        var list = Array.isArray(data) ? data : (data && Array.isArray(data.briefs) ? data.briefs : []);
+        var curated = Array.isArray(curatedData) ? curatedData
+          : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
+        stories = readStories(data);
+        renderPipelineStatus(data && data.meta);
+        renderResearch(curated.filter(function (brief) { return brief.is_curated; }));
+        renderToolWatch(list);
+        if (!stories.length) {
+          $('briefsStatus').textContent = 'No headlines are available right now. The feed refreshes weekly.';
+          $('newsLatest').hidden = true;
+          return;
+        }
+        var oldest = storyTime(stories[stories.length - 1]);
+        $('newsCount').textContent = stories.length + ' stories' + (oldest ? ' since ' + shortDate(oldest) : '');
+        buildFilters();
+        render();
+      }).catch(function (err) {
+        $('briefsStatus').textContent = 'Headlines could not be loaded. Try again later.';
+        $('newsLatest').hidden = true;
+        $('alertPipelineStatus').textContent = '';
+        console.warn('[housing-news] Could not load headlines:', err && err.message);
+      });
     }
 
     if (document.readyState === 'loading') {

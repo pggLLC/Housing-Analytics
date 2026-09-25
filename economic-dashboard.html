@@ -335,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
               <div class="kpi-source">CFPB HMDA</div>
             </div>
           </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px, 100%),1fr));gap:1rem;">
             <div class="chart-wrap" style="position:relative;height:240px;" data-source="CFPB HMDA Data Browser" data-source-url="https://ffiec.cfpb.gov/data-browser/" data-vintage="HMDA 2018–current" data-source-type="raw">
               <canvas id="hmdaTrendOriginationsChart"
                       aria-label="HMDA originations time series chart"></canvas>
@@ -613,12 +613,12 @@ document.addEventListener('DOMContentLoaded', function () {
      existing scripts/kalshi/fetch_kalshi_prediction_markets.js fetcher). -->
 <section id="kalshi-macro-section" aria-label="Market-priced macro expectations" class="card" style="margin-top: 2rem; padding: var(--sp4);">
   <h2 style="margin-top:0;">Market-priced macro expectations <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Kalshi prediction markets</small></h2>
-  <p style="font-size:.9rem;color:var(--muted);max-width:80ch;margin-bottom:var(--sp3);">
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--sp3);">
     What the prediction-market consensus says about Fed moves, CPI, and home prices.
     Useful for sanity-checking the FRED point-in-time numbers against a market-priced
     forward curve. Each card shows probability bands for outcomes at a horizon date.
   </p>
-  <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:var(--sp3);"></div>
+  <div id="kalshiMarketsGrid" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:var(--sp3);"></div>
   <p id="kalshiUpdatedAt" style="font-size:.78rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
 </section>
 
@@ -629,14 +629,14 @@ document.addEventListener('DOMContentLoaded', function () {
 <section id="yardi-section" aria-label="Yardi Matrix multifamily benchmarks" class="card" style="margin-top: 2rem; padding: var(--sp4);"
          data-source="Yardi Matrix" data-source-url="https://www.yardimatrix.com/publications" data-vintage="2026-Q2" data-source-type="industry-research">
   <h2 style="margin-top:0;">Multifamily rent benchmarks <small style="font-size:.65em;font-weight:400;color:var(--muted);">— Yardi Matrix National Multifamily Report</small></h2>
-  <p style="font-size:.9rem;color:var(--muted);max-width:80ch;margin-bottom:var(--sp3);">
+  <p style="font-size:.9rem;color:var(--muted);margin-bottom:var(--sp3);">
     Industry-standard asking-rent growth + occupancy by metro. Yardi tracks ~17M stabilized
     multifamily units nationally. Cross-check against the Apartment List + Zillow ZORI panels
     above — divergence usually signals one source has stale data.
   </p>
   <div id="yardiNational" style="background:var(--surface-2,#f7f7f9);padding:var(--sp3);border-radius:var(--radius);margin-bottom:var(--sp3);font-size:.88rem;line-height:1.6;color:var(--text);">Loading national…</div>
   <h3 style="margin:0 0 var(--sp2);">Colorado metros</h3>
-  <div id="yardiCoMetros" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:var(--sp3);"></div>
+  <div id="yardiCoMetros" style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(240px, 100%), 1fr));gap:var(--sp3);"></div>
   <div id="yardiImplications" style="margin-top:var(--sp3);padding:var(--sp3);border-left:3px solid var(--accent);background:var(--surface-2,#f7f7f9);font-size:.85rem;line-height:1.6;color:var(--text);"></div>
   <p id="yardiUpdated" style="font-size:.74rem;color:var(--muted);margin-top:var(--sp3);">Loading…</p>
   <script>
