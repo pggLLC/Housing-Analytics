@@ -218,7 +218,7 @@ test('the definition cannot pass by being empty', () => {
 });
 
 test('unrecorded pass criteria are reported, not glossed', () => {
-  // Six of seven criteria exist only in the owner's plan. While that is true
+  // Most criteria still exist only in the owner's plan. While that is true
   // the definition is incomplete and must say so out loud.
   const text = fs.readFileSync(path.join(ROOT, 'docs', 'FINISH-LINE.md'), 'utf8');
   const gaps = (text.match(/NOT RECORDED/g) || []).length;
@@ -229,6 +229,36 @@ test('unrecorded pass criteria are reported, not glossed', () => {
     assert.strictEqual(byId.D2.state, 'PASS',
       'every criterion is recorded but D2 still reports OPEN');
   }
+});
+
+test('recorded and unrecorded criteria add up to the table', () => {
+  // D1 once counted every PC row as recorded, so it reported "7 recorded"
+  // beside D2's "6 not in the repo". The two counts describe one table.
+  const text = fs.readFileSync(path.join(ROOT, 'docs', 'FINISH-LINE.md'), 'utf8');
+  const rows = text.split('\n').filter((l) => /^\| ?PC-\d+/.test(l));
+  assert.ok(rows.length >= 2, `only ${rows.length} PC rows found — the scan has drifted`);
+  const unrecorded = rows.filter((l) => l.includes('NOT RECORDED')).length;
+  const m = /^(\d+) of (\d+) pass criteria recorded/.exec(byId.D1.detail || '');
+  assert.ok(m, `D1 detail no longer states "N of M recorded": ${byId.D1.detail}`);
+  assert.strictEqual(Number(m[2]), rows.length, 'D1 total differs from the PC rows in the table');
+  assert.strictEqual(Number(m[1]) + unrecorded, rows.length,
+    `D1 says ${m[1]} recorded but ${unrecorded} of ${rows.length} rows are NOT RECORDED`);
+});
+
+test('a recorded criterion matches the guard that enforces it', () => {
+  // PC-2's text is quoted where it is enforced. If either copy is reworded
+  // alone, the finish line and the test that holds it name different things.
+  const norm = (s) => s.replace(/\/\/\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  const doc = fs.readFileSync(path.join(ROOT, 'docs', 'FINISH-LINE.md'), 'utf8');
+  const row = doc.split('\n').find((l) => /^\| ?PC-2 /.test(l));
+  assert.ok(row, 'PC-2 row missing from docs/FINISH-LINE.md');
+  if (row.includes('NOT RECORDED')) return;
+  const criterion = norm(row.split('|')[2]);
+  const guard = fs.readFileSync(path.join(ROOT, 'test', 'ownership-rental-separation.test.js'), 'utf8');
+  const quoted = /PC-2 — "([^"]+)"/.exec(norm(guard));
+  assert.ok(quoted, 'test/ownership-rental-separation.test.js no longer quotes PC-2');
+  assert.strictEqual(criterion.replace(/\.$/, ''), quoted[1].replace(/\.$/, ''),
+    'PC-2 in docs/FINISH-LINE.md differs from the text its guard enforces');
 });
 
 test('the standing constraints are written down', () => {
