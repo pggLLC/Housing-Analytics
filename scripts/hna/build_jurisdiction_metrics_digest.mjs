@@ -35,6 +35,19 @@ const ECONOMIC_BRIDGE = path.join(ROOT, 'scripts', 'hna', 'economic_housing_brid
 
 const MIN_RATE_DENOMINATOR = 50;
 const ACS_AS_OF = 'ACS 2020-2024 5-year';
+// Recency fields written by scripts/augment_ranking_index_recency.mjs whose
+// names do not contain "lihtc". The R1 subset folds in 2026 Round One awards.
+const LIHTC_RECENCY_METRICS = new Set([
+  'latest_9pct_year', 'latest_4pct_year', 'latest_state_credit_year', 'latest_competitive_year',
+  'drought_years', 'recency_basis',
+  'regional_latest_9pct_year', 'regional_latest_4pct_year', 'regional_latest_state_credit_year',
+  'regional_latest_competitive_year', 'regional_pma_miles',
+  'regional_recency_anchor', 'regional_recency_anchor_9pct', 'regional_recency_anchor_4pct',
+  'regional_recency_anchor_state_credit', 'regional_recency_anchor_competitive',
+]);
+const R1_FOLDED_METRICS = new Set([
+  'latest_lihtc_year', 'regional_latest_lihtc_year', 'drought_years', 'recency_basis',
+]);
 const OWNERSHIP_AFFORDABILITY_ASSUMPTIONS = {
   rateAnnual: 0.065,
   termYears: 30,
@@ -329,6 +342,21 @@ function sourceForMetric(metric, entry, summary) {
       source_id: metric.includes('qct') || metric.includes('dda') ? 'hud-qct-dda' : 'opportunity-amenity-context',
       geography_level: contextLevel(entry, m.opportunity_geography_level || 'place'),
       as_of: 'latest committed opportunity context',
+    };
+  }
+  // LIHTC counts and recency come from the CHFA tax-credit feed (via
+  // augment_ranking_index_recency / augment_lihtc_by_geometry), not the ACS
+  // profile the default below would claim. The fields that fold in the 2026
+  // R1 bridge awards say so, because R1 is not in the CHFA feed yet.
+  if (metric === 'r1_2026_count') {
+    return { source_id: 'chfa-2026-r1-awards', geography_level: localLevel(entry), as_of: 'CHFA 2026 Round One award announcement' };
+  }
+  if (!metric.includes('score') && (metric.includes('lihtc') || LIHTC_RECENCY_METRICS.has(metric))) {
+    const withR1 = R1_FOLDED_METRICS.has(metric);
+    return {
+      source_id: withR1 ? 'chfa-lihtc-and-2026-r1-awards' : 'chfa-lihtc-properties',
+      geography_level: localLevel(entry),
+      as_of: withR1 ? 'CHFA LIHTC feed, latest committed, plus 2026 Round One awards' : 'CHFA LIHTC feed, latest committed',
     };
   }
   if (metric.includes('score')) {
