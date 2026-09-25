@@ -80,6 +80,11 @@
     @media (hover: hover) { .story__alt { opacity: 0; transition: opacity .15s; } .story:hover .story__alt, .story:focus-within .story__alt { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) { .story__alt { transition: none; } }
     .story__also { margin-top: .15rem; font-size: .78rem; color: var(--faint); }
+    .story__local { margin-top: .2rem; font-size: .8rem; color: var(--muted); }
+    .story__local:empty { display: none; }
+    .story__local-name { font-weight: 600; color: var(--text); }
+    .story__local-src { color: var(--faint); }
+    .story__local a { color: var(--link); }
     mark { background: var(--accent-dim); color: inherit; border-radius: 2px; }
 
     .news-latest-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.75rem; }
@@ -118,6 +123,7 @@
     .news-related ul { font-size: .88rem; color: var(--muted); line-height: 2; margin: 0; }
   </style>
   <script defer src="js/components/inline-glossary.js"></script>
+  <script defer src="js/workflow/recommendation-contract.js"></script>
 </head>
 <body data-page="policy-briefs.html">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -179,13 +185,14 @@
         </section>
         <section id="toolWatchPanel" class="news-panel" aria-labelledby="toolWatchLabel" hidden>
           <h2 class="news-label" id="toolWatchLabel">Tools we're evaluating</h2>
-          <ul class="tool-list" id="toolWatchList"></ul>
+          <ul class="tool-list no-glossary" id="toolWatchList"></ul>
           <p class="news-note">Analysis tools COHO compares its own features against. These are not news or endorsements.</p>
         </section>
         <details id="aboutFeed" class="news-panel news-about">
           <summary>About this feed</summary>
           <p><strong>What it is.</strong> Headlines about Colorado affordable housing and the federal policy that shapes Colorado deals (HUD, Congress, Treasury, LIHTC trade press), pulled from public news feeds and refreshed weekly. Stories that are only about other states are left out.</p>
           <p><strong>What it is not.</strong> Editorial reporting. Headlines and publisher names are the publishers' own, and COHO does not rewrite them. The same story from several outlets is shown once, with the other outlets listed under it.</p>
+          <p><strong>Places and local numbers.</strong> A headline that names a Colorado city, town, CDP or county is tagged with that place and its region, the same ones the Housing Needs Assessment uses, and shows one line of that place's own numbers with their survey vintage. A number the data does not have is left out, not shown as zero. The line describes the place, not the project in the story.</p>
           <p><strong>Before you quote it.</strong> Open the original article. If a link is blocked, "Alt. link" searches Google News for the same headline.</p>
           <p><strong>Research briefs</strong> marked source-reviewed have been checked against the sources they link. They are analytical summaries, not substitutes for the original research.</p>
         </details>
@@ -236,116 +243,125 @@
       return t.replace(new RegExp('(' + q + ')', 'ig'), '<mark>$1</mark>');
     }
 
-    // ── Scope: Colorado and federal policy only ──────────────────────────
-    // One rule for the whole page. Other-state markers exclude first (a
-    // Pasadena story on "Colorado Boulevard" is not a Colorado story), then
-    // Colorado markers include, then federal-policy keywords include, and
-    // anything else is left out rather than assumed relevant (F134b).
-    var OTHER_STATE_RE = /\b(ohio|minnesota|virginia|illinois|texas|florida|california|new york|massachusetts|pennsylvania|michigan|north carolina|south carolina|georgia\b|tennessee|missouri|wisconsin|indiana|maryland|washington state|oregon|nevada|arizona|utah|new mexico|kansas|nebraska|iowa|oklahoma|arkansas|louisiana|kentucky|alabama|mississippi|west virginia|connecticut|new jersey|maine|vermont|new hampshire|rhode island|delaware|north dakota|south dakota|montana|wyoming|idaho|hawaii|alaska|richmond, va|atlanta|chicago|houston|los angeles|san diego|pasadena|seattle|portland|burbank|felton|tulsa|indianapolis|trumann|newport|reese apartments|streets\.mn|richland source|citybiz|ohfa|wheda|cinnaire|streetsblog)\b/i;
-    var COLORADO_RE = /\b(colorado|denver|aurora|lakewood|boulder|colorado springs|fort collins|loveland|pueblo|greeley|aspen|vail|durango|grand junction|montrose|carbondale|glenwood springs|steamboat|telluride|crested butte|salida|cortez|manitou springs|mesa county|el paso county|larimer|weld county|jefferson county|adams county|arapahoe|douglas county|chfa|dola|cdola|gov\.colorado|\bcdle\b)\b/i;
-    var FEDERAL_RE = /\b(federal|u\.s\. congress|congressional|u\.s\. senate|house bill|hud\b|fhfa|fha\b|\birs\b|treasury|ahcia|nlihc|nahb|nmhc|nar\b|white house|supreme court|gao\b|cbo\b)\b/i;
-
-    function scopeOf(title, source) {
-      var hay = (title || '') + ' ' + (source || '');
-      if (OTHER_STATE_RE.test(hay)) return null;
-      if (COLORADO_RE.test(hay)) return 'colorado';
-      if (FEDERAL_RE.test(hay)) return 'federal';
-      return null;
-    }
-
-    // Google News RSS titles end in " - Publisher"; show the publisher separately.
-    function splitTitle(rawTitle, fallbackSource) {
-      var t = String(rawTitle || '').trim();
-      var src = String(fallbackSource || '').trim();
-      // Strip the known publisher exactly first: names such as
-      // "Sterling Journal-Advocate" contain a hyphen the pattern below rejects.
-      if (src) {
-        var suffixes = [' - ' + src, ' – ' + src];
-        for (var i = 0; i < suffixes.length; i++) {
-          var suf = suffixes[i];
-          if (t.length > suf.length && t.slice(-suf.length) === suf) return { title: t.slice(0, -suf.length).trim(), source: src };
-        }
-      }
-      var m = t.match(/^(.+?)\s+[-–]\s+([^-–]{2,80})$/);
-      if (m) return { title: m[1].trim(), source: m[2].trim() };
-      return { title: t, source: String(fallbackSource || '').trim() };
-    }
-    function normTitle(t) {
-      return String(t || '').toLowerCase().replace(/[‐-―-]/g, ' ').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
-    }
-
-    // ── Tags derived from each headline ──────────────────────────────────
-    var PROGRAMS = [
-      ['LIHTC', /\bLIHTC\b|low.income housing tax credit|\btax credits?\b|\bMIHTC\b|\bQAP\b/i],
-      ['CHFA', /\bCHFA\b|Colorado Housing and Finance Authority/i],
-      ['Prop 123', /\bProp(?:osition)?\s*123\b/i],
-      ['Division of Housing', /\bC?DOH\b|Division of Housing|\bDOLA\b|Department of Local Affairs/i],
-      ['HUD', /\bHUD\b|Department of Housing and Urban Development/i],
-      ['Section 8', /\bSection 8\b|Housing Choice Voucher/i]
-    ];
-    var REGIONS = [
-      ['Denver Metro', /\b(Denver|Aurora|Lakewood|Centennial|Westminster|Thornton|Arvada|Broomfield|Englewood|Littleton|Commerce City)\b/i],
-      ['Front Range', /\b(Front Range|Colorado Springs|El Paso County|Pueblo|Fort Collins|Loveland|Larimer|Boulder|Longmont|Greeley|Castle Rock)\b/i],
-      ['Western Slope', /\b(Western Slope|Grand Junction|Mesa County|Clifton|Montrose|Glenwood|Carbondale|Rifle|Delta)\b/i],
-      ['Mountains', /\b(Summit County|Frisco|Breckenridge|Vail|Eagle County|Aspen|Pitkin|Steamboat|Telluride|San Miguel|Routt|Grand Lake|Crested Butte|Salida|Leadville|mountain town)\b/i],
-      ['Eastern Plains', /\b(Eastern Plains|Sterling|Morgan County|Logan County|Yuma|Lamar|La Junta|Burlington)\b/i],
-      ['San Luis Valley', /\b(San Luis Valley|Alamosa|Costilla|Conejos|Saguache|Monte Vista)\b/i],
-      ['Southwest', /\b(Durango|La Plata|Cortez|Montezuma|Archuleta|Pagosa)\b/i]
-    ];
-    function tagsFor(title) {
-      var programs = [], regions = [];
-      PROGRAMS.forEach(function (p) { if (p[1].test(title)) programs.push(p[0]); });
-      REGIONS.forEach(function (r) { if (r[1].test(title)) regions.push(r[0]); });
-      return { programs: programs, regions: regions };
-    }
+    // ── Stories come from the pipeline ───────────────────────────────────
+    // scripts/generate_policy_briefs.py decides scope (Colorado or federal;
+    // other states out), merges the same headline from several outlets, and
+    // tags programs, places and regions. The page does not keep its own copy
+    // of those rules, so the page and the data cannot disagree about them.
+    // Places are matched against data/hna/geo-config.json and regions follow
+    // the county map the ranking index uses.
+    var PROGRAM_LABELS = {
+      'LIHTC': 'LIHTC & tax credits', 'CHFA': 'CHFA', 'Prop 123': 'Prop 123',
+      'Division of Housing': 'Division of Housing / DOLA', 'HUD': 'HUD', 'Section 8': 'Section 8'
+    };
+    var PROGRAM_ORDER = Object.keys(PROGRAM_LABELS);
+    var WIDE_STATE = 'Statewide', WIDE_FEDERAL = 'Federal & national';
 
     function storyTime(s) {
       var t = Date.parse((s.date || '') + 'T12:00:00Z');
       return isNaN(t) ? 0 : t;
     }
 
-    // Every article from every topic brief becomes one story. Topic briefs were
-    // the old page's unit; they are not shown. Tool evaluations and curated
-    // research briefs are routed to their own panels instead.
-    function buildStories(briefList) {
-      var raw = [];
-      briefList.forEach(function (brief) {
-        if (brief.is_tool_evaluation || brief.is_curated) return;
-        (Array.isArray(brief.articles) ? brief.articles : []).forEach(function (a) {
-          var split = splitTitle(a.title, a.source);
-          if (!split.title) return;
-          var scope = scopeOf(a.title, a.source);
-          if (!scope) return;
-          raw.push({ title: split.title, source: split.source || 'Unknown publisher', link: a.link || '',
-                     date: String(a.date || '').slice(0, 10), scope: scope });
-        });
-      });
-      raw.sort(function (a, b) { return storyTime(b) - storyTime(a); });
-      var byKey = {}, out = [];
-      raw.forEach(function (r) {
-        var key = normTitle(r.title);
-        var seen = byKey[key];
-        if (seen) {
-          if (r.source && r.source !== seen.source && !seen.also.some(function (x) { return x.source === r.source; })) {
-            seen.also.push({ source: r.source, link: r.link });
-          }
-          return;
-        }
-        var tags = tagsFor(r.title);
-        var s = { title: r.title, source: r.source, link: r.link, date: r.date, scope: r.scope, also: [],
-                  programs: tags.programs, regions: tags.regions };
-        byKey[key] = s;
-        out.push(s);
-      });
-      return out;
+    function readStories(data) {
+      var list = data && Array.isArray(data.stories) ? data.stories : [];
+      return list.filter(function (s) { return s && s.title && (s.scope === 'colorado' || s.scope === 'federal'); })
+        .map(function (s) {
+          return {
+            title: String(s.title), source: String(s.source || 'Unknown publisher'), link: s.link || '',
+            date: String(s.date || '').slice(0, 10), scope: s.scope,
+            programs: Array.isArray(s.programs) ? s.programs : [],
+            places: Array.isArray(s.places) ? s.places.filter(function (p) { return p && p.geoid && p.name; }) : [],
+            regions: Array.isArray(s.regions) ? s.regions : [],
+            also: Array.isArray(s.also) ? s.also : []
+          };
+        })
+        .sort(function (a, b) { return storyTime(b) - storyTime(a); });
     }
 
     function placeLabel(s) {
+      if (s.places.length) return s.places.slice(0, 2).map(function (p) { return p.name; }).join(', ');
       if (s.regions.length) return s.regions[0];
-      return s.scope === 'federal' ? 'Federal & national' : 'Statewide';
+      return s.scope === 'federal' ? WIDE_FEDERAL : WIDE_STATE;
     }
+    // Every filter value a story answers to: its regions, its places, or the
+    // wider-coverage bucket when it names no place.
     function placeValues(s) {
-      return s.regions.length ? s.regions : [s.scope === 'federal' ? 'Federal & national' : 'Statewide'];
+      var v = s.regions.slice();
+      s.places.forEach(function (p) { v.push('geo:' + p.geoid); });
+      if (!v.length) v.push(s.scope === 'federal' ? WIDE_FEDERAL : WIDE_STATE);
+      return v;
+    }
+
+    // ── Local data line ──────────────────────────────────────────────────
+    // A story that names a Colorado place gets one line of that place's own
+    // numbers, read from the same per-geography digest the Housing Needs
+    // Assessment uses, with its vintage. A value the digest does not have is
+    // left out, never shown as 0.
+    var digestCache = {};
+    function digestUrl(geoid) {
+      var path = 'data/hna/jurisdiction-metrics-digest/' + encodeURIComponent(geoid) + '.json';
+      return typeof window.resolveAssetUrl === 'function' ? window.resolveAssetUrl(path) : path;
+    }
+    function loadDigest(geoid) {
+      if (!digestCache[geoid]) {
+        var fetcher = window.fetchWithTimeout || fetch;
+        digestCache[geoid] = fetcher(digestUrl(geoid), {}, 15000)
+          .then(function (res) { return res.ok ? res.json() : null; })
+          .catch(function () { return null; });
+      }
+      return digestCache[geoid];
+    }
+    // Each figure is graded by RecommendationContract.evidence(), the same
+    // reading the Housing Needs Assessment and the Recommendation page make of
+    // the digest. A figure it calls insufficient (no value, low confidence, a
+    // rate on too few households) is withheld, and a figure from another
+    // geography level standing in for this place is left out: the line is
+    // about this place or it says nothing.
+    var LEVEL = { place: 'place', cdp: 'cdp', county: 'county' };
+    function graded(doc, key, label, type) {
+      var contract = window.RecommendationContract;
+      if (!contract || typeof contract.evidence !== 'function') return { usable: false };
+      var item = contract.evidence(doc && doc.metrics, key, label, { requestedLevel: LEVEL[type] || null });
+      var usable = item.state !== 'insufficient' && !item.borrowedFrom &&
+        typeof item.value === 'number' && isFinite(item.value);
+      return { usable: usable, value: item.value, asOf: item.asOf, withheld: item.value !== null && !usable };
+    }
+    function localLine(doc, place) {
+      var parts = [], vintages = [], notes = [];
+      var burden = graded(doc, 'pct_cost_burdened', 'Rent-burdened renter share', place.type);
+      if (burden.usable && burden.value > 0) {
+        parts.push(burden.value.toFixed(0) + '% of renter households rent-burdened');
+        vintages.push(burden.asOf);
+      } else if (burden.withheld) {
+        notes.push('rent-burden rate withheld: too few renter households for a reliable rate');
+      }
+      var rent = graded(doc, 'gross_rent_median', 'Median gross rent', place.type);
+      if (rent.usable && rent.value > 0) {
+        parts.push('median gross rent $' + Math.round(rent.value).toLocaleString('en-US'));
+        vintages.push(rent.asOf);
+      }
+      var gap = graded(doc, 'housing_gap_units', 'Units short at 30% AMI', place.type);
+      if (gap.usable && gap.value > 0) {
+        parts.push(Math.round(gap.value).toLocaleString('en-US') + ' units short for households at or below 30% AMI');
+        vintages.push(gap.asOf);
+      }
+      var name = (doc && doc.geography && doc.geography.name) || place.name;
+      var link = '<a href="housing-needs-assessment.html?geoid=' + encodeURIComponent(place.geoid) + '">' +
+        escapeHtml(name) + ' housing needs</a>';
+      if (!parts.length && !notes.length) return link;
+      var vintage = vintages.filter(function (v, i) { return v && vintages.indexOf(v) === i; }).join('; ');
+      return '<span class="story__local-name">' + escapeHtml(name) + ':</span> ' + escapeHtml(parts.concat(notes).join(' · ')) +
+        (vintage ? ' <span class="story__local-src">(' + escapeHtml(vintage) + ')</span>' : '') + ' · ' + link;
+    }
+    function fillLocalLines() {
+      document.querySelectorAll('.story__local[data-geoid]:not([data-filled])').forEach(function (el) {
+        el.setAttribute('data-filled', 'pending');
+        var place = { geoid: el.getAttribute('data-geoid'), name: el.getAttribute('data-name'), type: el.getAttribute('data-type') };
+        loadDigest(place.geoid).then(function (doc) {
+          el.innerHTML = localLine(doc, place);
+          el.setAttribute('data-filled', doc ? 'yes' : 'no-data');
+        });
+      });
     }
 
     var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -360,7 +376,9 @@
       meta.push('<span>' + escapeHtml(placeLabel(s)) + '</span>');
       var t = storyTime(s);
       meta.push('<span class="story__date">' + (t ? shortDate(t) : 'Undated') + '</span>');
-      s.programs.forEach(function (p) { meta.push('<span class="story__prog">' + escapeHtml(p === 'Division of Housing' ? 'DOH / DOLA' : p) + '</span>'); });
+      s.programs.forEach(function (p) {
+        if (PROGRAM_LABELS[p]) meta.push('<span class="story__prog">' + escapeHtml(p === 'Division of Housing' ? 'DOH / DOLA' : p) + '</span>');
+      });
       var alt = '';
       if (/news\.google\.com\/rss\/articles/i.test(s.link)) {
         // F134 — Google News article links sometimes return 403. The fallback
@@ -376,9 +394,13 @@
       var head = s.link
         ? '<a class="story__link" href="' + escapeHtml(s.link) + '" target="_blank" rel="noopener">' + highlight(s.title) + '</a>'
         : highlight(s.title);
+      var local = s.places.length
+        ? '<div class="story__local" data-geoid="' + escapeHtml(s.places[0].geoid) + '" data-name="' + escapeHtml(s.places[0].name) +
+          '" data-type="' + escapeHtml(s.places[0].type || '') + '"></div>'
+        : '';
       return '<article class="story' + (lead ? ' story--lead' : '') + '" data-date="' + escapeHtml(s.date) + '">' +
         '<' + tag + '>' + head + '</' + tag + '>' +
-        '<div class="story__meta">' + meta.join('') + alt + '</div>' + also + '</article>';
+        '<div class="story__meta">' + meta.join('') + alt + '</div>' + local + also + '</article>';
     }
 
     function matches(s, skip) {
@@ -386,7 +408,8 @@
           !s.programs.some(function (p) { return state.programs.indexOf(p) !== -1; })) return false;
       if (skip !== 'place' && state.place && placeValues(s).indexOf(state.place) === -1) return false;
       if (state.q) {
-        var hay = (s.title + ' ' + s.source + ' ' + s.also.map(function (a) { return a.source; }).join(' ')).toLowerCase();
+        var hay = (s.title + ' ' + s.source + ' ' + s.also.map(function (a) { return a.source; }).join(' ') + ' ' +
+          s.places.map(function (p) { return p.name; }).join(' ')).toLowerCase();
         if (hay.indexOf(state.q.toLowerCase()) === -1) return false;
       }
       return true;
@@ -460,6 +483,7 @@
       if (more) more.addEventListener('click', function () { state.shown += PAGE; render(); });
       var msg = filtering() ? list.length + ' of ' + stories.length + ' stories shown' : stories.length + ' stories';
       $('briefsLiveRegion').textContent = msg;
+      fillLocalLines();
     }
 
     function clearAll() {
@@ -471,15 +495,14 @@
 
     function buildFilters() {
       var chipHost = $('programChips');
-      PROGRAMS.forEach(function (p) {
-        var name = p[0];
+      PROGRAM_ORDER.forEach(function (name) {
         if (!stories.some(function (s) { return s.programs.indexOf(name) !== -1; })) return;
         var b = document.createElement('button');
         b.type = 'button';
         b.className = 'news-chip';
         b.setAttribute('data-program', name);
         b.setAttribute('aria-pressed', 'false');
-        b.innerHTML = escapeHtml(name === 'LIHTC' ? 'LIHTC & tax credits' : name === 'Division of Housing' ? 'Division of Housing / DOLA' : name) + '<span class="n"></span>';
+        b.innerHTML = escapeHtml(PROGRAM_LABELS[name]) + '<span class="n"></span>';
         b.addEventListener('click', function () {
           var i = state.programs.indexOf(name);
           if (i === -1) state.programs.push(name); else state.programs.splice(i, 1);
@@ -489,23 +512,27 @@
       });
       if (!chipHost.querySelector('.news-chip')) chipHost.hidden = true;
 
-      var counts = {};
-      stories.forEach(function (s) { placeValues(s).forEach(function (v) { counts[v] = (counts[v] || 0) + 1; }); });
+      var counts = {}, regionNames = [], placeNames = {};
+      stories.forEach(function (s) {
+        placeValues(s).forEach(function (v) { counts[v] = (counts[v] || 0) + 1; });
+        s.regions.forEach(function (r) { if (regionNames.indexOf(r) === -1) regionNames.push(r); });
+        s.places.forEach(function (p) { placeNames['geo:' + p.geoid] = p.name; });
+      });
       var sel = $('regionFilter');
-      var group = document.createElement('optgroup'); group.label = 'Regions';
-      REGIONS.forEach(function (r) {
-        if (!counts[r[0]]) return;
-        var o = document.createElement('option'); o.value = r[0]; o.textContent = r[0] + ' (' + counts[r[0]] + ')';
-        group.appendChild(o);
-      });
-      if (group.children.length) sel.appendChild(group);
-      var wide = document.createElement('optgroup'); wide.label = 'Wider coverage';
-      ['Statewide', 'Federal & national'].forEach(function (v) {
-        if (!counts[v]) return;
-        var o = document.createElement('option'); o.value = v; o.textContent = v + ' (' + counts[v] + ')';
-        wide.appendChild(o);
-      });
-      if (wide.children.length) sel.appendChild(wide);
+      function addGroup(label, values, text) {
+        if (!values.length) return;
+        var group = document.createElement('optgroup'); group.label = label;
+        values.forEach(function (v) {
+          var o = document.createElement('option'); o.value = v; o.textContent = text(v) + ' (' + counts[v] + ')';
+          group.appendChild(o);
+        });
+        sel.appendChild(group);
+      }
+      addGroup('Regions', regionNames.sort(), function (v) { return v; });
+      addGroup('Places', Object.keys(placeNames).sort(function (a, b) {
+        return counts[b] - counts[a] || placeNames[a].localeCompare(placeNames[b]);
+      }), function (v) { return placeNames[v]; });
+      addGroup('Wider coverage', [WIDE_STATE, WIDE_FEDERAL].filter(function (v) { return counts[v]; }), function (v) { return v; });
       sel.addEventListener('change', function () { state.place = sel.value; state.shown = PAGE; render(); });
 
       var timer = null;
@@ -572,7 +599,7 @@
         var list = Array.isArray(data) ? data : (data && Array.isArray(data.briefs) ? data.briefs : []);
         var curated = Array.isArray(curatedData) ? curatedData
           : (curatedData && Array.isArray(curatedData.briefs) ? curatedData.briefs : []);
-        stories = buildStories(list);
+        stories = readStories(data);
         renderPipelineStatus(data && data.meta);
         renderResearch(curated.filter(function (brief) { return brief.is_curated; }));
         renderToolWatch(list);

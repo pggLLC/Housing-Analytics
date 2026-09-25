@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-25T06:30:18.687123Z",
+  "generated": "2026-09-25T06:21:22.531672Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 784134
+      "bytes": 784126
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -209,7 +209,7 @@
     "data/chfa-qap-calendar.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 13556
+      "bytes": 9569
     },
     "data/co-county-boundaries.json": {
       "featureCount": 64,
@@ -7974,7 +7974,7 @@
     "data/policy_briefs.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 146257
+      "bytes": 225843
     },
     "data/policy_briefs_curated.json": {
       "featureCount": 0,
