@@ -192,6 +192,49 @@ async function pmaTractDefaultInteraction(page, viewport) {
   if (ran && !(await page.evaluate(() => !!window.PMAEngine._state.getLastResult()))) {
     failures.push('a completed run left no result to export');
   }
+  // Audit F3: every capture rate names its denominator, they all use the
+  // same one, and each displayed rate is its numerator over that
+  // denominator. The headline and simulator divided by CHAS-eligible renters
+  // while showing the ACS renter total; the scenario table divided by the
+  // total, so one project read 16.7% and 10.1% on the same screen.
+  if (ran) {
+    await page.waitForTimeout(1500);
+    const cap = await page.evaluate(() => {
+      const num = (t) => { const m = String(t || '').replace(/,/g, '').match(/-?\d+(\.\d+)?/); return m ? Number(m[0]) : null; };
+      const r = window.PMAEngine._state.getLastResult();
+      const den = window.PMAEngine.captureDenominator(r);
+      const sim = document.getElementById('pmaSimResult');
+      const scen = document.getElementById('pmaScenarioResult');
+      const simVals = sim ? [...sim.querySelectorAll('.pma-stat-value')].map((e) => e.textContent) : [];
+      const baseRow = scen ? scen.querySelector('tbody tr') : null;
+      return {
+        expected: den ? den.value : null,
+        headlineDen: document.getElementById('pmaCaptureDenominator').dataset.denominator,
+        headlineText: document.getElementById('pmaCaptureDenominator').textContent,
+        simDen: sim && sim.dataset.denominator,
+        scenDen: scen && scen.dataset.denominator,
+        headlineRate: num(document.getElementById('pmaCaptureRate').textContent),
+        lihtcUnits: num(document.getElementById('pmaCaptureDenominator').dataset.numerator),
+        simUnits: num(simVals[0]), simRate: num(simVals[1]), simShown: num(simVals[3]),
+        scenUnits: baseRow ? num(baseRow.cells[0].textContent) : null,
+        scenRate: baseRow ? num(baseRow.cells[2].textContent) : null,
+      };
+    });
+    const d = cap.expected;
+    const near = (a, b) => a != null && b != null && Math.abs(a - b) <= 0.051;
+    if (!d) failures.push('the tract analysis produced no capture-rate denominator');
+    else {
+      for (const [where, v] of [['headline', cap.headlineDen], ['simulator', cap.simDen], ['scenario table', cap.scenDen]]) {
+        if (Number(v) !== d) failures.push(`the ${where} capture rate declares denominator ${v}; the analysis divides by ${d}`);
+      }
+      if (!cap.headlineText.includes(d.toLocaleString())) failures.push('the headline capture rate does not show its denominator');
+      if (cap.simShown !== d) failures.push(`the simulator shows ${cap.simShown} beside its rate; it divides by ${d}`);
+      if (!near(cap.headlineRate, Math.round(cap.lihtcUnits / d * 1000) / 10)) failures.push(`headline ${cap.headlineRate}% is not ${cap.lihtcUnits} existing units / ${d}`);
+      if (!near(cap.simRate, Math.round(cap.simUnits / d * 1000) / 10)) failures.push(`simulator ${cap.simRate}% is not ${cap.simUnits} units / ${d}`);
+      if (!near(cap.scenRate, Math.round(cap.scenUnits / d * 1000) / 10)) failures.push(`scenario ${cap.scenRate}% is not ${cap.scenUnits} units / ${d}`);
+    }
+  }
+
   const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
   await page.fill('#pmaAddressInput', SITE2.join(', '));
   await page.click('#pmaAddressSearchBtn');

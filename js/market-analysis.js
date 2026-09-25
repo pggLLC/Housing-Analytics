@@ -1326,6 +1326,34 @@
     return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
   }
 
+  /**
+   * The one denominator every capture rate on this page divides by (audit
+   * F3). The headline and the simulator divided by CHAS LIHTC-eligible
+   * renters while showing the ACS renter total beside them, and the scenario
+   * table divided by that total: for Fruita, 100 units read 16.7% in one card
+   * and 10.1% in the next. null when there is no denominator at all; a rate
+   * over the scoring model's placeholder of 1 is not a rate.
+   */
+  function captureDenominator(result) {
+    var d = result && result.captureDenominator;
+    if (!d || !(Number(d.value) > 0) || d.source === 'fallback_1') return null;
+    var chas = d.source === 'chas_lihtc_eligible';
+    return {
+      value: Number(d.value),
+      source: d.source,
+      label: chas
+        ? 'LIHTC-eligible renter households (\u226480% AMI, HUD CHAS)'
+        : 'renter households of all incomes (ACS; CHAS unavailable)',
+      short: chas ? 'LIHTC-eligible renter HH (\u226480% AMI)' : 'Renter HH, all incomes (ACS)',
+    };
+  }
+
+  function _denominatorLine(den) {
+    return den
+      ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
+      : 'No renter-household count for this PMA, so no capture rate.';
+  }
+
   /* ── Tier label ─────────────────────────────────────────────────── */
   function scoreTier(s) {
     return PMAScoring.scoreTier(s);
@@ -1671,7 +1699,17 @@
 
     setText('pmaLihtcCount', result.lihtcCount);
     setText('pmaLihtcUnits', result.lihtcUnits);
-    setText('pmaCaptureRate', (result.capture * 100).toFixed(1) + '%');
+    var capDen = captureDenominator(result);
+    setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
+    var capDenEl = el('pmaCaptureDenominator');
+    if (capDenEl) {
+      var exUnits = Number(result.lihtcUnits) || 0;
+      capDenEl.textContent = capDen
+        ? exUnits.toLocaleString() + ' existing LIHTC units ' + _denominatorLine(capDen)
+        : _denominatorLine(null);
+      capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
+      capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
+    }
     setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
@@ -2133,8 +2171,14 @@
 
     // D — Prefer CHAS-derived LIHTC-eligible renter HH from the result; only
     // fall back to ACS total renter_hh when CHAS context is missing.
-    var simRenters = (result.captureDenominator && result.captureDenominator.value) || result.acs.renter_hh || 1;
-    var sim = simulateCapture(simRenters, proposed, amiMix);
+    var simDen = captureDenominator(result);
+    if (!simDen) {
+      simEl.innerHTML = '<div class="pma-empty">' + _denominatorLine(null) + '</div>';
+      simEl.dataset.denominator = '';
+      return;
+    }
+    var sim = simulateCapture(simDen.value, proposed, amiMix);
+    simEl.dataset.denominator = String(simDen.value);
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
@@ -2142,7 +2186,7 @@
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (result.acs.renter_hh || 0).toLocaleString() + '</div><div class="pma-stat-label">Renter HH (buffer)</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + simDen.value.toLocaleString() + '</div><div class="pma-stat-label">' + simDen.short + ' \u2014 the denominator</div></div>' +
       '</div>';
   }
 
@@ -2242,15 +2286,18 @@
     if (!ENH) { el2.innerHTML = '<div class="pma-empty">Enhancement module not loaded.</div>'; return; }
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
-    var scenarios = ENH.generateScenarios(
+    var scenDen = captureDenominator(result);
+    var scenarios = scenDen ? ENH.generateScenarios(
       result.acs,
       result.lihtcUnits || 0,
-      ENH.defaultScenarios(proposed)
-    );
+      ENH.defaultScenarios(proposed),
+      scenDen.value
+    ) : [];
+    el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
 
     if (!scenarios || !scenarios.length) {
-      el2.innerHTML = '<div class="pma-empty">Could not generate scenarios.</div>';
+      el2.innerHTML = '<div class="pma-empty">' + (scenDen ? 'Could not generate scenarios.' : _denominatorLine(null)) + '</div>';
       return;
     }
 
@@ -2271,7 +2318,8 @@
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
-        '</tr></thead><tbody>' + rows + '</tbody></table>';
+        '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -4611,6 +4659,16 @@
         lihtcUnitsInBuffer:    r.lihtcUnits,
         prop123ProjectsInBuffer: r.prop123Count
       },
+      // The rate and the count it divides by travel together (F3).
+      captureRate: (function () {
+        var den = captureDenominator(r);
+        return {
+          existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
+          denominator: den ? den.value : null,
+          denominatorSource: den ? den.source : null,
+          denominatorLabel: den ? den.label : null
+        };
+      })(),
       summaryFromCard: (function () {
         var sumGet = function (id) { var e = document.getElementById(id); return e ? e.textContent.trim() : null; };
         return {
@@ -4872,7 +4930,9 @@
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
-      ['capture_rate', r.capture],
+      ['capture_rate', captureDenominator(r) ? r.capture : ''],
+      ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
+      ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
       ['dim_demand', d.demand],
       ['dim_capture_risk', d.captureRisk],
       ['dim_rent_pressure', d.rentPressure],
@@ -5463,6 +5523,7 @@
     computeCoverage:         computeCoverage,
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
+    captureDenominator:      captureDenominator,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
     isInProp123Jurisdiction: isInProp123Jurisdiction,
