@@ -178,7 +178,9 @@
           // the dark-mode toggle. The word stays in the accessible name
           // (aria-label on the summary); only its visible text is hidden.
           '#coho-watchlist-panel > details:not([open]) > summary {' +
-            ' padding: 0 10px; min-width: 40px; min-height: 40px; justify-content: center;' +
+            // 44x44 is the site's touch-target floor (copilot-instructions
+            // Rule 14, css/responsive.css); the summary is the tap target.
+            ' padding: 0 10px; min-width: 44px; min-height: 44px; justify-content: center;' +
             ' border-radius: 999px; font-size: .8rem; gap: .2rem;' +
           '}' +
           // A site-wide details rule adds 10px/12px padding and a margin;
