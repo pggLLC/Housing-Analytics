@@ -13,12 +13,6 @@ const exceptions = new Map([
   ['data/market/flood_zones_co.geojson', 7 * MIB],
   ['data/hna/source/dola_sya_county.csv', 21 * MIB],
   ['data/market/lodes_tract_od_co.json', 15 * MIB],
-  // Added 2026-09-25 (owner-approved). The weekly CHFA QAP watcher (#1860)
-  // commits full plan text; its first scheduled run left the file at
-  // 5.30 MiB and, like every data cron, skipped CI, so main failed this gate
-  // with no red run. Retire this entry when the watcher stores excerpts or
-  // hashes instead of full text; 7 MiB bounds the weekly growth until then.
-  ['data/audit/chfa-qap-watch.json', 7 * MIB],
 ]);
 
 const listed = spawnSync('git', ['ls-files', '-z', '--', 'data'], { encoding: 'utf8' });
