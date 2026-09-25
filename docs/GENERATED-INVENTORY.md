@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T07:44:51.093Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T08:12:41.993Z. Do not edit by hand.
 
 ---
 
@@ -24,7 +24,7 @@
 | `compare.html` | Compare Jurisdictions | COHO Analytics | 17.3 KB |
 | `compliance-dashboard.html` | Data Trust Center | COHO Analytics | 1.0 KB |
 | `construction-commodities.html` | Construction Commodities Forecast | COHO Analytics | 15.6 KB |
-| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.1 KB |
+| `cra-expansion-analysis.html` | CRA Expansion Impact Analysis | Colorado Public Data Reference | 22.2 KB |
 | `dashboard-data-quality.html` | Data Quality Dashboard | COHO Analytics | 31.5 KB |
 | `dashboard-data-sources-ui.html` | Data Sources Dashboard | COHO Analytics | 37.9 KB |
 | `dashboard.html` | LIHTC Market Dashboard | COHO Analytics | 23.3 KB |
@@ -32,7 +32,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.8 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.1 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-411 test files found.
+413 test files found.
 
 | File | Size |
 |------|------|
@@ -1907,6 +1907,7 @@
 | `test/ownership-decision-chain.test.js` | 7.3 KB |
 | `test/ownership-finance.test.js` | 22.5 KB |
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
+| `test/ownership-rental-separation.test.js` | 16.1 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 16.9 KB |
@@ -1969,7 +1970,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
-| `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.3 KB |
+| `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
@@ -2067,6 +2068,7 @@
 | `tests/test_build_place_decade_trends.py` | 27.6 KB |
 | `tests/test_chas_parsing.py` | 6.1 KB |
 | `tests/test_chas_tract_data.py` | 7.1 KB |
+| `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 19.8 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
