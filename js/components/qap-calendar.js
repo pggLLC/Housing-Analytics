@@ -93,12 +93,12 @@
       '.qc-item__cat--9pct-r1-deadline,.qc-item__cat--9pct-r2-deadline,.qc-item__cat--4pct-r2-deadline,.qc-item__cat--mihtc-deadline { background:rgba(220,38,38,.12); color:#8a1414; border:1px solid rgba(220,38,38,.4); }',
       '.qc-item__cat--9pct-r1-awards,.qc-item__cat--9pct-r2-awards,.qc-item__cat--4pct-r2-awards { background:rgba(16,185,129,.12); color:#02563b; border:1px solid rgba(16,185,129,.4); }',
       '.qc-item__cat--9pct-r1-loi,.qc-item__cat--4pct-r2-loi,.qc-item__cat--mihtc-loi { background:rgba(245,158,11,.08); color:#7c3d00; border:1px solid rgba(245,158,11,.3); }',
-      '.qc-item__cat--qap-comment { background:rgba(245,158,11,.12); color:#7c3d00; border:1px solid rgba(245,158,11,.4); }',
-      '.qc-item__cat--annual-plan { background:rgba(99,102,241,.12); color:#312e81; border:1px solid rgba(99,102,241,.4); }',
+      '.qc-item__cat--qap-comment,.qc-item__cat--qap-hearing { background:rgba(245,158,11,.12); color:#7c3d00; border:1px solid rgba(245,158,11,.4); }',
+      '.qc-item__cat--qap-adoption { background:rgba(99,102,241,.12); color:#312e81; border:1px solid rgba(99,102,241,.4); }',
       'html.dark-mode .qc-item__cat--9pct-r1-deadline,html.dark-mode .qc-item__cat--9pct-r2-deadline,html.dark-mode .qc-item__cat--4pct-r2-deadline,html.dark-mode .qc-item__cat--mihtc-deadline { color:#fca5a5; }',
       'html.dark-mode .qc-item__cat--9pct-r1-awards,html.dark-mode .qc-item__cat--9pct-r2-awards,html.dark-mode .qc-item__cat--4pct-r2-awards { color:#6ee7b7; }',
-      'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment { color:#fcd34d; }',
-      'html.dark-mode .qc-item__cat--annual-plan { color:#a5b4fc; }',
+      'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment,html.dark-mode .qc-item__cat--qap-hearing { color:#fcd34d; }',
+      'html.dark-mode .qc-item__cat--qap-adoption { color:#a5b4fc; }',
       '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
       '.qc-item__details { width:100%; font-size:.78rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
       '.qc-rolling { margin-top:.7rem; padding:.6rem; background: color-mix(in oklab, var(--bg2, #f3f4f6) 50%, transparent); border-radius:6px; }',
@@ -216,7 +216,12 @@
 
   function _renderEventItem(e, today, opts) {
     var d = _parseDate(e.date);
-    var isPast = e.status === 'past' || (d && d.getTime() < today.getTime());
+    // A window (date → date_end) is past only once its end has passed, and
+    // a day is not over at its midnight: an event dated today, or a window
+    // ending today, stays current until the next day begins.
+    var end = _parseDate(e.date_end) || d;
+    var dayAfterEnd = end && new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
+    var isPast = e.status === 'past' || (dayAfterEnd && dayAfterEnd.getTime() <= today.getTime());
     if (opts.compact && isPast) return '';
     var catLabel = (e.category || '').replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
     var est = e.date_precision === 'estimated' ? ' <span class="qc-item__est">est.</span>' : '';
@@ -265,10 +270,10 @@
       var itemsHtml = events.map(function (e) { return _renderEventItem(e, today, opts); }).join('');
       var rollingHtml = (opts.showRolling !== false) ? _renderRolling(data.rolling_programs) : '';
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
-        source:    'data/chfa-qap-calendar.json (curated from CHFA QAP + Annual Allocation Plan)',
-        sourceUrl: 'https://www.chfainfo.com/business-lending/multifamily-lending/qualified-allocation-plan-qap',
+        source:    'data/chfa-qap-calendar.json (curated from the CHFA QAP + Dates and Deadlines page)',
+        sourceUrl: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan',
         vintage:   data.metadata && data.metadata.generated,
-        method:    'Cycle pattern inferred from CHFA\'s historical R1/R2 deadlines + Annual Plan publication. Future dates marked "est." until CHFA confirms. Verify on chfainfo.com 60-90 days out.',
+        method:    'Round dates from CHFA\'s Dates and Deadlines page and the current QAP (draft dates noted as such). Dates CHFA has not published are inferred from prior cycles and marked "est.". Verify on chfainfo.com 60-90 days out.',
         confidence:'med'
       }) : '';
       var caption = '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
