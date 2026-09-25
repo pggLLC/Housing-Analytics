@@ -206,7 +206,7 @@ async function pmaTractDefaultInteraction(page, viewport) {
       const sim = document.getElementById('pmaSimResult');
       const scen = document.getElementById('pmaScenarioResult');
       const simVals = sim ? [...sim.querySelectorAll('.pma-stat-value')].map((e) => e.textContent) : [];
-      const baseRow = scen ? scen.querySelector('tbody tr') : null;
+      const baseRow = scen ? [...scen.querySelectorAll('tbody tr')].find((tr) => Number(tr.dataset.units) > 0) : null;
       return {
         expected: den ? den.value : null,
         headlineDen: document.getElementById('pmaCaptureDenominator').dataset.denominator,
@@ -233,6 +233,30 @@ async function pmaTractDefaultInteraction(page, viewport) {
       if (!near(cap.simRate, Math.round(cap.simUnits / d * 1000) / 10)) failures.push(`simulator ${cap.simRate}% is not ${cap.simUnits} units / ${d}`);
       if (!near(cap.scenRate, Math.round(cap.scenUnits / d * 1000) / 10)) failures.push(`scenario ${cap.scenRate}% is not ${cap.scenUnits} units / ${d}`);
     }
+  }
+
+  // Audit F2: one primary score. The scenario table's no-project row is
+  // scored with the headline's inputs and must equal it; the site-selection
+  // index is marked secondary; each scale carries its own legend.
+  if (ran) {
+    const sc = await page.evaluate(() => {
+      const circle = document.getElementById('pmaScoreCircle');
+      const noProject = document.querySelector('#pmaScenarioResult tbody tr[data-units="0"]');
+      return {
+        primaryRole: circle.dataset.scoreRole,
+        primary: Number(circle.textContent),
+        noProject: noProject ? Number(noProject.dataset.score) : null,
+        primaryCount: document.querySelectorAll('[data-score-role="primary"]').length,
+        scale: (document.getElementById('pmaScoreScale') || {}).textContent || '',
+        secondary: document.querySelectorAll('#maExecSummaryContent [data-score-role="secondary"]').length,
+        secondaryScale: ((document.querySelector('#maExecSummaryContent .ma-score-scale') || {}).textContent) || '',
+      };
+    });
+    if (sc.primaryRole !== 'primary' || sc.primaryCount !== 1) failures.push(`expected one score marked primary, found ${sc.primaryCount}`);
+    if (sc.noProject === null) failures.push('the scenario table has no no-project row');
+    else if (sc.noProject !== sc.primary) failures.push(`the scenario table's no-project score ${sc.noProject} is not the PMA score ${sc.primary}`);
+    if (!/Strong/.test(sc.scale) || !/Weak/.test(sc.scale)) failures.push('the PMA score shows no scale legend');
+    if (sc.secondary && !/own scale/.test(sc.secondaryScale)) failures.push('the site-selection index does not say it is on its own scale');
   }
 
   const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
