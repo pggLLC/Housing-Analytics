@@ -18,8 +18,11 @@ Two properties, because one without the other is not worth much:
     that today's committed file has the field would pass on a file the writer
     no longer produces -- the label would quietly stop appearing and the last
     good copy would keep the test green;
-  * the label names the fields it covers, so adding a new text field without
-    extending it is visible.
+  * the label names every container in the writer's output that holds a
+    fetched string -- titles, URLs, change lists and error messages as well as
+    the extracted text. The containers are read from the writer's own return
+    dict, so a new key must either be named in the label or declared local
+    below; neither list can drift from the code on its own.
 """
 
 import json
@@ -30,12 +33,38 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 WRITER = ROOT / "scripts" / "audit" / "chfa_qap_watch.py"
 COMMITTED = ROOT / "data" / "audit" / "chfa-qap-watch.json"
 
-# The fields that carry text fetched from chfainfo.com.
-TEXT_FIELDS = ("source_pages[].text", "documents[].text")
+# Keys of the writer's output that hold only values this repo computes (a
+# schema id, our clock, our own prose, booleans). Every other key holds strings
+# that came from chfainfo.com and must be named in the content_trust label.
+LOCAL_KEYS = frozenset({
+    "schema", "generated_at", "note", "content_trust", "has_changes", "all_fetches_failed",
+})
+
+# What the label must say it covers inside those containers: fetched strings
+# are not only the extracted text.
+FETCHED_STRING_KINDS = ("text", "key_lines", "titles", "urls")
 
 
 def _writer_source() -> str:
     return WRITER.read_text(encoding="utf-8")
+
+
+def _label(src: str) -> str:
+    """The literal the writer emits, joined across its implicit concatenation.
+
+    Whitespace is collapsed so where the source wraps a line cannot split a
+    phrase the tests look for.
+    """
+    block = re.search(r"'content_trust':\s*\((.*?)\),\n", src, re.S)
+    assert block, "content_trust is present but its value could not be read"
+    return " ".join("".join(re.findall(r"'([^']*)'", block.group(1))).split())
+
+
+def _output_keys(src: str) -> list:
+    """Top-level keys of the dict the writer returns, read from the writer."""
+    body = re.search(r"return \{\n\s*'schema': SCHEMA,(.*?)\n    \}\n", src, re.S)
+    assert body, "could not find the writer's output dict (return { 'schema': SCHEMA, ... })"
+    return ["schema"] + re.findall(r"^\s{8}'([a-z_]+)':", body.group(1), re.M)
 
 
 def test_writer_emits_a_content_trust_label():
@@ -48,11 +77,7 @@ def test_writer_emits_a_content_trust_label():
 
 
 def test_the_label_says_the_text_is_data_not_instruction():
-    src = _writer_source()
-    # Find the literal the writer emits, across its implicit concatenation.
-    block = re.search(r"'content_trust':\s*\((.*?)\),\n", src, re.S)
-    assert block, "content_trust is present but its value could not be read"
-    label = " ".join(re.findall(r"'([^']*)'", block.group(1)))
+    label = _label(_writer_source())
     lowered = label.lower()
 
     assert "untrusted" in lowered, f"the label does not call the text untrusted: {label!r}"
@@ -64,15 +89,30 @@ def test_the_label_says_the_text_is_data_not_instruction():
     )
 
 
-def test_the_label_names_the_fields_it_covers():
-    """A new text field that the label does not mention is a gap."""
+def test_the_label_names_every_container_of_fetched_strings():
+    """A key holding fetched strings that the label does not name is a gap."""
     src = _writer_source()
-    block = re.search(r"'content_trust':\s*\((.*?)\),\n", src, re.S)
-    label = " ".join(re.findall(r"'([^']*)'", block.group(1)))
-    for field in TEXT_FIELDS:
-        assert field in label, (
-            f"{field} carries fetched text but the content_trust label does not name it"
+    label = _label(src)
+    keys = _output_keys(src)
+    fetched = [k for k in keys if k not in LOCAL_KEYS]
+    # Non-vacuity on the scan: the writer's output was actually read, and it
+    # has fetched containers to check.
+    assert "source_pages" in keys and "documents" in keys, f"output keys look wrong: {keys}"
+    assert fetched, "found no fetched containers to check"
+    for key in fetched:
+        assert key in label, (
+            f"{key!r} holds strings fetched from chfainfo.com but the content_trust label does "
+            "not name it (name it in the label, or add it to LOCAL_KEYS if it is ours)"
         )
+    stale = sorted(LOCAL_KEYS - set(keys))
+    assert not stale, f"LOCAL_KEYS names keys the writer no longer emits: {stale}"
+
+
+def test_the_label_covers_titles_and_urls_not_only_text():
+    """CHFA's link text and hrefs are fetched too, and are repeated in changes."""
+    label = _label(_writer_source()).lower()
+    for kind in FETCHED_STRING_KINDS:
+        assert kind in label, f"the content_trust label does not say it covers {kind}: {label!r}"
 
 
 def test_the_artifact_is_not_pinned_and_here_is_why():
