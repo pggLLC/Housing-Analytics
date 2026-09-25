@@ -131,6 +131,7 @@ from CI. Every command in it is runnable; regenerate the lists rather than
 trusting them.
 
 ## Traps that will hand you a red CI
+- **Do not commit the generated files in a PR.** The inventory line in README.md/AGENTS.md, `data/paper/*`, `methods.html`, `working-paper.html`, `data/manifest.json` and `data/_manifest.json` are regenerated on the PR by ci-checks before anything checks them, and committed to main by `archive-audit-post-merge.yml` after the merge. A PR that commits them conflicts with every other open PR after each merge, and a conflicting PR runs no CI at all. If a merge from main conflicts on them, take main's copy. The regeneration commands elsewhere in this file are still how you check a change locally; they are no longer something a PR has to carry.
 - **Place pages do not auto-regenerate.** Edit the template in `scripts/hna/build_place_pages.py` and rerun it — never hand-edit `places/*.html`, or `test:place-pages-fresh` fails.
 - **`ranking-index` and `ranking-scenarios` are coupled.** Regenerating the index without rebuilding scenarios fails `ci-checks` on the pinned `generatedAt`.
 - **Brief ownership sections are auto-generated mid-suite.** A brief failure that appears only under full `test:ci` (and passes in isolation) is real, not a flake.
