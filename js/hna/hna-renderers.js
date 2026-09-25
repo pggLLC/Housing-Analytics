@@ -452,12 +452,13 @@
     const fields = [
       'statPop','statMhi','statHomeValue','statRent','statTenure',
       'statRentBurden','statIncomeNeed','statCommute',
-      'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
+      'statBaseUnits','statTargetVac','statUnitsNeed','statUnitsNeedBasis','statNetMig',
       'statLihtcCount','statLihtcUnits','statQctCount','statDdaStatus','statDdaNote',
     ];
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     clearDecisionStrip();
   }
 
@@ -3809,9 +3810,10 @@
   function clearProjectionsForStateLevel() {
     const els = S().els;
     if (!els) return { ok: false };
-    ['statBaseUnits','statTargetVac','statUnitsNeed','statNetMig'].forEach(id => {
+    ['statBaseUnits','statTargetVac','statUnitsNeed','statUnitsNeedBasis','statNetMig'].forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     // Production-vs-need cells are not in S().els (they are controller-owned);
     // clear them directly so stale county figures don't linger on state view.
     ['statPermitsAvg','statProdNeedRatio'].forEach(id => {

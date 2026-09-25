@@ -162,6 +162,9 @@
       verdict: verdict && verdict.verdict || null,
       plain: verdict && verdict.plain
         || 'There is not enough evidence here to answer this one.',
+      // What produced the answer, as state, where a conclusion has more than
+      // one possible method (production: workforce vs resident_growth).
+      basis: verdict && verdict.basis || null,
       evidence: items,
       // What would have to be true to answer it. Named, so the reader knows
       // whether this is fixable by them (open the step) or not (no data
@@ -269,13 +272,27 @@
     ], function (items) {
       var future = num(items[0].value);
       var gap = num(items[1].value);
+      // Which reading produced the 20-year figure. For most jurisdictions it
+      // is the workforce reading (jobs against homes affordable to the people
+      // doing them), which the digest has carried under a DOLA source id; the
+      // sentence says what the number counts rather than inheriting that.
+      var reading = metrics.future_units_reading ? metrics.future_units_reading.value : null;
+      var growth = metrics.future_units_growth_20yr ? num(metrics.future_units_growth_20yr.value) : null;
+      var how = '';
+      if (future !== null && reading === 'workforce') {
+        how = ', read from jobs: more lower-wage workers are employed here than there are homes they can afford'
+          + (growth === null ? '' : ' (resident growth alone would need about ' + growth.toLocaleString('en-US') + ')');
+      } else if (future !== null && reading === 'resident_growth') {
+        how = ', from projected household growth';
+      }
       return {
         verdict: future === null
           ? 'Gap of ' + gap.toLocaleString('en-US') + ' homes today'
           : future.toLocaleString('en-US') + ' homes over 20 years',
-        plain: (future === null ? '' : 'Roughly ' + future.toLocaleString('en-US') + ' additional homes over 20 years')
+        plain: (future === null ? '' : 'Roughly ' + future.toLocaleString('en-US') + ' additional homes over 20 years' + how)
           + (gap === null ? '' : (future === null ? 'A gap of ' : ', against a gap of ')
-            + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.'
+            + gap.toLocaleString('en-US') + ' homes at the deepest income tier today') + '.',
+        basis: reading
       };
     });
 
