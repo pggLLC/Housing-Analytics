@@ -10,6 +10,14 @@ permissions:
   actions: write
   issues: write
 
+# One refresh at a time, shared with refresh-working-paper.yml: both commit
+# the paper's generated figures and the manifests. A queued run waits rather
+# than racing the one in progress, and checks out main as it is when it
+# starts, not the commit that triggered it.
+concurrency:
+  group: paper-figures-refresh
+  cancel-in-progress: false
+
 jobs:
   audit-and-docs:
     runs-on: ubuntu-latest
@@ -17,6 +25,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          # paper:build counts commits and refuses a shallow clone, which would
+          # publish the fetch depth as the project's history.
+          fetch-depth: 0
+          ref: main
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -26,45 +39,77 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run audit/archive/docs automation
-        run: node scripts/sync-docs.mjs
-
-      - name: Refresh the CI-enforced inventory line
-        run: |
-          # ci-checks asserts an exact inventory line in README.md and
-          # AGENTS.md, but the ~15 data commits landing on main each day change
-          # the file counts and none of the data workflows regenerated it. The
-          # line therefore went stale constantly and failed every open PR on a
-          # line it never touched -- and repairing it by hand raced the next
-          # cron. This job already runs on every push to main and already
-          # commits what it changes, so it is the right place to keep the line
-          # honest. Regenerate, never hand-edit.
-          node scripts/compute-inventory.mjs --write
-
-      - name: Commit and push updated, quarantined, and docs files
+      - name: Regenerate, verify, commit and push
         id: commit_docs
         run: |
           set -euo pipefail
           git config --global user.email "copilot-agent@github.com"
           git config --global user.name "Copilot Agent"
-          git add .
-          if git diff --cached --quiet; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "Nothing to commit"
-            exit 0
-          fi
-          git commit -m "Automated quarantine, audit, and documentation after merge"
+
+          # Everything this job commits is generated from the tree it runs on,
+          # so it is regenerated -- never rebased -- whenever main moves under
+          # it. A rebase would publish figures measured before the newer merge
+          # (commit count, hash, test count) and then conflict with the next
+          # run on the same generated files.
+          regenerate() {
+            # Audit/archive/docs automation.
+            node scripts/sync-docs.mjs
+
+            # ci-checks asserts an exact inventory line in README.md and
+            # AGENTS.md, but the ~15 data commits landing on main each day
+            # change the file counts and none of the data workflows
+            # regenerated it. The line therefore went stale constantly and
+            # failed every open PR on a line it never touched. Regenerate,
+            # never hand-edit.
+            node scripts/compute-inventory.mjs --write
+
+            # The working paper's figures about the repository itself (commit
+            # count and hash, line counts, the size of the test suite) are
+            # `volatile`: not gated per-PR, because they move on nearly every
+            # PR and gating them made any two open PRs conflict on
+            # data/paper/figures.json, methods.html and working-paper.html.
+            # They are refreshed here, after every merge, and weekly by
+            # refresh-working-paper.yml.
+            #
+            # After compute-inventory: the paper quotes the AGENTS.md line.
+            # Manifests last, in order: rebuild_manifest.py records byte
+            # counts. A refresh that does not verify is abandoned, not
+            # committed.
+            if npm run -s paper:build \
+               && npm run -s audit:file-manifest \
+               && python3 scripts/rebuild_manifest.py \
+               && node scripts/validate-schemas.js \
+               && npm run -s test:paper-fresh \
+               && npm run -s test:file-manifest; then
+              :
+            else
+              echo "::warning::Working-paper refresh did not verify; leaving the committed figures unchanged."
+              git checkout -- working-paper.html methods.html data/paper data/_manifest.json data/manifest.json
+            fi
+          }
+
           for attempt in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then
-              break
+            regenerate
+            git add .
+            if git diff --cached --quiet; then
+              echo "changed=false" >> "$GITHUB_OUTPUT"
+              echo "Nothing to commit"
+              exit 0
             fi
-            if [ "$attempt" -eq 3 ]; then
-              echo "Failed to push automation commit after 3 attempts"
-              exit 1
+            git commit -m "Automated quarantine, audit, and documentation after merge"
+            if git push origin HEAD:main; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
             fi
-            sleep 2
+            # main moved (a data cron, or a merge whose own run is queued
+            # behind this one). Start again from it rather than rebasing.
+            echo "main moved during the run; regenerating on the new main (attempt $attempt)."
+            git fetch origin main
+            git reset --hard origin/main
+            git clean -fd
           done
-          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "Failed to push automation commit after 3 attempts"
+          exit 1
 
       - name: Track quarantine candidates in an issue (human decides)
         env:

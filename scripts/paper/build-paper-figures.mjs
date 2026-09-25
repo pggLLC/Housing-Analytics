@@ -614,6 +614,15 @@ const VOLATILE = [
   'scope.html_nonblank_lines',
   'scope.html_distinct_lines',
   'scope.html_distinct_share',
+  // The size of the test suite, not a figure about Colorado. Every PR that adds
+  // a guard moves it by one, so gating it per-PR made every such PR regenerate
+  // the whole paper — which also rewrites the commit count and hash — and any
+  // two open PRs then conflicted on data/paper/figures.json, methods.html and
+  // working-paper.html. On 2026-09-25 that re-conflicted one PR three times in
+  // an hour as other merges landed. It is refreshed on every push to main by
+  // archive-audit-post-merge.yml instead. The absence-test counts stay gated:
+  // they move only when an absence guard is added, and they back a claim.
+  'inventory.test_files',
 ];
 
 const figures = {

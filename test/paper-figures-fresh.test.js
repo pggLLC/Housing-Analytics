@@ -13,8 +13,9 @@
  *   - a null figure was rendered as a number
  *
  * Figures about the repository's own git history change on every commit and are
- * listed in `volatile` by the generator; they are refreshed weekly and skipped
- * here. Every figure about Colorado is checked strictly.
+ * listed in `volatile` by the generator; they are refreshed after every merge to
+ * main (archive-audit-post-merge.yml) and weekly, and skipped here. Every figure
+ * about Colorado is checked strictly.
  */
 
 import { readFileSync, writeFileSync, existsSync, mkdtempSync, rmSync } from 'node:fs';
@@ -338,7 +339,13 @@ test('the volatile list is declared, short, and about the repo not about Colorad
   // A figure excluded from the drift gate is a figure nobody is checking. The
   // gate exists to catch exactly that, so the exempt list is allowed to hold
   // repository churn and nothing else.
-  const housing = regenerated.volatile.filter((p) => /^(case|tractable|inventory)\b/.test(p));
+  // inventory.test_files is the one inventory path allowed: it counts the
+  // test suite, moves on every PR that adds a guard, and is refreshed after
+  // each merge instead (see the generator's VOLATILE comment).
+  const REPO_CHURN = new Set(['inventory.test_files']);
+  const housing = regenerated.volatile
+    .filter((p) => !REPO_CHURN.has(p))
+    .filter((p) => /^(case|tractable|inventory)\b/.test(p));
   if (housing.length) return `housing figures must not be exempt from the drift gate: ${housing.join(', ')}`;
 
   // The §07 build-cost argument rests on these. Raw line counts under `scope`
