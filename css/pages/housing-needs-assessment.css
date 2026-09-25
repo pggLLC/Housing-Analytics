@@ -8,7 +8,7 @@
    ---------------------------------------------------------------- */
 .hna-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .hna-hero h1 { margin: 0; font-size: 1.35rem; }
-.hna-hero p { margin: .35rem 0 0; color: var(--muted); max-width: 85ch; }
+.hna-hero p { margin: .35rem 0 0; color: var(--muted); }
 .hna-controls { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .hna-controls select,
 .hna-controls input { border: 1px solid var(--border); background: var(--card); color: var(--text); border-radius: 10px; padding: .55rem .65rem; font: inherit; }
@@ -1150,7 +1150,7 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
     grid-template-columns: 15rem minmax(0, 1fr);
     gap: 2rem;
     align-items: start;
-    max-width: calc(1240px + 15rem + 2rem);
+    max-width: var(--page-max, 1920px);
     margin-inline: auto;
   }
   /* main carries its own centring margin site-wide; inside the grid the track

@@ -108,7 +108,9 @@
         ? '<dl class="rec-step__fields">' + step.fields.map(function (field) {
           return '<dt>' + esc(field.label) + '</dt><dd>' + esc(field.value) + '</dd>';
         }).join('') + '</dl>'
-        : '<p class="rec-step__empty">Recorded, but it carried no values to quote back.</p>';
+        : (step.note ? ''
+          : '<p class="rec-step__empty">Recorded, but it carried no values to quote back.</p>');
+      if (step.note) fields += '<p class="rec-step__note">' + esc(step.note) + '</p>';
       return '<li class="rec-step" data-step-key="' + esc(step.key) + '" data-status="recorded">'
         + '<span class="rec-step__label">' + esc(step.label) + '</span> '
         + '<span class="rec-step__state">recorded ' + esc(String(step.recordedAt).slice(0, 10)) + '</span>'
@@ -224,6 +226,7 @@
       var quoted = step.fields.map(function (f) { return f.label + ': ' + f.value; }).join('  ·  ');
       text(step.label + ' — recorded ' + String(step.recordedAt).slice(0, 10)
         + (quoted ? '  ·  ' + quoted : ''), 9.5, 'normal', INK, 2);
+      if (step.note) text(step.note, 8.5, 'italic', MUTED, 2);
     });
     y += 10;
 
