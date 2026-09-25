@@ -15,6 +15,11 @@
  * developer a site qualifies when it may not. They were removed; on failure
  * the map now marks the layer unavailable.
  *
+ * js/hna/hna-utils.js had the same defect as QCT_FALLBACK_CO (27 rectangles,
+ * 0 of the GEOIDs on HUD's 2026 list) and DDA_FALLBACK_CO (12 boxes). Also
+ * removed; the HNA now reports status unknown instead
+ * (test/hna-qct-dda-unavailable.test.js).
+ *
  * The guard pins the agreement, not the removal: any embedded collection whose
  * name says QCT, DDA or COUNTY, in any client script, may contain only
  * features that exist in the corresponding data file WITH THE SAME GEOMETRY.
@@ -55,12 +60,7 @@ assert.strictEqual(readJson(REFERENCE.county.file).features.length, 64, 'county 
 // ── Collections not yet brought into agreement ───────────────────────────────
 // Each entry is a known disagreement being fixed separately. The guard asserts
 // it STILL disagrees, so a fixed entry must be removed from this list.
-const PENDING = {
-  'js/hna/hna-utils.js#QCT_FALLBACK_CO':
-    'HNA QCT fallback: 0 of 27 GEOIDs on HUD 2026 list; removal tracked separately from co-lihtc-map.js',
-  'js/hna/hna-utils.js#DDA_FALLBACK_CO':
-    'HNA DDA fallback: rectangles, not HUD geometry; removal tracked separately from co-lihtc-map.js',
-};
+const PENDING = {};
 
 // ── Extraction ───────────────────────────────────────────────────────────────
 const DECL = /(?:var|let|const)\s+([A-Za-z_$][\w$]*)\s*=\s*(?=\{\s*type\s*:\s*['"]FeatureCollection['"])/g;

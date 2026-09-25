@@ -112,20 +112,20 @@ Tier 1: data/dda-colorado.json        (CI-populated; 15s timeout)
 Tier 2: none — layer left empty, toggle marked "unavailable", "Only DDA" filter disabled
 ```
 
-#### HNA QCT — `js/housing-needs-assessment.js`
+#### HNA QCT — `js/hna/hna-controller.js` (`fetchQctTracts`)
 ```
 Tier 1: data/qct-colorado.json        (local; loadJson with 20s timeout)
 Tier 2: HUD ArcGIS Qualified_Census_Tracts_2026  (live; 15s timeout)
-Tier 3: GitHub Pages backup copy      (https://pggllc.github.io/Housing-Analytics/data/qct-colorado.json)
-Tier 4: Embedded QCT_FALLBACK_CO      (27 representative CO QCT tracts)
+Tier 3: data/qct-colorado.json again  (same-origin retry; a loaded file with no tract in the county is a real 0)
+Tier 4: none — unavailableReason set, "QCT tracts" shows "Unavailable", toggle marked "unavailable"
 ```
 
-#### HNA DDA — `js/housing-needs-assessment.js`
+#### HNA DDA — `js/hna/hna-controller.js` (`fetchDdaForCounty`)
 ```
 Tier 1: data/dda-colorado.json        (local; loadJson with 20s timeout)
 Tier 2: HUD ArcGIS Difficult_Development_Areas_2026  (live; 15s timeout)
-Tier 3: GitHub Pages backup copy      (https://pggllc.github.io/Housing-Analytics/data/dda-colorado.json)
-Tier 4: Embedded DDA_FALLBACK_CO      (10 representative CO DDA areas)
+Tier 3: data/dda-colorado.json again  (same-origin retry; a loaded file with no match is a real Non-DDA)
+Tier 4: none — unavailableReason set, "DDA status" shows "Unavailable" (never "Non-DDA"), toggle marked "unavailable"
 ```
 
 #### Prop 123 Jurisdictions — `js/prop123-map.js`
