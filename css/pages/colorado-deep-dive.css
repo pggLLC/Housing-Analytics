@@ -368,7 +368,6 @@
   font-size: 1rem;
   color: var(--muted, #476080);
   line-height: 1.6;
-  max-width: 70ch;
   margin-bottom: 0;
 }
 

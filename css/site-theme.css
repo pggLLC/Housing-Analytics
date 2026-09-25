@@ -1543,9 +1543,10 @@ main h3:first-child { margin-top: 0; }
      right at desktop widths. Drop the cap; the multi-paragraph variants
      (e.g. economic-dashboard's What does / What is not / How to use)
      now flow into 3 columns at wider viewports so the text fills width
-     instead of wrapping single-column with empty gutters. Single-
-     paragraph disclosures still cap at a comfortable reading measure
-     via the per-paragraph max-width below. */
+     instead of wrapping single-column with empty gutters. The per-
+     paragraph 60ch cap and the 80ch single-paragraph track were removed
+     on 2026-09-25 for the same reason: each still left the right side
+     of the box empty. */
   margin: var(--sp3) 0;
   padding: var(--sp2) var(--sp3);
   background: var(--bg2);
@@ -1557,14 +1558,14 @@ main h3:first-child { margin-top: 0; }
 }
 /* F139 — when the disclosure has 2+ siblings, render them as a
    responsive grid (3 columns ≥1024px, 2 columns ≥640px, 1 column
-   below). Single paragraph keeps reading measure via 80ch. */
+   below). A single paragraph takes the full width. */
 .page-disclosure { display: grid; gap: var(--sp3); grid-template-columns: 1fr; }
 @media (min-width: 640px)  { .page-disclosure { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .page-disclosure { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .page-disclosure:has(> p:only-child) {
-  grid-template-columns: minmax(0, 80ch);
+  grid-template-columns: minmax(0, 1fr);
 }
-.page-disclosure p { margin: 0; max-width: 60ch; }
+.page-disclosure p { margin: 0; }
 .page-disclosure p:last-child { margin-bottom: 0; }
 .page-disclosure strong { color: var(--text); }
 .page-disclosure ul,
