@@ -104,6 +104,11 @@
    1. DESIGN TOKENS — light mode default
    ================================================================ */
 :root {
+  /* Widest the page content column may grow. Owner decision 2026-09-25:
+     the old 1200-1240px shells used about 60% of a 1920px monitor and
+     under half of a 2560px one. Header, footer and content shells all
+     read this token so they stay aligned. */
+  --page-max: 1920px;
   /* Semantic color tokens — light mode */
   --bg:           #eef2f7;
   --bg2:          #e4ecf4;
@@ -514,13 +519,13 @@ main { background: transparent !important; min-height: calc(100vh - 200px); }
 header.site-header, footer.site-footer, section, .section,
 .page, .content, .container, .wrap { background: transparent !important; }
 
-.container, .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--sp4); }
+.container, .wrap { max-width: var(--page-max, 1920px); margin: 0 auto; padding: 0 var(--sp4); }
 .container-wide { max-width: 100%; padding: 0 var(--sp4); }
-.page-container { max-width: 1240px; margin: 0 auto; padding: var(--sp4) var(--sp4) var(--sp6); }
+.page-container { max-width: var(--page-max, 1920px); margin: 0 auto; padding: var(--sp4) var(--sp4) var(--sp6); }
 
 /* navigation.js main override (site content shell) */
 main { 
-  max-width: 1240px; 
+  max-width: var(--page-max, 1920px); 
   margin: var(--sp3) auto; 
   padding: var(--sp4); 
   background: var(--surface);
@@ -560,7 +565,7 @@ header.site-header {
   -webkit-backdrop-filter: saturate(1.4) blur(18px);
 }
 .nav-wrap {
-  max-width: 1240px; margin: 0 auto;
+  max-width: var(--page-max, 1920px); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
   padding: 11px 20px; gap: 16px;
 }
@@ -638,7 +643,7 @@ nav.site-nav a.is-active { background: var(--accent-dim); color: var(--link) !im
 
 footer.site-footer { margin-top: var(--sp6); border-top: 1px solid var(--border); background: var(--bg2) !important; }
 .footer-wrap {
-  max-width: 1240px; margin: 0 auto; padding: 18px 20px;
+  max-width: var(--page-max, 1920px); margin: 0 auto; padding: 18px 20px;
   color: var(--muted) !important; display: flex; flex-wrap: wrap;
   gap: 12px; justify-content: space-between; align-items: center;
   font-size: var(--small);
@@ -1288,7 +1293,7 @@ html.light-mode .kicker { color: #054a42 !important; background: #e6f3f1; }
    right at common viewport widths (1280/1440/1600px). Bumped to 95ch
    for breathing room while staying within the readable-line-length
    guideline; on narrower viewports the container's width takes over. */
-.sub  { color: var(--muted) !important; max-width: 95ch; }
+.sub  { color: var(--muted) !important; }
 .card-meta { color: var(--faint) !important; font-size: var(--tiny); }
 .note { color: var(--faint) !important; font-size: var(--caption); margin-top: var(--sp3); }
 .disclaimer { color: var(--faint) !important; font-size: var(--caption); }
@@ -1867,13 +1872,13 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
   margin: 0 !important;
   padding: 6px 0 !important;
 }
-/* Keep the inner step list centered at 1200 px on wide viewports */
+/* Keep the inner step list centered on the page column on wide viewports */
 .wf-progress-steps,
 .workflow-progress__steps {
   display: flex !important;
   align-items: center !important;
   gap: 0 !important;
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   padding: 0 var(--sp4);
 }
@@ -2008,7 +2013,7 @@ html.dark-mode ::-moz-selection { background: var(--accent); color: #0d1f35; }
 
 /* === Workflow "Recommended Next Action" banner === */
 .wf-next-action {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 12px auto 0;
   padding: 0 18px;
 }
@@ -2365,6 +2370,11 @@ html.dark-mode .devr-flag--strong { background: rgba(52,211,153,.18); color: #d4
   margin: 0.75rem 0;
 }
 .pipeline-status-banner[hidden] { display: none; }
+/* Deal-calculator mode gating (PC-2): an element tagged for one deal mode is
+   hidden in the other. Many carry an inline display, which beats the UA
+   [hidden] rule, so the Eligible Basis slider stayed on screen in ownership
+   mode while the attribute said it was hidden. */
+[data-dc-mode][hidden] { display: none !important; }
 
 @media(max-width:480px){
   .data-reliability-badge,.freshness-badge{font-size:.72rem;padding:.2rem .5rem;}
