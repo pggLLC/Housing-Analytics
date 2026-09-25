@@ -172,8 +172,21 @@
           // Clear the wrapped mobile footer CTA; auto-shrink the
           // collapsed chip so it doesn't visually compete with content.
           '#coho-watchlist-panel { bottom: calc(var(--workflow-mobile-bottom-cta-offset, 76px) + env(safe-area-inset-bottom, 0px) + 12px) !important; right: 12px !important; }' +
+          // The collapsed chip read "★ Watchlist (0) ›" at ~130x65px and sat
+          // over body text on every page, even with nothing saved. On a phone
+          // it is now a round star with the count beside it, about the size of
+          // the dark-mode toggle. The word stays in the accessible name
+          // (aria-label on the summary); only its visible text is hidden.
           '#coho-watchlist-panel > details:not([open]) > summary {' +
-            ' padding: 5px 9px; font-size: .72rem;' +
+            ' padding: 0 10px; min-width: 40px; min-height: 40px; justify-content: center;' +
+            ' border-radius: 999px; font-size: .8rem; gap: .2rem;' +
+          '}' +
+          // A site-wide details rule adds 10px/12px padding and a margin;
+          // on the collapsed chip that doubled its height.
+          '#coho-watchlist-panel > details:not([open]) { border-radius: 999px !important; padding: 0 !important; margin: 0 !important; }' +
+          '#coho-watchlist-panel > details:not([open]) .coho-wl-label {' +
+            ' position: absolute; width: 1px; height: 1px; overflow: hidden;' +
+            ' clip: rect(0 0 0 0); white-space: nowrap;' +
           '}' +
           '#coho-watchlist-panel > details[open] {' +
             ' min-width: 200px !important; max-width: 86vw !important;' +
@@ -188,9 +201,9 @@
       '</style>' +
       '<details style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);' +
                        'box-shadow:0 4px 12px rgba(0,0,0,.12);max-width:320px;min-width:0;">' +
-        '<summary style="cursor:pointer;font-weight:700;color:var(--accent);' +
+        '<summary aria-label="Watchlist, 0 saved" style="cursor:pointer;font-weight:700;color:var(--accent);' +
                          'list-style:none;display:flex;align-items:center;justify-content:space-between;gap:.5rem;">' +
-          '<span>★ Watchlist <span id="coho-watchlist-count" style="opacity:.7;font-weight:400;">(0)</span></span>' +
+          '<span><span aria-hidden="true">★</span> <span class="coho-wl-label">Watchlist</span> <span id="coho-watchlist-count" style="opacity:.7;font-weight:400;">(0)</span></span>' +
           '<span class="coho-wl-caret" style="opacity:.5;font-size:.78rem;">▸</span>' +
         '</summary>' +
         '<div id="coho-watchlist-body" style="padding:6px 12px 12px;max-height:60vh;overflow:auto;font-size:.85rem;min-width:240px;">' +
@@ -265,6 +278,8 @@
     function _refresh() {
       var arr = list();
       if (countEl) countEl.textContent = '(' + arr.length + ')';
+      var summaryEl = root.querySelector('#coho-watchlist-panel > details > summary');
+      if (summaryEl) summaryEl.setAttribute('aria-label', 'Watchlist, ' + arr.length + ' saved');
       if (!bodyEl) return;
       var addCurrentHtml = _addCurrentBtn();
       if (!arr.length) {
