@@ -168,10 +168,18 @@ def pdf_text(data: bytes) -> tuple:
         return None, None, f'pypdf could not be loaded: {exc.__class__.__name__}: {exc}'
     try:
         reader = PdfReader(io.BytesIO(data))
+        if reader.is_encrypted:
+            # CHFA's full QAP drafts are AES-encrypted with an owner password only:
+            # they open with an empty user password, but pypdf needs the
+            # `cryptography` package to do it. Without it every draft plan, the
+            # documents this watcher exists for, came back unreadable (first live
+            # run, 2026-09-24: 8 of 54 documents).
+            reader.decrypt('')
         parts = [(page.extract_text() or '') for page in reader.pages]
         return '\n'.join(parts), len(reader.pages), None
     except Exception as exc:  # malformed or encrypted PDF
-        return None, None, f'text extraction failed: {exc.__class__.__name__}: {exc}'
+        hint = ' (encrypted PDF: install the cryptography package)' if 'cryptography' in str(exc) else ''
+        return None, None, f'text extraction failed: {exc.__class__.__name__}: {exc}{hint}'
 
 
 def key_lines(text: str, pattern: re.Pattern = KEY_LINE_RE) -> list[str]:
@@ -200,6 +208,55 @@ def line_diff(old: list, new: list) -> dict:
 
 def is_qap_document(doc: dict) -> bool:
     return bool(QAP_DOC_RE.search(doc.get('title', '')) or QAP_DOC_RE.search(doc['url']))
+
+
+# Full text is kept only for the newest QAP cycles. CHFA's page lists every plan
+# back to 2016; storing all of their text put this file at 5.3 MiB on its first
+# run, over the 5 MiB ceiling in scripts/check-data-file-sizes.mjs, and turned
+# main red. Older plans keep their fingerprint and key lines, which is all
+# change detection needs; a session that wants their full text opens the PDF.
+TEXT_CYCLES_KEPT = 2
+# A hard ceiling on retained text, below the 5 MiB data-file guard with room for
+# the fingerprints and key lines. If a cycle is unusually long, text goes from
+# the older kept cycle first, largest document first.
+TEXT_BUDGET_BYTES = 3_500_000
+CYCLE_RE = re.compile(r'(20\d\d)\s*[-\u2013]\s*(?:20)?\d\d\b')
+YEAR_RE = re.compile(r'\b(20\d\d)\b')
+
+
+def qap_cycle(doc: dict) -> int | None:
+    """The first year of the QAP cycle a document belongs to (2027 for "2027-28"), or None."""
+    fields = (doc.get('title') or '', doc.get('url') or '')
+    # A cycle ("2027-28", in the title or the file name) beats a bare year:
+    # "August 2026 Public Hearing Presentation" belongs to the 2027-28 plan.
+    for rx in (CYCLE_RE, YEAR_RE):
+        for field in fields:
+            m = rx.search(field)
+            if m:
+                return int(m.group(1))
+    return None
+
+
+def prune_text(documents: list) -> None:
+    """Drop the full text of documents outside the newest TEXT_CYCLES_KEPT cycles."""
+    cycles = sorted({c for c in (qap_cycle(d) for d in documents if d.get('text')) if c}, reverse=True)
+    kept = set(cycles[:TEXT_CYCLES_KEPT])
+    for d in documents:
+        if 'text' not in d:
+            continue
+        if qap_cycle(d) in kept:
+            d['text_retained'] = True
+        else:
+            del d['text']
+            d['text_retained'] = False
+    with_text = [d for d in documents if 'text' in d]
+    total = sum(len(d['text'].encode('utf-8')) for d in with_text)
+    for d in sorted(with_text, key=lambda d: (qap_cycle(d) or 0, -len(d['text']))):
+        if total <= TEXT_BUDGET_BYTES:
+            break
+        total -= len(d['text'].encode('utf-8'))
+        del d['text']
+        d['text_retained'] = False
 
 
 def _content(result: dict) -> dict:
@@ -251,7 +308,7 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
             docs_seen.setdefault(link['url'], {'title': link['title'], 'found_on': []})['found_on'].append(page_id)
 
     ok_pages = {p['id'] for p in page_out if p['ok']}
-    documents, new_docs, changed_docs, extraction_failures = [], [], [], []
+    documents, new_docs, changed_docs, extraction_failures, now_readable = [], [], [], [], []
     for url, seen in docs_seen.items():
         prev = prev_docs.get(url, {})
         # A page that failed this run cannot say whether it still lists the document,
@@ -276,12 +333,19 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                     'last_modified': headers.get('last-modified')})
         unchanged = prev.get('sha256') == digest
         keep_text = is_qap_document(doc)
-        if unchanged:
+        # An unchanged file whose text was never extracted (an earlier run could not
+        # open it) is read again: otherwise a fix to extraction would never reach
+        # the documents it was for until CHFA happened to re-upload them.
+        retry = unchanged and keep_text and 'key_lines' not in prev
+        if unchanged and not retry:
             for k in ('pages', 'text', 'text_chars', 'text_truncated', 'key_lines', 'text_error', 'last_changed_at'):
                 if k in prev:
                     doc[k] = prev[k]
         else:
-            doc['last_changed_at'] = now
+            if retry:
+                doc['last_changed_at'] = prev.get('last_changed_at', now)
+            else:
+                doc['last_changed_at'] = now
             if keep_text:
                 text, npages, err = pdf_text(body)
                 doc['pages'] = npages
@@ -296,6 +360,10 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
                     doc['text'] = text[:MAX_DOC_TEXT_CHARS]
                     doc['key_lines'] = key_lines(text)
         documents.append(doc)
+        if retry:
+            if 'key_lines' in doc:
+                now_readable.append({'url': url, 'title': doc['title'], 'key_lines': doc['key_lines'][:MAX_DIFF_LINES]})
+            continue
         if not prev:
             new_docs.append({'url': url, 'title': doc['title'], 'key_lines': doc.get('key_lines', [])[:MAX_DIFF_LINES],
                              'extraction_error': doc.get('text_error')})
@@ -321,12 +389,14 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         if p['ok'] and p['id'] in prev_pages and prev_pages[p['id']].get('key_lines') not in (None, p['key_lines'])
     ]
 
+    prune_text(documents)
     changes = {
         'baseline': baseline and bool(documents),
         'new_documents': [] if baseline else new_docs,
         'changed_documents': changed_docs,
         'removed_documents': removed,
         'changed_pages': changed_pages,
+        'now_readable': now_readable,
     }
     return {
         'schema': SCHEMA,
@@ -336,7 +406,8 @@ def run(fetch: Fetcher = http_fetch, previous: dict | None = None, now: str | No
         'source_pages': page_out,
         'documents': documents,
         'changes': changes,
-        'has_changes': bool(changes['baseline'] or changes['new_documents'] or changed_docs or removed or changed_pages),
+        'has_changes': bool(changes['baseline'] or changes['new_documents'] or changed_docs or removed
+                            or changed_pages or now_readable),
         'fetch_failures': failures,
         'extraction_failures': extraction_failures,
         'all_fetches_failed': not ok_pages,

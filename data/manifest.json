@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-24T22:25:35.422738Z",
+  "generated": "2026-09-25T06:16:34.702152Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -114,7 +114,7 @@
     "data/audit/chfa-qap-watch.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 5554544
+      "bytes": 3024945
     },
     "data/audit/quarantine-candidates.json": {
       "featureCount": 0,
