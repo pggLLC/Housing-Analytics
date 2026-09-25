@@ -1545,7 +1545,7 @@
         of deal you choose: the competitive <strong>9% credit</strong>, which favors places that
         have not had a project recently, or the <strong>4% credit</strong> paired with bond
         financing, which favors larger places. You can sort the list by score, by the year a
-        project last opened, by need or by population.
+        place last won a credit award, by need or by population.
       </p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note">
         <strong>Screening tool only.</strong> A score is a starting point for finding a site, not a
@@ -1562,10 +1562,10 @@
         <a href="https://chfa.maps.arcgis.com/apps/instant/basic/index.html?appid=3abac1de288d4ffd9dd755021b7c247e" target="_blank" rel="noopener">CHFA's public Housing Tax Credit Properties layer</a>
         — 926 projects through 2025 (the 2025 awards have just been added). The recency score
         uses CHFA's <em>AwardYear</em> field, which is when CHFA reserved the credits (typically
-        2–3 years before placed-in-service). For saturation/recency scoring this is the
-        <strong>better</strong> signal than HUD's lagged YR_PIS — a 2024 award means "there's a
-        deal coming" even if construction hasn't completed. ComplianceStatus tracks whether the
-        project is already placed in service.
+        2–3 years before the property opens). For saturation/recency scoring this is the
+        <strong>better</strong> signal than an opening year — a 2024 award means "there's a
+        deal coming" even if construction hasn't completed. CHFA's layer publishes no
+        placed-in-service year, so every year on this page is an award year.
         <a href="docs/methodology/LIHTC-LOCATOR-METHODOLOGY.md" target="_blank" rel="noopener">Methodology §3 Dim 2 →</a>
       </div>
       </div>
@@ -1921,7 +1921,7 @@
                 <th data-sort="name" data-priority="primary" title="Jurisdiction name — click a row to open its detail panel. Sort A→Z / Z→A.">Jurisdiction</th>
                 <th data-sort="type" data-priority="tertiary" title="QCT / DDA / both">Type</th>
                 <th data-sort="county" data-priority="secondary" title="Containing Colorado county. Sort to group by county.">County</th>
-                <th data-sort="lastYear" data-priority="tertiary" title="Most recent LIHTC YR_PIS">Last funded</th>
+                <th data-sort="lastYear" data-priority="tertiary" title="Most recent CHFA award year for a LIHTC project here (not the year it opened)">Last funded</th>
                 <th data-sort="projectCount" data-priority="tertiary" title="LIHTC projects in jurisdiction">Projects</th>
                 <th data-sort="needScore" data-priority="tertiary" title="Need percentile: where this jurisdiction's housing-need score ranks among all Colorado jurisdictions of its type, 0–100 (higher = more need). Different from Score, which is the composite for the active deal type that this need percentile feeds into.">Need pctl</th>
                 <th data-sort="population" data-priority="tertiary" title="Approx population (HHs ≤100% AMI × 2.5)">Pop.</th>
@@ -2278,7 +2278,7 @@
                 <p style="margin:6px 0;"><strong>Rows — scoring dimensions:</strong></p>
                 <ul style="margin:4px 0 0; padding-left:22px;">
                   <li><strong>Need</strong> — tenure-blended cost burden + severe burden + AMI gap, percentile-normalized against CO peer jurisdictions (see §3 Dim 1 above).</li>
-                  <li><strong>Recency / Competition</strong> — years since the jurisdiction's last LIHTC project was placed in service (25-year cap, never-funded = max).</li>
+                  <li><strong>Recency / Competition</strong> — years since the jurisdiction's last LIHTC credit award (25-year cap, never-funded = max).</li>
                   <li><strong>Basis / Subsidy</strong> — strength of the subsidy stack: QCT-only or DDA-only = 60, both = 100, neither = 0 (IRC §42(d)(5)(B) basis boost).</li>
                   <li><strong>Population / Feasibility</strong> — bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100.</li>
                   <li><strong>Civic Readiness</strong> — count of 7 binary civic-capacity dimensions (Prop 123 ✓, comp plan, HNA, IZ, local funding, housing authority, nonprofits) divided by known dims, ×100.</li>
@@ -2346,7 +2346,7 @@
               </thead>
               <tbody>
                 <tr><td title="Tenure-blended cost burden + severe burden + AMI gap, percentile-normalized."><strong>Need</strong></td><td><mark>30%</mark></td><td>25%</td><td>20%</td><td>25%</td><td>25%</td><td>25%</td></tr>
-                <tr><td title="Years since the jurisdiction's last LIHTC project was placed in service (25y cap)."><strong>Recency / Competition</strong></td><td>22%</td><td>12%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
+                <tr><td title="Years since the jurisdiction's last LIHTC credit award (25y cap)."><strong>Recency / Competition</strong></td><td>22%</td><td>12%</td><td>15%</td><td>15%</td><td>10%</td><td>20%</td></tr>
                 <tr><td title="QCT-only or DDA-only = 60; both = 100; neither = 0. IRC §42(d)(5)(B)."><strong>Basis / Subsidy</strong></td><td>15%</td><td>15%</td><td><mark>35%</mark></td><td>15%</td><td>20%</td><td>15%</td></tr>
                 <tr><td title="Bucketed by HHs ≤100% AMI × 2.5: under 500 = 0, 500–2k = 30, 2k–5k = 60, 5k–15k = 85, ≥15k = 100."><strong>Population / Feasibility</strong></td><td>15%</td><td><mark>30%</mark></td><td>10%</td><td>25%</td><td>15%</td><td>20%</td></tr>
                 <tr><td title="7 binary civic-capacity dims (Prop 123, comp plan, HNA, IZ, local funding, HA, nonprofits) / known × 100."><strong>Civic Readiness</strong></td><td>18%</td><td>18%</td><td>20%</td><td>20%</td><td><mark>30%</mark></td><td>20%</td></tr>
@@ -2436,13 +2436,13 @@
           <div class="lof-meth-block">
             <h3>Caveats &amp; known data quirks</h3>
             <ol class="lof-meth-caveats">
-              <li>HUD <code>YR_PIS = 8888</code> placeholders (in-pipeline projects) are excluded from recency.</li>
+              <li>Placeholder years (<code>8888</code> / <code>9999</code>) are excluded from recency.</li>
               <li>Project-to-jurisdiction matching uses <code>PROJ_CTY</code> string equality — a misspelled PROJ_CTY ("Ft Collins" vs "Fort Collins") misses match. Fuzzy-match is a backlog item.</li>
               <li>Population is approximate — derived from CHAS HHs ≤100% AMI × 2.5 avg HH size, not direct ACS B01003. Resort areas with high second-home stock are actually closer to the renter-base truth via HH proxy than via B01003.</li>
               <li>QCT-place membership requires tract's share of place &gt; 5% OR place's share of tract &gt; 20%. Sliver overlaps don't claim a QCT.</li>
               <li>DDA designation in CO is county-based (all 10 CO DDAs are nonmetro counties); all jurisdictions in DDA counties inherit the designation.</li>
               <li>Civic-capacity coverage is sparse. ~70% of jurisdictions have populated scorecard records; ~30% rely on county-level inheritance.</li>
-              <li>Recency uses YR_PIS (placed in service) which lags awards by 2–3y. A jurisdiction with 2024 awards but no PIS yet looks "stale." CHFA-pipeline integration is a backlog item.</li>
+              <li>Recency uses CHFA's award year, not the year a project opened — CHFA's layer publishes no placed-in-service year. A recent award counts as recent activity even if the building is still under construction.</li>
             </ol>
           </div>
 

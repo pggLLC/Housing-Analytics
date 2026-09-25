@@ -701,7 +701,7 @@
           lat: clats.reduce(function (s, v) { return s + v; }, 0) / clats.length,
           lng: clngs.reduce(function (s, v) { return s + v; }, 0) / clngs.length
         };
-        if (sub) sub.textContent = '≤25 mi · placed in service ≥ 2015 · anchor = county centroid';
+        if (sub) sub.textContent = '≤25 mi · awarded ≥ 2015 · anchor = county centroid';
       }
     }
     if (!anchor) {
@@ -716,7 +716,9 @@
       var coords = f.geometry && f.geometry.coordinates;
       if (!coords) return;
       var p = f.properties || {};
-      var year = parseInt(p.YR_PIS || p.yr_pis, 10);
+      // CHFA award year. The feed's YR_PIS is this same value under another
+      // name (scripts/fetch-chfa-lihtc.js) — CHFA publishes no opening year.
+      var year = parseInt(p.AwardYear || p.YR_ALLOC, 10);
       // Skip rows with bad / placeholder years (8888 / 9999 are HUD sentinels for unknown).
       if (!Number.isFinite(year) || year < minYear || year > nowYear + 1 || year === 8888 || year === 9999) return;
       var dist = haversineMi(anchor.lat, anchor.lng, coords[1], coords[0]);
@@ -736,7 +738,7 @@
     });
     var top = rows.slice(0, 12);
     if (!top.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="ic-muted">No LIHTC deals within ' + radiusMi + ' mi placed in service since ' + minYear + '.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="ic-muted">No LIHTC deals within ' + radiusMi + ' mi awarded since ' + minYear + '.</td></tr>';
       return;
     }
     tbody.innerHTML = top.map(function (r) {

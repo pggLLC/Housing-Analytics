@@ -1036,9 +1036,10 @@
     var currentYear = new Date().getFullYear();
     var years = (nearbyFeatures || []).map(function (f) {
       var p = (f && f.properties) || {};
-      // Prefer YR_ALLOC (when CHFA awarded credits) over YR_PIS (placed-in-service).
-      // YR_ALLOC reflects CHFA decision timing; YR_PIS lags 18-30 months.
-      return parseInt(p.YR_ALLOC || p.YR_PIS || p.yearAllocated || p.yearPlaced || 0, 10);
+      // Award / allocation year — when CHFA awarded the credits. There is no
+      // placed-in-service year to fall back to: the CHFA feed's YR_PIS is
+      // AwardYear copied by scripts/fetch-chfa-lihtc.js.
+      return parseInt(p.YR_ALLOC || p.AwardYear || p.yearAllocated || 0, 10);
     }).filter(function (y) { return y > 1985 && y <= currentYear; });
 
     if (!years.length) {
@@ -1794,7 +1795,7 @@
    * Pulls every LIHTC project within the user-chosen outer radius (default
    * 25 mi) MINUS those already counted inside the PMA buffer. Sorted by
    * straight-line distance from the site; shows project name, city, miles
-   * away, year placed in service, unit totals, and credit type. Doesn't
+   * away, CHFA award year, unit totals, and credit type. Doesn't
    * affect capture or competitive-supply scoring — just regional context. */
   var _pmaLastSite = null;
   function renderNearbyLihtcOutsidePma(result) {
@@ -1821,7 +1822,7 @@
       var d = haversine(lat, lon, c[1], c[0]);
       if (d <= inner || d > outer) continue; // strictly outside PMA, inside outer ring
       var p = f.properties || {};
-      var yr = parseInt(p.YR_PIS, 10);
+      var yr = parseInt(p.AwardYear || p.YR_ALLOC, 10);  // award year, not an opening year
       if (!Number.isFinite(yr) || yr < 1980 || yr > 2030) yr = null;
       var units = +(p.N_UNITS || p.TOTAL_UNITS || 0) || null;
       var liUnits = +(p.LI_UNITS || 0) || null;

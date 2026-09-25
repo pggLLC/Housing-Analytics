@@ -107,10 +107,14 @@ assert.deepEqual(
   'Independence Village retains both source attributions'
 );
 const dataQualitySrc = read('js/data-quality-check.js');
-const coverageMatch = dataQualitySrc.match(/coverageLabel:\s*"(\d+)\s+placed-in-service CO LIHTC projects"/);
+// The count must agree with the feed; the wording around it is free, except
+// that it must not call award-year records placed in service (the feed has no
+// such year — see test/lihtc-award-year-not-pis.test.js).
+const coverageMatch = dataQualitySrc.match(/key:\s*"chfa-lihtc"[\s\S]*?coverageLabel:\s*"(\d+)\s[^"]*LIHTC projects[^"]*"/);
 assert(coverageMatch, 'data quality check exposes CHFA LIHTC coverage label');
 assert.equal(Number(coverageMatch[1]), lihtc.features.length, 'LIHTC coverage label matches chfa-lihtc feature count');
 assert(!coverageMatch[0].includes('716'), 'LIHTC coverage label does not retain stale 716 count');
+assert(!/placed[- ]in[- ]service/i.test(coverageMatch[0]), 'LIHTC coverage label does not call award-year records placed in service');
 
 const methodologyHtml = read('hna-comparative-analysis.html');
 const rankingJs = read('js/hna/hna-ranking-index.js');

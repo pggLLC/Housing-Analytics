@@ -188,8 +188,11 @@
         amiSource:       ami == null ? 'unknown'
                        : (props.AMI_PCT != null || props.amiPercent != null) ? 'lihtc'
                        : 'nhpd',
-        yearPlaced:      toNum(props.YR_PIS || props.yearPlaced || 0),
-        yearAllocated:   toNum(props.YR_ALLOC || props.YEAR_ALLOC || props.yearAllocated || 0),
+        // No placed-in-service year. CHFA publishes none; the feed's YR_PIS
+        // is AwardYear copied by scripts/fetch-chfa-lihtc.js. Unknown is
+        // null, not 0. The award year is yearAllocated.
+        yearPlaced:      props.yearPlaced ? toNum(props.yearPlaced) : null,
+        yearAllocated:   toNum(props.YR_ALLOC || props.YEAR_ALLOC || props.AwardYear || props.yearAllocated || 0) || null,
         creditType:      props.CREDIT || props.creditType || '',
         hasNhpd:         !!nhpdMatch,
         subsidyExpiryYear: expiryYear,
@@ -222,7 +225,7 @@
           programType:     props.program || props.PROGRAM || props.subsidy_type || 'Section 8',
           amiPercent:      ami,
           amiSource:       ami == null ? 'unknown' : 'nhpd',
-          yearPlaced:      toNum(props.yearPlaced || 0),
+          yearPlaced:      props.yearPlaced ? toNum(props.yearPlaced) : null,
           hasNhpd:         true,
           subsidyExpiryYear: expYear,
           atExpiryRisk:    expYear && expYear - CURRENT_YEAR <= SUBSIDY_EXPIRY_RISK_YEARS

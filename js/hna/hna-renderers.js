@@ -1950,7 +1950,7 @@
       // Basis tag explains where the latest_year came from.
       const basisTag = ({
         award_year: 'CHFA AwardYear',
-        pis_year:   'YR_PIS only (AwardYear missing)',
+        pis_year:   'feed year only (AwardYear missing)',
         r1_bridge:  '2026 R1 bridge',
         never_funded: 'no records',
       })[basis] || basis;
@@ -2373,7 +2373,10 @@
       const p = f.properties || {};
       const name  = escHtml(p.PROJECT || p.project || 'Unnamed Project');
       const units = escHtml(p.LI_UNITS || p.li_units || p.LOW_INCOME_UNITS || '—');
-      const yr    = escHtml(p.YR_PIS   || p.yr_pis   || '—');
+      // CHFA award year. The feed's YR_PIS is this same value under another
+      // name — CHFA publishes no year the property opened.
+      const yrRaw = p.AwardYear || p.YR_ALLOC || null;
+      const yr    = yrRaw ? 'awarded ' + escHtml(yrRaw) : 'award year —';
       const credit = p.CREDIT || p.TypeOfCredits || p.type_of_credits || '';
       const creditHtml = (PL && credit)
         ? '<span style="opacity:.7;font-size:1rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
@@ -2426,8 +2429,8 @@
              '</li>';
       const _coords2 = f.geometry && f.geometry.coordinates;
       const _meta = (_coords2 && _coords2.length >= 2)
-        ? _rowMeta(_coords2[1], _coords2[0], yr)
-        : { inJuris: false, year: parseInt(yr, 10) || 0 };
+        ? _rowMeta(_coords2[1], _coords2[0], yrRaw)
+        : { inJuris: false, year: parseInt(yrRaw, 10) || 0 };
       return { html: _html, meta: _meta };
     });
 

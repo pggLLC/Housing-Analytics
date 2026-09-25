@@ -91,10 +91,13 @@ export function buildSnapshot({ ranking, acs, chfa, projections, amiGap, summary
   const unitsByYear = new Map();
   for (const feature of features) {
     const properties = feature && feature.properties || {};
-    const placedInServiceYear = Number(properties.YR_PIS) || 0;
-    if (placedInServiceYear <= startYearExclusive || placedInServiceYear > currentYear || placedInServiceYear === 8888) continue;
+    // CHFA award year. The feed has no placed-in-service year; its YR_PIS is
+    // this same value copied by scripts/fetch-chfa-lihtc.js, and the homepage
+    // labels the average "by award year" accordingly.
+    const awardYear = Number(properties.AwardYear) || 0;
+    if (awardYear <= startYearExclusive || awardYear > currentYear || awardYear === 8888) continue;
     const units = Number(properties.LI_UNITS) || Number(properties.N_UNITS) || 0;
-    unitsByYear.set(placedInServiceYear, (unitsByYear.get(placedInServiceYear) || 0) + units);
+    unitsByYear.set(awardYear, (unitsByYear.get(awardYear) || 0) + units);
   }
   if (!unitsByYear.size) {
     throw new Error('Cannot build homepage snapshot: no LIHTC observations fall in the current display window');

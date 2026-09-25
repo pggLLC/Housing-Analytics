@@ -106,7 +106,8 @@
           setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
 
           // Annual deficit growth = projected new ≤60%-AMI households per
-          // year − average LIHTC units placed in service per year. The
+          // year − average LIHTC units awarded per year (CHFA award year —
+          // the feed has no placed-in-service year). The
           // household-growth figure is derived in
           // scripts/build-home-snapshot.mjs (DOLA household growth × HUD
           // CHAS ≤60% share, all tenures; basis recorded in

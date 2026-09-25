@@ -627,7 +627,7 @@
   // useful peer set for a banker/syndicator sanity-checking a proforma:
   //   1. Same county (CNTY_FIPS match)
   //   2. Same credit type ('9%' or '4%')
-  //   3. Sort by recency (most recent placed-in-service first), then
+  //   3. Sort by recency (most recent CHFA award year first), then
   //      by size proximity to the proposed unit count
   //   4. Take top N (default 5)
   //
@@ -672,8 +672,7 @@
       return true;
     });
 
-    // Reject HUD sentinel years (8888 = "unknown YR_PIS", 9999 = unknown
-    // award) and clamp to the plausible LIHTC range (1986-2030). Without
+    // Reject HUD sentinel years (8888 / 9999 = unknown) and clamp to the plausible LIHTC range (1986-2030). Without
     // this guard, sentinel rows sort to the top as "most recent" and
     // contaminate the comparable-projects panel.
     // Returns true / false / null. null means the source did not publish the
@@ -685,8 +684,14 @@
       return truthy.indexOf(raw) !== -1;
     }
 
+    // Award year, never a placed-in-service year: CHFA publishes none, and
+    // the feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js.
+    // HUD-schema records carry YR_ALLOC / YEAR_ALLOC, the same concept.
+    function _awardYearOf(p) {
+      return p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC || null;
+    }
     function _safeYear(p) {
-      var raw = parseInt(p.YR_PIS || p.YEAR_PIS || p.YR_ALLOC || p.YEAR_ALLOC || 0, 10);
+      var raw = parseInt(_awardYearOf(p) || 0, 10);
       if (!Number.isFinite(raw) || raw < 1986 || raw > 2030) return 0;
       return raw;
     }
@@ -714,7 +719,7 @@
         units:      parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
         liUnits:    parseInt(p.LI_UNITS || 0, 10) || 0,
         creditType: _normCredit(p.CREDIT || p.CREDIT_PCT) || '—',
-        yearPis:    (function () { var y = parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
+        yearAward:  _safeYear(p) || null,
         yearAlloc:  (function () { var y = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
         // Three states, not two. These comparables are fed from the CHFA
         // feed, which carries QCT, DDA and NON_PROF as columns and populates
@@ -2405,7 +2410,7 @@
             <tr>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Project</th>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">City</th>
-              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Year PIS</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Award year</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Units</th>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Flags</th>
             </tr>
@@ -2417,7 +2422,7 @@
         <p id="dc-peers-empty" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
         <p id="dc-peers-flag-note" style="font-size:var(--tiny);color:var(--muted);font-style:italic;margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
-          ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, year placed in service, total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
+          ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, the year CHFA awarded the credits (not the year the property opened — CHFA publishes no placed-in-service year, and projects typically open two to three years after award), total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
           Source:
           <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a>.
         </p>
@@ -3815,13 +3820,18 @@
       if (!_countyFips) {
         peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see peer deals.</td></tr>';
         if (peersEmpty) peersEmpty.style.display = 'none';
+      } else if (lihtcFeats.length === 0 && hudLihtc && hudLihtc.getSource && hudLihtc.getSource() === 'unavailable') {
+        // Every source failed. Say so — an empty table here would read as
+        // "no comparable deals exist", which the data never said.
+        peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">LIHTC project data is unavailable right now, so no peer deals can be shown. This is a load failure, not an absence of comparable projects.</td></tr>';
+        if (peersEmpty) peersEmpty.style.display = 'none';
       } else if (lihtcFeats.length === 0) {
         peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Loading LIHTC project database…</td></tr>';
         if (peersEmpty) peersEmpty.style.display = 'none';
         // Trigger a load once if we haven't tried yet
         if (hudLihtc && hudLihtc.load && !window.__dcPeerLoadTried) {
           window.__dcPeerLoadTried = true;
-          hudLihtc.load().then(function () { recalculate(); }).catch(function () {});
+          hudLihtc.load().then(function () { recalculate(); }).catch(function () { recalculate(); });
         }
       } else {
         var peers = findPeerDeals({
@@ -3855,7 +3865,7 @@
                 (p.creditType !== '—' ? ' <span style="font-size:var(--tiny);color:var(--muted);font-weight:400;">' + p.creditType + '</span>' : '') +
               '</td>' +
               '<td style="padding:0.3rem 0.25rem;color:var(--muted);font-size:var(--tiny);">' + (p.city || '—') + '</td>' +
-              '<td style="text-align:right;padding:0.3rem 0.25rem;">' + (p.yearPis || p.yearAlloc || '—') + '</td>' +
+              '<td style="text-align:right;padding:0.3rem 0.25rem;">' + (p.yearAward || '—') + '</td>' +
               '<td style="text-align:right;padding:0.3rem 0.25rem;font-weight:600;color:' + unitColor + ';">' + (p.units || '—') + '</td>' +
               '<td style="padding:0.3rem 0.25rem;">' + (flags.join('') || '<span style="color:var(--muted);font-size:var(--tiny);">—</span>') + '</td>' +
             '</tr>';

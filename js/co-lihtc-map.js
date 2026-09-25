@@ -149,23 +149,10 @@
     {type:'Feature',properties:{NAME:'Cañon City QCT',GEOID:'08043000500'},geometry:{type:'Polygon',coordinates:[[[-105.260,38.427],[-105.200,38.427],[-105.200,38.456],[-105.260,38.456],[-105.260,38.427]]]}},
   ]};
 
-  // ── Fallback embedded data (used when HUD ArcGIS APIs are unreachable) ──────
-  var FALLBACK_LIHTC = {type:'FeatureCollection',features:[
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',N_UNITS:120,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'Denver'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_CTY:'Denver',N_UNITS:72,YR_PIS:2016,CREDIT:'9%',CNTY_NAME:'Denver'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_CTY:'Denver',N_UNITS:55,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Denver'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_CTY:'Denver',N_UNITS:96,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Denver'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',N_UNITS:150,YR_PIS:2021,CREDIT:'4%',CNTY_NAME:'Arapahoe'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_CTY:'Aurora',N_UNITS:90,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Arapahoe'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',N_UNITS:100,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Boulder'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',N_UNITS:130,YR_PIS:2018,CREDIT:'9%',CNTY_NAME:'El Paso'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',N_UNITS:104,YR_PIS:2019,CREDIT:'9%',CNTY_NAME:'Larimer'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',N_UNITS:90,YR_PIS:2020,CREDIT:'9%',CNTY_NAME:'Weld'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',N_UNITS:80,YR_PIS:2017,CREDIT:'9%',CNTY_NAME:'Pueblo'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',N_UNITS:85,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'Mesa'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_CTY:'Eagle',N_UNITS:50,YR_PIS:2022,CREDIT:'9%',CNTY_NAME:'Eagle'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata'}},
-  ]};
+  // No embedded LIHTC fallback. This file used to carry 14 project records
+  // ("Lincoln Park Apartments", "Boulder Commons", …) with round unit counts
+  // and invented years; none of them is a CHFA project. When every source
+  // fails the map says so and shows no projects (see useUnavailable below).
 
   // ── Fallback county boundary data (approximate bounding-box polygons) ────────
   // Used only when all dynamic sources (local cache, TIGERweb, Natural Earth) fail.
@@ -294,6 +281,8 @@
         console.warn('[co-lihtc-map] Invalid item (no coordinates):', item);
         return;
       }
+      var awardYear = props.AwardYear || props.YR_ALLOC;
+      if (awardYear === 8888 || awardYear === '8888' || awardYear === 9999 || awardYear === '9999') awardYear = null;
       var tooltip = null;
       if (props.PROJECT) {
         tooltip = props.PROJECT;
@@ -304,12 +293,13 @@
         if (props.LI_UNITS && Number(props.LI_UNITS) !== Number(props.N_UNITS))
           tooltip += ' (' + props.LI_UNITS + ' low-income)';
         if (props.CREDIT)    tooltip += ' \u2022 ' + props.CREDIT + ' credit';
-        // Skip YR_PIS if it is the HUD sentinel value (8888 = unknown)
-        if (props.YR_PIS && props.YR_PIS !== 8888 && props.YR_PIS !== '8888')
-          tooltip += ' \u2014 ' + props.YR_PIS;
+        // Award year, not an opening year: CHFA publishes no placed-in-service
+        // year, and its YR_PIS alias is AwardYear copied by the fetcher. HUD
+        // records (live fallback tiers) carry YR_ALLOC, the same concept.
+        if (awardYear) tooltip += ' \u2014 awarded ' + awardYear;
       }
       var safe = function(v) {
-        // HUD uses 8888 as a sentinel meaning "unknown year placed in service"
+        // HUD uses 8888 as a sentinel meaning "unknown year"
         if (v === 8888 || v === '8888') return '\u2014';
         return (v == null || v === '') ? '\u2014' : String(v);
       };
@@ -321,7 +311,7 @@
         '<tr><td style="opacity:.7">Total units</td><td style="text-align:right">' + safe(props.N_UNITS) + '</td></tr>' +
         '<tr><td style="opacity:.7">LIHTC units</td><td style="text-align:right">' + safe(props.LI_UNITS) + '</td></tr>' +
         '<tr><td style="opacity:.7">Credit type</td><td style="text-align:right">' + safe(props.CREDIT) + '</td></tr>' +
-        '<tr><td style="opacity:.7">Year placed in service</td><td style="text-align:right">' + safe(props.YR_PIS) + '</td></tr>' +
+        '<tr><td style="opacity:.7">Award year</td><td style="text-align:right">' + safe(awardYear) + '</td></tr>' +
         '</table></div>';
       var marker = L.circleMarker(coords, {
         radius: 8,
@@ -1193,7 +1183,7 @@
     return fetchPage(0);
   }
 
-  // ── Fetch LIHTC data: CHFA ArcGIS → HUD ArcGIS → local JSON → embedded fallback ──
+  // ── Fetch LIHTC data: local CHFA JSON → HUD ArcGIS (two services) → unavailable ──
   function fetchData(map) {
     // Canonical local file — used as tier-3 fallback when both remote ArcGIS services fail.
     // resolveAssetUrl prepends the detected base path so the URL works on GitHub Pages sub-paths
@@ -1214,7 +1204,8 @@
     // Tier 3: HUD LIHTC_Properties single-layer service (same vintage as
     //         tier 2, but a different URL — sometimes one is up when the
     //         other is down).
-    // Tier 4: embedded fallback (~10 marquee projects bundled in the JS).
+    // Tier 4: none. On total failure the status line says the data is
+    //         unavailable and no projects are drawn.
     //
     // Previously tier 1 was the lagged HUD service and the fresh local file
     // was tier 3 (rarely hit). Inverted in F6 because the fresh local file
@@ -1226,9 +1217,10 @@
 
     updateStatus('Loading LIHTC data…');
 
-    function useEmbedded() {
-      renderData(map, FALLBACK_LIHTC);
-      updateStatus('Source: embedded fallback (' + FALLBACK_LIHTC.features.length + ' projects)');
+    // Every source failed. Show nothing rather than stand-in projects, and
+    // say that the absence is a load failure, not a count of zero.
+    function useUnavailable() {
+      updateStatus('LIHTC project data unavailable: the CHFA file and both HUD services failed to load. No projects are shown; this is not a count of zero.');
     }
 
     // Tier 1: load the local CHFA snapshot — data/chfa-lihtc.json.
@@ -1276,13 +1268,13 @@
             renderData(map, hudData);
             updateStatus('Source: HUD ArcGIS — lagged (' + n + ' projects)');
           } else {
-            console.warn('[co-lihtc-map] HUD returned no features; using embedded fallback.');
-            useEmbedded();
+            console.warn('[co-lihtc-map] HUD returned no features; LIHTC data unavailable.');
+            useUnavailable();
           }
         })
         .catch(function (hudErr) {
-          console.warn('[co-lihtc-map] HUD fetch also failed; using embedded fallback.', hudErr.message);
-          useEmbedded();
+          console.warn('[co-lihtc-map] HUD fetch also failed; LIHTC data unavailable.', hudErr.message);
+          useUnavailable();
         });
     }
 
@@ -1345,7 +1337,7 @@
         });
     }
 
-    // Cascade: fresh local CHFA cache → HUD multi-layer → HUD single-layer → embedded.
+    // Cascade: fresh local CHFA cache → HUD multi-layer → HUD single-layer → unavailable.
     return fetchLocalLihtc();
   }
 

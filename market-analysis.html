@@ -739,9 +739,10 @@
             <div class="info-tooltip-body">
               <p><strong>What this counts.</strong> Every LIHTC property within the user-selected buffer radius of the site, including:</p>
               <ul style="margin:0 0 0.5rem 1.1rem;padding:0">
-                <li><strong>Placed-in-service</strong> projects (completed and operating)</li>
+                <li><strong>Completed</strong> projects (open and operating)</li>
                 <li><strong>Pipeline / under-construction</strong> projects (allocated but not yet in service)</li>
               </ul>
+              <p>The feed does not say which of the two a property is: its only year is the CHFA <strong>award</strong> year, and a project typically opens two to three years after its award. Both kinds are counted the same.</p>
               <p>Properties whose affordability period has expired — or is at risk of expiring in the near term — are <strong>excluded</strong>, since they no longer represent active competitive supply.</p>
               <dl>
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
@@ -777,7 +778,7 @@
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaLihtcLastFunded" style="font-size:.85rem;line-height:1.25;">—</div>
               <div class="pma-stat-label">Most recent LIHTC allocation</div>
-              <div class="kpi-source">HUD YR_ALLOC / YR_PIS</div>
+              <div class="kpi-source">CHFA award year (YR_ALLOC)</div>
             </div>
           </div>
         </div>
@@ -837,7 +838,7 @@
                   <th style="text-align:left;padding:6px 8px">Project</th>
                   <th style="text-align:left;padding:6px 8px">City</th>
                   <th style="text-align:right;padding:6px 8px" title="Straight-line distance from the analysis site">Distance</th>
-                  <th style="text-align:right;padding:6px 8px" title="Year placed in service — when the property opened">YR_PIS</th>
+                  <th style="text-align:right;padding:6px 8px" title="Year CHFA awarded the credits — not the year the property opened, which CHFA does not publish">Award year</th>
                   <th style="text-align:right;padding:6px 8px" title="Total units; LI = LIHTC-restricted units">Units (LI)</th>
                   <th style="text-align:left;padding:6px 8px" title="9% competitive vs 4% bond">Credit</th>
                 </tr>

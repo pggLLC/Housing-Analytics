@@ -102,10 +102,10 @@ need_score = percentile_rank(need_composite, CO peer distribution) × 100
 **Formula**:
 
 ```
-last_yr_pis = max(YR_PIS for all LIHTC projects with PROJ_CTY matching jurisdiction
-                  AND YR_PIS valid AND YR_PIS != 8888)
+last_award_year = max(AwardYear for all LIHTC projects with PROJ_CTY matching jurisdiction
+                      AND AwardYear valid AND AwardYear not in (8888, 9999))
 
-years_since = current_year - last_yr_pis
+years_since = current_year - last_award_year
             = ∞ if never funded
 
 recency_score = min(100, round(years_since / 25 × 100))
@@ -115,11 +115,11 @@ recency_score = min(100, round(years_since / 25 × 100))
               =   0 if last year
 ```
 
-**Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are explicitly preferred. The 25-year cap matches the LIHTC compliance period — beyond that, a deal can no longer be considered "saturated." Future enhancement (P1): add CHFA award year (typically 2–3y ahead of PIS) for fresher signal.
+**Why this shape**: CHFA's 9% Qualified Allocation Plan rewards geographic distribution; jurisdictions with no recent activity are explicitly preferred. The 25-year cap matches the LIHTC compliance period — beyond that, a deal can no longer be considered "saturated."
 
 **Data sources**:
 - **CHFA's live Housing Tax Credit Properties feature service** — `data/chfa-lihtc.json` (refreshed from <https://services3.arcgis.com/gSW3qyxbcpEXSMfe/arcgis/rest/services/HousingTaxCreditProperties_view/FeatureServer/0>; 926 CO projects through 2025).
-- Recency uses **AwardYear** (when CHFA reserved the credits), not HUD's lagged YR_PIS. AwardYear is the saturation signal CHFA's QAP scoring itself uses.
+- Recency uses **AwardYear** (when CHFA reserved the credits). CHFA's service publishes **no placed-in-service year**; the fetch script copies AwardYear into the HUD-schema `YR_PIS` column, so `YR_PIS` in `data/chfa-lihtc.json` is the award year under another name. Site code reads `AwardYear` by name and never labels it an opening year (`test/lihtc-award-year-not-pis.test.js`).
 - Field aliasing: the fetch script (`scripts/fetch-chfa-lihtc.js`) maps CHFA's schema (ReportedName, CityDW, AwardYear, TotalUnits, LowIncomeUnits, TypeOfCredits) to HUD-compatible field names (PROJECT, PROJ_CTY, YR_PIS, N_UNITS, LI_UNITS, CREDIT) so existing site consumers (Colorado Deep Dive, Market Analysis, CHFA Portfolio, LIHTC Dashboard) work without code changes. CHFA-rich fields are preserved alongside (ComplianceStatus, ProjectType, AMI unit breakdowns, population targeting).
 - Match rule: `PROJ_CTY.toUpperCase().trim() === jurisdiction_name.toUpperCase().trim()`
 
@@ -129,7 +129,7 @@ recency_score = min(100, round(years_since / 25 × 100))
 - **Low**: Zero projects — could indicate undeveloped market OR could indicate PROJ_CTY mismatch (e.g., "Ft. Collins" vs "Fort Collins")
 
 **Edge cases**:
-- YR_PIS = 8888 (HUD placeholder for in-pipeline projects) excluded
+- Placeholder years (8888 / 9999) excluded
 - Misspelled PROJ_CTY misses match (P1 fuzzy-match enhancement on backlog)
 - Two-jurisdiction projects (e.g., subdivision crosses city/CDP line): counted toward the listed PROJ_CTY
 
