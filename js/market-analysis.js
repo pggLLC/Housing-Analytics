@@ -4151,6 +4151,13 @@
       // recompute the previous site and bring its results back under the
       // new site's marker (Codex review of #1888).
       _lastRunParams = null;
+      // The previous site's PMA boundary and SMA ring are drawn by
+      // PMADelineation, outside the layers placeSiteMarker() and the picker
+      // clear; they stayed on the map beside the new site (Codex review of
+      // #1900).
+      if (window.PMADelineation && typeof window.PMADelineation.removeAllBoundaries === 'function' && map) {
+        try { window.PMADelineation.removeAllBoundaries(map); } catch (_) {}
+      }
     }
     document.body.setAttribute('data-pma-result-state', pending ? 'pending' : 'current');
     PMA_RESULT_EXPORT_BTNS.forEach(function (id) {

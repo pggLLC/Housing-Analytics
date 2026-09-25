@@ -216,6 +216,9 @@ async function pmaTractDefaultInteraction(page, viewport) {
   if (ran && !(await page.evaluate(() => !!window.PMAEngine._state.getLastResult()))) {
     failures.push('a completed run left no result to export');
   }
+  if (ran && !(await page.evaluate(() => !!(window.PMADelineation && window.PMADelineation.getLastPmaPolygon())))) {
+    failures.push('a completed run drew no PMA boundary, so the boundary-cleared check below tests nothing');
+  }
   const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
   await page.fill('#pmaAddressInput', SITE2.join(', '));
   await page.click('#pmaAddressSearchBtn');
@@ -232,12 +235,14 @@ async function pmaTractDefaultInteraction(page, viewport) {
       priorVisible: vis(dim),
       csvEnabled: !!csv && !csv.disabled,
       lastResult: !!window.PMAEngine._state.getLastResult(),
+      priorBoundary: !!(window.PMADelineation && window.PMADelineation.getLastPmaPolygon && window.PMADelineation.getLastPmaPolygon()),
     };
   });
   if (Math.abs(third.site[0] - SITE2[0]) > 1e-6) failures.push('typed coordinates did not place the site');
   if (third.boundary === 'buffer') failures.push('typed coordinates in tract mode produced a circular-buffer result');
   if (third.priorVisible) failures.push("the previous site's dimension scores stayed on screen for the new site");
   if (third.csvEnabled || third.lastResult) failures.push("the previous site's result stayed exportable for the new site");
+  if (third.priorBoundary) failures.push("the previous site's PMA boundary stayed on the map for the new site");
   return failures;
 }
 
