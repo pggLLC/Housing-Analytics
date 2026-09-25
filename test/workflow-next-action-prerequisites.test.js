@@ -61,6 +61,17 @@ run('a missing jurisdiction is a real prerequisite and still warns', () => {
     'the warning does not offer the jurisdiction page');
 });
 
+run('a step that completes itself on read still asks for the missing jurisdiction first', () => {
+  // The HNA chapters autosave 'hsa' as done the moment they render (#1833).
+  // A first-time visitor with no jurisdiction saw "Step Complete → Continue
+  // to Jurisdiction" on production (2026-09-25): a verdict on a step they had
+  // not taken, pointing back to step 1 with no return trip.
+  const r = render('hna-what-housing-exists.html', ['hsa']);
+  assert.match(r.cls, /wf-next-action--skipped/, 'the missing jurisdiction must win over "current step done": ' + r.text);
+  assert.ok(!/Step Complete/.test(r.text), 'must not announce completion to a visitor who has chosen nothing: ' + r.text);
+  assert.match(r.html, /href="select-jurisdiction\.html\?next=hna-what-housing-exists\.html"/, 'the prompt must carry the reader back here');
+});
+
 run('and it carries the reader back to the page they asked for', () => {
   // The homepage links into every guided-path page except step 1, so being
   // asked for a jurisdiction must not cost the reader their destination.

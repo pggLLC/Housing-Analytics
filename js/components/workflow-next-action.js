@@ -271,18 +271,12 @@
       actionUrl   = null;
       actionLabel = null;
 
-    } else if (currentDone && nextIncomplete) {
-      // State 3: Current step done, next step exists
-      var nextKey = nextIncomplete;
-      icon    = '\u2192';  // arrow
-      variant = 'next';
-      heading = 'Step Complete';
-      body    = STEP_ACTIONS[nextKey];
-      actionUrl   = STEP_URLS[nextKey];
-      actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
-
-    } else if (!currentDone && firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent]) {
-      // State 1: a prerequisite (the jurisdiction) is missing.
+    } else if (firstIncompleteBeforeCurrent && PREREQUISITE_STEPS[firstIncompleteBeforeCurrent]) {
+      // State 1: a prerequisite (the jurisdiction) is missing. Checked BEFORE
+      // "current step done": the HNA chapters mark themselves complete on
+      // read (#1833), so a first-time visitor with no jurisdiction used to see
+      // "Step Complete → Continue to Jurisdiction" — a verdict on a step they
+      // had not taken, pointing back to the start with no way back here.
       //
       // The site itself sends people here: the homepage links directly into
       // every guided-path page except step 1, so a first-time reader who picks
@@ -308,6 +302,16 @@
           + 'next=' + encodeURIComponent(here);
       }
       actionLabel = 'Choose a jurisdiction \u2192';
+
+    } else if (currentDone && nextIncomplete) {
+      // State 3: Current step done, next step exists
+      var nextKey = nextIncomplete;
+      icon    = '\u2192';  // arrow
+      variant = 'next';
+      heading = 'Step Complete';
+      body    = STEP_ACTIONS[nextKey];
+      actionUrl   = STEP_URLS[nextKey];
+      actionLabel = 'Continue to ' + STEP_LABELS[nextKey] + ' \u2192';
 
     } else if (!currentDone) {
       // State 2: Current step incomplete, all priors done
