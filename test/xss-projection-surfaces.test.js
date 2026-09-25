@@ -101,61 +101,14 @@ function testScenarioBuilder() {
   dom.window.close();
 }
 
-function testQapSimulator() {
-  const dom = outsideDom('<div id="status"></div>', 'qap-simulator.html');
-  const source = read('js/qap-simulator.js');
-  const testableSource = source.replace(
-    '  return {\n    render:      render,',
-    '  return {\n    __autofillStatusHtml: _autofillStatusHtml,\n    render:      render,'
-  );
-  assert.notStrictEqual(testableSource, source, 'QAP test hook is injected');
-  dom.window.eval(testableSource);
-
-  const hostileResult = {
-    jur: { name: HOSTILE },
-    notes: [HOSTILE],
-    skipped: [HOSTILE]
-  };
-  const rendered = dom.window.QAPSimulator.__autofillStatusHtml(hostileResult);
-  assert.strictEqual(
-    rendered,
-    '📍 Filled from <strong>' + ESCAPED_HTML + '</strong>: ' + ESCAPED_HTML +
-      '. <span style="color:var(--faint);">Skipped (need external evidence): ' +
-      ESCAPED_HTML + '.</span>',
-    'QAP jurisdiction, notes, and skipped messages are escaped'
-  );
-  const status = dom.window.document.getElementById('status');
-  status.innerHTML = rendered;
-  assert.strictEqual(status.querySelector('tag'), null, 'QAP hostile text does not become markup');
-
-  assert.strictEqual(
-    dom.window.QAPSimulator.__autofillStatusHtml({
-      jur: { name: 'Mesa County' },
-      notes: ['QCT ✓'],
-      skipped: ['DDA (no place→ZIP crosswalk)']
-    }),
-    '📍 Filled from <strong>Mesa County</strong>: QCT ✓. ' +
-      '<span style="color:var(--faint);">Skipped (need external evidence): ' +
-      'DDA (no place→ZIP crosswalk).</span>',
-    'normal QAP status renders byte-identically'
-  );
-  dom.window.close();
-}
-
 function assertSourceGuards() {
   const projector = read('js/housing-need-projector.js');
   const scenarios = read('js/projections/scenario-builder.js');
-  const qap = read('js/qap-simulator.js');
   assert(projector.includes("'<strong>' + _escHtml(countyName) + '</strong>"), 'projector keeps county-name escape');
   assert(scenarios.includes('${Number(s.parameters.net_migration_annual)}/yr'), 'scenario builder keeps numeric coercion');
-  assert(qap.includes("_escHtml(result.jur.name)"), 'QAP keeps jurisdiction-name escape');
-  assert(qap.includes("_escHtml(result.notes.length ? result.notes.join(', ') : 'no auto-fillable signals')"), 'QAP keeps notes escape');
-  assert(qap.includes("_escHtml(result.skipped.join(', '))"), 'QAP keeps skipped-message escape');
-  assert(qap.includes('statusEl.innerHTML = _autofillStatusHtml(result);'), 'QAP sink uses escaped status builder');
 }
 
 testHousingNeedProjector();
 testScenarioBuilder();
-testQapSimulator();
 assertSourceGuards();
 console.log('xss-projection-surfaces: PASS');

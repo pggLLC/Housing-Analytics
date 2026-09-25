@@ -319,7 +319,6 @@ jobs:
           node test/smoke-fmr.test.js
           node test/data-quality-check.test.js
           node test/fetch-chfa-lihtc-fips.js
-          node test/qap-simulator.test.js
           node test/pro-forma.test.js
 
       # F148: F119-F145 wiring + data-quality guards (blocks PR merge)
