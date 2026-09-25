@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:55:36.646Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:57:49.602Z. Do not edit by hand.
 
 ---
 
@@ -1907,7 +1907,7 @@
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 8.3 KB |
-| `test/pages-availability-check.js` | 15.6 KB |
+| `test/pages-availability-check.js` | 16.9 KB |
 | `test/pages-deploy-watchdog.test.js` | 3.1 KB |
 | `test/paper-figures-fresh.test.js` | 20.3 KB |
 | `test/paper-names-its-author.test.mjs` | 4.7 KB |
@@ -2108,7 +2108,7 @@
 | `.github/workflows/cache-hud-gis-data.yml` | 11.3 KB |
 | `.github/workflows/car-data-update.yml` | 2.2 KB |
 | `.github/workflows/chart-audit.yml` | 2.7 KB |
-| `.github/workflows/chfa-qap-watch.yml` | 7.5 KB |
+| `.github/workflows/chfa-qap-watch.yml` | 9.7 KB |
 | `.github/workflows/ci-checks.yml` | 16.2 KB |
 | `.github/workflows/cleanup-stale-branches.yml` | 3.8 KB |
 | `.github/workflows/codeql.yml` | 1.3 KB |
