@@ -1,0 +1,238 @@
+{
+  "schema": "policy-watch/v1",
+  "meta": {
+    "title": "Policy watch",
+    "as_of": "2026-09-24",
+    "method": "Curated, not a feed. An entry is listed only after someone has read its source. verification.level \"primary\" means checked against the primary document itself; \"reported\" means taken from a named outlet whose page was read, without checking the primary document. Each primary entry carries the exact source wording it rests on in `evidence`. A topic nobody has checked yet is listed in known_gaps rather than filled from search results. `derived` records a figure computed from the evidence (a sum), and `redline` records a struck and inserted amount that the PDF text runs together.",
+    "known_gaps": [
+      "Local county and city housing questions on the November 3, 2026 ballot: not yet loaded. Each needs checking against the county clerk's ballot notice before it is listed.",
+      "Statewide ballot measures for November 3, 2026: not yet loaded.",
+      "Housing appointments and candidates' housing platforms: not yet loaded.",
+      "The final 2027–2028 QAP: the QAP entries here are from the third draft, not the adopted plan."
+    ]
+  },
+  "entries": [
+    {
+      "id": "qap-2027-2028-federal-cap",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "Third draft lowers the federal 9% per-project maximum: $1.8M to $1.7M in 2027, then $1.75M in 2028",
+      "detail": "Section 3.L, Maximum Credit Award. The cap applies to any one project, applicant or affiliate; projects financed with private activity bonds are excluded. The figure struck in the redline is $1.8M. A $1.85M figure that has circulated does not appear in this draft.",
+      "programs": [
+        "LIHTC",
+        "CHFA"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.L",
+          "quote": "CHFA will accept Applications for no more than $1,800700,000 in 2027 and $1,750,000 in 2028 of the annual federal 9 percent Housing Tax Credit for any one project or any one Applicant",
+          "note": "Redline: $1,800,000 struck, $1,700,000 inserted for 2027.",
+          "redline": {
+            "struck": "$1,800,000",
+            "inserted": "$1,700,000"
+          }
+        }
+      ],
+      "not_in_source": [
+        "$1.85M"
+      ]
+    },
+    {
+      "id": "qap-2027-2028-cap-without-gap-funds",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "Without state gap funds, the maximum stays at $1.8M in both years",
+      "detail": "Section 3.L.1 keeps the $1.8M cap in 2027 and 2028 when state gap funds are not available to the project under the 3.B.9 pilot.",
+      "programs": [
+        "LIHTC",
+        "CHFA"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.L.1",
+          "quote": "Maximum Credit Award if state gap funds are not available under 3.B.9 Pilot Coordinated Funding and Concurrent Awards"
+        },
+        {
+          "section": "3.L.1",
+          "quote": "Federal Credits No more than $1,800,000 of annual federal 9 percent Housing Tax Credit in 2027 and 2028."
+        }
+      ]
+    },
+    {
+      "id": "qap-2027-gap-pilot",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "New pilot: DOH and OEDIT gap funding offered with the credit award, $74M in 2027",
+      "detail": "Section 3.B.9. If gap funding is requested in the credit application and the project wins credits, DOH or OEDIT offers a conditional award. 2027: OEDIT $25M in Round One ($40,000 a unit, up to $2.25M) and $19M in Round Two ($30,000 a unit, up to $2.6M); DOH $12M in Round One ($45,000 a unit, up to $2.5M) and $18M in Round Two ($35,000 a unit, up to $3.2M).",
+      "programs": [
+        "LIHTC",
+        "CHFA",
+        "Division of Housing",
+        "Prop 123"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.B.9",
+          "quote": "If state gap funding is requested at the time of Housing Tax Credit Application, and the project is awarded credits, a conditional award from either DOH or OEDIT will be offered."
+        },
+        {
+          "section": "3.B.9",
+          "quote": "In 2027, OEDIT will pilot a commitment of $25 million for Round One with a fixed loan amount of $40,000 per unit and a maximum of $2.25 million per application. OEDIT will pilot a commitment of $19 million for Round Two with a fixed loan amount of $30,000 per unit and a maximum of $2.6 million per application."
+        },
+        {
+          "section": "3.B.9",
+          "quote": "In 2027, DOH will pilot a commitment of $12 million for Round One with a fixed loan or grant amount of $45,000 per unit and a maximum of $2.5 million per application. DOH will pilot a commitment of $18 million for Round Two with a fixed loan or grant amount of $35,000 per unit and a maximum of $3.2 million per application."
+        }
+      ],
+      "derived": [
+        {
+          "figure": "$74M",
+          "sum_of": [
+            "$25 million",
+            "$19 million",
+            "$12 million",
+            "$18 million"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qap-2028-gap-pilot",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "The same pilot in 2028: $63M from DOH and OEDIT",
+      "detail": "2028: OEDIT $18M in Round One ($35,000 a unit, up to $2.25M) and $15M in Round Two ($20,000 a unit, up to $2M); DOH $18M in Round One ($45,000 a unit, up to $2.5M) and $12M in Round Two ($28,000 a unit, up to $2.5M).",
+      "programs": [
+        "LIHTC",
+        "CHFA",
+        "Division of Housing",
+        "Prop 123"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.B.9",
+          "quote": "In 2028, OEDIT will pilot a commitment of $18 million for Round One with a fixed loan amount of $35,000 per unit and a maximum of $2.25 million per application. OEDIT will pilot a commitment of $15 million for Round Two with a fixed loan amount of $20,000 per unit and a maximum of $2 million per application."
+        },
+        {
+          "section": "3.B.9",
+          "quote": "In 2028, DOH will pilot a commitment of $18 million for Round One with a fixed loan or grant amount of $45,000 per unit and a maximum of $2.5 million per application. DOH will pilot a commitment of $12 million for Round Two with a fixed loan or grant amount of $28,000 per unit and a maximum of $2.5 million per application."
+        }
+      ],
+      "derived": [
+        {
+          "figure": "$63M",
+          "sum_of": [
+            "$18 million",
+            "$15 million",
+            "$18 million",
+            "$12 million"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "qap-gap-funding-terms",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "Gap terms: OEDIT lends Prop 123 money at 2.5%; DOH lends at 2% or grants",
+      "detail": "OEDIT funding is Proposition 123 concessionary debt at 2.5% interest, for applications in a Proposition 123 eligible jurisdiction that do not meet DOH eligibility. DOH makes 2% cash-flow loans to for-profit applicants and grants to nonprofits and public housing authorities. The eligibility thresholds are still being edited in the redline.",
+      "programs": [
+        "LIHTC",
+        "Division of Housing",
+        "Prop 123"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.B.9",
+          "quote": "If requested, OEDIT funding will be Proposition 123 Concessionary Debt."
+        },
+        {
+          "section": "3.B.9",
+          "quote": "and have a 2.5% interest"
+        },
+        {
+          "section": "3.B.9",
+          "quote": "DOH loans for for-profit applicants will have 2% interest and a term commensurate with senior debt in the application plus six months and will be a cash flow loan. DOH will provide grant funds to nonprofit or public housing authority applicants."
+        }
+      ]
+    },
+    {
+      "id": "qap-quiet-period-gap-funders",
+      "section": "qap",
+      "status": "third draft",
+      "date": null,
+      "title": "The quiet period now covers state gap funders too",
+      "detail": "Section 3.C.1. During a competitive round, applicants may not contact CHFA staff, board members or state gap funders about a competing project, except to answer staff questions or get technical assistance.",
+      "programs": [
+        "LIHTC",
+        "CHFA"
+      ],
+      "source": {
+        "label": "CHFA, Qualified Allocation Plan",
+        "url": "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+      },
+      "verification": {
+        "level": "primary",
+        "against": "CHFA's 2027–2028 QAP third draft (redline PDF)",
+        "checked": "2026-09-24"
+      },
+      "evidence": [
+        {
+          "section": "3.C.1",
+          "quote": "may not meet with or contact CHFA employees, or Bboard members, or state gap funders about a proposed competitive project(s) competing in the round",
+          "note": "Redline: \"or state gap funders\" is inserted text."
+        }
+      ]
+    }
+  ]
+}

@@ -21,6 +21,8 @@
  *   - rankings[*].metrics.lihtc_in_boundary_year (max year of contained projects)
  *   - metric descriptors added
  *
+ * County rows are tested against data/boundaries/counties_co.geojson.
+ *
  * The original `lihtc_project_count` (city-name-matched) stays in
  * place; the new field supplements it. Consumers can pick whichever
  * fits the semantic — city-name matching is more conservative for
@@ -34,6 +36,7 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCountyIndex } from './lib/county-boundaries.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -114,6 +117,13 @@ async function main() {
     placeIdx.push({ geoid: p.geoid, name: p.name, polygons: polys, bbox: bb });
   }
 
+  // Counties get the same polygon test. The index used to hold place
+  // polygons only, so every county was stamped lihtc_in_boundary = 0.
+  // County GEOIDs are 5 digits and place GEOIDs 7, so they cannot collide.
+  const countyIdx = await loadCountyIndex(REPO_ROOT);
+  const placeCount = placeIdx.length;
+  placeIdx.push(...countyIdx);
+
   // For each LIHTC record, find containing place(s). bbox-prune first.
   const placeAgg = new Map();  // geoid → { count, latestYear }
   let lihtcWithPlace = 0;
@@ -129,7 +139,7 @@ async function main() {
       parseInt(p.YR_PIS || 0, 10) || 0,
     );
     let matched = false;
-    for (const place of placeIdx) {
+    for (const [i, place] of placeIdx.entries()) {
       const [minX, minY, maxX, maxY] = place.bbox;
       if (lng < minX || lng > maxX || lat < minY || lat > maxY) continue;
       // bbox passes — do the actual polygon test
@@ -142,7 +152,7 @@ async function main() {
       agg.count++;
       if (yr > 0 && (agg.latestYear == null || yr > agg.latestYear)) agg.latestYear = yr;
       placeAgg.set(place.geoid, agg);
-      matched = true;
+      if (i < placeCount) matched = true;
       // Don't break — a point can fall inside multiple overlapping
       // boundaries (city + CDP); count it for each.
     }
@@ -162,13 +172,13 @@ async function main() {
 
   // Add metric descriptors.
   const newMetrics = [
-    { id: 'lihtc_in_boundary', label: 'LIHTC inside boundary (geographic)', description: 'Count of CHFA LIHTC project coordinates falling inside this place\'s boundary (point-in-polygon). Catches LIHTC inside CDPs that the city-name match misses; for cities the count is usually identical to lihtc_project_count.', unit: 'count', sortOrder: 'descending' },
+    { id: 'lihtc_in_boundary', label: 'LIHTC inside boundary (geographic)', description: 'Count of CHFA LIHTC project coordinates falling inside this jurisdiction\'s boundary (point-in-polygon; place or county polygon). Catches LIHTC inside CDPs that the city-name match misses; for cities the count is usually identical to lihtc_project_count.', unit: 'count', sortOrder: 'descending' },
     { id: 'lihtc_in_boundary_year', label: 'Latest LIHTC year inside boundary', description: 'Max of AwardYear/YR_ALLOC/YR_PIS among LIHTC projects inside the boundary.', unit: 'year', sortOrder: 'descending' },
   ];
   ri.metrics = ri.metrics || [];
-  const haveIds = new Set(ri.metrics.map(m => m.id));
   for (const m of newMetrics) {
-    if (!haveIds.has(m.id)) ri.metrics.push(m);
+    const i = ri.metrics.findIndex(x => x.id === m.id);
+    if (i === -1) ri.metrics.push(m); else ri.metrics[i] = m;
   }
 
   ri.metadata = ri.metadata || {};
@@ -181,7 +191,7 @@ async function main() {
   console.log('  · LIHTC records tested:                 ' + (chfa.features || []).length);
   console.log('  · matched to ≥1 place boundary:         ' + lihtcWithPlace);
   console.log('  · outside every place boundary:         ' + lihtcWithoutPlace + ' (likely outside place geographies — county-level unincorporated)');
-  console.log('  · places with ≥1 LIHTC inside boundary: ' + placeAgg.size);
+  console.log('  · places+counties with ≥1 LIHTC inside:  ' + placeAgg.size);
   console.log('  · ranking-index entries stamped:        ' + stamped);
 }
 
