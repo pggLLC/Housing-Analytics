@@ -131,4 +131,51 @@ assert(!regionalHtml.includes('$3.75'), 'regional first-paint fallback no longer
 assert(regionalHtml.includes('$1.15B'), 'regional first-paint fallback uses $1.15B');
 assert(regionalHtml.includes('$3.46'), 'regional first-paint fallback uses $3.46');
 
+// Guided step 2: the opportunity finder's intro explains its score in words.
+// Hold each explained fact to the weights the ranking actually runs, so the
+// sentence and the code cannot drift apart. Reword freely; change the model
+// and the claim it no longer supports fails here.
+{
+  const finderHtml = read('lihtc-opportunity-finder.html');
+  const finderJs = read('js/lihtc-opportunity-finder.js');
+  const weightsFor = (target) => {
+    const m = finderJs.match(new RegExp(`'${target}':\\s*\\{([^}]*)\\}`));
+    assert(m, `SCORE_WEIGHTS row for ${target} not found in lihtc-opportunity-finder.js`);
+    return Object.fromEntries([...m[1].matchAll(/(\w+):\s*([\d.]+)/g)].map((x) => [x[1], Number(x[2])]));
+  };
+  const w9 = weightsFor('9pct');
+  const w4 = weightsFor('4pct');
+  const words = { three: 3, four: 4, five: 5, six: 6, seven: 7 };
+  const factorClaim = finderHtml.match(/a score out of 100 from (\w+) things/);
+  assert(factorClaim, 'the opportunity finder intro no longer says how many things the score combines');
+  assert.equal(words[factorClaim[1]], Object.keys(w9).length,
+    `intro says the score uses ${factorClaim[1]} things; the 9% weights have ${Object.keys(w9).length}`);
+  assert.equal(Object.keys(w4).length, Object.keys(w9).length, '4% and 9% scores use the same factors');
+  if (/9% credit<\/strong>, which favors places that\s+have not had a project recently/.test(finderHtml)) {
+    assert(w9.recency > w4.recency, 'intro says the 9% score favors places without a recent project; its recency weight must exceed the 4% one');
+  } else {
+    assert.fail('the opportunity finder intro no longer says what the 9% score favors');
+  }
+  if (/4% credit<\/strong> paired with bond\s+financing, which favors larger places/.test(finderHtml)) {
+    assert(w4.pop > w9.pop, 'intro says the 4% score favors larger places; its population weight must exceed the 9% one');
+  } else {
+    assert.fail('the opportunity finder intro no longer says what the 4% score favors');
+  }
+}
+
+// Guided step 5: the scenario builder states its two housing assumptions in
+// plain numbers. They must be the numbers the projection uses.
+{
+  const builderHtml = read('hna-scenario-builder.html');
+  const builderJs = read('js/projections/scenario-builder.js');
+  const headship = Number((builderJs.match(/headshipRate:\s*([\d.]+)/) || [])[1]);
+  const vacancy = Number((builderJs.match(/vacancyTarget:\s*([\d.]+)/) || [])[1]);
+  assert(Number.isFinite(headship) && Number.isFinite(vacancy), 'scenario-builder.js no longer sets headshipRate and vacancyTarget');
+  const hh = builderHtml.match(/about (\d+) households for every 100\s+residents/);
+  const vac = builderHtml.match(/(\d+)% of homes standing\s+empty/);
+  assert(hh && vac, 'the scenario builder no longer states its household and vacancy assumptions');
+  assert.equal(Number(hh[1]) / 100, headship, `page says ${hh[1]} households per 100 residents; the model uses ${headship} per person`);
+  assert.equal(Number(vac[1]) / 100, vacancy, `page says ${vac[1]}% of homes empty; the model targets ${vacancy}`);
+}
+
 console.log(`public-facing-numbers: PASS (${rankingCount} jurisdictions, ${lihtc.features.length} LIHTC features)`);

@@ -2008,6 +2008,30 @@
             </p>
           </div>
 
+          <details style="margin-top:var(--sp3);font-size:var(--tiny);line-height:1.55;">
+            <summary style="cursor:pointer;font-weight:600;">What the terms in these formulas mean</summary>
+            <dl style="margin:0.5rem 0 0;display:grid;grid-template-columns:minmax(9rem,max-content) 1fr;gap:0.25rem 0.75rem;">
+              <dt><code>tier_pct</code></dt><dd style="margin:0;">The income tier a home is priced for, such as 60% of AMI.</dd>
+              <dt><code>MTSP_AMI</code></dt><dd style="margin:0;">HUD's income limit for tax-credit housing in the county, for the household size shown.</dd>
+              <dt><code>rent_burden</code></dt><dd style="margin:0;">The share of income a household is assumed to spend on rent (30% is standard).</dd>
+              <dt><code>units_at_tier</code></dt><dd style="margin:0;">How many homes are priced at that tier.</dd>
+              <dt><code>gross_rents</code></dt><dd style="margin:0;">Total yearly rent if every home rents at its ceiling.</dd>
+              <dt><code>opex</code></dt><dd style="margin:0;">Yearly operating expenses.</dd>
+              <dt><code>rep_reserve</code></dt><dd style="margin:0;">Money set aside each year for future repairs and replacements.</dd>
+              <dt><code>net_property_tax</code></dt><dd style="margin:0;">Property tax after any exemption.</dd>
+              <dt><code>DCR_target</code></dt><dd style="margin:0;">The minimum ratio of NOI to mortgage payments the lender requires.</dd>
+              <dt><code>mortgage_constant</code></dt><dd style="margin:0;">The yearly mortgage payment per dollar borrowed, set by the rate and term.</dd>
+              <dt><code>annual_debt_service</code></dt><dd style="margin:0;">Total mortgage payments for the year.</dd>
+              <dt><code>rent_mult</code>, <code>opex_mult</code>, <code>vac_delta</code></dt><dd style="margin:0;">The stress-test settings: how far rents drop, how much expenses rise, and how many points vacancy rises.</dd>
+              <dt><code>eligible_basis</code></dt><dd style="margin:0;">The share of development cost that tax credits can be claimed on.</dd>
+              <dt><code>credit_rate</code></dt><dd style="margin:0;">The yearly credit percentage: 9% (competitive) or about 4%.</dd>
+              <dt><code>equity_price</code></dt><dd style="margin:0;">What the investor pays for each $1 of tax credit.</dd>
+              <dt><code>supportable_mortgage</code></dt><dd style="margin:0;">The largest first mortgage the project's income can carry (formula 4).</dd>
+              <dt><code>deferred_dev_fee</code></dt><dd style="margin:0;">Part of the developer fee left in the deal and paid later from cash flow.</dd>
+              <dt><code>soft_sources</code></dt><dd style="margin:0;">Grants and low-cost loans entered under the Soft Funding Stack.</dd>
+            </dl>
+          </details>
+
           <div style="display:flex;gap:0.5rem;margin-top:var(--sp3);">
             <button type="button" id="dc-const-reset"
               style="padding:0.4rem 1rem;font-size:var(--tiny);font-weight:600;background:var(--bg2);color:var(--text);border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;">
