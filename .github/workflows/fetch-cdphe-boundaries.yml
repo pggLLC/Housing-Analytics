@@ -16,6 +16,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write   # dispatch deploy.yml after the data push
   contents: write
 
 concurrency:
@@ -85,3 +86,6 @@ jobs:
           # F122 — --autostash; see build-hna-data.yml for full rationale.
           git rebase --autostash origin/main
           git push
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy

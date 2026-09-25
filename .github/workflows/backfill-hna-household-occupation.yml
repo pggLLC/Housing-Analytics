@@ -31,6 +31,7 @@ on:
         options: ['true', 'false']
 
 permissions:
+  actions: write   # dispatch deploy.yml after the data push
   contents: write
   pull-requests: write
 
@@ -116,6 +117,9 @@ jobs:
             git commit --amend --no-edit
           fi
           git push origin HEAD:main
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
 
       - name: Summarize
         if: always()

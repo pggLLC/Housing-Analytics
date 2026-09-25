@@ -11,6 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write   # dispatch deploy.yml after the data push
   contents: write
 
 concurrency:
@@ -78,3 +79,6 @@ jobs:
           else
             echo "No changes to report."
           fi
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
