@@ -178,6 +178,37 @@ async function pmaTractDefaultInteraction(page, viewport) {
   if (second.picked !== first.picked.length + 1) {
     failures.push(`clicking an unselected tract changed the selection from ${first.picked.length} to ${second.picked}`);
   }
+  // Run it, then place a second site by typed coordinates -- the address box
+  // is the other way in, and it used to run a buffer too. The first site's
+  // results must not stay on screen, or stay exportable, under the new site.
+  await page.click('#pmaRunBtn');
+  const ran = await page.waitForFunction(() => {
+    const b = document.getElementById('pmaScoreBoundary');
+    return b && b.dataset.boundary === 'tract';
+  }, null, { timeout: 20000 }).then(() => true).catch(() => false);
+  if (!ran) failures.push('Run Analysis on the picked tracts did not produce a tract-based result');
+  const SITE2 = [39.0639, -108.5506];        // Grand Junction, same county
+  await page.fill('#pmaAddressInput', SITE2.join(', '));
+  await page.click('#pmaAddressSearchBtn');
+  await page.waitForFunction((c) => Math.abs(window.PMAEngine._lastLat - c[0]) < 1e-6
+    && window.PMATractPicker.getSelectedGeoids().length > 0, SITE2, { timeout: 15000 }).catch(() => {});
+  await page.waitForTimeout(1000);
+  const third = await page.evaluate(() => {
+    const vis = (e) => !!e && e.getClientRects().length > 0;
+    const dim = document.getElementById('pmaDimList');
+    const csv = document.getElementById('pmaExportCsvBtn');
+    return {
+      boundary: document.getElementById('pmaScoreBoundary').dataset.boundary,
+      site: [window.PMAEngine._lastLat, window.PMAEngine._lastLon],
+      priorVisible: vis(dim),
+      csvEnabled: !!csv && !csv.disabled,
+      lastResult: !!(window.PMAEngine && window.PMAEngine.getLastResult && window.PMAEngine.getLastResult()),
+    };
+  });
+  if (Math.abs(third.site[0] - SITE2[0]) > 1e-6) failures.push('typed coordinates did not place the site');
+  if (third.boundary === 'buffer') failures.push('typed coordinates in tract mode produced a circular-buffer result');
+  if (third.priorVisible) failures.push("the previous site's dimension scores stayed on screen for the new site");
+  if (third.csvEnabled || third.lastResult) failures.push("the previous site's result stayed exportable for the new site");
   return failures;
 }
 

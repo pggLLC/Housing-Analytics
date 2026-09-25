@@ -2663,6 +2663,7 @@
       window.PMACommuteContext.attachResult(lastResult);
     }
 
+    setResultPending(false);
     renderScore(lastResult);
     // Hide chart loading overlay after rendering
     var _uic2 = window.PMAUIController;
@@ -2953,18 +2954,7 @@
         return;
       }
       placeSiteMarker(e.latlng.lat, e.latlng.lng);
-      // The Tract picker is the default method (CHFA requires whole census
-      // tracts). A click used to run a circular buffer regardless of the
-      // selected method, so the first result anyone saw was a radius screen
-      // under a tab reading "Tract picker" (audit F13). In tract mode the
-      // click places the site and opens the picker there; the analysis runs
-      // on the tracts once they are reviewed.
-      var uic = window.PMAUIController;
-      if (uic && typeof uic.getMethod === 'function' && uic.getMethod() === 'tract'
-          && typeof uic.beginTractPma === 'function' && uic.beginTractPma(e.latlng.lat, e.latlng.lng)) {
-        return;
-      }
-      runAnalysis(e.latlng.lat, e.latlng.lng);
+      analyzeNewSite(e.latlng.lat, e.latlng.lng);
     });
 
     // Address-based site selection via free US Census Geocoder.
@@ -3061,7 +3051,7 @@
         }
         map.setView([pin.lat, pin.lon], 13);
         placeSiteMarker(pin.lat, pin.lon);
-        runAnalysis(pin.lat, pin.lon);
+        analyzeNewSite(pin.lat, pin.lon);
         _setStatus(
           'Pin dropped at ' + pin.lat.toFixed(4) + ', ' + pin.lon.toFixed(4) +
           (flippedLon ? ' (flipped positive lon to negative — CO is west of the prime meridian)' : ''),
@@ -3109,7 +3099,7 @@
           // Hand off to the same flow as a map click.
           map.setView([lat, lon], 13);
           placeSiteMarker(lat, lon);
-          runAnalysis(lat, lon);
+          analyzeNewSite(lat, lon);
           _setStatus('Placed at ' + (m.matchedAddress || q) +
                      ' (' + lat.toFixed(4) + ', ' + lon.toFixed(4) + ')', 'ok');
         })
@@ -4148,6 +4138,45 @@
       executionType: '9%',
       useCase: 'multifamily-new-construction'
     });
+  }
+
+  /* Every way of placing a site -- map click, typed coordinates, address
+     search -- comes here, so none of them can skip the selected method.
+     The Tract picker is the default (CHFA requires whole census tracts). Each
+     entry point used to run a circular buffer regardless, so the first result
+     anyone saw was a radius screen under a tab reading "Tract picker" (audit
+     F13). In tract mode the site opens the picker; the analysis runs on the
+     tracts once they are reviewed. */
+  function analyzeNewSite(lat, lon) {
+    var uic = window.PMAUIController;
+    if (uic && typeof uic.getMethod === 'function' && uic.getMethod() === 'tract'
+        && typeof uic.beginTractPma === 'function' && uic.beginTractPma(lat, lon)) {
+      setResultPending(true);
+      return;
+    }
+    runAnalysis(lat, lon);
+  }
+
+  /* While a new tract PMA waits to be run, the previous site's results must
+     not stay on screen or be exportable under a marker and boundary that now
+     mean a different site. lastResult is cleared (every export refuses
+     without it), the result cards are hidden by
+     body[data-pma-result-state="pending"] in css/pages/market-analysis.css,
+     and the export buttons are disabled. The next completed analysis
+     restores all three. */
+  var PMA_RESULT_EXPORT_BTNS = ['pmaExportBtn', 'pmaExportCsvBtn', 'pmaExportJsonBtn',
+    'pmaExportJson', 'pmaExportCsv', 'pmaExportMeta', 'pmaExportAuditJson'];
+  function setResultPending(pending) {
+    if (pending) lastResult = null;
+    document.body.setAttribute('data-pma-result-state', pending ? 'pending' : 'current');
+    PMA_RESULT_EXPORT_BTNS.forEach(function (id) {
+      var b = el(id);
+      if (b) b.disabled = !!pending;
+    });
+    if (pending) {
+      var explainBtn = el('pmaExplainScoreBtn');
+      if (explainBtn) explainBtn.hidden = true;
+    }
   }
 
   function placeSiteMarker(lat, lon) {

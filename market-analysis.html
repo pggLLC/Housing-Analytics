@@ -219,7 +219,7 @@
     <!-- F159 — Rent triangulation: HUD FMR vs ACS B25064 vs Zillow ZORI.
          Hydrated from WorkflowState/SiteState; updates on jurisdiction
          change. Same shared component used on HNA. -->
-    <div id="pmaRentTriangulationCard" class="chart-card" style="margin:0 0 var(--sp3);">
+    <div id="pmaRentTriangulationCard" data-pma-result class="chart-card" style="margin:0 0 var(--sp3);">
       <h2 style="margin:0 0 .35rem;">Rent triangulation — existing vs. asking</h2>
       <p style="font-size:.82rem;color:var(--muted);margin:0 0 .4rem">
         Three rent measurements for the active jurisdiction so you can see which figure applies to which question
@@ -576,7 +576,7 @@
       <div class="pma-panel">
 
         <!-- Site Score -->
-        <div class="pma-card">
+        <div class="pma-card" data-pma-keep>
           <h2>Site Score</h2>
           <div id="pmaScoreWrap" class="pma-score-wrap">
             <div class="pma-score-circle" id="pmaScoreCircle" aria-label="Overall PMA score">—</div>
@@ -1021,7 +1021,7 @@
              boundary is so they don't mistake screening output for a
              market study.
         -->
-        <div class="pma-card" style="border:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);">
+        <div class="pma-card" data-pma-keep style="border:1px solid color-mix(in oklab,var(--border) 50%,var(--accent) 50%);">
           <h2 style="display:flex;align-items:center;gap:8px;">
             When to commission a professional market study
             <small style="font-size:.65em;font-weight:400;color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:4px">Beyond screening</small>
