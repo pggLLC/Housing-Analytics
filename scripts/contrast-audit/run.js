@@ -66,12 +66,14 @@ const THRESHOLD_LARGE    = 3.0;
 var META_REFRESH_RE = /<meta[^>]+http-equiv=["']?refresh["']?[^>]*content=["']?\s*\d+\s*;\s*url=([^"'>\s]+)/i;
 
 async function auditPage(page, url, doFix) {
-  const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  if (!response || !response.ok()) {
-    throw new Error('HTTP ' + (response ? response.status() : 'no response') + ' for ' + url);
-  }
-  const refresh = META_REFRESH_RE.exec(await response.text());
+  // The markup is fetched separately: the browser may have evicted the
+  // navigation response's body by the time it is read ("No resource with
+  // given identifier found"), which turned heavy pages into scan errors.
+  const raw = await page.request.get(url, { timeout: 30000 });
+  if (!raw.ok()) throw new Error('HTTP ' + raw.status() + ' for ' + url);
+  const refresh = META_REFRESH_RE.exec(await raw.text());
   if (refresh) return { redirect: refresh[1] };
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
   return page.evaluate(function (params) {
     var MAX_NODES = params.MAX_NODES;
