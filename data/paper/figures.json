@@ -1,5 +1,5 @@
 {
-  "generated_from_commit": "744418ba67",
+  "generated_from_commit": "390fe07e2",
   "repo": {
     "ref": "origin/main",
     "first_commit": "2026-02-20",
@@ -55,7 +55,7 @@
     "html_pages_total": 558,
     "workflows": 72,
     "scripts": 268,
-    "docs": 478,
+    "docs": 477,
     "data_files": 1658,
     "geographies": 546,
     "counties": 64,
@@ -241,7 +241,7 @@
     ]
   },
   "scope": {
-    "hand_written_lines": 359978,
+    "hand_written_lines": 359949,
     "generated_place_page_lines": 226824,
     "top_level_pages": 64,
     "html_nonblank_lines": 46786,
@@ -310,7 +310,7 @@
     }
   },
   "methods": {
-    "extracted_at_commit": "744418ba67",
+    "extracted_at_commit": "390fe07e2",
     "ranking": {
       "source_file": "scripts/hna/build_ranking_index.py",
       "axis_weights": {
