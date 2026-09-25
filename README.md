@@ -172,7 +172,7 @@ Housing-Analytics/
 │
 ├── test/                          # Unit + integration tests
 │   ├── unit/                      # Module-level tests
-│   └── smoke-market-analysis.js   # 185 smoke checks
+│   └── smoke-market-analysis.test.js  # market-analysis smoke checks (ci:part-4)
 │
 └── .github/workflows/             # 67 CI/CD workflows
     ├── deploy.yml                 # GitHub Pages deploy
@@ -217,7 +217,7 @@ The PMA (Primary Market Analysis) tool on `market-analysis.html` includes a full
 node test/test_lihtc_deal_predictor.js          # 68 tests
 node test/test_hna_market_bridge.js             # 68 tests
 node test/test_housing_needs_fit_analyzer.js    # 55 tests
-node test/smoke-market-analysis.js              # 185 smoke checks
+npm run test:smoke-market-analysis            # market-analysis smoke checks
 ```
 
 ## CSS Architecture

@@ -187,7 +187,7 @@
 | File | Status | Notes |
 |------|--------|-------|
 | `test/smoke.test.js` | ✅ Implemented | Smoke tests for 6 major pages, JS file existence, cross-references |
-| `test/smoke-market-analysis.js` | ✅ Implemented | Market Analysis feature smoke tests (HTML elements, data artifacts, PMA module) |
+| `test/smoke-market-analysis.test.js` | ✅ Implemented | Market Analysis feature smoke tests (HTML elements, data artifacts, PMA module) |
 | `test/acs-etl.test.js` | ✅ Implemented | ACS ETL pipeline unit tests (field mapping, coercion, freshness) |
 | `test/validate-site.js` | ✅ Implemented | Site validation: JSON existence, link checks, hardcoded fetch detection, a11y |
 | `test/split-lihtc-by-county.js` | ✅ Implemented | Unit tests for LIHTC county splitting script |

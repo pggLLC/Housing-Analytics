@@ -130,7 +130,7 @@ tested, and deployed. CI checks pass. No live API keys are required for page loa
 
 ### Running smoke tests locally
 ```bash
-node test/smoke-market-analysis.js
+npm run test:smoke-market-analysis
 ```
 
 ### Running CI checks locally
