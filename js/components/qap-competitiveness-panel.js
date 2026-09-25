@@ -221,6 +221,12 @@
 
       var wrapper = document.createElement('div');
       wrapper.style.cssText = 'max-width:1200px;margin:24px auto 0;padding:0 18px;';
+      // QAP scoring is for competitive LIHTC credits: rental-only (PC-2). The
+      // wrapper is created after the calculator's mode sweep has run, so it
+      // takes the current mode's state itself.
+      wrapper.setAttribute('data-dc-mode', 'rental');
+      var ownershipMode = document.getElementById('dc-mode-ownership');
+      wrapper.hidden = !!(ownershipMode && ownershipMode.checked);
       mount = document.createElement('section');
       mount.id = _mountId;
       mount.className = 'hos-panel';

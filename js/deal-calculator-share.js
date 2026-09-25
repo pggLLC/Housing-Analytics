@@ -192,14 +192,37 @@
     }, 80);
   }
 
+  // ── Which inputs leave the page ───────────────────────────────────────
+  // PC-2: an ownership export carries no tax-credit, basis, NOI or LIHTC-debt
+  // input. What is rental-only is read from the page, not listed here: an
+  // input inside a [data-dc-mode="rental"] container is one ownership mode
+  // hides, so it is one an ownership export omits. A second list would drift
+  // from the first; this cannot.
+  function _dealMode() {
+    var checked = document.querySelector('input[name="dc-deal-mode"]:checked');
+    return checked && checked.value === 'ownership' ? 'ownership' : 'rental';
+  }
+  function _exportedKeys() {
+    if (_dealMode() !== 'ownership') return SHARE_KEYS.slice();
+    return SHARE_KEYS.filter(function (id) {
+      var el = _getEl(id);
+      return !(el && el.closest && el.closest('[data-dc-mode="rental"]'));
+    });
+  }
+  function _exportedTranches() {
+    // The soft-funding stack is a LIHTC gap-filling stack (it sits in a
+    // rental-only fieldset), so an ownership export carries none of it.
+    return _dealMode() === 'ownership' ? '' : _readTranches();
+  }
+
   // ── Serialize / hydrate ───────────────────────────────────────────────
   function _serialize() {
     var params = new URLSearchParams();
-    SHARE_KEYS.forEach(function (id) {
+    _exportedKeys().forEach(function (id) {
       var v = _readVal(id);
       if (v != null && v !== '') params.set(id.replace(/^dc-/, ''), v);
     });
-    var tr = _readTranches();
+    var tr = _exportedTranches();
     if (tr) params.set('tr', tr);
     // Active jurisdiction (county FIPS) so the partner lands on the same
     // basis-boost / county context.
@@ -291,28 +314,34 @@
   }
 
   // ── Public — Export JSON ──────────────────────────────────────────────
+  function buildSnapshot() {
+    var snapshot = {
+      exportedAt: new Date().toISOString(),
+      dealMode: _dealMode(),
+      url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
+      inputs: {},
+      tranches: []
+    };
+    _exportedKeys().forEach(function (id) {
+      var v = _readVal(id);
+      if (v != null) snapshot.inputs[id.replace(/^dc-/, '')] = v;
+    });
+    var trStr = _exportedTranches();
+    if (trStr) {
+      snapshot.tranches = trStr.split(';').map(function (s) {
+        var p = s.split(':');
+        return {
+          program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
+          cashflowPayPct: p[5], accrueMode: p[6], priority: p[7]
+        };
+      });
+    }
+    return snapshot;
+  }
+
   function exportJson() {
     try {
-      var snapshot = {
-        exportedAt: new Date().toISOString(),
-        url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
-        inputs: {},
-        tranches: []
-      };
-      SHARE_KEYS.forEach(function (id) {
-        var v = _readVal(id);
-        if (v != null) snapshot.inputs[id.replace(/^dc-/, '')] = v;
-      });
-      var trStr = _readTranches();
-      if (trStr) {
-        snapshot.tranches = trStr.split(';').map(function (s) {
-          var p = s.split(':');
-          return {
-            program: p[0], amount: p[1], mode: p[2], rate: p[3], term: p[4],
-            cashflowPayPct: p[5], accrueMode: p[6], priority: p[7]
-          };
-        });
-      }
+      var snapshot = buildSnapshot();
       var blob = new Blob([JSON.stringify(snapshot, null, 2)], { type: 'application/json' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -421,5 +450,5 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary };
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot };
 })();

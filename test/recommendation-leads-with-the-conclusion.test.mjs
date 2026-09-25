@@ -220,7 +220,10 @@ test('an unfinished step says so and links to itself', () => {
 test('a recorded step is quoted verbatim, with its date', () => {
   const project = {
     hsa: { completedAt: '2026-09-15T10:00:00Z', costBurden: '49.5%', population: '715,878' },
-    deal: { completedAt: '2026-09-15T11:00:00Z', outputs: { gap: '$4,200,000' } }
+    // dealMode is required for figures to be quoted: a save that does not say
+    // whether it was a rental or an ownership deal is quoted with no figures
+    // (test/ownership-rental-separation.test.js, PC-2).
+    deal: { completedAt: '2026-09-15T11:00:00Z', dealMode: 'rental', outputs: { gap: '$4,200,000' } }
   };
   const contract = Contract.build({ digest: digest('0820000'), project, generatedAt: 'x' });
   const hsa = contract.project.find((s) => s.key === 'hsa');
