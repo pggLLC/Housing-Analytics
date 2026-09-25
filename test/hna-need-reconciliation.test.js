@@ -223,6 +223,21 @@ async function render(selection, countyFips) {
     assert.strictEqual(rec.households, null, 'an absent households delta was reported');
   });
 
+  await test('a missing reading is never ranked against the one that was used', async () => {
+    // Codex review of #1890: with no growth projection, "larger than resident
+    // growth" ranks a value that does not exist. Held as structure: the
+    // explanation must differ from the one given when both readings exist,
+    // and the growth row must say it is unavailable.
+    const build = window.HNAController.buildNeedReconciliation;
+    const both = build({ endYear: 2044, usedUnits: 900, basis: 'workforce', growthUnits: 300, workforceUnits: 900 });
+    const wOnly = build({ endYear: 2044, usedUnits: 900, basis: 'workforce', growthUnits: null, workforceUnits: 900 });
+    const gBoth = build({ endYear: 2044, usedUnits: 900, basis: 'resident_growth', growthUnits: 900, workforceUnits: 300 });
+    const gOnly = build({ endYear: 2044, usedUnits: 900, basis: 'resident_growth', growthUnits: 900, workforceUnits: null });
+    assert.notStrictEqual(wOnly.used.why, both.used.why, 'with no growth reading, the workforce explanation still ranks it against growth');
+    assert.notStrictEqual(gOnly.used.why, gBoth.used.why, 'with no workforce reading, the growth explanation still ranks it against workforce');
+    assert(wOnly.rows.find((x) => x.key === 'growth').unavailable, 'the missing growth reading does not say it is unavailable');
+  });
+
   console.log(failures ? `\n${failures} failure(s)` : '\nAll checks passed ✅');
   process.exit(failures ? 1 : 0);
 })();

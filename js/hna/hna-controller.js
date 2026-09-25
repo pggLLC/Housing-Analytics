@@ -2701,7 +2701,10 @@
     ];
     let why = 'No need figure could be computed for this geography.';
     if (basis === 'workforce') {
-      why = 'The workforce reading is larger than resident growth, so it is the figure used. The two readings answer the same question in different ways and are never added together.';
+      // An unknown growth reading is not a smaller one: say which it is.
+      why = growth === null
+        ? 'The workforce reading is the only reading available here, so it is the figure used; there is no resident-growth projection to compare it with.'
+        : 'The workforce reading is larger than resident growth, so it is the figure used. The two readings answer the same question in different ways and are never added together.';
     } else if (basis === 'resident_growth') {
       why = workforce !== null
         ? 'Resident growth is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
