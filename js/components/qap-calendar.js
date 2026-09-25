@@ -216,9 +216,12 @@
 
   function _renderEventItem(e, today, opts) {
     var d = _parseDate(e.date);
-    // A window (date → date_end) is past only once its end has passed.
+    // A window (date → date_end) is past only once its end has passed, and
+    // a day is not over at its midnight: an event dated today, or a window
+    // ending today, stays current until the next day begins.
     var end = _parseDate(e.date_end) || d;
-    var isPast = e.status === 'past' || (end && end.getTime() < today.getTime());
+    var dayAfterEnd = end && new Date(end.getFullYear(), end.getMonth(), end.getDate() + 1);
+    var isPast = e.status === 'past' || (dayAfterEnd && dayAfterEnd.getTime() <= today.getTime());
     if (opts.compact && isPast) return '';
     var catLabel = (e.category || '').replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
     var est = e.date_precision === 'estimated' ? ' <span class="qc-item__est">est.</span>' : '';

@@ -10,7 +10,8 @@
 //     (a window is past only once `date_end` has passed);
 //   - every `category` must have a pill style in js/components/qap-calendar.js;
 //   - the component must render a window whose end is still ahead as current,
-//     and a stale "upcoming" whose date has passed as past.
+//     a window ending today or an event dated today as current for all of that
+//     day, and a stale "upcoming" whose date has passed as past.
 
 'use strict';
 
@@ -88,10 +89,13 @@ async function renderWith(fixture) {
   return c;
 }
 
+// Local calendar date, as the component parses it. toISOString() would give
+// the UTC date, which is a day off in the evening west of Greenwich.
 function isoOffset(days) {
   const d = new Date();
   d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
 (async () => {
@@ -100,13 +104,21 @@ function isoOffset(days) {
     events: [
       { id: 'window', name: 'Open window', date: isoOffset(-10), date_end: isoOffset(10), category: 'qap-adoption', status: 'upcoming' },
       { id: 'stale', name: 'Stale upcoming', date: isoOffset(-5), category: 'qap-hearing', status: 'upcoming' },
+      { id: 'ends-today', name: 'Window ending today', date: isoOffset(-3), date_end: isoOffset(0), category: 'qap-adoption', status: 'upcoming' },
+      { id: 'today', name: 'Hearing today', date: isoOffset(0), category: 'qap-hearing', status: 'upcoming' },
     ],
   });
   const items = [...c.querySelectorAll('.qc-item')];
-  assert.equal(items.length, 2, 'both fixture events must render');
+  assert.equal(items.length, 4, 'every fixture event must render');
   const byName = (n) => items.find((li) => li.textContent.includes(n));
   assert.ok(!byName('Open window').classList.contains('qc-item--past'),
     'a window whose date_end is still ahead must not render as past');
+  // The data check above treats date_end === today as upcoming; the
+  // component must agree for the whole of that day, not only until 00:00.
+  assert.ok(!byName('Window ending today').classList.contains('qc-item--past'),
+    'a window whose date_end is today must not render as past during that day');
+  assert.ok(!byName('Hearing today').classList.contains('qc-item--past'),
+    'an event dated today must not render as past during that day');
   assert.ok(byName('Stale upcoming').classList.contains('qc-item--past'),
     'an event whose date has passed must render as past even if status says upcoming');
 
