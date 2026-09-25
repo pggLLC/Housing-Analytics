@@ -2026,6 +2026,8 @@
       const el = document.getElementById(id);
       if (el) el.textContent = txt;
     }
+    window.HNAState.state.needReconciliation = null;
+    renderNeedReconciliation(null);
   }
 
 
@@ -2392,7 +2394,7 @@
    * the selected horizon. Place/CDP permits are the place's own BPS record —
    * NEVER the county's (CDPs are county-permitted; say so instead).
    */
-  async function renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection){
+  async function renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection, basis){
     const valEl   = document.getElementById('statPermitsAvg');
     const srcEl   = document.getElementById('statPermitsSrc');
     const ratioEl = document.getElementById('statProdNeedRatio');
@@ -2405,15 +2407,23 @@
     const fmt = (v) => window.HNAUtils.fmtNum(Math.round(v));
 
     const geoType = selection?.geoType;
+    // Returned so the need reconciliation quotes the same pace and ratio
+    // this function just painted, rather than recomputing them.
+    const shown = { perYear: null, window: null, neededPerYear: null, ratio: null, unavailable: null };
     if (!selection || geoType === 'state'){
       // No statewide entry in permits.json (yet) — clear rather than guess.
       setVal('—'); setSrc('Census BPS'); setRatio('—'); setNote('');
-      return;
+      shown.unavailable = 'No statewide permit series.';
+      return shown;
     }
 
     let doc;
     try { doc = await loadPermitsDoc(); }
-    catch (_){ setVal('—'); setSrc('Census BPS unavailable'); setRatio('—'); setNote(''); return; }
+    catch (_){
+      setVal('—'); setSrc('Census BPS unavailable'); setRatio('—'); setNote('');
+      shown.unavailable = 'Census BPS permit data did not load.';
+      return shown;
+    }
 
     const rec = (geoType === 'county')
       ? (doc.counties || {})[selection.geoid]
@@ -2427,7 +2437,10 @@
       setNote(isCdp
         ? 'Building permits: no BPS record — this is an unincorporated community (CDP); permits are issued by the county. Select the county to see county-wide production.'
         : 'Building permits: no Census BPS record for this jurisdiction — it may be unincorporated (county-permitted) or not report to BPS.');
-      return;
+      shown.unavailable = isCdp
+        ? 'No permit record: this community is permitted by its county.'
+        : 'No Census BPS permit record for this jurisdiction.';
+      return shown;
     }
 
     const avg = rec.avg_annual_total_5yr || {};
@@ -2438,23 +2451,36 @@
 
     const span = (endYear && baseYear && endYear > baseYear) ? (endYear - baseYear) : null;
     const annualNeed = (incUnits != null && span) ? (incUnits / span) : null;
+    shown.perYear = avg.value != null ? Number(avg.value) : null;
+    shown.window = avg.window || null;
+    if (shown.perYear === null) shown.unavailable = 'Census BPS has no recent permit average for this jurisdiction.';
 
     // Require at least 1 unit/yr of projected need before showing a ratio —
     // dividing by a near-zero need yields absurd figures (e.g. 719× against
     // "0 units/yr" for a flat small town) that read as broken data.
     if (avg.value != null && annualNeed != null && annualNeed >= 1){
       const ratio = avg.value / annualNeed;
+      shown.neededPerYear = annualNeed;
+      shown.ratio = ratio;
       setRatio(ratio > 99 ? '>99×' : `${ratio.toFixed(2)}×`);
-      // Label the need source honestly: covered places get their own
-      // blended projection (places.json, #1040), not county scaling.
-      const scaledNote = (geoType === 'county') ? ''
-        : usedPlaceProjection ? ' (need from this community’s blended place projection)'
-        : ' (need scaled from the county DOLA projection)';
       const coverage = ratio >= 1 ? 'more than covers' : `covers ~${Math.round(ratio * 100)}% of`;
-      setNote(`Production vs need: recent permitting of ${fmt(avg.value)} units/yr `
+      const pace = `Production vs need: recent permitting of ${fmt(avg.value)} units/yr `
         + `(Census BPS ${avg.window}; ${fmt(sf.value || 0)} single-family / ${fmt(mf.value || 0)} multifamily) `
-        + `${coverage} the ${fmt(annualNeed)} units/yr needed to reach the projected ${endYear} requirement${scaledNote}. `
-        + `This is growth-driven need only — existing shortfalls are additional.`);
+        + `${coverage} the ${fmt(annualNeed)} units/yr needed to reach `;
+      if (basis === 'workforce') {
+        // The need here is the workforce reading, not a growth projection.
+        // This note used to call it "growth-driven need only" whatever won.
+        setNote(pace + `the ${endYear} figure, which is the workforce reading (jobs against homes affordable at \u226460% AMI), not projected growth. `
+          + `Permits of any price count toward the pace; the workforce reading counts homes lower-wage workers can afford.`);
+      } else {
+        // Label the need source honestly: covered places get their own
+        // blended projection (places.json, #1040), not county scaling.
+        const scaledNote = (geoType === 'county') ? ''
+          : usedPlaceProjection ? ' (need from this community’s blended place projection)'
+          : ' (need scaled from the county DOLA projection)';
+        setNote(pace + `the projected ${endYear} requirement${scaledNote}. `
+          + `This is growth-driven need only — existing shortfalls are additional.`);
+      }
     } else if (avg.value != null){
       setRatio('n/a');
       setNote(`Recent permitting: ${fmt(avg.value)} units/yr (Census BPS ${avg.window}). `
@@ -2463,6 +2489,7 @@
       setRatio('—');
       setNote('');
     }
+    return shown;
   }
 
   /**
@@ -2623,6 +2650,156 @@
     return 'Basis unavailable';
   }
 
+  /**
+   * How the need figures on this page fit together (audit F4).
+   *
+   * Fruita showed 103, ~722, +635, 819 and 2,302 on one page and nothing said
+   * how they related: 2,302 is the workforce reading, used because it is the
+   * larger of two readings; 819 is the resident-growth reading it beat; 103
+   * is today's rental shortfall at <=30% AMI, a different question; +635 is
+   * the households chart, which counts households, not homes.
+   *
+   * Every value is one some other part of the page already shows, passed in
+   * rather than recomputed, so this block cannot drift from what it explains.
+   * An absent value stays null and carries its reason; it never becomes 0.
+   * Pure: exported for the test.
+   */
+  function buildNeedReconciliation(input) {
+    const num = (v) => (v == null || v === '' || !Number.isFinite(Number(v)) ? null : Number(v));
+    const endYear = input.endYear || null;
+    const basis = (input.basis === 'workforce' || input.basis === 'resident_growth') ? input.basis : null;
+    const used = num(input.usedUnits);
+    const growth = num(input.growthUnits);
+    const workforce = num(input.workforceUnits);
+    const existing = num(input.existingGapUnits);
+    const rows = [
+      {
+        key: 'existing',
+        label: 'Existing rental shortfall, today',
+        units: existing,
+        counts: 'Renter households at \u226430% AMI without a home they can afford (ACS/CHAS gap). A deficit now, not a projection, so it is reported separately and is not part of the figure used.',
+        inFigure: false,
+        unavailable: existing === null ? 'No AMI-gap estimate for this geography.' : null,
+      },
+      {
+        key: 'growth',
+        label: 'Resident growth' + (endYear ? ' by ' + endYear : ''),
+        units: growth,
+        counts: 'Homes to house projected households at the target vacancy, less the homes that exist today ('
+          + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
+        inFigure: basis === 'resident_growth',
+        unavailable: growth === null ? 'No household projection for this geography.' : null,
+      },
+      {
+        key: 'workforce',
+        label: 'Workforce reading',
+        units: workforce,
+        counts: 'Lower-wage jobs located here against homes affordable at \u226460% AMI (LEHD LODES workplace counts).',
+        inFigure: basis === 'workforce',
+        unavailable: workforce === null ? 'No workforce-gap reading for this geography.' : null,
+      },
+    ];
+    let why = 'No need figure could be computed for this geography.';
+    if (basis === 'workforce') {
+      why = 'The workforce reading is larger than resident growth, so it is the figure used. The two readings answer the same question in different ways and are never added together.';
+    } else if (basis === 'resident_growth') {
+      why = workforce !== null
+        ? 'Resident growth is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
+        : 'Resident growth is the only reading available here, so it is the figure used.';
+    }
+    const hh = num(input.chartHouseholdsDelta);
+    const p = input.permits || {};
+    const perYear = num(p.perYear);
+    const neededPerYear = num(p.neededPerYear);
+    const ratio = num(p.ratio);
+    const fmt = (v) => (window.HNAUtils && window.HNAUtils.fmtNum
+      ? window.HNAUtils.fmtNum(Math.round(v)) : Math.round(v).toLocaleString('en-US'));
+    const by = endYear ? ' by ' + endYear : '';
+    let permitsText;
+    if (perYear === null) {
+      permitsText = 'Permit pace: not available. ' + (p.unavailable || 'No permit record for this geography.');
+    } else {
+      permitsText = 'Permit pace: ' + fmt(perYear) + ' homes a year (Census BPS ' + (p.window || 'recent') + ' average, all prices).';
+      if (neededPerYear !== null && ratio !== null) {
+        permitsText += ' Reaching the figure used' + by + ' takes about ' + fmt(neededPerYear)
+          + ' a year, so the current pace is ' + (ratio > 99 ? 'more than 99' : ratio.toFixed(2)) + '\u00d7 that.';
+      }
+    }
+    return {
+      endYear,
+      used: { units: used, basis, why },
+      rows,
+      households: hh === null ? null : {
+        delta: hh,
+        text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
+          + '. That chart counts households, not homes, from DOLA\u2019s household series'
+          + (input.subCounty ? ', scaled to this place by its share of county population' : '')
+          + '. The growth reading counts homes: projected households at the target vacancy, less today\u2019s stock'
+          + (input.usedPlaceProjection ? ', from this community\u2019s own projection' : '')
+          + '. They measure different things and are not expected to match.',
+      },
+      permits: {
+        perYear,
+        window: p.window || null,
+        neededPerYear,
+        ratio,
+        unavailable: perYear === null ? (p.unavailable || 'No permit record for this geography.') : null,
+        text: permitsText,
+      },
+    };
+  }
+
+  /** Paint the reconciliation into #hnaNeedReconciliation. Built with DOM
+   *  nodes and textContent only; nothing here is parsed as HTML. */
+  function renderNeedReconciliation(rec) {
+    const host = document.getElementById('hnaNeedReconciliation');
+    if (!host) return;
+    host.textContent = '';
+    if (!rec) { host.hidden = true; return; }
+    const fmt = (v) => window.HNAUtils.fmtNum(Math.round(v));
+    const homes = (v) => (v === null ? 'Not available'
+      : v < 0 ? 'Surplus of ' + fmt(Math.abs(v)) + ' homes' : fmt(v) + ' homes');
+    const el = (tag, text, cls) => { const n = document.createElement(tag); if (text != null) n.textContent = text; if (cls) n.className = cls; return n; };
+
+    host.appendChild(el('h3', 'How the need figures fit together', 'hna-recon-title'));
+    // A list, not a table: the block sits in a narrow column, and a table
+    // there crushed the explanations and broke "103 homes" one letter a line
+    // on a phone.
+    const list = el('ul', null, 'hna-recon-list');
+    rec.rows.forEach((r) => {
+      const li = el('li', null, 'hna-recon-item');
+      li.dataset.reconKey = r.key;
+      li.dataset.units = r.units === null ? '' : String(Math.round(r.units));
+      if (r.inFigure) li.dataset.inFigure = 'true';
+      const line = el('div', null, 'hna-recon-line');
+      line.appendChild(el('span', r.label, 'hna-recon-label'));
+      line.appendChild(el('span', homes(r.units), 'hna-recon-value'));
+      li.appendChild(line);
+      if (r.inFigure) li.appendChild(el('span', 'Figure used', 'hna-recon-badge'));
+      li.appendChild(el('p', r.unavailable || r.counts, 'hna-recon-counts'));
+      list.appendChild(li);
+    });
+    host.appendChild(list);
+
+    const used = el('p', null, 'hna-recon-used');
+    used.dataset.units = rec.used.units === null ? '' : String(Math.round(rec.used.units));
+    used.dataset.basis = rec.used.basis || 'unavailable';
+    used.appendChild(el('strong', 'Figure used' + (rec.endYear ? ' for ' + rec.endYear : '') + ': ' + homes(rec.used.units) + '. '));
+    used.appendChild(document.createTextNode(rec.used.why));
+    host.appendChild(used);
+
+    const pace = el('p', rec.permits.text, 'hna-recon-permits');
+    pace.dataset.perYear = rec.permits.perYear === null ? '' : String(Math.round(rec.permits.perYear));
+    host.appendChild(pace);
+
+    if (rec.households) {
+      const hh = el('p', rec.households.text, 'hna-recon-households');
+      hh.dataset.delta = String(Math.round(rec.households.delta));
+      host.appendChild(hh);
+    }
+    host.hidden = false;
+  }
+
   function formatIncrementalUnitsDisplay(incUnits) {
     if (incUnits === null || incUnits === undefined || !Number.isFinite(Number(incUnits))) return '—';
     const rounded = Math.round(Number(incUnits));
@@ -2668,6 +2845,8 @@
       if (window.HNARenderers.renderProjectionCalculationTrace) {
         window.HNARenderers.renderProjectionCalculationTrace({ available: false, message: unavailable });
       }
+      window.HNAState.state.needReconciliation = null;
+      renderNeedReconciliation(null);
       return;
     }
 
@@ -2794,6 +2973,7 @@
     });
     let incUnits = _need ? _need.units : null;
     let incUnitsBasis = _need ? _need.basis : null;
+    let growthUnits = _need ? _need.growthUnits : null;
     let projectionMethodNote = '';
     let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
@@ -2815,6 +2995,7 @@
         });
         incUnits = _placeNeed ? _placeNeed.units : placeInc;
         incUnitsBasis = _placeNeed ? _placeNeed.basis : null;
+        growthUnits = _placeNeed ? _placeNeed.growthUnits : placeInc;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         if (sh.permit == null) {
@@ -3023,10 +3204,52 @@
     }
 
     // ---- Production vs need (Census BPS permits) ----
+    let permitsShown = null;
     try {
-      await renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection);
+      permitsShown = await renderProductionVsNeed(selection, incUnits, baseYear, endYear, usedPlaceProjection, incUnitsBasis);
     } catch (permErr) {
       console.error('[HNA] renderProductionVsNeed failed:', permErr);
+    }
+
+    // ---- How the need figures fit together (audit F4) ----
+    // Built from the values painted above and from the households chart's own
+    // series (_placeScaledHouseholds, the function the chart calls), so it
+    // quotes the page rather than re-deriving it. Stored for the PDF and Excel.
+    try {
+      let chartHouseholdsDelta = null;
+      const hhDola = proj?.housing_need?.households_dola;
+      const R = window.HNARenderers;
+      if (Array.isArray(hhDola) && R && typeof R._placeScaledHouseholds === 'function' && i >= 0) {
+        const series = R._placeScaledHouseholds(hhDola, popSel, proj.population_dola).series;
+        const baseIdx = years.indexOf(baseYear);
+        const h0 = window.HNAUtils.safeNum(series[baseIdx >= 0 ? baseIdx : 0]);
+        const h1 = window.HNAUtils.safeNum(series[i]);
+        if (h0 !== null && h1 !== null) chartHouseholdsDelta = h1 - h0;
+      }
+      let existingGapUnits = null;
+      if (selection && selection.geoid && selection.geoType !== 'state' && !_isMultiJurisdictionSelection(selection)) {
+        const digest = await _loadDigest(selection.geoid);
+        const g = digest && digest.metrics && digest.metrics.housing_gap_units;
+        existingGapUnits = window.HNAUtils.safeNum(g && typeof g === 'object' ? g.value : g);
+      }
+      const rec = buildNeedReconciliation({
+        endYear,
+        usedUnits: incUnits,
+        basis: incUnitsBasis,
+        growthUnits,
+        workforceUnits: _workforceGapUnits,
+        existingGapUnits,
+        usedPlaceProjection,
+        subCounty: !!(selection && selection.geoType !== 'county' && selection.geoType !== 'state'),
+        chartHouseholdsDelta,
+        permits: permitsShown,
+      });
+      window.HNAState.state.needReconciliation = rec;
+      renderNeedReconciliation(rec);
+    } catch (recErr) {
+      window.HNAState.state.needReconciliation = null;
+      renderNeedReconciliation(null);
+      console.error('[HNA] need reconciliation failed:', recErr);
     }
 
     // ---- Scenario comparison charts (5–10 year horizon section) ----
@@ -4558,6 +4781,7 @@
     update,
     renderProjections,
     applyAssumptions,
+    buildNeedReconciliation,
     ensureMap,
     buildSelectForTest: buildSelect,
     syncJurisdictionToUrlForTest: _syncJurisdictionToUrl,
