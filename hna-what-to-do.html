@@ -743,7 +743,7 @@
             <div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin-top:10px">
               <div class="stat"><div class="k">Current housing units</div><div class="v" id="statBaseUnits">—</div><div class="s" id="statBaseUnitsSrc">—</div></div>
               <div class="stat"><div class="k">Target vacancy</div><div class="v" id="statTargetVac">—</div><div class="s">Assumption</div></div>
-              <div class="stat"><div class="k">Net new units (20y)</div><div class="v" id="statUnitsNeed">—</div><div class="s">DOLA forecast</div></div>
+              <div class="stat"><div class="k">Net new units (20y)</div><div class="v" id="statUnitsNeed">—</div><div class="s" id="statUnitsNeedBasis">—</div></div>
               <div class="stat"><div class="k">Net migration (20y)</div><div class="v" id="statNetMig">—</div><div class="s">DOLA components</div></div>
               <div class="stat"><div class="k">Recent production</div><div class="v" id="statPermitsAvg">—</div><div class="s" id="statPermitsSrc">Census BPS 5-yr avg</div></div>
               <div class="stat"><div class="k">Production ÷ need</div><div class="v" id="statProdNeedRatio">—</div><div class="s">BPS pace vs horizon need</div></div>
@@ -1203,7 +1203,7 @@
         <div id="htfContainer">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
-        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px, 100%),1fr));gap:1rem;margin-top:1rem">
           <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
           <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era of housing stock"></canvas></div>
         </div>
@@ -1328,7 +1328,7 @@
 
         <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
           <h3 style="margin:0 0 .6rem;">Primary Data Sources</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:8px 16px;font-size:.85rem">
             <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
             <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
             <div><strong>LEHD LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>
@@ -2646,104 +2646,6 @@
 }());
 </script>
 
-<!-- F163 — Recent failed LIHTC application attempts panel hydration.
-     Lazily fetches data/policy/chfa-awards-historical.json once, then
-     re-evaluates the .notAwarded array against the current geography on
-     a 750ms tick. Hides the panel entirely when zero matches so absence
-     doesn't get rendered as a misleading empty placeholder. -->
-<script>
-(function () {
-  'use strict';
-  var FETCH = 'data/policy/chfa-awards-historical.json';
-  var WINDOW_YEARS = 5;
-  var TICK_MS = 750;
-
-  var panelEl = document.getElementById('lihtcFailedAttemptsPanel');
-  var bodyEl  = document.getElementById('lihtcFailedAttemptsBody');
-  var countEl = document.getElementById('lihtcFailedAttemptsCount');
-  if (!panelEl || !bodyEl || !countEl) return;
-
-  var dataPromise = null;
-  function loadData() {
-    if (dataPromise) return dataPromise;
-    dataPromise = fetch(FETCH, { cache: 'no-cache' })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (j) { return (j && Array.isArray(j.notAwarded)) ? j.notAwarded : []; })
-      .catch(function () { return []; });
-    return dataPromise;
-  }
-
-  /* HNAState.state.current is the controller's authoritative selection.
-     For 'place' / 'cdp', the relevant county FIPS is either current.contextCounty
-     (preferred) or derived from the place GEOID's leading 5 digits. For
-     'county', the geoid IS the county FIPS. */
-  function currentCountyFips() {
-    var cur = (window.HNAState && window.HNAState.state && window.HNAState.state.current) || {};
-    var gt  = cur.geoType || cur.type;
-    var gid = cur.geoid || cur.id;
-    if (!gid) return null;
-    if (gt === 'county') return String(gid);
-    if (cur.contextCounty) return String(cur.contextCounty);
-    // Fallback: 5-digit county FIPS from a 7-digit place GEOID
-    var s = String(gid);
-    return s.length >= 5 ? s.slice(0, 5) : null;
-  }
-
-  function escHtml(s) {
-    return String(s == null ? '' : s)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
-  }
-
-  function rowHtml(r) {
-    var reason = r.reason ? escHtml(r.reason) : '<em>(no reason recorded)</em>';
-    var type   = r.type ? escHtml(r.type) : '—';
-    var score  = (r.qapScore != null) ? escHtml(r.qapScore) : '—';
-    var qctTag = r.isQct ? ' · <span style="color:var(--good);font-weight:600">QCT</span>' : '';
-    return '<li style="padding:.35rem 0;border-top:1px solid var(--border);">' +
-      '<div style="font-weight:700;font-size:.84rem;">' + escHtml(r.year) +
-        ' · ' + type + ' · QAP score ' + score + qctTag + '</div>' +
-      '<div style="font-size:.78rem;color:var(--muted);margin-top:.15rem;">' + reason + '</div>' +
-    '</li>';
-  }
-
-  function render(rows) {
-    if (!rows.length) {
-      panelEl.hidden = true;
-      return;
-    }
-    panelEl.hidden = false;
-    countEl.textContent = '(' + rows.length + ' on file, last ' + WINDOW_YEARS + ' years)';
-    bodyEl.innerHTML = '<ul style="list-style:none;margin:0;padding:0;">' +
-      rows.map(rowHtml).join('') +
-    '</ul>';
-  }
-
-  var lastFips = null;
-  function tick() {
-    var fips = currentCountyFips();
-    if (fips === lastFips) return;
-    lastFips = fips;
-    if (!fips) { panelEl.hidden = true; return; }
-    loadData().then(function (notAwarded) {
-      var cutoff = new Date().getFullYear() - WINDOW_YEARS;
-      var rows = notAwarded
-        .filter(function (r) {
-          return r && String(r.county_fips) === String(fips)
-              && Number.isFinite(+r.year) && +r.year >= cutoff;
-        })
-        .sort(function (a, b) { return (b.year || 0) - (a.year || 0); });
-      render(rows);
-    });
-  }
-
-  // Initial + periodic tick. The 750ms interval is cheap (1 ref-equality
-  // check + 1 JSON fetch that's cached on first hit) and means we don't
-  // have to hook into HNA's internal state-mutation flow.
-  setTimeout(tick, 250);
-  setInterval(tick, TICK_MS);
-}());
-</script>
 
   <footer class="site-footer">
     <!-- Injected by navigation.js -->

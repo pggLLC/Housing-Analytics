@@ -872,7 +872,7 @@
     .lof-detail-project-meta { color: var(--muted); font-size: .78rem; margin-top: 2px; }
 
     .lof-summary-cards {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
       gap: 10px; margin: 12px 0 16px;
     }
     .lof-summary-card {
@@ -1190,7 +1190,7 @@
     .lof-detail-news { margin-top: 10px; }
     .lof-news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
       gap: 8px;
     }
     .lof-news-btn {
@@ -1536,18 +1536,24 @@
       <span class="kicker">Analysis · LIHTC</span>
       <h1 style="margin-bottom:0.25rem">LIHTC Opportunity Finder</h1>
       <p class="sub" style="margin-bottom:var(--sp3);">
-        Colorado jurisdictions (cities, towns, CDPs) with <strong>QCT</strong> (Qualified Census Tract)
-        and/or <strong>DDA</strong> (Difficult Development Area) designations, ranked for
-        <strong>4% bond</strong> and <strong>9% competitive</strong> LIHTC targeting. Sortable by
-        last placed-in-service year, HNA need score, and population. Combines funding-recency,
-        housing need (Scorecard v2 composite), basis-boost eligibility (IRC §42(d)(5)(B)), and
-        population — re-weighted per round (4% bonds emphasise scale, 9% emphasises geographic gap).
+        Which Colorado cities, towns and unincorporated communities look promising for a new
+        affordable rental project financed with federal housing tax credits (LIHTC)? Each place gets
+        a score out of 100 from five things: how much housing need it has, how long it has been since
+        a tax-credit project there last opened, whether it is in an area where projects can claim
+        extra credits (a QCT or DDA), its population, and its local housing policy (such as a
+        Prop 123 commitment or local housing funding). How much each one counts depends on the kind
+        of deal you choose: the competitive <strong>9% credit</strong>, which favors places that
+        have not had a project recently, or the <strong>4% credit</strong> paired with bond
+        financing, which favors larger places. You can sort the list by score, by the year a
+        project last opened, by need or by population.
       </p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.25rem;margin-bottom:var(--sp2);" role="note">
-        <strong>Screening tool only.</strong> Opportunity scores are a starting point for site
-        identification. Final LIHTC site selection requires a formal CHFA-required PMA, market
-        study, and developer underwriting. All data is public (CHFA/HUD LIHTC, HUD QCT/DDA designations,
-        ACS, CHAS, TIGER place-tract spatial joins) — no proprietary signals.
+        <strong>Screening tool only.</strong> A score is a starting point for finding a site, not a
+        decision. Choosing a real site still takes the market study CHFA requires, which defines
+        the project's market area (PMA), and the developer's own financial review. Everything here
+        comes from public data: CHFA and HUD tax-credit records, HUD's QCT and DDA maps, Census
+        survey data (ACS) and HUD's tables built from it (CHAS), matched to places using Census
+        boundary files (TIGER).
       </p>
 
       <div class="lof-vintage-banner lof-vintage-banner--fresh" role="note" aria-label="LIHTC data source">
@@ -1967,13 +1973,6 @@
                gates for the selected jurisdiction so an underwriter
                sees the filing calendar without switching pages. -->
           <div id="lofDetailSoftFunding" class="lof-detail-soft-funding"></div>
-          <!-- F180 — QAP scoring runway. Populated by _renderDetailQap()
-               from data/policy/chfa-awards-historical.json. Shows the
-               6 scoring categories, what winners vs losers score in
-               each, and the 82/74/65 likelihood thresholds. Statewide
-               data — same for every jurisdiction; helps developers see
-               their target at a glance. -->
-          <div id="lofDetailQap" class="lof-detail-qap"></div>
           <h4 style="margin:14px 0 4px;">LIHTC projects in this jurisdiction</h4>
           <div id="lofDetailProjects" class="lof-detail-projects"></div>
           <!-- F137: Comparable affordable properties — 5 nearest from properties.json (LIHTC + HUD MF + USDA RD + PBV-local), the single highest-leverage credibility add for IC packets -->
@@ -2121,10 +2120,11 @@
                 CHFA <em>does</em> publish annual <a href="https://www.chfainfo.com/rental-housing/asset-management/rent-income-limits" target="_blank" rel="noopener" style="color:var(--accent);">Multifamily Rent &amp; Income Limits tables</a>
                 (released ~30 days after HUD's MTSP income-limit announcement), but those tables are CHFA's
                 derivative output — not an independent source. They're computed from HUD's published
-                <em>4-person AMI</em> for the county using the §42 formula:
+                <em>income limits</em> for the county using the §42 formula, which treats each bedroom as
+                1.5 people — so a 2-bedroom home uses the 3-person income limit:
               </p>
               <code style="display:block;background:var(--card);padding:.5rem .65rem;border-radius:6px;font-size:.82rem;margin:.4rem 0;">
-                LIHTC monthly rent ceiling = AMI<sub>4-person</sub> × tier_pct × 0.30 ÷ 12
+                2-bedroom LIHTC monthly rent ceiling = income limit<sub>3-person, at the AMI tier</sub> × 30% ÷ 12
               </code>
               <p style="margin:.4rem 0;">
                 The "Capture" column compares <strong>HUD FMR (the 2BR Fair Market Rent for

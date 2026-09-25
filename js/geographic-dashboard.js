@@ -115,7 +115,7 @@
       cats[s.category].total++;
     });
 
-    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.75rem">';
+    var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px, 100%),1fr));gap:.75rem">';
     Object.keys(cats).sort().forEach(function (cat) {
       var c = cats[cat];
       var fullPct = c.total ? Math.round(c.full * 100 / c.total) : 0;

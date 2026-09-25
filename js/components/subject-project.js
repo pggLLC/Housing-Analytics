@@ -388,7 +388,7 @@
 
       // ── Project meta (basic) ──
       var meta = $h('div', { style: {
-        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(180px, 100%), 1fr))',
         gap: '.5rem .75rem', marginBottom: '.85rem', padding: '.6rem .75rem',
         background: 'var(--card2,#1a1a1a)', border: '1px solid var(--border)',
         borderRadius: '4px'

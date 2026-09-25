@@ -145,7 +145,7 @@
          this card tells you the labor-market character of the JURISDICTION
          (bedroom community vs self-contained), which the buffer-scope analysis
          doesn't capture. -->
-    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:1000px;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
+    <div id="maJurisdictionLabor" class="ma-labor-card" hidden style="max-width:none;margin:8px auto 0;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card2);"></div>
 
     <div id="siteStateContextBanner" hidden aria-live="polite" style="font-size:.82rem;color:var(--muted);padding:.3rem 0 .1rem;"><span data-state-label></span></div>
     <div id="maLiveRegion" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -162,7 +162,7 @@
            be justified by municipal/county/tract boundaries,
            natural barriers, school districts, and socioeconomic
            characteristics. -->
-      <p class="pma-chfa-rule" style="max-width:1000px;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.5;color:var(--text)">
+      <p class="pma-chfa-rule" style="max-width:none;margin:.4rem auto .8rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);font-size:.78rem;line-height:1.5;color:var(--text)">
         <strong>CHFA Market Study Guide — Appendix A, 2025-26 QAP:</strong> <em>"Radius boundaries are not allowed. The market boundary must include entire census tracts."</em>
         This tool uses a radius as a first-pass screening proxy. For an actual CHFA submittal, the Primary Market Area must be justified by municipal/county/tract boundaries, natural barriers, physical features such as interstate highways, socioeconomic characteristics, and school district boundaries.
         <a href="https://www.chfainfo.com/getattachment/7535845e-c0fa-4061-9bcb-60d7158ea294/2025-2026-QAP-Second-Amendment.pdf" target="_blank" rel="noopener">Read the QAP →</a>
@@ -294,7 +294,7 @@
             { name: 'FEMA Flood Zones', status: 'cached', vintage: '2026 (NFHL current effective)', coverage: 'Colorado', note: 'Polygon SFHA high-risk zones only (A/AE/AO/AH); Zone X/D moderate-low not included' },
             { name: 'EPA EJI (Environmental Justice)', status: 'cached', vintage: '2022', coverage: 'Tract-level', note: 'Used as soil/cleanup proxy, not geotechnical data' },
             { name: 'LEHD LODES Commuting', status: 'primary', vintage: '2023', coverage: 'CO counties', note: 'Workforce sub-score (25% weight)' },
-            { name: 'NHPD Preservation', status: 'stub', vintage: '2026-03-13', coverage: 'Colorado stub snapshot', note: 'Registration-gated source; verify current subsidy status. Loaded but not integrated into scoring.' }
+            { name: 'NHPD Preservation', status: 'stub', vintage: '2026-03-13', coverage: 'Partial: 20 Colorado projects only, not the full inventory; not refreshed', note: 'Registration-gated source; verify current subsidy status. Loaded but not integrated into scoring.' }
           ],
           limitations: 'PMA uses a circular buffer, not a professionally delineated market area. Amenity distances are point-based approximations. Employment detection requires 500+ job clusters (may fail in rural areas). Barrier analysis is heuristic only — the PMA boundary is not spatially modified.'
         });
@@ -955,7 +955,7 @@
                 <dt>Primary comparison</dt><dd>percentile rank of this site's PMA score against the full reference set</dd>
                 <dt>Comparable window</dt><dd>reference projects within ±10 PMA points of this site are surfaced as "directly comparable"</dd>
                 <dt>Breakdowns</dt><dd>market-type (urban / suburban / rural / resort), credit-type (4% PAB / 9% competitive), unit-count band</dd>
-                <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA QAP scoring is a separate model (see QAP Simulator). This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
+                <dt>What this is <em>not</em></dt><dd>it's not a predictor of allocation — CHFA scores applications under its own <a href="https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan" target="_blank" rel="noopener">Qualified Allocation Plan</a>. This is a market-positioning benchmark, not a policy-scoring estimate.</dd>
               </dl>
               <p style="margin-top:0.5rem;font-size:0.76rem;color:var(--muted)">Full methodology: <a href="docs/PMA_DATA_ENHANCEMENTS.md" target="_blank" rel="noopener">docs/PMA_DATA_ENHANCEMENTS.md</a></p>
             </div>
@@ -1328,7 +1328,7 @@
         <a href="docs/PMA_SCORING.md">PMA_SCORING.md</a>, and
         <a href="docs/PMA_DATA_ENHANCEMENTS.md">PMA_DATA_ENHANCEMENTS.md</a> for full methodology.
       </p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:.82rem">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:6px 16px;font-size:.82rem">
         <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a> (B01003, B25003, B25004, B25070, B25064)</div>
         <div><strong>HUD LIHTC Database</strong> — <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">Tax Credit Projects</a></div>
         <div><strong>CHFA ArcGIS</strong> — <a href="https://www.chfainfo.com/" target="_blank" rel="noopener">Colorado LIHTC Portfolio</a></div>
@@ -1487,7 +1487,6 @@
   <script defer src="js/environmental-screening.js"></script>
   <script defer src="js/public-land-overlay.js"></script>
   <script defer src="js/soft-funding-tracker.js"></script>
-  <script defer src="js/chfa-award-predictor.js"></script>
 
   <!-- Subject Project + downstream rent/income/capture cards -->
   <script defer src="js/components/subject-project.js"></script>

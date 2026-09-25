@@ -452,12 +452,13 @@
     const fields = [
       'statPop','statMhi','statHomeValue','statRent','statTenure',
       'statRentBurden','statIncomeNeed','statCommute',
-      'statBaseUnits','statTargetVac','statUnitsNeed','statNetMig',
+      'statBaseUnits','statTargetVac','statUnitsNeed','statUnitsNeedBasis','statNetMig',
       'statLihtcCount','statLihtcUnits','statQctCount','statDdaStatus','statDdaNote',
     ];
     fields.forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     clearDecisionStrip();
   }
 
@@ -3599,7 +3600,7 @@
       'Each pill is a tightly-scoped query (quoted phrases, OR groups, filetype:pdf, last-12-month recency) ' +
       'that lands on real agendas, minutes, and staff reports — not generic press.' +
       '</p>' +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.5rem">';
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px, 100%),1fr));gap:.5rem">';
 
     links.forEach(function (lk) {
       out +=
@@ -3809,9 +3810,10 @@
   function clearProjectionsForStateLevel() {
     const els = S().els;
     if (!els) return { ok: false };
-    ['statBaseUnits','statTargetVac','statUnitsNeed','statNetMig'].forEach(id => {
+    ['statBaseUnits','statTargetVac','statUnitsNeed','statUnitsNeedBasis','statNetMig'].forEach(id => {
       if (els[id]) els[id].textContent = '—';
     });
+    if (els.statUnitsNeedBasis) els.statUnitsNeedBasis.dataset.basis = 'unavailable';
     // Production-vs-need cells are not in S().els (they are controller-owned);
     // clear them directly so stale county figures don't linger on state view.
     ['statPermitsAvg','statProdNeedRatio'].forEach(id => {
@@ -3864,6 +3866,38 @@
       const value = Number(p);
       return Number.isFinite(value) ? base + (growthFactor * (value - base)) : null;
     });
+  }
+
+  /**
+   * DOLA household projections are county-level. For a place or CDP they are
+   * scaled, year by year, by the place's share of county population — the
+   * same share that produced the place population series.
+   *
+   * One function, because two charts need it. The household-formation chart
+   * scaled and the AMI-tier demand chart did not, so for Fruita (~5.8k
+   * households) the demand chart — and the Excel sheet built from it — showed
+   * Mesa County's ~67k households under a "Fruita (city)" heading.
+   *
+   * @param {number[]} households  county DOLA household series
+   * @param {number[]} popSel      selected geography's population series
+   * @param {number[]} popCounty   county DOLA population series
+   * @returns {{series:number[], scaled:boolean}} scaled=false means the series
+   *   is still county-level and must be labelled as such.
+   */
+  function _placeScaledHouseholds(households, popSel, popCounty) {
+    const hh = Array.isArray(households) ? households : [];
+    if (!Array.isArray(popSel) || popSel.length !== hh.length || !Array.isArray(popCounty)) {
+      return { series: hh, scaled: false };
+    }
+    const baseScale = popSel[0] && popCounty[0] ? popSel[0] / popCounty[0] : 1;
+    if (!(baseScale > 0 && baseScale < 1.0)) return { series: hh, scaled: false };
+    return {
+      series: hh.map((h, i) => {
+        const popScale = popSel[i] && popCounty[i] ? popSel[i] / popCounty[i] : baseScale;
+        return h * popScale;
+      }),
+      scaled: true
+    };
   }
 
   /**
@@ -4004,18 +4038,8 @@
     // the unit-need calculation per DLG methodology.
     const hhCanvas = document.getElementById('chartProjectedHH');
     if (hhCanvas && proj && proj.housing_need && Array.isArray(proj.housing_need.households_dola)) {
-      let hhSeries = proj.housing_need.households_dola;
       // For places/CDPs, scale by the same share that drove popSel
-      if (popSel && popSel.length === hhSeries.length && proj.population_dola) {
-        const baseScale = popSel[0] && proj.population_dola[0] ? popSel[0] / proj.population_dola[0] : 1;
-        if (baseScale > 0 && baseScale < 1.0) {
-          // Apply share scaling — households scale ~proportionally to population
-          hhSeries = hhSeries.map((h, i) => {
-            const popScale = popSel[i] && proj.population_dola[i] ? popSel[i] / proj.population_dola[i] : baseScale;
-            return h * popScale;
-          });
-        }
-      }
+      const hhSeries = _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola).series;
       makeChart(hhCanvas.getContext('2d'), {
         type: 'line',
         data: {
@@ -4059,8 +4083,17 @@
     // selection is a sub-county place/CDP, falling back to county-level
     // CHAS, then to statewide as a last resort.
     const dmdCanvas = document.getElementById('chartHouseholdDemand');
+    let demandScaled = false;
     if (dmdCanvas && proj && proj.housing_need && proj.housing_need.households_dola) {
-      const hhSeries = proj.housing_need.households_dola;
+      // Same place scaling as chart 3 — see _placeScaledHouseholds.
+      const scaledHh = _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola);
+      const hhSeries = scaledHh.series;
+      demandScaled = scaledHh.scaled;
+      // What these households describe, as state rather than prose, so the
+      // note's wording can change without anything else having to.
+      dmdCanvas.dataset.householdScope = demandScaled
+        ? 'place-scaled'
+        : (isSubCountySelection ? 'county-unscaled' : 'county');
       const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];
@@ -4113,7 +4146,9 @@
       }
     }
     setChartScopeNote('chartHouseholdDemand', isSubCountySelection
-      ? 'County data shown for this place: DOLA household projections are county-level; AMI tier shares use place CHAS where available, otherwise county context.'
+      ? (demandScaled
+        ? 'Scaled to this place: DOLA household projections are county-level and are scaled to the selected place/CDP by its share of county population; AMI tier shares use place CHAS where available, otherwise county context.'
+        : 'County data shown for this place: DOLA household projections are county-level and could not be scaled to this place; AMI tier shares use place CHAS where available, otherwise county context.')
       : '');
 
     // Render data quality badge for current geography
@@ -5333,7 +5368,7 @@
       // Open by default would put the reader back where they started.
       '<details style="' + DETAIL_BOX + '">' +
         '<summary style="' + DETAIL_SUMMARY + '">How that was screened &mdash; four pressure measures</summary>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:.8rem;margin:.25rem 0 1rem;">' + cardHtml + '</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(210px, 100%),1fr));gap:.8rem;margin:.25rem 0 1rem;">' + cardHtml + '</div>' +
       '</details>' +
       '<details style="' + DETAIL_BOX + '">' +
         '<summary style="' + DETAIL_SUMMARY + '">If you are taking this further &mdash; the developer decision chain</summary>' +
@@ -5976,7 +6011,7 @@
           '<span style="color:var(--muted);font-weight:400;font-size:1rem;">(' +
             Object.keys(patterns).length + ' patterns · cost · timeline · CO examples)</span>' +
         '</summary>' +
-        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:10px;">';
+        '<div style="margin-top:10px;display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:10px;">';
       Object.keys(patterns).forEach(function (key) {
         var p = patterns[key];
         var pmeta = PATTERN_LABELS[key] || { icon: '🏗️', label: key.replace(/_/g, ' ') };
@@ -6179,7 +6214,7 @@
         addendum.style.cssText = 'margin-top:14px;padding:.6rem .8rem;background:var(--accent-dim);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;font-size:1rem;line-height:1.5;';
         addendum.innerHTML =
           '<div style="font-weight:700;color:var(--accent);margin-bottom:.3rem;">🏠 NLIHC Out of Reach — ' + rec.county_name + ' housing wage</div>' +
-          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
+          '<div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(140px, 100%), 1fr));gap:.4rem .8rem;margin-bottom:.4rem;">' +
             '<div><span style="color:var(--muted);font-size:1rem;">2-BR housing wage:</span><br><strong>$' + (rec.two_br_housing_wage || '—').toFixed(2) + '/hr</strong></div>' +
             (rec.one_br_housing_wage ? '<div><span style="color:var(--muted);font-size:1rem;">1-BR housing wage:</span><br><strong>$' + rec.one_br_housing_wage.toFixed(2) + '/hr</strong></div>' : '') +
             '<div><span style="color:var(--muted);font-size:1rem;">Median renter wage:</span><br><strong>$' + (rec.renter_median_wage || '—').toFixed(2) + '/hr</strong></div>' +
@@ -6443,7 +6478,7 @@
       }
 
       // ── Summary cards ──────────────────────────────────────────────
-      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
           '<div style="font-size:1rem;color:var(--muted);">Median rent change</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:' + _fmtSpread(rentChange, false) + ';">' + _fmtPctChange(rentChange) + '</div>' +
@@ -6662,7 +6697,7 @@
       var firstYr = years[0];
 
       // ── Headline cards ────────────────────────────────────────────
-      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;">' +
+      var cardsHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:10px;margin-bottom:14px;">' +
         '<div style="padding:10px;border:1px solid var(--border);border-radius:var(--radius);background:var(--card);">' +
           '<div style="font-size:1rem;color:var(--muted);">Total permits ' + firstYr + '–' + lastYr + '</div>' +
           '<div style="font-size:1.4rem;font-weight:800;color:var(--accent);">' + fmtNum(total) + '</div>' +
@@ -8220,7 +8255,7 @@
       '</div>' +
 
       // 4 component cards
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:.6rem;">' +
         _scorecardCard(
           'A · Cost burden (blended)',
           pctStr(blendedBurden),
@@ -9226,6 +9261,7 @@
     clearProjectionsForStateLevel,
     renderProjectionChart,
     _renderScenarioSection,
+    _placeScaledHouseholds,
     renderScenarioComparison,
     renderHouseholdDemand,
     // Extended analysis

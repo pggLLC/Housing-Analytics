@@ -110,8 +110,10 @@
       <div class="kicker">Colorado • Demographic Projections</div>
       <h1 data-i18n="scenarios.title">Projection Scenario Builder</h1>
       <p class="sb-hero-sub" data-i18n="scenarios.subtitle">
-        Create and compare demographic growth scenarios through 2050 using the cohort-component model.
-        Adjust fertility, migration, and mortality assumptions — then save custom scenarios for later comparison.
+        Estimate how many homes your place may need by 2050. Start from the state demographer's
+        population figures, pick low, moderate or high growth, or set your own assumptions about
+        births, deaths and people moving in or out, then compare the results and save the ones you
+        want to keep. The model ages each group of residents forward one year at a time.
       </p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:.5rem;" role="note"><strong>Screening tool only.</strong> Projections are illustrative planning estimates based on public DOLA and Census data. They are not certified forecasts and do not substitute for a formal housing needs study or CHFA-required analysis.</p>
     </div>
@@ -134,7 +136,7 @@
     <section class="card" style="margin-bottom:var(--sp4);padding:var(--sp4);" aria-label="Geography selection">
       <div class="sb-section-title">Select Geography</div>
       <div style="display:flex;gap:var(--sp2);flex-wrap:wrap;align-items:flex-end;">
-        <div style="position:relative;min-width:320px;">
+        <div style="position:relative;min-width:min(320px, 100%);">
           <label for="sbGeoSelect" style="display:block;font-size:.82rem;font-weight:600;color:var(--muted);margin-bottom:4px;">County, municipality, or unincorporated community</label>
           <!-- F151 — Unified picker includes counties, places, and CDPs.
                Total: 546 entries. The shared search enhancement keeps this select as the
@@ -151,13 +153,12 @@
       </div>
       <p id="sbGeoStatus" class="data-timestamp" style="margin-top:var(--sp2);"></p>
       <p style="margin:var(--sp1) 0 0;font-size:.78rem;color:var(--muted);line-height:1.4;">
-        <strong>Counties</strong> use DOLA Colorado State Demography Office single-year-of-age population pyramids.
-        <strong>Incorporated places</strong> and <strong>Census-Designated Places (CDPs / unincorporated
-        communities)</strong> use the containing county's pyramid, scaled down by the
-        sub-county's share of county population (ACS B01003). The downscaling preserves the age and sex distribution
-        of the surrounding county — appropriate for most Colorado sub-county geographies but may understate the
-        youth/working-age skew in college towns and resort areas. The headship rate (0.38) and target vacancy (5%)
-        apply identically.
+        <strong>Counties</strong> start from the State Demography Office's (DOLA) count of residents by age and sex.
+        <strong>Towns, cities and unincorporated communities (CDPs)</strong> use their county's age and sex mix,
+        scaled to their share of the county's population (Census ACS table B01003). That works for most places
+        but can undercount young and working-age residents in college towns and resort areas. Every place uses
+        the same two housing assumptions: about 38 households for every 100 residents, and 5% of homes standing
+        empty at any time, as they do between occupants.
       </p>
     </section>
 
@@ -194,45 +195,45 @@
           <!-- Fertility -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.fertilityMultiplier">Fertility Rate Multiplier</span>
+              <span data-i18n="scenarios.sliders.fertilityMultiplier">Birth rate</span>
               <span class="sb-slider-value" id="sbFertMultVal">1.00</span>
             </div>
             <input type="range" id="sbFertMult" class="sb-slider"
               min="0.5" max="1.5" step="0.01" value="1.0"
-              aria-label="Fertility rate multiplier"
+              aria-label="Birth rate, as a multiple of today's rate"
               data-i18n-aria-label="scenarios.sliders.fertilityMultiplier">
             <p class="sb-slider-help" data-i18n="scenarios.sliders.fertilityHelp">
-              1.0 = baseline fertility rate
+              1.00 = today's birth rate; 1.10 means 10% more births
             </p>
           </div>
 
           <!-- Net Migration -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.migrationAnnual">Net Annual Migration</span>
+              <span data-i18n="scenarios.sliders.migrationAnnual">People moving in each year (net)</span>
               <span class="sb-slider-value" id="sbMigAnnualVal">500</span>
             </div>
             <input type="range" id="sbMigAnnual" class="sb-slider"
               min="-500" max="2000" step="50" value="500"
-              aria-label="Net annual migration"
+              aria-label="People moving in each year, minus people moving out"
               data-i18n-aria-label="scenarios.sliders.migrationAnnual">
             <p class="sb-slider-help" data-i18n="scenarios.sliders.migrationHelp">
-              Persons migrating net into the area per year
+              People moving in minus people moving out, each year. Below zero means more leave than arrive.
             </p>
           </div>
 
           <!-- Mortality -->
           <div class="sb-slider-group">
             <div class="sb-slider-label">
-              <span data-i18n="scenarios.sliders.mortalityMultiplier">Mortality Rate Multiplier</span>
+              <span data-i18n="scenarios.sliders.mortalityMultiplier">Death rate</span>
               <span class="sb-slider-value" id="sbMortMultVal">1.00</span>
             </div>
             <input type="range" id="sbMortMult" class="sb-slider"
               min="0.8" max="1.2" step="0.01" value="1.0"
-              aria-label="Mortality rate multiplier"
+              aria-label="Death rate, as a multiple of today's rates"
               data-i18n-aria-label="scenarios.sliders.mortalityMultiplier">
             <p class="sb-slider-help" data-i18n="scenarios.sliders.mortalityHelp">
-              1.0 = baseline life-table rates; higher = more deaths
+              1.00 = today's death rates by age; higher means more deaths
             </p>
           </div>
         </div>

@@ -7,7 +7,7 @@
    Page layout
    --------------------------------------------------------------------------- */
 .bm-main {
-  max-width: 1200px;
+  max-width: var(--page-max, 1920px);
   margin: 0 auto;
   padding: var(--sp4) var(--sp3);
 }
@@ -233,7 +233,7 @@
    --------------------------------------------------------------------------- */
 .bm-kpi-strip {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
   gap: var(--sp3);
   margin-bottom: var(--sp4);
 }
