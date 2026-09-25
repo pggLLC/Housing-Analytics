@@ -1771,7 +1771,7 @@
         <div id="htfContainer">
           <p style="color:var(--muted);font-size:1.133rem;font-style:italic">Select a geography above to load housing type analysis.</p>
         </div>
-        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-top:1rem">
+        <div class="grid-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px, 100%),1fr));gap:1rem;margin-top:1rem">
           <div class="chart-box" data-source="ACS 5-Year DP04 (Structure Type)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartHousingTypeComposition" role="img" aria-label="Housing units by structure type"></canvas></div>
           <div class="chart-box" data-source="ACS 5-Year DP04 (Year Structure Built)" data-source-url="https://data.census.gov/table/ACSDP5Y2024.DP04" data-vintage="ACS 2020–2024" data-source-type="raw"><canvas id="chartConstructionEra" role="img" aria-label="Construction era of housing stock"></canvas></div>
         </div>
@@ -1791,7 +1791,7 @@
         <p id="carEstimateNotice" class="car-estimate-notice" role="note" hidden></p>
 
         <!-- Region summary cards grid -->
-        <div id="bridgeRegionGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem">
+        <div id="bridgeRegionGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px, 100%),1fr));gap:.75rem;margin-bottom:1.25rem">
           <!-- Skeleton loading state -->
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;opacity:.5">
             <div style="height:.9rem;background:var(--border);border-radius:4px;margin-bottom:.5rem;width:70%"></div>
@@ -1904,7 +1904,7 @@
         }
         html += '</div>';
       }
-      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px, 100%),1fr));gap:.75rem;margin-bottom:1.25rem';
       grid.innerHTML = html;
     }
 
@@ -2009,7 +2009,7 @@
         html += '<div>Months of supply: ' + (m.months_of_supply != null ? m.months_of_supply : 'N/A') + '</div>';
         html += '</div></div>';
       }
-      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem;margin-bottom:1.25rem';
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px, 100%),1fr));gap:.75rem;margin-bottom:1.25rem';
       grid.innerHTML = html;
     }
 
@@ -2350,7 +2350,7 @@
 
         <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
           <h3 style="margin:0 0 .6rem;">Primary Data Sources</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;font-size:.85rem">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px, 100%),1fr));gap:8px 16px;font-size:.85rem">
             <div><strong>ACS 5-Year Estimates</strong> — <a href="https://www.census.gov/programs-surveys/acs" target="_blank" rel="noopener">Census Bureau</a></div>
             <div><strong>HUD CHAS</strong> — <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">Cost Burden by AMI</a></div>
             <div><strong>LEHD LODES</strong> — <a href="https://lehd.ces.census.gov/data/" target="_blank" rel="noopener">Commuting Flows</a></div>

@@ -172,7 +172,7 @@
         '</div>' +
         '<span style="font-size:var(--tiny);color:var(--muted);">Use case: ' + esc(mode) + '</span>' +
       '</div>' +
-      '<div data-funding-context-list style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp2);margin-top:var(--sp2);">' +
+      '<div data-funding-context-list style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px, 100%),1fr));gap:var(--sp2);margin-top:var(--sp2);">' +
         ctx.programs.slice(0, 8).map(renderProgram).join('') +
       '</div>' +
       '<p style="margin:var(--sp2) 0 0;color:var(--muted);font-size:var(--tiny);line-height:1.45;">' +

@@ -195,7 +195,7 @@
     /* ── Stats bar ── */
     .drh-stats-bar {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
       gap: .75rem;
       margin-bottom: 1rem;
     }
@@ -213,7 +213,7 @@
     /* ── Source card grid ── */
     .drh-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
       gap: 1rem;
     }
     .drh-source-card {
@@ -325,7 +325,7 @@
     .drh-quality-summary.error { background: var(--bad-dim);  color: var(--bad); }
     .drh-status-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
@@ -377,7 +377,7 @@
     /* ── QA Coverage tab (ported from dashboard-data-quality.html) ── */
     .drh-qa-layer-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
       gap: .6rem;
       margin-bottom: .5rem;
     }
@@ -424,7 +424,7 @@
     }
     .drh-pending-meta {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
       gap: .75rem;
       margin-bottom: .75rem;
     }
@@ -562,7 +562,7 @@
     /* ── Overview KPI tiles ── */
     .drh-kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
       gap: .75rem;
       margin-bottom: 1.5rem;
     }
@@ -949,7 +949,7 @@
       <strong style="font-size:.92rem">Operational pages · pipeline diagnostics</strong>
       <span style="font-size:.7rem;color:var(--muted)">For maintainers + admins · not in the primary nav</span>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:.55rem">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(250px, 100%), 1fr));gap:.55rem">
       <a href="data-status.html" style="display:block;padding:.6rem .75rem;border:1px solid var(--border);border-radius:8px;background:var(--bg2);color:var(--text);text-decoration:none">
         <div style="font-weight:600;font-size:.86rem">📊 Pipeline Status</div>
         <div style="margin-top:3px;font-size:.74rem;color:var(--muted)">Live API freshness + 5-layer validation rollup. Same content this hub surfaces in roll-up form, broken out per source.</div>

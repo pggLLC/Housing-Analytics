@@ -134,7 +134,7 @@
   
 <style>
 /* Colorado Deep Dive page-level layout overrides (core theme comes from css/site-theme.css) */
-.page-container { max-width: 1200px; margin: 0 auto; padding: 18px; }
+.page-container { max-width: var(--page-max, 1920px); margin: 0 auto; padding: 18px; }
 
 /* ── Cards ── */
 .chart-card {
@@ -604,7 +604,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <label><input type="checkbox" id="layerProp123"> Prop 123 jurisdictions <span id="prop123Status" style="margin-left:.35rem;font-size:.75rem;color: var(--text);"></span></label>
     </div>
     <div style="margin-top: 1rem; padding: 1rem; background: var(--color-background-alt, rgba(17,26,36,.65)); border-radius: 8px; border: 1px solid var(--border);">
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: .75rem;">
         <div class="legend-item" style="display:flex; gap:10px; align-items:center;">
           <span class="swatch" style="background:rgba(255,200,90,.20); border-color:rgba(255,200,90,.45)"></span>
           <span><strong>DDA Zones</strong> — 30% basis boost</span>
@@ -806,7 +806,7 @@ document.addEventListener('DOMContentLoaded', function () {
   <div id="amiGapMeta" style="font-size:.78rem; color:var(--faint); margin-bottom:1rem;"></div>
 
   <!-- KPI Summary Cards -->
-  <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:1.25rem;">
+  <div class="kpi-grid" style="margin-bottom:1.25rem;">
     <div class="kpi-card">
       <div id="amiGapGeoTitle" class="kpi-value" style="font-size:1rem;">Colorado (statewide)</div>
       <div class="kpi-label">Selected Geography</div>
@@ -1206,7 +1206,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
      BLS LAUS), with each card explicitly tagged LIVE / STATIC and a source
      link. Static cards stay only when the data isn't publicly available
      (e.g. private 9% credit pricing). User can see what's real. -->
-<div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .65rem;">
+<div class="comparison-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: .65rem;">
 <!-- LIHTC Allocation Per Capita — computed live from CHFA + BLS pop -->
 <div style="padding: .8rem .7rem; background: var(--color-background-alt); border-radius: 8px; text-align: center;">
 <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.3rem; line-height: 1.2;">LIHTC Allocation Per Capita</div>
@@ -1374,7 +1374,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div id="carMarketLoading" style="color:var(--muted);font-size:.88rem;padding:.5rem 0;">Loading CAR market data…</div>
     <div id="carMarketError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
     <div id="carMarketContent" style="display:none;">
-      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+      <div class="kpi-grid" style="margin-bottom:1rem;">
         <div class="kpi-card">
           <div id="carMedianPrice" class="kpi-value">—</div>
           <div class="kpi-label">Median Sale Price</div>
@@ -1418,7 +1418,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <div id="hmdaError" role="alert" style="display:none;padding:.75rem 1rem;background:rgba(224,82,82,.08);border:1px solid rgba(224,82,82,.3);border-radius:8px;color:var(--bad,#e05252);font-size:.87rem;margin-bottom:1rem;"></div>
     <div id="hmdaContent" style="display:none;">
       <!-- 4 KPI cards: state-level latest year -->
-      <div class="kpi-grid" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:1rem;">
+      <div class="kpi-grid" style="margin-bottom:1rem;">
         <div class="kpi-card">
           <div id="hmdaOriginations" class="kpi-value">—</div>
           <div class="kpi-label">Originations (CO, latest year)</div>

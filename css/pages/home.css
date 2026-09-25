@@ -576,7 +576,7 @@
 
 .home-snapshot__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
   gap: 0;
   border-top: 1px solid var(--border);
   border-left: 1px solid var(--border);
