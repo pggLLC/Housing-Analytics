@@ -1,5 +1,5 @@
 // js/data-source-inventory.js
-// Registry of 63 data sources used or explicitly tracked by Housing Analytics.
+// Registry of 64 data sources used or explicitly tracked by Housing Analytics.
 // Exposed as window.DataSourceInventory.
 
 (function () {
@@ -1161,7 +1161,7 @@
       maxAgeDays: 30,
       geoUnit: 'N/A',
       coverage: 'All data files',
-      features: 1615,
+      features: 1616,
       description: 'Auto-generated manifest listing all data files with feature counts and timestamps.',
       tags: ['manifest', 'system', 'metadata'],
       apiEndpoint: null
@@ -1183,6 +1183,24 @@
       features: 15,
       description: '15 tax-credit legislation watchlist entries with status, source, and verification metadata.',
       tags: ['legislation', 'policy', 'colorado'],
+      apiEndpoint: null
+    },
+    {
+      id: 'policy-watch',
+      name: 'Policy Watch (Housing News)',
+      category: 'Policy',
+      format: 'JSON',
+      provider: 'CHFA / Internal curation',
+      url: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan',
+      localFile: 'data/policy/policy-watch.json',
+      lastUpdated: '2026-09-25',
+      updateFrequency: 'Manual, as checked',
+      maxAgeDays: 90,
+      geoUnit: 'Statewide',
+      coverage: 'CHFA allocation-plan changes, ballot questions and housing roles; hand-curated',
+      features: 6,
+      description: '6 policy watch entries, each with a verification level and, for primary-checked entries, the exact source wording; topics not yet checked are listed as known gaps.',
+      tags: ['policy', 'qap', 'chfa', 'colorado'],
       apiEndpoint: null
     },
     // ── Regional ────────────────────────────────────────────────
