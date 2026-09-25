@@ -150,6 +150,58 @@ export function assertNoUnsafeShrink(previousManifest, nextManifest, options = {
   return { previousCount, nextCount, shrink: Math.max(0, shrink), tolerance };
 }
 
+/**
+ * Data paths whose content may differ from what the committed manifest
+ * describes, relative to data/: every path changed in a commit since
+ * data/_manifest.json was last written, plus every uncommitted change.
+ * "Since the manifest was written", not just "uncommitted": several jobs
+ * commit a data file and rebuild only data/manifest.json, and a same-size
+ * edit there is otherwise indistinguishable from no edit (Codex, #1891).
+ * null when git cannot say (no history, a shallow clone that does not reach
+ * the manifest's commit), in which case nothing is carried over.
+ */
+export function changedSinceManifest(repo = REPO) {
+  const git = (args) => spawnSync("git", args, { cwd: repo, encoding: "utf8" });
+  const last = git(["log", "-1", "--format=%H", "--", "data/_manifest.json"]);
+  const base = (last.stdout || "").trim();
+  if (last.status !== 0 || !base) return null;
+  const committed = git(["diff", "--name-only", base, "HEAD", "--", "data"]);
+  const pending = git(["status", "--porcelain", "--untracked-files=all", "--", "data"]);
+  if (committed.status !== 0 || pending.status !== 0) return null;
+  const out = new Set();
+  const add = (p) => { p = p.replace(/^"|"$/g, "").replace(/^data\//, ""); if (p) out.add(p); };
+  for (const line of (committed.stdout || "").split(/\r?\n/)) if (line.trim()) add(line.trim());
+  for (const line of (pending.stdout || "").split(/\r?\n/)) {
+    if (!line.trim()) continue;
+    let p = line.slice(3);
+    if (p.includes(" -> ")) p = p.split(" -> ").pop();
+    add(p);
+  }
+  return out;
+}
+
+/**
+ * A file's mtime on disk is when this checkout wrote it, not when it
+ * changed: every fresh clone, and so every CI run, gives every file a new
+ * one. Regenerating the manifest after a merge therefore rewrote all ~1,600
+ * entries (3,250 lines, 2026-09-25, the first post-merge refresh after
+ * #1887), and any open PR that touched the manifest conflicted with it.
+ *
+ * An entry keeps the committed mtime when the file has not changed since
+ * the manifest was written (changedSinceManifest) and every other field is
+ * what the committed manifest already says. Exported for the test.
+ */
+export function carryCommittedMtimes(items, previous, changed) {
+  if (!previous || !Array.isArray(previous.files) || !changed) return items;
+  const prev = new Map(previous.files.filter((e) => e && e.path).map((e) => [e.path, e]));
+  const same = (a, b) => JSON.stringify({ ...a, mtime: null }) === JSON.stringify({ ...b, mtime: null });
+  return items.map((e) => {
+    const p = prev.get(e.path);
+    if (!p || changed.has(e.path) || !same(e, p)) return e;
+    return { ...e, mtime: p.mtime };
+  });
+}
+
 function readExistingManifest(outPath) {
   if (!fs.existsSync(outPath)) return null;
   return JSON.parse(fs.readFileSync(outPath, "utf8"));
@@ -233,10 +285,11 @@ export async function buildManifest(options = {}) {
   const outPath = options.outPath || OUT;
   const shouldWrite = options.write !== false;
   const includedFiles = await discoverDataFiles();
-  const items = [];
+  let items = [];
   for (const f of includedFiles) {
     items.push(await probe(f));
   }
+  items = carryCommittedMtimes(items, readExistingManifest(outPath), changedSinceManifest());
   const out = {
     meta: {
       generated_at: new Date().toISOString(),
