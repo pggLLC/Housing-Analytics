@@ -101,22 +101,22 @@
         var avgPerYr = Number(values.average_lihtc_units_per_year);
         if (Number.isFinite(burdenPct)) setText('snapCostBurden', burdenPct.toFixed(1) + '%');
         if (Number.isFinite(propertyCount) && propertyCount > 0) setText('snapLihtcCount', fmtInt(propertyCount));
-        var le60Growth = Number(values.annual_le60_household_growth);
-        if (Number.isFinite(avgPerYr) && avgPerYr > 0) {
-          setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
+        var renterGrowth = Number(values.annual_le60_renter_household_growth);
+        var newConst = Number(values.average_lihtc_new_construction_units_per_year);
+        var preservation = Number(values.average_lihtc_preservation_units_per_year);
+        var coverage = Number(values.lihtc_new_construction_coverage_of_le60_renter_growth);
+        if (Number.isFinite(avgPerYr) && avgPerYr > 0) setText('snapAvgUnitsPerYr', fmtInt(avgPerYr));
 
-          // Annual deficit growth = projected new ≤60%-AMI households per
-          // year − average LIHTC units placed in service per year. The
-          // household-growth figure is derived in
-          // scripts/build-home-snapshot.mjs (DOLA household growth × HUD
-          // CHAS ≤60% share, all tenures; basis recorded in
-          // snapshot.deficit_growth_basis). Until 2026-09-22 it was a
-          // literal 6,500 here. No fallback: without the basis the card
-          // stays "—" rather than showing a number nothing supports.
-          if (Number.isFinite(le60Growth) && le60Growth > 0) {
-            var deficitGrowth = Math.max(0, le60Growth - avgPerYr);
-            setText('snapDeficitGrowth', '+' + fmtInt(deficitGrowth) + '/yr');
-          }
+        // #1822: pace of NEW rental supply against projected ≤60%-AMI RENTER
+        // household growth, as a coverage ratio. Every number comes from the
+        // snapshot (basis in deficit_growth_basis). No fallback: without the
+        // basis the card stays "—" rather than showing a number nothing
+        // supports — until 2026-09-22 this was a literal 6,500.
+        if (Number.isFinite(renterGrowth) && renterGrowth > 0 && Number.isFinite(newConst) && newConst > 0 && Number.isFinite(coverage) && coverage > 0) {
+          setText('snapDeficitGrowth', Math.round(coverage * 100) + '% covered');
+          setText('snapNewConstPerYr', fmtInt(newConst));
+          setText('snapRenterGrowthPerYr', fmtInt(renterGrowth));
+          if (Number.isFinite(preservation) && preservation >= 0) setText('snapPreservationPerYr', fmtInt(preservation));
         }
       })
       .catch(function () {});

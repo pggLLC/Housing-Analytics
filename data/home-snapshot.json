@@ -1,10 +1,13 @@
 {
-  "generated": "2026-09-25T14:54:18.777Z",
+  "generated": "2026-09-25T17:43:59.388Z",
   "values": {
     "renter_cost_burden_pct": 49.9,
     "lihtc_property_count": 926,
     "average_lihtc_units_per_year": 3735,
-    "annual_le60_household_growth": 6406
+    "average_lihtc_new_construction_units_per_year": 2935,
+    "average_lihtc_preservation_units_per_year": 800,
+    "annual_le60_renter_household_growth": 3280,
+    "lihtc_new_construction_coverage_of_le60_renter_growth": 0.895
   },
   "deficit_growth_basis": {
     "dola_household_growth_per_year": 20222,
@@ -12,15 +15,23 @@
       2024,
       2044
     ],
-    "le60_households_all_tenure": 785576,
+    "le60_households_renter": 402239,
     "total_households_acs": 2479892,
-    "le60_share_all_tenure": 0.3168,
-    "tenure": "all"
+    "le60_renter_share_of_all_households": 0.1622,
+    "tenure": "renter",
+    "assumption": "new households are assumed to carry the current CHAS income and tenure mix; DOLA projects households by age, not income",
+    "all_tenure_comparison": {
+      "le60_households_all_tenure": 785576,
+      "annual_growth_if_all_tenure": 6406,
+      "not_used_because": "rental supply cannot be netted against owner households; see build_place_ami_gap.py v2 rationale"
+    }
   },
   "lihtc_window": {
     "start_year_exclusive": 2015,
     "end_year_inclusive": 2026,
-    "observed_years": 10
+    "observed_years": 10,
+    "new_construction_rule": "CHFA ProjectType beginning \"New Construction\"; everything else counted as preservation",
+    "losses_from_existing_stock": "not measured by any source here; the coverage ratio is therefore a ceiling"
   },
   "source_vintages": {
     "data/hna/ranking-index.json": {
