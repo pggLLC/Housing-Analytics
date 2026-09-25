@@ -77,6 +77,7 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  var _scenarioScorer = null; // computePma bound to the last run's inputs
   // Re-render hook for the LIHTC concept card's constraint screening.
   // Set on each runAnalysis() so the async flood-zone loader (see
   // loadOverlays) can re-run the environmental screen once the ~28MB
@@ -1356,6 +1357,22 @@
   }
 
   /* ── Tier label ─────────────────────────────────────────────────── */
+  /**
+   * The PMA score's scale, read off scoreTier() itself (0-100), so the
+   * legend under the score cannot disagree with the label beside it
+   * (audit F2). market-analysis-scoring.js is hash-pinned, so the scale is
+   * derived here rather than exported from it.
+   */
+  function scoreScaleLegend() {
+    var spans = [];
+    for (var v = 100; v >= 0; v--) {
+      var label = scoreTier(v).label;
+      if (!spans.length || spans[spans.length - 1].label !== label) spans.push({ label: label, hi: v, lo: v });
+      else spans[spans.length - 1].lo = v;
+    }
+    return spans.map(function (t) { return t.label + ' ' + t.lo + '\u2013' + t.hi; }).join(' \u00b7 ');
+  }
+
   function scoreTier(s) {
     return PMAScoring.scoreTier(s);
   }
@@ -1420,6 +1437,8 @@
       scoreEl.style.background = 'var(' + dimVar + ')';
     }
     setText('pmaScoreTier', tier.label + ' Site');
+    var scaleEl = el('pmaScoreScale');
+    if (scaleEl) scaleEl.textContent = 'Scale: ' + scoreScaleLegend();
     setText('pmaTractCount', result.tractCount || '—');
     renderScoreBoundary(result);
     renderPmaSiteSummary(result);
@@ -1698,18 +1717,30 @@
       }).join('');
     }
 
-    setText('pmaLihtcCount', result.lihtcCount);
-    setText('pmaLihtcUnits', result.lihtcUnits);
+    setText('pmaAffordableCount', result.affordableCount);
+    setText('pmaAffordableBreakdown',
+      result.lihtcCount + ' LIHTC · ' + result.otherAssistedCount + ' other assisted');
+    function _fmtUnits(n) { return n != null ? n.toLocaleString() : 'Value unavailable'; }
+    // Same figure the capture rate divides (affordableUnitsKnown), shown as
+    // unavailable when no project in the PMA reports a unit count.
+    setText('pmaLihtcUnits',
+      _fmtUnits(result.affordableUnits == null ? null : result.affordableUnitsKnown));
+    setText('pmaAffordableUnitsBreakdown',
+      _fmtUnits(result.lihtcUnits) + ' LIHTC · ' + _fmtUnits(result.otherAssistedUnits) + ' other assisted');
+    var unitsNote = el('pmaAffordableUnitsNote');
+    if (unitsNote) {
+      unitsNote.textContent = result.affordableUnitsUnavailableReason || '';
+      unitsNote.hidden = !result.affordableUnitsUnavailableReason;
+    }
     var capDen = captureDenominator(result);
     setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
     var capDenEl = el('pmaCaptureDenominator');
     if (capDenEl) {
-      var exUnits = Number(result.lihtcUnits) || 0;
+      // The capture numerator: existing affordable units from projects that
+      // report a unit count (LIHTC + other assisted), the same figure
+      // computePma scored and #pmaLihtcUnits shows.
+      var exUnits = result.affordableUnitsKnown;
       capDenEl.textContent = capDen
-        // result.lihtcUnits is every existing affordable unit in the PMA,
-        // LIHTC and other subsidized (runAnalysis adds HUD MF, USDA RD, PBV
-        // and preservation units to it), so it is not labelled LIHTC-only
-        // (Codex review of #1900).
         ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
         : _denominatorLine(null);
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
@@ -2292,11 +2323,14 @@
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
     var scenDen = captureDenominator(result);
+    var scenarioList = [{ label: 'No proposed project (the PMA score above)', proposedUnits: 0, amiMix: { ami60: 0 }, noProject: true }]
+      .concat(ENH.defaultScenarios(proposed));
     var scenarios = scenDen ? ENH.generateScenarios(
       result.acs,
-      result.lihtcUnits || 0,
-      ENH.defaultScenarios(proposed),
-      scenDen.value
+      result.affordableUnitsKnown,
+      scenarioList,
+      scenDen.value,
+      _scenarioScorer
     ) : [];
     el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
@@ -2308,11 +2342,13 @@
 
     var rows = scenarios.map(function (s) {
       var tier = scoreTier(s.overall);
-      return '<tr>' +
+      return '<tr data-units="' + s.proposedUnits + '" data-score="' + s.overall + '">' +
         '<td style="padding:0.25rem 0.5rem">' + s.label + '</td>' +
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>' +
+        (s.proposedUnits > 0
+          ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
+            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>'
+          : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
     }).join('');
 
@@ -2492,9 +2528,6 @@
         'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
       return;
     }
-    var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
-
     // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
     // preservation candidates) to the supply count BEFORE PMA scoring math.
     // The Capture Rate KPI + Competitive Density dimension previously used
@@ -2507,25 +2540,20 @@
     // runs (after user clicks "Run market analysis"), the props cache is
     // populated. Degrades gracefully: if cache empty, supply = LIHTC-only
     // and a methodology note flags the gap.
-    var nonLihtcUnits = 0;
-    var nonLihtcCount = 0;
-    if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
-      _nonLihtcPropsCache.forEach(function (p) {
-        if (p.lat == null || p.lng == null) return;
-        if (selectedTractBoundary) {
-          if (!pointInBoundary(+p.lng, +p.lat, selectedTractBoundary)) return;
-        } else if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) {
-          return;
-        }
-        nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
-        nonLihtcCount += 1;
-      });
-    }
-    // Combined "existing affordable" supply for PMA scoring. We keep the
-    // original lihtcUnits variable name (downstream code uses it widely)
-    // but its meaning is now "all existing affordable units in buffer."
-    lihtcUnits += nonLihtcUnits;
-    lihtcCount += nonLihtcCount;
+    //
+    // The two parts stay separate on the result (lihtcCount vs
+    // otherAssistedCount; affordableCount is their sum) so every surface can
+    // label what it counts. Projects without a reported unit count are
+    // counted and disclosed, not summed as 0 units — see
+    // js/market-analysis-supply.js.
+    var supplyBoundary = commuteShapedBoundary || selectedTractBoundary;
+    var nearbyOtherAssisted = (_nonLihtcPropsCache || []).filter(function (p) {
+      if (p.lat == null || p.lng == null) return false;
+      return supplyBoundary
+        ? pointInBoundary(+p.lng, +p.lat, supplyBoundary)
+        : haversine(lat, lon, +p.lat, +p.lng) <= effectiveBuffer;
+    });
+    var supply = window.PMAAffordableSupply.summarizeAffordableSupply(nearbyLihtc, nearbyOtherAssisted);
     // F222 — Cache race fix. Track last run's params so the cache-ready
     // event can re-fire runAnalysis with the same coords once props.json
     // arrives. Show a transient "loading inventory…" pill so the user
@@ -2563,7 +2591,15 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    var affordableUnitsKnown = supply.affordableUnitsKnown;
+    var pma          = computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    // The scenario table scores each unit count with exactly these inputs,
+    // so its no-project row is this score (audit F2). It used to call
+    // computePma(acs, existing, units) with no site, tracts, AMI or CHAS
+    // data, and read 58 beside a headline of 57.
+    _scenarioScorer = function (units) {
+      return computePma(acs, affordableUnitsKnown, units, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    };
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -2694,7 +2730,12 @@
       boundaryMethod: analysisMethod === 'tract' ? 'tract-picker' : 'buffer',
       tractGeoids: analysisMethod === 'tract' ? selectedTractGeoids.slice() : null,
       tractCount: bufTracts.length, acs: acs,
-      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      lihtcCount: supply.lihtcCount, lihtcUnits: supply.lihtcUnits,
+      otherAssistedCount: supply.otherAssistedCount, otherAssistedUnits: supply.otherAssistedUnits,
+      affordableCount: supply.affordableCount, affordableUnits: supply.affordableUnits,
+      affordableUnitsKnown: affordableUnitsKnown,
+      affordableUnitsUnknownCount: supply.unitsUnknownCount,
+      affordableUnitsUnavailableReason: supply.unitsUnavailableReason,
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -2766,7 +2807,7 @@
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
-        competitiveSetSize: lihtcCount || 0,
+        competitiveSetSize: supply.affordableCount,
         marketVacancy:      acs.vacancy_rate || null,
         // LIHTC recency — allows predictor to flag saturation (many recent
         // allocations = CHFA geo-distribution pressure) vs. gap (dormant
@@ -4675,6 +4716,12 @@
       supply: {
         lihtcProjectsInBuffer: r.lihtcCount,
         lihtcUnitsInBuffer:    r.lihtcUnits,
+        otherAssistedProjectsInBuffer: r.otherAssistedCount,
+        otherAssistedUnitsInBuffer:    r.otherAssistedUnits,
+        affordableProjectsInBuffer:    r.affordableCount,
+        affordableUnitsInBuffer:       r.affordableUnits,
+        projectsWithoutUnitCount:      r.affordableUnitsUnknownCount,
+        affordableUnitsUnavailableReason: r.affordableUnitsUnavailableReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
       // The rate and the count it divides by travel together (F3).
@@ -4795,9 +4842,15 @@
       ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
-      ['SECTION', 'LIHTC Supply in Buffer'],
+      ['SECTION', 'Existing Affordable Supply in Buffer'],
       ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
       ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['Other Assisted Projects (HUD MF / USDA RD / PBV / preservation)', fmtNum(sp.otherAssistedProjectsInBuffer)],
+      ['Other Assisted Units', fmtNum(sp.otherAssistedUnitsInBuffer)],
+      ['Existing Affordable Projects', fmtNum(sp.affordableProjectsInBuffer)],
+      ['Existing Affordable Units', fmtNum(sp.affordableUnitsInBuffer)],
+      ['Projects Without Unit Count', fmtNum(sp.projectsWithoutUnitCount)],
+      ['Unit Count Note', sp.affordableUnitsUnavailableReason || ''],
       ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
       ['', ''],
       ['SECTION', 'PMA Site Summary Card'],
@@ -4948,6 +5001,11 @@
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
+      ['other_assisted_count', r.otherAssistedCount],
+      ['other_assisted_units', r.otherAssistedUnits],
+      ['affordable_count', r.affordableCount],
+      ['affordable_units', r.affordableUnits],
+      ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
@@ -5542,6 +5600,7 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
     isInProp123Jurisdiction: isInProp123Jurisdiction,

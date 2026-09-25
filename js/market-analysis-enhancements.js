@@ -187,9 +187,11 @@
    *   other capture rates divide by (market-analysis.js captureDenominator).
    *   Without it the table used ACS renter_hh while the headline and the
    *   simulator used CHAS LIHTC-eligible renters (audit F3).
+   * @param {Function} [scorer] - units -> computePma result with the
+   *   headline's inputs (market-analysis.js _scenarioScorer).
    * @returns {Array} scenarioResults
    */
-  function generateScenarios(acs, existingUnits, scenarioList, denominator) {
+  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer) {
     if (!acs || !acs.renter_hh) return [];
     var den = Number(denominator) > 0 ? Number(denominator) : acs.renter_hh;
 
@@ -200,7 +202,9 @@
     return scenarioList.map(function (scenario) {
       var units   = scenario.proposedUnits || 0;
       var amiMix  = scenario.amiMix || { ami60: units };
-      var pma     = computePma(acs, existingUnits, units);
+      // scorer: computePma bound to the headline's own inputs, so the
+      // no-project row equals the PMA score (audit F2).
+      var pma     = typeof scorer === 'function' ? scorer(units) : computePma(acs, existingUnits, units);
       var capture = simulateCapture(den, units, amiMix);
 
       return {
@@ -269,6 +273,14 @@
         count:       result.lihtcCount,
         units:       result.lihtcUnits,
         prop123Count: result.prop123Count
+      },
+      existingAffordable: {
+        count:              result.affordableCount,
+        units:              result.affordableUnits,
+        lihtcCount:         result.lihtcCount,
+        otherAssistedCount: result.otherAssistedCount,
+        unitsUnknownCount:  result.affordableUnitsUnknownCount,
+        unitsUnavailableReason: result.affordableUnitsUnavailableReason
       },
       benchmark:  benchmark  || { available: false },
       pipeline:   pipeline   || { available: false },

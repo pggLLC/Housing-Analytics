@@ -82,6 +82,29 @@
     }, 4000);
   }
 
+  /* The need reconciliation the page painted (hna-controller.js
+     buildNeedReconciliation, audit F4). The PDF and the workbook quote the
+     page's own object, so an export cannot disagree with the screen. */
+  function _needReconciliation() {
+    var st = window.HNAState && window.HNAState.state;
+    return (st && st.needReconciliation) || null;
+  }
+
+  /* jsPDF's built-in Helvetica has no glyph for these; they print as
+     garbage. Plain equivalents for the reconciliation section. */
+  function _pdfPlain(text) {
+    return String(text == null ? '' : text)
+      .replace(/\u2264/g, '<=').replace(/\u00d7/g, 'x')
+      .replace(/[\u2018\u2019]/g, "'").replace(/[\u2014\u2013]/g, '-').replace(/\u2212/g, '-');
+  }
+
+  function _reconHomes(units) {
+    if (units == null || !Number.isFinite(Number(units))) return 'Not available';
+    var n = Math.round(Number(units));
+    var f = Math.abs(n).toLocaleString('en-US');
+    return n < 0 ? 'Surplus of ' + f + ' homes' : f + ' homes';
+  }
+
   /** Safely read visible text from a DOM element, returning '' on miss. */
   function _elText(id) {
     var el = document.getElementById(id);
@@ -1052,6 +1075,21 @@
       drawChart('chartOwnerCostBurden',    'Owners by share of income spent on housing.', 200);
       drawChart('chartHomeValue',          'Home value distribution (owner-occupied).', 200);
 
+      // ── How the need figures fit together (audit F4) ──
+      const recon = _needReconciliation();
+      if (recon) {
+        drawSectionHeader('How the need figures fit together', _pdfPlain(
+          'Figure used' + (recon.endYear ? ' for ' + recon.endYear : '') + ': ' + _reconHomes(recon.used.units) + '. ' + recon.used.why));
+        drawTableSimple(recon.rows.map(function (r) {
+          return { label: _pdfPlain(r.label + (r.inFigure ? ' (figure used)' : '')), value: _reconHomes(r.units) };
+        }));
+        recon.rows.forEach(function (r) {
+          drawNarrative(_pdfPlain(r.label + ': ' + (r.unavailable || r.counts)));
+        });
+        drawNarrative(_pdfPlain(recon.permits.text));
+        if (recon.households) drawNarrative(_pdfPlain(recon.households.text));
+      }
+
       // ── 6. Affordability + AMI gap ──
       drawSectionHeader('6. AMI gap & affordability', 'Estimated supply gap by AMI tier — the canonical entry point for sizing affordable-housing demand.');
       drawTableSimple([
@@ -1244,9 +1282,35 @@
       ].filter(function (r) { return r[1] != null && r[1] !== ''; })
        .forEach(function (r) { summary.addRow({ k: r[0], v: r[1] }); });
 
+      // ── How the need figures fit together (audit F4) ──
+      // Figures as numbers, not text, so they can be summed or charted.
+      var recon = _needReconciliation();
+      var used = { Summary: true };
+      if (recon) {
+        var rs = wb.addWorksheet('Need reconciliation');
+        used['Need reconciliation'] = true;
+        rs.columns = [
+          { header: 'Measure',        key: 'm', width: 40 },
+          { header: 'Homes',          key: 'h', width: 14 },
+          { header: 'In figure used', key: 'u', width: 14 },
+          { header: 'What it counts', key: 'c', width: 100 },
+        ];
+        rs.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        rs.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };
+        var numOrNull = function (v) { return (v == null || !Number.isFinite(Number(v))) ? null : Math.round(Number(v)); };
+        recon.rows.forEach(function (r) {
+          rs.addRow({ m: r.label, h: numOrNull(r.units), u: r.inFigure ? 'Yes' : 'No', c: r.unavailable || r.counts });
+        });
+        rs.addRow({});
+        rs.addRow({ m: 'Figure used' + (recon.endYear ? ' (' + recon.endYear + ')' : ''), h: numOrNull(recon.used.units), c: recon.used.why });
+        rs.addRow({ m: 'Permit pace, homes per year', h: recon.permits.perYear == null ? null : Math.round(recon.permits.perYear * 10) / 10, c: recon.permits.text });
+        rs.addRow({ m: 'Homes per year to reach figure used', h: recon.permits.neededPerYear == null ? null : Math.round(recon.permits.neededPerYear * 10) / 10 });
+        rs.addRow({ m: 'Permit pace / needed per year', h: recon.permits.ratio == null ? null : Math.round(recon.permits.ratio * 100) / 100 });
+        if (recon.households) rs.addRow({ m: 'Households chart change', h: numOrNull(recon.households.delta), c: recon.households.text });
+      }
+
       // ── One sheet per chart ──
       var harvested = _harvestChartsForExcel();
-      var used = { Summary: true };
       harvested.forEach(function (chart) {
         var base = _safeSheetName(chart.title || chart.id);
         var name = base, n = 2;

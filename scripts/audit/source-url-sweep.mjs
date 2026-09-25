@@ -94,8 +94,6 @@ const ALLOW_LIST = new Set([
   "https://cdola.colorado.gov/commitment-filings",
   "https://cdola.colorado.gov/housing",
   "https://cdola.colorado.gov/prop123",
-  "https://cdola.colorado.gov/prop-123",
-  "https://cdola.colorado.gov/proposition-123",
   "https://cdola.colorado.gov/division-of-housing",
   // HNA renderer source links that are public agency/program landing pages
   // but block or reset CI fetches. Keep as visible citations in the app; the

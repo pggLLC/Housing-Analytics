@@ -8,7 +8,7 @@
       "Round 2 = 4% LIHTC + State Credit (4% paired with State Credit; August application). Pure 4% / PAB is rolling outside this cycle.",
       "MIHTC (Middle Income Housing Tax Credit) is annual with its own LOI/app cycle (March/May)",
       "Every CHFA round requires a Letter of Intent (LOI) 60+ days before the application — LOI deadlines are the real first gate",
-      "Prop 123 awards run through DOLA on a separate cycle — see cdola.colorado.gov/proposition-123",
+      "Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds — see cdola.colorado.gov/prop123.",
       "The QAP covers two years (2027-2028) and is the plan that sets cycle dates, credit maximums and scoring; it is drafted January-June, taken to public hearings and written comment in July-August, then goes to the CHFA Board and the Governor in September-October (CHFA's own timeline, August 26, 2026 hearing presentation).",
       "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan.",
       "status is a snapshot as of metadata.generated. js/components/qap-calendar.js also compares each event's date (or date_end, when present) with today, so an event whose date has passed renders as past even if this field has not been refreshed."
@@ -188,13 +188,53 @@
       "status":     "upcoming",
       "details":    "August 2, 2027 by 5pm MT, per section 3.B.2 of the 2027-28 QAP Third Draft (not yet adopted). R2 pairs federal 4% credit with accelerated State Credit.",
       "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2028-r1-loi",
+      "name":       "2028 R1 (9% + State) — Letter of Intent due",
+      "date":       "2027-12-01",
+      "date_precision": "exact",
+      "category":   "9pct-r1-loi",
+      "status":     "upcoming",
+      "details":    "December 1, 2027 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2028-r1-deadline",
+      "name":       "2028 R1 9% LIHTC + State Credit — application deadline",
+      "date":       "2028-02-01",
+      "date_precision": "exact",
+      "category":   "9pct-r1-deadline",
+      "status":     "upcoming",
+      "details":    "February 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2028-r2-loi",
+      "name":       "2028 R2 (4% + State) — Letter of Intent due",
+      "date":       "2028-06-01",
+      "date_precision": "exact",
+      "category":   "4pct-r2-loi",
+      "status":     "upcoming",
+      "details":    "June 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
+    },
+    {
+      "id":         "2028-r2-deadline",
+      "name":       "2028 R2 4% LIHTC + State Credit — application deadline",
+      "date":       "2028-08-01",
+      "date_precision": "exact",
+      "category":   "4pct-r2-deadline",
+      "status":     "upcoming",
+      "details":    "August 1, 2028 by 5pm MT, per section 3.B.2 (p. 16) of the 2027-28 QAP Third Draft (not yet adopted).",
+      "url":        "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     }
   ],
   "rolling_programs": [
     {
       "name":      "4% LIHTC + PAB (Private Activity Bond)",
       "category":  "4pct-rolling",
-      "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis (no fixed deadline). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
+      "description":"4% Tax-Exempt Bond financing is reviewed on a rolling basis: preliminary applications are accepted all year except February, August and December (2027-28 QAP Third Draft, section 3.B.2, p. 16). Limited by annual PAB allocation — see data/pab-allocations.json for current year's available cap.",
       "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
@@ -206,14 +246,14 @@
     {
       "name":      "Colorado State LIHTC",
       "category":  "state-paired",
-      "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals.",
+      "description":"State tax credit MUST be paired with federal 9% or 4%. Same cycles as federal. Roughly doubles equity yield on stacked deals. Transit Zone (TZ) credit (HB26-1065) may be awarded in lieu of standard state credit under a separate TZ Credit Allocation Plan, within the same fixed state-credit amounts (2027-28 QAP Third Draft, pp. 17, 31-32).",
       "url":       "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan"
     },
     {
       "name":      "Proposition 123 — Affordable Housing Fund",
       "category":  "prop123",
-      "description":"Colorado statutory affordable-housing fund administered by DOLA. Separate cycle from CHFA — see cdola.colorado.gov/proposition-123 for current rounds.",
-      "url":       "https://cdola.colorado.gov/proposition-123"
+      "description":"Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds. DOLA's Prop 123 page links every program's current round.",
+      "url":       "https://cdola.colorado.gov/prop123"
     }
   ]
 }
