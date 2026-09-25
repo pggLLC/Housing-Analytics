@@ -104,6 +104,30 @@ const FLOWS = [
     interact: pmaTractDefaultInteraction,
   },
   {
+    // A deferred re-run must not bring a previous site back. The affordable
+    // inventory is held until the second site is pending, so the first run
+    // takes the stale-cache path and the cache-ready re-run fires while the
+    // second site waits for its tracts (Codex review of #1888).
+    name: 'PMA deferred re-run',
+    path: '/market-analysis.html',
+    mustContain: ['Public Market Analysis', 'screening tool'],
+    requiredSelectors: ['#pmaMap'],
+    beforeLoad: holdAffordableInventory,
+    interact: pmaDeferredRerunInteraction,
+  },
+  {
+    // When tract data cannot be read, the picker says so and what to do,
+    // rather than leaving an empty picker under "review the pre-selected
+    // tracts" (Codex review of #1888). Malformed JSON rather than a 404, so
+    // the page logs no console error of its own.
+    name: 'PMA tract data unavailable',
+    path: '/market-analysis.html',
+    mustContain: ['Public Market Analysis'],
+    requiredSelectors: ['#pmaMap'],
+    beforeLoad: (page) => page.route(/tract_boundaries_co\.geojson/, (r) => r.fulfill({ status: 200, contentType: 'application/json', body: '{' })),
+    interact: pmaTractDataUnavailableInteraction,
+  },
+  {
     name: 'Deal Calculator',
     path: '/deal-calculator.html',
     mustContain: ['Deal Calculator', 'Project Inputs'],
@@ -282,6 +306,55 @@ async function pmaTractDefaultInteraction(page, viewport) {
   if (third.priorVisible) failures.push("the previous site's dimension scores stayed on screen for the new site");
   if (third.csvEnabled || third.lastResult) failures.push("the previous site's result stayed exportable for the new site");
   return failures;
+}
+
+async function holdAffordableInventory(page) {
+  let release;
+  const held = new Promise((r) => { release = r; });
+  page.__releaseAffordableInventory = release;
+  await page.route(/affordable-housing\/properties\.json/, async (route) => { await held; await route.continue(); });
+}
+
+async function pmaDeferredRerunInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') { if (page.__releaseAffordableInventory) page.__releaseAffordableInventory(); return []; }
+  const failures = [];
+  page.on('dialog', (d) => d.accept().catch(() => {}));
+  const place = async (c) => {
+    await page.fill('#pmaAddressInput', c.join(', '));
+    await page.click('#pmaAddressSearchBtn');
+    await page.waitForFunction((cc) => Math.abs(window.PMAEngine._lastLat - cc[0]) < 1e-6
+      && window.PMATractPicker.getSelectedGeoids().length > 0, c, { timeout: 20000 });
+  };
+  try {
+    await page.waitForFunction(() => window.PMAEngine && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 });
+    await place([39.1589, -108.729]);
+    await page.click('#pmaRunBtn');
+    await page.waitForFunction(() => document.getElementById('pmaScoreBoundary').dataset.boundary === 'tract', null, { timeout: 30000 });
+    const stale = await page.evaluate(() => !!document.getElementById('pma-affordable-loading-notice'));
+    if (!stale) failures.push('the first run did not take the stale-inventory path, so this check tested nothing');
+    await place([39.0639, -108.5506]);
+  } finally {
+    page.__releaseAffordableInventory();
+  }
+  await page.waitForTimeout(5000);
+  const after = await page.evaluate(() => ({
+    boundary: document.getElementById('pmaScoreBoundary').dataset.boundary,
+    hasResult: !!window.PMAEngine._state.getLastResult(),
+  }));
+  if (after.boundary !== 'pending' || after.hasResult) {
+    failures.push(`the late inventory re-ran the previous site under the new one (boundary ${after.boundary}, result ${after.hasResult})`);
+  }
+  return failures;
+}
+
+async function pmaTractDataUnavailableInteraction(page, viewport) {
+  if (viewport.name !== 'desktop') return [];
+  await page.waitForFunction(() => window.PMAEngine && window.PMAUIController && window.PMATractPicker, null, { timeout: 20000 });
+  await page.fill('#pmaAddressInput', '39.1589, -108.729');
+  await page.click('#pmaAddressSearchBtn');
+  const said = await page.waitForFunction(() => document.getElementById('pmaScoreBoundary').dataset.boundary === 'unavailable',
+    null, { timeout: 15000 }).then(() => true).catch(() => false);
+  return said ? [] : ['with tract data unreadable, the page still asks the analyst to review tracts it could not load'];
 }
 
 const TIGERWEB_URL_PATTERN = /tigerweb\.geo\.census\.gov/i;
@@ -516,6 +589,7 @@ async function auditFlow(browser, baseUrl, flow, viewport) {
     });
   });
 
+  if (typeof flow.beforeLoad === 'function') await flow.beforeLoad(page, viewport);
   try {
     await page.goto(baseUrl + flow.path, { waitUntil: 'domcontentloaded', timeout: PAGE_TIMEOUT_MS });
     try { await page.waitForLoadState('networkidle', { timeout: 12000 }); } catch (_) {}

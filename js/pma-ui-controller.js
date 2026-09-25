@@ -877,8 +877,29 @@
         _wireTractRationaleInput();
         _onTractSelectionChange(r.selected);
       })
-      .catch(function (err) { console.warn('[PMATractPicker] init failed:', err); });
+      .catch(function (err) {
+        console.warn('[PMATractPicker] init failed:', err);
+        // The caller has already committed to the picker (the previous
+        // site's results are hidden and no buffer ran), so a silent failure
+        // left an empty picker and a pending card (Codex review of #1888).
+        // Say what failed and what to do instead.
+        _showTractPickerFailure();
+      });
     return true;
+  }
+
+  function _showTractPickerFailure() {
+    var tier = $id('pmaScoreTier');
+    if (tier) {
+      tier.textContent = 'Census tract data did not load, so the tract picker could not open. '
+        + 'Reload the page to try again, or choose Buffer to screen this site with a radius.';
+    }
+    var boundary = $id('pmaScoreBoundary');
+    if (boundary) {
+      boundary.dataset.boundary = 'unavailable';
+      boundary.textContent = 'PMA: tract data unavailable';
+      boundary.hidden = false;
+    }
   }
 
   /* A map click in tract mode: open the picker at the site and say what to
