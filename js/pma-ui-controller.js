@@ -718,13 +718,27 @@
       runOptions.tractBoundary = pickerER.getBoundary();
     }
 
+    // The site this run belongs to, as the page records it (lat/lon above
+    // may be parsed from rounded display text, so compare like with like).
+    var engStart = window.PMAEngine;
+    var siteAtStart = engStart ? [engStart._lastLat, engStart._lastLon] : null;
+
     runner.run(lat, lon, runOptions)
     .on('progress', _progressUpdate)
     .on('complete', function (scoreRun) {
-      _lastScoreRun = scoreRun;
       _running = false;
       _hideChartLoading('pmaRadarChart');
       _progressComplete();
+      // The site moved while this run was in flight: its result, boundaries
+      // and permalink describe the previous site. Discard the whole
+      // completion rather than drawing it over the new one (Codex review of
+      // #1909).
+      var engNow = window.PMAEngine;
+      if (siteAtStart && engNow
+          && (engNow._lastLat !== siteAtStart[0] || engNow._lastLon !== siteAtStart[1])) {
+        return;
+      }
+      _lastScoreRun = scoreRun;
       _attachTractSelectionToScoreRun(scoreRun);
       _renderJustification(scoreRun);
       _renderConceptCard(scoreRun);
@@ -741,7 +755,11 @@
       // Render PMA delineation polygon and optional SMA ring
       var delineation = window.PMADelineation;
       var mapRef = window.PMAEngine && window.PMAEngine._map();
-      if (delineation && mapRef) {
+      // A new site placed while this run was finishing has already cleared
+      // the boundaries; drawing this run's would put the previous site's
+      // PMA back under the new marker.
+      var siteMoved = document.body.getAttribute('data-pma-result-state') === 'pending';
+      if (delineation && mapRef && !siteMoved) {
         var displayTracts = (scoreRun && Array.isArray(scoreRun.bufferTractsDetail))
           ? scoreRun.bufferTractsDetail.map(function (d) {
               return { geoid: d.geoid, share: d.share };

@@ -3402,6 +3402,16 @@
     if (unitMixError) {
       annualRents = NaN;
     }
+    // Same for a deal with no county. The rent roll above prices each unit at
+    // the county's AMI rent ceiling, and before a county is chosen there are
+    // no ceilings, so every tier contributes nothing and the sum reads $0.
+    // That $0 is not a measurement: it produced an NOI of -$399,000 (expenses
+    // against no income), a $0 first mortgage and a sensitivity chart of $0
+    // bars for anyone reaching this page without a jurisdiction (G3 dry run,
+    // 2026-09-25).
+    if (!_amiLimits && !_amiLimitsByBr) {
+      annualRents = NaN;
+    }
 
     // Developer fee
     var devfeePctEl = document.getElementById('dc-devfee-pct');
@@ -3460,7 +3470,8 @@
       var noiComputedEl = document.getElementById('dc-noi-computed');
       if (noiComputedEl) noiComputedEl.textContent = isFinite(noi) ? fmt(noi) : '—';
     } else {
-      noi = safeVal('dc-noi') || 0;
+      // A blank NOI field is an unknown NOI, not $0 of it.
+      noi = safeVal('dc-noi');
     }
 
     // Supportable first mortgage
@@ -3474,7 +3485,27 @@
     if (!isFinite(term) || term <= 0) term = 35;
 
     var mc = mortgageConstant(interestRate / 100, term);
-    var mortgage = (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
+    // A known NOI of zero or less supports no mortgage: that $0 is computed.
+    // An unknown NOI supports an unknown one, and must stay unknown — `NaN > 0`
+    // is false, so without the first test it fell through to the same $0.
+    var mortgage = !isFinite(noi) ? NaN
+      : (mc > 0 && noi > 0) ? (noi / dcr) / mc : 0;
+
+    // Why NOI or the rent roll is unknown, carried with it so each message
+    // names the fix that applies rather than assuming there is no county.
+    var noiUnknownReason = null;
+    if (!(autoNoi && autoNoi.checked) && !isFinite(noi)) {
+      noiUnknownReason = 'Enter NOI, or turn on auto-compute.';
+    } else if (unitMixError) {
+      noiUnknownReason = 'Fix the unit mix: the AMI-tier units do not add up to Total Units.';
+    } else if (!_amiLimits && !_amiLimitsByBr) {
+      noiUnknownReason = 'Select a county to load AMI rent limits.';
+    }
+    var rentsUnknownReason = unitMixError
+      ? 'Fix the unit mix: the AMI-tier units do not add up to Total Units.'
+      : (!_amiLimits && !_amiLimitsByBr) ? 'Select a county to load AMI rent limits.'
+      : !(annualRents > 0) ? 'Add units to at least one AMI tier.'
+      : null;
 
     // Cap rate and break-even occupancy
     var capRate = (noi > 0 && tdc > 0) ? (noi / tdc) : null;
@@ -3539,7 +3570,15 @@
     // Mark the deferred row so the user sees the auto-balance decision.
     var autoNote = document.getElementById('dc-deferred-auto-note');
     if (autoNote) {
-      if (autoBalance) {
+      if (autoBalance && !isFinite(gapBeforeDeferred)) {
+        // NaN fails every comparison below, which used to land on "Deal is
+        // balanced" — a verdict about a gap nobody could compute.
+        autoNote.textContent = 'Nothing to balance yet: the funding gap depends on the first mortgage, which needs a known NOI. ' +
+          (noiUnknownReason || rentsUnknownReason || '');
+        // Rental sizing only: an ownership deal has no NOI-sized first
+        // mortgage, and must not show rental/LIHTC terms (PC-2).
+        autoNote.hidden = currentDealMode() === 'ownership';
+      } else if (autoBalance) {
         if (deferredDevFee >= deferredCap - 1 && gapBeforeDeferred > deferredCap) {
           autoNote.textContent = 'Hit cap: deferring max ' + fmt(deferredCap) +
             ' (' + (deferredPctSlider * 100).toFixed(0) + '% of dev fee). Remaining ' + fmt(gap) +
@@ -4179,7 +4218,17 @@
 
     // ── Tornado sensitivity chart ───────────────────────────────────
     // Renders 4 sensitivity bars showing how key variables affect the deal.
-    if (window.TornadoSensitivity && tdc > 0 && document.getElementById('tornadoChartMount')) {
+    // Every bar but equity is NOI or mortgage under a perturbation. With no
+    // known rent roll each of them is an unknown drawn as a $0 bar, so show
+    // why instead of a chart.
+    var tornadoMount = document.getElementById('tornadoChartMount');
+    var sensitivityKnown = isFinite(noi) && annualRents > 0;
+    if (tornadoMount && tdc > 0 && !sensitivityKnown) {
+      tornadoMount.innerHTML = '<p style="font-size:var(--small);color:var(--muted);margin:.5rem 0;">' +
+        'Sensitivity needs a known NOI and rent roll. ' +
+        ((!isFinite(noi) && noiUnknownReason) || rentsUnknownReason || '') + '</p>';
+    }
+    if (window.TornadoSensitivity && tdc > 0 && sensitivityKnown && tornadoMount) {
       try {
         var eqP = equityPrice || 0.90;
         var ir  = interestRate || 6.5;
@@ -4226,7 +4275,11 @@
               color: 'var(--warn)' },
             { label: 'NOI (Vacancy)', low: vacLoEgi, high: vacHiEgi, base: noi,
               lowLabel: fmt(vacLoEgi), highLabel: fmt(vacHiEgi),
-              note: 'Vacancy ' + Math.max(1, vu - 2) + '% to ' + Math.min(15, vu + 2) + '%',
+              // vacFrac() * 100 is binary floating point: 7% arrives as
+              // 7.000000000000001 and was printed that way. Round to the
+              // tenth the input is entered in.
+              note: 'Vacancy ' + (Math.round(Math.max(1, vu - 2) * 10) / 10) + '% to ' +
+                (Math.round(Math.min(15, vu + 2) * 10) / 10) + '%',
               color: '#059669' }
           ]
         }, 'tornadoChartMount');
@@ -5814,8 +5867,8 @@
         url: 'https://www.chfainfo.com/multifamily-finance/colorado-housing-investment-fund',
         type: 'Loan', notes: 'Deferred. 40-yr affordability minimum. ~3-5% rate typical. Stacks with 9% LIHTC.' },
       { k: 'prop123', name: 'Prop 123 — CO Affordable Housing Fund',
-        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. Administered by DOLA + DOH.',
-        url: 'https://cdola.colorado.gov/prop-123',
+        desc: 'Colorado Proposition 123 (2022) reserves a share of TABOR surplus for affordable housing. 60% is overseen by OEDIT and managed by CHFA (equity, concessionary debt incl. LIHTC gap finance, land banking); 40% goes to DOLA (homeownership, homelessness, local planning capacity).',
+        url: 'https://cdola.colorado.gov/prop123',
         type: 'Loan + Grant', notes: 'Zero-int deferred loans, grants for predev/land. Targets ≤60% AMI. First full allocation cycle Q3 2026.' },
       { k: 'local_pha', name: 'Local PHA / Housing Trust',
         desc: 'County or city housing trust funds + PHA capital reserves. Denver AHTF, Boulder HTF, Aspen HTF, etc.',
@@ -5873,9 +5926,13 @@
         if (!listEl) return;
         var html = PROGRAM_REF.map(function (p) {
           var url = p.url ?
-            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
+            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);overflow-wrap:anywhere;word-break:break-word;">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
             '<span style="font-size:var(--tiny);color:var(--faint);">(no external authority — sponsor/seller-specific)</span>';
-          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
+          // min-width:0 lets a grid card shrink below its longest unbroken word
+          // (a bare URL); overflow-wrap on the link lets that URL wrap. Without
+          // both, at phone width the HUD trust-fund link ran 443px wide inside
+          // a 375px screen and <details>{overflow:hidden} cut its tail off.
+          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);min-width:0;">' +
             '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp2);margin-bottom:0.25rem;">' +
               '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
               '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +

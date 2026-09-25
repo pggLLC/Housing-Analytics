@@ -1560,3 +1560,20 @@ details.lr-section--collapsible[open] > .lr-section__summary { border-bottom: 1p
   .hna-handoff { padding: .9rem 1rem; }
   .hna-handoff__jump a { display: inline-block; margin: .15rem .7rem .15rem 0; }
 }
+
+/* How the need figures fit together (js/hna/hna-controller.js
+   renderNeedReconciliation, audit F4). */
+.hna-recon { margin-top: 12px; }
+.hna-recon-title { margin: 0 0 6px; font-size: 1rem; }
+.hna-recon-list { list-style: none; margin: 0; padding: 0; }
+.hna-recon-item { padding: 8px 0 8px 10px; border-top: 1px solid var(--border); border-left: 3px solid transparent; }
+.hna-recon-item[data-in-figure="true"] { border-left-color: var(--accent); }
+.hna-recon-line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.hna-recon-label { font-weight: 600; color: var(--text); }
+.hna-recon-value { font-weight: 700; color: var(--text); white-space: nowrap; }
+.hna-recon-badge { display: inline-block; margin-top: 2px; font-size: .75rem; font-weight: 700; color: var(--accent); }
+.hna-recon-counts { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
+.hna-recon-used, .hna-recon-permits, .hna-recon-households {
+  margin: 8px 0 0; color: var(--muted); font-size: .9rem;
+}
+.hna-recon-used strong { color: var(--text); }
