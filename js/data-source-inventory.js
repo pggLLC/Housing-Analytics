@@ -1193,7 +1193,7 @@
       provider: 'CHFA / Internal curation',
       url: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan',
       localFile: 'data/policy/policy-watch.json',
-      lastUpdated: '2026-09-24',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Manual, as checked',
       maxAgeDays: 90,
       geoUnit: 'Statewide',
