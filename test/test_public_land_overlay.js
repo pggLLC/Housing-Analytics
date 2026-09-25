@@ -13,7 +13,6 @@ const path    = require('path');
 const fs      = require('fs');
 const { JSDOM } = require('jsdom');
 const overlay = require(path.resolve(__dirname, '..', 'js', 'public-land-overlay'));
-const predictor = require(path.resolve(__dirname, '..', 'js', 'chfa-award-predictor'));
 const data    = require(path.resolve(__dirname, '..', 'data', 'policy', 'county-ownership.json'));
 
 function clone(value) { return JSON.parse(JSON.stringify(value)); }
@@ -129,7 +128,7 @@ test('assess(): absent county does not fabricate private ownership or a zero ben
   assert(result.financialBenefit.subsidy === null, 'absence has no zero-dollar benefit figure');
 });
 
-function renderLandResult(land, award) {
+function renderLandResult(land) {
   var dom = new JSDOM('<!doctype html><main><section id="card"></section><div id="lihtcConceptLiveRegion"></div></main>', {
     url: 'http://127.0.0.1/market-analysis.html',
     runScripts: 'outside-only'
@@ -140,7 +139,7 @@ function renderLandResult(land, award) {
     recommendedExecution: 'Test',
     conceptType: 'family',
     keyRationale: []
-  }, null, { publicLand: land, chfaCompetitiveness: award || null });
+  }, null, { publicLand: land });
   return dom.window.document.getElementById('card').textContent.replace(/\s+/g, ' ').trim();
 }
 
@@ -160,28 +159,6 @@ test('renderer: a hypothetical verified parcel still shows its owner and unchang
   assert(text.includes('City & County of Denver'), 'present county renders its recorded parcel owner');
   assert(text.includes('$400K'), 'present county renders the unchanged $400,000 benefit');
   assert(text.includes('Strong'), 'present county retains its opportunity classification');
-  overlay.load(data);
-});
-
-test('predictor: quarantined is unknown and partial, never verified no opportunity', function () {
-  overlay.load(data);
-  var land = overlay.assess(null, null, '08031');
-  var prediction = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: land });
-  assert(prediction.publicLandAssessment.status === 'unknown', 'quarantined parcel yields predictor unknown');
-  assert(prediction.publicLandAssessment.status !== 'verified_no_opportunity', 'quarantine never becomes verified no opportunity');
-  assert(prediction.scoreCompleteness === 'partial', 'quarantined input marks the composite partial');
-  assert(prediction.scoreDisclosure.includes(data.meta.absence_reason), 'the unknown reason travels with the composite');
-  var text = renderLandResult(land, prediction);
-  assert(text.includes('partial estimate'), 'rendered composite is visibly partial');
-  assert(text.includes(data.meta.absence_reason), 'rendered composite shows the carried reason');
-});
-
-test('predictor: a hypothetical verified parcel selectively retains the 2.5-point award', function () {
-  overlay.load(dataWithVerifiedParcel('08031', 0));
-  var strong = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: overlay.assess(null, null, '08031') });
-  var verifiedNone = predictor.predict({ conceptType: 'family' }, { publicLandAssessment: { coverageStatus: 'researched', opportunity: 'none' } });
-  assert(strong.publicLandAssessment.status === 'strong', 'verified parcel reaches strong status');
-  assert(strong.factors.localSupport.value - verifiedNone.factors.localSupport.value === 2.5, 'verified parcel retains the exact 2.5-point award');
   overlay.load(data);
 });
 

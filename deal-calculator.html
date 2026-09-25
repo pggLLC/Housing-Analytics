@@ -99,9 +99,6 @@
   <script defer src="js/components/soft-funding-breakdown.js"></script>
   <script defer src="js/forecasting.js"></script>
   <script defer src="js/components/equity-forecast-panel.js"></script>
-  <script defer src="js/chfa-award-predictor.js"></script>
-  <script defer src="js/components/qap-competitiveness-panel.js"></script>
-  <script defer src="js/qap-simulator.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
   <script defer src="js/components/source-badge.js"></script>
   <script src="js/components/data-scope.js"></script>
@@ -552,16 +549,6 @@
 
     <!-- LIHTC contextual tips (Deal Calculator step) -->
     <div id="lihtcTipsMount-dc"></div>
-
-    <!-- ── QAP Competitiveness Simulator ─────────────────────────────── -->
-    <div style="max-width:1400px;margin:2rem auto;padding:0 18px;">
-      <div id="qapSimulatorMount"></div>
-      <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        if (window.QAPSimulator) QAPSimulator.render('qapSimulatorMount');
-      });
-      </script>
-    </div>
 
     <!-- ── LIHTC Complexity Education ─────────────────────────────────── -->
     <section class="dc-edu-section" aria-labelledby="dcEduHeading">
