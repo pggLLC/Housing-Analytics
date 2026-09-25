@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T12:46:44.699Z",
+    "generated_at": "2026-09-25T12:50:05.454Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162458518,
+    "total_size_bytes": 162458605,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-25T12:37:43.014Z",
+      "mtime": "2026-09-25T12:49:57.148Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1493,7 +1493,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1252594,
-      "mtime": "2026-09-25T12:38:27.948Z",
+      "mtime": "2026-09-25T12:46:53.094Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30459,17 +30459,9 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 205468,
-      "mtime": "2026-09-25T12:46:36.295Z",
-      "shape": "object",
-      "keys": [
-        "generated",
-        "files"
-      ],
-      "key_count": 2,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
+      "size_bytes": 205555,
+      "mtime": "2026-09-25T12:49:57.150Z",
+      "error": "Expected property name or '}' in JSON at position 2 (line 2 column 1)"
     },
     {
       "path": "market/acs_median_rent_co.json",
@@ -31814,7 +31806,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14706,
-      "mtime": "2026-09-25T12:37:43.129Z",
+      "mtime": "2026-09-25T12:49:57.150Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31837,7 +31829,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-25T12:37:43.129Z",
+      "mtime": "2026-09-25T12:49:57.150Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
