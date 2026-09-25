@@ -1069,17 +1069,23 @@
     // production load and this tier could never succeed — the map silently fell
     // through to the ~42-feature embedded fallback while the full 224-feature
     // file sat same-origin at data/qct-colorado.json.
+    // A county with no matching tract in a file that loaded has zero QCTs —
+    // a real answer, so it is returned here rather than falling through.
     try {
       const backupGj = await loadJson('data/qct-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
         const features = backupGj.features.filter(matchCounty);
-        if (features.length > 0) return { ...backupGj, features };
+        return { ...backupGj, features };
       }
     } catch(_) {/* no local QCT backup */}
-    // Tier 3b: embedded fallback filtered to county
-    const qctFeatures = window.HNAUtils.QCT_FALLBACK_CO.features.filter(matchCounty);
-    if (qctFeatures.length > 0) return { ...window.HNAUtils.QCT_FALLBACK_CO, features: qctFeatures };
-    return null;
+    // Nothing loaded. There is no embedded stand-in: QCT decides the 30% basis
+    // boost, and a guessed tract would answer that wrongly. Membership is
+    // unknown, which the renderer shows as such — never as "no QCTs".
+    return {
+      type: 'FeatureCollection',
+      features: [],
+      unavailableReason: 'data/qct-colorado.json and the HUD QCT service both failed to load',
+    };
   }
 
   // Fetch DDA polygons from HUD ArcGIS service for the county
@@ -1141,9 +1147,13 @@
         return { ...backupGj, features };
       }
     } catch(_) {/* no local DDA backup */}
-    // Tier 3b: embedded fallback filtered to county
-    const ddaFeatures = window.HNAUtils.DDA_FALLBACK_CO.features.filter(ddaFilter);
-    return { ...window.HNAUtils.DDA_FALLBACK_CO, features: ddaFeatures };
+    // Nothing loaded. No embedded stand-in (see fetchQctTracts): DDA status is
+    // unknown, and the renderer must not report it as "Non-DDA".
+    return {
+      type: 'FeatureCollection',
+      features: [],
+      unavailableReason: 'data/dda-colorado.json and the HUD DDA service both failed to load',
+    };
   }
 
   // Returns a human-readable label and badge color for a LIHTC data source identifier.
@@ -1250,7 +1260,11 @@
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       console.warn('[HNA] QCT render failed', e);
-      if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
+      try {
+        window.HNARenderers.renderQctLayer({ features: [], unavailableReason: 'QCT data could not be processed: ' + e.message });
+      } catch(_) {
+        if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = 'Unavailable';
+      }
     }
 
     // DDA
@@ -1261,7 +1275,13 @@
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       console.warn('[HNA] DDA render failed', e);
-      window.HNARenderers.renderDdaLayer(countyFips5, null, { type: geoType, name: geoLabel });
+      try {
+        window.HNARenderers.renderDdaLayer(countyFips5,
+          { features: [], unavailableReason: 'DDA data could not be processed: ' + e.message },
+          { type: geoType, name: geoLabel });
+      } catch(_) {
+        if (window.HNAState.els.statDdaStatus) window.HNAState.els.statDdaStatus.textContent = 'Unavailable';
+      }
     }
 
     // Market-area LIHTC competition (place/CDP only). Counts LIHTC projects

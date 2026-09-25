@@ -56,10 +56,12 @@ for (const rel of ['data/qct-colorado.json', 'data/dda-colorado.json']) {
   );
 }
 
-// ── The statewide file must beat the embedded fallback it replaced ──────────
+// ── The statewide file is the last resort; nothing embedded stands in ───────
+// QCT_FALLBACK_CO and DDA_FALLBACK_CO were invented rectangles (0 of 27 GEOIDs
+// on HUD's 2026 list). When every tier fails the fetch now reports
+// unavailableReason — see test/hna-qct-dda-unavailable.test.js.
 const qct = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/qct-colorado.json'), 'utf8'));
-const embeddedQct = (controller.match(/QCT_FALLBACK_CO/g) || []).length;
-assert(embeddedQct > 0, 'the embedded fallback is still the last resort and should remain');
+assert(!/(QCT|DDA)_FALLBACK_CO/.test(controller), 'hna-controller must not fall back to embedded QCT/DDA shapes');
 assert(
   qct.features.length >= 100,
   `the statewide QCT file should carry the full set, got ${qct.features.length}`
