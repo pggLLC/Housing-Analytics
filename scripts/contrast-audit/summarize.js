@@ -53,7 +53,7 @@ function readReport(file) {
 }
 
 function cell(text) {
-  return String(text).replace(/\|/g, '\\|').replace(/\s+/g, ' ').slice(0, 120);
+  return String(text).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\s+/g, ' ').slice(0, 120);
 }
 
 function summarize(dir, pages) {
