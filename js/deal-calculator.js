@@ -5873,9 +5873,13 @@
         if (!listEl) return;
         var html = PROGRAM_REF.map(function (p) {
           var url = p.url ?
-            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
+            '<a href="' + p.url + '" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;font-size:var(--tiny);overflow-wrap:anywhere;word-break:break-word;">' + p.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ' ↗</a>' :
             '<span style="font-size:var(--tiny);color:var(--faint);">(no external authority — sponsor/seller-specific)</span>';
-          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);">' +
+          // min-width:0 lets a grid card shrink below its longest unbroken word
+          // (a bare URL); overflow-wrap on the link lets that URL wrap. Without
+          // both, at phone width the HUD trust-fund link ran 443px wide inside
+          // a 375px screen and <details>{overflow:hidden} cut its tail off.
+          return '<div style="border:1px solid var(--border);border-radius:var(--radius);padding:var(--sp2);background:var(--card);min-width:0;">' +
             '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--sp2);margin-bottom:0.25rem;">' +
               '<strong style="font-size:var(--small);color:var(--text);">' + p.name + '</strong>' +
               '<span style="font-size:var(--tiny);padding:1px 6px;border-radius:3px;background:var(--accent-dim);color:var(--accent);font-weight:600;white-space:nowrap;">' + p.type + '</span>' +
