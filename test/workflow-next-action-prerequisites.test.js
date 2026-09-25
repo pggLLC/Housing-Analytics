@@ -72,6 +72,15 @@ run('a step that completes itself on read still asks for the missing jurisdictio
   assert.match(r.html, /href="select-jurisdiction\.html\?next=hna-what-housing-exists\.html"/, 'the prompt must carry the reader back here');
 });
 
+run('the statewide Opportunity Finder never asks for a jurisdiction', () => {
+  // Step 2 is untracked statewide discovery; "this page reads its numbers
+  // from one Colorado community" would be false there.
+  const r = render('lihtc-opportunity-finder.html', []);
+  assert.ok(!/wf-next-action--skipped/.test(r.cls), 'must not prompt for a jurisdiction: ' + r.text);
+  assert.ok(!/jurisdiction first/i.test(r.text), r.text);
+  assert.match(r.html, /href="hna-what-housing-exists\.html"/, 'still offers the next step');
+});
+
 run('and it carries the reader back to the page they asked for', () => {
   // The homepage links into every guided-path page except step 1, so being
   // asked for a jurisdiction must not cost the reader their destination.
