@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T05:58:20.046Z",
+    "generated_at": "2026-09-25T06:21:19.420Z",
     "root": "data/",
     "file_count": 1619,
-    "total_size_bytes": 162023574,
+    "total_size_bytes": 162103161,
     "kinds": {
       "json": 1584,
       "geojson": 31,
@@ -31813,7 +31813,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14678,
-      "mtime": "2026-09-25T06:00:47.454Z",
+      "mtime": "2026-09-25T06:21:17.497Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -32441,27 +32441,28 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 146257,
-      "mtime": "2026-09-25T05:57:38.776Z",
+      "size_bytes": 225843,
+      "mtime": "2026-09-25T06:20:50.461Z",
       "shape": "object",
       "keys": [
         "meta",
-        "briefs"
+        "briefs",
+        "stories",
+        "stories_meta"
       ],
-      "key_count": 2,
-      "primary_array_key": "briefs",
-      "primary_array_length": 9,
+      "key_count": 4,
+      "primary_array_key": "stories",
+      "primary_array_length": 107,
       "primary_array_first_keys": [
         "title",
-        "policy_topic",
-        "summary",
-        "implications",
-        "related_data",
-        "sources",
-        "articles",
-        "alert_count",
+        "source",
+        "link",
+        "date",
+        "scope",
+        "programs",
+        "places",
         "regions",
-        "generated"
+        "also"
       ]
     },
     {

@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T05:57:55.688Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:37:40.272Z. Do not edit by hand.
 
 ---
 
@@ -32,13 +32,13 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 73.0 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.8 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
 | `developer.html` | Developer Home — COHO | 13.6 KB |
-| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.9 KB |
-| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.3 KB |
+| `economic-dashboard.html` | Economic Dashboard | COHO Analytics | 103.8 KB |
+| `for-sale-market-study.html` | For-Sale Market Study Screening | COHO Analytics | 15.2 KB |
 | `help-for-homebuyers.html` | Help for Homebuyers | Colorado Public Data Reference | 5.6 KB |
 | `historical-trends.html` | Historical Trends &amp; Benchmarks | COHO Analytics | 13.5 KB |
 | `hna-comparative-analysis.html` | HNA Comparative Ranking | COHO Analytics | 36.7 KB |
@@ -64,7 +64,7 @@
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 54.6 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 35.9 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
@@ -99,7 +99,7 @@
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
 | `data/alerts/alerts_archive.json` | 172.3 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
-| `data/audit/chfa-qap-watch.json` | 881.0 KB | ✅ | — |
+| `data/audit/chfa-qap-watch.json` | 2.88 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
 | `data/audit/upstream-vintage-watch.json` | 803 B | ✅ | — |
 | `data/benchmarks/str-license-counts.json` | 3.0 KB | ✅ | — |
@@ -1847,11 +1847,11 @@
 | `test/home-need-map-legend-colors.test.js` | 3.3 KB |
 | `test/homeownership-programs.test.js` | 6.6 KB |
 | `test/homepage-claims.test.js` | 7.9 KB |
-| `test/homepage-job-routing.test.js` | 7.5 KB |
+| `test/homepage-job-routing.test.js` | 8.4 KB |
 | `test/homepage-snapshot.test.js` | 7.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
-| `test/housing-news-leads-with-the-newest.test.mjs` | 4.1 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 11.0 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
