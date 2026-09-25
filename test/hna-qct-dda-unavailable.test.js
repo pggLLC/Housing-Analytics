@@ -47,7 +47,7 @@ function makeFetchers({ localFile }) {
     URLSearchParams,
     window: {
       HNAUtils: {
-        SOURCES: { hudQctQuery: 'https://example.invalid/qct', hudDdaQuery: 'https://example.invalid/dda' },
+        SOURCES: { hudQctQuery: 'fixture:qct', hudDdaQuery: 'fixture:dda' },
         CO_DDA: {},
       },
     },
