@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T12:38:08.269Z",
+    "generated_at": "2026-09-25T12:43:51.039Z",
     "root": "data/",
     "file_count": 1620,
-    "total_size_bytes": 162511873,
+    "total_size_bytes": 162511934,
     "kinds": {
       "json": 1585,
       "geojson": 31,
@@ -1492,7 +1492,7 @@
       "path": "fred-data.json",
       "kind": "json",
       "size_bytes": 1252594,
-      "mtime": "2026-09-25T12:37:43.022Z",
+      "mtime": "2026-09-25T12:38:27.948Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -30459,7 +30459,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205468,
-      "mtime": "2026-09-25T12:37:43.404Z",
+      "mtime": "2026-09-25T12:38:11.254Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -32384,8 +32384,8 @@
     {
       "path": "policy/tax-credit-legislation.json",
       "kind": "json",
-      "size_bytes": 14255,
-      "mtime": "2026-09-24T22:17:09.793Z",
+      "size_bytes": 14316,
+      "mtime": "2026-09-25T12:43:43.385Z",
       "shape": "object",
       "keys": [
         "schema",
