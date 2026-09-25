@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:37:40.272Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:45:16.681Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 35.9 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 37.1 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
@@ -83,7 +83,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 765.8 KB | ✅ | — |
+| `data/_manifest.json` | 765.7 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1648,7 +1648,7 @@
 | `data/policy/tax-credit-legislation.json` | 13.6 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 142.8 KB | ✅ | — |
+| `data/policy_briefs.json` | 220.5 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
 | `data/polymarket-data.json` | 17.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1673,7 +1673,7 @@
 
 ## Test Files
 
-406 test files found.
+407 test files found.
 
 | File | Size |
 |------|------|
@@ -1851,7 +1851,7 @@
 | `test/homepage-snapshot.test.js` | 7.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
-| `test/housing-news-leads-with-the-newest.test.mjs` | 11.0 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 17.7 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
@@ -2073,6 +2073,7 @@
 | `tests/test_hna_geography_coverage.py` | 9.2 KB |
 | `tests/test_hna_ranking_integrity.py` | 22.5 KB |
 | `tests/test_market_data_builder_redaction.py` | 1.8 KB |
+| `tests/test_news_stories.py` | 7.4 KB |
 | `tests/test_place_chas.py` | 9.5 KB |
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
