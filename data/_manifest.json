@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-09-25T18:16:17.963Z",
+    "generated_at": "2026-09-25T18:30:48.830Z",
     "root": "data/",
     "file_count": 1620,
     "total_size_bytes": 162460611,
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-25T18:16:13.080Z",
+      "mtime": "2026-09-25T18:13:01.289Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -1144,7 +1144,7 @@
       "path": "core/educational-content.json",
       "kind": "json",
       "size_bytes": 67629,
-      "mtime": "2026-09-25T18:16:13.080Z",
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -16832,7 +16832,7 @@
       "path": "hna/local-resources.json",
       "kind": "json",
       "size_bytes": 181584,
-      "mtime": "2026-09-25T18:16:13.083Z",
+      "mtime": "2026-09-25T18:09:57.361Z",
       "shape": "object",
       "keys": [
         "state:08",
@@ -30460,7 +30460,7 @@
       "path": "manifest.json",
       "kind": "json",
       "size_bytes": 205468,
-      "mtime": "2026-09-25T18:16:13.136Z",
+      "mtime": "2026-09-25T18:30:44.574Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31814,7 +31814,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14706,
-      "mtime": "2026-09-25T18:16:13.084Z",
+      "mtime": "2026-09-25T18:30:44.548Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31837,7 +31837,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-25T18:16:13.084Z",
+      "mtime": "2026-09-25T18:30:44.548Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32339,7 +32339,7 @@
       "path": "policy/soft-funding-status.json",
       "kind": "json",
       "size_bytes": 25939,
-      "mtime": "2026-09-25T18:16:13.084Z",
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "lastUpdated",
@@ -32657,7 +32657,7 @@
       "path": "provenance/market-analysis.json",
       "kind": "json",
       "size_bytes": 2336,
-      "mtime": "2026-09-25T18:16:13.084Z",
+      "mtime": "2026-09-25T18:09:57.362Z",
       "shape": "object",
       "keys": [
         "_comment",
