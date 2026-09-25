@@ -1175,7 +1175,7 @@
       provider: 'Colorado Legislature / Internal',
       url: 'https://leg.colorado.gov/',
       localFile: 'data/policy/tax-credit-legislation.json',
-      lastUpdated: '2026-09-21',
+      lastUpdated: '2026-09-25',
       updateFrequency: 'Session-based',
       maxAgeDays: 180,
       geoUnit: 'Statewide',
