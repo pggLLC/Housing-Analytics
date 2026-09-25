@@ -21,6 +21,12 @@ Do not explain the tool first, and do not answer questions while they work.
 Where they get stuck is the result. If they ask, say "what would you try?",
 and note that they asked.
 
+**Step 2 is optional on the site but not in the walkthrough.** The page for
+step 1 points its main button at step 3 and says the Opportunity Finder is not
+required. G3 needs notes for all seven steps, so Part 2 asks the walker to open
+step 2 from the link under that button. If they skip it anyway, give them the
+link below.
+
 **If they cannot find the next step**, note it and give them the link:
 
 | Step | Page |
@@ -82,6 +88,10 @@ you can.
 - Could you find your place? Was it clear whether to choose the town or the
   county?
 - Did you know what would happen next?
+
+The main button on this page skips ahead to step 3, and the page calls step 2
+optional. Please do step 2 anyway: use the **Opportunity Finder** link just
+under the button, then carry on to step 3 from there.
 
 ### 2. Opportunity Finder
 

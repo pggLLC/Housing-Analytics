@@ -174,6 +174,17 @@ test('the walker guide sends people down the route G3 scores, and is never read 
   const sections = [...body.matchAll(/^###\s+(\d+)\./gm)].map((m) => Number(m[1]));
   assert.deepStrictEqual(sections, GUIDED_PATH.map((s) => s.step),
     'GUIDE.md walker sections do not match the guided path');
+  // Step 1's own page skips step 2 and calls it optional. A walker who
+  // follows the site would then have no step-2 notes and the record could
+  // never count, so while the page says so, the guide must send them there.
+  const stepOnePage = fs.readFileSync(path.join(ROOT, GUIDED_PATH[0].page), 'utf8');
+  const stepTwo = GUIDED_PATH[1];
+  if (/not required/i.test(stepOnePage) && stepOnePage.includes(stepTwo.page)) {
+    const stepOneSection = (body.split(/^###\s+/m).find((sec) => sec.startsWith('1.')) || '');
+    assert.ok(new RegExp(`do step 2 anyway`, 'i').test(stepOneSection)
+      && stepOneSection.includes(stepTwo.name),
+      `${GUIDED_PATH[0].page} calls step 2 optional; the guide's step-1 section must send the walker to the ${stepTwo.name}`);
+  }
   // The guide lives beside the records; it must not be scored as one.
   assert.ok(!recordFiles(DIR).some((f) => path.basename(f) === 'GUIDE.md'),
     'GUIDE.md is being read as a walkthrough record');
