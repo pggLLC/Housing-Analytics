@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T07:57:46.130Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T08:12:41.993Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.8 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.8 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 72.8 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 75.1 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.0 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-412 test files found.
+413 test files found.
 
 | File | Size |
 |------|------|
@@ -1907,6 +1907,7 @@
 | `test/ownership-decision-chain.test.js` | 7.3 KB |
 | `test/ownership-finance.test.js` | 22.5 KB |
 | `test/ownership-funding-schema.test.js` | 5.6 KB |
+| `test/ownership-rental-separation.test.js` | 16.1 KB |
 | `test/ownership-resale.test.js` | 14.5 KB |
 | `test/package-4-user-visible.test.js` | 8.3 KB |
 | `test/pages-availability-check.js` | 16.9 KB |
@@ -1969,7 +1970,7 @@
 | `test/ranking-index-no-coerced-zeros.test.js` | 10.1 KB |
 | `test/ranking-scenarios.test.js` | 3.1 KB |
 | `test/rebuild-derived-chain.test.mjs` | 8.3 KB |
-| `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.3 KB |
+| `test/recommendation-leads-with-the-conclusion.test.mjs` | 25.6 KB |
 | `test/redfin-place-market-tracker.test.js` | 6.1 KB |
 | `test/registry-cross-county-consistency.test.js` | 1.8 KB |
 | `test/regrid-cache-honesty.test.js` | 8.6 KB |
