@@ -111,7 +111,7 @@ DEFAULT_TEMPLATE = '''<!DOCTYPE html>
     .place-hero { padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg2, #f5f6f8), var(--bg, #fff)); border-bottom: 1px solid var(--border); }
     .place-hero h1 { margin: 0; font-size: 1.8rem; }
     .place-hero .place-sub { color: var(--muted); margin-top: .25rem; }
-    .place-grid { max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .place-grid { max-width: 1100px; margin: 1.5rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 1rem; }
     .place-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; }
     .place-card h2 { margin: 0 0 .5rem; font-size: 1.05rem; color: var(--accent, #096e65); }
     .place-stat { display: flex; justify-content: space-between; margin: .25rem 0; padding: .25rem 0; border-bottom: 1px dashed var(--border-soft, #e0e0e0); }

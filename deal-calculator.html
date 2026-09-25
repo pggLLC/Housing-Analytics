@@ -335,7 +335,7 @@
           For the surrounding market, at what year does buying become cheaper than renting?
           Editable assumptions; LIHTC implication is shown below the result.
         </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.5rem;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px, 100%),1fr));gap:.5rem;">
           <label style="font-size:var(--tiny);">
             <span style="color:var(--muted);">Home price ($)</span>
             <input id="rvbHomePrice" type="number" step="10000" value="500000"
@@ -406,7 +406,7 @@
           <summary style="cursor:pointer;font-weight:600;font-size:.88rem;padding:.4rem 0;color:var(--text)">
             ▸ Open stress controls
           </summary>
-          <div id="dcStressControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
+          <div id="dcStressControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px, 100%),1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
             <!-- 1. Equity price stress -->
             <div>
               <label for="dc-stress-equity-price" style="display:block;font-weight:600;margin-bottom:2px;">
@@ -472,7 +472,7 @@
             (5) GP catch-up → (6) residual split. Defaults match typical LIHTC closing conventions
             (Anthracite-style: 0.01%/99.99% during ops; 30/70 residual split with 8% pref).
           </p>
-          <div id="dcWaterfallControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
+          <div id="dcWaterfallControls" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px, 100%),1fr));gap:12px 18px;margin-top:.6rem;padding:.6rem .8rem;background:var(--bg2);border:1px solid var(--border);border-radius:6px;font-size:.84rem;">
             <div>
               <label for="dc-wf-lp-equity" style="display:block;font-weight:600;margin-bottom:2px;">
                 LP equity contribution
@@ -545,7 +545,7 @@
           <div style="font-size:.85rem;font-weight:700;margin-top:4px;" id="hosGrade">—</div>
           <div style="font-size:.78rem;color:var(--muted);margin-top:2px;" id="hosDataComplete">—</div>
         </div>
-        <div id="hosDimensions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;"></div>
+        <div id="hosDimensions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px, 100%),1fr));gap:12px;"></div>
         <p id="hosSummary" style="font-size:.82rem;color:var(--muted);margin-top:.75rem;line-height:1.5;"></p>
       </section>
     </div>

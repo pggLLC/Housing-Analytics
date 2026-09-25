@@ -235,7 +235,7 @@
       '.qsim-hdr { text-align:center; margin-bottom:1.5rem; }',
       '.qsim-hdr h2 { font-size:var(--h2,1.3rem); font-weight:700; margin:0 0 .35rem; color:var(--text-strong,#060f1d); }',
       '.qsim-hdr p  { font-size:var(--small,.875rem); color:var(--muted,#374151); margin:0; line-height:1.5; }',
-      '.qsim-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; margin-bottom:24px; }',
+      '.qsim-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(320px, 100%),1fr)); gap:16px; margin-bottom:24px; }',
       '.qsim-card { background:var(--card,#fff); border:1px solid var(--border,rgba(13,31,53,.11)); border-radius:var(--radius,10px); padding:16px 18px; box-shadow:var(--shadow-sm); position:relative; }',
       '.qsim-card-hdr { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }',
       '.qsim-card-title { font-size:.95rem; font-weight:700; color:var(--text-strong,#060f1d); margin:0; }',

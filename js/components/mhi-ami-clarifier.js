@@ -68,7 +68,7 @@
       '}',
       '.maa-headline { font-weight: 700; margin: 0 0 .4rem; font-size: .92rem; }',
       '.maa-grid {',
-      '  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));',
+      '  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));',
       '  gap: .65rem; margin: .25rem 0 .35rem;',
       '}',
       '.maa-card {',

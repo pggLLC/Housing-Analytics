@@ -872,7 +872,7 @@
     .lof-detail-project-meta { color: var(--muted); font-size: .78rem; margin-top: 2px; }
 
     .lof-summary-cards {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
       gap: 10px; margin: 12px 0 16px;
     }
     .lof-summary-card {
@@ -1190,7 +1190,7 @@
     .lof-detail-news { margin-top: 10px; }
     .lof-news-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
       gap: 8px;
     }
     .lof-news-btn {

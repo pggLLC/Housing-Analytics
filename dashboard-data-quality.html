@@ -38,7 +38,7 @@
     }
     .dq-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
       gap: 1rem;
     }
     .dq-card {
@@ -105,7 +105,7 @@
     }
     .dq-key-form {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
       gap: 1rem;
       margin-top: .75rem;
     }
@@ -212,7 +212,7 @@
       bounds, freshness, plausibility) runs daily and reports pass/fail — a failing
       layer means a dataset needs a maintainer's attention, not that the whole site is broken.
     </p>
-    <div class="dq-grid" id="qaLayerGrid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;">
+    <div class="dq-grid" id="qaLayerGrid" style="grid-template-columns:repeat(auto-fit,minmax(min(180px, 100%),1fr));gap:.6rem;">
       <!-- Five layer cards injected by JS -->
     </div>
     <p id="qaStatusMeta" style="font-size:.78rem;color:var(--muted,#476080);margin-top:.5rem">
