@@ -151,21 +151,31 @@ export function assertNoUnsafeShrink(previousManifest, nextManifest, options = {
 }
 
 /**
- * Data paths with uncommitted changes, relative to data/. null when git
- * cannot say, in which case nothing is carried over.
+ * Data paths whose content may differ from what the committed manifest
+ * describes, relative to data/: every path changed in a commit since
+ * data/_manifest.json was last written, plus every uncommitted change.
+ * "Since the manifest was written", not just "uncommitted": several jobs
+ * commit a data file and rebuild only data/manifest.json, and a same-size
+ * edit there is otherwise indistinguishable from no edit (Codex, #1891).
+ * null when git cannot say (no history, a shallow clone that does not reach
+ * the manifest's commit), in which case nothing is carried over.
  */
-function uncommittedDataPaths() {
-  const r = spawnSync("git", ["status", "--porcelain", "--untracked-files=all", "--", "data"], {
-    cwd: REPO, encoding: "utf8",
-  });
-  if (r.status !== 0) return null;
+export function changedSinceManifest(repo = REPO) {
+  const git = (args) => spawnSync("git", args, { cwd: repo, encoding: "utf8" });
+  const last = git(["log", "-1", "--format=%H", "--", "data/_manifest.json"]);
+  const base = (last.stdout || "").trim();
+  if (last.status !== 0 || !base) return null;
+  const committed = git(["diff", "--name-only", base, "HEAD", "--", "data"]);
+  const pending = git(["status", "--porcelain", "--untracked-files=all", "--", "data"]);
+  if (committed.status !== 0 || pending.status !== 0) return null;
   const out = new Set();
-  for (const line of (r.stdout || "").split(/\r?\n/)) {
+  const add = (p) => { p = p.replace(/^"|"$/g, "").replace(/^data\//, ""); if (p) out.add(p); };
+  for (const line of (committed.stdout || "").split(/\r?\n/)) if (line.trim()) add(line.trim());
+  for (const line of (pending.stdout || "").split(/\r?\n/)) {
     if (!line.trim()) continue;
     let p = line.slice(3);
     if (p.includes(" -> ")) p = p.split(" -> ").pop();
-    p = p.replace(/^"|"$/g, "").replace(/^data\//, "");
-    out.add(p);
+    add(p);
   }
   return out;
 }
@@ -177,18 +187,17 @@ function uncommittedDataPaths() {
  * entries (3,250 lines, 2026-09-25, the first post-merge refresh after
  * #1887), and any open PR that touched the manifest conflicted with it.
  *
- * An entry keeps the committed mtime when the file has no uncommitted
- * change and every other field is what the committed manifest already
- * says. A file a job has just rewritten is uncommitted, so it gets its new
- * mtime. Exported for the test.
+ * An entry keeps the committed mtime when the file has not changed since
+ * the manifest was written (changedSinceManifest) and every other field is
+ * what the committed manifest already says. Exported for the test.
  */
-export function carryCommittedMtimes(items, previous, uncommitted) {
-  if (!previous || !Array.isArray(previous.files) || !uncommitted) return items;
+export function carryCommittedMtimes(items, previous, changed) {
+  if (!previous || !Array.isArray(previous.files) || !changed) return items;
   const prev = new Map(previous.files.filter((e) => e && e.path).map((e) => [e.path, e]));
   const same = (a, b) => JSON.stringify({ ...a, mtime: null }) === JSON.stringify({ ...b, mtime: null });
   return items.map((e) => {
     const p = prev.get(e.path);
-    if (!p || uncommitted.has(e.path) || !same(e, p)) return e;
+    if (!p || changed.has(e.path) || !same(e, p)) return e;
     return { ...e, mtime: p.mtime };
   });
 }
@@ -280,7 +289,7 @@ export async function buildManifest(options = {}) {
   for (const f of includedFiles) {
     items.push(await probe(f));
   }
-  items = carryCommittedMtimes(items, readExistingManifest(outPath), uncommittedDataPaths());
+  items = carryCommittedMtimes(items, readExistingManifest(outPath), changedSinceManifest());
   const out = {
     meta: {
       generated_at: new Date().toISOString(),

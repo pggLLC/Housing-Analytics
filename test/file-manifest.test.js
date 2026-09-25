@@ -14,6 +14,7 @@ function readJson(rel) {
     assertNoUnsafeShrink,
     buildManifest,
     carryCommittedMtimes,
+    changedSinceManifest,
     discoverDataFilePaths,
   } = await import('../scripts/audit/build-data-manifest.mjs');
 
@@ -105,27 +106,62 @@ function readJson(rel) {
   assert(carryCommittedMtimes(built, prevM, null).every((e) => e.mtime === NOW),
     'when git cannot say what is uncommitted, nothing is carried over');
 
-  // End to end on the real tree: a clean file whose mtime a checkout reset is
-  // still recorded with its committed mtime.
-  const { spawnSync } = require('child_process');
-  const probeRel = 'chfa-lihtc.json';
-  const probeAbs = path.join(ROOT, 'data', probeRel);
-  const clean = spawnSync('git', ['status', '--porcelain', '--', 'data/' + probeRel], { cwd: ROOT, encoding: 'utf8' }).stdout.trim() === '';
-  const committed = manifest.files.find((e) => e.path === probeRel);
-  assert(committed, `the committed manifest lists ${probeRel}`);
-  if (clean) {
-    const st = fs.statSync(probeAbs);
+  // A data change committed without regenerating _manifest.json must still
+  // count as changed, even at the same size (Codex, #1891: jobs commit a data
+  // file and rebuild only data/manifest.json).
+  {
+    const os = require('os');
+    const { execFileSync } = require('child_process');
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'mtime-carry-'));
+    const g = (...a) => execFileSync('git', a, { cwd: tmp, stdio: 'pipe' });
     try {
-      fs.utimesSync(probeAbs, new Date(), new Date('2031-01-01T00:00:00Z'));
-      const fresh = await buildManifest({ write: false });
-      const e = fresh.files.find((x) => x.path === probeRel);
-      const sameFields = JSON.stringify({ ...e, mtime: null }) === JSON.stringify({ ...committed, mtime: null });
-      if (sameFields) {
-        assert.strictEqual(e.mtime, committed.mtime, 'a clean file with a reset mtime keeps its committed mtime in the manifest');
-      }
+      g('init', '-q'); g('config', 'user.email', 't@t'); g('config', 'user.name', 't');
+      fs.mkdirSync(path.join(tmp, 'data'));
+      fs.writeFileSync(path.join(tmp, 'data/_manifest.json'), '{}');
+      fs.writeFileSync(path.join(tmp, 'data/x.json'), '{"v":1}');
+      fs.writeFileSync(path.join(tmp, 'data/y.json'), '{"v":1}');
+      g('add', '.'); g('commit', '-qm', 'manifest');
+      fs.writeFileSync(path.join(tmp, 'data/x.json'), '{"v":2}'); // same size
+      g('commit', '-qam', 'data only, manifest not regenerated');
+      const changed = changedSinceManifest(tmp);
+      assert(changed && changed.has('x.json'), 'a same-size data change committed after the manifest counts as changed');
+      assert(!changed.has('y.json'), 'an untouched file does not count as changed');
+      fs.writeFileSync(path.join(tmp, 'data/y.json'), '{"v":3}');
+      assert(changedSinceManifest(tmp).has('y.json'), 'an uncommitted change counts as changed');
     } finally {
-      fs.utimesSync(probeAbs, st.atime, st.mtime);
+      fs.rmSync(tmp, { recursive: true, force: true });
     }
+  }
+
+  // End to end on the real tree: a clean file whose mtime a checkout reset is
+  // still recorded with its committed mtime. The probe is chosen by the scan,
+  // and the scan must find one (Codex, #1891: an `if` that skips the only
+  // end-to-end assertion lets a regression pass).
+  const { spawnSync } = require('child_process');
+  const git = (args) => spawnSync('git', args, { cwd: ROOT, encoding: 'utf8' }).stdout || '';
+  const since = git(['log', '-1', '--format=%H', '--', 'data/_manifest.json']).trim();
+  const touched = new Set(
+    (since ? git(['diff', '--name-only', since, 'HEAD', '--', 'data']) : '').split('\n')
+      .concat(git(['status', '--porcelain', '--untracked-files=all', '--', 'data']).split('\n').map((l) => l.slice(3)))
+      .map((p) => p.trim().replace(/^data\//, '')).filter(Boolean));
+  const before = await buildManifest({ write: false });
+  const byPath = new Map(before.files.map((e) => [e.path, e]));
+  const probe = manifest.files.find((c) => {
+    if (touched.has(c.path) || /\/reports?\//.test('/' + c.path)) return false;
+    const e = byPath.get(c.path);
+    return e && JSON.stringify({ ...e, mtime: null }) === JSON.stringify({ ...c, mtime: null });
+  });
+  assert(since, 'git history reaches the commit that wrote data/_manifest.json');
+  assert(probe, 'the scan found a committed, unchanged data file to probe');
+  const probeAbs = path.join(ROOT, 'data', probe.path);
+  const st = fs.statSync(probeAbs);
+  try {
+    fs.utimesSync(probeAbs, new Date(), new Date('2031-01-01T00:00:00Z'));
+    const fresh = await buildManifest({ write: false });
+    const e = fresh.files.find((x) => x.path === probe.path);
+    assert.strictEqual(e.mtime, probe.mtime, `${probe.path}: a clean file with a reset mtime keeps its committed mtime`);
+  } finally {
+    fs.utimesSync(probeAbs, st.atime, st.mtime);
   }
 
   const workflow = fs.readFileSync(path.join(ROOT, '.github/workflows/data-refresh.yml'), 'utf8');
