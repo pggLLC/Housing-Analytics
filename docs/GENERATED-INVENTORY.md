@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:45:16.681Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T06:55:36.646Z. Do not edit by hand.
 
 ---
 
@@ -64,7 +64,7 @@
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
 | `pipeline.html` | How Affordable Housing Gets Built in Colorado | Public Data Reference | 2.0 KB |
-| `policy-briefs.html` | Housing News | COHO Analytics | 37.1 KB |
+| `policy-briefs.html` | Housing News | COHO Analytics | 42.6 KB |
 | `preservation.html` | Preservation Tracking | COHO Analytics | 17.7 KB |
 | `privacy-policy.html` | Privacy Policy | Colorado Affordable Housing Data Reference | 5.7 KB |
 | `recommendation.html` | Recommendation | COHO Analytics | 13.8 KB |
@@ -79,11 +79,11 @@
 
 ## Data Files (`data/**/*.json`)
 
-1585 JSON files found.
+1586 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 765.7 KB | ✅ | — |
+| `data/_manifest.json` | 766.3 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1574,7 +1574,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 200.5 KB | ✅ | — |
+| `data/manifest.json` | 200.7 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1640,6 +1640,7 @@
 | `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
 | `data/policy/pab-allocations.json` | 16.7 KB | ✅ | — |
+| `data/policy/policy-watch.json` | 10.5 KB | ✅ | — |
 | `data/policy/prop123_jurisdictions.json` | 70.9 KB | ✅ | — |
 | `data/policy/resale-conventions.json` | 6.9 KB | ✅ | — |
 | `data/policy/research-orgs-housing.json` | 7.7 KB | ✅ | — |
@@ -1673,7 +1674,7 @@
 
 ## Test Files
 
-407 test files found.
+408 test files found.
 
 | File | Size |
 |------|------|
@@ -1851,7 +1852,7 @@
 | `test/homepage-snapshot.test.js` | 7.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
-| `test/housing-news-leads-with-the-newest.test.mjs` | 17.7 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 20.2 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
@@ -2078,6 +2079,7 @@
 | `tests/test_place_chas_coverage.py` | 4.5 KB |
 | `tests/test_place_phantom_aliases.py` | 6.3 KB |
 | `tests/test_pma_provenance.py` | 6.7 KB |
+| `tests/test_policy_watch.py` | 5.5 KB |
 | `tests/test_ranking_index_sentinels.py` | 3.8 KB |
 | `tests/test_sentinel_normalization.py` | 10.9 KB |
 | `tests/test_stage2_temporal.py` | 33.5 KB |
