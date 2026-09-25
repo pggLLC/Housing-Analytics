@@ -4087,6 +4087,11 @@
       const scaledHh = _placeScaledHouseholds(proj.housing_need.households_dola, popSel, proj.population_dola);
       const hhSeries = scaledHh.series;
       demandScaled = scaledHh.scaled;
+      // What these households describe, as state rather than prose, so the
+      // note's wording can change without anything else having to.
+      dmdCanvas.dataset.householdScope = demandScaled
+        ? 'place-scaled'
+        : (isSubCountySelection ? 'county-unscaled' : 'county');
       const geoType = selectedGeoType;
       const geoid   = S().els && S().els.geoSelect ? S().els.geoSelect.value : '';
       const tierColors = [t.c5, t.c3, t.c4, t.c7, t.c6];

@@ -64,7 +64,8 @@ function render(geoType, popSel) {
     const box = document.getElementById(id).closest('.chart-box');
     return box && box.parentElement ? box.parentElement.textContent.replace(/\s+/g, ' ') : '';
   };
-  return { charts, note };
+  const scope = () => document.getElementById('chartHouseholdDemand').dataset.householdScope;
+  return { charts, note, scope };
 }
 
 function tierTotals(config) {
@@ -112,14 +113,19 @@ test('the scaling is each year\'s own population share', () => {
     'no place series still reports itself as scaled');
 });
 
-test('for a place, the demand chart says it was scaled to the place', () => {
-  const { note } = render('place', placePop);
-  assert(/Scaled to this place/.test(note('chartHouseholdDemand')),
-    'the demand chart note does not say its households were scaled: ' + note('chartHouseholdDemand'));
+test('for a place, the demand chart declares it was scaled, and says so', () => {
+  // The scope is state on the chart, held against the chart's own numbers;
+  // the note's wording is free to change (Codex review of #1878).
+  const { charts, note, scope } = render('place', placePop);
+  assert.equal(scope(), 'place-scaled', 'a scaled place chart does not declare place-scaled');
+  assert(tierTotals(charts.chartHouseholdDemand)[0] < countyHh[0] * 0.2,
+    'the chart declares place-scaled but its households are county-scale');
+  assert(note('chartHouseholdDemand').trim().length > 0, 'a place chart carries no scope note at all');
 });
 
 test('for a county, both charts show the county series', () => {
-  const { charts } = render('county', proj.population_dola);
+  const { charts, scope } = render('county', proj.population_dola);
+  assert.equal(scope(), 'county');
   const formation = charts.chartProjectedHH.data.datasets[0].data;
   const demand = tierTotals(charts.chartHouseholdDemand);
   const tiers = charts.chartHouseholdDemand.data.datasets.length;
@@ -129,17 +135,14 @@ test('for a county, both charts show the county series', () => {
   });
 });
 
-test('a place that cannot be scaled says its households are county-level', () => {
+test('a place that cannot be scaled declares its households county-level, and discloses it', () => {
   // No usable place population series: nothing to scale by.
-  const { charts, note } = render('place', null);
+  const { charts, note, scope } = render('place', null);
   const demand = tierTotals(charts.chartHouseholdDemand);
   const tiers = charts.chartHouseholdDemand.data.datasets.length;
   assert(Math.abs(demand[0] - countyHh[0]) <= tiers, 'unscalable place did not fall back to the county series');
-  // The claim that must hold, not a particular sentence: it says the data is
-  // county-level, and it does not say it was scaled to the place.
-  const text = note('chartHouseholdDemand');
-  assert(/County data shown for this place/.test(text) && !/Scaled to this place/.test(text),
-    'an unscaled county series under a place heading is not disclosed as county data: ' + text);
+  assert.equal(scope(), 'county-unscaled', 'county households under a place heading are not declared county-unscaled');
+  assert(note('chartHouseholdDemand').trim().length > 0, 'county households under a place heading carry no scope note');
 });
 
 if (failures) { console.log(`\n${failures} failed`); process.exit(1); }
