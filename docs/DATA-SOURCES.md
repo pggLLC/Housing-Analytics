@@ -103,13 +103,13 @@ Tier 4: Embedded FALLBACK_LIHTC       (14 representative CO projects)
 #### QCT Overlays (green polygons) — `js/co-lihtc-map.js`
 ```
 Tier 1: data/qct-colorado.json        (CI-populated; 15s timeout)
-Tier 2: Embedded FALLBACK_QCT         (14 representative CO census tracts)
+Tier 2: none — layer left empty, toggle marked "unavailable", "Only QCT" filter disabled
 ```
 
 #### DDA Overlays (orange polygons) — `js/co-lihtc-map.js`
 ```
 Tier 1: data/dda-colorado.json        (CI-populated; 15s timeout)
-Tier 2: Embedded FALLBACK_DDA         (10 representative CO DDA areas)
+Tier 2: none — layer left empty, toggle marked "unavailable", "Only DDA" filter disabled
 ```
 
 #### HNA QCT — `js/housing-needs-assessment.js`

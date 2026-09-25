@@ -49,7 +49,8 @@
   // ── Pre-computed bounding boxes for all 64 Colorado counties ─────────────────
   // Format: [[south_lat, west_lng], [north_lat, east_lng]] (Leaflet fitBounds format)
   // Used as an instant fallback when Nominatim geocoding is slow or unavailable.
-  // Derived from FALLBACK_COUNTY polygon data and USGS/Census geographic references.
+  // Derived from USGS/Census geographic references. Zoom targets only — never
+  // drawn as boundaries.
   var CO_COUNTY_BOUNDS = {
     'Adams':       [[39.74, -105.05], [40.00, -104.66]],
     'Alamosa':     [[37.35, -106.30], [37.74, -105.49]],
@@ -117,37 +118,18 @@
     'Yuma':        [[39.91, -103.05], [40.44, -102.04]],
   };
 
-  // ── Fallback DDA polygon data ────────────────────────────────────────────────
-  var FALLBACK_DDA = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDA_NAME:'Denver-Aurora-Lakewood HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
-    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDA_NAME:'Boulder HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
-    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDA_NAME:'Fort Collins HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
-    {type:'Feature',properties:{NAME:'Colorado Springs DDA',DDA_NAME:'Colorado Springs HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.60,38.69],[-104.60,39.08],[-105.19,39.08],[-105.19,38.69]]]}},
-    {type:'Feature',properties:{NAME:'Greeley DDA',DDA_NAME:'Greeley HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-104.90,40.28],[-104.55,40.28],[-104.55,40.55],[-104.90,40.55],[-104.90,40.28]]]}},
-    {type:'Feature',properties:{NAME:'Eagle County DDA',DDA_NAME:'Edwards HUD Metro FMR Area (Eagle County)'},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
-    {type:'Feature',properties:{NAME:'Summit County DDA',DDA_NAME:'Summit County HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
-    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDA_NAME:'Aspen HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
-    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDA_NAME:'San Miguel County HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
-    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDA_NAME:'Routt County HUD Metro FMR Area'},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
-  ]};
-
-  // ── Fallback QCT polygon data ────────────────────────────────────────────────
-  var FALLBACK_QCT = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Denver-Globeville QCT',GEOID:'08031006700'},geometry:{type:'Polygon',coordinates:[[[-105.000,39.772],[-104.940,39.772],[-104.940,39.790],[-105.000,39.790],[-105.000,39.772]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Five Points QCT',GEOID:'08031007700'},geometry:{type:'Polygon',coordinates:[[[-104.982,39.745],[-104.940,39.745],[-104.940,39.768],[-104.982,39.768],[-104.982,39.745]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Sun Valley QCT',GEOID:'08031006800'},geometry:{type:'Polygon',coordinates:[[[-105.010,39.720],[-104.975,39.720],[-104.975,39.740],[-105.010,39.740],[-105.010,39.720]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Montbello QCT',GEOID:'08031004601'},geometry:{type:'Polygon',coordinates:[[[-104.955,39.760],[-104.910,39.760],[-104.910,39.810],[-104.955,39.810],[-104.955,39.760]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Westwood QCT',GEOID:'08031007400'},geometry:{type:'Polygon',coordinates:[[[-105.050,39.680],[-104.995,39.680],[-104.995,39.718],[-105.050,39.718],[-105.050,39.680]]]}},
-    {type:'Feature',properties:{NAME:'Aurora-Colfax QCT',GEOID:'08005011020'},geometry:{type:'Polygon',coordinates:[[[-104.900,39.720],[-104.840,39.720],[-104.840,39.750],[-104.900,39.750],[-104.900,39.720]]]}},
-    {type:'Feature',properties:{NAME:'Aurora-East QCT',GEOID:'08005011800'},geometry:{type:'Polygon',coordinates:[[[-104.840,39.686],[-104.780,39.686],[-104.780,39.710],[-104.840,39.710],[-104.840,39.686]]]}},
-    {type:'Feature',properties:{NAME:'Colorado Springs-Downtown QCT',GEOID:'08041003200'},geometry:{type:'Polygon',coordinates:[[[-104.851,38.820],[-104.800,38.820],[-104.800,38.858],[-104.851,38.858],[-104.851,38.820]]]}},
-    {type:'Feature',properties:{NAME:'Pueblo-Downtown QCT',GEOID:'08101000300'},geometry:{type:'Polygon',coordinates:[[[-104.635,38.238],[-104.580,38.238],[-104.580,38.278],[-104.635,38.278],[-104.635,38.238]]]}},
-    {type:'Feature',properties:{NAME:'Greeley QCT',GEOID:'08123000500'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.404],[-104.670,40.404],[-104.670,40.440],[-104.730,40.440],[-104.730,40.404]]]}},
-    {type:'Feature',properties:{NAME:'Grand Junction QCT',GEOID:'08077000200'},geometry:{type:'Polygon',coordinates:[[[-108.590,39.048],[-108.530,39.048],[-108.530,39.085],[-108.590,39.085],[-108.590,39.048]]]}},
-    {type:'Feature',properties:{NAME:'Alamosa QCT',GEOID:'08003000600'},geometry:{type:'Polygon',coordinates:[[[-105.910,37.454],[-105.848,37.454],[-105.848,37.490],[-105.910,37.490],[-105.910,37.454]]]}},
-    {type:'Feature',properties:{NAME:'Trinidad QCT',GEOID:'08071000500'},geometry:{type:'Polygon',coordinates:[[[-104.590,37.160],[-104.520,37.160],[-104.520,37.192],[-104.590,37.192],[-104.590,37.160]]]}},
-    {type:'Feature',properties:{NAME:'Cañon City QCT',GEOID:'08043000500'},geometry:{type:'Polygon',coordinates:[[[-105.260,38.427],[-105.200,38.427],[-105.200,38.456],[-105.260,38.456],[-105.260,38.427]]]}},
-  ]};
+  // ── No embedded QCT or DDA boundaries ────────────────────────────────────────
+  // This file used to carry FALLBACK_QCT (14 "tracts") and FALLBACK_DDA (10
+  // "areas") as axis-aligned rectangles, drawn whenever data/qct-colorado.json
+  // or data/dda-colorado.json failed to load. Checked against HUD's 2026 lists:
+  // none of the 14 GEOIDs is a 2026 QCT, and five of the DDAs were whole metro
+  // FMR areas (Denver, Boulder, Fort Collins, Colorado Springs, Greeley) that
+  // are not 2026 DDAs, while five real ones (Crowley, Garfield, La Plata,
+  // Mineral, Ouray) were missing. Both overlays decide the 30% basis boost, so
+  // a made-up boundary is worse than none: on failure the layer is left empty
+  // and marked unavailable (markOverlayUnavailable below).
+  // test/qct-dda-embedded-agreement.test.js fails if an embedded QCT or DDA
+  // feature reappears that is not HUD's own record.
 
   // ── Fallback embedded data (used when HUD ArcGIS APIs are unreachable) ──────
   var FALLBACK_LIHTC = {type:'FeatureCollection',features:[
@@ -167,25 +149,12 @@
     {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',N_UNITS:62,YR_PIS:2021,CREDIT:'9%',CNTY_NAME:'La Plata'}},
   ]};
 
-  // ── Fallback county boundary data (approximate bounding-box polygons) ────────
-  // Used only when all dynamic sources (local cache, TIGERweb, Natural Earth) fail.
-  var FALLBACK_COUNTY = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Adams'},geometry:{type:'Polygon',coordinates:[[[-105.05,39.74],[-104.66,39.74],[-104.66,40.00],[-105.05,40.00],[-105.05,39.74]]]}},
-    {type:'Feature',properties:{NAME:'Arapahoe'},geometry:{type:'Polygon',coordinates:[[[-104.97,39.56],[-104.67,39.56],[-104.67,39.91],[-104.97,39.91],[-104.97,39.56]]]}},
-    {type:'Feature',properties:{NAME:'Boulder'},geometry:{type:'Polygon',coordinates:[[[-105.69,39.94],[-105.06,39.94],[-105.06,40.26],[-105.69,40.26],[-105.69,39.94]]]}},
-    {type:'Feature',properties:{NAME:'Denver'},geometry:{type:'Polygon',coordinates:[[[-105.11,39.61],[-104.60,39.61],[-104.60,39.91],[-105.11,39.91],[-105.11,39.61]]]}},
-    {type:'Feature',properties:{NAME:'Douglas'},geometry:{type:'Polygon',coordinates:[[[-105.33,39.13],[-104.67,39.13],[-104.67,39.64],[-105.33,39.64],[-105.33,39.13]]]}},
-    {type:'Feature',properties:{NAME:'El Paso'},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.06,38.69],[-104.06,39.13],[-105.19,39.13],[-105.19,38.69]]]}},
-    {type:'Feature',properties:{NAME:'Jefferson'},geometry:{type:'Polygon',coordinates:[[[-105.65,39.56],[-105.05,39.56],[-105.05,39.98],[-105.65,39.98],[-105.65,39.56]]]}},
-    {type:'Feature',properties:{NAME:'Larimer'},geometry:{type:'Polygon',coordinates:[[[-106.19,40.26],[-105.06,40.26],[-105.06,41.00],[-106.19,41.00],[-106.19,40.26]]]}},
-    {type:'Feature',properties:{NAME:'Mesa'},geometry:{type:'Polygon',coordinates:[[[-109.05,38.83],[-107.43,38.83],[-107.43,39.64],[-109.05,39.64],[-109.05,38.83]]]}},
-    {type:'Feature',properties:{NAME:'Pueblo'},geometry:{type:'Polygon',coordinates:[[[-105.05,37.64],[-104.06,37.64],[-104.06,38.52],[-105.05,38.52],[-105.05,37.64]]]}},
-    {type:'Feature',properties:{NAME:'Weld'},geometry:{type:'Polygon',coordinates:[[[-105.06,39.91],[-104.06,39.91],[-104.06,41.00],[-105.06,41.00],[-105.06,39.91]]]}},
-    {type:'Feature',properties:{NAME:'Broomfield'},geometry:{type:'Polygon',coordinates:[[[-105.17,39.90],[-105.02,39.90],[-105.02,40.03],[-105.17,40.03],[-105.17,39.90]]]}},
-    {type:'Feature',properties:{NAME:'Eagle'},geometry:{type:'Polygon',coordinates:[[[-107.18,39.34],[-106.18,39.34],[-106.18,39.76],[-107.18,39.76],[-107.18,39.34]]]}},
-    {type:'Feature',properties:{NAME:'La Plata'},geometry:{type:'Polygon',coordinates:[[[-108.21,37.00],[-107.00,37.00],[-107.00,37.68],[-108.21,37.68],[-108.21,37.00]]]}},
-    {type:'Feature',properties:{NAME:'Summit'},geometry:{type:'Polygon',coordinates:[[[-106.44,39.34],[-105.72,39.34],[-105.72,39.76],[-106.44,39.76],[-106.44,39.34]]]}},
-  ]};
+  // ── No embedded county boundaries ────────────────────────────────────────────
+  // FALLBACK_COUNTY used to supply bounding-box rectangles for 15 of the 64
+  // counties when every boundary source failed. The rectangles overlapped
+  // (Denver's covered parts of Adams, Arapahoe and Jefferson) and the other 49
+  // counties were simply missing, so the map showed a wrong partial answer
+  // with no sign it was one. On failure the layer is now marked unavailable.
 
   // ── Status helper ────────────────────────────────────────────────────────────
   function updateStatus(message) {
@@ -370,6 +339,53 @@
   var _ddaFeatures = null;
   var _membershipComputed = false;
 
+  // Why an overlay could not be drawn, or null while it is loaded or loading.
+  // An unavailable QCT/DDA layer means membership is unknown, not "outside":
+  // markers get _inQct/_inDda = null and the matching filter is disabled.
+  var _overlayUnavailableReason = { qct: null, dda: null, county: null };
+  var OVERLAY_LABEL = { qct: 'QCT boundaries', dda: 'DDA boundaries', county: 'County boundaries' };
+  var OVERLAY_TOGGLE = { qct: 'layerQCT', dda: 'layerDDA', county: 'layerCounties' };
+  var OVERLAY_FILTER = { qct: 'filterQCT', dda: 'filterDDA' };
+
+  // Leave the layer empty and say so next to its toggle. No stand-in shapes:
+  // QCT and DDA decide the 30% basis boost, and a guessed boundary would
+  // answer that question wrongly for every site near it.
+  function markOverlayUnavailable(kind, reason) {
+    _overlayUnavailableReason[kind] = reason;
+    console.warn('[co-lihtc-map] ' + OVERLAY_LABEL[kind] + ' unavailable: ' + reason);
+
+    var toggle = document.getElementById(OVERLAY_TOGGLE[kind]);
+    var label = toggle && toggle.closest ? toggle.closest('label') : null;
+    if (label) {
+      var note = label.querySelector('.overlay-unavailable');
+      if (!note) {
+        note = document.createElement('span');
+        note.className = 'overlay-unavailable';
+        note.setAttribute('role', 'status');
+        note.style.cssText = 'margin-left:.35rem;font-size:.75rem;font-weight:600;';
+        label.appendChild(note);
+      }
+      note.textContent = '(unavailable \u2014 not drawn)';
+      label.title = OVERLAY_LABEL[kind] + ' failed to load (' + reason + '). ' +
+        'Nothing is drawn rather than approximate shapes; absence on the map does not mean a site is outside.';
+    }
+
+    var filter = OVERLAY_FILTER[kind] && document.getElementById(OVERLAY_FILTER[kind]);
+    if (filter) {
+      var wasChecked = filter.checked;
+      filter.checked = false;
+      filter.disabled = true;
+      var fLabel = filter.closest ? filter.closest('label') : null;
+      if (fLabel) fLabel.title = 'Unavailable: ' + OVERLAY_LABEL[kind] + ' failed to load, so membership is unknown.';
+      if (wasChecked && typeof Event === 'function') filter.dispatchEvent(new Event('change'));
+    }
+
+    if (kind === 'qct' || kind === 'dda') {
+      _membershipComputed = false;
+      setTimeout(_computeMembership, 50);
+    }
+  }
+
   // Ray-cast point-in-polygon for a single ring of [lng, lat] coords.
   function _pointInRing(lng, lat, ring) {
     var inside = false;
@@ -414,7 +430,10 @@
   // most). Re-runs whenever a new QCT or DDA layer arrives.
   function _computeMembership() {
     if (_membershipComputed) return;
-    if (!lihtcLayerGroup || !_qctFeatures || !_ddaFeatures) return;
+    if (!lihtcLayerGroup) return;
+    // Wait until each overlay has either loaded or been marked unavailable.
+    if (!_qctFeatures && !_overlayUnavailableReason.qct) return;
+    if (!_ddaFeatures && !_overlayUnavailableReason.dda) return;
     function makeBbox(geom) {
       var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
       function visit(rings) {
@@ -459,8 +478,9 @@
       }
       if (!m.feature) m.feature = { type: 'Feature', properties: {} };
       if (!m.feature.properties) m.feature.properties = {};
-      m.feature.properties._inQct = inQct;
-      m.feature.properties._inDda = inDda;
+      // null = unknown (overlay unavailable), never false.
+      m.feature.properties._inQct = _overlayUnavailableReason.qct ? null : inQct;
+      m.feature.properties._inDda = _overlayUnavailableReason.dda ? null : inDda;
       if (inQct) inQctCount++;
       if (inDda) inDdaCount++;
     });
@@ -890,8 +910,10 @@
     var cbFilterDda = document.getElementById('filterDDA');
     function applyProjectFilter() {
       if (!lihtcLayerGroup) return;
-      var onlyQct = !!(cbFilterQct && cbFilterQct.checked);
-      var onlyDda = !!(cbFilterDda && cbFilterDda.checked);
+      // A filter on an unavailable overlay would hide every project as
+      // "outside" when membership is actually unknown — never apply it.
+      var onlyQct = !!(cbFilterQct && cbFilterQct.checked) && !_overlayUnavailableReason.qct;
+      var onlyDda = !!(cbFilterDda && cbFilterDda.checked) && !_overlayUnavailableReason.dda;
       // If the user toggles the filter before QCT/DDA polygons have loaded
       // and membership has been computed, recompute now (lazy trigger).
       if ((onlyQct || onlyDda) && !_membershipComputed) _computeMembership();
@@ -942,8 +964,8 @@
 
   // ── Dynamic county boundary source selection ──────────────────────────────────
   // Evaluates three sources in parallel and selects the fastest one that returns
-  // exactly 64 Colorado county features.  Falls back to FALLBACK_COUNTY if all
-  // sources fail or exceed the 5 000 ms timeout.
+  // exactly 64 Colorado county features.  If all sources fail or exceed the
+  // 5 000 ms timeout the layer is marked unavailable and nothing is drawn.
   function loadCountyBoundariesDynamic(map, resolveUrl) {
     var EXPECTED_FEATURES = 64;
     var SOURCE_TIMEOUT    = 5000; // ms
@@ -1081,10 +1103,9 @@
     function checkAllSettled() {
       settled++;
       if (settled === sources.length && !rendered) {
-        // All sources failed — use embedded fallback
+        // All sources failed — draw nothing rather than approximate shapes.
         var totalElapsed = ((Date.now() - evalStart) / 1000).toFixed(1);
-        console.warn('[co-lihtc-map] County boundaries: all ' + sources.length + ' sources failed in ' + totalElapsed + 's; using embedded FALLBACK_COUNTY (' + FALLBACK_COUNTY.features.length + ' of 64 counties — partial coverage)');
-        renderCountyLayer(map, FALLBACK_COUNTY);
+        markOverlayUnavailable('county', 'all ' + sources.length + ' sources failed in ' + totalElapsed + 's');
       }
     }
 
@@ -1100,10 +1121,10 @@
     });
   }
 
-  // ── Fetch overlay data: local JSON → remote ArcGIS → embedded fallback ────────
-  // Tries to load the local QCT and DDA cached files (written by the
-  // cache-hud-gis-data.yml CI workflow) and render them.  Falls back to the
-  // embedded FALLBACK_* constants only when the local files are absent or empty.
+  // ── Fetch overlay data: local JSON → unavailable ─────────────────────────────
+  // Loads the local QCT and DDA cached files (written by the
+  // cache-hud-gis-data.yml CI workflow) and renders them. When a file is
+  // absent or empty the layer is marked unavailable; nothing is drawn.
   function loadLocalOverlays(map) {
     var resolveUrl = typeof window.resolveAssetUrl === 'function'
       ? window.resolveAssetUrl
@@ -1131,13 +1152,11 @@
             updateSourceDate(_srcDateLihtc, _srcDateOverlay);
           }
         } else {
-          renderQctLayer(map, FALLBACK_QCT);
-          console.warn('[co-lihtc-map] Local qct-colorado.json empty; using embedded fallback.');
+          markOverlayUnavailable('qct', 'data/qct-colorado.json has no features');
         }
       })
       .catch(function(err) {
-        console.warn('[co-lihtc-map] Local QCT cache unavailable; using embedded fallback.', err.message);
-        renderQctLayer(map, FALLBACK_QCT);
+        markOverlayUnavailable('qct', 'data/qct-colorado.json failed to load: ' + err.message);
       });
 
     // DDA — try local cache first
@@ -1156,13 +1175,11 @@
             updateSourceDate(_srcDateLihtc, _srcDateOverlay);
           }
         } else {
-          renderDdaLayer(map, FALLBACK_DDA);
-          console.warn('[co-lihtc-map] Local dda-colorado.json empty; using embedded fallback.');
+          markOverlayUnavailable('dda', 'data/dda-colorado.json has no features');
         }
       })
       .catch(function(err) {
-        console.warn('[co-lihtc-map] Local DDA cache unavailable; using embedded fallback.', err.message);
-        renderDdaLayer(map, FALLBACK_DDA);
+        markOverlayUnavailable('dda', 'data/dda-colorado.json failed to load: ' + err.message);
       });
   }
 
