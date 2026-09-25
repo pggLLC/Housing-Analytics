@@ -3,12 +3,12 @@
  *
  * Renders three panels on historical-trends.html:
  *   1. Annual awards by credit type (projects or units, from the CHFA live feed)
- *      plus typical-deal tiles and QAP scoring tiles from the synthesized sample
+ *      plus typical-deal tiles and the latest CHFA round's award-report figures
  *   2. LIHTC stock trajectory (cumulative units by placed-in-service year)
  *   3. Peer benchmark table (given user-chosen county + unit count, find similar LIHTC projects)
  *
  * Data sources (all local, no external API):
- *   - data/policy/chfa-awards-historical.json  — synthesized 2015–2025 sample; scoring tiles only, never charted
+ *   - data/affordable-housing/chfa-awards/2026-round-one.json — latest round, parsed from CHFA's award report
  *   - data/chfa-lihtc.json                     — CHFA HousingTaxCreditProperties_view live export, 926 CO projects through 2025 (preferred)
  *   - data/market/hud_lihtc_co.geojson         — Legacy HUD LIHTC snapshot, 716 CO projects (YR_PIS through ~2020) — fallback only
  *
@@ -23,7 +23,7 @@
   'use strict';
 
   var state = {
-    awards: null,         // chfa-awards-historical.json parsed
+    round: null,          // latest CHFA round (parsed award report)
     lihtcFeatures: null,  // chfa-lihtc.json features (fallback: hud_lihtc_co.geojson)
     charts: {}            // Chart.js instance map (for teardown on re-render)
   };
@@ -43,12 +43,6 @@
       (out[k] = out[k] || []).push(x);
     });
     return out;
-  }
-
-  function uniqueSorted(arr) {
-    return Array.from(new Set(arr)).sort(function (a, b) {
-      return typeof a === 'number' ? a - b : String(a).localeCompare(String(b));
-    });
   }
 
   function _resolveUrl(path) {
@@ -271,27 +265,42 @@
     }
   }
 
-  // QAP scoring statistics come from the synthesized awards sample — kept as
-  // tiles (not a chart) and labelled as directional.
-  function _renderScoringStats() {
-    var statsEl = document.getElementById('chfaStats');
-    if (!statsEl || !state.awards) return;
-    var awards = state.awards.awards || [];
-    var summary = state.awards.summary || {};
-    var years = uniqueSorted((summary.yearsAnalyzed || []).concat(awards.map(function (a) { return a.year; }))
-      .filter(function (y) { return typeof y === 'number' && isFinite(y); }));
-    function pct(v) { return v != null ? Math.round(v * 100) + '%' : 'Unavailable'; }
-    function val(v, suffix) { return v != null ? v + (suffix || '') : 'Unavailable'; }
-    statsEl.innerHTML =
-      '<p class="ht-stat-caption">9% QAP scoring, ' +
-        (years.length ? years[0] + '–' + years[years.length - 1] : 'years unavailable') +
-        ' — synthesized sample, directional only</p>' +
+  // Latest CHFA round, parsed from CHFA's own award report. The live property
+  // feed lags a round by months, so this is shown beside the chart rather than
+  // added to it as a partial year. Credits missing from a record stay out of
+  // sums (null is not $0).
+  function _renderLatestRound() {
+    var el = document.getElementById('chfaStats');
+    if (!el || !state.round) return;
+    var meta = state.round.metadata || {};
+    var awards = state.round.awards || [];
+    if (!awards.length) return;
+    function nums(key) {
+      return awards.map(function (a) { return a[key]; })
+        .filter(function (v) { return typeof v === 'number' && v > 0; });
+    }
+    function sum(arr) { return arr.reduce(function (s, v) { return s + v; }, 0); }
+    var units = nums('total_units');
+    var fed9 = nums('federal_9pct_credit');
+    var units9 = sum(awards.filter(function (a) {
+      return a.federal_9pct_credit > 0 && a.total_units > 0;
+    }).map(function (a) { return a.total_units; }));
+    var withState = nums('state_credit').length;
+    function money(v) {
+      return v >= 1e6 ? '$' + (v / 1e6).toFixed(1) + 'M' : '$' + Math.round(v / 1000) + 'K';
+    }
+    el.innerHTML =
+      '<p class="ht-stat-caption">Latest round: ' + esc(meta.round || 'CHFA') +
+        (meta.announcement_date ? ' (announced ' + esc(meta.announcement_date) + ')' : '') +
+        ' — not yet in the live feed</p>' +
       '<dl class="ht-stat-list">' +
-        '<div><dt>Avg applications / yr</dt><dd>' + val(summary.avgApplicationsPerYear) + '</dd></div>' +
-        '<div><dt>Award rate</dt><dd>' + pct(summary.awardRate) + '</dd></div>' +
-        '<div><dt>Average score</dt><dd>' + val(summary.avgScore, ' / 100') + '</dd></div>' +
-        '<div><dt>Median score</dt><dd>' + val(summary.medianScore, ' / 100') + '</dd></div>' +
-        '<div><dt>Family win rate</dt><dd>' + pct(summary.familyWinRate) + '</dd></div>' +
+        '<div><dt>Developments</dt><dd>' + awards.length + '</dd></div>' +
+        '<div><dt>Units</dt><dd>' + (units.length ? _fmt(sum(units)) : 'Unavailable') + '</dd></div>' +
+        '<div><dt>Median development</dt><dd>' + (units.length ? _median(units) + ' units' : 'Unavailable') + '</dd></div>' +
+        '<div><dt>Federal 9% credits / yr</dt><dd>' + (fed9.length ? money(sum(fed9)) : 'Unavailable') + '</dd></div>' +
+        '<div><dt>9% credit per unit / yr</dt><dd>' +
+          (fed9.length && units9 ? '$' + _fmt(Math.round(sum(fed9) / units9)) : 'Unavailable') + '</dd></div>' +
+        '<div><dt>With state credits too</dt><dd>' + withState + ' of ' + awards.length + '</dd></div>' +
       '</dl>';
   }
 
@@ -502,7 +511,7 @@
   /* ─────────────────────────────────────────────────────────────── */
 
   function render() {
-    var chfaUrl       = 'data/policy/chfa-awards-historical.json';
+    var roundUrl      = 'data/affordable-housing/chfa-awards/2026-round-one.json';
     // Prefer the fresh CHFA LIHTC cache (926 projects through 2025). Fall
     // back to the legacy HUD geojson snapshot (716 projects, last fresh
     // YR_PIS=2020) only if CHFA is unavailable. Inverted in F7 (2026-05-26)
@@ -518,14 +527,14 @@
     }
 
     Promise.all([
-      _fetchJson(chfaUrl).catch(function () { return null; }),
+      _fetchJson(roundUrl).catch(function () { return null; }),
       fetchLihtc()
     ]).then(function (results) {
-      state.awards = results[0];
+      state.round = results[0];
       state.lihtcFeatures = results[1] && Array.isArray(results[1].features) ? results[1].features : [];
 
       _renderAwardsPanel();
-      _renderScoringStats();
+      _renderLatestRound();
       _renderStockPanel();
       _wireAwardToggle();
       _renderCountyPicker();
