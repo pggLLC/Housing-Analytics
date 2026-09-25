@@ -11,6 +11,7 @@ on:
         default: false
 
 permissions:
+  actions: write   # dispatch deploy.yml after the data push
   contents: write
   issues: write
 
@@ -597,6 +598,9 @@ jobs:
             fi
           fi
           git push
+      - name: Dispatch Pages deploy for this run's commit
+        # A workflow-token push does not trigger deploy.yml (#1875).
+        uses: ./.github/actions/dispatch-pages-deploy
 
       # The in-job notifier was removed when this workflow moved to the external
       # monitor (.github/workflows/workflow-outcome-monitor.yml), in the same
