@@ -3389,55 +3389,62 @@
   }
 
   /* ── Map legend ─────────────────────────────────────────────────── */
+  /*
+   * The PMA map legend (F211): default-collapsed, header toggles .is-collapsed.
+   * Built here rather than inline in onAdd so the glossary guard can test the
+   * page's real legend markup (test/glossary-skips-hidden-text.test.js).
+   */
+  function buildPmaLegend(overlayMaps) {
+    // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
+    // per F184 site-wide policy so the legend doesn't obscure the map on
+    // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
+    var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
+    var items = [];
+    if (overlayMaps['County Boundaries']) {
+      items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
+    }
+    if (overlayMaps['Qualified Census Tracts']) {
+      items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
+    }
+    if (overlayMaps['Difficult Dev Areas']) {
+      items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
+    }
+    if (overlayMaps['LIHTC Projects']) {
+      items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
+    }
+    div.innerHTML =
+      '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
+               'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
+        '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
+        '<span>Legend</span>' +
+      '</button>' +
+      // F216 — body display driven by CSS via .is-collapsed class (single
+      // source of truth). Previously inline display:none + class toggle
+      // were both used; if anyone removed the inline thinking the class
+      // handled it, the toggle silently broke.
+      '<div class="pma-legend-body" style="margin-top:6px;">' +
+        items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
+      '</div>';
+    // Prevent map drag/zoom propagation when clicking inside the legend
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.disableScrollPropagation(div);
+    // Toggle handler
+    var btn = div.querySelector('.pma-legend-toggle');
+    var caret = div.querySelector('.pma-legend-caret');
+    btn.addEventListener('click', function () {
+      var collapsed = div.classList.toggle('is-collapsed');
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
+    });
+    return div;
+  }
+
   function addMapLegend(overlayMaps) {
     var L = window.L;
     if (!L || !map || !Object.keys(overlayMaps).length) return;
 
     var legend = L.control({ position: 'bottomleft' });
-    legend.onAdd = function () {
-      // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
-      // per F184 site-wide policy so the legend doesn't obscure the map on
-      // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
-      var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
-      var items = [];
-      if (overlayMaps['County Boundaries']) {
-        items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
-      }
-      if (overlayMaps['Qualified Census Tracts']) {
-        items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
-      }
-      if (overlayMaps['Difficult Dev Areas']) {
-        items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
-      }
-      if (overlayMaps['LIHTC Projects']) {
-        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
-      }
-      div.innerHTML =
-        '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
-                 'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
-          '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
-          '<span>Legend</span>' +
-        '</button>' +
-        // F216 — body display driven by CSS via .is-collapsed class (single
-        // source of truth). Previously inline display:none + class toggle
-        // were both used; if anyone removed the inline thinking the class
-        // handled it, the toggle silently broke.
-        '<div class="pma-legend-body" style="margin-top:6px;">' +
-          items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
-        '</div>';
-      // Prevent map drag/zoom propagation when clicking inside the legend
-      L.DomEvent.disableClickPropagation(div);
-      L.DomEvent.disableScrollPropagation(div);
-      // Toggle handler
-      var btn = div.querySelector('.pma-legend-toggle');
-      var caret = div.querySelector('.pma-legend-caret');
-      btn.addEventListener('click', function () {
-        var collapsed = div.classList.toggle('is-collapsed');
-        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-        if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
-      });
-      return div;
-    };
+    legend.onAdd = function () { return buildPmaLegend(overlayMaps); };
     legend.addTo(map);
   }
 
@@ -5719,6 +5726,7 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    buildPmaLegend:          buildPmaLegend,
     MEASURE_NAMES:           MEASURE_NAMES,
     scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
