@@ -4477,20 +4477,22 @@
     var count = 0;
     var stopDataChecked = false;
 
-    // Check cached transit stops layer first
-    var transitStopsLayer = _mapLayers['transitStops'];
-    if (transitStopsLayer) {
+    // Check the cached statewide stop file first. Not the rendered layer:
+    // that is trimmed to the previous analysis site (_scopeToSite), so for a
+    // new site it could hold none of the nearby stops and report "none".
+    var rawStops = _rawLayerData['transitStops'];
+    if (rawStops && Array.isArray(rawStops.features)) {
       stopDataChecked = true;
-      transitStopsLayer.eachLayer(function (layer) {
-        var ll = layer.getLatLng ? layer.getLatLng() : null;
-        if (!ll) return;
-        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+      rawStops.features.forEach(function (f) {
+        var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
+        if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
-          L.circleMarker([ll.lat, ll.lng], {
+          L.circleMarker([c[1], c[0]], {
             pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
             weight: 2, fillOpacity: 0.9
-          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+          }).bindTooltip((f.properties && f.properties.name) || 'Transit stop',
             { sticky: true, className: 'pma-tooltip' }
           ).addTo(todMarkers);
         }

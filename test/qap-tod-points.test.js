@@ -99,6 +99,12 @@ for (const f of jsFiles) {
   assert.doesNotMatch(read(f), /\.(?:getNearestByType|getWithinRadius)\(\s*['"]/, `${f} passes the amenity type first`);
 }
 assert.match(maSrc, /\.getWithinRadius\(lat, lon, 'transit_stop', halfMile\)/, 'TOD fallback does not use getWithinRadius');
+// The first source must be the unscoped statewide stop cache, not the map
+// layer, which _scopeToSite trims to the previous analysis site.
+const todFn = (maSrc.match(/function _highlightTodTransit[\s\S]*?\n  \}\n/) || [])[0];
+assert.ok(todFn, '_highlightTodTransit not found');
+assert.match(todFn, /_rawLayerData\['transitStops'\]/, 'TOD check does not read the statewide stop cache');
+assert.doesNotMatch(todFn, /_mapLayers\['transitStops'\]/, 'TOD check reads the site-scoped map layer');
 
 const sandbox = { window: {}, console: { log() {}, warn() {} } };
 vm.createContext(sandbox);

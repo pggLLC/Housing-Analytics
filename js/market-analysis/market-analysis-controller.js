@@ -853,8 +853,12 @@
           // Only a score computed for THIS site counts. Before the runner's
           // transit step finishes, the score is null or belongs to the
           // previous site; either way fall back to the distance proxy.
+          // Compare at 5 decimals (~1 m): the runner reads the site back from
+          // #pmaSiteCoords, which placeSiteMarker() writes with toFixed(5),
+          // while this call gets the unrounded marker position.
           var sameSite = tj && typeof tj.siteLat === 'number' && typeof tj.siteLon === 'number' &&
-            Math.abs(tj.siteLat - lat) < 1e-6 && Math.abs(tj.siteLon - lon) < 1e-6;
+            typeof lat === 'number' && typeof lon === 'number' &&
+            tj.siteLat.toFixed(5) === lat.toFixed(5) && tj.siteLon.toFixed(5) === lon.toFixed(5);
           if (sameSite && Number.isFinite(tj.transitAccessibilityScore)) {
             transitMetrics = {
               transitAccessibilityScore: tj.transitAccessibilityScore,
