@@ -94,8 +94,6 @@ assert.match(failedStatus, /No units are counted toward qualified basis/, 'rende
 assert.equal(document.getElementById('dc-r-basis').textContent, '$0', 'failed AIT contributes no qualified basis');
 assert(!document.getElementById('dc-ami-label-70').textContent.includes('does not model'), 'AIT label no longer claims income averaging is unmodeled');
 
-assert(shareSource.includes("'dc-minimum-set-aside'"), 'the election persists through the established share-URL input list');
-assert(shareSource.includes("'dc-units-20'"), 'the new 20% designation persists with the other unit tiers');
 
 async function assertShareRoundTrip() {
   const shareDom = new JSDOM(`<!doctype html><body>
@@ -104,6 +102,7 @@ async function assertShareRoundTrip() {
       <option value="40-60">40-60</option>
       <option value="average-income">Average Income Test</option>
     </select>
+    <input id="dc-units-20" type="number" value="0">
   </body>`, {
     url: 'http://127.0.0.1/deal-calculator.html?minimum-set-aside=average-income',
     runScripts: 'outside-only',
@@ -117,6 +116,11 @@ async function assertShareRoundTrip() {
   shareDom.window.document.dispatchEvent(new shareDom.window.Event('DOMContentLoaded'));
   await new Promise((resolve) => shareDom.window.setTimeout(resolve, 425));
 
+  // The share list is read from the page (deal-calculator-share.js), so the
+  // check is that these page inputs are in it, not that a string is in a file.
+  const keys = Array.from(shareDom.window.__DealCalcShare.shareKeys());
+  assert(keys.includes('dc-minimum-set-aside'), 'the election is a share-URL input');
+  assert(keys.includes('dc-units-20'), 'the 20% designation is a share-URL input');
   const sharedElection = shareDom.window.document.getElementById('dc-minimum-set-aside');
   assert.equal(sharedElection.value, 'average-income', 'share URL hydrates the selected election');
   sharedElection.value = '20-50';
