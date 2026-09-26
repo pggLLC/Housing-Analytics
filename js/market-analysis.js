@@ -1208,7 +1208,12 @@
       flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
     }
     if (captureObj.capture >= RISK.captureHigh) {
-      flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
+      // captureObj.capture is (existing + proposed units) ÷ qualified
+      // renters. With no proposed units (the headline) it is existing
+      // affordable penetration alone, not a capture rate for any project.
+      flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
+        (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
+        ' (≥' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });

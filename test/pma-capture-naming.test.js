@@ -92,6 +92,8 @@ function strayCaptureNames(text, names) {
   return out;
 }
 
+const numbersIn = (t) => (t.match(/\d[\d,]*/g) || []).map((x) => Number(x.replace(/,/g, '')));
+
 function run() {
   Object.assign(console, quiet);
   const E = w.PMAEngine;
@@ -129,6 +131,27 @@ function run() {
     acs, lat: 39.74, lon: -104.99, bufferMiles: 3, tractCount: 6,
     affordableUnitsKnown: 120, capture: 120 / 598,
     captureDenominator: { value: 598, source: 'chas_lihtc_eligible' },
+  });
+
+  test('the high-ratio flag names the measure it tested: penetration, with the proposed units only when there are any', () => {
+    const crowded = { lat: 39.74, lon: -104.99 };
+    // The denominator computePma itself uses here (no CHAS for an empty
+    // tract list, so ACS renters), read from its result, not assumed.
+    const qual = E.computePma(acs, 0, 0, crowded.lat, crowded.lon, [], 95000, [], {}).captureDenominator.value;
+    assert(qual > 0, 'no denominator to size the fixture from');
+    // Existing units alone past the threshold: the headline's own call, 0 proposed.
+    const existing = Math.ceil(qual * RISK.captureHigh) + 1;
+    const headline = E.computePma(acs, existing, 0, crowded.lat, crowded.lon, [], 95000, [], {});
+    const flag = (r) => r.flags.map((f) => f.text).find((t) => numbersIn(t).includes(Math.round(RISK.captureHigh * 100)));
+    // The fixture must trip the flag, or this checks nothing.
+    const h = flag(headline);
+    assert(h, 'the existing-only fixture raised no high-ratio flag: ' + headline.flags.map((f) => f.text).join(' | '));
+    assert(h.toLowerCase().includes(N.penetration.toLowerCase()), 'headline flag: ' + h);
+    assert.deepStrictEqual(strayCaptureNames(h, N), [], 'headline flag uses a capture name for existing units: ' + h);
+    assert(!/capture/i.test(h), 'a flag on existing units alone mentions capture: ' + h);
+    const withProject = E.computePma(acs, 10, existing, crowded.lat, crowded.lon, [], 95000, [], {});
+    const p = flag(withProject);
+    assert(p && numbersIn(p).includes(existing), 'the flag does not say the ' + existing + ' proposed units are included: ' + p);
   });
 
   test('the simulator and the scenario table name the proposed-project rate, and the table says it is not penetration', () => {
