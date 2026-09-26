@@ -361,12 +361,14 @@
 
     /* Amenities */
     { key: 'transit', name: 'Transit stops', group: 'Amenities',
-      url: 'data/amenities/transit_stops_co.geojson', color: '#0891b2', kind: 'point',
+      url: 'data/amenities/transit_stops_statewide_co.geojson', color: '#0891b2', kind: 'point',
       popupRows: function (p) {
+        var SRC = { cdot: 'CDOT', agency_feed: 'Agency schedule feed', osm: 'OpenStreetMap' };
         return [
-          { k: 'Name',     v: p.name || '(unnamed stop)' },
-          { k: 'OSM type', v: p.osm_type },
-          { k: 'OSM id',   v: p.osm_id },
+          { k: 'Name',        v: p.name || '(unnamed stop)' },
+          { k: 'Agency',      v: p.agency },
+          { k: 'Source',      v: (p.sources || []).map(function (s) { return SRC[s] || s; }).join(', ') },
+          { k: 'Reliability', v: p.reliability === 'unconfirmed' ? 'Unconfirmed (OpenStreetMap only)' : 'Confirmed' },
         ];
       } },
     { key: 'schools', name: 'Schools', group: 'Amenities',
