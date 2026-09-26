@@ -62,8 +62,16 @@
     if (_fees) return Promise.resolve(_fees);
     if (_feesPromise) return _feesPromise;
     _feesPromise = fetch(_resolvePath('data/policy/fee-reductions.json'))
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) { _fees = d || { entries: [], land_use: [], meta: {} }; return _fees; })
+      .then(function (r) {
+        // An HTTP error is "unavailable", never an empty dataset: an empty
+        // one would render as "none verified yet" for every jurisdiction.
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function (d) {
+        if (!d || !Array.isArray(d.entries)) throw new Error('malformed fee-reductions.json');
+        _fees = d; return _fees;
+      })
       .catch(function (e) {
         console.warn('[TaxAbatement] fee-reductions fetch failed', e);
         return { entries: [], land_use: [], meta: {}, unavailable: true };
@@ -175,7 +183,7 @@
       var countyTag = 'county program — may apply only outside town limits';
       var out = [];
       out.push('<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
-        'Screening context, not a study. Each item below was read from the jurisdiction’s own code, fee schedule or program page; nothing here is applied to any calculation. ' +
+        'Screening context, not a study. Each item says how it was checked: most were read from the jurisdiction’s own code, fee schedule or program page; an item marked “as reported by” comes from a named news outlet or a reproduction and was not checked against the primary document. Nothing here is applied to any calculation. ' +
         'A deferred fee is still owed — it helps cash flow during construction but does not lower total development cost.</p>');
       var ORDER = { waived: 0, reduced: 1, reimbursed: 2, deferred: 3, rate_discount: 4 };
       var byMeasure = function (a, b) { return (ORDER[a.measure] - ORDER[b.measure]) || (a.id < b.id ? -1 : 1); };
@@ -254,17 +262,25 @@
   // A fee-waiver row in the older inventory is shown only through the
   // verified dataset: backed rows render the verified entries; the rest
   // carry a "Not yet verified" tag and no magnitude.
-  function _renderProgram(p, fees) {
+  // An inventory row can cover several places (e.g. the Garfield County
+  // towns); only entries for the selected geography are shown as its own.
+  function _renderProgram(p, fees, geoid) {
     if (p.category === 'fee-waiver') {
       var ids = Array.isArray(p.fee_reductions_ids) ? p.fee_reductions_ids : [];
       var backed = ((fees && fees.entries) || []).filter(function (e) { return ids.indexOf(e.id) !== -1; });
-      if (backed.length) {
-        return backed.map(function (e) { return _renderFeeEntry(e, ''); }).join('');
+      var here = geoid ? backed.filter(function (e) { return e.geoid === geoid; }) : backed;
+      if (here.length) {
+        return here.map(function (e) { return _renderFeeEntry(e, ''); }).join('');
       }
+      var elsewhere = backed.length
+        ? 'Verified measures in this group are for ' +
+          backed.map(function (e) { return e.jurisdiction; }).filter(function (j, i, a) { return a.indexOf(j) === i; }).join(', ') +
+          '; none verified yet for this place.'
+        : null;
       return '<li class="ta-item">' +
                '<div class="ta-item__head"><span class="ta-item__name">' + _esc(p.name) + '</span>' +
                  '<span class="ta-item__unverified">Not yet verified</span></div>' +
-               '<div class="ta-item__meta">' + _esc(p.verification_note || 'Listed in an older inventory; not yet checked against the jurisdiction’s own code or fee schedule.') + '</div>' +
+               '<div class="ta-item__meta">' + _esc(elsewhere || p.verification_note || 'Listed in an older inventory; not yet checked against the jurisdiction’s own code or fee schedule.') + '</div>' +
              '</li>';
     }
     return '<li class="ta-item">' +
@@ -297,7 +313,7 @@
           '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
           'Curated for <strong>' + _esc(entry.name) + '</strong>. Verify before underwriting — programs change yearly.' +
           '</p>',
-          '<ul class="ta-list">' + entry.programs.map(function (p) { return _renderProgram(p, fees); }).join('') + '</ul>'
+          '<ul class="ta-list">' + entry.programs.map(function (p) { return _renderProgram(p, fees, opts.geoKey ? String(opts.geoKey).split(':').pop() : null); }).join('') + '</ul>'
         );
       } else {
         rendered.push(

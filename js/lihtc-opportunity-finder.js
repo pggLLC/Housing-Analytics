@@ -2094,6 +2094,7 @@
         s === 'not_yet_verified' ? '?' :   // fee-reductions.json has no entry yet
         s === 'deferral_only'    ? '◌' :   // fee still owed
         s === 'rate_discount_only' ? '◌' :
+        s === 'project_award_only' ? '◌' :   // past one-off award, no standing program
                               '○'    // 'none'
       );
       var bits = [label + ': ' + s.replace(/_/g, ' ')];

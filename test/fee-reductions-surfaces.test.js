@@ -56,6 +56,12 @@ for (const [geoid, rec] of Object.entries(progress.by_geoid)) {
 }
 assert.ok(progressRows >= 30, `only ${progressRows} progress rows scanned`);
 
+// Every status the progress rows use has its own opportunity-finder marker,
+// so none of them falls through to the "none" symbol.
+const lof = read('js/lihtc-opportunity-finder.js');
+new Set(Object.values(progress.by_geoid).map((r) => r.tap_fee_reduction && r.tap_fee_reduction.status).filter(Boolean))
+  .forEach((st) => assert.ok(lof.includes(`s === '${st}'`), `opportunity finder has no marker for status ${st}`));
+
 // ── 1b. tax-abatement-inventory.json fee-waiver programs ──────────────────
 const inventory = json('data/tax-abatement-inventory.json');
 let feeRows = 0, backedRows = 0;
@@ -96,7 +102,10 @@ function loadComponent(fetchImpl) {
     sandbox, sandbox, sandbox.fetch, sandbox.document, sandbox.console);
   return sandbox.TaxAbatement;
 }
-const okFetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(fees) });
+const okFetch = (url) => Promise.resolve({
+  ok: true,
+  json: () => Promise.resolve(/tax-abatement-inventory/.test(url) ? inventory : fees),
+});
 
 function render(TA, opts) {
   const box = { innerHTML: '' };
@@ -139,6 +148,37 @@ function render(TA, opts) {
   const TAdown = loadComponent(() => Promise.reject(new Error('offline')));
   const down = await render(TAdown, { geoid: withFee.geoid, jurisName: 'X' });
   assert.ok(/^<p class="ta-empty">Unavailable/.test(down), 'a failed load says Unavailable, and why');
+  // An HTTP error resolves fetch() normally; it must still read as unavailable.
+  const TA404 = loadComponent(() => Promise.resolve({ ok: false, status: 404, json: () => Promise.resolve(null) }));
+  const notFound = await render(TA404, { geoid: withFee.geoid, jurisName: 'X' });
+  assert.ok(/^<p class="ta-empty">Unavailable/.test(notFound), 'an HTTP 404 says Unavailable, not "none verified"');
+
+  // The intro must not claim every item was read at the primary source
+  // while the dataset holds reported entries.
+  if (fees.entries.some((e) => e.verification.level === 'reported')) {
+    assert.ok(/as reported by/.test(html) && !/Each item below was read from the jurisdiction/.test(html),
+      'the intro distinguishes primary from reported items');
+  }
+
+  // A tax-abatement inventory row shared by several places shows only the
+  // selected place's own verified entries.
+  let sharedChecked = 0;
+  for (const j of inventory.jurisdictions) {
+    const geoids = (j.geoKeys || []).map((k) => k.split(':')[1]);
+    if (geoids.length < 2) continue;
+    for (const p of (j.programs || []).filter((x) => x.category === 'fee-waiver' && (x.fee_reductions_ids || []).length)) {
+      for (const g of geoids) {
+        const box = { innerHTML: '' };
+        TA.attach(box, { geoKey: 'place:' + g, jurisName: g });
+        await new Promise((r) => setTimeout(r, 20));
+        const shown = [...box.innerHTML.matchAll(/data-fee-entry="([^"]+)"/g)].map((m) => m[1]);
+        shown.forEach((id) => assert.strictEqual(byId.get(id).geoid, g,
+          `${j.name}: selecting ${g} shows ${id}, which belongs to ${byId.get(id).geoid}`));
+        sharedChecked++;
+      }
+    }
+  }
+  assert.ok(sharedChecked >= 4, `only ${sharedChecked} shared-row selections checked`);
 
   // ── HNA wiring ──
   const hna = read('js/hna/hna-renderers.js');
