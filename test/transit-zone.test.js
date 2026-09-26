@@ -61,6 +61,15 @@ test('only an OpenStreetMap-only stop inside the radius → within_2mi, not conf
   assert.equal(s.nearestConfirmedStop.name, 'Far');
 });
 
+test('a private shuttle pickup inside the radius does not count as transit', () => {
+  const shuttle = stop(east(SITE.lat, SITE.lon, 0.3), 'Hotel pickup', 'confirmed');
+  shuttle.properties.operator = 'private_shuttle';
+  const z = TZ.create({ stops: stopsWith([shuttle, stop(east(SITE.lat, SITE.lon, 3), 'Bus', 'confirmed')]), mapStatus, now: NOW });
+  const s = z.status(SITE.lat, SITE.lon);
+  assert.equal(s.status, 'outside');
+  assert.equal(s.nearestStop.name, 'Bus');
+});
+
 test('nearest stop beyond the radius → outside, with the distance', () => {
   const z = TZ.create({ stops: stopsWith([stop(east(SITE.lat, SITE.lon, 2.5), 'B', 'confirmed')]), mapStatus, now: NOW });
   const s = z.status(SITE.lat, SITE.lon);
