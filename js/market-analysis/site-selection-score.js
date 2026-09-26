@@ -35,6 +35,13 @@
  * `scorePolicy`, `scoreMarket`) accept primitive numeric/boolean
  * inputs and are treated as always-available — a missing flag is
  * the absence of a bonus, not the absence of measurement.
+ *
+ * One exception: a QCT/DDA designation passed as explicit `null`
+ * (HudEgis.checkDesignation() could not tell — layer not loaded or
+ * globally empty) is an unknown, not a "no". Scoring it as "no" would
+ * silently drop up to 40 subsidy points, so `computeScore` marks the
+ * subsidy dimension unavailable, redistributes its weight like the
+ * others, and reports why in `subsidyUnavailableReason`.
  */
 (function () {
   'use strict';
@@ -443,7 +450,7 @@
    * @param {number}  inputs.serviceStrength    - Service employment share 0–1.
    * @returns {{
    *   demand_score: number|null,
-   *   subsidy_score: number,
+   *   subsidy_score: number|null,
    *   feasibility_score: number,
    *   access_score: number|null,
    *   policy_score: number,
@@ -454,6 +461,7 @@
    *   dimensionsAvailable: number,
    *   dimensionsUnavailable: number,
    *   unavailableDimensions: string[],
+   *   subsidyUnavailableReason: string|null,
    *   narrative: string
    * }}
    */
@@ -467,7 +475,13 @@
     // Subsidy, feasibility, policy, market take primitive inputs — a missing
     // flag is the absence of a bonus, not the absence of measurement, so
     // they are always treated as available.
-    var subsidy_score     = Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basisBoostEligible));
+    //
+    // Exception: an explicit null designation is unknown, not "not in a
+    // QCT/DDA" — see the null-propagation contract at the top of the file.
+    var subsidyUnavailableReason = _designationUnknownReason(i);
+    var subsidy_score     = subsidyUnavailableReason
+      ? null
+      : Math.round(scoreSubsidy(i.qctFlag, i.ddaFlag, i.fmrRatio, i.nearbySubsidized, i.basisBoostEligible));
     var feasibility_score = Math.round(scoreFeasibility(i.floodRisk, i.soilScore, i.cleanupFlag));
     var policy_score      = Math.round(scorePolicy(i.zoningCapacity, i.publicOwnership, i.overlayCount));
     var market_score      = Math.round(scoreMarket(i.rentTrend, i.jobTrend, i.concentration, i.serviceStrength));
@@ -481,7 +495,7 @@
     // in js/market-analysis.js).
     var contributors = [];
     if (!demandResult.unavailable) contributors.push({ key: 'demand',      weight: W.demand,      score: demand_score });
-    contributors.push({ key: 'subsidy',     weight: W.subsidy,     score: subsidy_score });
+    if (!subsidyUnavailableReason) contributors.push({ key: 'subsidy',     weight: W.subsidy,     score: subsidy_score });
     contributors.push({ key: 'feasibility', weight: W.feasibility, score: feasibility_score });
     if (!accessResult.unavailable) contributors.push({ key: 'access',      weight: W.access,      score: access_score });
     contributors.push({ key: 'policy',      weight: W.policy,      score: policy_score });
@@ -489,6 +503,7 @@
 
     var unavailableDimensions = [];
     if (demandResult.unavailable) unavailableDimensions.push('demand');
+    if (subsidyUnavailableReason) unavailableDimensions.push('subsidy');
     if (accessResult.unavailable) unavailableDimensions.push('access');
 
     var effectiveWeightSum = contributors.reduce(function (s, c) { return s + c.weight; }, 0);
@@ -519,8 +534,25 @@
       dimensionsAvailable:   contributors.length,
       dimensionsUnavailable: unavailableDimensions.length,
       unavailableDimensions: unavailableDimensions,
+      subsidyUnavailableReason: subsidyUnavailableReason,
       narrative:             narrative
     };
+  }
+
+  /**
+   * Why the QCT/DDA designation is unknown, or null when it is known.
+   * Only an explicit null counts as unknown; an absent (undefined) flag keeps
+   * its historical meaning of "no bonus" for callers that never pass one.
+   * A known `true` on either layer is enough — the basis boost is one election.
+   * @private
+   */
+  function _designationUnknownReason(i) {
+    var reason = i.designationUnavailableReason ||
+      'QCT/DDA designation unknown (HUD overlay data not loaded)';
+    if (i.basisBoostEligible === true || i.qctFlag === true || i.ddaFlag === true) return null;
+    if (i.basisBoostEligible === null) return reason;
+    if (i.basisBoostEligible === undefined && (i.qctFlag === null || i.ddaFlag === null)) return reason;
+    return null;
   }
 
   /* ── Narrative builder ──────────────────────────────────────────── */

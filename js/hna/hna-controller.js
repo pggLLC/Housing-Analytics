@@ -1076,22 +1076,30 @@
     // production load and this tier could never succeed — the map silently fell
     // through to the ~42-feature embedded fallback while the full 224-feature
     // file sat same-origin at data/qct-colorado.json.
-    // A county with no matching tract in a file that loaded has zero QCTs —
-    // a real answer, so it is returned here rather than falling through.
+    // A county with no matching tract in a file that loaded WITH features has
+    // zero QCTs — a real answer, so it is returned here rather than falling
+    // through. A file that parsed but holds no features at all (features: [])
+    // cannot prove anything about any county: that is unknown, not zero.
+    let qctEmptySource = false;
     try {
       const backupGj = await loadJson('data/qct-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(matchCounty);
-        return { ...backupGj, features };
+        if (backupGj.features.length > 0) {
+          const features = backupGj.features.filter(matchCounty);
+          return { ...backupGj, features };
+        }
+        qctEmptySource = true;
       }
     } catch(_) {/* no local QCT backup */}
-    // Nothing loaded. There is no embedded stand-in: QCT decides the 30% basis
-    // boost, and a guessed tract would answer that wrongly. Membership is
+    // Nothing usable loaded. There is no embedded stand-in: QCT decides the 30%
+    // basis boost, and a guessed tract would answer that wrongly. Membership is
     // unknown, which the renderer shows as such — never as "no QCTs".
     return {
       type: 'FeatureCollection',
       features: [],
-      unavailableReason: 'data/qct-colorado.json and the HUD QCT service both failed to load',
+      unavailableReason: qctEmptySource
+        ? 'data/qct-colorado.json loaded but contains no QCT features, and the HUD QCT service returned none — an empty source cannot show this county has zero QCTs'
+        : 'data/qct-colorado.json and the HUD QCT service both failed to load',
     };
   }
 
@@ -1137,7 +1145,9 @@
       const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
-      if (gj && Array.isArray(gj.features)) {
+      // Only a response that returned DDAs somewhere can show this county has
+      // none. A globally empty response proves nothing — fall through.
+      if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
         const features = gj.features.filter(ddaFilter);
         return { ...gj, features };
       }
@@ -1147,19 +1157,26 @@
     // Tier 3a: same-origin statewide DDA file, filtered to county.
     // Was GITHUB_PAGES_BASE — cross-origin and CORS-blocked from
     // cohoanalytics.com, so this tier never succeeded. See the QCT note above.
+    // As for QCT: a file with features: [] cannot show a county is Non-DDA.
+    let ddaEmptySource = false;
     try {
       const backupGj = await loadJson('data/dda-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(ddaFilter);
-        return { ...backupGj, features };
+        if (backupGj.features.length > 0) {
+          const features = backupGj.features.filter(ddaFilter);
+          return { ...backupGj, features };
+        }
+        ddaEmptySource = true;
       }
     } catch(_) {/* no local DDA backup */}
-    // Nothing loaded. No embedded stand-in (see fetchQctTracts): DDA status is
-    // unknown, and the renderer must not report it as "Non-DDA".
+    // Nothing usable loaded. No embedded stand-in (see fetchQctTracts): DDA
+    // status is unknown, and the renderer must not report it as "Non-DDA".
     return {
       type: 'FeatureCollection',
       features: [],
-      unavailableReason: 'data/dda-colorado.json and the HUD DDA service both failed to load',
+      unavailableReason: ddaEmptySource
+        ? 'data/dda-colorado.json loaded but contains no DDA features, and the HUD DDA service returned none — an empty source cannot show this county is outside a DDA'
+        : 'data/dda-colorado.json and the HUD DDA service both failed to load',
     };
   }
 
