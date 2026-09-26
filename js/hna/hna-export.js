@@ -172,6 +172,172 @@
   }
 
   // ---------------------------------------------------------------------------
+  // Shared row models — one definition per figure, read by the PDF, the CSV
+  // and the Excel workbook, so the three downloads cannot label or format the
+  // same number differently (finish line PC-1). An absent value stays null
+  // and carries its reason; it is never written as 0 or left blank (PC-3).
+  // ---------------------------------------------------------------------------
+
+  /** A number, or null when the value is absent. A real 0 stays 0. */
+  function _numOrNull(v) {
+    if (v === null || v === undefined || v === '') return null;
+    var n = Number(v);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  /** Page text that means "nothing shown" rather than a value. */
+  function _isBlankText(v) {
+    if (v === null || v === undefined) return true;
+    var s = String(v).trim();
+    return s === '' || s === '—' || s === '-';
+  }
+
+  var UNAVAILABLE = 'Unavailable';
+
+  /* housing_gap_units is the rental gap at <=30% AMI
+     (scripts/hna/build_ranking_index.py), and the page shows it as the
+     "Existing rental shortfall, today" row of the need reconciliation
+     (hna-controller.js buildNeedReconciliation): renter households at <=30%
+     AMI without a home they can afford. It is not a total housing gap. */
+  var HOUSING_GAP_LABEL = 'Existing rental shortfall, today (≤30% AMI renters, units)';
+
+  function _stripInfoGlyphs(text) {
+    return String(text == null ? '' : text)
+      .replace(/[ℹⓘ️]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  /** Strip methodology popovers, tooltips and info glyphs from a heading, as
+   *  the section rail does (js/hna/section-rail.js cleanLabel). */
+  function _cleanHeadingText(el) {
+    if (!el) return '';
+    var clone = el.cloneNode(true);
+    var noise = clone.querySelectorAll ? clone.querySelectorAll(
+      'details, summary, button, .hna-cat-tt, .data-approx-hint, .geo-chip, ' +
+      '[class*="tooltip"], [class*="method"], [class*="-tt"], [hidden], [aria-hidden="true"]'
+    ) : [];
+    Array.prototype.forEach.call(noise, function (n) { n.remove(); });
+    return _stripInfoGlyphs(clone.textContent || '');
+  }
+
+  /** The label on the page's own stat card, so an export row is named what
+   *  the reader saw. Falls back to the card label in housing-needs-assessment.html. */
+  function _cardLabel(id, fallback) {
+    var el = document.getElementById(id);
+    var card = el && el.closest ? el.closest('.stat') : null;
+    var k = card ? card.querySelector('.k') : null;
+    var text = k ? _stripInfoGlyphs(k.textContent) : '';
+    return text || fallback;
+  }
+
+  /** The sub-note under a stat card (e.g. "in Fruita · 7 in Mesa County"). */
+  function _cardSub(id) {
+    var el = document.getElementById(id);
+    var card = el && el.closest ? el.closest('.stat') : null;
+    var s = card ? card.querySelector('.s') : null;
+    return s ? s.textContent.replace(/\s+/g, ' ').trim() : '';
+  }
+
+  /** The reason a map overlay did not load, as the page states it on the
+   *  overlay toggle (hna-renderers.js _markOverlayToggle). */
+  function _overlayReason(toggleId) {
+    var t = document.getElementById(toggleId);
+    var host = t && t.closest ? t.closest('label') : null;
+    return (host && host.title) ? host.title : '';
+  }
+
+  /**
+   * The LEHD LODES workplace-area (WAC) year of the data the page loaded.
+   * County files carry `wacYear`; the place blobs apportioned from them carry
+   * the same annualEmployment years, so the latest of those is the WAC year.
+   * Read from the data, never a literal: the literal said 2021 while the data
+   * and the page said 2023.
+   */
+  function _lehdWacYear(geoid, containingCounty) {
+    var cache = window.__HNA_LEHD_CACHE || {};
+    var st = (window.HNAState && window.HNAState.state) || {};
+    var keys = [geoid, st.contextCounty, containingCounty, '08'].filter(Boolean);
+    var i, blob;
+    for (i = 0; i < keys.length; i++) {
+      blob = cache[keys[i]];
+      var wy = blob ? _numOrNull(blob.wacYear) : null;
+      if (wy !== null) return wy;
+    }
+    for (i = 0; i < keys.length; i++) {
+      blob = cache[keys[i]];
+      var years = (blob && blob.annualEmployment) ? Object.keys(blob.annualEmployment)
+        .map(function (y) { return _numOrNull(y); })
+        .filter(function (y) { return y !== null; }) : [];
+      if (years.length) return Math.max.apply(null, years);
+    }
+    return null;
+  }
+
+  function _unitsDisplay(n) {
+    return n === null ? UNAVAILABLE : Math.round(n).toLocaleString('en-US');
+  }
+
+  /** Executive-snapshot rows, labelled as the page's stat cards are. */
+  function _snapshotRows(d) {
+    var s = (d && d.snapshot) || {};
+    var hs = (d && d.housingStock) || {};
+    return [
+      { key: 'population',            label: _cardLabel('statPop', 'Population'),                         value: s.population,            sub: 'ACS DP05 total' },
+      { key: 'medianHouseholdIncome', label: _cardLabel('statMhi', 'Median household income'),            value: s.medianHouseholdIncome, sub: 'ACS DP03' },
+      { key: 'medianHomeValue',       label: _cardLabel('statHomeValue', 'Median home value'),            value: s.medianHomeValue,       sub: 'Owner-occupied DP04' },
+      { key: 'medianGrossRent',       label: _cardLabel('statRent', 'Median gross rent'),                 value: s.medianGrossRent,       sub: 'Renter-occupied DP04' },
+      { key: 'ownerRenterTenure',     label: _cardLabel('statTenure', 'Renter-occupied (tenure)'),        value: s.ownerRenterTenure,     sub: 'DP04 tenure' },
+      { key: 'rentBurden30Plus',      label: _cardLabel('statRentBurden', 'Rent burdened (≥30%)'),   value: s.rentBurden30Plus,      sub: 'ACS DP04 GRAPI' },
+      { key: 'incomeNeededToBuy',     label: _cardLabel('statIncomeNeed', 'Income needed to buy (est.)'), value: s.incomeNeededToBuy,     sub: 'Implied 30% PITI' },
+      { key: 'meanCommute',           label: _cardLabel('statCommute', 'Mean commute time'),              value: s.meanCommute,           sub: 'ACS S0801' },
+      { key: 'baselineUnits',         label: _cardLabel('statBaseUnits', 'Current housing units'),        value: hs.baselineUnits,        sub: 'DP04 total' },
+    ].map(function (r) {
+      var blank = _isBlankText(r.value);
+      r.display = blank ? UNAVAILABLE : String(r.value).trim();
+      r.reason = blank ? 'Not shown on the page for this geography when exported.' : null;
+      return r;
+    });
+  }
+
+  /** AMI-gap rows: numbers kept as numbers, a real 0 kept as 0. */
+  function _amiGapRows(d) {
+    var g = (d && d.amiGap) || {};
+    var src = g.source || 'unavailable';
+    var reason = src === 'unavailable'
+      ? 'No AMI-gap estimate for this geography.'
+      : 'Not published by the AMI-gap source (' + src + ') for this geography.';
+    return [
+      { key: 'housingGapUnits', label: HOUSING_GAP_LABEL, value: _numOrNull(g.housingGapUnits) },
+      { key: 'gap30pctUnits',   label: '30% AMI gap',     value: _numOrNull(g.gap30pctUnits) },
+      { key: 'gap50pctUnits',   label: '50% AMI gap',     value: _numOrNull(g.gap50pctUnits) },
+      { key: 'gap60pctUnits',   label: '60% AMI gap',     value: _numOrNull(g.gap60pctUnits) },
+    ].map(function (r) {
+      r.display = _unitsDisplay(r.value);
+      r.reason = r.value === null ? reason : null;
+      return r;
+    });
+  }
+
+  /** LIHTC / QCT / DDA rows, as the page's cards show them, with the reason
+   *  the page gives when one is unavailable. */
+  function _lihtcRows(d) {
+    var l = (d && d.lihtc) || {};
+    return [
+      { key: 'projectCount', label: 'LIHTC projects', value: l.projectCount, sub: l.projectCountScope || 'Active compliance', reason: l.lihtcUnavailableReason },
+      { key: 'totalUnits',   label: 'LIHTC units',    value: l.totalUnits,   sub: l.totalUnitsScope || 'Affordable',          reason: l.lihtcUnavailableReason },
+      { key: 'qctTracts',    label: 'QCT tracts',     value: l.qctTracts,    sub: 'IRC §42(d)(5)(B)',                   reason: l.qctUnavailableReason },
+      { key: 'ddaStatus',    label: 'DDA status',     value: l.ddaStatus,    sub: '130% basis boost',                        reason: l.ddaUnavailableReason },
+    ].map(function (r) {
+      var text = _isBlankText(r.value) ? '' : String(r.value).trim();
+      var unavailable = text === '' || /^(unavailable|not available)$/i.test(text);
+      r.display = unavailable ? UNAVAILABLE : text;
+      r.reason = unavailable ? (r.reason || 'Not loaded on the page when exported.') : null;
+      return r;
+    });
+  }
+
+  // ---------------------------------------------------------------------------
   // buildReportData — collect rendered values from the live DOM
   // ---------------------------------------------------------------------------
 
@@ -382,6 +548,12 @@
     var idxRec = combinedResult ? null : _rankingEntry(geoid);
     var m = combinedResult ? (_metricsFromCombinedResult(combinedResult) || {}) : ((idxRec && idxRec.metrics) || _metricsFromHnaState(geoid) || {});
 
+    var lehdYear = _lehdWacYear(geoid, idxRec ? idxRec.containingCounty : null);
+    var lihtcCountText = _elText('statLihtcCount');
+    var qctText = _elText('statQctCount');
+    var ddaText = _elText('statDdaStatus');
+    var lihtcStatus = _elText('lihtcMapStatus');
+
     return {
       exportedAt:    new Date().toISOString(),
       generatedBy:   'COHO Analytics HNA Export',
@@ -389,7 +561,8 @@
       vintages: {
         acs:          'ACS 5-Year 2020-2024',
         chas:         'HUD CHAS 2018-2022',
-        lehd:         'LEHD WAC 2021',
+        lehd:         lehdYear !== null ? 'LEHD LODES WAC ' + lehdYear : 'LEHD LODES WAC (year unavailable: no LEHD data loaded for this geography)',
+        lehdYear:     lehdYear,
         dola:         'DOLA SYA 2024',
         fmr:          'HUD FMR FY2026',
         rankingIndex: idxRec && idxRec._metadata && idxRec._metadata.builtAt || null,
@@ -414,11 +587,11 @@
         incomeNeededToBuy:     _elText('statIncomeNeed'),
         meanCommute:           _elText('statCommute'),
         // Analytics-grade numerics from ranking-index
-        populationNumeric:        m.population || null,
-        medianHhIncomeNumeric:    m.median_hh_income || null,
-        grossRentMedianNumeric:   m.gross_rent_median || null,
-        pctRenters:               m.pct_renters || null,
-        pctCostBurdenedRenters:   m.pct_cost_burdened || null,
+        populationNumeric:        _numOrNull(m.population),
+        medianHhIncomeNumeric:    _numOrNull(m.median_hh_income),
+        grossRentMedianNumeric:   _numOrNull(m.gross_rent_median),
+        pctRenters:               _numOrNull(m.pct_renters),
+        pctCostBurdenedRenters:   _numOrNull(m.pct_cost_burdened),
       },
       housingStock: {
         baselineUnits:       _elText('statBaseUnits'),
@@ -427,42 +600,50 @@
         unitsNeeded:         _elText('statUnitsNeed'),
         netMigration:        _elText('statNetMig'),
         // Structure-type composition (% of structures) + vacancy
-        rentalVacancyRate:   m.vacancy_rate_pct,
-        pctMultifamily:      m.pct_multifamily || null,
-        pctSfDetached:       m.pct_sf_detached || null,
-        pct2to4Units:        m.pct_2to4_units || null,
-        population20yr:      m.population_projection_20yr || null,
+        rentalVacancyRate:   _numOrNull(m.vacancy_rate_pct),
+        pctMultifamily:      _numOrNull(m.pct_multifamily),
+        pctSfDetached:       _numOrNull(m.pct_sf_detached),
+        pct2to4Units:        _numOrNull(m.pct_2to4_units),
+        population20yr:      _numOrNull(m.population_projection_20yr),
       },
       chasCostBurden: {
         source:         m._chas_source || 'unavailable',  // 'place' | 'county' | 'none'
         renterPctBurdened: {
-          lte30:    m.pct_burdened_lte30 || null,
-          tier31to50: m.pct_burdened_31to50 || null,
-          tier51to80: m.pct_burdened_51to80 || null,
-          tier81to100: m.pct_burdened_81to100 || null,
-          tier100plus: m.pct_burdened_100plus || null,
+          lte30:    _numOrNull(m.pct_burdened_lte30),
+          tier31to50: _numOrNull(m.pct_burdened_31to50),
+          tier51to80: _numOrNull(m.pct_burdened_51to80),
+          tier81to100: _numOrNull(m.pct_burdened_81to100),
+          tier100plus: _numOrNull(m.pct_burdened_100plus),
         },
-        ownerPctBurdened30Plus: m.pct_owner_burdened_30plus || null,
+        ownerPctBurdened30Plus: _numOrNull(m.pct_owner_burdened_30plus),
         note: 'CHAS publishes HUD-defined cost-burden rates (≥30% of income on housing) by AMI tier. Place-level values are TIGER-apportioned from tract-level CHAS when available; otherwise the containing-county rates are used as a fallback.',
       },
       amiGap: {
-        housingGapUnits:    m.housing_gap_units || null,
-        gap30pctUnits:      m.ami_gap_30pct || null,
-        gap50pctUnits:      m.ami_gap_50pct || null,
-        gap60pctUnits:      m.ami_gap_60pct || null,
+        housingGapUnits:    _numOrNull(m.housing_gap_units),
+        gap30pctUnits:      _numOrNull(m.ami_gap_30pct),
+        gap50pctUnits:      _numOrNull(m.ami_gap_50pct),
+        gap60pctUnits:      _numOrNull(m.ami_gap_60pct),
         missingAmiTiers:    m.missing_ami_tiers || [],
         source:             m._ami_gap_source || 'unavailable',
       },
       employment: {
-        inCommuters:        m.in_commuters || null,
-        commuteRatioPct:    m.commute_ratio || null,
+        inCommuters:        _numOrNull(m.in_commuters),
+        commuteRatioPct:    _numOrNull(m.commute_ratio),
         source:             m._lehd_source || 'unavailable',  // 'place' | 'county_direct' | 'county_proportional' | 'none'
       },
       lihtc: {
-        projectCount: _elText('statLihtcCount'),
+        projectCount: lihtcCountText,
         totalUnits:   _elText('statLihtcUnits'),
-        qctTracts:    _elText('statQctCount'),
-        ddaStatus:    _elText('statDdaStatus'),
+        projectCountScope: _cardSub('statLihtcCount'),
+        totalUnitsScope:   _cardSub('statLihtcUnits'),
+        qctTracts:    qctText,
+        ddaStatus:    ddaText,
+        // Why a card reads Unavailable, in the page's own words.
+        lihtcUnavailableReason: /unavailable/i.test(lihtcStatus) ? lihtcStatus : null,
+        qctUnavailableReason: /^unavailable$/i.test(qctText)
+          ? (_overlayReason('layerQct') || 'HUD QCT data did not load, so QCT membership is unknown here.') : null,
+        ddaUnavailableReason: /^(unavailable|not available)$/i.test(ddaText)
+          ? (_elText('statDdaNote') || _overlayReason('layerDda') || 'HUD DDA data did not load, so DDA status is unknown here.') : null,
       },
       dataQuality: idxRec ? {
         approximatedFields:  (idxRec.dataQuality && idxRec.dataQuality.approximated_fields) || [],
@@ -699,10 +880,9 @@
 
       // \u2500\u2500 AMI Gap Analysis \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
       ['SECTION', 'AMI Gap Analysis'],
-      ['Total Housing Gap (units)',              fmtNum(gap.housingGapUnits)],
-      ['Unit Gap \u226430% AMI',                      fmtNum(gap.gap30pctUnits)],
-      ['Unit Gap \u226450% AMI',                      fmtNum(gap.gap50pctUnits)],
-      ['Unit Gap \u226460% AMI',                      fmtNum(gap.gap60pctUnits)],
+    ].concat(_amiGapRows(d).map(function (r) {
+      return [r.label, r.reason ? r.display + ' \u2014 ' + r.reason : r.display];
+    })).concat([
       ['Missing AMI Tiers',                      (gap.missingAmiTiers || []).join(', ')],
       ['AMI Gap Source',                         gap.source || ''],
       ['', ''],
@@ -716,10 +896,9 @@
 
       // \u2500\u2500 LIHTC \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
       ['SECTION', 'LIHTC'],
-      ['LIHTC Projects in County',               d.lihtc.projectCount],
-      ['LIHTC Total Units',                      d.lihtc.totalUnits],
-      ['Qualified Census Tracts',                d.lihtc.qctTracts],
-      ['DDA Status',                             d.lihtc.ddaStatus],
+    ]).concat(_lihtcRows(d).map(function (r) {
+      return [r.label, r.reason ? r.display + ' \u2014 ' + r.reason : r.display + (r.sub ? ' (' + r.sub + ')' : '')];
+    })).concat([
       ['', ''],
 
       // \u2500\u2500 Data Quality flags \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
@@ -728,7 +907,7 @@
       ['Approximation Basis',                    dq.approximationBasis || ''],
       ['Has Incomplete Data',                    String(dq.hasIncompleteData)],
       ['Null Critical Metrics (count)',          String(dq.nullCriticalMetrics)],
-    ];
+    ]);
 
     var csv  = _toCsv(rows);
     var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -1014,15 +1193,12 @@
 
       // ── 1. Demographic snapshot ──
       drawSectionHeader('1. Demographic snapshot', 'Population, household size, and average earner profile drawn from the ACS 5-year profile.');
-      drawStatGrid([
-        { label: 'Population',                value: data.snapshot.population,            sub: 'ACS DP05 total' },
-        { label: 'Median household income',   value: data.snapshot.medianHouseholdIncome, sub: 'ACS DP03' },
-        { label: 'Median home value',         value: data.snapshot.medianHomeValue,       sub: 'Owner-occupied DP04' },
-        { label: 'Median gross rent',         value: data.snapshot.medianGrossRent,       sub: 'Renter-occupied DP04' },
-        { label: 'Owner / renter mix',        value: data.snapshot.ownerRenterTenure,     sub: 'DP04 tenure' },
-        { label: 'Income to buy median home', value: data.snapshot.incomeNeededToBuy,     sub: 'Implied 30% PITI' },
-        { label: 'Mean commute',              value: data.snapshot.meanCommute,           sub: 'DP03 commute' },
-      ]);
+      // Same rows, labels and values as the workbook's Summary sheet.
+      drawStatGrid(_snapshotRows(data).filter(function (r) {
+        return r.key !== 'rentBurden30Plus' && r.key !== 'baselineUnits';  // shown in section 5
+      }).map(function (r) {
+        return { label: _pdfPlain(r.label), value: _pdfPlain(r.display), sub: r.reason ? _pdfPlain(r.reason) : r.sub };
+      }));
 
       // ── 2. Household composition + occupation ──
       drawSectionHeader('2. Household composition, occupation & labor force', 'Breakdown of household types, top-line occupation mix, and the retiree-vs-working-age share of residents not in the labor force.');
@@ -1092,14 +1268,15 @@
 
       // ── 6. Affordability + AMI gap ──
       drawSectionHeader('6. AMI gap & affordability', 'Estimated supply gap by AMI tier — the canonical entry point for sizing affordable-housing demand.');
-      drawTableSimple([
-        { label: 'Total housing gap (units)', value: data.amiGap.housingGapUnits },
-        { label: '30% AMI gap',                value: data.amiGap.gap30pctUnits },
-        { label: '50% AMI gap',                value: data.amiGap.gap50pctUnits },
-        { label: '60% AMI gap',                value: data.amiGap.gap60pctUnits },
+      // A real 0 prints as 0; an absent gap prints Unavailable, never blank.
+      const gapRows = _amiGapRows(data);
+      drawTableSimple(gapRows.map(function (r) {
+        return { label: _pdfPlain(r.label), value: r.display };
+      }).concat([
         { label: 'CHAS data source',           value: data.chasCostBurden.source },
         { label: 'AMI gap source',             value: data.amiGap.source },
-      ]);
+      ]));
+      gapRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
 
       // ── 7. Employment + commute ──
       drawSectionHeader('7. Employment & commute pattern', 'Inbound commuters (LEHD) and the local-jobs-to-resident-workers ratio.');
@@ -1111,12 +1288,11 @@
 
       // ── 8. LIHTC + opportunity factors ──
       drawSectionHeader('8. LIHTC properties & opportunity factors', 'Existing LIHTC supply and HUD basis-boost designations (QCT / DDA) that improve credit pricing.');
-      drawStatGrid([
-        { label: 'LIHTC projects', value: data.lihtc.projectCount, sub: 'Active compliance' },
-        { label: 'LIHTC units',    value: data.lihtc.totalUnits,   sub: 'Affordable' },
-        { label: 'QCT tracts',     value: data.lihtc.qctTracts,    sub: 'IRC §42(d)(5)(B)' },
-        { label: 'DDA status',     value: data.lihtc.ddaStatus,    sub: '130% basis boost' },
-      ]);
+      const lihtcRows = _lihtcRows(data);
+      drawStatGrid(lihtcRows.map(function (r) {
+        return { label: r.label, value: r.display, sub: _pdfPlain(r.sub) };
+      }));
+      lihtcRows.forEach(function (r) { if (r.reason) drawNarrative(_pdfPlain(r.label + ': ' + r.reason)); });
 
       // ── Methodology + sources ──
       drawSectionHeader('Methodology & sources', '');
@@ -1221,8 +1397,10 @@
         });
         if (!series.length) return null;
         var card = canvas.closest('.chart-card');
+        // The heading carries a methodology popover and an info glyph;
+        // strip them or the sheet is named "Owner renter sharesℹ️ Methodolo".
         var title = (card && card.querySelector('h2'))
-          ? card.querySelector('h2').textContent.trim()
+          ? (_cleanHeadingText(card.querySelector('h2')) || canvas.id)
           : canvas.id;
         return {
           id: canvas.id, title: title,
@@ -1235,7 +1413,7 @@
   }
 
   function _safeSheetName(s) {
-    return String(s || 'Sheet').replace(/[\/\\?*\[\]:]/g, ' ').slice(0, 31) || 'Sheet';
+    return _stripInfoGlyphs(String(s || 'Sheet').replace(/[\/\\?*\[\]:]/g, ' ')).slice(0, 31).trim() || 'Sheet';
   }
 
   async function exportExcel(reportData, filename) {
@@ -1257,30 +1435,52 @@
 
       // ── Summary sheet ──
       var summary = wb.addWorksheet('Summary');
-      summary.columns = [
-        { header: 'Metric', key: 'k', width: 38 },
-        { header: 'Value',  key: 'v', width: 28 },
-      ];
       summary.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
       summary.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };
-      var s = d.snapshot || {};
+      summary.columns = [
+        { header: 'Metric', key: 'k', width: 44 },
+        { header: 'Value',  key: 'v', width: 28 },
+        { header: 'Note',   key: 'n', width: 80 },
+      ];
       [
         ['Geography',                d.geography && d.geography.label || d.geography || ''],
         ['Combined members',         d.geography && d.geography.combinedScreeningArea ? (d.geography.members || []).map(function (m) { return (m.geoType || 'geo') + ':' + m.geoid; }).join(', ') : ''],
         ['Generated',                d.generated || new Date().toISOString().slice(0, 10)],
-        ['Population',               s.population],
-        ['Median household income',  s.medianHouseholdIncome || s.medianHHI],
-        ['Median gross rent',        s.medianRent],
-        ['Median home value',        s.medianHomeValue],
-        ['Total housing units',      s.totalHousingUnits],
-        ['Owner-occupied units',     s.ownerOccupied],
-        ['Renter-occupied units',    s.renterOccupied],
-        ['Rent burdened (≥30%)',     s.rentBurdened30Plus],
-        ['Cost-burdened (overall)',  s.costBurdenedOverall],
-        ['Income needed to buy',     s.incomeNeededToBuy],
-        ['Mean commute time (min)',  s.meanCommuteMin],
       ].filter(function (r) { return r[1] != null && r[1] !== ''; })
        .forEach(function (r) { summary.addRow({ k: r[0], v: r[1] }); });
+      // Every row the page's stat cards show, under the card's own label.
+      // A row the page left blank reads Unavailable with the reason; it is
+      // never dropped, so a missing field cannot vanish unnoticed.
+      _snapshotRows(d).forEach(function (r) {
+        summary.addRow({ k: r.label, v: r.display, n: r.reason || r.sub });
+      });
+
+      // AMI gap: numbers as numbers (a real 0 stays 0), same labels as the PDF.
+      summary.addRow({});
+      summary.addRow({ k: 'AMI gap & affordability', n: 'Source: ' + ((d.amiGap && d.amiGap.source) || 'unavailable') });
+      _amiGapRows(d).forEach(function (r) {
+        summary.addRow({ k: r.label, v: r.value === null ? UNAVAILABLE : r.value, n: r.reason || '' });
+      });
+
+      // LIHTC properties, QCT and DDA, as the page's cards show them.
+      summary.addRow({});
+      summary.addRow({ k: 'LIHTC properties & opportunity factors' });
+      _lihtcRows(d).forEach(function (r) {
+        var n = _numOrNull(String(r.display).replace(/,/g, ''));
+        summary.addRow({ k: r.label, v: r.reason ? UNAVAILABLE : (n !== null && /^[\d,]+$/.test(r.display) ? n : r.display), n: r.reason || r.sub });
+      });
+
+      // Sources, with the vintages the PDF prints.
+      var vint = d.vintages || {};
+      summary.addRow({});
+      summary.addRow({ k: 'Methodology & sources' });
+      [
+        ['ACS profile',    vint.acs],
+        ['HUD CHAS',       vint.chas],
+        ['LEHD workplace', vint.lehd],
+        ['DOLA SYA',       vint.dola],
+        ['HUD FMR',        vint.fmr],
+      ].forEach(function (r) { if (r[1]) summary.addRow({ k: r[0], v: r[1] }); });
 
       // ── How the need figures fit together (audit F4) ──
       // Figures as numbers, not text, so they can be summed or charted.
@@ -1367,7 +1567,7 @@
       notes.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF096E65' } };
       [
         'Generated by COHO Analytics — Housing Needs Assessment.',
-        'Data sources: ACS 2024 (Census), HUD MTSP FY2026 county Income Limits, CHAS 2018–2022, DOLA SYA, LEHD/LODES.',
+        'Data sources: ACS 2024 (Census), HUD MTSP FY2026 county Income Limits, CHAS 2018–2022, DOLA SYA, ' + ((d.vintages && d.vintages.lehd) || 'LEHD LODES WAC') + '.',
         'Each chart sheet contains the data table the chart reads from. Edit a number and Excel re-draws the chart automatically.',
         'For methodology + source URLs see https://github.com/pggLLC/Housing-Analytics — README.md.',
       ].forEach(function (line) { notes.addRow({ n: line }); });
