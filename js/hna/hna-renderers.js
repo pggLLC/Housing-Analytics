@@ -8017,7 +8017,9 @@
       : null;
 
     return {
-      composite, usePlace, parts, affordPressure, pool,
+      // placeParts is returned so the renderer can say WHY a place fell back
+      // to its county (too few renter households vs. no place CHAS at all).
+      composite, usePlace, parts, placeParts, affordPressure, pool,
       pctA, pctB, pctC, pctD,
       present: present.length,
       nMissing: 4 - present.length,
@@ -8224,7 +8226,7 @@
     // guard can exercise the same decisions this renderer makes instead of
     // reimplementing them.
     const scored = _scorecardScore(placeRec, countyRec, econRec, dist, isPlaceProxy);
-    const { usePlace, parts, affordPressure, pctA, pctB, pctC, pctD, nMissing } = scored;
+    const { usePlace, parts, placeParts, affordPressure, pctA, pctB, pctC, pctD, nMissing } = scored;
 
     const blendedBurden = parts ? parts.blendedBurden : null;
     const deepNeed      = parts ? parts.deepNeed      : null;
