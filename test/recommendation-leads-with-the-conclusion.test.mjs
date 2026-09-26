@@ -76,7 +76,8 @@ test('every one of the 546 jurisdictions produces a contract', () => {
         digest: json(`${DIGEST_DIR}/${file}`), project: null, generatedAt: 'x'
       });
       if (!contract.headline || !contract.headline.verdict) broken.push(`${file}: no headline`);
-      if (contract.conclusions.length !== 5) broken.push(`${file}: ${contract.conclusions.length} conclusions`);
+      const ids = contract.conclusions.map((c) => c.id).join(',');
+      if (ids !== Contract.CONCLUSION_IDS.join(',')) broken.push(`${file}: conclusions ${ids}`);
     } catch (e) { broken.push(`${file}: ${e.message}`); }
   }
   assert.deepStrictEqual(broken.slice(0, 10), [], `${broken.length} jurisdictions broke: ${broken.slice(0, 5).join('; ')}`);
@@ -264,9 +265,9 @@ test('the conclusion is literally first on the page', () => {
 });
 
 test('the evidence is present but folded away', () => {
-  const { mount } = renderFor('0820000');
+  const { mount, contract } = renderFor('0820000');
   const details = mount.querySelectorAll('.rec-conclusion details.rec-evidence');
-  assert.strictEqual(details.length, 5, `${details.length} evidence blocks; expected one per conclusion`);
+  assert.strictEqual(details.length, contract.conclusions.length, `${details.length} evidence blocks; expected one per conclusion`);
   for (const node of details) {
     assert.strictEqual(node.hasAttribute('open'), false,
       'evidence is expanded by default, which puts a table between the reader and the answer');
@@ -324,7 +325,7 @@ test('every conclusion says where it was computed, and that place exists', () =>
   // link that scrolls nowhere, which is indistinguishable from a working one
   // until someone clicks it.
   const contract = Contract.build({ digest: digest('0820000'), project: null, generatedAt: 'x' });
-  assert.strictEqual(contract.conclusions.length, 5);
+  assert.deepStrictEqual(contract.conclusions.map((c) => c.id), Contract.CONCLUSION_IDS);
   for (const conclusion of contract.conclusions) {
     const at = conclusion.computedAt;
     assert.ok(at, `${conclusion.id} does not say where it was computed`);
@@ -348,9 +349,9 @@ test('an insufficient conclusion still links to the evidence it lacks', () => {
 });
 
 test('the rendered page carries one back-link per conclusion', () => {
-  const { mount } = renderFor('0820000');
+  const { mount, contract } = renderFor('0820000');
   const links = mount.querySelectorAll('.rec-conclusion .rec-source-link a');
-  assert.strictEqual(links.length, 5, `${links.length} back-links rendered; expected one per conclusion`);
+  assert.strictEqual(links.length, contract.conclusions.length, `${links.length} back-links rendered; expected one per conclusion`);
   for (const link of links) {
     const href = link.getAttribute('href');
     assert.ok(/^[a-z0-9-]+\.html#[A-Za-z][\w-]*$/.test(href), `back-link href is malformed: ${href}`);

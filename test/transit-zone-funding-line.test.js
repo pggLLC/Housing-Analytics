@@ -252,17 +252,19 @@ test('for-sale study: a measured share never prints as 0% or 100%', () => {
   const nearAll = entries.find(([, x]) => x.share_within_radius_confirmed >= 0.995 && x.share_within_radius_confirmed < 1);
   assert.ok(tiny && nearAll, 'the per-geography file no longer has a sub-1% and a near-100% share to check');
   for (const [id, g, want] of [[...tiny, '<1%'], [...nearAll, '>99%']]) {
-    const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ.designation);
-    assert.ok(out.html.includes('<strong>' + want + '</strong>'), `${id} ${g.share_within_radius_confirmed}: ${out.html.slice(0, 120)}`);
+    const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ);
+    const shown = new JSDOM(out.html).window.document.querySelector('[data-tz="share"] strong').textContent;
+    assert.equal(shown, want, `${id} ${g.share_within_radius_confirmed}: ${out.html.slice(0, 120)}`);
     assert.doesNotMatch(out.html, /<strong>(0|100)%<\/strong>/);
   }
 });
 
 test('the for-sale study reports the area figure, the note, and no credit amount (PC-2)', () => {
   const [id, g] = Object.entries(byGeo.geographies).find(([, x]) => x.type === 'place' && x.share_within_radius_confirmed > 0.3);
-  const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ.designation);
+  const out = STZ.summarize(id, byGeo, mapStatus, FRESH, TZ);
   assert.equal(out.state, 'ok');
-  assert.ok(out.html.includes('<strong>' + shareLabel(g.share_within_radius_confirmed) + '</strong>'), 'share differs from the per-geography file');
+  const shown = new JSDOM(out.html).window.document.querySelector('[data-tz="share"] strong').textContent;
+  assert.equal(shown, shareLabel(g.share_within_radius_confirmed), 'share differs from the per-geography file');
   assert.ok(out.html.includes(TZ.designation(mapStatus, FRESH).note.replace(/'/g, '&#39;').replace(/"/g, '&quot;')), 'designation note missing');
   assert.match(out.html, /<em>rental<\/em> housing/);
   assert.doesNotMatch(out.html, /\$\s?\d|million|per-project/i, 'an ownership study shows a credit amount');
@@ -274,7 +276,7 @@ for (const [label, args, re] of [
   ['stale stop data', ['0828745', byGeo, new Date(Date.parse(byGeo.meta.stops_generated) + 40 * 86400e3)], /days old/],
 ]) {
   test(`for-sale study: ${label} → Unavailable, no percentage`, () => {
-    const out = STZ.summarize(args[0], args[1], mapStatus, args[2] || FRESH, TZ.designation);
+    const out = STZ.summarize(args[0], args[1], mapStatus, args[2] || FRESH, TZ);
     assert.equal(out.state, 'unavailable');
     assert.match(out.html, re);
     assert.doesNotMatch(out.html, /\d+%/);
