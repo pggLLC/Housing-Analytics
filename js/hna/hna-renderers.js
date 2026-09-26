@@ -8197,7 +8197,13 @@
       mount.setAttribute('data-tz-state', 'unavailable');
       return null;
     }
-    function pct(v) { return Math.round(v * 100) + '%'; }
+    // A measured share never rounds to an absolute: 0.4% is "<1%", not "0%"
+    // (which would read as no transit at all), and 99.6% is ">99%", not "100%".
+    function pct(v) {
+      if (v > 0 && v < 0.005) return '<1%';
+      if (v < 1 && v >= 0.995) return '>99%';
+      return Math.round(v * 100) + '%';
+    }
     return Promise.all([
       fetch('data/hna/transit-zone-by-geography.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
       fetch('data/policy/thiz-map-status.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
