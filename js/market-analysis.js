@@ -4413,6 +4413,9 @@
     // Highlight transit stops within ½ mile
     _highlightTodTransit(lat, lon, HALF_MILE_M);
 
+    // HB26-1065 transit-zone gate, beside the headline score (#1937 Phase 4)
+    _renderTransitZoneGate(lat, lon);
+
     // Walking + biking concentric rings (toggleable; off by default)
     _refreshIsochroneRings(lat, lon);
 
@@ -4474,6 +4477,73 @@
    * Find transit stops within ½ mile and render as highlighted markers.
    * Also counts them for the TOD score panel.
    */
+  // ── HB26-1065 transit-zone gate (#1937 Phase 4) ───────────────────────
+  // Shown next to the PMA score, never inside it: zone status is an
+  // eligibility gate plus a funding line, not a weighted dimension (owner
+  // decision on #1937). The answer comes from TransitZone (js/transit-zone.js)
+  // over the same statewide stop file the TOD check loads, so the PMA,
+  // the HNA panel and the deal calculator cannot disagree.
+  var _tzMapStatus = null, _tzMapStatusState = 'idle', _tzStopsFailed = false;
+  var _tzHelper = null, _tzHelperStops = null;
+  function _tzEscape(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function _renderTransitZoneGate(lat, lon) {
+    var box = el('pmaTransitZoneGate');
+    if (!box) return null;
+    box.hidden = false;
+    if (_tzMapStatusState === 'idle') {
+      _tzMapStatusState = 'loading';
+      fetch('data/policy/thiz-map-status.json')
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (j) { _tzMapStatus = j; _tzMapStatusState = 'ok'; })
+        .catch(function () { _tzMapStatusState = 'failed'; })
+        .then(function () { if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon); });
+    }
+    var stops = _rawLayerData['transitStops'];
+    var dc = window.__DealCalc;
+    function show(state, html, result) {
+      box.setAttribute('data-tz-state', state);
+      box.innerHTML = html;
+      if (dc && typeof dc.setTransitZoneContext === 'function') dc.setTransitZoneContext(result || null);
+      return result || null;
+    }
+    if (!window.TransitZone || _tzMapStatusState === 'failed' || (!stops && _tzStopsFailed)) {
+      return show('unavailable', '<strong>Transit zone (HB26-1065): Unavailable.</strong> ' +
+        (!window.TransitZone ? 'The zone screen did not load.'
+          : _tzMapStatusState === 'failed' ? 'The zone-map status file did not load.'
+          : 'Transit stop data did not load.'), null);
+    }
+    if (!stops || _tzMapStatusState !== 'ok') {
+      if (!stops) _requestTodStops(804.67);
+      return show('loading', 'Transit zone (HB26-1065): checking…', null);
+    }
+    if (_tzHelperStops !== stops) {
+      _tzHelper = window.TransitZone.create({ stops: stops, mapStatus: _tzMapStatus });
+      _tzHelperStops = stops;
+    }
+    var r = _tzHelper.status(lat, lon);
+    var label, cls;
+    if (r.status === 'within_2mi' && r.confirmedOnly) { label = 'Passes the ' + r.radiusMiles + '-mile screen'; cls = 'good'; }
+    else if (r.status === 'within_2mi') { label = 'Within ' + r.radiusMiles + ' miles of an unconfirmed stop only'; cls = 'warn'; }
+    else if (r.status === 'outside') { label = 'Outside the ' + r.radiusMiles + '-mile screen'; cls = 'bad'; }
+    else { label = 'Unavailable'; cls = 'muted'; }
+    var near = r.nearestConfirmedStop || r.nearestStop;
+    var html = '<div><strong>Transit zone (HB26-1065):</strong> <span class="pma-tz-pill" data-tz-status="' + _tzEscape(r.status) +
+      '" style="font-weight:700;color:var(--' + cls + ',inherit);">' + _tzEscape(label) + '</span></div>';
+    if (r.status === 'unavailable') html += '<div>' + _tzEscape(r.unavailableReason) + '</div>';
+    else if (near) html += '<div>Nearest ' + (r.nearestConfirmedStop ? 'confirmed ' : '') + 'stop: ' + _tzEscape(near.name || 'unnamed') +
+      ' (' + _tzEscape(near.agency || 'agency not listed') + '), ' + _tzEscape(near.distanceMiles) + ' mi.</div>';
+    html += '<div class="pma-tz-designation" data-tz-designation="' + _tzEscape(r.designation) + '" style="color:var(--muted);">' +
+      _tzEscape(r.designationNote) + '</div>';
+    if (r.status === 'within_2mi' && r.confirmedOnly) {
+      html += '<div>Possible funding source: the Transit Zone state credit — see the deal calculator\u2019s Soft Funding Stack.</div>';
+    }
+    return show(r.status, html, r);
+  }
+
   var _todStopsRequested = false;
   function _requestTodStops(radiusM) {
     if (_todStopsRequested || _rawLayerData['transitStops']) return;
@@ -4488,8 +4558,11 @@
       if (!gj || !Array.isArray(gj.features)) throw new Error('no features');
       if (!_rawLayerData['transitStops']) _rawLayerData['transitStops'] = gj;
       if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM);
+      if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon);
     }).catch(function (err) {
       _todStopsRequested = false;   // allow a retry on the next site
+      _tzStopsFailed = true;
+      if (siteLatLng) _renderTransitZoneGate(siteLatLng.lat, siteLatLng.lon);
       console.warn('[market-analysis] statewide transit stops unavailable for the TOD check:', err);
       if (siteLatLng) _highlightTodTransit(siteLatLng.lat, siteLatLng.lon, radiusM, true);
     });

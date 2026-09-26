@@ -34,6 +34,8 @@
   <script defer src="js/project-market-study/forsale-capture.js"></script>
   <script defer src="js/provenance-label.js"></script>
   <script defer src="js/project-market-study/market-study-report.js"></script>
+  <script defer src="js/transit-zone.js"></script>
+  <script defer src="js/project-market-study/study-transit-zone.js"></script>
   <script>
     window.marketStudyLandModelsReady = fetch('data/policy/land-disposition-models.json')
       .then(function (response) { return response.json(); })
@@ -141,6 +143,12 @@
     <div id="marketStudyMount" aria-live="polite">
       <div class="ms-warning">Loading real project fixtures and policy datasets…</div>
     </div>
+    <!-- #1937: HB26-1065 transit zone. Unnumbered: it screens the jurisdiction,
+         not the example project, and carries no credit amount (PC-2). -->
+    <section id="ms-transit-zone" class="chart-card ms-section" aria-labelledby="msTransitZoneH">
+      <h2 id="msTransitZoneH">Location: transit zone (HB26-1065)</h2>
+      <div id="msTransitZoneContent" aria-live="polite"><p class="ms-caveat">Checking the transit zone screen…</p></div>
+    </section>
     <section id="ms-s7" class="chart-card ms-section">
       <h2>7. Report (screening draft)</h2>
       <p class="ms-plain"><strong>In plain terms:</strong> the same screen written up as a document you can save or share with the professionals who would check it — lenders, appraisers, attorneys and market analysts. Each section opens with a plain-language summary, and the report ends with a list of the terms it uses.</p>
@@ -167,6 +175,10 @@
       var jurisdictionReady = (window.JurisdictionUrlContext && window.JurisdictionUrlContext.resolve)
         ? window.JurisdictionUrlContext.resolve().catch(function () { return null; })
         : Promise.resolve(null);
+      jurisdictionReady.then(function () {
+        var ctx = window.StudyGeography && window.StudyGeography.resolve ? window.StudyGeography.resolve(window) : null;
+        if (window.StudyTransitZone) window.StudyTransitZone.render(document.getElementById('msTransitZoneContent'), ctx && ctx.geoid);
+      });
       Promise.all([window.marketStudyLandModelsReady, jurisdictionReady]).then(function () {
         var landScript = document.createElement('script');
         landScript.src = 'js/project-market-study/land-disposition.js';
