@@ -194,11 +194,11 @@
    * `hud-chas-place-apportioned` and still had no way to reach the page that
    * shows the working.
    *
-   * Three of the five point at the same chapter. That is not laziness — "How
+   * Four of the six point at the same chapter. That is not laziness — "How
    * much of what, for whom, and what is already available" is the chapter that
-   * carries the scorecard, the 20-year need and the ownership screen, and
-   * sending the reader somewhere tidier would send them somewhere the number
-   * is not.
+   * carries the scorecard, the 20-year need, the ownership screen and the
+   * transit zone screen, and sending the reader somewhere tidier would send
+   * them somewhere the number is not.
    *
    * The anchors are guarded: test:recommendation asserts each page exists and
    * actually contains that id, so a chapter that moves a section breaks the
@@ -214,14 +214,20 @@
     ownership: { page: 'hna-what-to-do.html', anchor: 'affordable-ownership-need-section',
       label: 'the ownership screen' },
     confidence: { page: 'hna-what-to-do.html', anchor: 'hnaGapCoveragePanel',
-      label: 'the gap-coverage panel' }
+      label: 'the gap-coverage panel' },
+    transit: { page: 'hna-what-to-do.html', anchor: 'hnaTransitZonePanel',
+      label: 'the transit zone screen' }
   };
 
-  /* ── The five conclusions ───────────────────────────────────────────────
+  /* The six questions, in the order they are shown. The first five are the
+     HNA's own short answer; the sixth is its "Potential location" section. */
+  var CONCLUSION_IDS = ['need', 'affordability', 'production', 'ownership', 'confidence', 'transit'];
+
+  /* ── The five digest conclusions ────────────────────────────────────────
      Same five the HNA's own short answer uses — need, affordability,
      production, ownership, confidence — so a reader who saw them there meets
      the same vocabulary here rather than a second, differently-named summary
-     of the same jurisdiction. */
+     of the same jurisdiction. The sixth, transit, is below. */
 
   function buildConclusions(metrics, level) {
     var ev = function (key, label, options) {
@@ -336,6 +342,72 @@
     });
 
     return [need, affordability, production, ownership, confidence];
+  }
+
+  /* ── The sixth conclusion: transit-zone eligibility (HB26-1065, #1937) ───
+     Not a digest metric. The caller passes TransitZone.areaSummary() for this
+     geography — the same summary the needs assessment's "Potential location"
+     panel, the for-sale study and the HNA exports read — so the share, its
+     rounding and the designation note are the ones those surfaces show.
+
+     It is never established. An area share is the stop-based screen whether
+     or not OEDIT has published its map (only a specific site can be checked
+     against the map), so its best state is provisional, and the designation
+     note travels with it into the page and the PDF.
+
+     PC-2: the Transit Zone credit is a rental-housing credit. For a project
+     recorded as ownership, the conclusion names it only as a reason to add a
+     rental component — never as a source for the project. No amount is shown
+     for anyone: none exists until CHFA publishes its allocation plan. */
+  var TRANSIT_SOURCE = 'transit-stops-statewide-co';
+
+  function transitConclusion(tz, dealMode) {
+    var radius = tz && tz.radiusMiles;
+    var within = 'Share within ' + (radius || 2) + ' miles of a confirmed transit stop';
+    var half = 'Share within \u00bd mile of a confirmed stop (QAP transit-oriented distance)';
+    function item(key, label, value) {
+      var ok = !!(tz && tz.status === 'ok');
+      return {
+        key: key, label: label,
+        value: ok ? value : null,
+        unit: null,
+        source: TRANSIT_SOURCE,
+        asOf: ok && tz.stopsGenerated ? String(tz.stopsGenerated).slice(0, 10) : null,
+        confidence: null,
+        geographyLevel: null,
+        state: ok ? PROVISIONAL : INSUFFICIENT,
+        why: ok ? tz.designationNote
+          : (tz && tz.unavailableReason) || 'The transit zone figures were not loaded for this page.',
+        borrowedFrom: null
+      };
+    }
+    var items = [
+      item('transit_share_within_radius_confirmed', within, tz && tz.shareLabel),
+      item('transit_share_within_half_mile_confirmed', half, tz && tz.halfMileLabel)
+    ];
+    var result = conclusion('transit', 'Could a site here be in a Transit Zone?', items, function () {
+      var name = tz.name || 'this jurisdiction';
+      var credit = dealMode === 'ownership'
+        ? ' The Transit Zone credit is for rental housing, so for this for-sale project it matters only if a rental component is added.'
+        : ' A rental project on a site inside an OEDIT-designated zone may be eligible for the Transit Zone state credit (HB26-1065); CHFA has not published a per-project amount.';
+      var verdict;
+      var plain;
+      if (tz.noneWithinRadius) {
+        verdict = 'No site passes the ' + tz.radiusMiles + '-mile screen';
+        plain = 'No part of ' + name + ' is within ' + tz.radiusMiles + ' miles of a transit stop that CDOT or a transit agency publishes.';
+        credit = '';
+      } else if (tz.edgeOnly) {
+        verdict = 'Only an edge strip passes the ' + tz.radiusMiles + '-mile screen';
+        plain = 'Less than 1% of ' + name + ', a strip along its edge, is within ' + tz.radiusMiles
+          + ' miles of a confirmed transit stop.';
+      } else {
+        verdict = tz.shareLabel + ' of the area passes the ' + tz.radiusMiles + '-mile screen';
+        plain = tz.shareLabel + ' of ' + name + ' is within ' + tz.radiusMiles
+          + ' miles of a confirmed transit stop, so sites there could be in a Transit and Housing Investment Zone.';
+      }
+      return { verdict: verdict, plain: plain + credit + ' ' + tz.designationNote, basis: tz.designation };
+    });
+    return result;
   }
 
   /**
@@ -484,6 +556,8 @@
   /**
    * @param {Object} input.digest    parsed jurisdiction-metrics-digest/<geoid>.json
    * @param {Object} input.project   WorkflowState active project, or null
+   * @param {Object} input.transitZone  TransitZone.areaSummary() for this
+   *                                   geography, or null when it did not load
    * @param {string} input.generatedAt  ISO stamp supplied by the caller
    */
   function build(input) {
@@ -507,8 +581,16 @@
       };
     }
     var level = digest.geography.type === 'county' ? 'county' : 'place';
-    var conclusions = buildConclusions(digest.metrics, level);
     var project = projectRecord(input.project);
+    var deal = project.filter(function (step) { return step.key === 'deal'; })[0];
+    var tz = input.transitZone && input.transitZone.geoid === digest.geography.geoid ? input.transitZone : null;
+    if (input.transitZone && !tz) {
+      // A summary for another geography is worse than none: it would print
+      // that place's share under this place's name.
+      tz = { status: 'unavailable', unavailableReason: 'The transit zone figures loaded were for a different jurisdiction.' };
+    }
+    var conclusions = buildConclusions(digest.metrics, level)
+      .concat([transitConclusion(tz, deal && deal.mode)]);
     var head = headline(conclusions, digest.geography.name);
     var notRun = project.filter(function (step) {
       return PROJECT_STEPS.indexOf(step.key) !== -1 && step.status === 'not_run';
@@ -545,6 +627,7 @@
   return {
     SCHEMA: SCHEMA,
     COMPUTED_AT: COMPUTED_AT,
+    CONCLUSION_IDS: CONCLUSION_IDS.slice(),
     ESTABLISHED: ESTABLISHED,
     PROVISIONAL: PROVISIONAL,
     INSUFFICIENT: INSUFFICIENT,
@@ -553,6 +636,7 @@
     evidence: evidence,
     worst: worst,
     buildConclusions: buildConclusions,
+    transitConclusion: transitConclusion,
     headline: headline,
     projectRecord: projectRecord,
     build: build
