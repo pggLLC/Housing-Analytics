@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T12:18:38.466Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T13:21:18.047Z. Do not edit by hand.
 
 ---
 
@@ -409,7 +409,7 @@
 | `data/hna/jurisdiction-metrics-digest/0820770.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0821155.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0821265.json` | 40.2 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0821330.json` | 39.1 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0821330.json` | 39.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0821390.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0822035.json` | 40.6 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0822145.json` | 40.2 KB | ✅ | — |
@@ -533,7 +533,7 @@
 | `data/hna/jurisdiction-metrics-digest/0841835.json` | 40.7 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842000.json` | 38.9 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842055.json` | 40.6 KB | ✅ | — |
-| `data/hna/jurisdiction-metrics-digest/0842110.json` | 40.5 KB | ✅ | — |
+| `data/hna/jurisdiction-metrics-digest/0842110.json` | 40.4 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842165.json` | 39.0 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842330.json` | 40.2 KB | ✅ | — |
 | `data/hna/jurisdiction-metrics-digest/0842495.json` | 40.5 KB | ✅ | — |
@@ -1299,7 +1299,7 @@
 | `data/hna/summary/0842110.json` | 4.1 KB | ✅ | — |
 | `data/hna/summary/0842165.json` | 3.8 KB | ✅ | — |
 | `data/hna/summary/0842330.json` | 3.9 KB | ✅ | — |
-| `data/hna/summary/0842495.json` | 3.7 KB | ✅ | — |
+| `data/hna/summary/0842495.json` | 3.6 KB | ✅ | — |
 | `data/hna/summary/0843000.json` | 4.2 KB | ✅ | — |
 | `data/hna/summary/0843110.json` | 4.0 KB | ✅ | — |
 | `data/hna/summary/0843220.json` | 4.0 KB | ✅ | — |
@@ -1675,7 +1675,7 @@
 
 ## Test Files
 
-437 test files found.
+438 test files found.
 
 | File | Size |
 |------|------|
@@ -1963,6 +1963,7 @@
 | `test/pma-real-schools.test.js` | 6.7 KB |
 | `test/pma-scoring.test.js` | 31.8 KB |
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
+| `test/pma-suppressed-acs-not-zero.test.js` | 17.6 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
 | `test/pma-transit.test.js` | 14.8 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
