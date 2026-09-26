@@ -414,7 +414,9 @@ def test_candidate_proposed_appointment_is_explicit_campaign_claim(candidates):
 def test_policy_election_currency(ballots, candidates, kind, days, archived, passes):
     today = date(2026, 11, 3) + timedelta(days=days)
     if kind == 'ballot':
-        ballots['statewide.json']['entries'][0]['archived'] = archived
+        for doc in ballots.values():
+            for entry in doc['entries']:
+                entry['archived'] = archived
         check = lambda: validate_ballots(ballots, GEO, today)
     else:
         for c in candidates['candidates']:
