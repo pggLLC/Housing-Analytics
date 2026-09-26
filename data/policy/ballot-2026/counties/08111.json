@@ -1,0 +1,26 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08111",
+      "level": "county",
+      "name": "San Juan County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0870580",
+      "level": "municipal",
+      "name": "Silverton (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

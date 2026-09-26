@@ -1,0 +1,26 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08011",
+      "level": "county",
+      "name": "Bent County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0843660",
+      "level": "municipal",
+      "name": "Las Animas (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

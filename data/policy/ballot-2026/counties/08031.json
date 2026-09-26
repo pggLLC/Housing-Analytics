@@ -1,0 +1,26 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08031",
+      "level": "county",
+      "name": "Denver County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0820000",
+      "level": "municipal",
+      "name": "Denver (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

@@ -1,0 +1,16 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08",
+      "level": "state",
+      "name": "Colorado",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}
