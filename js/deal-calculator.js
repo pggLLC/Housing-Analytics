@@ -5451,15 +5451,21 @@
   function setTransitZoneContext(result) {
     var note = document.getElementById('dc-tz-note');
     if (!note) return; // calculator not yet mounted — intentional no-op
-    var passes = !!(result && result.status === 'within_2mi' && result.confirmedOnly === true);
-    note.hidden = !passes;
-    note.setAttribute('data-tz-context', passes ? 'passes' : (result ? result.status : 'none'));
-    if (!passes) { note.innerHTML = ''; return; }
+    // The rule lives in TransitZone.fundingPath so this line and the PMA gate
+    // cannot disagree; without it, show nothing rather than guess.
+    var tz = window.TransitZone;
+    var path = tz && typeof tz.fundingPath === 'function' ? tz.fundingPath(result) : null;
+    note.hidden = !path;
+    note.setAttribute('data-tz-context', path ? 'passes' : (result ? result.status : 'none'));
+    if (!path) { note.innerHTML = ''; return; }
     var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
     note.innerHTML =
       '<strong>Possible source, not added to this stack: Colorado Transit Zone (TZ) state credit (HB26-1065).</strong> ' +
-      'This site is within ' + esc(result.radiusMiles) + ' miles of a confirmed transit stop. CHFA may allocate up to $' +
+      (path === 'official'
+        ? 'This site is inside a Transit and Housing Investment Zone on OEDIT\u2019s published map. '
+        : 'This site is within ' + esc(result.radiusMiles) + ' miles of a confirmed transit stop. ') +
+      'CHFA may allocate up to $' +
       TZ_CREDIT.statewideCapMillions.toFixed(2) + ' million a year statewide in ' + TZ_CREDIT.years + ', in lieu of standard state credit (' +
       TZ_CREDIT.qapCite + '). No per-project amount exists until CHFA publishes its TZ Credit Allocation Plan, so none is modelled. ' +
       '<span data-tz-designation="' + esc(result.designation) + '" style="color:var(--muted);">' + esc(result.designationNote) + '</span>';

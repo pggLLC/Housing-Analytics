@@ -270,7 +270,20 @@
     return { designation: d.designation, note: d.note };
   }
 
-  var api = { create: create, designation: designation, haversineMiles: haversineMiles };
+  // Whether a site result may point at the Transit Zone credit, and on what
+  // basis. The gate and the deal calculator both ask this, so they cannot
+  // disagree. OEDIT's published map outranks the stop screen both ways: a
+  // site on it is "official" whatever the stops say, and a site it leaves
+  // out gets no funding path even if a stop is within the radius.
+  function fundingPath(result) {
+    if (!result) return null;
+    if (result.designation === 'official_in') return 'official';
+    if (result.designation === 'official_out') return null;
+    if (result.status === 'within_2mi' && result.confirmedOnly === true) return 'screen';
+    return null;
+  }
+
+  var api = { create: create, designation: designation, fundingPath: fundingPath, haversineMiles: haversineMiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (root) root.TransitZone = api;
 }(typeof window !== 'undefined' ? window : null));
