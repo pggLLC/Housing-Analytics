@@ -4543,6 +4543,9 @@
         if (nearby && nearby.length) {
           nearby.forEach(function (a) {
             count++;
+            // neighborhood_access.json is built from the OpenStreetMap stop
+            // file, so these hits carry no CDOT or agency confirmation.
+            unconfirmedCount++;
             L.circleMarker([a.lat, a.lon], {
               pane: 'pointsPane',
               radius: 7, fillColor: '#facc15', color: '#0ea5e9',

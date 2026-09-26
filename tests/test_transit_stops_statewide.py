@@ -141,3 +141,36 @@ def test_major_agencies_present():
                    'Roaring Fork Transportation Authority', 'Grand Valley Transit',
                    'Durango Transit', 'Summit Stage', 'Bustang Outrider']:
         assert needed in agencies, f'{needed} missing from the statewide stop file'
+
+
+# ── Refresh must not replace good data with a filtered-away response ────────
+
+def _cdot_feature():
+    return {'properties': {'sources': ['cdot']}}
+
+
+def test_cdot_shortfall_rules():
+    assert B.cdot_shortfall([], None).startswith('No CDOT stop survived')
+    assert B.cdot_shortfall([{'properties': {'sources': ['osm']}}], 100).startswith('No CDOT stop survived')
+    assert 'fell from 100 to 79' in B.cdot_shortfall([_cdot_feature()] * 79, 100)
+    assert B.cdot_shortfall([_cdot_feature()] * 80, 100) is None
+    assert B.cdot_shortfall([_cdot_feature()] * 5, None) is None   # first build: any real count
+
+
+def test_out_of_state_cdot_response_does_not_overwrite(tmp_path, monkeypatch):
+    """A non-empty CDOT response whose rows all fall outside Colorado
+    (projected coordinates, a wrong layer) must leave both outputs untouched."""
+    import shutil
+    import sys
+    stops = tmp_path / 'stops.geojson'
+    report = tmp_path / 'report.json'
+    shutil.copy(STOPS, stops)
+    shutil.copy(REPORT, report)
+    before = (stops.read_bytes(), report.read_bytes())
+    monkeypatch.setattr(B, 'OUT_STOPS', stops)
+    monkeypatch.setattr(B, 'OUT_REPORT', report)
+    monkeypatch.setattr(B, 'fetch_cdot', lambda: [
+        {'lon': -121.5 + i * 1e-4, 'lat': 38.58, 'name': f'S{i}', 'agency': 'X'} for i in range(500)])
+    monkeypatch.setattr(sys, 'argv', ['build_transit_stops_co.py', '--skip-feeds'])
+    assert B.main() == 1
+    assert (stops.read_bytes(), report.read_bytes()) == before
