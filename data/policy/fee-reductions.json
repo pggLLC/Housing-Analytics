@@ -749,24 +749,23 @@
       },
       {
         "id": "crs-32-1-1001-1-j-II",
-        "citation": "C.R.S. § 32-1-1001(1)(j)(II)",
+        "citation": "C.R.S. 32-1-1001(1)(j)(II) (special districts: tap and connection fees for affordable housing)",
         "topic": "waiver_statute",
-        "summary": "Avon's code characterizes this Special District Act provision as meaning no special district shall impose a tap or connection fee for property owned or used for affordable housing; the statute text itself was not read.",
+        "summary": "A special district board may waive or amortize all or part of its tap and connection fees, or extend the time to pay them, for affordable housing within the district as the board defines it, and may condition that on a recorded deed restriction or lien that requires payment if the property stops being affordable housing. Permissive, not a prohibition: Avon's Municipal Code §18.01.020 paraphrases it as 'no district shall impose a tap fee or connection fee for any property owned or used for affordable housing', which overstates the statute.",
         "source": {
-          "label": "Avon Municipal Code §18.01.020 (Municode)",
-          "url": "https://library.municode.com/co/avon/codes/home_rule_charter_and_code?nodeId=CD_TIT18MI_CH18.01ESSPDI_18.01.020LEDE",
-          "retrieved_via": "https://api.municode.com/CodesContent?jobId=495434&nodeId=CD_TIT18MI_CH18.01ESSPDI_18.01.020LEDE&productId=18025"
+          "label": "C.R.S. 32-1-1001 (reproduction of the 2024 C.R.S.)",
+          "url": "https://colorado.public.law/statutes/crs_32-1-1001"
         },
         "verification": {
           "level": "reported",
-          "by": "Town of Avon Municipal Code §18.01.020 (citing the statute)",
-          "against": "Avon code text citing the statute; the statute itself was not read",
+          "by": "colorado.public.law (unofficial reproduction of the official 2024 C.R.S.)",
+          "against": "statute text as reproduced by colorado.public.law; the official C.R.S. host could not be read from this environment",
           "checked": "2026-09-26"
         },
         "evidence": [
           {
-            "section": "Avon §18.01.020(c)",
-            "quote": "In particular, residential units that are part of an affordable housing program generally should be excluded from districts. Furthermore, pursuant to Section 32-1-1001(1)(j)(II), C.R.S., no district shall impose a tap fee or connection fee for any property owned or used for affordable housing."
+            "section": "32-1-1001(1)(j)(II)",
+            "quote": "Notwithstanding any other provision to the contrary, the board may waive or amortize all or part of the tap fees and connection fees or extend the time period for paying all or part of such fees for property within the district in order to facilitate the construction, ownership, and operation of affordable housing on such property, as such affordable housing is defined by resolution adopted by the board. However, the board shall have the authority to condition such waiver, amortization, or extension upon the recordation against the property of a deed restriction, lien, or other lawful instrument requiring the payment of such fees in the event that the property's use as affordable housing is discontinued or no longer meets the definition of affordable housing as established by the board."
           }
         ]
       }

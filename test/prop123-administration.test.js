@@ -92,7 +92,9 @@ const deadLinks = [];
 for (const f of tracked) {
   const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
   for (const url of DEAD_URLS) {
-    if (src.includes(url)) deadLinks.push(`${f}: ${url}`);
+    // Whole path only: /prop-123 is dead, /prop-123-frequently-asked-questions is not.
+    const esc = url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (new RegExp(esc + '(?![\\w-])').test(src)) deadLinks.push(`${f}: ${url}`);
   }
   // By line, not by sentence: in a JSON field or an HTML line the claim is
   // often its own sentence ("…affordable housing. Administered by DOLA."),
