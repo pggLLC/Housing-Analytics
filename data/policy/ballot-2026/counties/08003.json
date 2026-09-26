@@ -28,15 +28,15 @@
       "geoid": "0801090",
       "level": "municipal",
       "name": "Alamosa (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://cityofalamosa.diligent.community/document/95eafb63-43a5-4fe2-9eb6-359be0be5088",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.alamosacounty.org/166/Elections-Department",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
         "Participation established from the City's own documents (Ordinance No. 19-2026 approving an IGA with Alamosa County for the Nov 3, 2026 coordinated election, second reading 2026-08-19; Resolution No. 13-2026 section 1 \"An election shall be held as a coordinated election with the regular election on Tuesday, November 3, 2026\"), not from a county participating-entities list, which the county had not posted as of 2026-09-26.",
-        "Reviewed source is City Council Resolution No. 13-2026 (ballot title and text, adopted for certification to the County Clerk by 2026-09-04), not a county sample ballot or TABOR notice; neither was posted by Alamosa County as of 2026-09-26. The Ordinance 19-2026 council communication states: \"The City has no other issues at this election and would otherwise not be participating in it.\"",
+        "City Council Resolution No. 13-2026 (ballot title and text, adopted for certification to the County Clerk by 2026-09-04) was read; it is not a county sample ballot or TABOR notice, and neither was posted by Alamosa County as of 2026-09-26. The Ordinance 19-2026 council communication states: \"The City has no other issues at this election and would otherwise not be participating in it.\"",
         "Excluded: City of Alamosa ballot issue (number not yet assigned, \"__\") - extension of the Streets Trust Fund one-half percent sales and use tax, 2030-2039, \"TO BE USED SOLELY TO FUND STREET MAINTENANCE AND IMPROVEMENTS\"; not housing.",
-        "Owner review: coverage state rests on the City referring resolution rather than the county-printed ballot; re-check against the county sample ballot / TABOR notice once posted."
+        "Owner decision (2026-09-26): kept at official_notice_unavailable because the county sample ballot and TABOR notice were not posted; City Resolution 13-2026 is the certified question text, not the printed ballot. Re-check once the county posts them."
       ],
       "reviewed_sources": [
         {
