@@ -5,21 +5,83 @@
       "geoid": "08011",
       "level": "county",
       "name": "Bent County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.bentcounty.net/government/clerk.php",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Checked 2026-09-26: the Bent County Clerk & Recorder page (bentcounty.net/government/clerk.php) has no election section; no TABOR notice, sample ballot, ballot-content certification, or list/IGA of participating political subdivisions for the Nov 3, 2026 coordinated election was found anywhere on bentcounty.net (home, clerk, notices, document center). The only election items on the site are Clarity results links for past elections.",
+        "bentcounty.colorado.gov (described in search results as the county's new site 'under construction') returned HTTP 403 to both curl and WebFetch; bentcounty.gov/www.bentcounty.gov refused connection (proxy 502); Wayback Machine was unreachable from this environment (connection reset). These hosts could not be checked.",
+        "Commissioners' minutes posted for 2026 (Jan 8 through Jul 9, 2026; 16 PDFs) were read: no resolution referring a county ballot question and no coordinated-election IGA appear in them. Minutes after Jul 9, 2026 (the period when referrals are normally certified) were not posted as of 2026-09-26.",
+        "Colorado Health Foundation tracker returned HTTP 403 and could not be used for discovery."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.bentcounty.net/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bentcounty.net/government/notices.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bentcounty.net/document_center/index.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bentcounty.net/government/commissioner_minutes.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bentcounty.net/26-6-11.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.bentcounty.net/26-7-9.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0843660",
       "level": "municipal",
       "name": "Las Animas (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://cityoflasanimasco.gov/agendas",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Not marked not_applicable: Bent County has not posted a list/IGA of political subdivisions participating in the Nov 3, 2026 coordinated election (checked 2026-09-26), so participation could not be determined from an official list.",
+        "The City's own site (cityoflasanimasco.gov; the older cityoflasanimas.colorado.gov returns HTTP 403) has no election page and no 2026 election notice. Its public-notices page shows the city's regular municipal election was held in November 2025 (nomination petitions due Aug 25, 2025).",
+        "Regular City Council agendas for Jun 9, Jul 14, Aug 11 and Sep 8, 2026 were read (TownCloud agenda pages): none lists a resolution or ordinance referring a question to the Nov 3, 2026 ballot. Agenda/minutes PDF downloads for Jun–Sep 2026 redirected to the TownCloud homepage and could not be retrieved; only the HTML agenda pages were read.",
+        "Reviewed and excluded (council actions, not ballot measures): Ordinance 754 creating a code section on accessory dwelling units and tiny homes as ADUs (first reading Jul 14, second reading Sep 8, 2026); Resolution 32-26 setting a goal for affordable housing (Jul 14, 2026)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://cityoflasanimasco.gov/pages/public-notices",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://cityoflasanimasco.gov/news/nomination-petitions-are-available-at-city-hall",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/las-animas-co/agendas/294",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/las-animas-co/agendas/297",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/las-animas-co/agendas/302",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://towncloud.io/go/las-animas-co/agendas/306",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

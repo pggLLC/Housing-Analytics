@@ -5,81 +5,197 @@
       "geoid": "08001",
       "level": "county",
       "name": "Adams County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the Adams County 2026 coordinated election TABOR notice (50 pages, certified by the Clerk & Recorder, posted 2026-09-24). It contains issues from City of Aurora (3A, 3B, 3C), City of Northglenn (3H), Westminster Public Schools (4A), Bennett School District 29J (5A), North Range Metropolitan District No. 3 (6A-6D), Adams County Fire Protection District (6E), Central Colorado Water Conservancy District (7B), its Groundwater Management Subdistrict (7C), Greater Brighton Fire Protection District (7D), and Bennett Fire Protection District (7F, 7G). None is an Adams County issue; none is housing-related.",
+        "The TABOR notice covers only tax/debt/revenue-retention issues. Any Adams County non-TABOR referred question (e.g. a land-use or charter-type question) would appear only on the county sample ballot, which is 'available October 1, 2026' and was not posted on 2026-09-26. News reports (not official) mention a possible county referral on District Attorney term limits and a non-binding secession question; neither was verified on an official source and neither is housing-related as described. Recheck the sample ballot after Oct 1.",
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/additional-resources/information-for-coordinating-entities-and-candidates/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0806090",
       "level": "municipal",
       "name": "Bennett (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26.",
+        "The TABOR notice (read 2026-09-26) contains no Town of Bennett issue; the Bennett entries in it are Bennett School District No. 29J (5A, bonds) and Bennett Fire Protection District (7F, 7G), which are not the town.",
+        "Town of Bennett website (www.bennettco.gov) returned HTTP 403 and townofbennett.stg.colorado.gov / Wayback connections were reset through the proxy on 2026-09-26, so the town clerk's own election page could not be read. Search results (not official) indicate the town held its regular municipal election in April 2026.",
+        "Participation in the coordinated election and any non-TABOR town question could not be confirmed; recheck the county sample ballot after Oct 1, 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/additional-resources/information-for-coordinating-entities-and-candidates/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0808675",
       "level": "municipal",
       "name": "Brighton (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.brightonco.gov/212/Elections-Voting",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26.",
+        "The TABOR notice (read 2026-09-26) contains no City of Brighton issue.",
+        "Brighton's Elections & Voting page (read 2026-09-26) refers only to the November 4, 2025 coordinated election; it lists no 2026 ballot question.",
+        "A non-TABOR Brighton question cannot be ruled out until the county sample ballot is posted (Oct 1, 2026)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0816495",
       "level": "municipal",
       "name": "Commerce City (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.c3gov.com/Government/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26.",
+        "The TABOR notice (read 2026-09-26) contains no Commerce City issue.",
+        "Commerce City's Elections page returns HTTP 403 to curl; it was read via WebFetch on 2026-09-26 (not saved locally) and refers only to the 2025 elections, with no 2026 ballot question.",
+        "A non-TABOR Commerce City question cannot be ruled out until the county sample ballot is posted (Oct 1, 2026)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0826270",
       "level": "municipal",
       "name": "Federal Heights (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.fedheights.org/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26.",
+        "The TABOR notice (read 2026-09-26) contains no City of Federal Heights issue.",
+        "Federal Heights Elections page (read 2026-09-26) states: 'The City of Federal Heights conducts a municipal election every two years on the first Tuesday in November in odd-numbered years.  The next Federal Heights election will be held on Tuesday, November 2, 2027.' This strongly suggests no city question on Nov 3, 2026, but it is not a participating-entities list, so not_applicable was not assigned. Owner review: may be reclassified to not_applicable once the county list or sample ballot confirms."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0854330",
       "level": "municipal",
       "name": "Northglenn (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the county TABOR notice contains City of Northglenn Ballot Issue 3H, and the city clerk's elections page states 'City Council has approved the submission of one ballot issue at the Nov. 3, 2026 election'.",
+        "Excluded: Ballot Issue 3H (INCREASE IN SALES TAX ON ACCOMMODATIONS SERVICES) raises the accommodations sales tax from 5% to 8% 'WITH PROCEEDS TO BE USED FOR GENERAL GOVERNMENTAL PURPOSES, INCLUDING, BUT NOT LIMITED TO, PUBLIC SAFETY, STREET MAINTENANCE, PARKS, RECREATION, AND CULTURE, AND ADMINISTRATIVE FUNCTIONS OF THE CITY' - a lodging tax not dedicated to housing.",
+        "County sample ballot not posted until Oct 1, 2026; the city page's statement that 3H is the only city issue was relied on for non-TABOR content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.northglenn.org/government/departments/clerk/elections.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0877290",
       "level": "municipal",
       "name": "Thornton (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.thorntonco.gov/government/mayor-council/elections-voter-information",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the city page states '2026 Special Municipal Election - Tuesday, November 3, 2026 ... The Special Election will be in conjunction with the Adams County coordinated mail ballot election.'",
+        "Excluded: the only question listed is the proposed Charter amendment to Section 4.5 ('Shall Section 4.5 of the Thornton City Charter be amended to require that any member of the Thornton City Council, including the Mayor, shall be deemed to have resigned and vacated the member's office upon formally declaring candidacy ...') - a resign-to-run rule, not housing.",
+        "The TABOR notice contains no City of Thornton issue. The certified ballot content / county sample ballot (due Oct 1, 2026) was not available; source read is the city's own election page. Owner review: confirm against the sample ballot that no other Thornton question was certified."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0883835",
       "level": "municipal",
       "name": "Westminster (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.westminsterco.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No list of political subdivisions participating in the Adams County Nov 3, 2026 coordinated election is published: checked the Adams County elections page and the 'Information for Coordinating Entities and Candidates' page on 2026-09-26 (the latter describes the IGA process only). The county sample ballot with all county content is posted as 'available October 1, 2026' and was not available on 2026-09-26.",
+        "The TABOR notice (read 2026-09-26) contains no City of Westminster issue (Ballot Issue 4A is Westminster Public Schools, a school district, not the city).",
+        "Westminster's Elections page (read 2026-09-26) still describes the November 4, 2025 election; no 2026 ballot question is listed.",
+        "A non-TABOR Westminster question cannot be ruled out until the county sample ballot is posted (Oct 1, 2026). Westminster also lies partly in Jefferson County; its content would also appear on the Jefferson County ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
