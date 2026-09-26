@@ -12,8 +12,11 @@
  *
  *   1. fetchQctTracts / fetchDdaForCounty, extracted from the controller and
  *      run with every tier failing, return `unavailableReason` — and with the
- *      statewide file loaded but no match for the county, return an empty
- *      collection WITHOUT one (a county with no QCT is a real zero).
+ *      statewide file loaded (with features) but no match for the county,
+ *      return an empty collection WITHOUT one (a county with no QCT is a real
+ *      zero). A file that parses but holds `features: []` proves nothing about
+ *      any county, so it — alone, or followed by a live error body — is
+ *      unavailable, not zero.
  *   2. renderQctLayer / renderDdaLayer, run in jsdom, show "Unavailable" and a
  *      toggle note for the first case, and 0 / "Non-DDA" for the second.
  */
@@ -41,7 +44,7 @@ function extractAsyncFn(src, name) {
 const fnSrc = extractAsyncFn(controller, 'fetchQctTracts') + '\n' + extractAsyncFn(controller, 'fetchDdaForCounty');
 assert(!/(QCT|DDA)_FALLBACK_CO/.test(fnSrc), 'fetch tiers must not reference an embedded QCT/DDA fallback');
 
-function makeFetchers({ localFile }) {
+function makeFetchers({ localFile, live }) {
   const ctx = {
     console: { info() {}, warn() {} },
     URLSearchParams,
@@ -51,8 +54,11 @@ function makeFetchers({ localFile }) {
         CO_DDA: {},
       },
     },
-    // Every live request fails.
-    fetchWithTimeout: async () => { throw new Error('network down'); },
+    // Every live request fails, unless a fixture response is supplied.
+    fetchWithTimeout: async () => {
+      if (!live) throw new Error('network down');
+      return { ok: true, status: 200, json: async () => live };
+    },
     loadJson: async (rel) => {
       if (!localFile) throw new Error('404 ' + rel);
       return localFile;
@@ -73,13 +79,47 @@ async function checkFetchTiers() {
     assert(Array.isArray(r.features) && r.features.length === 0, `${label}: an unavailable result must carry no features`);
   }
 
-  // File loads, county has nothing in it → a known zero, not unknown.
-  const empty = makeFetchers({ localFile: { type: 'FeatureCollection', features: [] } });
-  for (const [label, p] of [['QCT', empty.fetchQctTracts('08031')], ['DDA', empty.fetchDdaForCounty('08031')]]) {
+  // Case 2: file loads WITH features, none for this county → a known zero.
+  const otherCounty = {
+    type: 'FeatureCollection',
+    features: [{ type: 'Feature', properties: { GEOID: '08001007800', COUNTYFP: '001', DDA_NAME: 'Elsewhere HMFA' }, geometry: null }],
+  };
+  const noMatch = makeFetchers({ localFile: otherCounty });
+  for (const [label, p] of [['QCT', noMatch.fetchQctTracts('08031')], ['DDA', noMatch.fetchDdaForCounty('08031')]]) {
     const r = await p;
-    assert(r && Array.isArray(r.features) && r.features.length === 0, `${label}: loaded-but-empty must return features: []`);
-    assert(!r.unavailableReason, `${label}: a loaded file with no match is a real "none", not unavailable`);
+    assert(r && Array.isArray(r.features) && r.features.length === 0, `${label}: no-match must return features: []`);
+    assert(!r.unavailableReason, `${label}: a non-empty file with no match is a real "none", not unavailable`);
   }
+
+  // Case 1: file loads and the county matches → its features.
+  const match = makeFetchers({ localFile: {
+    type: 'FeatureCollection',
+    features: [{ type: 'Feature', properties: { GEOID: '08031001500', COUNTYFP: '031' }, geometry: null }],
+  } });
+  const m = await match.fetchQctTracts('08031');
+  assert.strictEqual(m.features.length, 1, 'QCT: a county match returns its tracts');
+  assert(!m.unavailableReason, 'QCT: a county match is not unavailable');
+
+  // Case 3: file parses but is globally empty → unknown, NOT zero. An empty
+  // source cannot show this county has no QCTs (or is Non-DDA).
+  // Case 5: same, and the live service answers with an ArcGIS error body.
+  const globallyEmpty = { type: 'FeatureCollection', features: [] };
+  const arcgisError = { error: { code: 500, message: 'Unable to complete operation.' } };
+  for (const [caseLabel, live] of [['empty cache', undefined], ['empty cache + live error body', arcgisError]]) {
+    const f = makeFetchers({ localFile: globallyEmpty, live });
+    for (const [label, p] of [['QCT', f.fetchQctTracts('08031')], ['DDA', f.fetchDdaForCounty('08031')]]) {
+      const r = await p;
+      assert(r && Array.isArray(r.features) && r.features.length === 0, `${label} (${caseLabel}): must carry no features`);
+      assert(typeof r.unavailableReason === 'string' && /no (QCT|DDA) features/.test(r.unavailableReason),
+        `${label} (${caseLabel}): a globally empty source must be unavailable with a reason, not a known zero — got ${JSON.stringify(r)}`);
+    }
+  }
+
+  // A globally empty LIVE DDA response is no proof either: with the cache
+  // also empty it must stay unknown (it used to return a known "Non-DDA").
+  const liveEmpty = makeFetchers({ localFile: globallyEmpty, live: { type: 'FeatureCollection', features: [] } });
+  const d = await liveEmpty.fetchDdaForCounty('08031');
+  assert(d.unavailableReason, 'DDA: empty cache + globally empty live response must be unavailable');
 }
 
 // ── 2. Renderers ─────────────────────────────────────────────────────────────

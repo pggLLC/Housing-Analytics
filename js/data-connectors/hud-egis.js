@@ -231,41 +231,58 @@
   }
 
   /**
+   * Why a designation layer cannot answer, or null when it can. A layer that
+   * never loaded, or loaded with no features at all, cannot show that a site
+   * is outside every QCT/DDA — a globally empty source proves nothing.
+   * @private
+   */
+  function _layerUnavailableReason(fc, label, file) {
+    if (!fc || !Array.isArray(fc.features)) {
+      return label + ' data not loaded (' + file + ')';
+    }
+    if (fc.features.length === 0) {
+      return file + ' loaded but contains no ' + label + ' features';
+    }
+    return null;
+  }
+
+  /**
    * Check whether a lat/lon point falls within a QCT or DDA polygon and
    * return the combined designation result used by the scoring pipeline.
    *
-   * When overlay data has not yet loaded, returns safe defaults (all false)
-   * with a console warning so callers can distinguish a real "not designated"
-   * result from a data-availability gap.
+   * Each flag is true, false, or null. null means UNKNOWN: that layer has not
+   * loaded, or loaded with no features, so it cannot show the site is outside
+   * a QCT/DDA. It is never reported as false — "not in a QCT" drops the 30%
+   * basis boost and subsidy points, and an unknown must not do that.
+   * `unavailableReason` says why whenever any flag is null.
    *
-   * basis_boost_eligible is true whenever the site is in a QCT or DDA,
-   * allowing the project to claim up to 130% eligible basis under IRC §42(d)(5)(B).
+   * basis_boost_eligible is true whenever the site is in a QCT or DDA
+   * (allowing up to 130% eligible basis under IRC §42(d)(5)(B)), false only
+   * when BOTH layers are known and the site is in neither, and null otherwise.
    *
    * @param {number} lat - Site latitude.
    * @param {number} lon - Site longitude.
-   * @returns {{ in_qct: boolean, in_dda: boolean, basis_boost_eligible: boolean }}
+   * @returns {{ in_qct: boolean|null, in_dda: boolean|null,
+   *             basis_boost_eligible: boolean|null, unavailableReason: string|null }}
    */
   function checkDesignation(lat, lon) {
-    if (!localQctData && !localDdaData) {
-      console.warn('[HudEgis] checkDesignation(): overlay data not yet loaded — returning safe defaults (all false).');
-      return { in_qct: false, in_dda: false, basis_boost_eligible: false };
+    var qctReason = _layerUnavailableReason(localQctData, 'QCT', 'data/qct-colorado.json');
+    var ddaReason = _layerUnavailableReason(localDdaData, 'DDA', 'data/dda-colorado.json');
+    var in_qct = qctReason ? null : _isInCollection(lat, lon, localQctData);
+    var in_dda = ddaReason ? null : _isInCollection(lat, lon, localDdaData);
+    var reasons = [qctReason, ddaReason].filter(Boolean);
+    if (reasons.length) {
+      console.warn('[HudEgis] checkDesignation(): designation unknown — ' + reasons.join('; ') + '.');
     }
-    // Warn when only one dataset is available so callers can distinguish a
-    // true "not in QCT/DDA" from a data-availability gap.
-    if (!localQctData) {
-      console.warn('[HudEgis] checkDesignation(): QCT data not loaded — in_qct will be false regardless of site location.');
-    }
-    if (!localDdaData) {
-      console.warn('[HudEgis] checkDesignation(): DDA data not loaded — in_dda will be false regardless of site location.');
-    }
-    var in_qct = _isInCollection(lat, lon, localQctData);
-    var in_dda = _isInCollection(lat, lon, localDdaData);
+    var basis_boost_eligible;
+    if (in_qct === true || in_dda === true) basis_boost_eligible = true;
+    else if (in_qct === false && in_dda === false) basis_boost_eligible = false;
+    else basis_boost_eligible = null;
     return {
       in_qct: in_qct,
       in_dda: in_dda,
-      // basis_boost_eligible: site qualifies for IRC §42(d)(5)(B) basis boost
-      // (up to 130% eligible basis) when located in either a QCT or a DDA.
-      basis_boost_eligible: in_qct || in_dda
+      basis_boost_eligible: basis_boost_eligible,
+      unavailableReason: reasons.length ? reasons.join('; ') : null
     };
   }
 
