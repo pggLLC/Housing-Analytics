@@ -595,6 +595,7 @@
     var totals = {
       pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
       vacant: 0, rent_sum: 0, income_sum: 0,
+      rent_n: 0, income_n: 0, rent_excluded: 0, income_excluded: 0,
       cost_burden_sum: 0, vacancy_rate_sum: 0,
       severe_burden_sum: 0, severe_burden_n: 0,
       poverty_sum: 0, poverty_n: 0,
@@ -630,8 +631,18 @@
       totals.rented_not_occupied += (m.rented_not_occupied || 0) * share;
       totals.vacant_seasonal     += (m.vacant_seasonal     || 0) * share;
       // Rates are unweighted averages — don't multiply by share.
-      totals.rent_sum     += m.median_gross_rent  || 0;
-      totals.income_sum   += m.median_hh_income   || 0;
+      // A median the Census did not publish (null, or 0 in a tract file
+      // built before scripts/market/build_public_market_data.py stopped
+      // coercing the suppression sentinel) is not a $0 rent or income.
+      // Leave it out of that median's average and count it, so the page can
+      // say how many tracts were left out. Rent and income are counted
+      // separately: a tract can publish one and not the other.
+      var rentV = m.median_gross_rent == null ? NaN : Number(m.median_gross_rent);
+      if (rentV > 0) { totals.rent_sum += rentV; totals.rent_n++; }
+      else totals.rent_excluded++;
+      var incomeV = m.median_hh_income == null ? NaN : Number(m.median_hh_income);
+      if (incomeV > 0) { totals.income_sum += incomeV; totals.income_n++; }
+      else totals.income_excluded++;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
       totals.vacancy_rate_sum += m.vacancy_rate    || 0;
       if (Number.isFinite(+m.severe_cost_burden_rate)) {
@@ -694,8 +705,12 @@
       renter_hh:        Math.round(totals.renter_hh),
       total_hh:         Math.round(totals.total_hh),
       vacant:           Math.round(totals.vacant),
-      median_gross_rent:   totals.n ? totals.rent_sum    / totals.n : 0,
-      median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
+      // Averages of the published tract medians; null, never 0, when no
+      // tract in the buffer has one.
+      median_gross_rent:   totals.rent_n   ? totals.rent_sum   / totals.rent_n   : null,
+      median_hh_income:    totals.income_n ? totals.income_sum / totals.income_n : null,
+      median_gross_rent_excluded_tracts: totals.rent_excluded,
+      median_hh_income_excluded_tracts:  totals.income_excluded,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
       // #1163 — buffer-level rental vacancy from summed apportioned counts
@@ -878,7 +893,22 @@
    * @returns {{ score: number|null, ratio: number, amiUsed: number|null, amiSource: string, unavailable: boolean }}
    */
   function scoreRentPressure(acs, countyAmi) {
-    return PMAScoring.scoreRentPressure(acs, countyAmi);
+    var res = PMAScoring.scoreRentPressure(acs, countyAmi);
+    if (res.unavailable) {
+      res.unavailableReason = 'county 4-person AMI could not be resolved';
+      return res;
+    }
+    // No measured rent is not a rent of $0. The shared helper turns a
+    // missing median into ratio 0, which scores as no rent pressure at all.
+    // Exclude the dimension instead (the overall score redistributes its
+    // weight) and say why. The helper is hash-pinned by
+    // test/pma-scoring.test.js, so the guard lives here.
+    var rent = acs && acs.median_gross_rent != null ? Number(acs.median_gross_rent) : NaN;
+    if (!(rent > 0)) {
+      return { score: null, ratio: null, amiUsed: countyAmi, amiSource: 'county', unavailable: true,
+        unavailableReason: 'the Census published no median rent for any tract in this market area' };
+    }
+    return res;
   }
 
   /**
@@ -1184,7 +1214,9 @@
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
     }
     if (rentPressureObj.unavailable) {
-      flags.push({ level: 'warn', text: 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)' });
+      flags.push({ level: 'warn', text: rentPressureObj.amiSource === 'unavailable'
+        ? 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)'
+        : 'Rent-pressure score unavailable — ' + rentPressureObj.unavailableReason });
     }
 
     // LIHTC recency flags — surface competitive saturation vs. gap signals
@@ -1231,10 +1263,9 @@
     var rentPressureCoverage;
     if (rentPressureObj.unavailable) {
       rentPressureCoverage = 'unavailable';
-      fallbackReasons.rent_pressure = 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)';
-    } else if (!acs || acs.median_gross_rent == null) {
-      rentPressureCoverage = 'fallback';
-      fallbackReasons.rent_pressure = 'ACS median_gross_rent missing; rent ratio defaulted to 0';
+      fallbackReasons.rent_pressure = rentPressureObj.amiSource === 'unavailable'
+        ? 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)'
+        : 'Rent-pressure dimension excluded from overall (weight redistributed): ' + rentPressureObj.unavailableReason;
     } else {
       rentPressureCoverage = 'full';
     }
@@ -1292,8 +1323,11 @@
             ? ' ⚠ STR-DISTORTED: residual ACS short-term/vacation rental contamination may remain after the seasonal-share proxy discount. Verify against local STR-license and long-term listing data (#1171).'
             : ''),
         rentPressure:    rentPressureObj.unavailable
-          ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
+          ? 'Rent-pressure score unavailable — ' + (rentPressureObj.unavailableReason || 'county 4-person AMI could not be resolved') + '. Dimension excluded from overall.'
           : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'
+            + (acs && acs.median_gross_rent_excluded_tracts
+              ? '. Market rent averages the tracts with a published median; ' + acs.median_gross_rent_excluded_tracts + ' tract(s) without one are left out, not counted as $0'
+              : '')
       },
       dimensionDataAvailable: {
         demand:          demandCoverage !== 'fallback',
@@ -2946,6 +2980,8 @@
             vacant:             acs.vacant,
             med_gross_rent:     acs.median_gross_rent,
             med_hh_income:      acs.median_hh_income,
+            med_gross_rent_excluded_tracts: acs.median_gross_rent_excluded_tracts || 0,
+            med_hh_income_excluded_tracts:  acs.median_hh_income_excluded_tracts || 0,
             cost_burden_rate:   acs.cost_burden_rate,
             renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
             vacancy_rate:       acs.vacancy_rate,
@@ -4742,6 +4778,9 @@
         renterShare:       (acs.total_hh && acs.renter_hh) ? +(acs.renter_hh / acs.total_hh * 100).toFixed(1) : null,
         costBurdenRate:    acs.cost_burden_rate,
         medianGrossRent:   acs.median_gross_rent,
+        medianGrossRentExcludedTracts: acs.median_gross_rent_excluded_tracts || 0,
+        medianHhIncome:    acs.median_hh_income,
+        medianHhIncomeExcludedTracts:  acs.median_hh_income_excluded_tracts || 0,
         vacancyRate:       acs.vacancy_rate
       },
       supply: {
@@ -4874,7 +4913,11 @@
       ['Renter Households',    fmtNum(ag.renterHouseholds)],
       ['Renter Share',         fmtPct(ag.renterShare)],
       ['Cost-Burden Rate',     fmtPct(ag.costBurdenRate)],
-      ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
+      // An average of tract medians: whole dollars, as on screen.
+      ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(Math.round(ag.medianGrossRent)) : ''],
+      ['Tracts Left Out of Median Rent (no published median)', fmtNum(ag.medianGrossRentExcludedTracts || 0)],
+      ['Median Household Income', ag.medianHhIncome != null ? '$' + fmtNum(Math.round(ag.medianHhIncome)) : ''],
+      ['Tracts Left Out of Median Income (no published median)', fmtNum(ag.medianHhIncomeExcludedTracts || 0)],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
       ['SECTION', 'Existing Affordable Supply in Buffer'],
@@ -5035,8 +5078,10 @@
       ['tract_count', r.tractCount],
       ['renter_hh', r.acs.renter_hh],
       ['cost_burden_rate', r.acs.cost_burden_rate],
-      ['median_gross_rent', r.acs.median_gross_rent],
-      ['median_hh_income', r.acs.median_hh_income],
+      ['median_gross_rent', r.acs.median_gross_rent == null ? '' : r.acs.median_gross_rent],
+      ['median_gross_rent_excluded_tracts', r.acs.median_gross_rent_excluded_tracts || 0],
+      ['median_hh_income', r.acs.median_hh_income == null ? '' : r.acs.median_hh_income],
+      ['median_hh_income_excluded_tracts', r.acs.median_hh_income_excluded_tracts || 0],
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
@@ -5637,6 +5682,9 @@
     // Renders the pipeline card from a result and LIHTC features a test
     // supplies (test/pma-pipeline-stage.test.js).
     _renderPipelineForTest:  function (result, features) { lihtcFeatures = features; renderPipeline(result); },
+    // Lets a test drive the real export buttons on a result it built with
+    // computePma()/aggregateAcs() (test/pma-suppressed-acs-not-zero.test.js).
+    _setLastResultForTest:   function (result) { lastResult = result; },
     _polygonBufferShareFromGeometry: _polygonBufferShareFromGeometry,
     _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
