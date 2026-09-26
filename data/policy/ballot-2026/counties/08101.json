@@ -23,15 +23,15 @@
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=19429,plainText=false)",
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=19429,plainText=false%29",
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20541,plainText=false)",
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=20541,plainText=false%29",
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20562,plainText=false)",
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=20562,plainText=false%29",
           "retrieved": "2026-09-26"
         }
       ]
@@ -64,7 +64,7 @@
       "level": "municipal",
       "name": "Pueblo (city)",
       "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=7316,plainText=false)",
+      "reviewed_source": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=7316,plainText=false%29",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
@@ -76,7 +76,7 @@
       ],
       "reviewed_sources": [
         {
-          "url": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=7316,plainText=false)",
+          "url": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=7316,plainText=false%29",
           "retrieved": "2026-09-26"
         },
         {
@@ -84,7 +84,7 @@
           "retrieved": "2026-09-26"
         },
         {
-          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20541,plainText=false)",
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream%28fileId=20541,plainText=false%29",
           "retrieved": "2026-09-26"
         }
       ]
