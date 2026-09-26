@@ -174,28 +174,29 @@
           el('td', String(entries.filter(function (e) { return e[field] === key; }).length), tr);
         });
       }
-      function metric(parent, key, count, description) {
+      function metric(parent, key, count, total, description) {
         var p = el('p', undefined, parent);
         var number = el('strong', String(count), p); number.dataset.count = key;
+        p.appendChild(document.createTextNode(' of '));
+        var denominator = el('strong', String(total), p); denominator.dataset.count = key + '-total';
         p.appendChild(document.createTextNode(' ' + description));
       }
       function renderFees(data) {
-        var entries = data.entries;
+        var entries = data.entries.filter(function (e) { return e.state === 'CO'; });
+        var oneTime = entries.filter(function (e) { return e.recurrence === 'one_time'; });
         var snapshot = section('brief-dataset', 'What the dataset contains');
         var scope = el('p', undefined, snapshot);
         var total = el('strong', String(entries.length), scope); total.dataset.count = 'total';
-        scope.appendChild(document.createTextNode(' fee records: '));
-        var coCount = entries.filter(function (e) { return e.state === 'CO'; }).length;
-        var colorado = el('span', String(coCount), scope); colorado.dataset.count = 'colorado';
-        scope.appendChild(document.createTextNode(' in Colorado and '));
-        var others = el('span', String(entries.length - coCount), scope); others.dataset.count = 'comparison';
-        scope.appendChild(document.createTextNode(' out-of-state comparison records. All counts below cover the full fee dataset, including project awards and repealed measures. Land-use incentives are separate and are not counted here.'));
+        scope.appendChild(document.createTextNode(' Colorado fee records, including project awards and repealed measures. Land-use incentives are separate and are not counted here.'));
         countTable(snapshot, entries, 'measure', 'How the fee changes');
         countTable(snapshot, entries, 'kind', 'What kind of record it is');
-        metric(snapshot, 'discretionary', entries.filter(function (e) { return e.eligibility.by_right === false; }).length,
-          'records require discretionary approval: the benefit is not automatic even when a project meets the stated eligibility rules.');
+        metric(snapshot, 'discretionary', oneTime.filter(function (e) { return e.eligibility.by_right === false; }).length, oneTime.length,
+          'one-time Colorado fee measures require discretionary approval: the benefit is not automatic even when a project meets the stated eligibility rules.');
         metric(snapshot, 'backfill', entries.filter(function (e) { return e.backfill.method === 'not_specified'; }).length,
-          'records do not specify how forgone fee revenue is replaced. This does not mean no replacement funding exists.');
+          entries.length, 'Colorado fee measures do not specify how forgone fee revenue is replaced. This does not mean no replacement funding exists.');
+        var comparison = el('p', 'plus ', snapshot);
+        var others = el('span', String(data.entries.length - entries.length), comparison); others.dataset.count = 'comparison';
+        comparison.appendChild(document.createTextNode(' out-of-state comparison records, not counted above'));
         var limits = section('brief-limitations', 'Screening limitations');
         el('p', 'What a jurisdiction offers is not what a project has been awarded. A deferral is still owed. A jurisdiction with no entry has not been researched or has no verified entry; that does not mean it has no program.', limits);
         var gaps = data.meta.known_gaps;

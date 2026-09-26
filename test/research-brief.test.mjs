@@ -53,13 +53,13 @@ function shownCount(doc, key) {
   return Number(node.textContent);
 }
 
-function checkGroups(doc, entries) {
+function checkGroups(doc, entries, allEntries = entries) {
   assert.ok(entries.length > 0, 'no records to check');
   for (const field of ['measure', 'kind']) {
     const table = doc.querySelector(`table[data-group="${field}"]`);
     assert.ok(table, `${field} table is missing`);
     const rows = [...table.querySelectorAll('tbody tr')];
-    const expectedValues = [...new Set(entries.map((entry) => entry[field]))].sort();
+    const expectedValues = [...new Set(allEntries.map((entry) => entry[field]))].sort();
     assert.ok(expectedValues.length > 1, 'the enum coverage scan is vacuous');
     const labels = rows.map((row) => row.dataset.value);
     for (const value of expectedValues) assert.ok(labels.includes(value), `no label for ${field}=${value}`);
@@ -76,14 +76,49 @@ function checkGroups(doc, entries) {
   }
 }
 
-test('every dataset measure/kind has a definition and its rendered count equals the dataset', async (t) => {
+test('every dataset measure/kind has a definition and its rendered count equals the Colorado subset', async (t) => {
   const { doc } = await runPage(t);
-  checkGroups(doc, FEES.entries);
-  assert.equal(shownCount(doc, 'total'), FEES.entries.length);
-  assert.equal(shownCount(doc, 'colorado'), FEES.entries.filter((entry) => entry.state === 'CO').length);
+  const coEntries = FEES.entries.filter((entry) => entry.state === 'CO');
+  const oneTime = coEntries.filter((entry) => entry.recurrence === 'one_time');
+  checkGroups(doc, coEntries, FEES.entries);
+  assert.equal(shownCount(doc, 'total'), coEntries.length);
   assert.equal(shownCount(doc, 'comparison'), FEES.entries.filter((entry) => entry.state !== 'CO').length);
-  assert.equal(shownCount(doc, 'discretionary'), FEES.entries.filter((entry) => entry.eligibility.by_right === false).length);
-  assert.equal(shownCount(doc, 'backfill'), FEES.entries.filter((entry) => entry.backfill.method === 'not_specified').length);
+  assert.equal(shownCount(doc, 'discretionary'), oneTime.filter((entry) => entry.eligibility.by_right === false).length);
+  assert.equal(shownCount(doc, 'discretionary-total'), oneTime.length);
+  assert.equal(shownCount(doc, 'backfill'), coEntries.filter((entry) => entry.backfill.method === 'not_specified').length);
+  assert.equal(shownCount(doc, 'backfill-total'), coEntries.length);
+  const comparison = doc.querySelector('[data-count="comparison"]');
+  assert.equal(doc.querySelectorAll('[data-count="comparison"]').length, 1);
+  assert.equal(comparison.parentElement.tagName, 'P');
+  assert.equal(comparison.parentElement.textContent,
+    `plus ${FEES.entries.length - coEntries.length} out-of-state comparison records, not counted above`);
+  assert.equal(comparison.parentElement, doc.getElementById('brief-dataset').lastElementChild);
+});
+
+test('reader backfill and discretionary shares agree with the brief and its curated-test counting basis', async (t) => {
+  // Same independently recomputed populations as policy-briefs-curated.test.js:
+  // backfill uses all Colorado records; discretion uses one-time Colorado records.
+  const coEntries = FEES.entries.filter((entry) => entry.state === 'CO');
+  const oneTime = coEntries.filter((entry) => entry.recurrence === 'one_time');
+  assert.ok(coEntries.length > 0 && oneTime.length > 0, 'no Colorado measures to compare');
+  const { doc } = await runPage(t);
+  const briefText = feeBrief.title + ' ' + feeBrief.summary + ' ' + feeBrief.implications;
+  const claims = [
+    { key: 'backfill', pattern: /(\d+) of (\d+) fee measures/,
+      expected: [coEntries.filter((entry) => entry.backfill.method === 'not_specified').length, coEntries.length] },
+    { key: 'discretionary', pattern: /(\d+) of (\d+) one-time fee measures/,
+      expected: [oneTime.filter((entry) => entry.eligibility.by_right === false).length, oneTime.length] },
+  ];
+  for (const { key, pattern, expected } of claims) {
+    const claim = briefText.match(pattern);
+    assert.ok(claim, `the brief has no ${key} share to compare`);
+    const briefShare = claim.slice(1).map(Number);
+    const readerShare = [shownCount(doc, key), shownCount(doc, key + '-total')];
+    assert.deepEqual(briefShare, expected, `${key}: brief must agree with the independently recomputed dataset`);
+    assert.deepEqual(readerShare, briefShare, `${key}: reader must use the same numerator and denominator as the brief`);
+    const line = doc.querySelector(`[data-count="${key}"]`).parentElement.textContent;
+    assert.ok(line.startsWith(`${readerShare[0]} of ${readerShare[1]} `), `${key}: show the denominator to the reader`);
+  }
 });
 
 test('counts follow changed data, including by_right null versus false, rather than hardcoded totals', async (t) => {
@@ -99,10 +134,20 @@ test('counts follow changed data, including by_right null versus false, rather t
   extra.backfill.method = 'not_specified';
   extra.kind = 'project_award';
   fees.entries.push(extra);
+  // Neither of these belongs in the discretionary share. The recurring CO
+  // record still belongs in the Colorado tables/backfill; the WA one does not.
+  fees.entries.push({ ...structuredClone(extra), recurrence: 'recurring' });
+  fees.entries.push({ ...structuredClone(extra), state: 'WA', recurrence: 'one_time' });
   const { doc } = await runPage(t, { fees });
-  checkGroups(doc, fees.entries);
-  assert.equal(shownCount(doc, 'discretionary'), fees.entries.filter((entry) => entry.eligibility.by_right === false).length);
-  assert.equal(shownCount(doc, 'backfill'), fees.entries.filter((entry) => entry.backfill.method === 'not_specified').length);
+  const coEntries = fees.entries.filter((entry) => entry.state === 'CO');
+  const oneTime = coEntries.filter((entry) => entry.recurrence === 'one_time');
+  checkGroups(doc, coEntries, fees.entries);
+  assert.equal(shownCount(doc, 'total'), coEntries.length);
+  assert.equal(shownCount(doc, 'discretionary'), oneTime.filter((entry) => entry.eligibility.by_right === false).length);
+  assert.equal(shownCount(doc, 'discretionary-total'), oneTime.length);
+  assert.equal(shownCount(doc, 'backfill'), coEntries.filter((entry) => entry.backfill.method === 'not_specified').length);
+  assert.equal(shownCount(doc, 'backfill-total'), coEntries.length);
+  assert.equal(shownCount(doc, 'comparison'), fees.entries.filter((entry) => entry.state !== 'CO').length);
 });
 
 test('the full brief, published/verified dates, and sections are shown in reading order', async (t) => {
