@@ -274,7 +274,7 @@
       'Averages of the Census tract medians in this area.' +
       (parts.length
         ? ' The Census published no median for ' + parts.join(' and ') +
-          ' (too few survey responses); those tracts are left out, not counted as $0.'
+          '; those tracts are left out, not counted as $0.'
         : '') +
       '</div>';
   }
