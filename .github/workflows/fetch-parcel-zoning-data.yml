@@ -265,6 +265,11 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Both manifests, in this order: data/manifest.json records the byte
+          # count of data/_manifest.json (AGENTS.md, "two manifests"). Bot
+          # commits run no push-triggered workflow, so nothing else repairs
+          # _manifest.json after this job.
+          npm run audit:file-manifest
           python3 scripts/rebuild_manifest.py
           git add data/market/parcel_aggregates_co.json \
                   data/market/zoning_compat_index_co.json \
@@ -274,6 +279,7 @@ jobs:
                   data/market/schools_co.geojson \
                   data/market/opportunity_zones_co.geojson \
                   data/affordable-housing/regrid-parcels-by-place.json \
+                  data/_manifest.json \
                   data/manifest.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."

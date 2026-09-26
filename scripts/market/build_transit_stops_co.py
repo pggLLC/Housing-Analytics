@@ -436,6 +436,38 @@ def build_report(features, parts, counties, generated, feeds_failed, feeds_used)
     }
 
 
+# A refresh may lose at most this share of the CDOT stops the last build kept.
+# CDOT's layer changes by a few percent a year; a larger drop is a broken
+# response (projected coordinates, missing latitudes, a filtered layer), not
+# Colorado losing a fifth of its bus stops.
+MAX_CDOT_DROP = 0.20
+
+
+def previous_cdot_count() -> int | None:
+    """CDOT stop count in the committed file, or None if there is none."""
+    try:
+        meta = json.loads(OUT_STOPS.read_text()).get("meta") or {}
+        n = (meta.get("totals") or {}).get("cdot")
+        return n if isinstance(n, int) and n > 0 else None
+    except (OSError, ValueError):
+        return None
+
+
+def cdot_shortfall(features: list[dict], previous: int | None) -> str | None:
+    """Why the merged result must not replace the committed file, or None.
+
+    Checked AFTER normalisation and the Colorado/county filter: a response
+    can be non-empty and still leave no usable CDOT stop once filtered.
+    """
+    kept = sum(1 for f in features if "cdot" in f["properties"]["sources"])
+    if kept == 0:
+        return "No CDOT stop survived the Colorado/county filter (0 kept)."
+    if previous and kept < previous * (1 - MAX_CDOT_DROP):
+        return (f"CDOT stops kept fell from {previous} to {kept} "
+                f"(more than {int(MAX_CDOT_DROP * 100)}%) — no usable response.")
+    return None
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--skip-feeds", action="store_true", help="CDOT + OSM only (no GTFS downloads)")
@@ -467,6 +499,10 @@ def main() -> int:
     osm_rows = load_osm_stops()
 
     features, parts = merge(cdot_rows, feed_rows, osm_rows, counties)
+    problem = cdot_shortfall(features, previous_cdot_count())
+    if problem:
+        log(f"{problem} Refusing to overwrite {OUT_STOPS.name}; nothing written.")
+        return 1
     report = build_report(features, parts, counties, generated, feeds_failed, feeds_used)
 
     stops = {
