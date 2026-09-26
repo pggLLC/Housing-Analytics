@@ -166,6 +166,39 @@
       return '<th>' + escape(item) + '</th>';
     }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table></div>';
   }
+  /**
+   * Sections that run on fixed example inputs — the land, resale and
+   * settlement engines take a set home value, restricted price, four-person
+   * AMI and loan terms from market-study-page.js, identical for every
+   * jurisdiction. Before this they rendered under a banner saying the figures
+   * were the selected jurisdiction's, so Denver and Fruita showed the same
+   * dollars as if each were local. The label names the place the figures are
+   * NOT from; the page and the report share this one wording.
+   */
+  function exampleInputsLabel(placeName) {
+    return 'Example only \u2014 illustrative inputs, not ' + (placeName ? placeName + '\'s' : 'local') + ' data';
+  }
+  function exampleInputsDetail() {
+    return 'The home value, restricted price, four-person AMI and loan terms behind these figures are fixed example inputs, the same for every jurisdiction. Use them to see how the options behave, not as local numbers.';
+  }
+  function exampleInputsNote(placeName) {
+    return '<p class="warning example-inputs" data-example-inputs="true"><strong>' + escape(exampleInputsLabel(placeName)) + '.</strong> ' + exampleInputsDetail() + '</p>';
+  }
+  /**
+   * Is the study's jurisdiction the example project's own town? Only then may
+   * the report carry the example project's name and its named partners.
+   */
+  function isExampleJurisdiction(scenario, jurisdictionLabel, jurisdictionGeoid) {
+    var home = (scenario && scenario.jurisdiction) || {};
+    if (!jurisdictionLabel && !jurisdictionGeoid) return true;
+    if (jurisdictionGeoid && home.place_geoid) return String(jurisdictionGeoid) === String(home.place_geoid);
+    return !!home.name && String(jurisdictionLabel) === String(home.name);
+  }
+  function reportTitle(scenario, jurisdictionLabel, jurisdictionGeoid) {
+    if (isExampleJurisdiction(scenario, jurisdictionLabel, jurisdictionGeoid)) return 'Fruita Commons — For-Sale Fundamental Market Study';
+    return (jurisdictionLabel || jurisdictionGeoid) + ' — For-Sale Market Study (screening)';
+  }
+
   function assertComplete(html) {
     INTERNAL_CAVEATS.forEach(function (entry) {
       if (html.indexOf(entry) === -1) throw new Error('MarketStudyReport: required caveat missing: ' + entry);
@@ -234,6 +267,9 @@
     // worst of both — it leaves the building as a PDF nobody can re-check.
     var baseline = model.localBaseline || scenario.local_baseline;
     var jurisdictionLabel = meta.jurisdictionLabel || scenario.jurisdiction.name;
+    var atHome = isExampleJurisdiction(scenario, meta.jurisdictionLabel, meta.jurisdictionGeoid);
+    var title = reportTitle(scenario, meta.jurisdictionLabel, meta.jurisdictionGeoid);
+    var exampleNote = exampleInputsNote(jurisdictionLabel);
     var mixRows = scenario.program.unit_mix.map(function (row) {
       return '<tr><td>' + display(row.count) + '</td><td>' + display(row.bedrooms) + '</td><td>' + display(row.sqft_range[0]) + '–' + display(row.sqft_range[1]) + ' sq ft</td><td>' + badge(row) + '</td></tr>';
     });
@@ -241,7 +277,10 @@
       return '<tr><td>' + display(row.band[0], 'rate') + '–' + display(row.band[1], 'rate') + '</td><td>' + display(row.count) + '</td><td>' + badge(row) + '</td></tr>';
     });
     var partnerRows = scenario.partners.map(function (row) {
-      return '<tr><td>' + escape(humanize(row.role)) + '</td><td>' + display(row.name || row.provider_id) + '</td><td>candidate — no commitment</td><td>' + badge(row) + '</td></tr>';
+      // The candidates are the example town's organisations. Elsewhere they
+      // would read as local partners, so only the role is carried over.
+      var candidate = atHome ? display(row.name || row.provider_id) : 'None identified for ' + escape(jurisdictionLabel);
+      return '<tr><td>' + escape(humanize(row.role)) + '</td><td>' + candidate + '</td><td>candidate — no commitment</td><td>' + badge(row) + '</td></tr>';
     });
     var project = '<section><h2>1. Project summary</h2>' + plain('the example project being screened: how many homes, what sizes, how many are priced for each income group, and who might build and run it. The project is an example; the market figures in section 2 are for the jurisdiction named here.') + '<p><strong>Jurisdiction:</strong> ' + escape(jurisdictionLabel) + '</p><p><strong>Total homes:</strong> ' + display(scenario.program.total_units.value) + ' ' + badge(scenario.program.total_units) + '</p><p><strong>Home type:</strong> ' + display(scenario.program.tenure_form.value) + ' ' + badge(scenario.program.tenure_form) + '</p><h3>Unit mix and sizes</h3>' + table(['Homes', 'Bedrooms', 'Size', 'Where the number comes from'], mixRows) + '<h3>Homes by income group</h3>' + table(['Income group (AMI band)', 'Homes', 'Where the number comes from'], amiRows) + '<h3>Partners</h3>' + table(['Role', 'Candidate', 'Status', 'Where the number comes from'], partnerRows) + '<p class="warning"><strong>Not the same agency:</strong> ' + FHA + '. The first is the local housing authority named as a possible land owner; the second is the federal agency that insures some home mortgages. They are different bodies.</p></section>';
 
@@ -249,7 +288,7 @@
       return '<tr><td>' + display(row.band[0], 'rate') + '–' + display(row.band[1], 'rate') + '</td><td>' + display(row.count) + '</td><td>' + display(row.maxAffordablePrice, 'money') + '</td><td>' + display(row.gapVsLocalPrice, 'money') + '</td><td>' + (ASSISTANCE_ANSWERS[row.assistanceRangeCheck] || escape(row.assistanceRangeCheck)) + '</td><td>' + badge(row) + '</td></tr>';
     });
     var selectedOutcome = model.selectedConvention.results[model.selectedYear];
-    var affordability = '<section><h2>2. Affordability &amp; gap</h2>' + plain('for each income group, the most a household in the middle of that group could pay — counting the mortgage payment, property taxes, homeowner\'s insurance and mortgage insurance — and how far that falls short of the typical local home value (the gap). The last money column asks whether the down-payment help assumed for the example project could close the gap; that help is an example assumption, not a list of programs available in this jurisdiction.') + '<p><strong>Typical local home value:</strong> ' + display(baseline.home_value.value, 'money') + ' — ' + escape(baseline.home_value.source || 'owner input required') + ' (' + badge(baseline.home_value) + ')</p>' + table(['Income group (AMI band)', 'Homes', 'Most they could pay', 'Gap to typical home value', 'Could the example\'s down-payment help close it?', 'Where the number comes from'], bandRows) + '<p><strong>Income the next buyer would need at resale (year ' + escape(model.selectedYear) + ', ' + escape(model.selectedConvention.conventionLabel) + ' formula):</strong> ' + display(selectedOutcome.futureBuyerIncomeNeeded, 'money') + ' ' + badge(selectedOutcome) + '</p></section>';
+    var affordability = '<section><h2>2. Affordability &amp; gap</h2>' + plain('for each income group, the most a household in the middle of that group could pay — counting the mortgage payment, property taxes, homeowner\'s insurance and mortgage insurance — and how far that falls short of the typical local home value (the gap). The last money column asks whether the down-payment help assumed for the example project could close the gap; that help is an example assumption, not a list of programs available in this jurisdiction.') + '<p><strong>Typical local home value:</strong> ' + display(baseline.home_value.value, 'money') + ' — ' + escape(baseline.home_value.source || 'owner input required') + ' (' + badge(baseline.home_value) + ')</p>' + table(['Income group (AMI band)', 'Homes', 'Most they could pay', 'Gap to typical home value', 'Could the example\'s down-payment help close it?', 'Where the number comes from'], bandRows) + exampleNote + '<p><strong>Income the next buyer would need at resale (year ' + escape(model.selectedYear) + ', ' + escape(model.selectedConvention.conventionLabel) + ' formula):</strong> ' + display(selectedOutcome.futureBuyerIncomeNeeded, 'money') + ' ' + badge(selectedOutcome) + '</p></section>';
 
     var costs = Object.keys(scenario.costs).map(function (key) {
       var item = scenario.costs[key];
@@ -266,14 +305,14 @@
       }).join('');
       return '<article><h3>' + escape(item.row.label) + '</h3><p>' + (item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong> — an idea to check, not a finding' : '') + '</p><p>Upfront price reduction per home: ' + display(item.row.initialPerUnitAffordabilityBenefit, 'money') + '</p><p>Monthly housing cost at year 5: ' + display(item.lifecycle.results[5].monthlyHousingCost, 'money') + ' ' + badge(item.lifecycle) + '</p><ul>' + checks + '</ul></article>';
     }).join('');
-    var land = '<section><h2>4. Land disposition</h2>' + plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Monthly housing cost is what the buyer would pay each month in year 5.') + '<p>The options are listed in a fixed order; the order does not mean one is better. Dollar figures use the same example assumptions for every option.</p>' + landCards + '<p class="warning">Property taxes on retained land: whether a buyer is taxed only on the house, not the land, while the housing authority still owns the land must be confirmed with the county assessor and an attorney.</p></section>';
+    var land = '<section><h2>4. Land disposition</h2>' + plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Monthly housing cost is what the buyer would pay each month in year 5.') + '<p>The options are listed in a fixed order; the order does not mean one is better. Dollar figures use the same example assumptions for every option.</p>' + exampleNote + landCards + '<p class="warning">Property taxes on retained land: whether a buyer is taxed only on the house, not the land, while the housing authority still owns the land must be confirmed with the county assessor and an attorney.</p></section>';
 
     var conventionRows = model.conventionResults.map(function (result) {
       var outcome = result.results[model.selectedYear];
       return '<tr><td>' + escape(result.conventionLabel) + '</td><td>' + display(outcome.ownerNetProceeds, 'money') + '</td><td>' + yesNo(outcome.preservesAffordability, outcome.preservesAffordabilityLabel) + '</td><td>' + badge(result, false) + '</td><td>' + escape(result.scenarioLabel) + '</td></tr>';
     });
     var warning = model.settlement.ownerNetTransparencyWarning ? '<p class="warning"><strong>Owner-net transparency warning:</strong> ' + escape(model.settlement.ownerNetTransparencyNote) + '</p>' : '';
-    var equity = '<section><h2>5. Shared equity &amp; settlement</h2>' + plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the third column checks whether it does, ' + escape(model.selectedYear) + ' years after purchase. The market path sets one yearly rate that home values, incomes and inflation all follow.') + table(['Resale formula', 'Seller walks away with (net proceeds)', 'Still affordable to the next buyer?', 'Where the number comes from', 'Market path'], conventionRows) + '<h3>Where the money goes in one sale</h3>' + plain('when the home sells, selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. Public subsidy recaptured is public money paid back at the sale; public subsidy retained stays in the home rather than being paid back.') + '<p>' + escape(model.settlement.scenarioLabel) + ' ' + badge(model.settlement) + '</p><p>Public subsidy retained in home: <strong>' + display(model.settlement.publicSubsidyRetainedInHome, 'money') + '</strong></p><p>Public subsidy recaptured at sale: <strong>' + display(model.settlement.publicSubsidyRecapturedAtSale, 'money') + '</strong></p><p>Owner net proceeds: <strong>' + display(model.settlement.ownerNetProceeds, 'money') + '</strong></p><p>' + TRANSPARENCY + (model.settlement.ownerNetTransparencyWarning ? '' : ' No such warning applies to this sale.') + '</p>' + warning + '</section>';
+    var equity = '<section><h2>5. Shared equity &amp; settlement</h2>' + plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the third column checks whether it does, ' + escape(model.selectedYear) + ' years after purchase. The market path sets one yearly rate that home values, incomes and inflation all follow.') + exampleNote + table(['Resale formula', 'Seller walks away with (net proceeds)', 'Still affordable to the next buyer?', 'Where the number comes from', 'Market path'], conventionRows) + '<h3>Where the money goes in one sale</h3>' + plain('when the home sells, selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. Public subsidy recaptured is public money paid back at the sale; public subsidy retained stays in the home rather than being paid back.') + '<p>' + escape(model.settlement.scenarioLabel) + ' ' + badge(model.settlement) + '</p><p>Public subsidy retained in home: <strong>' + display(model.settlement.publicSubsidyRetainedInHome, 'money') + '</strong></p><p>Public subsidy recaptured at sale: <strong>' + display(model.settlement.publicSubsidyRecapturedAtSale, 'money') + '</strong></p><p>Owner net proceeds: <strong>' + display(model.settlement.ownerNetProceeds, 'money') + '</strong></p><p>' + TRANSPARENCY + (model.settlement.ownerNetTransparencyWarning ? '' : ' No such warning applies to this sale.') + '</p>' + warning + '</section>';
 
     var funnelRows = model.funnel.stages.map(function (stage) {
       return '<tr><td>' + escape(stage.id === 'observed_base' ? 'Starting pool' : plainLabel('stages', stage.id)) + '</td><td>' + display(stage.share, 'rate') + '</td><td>' + display(stage.outputCount) + '</td><td>' + escape(stage.label || '') + '</td><td>' + escape(stage.basis) + '</td><td>' + badge(stage) + '</td></tr>';
@@ -313,9 +352,9 @@
       '</dl></section>';
     var vintages = '<ul><li>Scenario: ' + escape(meta.vintages.scenario) + '</li><li>Home value: ' + escape(meta.vintages.homeValue) + '</li><li>Resale conventions: ' + escape(meta.vintages.conventions) + '</li></ul>';
     var verdict = verdictSection(model);
-    var content = '<article class="report"><header><h1>Fruita Commons — For-Sale Fundamental Market Study</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '<div class="how-to-read"><h2>How to read this report</h2><p>This is a first screen of whether a proposed group of price-restricted homes for sale could work in this market: could local working households afford them, would enough of them buy, and what happens to the price when an owner later sells. It is not a completed market study.</p><p>Each number carries a label saying where it comes from — see section 9. <strong>Owner input required</strong> marks a number that still has to come from the project sponsor or from local evidence; the report leaves it blank rather than guess. Each section opens with an <strong>In plain terms</strong> summary, and section 10 explains the terms used.</p></div></header>' + verdict + project + affordability + costSection + land + equity + demand + capture + validation + legend + glossary + '<footer><strong>' + BANNER + '</strong></footer></article>';
+    var content = '<article class="report"><header><h1>' + escape(title) + '</h1><p class="banner"><strong>' + BANNER + '</strong></p><p><strong>As of:</strong> ' + escape(meta.asOf) + '</p><h2>Data vintages</h2>' + vintages + '<div class="how-to-read"><h2>How to read this report</h2><p>This is a first screen of whether a proposed group of price-restricted homes for sale could work in this market: could local working households afford them, would enough of them buy, and what happens to the price when an owner later sells. It is not a completed market study.</p><p>Each number carries a label saying where it comes from — see section 9. <strong>Owner input required</strong> marks a number that still has to come from the project sponsor or from local evidence; the report leaves it blank rather than guess. Each section opens with an <strong>In plain terms</strong> summary, and section 10 explains the terms used.</p></div></header>' + verdict + project + affordability + costSection + land + equity + demand + capture + validation + legend + glossary + '<footer><strong>' + BANNER + '</strong></footer></article>';
     assertComplete(content);
-    return Object.freeze({ title: 'Fruita Commons — For-Sale Fundamental Market Study', asOf: meta.asOf, content: content });
+    return Object.freeze({ title: title, asOf: meta.asOf, content: content });
   }
 
   function renderReportPreview(report) {
@@ -332,6 +371,10 @@
     REQUIRED_CAVEATS: REQUIRED_CAVEATS,
     PLAIN_LABELS: PLAIN_LABELS,
     humanize: humanize,
+    exampleInputsLabel: exampleInputsLabel,
+    exampleInputsDetail: exampleInputsDetail,
+    isExampleJurisdiction: isExampleJurisdiction,
+    reportTitle: reportTitle,
     plainBasis: plainBasis,
     plainReason: plainReason,
     formatSchedule: formatSchedule,
