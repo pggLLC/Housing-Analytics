@@ -8187,14 +8187,25 @@
    * TransitZone.designation(), so it never reads as an eligibility finding.
    * Missing, stale or unmatched data renders "Unavailable" with the reason.
    */
+  var _transitZoneRenderSeq = 0;
   function renderTransitZonePanel(geoid, now) {
     var mount = document.getElementById('hnaTransitZoneContent');
     if (!mount) return Promise.resolve(null);
     now = (now && typeof now.getTime === 'function') ? now : new Date();
+    // The panel says which geography it is showing (data-tz-geoid) and is
+    // cleared the moment another is asked for, so an export taken mid-load
+    // cannot pass off the previous place's figures as this one's. Only the
+    // latest request may write: a slow earlier fetch never overwrites it.
+    var seq = ++_transitZoneRenderSeq;
+    mount.innerHTML = '<p class="hna-tz__loading">Loading transit zone figures\u2026</p>';
+    mount.setAttribute('data-tz-state', 'loading');
+    mount.setAttribute('data-tz-geoid', String(geoid == null ? '' : geoid));
+    mount.removeAttribute('data-tz-radius');
+    mount.removeAttribute('data-tz-stops-generated');
     function unavailable(reason) {
+      if (seq !== _transitZoneRenderSeq) return null;
       mount.innerHTML = '<p class="hna-tz__unavailable"><strong>Unavailable.</strong> ' + escHtml(reason) + '</p>';
       mount.setAttribute('data-tz-state', 'unavailable');
-      mount.removeAttribute('data-tz-radius');
       return null;
     }
     var TZ = window.TransitZone;
@@ -8208,6 +8219,7 @@
       // Every figure, label and reason comes from TransitZone.areaSummary —
       // the same summary the recommendation, the for-sale study and the
       // exports read — so this panel cannot disagree with them.
+      if (seq !== _transitZoneRenderSeq) return null;   // superseded
       var tz = TZ.areaSummary(parts[0], geoid, parts[1], now);
       if (tz.status !== 'ok') {
         return unavailable(tz.unavailableCode === 'not_covered' || tz.unavailableCode === 'no_geography'

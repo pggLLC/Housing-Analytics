@@ -210,6 +210,33 @@ test('a measured share never prints as 0% or 100%', () => {
   }));
 });
 
+test('the panel names its geography, and a slow earlier request never overwrites a newer one', () => {
+  // The controller does not await the panel, so a quick switch A → B can
+  // resolve B first and A second. A must not land on top of B.
+  const [a, b] = Object.keys(data.geographies).filter((g) => !data.geographies[g].unavailableReason).slice(0, 2);
+  const gates = [];
+  const w = page((url) => new Promise((resolve) => gates.push(() =>
+    resolve({ ok: true, json: () => Promise.resolve(JSON.parse(read(url))) }))));
+  const el = w.document.getElementById('hnaTransitZoneContent');
+  const first = w.HNARenderers.renderTransitZonePanel(a, FRESH);
+  assert.equal(el.getAttribute('data-tz-state'), 'loading');
+  assert.equal(el.getAttribute('data-tz-geoid'), a);
+  const firstGates = gates.splice(0);
+  const second = w.HNARenderers.renderTransitZonePanel(b, FRESH);
+  assert.equal(el.getAttribute('data-tz-geoid'), b, 'a new request did not claim the panel');
+  gates.splice(0).forEach((open) => open());           // B resolves first
+  return second.then(() => {
+    assert.equal(el.getAttribute('data-tz-state'), 'ok');
+    const shown = el.querySelector('[data-tz="share"]').textContent;
+    firstGates.forEach((open) => open());              // then the stale A
+    return first.then(() => {
+      assert.equal(el.getAttribute('data-tz-geoid'), b);
+      assert.equal(el.querySelector('[data-tz="share"]').textContent, shown, 'the earlier request overwrote the panel');
+      assert.ok(shown.includes(data.geographies[b].name), 'the panel does not show the newer geography');
+    });
+  });
+});
+
 test('private shuttle pickups never reach the figures', () => {
   const src = read('scripts/market/build_transit_zone_by_geography.py');
   assert.match(src, /"operator"\) == "private_shuttle":\s*\n\s*continue/, 'the builder counts private shuttle pickups');

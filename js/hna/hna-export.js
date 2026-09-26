@@ -342,9 +342,19 @@
   // TransitZone.areaSummary, the same summary the recommendation uses — so
   // the export shows the page's figures, rounding and designation note, and
   // an unrendered or unavailable panel exports its reason, never a 0%.
-  function _transitZoneFromPanel() {
+  function _transitZoneFromPanel(geoid) {
     var mount = document.getElementById('hnaTransitZoneContent');
     var state = mount ? mount.getAttribute('data-tz-state') : null;
+    // A panel still showing (or loading) another geography is not this
+    // report's: its figures would print under this place's name.
+    if (mount && state && String(mount.getAttribute('data-tz-geoid') || '') !== String(geoid || '')) {
+      return { state: 'other_geography', radiusMiles: null,
+        unavailableReason: 'The transit zone panel had not loaded for this geography when exported.' };
+    }
+    if (state === 'loading') {
+      return { state: 'loading', radiusMiles: null,
+        unavailableReason: 'The transit zone panel was still loading when exported.' };
+    }
     if (state !== 'ok') {
       var shown = mount && state === 'unavailable'
         ? String(mount.textContent || '').replace(/^\s*Unavailable\.\s*/, '').trim() : '';
@@ -698,7 +708,7 @@
         ddaUnavailableReason: /^(unavailable|not available)$/i.test(ddaText)
           ? (_elText('statDdaNote') || _overlayReason('layerDda') || 'HUD DDA data did not load, so DDA status is unknown here.') : null,
       },
-      transitZone: _transitZoneFromPanel(),
+      transitZone: _transitZoneFromPanel(geoid),
       dataQuality: idxRec ? {
         approximatedFields:  (idxRec.dataQuality && idxRec.dataQuality.approximated_fields) || [],
         approximationBasis:  (idxRec.dataQuality && idxRec.dataQuality.approximation_basis) || null,
