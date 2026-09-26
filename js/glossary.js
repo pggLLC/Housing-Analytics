@@ -275,6 +275,13 @@
       // CHFA definitions spliced into them.
       if (parent.closest && parent.closest('.no-glossary')) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
+      // A term's one definition per section went to its first use even when
+      // that use was not on screen. On market-analysis.html LIHTC's went to
+      // a collapsed map legend and LODES's to a closed method tab, leaving
+      // 29 visible LIHTC and every visible LODES in the PMA tool undefined.
+      // Skip text that is not rendered, so the first VISIBLE use carries it;
+      // the observer below re-sweeps when a hidden panel is opened.
+      if (!isRendered(parent)) return;
 
       var text = node.nodeValue;
       var changed = false;
@@ -345,6 +352,21 @@
    * FILTER_REJECT skips the node and everything under it; FILTER_SKIP would
    * only skip the node itself and keep descending, which is the bug.
    */
+  /*
+   * Whether an element is on screen. With a layout engine (a real browser)
+   * an unrendered element has no client rects: display:none from any
+   * source, [hidden], a closed <details>. Without one (jsdom) nothing has
+   * rects, so fall back to the [hidden] attribute alone, and never report
+   * the whole page as hidden.
+   */
+  function isRendered(el) {
+    if (!el || el.nodeType !== 1) return true;
+    var body = document.body;
+    var hasLayout = body && typeof body.getClientRects === 'function' && body.getClientRects().length > 0;
+    if (hasLayout) return el.getClientRects().length > 0;
+    return !(el.closest && el.closest('[hidden]'));
+  }
+
   function walkTextNodes(root, callback) {
     var filter = {
       acceptNode: function (node) {
@@ -447,8 +469,11 @@
           if (mutating) return;
           for (var i = 0; i < records.length; i++) {
             if (records[i].addedNodes && records[i].addedNodes.length) { scheduleSweep(); return; }
+            // A tab or <details> opening reveals text the sweep skipped as
+            // unrendered (see isRendered).
+            if (records[i].type === 'attributes') { scheduleSweep(); return; }
           }
-        }).observe(host, { childList: true, subtree: true });
+        }).observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'open'] });
       }
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         start();

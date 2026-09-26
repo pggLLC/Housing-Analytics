@@ -72,9 +72,9 @@ test('the scenario table divides by the denominator it is given', () => {
   const acs = { renter_hh: 991 };
   const list = ENH.defaultScenarios(100);
   const withDen = ENH.generateScenarios(acs, 0, list, 598);
-  assert.strictEqual(withDen[0].captureRate, Math.round(100 / 598 * 1000) / 10,
-    `baseline reads ${withDen[0].captureRate}%, not 100 / 598`);
-  assert.strictEqual(withDen[0].captureRate, simulateCapture(598, 100, { ami60: 100 }).captureRate,
+  assert.strictEqual(withDen[0].proposedProjectCaptureRate, Math.round(100 / 598 * 1000) / 10,
+    `baseline reads ${withDen[0].proposedProjectCaptureRate}%, not 100 / 598`);
+  assert.strictEqual(withDen[0].proposedProjectCaptureRate, simulateCapture(598, 100, { ami60: 100 }).captureRate,
     'the scenario baseline and the simulator disagree for the same units and denominator');
   delete global.window;
 });

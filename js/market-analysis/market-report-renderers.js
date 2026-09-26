@@ -247,11 +247,30 @@
         _metricRow('Renter Share',         _fmtPct(acs.renter_share)) +
         _metricRow('Median HH Income',     _fmtCur(acs.med_hh_income)) +
         _metricRow('Median Gross Rent',    _fmtCur(acs.med_gross_rent)) +
+        _suppressedMedianNote(acs) +
         _metricRow('Unemployment Rate',    _fmtPct(acs.unemployment_rate)) +
       '</div>'
     );
 
     _render('maMarketDemandContent', html);
+  }
+
+  /**
+   * The tract medians above are averages over the tracts ACS published a
+   * median for. A suppressed tract is left out rather than counted as $0,
+   * and this line says how many were left out.
+   * @private
+   */
+  function _suppressedMedianNote(acs) {
+    var r = Number(acs.med_gross_rent_excluded_tracts) || 0;
+    var i = Number(acs.med_hh_income_excluded_tracts) || 0;
+    if (!r && !i) return '';
+    var parts = [];
+    if (r) parts.push(r + ' tract' + (r === 1 ? '' : 's') + ' for median rent');
+    if (i) parts.push(i + ' tract' + (i === 1 ? '' : 's') + ' for median income');
+    return '<div class="ma-suppressed-median-note" style="font-size:.68rem;color:var(--faint);font-style:italic;">' +
+      'ACS suppressed the median in ' + parts.join(' and ') +
+      '; those tracts are left out of the average, not counted as $0.</div>';
   }
 
   /** @private */
@@ -303,15 +322,27 @@
       return yr >= now - 10;
     }).length;
 
-    // Count projects by estimated pipeline stage.
+    // Count projects by pipeline stage — the same classifier the pipeline
+    // card uses (PMAEnhancements.classifyPipelineStage): CHFA compliance
+    // status where the record has one, so an operating property ("Active
+    // Compliance") is never counted as pipeline; the award-year rule only
+    // for records without a status.
     var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
+    var ENH = window.PMAEnhancements;
+    var STG = ENH && ENH.PIPELINE_STAGES;
     lihtcData.forEach(function (f) {
       var p = (f && f.properties) ? f.properties : f;
-      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
-      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
-      else if (yrNum >= now - 1) { stageCounts.Construction++; }
-      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
-      else { stageCounts['Pre-Permit']++; }
+      if (ENH && typeof ENH.classifyPipelineStage === 'function') {
+        var st = ENH.classifyPipelineStage(p, now).stage;
+        if (st === STG.construction) stageCounts.Construction++;
+        else if (st === STG.entitled) stageCounts.Entitled++;
+        else if (st === STG.prePermit) stageCounts['Pre-Permit']++;
+        else stageCounts.Complete++;
+        return;
+      }
+      // Enhancements module absent: with no way to read compliance status
+      // consistently, count nothing as pipeline rather than guess.
+      stageCounts.Complete++;
     });
 
     var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
@@ -323,7 +354,7 @@
           (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
           (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
           (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
-          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stage from CHFA compliance status where available (operating properties excluded); otherwise estimated from award year. Verify with local planning records.</div>' +
         '</div>'
       );
     }

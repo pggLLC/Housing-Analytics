@@ -656,6 +656,22 @@ def build_acs_metrics(centroids: dict) -> dict:
         except (TypeError, ValueError):
             return 0
 
+    def safe_median(v):
+        """Dollar median, or None when ACS did not publish one.
+
+        ACS reports a suppressed or unmeasurable median as a negative
+        sentinel (-666666666, -888888888, ...) or an empty cell. safe_int()
+        turns those into 0, and a $0 median rent or income is not a value:
+        98 Colorado tracts carried median_gross_rent 0 this way (Denver
+        08031001000, with 888 renter households), and the PMA buffer
+        averaged the zeros in. A median of exactly 0 is unmeasured, not free.
+        """
+        try:
+            n = int(float(v))
+        except (TypeError, ValueError):
+            return None
+        return n if n > 0 else None
+
     tracts = []
     for row in rows[1:]:
         state_fips = row[idx.get("state", -1)] if "state" in idx else STATE_FIPS
@@ -748,8 +764,8 @@ def build_acs_metrics(centroids: dict) -> dict:
             "owner_hh":             owner_hh,
             "vacant":               vacant,
             "total_hh":             total_hh,
-            "median_gross_rent":    safe_int(row[idx.get("B25064_001E", -1)]),
-            "median_hh_income":     safe_int(row[idx.get("B19013_001E", -1)]),
+            "median_gross_rent":    safe_median(row[idx.get("B25064_001E", -1)]),
+            "median_hh_income":     safe_median(row[idx.get("B19013_001E", -1)]),
             "cost_burden_rate":     cb_rate,
             "severe_cost_burden_rate": severe_rate,
             "poverty_rate":         pov_rate,
@@ -788,8 +804,8 @@ def _acs_meta() -> dict:
             "owner_hh":          "B25003_002E — Owner-occupied housing units",
             "vacant":            "B25004_001E — Vacant housing units (total)",
             "total_hh":          "B25003_001E — Total occupied housing units",
-            "median_gross_rent": "B25064_001E — Median gross rent ($)",
-            "median_hh_income":  "B19013_001E — Median household income ($)",
+            "median_gross_rent": "B25064_001E — Median gross rent ($); null when ACS suppressed the estimate, never 0",
+            "median_hh_income":  "B19013_001E — Median household income ($); null when ACS suppressed the estimate, never 0",
             "cost_burden_rate":  "Derived: B25070 pct paying 30%+ of income on rent",
             "vacancy_rate":      "Derived: vacant / (total_hh + vacant) — TOTAL vacancy, includes seasonal/recreational units",
             "vacant_for_rent":   "B25004_002E — Vacant housing units: for rent",

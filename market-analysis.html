@@ -749,7 +749,7 @@
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
                 <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
-                <dt>Capture rate</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
+                <dt>Existing affordable penetration</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. It is not a capture rate: the simulator's proposed-project capture divides only the proposed units by that denominator. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
             </div>
@@ -769,7 +769,7 @@
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
-              <div class="pma-stat-label">Capture rate (existing affordable)</div>
+              <div class="pma-stat-label">Existing affordable penetration</div>
               <div class="pma-stat-note" id="pmaCaptureDenominator" data-denominator="" style="font-size:var(--tiny);color:var(--muted)"></div>
               <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS</a></div>
             </div>
@@ -860,7 +860,7 @@
         <!-- Capture-rate Simulator -->
         <div class="pma-card">
           <h2>Capture-rate Simulator</h2>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate capture rate (CHFA-style).</p>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate proposed-project capture (CHFA-style: proposed units ÷ qualified renter households).</p>
           <div class="pma-ami-grid">
             <div class="pma-ami-field">
               <label for="pmaProposedUnits">Total proposed units</label>
@@ -1541,7 +1541,7 @@
     tips: [
       'LIHTC applications to CHFA require a PMA study — this tool helps you prepare the data.',
       'QCT and DDA designations are automatically detected and noted in the report — they affect your eligible basis.',
-      'A high capture rate (>35%) is a red flag — it suggests the market may already be saturated with affordable units.',
+      'A high proposed-project capture (>35%) is a red flag — the project would have to lease to too large a share of the qualified renters. A high existing affordable penetration suggests the market may already be saturated with affordable units.',
     ]
   });
 </script>
