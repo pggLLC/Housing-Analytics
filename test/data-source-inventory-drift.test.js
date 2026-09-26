@@ -173,6 +173,15 @@ assert.throws(
   assert(gate > resync, 'the post-merge job must verify the re-synced counts before committing');
   assert(/git checkout -- [^\n]*js\/data-source-inventory\.js/.test(postMerge),
     'an unverified post-merge refresh must also restore js/data-source-inventory.js');
+
+  // PRs regenerate the same manifest without committing generated output.
+  // H2 adds 66 data files: leaving the old count behind fails before pytest.
+  const ci = fs.readFileSync(path.join(ROOT, '.github/workflows/ci-checks.yml'), 'utf8');
+  const ciRebuild = ci.indexOf('python3 scripts/rebuild_manifest.py');
+  const ciResync = ci.indexOf('node scripts/audit/refresh-inventory-mtimes.mjs');
+  const ciGate = ci.indexOf('run: npm run test:ci');
+  assert(ciRebuild > 0 && ciResync > ciRebuild && ciGate > ciResync,
+    'PR CI must re-sync generated inventory counts after rebuilding manifests and before the drift gate');
 }
 
 console.log(`data-source-inventory drift: PASS (${sources.length} sources reconciled)`);

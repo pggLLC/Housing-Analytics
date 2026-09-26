@@ -1,0 +1,26 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08079",
+      "level": "county",
+      "name": "Mineral County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0814765",
+      "level": "municipal",
+      "name": "City of Creede (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}
