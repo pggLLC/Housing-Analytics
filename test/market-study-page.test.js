@@ -221,11 +221,30 @@ EffectiveDemand.STAGE_IDS.forEach((id) => {
 });
 const directResolved = Page.buildModel(data, { assumptions: shares });
 assert.strictEqual(typeof directResolved.funnel.effectiveDemand, 'number');
-assert(text(interactive.mount.querySelector('#ms-s5')).includes(directResolved.funnel.effectiveDemand.toLocaleString('en-US', { maximumFractionDigits: 3 })));
+// Household counts render as whole households; the engine value keeps its
+// precision. The page shows the engine's figure, rounded, nothing else.
+assert(text(interactive.mount.querySelector('#ms-s5')).includes(Math.round(directResolved.funnel.effectiveDemand).toLocaleString('en-US')));
 const directThirty = directResolved.capture.scenarios.find((item) => item.selloutMonths === 30);
 assert(text(interactive.mount.querySelector('#ms-s6')).includes(
-  directThirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })
+  'denominator: ' + Math.round(directThirty.totalProjectPenetration.denominator.value).toLocaleString('en-US') + ' '
 ));
+{
+  // Every "Households left" cell is a whole number, and equals the engine's
+  // count rounded — agreement with the funnel, not a pinned string.
+  const stages = directResolved.funnel.stages;
+  const cells = Array.from(interactive.mount.querySelectorAll('#ms-s5 tbody tr')).map((tr) =>
+    (tr.querySelector('td:first-child').textContent === 'Starting pool' ? tr.children[1] : tr.children[2]).textContent.trim());
+  assert.strictEqual(cells.length, stages.length, 'the funnel table lost rows');
+  assert(stages.some((stage) => typeof stage.outputCount === 'number' && !Number.isInteger(stage.outputCount)),
+    'no fractional household count in the fixture, so the rounding check would pass vacuously');
+  stages.forEach((stage, i) => {
+    assert(!/\d\.\d/.test(cells[i]), `funnel row ${i} shows a fractional household count: ${cells[i]}`);
+    if (typeof stage.outputCount === 'number') {
+      assert.strictEqual(cells[i], Math.round(stage.outputCount).toLocaleString('en-US'),
+        `funnel row ${i}: page shows ${cells[i]} for ${stage.outputCount} households`);
+    }
+  });
+}
 assert(interactive.mount.querySelectorAll('#ms-s6 .ms-denominator').length > 0);
 const s6Html = interactive.mount.querySelector('#ms-s6').innerHTML;
 const evenSchedule = '≈2.08 / month × 24 months (total 50)';
@@ -233,7 +252,7 @@ assert.strictEqual(Report.formatSchedule(directResolved.capture.scenarios.find((
 assert.strictEqual(Report.formatSchedule([1, 1.2345, 47.7655], 50), 'total 50 — 1 · 1.23 · 47.77');
 assert(s6Html.includes(evenSchedule));
 assert(s6Html.includes('25 · 25'));
-assert.strictEqual(Report.formatAnnualCapture([{ value: 0.849, denominator: { value: 29.46 } }]), 'Year 1: 84.9% — pool 29.46');
+assert.strictEqual(Report.formatAnnualCapture([{ value: 0.849, denominator: { value: 29.46 } }]), 'Year 1: 84.9% — pool 29');
 assert(s6Html.includes('Year 1:'));
 assert(s6Html.includes('Year 2:'));
 assert(!/\d\.\d{4,}/.test(s6Html), 'S6 must not expose floating-point noise');

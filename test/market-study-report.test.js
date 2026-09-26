@@ -134,7 +134,10 @@ EffectiveDemand.STAGE_IDS.forEach((id) => { shares[id] = id === 'contract_fallou
 const resolved = Page.buildModel(data, { assumptions: shares });
 const resolvedReport = Report.buildReport(resolved, meta);
 const thirty = resolved.capture.scenarios.find((item) => item.selloutMonths === 30);
-const denominator = thirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 });
+// A buyer-pool denominator is a count of households: shown whole.
+const denominator = 'denominator: ' + Math.round(thirty.totalProjectPenetration.denominator.value).toLocaleString('en-US') + ' ';
+assert(!Number.isInteger(thirty.totalProjectPenetration.denominator.value),
+  'the fixture pool is a whole number, so the rounding assertion would pass vacuously');
 assert(Report.renderReportPreview(resolvedReport).includes(denominator));
 assert(Report.renderReportHtml(resolvedReport).includes(denominator));
 const resolvedPreview = Report.renderReportPreview(resolvedReport);
@@ -171,7 +174,20 @@ assert(preview.includes('0 of ' + (model.funnel.stages.length - 1) + ' demand-fu
 
 const resolvedVerdictPreview = Report.renderReportPreview(resolvedReport);
 assert(resolvedVerdictPreview.indexOf(verdictHeading) < resolvedVerdictPreview.indexOf('1. Project summary'));
-assert(resolvedVerdictPreview.includes('Effective demand: ' + resolved.funnel.effectiveDemand.toLocaleString('en-US', { maximumFractionDigits: 3 }) + ' households'));
+assert(resolvedVerdictPreview.includes('Effective demand: ' + Math.round(resolved.funnel.effectiveDemand).toLocaleString('en-US') + ' households'));
+// No household count anywhere in the report carries a fraction: every
+// "N households" and every "pool N" is a whole number.
+{
+  const counts = (resolvedVerdictPreview.match(/[\d,.]+(?= households)|(?<=pool )[\d,.]+/g) || []);
+  assert(counts.length >= 3, 'the household-count scan found too little to check');
+  counts.forEach((count) => assert(!/\.\d/.test(count), 'fractional household count in the report: ' + count));
+  const demandDoc = new JSDOM(resolvedVerdictPreview).window.document;
+  const demandSection = Array.from(demandDoc.querySelectorAll('section')).find((s) => s.querySelector('h2') && s.querySelector('h2').textContent.startsWith('6. Demand'));
+  const left = Array.from(demandSection.querySelectorAll('tbody tr td:nth-child(3)')).map((td) => td.textContent.trim());
+  assert.strictEqual(left.length, resolved.funnel.stages.length);
+  resolved.funnel.stages.forEach((stage, i) => assert.strictEqual(left[i], Math.round(stage.outputCount).toLocaleString('en-US'),
+    `report funnel row ${i} shows ${left[i]} for ${stage.outputCount} households`));
+}
 assert(resolvedVerdictPreview.includes(resolved.scenario.program.total_units.value + '-unit program'));
 assert(resolvedVerdictPreview.includes('would need to capture'));
 assert(resolvedVerdictPreview.includes(denominator), 'verdict penetration figure must match the same denominator section 7 uses');
