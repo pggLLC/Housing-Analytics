@@ -166,16 +166,15 @@ function render(TA, opts) {
   for (const j of inventory.jurisdictions) {
     const geoids = (j.geoKeys || []).map((k) => k.split(':')[1]);
     if (geoids.length < 2) continue;
-    for (const p of (j.programs || []).filter((x) => x.category === 'fee-waiver' && (x.fee_reductions_ids || []).length)) {
-      for (const g of geoids) {
-        const box = { innerHTML: '' };
-        TA.attach(box, { geoKey: 'place:' + g, jurisName: g });
-        await new Promise((r) => setTimeout(r, 20));
-        const shown = [...box.innerHTML.matchAll(/data-fee-entry="([^"]+)"/g)].map((m) => m[1]);
-        shown.forEach((id) => assert.strictEqual(byId.get(id).geoid, g,
-          `${j.name}: selecting ${g} shows ${id}, which belongs to ${byId.get(id).geoid}`));
-        sharedChecked++;
-      }
+    if (!(j.programs || []).some((x) => x.category === 'fee-waiver' && (x.fee_reductions_ids || []).length)) continue;
+    for (const g of geoids) {
+      const box = { innerHTML: '' };
+      TA.attach(box, { geoKey: 'place:' + g, jurisName: g });
+      await new Promise((r) => setTimeout(r, 20));
+      const shown = [...box.innerHTML.matchAll(/data-fee-entry="([^"]+)"/g)].map((m) => m[1]);
+      shown.forEach((id) => assert.strictEqual(byId.get(id).geoid, g,
+        `${j.name}: selecting ${g} shows ${id}, which belongs to ${byId.get(id).geoid}`));
+      sharedChecked++;
     }
   }
   assert.ok(sharedChecked >= 4, `only ${sharedChecked} shared-row selections checked`);
