@@ -56,6 +56,12 @@ assert.ok(compared.length > 0, 'the TOD check compares no stop property — the 
 for (const [k, v] of compared) {
   assert.ok(values[k] && values[k].has(v), `the TOD check compares ${k} to '${v}', a value no stop in ${dmbUrl} has`);
 }
+// Private shuttle pickups are mapped but are not public transit: the TOD check
+// must skip them, using the operator value the builder actually writes.
+assert.match(todFn, /f\.properties\.operator === 'private_shuttle'\) return;/, 'the TOD check counts private shuttle pickups as transit');
+assert.match(builder_src(), /"private_shuttle" if agency in PRIVATE_OPERATORS/, 'the builder no longer marks private shuttles');
+function builder_src() { return read('scripts/market/build_transit_stops_co.py'); }
+
 // And the value it singles out must be the one the builder writes for OSM-only stops.
 const builder = read('scripts/market/build_transit_stops_co.py');
 assert.match(builder, /\["osm"\], "unconfirmed"/, 'the builder no longer marks OpenStreetMap-only stops "unconfirmed"');
