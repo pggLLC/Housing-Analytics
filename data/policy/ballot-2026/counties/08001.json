@@ -152,16 +152,20 @@
       "geoid": "0877290",
       "level": "municipal",
       "name": "Thornton (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
-      "reviewed_source": "https://www.thorntonco.gov/government/mayor-council/elections-voter-information",
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://adamscountyco.gov/our-county/elected-officials/clerk-recorder/adams-county-elections/",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
         "Participating: the city page states '2026 Special Municipal Election - Tuesday, November 3, 2026 ... The Special Election will be in conjunction with the Adams County coordinated mail ballot election.'",
         "Excluded: the only question listed is the proposed Charter amendment to Section 4.5 ('Shall Section 4.5 of the Thornton City Charter be amended to require that any member of the Thornton City Council, including the Mayor, shall be deemed to have resigned and vacated the member's office upon formally declaring candidacy ...') - a resign-to-run rule, not housing.",
-        "The TABOR notice contains no City of Thornton issue. The certified ballot content / county sample ballot (due Oct 1, 2026) was not available; source read is the city's own election page. Owner review: confirm against the sample ballot that no other Thornton question was certified."
+        "The TABOR notice contains no City of Thornton issue. The certified ballot content / county sample ballot (due Oct 1, 2026) was not available; source read is the city's own election page. Owner decision (2026-09-26): kept at official_notice_unavailable until the county sample ballot is posted; the city's own page is not the printed ballot. Confirm against the sample ballot that no other Thornton question was certified."
       ],
       "reviewed_sources": [
+        {
+          "url": "https://www.thorntonco.gov/government/mayor-council/elections-voter-information",
+          "retrieved": "2026-09-26"
+        },
         {
           "url": "https://adamscountyco.gov/wp-content/uploads/2026/09/CR-Adams-County-2026G-TABOR-Notice-092426.pdf",
           "retrieved": "2026-09-26"
