@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T15:36:13.985Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T16:30:52.663Z. Do not edit by hand.
 
 ---
 
@@ -1676,7 +1676,7 @@
 
 ## Test Files
 
-441 test files found.
+442 test files found.
 
 | File | Size |
 |------|------|
@@ -1801,6 +1801,7 @@
 | `test/geo-config-county-consistency.test.js` | 2.7 KB |
 | `test/geography-registry-phantoms.test.js` | 6.4 KB |
 | `test/glossary-reaches-rendered-content.test.js` | 6.6 KB |
+| `test/glossary-skips-hidden-text.test.js` | 7.8 KB |
 | `test/growth-figure-agrees.test.js` | 13.1 KB |
 | `test/guided-path-enters-the-chapters.test.mjs` | 9.1 KB |
 | `test/guided-path-forward-and-doc.test.mjs` | 4.7 KB |
@@ -1866,7 +1867,7 @@
 | `test/homepage-snapshot.test.js` | 10.9 KB |
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
-| `test/housing-news-leads-with-the-newest.test.mjs` | 21.6 KB |
+| `test/housing-news-leads-with-the-newest.test.mjs` | 21.8 KB |
 | `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
