@@ -5,31 +5,80 @@
       "geoid": "08121",
       "level": "county",
       "name": "Washington County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://washingtoncounty.colorado.gov/departments/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "As of 2026-09-26 the county has not posted a general-election sample ballot, notice of election, TABOR notice or list of participating entities. I tried likely file names on the county document path and all returned 404.",
+        "The county commissioners page posts no agendas, minutes or resolutions, so I could not check for any county referral.",
+        "I found no news reports of a Washington County housing measure."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/sites/g/files/lrnvjt1191/files/documents/2026%20Elections.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0800925",
       "level": "municipal",
       "name": "Akron (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08032026-81",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Akron appears to participate in the Nov 3, 2026 coordinated election. Its council agenda for Aug 3, 2026 lists 'Resolution 26.08 Approval of Coordinated Election IGA with Washington County'. The attachments (IGA and resolution .docx) could not be downloaded, and the minutes adopting them were not posted.",
+        "The Jul 6 packet's May minutes describe a plan to ask voters to move the town's general municipal election to November of even-numbered years. That would be an election-timing question, not housing, but I found no certified ballot title.",
+        "On Aug 10, 2026 the town adopted Resolution 26.09, an expedited review process for affordable housing under Proposition 123. That is a council action, not a ballot measure.",
+        "No county or town ballot content was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08032026-81",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_07062026-77",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_09142026-91",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofakron.com/AgendaCenter/ViewFile/Agenda/_08102026-82",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856365",
       "level": "municipal",
       "name": "Otis (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofotis.colorado.gov/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town website posts no agendas, minutes, ordinances or election documents. The county has not posted a participating-entities list or ballot content, so I cannot tell whether Otis participates. No news of an Otis measure was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofotis.colorado.gov/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://washingtoncounty.colorado.gov/departments/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
