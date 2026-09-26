@@ -222,6 +222,7 @@
       }).join('|') + ')\\b', 'g');
 
     var wrapped = _wrapped;
+    var hiddenCache = new Map();   // per pass: element -> not on screen
 
     // Walk text nodes in <main> only (avoid nav/header/footer/scripts)
     var main = root || document.querySelector('main') || document.body;
@@ -275,6 +276,13 @@
       // CHFA definitions spliced into them.
       if (parent.closest && parent.closest('.no-glossary')) return;
       if (parent.classList && parent.classList.contains('gl-tooltip-trigger')) return;
+      // A term's one definition per section went to its first use even when
+      // that use was not on screen: on market-analysis.html LIHTC's went to
+      // the collapsed map legend, leaving the visible LIHTC below it
+      // undefined. Text that is not rendered is skipped, so the first
+      // VISIBLE use carries the definition; the observer re-sweeps when a
+      // legend, tab or <details> opens.
+      if (isHidden(parent, hiddenCache)) return;
 
       var text = node.nodeValue;
       var changed = false;
@@ -345,6 +353,42 @@
    * FILTER_REJECT skips the node and everything under it; FILTER_SKIP would
    * only skip the node itself and keep descending, which is the bug.
    */
+  /*
+   * Whether an element is off screen: [hidden]; inside a closed <details>
+   * (other than its <summary>); or, by computed style, display:none,
+   * visibility:hidden, opacity:0, or clipped to zero height (the
+   * collapsed-legend pattern: .map-legend.is-collapsed .map-legend-body is
+   * max-height:0 with overflow:hidden). In a browser an element with no
+   * client rects is also off screen; jsdom has no layout, so that check is
+   * used only when the page itself has rects. `cache` is per sweep.
+   */
+  function hiddenByItself(el) {
+    if (el.hasAttribute && el.hasAttribute('hidden')) return true;
+    var up = el.parentElement;
+    if (up && up.tagName === 'DETAILS' && !up.open && el.tagName !== 'SUMMARY') return true;
+    var cs = window.getComputedStyle ? window.getComputedStyle(el) : null;
+    if (!cs) return false;
+    if (cs.display === 'none' || cs.visibility === 'hidden' || cs.visibility === 'collapse') return true;
+    if (cs.opacity !== '' && parseFloat(cs.opacity) === 0) return true;
+    var clipped = (cs.overflow && cs.overflow !== 'visible') || (cs.overflowY && cs.overflowY !== 'visible');
+    return !!(clipped && (parseFloat(cs.maxHeight) === 0 || parseFloat(cs.height) === 0));
+  }
+  function isHidden(el, cache) {
+    var chain = [];
+    var hidden = false;
+    for (var a = el; a && a.nodeType === 1; a = a.parentElement) {
+      if (cache.has(a)) { hidden = cache.get(a); break; }
+      chain.push(a);
+      if (hiddenByItself(a)) { hidden = true; break; }
+    }
+    if (!hidden && el.getClientRects && document.body && document.body.getClientRects().length > 0 &&
+        el.getClientRects().length === 0) {
+      hidden = true;
+    }
+    chain.forEach(function (c) { cache.set(c, hidden); });
+    return hidden;
+  }
+
   function walkTextNodes(root, callback) {
     var filter = {
       acceptNode: function (node) {
@@ -447,8 +491,16 @@
           if (mutating) return;
           for (var i = 0; i < records.length; i++) {
             if (records[i].addedNodes && records[i].addedNodes.length) { scheduleSweep(); return; }
+            // A legend, tab, <details> or inline-styled panel opening reveals
+            // text the sweep skipped as hidden (see isHidden). Map panes
+            // restyle on every pan and zoom, and our own tooltips on every
+            // hover; neither holds prose to define, so neither is a reason
+            // to sweep.
+            var t = records[i].target;
+            if (records[i].type === 'attributes' &&
+                !(t.closest && t.closest('.leaflet-pane, .gl-tooltip-trigger, .gl-tooltip-popup'))) { scheduleSweep(); return; }
           }
-        }).observe(host, { childList: true, subtree: true });
+        }).observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
       }
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         start();
