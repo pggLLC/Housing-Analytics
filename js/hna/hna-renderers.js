@@ -2993,6 +2993,13 @@
               '<div id="lr-capital-partners-mount"></div>' +
             '</details>';
 
+    // Verified fee waivers/reductions and land-use incentives that lower
+    // the cost of affordable housing here (data/policy/fee-reductions.json).
+    // Hydrated by TaxAbatement.attachCostReductions below; "none verified
+    // yet" is said as such, never as "none".
+    html += '<section class="lr-section" id="lr-cost-reductions-section"><h4>What this jurisdiction does to lower affordable-housing cost</h4>' +
+            '<div id="lr-cost-reductions-mount"></div></section>';
+
     // F141 — Tax abatement / PILOT / fee-waiver inventory
     html += '<section class="lr-section"><h4>Tax abatement, PILOT &amp; fee programs</h4>' +
             '<div id="lr-tax-abatement-mount"></div></section>';
@@ -3062,6 +3069,26 @@
           jurisName:  jurisName || undefined,
           placeName:  jurisName || null,
           countyName: cpCountyName
+        });
+      }
+    }
+
+    // Hydrate the verified cost-reduction mount (fees + land use).
+    if (window.TaxAbatement && window.TaxAbatement.attachCostReductions) {
+      const crMount = document.getElementById('lr-cost-reductions-mount');
+      let crGeoid = null, crCounty = null;
+      try {
+        const cur = S().state && S().state.current;
+        if (cur && cur.geoid) {
+          crGeoid = cur.geoid;
+          crCounty = cur.geoType === 'county' ? cur.geoid : (cur.contextCounty || null);
+        }
+      } catch (_) {}
+      if (crMount) {
+        window.TaxAbatement.attachCostReductions(crMount, {
+          geoid:      crGeoid,
+          countyFips: crCounty,
+          jurisName:  jurisName || undefined
         });
       }
     }
