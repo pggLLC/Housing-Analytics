@@ -250,6 +250,7 @@ def test_ballot_entry_references_fail(ballots, mutation):
     ('$5–10 million', '$5 million to $10 million'), ('$2040', '$2,040'),
     ('$one hundred thousand', '$100,000'), ('one hundred and twenty years', '120 years'),
     ('-$5', '$-5'),
+    ('$.50', '$0.50'), ('.5%', '0.5 percent'), ('.5 mills', '0.5 mill'),
 ])
 def test_policy_figure_rewording_stays_green(prose, quote):
     assert prose != quote or prose in ('$0.05', '30 days')
@@ -262,6 +263,7 @@ def test_policy_figure_rewording_stays_green(prose, quote):
     ('10 years', '10 months'), ('5–10 years', '10 years'), ('through 2040', 'through 2041'),
     ('six months', 'five months'), ('twenty-five years', '25 dollars'),
     ('$5–10 million', '$10 million'), ('-$5', '$5'),
+    ('$.50', '$.51'), ('.5%', '5%'), ('.5 mills', '5 mills'),
 ])
 @pytest.mark.parametrize('field', ['neutral_title', 'detail', 'neutral_summary'])
 def test_policy_unsupported_figures_fail(field, prose, quote):

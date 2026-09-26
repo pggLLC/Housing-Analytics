@@ -33,7 +33,7 @@ WORD_NUMBER = re.compile(
     r'\b(?:' + '|'.join(NUMBER_WORDS) + r')'
     r'(?:(?:\s+(?:and\s+)?|-)(?:' + WORD_PART + r'))*\b', re.I
 )
-NUM = r'[-+]?\d[\d,]*(?:\.\d+)?'
+NUM = r'[-+]?(?:\d[\d,]*(?:\.\d+)?|\.\d+)'
 FIGURES = {
     'dollars': re.compile(r'\$\s*(' + NUM + r')\s*(billion|million|thousand|[bmk]\b)?', re.I),
     'percent': re.compile(r'(' + NUM + r')\s*(?:%|percent\b)', re.I),

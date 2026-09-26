@@ -156,3 +156,6 @@ The handoff's explicit two-manifest check takes precedence over the older
 then `scripts/rebuild_manifest.py`, then `scripts/validate-schemas.js`; check for
 iCloud duplicates immediately beforehand. Do not commit generated manifests
 or inventory lines. Pytest is already in CI, so no package.json edit is needed.
+PR CI also refreshes the Data Trust Center's derived counts after rebuilding the
+manifest, using the existing post-merge refresh command. This is required because
+H2 adds 66 data files; it avoids committing a generated count alongside the source.
