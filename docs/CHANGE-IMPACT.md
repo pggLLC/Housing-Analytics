@@ -139,6 +139,18 @@ find . \( -path ./node_modules -o -path ./.git \) -prune -o \( -name "* [0-9].*"
 
 They reach `.git/refs` too, where they break plain git commands mid-operation.
 
+### Transit data (#1937)
+
+| You changed | Also update | Gate |
+|---|---|---|
+| `scripts/market/build_transit_stops_co.py` or its sources | regenerate `data/amenities/transit_stops_statewide_co.geojson` **and** `data/market/transit_stops_coverage_co.json` together (one run writes both) | `pytest tests/test_transit_stops_statewide.py` (report must agree with the stop file) |
+| the statewide stop file's shape (property names) | `js/market-analysis.js` TOD check (`reliability`), `data-map-browser.html` popup, `js/data-source-inventory.js` entry | `npm run test:qap-tod-points`, `npm run test:data-source-inventory-paths` |
+| `data/amenities/transit_stops_co.geojson` (OpenStreetMap) | nothing directly: it is an input to the statewide file, where its stops are marked `unconfirmed`. It still feeds `build_ranking_index.py` and `build_neighborhood_access.py` until #1937 Phase 3 | `pytest tests/test_transit_stops_statewide.py` |
+| `data/market/transit_routes_co.geojson` | nothing; the fetcher drops routes with no vertex in Colorado | `pytest tests/test_data_plausibility.py -k touch_colorado` |
+| CDOT or agency-feed failures | nothing: a failed CDOT request exits non-zero and leaves the file untouched | `npm run test:required-fetch-preserves-data` |
+
+`npm run finish-line` item **T1** reads both transit files and reopens if CDOT drops out, a stop loses its source or county, the report loses a county, or the file passes its 16-day SLA.
+
 ---
 
 ## 5. Adding or removing a file

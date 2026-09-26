@@ -210,6 +210,16 @@ jobs:
           print(f'transit_routes_co.geojson: {count} route features')
           PYEOF
 
+      # ── Transit stops, statewide (CDOT first) ─────────────────────────
+      # Runs after the routes step so the GTFS feeds are already in the local
+      # cache. A failed CDOT request exits non-zero and leaves the committed
+      # file untouched (test/required-fetch-preserves-data.test.js). #1937
+      - name: Build statewide transit stops (CDOT + agency GTFS + OSM)
+        run: |
+          python scripts/market/build_transit_stops_co.py 2>&1 | tee /tmp/transit_stops_build.log
+          echo "Exit code: ${PIPESTATUS[0]}"
+        continue-on-error: true
+
       # ── School locations ──────────────────────────────────────────────
       - name: Fetch school locations (CDE ArcGIS)
         run: |
@@ -259,6 +269,8 @@ jobs:
           git add data/market/parcel_aggregates_co.json \
                   data/market/zoning_compat_index_co.json \
                   data/market/transit_routes_co.geojson \
+                  data/amenities/transit_stops_statewide_co.geojson \
+                  data/market/transit_stops_coverage_co.json \
                   data/market/schools_co.geojson \
                   data/market/opportunity_zones_co.geojson \
                   data/affordable-housing/regrid-parcels-by-place.json \
