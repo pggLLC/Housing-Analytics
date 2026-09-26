@@ -125,151 +125,296 @@
       "geoid": "0833310",
       "level": "municipal",
       "name": "Grover (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Grover does not appear anywhere on the county's composite 2026 General sample ballot: no offices and no measures.",
+        "The county posted no participating-entities list or IGA list, so not_applicable could not be established. The Grover town site was not checked separately.",
+        "weld.gov returns 403 (Akamai) to curl. The PDF was obtained as raw bytes through WebFetch."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0837820",
       "level": "municipal",
       "name": "Hudson (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Hudson participates: the composite sample ballot lists Town of Hudson Mayor and Councilmembers contests. No Town of Hudson ballot measure appears in the 'Municipal Ballot Measures' section.",
+        "The Hudson town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0839855",
       "level": "municipal",
       "name": "Johnstown (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Johnstown contest or measure on the Weld composite sample ballot. The only mention is school district RE-5J (Johnstown-Milliken).",
+        "The town's own elections page shows its 2026 measures went to the April 7, 2026 election and lists no November measure.",
+        "Johnstown spans Larimer County. The Larimer sample ballot was not reviewed here."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://johnstownco.gov/352/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0840185",
       "level": "municipal",
       "name": "Keenesburg (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Keenesburg participates: the ballot lists Mayor and Board of Trustees contests. No Town of Keenesburg ballot measure appears on the composite sample ballot.",
+        "The town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0840515",
       "level": "municipal",
       "name": "Kersey (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Kersey participates (Mayor and Trustee contests) and has one measure, which is excluded as a general-operations tax extension with no housing earmark. Verbatim text, sample ballot p.4: 'Town of Kersey Ballot Issue 2B — 2026 REFERRED BALLOT ISSUE, WHICH, IF APPROVED, WOULD AUTHORIZE THE TOWN TO RETAIN THE CURRENT PROPERTY TAX MILL LEVY FROM 2028 THROUGH 2037 WITHOUT INCREASING THE TAX RATE, SHALL THE TOWN OF KERSEY, COLORADO TAXES PREVIOUSLY APPROVED BY THE TOWN'S VOTERS AND WHICH ARE SCHEDULED TO EXPIRE BE EXTENDED FOR A LIMITED TEN-YEAR PERIOD (2028 THROUGH 2037) FOR THE EXISTING PROPERTY TAX MILL LEVY OF 17.205 MILLS TO CONTINUE NECESSARY SUPPORT FOR THE CURRENT LEVEL OF TOWN OPERATIONS AND SERVICES, WITH SUCH EXTENSION TO CONSTITUTE A VOTER-APPROVED REVENUE CHANGE WITHIN THE MEANING OF ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION AND AN EXCEPTION TO THE LIMITATION SET FORTH IN SECTION 29-1-301 OF THE COLORADO REVISED STATUTES?' Owner may review whether a general-operations property-tax extension belongs under property_tax.",
+        "The town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0843605",
       "level": "municipal",
       "name": "La Salle (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "La Salle participates: the ballot lists 'Town of LaSalle Trustee'. No La Salle ballot measure appears on the composite sample ballot.",
+        "The town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0845530",
       "level": "municipal",
       "name": "Lochbuie (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Lochbuie participates: the ballot lists a Board of Trustees contest. No Lochbuie ballot measure appears on the composite sample ballot.",
+        "Lochbuie spans Adams County. The Adams ballot was not reviewed. The town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0849600",
       "level": "municipal",
       "name": "Mead (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Mead participates: the ballot lists Mayor and Trustee contests. No Town of Mead ballot measure appears on the composite sample ballot.",
+        "The town clerk page was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0850480",
       "level": "municipal",
       "name": "Milliken (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Milliken contest or measure on the composite sample ballot. The only mention is school district RE-5J.",
+        "No participating-entities list was available, so not_applicable could not be set. The town site was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855045",
       "level": "municipal",
       "name": "Nunn (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Nunn contest or measure. The only Nunn item on the ballot is a Nunn Fire Protection District tax question, which is a special district, not the town.",
+        "No participating-entities list was available. The town site was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0859005",
       "level": "municipal",
       "name": "Pierce (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Pierce participates: the ballot lists Mayor and Trustee contests, and Pierce adopted Resolution 2026-07 on a coordinated-election IGA with Weld County. That resolution was seen only through a secondary summary and was not read. No Town of Pierce ballot measure appears on the composite sample ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0860160",
       "level": "municipal",
       "name": "Platteville (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Platteville contest or measure on the composite sample ballot.",
+        "No participating-entities list was available. The town site was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0863045",
       "level": "municipal",
       "name": "Raymer (New Raymer) (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Raymer contest or measure on the composite sample ballot.",
+        "No participating-entities list was available. No town site was checked."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0869150",
       "level": "municipal",
       "name": "Severance (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Severance contest or measure. The only Severance item on the ballot is a Windsor-Severance Fire Protection District question, which is a special district.",
+        "No participating-entities list was available. The town site was not checked separately."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0885485",
       "level": "municipal",
       "name": "Windsor (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "There is no Town of Windsor contest or measure on the Weld composite sample ballot. The only Windsor item is the Windsor-Severance Fire Protection District question.",
+        "The town's own 2026 Ballot Measures page covers only the April 7, 2026 regular election (Charter amendments 1A-1F) and lists no November measure.",
+        "Windsor spans Larimer County. The Larimer sample ballot was not reviewed here."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.windsorgov.com/1449/2026-Ballot-Measures",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
