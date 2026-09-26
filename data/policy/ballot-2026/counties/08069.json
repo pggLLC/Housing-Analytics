@@ -47,12 +47,12 @@
       "geoid": "0825115",
       "level": "municipal",
       "name": "Estes Park (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities/IGA list is posted on the Larimer County 2026 Elections page (checked 2026-09-26), so not_applicable was not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No Town of Estes Park question on the county all-contests sample ballot or TABOR notice. Town clerk page lists only the April 7, 2026 regular election; town does not appear to have a Nov 2026 measure. Town Board packet of 2026-09-22 shows only a resolution supporting Estes Valley FPD 6D.",
         "Estes Valley Fire Protection District 6D (0.5% sales tax, fire) is on the ballot for Estes-area voters - not a town measure and not housing."
       ],
@@ -71,12 +71,12 @@
       "geoid": "0827425",
       "level": "municipal",
       "name": "Fort Collins (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities/IGA list is posted on the Larimer County 2026 Elections page (checked 2026-09-26), so not_applicable was not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "County sample ballot states it 'contains all contests in Larimer County'; it has no City of Fort Collins question. TABOR notice has no Fort Collins issue. City 'On the Ballot' page mentions only 'possible local ballot questions' for Nov 3, 2026, none named; no city election notice posted.",
         "Web lead about a Fort Collins 3-mill affordable-housing property tax ('2B') refers to a prior election, not found on the 2026 ballot."
       ],
@@ -95,12 +95,12 @@
       "geoid": "0846465",
       "level": "municipal",
       "name": "Loveland (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities/IGA list is posted on the Larimer County 2026 Elections page (checked 2026-09-26), so not_applicable was not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "County all-contests sample ballot and TABOR notice contain no City of Loveland question.",
         "City clerk elections page (lovgov.org) returned HTTP 403 via proxy - not reviewed. Loveland regular elections are in odd-numbered years.",
         "Weld County portion of Loveland not reviewed."
@@ -116,12 +116,12 @@
       "geoid": "0877510",
       "level": "municipal",
       "name": "Timnath (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.larimer.gov/sites/default/files/2026ge-larimer-county-sample-ballot.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities/IGA list is posted on the Larimer County 2026 Elections page (checked 2026-09-26), so not_applicable was not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No Town of Timnath question on the county all-contests sample ballot or TABOR notice. Town elections page covers only the April 7, 2026 regular election.",
         "Weld County portion of Timnath not reviewed."
       ],

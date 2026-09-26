@@ -32,12 +32,12 @@
       "geoid": "0805265",
       "level": "municipal",
       "name": "Bayfield (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities / IGA list is posted on the La Plata County elections pages checked 2026-09-26; not_applicable therefore not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
         "Town of Bayfield website returned HTTP 403 (curl and WebFetch) on 2026-09-26; municipal clerk page not readable.",
         "County calendar states Bayfield held its municipal election (trustees and questions) in April 2026."
@@ -57,12 +57,12 @@
       "geoid": "0822035",
       "level": "municipal",
       "name": "Durango (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities / IGA list is posted on the La Plata County elections pages checked 2026-09-26; not_applicable therefore not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
         "City of Durango Elections page (https://www.durangoco.gov/elections) read 2026-09-26: no November 2026 notice, ballot question, or TABOR notice posted."
       ],
@@ -81,12 +81,12 @@
       "geoid": "0838535",
       "level": "municipal",
       "name": "Ignacio (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.lpcgov.org/Sample%20Ballot%20Style%2001.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "No participating-entities / IGA list is posted on the La Plata County elections pages checked 2026-09-26; not_applicable therefore not used.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "County 2026 sample-ballot page lists only two ballot styles: 'All La Plata County Registered Voters' (Style 001-01) and Durango West Metropolitan District No. 1 (Style 028-02). Style 001-01 was read in full: it contains no county, municipal, school or special-district questions.",
         "Town of Ignacio website unreachable on 2026-09-26 (connection reset / HTTP 503); municipal clerk page not readable.",
         "County calendar states Ignacio held its municipal election (trustees and questions) in April 2026."

@@ -60,14 +60,14 @@
       "geoid": "0815605",
       "level": "municipal",
       "name": "Collbran (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
         "No Town of Collbran contest or question appears on any of the nine styles.",
-        "The county page posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles.",
         "Town website (townofcollbran.org) was unreachable on 2026-09-26 (proxy CONNECT 502); town clerk page not readable."
       ],
       "reviewed_sources": [
@@ -173,14 +173,14 @@
       "geoid": "0828745",
       "level": "municipal",
       "name": "Fruita (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
         "No City of Fruita contest or question appears on any of the nine styles.",
-        "The county page posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles.",
         "City of Fruita 2026 Regular Municipal Election page (read 2026-09-26): the city held its regular municipal election on April 7, 2026; nothing is posted for November 3, 2026."
       ],
       "reviewed_sources": [

@@ -27,12 +27,12 @@
       "geoid": "0803235",
       "level": "municipal",
       "name": "Arriba (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "County posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of official sample ballot styles, none of which carries a question for this town.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No town ballot question appears on any ballot style of the county's official sample ballots.",
         "Town website has no election page or ballot notice."
       ],
@@ -51,12 +51,12 @@
       "geoid": "0829680",
       "level": "municipal",
       "name": "Genoa (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "County posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of official sample ballot styles, none of which carries a question for this town.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No town ballot question appears on any ballot style of the county's official sample ballots.",
         "Town website has no election page or ballot notice."
       ],
@@ -71,12 +71,12 @@
       "geoid": "0837875",
       "level": "municipal",
       "name": "Hugo (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "County posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of official sample ballot styles, none of which carries a question for this town.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No Town of Hugo question on any county ballot style (Hugo Fire Protection District 6A is a special district fire levy, not the town, not housing).",
         "No official Town of Hugo website found (tried townofhugo.com, townofhugoco.com, hugocolorado.com, hugo/townofhugo.colorado.gov - none resolve)."
       ]
@@ -85,12 +85,12 @@
       "geoid": "0844980",
       "level": "municipal",
       "name": "Limon (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://lincolncounty.colorado.gov/sites/g/files/lrnvjt1881/files/General-2026-English-Sample-Ballots_0.pdf",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "County posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of official sample ballot styles, none of which carries a question for this town.",
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "No town ballot question on any county ballot style.",
         "Town website has no election page; Jul-Aug 2026 trustee agendas/minutes mention no ballot referral (Aug 6 agenda has a Limon Housing Authority board appointment only). Sept 2026 agenda link is a stale 2024 file."
       ],

@@ -69,14 +69,14 @@
       "geoid": "0818640",
       "level": "municipal",
       "name": "Crook (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all 12 sample ballot styles posted on the county elections page (001-02 through 009-03). Local content found in them: City of Sterling Referred Ballot Issue 2A (styles 001-02 to 004-02), Buffalo School District RE-4J Referred Ballot Issue 5A (styles 006-04, 007-04), Town of Fleming mayor/council candidate races (style 009-03). No Logan County question appears on any style.",
         "No contest or question for Crook appears on any posted sample ballot style.",
-        "No list of participating political subdivisions or IGAs is posted on the county elections page (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles, none of which carries a contest for this town.",
         "Town's own clerk election page: none found (web search 2026-09-26 found nothing)."
       ],
       "reviewed_sources": [
@@ -198,14 +198,14 @@
       "geoid": "0838590",
       "level": "municipal",
       "name": "Iliff (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all 12 sample ballot styles posted on the county elections page (001-02 through 009-03). Local content found in them: City of Sterling Referred Ballot Issue 2A (styles 001-02 to 004-02), Buffalo School District RE-4J Referred Ballot Issue 5A (styles 006-04, 007-04), Town of Fleming mayor/council candidate races (style 009-03). No Logan County question appears on any style.",
         "No contest or question for Iliff appears on any posted sample ballot style.",
-        "No list of participating political subdivisions or IGAs is posted on the county elections page (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles, none of which carries a contest for this town.",
         "Town's own clerk election page: none found (web search 2026-09-26 found nothing)."
       ],
       "reviewed_sources": [
@@ -263,14 +263,14 @@
       "geoid": "0850040",
       "level": "municipal",
       "name": "Merino (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all 12 sample ballot styles posted on the county elections page (001-02 through 009-03). Local content found in them: City of Sterling Referred Ballot Issue 2A (styles 001-02 to 004-02), Buffalo School District RE-4J Referred Ballot Issue 5A (styles 006-04, 007-04), Town of Fleming mayor/council candidate races (style 009-03). No Logan County question appears on any style.",
         "No contest or question for Merino appears on any posted sample ballot style.",
-        "No list of participating political subdivisions or IGAs is posted on the county elections page (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles, none of which carries a contest for this town.",
         "Town's own clerk election page: none found (web search 2026-09-26 found nothing)."
       ],
       "reviewed_sources": [
@@ -328,14 +328,14 @@
       "geoid": "0858235",
       "level": "municipal",
       "name": "Peetz (town)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "official_notice_unavailable",
       "reviewed_source": "https://www.logancountyco.gov/186/Elections-Voter-Registration-Information",
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
+        "State set to official_notice_unavailable by owner decision (2026-09-26): the county posts no list of participating political subdivisions or IGAs, and no municipal notice for November 3, 2026 was found, so the absence of a question for this municipality on the county sample ballots is not treated as a reviewed official notice.",
         "Read all 12 sample ballot styles posted on the county elections page (001-02 through 009-03). Local content found in them: City of Sterling Referred Ballot Issue 2A (styles 001-02 to 004-02), Buffalo School District RE-4J Referred Ballot Issue 5A (styles 006-04, 007-04), Town of Fleming mayor/council candidate races (style 009-03). No Logan County question appears on any style.",
         "No contest or question for Peetz appears on any posted sample ballot style.",
-        "No list of participating political subdivisions or IGAs is posted on the county elections page (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles, none of which carries a contest for this town.",
         "Town's own clerk election page: none found (web search 2026-09-26 found nothing)."
       ],
       "reviewed_sources": [
