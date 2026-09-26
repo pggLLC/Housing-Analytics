@@ -47,7 +47,8 @@ the handoff left the representation open:
   `reported`), `against`, `checked`, and `by` for a named reporting outlet.
 - `result` is `null` until known, then `{outcome: passed|failed,
   stage: unofficial|certified, source: {url, retrieved}, as_of}`. Results do not
-  override the requirement to archive an old election.
+  override the requirement to archive an old election. A terminal `passed` or
+  `failed` status requires a result with the same outcome.
 - `history` contains `{checked, note, source}`, where `source` is `null` or
   `{url, retrieved}`. Use an empty array until there is a change to record.
 - `archived` is an explicit boolean. An unarchived entry fails starting on the

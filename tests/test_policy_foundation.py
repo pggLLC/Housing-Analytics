@@ -155,7 +155,10 @@ def test_ballot_invalid_enums_fail(ballots, path):
 @pytest.mark.parametrize('status', ['proposed', 'title_set', 'petitioning', 'certified', 'on_ballot',
                                    'passed', 'failed', 'withdrawn', 'litigated'])
 def test_ballot_all_statuses_supported(ballots, status):
-    ballots['statewide.json']['entries'][0]['status'] = status
+    entry = ballots['statewide.json']['entries'][0]
+    entry['status'] = status
+    if status in ('passed', 'failed'):
+        entry['result'] = {'outcome': status, 'stage': 'certified', 'source': SOURCE, 'as_of': CHECKED}
     validate_ballots(ballots, GEO, TODAY)
 
 
@@ -251,6 +254,8 @@ def test_ballot_entry_references_fail(ballots, mutation):
     ('$one hundred thousand', '$100,000'), ('one hundred and twenty years', '120 years'),
     ('-$5', '$-5'),
     ('$.50', '$0.50'), ('.5%', '0.5 percent'), ('.5 mills', '0.5 mill'),
+    ('2 million dollars', '$2M'), ('two million dollars', '$2,000,000'),
+    ('two hundred thousand U.S. dollars', '$200,000'), ('2 million USD', '$2M'),
 ])
 def test_policy_figure_rewording_stays_green(prose, quote):
     assert prose != quote or prose in ('$0.05', '30 days')
@@ -264,6 +269,7 @@ def test_policy_figure_rewording_stays_green(prose, quote):
     ('six months', 'five months'), ('twenty-five years', '25 dollars'),
     ('$5–10 million', '$10 million'), ('-$5', '$5'),
     ('$.50', '$.51'), ('.5%', '5%'), ('.5 mills', '5 mills'),
+    ('2 million dollars', '1 million dollars'), ('two million dollars', 'twenty million dollars'),
 ])
 @pytest.mark.parametrize('field', ['neutral_title', 'detail', 'neutral_summary'])
 def test_policy_unsupported_figures_fail(field, prose, quote):
@@ -475,3 +481,17 @@ def test_ballot_result_stage(ballots, stage):
             validate_ballots(ballots, GEO, TODAY)
     else:
         validate_ballots(ballots, GEO, TODAY)
+
+
+@pytest.mark.parametrize('status', ['passed', 'failed'])
+@pytest.mark.parametrize('outcome', [None, 'passed', 'failed'])
+def test_ballot_terminal_status_agrees_with_result(ballots, status, outcome):
+    entry = ballots['statewide.json']['entries'][0]
+    entry['status'] = status
+    entry['result'] = None if outcome is None else {
+        'outcome': outcome, 'stage': 'certified', 'source': SOURCE, 'as_of': CHECKED}
+    if outcome == status:
+        validate_ballots(ballots, GEO, TODAY)
+    else:
+        with pytest.raises(AssertionError, match='terminal status needs an agreeing'):
+            validate_ballots(ballots, GEO, TODAY)

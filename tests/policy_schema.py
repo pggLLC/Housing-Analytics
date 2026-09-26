@@ -36,6 +36,10 @@ WORD_NUMBER = re.compile(
 NUM = r'[-+]?(?:\d[\d,]*(?:\.\d+)?|\.\d+)'
 FIGURES = {
     'dollars': re.compile(r'\$\s*(' + NUM + r')\s*(billion|million|thousand|[bmk]\b)?', re.I),
+    'written_dollars': re.compile(
+        r'(' + NUM + r')\s*(billion|million|thousand|[bmk]\b)?[\s-]*'
+        r'(?:(?:U\.?S\.?\s+)?dollars?\b|USD\b)', re.I
+    ),
     'percent': re.compile(r'(' + NUM + r')\s*(?:%|percent\b)', re.I),
     'mills': re.compile(r'(' + NUM + r')[\s-]*mills?\b', re.I),
     'term': re.compile(r'(' + NUM + r')[\s-]*(years?|months?|days?|terms?)\b', re.I),
@@ -99,7 +103,8 @@ def figures(text):
                 continue
             value = Decimal(match[1].replace(',', ''))
             unit = kind
-            if kind == 'dollars':
+            if kind in ('dollars', 'written_dollars'):
+                unit = 'dollars'
                 scale = (match[2] or '').lower()
                 value *= {'billion': 10**9, 'b': 10**9, 'million': 10**6,
                           'm': 10**6, 'thousand': 1000, 'k': 1000}.get(scale, 1)
@@ -187,6 +192,9 @@ def validate_ballots(files, geo, today=None):
             if entry['status'] in ('certified', 'on_ballot'):
                 assert entry['sources']['certification'] or entry['sources']['ballot_notice'], \
                     'certified/on_ballot entry needs certification or ballot_notice URL'
+            if entry['status'] in ('passed', 'failed'):
+                assert entry['result'] and entry['result']['outcome'] == entry['status'], \
+                    'terminal status needs an agreeing election result'
             quotes = ' '.join(ev['quote'] for ev in entry['evidence'])
             neutral(entry, quotes)
             current(entry, entry['election']['date'], today)
