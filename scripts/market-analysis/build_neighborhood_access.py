@@ -2,18 +2,31 @@
 scripts/market-analysis/build_neighborhood_access.py
 
 Generates data/derived/market-analysis/neighborhood_access.json by merging
-live OSM GeoJSON files from data/amenities/ into the unified format expected
-by the OsmAmenities JS connector.
+Colorado amenity GeoJSON files into the unified format expected by the
+OsmAmenities JS connector (js/data-connectors/osm-amenities.js).
 
-GeoJSON sources (built by scripts/amenities/build_osm_amenities.py):
+OSM sources (built by scripts/amenities/build_osm_amenities.py):
   - data/amenities/grocery_co.geojson       → type: "grocery"
   - data/amenities/healthcare_co.geojson    → type: "healthcare"
   - data/amenities/schools_co.geojson       → type: "school"
   - data/amenities/parks_co.geojson         → type: "park"
   - data/amenities/transit_stops_co.geojson → type: "transit_stop"
 
-Falls back to representative seed data for any category whose GeoJSON file
-is missing or empty.
+State registry sources:
+  - data/market/hospitals_co.geojson        → type: "hospital"
+    (HIFLD + CDPHE, scripts/market/fetch_hospitals.py)
+  - data/market/childcare_co.geojson        → type: "childcare"
+    (CDHS licensed facilities, scripts/market/fetch_childcare.py)
+
+OSM records are rounded to 6 dp and deduplicated on (type, name, ~11 m), which
+removes OSM double-mapping. Registry records are kept one per feature, as
+published: one registry feature is one licensed facility, and co-located
+programs (a child care center and a school-age center in the same building)
+are separate licences with separate capacity.
+
+Falls back to representative seed data for an OSM category whose GeoJSON file
+is missing or empty. A missing registry source is an error: it has no seed,
+and dropping it would silently remove the type from site scoring.
 
 Writes: data/derived/market-analysis/neighborhood_access.json
 """
@@ -24,17 +37,27 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-AMENITY_DIR = REPO_ROOT / "data" / "amenities"
 OUTPUT_DIR = REPO_ROOT / "data" / "derived" / "market-analysis"
 OUTPUT_PATH = OUTPUT_DIR / "neighborhood_access.json"
 
-# Mapping from GeoJSON filename → amenity type in the output
+# Mapping from repo-relative GeoJSON path → amenity type in the output.
+# Output order follows this order. Every type OsmAmenities scores must be
+# produced here — tests/test_neighborhood_access_builder.py enforces it.
 GEOJSON_SOURCES = {
-    "grocery_co.geojson":        "grocery",
-    "healthcare_co.geojson":     "healthcare",
-    "schools_co.geojson":        "school",
-    "parks_co.geojson":          "park",
-    "transit_stops_co.geojson":  "transit_stop",
+    "data/amenities/grocery_co.geojson":        "grocery",
+    "data/amenities/healthcare_co.geojson":     "healthcare",
+    "data/amenities/schools_co.geojson":        "school",
+    "data/amenities/parks_co.geojson":          "park",
+    "data/amenities/transit_stops_co.geojson":  "transit_stop",
+    "data/market/hospitals_co.geojson":         "hospital",
+    "data/market/childcare_co.geojson":         "childcare",
+}
+
+# Registry sources: kept one record per feature (no rounding, no dedup) and
+# required to exist (no seed fallback). See the module docstring.
+REGISTRY_SOURCES = {
+    "data/market/hospitals_co.geojson",
+    "data/market/childcare_co.geojson",
 }
 
 # ---------------------------------------------------------------------------
@@ -80,8 +103,12 @@ SEED_AMENITIES = [
 ]
 
 
-def load_geojson(filepath: Path, amenity_type: str) -> list[dict]:
-    """Load a GeoJSON FeatureCollection and return amenity records."""
+def load_geojson(filepath: Path, amenity_type: str, registry: bool = False) -> list[dict]:
+    """Load a GeoJSON FeatureCollection and return amenity records.
+
+    Registry records keep their published coordinates; OSM records are
+    rounded to 6 dp (~0.1 m).
+    """
     if not filepath.exists():
         return []
     try:
@@ -105,8 +132,8 @@ def load_geojson(filepath: Path, amenity_type: str) -> list[dict]:
         record = {
             "type": amenity_type,
             "name": name,
-            "lat": round(lat, 6),
-            "lon": round(lon, 6),
+            "lat": lat if registry else round(lat, 6),
+            "lon": lon if registry else round(lon, 6),
         }
         # Preserve transit subtype if available (rail_station, tram_stop, bus_stop, etc.)
         transit_type = props.get("transit_type", "")
@@ -120,28 +147,34 @@ def build(output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now(timezone.utc).isoformat()
 
-    all_amenities: list[dict] = []
+    osm_amenities: list[dict] = []
+    registry_amenities: list[dict] = []
     sources_used: list[str] = []
     seed_categories_used: list[str] = []
 
     # Track which categories got live data
     live_types: set[str] = set()
 
-    for filename, amenity_type in GEOJSON_SOURCES.items():
-        filepath = AMENITY_DIR / filename
-        records = load_geojson(filepath, amenity_type)
+    for rel_path, amenity_type in GEOJSON_SOURCES.items():
+        registry = rel_path in REGISTRY_SOURCES
+        records = load_geojson(REPO_ROOT / rel_path, amenity_type, registry=registry)
         if records:
-            all_amenities.extend(records)
+            (registry_amenities if registry else osm_amenities).extend(records)
             live_types.add(amenity_type)
-            sources_used.append(f"{filename}: {len(records)} features")
-            print(f"  ✅ {filename}: {len(records)} {amenity_type} records")
+            sources_used.append(f"{Path(rel_path).name}: {len(records)} features")
+            print(f"  ✅ {rel_path}: {len(records)} {amenity_type} records")
+        elif registry:
+            raise SystemExit(
+                f"  ✖ {rel_path}: missing or empty — {amenity_type} has no seed "
+                "fallback, and writing without it would drop the type from site scoring"
+            )
         else:
-            print(f"  ⚠ {filename}: missing or empty — will use seed data for {amenity_type}")
+            print(f"  ⚠ {rel_path}: missing or empty — will use seed data for {amenity_type}")
 
     # Fill in seed data for any category that had no live data
     for seed in SEED_AMENITIES:
         if seed["type"] not in live_types:
-            all_amenities.append(seed)
+            osm_amenities.append(seed)
             if seed["type"] not in seed_categories_used:
                 seed_categories_used.append(seed["type"])
 
@@ -149,31 +182,41 @@ def build(output_path: Path) -> None:
         sources_used.append(f"Seed fallback for: {', '.join(seed_categories_used)}")
         print(f"  📌 Seed fallback used for: {', '.join(seed_categories_used)}")
 
-    # Deduplicate by (type, name, rounded coordinates)
+    # Deduplicate OSM/seed records by (type, name, rounded coordinates).
+    # Registry records are appended as published (see module docstring).
     seen = set()
     deduped = []
-    for a in all_amenities:
+    for a in osm_amenities:
         key = (a["type"], a["name"], round(a["lat"], 4), round(a["lon"], 4))
         if key not in seen:
             seen.add(key)
             deduped.append(a)
+    deduped.extend(registry_amenities)
+
+    amenity_types = list(dict.fromkeys(a["type"] for a in deduped))
 
     result = {
         "meta": {
             "generated": now,
-            "source": "OpenStreetMap Overpass API + seed fallback",
+            "source": (
+                "OpenStreetMap Overpass API + seed fallback; "
+                "HIFLD/CDPHE hospitals; CDHS licensed child care facilities"
+            ),
             "sources_detail": sources_used,
             "note": (
-                "Colorado amenity points merged from OSM GeoJSON files. "
-                "Run scripts/amenities/build_osm_amenities.py first to refresh source data."
+                f"Includes {', '.join(amenity_types)}. "
+                "Refresh sources with scripts/amenities/build_osm_amenities.py, "
+                "scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, "
+                "then rerun this script."
             ),
             "record_count": len(deduped),
+            "amenity_types": amenity_types,
         },
         "amenities": deduped,
     }
 
-    output_path.write_text(json.dumps(result, indent=2))
-    print(f"\n  Wrote {len(deduped)} amenity records → {output_path.relative_to(REPO_ROOT)}")
+    output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"\n  Wrote {len(deduped)} amenity records → {output_path}")
 
 
 if __name__ == "__main__":
