@@ -5,81 +5,178 @@
       "geoid": "08037",
       "level": "county",
       "name": "Eagle County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No county question appears on the composite ballot or the TABOR notice. Other districts' measures read and excluded: West Grand School District 5A (bond), Eagle County School District RE50J 5B (mill levy override), Roaring Fork School District 5C (mill levy override), Avon Station Metropolitan District 6A (revenue retention), Basalt & Rural Fire Protection District 7A (fire and EMS sales tax)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.eaglecounty.us/departments___services/clerk___recorder/elections___voter_information/general_election.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0804110",
       "level": "municipal",
       "name": "Avon (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.avon.org/DocumentCenter/View/26483/2026-Ballot-Content",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town's approved 2026 ballot content (an image-only PDF, read visually) and the county composite ballot show a Council Member contest only; no Avon ballot question or issue."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.avon.org/2567/November-3-2026-Coordinated-Election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0804935",
       "level": "municipal",
       "name": "Basalt (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.basalt.net/746/November-2026-Election",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Town of Basalt Ballot Issue 3A (0.5% sales tax for a police and public works facility) read on the Eagle County composite ballot and TABOR notice and on the Pitkin County sample ballot; excluded, no housing earmark. Basalt's page states 3A \"will appear on both the Eagle and Pitkin county ballots\"; the Pitkin sample ballot shows no other Basalt measure.",
+        "Basalt Ordinance 20-2026 and Resolution 29-2026 are scanned without a text layer and were not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pitkinvotes.com/2026-sample-ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0822200",
       "level": "municipal",
       "name": "Eagle (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite ballot and TABOR notice, which the county page says include races and measures \"for all districts participating in the General Election\". This row is absent from it.",
+        "The town elections page states: \"Regular Municipal Elections for the Town of Eagle will be held on the first Tuesday of November of each odd numbered year.\""
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofeagle.org/382/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0833695",
       "level": "municipal",
       "name": "Gypsum (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "UNSURE, for owner review; no entry created. Town of Gypsum Ballot Issue 2A (referred by Resolution No. 23, Series 2026) moves a 4% lodging tax now collected by Eagle County to the town. The question earmarks the revenue for roads, parks, recreation, public improvements and town events, not housing; the town FAQ says the county uses the existing tax for purposes including affordable housing. Exact text: \"SHALL TOWN OF GYPSUM TAXES BE INCREASED $200,000 IN THE FIRST FULL FISCAL YEAR, BEGINNING JANUARY 1, 2027, AND BY WHATEVER AMOUNTS ARE RAISED ANNUALLY THEREAFTER FROM A (4%) LODGING TAX ON THE SHORT-TERM LEASING, RENTAL, SALE, OR FURNISHING OF A ROOM OR ACCOMMODATION FOR FEWER THAN 30 CONSECUTIVE DAYS, AND SHALL SUCH AMOUNTS, CURRENTLY COLLECTED AND USED BY EAGLE COUNTY, INSTEAD BE COLLECTED AND USED BY THE TOWN OF GYPSUM FOR PURPOSES SUCH AS: • CAPITAL COSTS ASSOCIATED WITH ROADS, PARKS, RECREATION FACILITIES, AND OTHER PUBLIC IMPROVEMENTS MAINTAINED BY THE TOWN; AND •SPECIAL EVENTS SPONSORED, FUNDED, OR ASSISTED BY THE TOWN; WITH ALL REVENUES FROM SUCH TAX, AND ANY EARNINGS THEREON, COLLECTED, RETAINED, AND SPENT AS A VOTER-APPROVED REVENUE CHANGE WITHOUT REGARD TO ANY LIMITATION OR CONDITION CONTAINED IN ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER LAW?\""
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofgypsum.com/gypsum-lodging-tax-question-november-2026-ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0850920",
       "level": "municipal",
       "name": "Minturn (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite ballot and TABOR notice, which the county page says include races and measures \"for all districts participating in the General Election\". This row is absent from it.",
+        "The town website returned HTTP 403 and could not be checked."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0863265",
       "level": "municipal",
       "name": "Red Cliff (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite ballot and TABOR notice, which the county page says include races and measures \"for all districts participating in the General Election\". This row is absent from it.",
+        "The town 2026 resolutions list contains Resolution 6 cancelling the April 2026 election and no November election item."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofredcliff.colorado.gov/2026-resolutions",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0880040",
       "level": "municipal",
       "name": "Vail (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "not_applicable",
+      "reviewed_source": "https://drive.google.com/file/d/1zU6tXzfx96Py4HwGZpqhWTfL1Q0TJRpL/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county has not published a list of participating political subdivisions or intergovernmental agreements for this election (checked 2026-09-26). Participation was read from the official composite ballot and TABOR notice, which the county page says include races and measures \"for all districts participating in the General Election\". This row is absent from it.",
+        "The town website returned HTTP 403 and could not be checked."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/file/d/1s1PcSDCe7MC3tyIELOgw6V8LoUROVlGR/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
