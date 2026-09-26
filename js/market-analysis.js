@@ -733,6 +733,15 @@
   }
 
   /* ── LIHTC projects within buffer ───────────────────────────────── */
+  // The ACS vintage of the tract metrics this page actually loaded
+  // (data/market/acs_tract_metrics_co.json meta.vintage is the 5-year
+  // period's end year), so export labels cannot drift from the data.
+  // null when the file carries no vintage — unknown, not guessed.
+  function _acsVintageLabel() {
+    var v = acsMetrics && acsMetrics.meta ? parseInt(acsMetrics.meta.vintage, 10) : NaN;
+    return Number.isFinite(v) && v > 2000 ? 'ACS 5-Year ' + (v - 4) + '-' + v : null;
+  }
+
   function lihtcInBuffer(lat, lon, miles) {
     if (!lihtcFeatures) return [];
     return lihtcFeatures.filter(function (f) {
@@ -1729,8 +1738,16 @@
       _fmtUnits(result.lihtcUnits) + ' LIHTC · ' + _fmtUnits(result.otherAssistedUnits) + ' other assisted');
     var unitsNote = el('pmaAffordableUnitsNote');
     if (unitsNote) {
-      unitsNote.textContent = result.affordableUnitsUnavailableReason || '';
-      unitsNote.hidden = !result.affordableUnitsUnavailableReason;
+      // Every way the supply total departs from a plain sum is disclosed:
+      // projects without a unit count, projects counted at total units, and
+      // other-assisted records removed as duplicates of a LIHTC project.
+      var supplyNotes = [
+        result.affordableUnitsUnavailableReason,
+        result.affordableUnitsFallbackReason,
+        result.affordableDuplicatesReason
+      ].filter(Boolean).join(' ');
+      unitsNote.textContent = supplyNotes;
+      unitsNote.hidden = !supplyNotes;
     }
     var capDen = captureDenominator(result);
     setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
@@ -2544,7 +2561,10 @@
     // The two parts stay separate on the result (lihtcCount vs
     // otherAssistedCount; affordableCount is their sum) so every surface can
     // label what it counts. Projects without a reported unit count are
-    // counted and disclosed, not summed as 0 units — see
+    // counted and disclosed, not summed as 0 units. Units are affordable
+    // units (LIHTC LI_UNITS, other-assisted assisted_units), and an
+    // other-assisted record that is the same property as a LIHTC feature in
+    // this PMA is dropped so the property is counted once — see
     // js/market-analysis-supply.js.
     var supplyBoundary = commuteShapedBoundary || selectedTractBoundary;
     var nearbyOtherAssisted = (_nonLihtcPropsCache || []).filter(function (p) {
@@ -2736,6 +2756,11 @@
       affordableUnitsKnown: affordableUnitsKnown,
       affordableUnitsUnknownCount: supply.unitsUnknownCount,
       affordableUnitsUnavailableReason: supply.unitsUnavailableReason,
+      affordableUnitsFallbackCount: supply.unitsFallbackCount,
+      affordableUnitsFallbackReason: supply.unitsFallbackReason,
+      affordableDuplicatesRemoved: supply.duplicatesRemoved,
+      affordableDuplicatesReason: supply.duplicatesReason,
+      acsVintageLabel: _acsVintageLabel(),
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -4637,7 +4662,7 @@
       generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
       disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. The default mode is circular buffer; commute-shaped PMA is beta and opt-in. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
       vintages: {
-        acs:  'ACS 5-Year 2020-2024',
+        acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
         lehd: 'LEHD WAC 2021',
         fmr:  'HUD FMR FY2026',
@@ -4722,6 +4747,10 @@
         affordableUnitsInBuffer:       r.affordableUnits,
         projectsWithoutUnitCount:      r.affordableUnitsUnknownCount,
         affordableUnitsUnavailableReason: r.affordableUnitsUnavailableReason,
+        projectsCountedAtTotalUnits:   r.affordableUnitsFallbackCount,
+        affordableUnitsFallbackReason: r.affordableUnitsFallbackReason,
+        duplicateRecordsRemoved:       r.affordableDuplicatesRemoved,
+        affordableDuplicatesReason:    r.affordableDuplicatesReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
       // The rate and the count it divides by travel together (F3).
@@ -4844,13 +4873,17 @@
       ['', ''],
       ['SECTION', 'Existing Affordable Supply in Buffer'],
       ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
-      ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['LIHTC Income-Restricted Units', fmtNum(sp.lihtcUnitsInBuffer)],
       ['Other Assisted Projects (HUD MF / USDA RD / PBV / preservation)', fmtNum(sp.otherAssistedProjectsInBuffer)],
       ['Other Assisted Units', fmtNum(sp.otherAssistedUnitsInBuffer)],
       ['Existing Affordable Projects', fmtNum(sp.affordableProjectsInBuffer)],
       ['Existing Affordable Units', fmtNum(sp.affordableUnitsInBuffer)],
       ['Projects Without Unit Count', fmtNum(sp.projectsWithoutUnitCount)],
       ['Unit Count Note', sp.affordableUnitsUnavailableReason || ''],
+      ['Projects Counted at Total Units', fmtNum(sp.projectsCountedAtTotalUnits)],
+      ['Total-Units Note', sp.affordableUnitsFallbackReason || ''],
+      ['Duplicate Records Removed', fmtNum(sp.duplicateRecordsRemoved)],
+      ['Duplicate Note', sp.affordableDuplicatesReason || ''],
       ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
       ['', ''],
       ['SECTION', 'PMA Site Summary Card'],
@@ -5006,6 +5039,8 @@
       ['affordable_count', r.affordableCount],
       ['affordable_units', r.affordableUnits],
       ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
+      ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
+      ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
