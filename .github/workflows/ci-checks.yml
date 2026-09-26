@@ -327,11 +327,13 @@ jobs:
         # See "Verify README + AGENTS.md inventory" above. Order matters:
         # the paper quotes the inventory line, and rebuild_manifest.py
         # records the byte count of data/_manifest.json, so it runs last.
+        # Then refresh the inventory metadata from those regenerated artifacts.
         if: github.event_name == 'pull_request'
         run: |
           npm run -s paper:build
           npm run -s audit:file-manifest
           python3 scripts/rebuild_manifest.py
+          node scripts/audit/refresh-inventory-mtimes.mjs
 
       - name: Run unified CI test suite
         run: npm run test:ci
