@@ -220,6 +220,13 @@ jobs:
           echo "Exit code: ${PIPESTATUS[0]}"
         continue-on-error: true
 
+      # Share of each HNA geography within the HB26-1065 screening radius.
+      # Reads the stop file the step above just wrote. #1937 Phase 3
+      - name: Build transit-zone share by geography
+        run: |
+          python scripts/market/build_transit_zone_by_geography.py 2>&1 | tee /tmp/transit_zone_geo.log
+        continue-on-error: true
+
       # ── School locations ──────────────────────────────────────────────
       - name: Fetch school locations (CDE ArcGIS)
         run: |
@@ -276,6 +283,7 @@ jobs:
                   data/market/transit_routes_co.geojson \
                   data/amenities/transit_stops_statewide_co.geojson \
                   data/market/transit_stops_coverage_co.json \
+                  data/hna/transit-zone-by-geography.json \
                   data/market/schools_co.geojson \
                   data/market/opportunity_zones_co.geojson \
                   data/affordable-housing/regrid-parcels-by-place.json \

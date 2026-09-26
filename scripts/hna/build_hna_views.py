@@ -8,7 +8,7 @@ page, one per question a reader arrives with.
 WHY GENERATED AND NOT AUTHORED
 ------------------------------
 housing-needs-assessment.html stays the canonical page AND the full report: it
-keeps all 53 sections, hna-export.js and print.css's A4 title-page margin, so
+keeps all 54 sections, hna-export.js and print.css's A4 title-page margin, so
 the PDF deliverable a planner cites is byte-for-byte the artifact it is today.
 The views are cut FROM it, so a figure is never authored twice and the views
 cannot disagree with the report. Same pattern as build_place_pages.py, which

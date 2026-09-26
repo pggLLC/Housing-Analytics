@@ -215,6 +215,7 @@
        before hna-controller.js, which calls the view per selection. -->
   <script defer src="js/hna/county-comparison.js"></script>
   <script defer src="js/hna/county-comparison-view.js"></script>
+  <!-- HB26-1065 zone designation note; must load before hna-renderers.js. -->
   <script defer src="js/hna/hna-renderers.js"></script>
   <script defer src="js/hna/hna-export.js"></script>
   <script defer src="js/compliance-checklist.js"></script>
@@ -253,7 +254,7 @@
   <script defer src="js/hna/hna-workflow-autosave.js"></script>
   <script defer src="js/housing-needs-assessment.js"></script>
   <script defer src="js/components/workflow-next-action.js"></script>
-<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
+<!-- [hna-view] not loaded here: js/components/affordable-housing-layer.js, js/components/map-home-btn.js, js/prop123-map.js, js/transit-zone.js, js/vendor/leaflet.css, js/vendor/leaflet.js -->
 <script>window.HNA_VIEW={"id": "afford", "nav": "What households can afford", "question": "What can households here actually afford, and where is the gap?", "slug": "hna-what-households-can-afford.html"};window.HNA_VIEW_ANCHORS={"affordable-ownership-need-section": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "hnaScorecardPanel": {"label": "What to do about it", "page": "hna-what-to-do.html"}, "statUnitsNeed": {"label": "What to do about it", "page": "hna-what-to-do.html"}};</script>
 </head>
 <body data-page-update-key="hna"
@@ -883,6 +884,12 @@
            presentations frame "how do we actually unlock affordable housing
            here?" with the cap-stack tools at hand. -->
       <section class="chart-card span-12" id="hnaRedevPanel" aria-label="Downtown redevelopment opportunities" hidden></section>
+
+      <!-- #1937: HB26-1065 transit zone screen. Filled by renderTransitZonePanel()
+           from data/hna/transit-zone-by-geography.json. -->
+      
+<!-- [hna-view:afford] not on this view: Potential location: transit zone (HB26-1065) -->
+
 
       <!-- Economic Indicators (Employment, Wages, Industry) -->
       

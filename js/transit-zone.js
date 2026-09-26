@@ -152,7 +152,7 @@
 
   function create(opts) {
     opts = opts || {};
-    var now = opts.now instanceof Date ? opts.now : new Date();
+    var now = opts.now && typeof opts.now.getTime === 'function' ? opts.now : new Date();
     var mapStatus = opts.mapStatus || null;
     var zones = opts.zones || null;
     var zoneProblem = zones ? zonesProblem(zones) : null;
@@ -257,7 +257,20 @@
     return { status: status, radiusMiles: radius, dataProblem: dataProblem };
   }
 
-  var api = { create: create, haversineMiles: haversineMiles };
+  // Area-level designation (a whole place or county, not a point). Before
+  // the map, and without one loaded, the note is the same as for a point.
+  // Once OEDIT's map is loaded, an area share is still the stop-based
+  // screen: only a specific site can be checked against the official zones.
+  function designation(mapStatus, now) {
+    var d = designationFor(null, null, mapStatus, null, now && typeof now.getTime === 'function' ? now : new Date());
+    if (mapStatus && mapStatus.status === 'published') {
+      return { designation: 'official_map_available',
+               note: 'OEDIT has published its Transit and Housing Investment Zone map. This share is still the stop-based screen; check a specific site against the official map.' };
+    }
+    return { designation: d.designation, note: d.note };
+  }
+
+  var api = { create: create, designation: designation, haversineMiles: haversineMiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (root) root.TransitZone = api;
 }(typeof window !== 'undefined' ? window : null));
