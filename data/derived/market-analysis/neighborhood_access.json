@@ -1,16 +1,18 @@
 {
   "meta": {
-    "generated": "2026-04-07T08:27:25.504979+00:00",
-    "source": "OpenStreetMap Overpass API + seed fallback",
+    "generated": "2026-09-26T17:17:22.305325+00:00",
+    "source": "OpenStreetMap Overpass API + seed fallback; HIFLD/CDPHE hospitals; CDHS licensed child care facilities",
     "sources_detail": [
       "grocery_co.geojson: 2182 features",
       "healthcare_co.geojson: 2880 features",
       "schools_co.geojson: 2553 features",
       "parks_co.geojson: 3267 features",
-      "transit_stops_co.geojson: 7883 features"
+      "transit_stops_co.geojson: 7883 features",
+      "hospitals_co.geojson: 121 features",
+      "childcare_co.geojson: 2860 features"
     ],
-    "note": "Includes grocery, healthcare, school, park, transit_stop, hospital, childcare",
-    "record_count": 18748,
+    "note": "Includes grocery, healthcare, school, park, transit_stop, hospital, childcare. Refresh sources with scripts/amenities/build_osm_amenities.py, scripts/market/fetch_hospitals.py and scripts/market/fetch_childcare.py, then rerun this script.",
+    "record_count": 21729,
     "amenity_types": [
       "grocery",
       "healthcare",
@@ -19,8 +21,7 @@
       "transit_stop",
       "hospital",
       "childcare"
-    ],
-    "total_records": 21729
+    ]
   },
   "amenities": [
     {
