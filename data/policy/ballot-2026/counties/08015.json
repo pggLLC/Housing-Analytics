@@ -44,7 +44,7 @@
       "entry_ids": [],
       "limitations": [
         "Participating: the town page states the municipal election on November 3, 2026 \"will be coordinated with the Chaffee County Clerk and Recorder.\"",
-        "Unreadable: the county sample-ballot link \"Buena Vista (fire inclusion)\" (https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/BV_fire-inclusion.pdf) returned HTTP 404 on 2026-09-26, and the \"Buena Vista (not fire)\" link points to Salida.pdf, so no Buena Vista ballot style could be read.",
+        "Unreadable: the county sample-ballot link \"Buena Vista (fire inclusion)\" (file BV_fire-inclusion.pdf, linked from the sample-ballots page) returned HTTP 404 on 2026-09-26, and the \"Buena Vista (not fire)\" link points to Salida.pdf, so no Buena Vista ballot style could be read.",
         "The town election page lists Mayor and Trustee races and no town ballot question; recheck once the Buena Vista ballot style is posted."
       ],
       "reviewed_sources": [
