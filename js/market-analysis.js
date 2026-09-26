@@ -2355,8 +2355,8 @@
         '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption (heuristic: ' + pipeline.absorptionUnitsPerMonth + ' units/mo)</div></div>' +
       '</div>' +
       '<p class="pma-pipeline-basis" style="margin:0 0 0.5rem;font-size:var(--tiny);color:var(--muted)">' +
-        'Stage is CHFA\u2019s compliance status where the record has one: \u201cActive Compliance\u201d is an operating property, not pipeline. ' +
-        'A record without one is estimated from its award year and marked \u201cest.\u201d' +
+        'Stage comes from CHFA only where its status names the phase (\u201cPre-Compliance - Construction Phase\u201d). ' +
+        '\u201cActive Compliance\u201d does not show a property has opened, so those projects and any without a status are estimated from the award year and marked \u201cest.\u201d' +
         (pipeline.activeStagesEstimated ? ' (' + pipeline.activeStagesEstimated + ' of the ' + pipeline.active + ' not yet operating here)' : '') +
         '; verify with local planning records. ' + pipeline.absorptionBasis + '.' +
       '</p>' +

@@ -1,18 +1,22 @@
 'use strict';
 
-// A LIHTC project's pipeline stage comes from CHFA's compliance status where
-// the record has one; the award-year rule is only a fallback, and says it is
-// an estimate. The absorption figure is labelled as the heuristic it is.
+// A LIHTC project's pipeline stage comes from CHFA only where its status
+// names the phase; everywhere else it is the award-year estimate, and says
+// so. The absorption figure is labelled as the heuristic it is.
 //
-// Found 2026-09-26: analyzeCompetitivePipeline() staged every project from
-// its award year alone, although data/chfa-lihtc.json carries CHFA's
-// ComplianceStatus. Forum Apartments (Denver; awarded 2021, "Active
-// Compliance") read "Pre-Permit" and was counted as competing pipeline. The
-// report renderer ran its own copy of the rule with a different boundary
-// (<= now - 5 against < now - 5), so the card and the report disagreed on a
-// five-year-old award. The absorption card divided by a flat 50 units a
-// month without saying so, and the "What's counted in supply?" disclosure
-// said the feed could not tell operating projects from pipeline.
+// Found 2026-09-26: analyzeCompetitivePipeline() ignored CHFA's
+// "Pre-Compliance - Construction Phase" status and presented every
+// award-year stage as fact. The report renderer ran its own copy of the rule
+// with a different boundary (<= now - 5 against < now - 5), so the card and
+// the report disagreed on a five-year-old award. The absorption card divided
+// by a flat 50 units a month without saying so, and the "What's counted in
+// supply?" disclosure did not say which CHFA status separates what.
+//
+// "Active Compliance" is deliberately NOT read as "operating": in the
+// 2026-09 feed 26 of the 32 2025 awards already carry it
+// (scripts/fetch-chfa-lihtc.js), so it cannot show a property has opened.
+// Reading it that way would drop likely-forthcoming competition from the
+// pipeline (Codex review on #1927).
 //
 // Runs the production code: js/market-analysis-enhancements.js, the page's
 // pipeline card (js/market-analysis.js) and the report renderer, loaded
@@ -61,12 +65,12 @@ function run() {
   const S = ENH.PIPELINE_STAGES;
   const NOW = new Date().getFullYear();
 
-  // A west-Denver site beside Joli 9 (no status, so an estimated stage),
-  // with Forum Apartments (Active Compliance) and construction-phase
-  // projects inside 3 miles.
-  const SITE = { lat: 39.7335, lon: -105.0180, bufferMiles: 3 };
+  // A downtown Denver site beside University Building Lofts (under
+  // construction, reported by CHFA), with Active Compliance projects and
+  // Joli 9 (no status) inside 3 miles.
+  const SITE = { lat: 39.7466, lon: -104.9945, bufferMiles: 3 };
 
-  console.log('\nLIHTC pipeline stage follows CHFA compliance status; estimates say so');
+  console.log('\nLIHTC pipeline stage comes from CHFA only where the status names the phase; estimates say so');
 
   test('the committed CHFA file carries compliance statuses to classify by (non-vacuous)', () => {
     const statuses = new Set(CHFA.map(statusOf).filter(Boolean));
@@ -74,23 +78,29 @@ function run() {
     assert(CHFA.some((f) => !statusOf(f)), 'no record without a status left to exercise the fallback');
   });
 
-  test('every Active Compliance record is operating supply, never pipeline, whatever its award year', () => {
+  test('Active Compliance is not read as operating: a recent award stays in the pipeline, as an estimate', () => {
     const active = CHFA.filter((f) => /^active compliance$/i.test(statusOf(f)));
-    assert(active.length > 100, 'only ' + active.length + ' Active Compliance records');
+    const recent = active.filter((f) => (f.properties.YR_ALLOC || f.properties.AwardYear) >= NOW - 1);
+    // Non-vacuity: the feed must still hold recent awards already marked
+    // Active Compliance, or this proves nothing.
+    assert(recent.length > 0, 'no recent award marked Active Compliance to test against');
     for (const f of active) {
       const c = ENH.classifyPipelineStage(f.properties, NOW);
-      assert.strictEqual(c.stage, S.complete, f.properties.PROJECT + ' staged ' + c.stage);
-      assert.strictEqual(c.estimated, false, f.properties.PROJECT + ' marked as an estimate');
+      const byYear = ENH.classifyPipelineStage({ YR_ALLOC: f.properties.YR_ALLOC || f.properties.AwardYear }, NOW);
+      assert.strictEqual(c.stage, byYear.stage, f.properties.PROJECT + ' staged ' + c.stage + ', not its award-year stage');
+      assert.strictEqual(c.estimated, true, f.properties.PROJECT + ' presented as reported, not estimated');
+    }
+    for (const f of recent) {
+      assert.notStrictEqual(ENH.classifyPipelineStage(f.properties, NOW).stage, S.complete,
+        f.properties.PROJECT + ' (awarded ' + f.properties.YR_ALLOC + ') dropped from the pipeline as operating');
     }
   });
 
-  test('Forum Apartments (awarded 2021, Active Compliance) is not Pre-Permit', () => {
-    const f = byName('Forum Apartments');
-    assert(f && f.properties.YR_ALLOC >= NOW - 5 && /active compliance/i.test(statusOf(f)),
-      'Forum Apartments no longer fits this case; pick another recent Active Compliance record');
-    const c = ENH.classifyPipelineStage(f.properties, NOW);
+  test('an extended-use status is operating: it follows the 15-year compliance period', () => {
+    const c = ENH.classifyPipelineStage({ YR_ALLOC: NOW, ComplianceStatus: 'Extended Use' }, NOW);
     assert.strictEqual(c.stage, S.complete);
-    assert.strictEqual(ENH.stageLabel(c), c.stage, 'an observed stage is labelled as an estimate');
+    assert.strictEqual(c.estimated, false);
+    assert.strictEqual(ENH.stageLabel(c), c.stage, 'a reported stage is labelled as an estimate');
   });
 
   test('a construction-phase record is under construction, from CHFA, not estimated', () => {
@@ -130,10 +140,9 @@ function run() {
       return E.haversine(SITE.lat, SITE.lon, lat, lon) <= SITE.bufferMiles;
     });
     const notOperating = nearby.filter((f) => ENH.classifyPipelineStage(f.properties, NOW).stage !== S.complete);
-    assert(nearby.some((f) => /active compliance/i.test(statusOf(f))), 'no operating project in the buffer to leave out');
     assert(notOperating.length > 0, 'nothing in the buffer is pipeline; the scan checks nothing');
+    assert(notOperating.some((f) => /construction/i.test(statusOf(f))), 'no construction-phase project in the buffer to count');
     assert.strictEqual(pipe.active, notOperating.length);
-    assert(!notOperating.some((f) => /active compliance/i.test(statusOf(f))), 'an operating project was counted as pipeline');
     assert.strictEqual(pipe.activeStagesEstimated,
       notOperating.filter((f) => ENH.classifyPipelineStage(f.properties, NOW).estimated).length);
     assert.strictEqual(pipe.estimatedAbsorptionMonths, Math.ceil(pipe.totalActiveUnits / ENH.ABSORPTION_UNITS_PER_MONTH));

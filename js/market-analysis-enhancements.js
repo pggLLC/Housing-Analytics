@@ -29,8 +29,8 @@
   // a lease-up rate measured for this market. The page labels it so.
   var ABSORPTION_UNITS_PER_MONTH = 50;
 
-  // Where a project's stage came from. CHFA's ComplianceStatus is a status
-  // CHFA reports; the award-year rule is a guess and is labelled as one.
+  // Where a project's stage came from. A CHFA status that names the phase
+  // is reported; the award-year rule is a guess and is labelled as one.
   var STAGE_BASIS = {
     compliance: 'CHFA compliance status',
     awardYear:  'estimated from award year'
@@ -39,13 +39,14 @@
   /**
    * Pipeline stage for one LIHTC record.
    *
-   * CHFA's ComplianceStatus separates a property being built
-   * ("Pre-Compliance - Construction Phase") from one inside its compliance
-   * period ("Active Compliance"). The compliance period starts once the
-   * buildings are placed in service, so an Active Compliance property is
-   * existing supply, not pipeline. Only a record without a recognised
-   * status (the HUD fallback file, or a CHFA row with none) falls back to
-   * the award-year rule, and that stage is marked as an estimate.
+   * Only two CHFA statuses name a phase: "Pre-Compliance - Construction
+   * Phase" is a project being built, and an extended-use status comes after
+   * the 15-year compliance period, so that property has long been open.
+   * "Active Compliance" does NOT prove a property is open: in the 2026-09
+   * feed 26 of the 32 2025 awards already carry it (scripts/fetch-chfa-
+   * lihtc.js). Treating it as operating would drop likely-forthcoming
+   * competition from the pipeline, so an Active Compliance record, like one
+   * with no status, is staged from its award year and marked an estimate.
    *
    * YR_PIS is not used: in data/chfa-lihtc.json it is a copy of the award
    * year, so it cannot say whether a building is placed in service.
@@ -61,7 +62,7 @@
       if (/construction/i.test(status)) {
         return { stage: PIPELINE_STAGES.construction, basis: STAGE_BASIS.compliance, estimated: false, status: status };
       }
-      if (!/^pre-?\s*compliance/i.test(status) && /compliance|extended use/i.test(status)) {
+      if (/extended use/i.test(status)) {
         return { stage: PIPELINE_STAGES.complete, basis: STAGE_BASIS.compliance, estimated: false, status: status };
       }
     }
