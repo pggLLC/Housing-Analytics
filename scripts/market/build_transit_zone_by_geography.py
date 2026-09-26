@@ -71,6 +71,11 @@ class StopIndex:
     def __init__(self, features):
         self.cells: dict[tuple[int, int], list] = {}
         for f in features:
+            # Private airport/hotel shuttle pickups are mapped but are not
+            # public transit: they never count toward the screen (same rule
+            # as js/transit-zone.js and the TOD check).
+            if (f.get("properties") or {}).get("operator") == "private_shuttle":
+                continue
             lon, lat = f["geometry"]["coordinates"][:2]
             key = (math.floor(lon / CELL_DEG), math.floor(lat / CELL_DEG))
             self.cells.setdefault(key, []).append((lon, lat, f["properties"]))
@@ -134,6 +139,78 @@ def contains(polys, lon, lat):
     return False
 
 
+def _seg_dist_mi(plon, plat, a, b):
+    """Distance in miles from a point to segment a-b (local equirectangular)."""
+    kx = 69.172 * math.cos(math.radians(plat))
+    ky = 69.0
+    ax, ay = (a[0] - plon) * kx, (a[1] - plat) * ky
+    bx, by = (b[0] - plon) * kx, (b[1] - plat) * ky
+    dx, dy = bx - ax, by - ay
+    L2 = dx * dx + dy * dy
+    t = 0.0 if L2 == 0 else max(0.0, min(1.0, -(ax * dx + ay * dy) / L2))
+    return math.hypot(ax + t * dx, ay + t * dy)
+
+
+BOUNDARY_SEARCH_MI = 10.0
+
+
+def min_distance_to_polygon_mi(polys, idx, confirmed_only=True):
+    """Exact straight-line distance from the polygon to the nearest stop:
+    0 when a stop is inside, else the least stop-to-edge distance. Used to
+    confirm a sampled zero, which a grid alone cannot prove. Only stops
+    within BOUNDARY_SEARCH_MI of the boundary's box are measured; None means
+    none is that close (so the zero is certain)."""
+    xs = [p[0] for poly in polys for p in poly[0]]
+    ys = [p[1] for poly in polys for p in poly[0]]
+    pad_lat = BOUNDARY_SEARCH_MI / 69.0
+    pad_lon = BOUNDARY_SEARCH_MI / (69.172 * math.cos(math.radians(max(abs(min(ys)), abs(max(ys))))))
+    minx, maxx, miny, maxy = min(xs) - pad_lon, max(xs) + pad_lon, min(ys) - pad_lat, max(ys) + pad_lat
+    best = math.inf
+    for cell in idx.cells.values():
+        for slon, slat, props in cell:
+            if not (minx <= slon <= maxx and miny <= slat <= maxy):
+                continue
+            if confirmed_only and props.get("reliability") == "unconfirmed":
+                continue
+            if contains(polys, slon, slat):
+                return 0.0
+            for poly in polys:
+                for ring in poly:
+                    for i in range(len(ring) - 1):
+                        d = _seg_dist_mi(slon, slat, ring[i], ring[i + 1])
+                        if d < best:
+                            best = d
+    return best if best <= BOUNDARY_SEARCH_MI else None
+
+
+def representative_point(polys, samples):
+    """Area-weighted centroid of the largest polygon when it lies inside the
+    geography; otherwise the sample point nearest to it. A plain mean of ring
+    vertices can fall outside (Adams and Boulder counties did)."""
+    def area_centroid(ring):
+        a = cx = cy = 0.0
+        for i in range(len(ring) - 1):
+            x0, y0 = ring[i][0], ring[i][1]
+            x1, y1 = ring[i + 1][0], ring[i + 1][1]
+            cross = x0 * y1 - x1 * y0
+            a += cross
+            cx += (x0 + x1) * cross
+            cy += (y0 + y1) * cross
+        if a == 0:
+            return None, 0.0
+        return (cx / (3 * a), cy / (3 * a)), abs(a) / 2
+
+    best = None
+    for poly in polys:
+        c, area = area_centroid(poly[0])
+        if c and (best is None or area > best[1]):
+            best = (c, area)
+    if best and contains(polys, best[0][0], best[0][1]):
+        return best[0]
+    target = best[0] if best else samples[0]
+    return min(samples, key=lambda p: (p[0] - target[0]) ** 2 + (p[1] - target[1]) ** 2)
+
+
 def sample_points(polys):
     xs = [p[0] for poly in polys for p in poly[0]]
     ys = [p[1] for poly in polys for p in poly[0]]
@@ -156,6 +233,8 @@ def sample_points(polys):
 def summarize(polys, centre, idx, radius):
     pts = sample_points(polys)
     n = len(pts)
+    if centre is None:
+        centre = representative_point(polys, pts)
     conf = sum(1 for lon, lat in pts if idx.any_within(lat, lon, radius, True))
     anyk = sum(1 for lon, lat in pts if idx.any_within(lat, lon, radius, False))
     half = sum(1 for lon, lat in pts if idx.any_within(lat, lon, QAP_TOD_MILES, True))
@@ -165,7 +244,18 @@ def summarize(polys, centre, idx, radius):
             if props.get("reliability") != "unconfirmed" and contains(polys, slon, slat):
                 stops_inside += 1
     near, d = idx.nearest(centre[1], centre[0], True)
+    # A sampled zero is only a lower bound: an edge strip can fall between
+    # grid points. Measure the exact distance to settle it.
+    boundary_d = min_distance_to_polygon_mi(polys, idx) if conf == 0 else None
+    if boundary_d is not None:
+        boundary_d = round(boundary_d, 3)   # decide exactness from the value we publish
     return {
+        # Only set when no sample was within the radius: the exact distance
+        # from the boundary to the nearest confirmed stop, or None when none
+        # is within BOUNDARY_SEARCH_MI. zero_is_exact is True when either
+        # proves no part of the geography is within the radius.
+        "nearest_confirmed_stop_to_boundary_miles": boundary_d,
+        "zero_is_exact": (conf == 0 and (boundary_d is None or boundary_d > radius)) if conf == 0 else None,
         "share_within_radius_confirmed": round(conf / n, 4),
         "share_within_radius_any": round(anyk / n, 4),
         "share_within_half_mile_confirmed": round(half / n, 4),
@@ -176,6 +266,7 @@ def summarize(polys, centre, idx, radius):
             "distance_miles": round(d, 2),
         },
         "samples": n,
+        "centre": [round(centre[0], 5), round(centre[1], 5)],
         "unavailableReason": None,
     }
 
@@ -199,21 +290,22 @@ def main() -> int:
         feat = counties.get(geoid) if kind == "county" else places.get(geoid)
         if feat is None:
             out[geoid] = {"name": label, "type": kind, "share_within_radius_confirmed": None,
+                          "nearest_confirmed_stop_to_boundary_miles": None, "zero_is_exact": None,
                           "share_within_radius_any": None, "share_within_half_mile_confirmed": None,
                           "confirmed_stops_inside": None, "nearest_confirmed_stop": None, "samples": 0,
                           "unavailableReason": "No boundary for this geography, so its area near transit could not be measured."}
             continue
         polys = polygons_of(feat["geometry"])
-        if kind != "county" and geoid in centroids:
+        if kind != "county" and geoid in centroids and contains(polys, centroids[geoid]["lng"], centroids[geoid]["lat"]):
             centre = (centroids[geoid]["lng"], centroids[geoid]["lat"])
         else:
-            ring = max((poly[0] for poly in polys), key=len)
-            centre = (sum(p[0] for p in ring) / len(ring), sum(p[1] for p in ring) / len(ring))
+            centre = None   # summarize() picks a point inside the boundary
         rec = summarize(polys, centre, idx, radius)
         out[geoid] = {"name": label, "type": kind, **rec}
 
     doc = {
         "meta": {
+            "boundary_search_miles": BOUNDARY_SEARCH_MI,
             "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "source": "scripts/market/build_transit_zone_by_geography.py (#1937)",
             "stops_file": str(STOPS.relative_to(ROOT)),
@@ -224,7 +316,11 @@ def main() -> int:
             "method": ("Share of a regular grid of points inside each boundary (about 2,000 per "
                        "geography) lying within the radius of a stop, straight-line. 'confirmed' "
                        "means CDOT or an agency feed publishes the stop; 'any' also counts "
-                       "OpenStreetMap-only stops. Nearest stop is measured from the geography's centre."),
+                       "OpenStreetMap-only stops. Private airport/hotel shuttle pickups are "
+                       "excluded: they are not public transit. Nearest stop is measured from a "
+                       "point inside the geography (its centre when that lies inside). When no "
+                       "sample is within the radius, nearest_confirmed_stop_to_boundary_miles "
+                       "gives the exact distance from the boundary, so a zero is proven, not sampled."),
             "geography_count": len(out),
         },
         "geographies": out,

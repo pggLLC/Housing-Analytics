@@ -8224,10 +8224,15 @@
         ? window.TransitZone.designation(mapStatus, now)
         : { designation: 'provisional', note: 'Provisional — the zone-map status could not be read, so this is a screen only.' };
       var name = escHtml(rec.name || 'this area');
+      // A sampled zero is only proven when the builder measured the exact
+      // boundary distance (zero_is_exact). Otherwise part of an edge strip
+      // is within the radius, so the share is "under 1%", not "none".
+      var edgeOnly = share === 0 && rec.zero_is_exact === false;
+      var shareLabel = edgeOnly ? '<1%' : pct(share);
       var near = rec.nearest_confirmed_stop;
       var html = '';
       html += '<div class="hna-tz__tiles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;margin:.4rem 0 .8rem;">' +
-        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + pct(share) + '</div>' +
+        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + shareLabel + '</div>' +
           '<div style="color:var(--muted);">of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a confirmed transit stop</div></div>' +
         '<div class="hna-tz__tile" data-tz="half"><div style="font-size:1.6rem;font-weight:700;">' + pct(half) + '</div>' +
           '<div style="color:var(--muted);">is within ½ mile of a confirmed stop (CHFA QAP TOD distance, straight-line)</div></div>' +
@@ -8237,17 +8242,21 @@
             ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
             : 'no confirmed stop found in Colorado data') + '</div></div>' +
         '</div>';
-      if (share === 0) {
+      if (edgeOnly) {
+        html += '<p>Less than 1% of ' + name + ' — a strip along its edge — is within ' + escHtml(String(radius)) + ' miles of a confirmed stop; ' +
+          'the nearest is ' + escHtml(String(rec.nearest_confirmed_stop_to_boundary_miles)) + ' miles from the boundary. Only sites on that edge could pass the screen.</p>';
+      } else if (share === 0) {
         html += '<p>No part of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a fixed-route stop that CDOT or a transit agency publishes. ' +
-          'Demand-response (dial-a-ride) service has no stops, so it does not count toward this screen.</p>';
+          'Demand-response (dial-a-ride) service and private shuttle pickups have no public stops, so they do not count toward this screen.</p>';
       }
       if (typeof shareAny === 'number' && shareAny > share) {
         html += '<p style="color:var(--muted);">Counting OpenStreetMap stops that neither CDOT nor an agency confirms, the share rises to ' + pct(shareAny) +
-          '. Those stops are unconfirmed, so they are left out of the figures above.</p>';
+          '. Those stops are unconfirmed, so they are left out of the figures above. Private airport and hotel shuttle pickups are left out of every figure: they are not public transit.</p>';
       }
       html += '<p><strong>Transit Zone credit.</strong> Only housing inside an OEDIT-designated Transit and Housing Investment Zone can receive the HB26-1065 credit. ' +
-        (share > 0 ? 'Sites in the ' + pct(share) + ' above pass the 2-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
-                   : 'No site here passes the 2-mile screen.') + '</p>';
+        (share > 0 ? 'Sites in the ' + pct(share) + ' above pass the ' + escHtml(String(radius)) + '-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
+         : edgeOnly ? 'Only a site on that edge strip could pass the ' + escHtml(String(radius)) + '-mile screen.'
+         : 'No site here passes the ' + escHtml(String(radius)) + '-mile screen.') + '</p>';
       html += '<p class="hna-tz__designation" data-tz-designation="' + escHtml(des.designation) + '" style="padding:.5rem .7rem;border-left:3px solid var(--warn);background:var(--warn-dim);">' +
         escHtml(des.note) + '</p>';
       html += '<p style="color:var(--muted);font-size:.95rem;">Source: CDOT Statewide Transit Points, transit agency schedule feeds and OpenStreetMap, merged weekly; ' +
