@@ -5,31 +5,73 @@
       "geoid": "08091",
       "level": "county",
       "name": "Ouray County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the full official sample ballot (single style, \"Precinct: ALL\", precincts 1-5).",
+        "Excluded: County Ballot Issue 1A (county-wide sales tax for disaster recovery and resilience, with shares to the City of Ouray and Town of Ridgway). No housing or homelessness designation.",
+        "No TABOR notice was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://ouraycountyco.gov/328/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856420",
       "level": "municipal",
       "name": "Ouray (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. The county's single all-precinct sample ballot carries no City of Ouray question, and the city's election pages post no 2026 measure. Re-check if the county posts another ballot style."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofouray.com/city_offices/clerk_services/elections.php",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.cityofouray.com/city_offices/clerk_services/public_records_and_documents/election_records.php",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0864200",
       "level": "municipal",
       "name": "Ridgway (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No participating-entities list for the county was posted as of 2026-09-26. The county's single all-precinct sample ballot carries no Town of Ridgway question, and the town site posts no 2026 election notice. Re-check if the county posts another ballot style."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://ouraycountyco.gov/DocumentCenter/View/22944",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofridgway.colorado.gov/town-government/town-clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
