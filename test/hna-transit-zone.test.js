@@ -70,17 +70,17 @@ test('every share is a fraction, or null with a reason — never a silent 0', ()
 
 test('Python nearest-stop distances agree with js/transit-zone.js', () => {
   const zone = TZ.create({ stops, mapStatus, now: new Date(Date.parse(stops.meta.generated) + 3600e3) });
-  const centroids = readJson('data/co-place-centroids.json').byGeoid;
   let checked = 0;
   for (const [id, g] of Object.entries(data.geographies)) {
-    if (g.type === 'county' || !centroids[id] || !g.nearest_confirmed_stop) continue;
-    const s = zone.status(centroids[id].lat, centroids[id].lng);
+    if (!g.nearest_confirmed_stop) continue;
+    assert.ok(Array.isArray(g.centre) && g.centre.length === 2, `${id}: no recorded centre`);
+    const s = zone.status(g.centre[1], g.centre[0]);
     assert.ok(s.nearestConfirmedStop, id);
     assert.ok(Math.abs(s.nearestConfirmedStop.distanceMiles - g.nearest_confirmed_stop.distance_miles) <= 0.011,
       `${id}: JS ${s.nearestConfirmedStop.distanceMiles} vs file ${g.nearest_confirmed_stop.distance_miles}`);
     checked++;
   }
-  assert.ok(checked > 400, `only ${checked} places compared — the scan found too little to check`);
+  assert.ok(checked > 450, `only ${checked} geographies compared — the scan found too little to check`);
 });
 
 // ── The page ────────────────────────────────────────────────────────────────
@@ -146,7 +146,7 @@ test('renders the file\'s figures and the designation note for a place', () => {
 });
 
 test('a geography with no stop nearby says so in words, with 0% and no credit path', () => {
-  const zero = Object.entries(data.geographies).find(([, g]) => g.share_within_radius_confirmed === 0 && g.type === 'county');
+  const zero = Object.entries(data.geographies).find(([, g]) => g.share_within_radius_confirmed === 0 && g.zero_is_exact === true && g.type === 'county');
   assert.ok(zero, 'no zero-share county to test');
   const w = page(realFetch());
   return w.HNARenderers.renderTransitZonePanel(zero[0], FRESH).then(() => {
@@ -154,6 +154,65 @@ test('a geography with no stop nearby says so in words, with 0% and no credit pa
     assert.match(el.textContent, /No part of .* is within/);
     assert.match(el.textContent, /No site here passes the 2-mile screen/);
   });
+});
+
+test('a sampled zero is only called "none" when the builder proved it', () => {
+  for (const [id, g] of Object.entries(data.geographies)) {
+    if (g.share_within_radius_confirmed !== 0) {
+      assert.equal(g.zero_is_exact, null, `${id}: zero_is_exact set on a non-zero share`);
+      continue;
+    }
+    assert.equal(typeof g.zero_is_exact, 'boolean', `${id}: zero share without zero_is_exact`);
+    const d = g.nearest_confirmed_stop_to_boundary_miles;
+    assert.equal(g.zero_is_exact, d === null || d > data.meta.radius_miles, `${id}: zero_is_exact disagrees with the boundary distance ${d}`);
+  }
+});
+
+test('an edge-only zero says "less than 1%", never "no part"', () => {
+  const edge = Object.entries(data.geographies).find(([, g]) => g.share_within_radius_confirmed === 0 && g.zero_is_exact === false);
+  const fixture = edge || ['EDGE', { name: 'Edge town', type: 'place', share_within_radius_confirmed: 0, share_within_radius_any: 0,
+    share_within_half_mile_confirmed: 0, confirmed_stops_inside: 0, nearest_confirmed_stop: { name: 'S', agency: 'A', distance_miles: 4 },
+    nearest_confirmed_stop_to_boundary_miles: 1.5, zero_is_exact: false, samples: 900, unavailableReason: null }];
+  const doc = Object.assign({}, data, { geographies: { [fixture[0]]: fixture[1] } });
+  const w = page(realFetch({ 'data/hna/transit-zone-by-geography.json': doc }));
+  return w.HNARenderers.renderTransitZonePanel(fixture[0], FRESH).then(() => {
+    const el = w.document.getElementById('hnaTransitZoneContent');
+    assert.ok(el.querySelector('[data-tz="share"]').textContent.startsWith('<1%'));
+    assert.match(el.textContent, /Less than 1% of .* a strip along its edge/);
+    assert.doesNotMatch(el.textContent, /No part of/);
+    assert.ok(el.textContent.includes(String(fixture[1].nearest_confirmed_stop_to_boundary_miles) + ' miles from the boundary'));
+  });
+});
+
+test('private shuttle pickups never reach the figures', () => {
+  const src = read('scripts/market/build_transit_zone_by_geography.py');
+  assert.match(src, /"operator"\) == "private_shuttle":\s*\n\s*continue/, 'the builder counts private shuttle pickups');
+  const shuttles = stops.features.filter((f) => f.properties.operator === 'private_shuttle');
+  assert.ok(shuttles.length > 0, 'no private shuttle stops in the stop file — the scan found nothing to check');
+  const names = new Set(shuttles.map((f) => f.properties.name));
+  for (const [id, g] of Object.entries(data.geographies)) {
+    const n = g.nearest_confirmed_stop;
+    if (n && names.has(n.name) && shuttles.some((f) => f.properties.name === n.name && f.properties.agency === n.agency)) {
+      assert.fail(`${id}: nearest confirmed stop is a private shuttle pickup (${n.name}, ${n.agency})`);
+    }
+  }
+});
+
+test('each geography\'s recorded centre lies inside its own boundary', () => {
+  const inRing = (x, y, r) => { let c = false; for (let i = 0, k = r.length - 1; i < r.length; k = i++) {
+    if ((r[i][1] > y) !== (r[k][1] > y) && x < (r[k][0] - r[i][0]) * (y - r[i][1]) / (r[k][1] - r[i][1]) + r[i][0]) c = !c; } return c; };
+  const inside = (geom, x, y) => (geom.type === 'Polygon' ? [geom.coordinates] : geom.coordinates)
+    .some((p) => inRing(x, y, p[0]) && !p.slice(1).some((h) => inRing(x, y, h)));
+  const shapes = {};
+  for (const f of readJson('data/co-county-boundaries.json').features) shapes[String(f.properties.GEOID).padStart(5, '0')] = f.geometry;
+  for (const f of readJson('data/co-place-boundaries.geojson').features) shapes[f.properties.geoid] = f.geometry;
+  let checked = 0;
+  for (const [id, g] of Object.entries(data.geographies)) {
+    if (!g.centre || !shapes[id]) continue;
+    assert.ok(inside(shapes[id], g.centre[0], g.centre[1]), `${id} (${g.name}): centre ${g.centre} is outside its boundary`);
+    checked++;
+  }
+  assert.ok(checked > 500, `only ${checked} centres checked`);
 });
 
 for (const [label, overrides, geoid, now, reason] of [
