@@ -5,31 +5,107 @@
       "geoid": "08027",
       "level": "county",
       "name": "Custer County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://custercounty-co.gov/001-01_sample-ballot/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the three posted official sample ballot styles (001-01, 002-02, 002-03). The clerk page states the precinct number is 1, 2 or 3; which style covers town residents is not stated.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Custer County ballot question appears on any posted style.",
+        "Excluded (special districts, not housing): West Custer County Hospital District Ballot Issue 6A (inclusion of territory); Rye Fire Protection District Ballot Issue 7B (mill levy for emergency services).",
+        "No TABOR notice was posted on the county clerk election page as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://custercounty-co.gov/government/elected-officials/clerk-recorder/elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/001-01_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-02_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-03_sample-ballot/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0870250",
       "level": "municipal",
       "name": "Silver Cliff (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://custercounty-co.gov/001-01_sample-ballot/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the three posted official sample ballot styles (001-01, 002-02, 002-03). The clerk page states the precinct number is 1, 2 or 3; which style covers town residents is not stated.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Silver Cliff question appears on any posted style; the town clerk page (checked 2026-09-26) has no election content."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://custercounty-co.gov/government/elected-officials/clerk-recorder/elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/001-01_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-02_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-03_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://silvercliffco.com/1197/Town-Clerk",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0883450",
       "level": "municipal",
       "name": "Westcliffe (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://custercounty-co.gov/001-01_sample-ballot/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the three posted official sample ballot styles (001-01, 002-02, 002-03). The clerk page states the precinct number is 1, 2 or 3; which style covers town residents is not stated.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Westcliffe question appears on any posted style; the town elections page reports its regular municipal election on April 7, 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://custercounty-co.gov/government/elected-officials/clerk-recorder/elections/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/001-01_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-02_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://custercounty-co.gov/002-03_sample-ballot/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofwestcliffe.colorado.gov/government/town-of-westcliffe-regular-municipal-elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

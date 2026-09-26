@@ -5,42 +5,181 @@
       "geoid": "08015",
       "level": "county",
       "name": "Chaffee County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/County.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read the posted official sample ballot styles County, House District 60 and City of Salida: no Chaffee County ballot question appears on any of them.",
+        "No TABOR notice was posted on the county clerk election page as of 2026-09-26.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "The \"Buena Vista (fire inclusion)\" style (BV_fire-inclusion.pdf) returned HTTP 404 on 2026-09-26 and could not be read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/County.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/House-District-60.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/Salida.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0810105",
       "level": "municipal",
       "name": "Buena Vista (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://chaffeeclerk.colorado.gov/sample-ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the town page states the municipal election on November 3, 2026 \"will be coordinated with the Chaffee County Clerk and Recorder.\"",
+        "Unreadable: the county sample-ballot link \"Buena Vista (fire inclusion)\" (https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/BV_fire-inclusion.pdf) returned HTTP 404 on 2026-09-26, and the \"Buena Vista (not fire)\" link points to Salida.pdf, so no Buena Vista ballot style could be read.",
+        "The town election page lists Mayor and Trustee races and no town ballot question; recheck once the Buena Vista ballot style is posted."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.buenavistaco.gov/2602/November-3-2026-Election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0860600",
       "level": "municipal",
       "name": "Poncha Springs (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://chaffeeclerk.colorado.gov/sample-ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Poncha Springs ballot style or question appears among the county's posted sample ballots; the posted County style carries no municipal question.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "The town website (https://www.ponchasprings.us/) returned HTTP 403 on 2026-09-26 and could not be read to confirm there is no town measure. Owner review: confirm non-participation."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/County.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/House-District-60.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/Salida.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0867280",
       "level": "municipal",
       "name": "Salida (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
-      "entry_ids": [],
-      "limitations": []
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/Salida.pdf",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "ballot-2026-0867280-5-h-llc-r-2-zoning"
+      ],
+      "limitations": [
+        "Excluded (not housing): City of Salida measure \"Publishing Ordinances by Title\" (publication of ordinances by title only).",
+        "The City of Salida website (cityofsalida.com) returned HTTP 403 (Cloudflare challenge) on 2026-09-26; the ordinance and referendum petition documents could not be read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/Salida.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "ballot-2026-0867280-5-h-llc-r-2-zoning",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0867280",
+        "level": "municipal",
+        "name": "Salida (city)"
+      },
+      "measure": {
+        "number": "5-H LLC R-2 Zoning",
+        "official_title": "5-H LLC R-2 Zoning",
+        "origin": "initiated",
+        "relevance": [
+          "land_use"
+        ],
+        "fiscal": {
+          "mechanism": null,
+          "rate": null,
+          "amount_cap": null,
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": null,
+        "ballot_notice": {
+          "url": "https://chaffeeclerk.colorado.gov/sites/g/files/lrnvjt2971/files/documents/Salida.pdf",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Voter approval of Ordinance No. 2026-09 zoning the 5-H LLC Property",
+      "detail": "Asks whether Ordinance No. 2026-09, concerning the zoning of the 5-H LLC Property, is approved. The ballot heading names R-2 zoning.",
+      "evidence": [
+        {
+          "section": "Chaffee County official sample ballot, 2026 General Election, City of Salida style (Precinct 7041308008), \"City of Salida Measures\", heading",
+          "quote": "5-H LLC R-2 Zoning"
+        },
+        {
+          "section": "Chaffee County official sample ballot, 2026 General Election, City of Salida style (Precinct 7041308008), \"City of Salida Measures\", question",
+          "quote": "Shall Ordinance No. 2026-09, concerning the zoning of the 5-H LLC Property, be approved?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Chaffee County Clerk and Recorder official sample ballot, City of Salida style (Salida.pdf)",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "The sample ballot prints no letter or number for this measure; measure.number repeats its ballot heading.",
+        "Origin is recorded as initiated because the measure is a referendum on an adopted ordinance; the City of Salida's referendum petition page returned HTTP 403 and could not be read. Owner review: confirm origin.",
+        "Ordinance No. 2026-09 itself could not be retrieved (cityofsalida.com returned HTTP 403), so sources.resolution is null.",
+        "The sample ballot does not state the density or unit count of the zoning."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }

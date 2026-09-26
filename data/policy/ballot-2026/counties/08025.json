@@ -5,51 +5,183 @@
       "geoid": "08025",
       "level": "county",
       "name": "Crowley County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballots (styles 001-1 \"PREC 1-6\" and 004-2 \"TOWN OF SUGAR CITY ONLY\") are posted only as images; they were read visually.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Crowley County ballot question appears on either style.",
+        "No TABOR notice was posted on the county clerk election page as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193053.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-192825.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193728_0.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193710.png",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0818750",
       "level": "municipal",
       "name": "Crowley (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballots (styles 001-1 \"PREC 1-6\" and 004-2 \"TOWN OF SUGAR CITY ONLY\") are posted only as images; they were read visually.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Town of Crowley question appears on either posted style."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193053.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-192825.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193728_0.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193710.png",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855705",
       "level": "municipal",
       "name": "Olney Springs (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballots (styles 001-1 \"PREC 1-6\" and 004-2 \"TOWN OF SUGAR CITY ONLY\") are posted only as images; they were read visually.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Olney Springs question appears on either posted style. The town elections page reports a regular election on April 7, 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193053.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-192825.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193728_0.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193710.png",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856145",
       "level": "municipal",
       "name": "Ordway (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballots (styles 001-1 \"PREC 1-6\" and 004-2 \"TOWN OF SUGAR CITY ONLY\") are posted only as images; they were read visually.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "No Ordway question appears on either posted style."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193053.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-192825.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193728_0.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193710.png",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0874815",
       "level": "municipal",
       "name": "Sugar City (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The official sample ballots (styles 001-1 \"PREC 1-6\" and 004-2 \"TOWN OF SUGAR CITY ONLY\") are posted only as images; they were read visually.",
+        "No list of participating political subdivisions (or signed coordinated-election IGA list) was posted on the county clerk pages checked on 2026-09-26, so non-participation (not_applicable) could not be established.",
+        "Excluded (general revenue, no housing earmark): Town of Sugar City Ballot Issue 2A, \"SHALL THE TOWN OF SUGAR CITY IMPOSE A TWO PERCENT (2.00%) SALES/ USE TAX, COMMENCING JANUARY 1, 2027, AND SHALL THE TOWN BE AUTHORIZED TO COLLECT, RETAIN, AND SPEND ALL REVENUES THEREFROM FOR THE BENERT OF THE TOWN?\" (spelling as printed on the image).",
+        "The town website (www.townofsugarcityco.org) could not be reached on 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://crowleycounty.colorado.gov/clerk-and-recorder-elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193053.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-192825.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193728_0.png",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://crowleycounty.colorado.gov/system/files/inline-images/Screenshot-2026-09-16-193710.png",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
