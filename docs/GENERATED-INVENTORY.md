@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T01:59:17.841Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:12:31.183Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.7 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1674,13 +1674,13 @@
 
 ## Test Files
 
-429 test files found.
+430 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-audit-never-silently-skips.test.mjs` | 13.2 KB |
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
-| `test/absence-confident-value-static-guard.test.mjs` | 8.4 KB |
+| `test/absence-confident-value-static-guard.test.mjs` | 8.6 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
@@ -1861,6 +1861,7 @@
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 20.2 KB |
+| `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
