@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:39:11.754Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T03:04:37.497Z. Do not edit by hand.
 
 ---
 
@@ -1674,7 +1674,7 @@
 
 ## Test Files
 
-431 test files found.
+432 test files found.
 
 | File | Size |
 |------|------|
@@ -1817,6 +1817,7 @@
 | `test/hna-deep-dive-batch2.test.js` | 6.2 KB |
 | `test/hna-dev-context-collision.test.js` | 4.6 KB |
 | `test/hna-dp04-codes.test.js` | 6.9 KB |
+| `test/hna-export-matches-screen.test.js` | 18.5 KB |
 | `test/hna-extended-fetch-tenure.test.js` | 2.5 KB |
 | `test/hna-functionality-check.js` | 60.6 KB |
 | `test/hna-geography-provenance.test.js` | 5.4 KB |
