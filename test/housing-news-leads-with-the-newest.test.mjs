@@ -264,6 +264,13 @@ test('tool evaluations and research briefs go to their own panels', async () => 
   assert.match(doc.getElementById('toolWatchList').textContent, /Rent & Income Limit Calculator/);
   assert.equal(doc.getElementById('toolWatchPanel').hidden, false);
   assert.match(doc.getElementById('researchList').textContent, /Source-reviewed brief[\s\S]*A reviewed research brief/);
+  const titleLink = doc.querySelector('#researchList h3 a');
+  const url = new URL(titleLink.href);
+  assert.equal(url.pathname, '/research-brief.html');
+  assert.ok(curated.briefs.some((brief) => brief.id === url.searchParams.get('id')),
+    'the card does not name an existing curated id');
+  assert.equal(titleLink.hasAttribute('target'), false, 'the reader should open in the same tab');
+  assert.equal(doc.querySelector('.research-card__meta a').href, curated.briefs[0].articles[0].link);
 });
 
 test('no clickable container wraps links', async () => {
@@ -283,6 +290,20 @@ test('the committed data renders newest first, every story reachable', async () 
   assert.ok(isNewestFirst(dates), 'the committed data does not render newest first');
   const advertised = Number((doc.getElementById('newsCount').textContent.match(/^(\d+)/) || [])[1]);
   assert.equal(dates.length, advertised, 'the header count and the stories a reader can reach disagree');
+  const cards = [...doc.querySelectorAll('#researchList h3 a')];
+  const research = curated.briefs.filter((brief) => brief.is_curated);
+  assert.ok(research.length > 0, 'no curated ids found to check');
+  assert.equal(cards.length, research.length);
+  for (const card of cards) {
+    const url = new URL(card.href);
+    assert.equal(url.pathname, '/research-brief.html');
+    assert.ok(fs.existsSync(path.join(ROOT, 'research-brief.html')), 'the reader page must exist');
+    const brief = research.find((item) => item.id === url.searchParams.get('id'));
+    assert.ok(brief, `card href names no existing curated brief: ${card.href}`);
+    assert.equal(card.textContent, brief.title);
+    assert.equal(card.hasAttribute('target'), false);
+    assert.equal(card.closest('.research-card').querySelector('.research-card__meta a').href, brief.articles[0].link);
+  }
 });
 
 test('every control the page renders has a 44px touch target (rule 14)', async () => {
