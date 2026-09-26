@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26T16:31:10.371853Z",
+  "generated": "2026-09-26T17:05:24.442909Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
@@ -7782,9 +7782,9 @@
       "bytes": 353190
     },
     "data/market/transit_routes_co.geojson": {
-      "featureCount": 1703,
+      "featureCount": 1675,
       "placeholder": false,
-      "bytes": 4877911
+      "bytes": 4719509
     },
     "data/market/travel_time_matrix_co.json": {
       "featureCount": 0,
@@ -7844,7 +7844,7 @@
     "data/paper/figures.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 14704
+      "bytes": 14706
     },
     "data/paper/model-parameters.json": {
       "featureCount": 0,
