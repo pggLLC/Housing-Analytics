@@ -37,6 +37,8 @@ function stopsWith(features, generated) {
 
 console.log('\ntransit-zone');
 
+function fewStops0() { return stopsWith([stop(east(SITE.lat, SITE.lon, 1), 'A', 'confirmed')]); }
+
 // ── 1. behaviour ────────────────────────────────────────────────────────────
 test('a confirmed stop inside the radius → within_2mi, confirmedOnly', () => {
   const z = TZ.create({ stops: stopsWith([stop(east(SITE.lat, SITE.lon, 1.5), 'A', 'confirmed')]), mapStatus, now: NOW });
@@ -96,6 +98,31 @@ test('an unreadable site → unavailable', () => {
   }
 });
 
+test('a missing, swapped or out-of-state location → unavailable, never outside or official_out', () => {
+  const box = [[[-110, 36], [-101, 36], [-101, 42], [-110, 42], [-110, 36]]];
+  const zones = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: { type: 'Polygon', coordinates: box } }] };
+  const pub = Object.assign({}, mapStatus, { status: 'published' });
+  for (const z of [TZ.create({ stops: fewStops0(), mapStatus, now: NOW }), TZ.create({ stops: fewStops0(), mapStatus: pub, zones, now: NOW })]) {
+    for (const [lat, lon, why] of [[0, 0, 'null island'], [-105, 40, 'swapped'], [40.76, -111.89, 'Salt Lake City'], [39.7, 104.99, 'sign lost']]) {
+      const s = z.status(lat, lon);
+      assert.equal(s.status, 'unavailable', why);
+      assert.notEqual(s.designation, 'official_out', why);
+      assert.notEqual(s.designation, 'official_in', why);
+      assert.match(s.unavailableReason, /outside Colorado/, why);
+    }
+  }
+});
+
+test('the Colorado box is the one the route fetcher uses', () => {
+  const py = read('scripts/market/fetch_gtfs_transit.py');
+  const m = py.match(/CO_BBOX = \(([-\d.]+), ([-\d.]+), ([-\d.]+), ([-\d.]+)\)/);
+  assert.ok(m, 'CO_BBOX not found in fetch_gtfs_transit.py');
+  const js = read('js/transit-zone.js');
+  const j = js.match(/minLon: ([-\d.]+), minLat: ([-\d.]+), maxLon: ([-\d.]+), maxLat: ([-\d.]+)/);
+  assert.ok(j, 'CO_BBOX not found in js/transit-zone.js');
+  assert.deepEqual(j.slice(1).map(Number), m.slice(1).map(Number));
+});
+
 // Designation
 const fewStops = stopsWith([stop(east(SITE.lat, SITE.lon, 1), 'A', 'confirmed')]);
 const DUE_WORDS = (() => {
@@ -129,6 +156,23 @@ test('published with zones: official_in / official_out by polygon, screen result
   assert.equal(inside.status, 'within_2mi');
   assert.equal(z.status(SITE.lat + 0.05, SITE.lon).designation, 'official_out');
 });
+
+for (const [label, bad] of [
+  ['a zone with no geometry', { type: 'Feature', geometry: null }],
+  ['a zone with an unclosed ring', { type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[-105, 39], [-104, 39], [-104, 40]]] } }],
+  ['a zone of an unsupported type', { type: 'Feature', geometry: { type: 'LineString', coordinates: [[-105, 39], [-104, 40]] } }],
+]) {
+  test(`published map with ${label}: provisional with the reason, never official_out`, () => {
+    const box = (lon, lat, d) => [[[lon - d, lat - d], [lon + d, lat - d], [lon + d, lat + d], [lon - d, lat + d], [lon - d, lat - d]]];
+    const good = { type: 'Feature', geometry: { type: 'Polygon', coordinates: box(-104, 38, 0.01) } };
+    const pub = Object.assign({}, mapStatus, { status: 'published' });
+    const s = TZ.create({ stops: fewStops, mapStatus: pub, zones: { type: 'FeatureCollection', features: [good, bad] }, now: NOW })
+      .status(SITE.lat, SITE.lon);
+    assert.equal(s.designation, 'provisional');
+    assert.match(s.designationNote, /could not be read \(1 of 2 zones unusable\)/);
+    assert.equal(s.status, 'within_2mi', 'the stop-based screen still answers');
+  });
+}
 
 test('published but zones not loaded: provisional, says so', () => {
   const pub = Object.assign({}, mapStatus, { status: 'published' });
