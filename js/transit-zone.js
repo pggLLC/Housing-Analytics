@@ -81,13 +81,48 @@
     return false;
   }
 
+  // Every zone must be a Polygon/MultiPolygon whose rings are closed lists
+  // of at least four numeric positions. One unreadable zone makes the whole
+  // map unusable here: skipping it would label sites inside it "official_out".
+  function zonesProblem(zones) {
+    var feats = zones && Array.isArray(zones.features) ? zones.features : null;
+    if (!feats || !feats.length) return 'OEDIT\u2019s zone map has no zones to check against.';
+    var bad = 0;
+    for (var f = 0; f < feats.length; f++) {
+      var g = feats[f] && feats[f].geometry;
+      var polys = !g ? null : g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : null;
+      var ok = Array.isArray(polys) && polys.length > 0 && polys.every(function (poly) {
+        return Array.isArray(poly) && poly.length > 0 && poly.every(function (ring) {
+          return Array.isArray(ring) && ring.length >= 4 && ring.every(function (pt) {
+            return Array.isArray(pt) && isNum(pt[0]) && isNum(pt[1]);
+          });
+        });
+      });
+      if (!ok) bad++;
+    }
+    return bad ? 'OEDIT\u2019s zone map could not be read (' + bad + ' of ' + feats.length + ' zones unusable).' : null;
+  }
+
+  // Colorado's boundary is (almost exactly) a latitude/longitude rectangle —
+  // the same box scripts/market/fetch_gtfs_transit.py CO_BBOX uses.
+  var CO_BBOX = { minLon: -109.0603, minLat: 36.9924, maxLon: -102.0415, maxLat: 41.0034 };
+  var CO_TOLERANCE_DEG = 0.02;
+  function inColorado(lat, lon) {
+    return lon >= CO_BBOX.minLon - CO_TOLERANCE_DEG && lon <= CO_BBOX.maxLon + CO_TOLERANCE_DEG &&
+           lat >= CO_BBOX.minLat - CO_TOLERANCE_DEG && lat <= CO_BBOX.maxLat + CO_TOLERANCE_DEG;
+  }
+
   // ── Designation: what OEDIT's map says, or why we cannot say yet ────────
-  function designationFor(lon, lat, mapStatus, zones, now) {
+  function designationFor(lon, lat, mapStatus, zones, now, zoneProblem) {
     if (!mapStatus || !mapStatus.map_due_date) {
       return { designation: 'provisional',
                note: 'Provisional — the status of OEDIT’s Transit and Housing Investment Zone map could not be read, so this is a screen only.' };
     }
     var due = formatDate(mapStatus.map_due_date) || mapStatus.map_due_date;
+    if (mapStatus.status === 'published' && zones && zoneProblem) {
+      return { designation: 'provisional',
+               note: 'Provisional — ' + zoneProblem + ' This is still the stop-based screen.' };
+    }
     if (mapStatus.status === 'published' && zones && zones.features && zones.features.length) {
       var inside = inZones(lon, lat, zones);
       return { designation: inside ? 'official_in' : 'official_out',
@@ -120,6 +155,7 @@
     var now = opts.now instanceof Date ? opts.now : new Date();
     var mapStatus = opts.mapStatus || null;
     var zones = opts.zones || null;
+    var zoneProblem = zones ? zonesProblem(zones) : null;
     var maxAgeDays = isNum(opts.maxAgeDays) ? opts.maxAgeDays : DEFAULT_MAX_AGE_DAYS;
     var radius = mapStatus && isNum(mapStatus.zone_radius_miles) && mapStatus.zone_radius_miles > 0
       ? mapStatus.zone_radius_miles : null;
@@ -182,12 +218,21 @@
     }
 
     function status(lat, lon) {
-      var des = designationFor(lon, lat, mapStatus, zones, now);
+      // A location we cannot trust gets no designation at all: a missing
+      // (0,0), swapped or out-of-state point would otherwise read "outside"
+      // or "official_out" — a false negative, not an unknown.
+      var located = isNum(lat) && isNum(lon) && inColorado(lat, lon);
+      if (!located) {
+        return { status: 'unavailable', radiusMiles: radius, nearestStop: null, nearestConfirmedStop: null, confirmedOnly: null,
+                 unavailableReason: isNum(lat) && isNum(lon)
+                   ? 'The site location is outside Colorado (or its coordinates are missing or swapped), so the Colorado transit screen does not apply.'
+                   : 'The site location could not be read.',
+                 designation: 'provisional',
+                 designationNote: 'No designation: the site location could not be placed in Colorado.' };
+      }
+      var des = designationFor(lon, lat, mapStatus, zones, now, zoneProblem);
       var base = { radiusMiles: radius, nearestStop: null, nearestConfirmedStop: null, confirmedOnly: null,
                    designation: des.designation, designationNote: des.note };
-      if (!isNum(lat) || !isNum(lon)) {
-        return Object.assign({ status: 'unavailable', unavailableReason: 'The site location could not be read.' }, base);
-      }
       if (dataProblem) {
         return Object.assign({ status: 'unavailable', unavailableReason: dataProblem }, base);
       }
