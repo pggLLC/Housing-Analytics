@@ -5,21 +5,66 @@
       "geoid": "08111",
       "level": "county",
       "name": "San Juan County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://sanjuancounty.colorado.gov/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "As of 2026-09-26 the clerk's election page states the general-election sample ballot 'will be available in October'; no final TABOR notice or participating-entities list is posted.",
+        "FOR OWNER REVIEW - housing-related county question found only in DRAFT form, so no entry was created: the Board of County Commissioners adopted Resolution 2026-10 'Lodging Tax Expansion' on Aug 12, 2026 (per draft minutes in the Aug 26, 2026 packet, https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf) referring it to the November 3, 2026 ballot, and reached consensus on Sep 9, 2026 to use a draft TABOR notice 'as presented' (draft minutes in the Sep 23, 2026 packet, https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf). The ballot issue number is blank ('SAN JUAN COUNTY BALLOT ISSUE ________'). Text transcribed from the scanned, DRAFT-watermarked TABOR notice in the Sep 9, 2026 packet (https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-9-26.pdf, PDF p.32; same text in draft Resolution 2026-10 Section 2, Aug 12, 2026 packet https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf, PDF pp.30-31): 'San Juan County Ballot Issue - Lodging Tax Expansion: SHALL SAN JUAN COUNTY TAXES BE INCREASED BY $84,494.00 ANNUALLY COMMENCING JANUARY 1, 2027, FROM A ONE PERCENT (1%) INCREASE OF THE EXISTING TWO PERCENT (2%) LODGING TAX, TO A TOTAL OF THREE PERCENT (3%); ON THE RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE LEASING, RENTAL, SALE OR FURNISHING OF A ROOM OR ACCOMMODATION FOR A SHORT-TERM PERIOD (A PERIOD OF LESS THAN 30 CONSECUTIVE DAYS) IN SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON, WITH A REALLOCATION OF THE TOTAL GENERATED FUNDS OF FORTY PERCENT (40%) TO MARKETING AND PROMOTION OF LOCAL TOURISM; FORTY FIVE PERCENT (45%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND, HOUSING AND CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKFORCE, AND OTHER WORKERS IN THE COMMUNITY; AND FIFTEEN PERCENT (15%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND SIGNAGE, TRAIL AND TRAILHEAD DEVELOPMENT, ROAD AND BRIDGE PROJECTS, PARKING AND STAGING, AND THE BACKCOUNTRY RANGER POSITION, AND ANY OTHER LAWFUL USES TO FACILITATE AND ENHANCE VISITOR EXPERIENCES, WITH ALL SUCH EXPENDITURES SPENT IN COMPLIANCE WITH LOCAL GOVERNMENT BUDGET LAWS, AND SHALL THE ACTUAL FIRST YEAR REVENUES, AND WHATEVER ADDITIONAL AMOUNTS ARE RAISED ANNUALLY THEREAFTER, INCLUDING BY RETURN ON INVESTMENT, BE COLLECTED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER PROVISION OF LAW?' Create the entry once the final sample ballot or TABOR notice assigns a number and confirms the wording.",
+        "Scanned PDFs: the draft text above was transcribed from page images, not a text layer."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://sanjuancounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-9-26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0870580",
       "level": "municipal",
       "name": "Silverton (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofsilverton.colorado.gov/government/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county general-election sample ballot is not yet posted ('will be available in October'), and no participating-entities list was found, so town participation cannot be confirmed from an official list.",
+        "The town elections page shows nothing for Nov 3, 2026. Regular town elections are in April of even-numbered years.",
+        "Reviewed the Board of Trustees July and Aug 2026 packets, the 7/20 special meeting agenda, and the 8/24/26 and 9/14/26 meeting recaps. None contains a resolution or ordinance referring a question to the Nov 3, 2026 ballot. This is not a clerk statement that there are no measures.",
+        "Silverton voters will see the county-level 'San Juan County Ballot Issue - Lodging Tax Expansion' (recorded on the 08111 row). Its text expressly covers 'SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON'."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofsilverton.colorado.gov/government/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1wbR2uan4LgLcHq1VxCt_itI49ZSRsUvq",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://sanjuancounty.colorado.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

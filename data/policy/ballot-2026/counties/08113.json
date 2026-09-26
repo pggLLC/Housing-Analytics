@@ -5,61 +5,169 @@
       "geoid": "08113",
       "level": "county",
       "name": "San Miguel County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Both posted sample ballots are marked 'PROOF 2026-09-10' (after the county certification deadline). Neither contains a San Miguel County ballot issue or question. Only two ballot styles (004-1 and 001-2) are posted.",
+        "The TABOR notice is not yet posted. No participating-entities list or IGA was found; the county's CivicPlus agenda portal could not be browsed.",
+        "News and CitizenPortal items about county questions 1A/1B (ECAP/MHAP 5.25% limit waiver, road and bridge) refer to the Nov 2025 election, not 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14796/Sample-Ballot-for-the-2026-General-Election-R-1-School-District",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0852550",
       "level": "municipal",
       "name": "Mountain Village (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofmountainvillage.com/government/town-council/election/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town election page and election blog category only cover 2025. The town often runs its own elections separately from the county's coordinated election, because it has non-resident property-owner electors.",
+        "The July, August and September 2026 council summaries mention no town ballot referral for Nov 3, 2026. This is not an official statement that there are no measures.",
+        "No sample ballot for the Mountain Village precinct (Precinct 6) is posted, and no county participating-entities list was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofmountainvillage.com/government/town-council/election/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofmountainvillage.com/categories/blog/election/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofmountainvillage.com/blog/september-2026-mountain-village-minute/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofmountainvillage.com/blog/august-2026-mountain-village-minute/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofmountainvillage.com/blog/july-2026-mountain-village-minute/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0854880",
       "level": "municipal",
       "name": "Norwood (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://norwoodtown.com/resolutions-and-proclamations",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town's posted 2026 resolutions (through Resolution 0812 Series 2026) and ordinances (through 0814 Series 2026) include no Nov 2026 ballot referral. This is not a clerk statement that there are no measures.",
+        "Sample ballot style 004-1 has no local questions, but the precinct-to-town mapping for style 004 could not be confirmed, so it is not treated as covering Norwood.",
+        "No county participating-entities list was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://norwoodtown.com/resolutions-and-proclamations",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://norwoodtown.com/ordinances",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14795/Sample-Ballot-for-the-2026-General-Election-",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0855870",
       "level": "municipal",
       "name": "Ophir (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://townofophir.colorado.gov/node/10306",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The Jun, Jul, Aug and Sep 2026 General Assembly packets and the Jul and Aug draft minutes contain no Nov 2026 ballot referral. The town's online resolution and ordinance lists are not current (latest entries 2017-2018).",
+        "A 2025 petition for a home-rule charter amendment (changing the form of government; not housing) was reported. Whether it goes on a 2026 ballot was not determined.",
+        "No sample ballot for Ophir's precinct is posted, and no county participating-entities list was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofophir.colorado.gov/node/10306",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofophir.colorado.gov/resolutions",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofophir.colorado.gov/ordinances",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0868655",
       "level": "municipal",
       "name": "Sawpit (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_notice_unavailable",
+      "reviewed_source": "https://www.sanmiguelcountyco.gov/164/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Reviewed source is the county clerk's 2026 election page, whose posted sample ballots (styles 004-1 and 001-2) do not identify Sawpit's precinct.",
+        "No official Town of Sawpit website was found (townofsawpit.colorado.gov and sawpit.colorado.gov did not resolve).",
+        "No sample ballot for Sawpit's precinct is posted, and no county participating-entities list was found."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.sanmiguelcountyco.gov/164/Elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0876795",
       "level": "municipal",
       "name": "Telluride (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://telluride.gov/397/2026-Special-Election",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Based on the Town Clerk's official page: 'The Town does not have an election scheduled for November 3, 2026.' The next regular election is November 2, 2027.",
+        "The county sample ballot for Precinct 001 (Precinct 1 = within the Town of Telluride per the precinct map), style 001-2, is a PROOF dated 2026-09-10. It has no Town of Telluride question; its only local measure is Telluride School District R-1 Ballot Issue 5A (school mill levy override, not housing).",
+        "The legacy domain www.telluride-co.gov did not resolve or was blocked. Pages were read on telluride.gov. The 2026 special municipal election (June 30, 2026) was for council seats only."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://telluride.gov/397/2026-Special-Election",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://telluride.gov/278/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/14796/Sample-Ballot-for-the-2026-General-Election-R-1-School-District",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.sanmiguelcountyco.gov/DocumentCenter/View/11737/Voting-Precincts-Map-PDF",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
