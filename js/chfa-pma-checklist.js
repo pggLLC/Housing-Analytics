@@ -43,7 +43,7 @@
     analyst:     'CHFA-approved market analyst engaged',
     approval:    'PMA boundary approved by CHFA',
     demand:      'Income-qualified demand analysis complete',
-    capture:     'Capture rate calculated',
+    capture:     'Proposed-project capture rate calculated',
     competitive: 'Competitive property impact assessed',
     rents:       'Achievable rent analysis complete',
     absorption:  'Absorption projection documented',

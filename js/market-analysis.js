@@ -1208,7 +1208,12 @@
       flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
     }
     if (captureObj.capture >= RISK.captureHigh) {
-      flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
+      // captureObj.capture is (existing + proposed units) ÷ qualified
+      // renters. With no proposed units (the headline) it is existing
+      // affordable penetration alone, not a capture rate for any project.
+      flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
+        (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
+        ' (≥' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
@@ -1371,6 +1376,21 @@
     return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
   }
 
+  /*
+   * Two ratios on this page share one denominator, and must not share a
+   * name. The headline divides EXISTING affordable units by qualified renter
+   * households: that is penetration of the existing stock. The simulator and
+   * the scenario table divide the PROPOSED project's units by the same
+   * households: that is the project's capture rate, the measure CHFA means
+   * by "capture rate". Both were called "Capture rate". These names are used
+   * on screen and in the exports; market-analysis.html and its Help dialog
+   * must agree with them (test/pma-capture-naming.test.js).
+   */
+  var MEASURE_NAMES = {
+    penetration: 'Existing affordable penetration',
+    capture:     'Proposed-project capture'
+  };
+
   /**
    * The one denominator every capture rate on this page divides by (audit
    * F3). The headline and the simulator divided by CHAS LIHTC-eligible
@@ -1396,7 +1416,7 @@
   function _denominatorLine(den) {
     return den
       ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
-      : 'No renter-household count for this PMA, so no capture rate.';
+      : 'No renter-household count for this PMA, so no penetration or capture rate.';
   }
 
   /* ── Tier label ─────────────────────────────────────────────────── */
@@ -1598,7 +1618,7 @@
     var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
       'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
-      'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
+      MEASURE_NAMES.penetration + ': existing affordable units ÷ renter households — not the ' + MEASURE_NAMES.capture.toLowerCase() + ' rate. Lower density = higher score.',
       'How far market rents have pulled above the capped rents an income-restricted building may charge. The wider that gap, the more people are priced out of the open market and the more demand there is for restricted units.',
       'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
@@ -2240,7 +2260,7 @@
     var mix = validateUnitMix();
     if (!mix.valid) {
       simEl.innerHTML =
-        '<div class="pma-empty">Capture rate unavailable — fix the unit-mix error above.</div>';
+        '<div class="pma-empty">' + MEASURE_NAMES.capture + ' rate unavailable — fix the unit-mix error above.</div>';
       return;
     }
 
@@ -2269,7 +2289,7 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">Capture rate</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
@@ -2414,10 +2434,10 @@
         '<thead><tr>' +
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + MEASURE_NAMES.capture + ' rate = proposed units ' + _denominatorLine(scenDen) + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -4798,10 +4818,13 @@
         affordableDuplicatesReason:    r.affordableDuplicatesReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
-      // The rate and the count it divides by travel together (F3).
+      // The rate and the count it divides by travel together (F3). The key
+      // is kept for existing consumers; `measure` names what it is: existing
+      // affordable units ÷ qualified renters, not a capture rate.
       captureRate: (function () {
         var den = captureDenominator(r);
         return {
+          measure: MEASURE_NAMES.penetration,
           existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
           denominator: den ? den.value : null,
           denominatorSource: den ? den.source : null,
@@ -5092,6 +5115,7 @@
       ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
       ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
       ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
+      ['capture_rate_measure', MEASURE_NAMES.penetration],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
@@ -5685,6 +5709,9 @@
     // Lets a test drive the real export buttons on a result it built with
     // computePma()/aggregateAcs() (test/pma-suppressed-acs-not-zero.test.js).
     _setLastResultForTest:   function (result) { lastResult = result; },
+    // Renders the simulator and scenario table from a result a test builds
+    // (test/pma-capture-naming.test.js).
+    _renderCaptureSurfacesForTest: function (result) { updateSimulator(result); renderScenarios(result); },
     _polygonBufferShareFromGeometry: _polygonBufferShareFromGeometry,
     _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
@@ -5692,6 +5719,7 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    MEASURE_NAMES:           MEASURE_NAMES,
     scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
