@@ -247,11 +247,36 @@
         _metricRow('Renter Share',         _fmtPct(acs.renter_share)) +
         _metricRow('Median HH Income',     _fmtCur(acs.med_hh_income)) +
         _metricRow('Median Gross Rent',    _fmtCur(acs.med_gross_rent)) +
+        _medianBasisNote(acs) +
         _metricRow('Unemployment Rate',    _fmtPct(acs.unemployment_rate)) +
       '</div>'
     );
 
     _render('maMarketDemandContent', html);
+  }
+
+  /**
+   * The two medians above are averages of the Census tract medians in the
+   * market area, not a median measured for the area itself. A tract the
+   * Census published no median for is left out of that average rather than
+   * counted as $0, and this line says how many were left out.
+   * @private
+   */
+  function _medianBasisNote(acs) {
+    var hasMedian = acs.med_gross_rent != null || acs.med_hh_income != null;
+    var r = Number(acs.med_gross_rent_excluded_tracts) || 0;
+    var i = Number(acs.med_hh_income_excluded_tracts) || 0;
+    if (!hasMedian && !r && !i) return '';
+    var parts = [];
+    if (r) parts.push(r + ' tract' + (r === 1 ? '' : 's') + ' for rent');
+    if (i) parts.push(i + ' tract' + (i === 1 ? '' : 's') + ' for income');
+    return '<div class="ma-median-basis-note" style="font-size:.68rem;color:var(--faint);font-style:italic;">' +
+      'Averages of the Census tract medians in this area.' +
+      (parts.length
+        ? ' The Census published no median for ' + parts.join(' and ') +
+          '; those tracts are left out, not counted as $0.'
+        : '') +
+      '</div>';
   }
 
   /** @private */
