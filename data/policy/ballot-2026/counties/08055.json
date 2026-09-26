@@ -121,7 +121,7 @@
       "checked": "2026-09-26",
       "entry_ids": [],
       "limitations": [
-        "OWNER REVIEW (zoning code amendment about a detention-center district; no entry created): City of Walsenburg Ballot Question 2A. Exact text: \"Shall an Ordinance amending Sections 16-4-700 and 16-4-720 of the Walsenburg Municipal Code concerning the Criminal Detention Center (CDC) District be adopted?\" It amends zoning code but concerns a detention-center district, not housing.",
+        "Excluded by owner decision (2026-09-26): City of Walsenburg Ballot Question 2A, \"Shall an Ordinance amending Sections 16-4-700 and 16-4-720 of the Walsenburg Municipal Code concerning the Criminal Detention Center (CDC) District be adopted?\" A zoning code amendment concerning a detention-center district, not housing.",
         "Excluded: City of Walsenburg Ballot Issue 300, a 0.50% sales and use tax \"FOR THE PURPOSE OF OFFSETTING LAW ENFORCEMENT COSTS AND EXPENSES\"; not housing.",
         "The city website (walsenburg.org) returned HTTP 403 to automated access on 2026-09-26 and was not read."
       ],
