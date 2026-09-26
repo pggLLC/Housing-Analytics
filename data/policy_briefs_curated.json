@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-07-26T00:00:00Z",
-    "brief_count": 1,
+    "updated": "2026-09-26T00:00:00Z",
+    "brief_count": 2,
     "methodology": "Human-curated briefs reviewed against linked primary sources. These records are merged with, but not overwritten by, the automated policy-brief pipeline."
   },
   "briefs": [
@@ -44,6 +44,52 @@
         "National"
       ],
       "generated": "2026-07-26T00:00:00Z"
+    },
+    {
+      "id": "co-fee-reductions-2026",
+      "title": "Colorado fee reductions for affordable housing: what towns waive, who pays, and how it differs by region",
+      "policy_topic": "Local Fees & Land Use",
+      "is_curated": true,
+      "source_reviewed": true,
+      "summary": "COHO read the codes, fee schedules and council records of 39 Colorado jurisdictions and verified 106 local fee measures and 50 land-use or zoning incentives that lower the cost of affordable housing. Most fee relief is discretionary \u2014 60 of 93 one-time fee measures need council or staff approval \u2014 and 84 of 106 fee measures do not say how the waived money is replaced. State law lets a local government waive an impact fee for low- or moderate-income or affordable employee housing (C.R.S. 29-20-104.5(5)) but does not require it, and a water or sewer utility run as an enterprise must keep grants from state and local governments under 10% of its annual revenue to stay outside TABOR. Consistent with that, utility fees are the ones cities repay from another fund: Loveland's Community Housing Development Fund repaid up to $366,070 of waived utility fees for Mirasol Phase III, while up to $504,807 of capital expansion fees on the same project were waived with no repayment, and Longmont may subsidize water and sewer system development fees only with money appropriated outside its utility funds. The regions differ. Mountain resort towns mostly waive fees outright for deed-restricted homes without an income cap \u2014 Mountain Village charges $21,650 per tap for a deed-restricted employee condo against $43,300 for a single-family home, and Telluride waives the in-town water and sewer tap attributable to a deed-restricted unit. Western Slope programs scale by income: Grand Junction waives 100% of city impact fees for rentals at or below 70% AMI, 75% at 71\u201380% AMI and 50% at 81\u201390% AMI, for a 30-year commitment. Front Range cities lean toward partial reductions, rebates after payment and income-qualified utility bill help: Colorado Springs rebates up to 100% of development charges after they are paid, Fort Collins credits up to $14,000 per unit, Littleton rebates $2,500 per affordable unit, Denver cuts the building permit fee $6,500 per income-restricted unit, and Westminster credits income-qualified households $360 a year on water bills. Deferrals (Fort Collins, Lafayette, Salida, Avon) are listed separately because a deferred fee is still owed. Screening context, not a study: what a jurisdiction offers is not what a project will receive.",
+      "implications": "Four practical points. First, check who charges each fee: a town waiver may not reach a separate district \u2014 Aspen cannot waive school or sanitation district fees, and Grand Junction's program covers only city water and sewer, not Ute Water or Clifton Water. Second, count a waiver only once it is committed to the project; most are discretionary and several are subject to annual appropriation. Third, model a deferral as a loan with its trigger, not as a cost cut. Fourth, ask how a waiver is paid for: programs that name the paying fund (Grand Junction, Brighton, Loveland, Longmont) show where the money comes from; most do not. On land use, the 50 verified incentives in 31 jurisdictions are mostly inclusionary zoning with offsets, 90-day expedited review tied to the Proposition 123 fast-track, density bonuses and parking reductions. The Proposition 123 fast-track is a review deadline, not a fee rule. No Colorado statute found requires a local fee waiver for affordable housing; state bills since 2021 list fee waivers only as one optional strategy (HB21-1117, HB21-1271, HB24-1152, HB24-1313, SB24-174). Each jurisdiction's verified measures appear in its Housing Needs Assessment under local resources. The legal basis, how waived fees are paid for, the trends and numbered sources are in docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md; the data is data/policy/fee-reductions.json.",
+      "related_data": "data/policy/fee-reductions.json",
+      "sources": [
+        "Colorado municipal codes, fee schedules and council records",
+        "Colorado General Assembly"
+      ],
+      "articles": [
+        {
+          "title": "Method and sources: local fee reductions and land-use incentives",
+          "source": "COHO Analytics",
+          "link": "https://cohoanalytics.com/docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md",
+          "date": "2026-09-26"
+        },
+        {
+          "title": "Verified dataset (fee-reductions/v1)",
+          "source": "COHO Analytics",
+          "link": "https://cohoanalytics.com/data/policy/fee-reductions.json",
+          "date": "2026-09-26"
+        },
+        {
+          "title": "C.R.S. 29-20-104.5, impact fees (reproduction)",
+          "source": "colorado.public.law",
+          "link": "https://colorado.public.law/statutes/crs_29-20-104.5",
+          "date": ""
+        },
+        {
+          "title": "Affordable and Attainable Housing Incentive Program",
+          "source": "City of Grand Junction",
+          "link": "https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent",
+          "date": ""
+        }
+      ],
+      "alert_count": 0,
+      "regions": [
+        "Colorado",
+        "Statewide"
+      ],
+      "generated": "2026-09-26T00:00:00Z"
     }
   ]
 }

@@ -1057,6 +1057,7 @@
         btn;
       label.parentNode.insertBefore(banner, label);
       __dcAbatementBanner = banner;
+      _dcAppendFeeContext(banner, geoKey);
       // Wire the apply button — set select value + trigger change so NOI recomputes
       var applyBtn = banner.querySelector('#dc-apply-abatement');
       if (applyBtn) {
@@ -1074,6 +1075,45 @@
         });
       }
     }).catch(function (e) { console.warn('[dc-abatement] load failed', e); });
+  }
+  // Verified local fee measures (data/policy/fee-reductions.json) shown as
+  // CONTEXT beside the abatement banner. Never applied to any number: a
+  // waiver only lowers cost once the jurisdiction commits it to this
+  // project, and a deferral is still owed (enter it as a loan tranche).
+  function _dcAppendFeeContext(banner, geoKey) {
+    if (!banner || !window.TaxAbatement || !window.TaxAbatement.loadFeeReductions) return;
+    var geoid = geoKey ? String(geoKey).split(':').pop() : null;
+    if (!geoid) return;
+    window.TaxAbatement.loadFeeReductions().then(function (fees) {
+      if (!banner.isConnected || !fees || fees.unavailable) return;
+      var hit = window.TaxAbatement.costReductionsFor(fees, geoid, null);
+      var box = document.createElement('div');
+      box.dataset.dcFeeContext = '1';
+      box.style.cssText = 'margin-top:.4rem;padding-top:.35rem;border-top:1px dashed rgba(4,120,87,.35);font-size:.78rem;color:var(--muted)';
+      if (!hit.fees.length) {
+        box.textContent = 'Local fee waivers: none verified yet for this jurisdiction (not the same as none). Nothing is applied to your numbers.';
+      } else {
+        var MEASURE = { waived: 'waived', reduced: 'reduced', reimbursed: 'paid back after payment', deferred: 'deferred (still owed)', rate_discount: 'monthly rate discount' };
+        var items = hit.fees.slice(0, 4).map(function (e) {
+          var li = document.createElement('li');
+          li.textContent = e.summary + ' (' + (MEASURE[e.measure] || e.measure) + '; ' + e.provider + ')';
+          return li;
+        });
+        var lead = document.createElement('div');
+        lead.textContent = 'Verified local fee measures — context only, not applied to any number. A waiver counts only once committed to this project; enter a deferral as an Impact Fee Loan tranche.';
+        var ul = document.createElement('ul');
+        ul.style.cssText = 'margin:.2rem 0 0 1rem;padding:0';
+        items.forEach(function (li) { ul.appendChild(li); });
+        box.appendChild(lead);
+        box.appendChild(ul);
+        if (hit.fees.length > 4) {
+          var more = document.createElement('div');
+          more.textContent = '+' + (hit.fees.length - 4) + ' more in the Housing Needs Assessment’s local resources.';
+          box.appendChild(more);
+        }
+      }
+      banner.appendChild(box);
+    }).catch(function () {});
   }
   // Hook into the existing render lifecycle. Try multiple times since
   // the tax select isn't in the DOM until the Deal Calc renders its
@@ -5927,8 +5967,8 @@
         type: 'Loan', notes: 'Deep affordability requirement (≤30% AMI only). 30-yr affordability min. Davis-Bacon applies.' },
       { k: 'impact_fee_loan', name: 'Impact Fee Loan / Waiver',
         desc: 'Municipal impact fee deferral or waiver for affordable units. Highly jurisdiction-specific — check local code.',
-        url: 'https://www.cml.org/home/resources-training/affordable-housing-toolkit',
-        type: 'Loan + Waiver', notes: 'CO statute permits waivers for income-restricted units. Check city/county impact-fee code.' },
+        url: 'https://colorado.public.law/statutes/crs_29-20-104.5',
+        type: 'Loan + Waiver', notes: 'C.R.S. 29-20-104.5(5): a local government "may waive" an impact fee on low- or moderate-income or affordable employee housing as it defines it — permitted, not required. Subsection (6) allows deferring collection to building permit or certificate of occupancy. Water/sewer taps are often charged by a separate district. Verified local measures: data/policy/fee-reductions.json.' },
       { k: 'sponsor_loan', name: 'Sponsor / Affiliate Loan',
         desc: 'Developer or related-entity subordinate loan. Often used to bridge timing gaps between closing + LIHTC equity flow.',
         url: '',

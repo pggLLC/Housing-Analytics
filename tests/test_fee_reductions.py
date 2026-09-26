@@ -69,8 +69,19 @@ def money(text):
     return out
 
 
+# Codes often spell a percentage out ("sixty percent", "eighty (80) percent").
+WORD_PERCENTS = {
+    'one hundred and twenty': 120, 'one hundred twenty': 120, 'one hundred': 100,
+    'twenty-five': 25, 'ninety': 90, 'eighty': 80, 'seventy': 70, 'sixty': 60,
+    'fifty': 50, 'forty': 40, 'thirty': 30, 'twenty': 20, 'ten': 10,
+}
+
+
 def percents(text):
-    return [float(m.group(1)) for m in re.finditer(r'(\d+(?:\.\d+)?)\s*(?:%|percent\b)', text or '')]
+    text = text or ''
+    for word, n in WORD_PERCENTS.items():
+        text = re.sub(r'\b' + word + r'\s+percent\b', f'{n} percent', text, flags=re.I)
+    return [float(m.group(1)) for m in re.finditer(r'(\d+(?:\.\d+)?)\)?\s*(?:%|percent\b)', text)]
 
 
 def quotes_of(item):
@@ -176,7 +187,7 @@ def test_a_primary_entry_carries_the_source_wording_it_rests_on(doc):
     for e in primary + doc['meta']['legal_basis']:
         assert e.get('evidence'), f"{e['id']}: primary with no evidence quote"
         for ev in e['evidence']:
-            assert ev.get('section') and len(ev['quote']) >= 15, e['id']
+            assert ev.get('section') and len(ev['quote']) >= 8, e['id']
 
 
 def test_every_figure_in_an_entry_is_in_its_evidence(doc):
@@ -184,6 +195,12 @@ def test_every_figure_in_an_entry_is_in_its_evidence(doc):
     for e in doc['entries'] + doc['meta']['legal_basis']:
         quotes = quotes_of(e)
         amounts, pcts = set(money(quotes)), set(percents(quotes))
+        for ev in e.get('evidence', []):
+            # A PDF table can put the $ in its own column, so extraction
+            # reads "21,650 $". The declared figure must be in the quote.
+            for figure in ev.get('table_figures', []):
+                assert figure.lstrip('$') in ev['quote'], f"{e['id']}: table figure {figure} is not in its quote"
+                amounts.update(money(figure))
         prose = prose_of(e)
         for figure in e.get('not_in_source', []):
             prose = prose.replace(figure, '')

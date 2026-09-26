@@ -45,6 +45,160 @@
     return _promise;
   }
 
+  // Verified local fee reductions + land-use incentives
+  // (data/policy/fee-reductions.json, schema fee-reductions/v1). This is
+  // the single source of truth for fee waivers: the inventory's
+  // fee-waiver rows point at it by id, and a row that no entry backs is
+  // shown as not yet verified rather than as a program.
+  var _fees = null;
+  var _feesPromise = null;
+  function _loadFees() {
+    if (_fees) return Promise.resolve(_fees);
+    if (_feesPromise) return _feesPromise;
+    _feesPromise = fetch(_resolvePath('data/policy/fee-reductions.json'))
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { _fees = d || { entries: [], land_use: [], meta: {} }; return _fees; })
+      .catch(function (e) {
+        console.warn('[TaxAbatement] fee-reductions fetch failed', e);
+        return { entries: [], land_use: [], meta: {}, unavailable: true };
+      });
+    return _feesPromise;
+  }
+
+  var FEE_LABEL = {
+    tap_water: 'Water tap fee', tap_sewer: 'Sewer tap fee',
+    plant_investment: 'Plant investment fee', system_development: 'System development fee',
+    impact_transportation: 'Transportation impact fee', impact_parks: 'Parks impact fee',
+    impact_police_fire: 'Police / fire impact fee', impact_school: 'School impact fee',
+    impact_other: 'Impact fees', building_permit: 'Building permit fee',
+    plan_review: 'Plan review fee', use_tax: 'Construction use tax', utility_rate: 'Monthly utility rate'
+  };
+  var MEASURE_LABEL = {
+    waived: 'Waived', reduced: 'Reduced', reimbursed: 'Paid back after payment',
+    deferred: 'Deferred — still owed', rate_discount: 'Monthly rate discount'
+  };
+  var LAND_LABEL = {
+    density_bonus: 'Density bonus', parking_reduction: 'Parking reduction',
+    by_right_or_admin_approval: 'By-right / administrative approval', expedited_review: 'Expedited review',
+    inclusionary_zoning: 'Inclusionary zoning', adu_allowance: 'Accessory dwelling units',
+    dimensional_relief: 'Dimensional relief', reduced_lot_size: 'Reduced lot size',
+    affordable_housing_overlay: 'Affordable-housing overlay', land_dedication_or_donation: 'Land dedication / donation',
+    other: 'Other land-use measure'
+  };
+  var BACKFILL_LABEL = {
+    general_fund: 'the general fund pays the fee fund', housing_fund: 'a housing fund pays the fee fund',
+    enterprise_absorbed: 'the utility absorbs it', grant: 'a grant pays it',
+    reimbursement: 'the applicant pays, then is reimbursed', none: 'it is not backfilled',
+    not_specified: 'the source does not say'
+  };
+
+  function _checkLine(v) {
+    if (!v || !v.level) return 'Not yet verified';
+    if (v.level === 'primary') return 'Checked against ' + (v.against || 'the primary source') + (v.checked ? ' on ' + v.checked : '');
+    return 'As reported by ' + (v.by || 'the linked source') + (v.checked ? ' (read ' + v.checked + ')' : '') + '; not checked against the primary document';
+  }
+
+  function _eligibility(el) {
+    if (!el) return '';
+    var bits = [];
+    if (el.ami_max != null) bits.push('up to ' + el.ami_max + '% AMI');
+    if (el.tenure && el.tenure !== 'any') bits.push(el.tenure);
+    if (el.deed_restriction_years != null) bits.push(el.deed_restriction_years + '-year restriction');
+    if (el.by_right === true) bits.push('by right');
+    else if (el.by_right === false) bits.push('needs approval');
+    return bits.join(' · ');
+  }
+
+  function _renderFeeEntry(e, scopeNote) {
+    var head = _esc(FEE_LABEL[e.fee_category] || e.fee_category) + ' — ' + _esc(MEASURE_LABEL[e.measure] || e.measure);
+    var elig = _eligibility(e.eligibility);
+    var paid = e.measure === 'deferred' ? '' :
+      '<div class="ta-item__meta">How the waived amount is paid for: ' + _esc(BACKFILL_LABEL[(e.backfill || {}).method] || 'the source does not say') + '.</div>';
+    return '<li class="ta-item" data-fee-entry="' + _esc(e.id) + '">' +
+             '<div class="ta-item__head"><span class="ta-item__name">' + head + '</span>' +
+               '<span class="ta-item__cat">' + _esc(e.provider) + '</span>' +
+               (scopeNote ? '<span class="ta-item__cat">' + _esc(scopeNote) + '</span>' : '') + '</div>' +
+             (e.summary ? '<div class="ta-item__summary">' + _esc(e.summary) + '</div>' : '') +
+             (elig ? '<div class="ta-item__meta">Eligibility: ' + _esc(elig) + '</div>' : '') +
+             paid +
+             '<div class="ta-item__meta">' + _esc(_checkLine(e.verification)) +
+               (e.source && e.source.url ? ' · <a href="' + _esc(e.source.url) + '" target="_blank" rel="noopener">' + _esc(e.source.label || 'Source') + '</a>' : '') +
+             '</div>' +
+           '</li>';
+  }
+
+  function _renderLandUse(l, scopeNote) {
+    var elig = _eligibility(l.eligibility);
+    return '<li class="ta-item" data-land-use="' + _esc(l.id) + '">' +
+             '<div class="ta-item__head"><span class="ta-item__name">' + _esc(LAND_LABEL[l.measure] || l.measure) + '</span>' +
+               '<span class="ta-item__cat">' + _esc(l.requirement_or_incentive === 'requirement' ? 'requirement' : l.requirement_or_incentive === 'both' ? 'requirement with incentives' : 'incentive') + '</span>' +
+               (scopeNote ? '<span class="ta-item__cat">' + _esc(scopeNote) + '</span>' : '') + '</div>' +
+             (l.detail ? '<div class="ta-item__summary">' + _esc(l.detail) + '</div>' : '') +
+             (elig ? '<div class="ta-item__meta">Eligibility: ' + _esc(elig) + '</div>' : '') +
+             '<div class="ta-item__meta">' + _esc(_checkLine(l.verification)) +
+               (l.source && l.source.url ? ' · <a href="' + _esc(l.source.url) + '" target="_blank" rel="noopener">' + _esc(l.source.label || 'Source') + '</a>' : '') +
+             '</div>' +
+           '</li>';
+  }
+
+  // Entries that apply to a geography: its own, plus its county's (a
+  // county program may apply only in unincorporated areas — labelled).
+  function costReductionsFor(data, geoid, countyFips) {
+    var own = function (x) { return x.geoid && x.geoid === geoid; };
+    var county = function (x) { return countyFips && countyFips !== geoid && x.geoid === countyFips; };
+    var entries = (data && data.entries) || [];
+    var land = (data && data.land_use) || [];
+    return {
+      fees: entries.filter(own), countyFees: entries.filter(county),
+      land: land.filter(own), countyLand: land.filter(county)
+    };
+  }
+
+  function attachCostReductions(container, opts) {
+    if (!container) return;
+    opts = opts || {};
+    _ensureStyles();
+    container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading verified cost-reduction measures…</p>';
+    _loadFees().then(function (data) {
+      var name = opts.jurisName || 'this jurisdiction';
+      if (data.unavailable) {
+        container.innerHTML = '<p class="ta-empty">Unavailable: the verified fee-reduction dataset could not be loaded, so nothing is shown. This is not the same as “none”.</p>';
+        return;
+      }
+      var hit = costReductionsFor(data, opts.geoid, opts.countyFips);
+      var countyTag = 'county program — may apply only outside town limits';
+      var out = [];
+      out.push('<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
+        'Screening context, not a study. Each item below was read from the jurisdiction’s own code, fee schedule or program page; nothing here is applied to any calculation. ' +
+        'A deferred fee is still owed — it helps cash flow during construction but does not lower total development cost.</p>');
+      if (hit.fees.length || hit.countyFees.length) {
+        out.push('<h5 class="ta-subhead">Fee waivers, reductions and deferrals</h5><ul class="ta-list">' +
+          hit.fees.map(function (e) { return _renderFeeEntry(e, ''); }).join('') +
+          hit.countyFees.map(function (e) { return _renderFeeEntry(e, countyTag); }).join('') + '</ul>');
+      } else {
+        out.push('<p class="ta-empty"><strong>Fee waivers:</strong> none verified yet for ' + _esc(name) + '. ' +
+          'That is not the same as none — the dataset covers the jurisdictions checked so far, and water and sewer taps are often charged by a separate district.</p>');
+      }
+      if (hit.land.length || hit.countyLand.length) {
+        out.push('<h5 class="ta-subhead">Land use and zoning that lowers cost</h5><ul class="ta-list">' +
+          hit.land.map(function (l) { return _renderLandUse(l, ''); }).join('') +
+          hit.countyLand.map(function (l) { return _renderLandUse(l, countyTag); }).join('') + '</ul>');
+      } else {
+        out.push('<p class="ta-empty"><strong>Land use and zoning incentives:</strong> none verified yet for ' + _esc(name) + '. Not the same as none.</p>');
+      }
+      if (window.MethodFooter) {
+        out.push(window.MethodFooter.html({
+          source:    'data/policy/fee-reductions.json (verified against primary sources)',
+          sourceUrl: 'https://cohoanalytics.com/data/policy/fee-reductions.json',
+          vintage:   data.meta && data.meta.as_of,
+          method:    'Each entry quotes the source wording its figures rest on. Legal basis, how waived fees are paid for, and statewide trends: docs/methodology/LOCAL-JURISDICTION-HOUSING-CONTRIBUTIONS.md.',
+          confidence:'med'
+        }));
+      }
+      container.innerHTML = out.join('');
+    });
+  }
+
   function _ensureStyles() {
     if (document.getElementById('ta-styles')) return;
     var st = document.createElement('style');
@@ -74,12 +228,30 @@
       '}',
       '.dark-mode .ta-item__mag { background:rgba(16,185,129,.18); color:#34d399; }',
       '.ta-empty { color:var(--muted); font-size:.85rem; padding:.5rem 0; }',
+      '.ta-item__meta { font-size:.76rem; color:var(--muted); margin-top:.2rem; line-height:1.4; }',
+      '.ta-subhead { font-size:.86rem; margin:.6rem 0 .2rem; }',
+      '.ta-item__unverified { font-size:.68rem; font-weight:700; padding:1px 7px; border-radius:9px; border:1px dashed var(--muted); color:var(--muted); }',
       '.ta-baseline { font-size:.78rem; color:var(--muted); margin:.5rem 0 0; padding-left:.4rem; border-left:3px solid rgba(0,0,0,.1); }'
     ].join('\n');
     document.head.appendChild(st);
   }
 
-  function _renderProgram(p) {
+  // A fee-waiver row in the older inventory is shown only through the
+  // verified dataset: backed rows render the verified entries; the rest
+  // carry a "Not yet verified" tag and no magnitude.
+  function _renderProgram(p, fees) {
+    if (p.category === 'fee-waiver') {
+      var ids = Array.isArray(p.fee_reductions_ids) ? p.fee_reductions_ids : [];
+      var backed = ((fees && fees.entries) || []).filter(function (e) { return ids.indexOf(e.id) !== -1; });
+      if (backed.length) {
+        return backed.map(function (e) { return _renderFeeEntry(e, ''); }).join('');
+      }
+      return '<li class="ta-item">' +
+               '<div class="ta-item__head"><span class="ta-item__name">' + _esc(p.name) + '</span>' +
+                 '<span class="ta-item__unverified">Not yet verified</span></div>' +
+               '<div class="ta-item__meta">' + _esc(p.verification_note || 'Listed in an older inventory; not yet checked against the jurisdiction’s own code or fee schedule.') + '</div>' +
+             '</li>';
+    }
     return '<li class="ta-item">' +
              '<div class="ta-item__head">' +
                (p.url
@@ -97,7 +269,8 @@
     opts = opts || {};
     _ensureStyles();
     container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading tax abatement inventory…</p>';
-    _load().then(function (data) {
+    Promise.all([_load(), _loadFees()]).then(function (both) {
+      var data = both[0], fees = both[1];
       var entry = (data.jurisdictions || []).find(function (j) {
         return Array.isArray(j.geoKeys) && j.geoKeys.indexOf(opts.geoKey) !== -1;
       });
@@ -109,7 +282,7 @@
           '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
           'Curated for <strong>' + _esc(entry.name) + '</strong>. Verify before underwriting — programs change yearly.' +
           '</p>',
-          '<ul class="ta-list">' + entry.programs.map(_renderProgram).join('') + '</ul>'
+          '<ul class="ta-list">' + entry.programs.map(function (p) { return _renderProgram(p, fees); }).join('') + '</ul>'
         );
       } else {
         rendered.push(
@@ -150,5 +323,10 @@
 
   function loadRoster() { return _load(); }
 
-  global.TaxAbatement = { attach: attach, loadRoster: loadRoster };
+  global.TaxAbatement = {
+    attach: attach, loadRoster: loadRoster,
+    attachCostReductions: attachCostReductions,
+    loadFeeReductions: _loadFees,
+    costReductionsFor: costReductionsFor
+  };
 })(typeof window !== 'undefined' ? window : globalThis);
