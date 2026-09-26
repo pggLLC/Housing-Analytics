@@ -1,0 +1,56 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08073",
+      "level": "county",
+      "name": "Lincoln County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0803235",
+      "level": "municipal",
+      "name": "Arriba (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0829680",
+      "level": "municipal",
+      "name": "Genoa (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0837875",
+      "level": "municipal",
+      "name": "Hugo (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0844980",
+      "level": "municipal",
+      "name": "Limon (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

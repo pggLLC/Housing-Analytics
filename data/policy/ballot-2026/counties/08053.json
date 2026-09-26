@@ -1,0 +1,26 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08053",
+      "level": "county",
+      "name": "Hinsdale County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0842330",
+      "level": "municipal",
+      "name": "Lake City (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

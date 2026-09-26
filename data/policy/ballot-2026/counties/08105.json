@@ -1,0 +1,46 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08105",
+      "level": "county",
+      "name": "Rio Grande County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0819795",
+      "level": "municipal",
+      "name": "Del Norte (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0851635",
+      "level": "municipal",
+      "name": "Monte Vista (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0872395",
+      "level": "municipal",
+      "name": "South Fork (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

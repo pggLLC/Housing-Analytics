@@ -1,0 +1,36 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08091",
+      "level": "county",
+      "name": "Ouray County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0856420",
+      "level": "municipal",
+      "name": "Ouray (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0864200",
+      "level": "municipal",
+      "name": "Ridgway (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

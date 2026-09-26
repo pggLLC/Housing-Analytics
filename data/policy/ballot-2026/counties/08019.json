@@ -1,0 +1,56 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08019",
+      "level": "county",
+      "name": "Clear Creek County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0824620",
+      "level": "municipal",
+      "name": "Empire (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0829735",
+      "level": "municipal",
+      "name": "Georgetown (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0838370",
+      "level": "municipal",
+      "name": "Idaho Springs (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0870360",
+      "level": "municipal",
+      "name": "Silver Plume (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}
