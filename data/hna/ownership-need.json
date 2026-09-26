@@ -1,7 +1,7 @@
 {
   "schema": "hna-ownership-need/v1",
   "generated_from": {
-    "ranking_index_generated_at": "2026-09-25T05:47:14Z",
+    "ranking_index_generated_at": "2026-09-26T12:55:42Z",
     "engine": "js/hna/hna-ownership-need.js",
     "builder": "scripts/hna/build_jurisdiction_metrics_digest.mjs"
   },
@@ -282,29 +282,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0845255": {
-      "geoid": "0845255",
-      "name": "Littleton (city)",
-      "type": "place",
-      "recommendation": "Deep affordability priority",
-      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
-      "data_quality": "High",
-      "renter_cost_burdened": 4034.2,
-      "owner_cost_burdened": 2434.7,
-      "severe_renter_cost_burdened": 2182,
-      "moderate_income_renter_households": 2267.7,
-      "moderate_income_owner_cost_burdened": 727.1,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Very High",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0813590": {
       "geoid": "0813590",
       "name": "Cherry Creek (CDP)",
@@ -321,6 +298,29 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Very High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0845255": {
+      "geoid": "0845255",
+      "name": "Littleton (city)",
+      "type": "place",
+      "recommendation": "Deep affordability priority",
+      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
+      "data_quality": "High",
+      "renter_cost_burdened": 4034.2,
+      "owner_cost_burdened": 2434.7,
+      "severe_renter_cost_burdened": 2182,
+      "moderate_income_renter_households": 2267.7,
+      "moderate_income_owner_cost_burdened": 727.1,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Very High",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -742,6 +742,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0846355": {
+      "geoid": "0846355",
+      "name": "Louisville (city)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 824,
+      "owner_cost_burdened": 883,
+      "severe_renter_cost_burdened": 429.4,
+      "moderate_income_renter_households": 471.3,
+      "moderate_income_owner_cost_burdened": 300.4,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0827950": {
       "geoid": "0827950",
       "name": "Four Square Mile (CDP)",
@@ -808,29 +831,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0846355": {
-      "geoid": "0846355",
-      "name": "Louisville (city)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 824,
-      "owner_cost_burdened": 883,
-      "severe_renter_cost_burdened": 429.4,
-      "moderate_income_renter_households": 471.3,
-      "moderate_income_owner_cost_burdened": 300.4,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -926,6 +926,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0821330": {
+      "geoid": "0821330",
+      "name": "Dove Valley (CDP)",
+      "type": "cdp",
+      "recommendation": "Deep affordability priority",
+      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
+      "data_quality": "High",
+      "renter_cost_burdened": 541.2,
+      "owner_cost_burdened": 225.5,
+      "severe_renter_cost_burdened": 283,
+      "moderate_income_renter_households": 392.7,
+      "moderate_income_owner_cost_burdened": 88.1,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "stretch",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0884042": {
       "geoid": "0884042",
       "name": "West Pleasant View (CDP)",
@@ -1015,29 +1038,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0821330": {
-      "geoid": "0821330",
-      "name": "Dove Valley (CDP)",
-      "type": "cdp",
-      "recommendation": "Deep affordability priority",
-      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
-      "data_quality": "High",
-      "renter_cost_burdened": 577.9,
-      "owner_cost_burdened": 237.9,
-      "severe_renter_cost_burdened": 302.2,
-      "moderate_income_renter_households": 419.5,
-      "moderate_income_owner_cost_burdened": 92.9,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -1294,29 +1294,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0822035": {
-      "geoid": "0822035",
-      "name": "Durango (city)",
-      "type": "place",
-      "recommendation": "Deep affordability priority",
-      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
-      "data_quality": "High",
-      "renter_cost_burdened": 1982.2,
-      "owner_cost_burdened": 997.1,
-      "severe_renter_cost_burdened": 970,
-      "moderate_income_renter_households": 1270.5,
-      "moderate_income_owner_cost_burdened": 327.6,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Very High",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0804935": {
       "geoid": "0804935",
       "name": "Basalt (town)",
@@ -1333,6 +1310,29 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0822035": {
+      "geoid": "0822035",
+      "name": "Durango (city)",
+      "type": "place",
+      "recommendation": "Deep affordability priority",
+      "recommendation_detail": "Severe burden among the lowest-income renter households points first to deep rental affordability and supportive subsidy tools.",
+      "data_quality": "High",
+      "renter_cost_burdened": 1982.2,
+      "owner_cost_burdened": 997.1,
+      "severe_renter_cost_burdened": 970,
+      "moderate_income_renter_households": 1270.5,
+      "moderate_income_owner_cost_burdened": 327.6,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Very High",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -1478,29 +1478,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0859240": {
-      "geoid": "0859240",
-      "name": "Pine Brook Hill (CDP)",
-      "type": "cdp",
-      "recommendation": "Rental + ownership mix",
-      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-      "data_quality": "High",
-      "renter_cost_burdened": 10.1,
-      "owner_cost_burdened": 68.8,
-      "severe_renter_cost_burdened": 8.6,
-      "moderate_income_renter_households": 4.4,
-      "moderate_income_owner_cost_burdened": 13.4,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "08031": {
       "geoid": "08031",
       "name": "Denver County",
@@ -1517,6 +1494,29 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0859240": {
+      "geoid": "0859240",
+      "name": "Pine Brook Hill (CDP)",
+      "type": "cdp",
+      "recommendation": "Rental + ownership mix",
+      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
+      "data_quality": "High",
+      "renter_cost_burdened": 10.1,
+      "owner_cost_burdened": 68.8,
+      "severe_renter_cost_burdened": 8.6,
+      "moderate_income_renter_households": 4.4,
+      "moderate_income_owner_cost_burdened": 13.4,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -1731,21 +1731,21 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0825550": {
-      "geoid": "0825550",
-      "name": "Fairmount (CDP)",
+    "0823795": {
+      "geoid": "0823795",
+      "name": "El Jebel (CDP)",
       "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "recommendation": "Rental + ownership mix",
+      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
       "data_quality": "High",
-      "renter_cost_burdened": 108.3,
-      "owner_cost_burdened": 500.5,
-      "severe_renter_cost_burdened": 76.5,
-      "moderate_income_renter_households": 93.9,
-      "moderate_income_owner_cost_burdened": 206.7,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
+      "renter_cost_burdened": 162.2,
+      "owner_cost_burdened": 359.7,
+      "severe_renter_cost_burdened": 91.9,
+      "moderate_income_renter_households": 40.2,
+      "moderate_income_owner_cost_burdened": 164.8,
+      "existing_rental_gap_lte80": 132,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
@@ -1800,21 +1800,21 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0823795": {
-      "geoid": "0823795",
-      "name": "El Jebel (CDP)",
+    "0825550": {
+      "geoid": "0825550",
+      "name": "Fairmount (CDP)",
       "type": "cdp",
-      "recommendation": "Rental + ownership mix",
-      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
       "data_quality": "High",
-      "renter_cost_burdened": 162.2,
-      "owner_cost_burdened": 359.7,
-      "severe_renter_cost_burdened": 91.9,
-      "moderate_income_renter_households": 40.2,
-      "moderate_income_owner_cost_burdened": 164.8,
-      "existing_rental_gap_lte80": 132,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Very High",
+      "renter_cost_burdened": 116.7,
+      "owner_cost_burdened": 513.6,
+      "severe_renter_cost_burdened": 82.3,
+      "moderate_income_renter_households": 101.2,
+      "moderate_income_owner_cost_burdened": 212.1,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
@@ -2008,6 +2008,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0825115": {
+      "geoid": "0825115",
+      "name": "Estes Park (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 342.8,
+      "owner_cost_burdened": 435,
+      "severe_renter_cost_burdened": 193,
+      "moderate_income_renter_households": 294,
+      "moderate_income_owner_cost_burdened": 228.9,
+      "existing_rental_gap_lte80": 54,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0827370": {
       "geoid": "0827370",
       "name": "Fort Carson (CDP)",
@@ -2030,29 +2053,6 @@
         "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
         "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
-      ]
-    },
-    "0825115": {
-      "geoid": "0825115",
-      "name": "Estes Park (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 342.8,
-      "owner_cost_burdened": 435,
-      "severe_renter_cost_burdened": 193,
-      "moderate_income_renter_households": 294,
-      "moderate_income_owner_cost_burdened": 228.9,
-      "existing_rental_gap_lte80": 54,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
     "0879785": {
@@ -2285,29 +2285,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0829625": {
-      "geoid": "0829625",
-      "name": "Genesee (CDP)",
-      "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 66.3,
-      "owner_cost_burdened": 249.5,
-      "severe_renter_cost_burdened": 58.5,
-      "moderate_income_renter_households": 31.2,
-      "moderate_income_owner_cost_burdened": 30.4,
-      "existing_rental_gap_lte80": 15,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0876325": {
       "geoid": "0876325",
       "name": "Tall Timber (CDP)",
@@ -2417,6 +2394,29 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Very High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0829625": {
+      "geoid": "0829625",
+      "name": "Genesee (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 66.3,
+      "owner_cost_burdened": 249.5,
+      "severe_renter_cost_burdened": 58.5,
+      "moderate_income_renter_households": 31.2,
+      "moderate_income_owner_cost_burdened": 30.4,
+      "existing_rental_gap_lte80": 15,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -2631,29 +2631,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0815935": {
-      "geoid": "0815935",
-      "name": "Colorado City (CDP)",
-      "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 95.6,
-      "owner_cost_burdened": 114.3,
-      "severe_renter_cost_burdened": 62.7,
-      "moderate_income_renter_households": 46.7,
-      "moderate_income_owner_cost_burdened": 45.5,
-      "existing_rental_gap_lte80": 67,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0860600": {
       "geoid": "0860600",
       "name": "Poncha Springs (town)",
@@ -2715,6 +2692,29 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0815935": {
+      "geoid": "0815935",
+      "name": "Colorado City (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 95.6,
+      "owner_cost_burdened": 114.3,
+      "severe_renter_cost_burdened": 62.7,
+      "moderate_income_renter_households": 46.7,
+      "moderate_income_owner_cost_burdened": 45.5,
+      "existing_rental_gap_lte80": 67,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
@@ -2815,29 +2815,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0874980": {
-      "geoid": "0874980",
-      "name": "Sugarloaf (CDP)",
-      "type": "cdp",
-      "recommendation": "Rental + ownership mix",
-      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-      "data_quality": "High",
-      "renter_cost_burdened": 7.5,
-      "owner_cost_burdened": 41.7,
-      "severe_renter_cost_burdened": 3.8,
-      "moderate_income_renter_households": 1.4,
-      "moderate_income_owner_cost_burdened": 16.3,
-      "existing_rental_gap_lte80": 4,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0833640": {
       "geoid": "0833640",
       "name": "Gunnison (city)",
@@ -2877,6 +2854,29 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0874980": {
+      "geoid": "0874980",
+      "name": "Sugarloaf (CDP)",
+      "type": "cdp",
+      "recommendation": "Rental + ownership mix",
+      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
+      "data_quality": "High",
+      "renter_cost_burdened": 7.5,
+      "owner_cost_burdened": 41.7,
+      "severe_renter_cost_burdened": 3.8,
+      "moderate_income_renter_households": 1.4,
+      "moderate_income_owner_cost_burdened": 16.3,
+      "existing_rental_gap_lte80": 4,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -3575,6 +3575,30 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0857445": {
+      "geoid": "0857445",
+      "name": "Paragon Estates (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "Medium",
+      "renter_cost_burdened": 25,
+      "owner_cost_burdened": 43.9,
+      "severe_renter_cost_burdened": 5.1,
+      "moderate_income_renter_households": 14.3,
+      "moderate_income_owner_cost_burdened": 14.8,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
+        "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
+      ]
+    },
     "0802575": {
       "geoid": "0802575",
       "name": "Applewood (CDP)",
@@ -3619,30 +3643,6 @@
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0857445": {
-      "geoid": "0857445",
-      "name": "Paragon Estates (CDP)",
-      "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "Medium",
-      "renter_cost_burdened": 25,
-      "owner_cost_burdened": 43.9,
-      "severe_renter_cost_burdened": 5.1,
-      "moderate_income_renter_households": 14.3,
-      "moderate_income_owner_cost_burdened": 14.8,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-        "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
       ]
     },
     "0837545": {
@@ -3876,29 +3876,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0829955": {
-      "geoid": "0829955",
-      "name": "Gilcrest (town)",
-      "type": "place",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 6.6,
-      "owner_cost_burdened": 58,
-      "severe_renter_cost_burdened": 5.6,
-      "moderate_income_renter_households": 17,
-      "moderate_income_owner_cost_burdened": 21.2,
-      "existing_rental_gap_lte80": 4,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "market-attainable",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0807245": {
       "geoid": "0807245",
       "name": "Blende (CDP)",
@@ -3919,6 +3896,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0829955": {
+      "geoid": "0829955",
+      "name": "Gilcrest (town)",
+      "type": "place",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 6.6,
+      "owner_cost_burdened": 58,
+      "severe_renter_cost_burdened": 5.6,
+      "moderate_income_renter_households": 17,
+      "moderate_income_owner_cost_burdened": 21.2,
+      "existing_rental_gap_lte80": 4,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -3991,29 +3991,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0801740": {
-      "geoid": "0801740",
-      "name": "Altona (CDP)",
-      "type": "cdp",
-      "recommendation": "Rental + ownership mix",
-      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-      "data_quality": "High",
-      "renter_cost_burdened": 30,
-      "owner_cost_burdened": 57,
-      "severe_renter_cost_burdened": 23.4,
-      "moderate_income_renter_households": 13.9,
-      "moderate_income_owner_cost_burdened": 11.6,
-      "existing_rental_gap_lte80": 27,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0816385": {
       "geoid": "0816385",
       "name": "Columbine Valley (town)",
@@ -4035,30 +4012,6 @@
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0863650": {
-      "geoid": "0863650",
-      "name": "Redstone (CDP)",
-      "type": "cdp",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "Medium",
-      "renter_cost_burdened": 5.2,
-      "owner_cost_burdened": 14.3,
-      "severe_renter_cost_burdened": 1.9,
-      "moderate_income_renter_households": 3.7,
-      "moderate_income_owner_cost_burdened": 4.7,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
-        "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
       ]
     },
     "0862220": {
@@ -4146,6 +4099,29 @@
       "rental_pressure_tier": "Very High",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0801740": {
+      "geoid": "0801740",
+      "name": "Altona (CDP)",
+      "type": "cdp",
+      "recommendation": "Rental + ownership mix",
+      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
+      "data_quality": "High",
+      "renter_cost_burdened": 30,
+      "owner_cost_burdened": 57,
+      "severe_renter_cost_burdened": 23.4,
+      "moderate_income_renter_households": 13.9,
+      "moderate_income_owner_cost_burdened": 11.6,
+      "existing_rental_gap_lte80": 27,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -4245,27 +4221,28 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0858400": {
-      "geoid": "0858400",
-      "name": "Penrose (CDP)",
+    "0863650": {
+      "geoid": "0863650",
+      "name": "Redstone (CDP)",
       "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 186.1,
-      "owner_cost_burdened": 237.3,
-      "severe_renter_cost_burdened": 154.1,
-      "moderate_income_renter_households": 72,
-      "moderate_income_owner_cost_burdened": 59.9,
-      "existing_rental_gap_lte80": 35,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "Medium",
+      "renter_cost_burdened": 5.2,
+      "owner_cost_burdened": 14.3,
+      "severe_renter_cost_burdened": 1.9,
+      "moderate_income_renter_households": 3.7,
+      "moderate_income_owner_cost_burdened": 4.7,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
+        "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
       ]
     },
     "0818310": {
@@ -4284,6 +4261,29 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0858400": {
+      "geoid": "0858400",
+      "name": "Penrose (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 186.1,
+      "owner_cost_burdened": 237.3,
+      "severe_renter_cost_burdened": 154.1,
+      "moderate_income_renter_households": 72,
+      "moderate_income_owner_cost_burdened": 59.9,
+      "existing_rental_gap_lte80": 35,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -4337,6 +4337,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0827175": {
+      "geoid": "0827175",
+      "name": "Floyd Hill (CDP)",
+      "type": "cdp",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 25.7,
+      "owner_cost_burdened": 125.1,
+      "severe_renter_cost_burdened": 0,
+      "moderate_income_renter_households": 9.1,
+      "moderate_income_owner_cost_burdened": 106.4,
+      "existing_rental_gap_lte80": 1,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0823630": {
       "geoid": "0823630",
       "name": "Eldorado Springs (CDP)",
@@ -4359,29 +4382,6 @@
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist.",
         "Place household counts were capped to ACS occupied units to avoid apportionment overcount."
-      ]
-    },
-    "0827175": {
-      "geoid": "0827175",
-      "name": "Floyd Hill (CDP)",
-      "type": "cdp",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 25.7,
-      "owner_cost_burdened": 125.1,
-      "severe_renter_cost_burdened": 0,
-      "moderate_income_renter_households": 9.1,
-      "moderate_income_owner_cost_burdened": 106.4,
-      "existing_rental_gap_lte80": 1,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
     "0831935": {
@@ -4431,26 +4431,26 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0853120": {
-      "geoid": "0853120",
-      "name": "Naturita (town)",
-      "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+    "0821390": {
+      "geoid": "0821390",
+      "name": "Downieville-Lawson-Dumont (CDP)",
+      "type": "cdp",
+      "recommendation": "Rental + ownership mix",
+      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
       "data_quality": "High",
-      "renter_cost_burdened": 16.8,
-      "owner_cost_burdened": 42.6,
-      "severe_renter_cost_burdened": 16,
-      "moderate_income_renter_households": 6.8,
-      "moderate_income_owner_cost_burdened": 6.3,
+      "renter_cost_burdened": 8.7,
+      "owner_cost_burdened": 57.5,
+      "severe_renter_cost_burdened": 4.3,
+      "moderate_income_renter_households": 4,
+      "moderate_income_owner_cost_burdened": 8.9,
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "Low",
+      "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
+      "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4497,6 +4497,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0853120": {
+      "geoid": "0853120",
+      "name": "Naturita (town)",
+      "type": "place",
+      "recommendation": "Rental priority",
+      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "data_quality": "High",
+      "renter_cost_burdened": 16.8,
+      "owner_cost_burdened": 42.6,
+      "severe_renter_cost_burdened": 16,
+      "moderate_income_renter_households": 6.8,
+      "moderate_income_owner_cost_burdened": 6.3,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "High",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -4707,29 +4730,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0821390": {
-      "geoid": "0821390",
-      "name": "Downieville-Lawson-Dumont (CDP)",
-      "type": "cdp",
-      "recommendation": "Rental + ownership mix",
-      "recommendation_detail": "This may support a mixed strategy: LIHTC rental for lower-income and rent-burdened households, paired with deed-restricted or shared-equity homes for moderate-income households that cannot access market ownership.",
-      "data_quality": "High",
-      "renter_cost_burdened": 8.7,
-      "owner_cost_burdened": 55.5,
-      "severe_renter_cost_burdened": 4.3,
-      "moderate_income_renter_households": 4,
-      "moderate_income_owner_cost_burdened": 8.6,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "High",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0877757": {
       "geoid": "0877757",
       "name": "Todd Creek (CDP)",
@@ -4776,29 +4776,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0866197": {
-      "geoid": "0866197",
-      "name": "Roxborough Park (CDP)",
-      "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 25,
-      "owner_cost_burdened": 607.8,
-      "severe_renter_cost_burdened": 5.8,
-      "moderate_income_renter_households": 24.7,
-      "moderate_income_owner_cost_burdened": 162.9,
-      "existing_rental_gap_lte80": 8,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0879105": {
       "geoid": "0879105",
       "name": "Twin Lakes CDP (Lake County)",
@@ -4815,6 +4792,29 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "High",
       "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0866197": {
+      "geoid": "0866197",
+      "name": "Roxborough Park (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 25,
+      "owner_cost_burdened": 607.8,
+      "severe_renter_cost_burdened": 5.8,
+      "moderate_income_renter_households": 24.7,
+      "moderate_income_owner_cost_burdened": 162.9,
+      "existing_rental_gap_lte80": 8,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -5213,22 +5213,22 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "08019": {
-      "geoid": "08019",
-      "name": "Clear Creek County",
-      "type": "county",
+    "0815302": {
+      "geoid": "0815302",
+      "name": "Coal Creek (CDP)",
+      "type": "cdp",
       "recommendation": "Ownership-supportive strategy",
       "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
       "data_quality": "High",
-      "renter_cost_burdened": 538,
-      "owner_cost_burdened": 816,
-      "severe_renter_cost_burdened": 164,
-      "moderate_income_renter_households": 319,
-      "moderate_income_owner_cost_burdened": 444,
-      "existing_rental_gap_lte80": 0,
+      "renter_cost_burdened": 41.5,
+      "owner_cost_burdened": 260.1,
+      "severe_renter_cost_burdened": 25.7,
+      "moderate_income_renter_households": 32.4,
+      "moderate_income_owner_cost_burdened": 121.6,
+      "existing_rental_gap_lte80": 3,
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "High",
+      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -5256,6 +5256,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "08019": {
+      "geoid": "08019",
+      "name": "Clear Creek County",
+      "type": "county",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 538,
+      "owner_cost_burdened": 816,
+      "severe_renter_cost_burdened": 164,
+      "moderate_income_renter_households": 319,
+      "moderate_income_owner_cost_burdened": 444,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -5321,29 +5344,6 @@
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "Very High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0815302": {
-      "geoid": "0815302",
-      "name": "Coal Creek (CDP)",
-      "type": "cdp",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 41.5,
-      "owner_cost_burdened": 260.1,
-      "severe_renter_cost_burdened": 25.7,
-      "moderate_income_renter_households": 32.4,
-      "moderate_income_owner_cost_burdened": 121.6,
-      "existing_rental_gap_lte80": 3,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -5604,6 +5604,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0846410": {
+      "geoid": "0846410",
+      "name": "Louviers (CDP)",
+      "type": "cdp",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 2.6,
+      "owner_cost_burdened": 22.8,
+      "severe_renter_cost_burdened": 2.6,
+      "moderate_income_renter_households": 1.3,
+      "moderate_income_owner_cost_burdened": 6.1,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0822575": {
       "geoid": "0822575",
       "name": "East Pleasant View (CDP)",
@@ -5688,29 +5711,6 @@
       "existing_rental_gap_lte80": 0,
       "rental_pressure_tier": "High",
       "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0846410": {
-      "geoid": "0846410",
-      "name": "Louviers (CDP)",
-      "type": "cdp",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 2.6,
-      "owner_cost_burdened": 22.8,
-      "severe_renter_cost_burdened": 2.6,
-      "moderate_income_renter_households": 1.3,
-      "moderate_income_owner_cost_burdened": 6.1,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "High",
       "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
@@ -6847,29 +6847,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "08003": {
-      "geoid": "08003",
-      "name": "Alamosa County",
-      "type": "county",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 1114,
-      "owner_cost_burdened": 536,
-      "severe_renter_cost_burdened": 438,
-      "moderate_income_renter_households": 903,
-      "moderate_income_owner_cost_burdened": 142,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0810600": {
       "geoid": "0810600",
       "name": "Burlington (city)",
@@ -6890,6 +6867,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "08003": {
+      "geoid": "08003",
+      "name": "Alamosa County",
+      "type": "county",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 1114,
+      "owner_cost_burdened": 536,
+      "severe_renter_cost_burdened": 438,
+      "moderate_income_renter_households": 903,
+      "moderate_income_owner_cost_burdened": 142,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -6936,29 +6936,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0842110": {
-      "geoid": "0842110",
-      "name": "La Junta (city)",
-      "type": "place",
-      "recommendation": "Rental priority",
-      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
-      "data_quality": "High",
-      "renter_cost_burdened": 485.7,
-      "owner_cost_burdened": 368,
-      "severe_renter_cost_burdened": 270,
-      "moderate_income_renter_households": 265.8,
-      "moderate_income_owner_cost_burdened": 113,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Very High",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7146,6 +7123,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0862880": {
+      "geoid": "0862880",
+      "name": "Rangely (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 96.9,
+      "owner_cost_burdened": 65.1,
+      "severe_renter_cost_burdened": 74.6,
+      "moderate_income_renter_households": 59.5,
+      "moderate_income_owner_cost_burdened": 3.7,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0828250": {
       "geoid": "0828250",
       "name": "Franktown (CDP)",
@@ -7213,29 +7213,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0862880": {
-      "geoid": "0862880",
-      "name": "Rangely (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 96.9,
-      "owner_cost_burdened": 65.1,
-      "severe_renter_cost_burdened": 74.6,
-      "moderate_income_renter_households": 59.5,
-      "moderate_income_owner_cost_burdened": 3.7,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7308,6 +7285,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0842110": {
+      "geoid": "0842110",
+      "name": "La Junta (city)",
+      "type": "place",
+      "recommendation": "Rental priority",
+      "recommendation_detail": "Rental pressure is the clearest signal; ownership-oriented strategies should be secondary unless local verification shows a specific moderate-income path.",
+      "data_quality": "High",
+      "renter_cost_burdened": 436.4,
+      "owner_cost_burdened": 359,
+      "severe_renter_cost_burdened": 242.6,
+      "moderate_income_renter_households": 238.8,
+      "moderate_income_owner_cost_burdened": 110.2,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Very High",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0859005": {
       "geoid": "0859005",
       "name": "Pierce (town)",
@@ -7354,6 +7354,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0852075": {
+      "geoid": "0852075",
+      "name": "Morrison (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 7.4,
+      "owner_cost_burdened": 16.7,
+      "severe_renter_cost_burdened": 4.6,
+      "moderate_income_renter_households": 5.3,
+      "moderate_income_owner_cost_burdened": 7.7,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0806602": {
       "geoid": "0806602",
       "name": "Beulah Valley (CDP)",
@@ -7393,29 +7416,6 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0852075": {
-      "geoid": "0852075",
-      "name": "Morrison (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 7.4,
-      "owner_cost_burdened": 16.7,
-      "severe_renter_cost_burdened": 4.6,
-      "moderate_income_renter_households": 5.3,
-      "moderate_income_owner_cost_burdened": 7.7,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -7608,29 +7608,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0848060": {
-      "geoid": "0848060",
-      "name": "Manassa (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 11.8,
-      "owner_cost_burdened": 63.5,
-      "severe_renter_cost_burdened": 4.1,
-      "moderate_income_renter_households": 11.8,
-      "moderate_income_owner_cost_burdened": 7.7,
-      "existing_rental_gap_lte80": 1,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0807580": {
       "geoid": "0807580",
       "name": "Bonanza Mountain Estates (CDP)",
@@ -7697,6 +7674,29 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0848060": {
+      "geoid": "0848060",
+      "name": "Manassa (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 11.8,
+      "owner_cost_burdened": 63.5,
+      "severe_renter_cost_burdened": 4.1,
+      "moderate_income_renter_households": 11.8,
+      "moderate_income_owner_cost_burdened": 7.7,
+      "existing_rental_gap_lte80": 1,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -7792,6 +7792,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0806090": {
+      "geoid": "0806090",
+      "name": "Bennett (town)",
+      "type": "place",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 24.9,
+      "owner_cost_burdened": 232.2,
+      "severe_renter_cost_burdened": 11.5,
+      "moderate_income_renter_households": 64.2,
+      "moderate_income_owner_cost_burdened": 84.5,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "stretch",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "08109": {
       "geoid": "08109",
       "name": "Saguache County",
@@ -7881,29 +7904,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0806090": {
-      "geoid": "0806090",
-      "name": "Bennett (town)",
-      "type": "place",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 24.9,
-      "owner_cost_burdened": 232.2,
-      "severe_renter_cost_burdened": 11.5,
-      "moderate_income_renter_households": 64.2,
-      "moderate_income_owner_cost_burdened": 84.5,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8321,6 +8321,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0840790": {
+      "geoid": "0840790",
+      "name": "Kiowa (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 12.1,
+      "owner_cost_burdened": 53.3,
+      "severe_renter_cost_burdened": 6.1,
+      "moderate_income_renter_households": 10.7,
+      "moderate_income_owner_cost_burdened": 17.8,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0882350": {
       "geoid": "0882350",
       "name": "Walsenburg (city)",
@@ -8344,29 +8367,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0802905": {
-      "geoid": "0802905",
-      "name": "Arboles (CDP)",
-      "type": "cdp",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 6.9,
-      "owner_cost_burdened": 29.5,
-      "severe_renter_cost_burdened": 3.4,
-      "moderate_income_renter_households": 2.6,
-      "moderate_income_owner_cost_burdened": 12.9,
-      "existing_rental_gap_lte80": 9,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0812900": {
       "geoid": "0812900",
       "name": "Central City (city)",
@@ -8387,29 +8387,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0840790": {
-      "geoid": "0840790",
-      "name": "Kiowa (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 12.1,
-      "owner_cost_burdened": 53.3,
-      "severe_renter_cost_burdened": 6.1,
-      "moderate_income_renter_households": 10.7,
-      "moderate_income_owner_cost_burdened": 17.8,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8505,6 +8482,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0802905": {
+      "geoid": "0802905",
+      "name": "Arboles (CDP)",
+      "type": "cdp",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 6.9,
+      "owner_cost_burdened": 29.5,
+      "severe_renter_cost_burdened": 3.4,
+      "moderate_income_renter_households": 2.6,
+      "moderate_income_owner_cost_burdened": 12.9,
+      "existing_rental_gap_lte80": 9,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "stretch",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "08065": {
       "geoid": "08065",
       "name": "Lake County",
@@ -8543,6 +8543,29 @@
       "existing_rental_gap_lte80": 50,
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
+    "0864090": {
+      "geoid": "0864090",
+      "name": "Rico (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 4.8,
+      "owner_cost_burdened": 22.6,
+      "severe_renter_cost_burdened": 2.5,
+      "moderate_income_renter_households": 9,
+      "moderate_income_owner_cost_burdened": 5.4,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "Low",
       "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
@@ -8617,29 +8640,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0864090": {
-      "geoid": "0864090",
-      "name": "Rico (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 4.8,
-      "owner_cost_burdened": 22.6,
-      "severe_renter_cost_burdened": 2.5,
-      "moderate_income_renter_households": 9,
-      "moderate_income_owner_cost_burdened": 5.4,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "High",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -8735,6 +8735,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0818640": {
+      "geoid": "0818640",
+      "name": "Crook (town)",
+      "type": "place",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "High",
+      "renter_cost_burdened": 4,
+      "owner_cost_burdened": 17.4,
+      "severe_renter_cost_burdened": 2.1,
+      "moderate_income_renter_households": 11.4,
+      "moderate_income_owner_cost_burdened": 5.5,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Low",
+      "ownership_pressure_tier": "High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "stretch",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0842055": {
       "geoid": "0842055",
       "name": "La Jara (town)",
@@ -8802,29 +8825,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0818640": {
-      "geoid": "0818640",
-      "name": "Crook (town)",
-      "type": "place",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "High",
-      "renter_cost_burdened": 4,
-      "owner_cost_burdened": 17.4,
-      "severe_renter_cost_burdened": 2.1,
-      "moderate_income_renter_households": 11.4,
-      "moderate_income_owner_cost_burdened": 5.5,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Low",
-      "ownership_pressure_tier": "High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -9267,6 +9267,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0831550": {
+      "geoid": "0831550",
+      "name": "Granada (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 12.4,
+      "owner_cost_burdened": 20.9,
+      "severe_renter_cost_burdened": 9.4,
+      "moderate_income_renter_households": 12.4,
+      "moderate_income_owner_cost_burdened": 3.6,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "Low",
+      "affordability_classification": "market-attainable",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0844265": {
       "geoid": "0844265",
       "name": "Lazear (CDP)",
@@ -9336,29 +9359,6 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
-    "0831550": {
-      "geoid": "0831550",
-      "name": "Granada (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 12.4,
-      "owner_cost_burdened": 20.9,
-      "severe_renter_cost_burdened": 9.4,
-      "moderate_income_renter_households": 12.4,
-      "moderate_income_owner_cost_burdened": 3.6,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "Low",
-      "affordability_classification": "market-attainable",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Market home values screen near modeled attainability; emphasize down-payment assistance and owner stabilization before below-market construction assumptions.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
     "0868105": {
       "geoid": "0868105",
       "name": "San Luis (town)",
@@ -9405,6 +9405,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0850040": {
+      "geoid": "0850040",
+      "name": "Merino (town)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 15.6,
+      "owner_cost_burdened": 16.3,
+      "severe_renter_cost_burdened": 8.1,
+      "moderate_income_renter_households": 18,
+      "moderate_income_owner_cost_burdened": 3.9,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Low",
+      "ownership_fit_tier": "High",
+      "affordability_classification": "priced-out",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0871845": {
       "geoid": "0871845",
       "name": "Somerset (CDP)",
@@ -9444,29 +9467,6 @@
       "rental_pressure_tier": "Moderate",
       "ownership_pressure_tier": "Very High",
       "ownership_fit_tier": "Moderate",
-      "affordability_classification": "priced-out",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled prices are above the 100% AMI purchase threshold; any ownership strategy would likely need deed restrictions, subsidy, or shared-equity design.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0850040": {
-      "geoid": "0850040",
-      "name": "Merino (town)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 15.6,
-      "owner_cost_burdened": 16.3,
-      "severe_renter_cost_burdened": 8.1,
-      "moderate_income_renter_households": 18,
-      "moderate_income_owner_cost_burdened": 3.9,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Low",
-      "ownership_fit_tier": "High",
       "affordability_classification": "priced-out",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
@@ -10422,6 +10422,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0836940": {
+      "geoid": "0836940",
+      "name": "Hoehne (CDP)",
+      "type": "cdp",
+      "recommendation": "Ownership-supportive strategy",
+      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
+      "data_quality": "Medium",
+      "renter_cost_burdened": 0.8,
+      "owner_cost_burdened": 3,
+      "severe_renter_cost_burdened": 0.7,
+      "moderate_income_renter_households": 2.9,
+      "moderate_income_owner_cost_burdened": 1.1,
+      "existing_rental_gap_lte80": 2,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Very High",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": null,
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0807795": {
       "geoid": "0807795",
       "name": "Boone (town)",
@@ -10488,29 +10511,6 @@
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
         "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0836940": {
-      "geoid": "0836940",
-      "name": "Hoehne (CDP)",
-      "type": "cdp",
-      "recommendation": "Ownership-supportive strategy",
-      "recommendation_detail": "Owner cost burden and a moderate-income renter base suggest ownership tools may complement rental strategies after local price and assistance checks.",
-      "data_quality": "Medium",
-      "renter_cost_burdened": 0.8,
-      "owner_cost_burdened": 3,
-      "severe_renter_cost_burdened": 0.7,
-      "moderate_income_renter_households": 2.9,
-      "moderate_income_owner_cost_burdened": 1.1,
-      "existing_rental_gap_lte80": 2,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Very High",
-      "ownership_fit_tier": "Moderate",
-      "affordability_classification": null,
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Usable home-value input was unavailable or flagged for review; affordability classification omitted.",
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
@@ -11713,6 +11713,29 @@
         "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
       ]
     },
+    "0827040": {
+      "geoid": "0827040",
+      "name": "Florence (city)",
+      "type": "place",
+      "recommendation": "Verify locally",
+      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
+      "data_quality": "High",
+      "renter_cost_burdened": 116.8,
+      "owner_cost_burdened": 225.9,
+      "severe_renter_cost_burdened": 36.8,
+      "moderate_income_renter_households": 168.4,
+      "moderate_income_owner_cost_burdened": 98.6,
+      "existing_rental_gap_lte80": 0,
+      "rental_pressure_tier": "Moderate",
+      "ownership_pressure_tier": "Moderate",
+      "ownership_fit_tier": "Moderate",
+      "affordability_classification": "stretch",
+      "caveats": [
+        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
+        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
+        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
+      ]
+    },
     "0829680": {
       "geoid": "0829680",
       "name": "Genoa (town)",
@@ -11775,29 +11798,6 @@
       "rental_pressure_tier": "Low",
       "ownership_pressure_tier": "Moderate",
       "ownership_fit_tier": "Low",
-      "affordability_classification": "stretch",
-      "caveats": [
-        "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
-        "Modeled home value falls between the 80% and 100% AMI purchase thresholds; verify current listings and carrying costs locally.",
-        "Moderate-income renter households are not evidence of purchase readiness; they only screen for whether an ownership-oriented base may exist."
-      ]
-    },
-    "0827040": {
-      "geoid": "0827040",
-      "name": "Florence (city)",
-      "type": "place",
-      "recommendation": "Verify locally",
-      "recommendation_detail": "Use this as a screening estimate and verify local sales prices, HOA costs, assistance programs, and deed-restriction policy.",
-      "data_quality": "High",
-      "renter_cost_burdened": 116.8,
-      "owner_cost_burdened": 225.9,
-      "severe_renter_cost_burdened": 36.8,
-      "moderate_income_renter_households": 168.4,
-      "moderate_income_owner_cost_burdened": 98.6,
-      "existing_rental_gap_lte80": 0,
-      "rental_pressure_tier": "Moderate",
-      "ownership_pressure_tier": "Moderate",
-      "ownership_fit_tier": "Moderate",
       "affordability_classification": "stretch",
       "caveats": [
         "Screening estimate only; verify local prices, financing assumptions, assistance programs, household size, and local deed-restriction policy before using this for a project decision.",
