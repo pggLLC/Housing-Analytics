@@ -5,61 +5,342 @@
       "geoid": "08077",
       "level": "county",
       "name": "Mesa County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "County TABOR notice not yet posted (checked 2026-09-26); ballots mail October 2, 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0815605",
       "level": "municipal",
       "name": "Collbran (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "No Town of Collbran contest or question appears on any of the nine styles.",
+        "The county page posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles.",
+        "Town website (townofcollbran.org) was unreachable on 2026-09-26 (proxy CONNECT 502); town clerk page not readable."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0819355",
       "level": "municipal",
       "name": "De Beque (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "Excluded: Town of De Beque Ballot Issue 2C - occupation tax of up to $5 per pound on medical marijuana, with revenue retained as a voter-approved revenue change; the question text states no housing purpose.",
+        "Town website (debeque.org) returned HTTP 403 on 2026-09-26; town clerk page not readable."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0828745",
       "level": "municipal",
       "name": "Fruita (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "No City of Fruita contest or question appears on any of the nine styles.",
+        "The county page posts no list of participating political subdivisions or IGAs (checked 2026-09-26), so not_applicable was not used; the row is based on the full set of posted sample ballot styles.",
+        "City of Fruita 2026 Regular Municipal Election page (read 2026-09-26): the city held its regular municipal election on April 7, 2026; nothing is posted for November 3, 2026."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.fruita.org/784/2026-Regular-Municipal-Election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0831660",
       "level": "municipal",
       "name": "Grand Junction (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "Excluded: City of Grand Junction Referred Measure 2B - sales and use tax increase from 3.39% to 3.46% and $12,000,000 debt to repair, renovate and equip the Orchard Mesa Swimming Pool; not housing.",
+        "City clerk election page not located on gjcity.org (checked 2026-09-26)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0856970",
       "level": "municipal",
       "name": "Palisade (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/file/d/1JWvyTM2tfwo8fScoKPFG2DyPctpn_5fK/view",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Read all nine official 2026 General sample ballot styles (Styles 1-9) in the county \"Current Year\" sample-ballot folder linked from the county Notice of Election and Sample Ballots page. Local content on them: City of Grand Junction Referred Measure 2B (Styles 2, 7), Town of Palisade Ballot Issue 2A (Styles 8, 9), Town of De Beque Ballot Issue 2C and Town of De Beque mayor/trustee races (Style 4), Mesa County Valley School District 51 Issue 4A, Palisade Rural Fire Protection District Issue 6A. No Mesa County question appears on any style.",
+        "Excluded: Town of Palisade Ballot Issue 2A - sales tax increase from 2.0% to 3.0% through December 31, 2034, for street repairs, park and swimming pool improvements, and emergency services; not housing.",
+        "Town website (townofpalisade.org) returned HTTP 403 on 2026-09-26; town clerk page not readable."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.mesacounty.us/departments-and-services/clerk-and-recorder/elections/notice-election-and-sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/drive/folders/1gnSBNYNhYYfI-cQKXW056acArofZYmf0",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1DRWcNtKnTc1R7jh6rFs2C_tnk48lW4Uz/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rkl3cmswFlXJaZDvy5PmKDnD-Vhc1Yd7/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1wxQJG8dhvI6MD_E1ZqqnilShvNotW5_g/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1KE7s71Kx_jmWgucTfaBfS6Rw_Zfe4rB-/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/18Ouc5Hqh7gYxG8EhumvxNSU6_hWOn1BQ/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1rLdGbuU6JcKVfRrHyzIgSsX_ymVDSvIV/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1j0828D7aFrjxiK7MMCfJTZ0Uy7KfA9dT/view",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/file/d/1lBJK057URtasFDc_3kIUdMkyuHc5CCRW/view",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
