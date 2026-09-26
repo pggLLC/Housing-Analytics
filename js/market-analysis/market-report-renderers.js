@@ -212,8 +212,10 @@
    * @private
    */
   function _componentChip(label, score) {
-    var s     = typeof score === 'number' ? score : 0;
-    var color = (s >= 70) ? 'var(--good)' : (s >= 45) ? 'var(--warn)' : 'var(--bad)';
+    // An unavailable component (null) is shown as a dash, never as a 0.
+    var known = typeof score === 'number' && isFinite(score);
+    var s     = known ? score : '\u2014';
+    var color = !known ? 'var(--muted)' : (s >= 70) ? 'var(--good)' : (s >= 45) ? 'var(--warn)' : 'var(--bad)';
     return (
       '<div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;' +
              'padding:0.5rem 0.75rem;display:flex;flex-direction:column;gap:0.15rem;">' +
@@ -465,6 +467,12 @@
 
     var qct    = subsidyData.qct || subsidyData.qctFlag;
     var dda    = subsidyData.dda || subsidyData.ddaFlag;
+    // null = designation unknown (overlay not loaded). Never render it as "No".
+    var qctUnknown = !qct && (subsidyData.qct === null || subsidyData.qctFlag === null);
+    var ddaUnknown = !dda && (subsidyData.dda === null || subsidyData.ddaFlag === null);
+    var unknownPill = '<span class="pill" title="' +
+      _esc(subsidyData.designationUnavailableReason || 'HUD designation data unavailable') +
+      '">Unknown</span>';
     var fmr    = subsidyData.fmrRatio;
     var nearby = subsidyData.nearbySubsidized;
     var score  = subsidyData.subsidy_score;
@@ -473,9 +481,9 @@
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Subsidy Eligibility') +
         _metricRow('Qualified Census Tract (QCT)',
-          qct ? '<span class="pill good">Yes</span>' : '<span class="pill">No</span>') +
+          qct ? '<span class="pill good">Yes</span>' : (qctUnknown ? unknownPill : '<span class="pill">No</span>')) +
         _metricRow('Difficult Development Area (DDA)',
-          dda ? '<span class="pill good">Yes</span>' : '<span class="pill">No</span>') +
+          dda ? '<span class="pill good">Yes</span>' : (ddaUnknown ? unknownPill : '<span class="pill">No</span>')) +
         (fmr !== null && fmr !== undefined
           ? _metricRow('Market / FMR Ratio', _fmtN(fmr, 2),
               fmr >= 1.1 ? 'var(--warn)' : 'var(--good)')

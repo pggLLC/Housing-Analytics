@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-25T21:34:17.341Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:12:31.183Z. Do not edit by hand.
 
 ---
 
@@ -32,7 +32,7 @@
 | `data-map-browser.html` | Data Map · Geographic Datasets · COHO Analytics | 68.9 KB |
 | `data-review-hub.html` | Data Trust Center | COHO Analytics | 39.9 KB |
 | `data-status.html` | Data Status | COHO Analytics | 27.5 KB |
-| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.5 KB |
+| `deal-calculator.html` | Deal Calculator | COHO Analytics | 74.7 KB |
 | `developer-brief.html` | Jurisdiction Brief — COHO | 90.1 KB |
 | `developer-pipeline.html` | Affordable Housing Pipeline — Methodology — COHO | 13.7 KB |
 | `developer-where.html` | Where Should I Build? — COHO | 22.3 KB |
@@ -1674,13 +1674,13 @@
 
 ## Test Files
 
-427 test files found.
+430 test files found.
 
 | File | Size |
 |------|------|
 | `test/a11y-audit-never-silently-skips.test.mjs` | 13.2 KB |
 | `test/a11y-contrast-labels.test.js` | 3.6 KB |
-| `test/absence-confident-value-static-guard.test.mjs` | 8.4 KB |
+| `test/absence-confident-value-static-guard.test.mjs` | 8.6 KB |
 | `test/acs-etl.test.js` | 26.1 KB |
 | `test/acs-fetch-retries.test.py` | 4.0 KB |
 | `test/acs-integration.test.js` | 14.8 KB |
@@ -1835,7 +1835,7 @@
 | `test/hna-projection-integrity.test.js` | 18.7 KB |
 | `test/hna-prop123-relationship.test.js` | 6.7 KB |
 | `test/hna-provenance-disclosure.test.js` | 4.0 KB |
-| `test/hna-qct-dda-unavailable.test.js` | 7.3 KB |
+| `test/hna-qct-dda-unavailable.test.js` | 9.7 KB |
 | `test/hna-race-ethnicity-dp05.test.js` | 4.4 KB |
 | `test/hna-ranking-index.test.js` | 23.5 KB |
 | `test/hna-ranking-low-evidence-badge.test.js` | 6.4 KB |
@@ -1843,6 +1843,7 @@
 | `test/hna-rent-burden-bins.test.js` | 3.6 KB |
 | `test/hna-scenario-builder-saved.test.js` | 7.3 KB |
 | `test/hna-scope-badges.test.js` | 5.5 KB |
+| `test/hna-scorecard-small-place.test.js` | 4.8 KB |
 | `test/hna-section-rail.test.js` | 7.9 KB |
 | `test/hna-strip-digest-evidence.test.js` | 5.3 KB |
 | `test/hna-sub-county-and-sync.test.js` | 4.9 KB |
@@ -1860,6 +1861,7 @@
 | `test/housekeeping-neutral-defaults.test.js` | 6.1 KB |
 | `test/housing-need-face-validity.test.mjs` | 25.0 KB |
 | `test/housing-news-leads-with-the-newest.test.mjs` | 20.2 KB |
+| `test/housing-outcome-score-absence.test.js` | 9.4 KB |
 | `test/hud-egis.test.js` | 23.9 KB |
 | `test/hud-fetch-hardening.test.py` | 1.6 KB |
 | `test/hud-zip-tract-crosswalk.test.js` | 3.2 KB |
@@ -1976,6 +1978,7 @@
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.1 KB |
+| `test/qct-dda-designation-unknown.test.js` | 10.0 KB |
 | `test/qct-dda-embedded-agreement.test.js` | 8.3 KB |
 | `test/qct-dda-same-origin.test.js` | 3.1 KB |
 | `test/query-builder.test.js` | 14.6 KB |
