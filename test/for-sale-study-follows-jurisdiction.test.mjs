@@ -487,6 +487,99 @@ test("the example town's own report keeps its project name and partners", () => 
     .forEach((n) => assert.ok(preview.textContent.includes(n), `Fruita's report lost partner ${n}`));
 });
 
+/* ── The housing-authority caveat follows the authority, not the template ─ */
+//
+// "Fruita Housing Authority ≠ Federal Housing Administration" was on the
+// report's fixed required-caveat list, so every jurisdiction's report carried
+// a disambiguation for an agency it never mentions. The rule now: the caveat
+// is present if and only if the report names that authority.
+
+const AUTHORITY_NAME = /[A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority(?! ≠)/g;
+function reportFor(geography, name, geoid) {
+  const { dom, model, data } = mountFor(geography);
+  const text = dom.window.document.getElementById('marketStudyReportPreview').textContent;
+  return { text, model, data, name, geoid };
+}
+const fruitaGeo = StudyGeography.inputs(
+  { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }, DATA, ENGINES);
+
+test('the "not the same agency" caveat appears exactly when the report names the authority', () => {
+  const checked = [];
+  for (const r of [reportFor(denver, 'Denver'), reportFor(fruitaGeo, 'Fruita')]) {
+    assert.ok(r.text.length > 5000, `${r.name}: no report rendered, so nothing is being checked`);
+    // What the report names, with the caveat lines themselves excluded.
+    const named = [...new Set(r.text.match(AUTHORITY_NAME) || [])];
+    const caveats = [...new Set((r.text.match(/[A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority(?= ≠ Federal Housing Administration)/g) || []))];
+    assert.deepStrictEqual(caveats.sort(), named.sort(),
+      `${r.name}: the report names [${named.join(', ')}] but carries the agency caveat for [${caveats.join(', ')}]`);
+    named.forEach((n) => assert.ok(r.text.includes(Report.authorityCaveat(n)), `${r.name}: caveat text for ${n} is not the shared wording`));
+    checked.push(`${r.name}:${named.length}`);
+  }
+  // Non-vacuity: one side of the iff must be exercised each way.
+  assert.deepStrictEqual(checked, ['Denver:0', 'Fruita:1'],
+    `expected Denver to name no authority and Fruita to name one; got ${checked.join(', ')}`);
+});
+
+test('the report guard refuses both halves of a mismatch', () => {
+  const fruita = mountFor(fruitaGeo);
+  const built = Report.buildReport(fruita.model, { asOf: 'x', jurisdictionLabel: 'Fruita', jurisdictionGeoid: scenarios[0].jurisdiction.place_geoid,
+    vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
+  const caveat = Report.authorityCaveat('Fruita Housing Authority');
+  assert.ok(built.content.includes(caveat));
+  const stripped = built.content.split(caveat).join('');
+  assert.notStrictEqual(stripped, built.content, 'the strip mutation did not apply');
+  assert.throws(() => Report.renderReportPreview({ title: built.title, asOf: built.asOf, content: stripped }), /required caveat missing/);
+
+  const denverBuilt = Report.buildReport(mountFor(denver).model, { asOf: 'x', jurisdictionLabel: 'Denver', jurisdictionGeoid: '0820000',
+    vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
+  const injected = denverBuilt.content.replace('</section>', '<p>' + caveat + '.</p></section>');
+  assert.notStrictEqual(injected, denverBuilt.content, 'the inject mutation did not apply');
+  assert.throws(() => Report.renderReportPreview({ title: denverBuilt.title, asOf: denverBuilt.asOf, content: injected }), /does not name/);
+});
+
+/* ── Local sale prices: the same figure, source and period in the report ── */
+
+const SalePriceEvidence = require('../js/market/sale-price-evidence.js');
+const SALE_CONTEXT = {
+  tracker: json('data/market/redfin_place_market_tracker_co.json'),
+  bridge: json('data/market/bridge_co_market_summary.json'),
+  assessor: json('data/market/parcel_aggregates_co.json')
+};
+function withSalePrice(context) {
+  return StudyGeography.inputs(context, Object.assign({}, DATA,
+    { salePriceEvidence: SalePriceEvidence.forPlace(context.geoid, SALE_CONTEXT) }), ENGINES);
+}
+
+test('the downloaded report carries the on-screen local sale price, source and period', () => {
+  let covered = 0;
+  for (const context of [
+    { geoid: '0820000', geoLevel: 'place', name: 'Denver', countyFips: '08031' },
+    { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }
+  ]) {
+    const geo = withSalePrice(context);
+    const { dom, mount } = mountFor(geo);
+    const screen = mount.querySelector('[data-sale-price]');
+    assert.ok(screen, `${context.name}: no sale-price section on screen`);
+    const exported = dom.window.document.getElementById('marketStudyReportPreview');
+    const inReport = exported.querySelector('[data-sale-price]');
+    assert.ok(inReport, `${context.name}: the report omits the Local sale prices section the screen shows`);
+    assert.strictEqual(inReport.getAttribute('data-sale-price'), screen.getAttribute('data-sale-price'));
+    const evidence = geo.salePrice;
+    if (evidence.value !== null) {
+      covered += 1;
+      const money = evidence.value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+      const periodText = 'Three-month period ending ' + evidence.period;
+      // Every piece the screen shows is in the report, and both are the evidence's own.
+      for (const piece of [money, evidence.label, periodText, evidence.caveat]) {
+        assert.ok(screen.textContent.includes(piece), `${context.name}: screen lacks "${piece}"`);
+        assert.ok(inReport.textContent.includes(piece), `${context.name}: report lacks "${piece}" that the screen shows`);
+      }
+      assert.ok(exported.textContent.includes('Local sale prices: ' + periodText), `${context.name}: the report's data vintages omit the sale-price period`);
+    }
+  }
+  assert.strictEqual(covered, 2, 'Denver and Fruita are expected to be covered places; re-point this guard');
+});
+
 console.log(failures === 0
   ? '  for-sale-study-follows-jurisdiction: PASS'
   : `  for-sale-study-follows-jurisdiction: FAIL (${failures})`);
