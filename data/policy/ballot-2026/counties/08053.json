@@ -5,21 +5,50 @@
       "geoid": "08053",
       "level": "county",
       "name": "Hinsdale County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://hinsdalecounty.colorado.gov/sites/g/files/lrnvjt1826/files/documents/Sample-ballots-2026_0.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No Hinsdale County ballot issue or question appears on the posted styles (STATE, 001-01, 001-02, 001-03, PO-USJHS).",
+        "Excluded (not housing): Archuleta County School District No. 50JT Ballot Issue 5A (school construction bond) and Upper San Juan Health Service District Ballot Issue 7B (revenue retention \"WITHOUT RAISING TAXES\").",
+        "A joint Town/County work-session packet discussed a possible 2-mill housing levy \"if November 2026 pursued\"; no referring resolution was found and no such question is on the posted sample ballots.",
+        "The sample ballot PDF is a scan of Silver World newspaper pages (2026-09-18) with the ballots as embedded images; it was read visually, not by text extraction. The scanned back of style 001-01 ends at the second column.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://hinsdalecounty.colorado.gov/elected-officials/county-clerk/voter-information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0842330",
       "level": "municipal",
       "name": "Lake City (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://hinsdalecounty.colorado.gov/sites/g/files/lrnvjt1826/files/documents/Sample-ballots-2026_0.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded (governance): Town of Lake City Ballot Question 2A (moves the regular municipal election from April to November of even-numbered years; Resolution 2026-08) and Ballot Question 2B (reduces trustees from six to four; Resolution 2026-09). Both appear under Municipal Ballot Measures on style 001-02.",
+        "The sample ballot PDF is a scan of Silver World newspaper pages (2026-09-18) with the ballots as embedded images; it was read visually, not by text extraction. The scanned back of style 001-01 ends at the second column."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townoflakecityco.gov/files/42dad023d/Resolution+2026-08+election+date+-+final+6.16.26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townoflakecityco.gov/files/0de850804/Resolution+2026-09+Ballot+Question+reduce+6.16.26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townoflakecityco.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
