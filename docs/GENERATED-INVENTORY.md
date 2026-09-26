@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:12:31.183Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T02:26:35.745Z. Do not edit by hand.
 
 ---
 
@@ -117,7 +117,7 @@
 | `data/census-multifamily-co.json` | 115.9 KB | ✅ | — |
 | `data/chfa-income-rent-limits-2026.json` | 499.7 KB | ✅ | — |
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
-| `data/chfa-qap-calendar.json` | 16.1 KB | ✅ | — |
+| `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
 | `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
@@ -1713,7 +1713,7 @@
 | `test/chas-tier-shares.test.js` | 4.9 KB |
 | `test/chfa-dda-qct-absence.test.js` | 12.5 KB |
 | `test/chfa-pma-checklist.test.js` | 17.6 KB |
-| `test/chfa-qap-calendar.test.js` | 6.5 KB |
+| `test/chfa-qap-calendar.test.js` | 12.8 KB |
 | `test/ci-tools-are-declared.test.mjs` | 9.3 KB |
 | `test/ci-verifies-bot-commits.test.js` | 5.4 KB |
 | `test/co-historical-allocations.test.js` | 12.9 KB |
@@ -1787,7 +1787,7 @@
 | `test/fixtures/pma/commute-shed-params.fixture.json` | 1.3 KB |
 | `test/fixtures/pma/fruita-mews-calibration.json` | 1.4 KB |
 | `test/fixtures/workflow-cancelled-runs.json` | 2.5 KB |
-| `test/for-sale-study-follows-jurisdiction.test.mjs` | 19.0 KB |
+| `test/for-sale-study-follows-jurisdiction.test.mjs` | 26.0 KB |
 | `test/foreclosure-performance.test.js` | 5.8 KB |
 | `test/forsale-capture.test.js` | 10.3 KB |
 | `test/fred-commodities-config.test.js` | 4.8 KB |
@@ -1894,7 +1894,7 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.1 KB |
-| `test/market-study-page.test.js` | 17.5 KB |
+| `test/market-study-page.test.js` | 18.2 KB |
 | `test/market-study-report.test.js` | 17.8 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
