@@ -5,121 +5,276 @@
       "geoid": "08123",
       "level": "county",
       "name": "Weld County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The full composite sample ballot contains no Weld County-referred or initiated ballot question. The measure sequence runs from municipal 2A to special district 7F, with no 1x series.",
+        "The county TABOR notice was not posted as of 2026-09-26; ballots mail starting Oct 2.",
+        "No participating-entities list or IGA list was found on the county elections page.",
+        "weld.gov blocks direct curl with an Akamai 403. The sample ballot PDF bytes came through WebFetch's saved binary, and I extracted the text locally with pypdf. No text was taken from the WebFetch summary.",
+        "County commissioners' agendas were not checked separately, because the certified sample ballot shows no county question."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.weld.gov/Government/Departments/Clerk-and-Recorder/Elections-Department",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0803950",
       "level": "municipal",
       "name": "Ault (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Ault does not appear anywhere on the Weld composite sample ballot.",
+        "The town page says Ault municipal elections are held the first Tuesday of April in even years; the 2026 election was April 7, 2026.",
+        "Ault probably does not participate in the coordinated election, but no official county participating list was available, so not_applicable was not used."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.aultcolorado.gov/election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0819080",
       "level": "municipal",
       "name": "Dacono (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.daconoco.gov/1183/Elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The City of Dacono canceled its Nov 3, 2026 regular municipal election. The city clerk page states: \"The only matter scheduled for the City's ballot was the election of two City Councilmembers.\"",
+        "No Dacono item appears on the Weld composite sample ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.daconoco.gov/1183/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0822860",
       "level": "municipal",
       "name": "Eaton (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Town of Eaton Ballot Issue 2A (sample ballot p.4) is a $5,000,000 debt increase for street improvements and transportation projects. It is not housing-related and was excluded.",
+        "The Eaton town clerk page (https://www.eatonco.org/town-clerk-and-public-records) returned 403 to curl."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0824950",
       "level": "municipal",
       "name": "Erie (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "For owner review: Town of Erie Ballot Issue 3E (sample ballot p.5) is a new 3.5% lodging tax that applies to short-term rentals. Its revenue is for general governmental purposes, not housing. Verbatim question text: \"SHALL THE TOWN OF ERIE TAXES BE INCREASED BY UP TO $150,000 COMMENCING ON JANUARY 1, 2027, AND BY WHATEVER AMOUNTS ARE GENERATED ANNUALLY THEREAFTER THROUGH THE IMPOSITION OF A LODGING TAX AT THE RATE OF THREE AND ONE HALF PERCENT ON THE TOTAL RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE LEASING OR RENTAL OF ANY HOTEL ROOM, MOTEL ROOM, BED AND BREAKFAST, SHORT TERM RENTAL OR OTHER ACCOMMODATION WITH A STAY OF THIRTY DAYS OR LESS, AND SHALL ALL REVENUES DERIVED FROM SUCH LODGING TAX BE USED FOR GENERAL GOVERNMENTAL PURPOSES, INCLUDING, BUT NOT LIMITED TO PARK AND RECREATIONAL FACILITIES, CAPITAL INFRASTRUCTURE, AND LAW ENFORCEMENT/SAFETY AND SECURITY PURPOSES, AND SHALL THE REVENUES FROM SUCH TAXES AND ANY EARNINGS FROM THE INVESTMENT OF SUCH REVENUES BE COLLECTED AND SPENT AS A VOTER-APPROVED REVENUE CHANGE PURSUANT TO ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION AND ANY OTHER LAW?\" It is not earmarked for housing, so no entry was created.",
+        "Town of Erie Ballot Issue 3F is debt of up to $32.5 million plus a .501% sales and use tax for the Erie Community Center. It is not housing-related.",
+        "Erie spans Boulder and Weld counties. Only the Weld ballot was read; the Boulder County ballot should carry the same Town questions. The Erie town election page still has only general information."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.erieco.gov/386/Election-Voter-Information",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erieco.gov/2664/Lodging-Tax",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0825280",
       "level": "municipal",
       "name": "Evans (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "City of Evans Ballot Issue 2C (sample ballot p.4) expands the permitted uses of the existing food sales tax to city facility operations, economic development incentives and maintaining public improvements. It is not housing-related and was excluded."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.evanscolorado.gov/news/posts/city-council-places-food-sales-tax-use-question-on-november-2026-ballot",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0826600",
       "level": "municipal",
       "name": "Firestone (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Firestone participates in the coordinated election (Mayor and 5 Trustees are on the sample ballot), but it has no ballot issue or question. The town page lists only the office contests."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.firestoneco.gov/election",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0827700",
       "level": "municipal",
       "name": "Fort Lupton (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Fort Lupton does not appear on the Weld 2026 composite sample ballot. The city election page covers only the Nov 4, 2025 coordinated election (Ballot Issue 2C, a water sales tax extension). VOTE411 pages found in search for Fort Lupton 2D and 2E appear to be from a prior cycle and are not on the 2026 ballot.",
+        "No official participating list was available, so not_applicable was not used."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.fortluptonco.gov/181/Election-Information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0828360",
       "level": "municipal",
       "name": "Frederick (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Town of Frederick Ballot Issue 2D is a 1% sales and use tax for streets and transportation. Ballot Issue 2E is debt of up to $26 million for street and transportation projects. Both are on sample ballot pp.4-5; neither is housing-related, so both were excluded."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://frederickco.gov/1256/2026-Transportation-Tax-Frederick-Safety",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0829185",
       "level": "municipal",
       "name": "Garden City (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.townofgardencity.com/call-for-nominations",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The town's official Notice of Cancellation says the Nov 3, 2026 regular municipal election was canceled \"because there are no more candidates than offices to be filled\" (Resolution No. 13-2026).",
+        "No Garden City item appears on the Weld composite sample ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.townofgardencity.com/call-for-nominations",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0829955",
       "level": "municipal",
       "name": "Gilcrest (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Gilcrest participates (the Board of Trustees contest is on the sample ballot), but it has no ballot issue or question.",
+        "townofgilcrest.org returned a bot-challenge page (HTTP 202 with no content) to curl, so the town's own election notice (https://townofgilcrest.org/wp-content/uploads/Call-For-Election-2026.pdf) could not be read.",
+        "A separate Gilcrest recall election, reported for Dec 8, 2026, is not part of the coordinated election."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0832155",
       "level": "municipal",
       "name": "Greeley (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "City of Greeley Ballot Issue 2F (sample ballot p.5) is a 0.6% sales and use tax for the Downtown Civic Campus, the West Greeley Catalyst Project (arena, youth ice center, water park, hotel), recreation facilities and parks. It is not housing-related and was excluded.",
+        "The Greeley clerk page lists 2F as the only 2026 city measure. Greeley has no home-rule charter question on the Nov 2026 ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.weld.gov/files/sharedassets/public/v/1/departments/clerk-and-recorder/documents/elections/2026-general-english-sample-ballot.pdf",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://greeleyco.gov/city-clerk/elections/2026-city-of-greeley-ballot-measure/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0833310",
