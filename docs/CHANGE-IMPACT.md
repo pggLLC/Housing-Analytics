@@ -147,9 +147,11 @@ They reach `.git/refs` too, where they break plain git commands mid-operation.
 | the statewide stop file's shape (property names) | `js/market-analysis.js` TOD check (`reliability`), `data-map-browser.html` popup, `js/data-source-inventory.js` entry | `npm run test:qap-tod-points`, `npm run test:data-source-inventory-paths` |
 | `data/amenities/transit_stops_co.geojson` (OpenStreetMap) | nothing directly: it is an input to the statewide file, where its stops are marked `unconfirmed`. It still feeds `build_ranking_index.py` and `build_neighborhood_access.py` until #1937 Phase 3 | `pytest tests/test_transit_stops_statewide.py` |
 | `data/market/transit_routes_co.geojson` | nothing; the fetcher drops routes with no vertex in Colorado | `pytest tests/test_data_plausibility.py -k touch_colorado` |
+| `js/transit-zone.js` (the one zone answer) | nothing else computes zone status; pages call `TransitZone.create(...).status(lat, lon)` | `npm run test:transit-zone` |
+| `data/policy/thiz-map-status.json` (radius, OEDIT due date, publication status) | the HB26-1065 entry in `data/policy/tax-credit-legislation.json` must give the same due date and radius; when OEDIT publishes, set `status`, commit the zones and name them in `zones_file` | `npm run test:transit-zone` |
 | CDOT or agency-feed failures | nothing: a failed CDOT request exits non-zero and leaves the file untouched | `npm run test:required-fetch-preserves-data` |
 
-`npm run finish-line` item **T1** reads both transit files and reopens if CDOT drops out, a stop loses its source or county, the report loses a county, or the file passes its 16-day SLA.
+`npm run finish-line` items **T1** and **T2**: T1 reads both transit files and reopens if CDOT drops out, a stop loses its source or county, the report loses a county, or the file passes its 16-day SLA. T2 reopens a week after the OEDIT map's due date unless `thiz-map-status.json` records a check after it.
 
 ---
 
