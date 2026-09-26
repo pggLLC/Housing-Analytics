@@ -4518,6 +4518,9 @@
       rawStops.features.forEach(function (f) {
         var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
         if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        // Private airport/hotel shuttle pickups are mapped, but they are not
+        // public transit, so they do not count toward TOD points.
+        if (f.properties && f.properties.operator === 'private_shuttle') return;
         if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
           if (f.properties && f.properties.reliability === 'unconfirmed') unconfirmedCount++;
