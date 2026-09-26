@@ -749,7 +749,7 @@
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>
                 <dt>Fallback source</dt><dd>HUD LIHTC Database (<code>data/market/hud_lihtc_co.geojson</code>) when CHFA cache is missing — lags by 2–3 years</dd>
-                <dt>Capture rate</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
+                <dt>Existing affordable penetration</dt><dd>existing affordable units (LIHTC + HUD Multifamily Assisted + USDA RD + local PBV + CHFA preservation, from projects that report a unit count) ÷ LIHTC-eligible renter households (≤80% AMI, HUD CHAS) in the PMA — the same denominator the simulator and scenarios use. It is not the proposed-project capture rate, which divides only the proposed units by that denominator. All renter households (ACS) only when CHAS is unavailable; the count used is shown under the rate.</dd>
                 <dt>Prop 123 overlay</dt><dd>count of units in DOLA Prop 123 jurisdictions — surfaces local-commitment alignment</dd>
               </dl>
             </div>
@@ -769,7 +769,7 @@
             </div>
             <div class="pma-stat">
               <div class="pma-stat-value" id="pmaCaptureRate">—</div>
-              <div class="pma-stat-label">Capture rate (existing affordable)</div>
+              <div class="pma-stat-label">Existing affordable penetration</div>
               <div class="pma-stat-note" id="pmaCaptureDenominator" data-denominator="" style="font-size:var(--tiny);color:var(--muted)"></div>
               <div class="kpi-source"><a href="https://www.huduser.gov/portal/datasets/lihtc.html" target="_blank" rel="noopener">HUD</a> · <a href="https://www.huduser.gov/portal/datasets/cp.html" target="_blank" rel="noopener">HUD CHAS</a></div>
             </div>
@@ -837,7 +837,7 @@
           </div>
           <p style="font-size:var(--tiny);margin:6px 0 8px;color:var(--muted)">
             Properties beyond the PMA boundary but within the chosen radius — for regional comparable
-            deals and recent-vintage benchmarks. Sorted nearest first; not included in capture-rate or
+            deals and recent-vintage benchmarks. Sorted nearest first; not included in existing affordable penetration or
             competitive-supply scoring.
           </p>
           <div id="pmaNearbyLihtcWrap" tabindex="0" role="region" aria-label="Nearby LIHTC properties — scroll horizontally to see all columns" style="overflow-x:auto;border:1px solid var(--border);border-radius:6px">
@@ -857,10 +857,10 @@
           </div>
         </div>
 
-        <!-- Capture-rate Simulator -->
+        <!-- Proposed-project capture simulator -->
         <div class="pma-card">
-          <h2>Capture-rate Simulator</h2>
-          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate capture rate (CHFA-style).</p>
+          <h2>Proposed-project capture simulator</h2>
+          <p style="font-size:var(--tiny);margin-bottom:0.5rem">Enter proposed unit count and AMI mix to simulate the proposed-project capture rate (CHFA-style: proposed units ÷ qualified renter households).</p>
           <div class="pma-ami-grid">
             <div class="pma-ami-field">
               <label for="pmaProposedUnits">Total proposed units</label>
@@ -1044,7 +1044,7 @@
             <summary style="cursor:pointer;font-weight:600;color:var(--text);padding:.25rem 0;">Suggested escalation triggers →</summary>
             <ul style="margin:.5rem 0 0 1.25rem;padding:0;">
               <li><strong>Deal size ≥ 60 units:</strong> CHFA generally requires a third-party market study at the application stage. Don't wait until the application deadline to commission it.</li>
-              <li><strong>Deep affordability (&gt;50% of units below 50% AMI):</strong> Capture-rate sensitivity matters more — public-data ratios understate competitive pressure in tight income bands.</li>
+              <li><strong>Deep affordability (&gt;50% of units below 50% AMI):</strong> Proposed-project capture sensitivity matters more — public-data ratios understate competitive pressure in tight income bands.</li>
               <li><strong>Tight market (vacancy &lt; 3% AND existing LIHTC saturation in buffer):</strong> Absorption forecasting needs lease-up data from comparable nearby projects, not ACS snapshots.</li>
               <li><strong>Rural / mountain markets:</strong> ACS small-sample noise + 2nd-home inventory distortion make public data unreliable. CoStar / Yardi don't cover these well either — a local broker or appraiser tour is usually the right next step.</li>
               <li><strong>First-time developer in this submarket:</strong> Investor pricing premium without a third-party study can be 3-5¢/credit — easily worth the study cost on a deal over ~$1M annual credit.</li>
@@ -1084,7 +1084,7 @@
           <li><strong>Engagement letter</strong> — Must include the proposed PMA with a detailed census tract list.</li>
           <li><strong>Market study must analyze:</strong>
             <ul>
-              <li>Income-qualified demand and capture rates (should be as low as possible)</li>
+              <li>Income-qualified demand and proposed-project capture rates (should be as low as possible)</li>
               <li>Evidence the project will not negatively impact existing LIHTC properties in the PMA</li>
               <li>Achievable rents and realistic absorption projections</li>
             </ul>
@@ -1127,7 +1127,7 @@
             <div class="pma-step-num">4</div>
             <div class="pma-step-body">
               <strong>Market Study</strong>
-              <p>Analyst conducts full study within the approved PMA: demand, capture rate, competitive impact, rents, absorption.</p>
+              <p>Analyst conducts full study within the approved PMA: demand, proposed-project capture rate, competitive impact, rents, absorption.</p>
             </div>
           </div>
           <div class="pma-workflow-arrow" aria-hidden="true">→</div>
@@ -1140,7 +1140,7 @@
           </div>
         </div>
         <p class="pma-workflow-note">
-          <strong>This tool automates:</strong> tract selection by radius or drive-time, demographic scoring, competitive LIHTC overlay, and capture rate estimation.
+          <strong>This tool automates:</strong> tract selection by radius or drive-time, demographic scoring, competitive LIHTC overlay, existing affordable penetration, and proposed-project capture estimation.
           It does <em>not</em> replace CHFA-approved analyst review or formal CHFA PMA approval.
         </p>
       </div>
@@ -1180,12 +1180,12 @@
             </div>
           </li>
           <li class="chfa-checklist-item" id="chfaChkCapture">
-            <input type="checkbox" id="chfaChkCaptureInput" aria-label="Capture rate calculated">
+            <input type="checkbox" id="chfaChkCaptureInput" aria-label="Proposed-project capture rate calculated">
             <div class="chfa-checklist-content">
-              <label for="chfaChkCaptureInput">Capture rate calculated
+              <label for="chfaChkCaptureInput">Proposed-project capture rate calculated
                 <span id="chfaCaptureRateDisplay" class="chfa-capture-rate-badge" style="display:none"></span>
               </label>
-              <span class="chfa-checklist-note">Capture rate = proposed units ÷ income-qualified renter households. Should be as low as possible.</span>
+              <span class="chfa-checklist-note">Proposed-project capture rate = proposed units ÷ income-qualified renter households. Should be as low as possible.</span>
             </div>
           </li>
           <li class="chfa-checklist-item" id="chfaChkCompetitive">
@@ -1533,7 +1533,7 @@
     steps: [
       { label: 'Enter a location', desc: 'Type an address, city, or county in the search box. The tool geocodes your input and pre-selects whole census tracts within an approximately 4-mile ring as a starting set.' },
       { label: 'Review the PMA boundary', desc: 'Add or remove individual tracts, then justify the boundary using natural barriers, school districts, jurisdictional lines, or commute sheds. The 4-mile ring is an auto-selection aid, not an adjustable PMA radius.' },
-      { label: 'Run the analysis', desc: 'Click "Run Analysis" to score the site. The tool pulls Census, HUD, and FRED data to calculate demand, capture rate, rent pressure, and supply scores.' },
+      { label: 'Run the analysis', desc: 'Click "Run Analysis" to score the site. The tool pulls Census, HUD, and FRED data to score demand, competitive density (from existing affordable penetration), rent pressure, and supply.' },
       { label: 'Interpret the scorecard', desc: 'The radar chart and score cards show how your site performs across all PMA dimensions. Scores above 70 are generally favorable for LIHTC.' },
       { label: 'Review comparable projects', desc: 'The competitive set section lists nearby LIHTC developments with occupancy benchmarks and rent comparables.' },
       { label: 'Export your PMA report', desc: 'Download the analysis as a PDF or JSON for use in your CHFA application or investor underwriting package.' },
@@ -1541,7 +1541,7 @@
     tips: [
       'LIHTC applications to CHFA require a PMA study — this tool helps you prepare the data.',
       'QCT and DDA designations are automatically detected and noted in the report — they affect your eligible basis.',
-      'A high capture rate (>35%) is a red flag — it suggests the market may already be saturated with affordable units.',
+      'A proposed-project capture rate of 25% or more is rated high risk — the project would have to lease to that large a share of the qualified renters. A high existing affordable penetration is a different signal: the market may already be saturated with affordable units.',
     ]
   });
 </script>

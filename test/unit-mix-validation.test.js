@@ -97,7 +97,9 @@ assert(
   'Market Analysis surfaces unrestricted market-rate unit count'
 );
 assert(
-  /Capture rate unavailable/i.test(maSrc),
+  // The short-circuit withholds the simulator's rate; the measure's name
+  // comes from MEASURE_NAMES (test/pma-capture-naming.test.js).
+  /rate unavailable — fix the unit-mix error/i.test(maSrc),
   'Market Analysis short-circuits simulator on hard error'
 );
 assert(
