@@ -3,6 +3,20 @@
     "generated":   "2026-09-24",
     "vintage":     "Confirmed from CHFA's official Dates and Deadlines page (chfainfo.com/rental-housing/housing-credit/dates-and-deadlines) on 2026-06-03; 2027 dates, QAP hearings and comment deadline re-verified 2026-09-24 against CHFA's QAP page (chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan), its hearing notice (chfainfo.com/rental-housing/housing-credit/qap-hearing), the 2027-28 QAP Third Draft (section 3.B.2) and Third Draft Summary of Changes dated 2026-09-11, and the August 26, 2026 hearing presentation. CHFA's published cycle: R1 = 9% + State Credit (Feb deadline); R2 = 4% + State Credit (Aug deadline). Pure 4% deals are rolling; R2 specifically targets 4%-with-State-Credit projects. MIHTC has its own annual deadline.",
     "source_url":  "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192",
+    "qap_sources": {
+      "2027-28-qap-third-draft": {
+        "status":   "draft",
+        "title":    "CHFA 2027-28 QAP Third Draft, section 3.B.2 (posted September 11, 2026; not yet adopted)",
+        "url":      "https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan",
+        "verified": "2026-09-24"
+      },
+      "chfa-dates-and-deadlines-2026": {
+        "status":   "adopted",
+        "title":    "CHFA Dates and Deadlines (2026 rounds, under the adopted 2025-26 QAP)",
+        "url":      "https://www.chfainfo.com/rental-housing/housing-credit/dates-and-deadlines-7a0d2c0727864a506470f2f4352cf192",
+        "verified": "2026-06-03"
+      }
+    },
     "notes": [
       "Round 1 = 9% LIHTC + State Credit (highly competitive; February application)",
       "Round 2 = 4% LIHTC + State Credit (4% paired with State Credit; August application). Pure 4% / PAB is rolling outside this cycle.",
@@ -10,13 +24,15 @@
       "Every CHFA round requires a Letter of Intent (LOI) 60+ days before the application — LOI deadlines are the real first gate",
       "Prop 123's State Affordable Housing Fund is split: 60% is overseen by OEDIT and managed by CHFA (the Affordable Housing Financing Fund: land banking, equity, concessionary debt including LIHTC gap finance), and 40% goes to DOLA (the Affordable Housing Support Fund: homeownership, homelessness, local planning capacity). Each program has its own cycle, separate from CHFA's tax-credit rounds — see cdola.colorado.gov/prop123.",
       "The QAP covers two years (2027-2028) and is the plan that sets cycle dates, credit maximums and scoring; it is drafted January-June, taken to public hearings and written comment in July-August, then goes to the CHFA Board and the Governor in September-October (CHFA's own timeline, August 26, 2026 hearing presentation).",
-      "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan.",
+      "2027 and 2028 round dates come from the 2027-28 QAP Third Draft, which is not yet adopted. They are CHFA's published dates, so they are marked exact, but they can change until the Board and Governor approve the plan. That adoption status is carried separately from date_precision: each round event has qap_status (\"draft\" or \"adopted\") and qap_source, a key into metadata.qap_sources, which names the document and the date it was verified. When CHFA adopts the plan, set that source's status and the events' qap_status to \"adopted\".",
       "status is a snapshot as of metadata.generated. js/components/qap-calendar.js also compares each event's date (or date_end, when present) with today, so an event whose date has passed renders as past even if this field has not been refreshed."
     ]
   },
   "events": [
     {
       "id":          "2026-r1-loi",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 R1 (9% + State) — Letter of Intent due",
       "date":        "2025-12-01",
       "category":    "9pct-r1-loi",
@@ -26,6 +42,8 @@
     },
     {
       "id":          "2026-r1-closed",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 R1 9% LIHTC + State Credit — application deadline",
       "date":        "2026-02-02",
       "category":    "9pct-r1-deadline",
@@ -44,6 +62,8 @@
     },
     {
       "id":          "2026-mihtc-loi",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 MIHTC — Letter of Intent due",
       "date":        "2026-03-16",
       "category":    "mihtc-loi",
@@ -53,6 +73,8 @@
     },
     {
       "id":          "2026-mihtc-app",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 MIHTC — application deadline",
       "date":        "2026-05-18",
       "category":    "mihtc-deadline",
@@ -62,6 +84,8 @@
     },
     {
       "id":          "2026-r2-loi",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 R2 (4% + State) — Letter of Intent due",
       "date":        "2026-06-01",
       "category":    "4pct-r2-loi",
@@ -71,6 +95,8 @@
     },
     {
       "id":          "2026-r2-deadline",
+      "qap_status":  "adopted",
+      "qap_source":  "chfa-dates-and-deadlines-2026",
       "name":        "2026 R2 4% LIHTC + State Credit — application deadline",
       "date":        "2026-08-03",
       "category":    "4pct-r2-deadline",
@@ -141,6 +167,8 @@
     },
     {
       "id":          "2027-r1-loi",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":        "2027 R1 (9% + State) — Letter of Intent due",
       "date":        "2026-12-01",
       "date_precision": "exact",
@@ -151,6 +179,8 @@
     },
     {
       "id":          "2027-r1-deadline",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":        "2027 R1 9% LIHTC + State Credit — application deadline",
       "date":        "2027-02-01",
       "date_precision": "exact",
@@ -171,6 +201,8 @@
     },
     {
       "id":         "2027-r2-loi",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2027 R2 (4% + State) — Letter of Intent due",
       "date":       "2027-06-01",
       "date_precision": "exact",
@@ -181,6 +213,8 @@
     },
     {
       "id":         "2027-r2-deadline",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2027 R2 4% LIHTC + State Credit — application deadline",
       "date":       "2027-08-02",
       "date_precision": "exact",
@@ -191,6 +225,8 @@
     },
     {
       "id":         "2028-r1-loi",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2028 R1 (9% + State) — Letter of Intent due",
       "date":       "2027-12-01",
       "date_precision": "exact",
@@ -201,6 +237,8 @@
     },
     {
       "id":         "2028-r1-deadline",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2028 R1 9% LIHTC + State Credit — application deadline",
       "date":       "2028-02-01",
       "date_precision": "exact",
@@ -211,6 +249,8 @@
     },
     {
       "id":         "2028-r2-loi",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2028 R2 (4% + State) — Letter of Intent due",
       "date":       "2028-06-01",
       "date_precision": "exact",
@@ -221,6 +261,8 @@
     },
     {
       "id":         "2028-r2-deadline",
+      "qap_status":  "draft",
+      "qap_source":  "2027-28-qap-third-draft",
       "name":       "2028 R2 4% LIHTC + State Credit — application deadline",
       "date":       "2028-08-01",
       "date_precision": "exact",

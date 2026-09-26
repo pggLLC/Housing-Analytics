@@ -74,7 +74,17 @@ directDerived.bands.forEach((band) => {
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.maxAffordablePrice)));
 });
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('Owner input required'));
-assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(scenarios[0].meta.owner_inputs_pending.join(', ')));
+// Values still needed are named in words, never as the fixture's raw keys:
+// every pending key's plain label (the one the report also uses) is shown,
+// and no pending key reaches the reader.
+scenarios[0].meta.owner_inputs_pending.forEach((id) => {
+  assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(Report.PLAIN_LABELS.pending[id] || Report.humanize(id)),
+    `section 1 does not name the pending value ${id} in words`);
+  // A single-word key ("phasing") is also an ordinary word in its label.
+  if (/_/.test(id)) assert(!new RegExp(`\\b${id}\\b`).test(text(defaultDom.mount.querySelector('#ms-s1'))),
+    `section 1 shows the raw key ${id}`);
+});
+assert(scenarios[0].meta.owner_inputs_pending.some((id) => /_/.test(id)), 'the raw-key check needs a key that looks like one');
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('candidate; no commitment has been made'));
 assert(!text(defaultDom.mount.querySelector('#ms-s1')).includes('TDC per unit: 0'));
 assert.strictEqual((text(defaultDom.mount).match(/Screening arithmetic for analyst review; verify source evidence and owner inputs before project use\./g) || []).length, 1);

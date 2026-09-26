@@ -113,6 +113,25 @@
     var residual = Math.max(0, gap - maximumAssistance);
     return `<strong class="ms-assistance-residual">Short by ${display(residual, 'money')}</strong><span class="ms-assistance-qualifier">insufficient at the top of the available assistance range</span>`;
   }
+  function studyJurisdiction(data) {
+    var geography = data && data.geography;
+    return (geography && geography.mode === 'jurisdiction') ? geography.context : null;
+  }
+  // The place the reader is looking at: their jurisdiction, or with none
+  // chosen, the example project's own town.
+  function placeName(model, data) {
+    var context = studyJurisdiction(data);
+    return context ? (context.name || context.geoid) : model.scenario.jurisdiction.name;
+  }
+  function atExampleTown(model, data) {
+    var context = studyJurisdiction(data);
+    return MarketStudyReport.isExampleJurisdiction(model.scenario, context && context.name, context && context.geoid);
+  }
+  // Sections 2-4 run on LAND_INPUTS, WATERFALL_INPUTS and lifecycleInput():
+  // fixed example figures, identical for every jurisdiction.
+  function exampleInputs(model, data) {
+    return `<p class="ms-warning ms-example-inputs" data-example-inputs="true"><strong>${esc(MarketStudyReport.exampleInputsLabel(placeName(model, data)))}.</strong> ${MarketStudyReport.exampleInputsDetail()}</p>`;
+  }
   function table(headers, rows, label) {
     return `<div class="ms-table-wrap"><table aria-label="${label}"><thead><tr>${headers.map(function (item) { return `<th>${item}</th>`; }).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
   }
@@ -199,14 +218,18 @@
       var assistance = assistanceForBand(model.scenario, row.band);
       return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td class="ms-affordability-gap"><strong>${display(row.gapVsLocalPrice, 'money')}</strong></td><td>${assistanceFinding(row, assistance)}</td><td>${pill(row)}</td></tr>`;
     });
+    var atHome = atExampleTown(model, data);
     var partners = model.scenario.partners.map(function (partner) {
-      return `<li><strong>${humanize(partner.role)}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
+      // The candidates are the example town's organisations; elsewhere only
+      // the role carries over.
+      var who = atHome ? (partner.name || partner.provider_id || display(null)) : `None identified for ${esc(placeName(model, data))}`;
+      return `<li><strong>${humanize(partner.role)}</strong>: ${who} — candidate; no commitment has been made</li>`;
     }).join('');
     var pending = model.scenario.meta.owner_inputs_pending;
-    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p><p class="ms-caveat">Values still needed: ${pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Values still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
-  function renderLand(model) {
+  function renderLand(model, data) {
     var rows = model.landOutcomes.map(function (item) {
       var fields = Object.keys(item.row.assessments).map(function (key) {
         var field = item.row.assessments[key];
@@ -214,10 +237,10 @@
       }).join('');
       return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong> — an idea to check, not a finding' : ''}</p><p>Upfront price reduction per home: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Buyer's monthly housing cost in year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>What this option means in practice (15 questions)</summary><ul>${fields}</ul></details></article>`;
     }).join('');
-    return `<section id="ms-s2" class="chart-card ms-section">${heading('2. What to do with the land', 'land-disposition comparison')}${plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Open each card to see the trade-offs.')}<p class="ms-caveat">The options are listed in a fixed order, not ranked. Dollar figures are calculated from the same example assumptions for every option.</p><div class="ms-card-grid">${rows}</div></section>`;
+    return `<section id="ms-s2" class="chart-card ms-section">${heading('2. What to do with the land', 'land-disposition comparison')}${plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Open each card to see the trade-offs.')}<p class="ms-caveat">The options are listed in a fixed order, not ranked. Dollar figures are calculated from the same example assumptions for every option.</p>${exampleInputs(model, data)}<div class="ms-card-grid">${rows}</div></section>`;
   }
 
-  function renderConventions(model) {
+  function renderConventions(model, data) {
     var pathOptions = Object.keys(SharedEquityLifecycle.SCENARIOS).map(function (key) {
       var selected = model.path === SharedEquityLifecycle.SCENARIOS[key] ? ' selected' : '';
       return `<option value="${key}"${selected}>${marketPathLabel(SharedEquityLifecycle.SCENARIOS[key].scenarioLabel)}</option>`;
@@ -229,10 +252,10 @@
       });
       return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${provenance(result)}</p><p>${result.scenarioLabel}</p>${table(['Years owned', 'Seller walks away with (net proceeds)', 'Capped resale price', 'Most the next buyer could pay', 'Still affordable to the next buyer?'], rows, `${result.conventionLabel} outcomes`)}</article>`;
     }).join('');
-    return `<section id="ms-s3" class="chart-card ms-section">${heading('3. What happens when an owner sells', 'shared-equity resale formulas')}${plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the last column checks whether it does. Each card below is one common formula. Compare two things: what the seller walks away with, and whether the capped price is still within reach of the next buyer. The market path menu sets one yearly rate that home values, incomes and inflation all follow, so it moves the resale price and what the next buyer can pay together.')}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span><div class="ms-card-grid">${cards}</div></section>`;
+    return `<section id="ms-s3" class="chart-card ms-section">${heading('3. What happens when an owner sells', 'shared-equity resale formulas')}${plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the last column checks whether it does. Each card below is one common formula. Compare two things: what the seller walks away with, and whether the capped price is still within reach of the next buyer. The market path menu sets one yearly rate that home values, incomes and inflation all follow, so it moves the resale price and what the next buyer can pay together.')}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span>${exampleInputs(model, data)}<div class="ms-card-grid">${cards}</div></section>`;
   }
 
-  function renderSettlement(model) {
+  function renderSettlement(model, data) {
     var conventionOptions = model.conventionResults.map(function (item) {
       var selected = item.conventionId === model.selectedConvention.conventionId ? ' selected' : '';
       return `<option value="${item.conventionId}"${selected}>${item.conventionLabel}</option>`;
@@ -245,7 +268,7 @@
     });
     var warning = model.settlement.ownerNetTransparencyWarning
       ? `<div class="ms-warning" role="alert" data-transparency-warning="visible"><strong>Owner-net transparency warning:</strong> ${model.settlement.ownerNetTransparencyNote}</div>` : '';
-    return `<section id="ms-s4" class="chart-card ms-section">${heading('4. Where the money goes at resale', 'resale settlement')}${plain('pick a resale formula and a year to follow one sale line by line: selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. A shortfall means there was not enough money to pay that line in full.')}<div class="ms-controls"><label>Resale formula <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
+    return `<section id="ms-s4" class="chart-card ms-section">${heading('4. Where the money goes at resale', 'resale settlement')}${plain('pick a resale formula and a year to follow one sale line by line: selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. A shortfall means there was not enough money to pay that line in full.')}${exampleInputs(model, data)}<div class="ms-controls"><label>Resale formula <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
   }
 
   function renderFunnel(model) {
@@ -301,9 +324,12 @@
       ? '<p class="ms-caveat">' + esc(geography.unavailable.detail) + ' Sections 5 and 6 cannot be screened here.</p>'
       : '';
     return '<aside class="ms-geography" role="note" data-study-mode="jurisdiction" data-study-geoid="' + esc(geography.context.geoid) + '">'
-      + '<p><strong>Market: ' + name + '.</strong> Income limits, home values and the buyer pool below are ' + name + "'s. "
+      + '<p><strong>Market: ' + name + '.</strong> The income limits and home values in section 1, the sale prices, '
+      + 'and the buyer pool in sections 5 and 6 are ' + name + "'s. "
       + 'The project itself is still an example program — nobody has supplied a real one — so read this as '
       + '"what would a project like this meet in ' + name + '".</p>'
+      + '<p>Sections 2 to 4 (land, resale and settlement) are not ' + name + "'s data: they run on fixed example "
+      + 'inputs, the same for every jurisdiction, and each is labelled <em>Example only</em>.</p>'
       + note
       + '<p><a href="select-jurisdiction.html">Change jurisdiction</a></p>'
       + '</aside>';
@@ -376,8 +402,8 @@
       renderGeographyBanner(data),
       '<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
       renderSalePrice(data),
-      renderScenario(model, data), renderLand(model), renderConventions(model),
-      renderSettlement(model),
+      renderScenario(model, data), renderLand(model, data), renderConventions(model, data),
+      renderSettlement(model, data),
       model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. How many local households could buy', reason),
       model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. How fast the homes might sell', reason)
     ].join('');
@@ -399,6 +425,8 @@
         asOf: data.reportAsOf,
         jurisdictionLabel: (data.geography && data.geography.mode === 'jurisdiction'
           && (data.geography.context.name || data.geography.context.geoid)) || null,
+        jurisdictionGeoid: (data.geography && data.geography.mode === 'jurisdiction'
+          && data.geography.context.geoid) || null,
         vintages: {
           scenario: model.scenario.meta.as_of,
           homeValue: baselineForReport.home_value.as_of || null,

@@ -100,6 +100,10 @@
       'html.dark-mode .qc-item__cat--9pct-r1-loi,html.dark-mode .qc-item__cat--4pct-r2-loi,html.dark-mode .qc-item__cat--mihtc-loi,html.dark-mode .qc-item__cat--qap-comment,html.dark-mode .qc-item__cat--qap-hearing { color:#fcd34d; }',
       'html.dark-mode .qc-item__cat--qap-adoption { color:#a5b4fc; }',
       '.qc-item__est { font-size:.7rem; font-style:italic; color:var(--muted); }',
+      // Draft-QAP badge: a date taken from a QAP CHFA has not adopted yet.
+      '.qc-draft { display:inline-block; font-size:.7rem; font-weight:700; padding:1px 6px; border-radius:4px; background:rgba(245,158,11,.14); color:#7c3d00; border:1px dashed rgba(180,83,9,.6); white-space:normal; }',
+      'html.dark-mode .qc-draft, .dark-mode .qc-draft { background:rgba(251,191,36,.15); color:#fde68a; border-color:rgba(251,191,36,.55); }',
+      '.qc-next__source { margin-top:.3rem; font-size:.74rem; color:var(--muted); }',
       '.qc-item__details { width:100%; font-size:.78rem; color:var(--muted); margin-top:.15rem; padding-left:6px; border-left:2px solid rgba(0,0,0,.08); }',
       '.qc-rolling { margin-top:.7rem; padding:.6rem; background: color-mix(in oklab, var(--bg2, #f3f4f6) 50%, transparent); border-radius:6px; }',
       '.qc-rolling__head { font-weight:700; font-size:.82rem; margin-bottom:.3rem; }',
@@ -150,7 +154,36 @@
     return null;
   }
 
-  function _renderNextDeadline(events, today) {
+  // Adoption status is its own field (qap_status), separate from
+  // date_precision: a date can be exact and still come from a QAP draft that
+  // CHFA may change before the Board and Governor adopt it.
+  var DRAFT_LABEL = 'Draft \u2014 may change until CHFA adopts the QAP';
+
+  function _qapSource(e, data) {
+    var srcs = (data && data.metadata && data.metadata.qap_sources) || {};
+    return (e && e.qap_source && srcs[e.qap_source]) || null;
+  }
+  function _isDraft(e) { return !!e && e.qap_status === 'draft'; }
+  function _draftBadge(e, data) {
+    if (!_isDraft(e)) return '';
+    var src = _qapSource(e, data);
+    var title = src && src.title ? ' Source: ' + src.title + '.' : '';
+    return ' <span class="qc-draft" data-qap-status="draft" title="' + _esc(DRAFT_LABEL + '.' + title) + '">' +
+      _esc(DRAFT_LABEL) + '</span>';
+  }
+  function _sourceLine(e, data) {
+    var src = _qapSource(e, data);
+    var meta = (data && data.metadata) || {};
+    var title = src && src.title ? src.title : 'CHFA';
+    var url = (src && src.url) || e.url || meta.source_url;
+    var verified = _parseDate((src && src.verified) || meta.generated);
+    return '<div class="qc-next__source">Source: ' +
+      (url ? '<a href="' + _esc(url) + '" target="_blank" rel="noopener">' + _esc(title) + '</a>' : _esc(title)) +
+      (verified ? ' \u00b7 verified ' + _fmtDate(verified) : '') +
+      '</div>';
+  }
+
+  function _renderNextDeadline(events, today, data) {
     // Find the soonest upcoming deadline event (R1/R2 application due
     // OR QAP comment period start). Awards aren't "deadlines" you act on.
     var deadlines = events.filter(function (e) {
@@ -167,7 +200,8 @@
     if (!next) return '';
     var d = _parseDate(next.date);
     var days = _daysUntil(d, today);
-    var esc = next.date_precision === 'estimated' ? ' <span class="qc-item__est">(estimated)</span>' : '';
+    var esc = (next.date_precision === 'estimated' ? ' <span class="qc-item__est">(estimated)</span>' : '') +
+      _draftBadge(next, data);
 
     // F178 — If the next deadline is an application deadline, check
     // whether the LOI prerequisite is upcoming or past. Past = critical
@@ -192,7 +226,7 @@
         loiHtml =
           '<div class="qc-next__loi qc-next__loi--upcoming">' +
             '<strong>LOI prerequisite</strong> · due ' + _fmtDate(loiDate) +
-            ' (<strong>' + loiDays + ' days</strong>) — the operative gate. CHFA requires the LOI before you can submit the application. ' +
+            ' (<strong>' + loiDays + ' days</strong>)' + _draftBadge(loi, data) + ' — the operative gate. CHFA requires the LOI before you can submit the application. ' +
             'Most projects also need DOH gap funding to clear CHFA underwriting, so confirm the current DOH NOFA timing alongside this LOI.' +
           '</div>';
       }
@@ -210,11 +244,12 @@
                  : _esc(next.name)) + esc +
                '<div class="qc-next__date">' + _fmtDate(d) + '</div>' +
                loiHtml +
+               _sourceLine(next, data) +
              '</div>' +
            '</div>';
   }
 
-  function _renderEventItem(e, today, opts) {
+  function _renderEventItem(e, today, opts, data) {
     var d = _parseDate(e.date);
     // A window (date → date_end) is past only once its end has passed, and
     // a day is not over at its midnight: an event dated today, or a window
@@ -227,7 +262,7 @@
     var est = e.date_precision === 'estimated' ? ' <span class="qc-item__est">est.</span>' : '';
     var dateText = _fmtDate(d) + (e.date_end ? ' – ' + _fmtDate(_parseDate(e.date_end)) : '');
     return '<li class="qc-item ' + (isPast ? 'qc-item--past' : '') + '">' +
-             '<div class="qc-item__date">' + dateText + est + '</div>' +
+             '<div class="qc-item__date">' + dateText + est + _draftBadge(e, data) + '</div>' +
              '<div class="qc-item__name">' +
                (e.url
                  ? '<a href="' + _esc(e.url) + '" target="_blank" rel="noopener">' + _esc(e.name) + '</a>'
@@ -261,19 +296,19 @@
     container.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Loading QAP cycle calendar…</p>';
     _load().then(function (data) {
       var today = _today();
-      var nextHtml = _renderNextDeadline(data.events || [], today);
+      var nextHtml = _renderNextDeadline(data.events || [], today, data);
       // Sort events by date ascending. Show upcoming first; past at bottom
       // unless compact mode (compact hides past entirely).
       var events = (data.events || []).slice().sort(function (a, b) {
         return _parseDate(a.date) - _parseDate(b.date);
       });
-      var itemsHtml = events.map(function (e) { return _renderEventItem(e, today, opts); }).join('');
+      var itemsHtml = events.map(function (e) { return _renderEventItem(e, today, opts, data); }).join('');
       var rollingHtml = (opts.showRolling !== false) ? _renderRolling(data.rolling_programs) : '';
       var mfHtml = window.MethodFooter ? window.MethodFooter.html({
         source:    'data/chfa-qap-calendar.json (curated from the CHFA QAP + Dates and Deadlines page)',
         sourceUrl: 'https://www.chfainfo.com/rental-housing/housing-credit/qualified-allocation-plan',
         vintage:   data.metadata && data.metadata.generated,
-        method:    'Round dates from CHFA\'s Dates and Deadlines page and the current QAP (draft dates noted as such). Dates CHFA has not published are inferred from prior cycles and marked "est.". Verify on chfainfo.com 60-90 days out.',
+        method:    'Round dates from CHFA\'s Dates and Deadlines page and the current QAP (dates from a QAP draft CHFA has not adopted carry a "Draft" badge). Dates CHFA has not published are inferred from prior cycles and marked "est.". Verify on chfainfo.com 60-90 days out.',
         confidence:'med'
       }) : '';
       var caption = '<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
@@ -294,7 +329,7 @@
     container.innerHTML = '';
     _load().then(function (data) {
       var today = _today();
-      var html = _renderNextDeadline(data.events || [], today);
+      var html = _renderNextDeadline(data.events || [], today, data);
       if (!html) return;
       // Compact wrapper — slightly more padding, smaller days digit
       container.innerHTML = html;
