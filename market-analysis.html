@@ -740,7 +740,7 @@
             <div class="info-tooltip-body">
               <p><strong>What this counts.</strong> Every affordable property located inside the analysis area (the buffer radius, or the selected tracts), from two sources kept separate in the breakdown:</p>
               <ul style="margin:0 0 0.5rem 1.1rem;padding:0">
-                <li><strong>LIHTC</strong> — every CHFA tax-credit project, whatever its compliance status, completed or still in the pipeline. The feed does not say which: its only year is the CHFA <strong>award</strong> year, and a project typically opens two to three years after its award. Units are the project's <strong>income-restricted</strong> units (<code>LI_UNITS</code>), not its total units.</li>
+                <li><strong>LIHTC</strong> — every CHFA tax-credit project, whatever its compliance status, operating or still being built. This total does not separate them; the competitive-pipeline card does, from CHFA's compliance status (“Active Compliance” is operating, “Pre-Compliance - Construction Phase” is being built), and estimates a stage from the <strong>award</strong> year only for a record with no status. Units are the project's <strong>income-restricted</strong> units (<code>LI_UNITS</code>), not its total units.</li>
                 <li><strong>Other assisted</strong> — HUD Multifamily Assisted, USDA Rural Development, local project-based vouchers and CHFA preservation records (<code>data/affordable-housing/properties.json</code>), counted at their <strong>assisted</strong> units.</li>
               </ul>
               <p>Nothing is excluded for an expired or expiring affordability period — the count includes properties at risk of leaving the inventory.</p>

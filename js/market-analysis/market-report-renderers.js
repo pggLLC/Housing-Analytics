@@ -303,27 +303,38 @@
       return yr >= now - 10;
     }).length;
 
-    // Count projects by estimated pipeline stage.
-    var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
-    lihtcData.forEach(function (f) {
-      var p = (f && f.properties) ? f.properties : f;
-      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
-      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
-      else if (yrNum >= now - 1) { stageCounts.Construction++; }
-      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
-      else { stageCounts['Pre-Permit']++; }
-    });
+    // Count projects by pipeline stage with the classifier the pipeline card
+    // uses (PMAEnhancements.classifyPipelineStage): CHFA compliance status
+    // where the record has one, so an operating property is never counted
+    // as pipeline, and the award year, marked as an estimate, where it does
+    // not. Without that module there is no consistent way to read a stage,
+    // so no pipeline is shown rather than a guessed one.
+    var ENH = window.PMAEnhancements;
+    var STG = ENH && ENH.PIPELINE_STAGES;
+    var order = STG ? [STG.construction, STG.entitled, STG.prePermit] : [];
+    var stageCounts = {}, stageEstimated = {};
+    order.forEach(function (s) { stageCounts[s] = 0; stageEstimated[s] = 0; });
+    if (ENH && typeof ENH.classifyPipelineStage === 'function') {
+      lihtcData.forEach(function (f) {
+        var c = ENH.classifyPipelineStage((f && f.properties) ? f.properties : f, now);
+        if (!Object.prototype.hasOwnProperty.call(stageCounts, c.stage)) return;
+        stageCounts[c.stage]++;
+        if (c.estimated) stageEstimated[c.stage]++;
+      });
+    }
 
-    var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
+    var pipelineActive = order.reduce(function (a, s) { return a + stageCounts[s]; }, 0);
     var pipelineHtml = '';
     if (pipelineActive > 0) {
       pipelineHtml = (
         '<div style="margin-top:0.75rem;">' +
           _sectionHeading('Construction Pipeline') +
-          (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
-          (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
-          (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
-          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+          order.map(function (s) {
+            if (!stageCounts[s]) return '';
+            var est = stageEstimated[s];
+            return _metricRow(s, String(stageCounts[s]) + (est ? ' (' + est + ' est. from award year)' : ''));
+          }).join('') +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stage from CHFA compliance status where the record has one (operating properties are not pipeline); otherwise estimated from award year. Verify with local planning records.</div>' +
         '</div>'
       );
     }
