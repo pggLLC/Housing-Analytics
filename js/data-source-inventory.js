@@ -1422,6 +1422,26 @@
       apiEndpoint: 'https://overpass-api.de/api/interpreter'
     },
 
+    // ── Transit stops — statewide (CDOT first) ────────────────────
+    {
+      id: 'transit-stops-statewide-co',
+      name: 'Transit Stops — Colorado Statewide (CDOT + agency feeds)',
+      category: 'Transportation / Access',
+      format: 'GeoJSON',
+      provider: 'CDOT Statewide Transit Points; transit agency GTFS feeds; OpenStreetMap (unconfirmed)',
+      url: 'https://data-cdot.opendata.arcgis.com/',
+      localFile: 'data/amenities/transit_stops_statewide_co.geojson',
+      lastUpdated: '2026-09-26',
+      updateFrequency: 'Weekly',
+      maxAgeDays: 16,
+      geoUnit: 'Stop',
+      coverage: 'All 64 Colorado counties; per-county counts in data/market/transit_stops_coverage_co.json',
+      features: 14183,
+      description: 'Every transit stop CDOT publishes, plus stops that only an agency GTFS feed publishes, plus OpenStreetMap stops neither confirms (marked unconfirmed). Each stop carries agency, source and county. Built by scripts/market/build_transit_stops_co.py (#1937).',
+      tags: ['transit', 'cdot', 'gtfs', 'bus', 'rail', 'transportation'],
+      apiEndpoint: 'https://services.arcgis.com/yzB9WM8W0BO3Ql7d/arcgis/rest/services/Statewide_Transit_Points/FeatureServer/0'
+    },
+
     // ── Regrid Parcels API ────────────────────────────────────────
     {
       id: 'regrid-parcels',
