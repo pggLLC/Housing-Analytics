@@ -58,6 +58,7 @@ const SLA_CONFIG = [
   { file: 'data/co_ami_gap_by_place.json',                  slaDays: 95,  cadence: 'quarterly (matches county counterpart; underlying ACS + HUD income limits refresh annually)' },
   { file: 'data/market/cdphe_county_boundaries_co.geojson', slaDays: 400, cadence: 'annual (CDPHE boundary refresh)' },
   { file: 'data/market/transit_routes_co.geojson',          slaDays: 95,  cadence: 'monthly (GTFS feed refresh from Mobility Database)' },
+  { file: 'data/amenities/transit_stops_statewide_co.geojson', slaDays: 16, cadence: 'weekly (fetch-parcel-zoning-data.yml; CDOT + agency GTFS)' },
 ];
 
 // Fields to probe for an in-file "updated" timestamp, in priority order.

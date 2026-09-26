@@ -229,6 +229,38 @@ export function measure({ runTests = false } = {}) {
            unwiredGuards.length ? `not in test:ci: ${unwiredGuards.join(', ')}` : ''].filter(Boolean).join('; '),
     'source scan + package.json');
 
+  /* ── Transit zone screen (#1937) ──────────────────────────────────────── */
+
+  // T1: one statewide stop file, CDOT first, with the source of every stop
+  // recorded and a coverage report for all 64 counties. Measured from the
+  // files themselves, so a refresh that drops CDOT or loses the per-stop
+  // source reopens it. T2-T4 are added with the phases that build them.
+  const t1Problems = [];
+  let t1Stops = null, t1Report = null;
+  try { t1Stops = JSON.parse(read('data/amenities/transit_stops_statewide_co.geojson')); } catch { /* reported below */ }
+  try { t1Report = JSON.parse(read('data/market/transit_stops_coverage_co.json')); } catch { /* reported below */ }
+  if (!t1Stops || !Array.isArray(t1Stops.features)) t1Problems.push('statewide stop file missing or unreadable');
+  if (!t1Report || !Array.isArray(t1Report.counties)) t1Problems.push('coverage report missing or unreadable');
+  if (t1Stops && Array.isArray(t1Stops.features)) {
+    const feats = t1Stops.features;
+    const fromCdot = feats.filter((f) => (f.properties?.sources || []).includes('cdot')).length;
+    const unsourced = feats.filter((f) => !(f.properties?.sources || []).length || !/^08\d{3}$/.test(f.properties?.county_fips || '')).length;
+    if (!fromCdot) t1Problems.push('no stop comes from CDOT');
+    if (unsourced) t1Problems.push(`${unsourced} stops lack a source or county`);
+    const gen = Date.parse(t1Stops.meta?.generated || '');
+    const ageDays = Number.isFinite(gen) ? (Date.now() - gen) / 86400000 : null;
+    if (ageDays === null) t1Problems.push('stop file has no generated date');
+    else if (ageDays > 16) t1Problems.push(`stop file is ${Math.floor(ageDays)} days old (SLA 16)`);
+  }
+  if (t1Report && Array.isArray(t1Report.counties) && t1Report.counties.length !== 64) {
+    t1Problems.push(`coverage report has ${t1Report.counties.length} counties, not 64`);
+  }
+  add('T1', 'Transit zone screen', t1Problems.length ? OPEN : PASS,
+    t1Problems.length ? t1Problems.join('; ')
+      : `${t1Stops.features.length.toLocaleString('en-US')} stops, CDOT first, source recorded per stop; `
+        + `coverage report for all 64 counties`,
+    'data/amenities/transit_stops_statewide_co.geojson + data/market/transit_stops_coverage_co.json');
+
   /* ── The definition itself ────────────────────────────────────────────── */
 
   const doc = read('docs/FINISH-LINE.md');

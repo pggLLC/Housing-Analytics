@@ -1,0 +1,995 @@
+{
+  "meta": {
+    "generated": "2026-09-26T16:35:51Z",
+    "source": "scripts/market/build_transit_stops_co.py",
+    "note": "Counts of stops found per source. A county with no stop in any source is listed under counties_without_fixed_stops: that means no fixed-route stop was found, not that the county has no transit (several run demand-response service, which has no stops).",
+    "feed_match_m": 30.0,
+    "osm_match_m": 60.0,
+    "agency_feeds_used": 44,
+    "agency_feeds_failed": [
+      {
+        "agency": "Rocky Mountain National Park",
+        "reason": "Failed after 2 attempts: HTTP Error 404: Not Found"
+      }
+    ]
+  },
+  "totals": {
+    "stops": 14183,
+    "cdot": 12280,
+    "agency_feed_only": 772,
+    "unconfirmed": 1131
+  },
+  "counties": [
+    {
+      "county_fips": "08001",
+      "county": "Adams",
+      "cdot": 1072,
+      "agency_feed_only": 72,
+      "unconfirmed": 28,
+      "total": 1172,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08003",
+      "county": "Alamosa",
+      "cdot": 6,
+      "agency_feed_only": 2,
+      "unconfirmed": 1,
+      "total": 9,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08005",
+      "county": "Arapahoe",
+      "cdot": 1179,
+      "agency_feed_only": 17,
+      "unconfirmed": 182,
+      "total": 1378,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08007",
+      "county": "Archuleta",
+      "cdot": 28,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 28,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08009",
+      "county": "Baca",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08011",
+      "county": "Bent",
+      "cdot": 8,
+      "agency_feed_only": 2,
+      "unconfirmed": 0,
+      "total": 10,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08013",
+      "county": "Boulder",
+      "cdot": 1277,
+      "agency_feed_only": 83,
+      "unconfirmed": 129,
+      "total": 1489,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08014",
+      "county": "Broomfield",
+      "cdot": 31,
+      "agency_feed_only": 9,
+      "unconfirmed": 47,
+      "total": 87,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08015",
+      "county": "Chaffee",
+      "cdot": 5,
+      "agency_feed_only": 3,
+      "unconfirmed": 1,
+      "total": 9,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08017",
+      "county": "Cheyenne",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08019",
+      "county": "Clear Creek",
+      "cdot": 44,
+      "agency_feed_only": 6,
+      "unconfirmed": 3,
+      "total": 53,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08021",
+      "county": "Conejos",
+      "cdot": 5,
+      "agency_feed_only": 0,
+      "unconfirmed": 1,
+      "total": 6,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08023",
+      "county": "Costilla",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08025",
+      "county": "Crowley",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08027",
+      "county": "Custer",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08029",
+      "county": "Delta",
+      "cdot": 21,
+      "agency_feed_only": 3,
+      "unconfirmed": 5,
+      "total": 29,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08031",
+      "county": "Denver",
+      "cdot": 2757,
+      "agency_feed_only": 81,
+      "unconfirmed": 314,
+      "total": 3152,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08033",
+      "county": "Dolores",
+      "cdot": 2,
+      "agency_feed_only": 2,
+      "unconfirmed": 0,
+      "total": 4,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08035",
+      "county": "Douglas",
+      "cdot": 193,
+      "agency_feed_only": 11,
+      "unconfirmed": 8,
+      "total": 212,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08037",
+      "county": "Eagle",
+      "cdot": 222,
+      "agency_feed_only": 29,
+      "unconfirmed": 2,
+      "total": 253,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08039",
+      "county": "Elbert",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08041",
+      "county": "El Paso",
+      "cdot": 1044,
+      "agency_feed_only": 20,
+      "unconfirmed": 12,
+      "total": 1076,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08043",
+      "county": "Fremont",
+      "cdot": 0,
+      "agency_feed_only": 3,
+      "unconfirmed": 3,
+      "total": 6,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08045",
+      "county": "Garfield",
+      "cdot": 90,
+      "agency_feed_only": 3,
+      "unconfirmed": 1,
+      "total": 94,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08047",
+      "county": "Gilpin",
+      "cdot": 19,
+      "agency_feed_only": 1,
+      "unconfirmed": 0,
+      "total": 20,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08049",
+      "county": "Grand",
+      "cdot": 128,
+      "agency_feed_only": 80,
+      "unconfirmed": 10,
+      "total": 218,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08051",
+      "county": "Gunnison",
+      "cdot": 9,
+      "agency_feed_only": 48,
+      "unconfirmed": 6,
+      "total": 63,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08053",
+      "county": "Hinsdale",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08055",
+      "county": "Huerfano",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 1,
+      "total": 2,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08057",
+      "county": "Jackson",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08059",
+      "county": "Jefferson",
+      "cdot": 1217,
+      "agency_feed_only": 65,
+      "unconfirmed": 234,
+      "total": 1516,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08061",
+      "county": "Kiowa",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08063",
+      "county": "Kit Carson",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08065",
+      "county": "Lake",
+      "cdot": 62,
+      "agency_feed_only": 0,
+      "unconfirmed": 3,
+      "total": 65,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08067",
+      "county": "La Plata",
+      "cdot": 21,
+      "agency_feed_only": 107,
+      "unconfirmed": 1,
+      "total": 129,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08069",
+      "county": "Larimer",
+      "cdot": 769,
+      "agency_feed_only": 11,
+      "unconfirmed": 80,
+      "total": 860,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08071",
+      "county": "Las Animas",
+      "cdot": 0,
+      "agency_feed_only": 2,
+      "unconfirmed": 2,
+      "total": 4,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08073",
+      "county": "Lincoln",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08075",
+      "county": "Logan",
+      "cdot": 21,
+      "agency_feed_only": 1,
+      "unconfirmed": 4,
+      "total": 26,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08077",
+      "county": "Mesa",
+      "cdot": 399,
+      "agency_feed_only": 10,
+      "unconfirmed": 9,
+      "total": 418,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08079",
+      "county": "Mineral",
+      "cdot": 1,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 1,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08081",
+      "county": "Moffat",
+      "cdot": 16,
+      "agency_feed_only": 1,
+      "unconfirmed": 3,
+      "total": 20,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08083",
+      "county": "Montezuma",
+      "cdot": 0,
+      "agency_feed_only": 3,
+      "unconfirmed": 0,
+      "total": 3,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08085",
+      "county": "Montrose",
+      "cdot": 118,
+      "agency_feed_only": 2,
+      "unconfirmed": 2,
+      "total": 122,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08087",
+      "county": "Morgan",
+      "cdot": 0,
+      "agency_feed_only": 4,
+      "unconfirmed": 5,
+      "total": 9,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08089",
+      "county": "Otero",
+      "cdot": 7,
+      "agency_feed_only": 5,
+      "unconfirmed": 7,
+      "total": 19,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08091",
+      "county": "Ouray",
+      "cdot": 6,
+      "agency_feed_only": 0,
+      "unconfirmed": 3,
+      "total": 9,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08093",
+      "county": "Park",
+      "cdot": 9,
+      "agency_feed_only": 4,
+      "unconfirmed": 1,
+      "total": 14,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08095",
+      "county": "Phillips",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08097",
+      "county": "Pitkin",
+      "cdot": 260,
+      "agency_feed_only": 7,
+      "unconfirmed": 1,
+      "total": 268,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08099",
+      "county": "Prowers",
+      "cdot": 6,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 6,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08101",
+      "county": "Pueblo",
+      "cdot": 359,
+      "agency_feed_only": 43,
+      "unconfirmed": 0,
+      "total": 402,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08103",
+      "county": "Rio Blanco",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08105",
+      "county": "Rio Grande",
+      "cdot": 11,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 11,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08107",
+      "county": "Routt",
+      "cdot": 132,
+      "agency_feed_only": 1,
+      "unconfirmed": 2,
+      "total": 135,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08109",
+      "county": "Saguache",
+      "cdot": 12,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 12,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08111",
+      "county": "San Juan",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 1,
+      "total": 1,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08113",
+      "county": "San Miguel",
+      "cdot": 123,
+      "agency_feed_only": 8,
+      "unconfirmed": 0,
+      "total": 131,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08115",
+      "county": "Sedgwick",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 1,
+      "total": 1,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08117",
+      "county": "Summit",
+      "cdot": 250,
+      "agency_feed_only": 13,
+      "unconfirmed": 8,
+      "total": 271,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08119",
+      "county": "Teller",
+      "cdot": 35,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 35,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08121",
+      "county": "Washington",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    },
+    {
+      "county_fips": "08123",
+      "county": "Weld",
+      "cdot": 306,
+      "agency_feed_only": 9,
+      "unconfirmed": 10,
+      "total": 325,
+      "fixed_route_stops_found": true
+    },
+    {
+      "county_fips": "08125",
+      "county": "Yuma",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 0,
+      "total": 0,
+      "fixed_route_stops_found": false
+    }
+  ],
+  "agencies": [
+    {
+      "agency": "Agency not listed",
+      "operator": "public",
+      "cdot": 116,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "All Points Transit",
+      "operator": "public",
+      "cdot": 198,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Avon Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 22,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Bent County Transit",
+      "operator": "public",
+      "cdot": 21,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Blackhawk and Central City Tramway",
+      "operator": "public",
+      "cdot": 18,
+      "agency_feed_only": 1,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Blue Sky Limo LLC",
+      "operator": "private_shuttle",
+      "cdot": 0,
+      "agency_feed_only": 12,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Breckenridge Free Ride",
+      "operator": "public",
+      "cdot": 120,
+      "agency_feed_only": 3,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Bustang Outrider",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 58,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "COLT",
+      "operator": "public",
+      "cdot": 142,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "City of Fountain Transit",
+      "operator": "public",
+      "cdot": 35,
+      "agency_feed_only": 2,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "City of Golden",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 23,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Clear Creek County Transit",
+      "operator": "public",
+      "cdot": 47,
+      "agency_feed_only": 5,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Colorado Department of Transportation",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 20,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Continuum",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 1,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Cripple Creek Transportation",
+      "operator": "public",
+      "cdot": 20,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Durango Transit",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 105,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Envida",
+      "operator": "public",
+      "cdot": 28,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Estes Transit",
+      "operator": "public",
+      "cdot": 65,
+      "agency_feed_only": 2,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Garden of the Gods",
+      "operator": "public",
+      "cdot": 66,
+      "agency_feed_only": 4,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Grand Valley Transit",
+      "operator": "public",
+      "cdot": 399,
+      "agency_feed_only": 8,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Greeley-Evans Transit",
+      "operator": "public",
+      "cdot": 309,
+      "agency_feed_only": 1,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Groome Transportation",
+      "operator": "private_shuttle",
+      "cdot": 0,
+      "agency_feed_only": 11,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Gunnison Valley RTA",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 25,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Home James",
+      "operator": "private_shuttle",
+      "cdot": 0,
+      "agency_feed_only": 72,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Lake County Transit",
+      "operator": "public",
+      "cdot": 42,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "MVT",
+      "operator": "public",
+      "cdot": 40,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Mountain Express",
+      "operator": "public",
+      "cdot": 63,
+      "agency_feed_only": 19,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Mountain Metropolitan Transit",
+      "operator": "public",
+      "cdot": 977,
+      "agency_feed_only": 5,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "OpenStreetMap only",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 0,
+      "unconfirmed": 1131
+    },
+    {
+      "agency": "Parachute Area Transit System",
+      "operator": "public",
+      "cdot": 16,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Prairie Express Transit",
+      "operator": "public",
+      "cdot": 21,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Pueblo Transit",
+      "operator": "public",
+      "cdot": 359,
+      "agency_feed_only": 40,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "RTD",
+      "operator": "public",
+      "cdot": 7505,
+      "agency_feed_only": 261,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Road Runner Transit",
+      "operator": "public",
+      "cdot": 21,
+      "agency_feed_only": 2,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Roaring Fork Transportation Authority",
+      "operator": "public",
+      "cdot": 255,
+      "agency_feed_only": 9,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Rocky Mountain National Park Shuttles",
+      "operator": "public",
+      "cdot": 12,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "San Miguel Authority for Regional Transportation",
+      "operator": "public",
+      "cdot": 69,
+      "agency_feed_only": 2,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Snowmass Village Transportation",
+      "operator": "public",
+      "cdot": 85,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Steamboat Springs Transit",
+      "operator": "public",
+      "cdot": 91,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Steamboat Springs Yellow Zone",
+      "operator": "public",
+      "cdot": 57,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Summit Stage",
+      "operator": "public",
+      "cdot": 142,
+      "agency_feed_only": 8,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "The Lift",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 3,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Town of Mountain Village",
+      "operator": "public",
+      "cdot": 3,
+      "agency_feed_only": 4,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Transfort",
+      "operator": "public",
+      "cdot": 489,
+      "agency_feed_only": 3,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "University of Colorado Boulder",
+      "operator": "public",
+      "cdot": 0,
+      "agency_feed_only": 21,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Vail Transit",
+      "operator": "public",
+      "cdot": 111,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Via Mobility Services",
+      "operator": "public",
+      "cdot": 210,
+      "agency_feed_only": 20,
+      "unconfirmed": 0
+    },
+    {
+      "agency": "Winter Park Transit",
+      "operator": "public",
+      "cdot": 128,
+      "agency_feed_only": 0,
+      "unconfirmed": 0
+    }
+  ],
+  "counties_without_fixed_stops": [
+    "Baca",
+    "Cheyenne",
+    "Costilla",
+    "Crowley",
+    "Custer",
+    "Elbert",
+    "Hinsdale",
+    "Jackson",
+    "Kiowa",
+    "Kit Carson",
+    "Lincoln",
+    "Phillips",
+    "Rio Blanco",
+    "Washington",
+    "Yuma"
+  ],
+  "cdot_gaps": {
+    "rows_without_location": 963,
+    "rows_without_location_by_agency": {
+      "MVT": 963
+    },
+    "rows_outside_colorado": 0,
+    "stops_in_agency_feeds_not_in_cdot": {
+      "Avon Transit": 22,
+      "Blackhawk and Central City Tramway": 1,
+      "Blue Sky Limo LLC": 12,
+      "Breckenridge Free Ride": 3,
+      "Bustang Outrider": 58,
+      "City of Fountain Transit": 2,
+      "City of Golden": 23,
+      "Clear Creek County Transit": 5,
+      "Colorado Department of Transportation": 20,
+      "Continuum": 1,
+      "Durango Transit": 105,
+      "Estes Transit": 2,
+      "Garden of the Gods": 4,
+      "Grand Valley Transit": 8,
+      "Greeley-Evans Transit": 1,
+      "Groome Transportation": 11,
+      "Gunnison Valley RTA": 25,
+      "Home James": 72,
+      "Mountain Express": 19,
+      "Mountain Metropolitan Transit": 5,
+      "Pueblo Transit": 40,
+      "RTD": 261,
+      "Road Runner Transit": 2,
+      "Roaring Fork Transportation Authority": 9,
+      "San Miguel Authority for Regional Transportation": 2,
+      "Summit Stage": 8,
+      "The Lift": 3,
+      "Town of Mountain Village": 4,
+      "Transfort": 3,
+      "University of Colorado Boulder": 21,
+      "Via Mobility Services": 20
+    }
+  }
+}

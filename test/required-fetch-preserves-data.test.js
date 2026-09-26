@@ -36,6 +36,12 @@ const CASES = [
     output: 'data/market/nhpd_co.geojson',
     countFeatures: (txt) => (JSON.parse(txt).features || []).length,
   },
+  {
+    // CDOT is the primary source; without it the statewide file must stand.
+    script: 'scripts/market/build_transit_stops_co.py',
+    output: 'data/amenities/transit_stops_statewide_co.geojson',
+    countFeatures: (txt) => (JSON.parse(txt).features || []).length,
+  },
 ];
 
 for (const c of CASES) {
