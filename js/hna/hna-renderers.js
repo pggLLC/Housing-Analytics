@@ -8179,6 +8179,85 @@
     });
   }
 
+  /**
+   * Potential location: transit zone (#1937 Phase 3).
+   * How much of this geography passes the HB26-1065 2-mile screen, from
+   * data/hna/transit-zone-by-geography.json (built weekly from the CDOT-first
+   * statewide stop file). Every figure carries the provisional note from
+   * TransitZone.designation(), so it never reads as an eligibility finding.
+   * Missing, stale or unmatched data renders "Unavailable" with the reason.
+   */
+  var TRANSIT_ZONE_MAX_AGE_DAYS = 16;   // the stop file's freshness SLA
+  function renderTransitZonePanel(geoid, now) {
+    var mount = document.getElementById('hnaTransitZoneContent');
+    if (!mount) return Promise.resolve(null);
+    now = (now && typeof now.getTime === 'function') ? now : new Date();
+    function unavailable(reason) {
+      mount.innerHTML = '<p class="hna-tz__unavailable"><strong>Unavailable.</strong> ' + escHtml(reason) + '</p>';
+      mount.setAttribute('data-tz-state', 'unavailable');
+      return null;
+    }
+    function pct(v) { return Math.round(v * 100) + '%'; }
+    return Promise.all([
+      fetch('data/hna/transit-zone-by-geography.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
+      fetch('data/policy/thiz-map-status.json').then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; })
+    ]).then(function (parts) {
+      var data = parts[0], mapStatus = parts[1];
+      if (!data || !data.geographies) return unavailable('Transit zone data did not load.');
+      var rec = data.geographies[geoid];
+      if (!rec) return unavailable('Transit zone figures cover Colorado counties, towns and CDPs; pick one to see them.');
+      if (rec.unavailableReason) return unavailable(rec.unavailableReason);
+      var gen = Date.parse((data.meta && data.meta.stops_generated) || '');
+      if (!Number.isFinite(gen)) return unavailable('The transit stop data has no build date, so its age cannot be confirmed.');
+      var ageDays = Math.floor((now.getTime() - gen) / 86400000);
+      if (ageDays > TRANSIT_ZONE_MAX_AGE_DAYS) {
+        return unavailable('The transit stop data is ' + ageDays + ' days old (limit ' + TRANSIT_ZONE_MAX_AGE_DAYS + '), so these figures may miss new or moved stops.');
+      }
+      var radius = data.meta && data.meta.radius_miles;
+      var share = rec.share_within_radius_confirmed;
+      var shareAny = rec.share_within_radius_any;
+      var half = rec.share_within_half_mile_confirmed;
+      if (typeof share !== 'number' || typeof half !== 'number' || !(radius > 0)) {
+        return unavailable('The transit zone figures for this geography are incomplete.');
+      }
+      var des = (window.TransitZone && typeof window.TransitZone.designation === 'function')
+        ? window.TransitZone.designation(mapStatus, now)
+        : { designation: 'provisional', note: 'Provisional — the zone-map status could not be read, so this is a screen only.' };
+      var name = escHtml(rec.name || 'this area');
+      var near = rec.nearest_confirmed_stop;
+      var html = '';
+      html += '<div class="hna-tz__tiles" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:.6rem;margin:.4rem 0 .8rem;">' +
+        '<div class="hna-tz__tile" data-tz="share"><div style="font-size:1.6rem;font-weight:700;">' + pct(share) + '</div>' +
+          '<div style="color:var(--muted);">of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a confirmed transit stop</div></div>' +
+        '<div class="hna-tz__tile" data-tz="half"><div style="font-size:1.6rem;font-weight:700;">' + pct(half) + '</div>' +
+          '<div style="color:var(--muted);">is within ½ mile of a confirmed stop (CHFA QAP TOD distance, straight-line)</div></div>' +
+        '<div class="hna-tz__tile" data-tz="nearest"><div style="font-size:1.6rem;font-weight:700;">' +
+          (near ? escHtml(String(near.distance_miles)) + ' mi' : '—') + '</div>' +
+          '<div style="color:var(--muted);">' + (near
+            ? 'from the centre to the nearest confirmed stop: ' + escHtml(near.name || 'unnamed stop') + ' (' + escHtml(near.agency || 'agency not listed') + ')'
+            : 'no confirmed stop found in Colorado data') + '</div></div>' +
+        '</div>';
+      if (share === 0) {
+        html += '<p>No part of ' + name + ' is within ' + escHtml(String(radius)) + ' miles of a fixed-route stop that CDOT or a transit agency publishes. ' +
+          'Demand-response (dial-a-ride) service has no stops, so it does not count toward this screen.</p>';
+      }
+      if (typeof shareAny === 'number' && shareAny > share) {
+        html += '<p style="color:var(--muted);">Counting OpenStreetMap stops that neither CDOT nor an agency confirms, the share rises to ' + pct(shareAny) +
+          '. Those stops are unconfirmed, so they are left out of the figures above.</p>';
+      }
+      html += '<p><strong>Transit Zone credit.</strong> Only housing inside an OEDIT-designated Transit and Housing Investment Zone can receive the HB26-1065 credit. ' +
+        (share > 0 ? 'Sites in the ' + pct(share) + ' above pass the 2-mile screen and are worth checking; sites elsewhere in ' + name + ' do not.'
+                   : 'No site here passes the 2-mile screen.') + '</p>';
+      html += '<p class="hna-tz__designation" data-tz-designation="' + escHtml(des.designation) + '" style="padding:.5rem .7rem;border-left:3px solid var(--warn);background:var(--warn-dim);">' +
+        escHtml(des.note) + '</p>';
+      html += '<p style="color:var(--muted);font-size:.95rem;">Source: CDOT Statewide Transit Points, transit agency schedule feeds and OpenStreetMap, merged weekly; ' +
+        'about ' + escHtml(String(rec.samples)) + ' sample points inside this boundary. Distances are straight-line.</p>';
+      mount.innerHTML = html;
+      mount.setAttribute('data-tz-state', 'ok');
+      return rec;
+    });
+  }
+
   function renderHnaScorecardPanel(geoid) {
     // container is the detailed panel this view may or may not carry (the
     // split views only include a subset of the canonical page's sections).
@@ -9404,6 +9483,7 @@
     renderChasAffordabilityGap,
     renderFmrPanel,
     renderHnaScorecardPanel,
+    renderTransitZonePanel,
   };
 
 })();
