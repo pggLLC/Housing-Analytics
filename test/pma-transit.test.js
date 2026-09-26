@@ -341,6 +341,40 @@ group('8. getTransitJustification shape', () => {
   });
 });
 
+group('9. no score before calculation; score tagged with its site (#1937)', () => {
+  test('a fresh module reports null, not 0, before any calculation', () => {
+    const modPath = require.resolve('../js/pma-transit.js');
+    delete require.cache[modPath];
+    const Fresh = require('../js/pma-transit.js');
+    const j = Fresh.getTransitJustification();
+    assert.equal(j.transitAccessibilityScore, null);
+    assert.equal(j.siteLat, null);
+    assert.equal(j.siteLon, null);
+  });
+
+  test('the score carries the site it was computed for', () => {
+    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+    const j = Transit.getTransitJustification();
+    assert.equal(j.siteLat, SITE.lat);
+    assert.equal(j.siteLon, SITE.lon);
+    assert.equal(typeof j.transitAccessibilityScore, 'number');
+  });
+
+  test('the site-selection controller only uses a score computed for the current site', () => {
+    const src = require('node:fs').readFileSync(require.resolve('../js/market-analysis/market-analysis-controller.js'), 'utf8');
+    const stmt = (src.match(/var sameSite = [\s\S]*?;\n/) || [])[0];
+    assert.ok(stmt, 'sameSite check not found in market-analysis-controller.js');
+    const sameSite = (tj, lat, lon) => require('node:vm').runInNewContext(stmt + '; sameSite', { tj, lat, lon });
+    const raw = { lat: 39.7392358, lon: -104.9902512 };
+    // The runner reads the site back from #pmaSiteCoords, written with toFixed(5).
+    const fromText = { siteLat: parseFloat(raw.lat.toFixed(5)), siteLon: parseFloat(raw.lon.toFixed(5)) };
+    assert.equal(sameSite(fromText, raw.lat, raw.lon), true, 'a score for the same site read back at 5 decimals must be accepted');
+    assert.equal(sameSite({ siteLat: 39.75, siteLon: -104.99 }, raw.lat, raw.lon), false, 'a previous site\'s score must be rejected');
+    assert.ok(!sameSite({ siteLat: null, siteLon: null }, raw.lat, raw.lon), 'an uncomputed score must be rejected');
+    assert.ok(!sameSite(null, raw.lat, raw.lon), 'no justification must be rejected');
+  });
+});
+
 /* ── Summary ───────────────────────────────────────────────────────── */
 
 Promise.all(pending).then(() => {
