@@ -1,11 +1,11 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T04:47:13.359Z",
+    "generated_at": "2026-09-26T06:31:31.512Z",
     "root": "data/",
-    "file_count": 1620,
-    "total_size_bytes": 162498218,
+    "file_count": 1621,
+    "total_size_bytes": 163013117,
     "kinds": {
-      "json": 1585,
+      "json": 1586,
       "geojson": 31,
       "csv": 4
     }
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-26T04:47:09.383Z",
+      "mtime": "2026-09-26T06:31:28.815Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -31815,8 +31815,8 @@
     {
       "path": "paper/figures.json",
       "kind": "json",
-      "size_bytes": 14704,
-      "mtime": "2026-09-26T04:47:11.094Z",
+      "size_bytes": 14706,
+      "mtime": "2026-09-26T06:31:30.107Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31839,7 +31839,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-26T04:47:10.704Z",
+      "mtime": "2026-09-26T06:31:29.805Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32068,6 +32068,36 @@
       ]
     },
     {
+      "path": "policy/fee-reductions.json",
+      "kind": "json",
+      "size_bytes": 502601,
+      "mtime": "2026-09-26T06:30:24.774Z",
+      "shape": "object",
+      "keys": [
+        "schema",
+        "meta",
+        "entries",
+        "land_use"
+      ],
+      "key_count": 4,
+      "primary_array_key": "entries",
+      "primary_array_length": 107,
+      "primary_array_first_keys": [
+        "id",
+        "state",
+        "kind",
+        "geoid",
+        "jurisdiction",
+        "county",
+        "provider",
+        "provider_type",
+        "fee_category",
+        "recurrence",
+        "measure",
+        "reduces_total_cost"
+      ]
+    },
+    {
       "path": "policy/homeownership-programs.json",
       "kind": "json",
       "size_bytes": 16701,
@@ -32135,8 +32165,8 @@
     {
       "path": "policy/jurisdiction-housing-progress.json",
       "kind": "json",
-      "size_bytes": 35179,
-      "mtime": "2026-09-25T12:55:19.120Z",
+      "size_bytes": 40485,
+      "mtime": "2026-09-26T06:30:24.774Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32499,8 +32529,8 @@
     {
       "path": "policy_briefs_curated.json",
       "kind": "json",
-      "size_bytes": 3781,
-      "mtime": "2026-09-25T12:55:19.122Z",
+      "size_bytes": 9312,
+      "mtime": "2026-09-26T06:30:24.776Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32508,7 +32538,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "briefs",
-      "primary_array_length": 1,
+      "primary_array_length": 2,
       "primary_array_first_keys": [
         "id",
         "title",
@@ -32915,8 +32945,8 @@
     {
       "path": "tax-abatement-inventory.json",
       "kind": "json",
-      "size_bytes": 21685,
-      "mtime": "2026-09-25T12:55:19.131Z",
+      "size_bytes": 23144,
+      "mtime": "2026-09-26T06:30:24.784Z",
       "shape": "object",
       "keys": [
         "metadata",

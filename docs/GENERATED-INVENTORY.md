@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T04:46:47.525Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T06:31:12.785Z. Do not edit by hand.
 
 ---
 
@@ -79,7 +79,7 @@
 
 ## Data Files (`data/**/*.json`)
 
-1586 JSON files found.
+1587 JSON files found.
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
@@ -1632,10 +1632,11 @@
 | `data/policy/county-ownership.json` | 8.0 KB | ✅ | — |
 | `data/policy/county-parcel-sources.json` | 22.5 KB | ✅ | — |
 | `data/policy/developer-ownership-funding.json` | 20.3 KB | ✅ | — |
+| `data/policy/fee-reductions.json` | 490.8 KB | ✅ | — |
 | `data/policy/homeownership-programs.json` | 16.3 KB | ✅ | — |
 | `data/policy/housing-policy-scorecard.json` | 179.1 KB | ✅ | — |
 | `data/policy/jchs-state-of-nations-housing.json` | 3.6 KB | ✅ | — |
-| `data/policy/jurisdiction-housing-progress.json` | 34.4 KB | ✅ | — |
+| `data/policy/jurisdiction-housing-progress.json` | 39.5 KB | ✅ | — |
 | `data/policy/land-disposition-models.json` | 20.5 KB | ✅ | — |
 | `data/policy/lihtc-assumptions.json` | 3.8 KB | ✅ | — |
 | `data/policy/methodology-version.json` | 6.3 KB | ✅ | — |
@@ -1650,7 +1651,7 @@
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
 | `data/policy_briefs.json` | 220.5 KB | ✅ | — |
-| `data/policy_briefs_curated.json` | 3.7 KB | ✅ | — |
+| `data/policy_briefs_curated.json` | 9.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 17.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
 | `data/provenance/deal-calculator.json` | 3.0 KB | ✅ | — |
@@ -1667,14 +1668,14 @@
 | `data/source-registry.json` | 6.2 KB | ✅ | — |
 | `data/states-10m.json` | 111.9 KB | ✅ | — |
 | `data/table-header-tips.json` | 15.3 KB | ✅ | — |
-| `data/tax-abatement-inventory.json` | 21.2 KB | ✅ | — |
+| `data/tax-abatement-inventory.json` | 22.6 KB | ✅ | — |
 | `data/url-health.json` | 326.9 KB | ✅ | — |
 
 ---
 
 ## Test Files
 
-435 test files found.
+437 test files found.
 
 | File | Size |
 |------|------|
@@ -1776,6 +1777,7 @@
 | `test/every-gated-artifact-is-rebuildable.test.mjs` | 5.3 KB |
 | `test/every-guard-runs-or-says-why.test.mjs` | 8.5 KB |
 | `test/f116-r1-matching.test.js` | 7.2 KB |
+| `test/fee-reductions-surfaces.test.js` | 11.0 KB |
 | `test/fetch-chfa-lihtc-fips.js` | 10.3 KB |
 | `test/fetch-error-surface.test.js` | 4.2 KB |
 | `test/fetch-helper-resolve.js` | 7.4 KB |
@@ -1964,7 +1966,7 @@
 | `test/pma-tract-display.test.js` | 8.4 KB |
 | `test/pma-transit.test.js` | 14.8 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
-| `test/policy-briefs-curated.test.js` | 2.7 KB |
+| `test/policy-briefs-curated.test.js` | 8.0 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
 | `test/polymarket-resolved.test.js` | 7.8 KB |
 | `test/preservation.test.js` | 17.3 KB |
@@ -1973,7 +1975,7 @@
 | `test/production-need-counts-the-workforce.test.mjs` | 8.7 KB |
 | `test/project-scenario.test.js` | 7.8 KB |
 | `test/projection-snapshots/baseline.json` | 2.9 KB |
-| `test/prop123-administration.test.js` | 6.9 KB |
+| `test/prop123-administration.test.js` | 7.2 KB |
 | `test/prop123-historical.test.js` | 19.2 KB |
 | `test/prop123.test.js` | 13.9 KB |
 | `test/provenance-label.test.js` | 2.2 KB |
@@ -2093,6 +2095,7 @@
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 22.7 KB |
 | `tests/test_data_plausibility.py` | 20.0 KB |
+| `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
 | `tests/test_fmr_parsing.py` | 5.9 KB |
