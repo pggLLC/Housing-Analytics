@@ -186,6 +186,9 @@
       for (var i = 0; i < feats.length; i++) {
         var c = feats[i] && feats[i].geometry && feats[i].geometry.coordinates;
         if (!c || !isNum(c[0]) || !isNum(c[1])) continue;
+        // Private airport/hotel shuttle pickups are mapped but are not public
+        // transit, so they never count toward the zone screen.
+        if (feats[i].properties && feats[i].properties.operator === 'private_shuttle') continue;
         var key = Math.floor(c[0] / CELL_DEG) + ',' + Math.floor(c[1] / CELL_DEG);
         (grid[key] = grid[key] || []).push(feats[i]);
       }
