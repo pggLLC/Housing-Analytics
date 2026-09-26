@@ -395,6 +395,38 @@ async function exportAll(c) {
     assert(r.pdf.some((t) => t.includes(pdfPlain(reason))), 'the PDF does not carry the reason');
   });
 
+  await test('a transit panel for another geography, or still loading, is never exported as this one\'s', async () => {
+    const tzRows = () => sheets.Summary.rows.filter((x) => /confirmed (transit )?stop|Zone designation/.test(x.k || ''));
+    // Panel rendered for Mesa, then the page switches to Fruita before the
+    // panel re-renders (the controller does not await it).
+    await exportAll(CASES[0]);
+    assert.strictEqual(document.getElementById('hnaTransitZoneContent').getAttribute('data-tz-geoid'), '08077');
+    const geoSelect = document.getElementById('geoSelect');
+    geoSelect.innerHTML = '<option value="0828745" selected>Fruita</option>';
+    geoSelect.value = '0828745';
+    let data = window.__HNA_buildReportData();
+    assert.strictEqual(data.transitZone.state, 'other_geography');
+    sheets = {};
+    await window.__HNA_exportExcel(data, 't.xlsx');
+    assert.strictEqual(tzRows().length, 4);
+    for (const row of tzRows()) {
+      assert.strictEqual(row.v, 'Unavailable', `${row.k}: Mesa's figure exported under Fruita (${JSON.stringify(row.v)})`);
+      assert.match(row.n, /had not loaded for this geography/);
+    }
+    // The re-render has started but not finished.
+    const pending = window.HNARenderers.renderTransitZonePanel('0828745', TZ_FRESH);
+    data = window.__HNA_buildReportData();
+    assert.strictEqual(data.transitZone.state, 'loading');
+    sheets = {};
+    await window.__HNA_exportExcel(data, 't.xlsx');
+    for (const row of tzRows()) {
+      assert.strictEqual(row.v, 'Unavailable', `${row.k}: exported mid-load as ${JSON.stringify(row.v)}`);
+      assert.match(row.n, /still loading/);
+    }
+    await pending;
+    assert.strictEqual(window.__HNA_buildReportData().transitZone.state, 'ok', 'fixture: the panel never finished for Fruita');
+  });
+
   await test('a 0 AMI gap is exercised: Mesa\'s 60% AMI gap is 0 in the data', async () => {
     assert.strictEqual(rankOf('08077').metrics.ami_gap_60pct, 0, 'fixture changed: pick another zero-gap jurisdiction');
   });
