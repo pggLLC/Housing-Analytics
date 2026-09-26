@@ -81,8 +81,8 @@
    *   owner_hh: number,
    *   total_hh: number,
    *   vacant: number,
-   *   median_gross_rent: number,
-   *   median_hh_income: number,
+   *   median_gross_rent: number|null,
+   *   median_hh_income: number|null,
    *   cost_burden_rate: number,
    *   vacancy_rate: number,
    *   poverty_rate: number,
@@ -96,8 +96,10 @@
       owner_hh: 0,
       total_hh: 0,
       vacant: 0,
-      median_gross_rent: 0,
-      median_hh_income: 0,
+      median_gross_rent: null,
+      median_hh_income: null,
+      median_gross_rent_excluded_tracts: 0,
+      median_hh_income_excluded_tracts: 0,
       cost_burden_rate: 0,
       vacancy_rate: 0,
       poverty_rate: 0,
@@ -110,6 +112,8 @@
 
     var rentSum = 0;
     var incomeSum = 0;
+    var rentN = 0;
+    var incomeN = 0;
     var costBurdenSum = 0;
     var vacancySum = 0;
     var povertySum = 0;
@@ -126,8 +130,12 @@
       result.vacant     += toNum(m.vacant);
       result.tract_count++;
 
-      rentSum        += toNum(m.median_gross_rent);
-      incomeSum      += toNum(m.median_hh_income);
+      // A suppressed ACS median (null, or 0 from an older build) is not a
+      // $0 rent or income — leave it out of the average and count it.
+      var rentV = m.median_gross_rent == null ? NaN : parseFloat(m.median_gross_rent);
+      if (rentV > 0) { rentSum += rentV; rentN++; } else { result.median_gross_rent_excluded_tracts++; }
+      var incV = m.median_hh_income == null ? NaN : parseFloat(m.median_hh_income);
+      if (incV > 0) { incomeSum += incV; incomeN++; } else { result.median_hh_income_excluded_tracts++; }
       costBurdenSum  += toNum(m.cost_burden_rate);
       vacancySum     += toNum(m.vacancy_rate);
       povertySum     += toNum(m.poverty_rate);
@@ -135,8 +143,8 @@
     }
 
     if (rateCount > 0) {
-      result.median_gross_rent = Math.round(rentSum / rateCount);
-      result.median_hh_income  = Math.round(incomeSum / rateCount);
+      result.median_gross_rent = rentN ? Math.round(rentSum / rentN) : null;
+      result.median_hh_income  = incomeN ? Math.round(incomeSum / incomeN) : null;
       result.cost_burden_rate  = parseFloat((costBurdenSum / rateCount).toFixed(4));
       result.vacancy_rate      = parseFloat((vacancySum / rateCount).toFixed(4));
       result.poverty_rate      = parseFloat((povertySum / rateCount).toFixed(4));

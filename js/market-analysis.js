@@ -595,6 +595,7 @@
     var totals = {
       pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
       vacant: 0, rent_sum: 0, income_sum: 0,
+      rent_n: 0, income_n: 0, rent_excluded: 0, income_excluded: 0,
       cost_burden_sum: 0, vacancy_rate_sum: 0,
       severe_burden_sum: 0, severe_burden_n: 0,
       poverty_sum: 0, poverty_n: 0,
@@ -630,8 +631,16 @@
       totals.rented_not_occupied += (m.rented_not_occupied || 0) * share;
       totals.vacant_seasonal     += (m.vacant_seasonal     || 0) * share;
       // Rates are unweighted averages — don't multiply by share.
-      totals.rent_sum     += m.median_gross_rent  || 0;
-      totals.income_sum   += m.median_hh_income   || 0;
+      // A suppressed ACS median (null, or a 0 left by an older build that
+      // coerced the Census sentinel) is not a $0 rent or income: averaging it
+      // in pulled Denver's buffer rent from $1,779 to $1,759. Skip it, count
+      // it, and let the caller disclose how many tracts were left out.
+      var rentV = m.median_gross_rent == null ? NaN : Number(m.median_gross_rent);
+      if (rentV > 0) { totals.rent_sum += rentV; totals.rent_n++; }
+      else totals.rent_excluded++;
+      var incV = m.median_hh_income == null ? NaN : Number(m.median_hh_income);
+      if (incV > 0) { totals.income_sum += incV; totals.income_n++; }
+      else totals.income_excluded++;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
       totals.vacancy_rate_sum += m.vacancy_rate    || 0;
       if (Number.isFinite(+m.severe_cost_burden_rate)) {
@@ -694,8 +703,11 @@
       renter_hh:        Math.round(totals.renter_hh),
       total_hh:         Math.round(totals.total_hh),
       vacant:           Math.round(totals.vacant),
-      median_gross_rent:   totals.n ? totals.rent_sum    / totals.n : 0,
-      median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
+      // null, never 0, when no tract in the buffer has a published median.
+      median_gross_rent:   totals.rent_n   ? totals.rent_sum   / totals.rent_n   : null,
+      median_hh_income:    totals.income_n ? totals.income_sum / totals.income_n : null,
+      median_gross_rent_excluded_tracts: totals.rent_excluded,
+      median_hh_income_excluded_tracts:  totals.income_excluded,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
       // #1163 — buffer-level rental vacancy from summed apportioned counts
@@ -878,7 +890,21 @@
    * @returns {{ score: number|null, ratio: number, amiUsed: number|null, amiSource: string, unavailable: boolean }}
    */
   function scoreRentPressure(acs, countyAmi) {
-    return PMAScoring.scoreRentPressure(acs, countyAmi);
+    var res = PMAScoring.scoreRentPressure(acs, countyAmi);
+    if (res.unavailable) {
+      res.unavailableReason = 'county 4-person AMI could not be resolved';
+      return res;
+    }
+    // No measured rent is not a rent of $0. The shared helper turns a
+    // missing median into ratio 0, which scores "no rent pressure at all";
+    // aggregateAcs() now returns null when every tract in the PMA is
+    // suppressed, so exclude the dimension and say why instead.
+    var rent = acs && acs.median_gross_rent != null ? Number(acs.median_gross_rent) : NaN;
+    if (!(rent > 0)) {
+      return { score: null, ratio: null, amiUsed: countyAmi, amiSource: 'county', unavailable: true,
+        unavailableReason: 'ACS median gross rent is suppressed in every tract in the PMA' };
+    }
+    return res;
   }
 
   /**
@@ -1184,7 +1210,9 @@
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
     }
     if (rentPressureObj.unavailable) {
-      flags.push({ level: 'warn', text: 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)' });
+      flags.push({ level: 'warn', text: rentPressureObj.amiSource === 'unavailable'
+        ? 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)'
+        : 'Rent-pressure score unavailable — ' + rentPressureObj.unavailableReason });
     }
 
     // LIHTC recency flags — surface competitive saturation vs. gap signals
@@ -1231,10 +1259,9 @@
     var rentPressureCoverage;
     if (rentPressureObj.unavailable) {
       rentPressureCoverage = 'unavailable';
-      fallbackReasons.rent_pressure = 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)';
-    } else if (!acs || acs.median_gross_rent == null) {
-      rentPressureCoverage = 'fallback';
-      fallbackReasons.rent_pressure = 'ACS median_gross_rent missing; rent ratio defaulted to 0';
+      fallbackReasons.rent_pressure = rentPressureObj.amiSource === 'unavailable'
+        ? 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)'
+        : 'Rent-pressure dimension excluded from overall (weight redistributed): ' + rentPressureObj.unavailableReason;
     } else {
       rentPressureCoverage = 'full';
     }
@@ -1292,8 +1319,11 @@
             ? ' ⚠ STR-DISTORTED: residual ACS short-term/vacation rental contamination may remain after the seasonal-share proxy discount. Verify against local STR-license and long-term listing data (#1171).'
             : ''),
         rentPressure:    rentPressureObj.unavailable
-          ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
+          ? 'Rent-pressure score unavailable — ' + (rentPressureObj.unavailableReason || 'county 4-person AMI could not be resolved') + '. Dimension excluded from overall.'
           : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'
+            + (acs && acs.median_gross_rent_excluded_tracts
+              ? '. ' + acs.median_gross_rent_excluded_tracts + ' tract(s) with a suppressed ACS median rent are left out of the average, not counted as $0.'
+              : '')
       },
       dimensionDataAvailable: {
         demand:          demandCoverage !== 'fallback',
@@ -1345,6 +1375,21 @@
    * and 10.1% in the next. null when there is no denominator at all; a rate
    * over the scoring model's placeholder of 1 is not a rate.
    */
+  /*
+   * Two different ratios share this denominator, and they must not share a
+   * name. The headline divides EXISTING affordable units by qualified renter
+   * households (Denver: 48.7%) — that is penetration of the existing stock.
+   * The simulator and the scenario table divide the PROPOSED project's units
+   * by the same households (100 units: 0.2%) — that is the project's capture
+   * rate. Both were labelled "Capture rate". These names are used on screen
+   * and in the JSON/CSV exports; the headline label in market-analysis.html
+   * must read MEASURE_NAMES.penetration (test/pma-capture-naming.test.js).
+   */
+  var MEASURE_NAMES = {
+    penetration: 'Existing affordable penetration',
+    capture:     'Proposed-project capture'
+  };
+
   function captureDenominator(result) {
     var d = result && result.captureDenominator;
     if (!d || !(Number(d.value) > 0) || d.source === 'fallback_1') return null;
@@ -1362,7 +1407,7 @@
   function _denominatorLine(den) {
     return den
       ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
-      : 'No renter-household count for this PMA, so no capture rate.';
+      : 'No renter-household count for this PMA, so no penetration or capture rate.';
   }
 
   /* ── Tier label ─────────────────────────────────────────────────── */
@@ -1763,7 +1808,7 @@
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
       capDenEl.dataset.numerator = capDen ? String(exUnits) : '';
     }
-    setText('pmaRenterHh', (result.acs.renter_hh || 0).toLocaleString());
+    setText('pmaRenterHh', Number.isFinite(result.acs.renter_hh) ? result.acs.renter_hh.toLocaleString() : '\u2014');
     setText('pmaLihtcProp123', result.prop123Count != null ? result.prop123Count : '—');
 
     // Surface LIHTC recency — CHFA scoring considers last-funded-year;
@@ -2206,7 +2251,7 @@
     var mix = validateUnitMix();
     if (!mix.valid) {
       simEl.innerHTML =
-        '<div class="pma-empty">Capture rate unavailable — fix the unit-mix error above.</div>';
+        '<div class="pma-empty">' + MEASURE_NAMES.capture + ' unavailable — fix the unit-mix error above.</div>';
       return;
     }
 
@@ -2235,7 +2280,7 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">Capture rate</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + '</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
@@ -2309,7 +2354,7 @@
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.dist + ' mi</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.units + '</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center;color:var(--faint)">' + (p.year || '—') + '</td>' +
-        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)">' + p.stage + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)" data-stage-basis="' + (p.stageBasis || '') + '">' + (p.stageLabel || p.stage) + '</td>' +
         '</tr>';
     }).join('');
 
@@ -2318,8 +2363,13 @@
         '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.total + '</div><div class="pma-stat-label">Total in buffer</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Active / recent</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Active units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption (heuristic: ' + pipeline.absorptionUnitsPerMonth + ' units/mo)</div></div>' +
       '</div>' +
+      '<p class="pma-pipeline-basis" style="margin:0 0 0.5rem;font-size:var(--tiny);color:var(--muted)">' +
+        'Stage is CHFA\u2019s compliance status where the record has one (\u201cActive Compliance\u201d = operating, not pipeline); ' +
+        'otherwise it is estimated from the award year and marked \u201cest.\u201d \u2014 verify with local planning records. ' +
+        pipeline.absorptionBasis + '.' +
+      '</p>' +
       (pipeline.saturation ? '<div class="pma-flag pma-flag-warn" style="margin-bottom:0.5rem">⚠ Submarket saturation warning: ' + pipeline.active + ' active projects (threshold: ' + ENH.SATURATION_THRESHOLD + ')</div>' : '') +
       (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny)">' +
         '<thead><tr>' +
@@ -2363,7 +2413,7 @@
         '<td style="padding:0.25rem 0.5rem">' + s.label + '</td>' +
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
         (s.proposedUnits > 0
-          ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
+          ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.proposedProjectCaptureRate + '%</td>' +
             '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>'
           : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
@@ -2374,10 +2424,10 @@
         '<thead><tr>' +
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + '</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + MEASURE_NAMES.capture + ' = proposed units ' + _denominatorLine(scenDen) + '. Not the same measure as the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which counts existing units.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -2940,6 +2990,8 @@
             vacant:             acs.vacant,
             med_gross_rent:     acs.median_gross_rent,
             med_hh_income:      acs.median_hh_income,
+            med_gross_rent_excluded_tracts: acs.median_gross_rent_excluded_tracts || 0,
+            med_hh_income_excluded_tracts:  acs.median_hh_income_excluded_tracts || 0,
             cost_burden_rate:   acs.cost_burden_rate,
             renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
             vacancy_rate:       acs.vacancy_rate,
@@ -4736,6 +4788,9 @@
         renterShare:       (acs.total_hh && acs.renter_hh) ? +(acs.renter_hh / acs.total_hh * 100).toFixed(1) : null,
         costBurdenRate:    acs.cost_burden_rate,
         medianGrossRent:   acs.median_gross_rent,
+        medianGrossRentExcludedTracts: acs.median_gross_rent_excluded_tracts || 0,
+        medianHhIncome:    acs.median_hh_income,
+        medianHhIncomeExcludedTracts: acs.median_hh_income_excluded_tracts || 0,
         vacancyRate:       acs.vacancy_rate
       },
       supply: {
@@ -4753,11 +4808,14 @@
         affordableDuplicatesReason:    r.affordableDuplicatesReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
-      // The rate and the count it divides by travel together (F3).
-      captureRate: (function () {
+      // The rate and the count it divides by travel together (F3). Named
+      // for what it is: existing affordable units ÷ qualified renters, not
+      // a proposed project's capture rate (MEASURE_NAMES).
+      existingAffordablePenetration: (function () {
         var den = captureDenominator(r);
         return {
-          existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
+          name: MEASURE_NAMES.penetration,
+          pct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
           denominator: den ? den.value : null,
           denominatorSource: den ? den.source : null,
           denominatorLabel: den ? den.label : null
@@ -4869,6 +4927,7 @@
       ['Renter Share',         fmtPct(ag.renterShare)],
       ['Cost-Burden Rate',     fmtPct(ag.costBurdenRate)],
       ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
+      ['Tracts Excluded from Median Rent (ACS suppressed)', fmtNum(ag.medianGrossRentExcludedTracts || 0)],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
       ['SECTION', 'Existing Affordable Supply in Buffer'],
@@ -5029,8 +5088,10 @@
       ['tract_count', r.tractCount],
       ['renter_hh', r.acs.renter_hh],
       ['cost_burden_rate', r.acs.cost_burden_rate],
-      ['median_gross_rent', r.acs.median_gross_rent],
-      ['median_hh_income', r.acs.median_hh_income],
+      ['median_gross_rent', r.acs.median_gross_rent == null ? '' : r.acs.median_gross_rent],
+      ['median_gross_rent_excluded_tracts', r.acs.median_gross_rent_excluded_tracts || 0],
+      ['median_hh_income', r.acs.median_hh_income == null ? '' : r.acs.median_hh_income],
+      ['median_hh_income_excluded_tracts', r.acs.median_hh_income_excluded_tracts || 0],
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
@@ -5041,9 +5102,9 @@
       ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
       ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
       ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
-      ['capture_rate', captureDenominator(r) ? r.capture : ''],
-      ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
-      ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
+      ['existing_affordable_penetration', captureDenominator(r) ? r.capture : ''],
+      ['existing_affordable_penetration_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
+      ['existing_affordable_penetration_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
       ['dim_demand', d.demand],
       ['dim_capture_risk', d.captureRisk],
       ['dim_rent_pressure', d.rentPressure],
@@ -5635,6 +5696,7 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    MEASURE_NAMES:           MEASURE_NAMES,
     scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,

@@ -97,7 +97,8 @@ assert(
   'Market Analysis surfaces unrestricted market-rate unit count'
 );
 assert(
-  /Capture rate unavailable/i.test(maSrc),
+  // The short-circuit names the measure it withholds (MEASURE_NAMES.capture).
+  /MEASURE_NAMES\.capture \+ ' unavailable/.test(maSrc),
   'Market Analysis short-circuits simulator on hard error'
 );
 assert(
