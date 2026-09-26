@@ -21,6 +21,18 @@ function assertIncludes(haystack, needle, message) {
   assert(haystack.includes(needle), message + ' - missing "' + needle + '"');
 }
 
+// The share list is read from the page by deal-calculator-share.js, so the
+// check is that these ids, rendered as page inputs, are in the list it builds.
+function sharedKeysFor(ids) {
+  const shareDom = new JSDOM('<!doctype html><body><main>' +
+    ids.map((id) => '<input id="' + id + '">').join('') + '</main></body>',
+    { url: 'http://127.0.0.1/deal-calculator.html', runScripts: 'outside-only' });
+  shareDom.window.eval(shareSrc);
+  const keys = Array.from(shareDom.window.__DealCalcShare.shareKeys());
+  shareDom.window.close();
+  return keys;
+}
+
 function makeDom() {
   const dom = new JSDOM('<!DOCTYPE html><body><div id="dealCalcMount"></div></body>', {
     url: 'http://127.0.0.1/deal-calculator.html'
@@ -78,9 +90,9 @@ async function main() {
   assertIncludes(dcSrc, 'var DEAL_AMI_BANDS = [20, 30, 40, 50, 60, 70, 80, 100, 110, 120]', 'central AMI band list guard');
   assertIncludes(dcSrc, '110% and 120% AMI are middle-income planning bands', 'middle-income methodology disclosure');
   assertIncludes(dcSrc, 'not LIHTC-credit-eligible', 'credit-ineligibility label disclosure');
-  assertIncludes(shareSrc, "'dc-units-110'", '110% units share key');
-  assertIncludes(shareSrc, "'dc-chk-120'", '120% enabled share key');
-  assertIncludes(shareSrc, "'dc-br-120'", '120% bedroom share key');
+  const bandKeys = sharedKeysFor(['dc-units-110', 'dc-chk-120', 'dc-br-120']);
+  ['dc-units-110', 'dc-chk-120', 'dc-br-120'].forEach((id) =>
+    assert(bandKeys.includes(id), id + ' is not a share key'));
   assertIncludes(html, '[20, 30, 40, 50, 60, 70, 80, 100, 110, 120].reduce', 'JSON export band-list guard');
 
   let dom = makeDom();

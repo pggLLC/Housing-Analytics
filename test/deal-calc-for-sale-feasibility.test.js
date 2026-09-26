@@ -19,6 +19,18 @@ function assertIncludes(haystack, needle, message) {
   assert(haystack.includes(needle), message + ' - missing "' + needle + '"');
 }
 
+// The share list is read from the page by deal-calculator-share.js, so the
+// check is that these ids, rendered as page inputs, are in the list it builds.
+function sharedKeysFor(ids) {
+  const shareDom = new JSDOM('<!doctype html><body><main>' +
+    ids.map((id) => '<input id="' + id + '">').join('') + '</main></body>',
+    { url: 'http://127.0.0.1/deal-calculator.html', runScripts: 'outside-only' });
+  shareDom.window.eval(shareSrc);
+  const keys = Array.from(shareDom.window.__DealCalcShare.shareKeys());
+  shareDom.window.close();
+  return keys;
+}
+
 console.log('\nDeal Calculator for-sale ownership feasibility tests');
 console.log('='.repeat(62));
 
@@ -35,8 +47,9 @@ assertIncludes(dcSrc, 'data/policy/developer-ownership-funding.json', 'Deal Calc
 assertIncludes(dcSrc, 'data-dc-mode="rental"', 'rental-only sections are marked for mode switching');
 assertIncludes(dcSrc, 'data-dc-mode="ownership"', 'ownership-only sections are marked for mode switching');
 assertIncludes(dcSrc, 'dc-own-funding-stack', 'ownership mode renders the developer funding stack surface');
-assertIncludes(shareSrc, "'dc-sale-target-ami'", 'ownership AMI target round-trips through share/export keys');
-assertIncludes(shareSrc, "'dc-mode-rental'", 'deal mode radio round-trips through share/export keys');
+const ownershipKeys = sharedKeysFor(['dc-sale-target-ami', 'dc-mode-rental']);
+assert(ownershipKeys.includes('dc-sale-target-ami'), 'ownership AMI target round-trips through share/export keys');
+assert(ownershipKeys.includes('dc-mode-rental'), 'deal mode radio round-trips through share/export keys');
 
 assert.strictEqual(developerFunding.schema, 'developer-ownership-funding/v1', 'developer funding stack schema is versioned');
 assert.strictEqual(consumerHomeownership.schema, 'homeownership-programs/v1', 'consumer homeownership schema remains separate');
