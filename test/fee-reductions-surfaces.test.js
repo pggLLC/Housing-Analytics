@@ -28,8 +28,10 @@ const json = (p) => JSON.parse(read(p));
 const fees = json('data/policy/fee-reductions.json');
 const byId = new Map(fees.entries.map((e) => [e.id, e]));
 const COST_MEASURES = new Set(['waived', 'reduced', 'reimbursed']);
+// Only a standing program makes a row "active"; a one-off project award
+// or a repealed program is a record, not an offer.
 const costCutAt = (geoid) => fees.entries.some((e) =>
-  e.geoid === geoid && e.recurrence === 'one_time' && COST_MEASURES.has(e.measure));
+  e.geoid === geoid && e.kind === 'program' && e.recurrence === 'one_time' && COST_MEASURES.has(e.measure));
 
 // ── 1a. jurisdiction-housing-progress.json tap_fee_reduction ──────────────
 const progress = json('data/policy/jurisdiction-housing-progress.json');
@@ -48,7 +50,7 @@ for (const [geoid, rec] of Object.entries(progress.by_geoid)) {
     assert.ok(ids.length, `${rec.name}: active row must name its dataset entries`);
   } else {
     assert.notStrictEqual(t.status, 'active', `${rec.name}: "active" with no verified fee cut in the dataset`);
-    assert.ok(['not_yet_verified', 'deferral_only', 'rate_discount_only'].includes(t.status),
+    assert.ok(['not_yet_verified', 'deferral_only', 'rate_discount_only', 'project_award_only'].includes(t.status),
       `${rec.name}: status ${t.status} — an unverified row says not_yet_verified, not a status`);
   }
 }
@@ -111,6 +113,13 @@ function render(TA, opts) {
     'the HNA block shows exactly the dataset entries for the selected geography');
   assert.ok(html.includes(withFee.id), 'renders the entry for the geography');
   assert.ok(/Screening context, not a study/.test(html), 'says it is screening context (PC-5)');
+
+  // Past awards and repealed programs are grouped apart from standing programs.
+  const withAward = fees.entries.find((e) => e.kind === 'repealed');
+  const ah = await render(TA, { geoid: withAward.geoid, jurisName: withAward.jurisdiction });
+  const pastAt = ah.indexOf('Past project awards and repealed programs');
+  assert.ok(pastAt > 0 && ah.indexOf('data-fee-entry="' + withAward.id + '"') > pastAt,
+    'a repealed program is listed under past awards, not as a standing program');
 
   const deferral = fees.entries.find((e) => e.measure === 'deferred' && e.geoid);
   if (deferral) {

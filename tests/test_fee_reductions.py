@@ -38,6 +38,7 @@ RECURRENCE = {'one_time', 'recurring'}
 MEASURES = {'waived', 'reduced', 'deferred', 'rate_discount', 'reimbursed'}
 BACKFILL = {'general_fund', 'housing_fund', 'enterprise_absorbed', 'grant',
             'reimbursement', 'none', 'not_specified'}
+KINDS = {'program', 'project_award', 'repealed'}
 LEGAL_TOPICS = {'impact_fee', 'enterprise_tabor', 'prop123', 'waiver_statute', 'other'}
 
 
@@ -120,6 +121,7 @@ def test_the_file_is_well_formed(doc):
 
     for e in entries:
         eid = e['id']
+        assert e['kind'] in KINDS, f"{eid}: kind {e.get('kind')!r}"
         assert e['provider'] and e['provider_type'] in PROVIDER_TYPES, eid
         assert e['fee_category'] in FEE_CATEGORIES, f"{eid}: fee_category {e['fee_category']!r}"
         assert e['recurrence'] in RECURRENCE, eid

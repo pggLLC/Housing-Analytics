@@ -1087,13 +1087,14 @@
     window.TaxAbatement.loadFeeReductions().then(function (fees) {
       if (!banner.isConnected || !fees || fees.unavailable) return;
       var hit = window.TaxAbatement.costReductionsFor(fees, geoid, null);
+      hit.fees = hit.fees.filter(function (e) { return (e.kind || 'program') === 'program'; });
       var box = document.createElement('div');
       box.dataset.dcFeeContext = '1';
       box.style.cssText = 'margin-top:.4rem;padding-top:.35rem;border-top:1px dashed rgba(4,120,87,.35);font-size:.78rem;color:var(--muted)';
       if (!hit.fees.length) {
         box.textContent = 'Local fee waivers: none verified yet for this jurisdiction (not the same as none). Nothing is applied to your numbers.';
       } else {
-        var MEASURE = { waived: 'waived', reduced: 'reduced', reimbursed: 'paid back after payment', deferred: 'deferred (still owed)', rate_discount: 'monthly rate discount' };
+        var MEASURE = { waived: 'waived', reduced: 'reduced', reimbursed: 'paid by another source or refunded', deferred: 'deferred (still owed)', rate_discount: 'monthly rate discount' };
         var items = hit.fees.slice(0, 4).map(function (e) {
           var li = document.createElement('li');
           li.textContent = e.summary + ' (' + (MEASURE[e.measure] || e.measure) + '; ' + e.provider + ')';

@@ -3,7 +3,7 @@
   "meta": {
     "title": "Colorado local fee reductions and land-use incentives for affordable housing",
     "as_of": "2026-09-26",
-    "method": "Curated, not a feed. Each entry was read from the jurisdiction's (or its utility's or district's) own code, resolution, fee schedule, council record or program page, saved, and every evidence quote was checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means checked against that primary document; \"reported\" means taken from a named reproduction or outlet without the primary document. Every dollar amount and percentage an entry states appears in its own evidence quotes (tests/test_fee_reductions.py). An amount the source does not publish is null, never 0. Measures are kept separate: waived (not owed), reduced (partly owed), reimbursed (paid, then paid back), deferred (still owed, paid later — not a cost reduction), and rate_discount (a recurring utility bill discount, not a development cost). backfill records how a waived amount is paid for only when the source says so; otherwise not_specified. A county entry may apply only outside town limits. This is screening context, not a study: it lists what a jurisdiction offers, not what any project will receive.",
+    "method": "Curated, not a feed. Each entry was read from the jurisdiction's (or its utility's or district's) own code, resolution, fee schedule, council record or program page, saved, and every evidence quote was checked by exact substring match against the saved text (whitespace normalised). verification.level \"primary\" means checked against that primary document; \"reported\" means taken from a named reproduction or outlet without the primary document. Every dollar amount and percentage an entry states appears in its own evidence quotes (tests/test_fee_reductions.py). An amount the source does not publish is null, never 0. Measures are kept separate: waived (not owed), reduced (partly owed), reimbursed (paid, then paid back), deferred (still owed, paid later — not a cost reduction), and rate_discount (a recurring utility bill discount, not a development cost). backfill records how a waived amount is paid for only when the source says so; otherwise not_specified. kind says whether an entry is a standing program, a one-off project_award (an example of what a jurisdiction has done, not an offer), or repealed (kept for the record). A county entry may apply only outside town limits. This is screening context, not a study: it lists what a jurisdiction offers, not what any project will receive.",
     "legal_basis": [
       {
         "id": "crs-29-20-104-5",
@@ -846,6 +846,7 @@
     {
       "id": "d-broomfield-ih-onsite-bp",
       "state": "CO",
+      "kind": "program",
       "geoid": "0809280",
       "jurisdiction": "City and County of Broomfield",
       "county": "Broomfield County",
@@ -899,6 +900,7 @@
     {
       "id": "d-broomfield-ih-onsite-sef",
       "state": "CO",
+      "kind": "program",
       "geoid": "0809280",
       "jurisdiction": "City and County of Broomfield",
       "county": "Broomfield County",
@@ -956,6 +958,7 @@
     {
       "id": "d-broomfield-ih-onsite-usetax",
       "state": "CO",
+      "kind": "program",
       "geoid": "0809280",
       "jurisdiction": "City and County of Broomfield",
       "county": "Broomfield County",
@@ -1013,6 +1016,7 @@
     {
       "id": "d-broomfield-uraf",
       "state": "CO",
+      "kind": "program",
       "geoid": "0809280",
       "jurisdiction": "City and County of Broomfield",
       "county": "Broomfield County",
@@ -1081,6 +1085,7 @@
     {
       "id": "denver-eha-building-permit-fee-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0820000",
       "jurisdiction": "City and County of Denver",
       "county": "Denver County",
@@ -1149,6 +1154,7 @@
     {
       "id": "aspen-affordable-building-permit-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1202,6 +1208,7 @@
     {
       "id": "aspen-affordable-category-water-charge-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1271,6 +1278,7 @@
     {
       "id": "aspen-affordable-impact-parks-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1338,6 +1346,7 @@
     {
       "id": "aspen-affordable-impact-transportation-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1405,6 +1414,7 @@
     {
       "id": "aspen-affordable-planning-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1454,6 +1464,7 @@
     {
       "id": "aspen-qualified-employee-housing-water-charge-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0803620",
       "jurisdiction": "City of Aspen",
       "county": "Pitkin County",
@@ -1515,6 +1526,7 @@
     {
       "id": "bellingham-customer-assistance-program",
       "state": "WA",
+      "kind": "program",
       "geoid": null,
       "jurisdiction": "City of Bellingham, WA",
       "county": null,
@@ -1572,6 +1584,7 @@
     {
       "id": "bellingham-nonprofit-affordable-housing-reduced-utility-rate",
       "state": "WA",
+      "kind": "program",
       "geoid": null,
       "jurisdiction": "City of Bellingham, WA",
       "county": null,
@@ -1620,6 +1633,7 @@
     {
       "id": "d-boulder-det-credit-discretionary",
       "state": "CO",
+      "kind": "program",
       "geoid": "0807850",
       "jurisdiction": "City of Boulder",
       "county": "Boulder County",
@@ -1671,6 +1685,7 @@
     {
       "id": "d-boulder-det-waiver-excess-pa",
       "state": "CO",
+      "kind": "program",
       "geoid": "0807850",
       "jurisdiction": "City of Boulder",
       "county": "Boulder County",
@@ -1730,6 +1745,7 @@
     {
       "id": "d-brighton-ravenfield-gensvc",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -1810,6 +1826,7 @@
     {
       "id": "d-brighton-ravenfield-parks",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -1890,6 +1907,7 @@
     {
       "id": "d-brighton-ravenfield-storm",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -1969,6 +1987,7 @@
     {
       "id": "d-brighton-ravenfield-transport",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -2049,6 +2068,7 @@
     {
       "id": "d-brighton-ravenfield-usetax",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -2127,6 +2147,7 @@
     {
       "id": "d-brighton-ravenfield-wastewater",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -2206,6 +2227,7 @@
     {
       "id": "d-brighton-ravenfield-water",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0808675",
       "jurisdiction": "City of Brighton",
       "county": "Adams County",
@@ -2289,6 +2311,7 @@
     {
       "id": "colorado-springs-construction-use-tax-refund",
       "state": "CO",
+      "kind": "program",
       "geoid": "0816000",
       "jurisdiction": "City of Colorado Springs",
       "county": "El Paso County",
@@ -2341,6 +2364,7 @@
     {
       "id": "colorado-springs-fee-rebate-city-development-fees",
       "state": "CO",
+      "kind": "program",
       "geoid": "0816000",
       "jurisdiction": "City of Colorado Springs",
       "county": "El Paso County",
@@ -2406,6 +2430,7 @@
     {
       "id": "colorado-springs-fee-rebate-csu-utility-fees",
       "state": "CO",
+      "kind": "program",
       "geoid": "0816000",
       "jurisdiction": "City of Colorado Springs",
       "county": "El Paso County",
@@ -2475,6 +2500,7 @@
     {
       "id": "d-commercecity-application-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0816495",
       "jurisdiction": "City of Commerce City",
       "county": "Adams County",
@@ -2536,6 +2562,7 @@
     {
       "id": "b-durango-fairshare-fee-offset-forsale",
       "state": "CO",
+      "kind": "program",
       "geoid": "0822035",
       "jurisdiction": "City of Durango",
       "county": "La Plata County",
@@ -2606,6 +2633,7 @@
     {
       "id": "b-durango-fairshare-fee-offset-rental",
       "state": "CO",
+      "kind": "program",
       "geoid": "0822035",
       "jurisdiction": "City of Durango",
       "county": "La Plata County",
@@ -2671,6 +2699,7 @@
     {
       "id": "b-durango-utility-refund",
       "state": "CO",
+      "kind": "program",
       "geoid": "0822035",
       "jurisdiction": "City of Durango",
       "county": "La Plata County",
@@ -2727,6 +2756,7 @@
     {
       "id": "d-fortcollins-cef-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "county": "Larimer County",
@@ -2782,6 +2812,7 @@
     {
       "id": "d-fortcollins-fee-credit",
       "state": "CO",
+      "kind": "program",
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "county": "Larimer County",
@@ -2845,6 +2876,7 @@
     {
       "id": "d-fortcollins-iqap-wastewater",
       "state": "CO",
+      "kind": "program",
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "county": "Larimer County",
@@ -2899,6 +2931,7 @@
     {
       "id": "d-fortcollins-iqap-water",
       "state": "CO",
+      "kind": "program",
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "county": "Larimer County",
@@ -2953,6 +2986,7 @@
     {
       "id": "d-fortcollins-utility-pif-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0827425",
       "jurisdiction": "City of Fort Collins",
       "county": "Larimer County",
@@ -3006,6 +3040,7 @@
     {
       "id": "b-fruita-sewer-senior-rate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0828745",
       "jurisdiction": "City of Fruita",
       "county": "Mesa County",
@@ -3078,6 +3113,7 @@
     {
       "id": "b-glenwood-voluntary-deed-restriction-impact-relief",
       "state": "CO",
+      "kind": "program",
       "geoid": "0830780",
       "jurisdiction": "City of Glenwood Springs",
       "county": "Garfield County",
@@ -3128,6 +3164,7 @@
     {
       "id": "b-gj-cdbg-habitat-2024",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3181,6 +3218,7 @@
     {
       "id": "b-gj-housing-authority-exempt",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3246,6 +3284,7 @@
     {
       "id": "b-gj-impact-own-111-120",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3321,6 +3360,7 @@
     {
       "id": "b-gj-impact-own-le110",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3401,6 +3441,7 @@
     {
       "id": "b-gj-impact-prop123",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3461,6 +3502,7 @@
     {
       "id": "b-gj-impact-rental-71-80",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3536,6 +3578,7 @@
     {
       "id": "b-gj-impact-rental-81-90",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3611,6 +3654,7 @@
     {
       "id": "b-gj-impact-rental-le70",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3691,6 +3735,7 @@
     {
       "id": "b-gj-res44-24-general-fund",
       "state": "CO",
+      "kind": "repealed",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3763,6 +3808,7 @@
     {
       "id": "b-gj-ws-pif-paid",
       "state": "CO",
+      "kind": "program",
       "geoid": "0831660",
       "jurisdiction": "City of Grand Junction",
       "county": "Mesa County",
@@ -3841,6 +3887,7 @@
     {
       "id": "d-lafayette-deferral-impact-tap",
       "state": "CO",
+      "kind": "program",
       "geoid": "0841835",
       "jurisdiction": "City of Lafayette",
       "county": "Boulder County",
@@ -3894,6 +3941,7 @@
     {
       "id": "d-lafayette-use-tax-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0841835",
       "jurisdiction": "City of Lafayette",
       "county": "Boulder County",
@@ -3943,6 +3991,7 @@
     {
       "id": "d-lafayette-use-tax-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0841835",
       "jurisdiction": "City of Lafayette",
       "county": "Boulder County",
@@ -3992,6 +4041,7 @@
     {
       "id": "d-lafayette-waiver-nonenterprise",
       "state": "CO",
+      "kind": "program",
       "geoid": "0841835",
       "jurisdiction": "City of Lafayette",
       "county": "Boulder County",
@@ -4046,6 +4096,7 @@
     {
       "id": "d-lakewood-parkland-dedication-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0843000",
       "jurisdiction": "City of Lakewood",
       "county": "Jefferson County",
@@ -4109,6 +4160,7 @@
     {
       "id": "leadville-community-housing-school-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0844320",
       "jurisdiction": "City of Leadville",
       "county": "Lake County",
@@ -4160,6 +4212,7 @@
     {
       "id": "littleton-inclusionary-permit-fee-rebate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845255",
       "jurisdiction": "City of Littleton",
       "county": "Arapahoe County",
@@ -4220,6 +4273,7 @@
     {
       "id": "d-longmont-4-79-general-fee-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845970",
       "jurisdiction": "City of Longmont",
       "county": "Boulder County",
@@ -4294,6 +4348,7 @@
     {
       "id": "d-longmont-raw-water-cil-offset",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845970",
       "jurisdiction": "City of Longmont",
       "county": "Boulder County",
@@ -4356,6 +4411,7 @@
     {
       "id": "d-longmont-sdf-subsidy",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845970",
       "jurisdiction": "City of Longmont",
       "county": "Boulder County",
@@ -4430,6 +4486,7 @@
     {
       "id": "d-longmont-wastewater-rebate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845970",
       "jurisdiction": "City of Longmont",
       "county": "Boulder County",
@@ -4491,6 +4548,7 @@
     {
       "id": "d-longmont-water-service-charge-rebate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0845970",
       "jurisdiction": "City of Longmont",
       "county": "Boulder County",
@@ -4560,6 +4618,7 @@
     {
       "id": "d-loveland-ah-fee-waiver-schedule",
       "state": "CO",
+      "kind": "program",
       "geoid": "0846465",
       "jurisdiction": "City of Loveland",
       "county": "Larimer County",
@@ -4638,6 +4697,7 @@
     {
       "id": "d-loveland-mirasol3-cefs",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0846465",
       "jurisdiction": "City of Loveland",
       "county": "Larimer County",
@@ -4697,6 +4757,7 @@
     {
       "id": "d-loveland-mirasol3-enterprise-fees",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0846465",
       "jurisdiction": "City of Loveland",
       "county": "Larimer County",
@@ -4754,6 +4815,7 @@
     {
       "id": "d-loveland-mirasol3-permit-fees",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0846465",
       "jurisdiction": "City of Loveland",
       "county": "Larimer County",
@@ -4815,6 +4877,7 @@
     {
       "id": "d-loveland-use-tax-credit",
       "state": "CO",
+      "kind": "program",
       "geoid": "0846465",
       "jurisdiction": "City of Loveland",
       "county": "Larimer County",
@@ -4872,6 +4935,7 @@
     {
       "id": "b-montrose-redo-adu-tap",
       "state": "CO",
+      "kind": "program",
       "geoid": "0851745",
       "jurisdiction": "City of Montrose",
       "county": "Montrose County",
@@ -4928,6 +4992,7 @@
     {
       "id": "b-montrose-voa-rendezvous-tap",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0851745",
       "jurisdiction": "City of Montrose",
       "county": "Montrose County",
@@ -4980,6 +5045,7 @@
     {
       "id": "b-rifle-senior-utility-discount",
       "state": "CO",
+      "kind": "program",
       "geoid": "0864255",
       "jurisdiction": "City of Rifle",
       "county": "Garfield County",
@@ -5051,6 +5117,7 @@
     {
       "id": "salida-affordable-sdf-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0867280",
       "jurisdiction": "City of Salida",
       "county": "Chaffee County",
@@ -5108,6 +5175,7 @@
     {
       "id": "salida-affordable-sdf-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0867280",
       "jurisdiction": "City of Salida",
       "county": "Chaffee County",
@@ -5166,6 +5234,7 @@
     {
       "id": "trinidad-affordable-utility-tap-fee-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0878610",
       "jurisdiction": "City of Trinidad",
       "county": "Las Animas County",
@@ -5222,6 +5291,7 @@
     {
       "id": "d-westminster-water-bill-credit",
       "state": "CO",
+      "kind": "program",
       "geoid": "0883835",
       "jurisdiction": "City of Westminster",
       "county": "Adams County",
@@ -5289,6 +5359,7 @@
     {
       "id": "el-paso-county-road-impact-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "08041",
       "jurisdiction": "El Paso County",
       "county": "El Paso County",
@@ -5339,6 +5410,7 @@
     {
       "id": "avon-affordable-fire-impact-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804110",
       "jurisdiction": "Town of Avon",
       "county": "Eagle County",
@@ -5398,6 +5470,7 @@
     {
       "id": "avon-community-housing-building-permit-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804110",
       "jurisdiction": "Town of Avon",
       "county": "Eagle County",
@@ -5447,6 +5520,7 @@
     {
       "id": "avon-community-housing-development-review-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804110",
       "jurisdiction": "Town of Avon",
       "county": "Eagle County",
@@ -5496,6 +5570,7 @@
     {
       "id": "avon-community-housing-tap-fee-deferral",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804110",
       "jurisdiction": "Town of Avon",
       "county": "Eagle County",
@@ -5549,6 +5624,7 @@
     {
       "id": "avon-community-housing-use-tax-credit",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804110",
       "jurisdiction": "Town of Avon",
       "county": "Eagle County",
@@ -5598,6 +5674,7 @@
     {
       "id": "basalt-community-housing-building-permit-fee-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804935",
       "jurisdiction": "Town of Basalt",
       "county": "Eagle County",
@@ -5647,6 +5724,7 @@
     {
       "id": "basalt-community-housing-water-tap-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0804935",
       "jurisdiction": "Town of Basalt",
       "county": "Eagle County",
@@ -5696,6 +5774,7 @@
     {
       "id": "b-carbondale-fee-exemption-1br-80",
       "state": "CO",
+      "kind": "program",
       "geoid": "0812045",
       "jurisdiction": "Town of Carbondale",
       "county": "Garfield County",
@@ -5760,6 +5839,7 @@
     {
       "id": "b-carbondale-fee-exemption-2-3br-120",
       "state": "CO",
+      "kind": "program",
       "geoid": "0812045",
       "jurisdiction": "Town of Carbondale",
       "county": "Garfield County",
@@ -5824,6 +5904,7 @@
     {
       "id": "b-carbondale-fee-exemption-2br-100",
       "state": "CO",
+      "kind": "program",
       "geoid": "0812045",
       "jurisdiction": "Town of Carbondale",
       "county": "Garfield County",
@@ -5888,6 +5969,7 @@
     {
       "id": "castle-rock-impact-fee-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0812415",
       "jurisdiction": "Town of Castle Rock",
       "county": "Douglas County",
@@ -5948,6 +6030,7 @@
     {
       "id": "castle-rock-meadowmark-fee-waiver-2023",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0812415",
       "jurisdiction": "Town of Castle Rock",
       "county": "Douglas County",
@@ -6009,6 +6092,7 @@
     {
       "id": "castle-rock-system-development-fee-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0812415",
       "jurisdiction": "Town of Castle Rock",
       "county": "Douglas County",
@@ -6071,6 +6155,7 @@
     {
       "id": "crested-butte-affordable-sdf-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0818310",
       "jurisdiction": "Town of Crested Butte",
       "county": "Gunnison County",
@@ -6131,6 +6216,7 @@
     {
       "id": "crested-butte-roah-building-permit-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0818310",
       "jurisdiction": "Town of Crested Butte",
       "county": "Gunnison County",
@@ -6184,6 +6270,7 @@
     {
       "id": "crested-butte-whetstone-tap-deferral",
       "state": "CO",
+      "kind": "project_award",
       "geoid": "0818310",
       "jurisdiction": "Town of Crested Butte",
       "county": "Gunnison County",
@@ -6238,6 +6325,7 @@
     {
       "id": "dillon-adu-tap-fee-reimbursement",
       "state": "CO",
+      "kind": "program",
       "geoid": "0820440",
       "jurisdiction": "Town of Dillon",
       "county": "Summit County",
@@ -6301,6 +6389,7 @@
     {
       "id": "b-dolores-elderly-lowincome-discount",
       "state": "CO",
+      "kind": "program",
       "geoid": "0820770",
       "jurisdiction": "Town of Dolores",
       "county": "Montezuma County",
@@ -6353,6 +6442,7 @@
     {
       "id": "fraser-affordable-building-permit-incentive",
       "state": "CO",
+      "kind": "program",
       "geoid": "0828305",
       "jurisdiction": "Town of Fraser",
       "county": "Grand County",
@@ -6406,6 +6496,7 @@
     {
       "id": "fraser-affordable-plant-investment-incentive",
       "state": "CO",
+      "kind": "program",
       "geoid": "0828305",
       "jurisdiction": "Town of Fraser",
       "county": "Grand County",
@@ -6459,6 +6550,7 @@
     {
       "id": "fraser-affordable-use-tax-incentive",
       "state": "CO",
+      "kind": "program",
       "geoid": "0828305",
       "jurisdiction": "Town of Fraser",
       "county": "Grand County",
@@ -6512,6 +6604,7 @@
     {
       "id": "minturn-affordable-fire-impact-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0850920",
       "jurisdiction": "Town of Minturn",
       "county": "Eagle County",
@@ -6563,6 +6656,7 @@
     {
       "id": "mountain-village-building-permit-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0852550",
       "jurisdiction": "Town of Mountain Village",
       "county": "San Miguel County",
@@ -6615,6 +6709,7 @@
     {
       "id": "mountain-village-deed-restricted-tap-fee",
       "state": "CO",
+      "kind": "program",
       "geoid": "0852550",
       "jurisdiction": "Town of Mountain Village",
       "county": "San Miguel County",
@@ -6683,6 +6778,7 @@
     {
       "id": "mountain-village-deed-restricted-utility-rate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0852550",
       "jurisdiction": "Town of Mountain Village",
       "county": "San Miguel County",
@@ -6747,6 +6843,7 @@
     {
       "id": "mountain-village-planning-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0852550",
       "jurisdiction": "Town of Mountain Village",
       "county": "San Miguel County",
@@ -6803,6 +6900,7 @@
     {
       "id": "pagosa-springs-workforce-building-fee-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0856860",
       "jurisdiction": "Town of Pagosa Springs",
       "county": "Archuleta County",
@@ -6852,6 +6950,7 @@
     {
       "id": "pagosa-springs-workforce-development-review-fee-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0856860",
       "jurisdiction": "Town of Pagosa Springs",
       "county": "Archuleta County",
@@ -6905,6 +7004,7 @@
     {
       "id": "ridgway-affordable-land-use-fee-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0864200",
       "jurisdiction": "Town of Ridgway",
       "county": "Ouray County",
@@ -6954,6 +7054,7 @@
     {
       "id": "silverthorne-single-apartment-building-permit-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0870525",
       "jurisdiction": "Town of Silverthorne",
       "county": "Summit County",
@@ -7011,6 +7112,7 @@
     {
       "id": "silverthorne-single-apartment-system-development-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0870525",
       "jurisdiction": "Town of Silverthorne",
       "county": "Summit County",
@@ -7068,6 +7170,7 @@
     {
       "id": "telluride-deed-restricted-wastewater-rate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "county": "San Miguel County",
@@ -7152,6 +7255,7 @@
     {
       "id": "telluride-deed-restricted-water-base-rate",
       "state": "CO",
+      "kind": "program",
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "county": "San Miguel County",
@@ -7214,6 +7318,7 @@
     {
       "id": "telluride-in-town-deed-restricted-sewer-tap-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "county": "San Miguel County",
@@ -7266,6 +7371,7 @@
     {
       "id": "telluride-in-town-deed-restricted-water-tap-waiver",
       "state": "CO",
+      "kind": "program",
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "county": "San Miguel County",
@@ -7318,6 +7424,7 @@
     {
       "id": "telluride-out-of-town-deed-restricted-tap-reduction",
       "state": "CO",
+      "kind": "program",
       "geoid": "0876795",
       "jurisdiction": "Town of Telluride",
       "county": "San Miguel County",
@@ -7370,6 +7477,7 @@
     {
       "id": "d-windsor-fire-impact-exemption",
       "state": "CO",
+      "kind": "program",
       "geoid": "0885485",
       "jurisdiction": "Town of Windsor",
       "county": "Weld County",

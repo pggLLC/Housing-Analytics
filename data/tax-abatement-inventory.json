@@ -307,7 +307,7 @@
         {
           "category":  "fee-waiver",
           "name":      "Loveland — verified local fee measures",
-          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-mirasol3-cefs", "d-loveland-mirasol3-enterprise-fees", "d-loveland-mirasol3-permit-fees", "d-loveland-use-tax-credit"],
+          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-use-tax-credit"],
           "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
@@ -414,7 +414,7 @@
         {
           "category":  "fee-waiver",
           "name":      "Castle Rock — verified local fee measures",
-          "fee_reductions_ids":["castle-rock-impact-fee-reduction", "castle-rock-meadowmark-fee-waiver-2023", "castle-rock-system-development-fee-reduction"],
+          "fee_reductions_ids":["castle-rock-impact-fee-reduction", "castle-rock-system-development-fee-reduction"],
           "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
@@ -426,7 +426,7 @@
         {
           "category":  "fee-waiver",
           "name":      "Loveland — verified local fee measures",
-          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-mirasol3-cefs", "d-loveland-mirasol3-enterprise-fees", "d-loveland-mirasol3-permit-fees", "d-loveland-use-tax-credit"],
+          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-use-tax-credit"],
           "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
@@ -468,9 +468,8 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Brighton — verified local fee measures",
-          "fee_reductions_ids":["d-brighton-ravenfield-gensvc", "d-brighton-ravenfield-parks", "d-brighton-ravenfield-storm", "d-brighton-ravenfield-transport", "d-brighton-ravenfield-usetax", "d-brighton-ravenfield-wastewater", "d-brighton-ravenfield-water"],
-          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
+          "name":      "Brighton affordable housing fee reduction",
+          "verification_note":"Not yet verified as a standing program: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no program entry for it (past project awards, if any, show in the HNA)."
         }
       ]
     }

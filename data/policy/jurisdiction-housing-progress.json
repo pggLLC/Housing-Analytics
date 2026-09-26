@@ -8,7 +8,7 @@
       "hna": "Housing Needs Assessment status. 'current' = within 3 yrs (qualifies for Prop 123 fast-track), 'in_progress' = adopted commitment but no doc yet, 'stale' = older than 3 yrs, 'none' = none on file. Year is the most recent HNA/strategy adoption year.",
       "land_banking": "City-owned land or community-land-trust program for affordable housing. 'active' = operational program/recipient, 'planning' = in study/planning, 'none' = no documented program.",
       "dedicated_income": "Dedicated local revenue stream (housing trust fund, dedicated sales tax, lodging tax, marijuana tax, linkage fee, STR tax). 'active' = currently funding affordable housing, 'planning' = under evaluation, 'none' = none beyond state/federal pass-through.",
-      "tap_fee_reduction": "Reduced, waived or reimbursed one-time development fees (taps, plant investment / system development, impact, permit, plan review, use tax) for income-restricted units. Derived from data/policy/fee-reductions.json, the single source of truth: 'active' = at least one verified waiver, reduction or reimbursement; 'deferral_only' = only a verified deferral (the fee is still owed); 'rate_discount_only' = only a verified monthly utility-rate discount; 'not_yet_verified' = no verified entry yet, which is not the same as no program. Water and sewer taps are often charged by a separate district."
+      "tap_fee_reduction": "Reduced, waived or reimbursed one-time development fees (taps, plant investment / system development, impact, permit, plan review, use tax) for income-restricted units. Derived from data/policy/fee-reductions.json, the single source of truth: 'active' = at least one verified waiver, reduction or reimbursement; 'deferral_only' = only a verified deferral (the fee is still owed); 'project_award_only' = no standing program verified, only a past one-off project award; 'rate_discount_only' = only a verified monthly utility-rate discount; 'not_yet_verified' = no verified entry yet, which is not the same as no program. Water and sewer taps are often charged by a separate district."
     },
     "confidence_legend": "high = specific named program with primary-source URL; medium = corroborated but with gaps; low/unknown = best-guess based on broad indicators"
   },
@@ -19,7 +19,7 @@
       "hna":              { "status": "in_progress", "year": 2024, "url": "https://www.drcog.org/growth-development/regional-housing-needs-assessment", "note": "DRCOG Regional HNA accepted Oct 2024, DOLA-submitted Dec 2024; city-specific local HNA expected ahead of Dec 2026 statutory deadline" },
       "land_banking":     { "status": "active",      "name": "DHA Delivers for Denver (D3) PSH + ULC Community Land Trust partnerships", "url": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Department-of-Housing-Stability" },
       "dedicated_income": { "status": "active",      "source": "EHA linkage fee + Marijuana sales tax + 2024 Ballot Issue 2R sales tax (Affordable Denver Housing Trust Fund)", "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced (1 entry in data/policy/fee-reductions.json)", "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee", "fee_reductions_ids": ["denver-eha-building-permit-fee-reduction"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced (1 program entry in data/policy/fee-reductions.json)", "url": "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Community-Planning-and-Development/Plan-Review-Permits-and-Inspections/Development-Fees/EHA-Ordinance-and-Affordable-Housing-Fee", "fee_reductions_ids": ["denver-eha-building-permit-fee-reduction"]},
       "confidence": "high",
       "as_of": "2026-05-31"
     },
@@ -36,7 +36,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://coloradosprings.gov/project/2024-action-plan-housing-and-community-vitality", "note": "2024 Action Plan for Housing and Homelessness Response + 2021 Housing Master Plan" },
       "land_banking":     { "status": "none", "name": null, "url": "https://coloradosprings.gov/affordable-housing", "note": "No dedicated city land bank; partnerships only" },
       "dedicated_income": { "status": "none", "source": "Prop 123 opt-in (758 units/yr commitment), CDBG, federal sources only; no dedicated local tax (state preemption concerns)", "url": "https://coloradosprings.gov/affordable-housing" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: use tax fee reimbursed; plan review fee reimbursed; water tap fee reimbursed (3 entries in data/policy/fee-reductions.json)", "url": "https://coloradosprings.gov/new-construction-contractor", "fee_reductions_ids": ["colorado-springs-construction-use-tax-refund", "colorado-springs-fee-rebate-city-development-fees", "colorado-springs-fee-rebate-csu-utility-fees"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: use tax fee reimbursed; plan review fee reimbursed; water tap fee reimbursed (3 program entries in data/policy/fee-reductions.json)", "url": "https://coloradosprings.gov/new-construction-contractor", "fee_reductions_ids": ["colorado-springs-construction-use-tax-refund", "colorado-springs-fee-rebate-city-development-fees", "colorado-springs-fee-rebate-csu-utility-fees"]},
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0807850": {
@@ -44,7 +44,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://bouldercolorado.gov/services/affordable-housing-investments", "note": "Boulder County HNA 2022 + city housing strategy; DRCOG regional HNA covers" },
       "land_banking":     { "status": "active", "name": "Affordable Housing Fund supports land banking + Boulder County Housing Authority + Thistle CLT", "url": "https://bouldercolorado.gov/services/affordable-housing-investments" },
       "dedicated_income": { "status": "active", "source": "Commercial Linkage Fee + Inclusionary Housing cash-in-lieu (25% set-aside) + Boulder County Affordable & Attainable Housing Tax", "url": "https://bouldercolorado.gov/services/inclusionary-housing" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced; transportation impact fee waived (2 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT3RETA_CH8DEEXTA", "fee_reductions_ids": ["d-boulder-det-credit-discretionary", "d-boulder-det-waiver-excess-pa"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced; transportation impact fee waived (2 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/boulder/codes/municipal_code?nodeId=TIT3RETA_CH8DEEXTA", "fee_reductions_ids": ["d-boulder-det-credit-discretionary", "d-boulder-det-waiver-excess-pa"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0827425": {
@@ -52,7 +52,7 @@
       "hna":              { "status": "current", "year": 2026, "url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing", "note": "Regional HNA with Larimer + Loveland presented March 2026" },
       "land_banking":     { "status": "active", "name": "Habitat Bloom Cottages + Housing Catalyst Village on Eastbrook (Prop 123 Land Banking recipients)", "url": "https://www.fortcollins.gov/Services/Housing/Affordable-Housing" },
       "dedicated_income": { "status": "planning", "source": "Capital Expansion Fee study 2023-2024 under evaluation 2025; no dedicated trust fund; relies on fee waivers + Prop 123", "url": "https://www.fcgov.com/socialsustainability/developmentincentives" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee deferred; impact fee reimbursed; plant investment fee deferred (3 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH7.5FE_ARTVIIIFECRAFHO", "fee_reductions_ids": ["d-fortcollins-cef-deferral", "d-fortcollins-fee-credit", "d-fortcollins-utility-pif-deferral"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee deferred; impact fee reimbursed; plant investment fee deferred (3 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/fort_collins/codes/municipal_code?nodeId=CH7.5FE_ARTVIIIFECRAFHO", "fee_reductions_ids": ["d-fortcollins-cef-deferral", "d-fortcollins-fee-credit", "d-fortcollins-utility-pif-deferral"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0843000": {
@@ -60,7 +60,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.lakewoodtogether.org/housingstrategy", "note": "Strategic Housing Plan adopted Feb 12, 2024; uses 2024 DRCOG regional HNA (9,680-unit share)" },
       "land_banking":     { "status": "planning", "name": "Foothills Regional Housing partnerships; no explicit city land bank", "url": "https://www.lakewoodtogether.org/housingstrategy" },
       "dedicated_income": { "status": "active", "source": "SHB 1406 annual sales tax revenue dedicated to affordable/supportive housing", "url": "https://www.lakewoodtogether.org/housingstrategy" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: parks impact fee waived (1 entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/lakewood/codes/municipal_code?nodeId=TIT14BUCO_CH14.16PAOPSPDE_14.16.110AFINSTHO", "fee_reductions_ids": ["d-lakewood-parkland-dedication-waiver"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: parks impact fee waived (1 program entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/lakewood/codes/municipal_code?nodeId=TIT14BUCO_CH14.16PAOPSPDE_14.16.110AFINSTHO", "fee_reductions_ids": ["d-lakewood-parkland-dedication-waiver"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0877290": {
@@ -116,7 +116,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment", "note": "Covered by Boulder County 2022 HNA; city housing data refreshed via consolidated plans" },
       "land_banking":     { "status": "active", "name": "True North + 121 Main Street + Hover projects (Prop 123 Land Banking recipients $15M+)", "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment" },
       "dedicated_income": { "status": "active", "source": "Affordable Housing Fund: developer fees-in-lieu (Inclusionary Housing) + $1M General Fund + 50% marijuana tax", "url": "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment/grant-funding-information" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced; water tap fee reimbursed; system development fee reimbursed (3 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.79FERESU", "fee_reductions_ids": ["d-longmont-4-79-general-fee-reduction", "d-longmont-raw-water-cil-offset", "d-longmont-sdf-subsidy"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced; water tap fee reimbursed; system development fee reimbursed (3 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/longmont/codes/code_of_ordinances?nodeId=PTIICOOR_TIT4REFI_CH4.79FERESU", "fee_reductions_ids": ["d-longmont-4-79-general-fee-reduction", "d-longmont-raw-water-cil-offset", "d-longmont-sdf-subsidy"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0846465": {
@@ -124,7 +124,7 @@
       "hna":              { "status": "current", "year": 2026, "url": "https://www.lovgov.org/community/affordable-housing/plans-and-studies", "note": "Regional HNA with Larimer + Fort Collins presented March 24, 2026" },
       "land_banking":     { "status": "active", "name": "Loveland Housing Authority + Loveland Habitat partnerships (e.g., Legacy Crossing)", "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing" },
       "dedicated_income": { "status": "active", "source": "Community Housing Development Fund — $450K/yr from General Fund (covers waived fees)", "url": "https://www.lovgov.org/services/community-partnership-office/affordable-housing" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived; impact fee waived; water tap fee waived; use tax fee reimbursed (5 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/loveland/codes/code_of_ordinances?nodeId=PTIILOCOMUCO_TIT17AFHOCO_CH17.03REIMDEFE_DIV17.03.01PUAPWA", "fee_reductions_ids": ["d-loveland-ah-fee-waiver-schedule", "d-loveland-mirasol3-cefs", "d-loveland-mirasol3-enterprise-fees", "d-loveland-mirasol3-permit-fees", "d-loveland-use-tax-credit"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived; use tax fee reimbursed (2 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/loveland/codes/code_of_ordinances?nodeId=PTIILOCOMUCO_TIT17AFHOCO_CH17.03REIMDEFE_DIV17.03.01PUAPWA", "fee_reductions_ids": ["d-loveland-ah-fee-waiver-schedule", "d-loveland-use-tax-credit"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0809280": {
@@ -132,7 +132,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://www.broomfield.org/4345/Income-Aligned-Housing-Developments", "note": "Broomfield HNA 2022 + 2026 Housing Strategy update (Apr 10, 2026)" },
       "land_banking":     { "status": "planning", "name": "Broomfield Housing Alliance + Boulder/Broomfield Regional Consortium", "url": "https://www.broomfield.org/270/Housing-Division" },
       "dedicated_income": { "status": "planning", "source": "CDBG entitlement (HUD) + HOME via Boulder Broomfield Consortium; no city-dedicated tax; strategy explores new funding", "url": "https://www.broomfield.org/270/Housing-Division" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced; system development fee reduced; use tax fee reduced (3 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/broomfield/codes/municipal_code?nodeId=TIT17ZO_CH17-76INHO_17-76-040INTECO", "fee_reductions_ids": ["d-broomfield-ih-onsite-bp", "d-broomfield-ih-onsite-sef", "d-broomfield-ih-onsite-usetax"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reduced; system development fee reduced; use tax fee reduced (3 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/broomfield/codes/municipal_code?nodeId=TIT17ZO_CH17-76INHO_17-76-040INTECO", "fee_reductions_ids": ["d-broomfield-ih-onsite-bp", "d-broomfield-ih-onsite-sef", "d-broomfield-ih-onsite-usetax"]},
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0831660": {
@@ -140,7 +140,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.gjcity.org/353/Housing", "note": "Housing Strategy Update 2024 adopted Oct 16, 2024 (Res 74-24); 2019 HNA underlying analysis" },
       "land_banking":     { "status": "active", "name": "City-owned land allocation + strategic acquisition strategies (per 2024 Strategy)", "url": "https://www.gjcity.org/353/Housing" },
       "dedicated_income": { "status": "planning", "source": "Strategy calls for creating dedicated funding source; relies on Prop 123 + CDBG + Grand Junction Housing Authority", "url": "https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: sewer tap fee reimbursed; impact fee waived; impact fee reduced; impact fee reimbursed; plant investment fee reimbursed (10 entries in data/policy/fee-reductions.json)", "url": "https://www.gjcity.org/DocumentCenter/View/16162/Draft-2024-CAPER-Public-Review-Copy?bidId=", "fee_reductions_ids": ["b-gj-cdbg-habitat-2024", "b-gj-housing-authority-exempt", "b-gj-impact-own-111-120", "b-gj-impact-own-le110", "b-gj-impact-prop123", "b-gj-impact-rental-71-80", "b-gj-impact-rental-81-90", "b-gj-impact-rental-le70", "b-gj-res44-24-general-fund", "b-gj-ws-pif-paid"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee waived; impact fee reduced; plant investment fee reimbursed (8 program entries in data/policy/fee-reductions.json)", "url": "https://trimview.gjcity.org/?=resdoc/6714", "fee_reductions_ids": ["b-gj-housing-authority-exempt", "b-gj-impact-own-111-120", "b-gj-impact-own-le110", "b-gj-impact-prop123", "b-gj-impact-rental-71-80", "b-gj-impact-rental-81-90", "b-gj-impact-rental-le70", "b-gj-ws-pif-paid"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0812415": {
@@ -148,7 +148,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.crgov.com/3212/CDBG", "note": "Consolidated Plan 2021-2025 + DRCOG 2024 regional HNA; goal of 277 affordable units by 2026" },
       "land_banking":     { "status": "planning", "name": "Douglas County regional partnership (Parker + Castle Pines + Lone Tree)", "url": "https://www.crgov.com/3212/CDBG" },
       "dedicated_income": { "status": "none", "source": "Prop 123 opt-in (2023) — accesses state fund; no dedicated local tax", "url": "https://www.crgov.com/3212/CDBG" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced; system development fee waived; system development fee reduced (3 entries in data/policy/fee-reductions.json)", "url": "https://castlerock-co.legistar.com/View.ashx?M=F&ID=11656251&GUID=7C7BF6E0-22FD-4A5D-A9B4-4FF9A96007A6", "fee_reductions_ids": ["castle-rock-impact-fee-reduction", "castle-rock-meadowmark-fee-waiver-2023", "castle-rock-system-development-fee-reduction"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced; system development fee reduced (2 program entries in data/policy/fee-reductions.json)", "url": "https://castlerock-co.legistar.com/View.ashx?M=F&ID=11656251&GUID=7C7BF6E0-22FD-4A5D-A9B4-4FF9A96007A6", "fee_reductions_ids": ["castle-rock-impact-fee-reduction", "castle-rock-system-development-fee-reduction"]},
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0816495": {
@@ -156,7 +156,7 @@
       "hna":              { "status": "in_progress", "year": 2025, "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment", "note": "HNA in progress (early 2025-end 2025); $56,250 DOLA grant; DRCOG regional HNA covers" },
       "land_banking":     { "status": "planning", "name": null, "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment" },
       "dedicated_income": { "status": "planning", "source": "Prop 123 opt-in; no dedicated local tax. Housing Action Plan pending HNA completion", "url": "https://www.c3gov.com/government/city-charter-master-plans/housing-needs-assessment" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: plan review fee waived (1 entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/commerce_city/codes/land_development_code?nodeId=ARTIIIDERE_DIV1GEPR_BAP_S21-3160FOMAFE", "fee_reductions_ids": ["d-commercecity-application-fee-waiver"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: plan review fee waived (1 program entry in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/commerce_city/codes/land_development_code?nodeId=ARTIIIDERE_DIV1GEPR_BAP_S21-3160FOMAFE", "fee_reductions_ids": ["d-commercecity-application-fee-waiver"]},
       "confidence": "medium", "as_of": "2026-05-31"
     },
     "0857630": {
@@ -172,7 +172,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program", "note": "DRCOG 2024 regional HNA covers; local HNA expected before Dec 2026" },
       "land_banking":     { "status": "active", "name": "South Metro Housing Options (SMHO) — 500+ units owned across 6 communities; Starlight Apartments TOD", "url": "https://smho.co/" },
       "dedicated_income": { "status": "active", "source": "Affordable housing fund seeded from TIF/URA + Down Payment Assistance Program", "url": "https://www.littletonco.gov/Government/Programs-and-Initiatives/Affordable-Housing-Down-Payment-Assistance-Program" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reimbursed (1 entry in data/policy/fee-reductions.json)", "url": "https://online.encodeplus.com/regs/littleton-co-cc/doc-view.aspx?pn=0&ajax=0&secid=870", "fee_reductions_ids": ["littleton-inclusionary-permit-fee-rebate"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee reimbursed (1 program entry in data/policy/fee-reductions.json)", "url": "https://online.encodeplus.com/regs/littleton-co-cc/doc-view.aspx?pn=0&ajax=0&secid=870", "fee_reductions_ids": ["littleton-inclusionary-permit-fee-rebate"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0854330": {
@@ -188,7 +188,7 @@
       "hna":              { "status": "current", "year": 2024, "url": "https://www.brightonco.gov/3298/Housing-Needs-Assessment-HNA", "note": "HNA identifies 3,100-unit need by 2033" },
       "land_banking":     { "status": "active", "name": "Brighton Housing Authority — preserved 120-unit Hughes Station Apartments + pipeline", "url": "https://www.brightonhousingauthority.org/" },
       "dedicated_income": { "status": "planning", "source": "Prop 123 + CDBG; no dedicated city local tax confirmed", "url": "https://www.brightonco.gov/3297/Affordable-Housing" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: police/fire impact fee reduced; parks impact fee reduced; system development fee reduced; transportation impact fee reduced; use tax fee reduced; sewer tap fee reduced; water tap fee reduced (7 entries in data/policy/fee-reductions.json)", "url": "https://brightonco.legistar.com/View.ashx?GUID=A5CEDE4D-EA42-410C-AE37-F95F66E93A18&ID=14989501&M=F", "fee_reductions_ids": ["d-brighton-ravenfield-gensvc", "d-brighton-ravenfield-parks", "d-brighton-ravenfield-storm", "d-brighton-ravenfield-transport", "d-brighton-ravenfield-usetax", "d-brighton-ravenfield-wastewater", "d-brighton-ravenfield-water"]},
+      "tap_fee_reduction":{"status": "project_award_only", "details": "No standing program verified; 7 past project award entries on file (examples, not an offer)", "url": "https://brightonco.legistar.com/View.ashx?GUID=A5CEDE4D-EA42-410C-AE37-F95F66E93A18&ID=14989501&M=F", "fee_reductions_ids": ["d-brighton-ravenfield-gensvc", "d-brighton-ravenfield-parks", "d-brighton-ravenfield-storm", "d-brighton-ravenfield-transport", "d-brighton-ravenfield-usetax", "d-brighton-ravenfield-wastewater", "d-brighton-ravenfield-water"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0824785": {
@@ -212,7 +212,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://lafayetteco.gov/342/Affordable-Housing", "note": "Boulder County 2022 HNA covers; Boulder County Regional Housing Partnership goal 12% by 2035" },
       "land_banking":     { "status": "active", "name": "Willoughby Corner (BCHA) — ~400 units at full build-out; Boulder County funding $750K for Lafayette home acquisitions", "url": "https://lafayetteco.gov/342/Affordable-Housing" },
       "dedicated_income": { "status": "active", "source": "Boulder County Affordable & Attainable Housing Tax + Lafayette city contributions", "url": "https://bouldercounty.gov/government/your-taxes-at-work/affordable-and-attainable-housing-tax/" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: water tap fee deferred; use tax fee deferred; use tax fee waived; building permit fee waived (4 entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/lafayette/codes/code_of_ordinances?nodeId=COOR_CH30BUBURE_ARTIIIDEWAFEPAACDEEXCEUSTA_S30-3-7DEWAFEEXUSTACRCEAFDWUN", "fee_reductions_ids": ["d-lafayette-deferral-impact-tap", "d-lafayette-use-tax-deferral", "d-lafayette-use-tax-exemption", "d-lafayette-waiver-nonenterprise"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: water tap fee deferred; use tax fee deferred; use tax fee waived; building permit fee waived (4 program entries in data/policy/fee-reductions.json)", "url": "https://library.municode.com/co/lafayette/codes/code_of_ordinances?nodeId=COOR_CH30BUBURE_ARTIIIDEWAFEPAACDEEXCEUSTA_S30-3-7DEWAFEEXUSTACRCEAFDWUN", "fee_reductions_ids": ["d-lafayette-deferral-impact-tap", "d-lafayette-use-tax-deferral", "d-lafayette-use-tax-exemption", "d-lafayette-waiver-nonenterprise"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0846355": {
@@ -252,7 +252,7 @@
       "hna":              { "status": "current", "year": 2022, "url": "https://www.apcha.org/", "note": "Aspen/Pitkin County HNA 2022; APCHA governs" },
       "land_banking":     { "status": "active", "name": "APCHA — 3,100+ deed-restricted units; Lumberyard ($390M, 280 units, breaks ground 2026)", "url": "https://www.apcha.org/" },
       "dedicated_income": { "status": "active", "source": "Short-Term Rental Tax (2022): 70%+ to affordable housing + RETT (Real Estate Transfer Tax) + IZ linkage fee ($100/sqft)", "url": "https://aspen.gov/1427/Lodging-and-Short-Term-Rental-Taxes" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived; system development fee reduced; parks impact fee waived; transportation impact fee waived; plan review fee waived; system development fee waived (6 entries in data/policy/fee-reductions.json)", "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050", "fee_reductions_ids": ["aspen-affordable-building-permit-waiver", "aspen-affordable-category-water-charge-waiver", "aspen-affordable-impact-parks-waiver", "aspen-affordable-impact-transportation-waiver", "aspen-affordable-planning-fee-waiver", "aspen-qualified-employee-housing-water-charge-exemption"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived; system development fee reduced; parks impact fee waived; transportation impact fee waived; plan review fee waived; system development fee waived (6 program entries in data/policy/fee-reductions.json)", "url": "https://www.aspendailynews.com/news/article_cc648124-1429-457f-8d1b-269a6bc2dde0-985c5050", "fee_reductions_ids": ["aspen-affordable-building-permit-waiver", "aspen-affordable-category-water-charge-waiver", "aspen-affordable-impact-parks-waiver", "aspen-affordable-impact-transportation-waiver", "aspen-affordable-planning-fee-waiver", "aspen-qualified-employee-housing-water-charge-exemption"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0880040": {
@@ -268,7 +268,7 @@
       "hna":              { "status": "current", "year": 2025, "url": "https://www.durangoco.gov/877/Housing", "note": "La Plata County 2025 Regional HNA (Regional Housing Alliance commission)" },
       "land_banking":     { "status": "active", "name": "Innovative Housing Solutions Division + Regional Housing Alliance partnerships; hotel-to-housing conversion (Colorado-first public financing 2024)", "url": "https://www.durangoco.gov/877/Housing" },
       "dedicated_income": { "status": "planning", "source": "City exploring Housing Trust Fund (Fair Share, commercial linkage, impact fees); Division at budget deficit risk 2028", "url": "https://www.durangoco.gov/877/Housing" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived (2 entries in data/policy/fee-reductions.json)", "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025", "fee_reductions_ids": ["b-durango-fairshare-fee-offset-forsale", "b-durango-fairshare-fee-offset-rental"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: building permit fee waived (2 program entries in data/policy/fee-reductions.json)", "url": "https://www.durangoco.gov/DocumentCenter/View/36785/Fair-Share-Admin-Procedures-Manual---December-2025", "fee_reductions_ids": ["b-durango-fairshare-fee-offset-forsale", "b-durango-fairshare-fee-offset-rental"]},
       "confidence": "high", "as_of": "2026-05-31"
     },
     "0830780": {
@@ -276,7 +276,7 @@
       "hna":              { "status": "current", "year": 2023, "url": "https://cogs.us/742/Strategic-Housing-Plan-Update", "note": "Strategic Housing Plan Update 2023 funded by DOLA grant; 1,346-unit need identified" },
       "land_banking":     { "status": "planning", "name": "Garfield County + Glenwood Springs affordable housing project pipeline", "url": "https://www.cogs.us/757/Workforce-Housing-Fund" },
       "dedicated_income": { "status": "active", "source": "Workforce Housing Fund — 2.5% accommodations tax (2022 ballot 2C) ~$1.7M/yr; mitigation/IZ Ord No 1 Series 2023 (≥10 units)", "url": "https://www.cogs.us/757/Workforce-Housing-Fund" },
-      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced (1 entry in data/policy/fee-reductions.json)", "url": "https://www.cogs.us/845/About-Housing-Stability", "fee_reductions_ids": ["b-glenwood-voluntary-deed-restriction-impact-relief"]},
+      "tap_fee_reduction":{"status": "active", "details": "Verified: impact fee reduced (1 program entry in data/policy/fee-reductions.json)", "url": "https://www.cogs.us/845/About-Housing-Stability", "fee_reductions_ids": ["b-glenwood-voluntary-deed-restriction-impact-relief"]},
       "confidence": "high", "as_of": "2026-05-31"
     }
   }

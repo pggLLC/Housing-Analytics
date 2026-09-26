@@ -80,7 +80,7 @@
     plan_review: 'Plan review fee', use_tax: 'Construction use tax', utility_rate: 'Monthly utility rate'
   };
   var MEASURE_LABEL = {
-    waived: 'Waived', reduced: 'Reduced', reimbursed: 'Paid back after payment',
+    waived: 'Waived', reduced: 'Reduced', reimbursed: 'Paid by another source or refunded',
     deferred: 'Deferred — still owed', rate_discount: 'Monthly rate discount'
   };
   var LAND_LABEL = {
@@ -177,13 +177,22 @@
       out.push('<p style="font-size:.82rem;color:var(--muted);margin:.2rem 0 .5rem">' +
         'Screening context, not a study. Each item below was read from the jurisdiction’s own code, fee schedule or program page; nothing here is applied to any calculation. ' +
         'A deferred fee is still owed — it helps cash flow during construction but does not lower total development cost.</p>');
-      if (hit.fees.length || hit.countyFees.length) {
-        out.push('<h5 class="ta-subhead">Fee waivers, reductions and deferrals</h5><ul class="ta-list">' +
-          hit.fees.map(function (e) { return _renderFeeEntry(e, ''); }).join('') +
-          hit.countyFees.map(function (e) { return _renderFeeEntry(e, countyTag); }).join('') + '</ul>');
+      var ORDER = { waived: 0, reduced: 1, reimbursed: 2, deferred: 3, rate_discount: 4 };
+      var byMeasure = function (a, b) { return (ORDER[a.measure] - ORDER[b.measure]) || (a.id < b.id ? -1 : 1); };
+      var programs = hit.fees.filter(function (e) { return (e.kind || 'program') === 'program'; }).sort(byMeasure);
+      var countyPrograms = hit.countyFees.filter(function (e) { return (e.kind || 'program') === 'program'; }).sort(byMeasure);
+      var past = hit.fees.filter(function (e) { return e.kind === 'project_award' || e.kind === 'repealed'; }).sort(byMeasure);
+      if (programs.length || countyPrograms.length) {
+        out.push('<h5 class="ta-subhead">Standing fee waivers, reductions and deferrals</h5><ul class="ta-list">' +
+          programs.map(function (e) { return _renderFeeEntry(e, ''); }).join('') +
+          countyPrograms.map(function (e) { return _renderFeeEntry(e, countyTag); }).join('') + '</ul>');
       } else {
         out.push('<p class="ta-empty"><strong>Fee waivers:</strong> none verified yet for ' + _esc(name) + '. ' +
           'That is not the same as none — the dataset covers the jurisdictions checked so far, and water and sewer taps are often charged by a separate district.</p>');
+      }
+      if (past.length) {
+        out.push('<h5 class="ta-subhead">Past project awards and repealed programs — examples, not an offer</h5><ul class="ta-list">' +
+          past.map(function (e) { return _renderFeeEntry(e, e.kind === 'repealed' ? 'repealed' : 'one project'); }).join('') + '</ul>');
       }
       if (hit.land.length || hit.countyLand.length) {
         out.push('<h5 class="ta-subhead">Land use and zoning that lowers cost</h5><ul class="ta-list">' +
