@@ -241,7 +241,7 @@
       "status": "in office",
       "date": null,
       "title": "Executive Director, Colorado Department of Local Affairs: Maria De Cambra",
-      "detail": "DOLA lists Maria De Cambra as Executive Director. By statute the Governor appoints the executive director, with the consent of the Senate. The page gives no appointment date.",
+      "detail": "DOLA lists Maria De Cambra as Executive Director. By statute (C.R.S. 24-1-125(1)) the Governor appoints the executive director, with the consent of the Senate. The page gives no appointment date.",
       "programs": [
         "DOLA"
       ],
@@ -289,7 +289,7 @@
       "status": "in office",
       "date": null,
       "title": "Director, DOLA Division of Housing: Tyler Jaeckel",
-      "detail": "DOLA lists Tyler Jaeckel as Division of Housing Director. By statute the division is headed by the state director of housing, appointed by DOLA's executive director. The page gives no appointment date.",
+      "detail": "DOLA lists Tyler Jaeckel as Division of Housing Director. By statute (C.R.S. 24-32-704(1)) the division is headed by the state director of housing, appointed by DOLA's executive director. The page gives no appointment date.",
       "programs": [
         "DOLA"
       ],
@@ -337,7 +337,7 @@
       "status": "in office",
       "date": null,
       "title": "Executive Director and CEO, Colorado Housing and Finance Authority: Thomas Bryan",
-      "detail": "CHFA lists Thomas Bryan as Executive Director and CEO. CHFA's leadership page says its Board of Directors appoints the Executive Director. The page gives no appointment date.",
+      "detail": "CHFA lists Thomas Bryan as Executive Director and CEO. CHFA's leadership page (www.chfainfo.com/about-chfa/leadership) says its Board of Directors appoints the Executive Director. The page gives no appointment date.",
       "programs": [
         "CHFA"
       ],
@@ -385,7 +385,7 @@
       "status": "in office",
       "date": null,
       "title": "Board Chair, Colorado Housing and Finance Authority: Albus Brooks",
-      "detail": "CHFA lists Albus Brooks as Board Chair, with a board term that expires 07.01.2027. CHFA's leadership page says eight board members are appointed by the Governor and confirmed by the State Senate; it does not say how the chair is chosen.",
+      "detail": "CHFA lists Albus Brooks as Board Chair, with a board term that expires 07.01.2027. CHFA's leadership page (www.chfainfo.com/about-chfa/leadership) says eight board members are appointed by the Governor and confirmed by the State Senate; it does not say how the chair is chosen.",
       "programs": [
         "CHFA"
       ],
@@ -437,7 +437,7 @@
       "status": "in office",
       "date": null,
       "title": "Director of Innovative Funding for Housing Programs, OEDIT: Hilary Cooper",
-      "detail": "OEDIT's staff directory lists Hilary Cooper as Director of Innovative Funding for Housing Programs. OEDIT's announcement of the appointment, dated July 11, 2023, says the director oversees implementation of three housing programs, including Proposition 123. The current directory does not restate that assignment.",
+      "detail": "OEDIT's staff directory lists Hilary Cooper as Director of Innovative Funding for Housing Programs. OEDIT's announcement of the appointment, dated July 11, 2023 (oedit.colorado.gov/press-release/oedit-announces-former-san-miguel-county-commissioner-as-head-of-new-innovative), says the director oversees implementation of three housing programs, including Proposition 123. The current directory does not restate that assignment.",
       "programs": [
         "Prop 123",
         "OEDIT"
@@ -495,7 +495,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 1: Anthea Martin",
-      "detail": "The Division of Housing lists Anthea Martin as the State Housing Board member for Congressional District 1, with a term that expires January 31, 2027. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists Anthea Martin as the State Housing Board member for Congressional District 1, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -548,7 +548,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 2: Ryan Jones",
-      "detail": "The Division of Housing lists Ryan Jones as the State Housing Board member for Congressional District 2, with a term that expires January 31, 2029. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists Ryan Jones as the State Housing Board member for Congressional District 2, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -601,7 +601,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 3: Monique Terpstra",
-      "detail": "The Division of Housing lists Monique Terpstra as the State Housing Board member for Congressional District 3, with a term that expires January 31, 2027. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists Monique Terpstra as the State Housing Board member for Congressional District 3, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -654,7 +654,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 4: Candace Payne",
-      "detail": "The Division of Housing lists Candace Payne as the State Housing Board member for Congressional District 4, with a term that expires January 31, 2029. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists Candace Payne as the State Housing Board member for Congressional District 4, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -707,7 +707,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 5: J. Ryan Moses",
-      "detail": "The Division of Housing lists J. Ryan Moses as the State Housing Board member for Congressional District 5, with a term that expires January 31, 2029. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists J. Ryan Moses as the State Housing Board member for Congressional District 5, with a term that expires January 31, 2029. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -760,7 +760,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 6: Nancy Jackson",
-      "detail": "The Division of Housing lists Nancy Jackson as the State Housing Board member for Congressional District 6, with a term that expires January 31, 2027. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists Nancy Jackson as the State Housing Board member for Congressional District 6, with a term that expires January 31, 2027. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -813,7 +813,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 7: LaDawn Sperling",
-      "detail": "The Division of Housing lists LaDawn Sperling as the State Housing Board member for Congressional District 7, with a term that expires January 31, 2028. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists LaDawn Sperling as the State Housing Board member for Congressional District 7, with a term that expires January 31, 2028. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
@@ -866,7 +866,7 @@
       "status": "in office",
       "date": null,
       "title": "State Housing Board, Congressional District 8: James Martinez",
-      "detail": "The Division of Housing lists James Martinez as the State Housing Board member for Congressional District 8, with a term that expires January 31, 2030. By statute the Governor appoints one member from each congressional district, with the consent of the Senate.",
+      "detail": "The Division of Housing lists James Martinez as the State Housing Board member for Congressional District 8, with a term that expires January 31, 2030. By statute (C.R.S. 24-32-706) the Governor appoints one member from each congressional district, with the consent of the Senate.",
       "programs": [
         "DOLA"
       ],
