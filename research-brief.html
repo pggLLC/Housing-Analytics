@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#096e65" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0fd4cf" media="(prefers-color-scheme: dark)">
+  <title>Research Brief | COHO Analytics</title>
+  <meta name="description" content="Source-reviewed housing research from COHO Analytics, with practical implications, screening limitations and links to the evidence.">
+  <link rel="stylesheet" href="css/site-theme.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/print.css">
+  <script src="js/path-resolver.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/fetch-helper.js"></script>
+  <script defer src="js/navigation.js"></script>
+  <script defer src="js/dark-mode-toggle.js"></script>
+  <script defer src="js/mobile-menu.js"></script>
+  <style>
+    .brief-reader { max-width: 52rem; margin: 0 auto; padding: var(--sp4) var(--sp3) var(--sp5); }
+    .brief-reader [hidden] { display: none !important; }
+    .brief-reader h1 { max-width: 24ch; line-height: 1.15; }
+    .brief-reader article > section { margin-top: var(--sp5); }
+    .brief-reader h2 { margin-bottom: var(--sp3); }
+    .brief-reader p, .brief-reader li { line-height: 1.75; }
+    .brief-reader p + p { margin-top: var(--sp3); }
+    .brief-reader a { overflow-wrap: anywhere; }
+    .brief-reader .brief-meta { color: var(--muted); font-size: var(--small); }
+    .brief-reader .brief-takeaway { border-left: 4px solid var(--accent); background: var(--bg2); padding: var(--sp3); margin-top: var(--sp4); }
+    .brief-reader .brief-takeaway h2 { margin-top: 0; }
+    .brief-reader .brief-table { width: 100%; border-collapse: collapse; margin: var(--sp3) 0; }
+    .brief-reader .brief-table caption { text-align: left; font-weight: 700; padding-bottom: var(--sp2); }
+    .brief-reader .brief-table th, .brief-reader .brief-table td { text-align: left; vertical-align: top; padding: var(--sp2); border-bottom: 1px solid var(--border); }
+    .brief-reader .brief-table th[scope="row"] { width: 84%; text-transform: none; letter-spacing: normal; }
+    .brief-reader .brief-table th[scope="col"]:last-child { text-align: right; }
+    .brief-reader .brief-table td:nth-child(2) { text-align: right; font-variant-numeric: tabular-nums; }
+    .brief-reader .brief-definition { display: block; font-size: var(--small); font-weight: 400; color: var(--muted); margin-top: var(--sp1); }
+    .brief-reader .brief-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp3); margin-top: var(--sp4); }
+    .brief-reader .brief-actions a, .brief-reader button { min-height: 44px; display: inline-flex; align-items: center; }
+    .brief-reader button { padding: var(--sp2) var(--sp3); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); color: var(--text); font: inherit; cursor: pointer; }
+    @media print {
+      /* The shared theme's !important text colors otherwise survive dark-mode printing. */
+      #main-content.brief-reader, #main-content.brief-reader * { color: #000 !important; background: #fff !important; }
+      .brief-reader { max-width: none; padding: 0; }
+      .brief-reader h1 { max-width: none; }
+      .brief-reader .brief-actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <main id="main-content" class="brief-reader no-glossary">
+    <header>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a><span aria-hidden="true"> / </span>
+        <a href="policy-briefs.html">Housing News</a><span aria-hidden="true"> / </span>
+        <span aria-current="page">Research brief</span>
+      </nav>
+      <p class="kicker">COHO Analytics · Research brief</p>
+    </header>
+    <p id="brief-status" role="status" aria-live="polite" aria-atomic="true">Loading research brief…</p>
+    <article id="brief-content" hidden></article>
+    <noscript><p>Enable JavaScript to read this brief. The <a href="data/policy_briefs_curated.json">curated research feed</a> contains the full text and sources.</p></noscript>
+    <footer class="brief-actions">
+      <button id="brief-print" type="button" hidden>Print or save as PDF</button>
+      <a href="policy-briefs.html">← Housing News</a>
+    </footer>
+  </main>
+  <script>
+    (function () {
+      'use strict';
+      var FEES_PATH = 'data/policy/fee-reductions.json';
+      // Definitions belong to this reader; coverage of every dataset enum is
+      // tested independently of the wording a reader sees.
+      var LABELS = {
+        measure: {
+          waived: ['Waived', 'The fee is not owed.'],
+          reduced: ['Reduced', 'Part of the fee is still owed.'],
+          reimbursed: ['Reimbursed', 'The fee is paid first, then paid back.'],
+          rate_discount: ['Utility bill discount', 'A recurring bill discount, not a reduction in development costs.'],
+          deferred: ['Deferred', 'Payment comes later; the fee is still owed.']
+        },
+        kind: {
+          program: ['Standing program', 'An ongoing offer, subject to its eligibility rules and approvals.'],
+          project_award: ['Project award', 'A one-off award to a named project, not an offer to every project.'],
+          repealed: ['Repealed', 'A former measure kept for the record; it is no longer offered.']
+        }
+      };
+      var host = document.getElementById('brief-content');
+      var status = document.getElementById('brief-status');
+      var printButton = document.getElementById('brief-print');
+
+      function el(tag, text, parent, className) {
+        var node = document.createElement(tag);
+        if (text !== undefined) node.textContent = text;
+        if (className) node.className = className;
+        if (parent) parent.appendChild(node);
+        return node;
+      }
+      function section(id, title) {
+        var node = el('section', undefined, host);
+        node.id = id;
+        el('h2', title, node);
+        return node;
+      }
+      function date(parent, value) {
+        var parsed = Date.parse(value);
+        if (!value || isNaN(parsed)) { parent.appendChild(document.createTextNode('date unavailable')); return; }
+        var time = el('time', new Date(parsed).toLocaleDateString('en-US', {
+          month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'
+        }), parent);
+        time.dateTime = value;
+      }
+      function paragraphs(parent, text) {
+        // The feed is plain text. Sentence breaks improve long-form reading
+        // without interpreting markup or changing the source's words.
+        var sentences = String(text || '').split(/(?<=\.)\s+(?=[A-Z])/);
+        for (var i = 0; i < sentences.length; i += 3) {
+          el('p', sentences.slice(i, i + 3).join(' '), parent);
+        }
+      }
+      function safeUrl(value) {
+        if (typeof value !== 'string' || !value.trim()) return null;
+        try {
+          var url = new URL(value, window.location.href);
+          return /^https?:$/.test(url.protocol) ? url : null;
+        } catch (_) { return null; }
+      }
+      function link(parent, title, value) {
+        var url = safeUrl(value);
+        if (!url) return el('span', title + ' (link unavailable)', parent);
+        var a = el('a', title, parent);
+        a.href = url.href;
+        return a;
+      }
+      async function readJson(file) {
+        try {
+          var response = await (window.fetchWithTimeout || window.fetch)(file, {}, 15000);
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return await response.json();
+        } catch (error) {
+          throw new Error(file + ': ' + error.message);
+        }
+      }
+      function validateFees(data) {
+        if (!data || !Array.isArray(data.entries) || !data.meta || !data.meta.as_of ||
+            !Array.isArray(data.meta.known_gaps)) {
+          throw new Error('Fee dataset is missing its records, verification date or screening limitations.');
+        }
+        data.entries.forEach(function (entry) {
+          if (!entry || !Object.hasOwn(LABELS.measure, entry.measure) ||
+              !Object.hasOwn(LABELS.kind, entry.kind) || typeof entry.state !== 'string' ||
+              !entry.eligibility || !Object.hasOwn(entry.eligibility, 'by_right') ||
+              !entry.backfill || typeof entry.backfill.method !== 'string') {
+            throw new Error('Fee dataset contains an incomplete record or an unrecognized measure or kind.');
+          }
+        });
+      }
+      function countTable(parent, entries, field, caption) {
+        var table = el('table', undefined, parent, 'brief-table');
+        table.dataset.group = field;
+        el('caption', caption, table);
+        var row = el('tr', undefined, el('thead', undefined, table));
+        ['Type and meaning', 'Records'].forEach(function (title) {
+          var th = el('th', title, row); th.scope = 'col';
+        });
+        var body = el('tbody', undefined, table);
+        Object.keys(LABELS[field]).forEach(function (key) {
+          var definition = LABELS[field][key];
+          var tr = el('tr', undefined, body); tr.dataset.value = key;
+          var th = el('th', definition[0], tr); th.scope = 'row';
+          el('span', definition[1], th, 'brief-definition');
+          el('td', String(entries.filter(function (e) { return e[field] === key; }).length), tr);
+        });
+      }
+      function metric(parent, key, count, description) {
+        var p = el('p', undefined, parent);
+        var number = el('strong', String(count), p); number.dataset.count = key;
+        p.appendChild(document.createTextNode(' ' + description));
+      }
+      function renderFees(data) {
+        var entries = data.entries;
+        var snapshot = section('brief-dataset', 'What the dataset contains');
+        var scope = el('p', undefined, snapshot);
+        var total = el('strong', String(entries.length), scope); total.dataset.count = 'total';
+        scope.appendChild(document.createTextNode(' fee records: '));
+        var coCount = entries.filter(function (e) { return e.state === 'CO'; }).length;
+        var colorado = el('span', String(coCount), scope); colorado.dataset.count = 'colorado';
+        scope.appendChild(document.createTextNode(' in Colorado and '));
+        var others = el('span', String(entries.length - coCount), scope); others.dataset.count = 'comparison';
+        scope.appendChild(document.createTextNode(' out-of-state comparison records. All counts below cover the full fee dataset, including project awards and repealed measures. Land-use incentives are separate and are not counted here.'));
+        countTable(snapshot, entries, 'measure', 'How the fee changes');
+        countTable(snapshot, entries, 'kind', 'What kind of record it is');
+        metric(snapshot, 'discretionary', entries.filter(function (e) { return e.eligibility.by_right === false; }).length,
+          'records require discretionary approval: the benefit is not automatic even when a project meets the stated eligibility rules.');
+        metric(snapshot, 'backfill', entries.filter(function (e) { return e.backfill.method === 'not_specified'; }).length,
+          'records do not specify how forgone fee revenue is replaced. This does not mean no replacement funding exists.');
+        var limits = section('brief-limitations', 'Screening limitations');
+        el('p', 'What a jurisdiction offers is not what a project has been awarded. A deferral is still owed. A jurisdiction with no entry has not been researched or has no verified entry; that does not mean it has no program.', limits);
+        var gaps = data.meta.known_gaps;
+        var note = el('p', undefined, limits);
+        note.appendChild(document.createTextNode('Showing '));
+        var shown = el('span', String(Math.min(5, gaps.length)), note); shown.dataset.count = 'gaps-shown';
+        note.appendChild(document.createTextNode(' of '));
+        var all = el('span', String(gaps.length), note); all.dataset.count = 'gaps-total';
+        note.appendChild(document.createTextNode(' known gaps. The related dataset lists all limitations.'));
+        var list = el('ul', undefined, limits);
+        gaps.slice(0, 5).forEach(function (gap) { el('li', gap, list); });
+      }
+      function render(brief, fees) {
+        var header = el('header', undefined, host);
+        el('h1', brief.title, header);
+        document.title = brief.title + ' | COHO Analytics';
+        var meta = el('p', 'Published ', header, 'brief-meta');
+        date(meta, brief.generated);
+        meta.appendChild(document.createTextNode(' · Data verified '));
+        if (fees) date(meta, fees.meta.as_of);
+        else meta.appendChild(document.createTextNode('date not recorded in this brief'));
+        var takeaway = section('brief-takeaway', 'Takeaway');
+        takeaway.className = 'brief-takeaway';
+        el('p', brief.takeaway || String(brief.summary || '').split(/(?<=\.)\s+(?=[A-Z])/).slice(0, 2).join(' '), takeaway);
+        paragraphs(section('brief-summary', 'Summary'), brief.summary);
+        paragraphs(section('brief-implications', 'Practical implications'), brief.implications);
+        if (fees) renderFees(fees);
+        var sources = section('brief-sources', 'Sources');
+        var list = el('ol', undefined, sources);
+        var articles = Array.isArray(brief.articles) ? brief.articles : [];
+        articles.forEach(function (source) {
+          var li = el('li', undefined, list);
+          link(li, source.title || source.link || 'Source', source.link);
+          var details = [source.source, source.date].filter(Boolean).join(' · ');
+          if (details) el('p', details, li, 'brief-meta');
+        });
+        var related = section('brief-related', 'Related data');
+        link(related, brief.related_data || 'Related data', brief.related_data);
+        var appendix = section('brief-appendix', 'Technical appendix');
+        var methods = articles.filter(function (source) {
+          var url = safeUrl(source.link);
+          return url && /\.md$/i.test(url.pathname);
+        });
+        if (methods.length) {
+          methods.forEach(function (source) { link(el('p', undefined, appendix), source.title, source.link); });
+        } else {
+          el('p', 'No separate technical appendix is supplied for this brief. See the sources above for methodology.', appendix);
+        }
+        host.hidden = false;
+        printButton.hidden = false;
+        status.textContent = 'Research brief loaded.';
+        status.className = 'sr-only';
+      }
+      function showError(title, reason) {
+        host.replaceChildren();
+        el('h1', title, host);
+        el('p', reason, host);
+        host.hidden = false;
+        status.textContent = title + ': ' + reason;
+        status.className = 'sr-only';
+        document.title = title + ' | COHO Analytics';
+      }
+      printButton.addEventListener('click', function () { window.print(); });
+      (async function () {
+        try {
+          var id = new URLSearchParams(window.location.search).get('id');
+          if (!id) { showError('Brief not found', 'Choose a research brief from Housing News.'); return; }
+          var feed = await readJson('data/policy_briefs_curated.json');
+          var briefs = Array.isArray(feed) ? feed : feed && feed.briefs;
+          if (!Array.isArray(briefs)) throw new Error('Curated feed does not contain a briefs list.');
+          var brief = briefs.find(function (item) { return item.id === id && item.is_curated; });
+          if (!brief) { showError('Brief not found', 'This research brief is not in the curated feed.'); return; }
+          var fees = null;
+          if (brief.related_data === FEES_PATH) {
+            fees = await readJson(FEES_PATH);
+            validateFees(fees);
+          }
+          render(brief, fees);
+        } catch (error) {
+          showError('Unavailable', error.message);
+        }
+      }());
+    }());
+  </script>
+</body>
+</html>
