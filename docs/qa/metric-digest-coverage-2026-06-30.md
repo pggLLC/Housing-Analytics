@@ -6,7 +6,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 
 - Digest files: 546
 - Total tagged metrics: 78620
-- County-context metric tags: 6276
+- County-context metric tags: 6758
 - Rate metrics with denominator metadata: 15834
 - Min denominator floor: 50
 
@@ -15,8 +15,8 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | geography_level | metric tags |
 |---|---:|
 | county | 8704 |
-| county_context | 6276 |
-| place | 63640 |
+| county_context | 6758 |
+| place | 63158 |
 
 ## Source Tags
 
@@ -25,7 +25,7 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | acs-b25003 | 546 |
 | acs-b25075 | 1638 |
 | acs-grapi-and-hud-chas-blend | 546 |
-| acs-profile | 11466 |
+| acs-profile | 9828 |
 | acs-profile-dp02 | 1092 |
 | acs-profile-dp04 | 1100 |
 | acs-profile-dp04-grapi | 546 |
@@ -36,10 +36,10 @@ B1 metric-digest data spine generated from the committed HNA ranking index and p
 | chfa-lihtc-and-2026-r1-awards | 2184 |
 | chfa-lihtc-properties | 10370 |
 | county-housing-cost-trends-acs-cohorts | 2730 |
-| dola-demographic-projections | 2184 |
+| dola-demographic-projections | 2730 |
 | economic-housing-bridge | 4368 |
 | hna-affordable-ownership-need | 6552 |
-| hna-ranking-index-derived | 11466 |
+| hna-ranking-index-derived | 12558 |
 | hud-chas-county | 768 |
 | hud-chas-place-apportioned | 5784 |
 | hud-qct-dda | 1638 |
