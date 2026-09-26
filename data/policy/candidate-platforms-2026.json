@@ -935,12 +935,10 @@
         "retrieved": "2026-09-26",
         "archive_url": "https://web.archive.org/web/20260629031937/https://citizensforkevingrantham.com/about/"
       },
-      "topics": [
-        "property_tax"
-      ],
-      "neutral_summary": "The campaign says that as a Fremont County commissioner Grantham cut property taxes to help residents afford the rising cost of living.",
-      "quote": "Currently a County Commissioner for Fremont County, where he cut property taxes to help residents afford the rising cost of living, Kevin Grantham is worried that Colorado has become increasingly unaffordable to live, work, and raise a family.",
-      "coverage_state": "verified_platform_found",
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
       "verification": {
         "level": "primary",
         "checked": "2026-09-26"
@@ -949,7 +947,7 @@
       "history": [
         {
           "checked": "2026-09-26",
-          "note": "TRACER Web field is blank; kevingrantham.com (matching the TRACER email domain) serves the site paid for by Kevin Grantham for Treasurer. Housing content is limited to property tax.",
+          "note": "TRACER Web field is blank; kevingrantham.com (matching the TRACER email domain) serves the site paid for by Kevin Grantham for Treasurer. The about page describes a past property-tax cut as a Fremont County commissioner and general concern about affordability, but states no proposal or position for the office sought.",
           "source": {
             "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
             "retrieved": "2026-09-26"
@@ -968,6 +966,10 @@
         },
         {
           "url": "https://citizensforkevingrantham.com/about/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://citizensforkevingrantham.com/join/",
           "retrieved": "2026-09-26"
         }
       ]
