@@ -250,7 +250,9 @@
         lihtcSource:  'HUD LIHTC Database (public)',
         geographySource: 'Census TIGERweb tract centroids',
         prop123Source: 'CHFA Prop 123 jurisdictions list',
-        acsVintage:   (quality && quality.counts) ? 'ACS 2022 5-Year' : 'unknown',
+        // Read from the loaded tract metrics' meta.vintage (see
+        // _acsVintageLabel in js/market-analysis.js), never hard-coded.
+        acsVintage:   (result && result.acsVintageLabel) || null,
         methodology:  'docs/MARKET_ANALYSIS_METHOD.md + docs/PMA_SCORING.md'
       },
       dataQuality:    quality || {},
@@ -280,7 +282,11 @@
         lihtcCount:         result.lihtcCount,
         otherAssistedCount: result.otherAssistedCount,
         unitsUnknownCount:  result.affordableUnitsUnknownCount,
-        unitsUnavailableReason: result.affordableUnitsUnavailableReason
+        unitsUnavailableReason: result.affordableUnitsUnavailableReason,
+        unitsFallbackCount: result.affordableUnitsFallbackCount,
+        unitsFallbackReason: result.affordableUnitsFallbackReason,
+        duplicatesRemoved:  result.affordableDuplicatesRemoved,
+        duplicatesReason:   result.affordableDuplicatesReason
       },
       benchmark:  benchmark  || { available: false },
       pipeline:   pipeline   || { available: false },

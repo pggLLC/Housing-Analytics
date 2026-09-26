@@ -732,19 +732,19 @@
           </details>
         </div>
 
-        <!-- LIHTC Supply -->
+        <!-- Existing affordable supply (LIHTC + other assisted) -->
         <div class="pma-card">
-          <h2 style="display:inline-block;margin:0;">LIHTC Supply in Buffer</h2>
+          <h2 style="display:inline-block;margin:0;">Existing affordable supply in buffer</h2>
           <details class="info-tooltip">
-            <summary title="What's counted in 'supply'?" aria-label="Show LIHTC supply methodology">i</summary>
+            <summary title="What's counted in 'supply'?" aria-label="Show existing affordable supply methodology">i</summary>
             <div class="info-tooltip-body">
-              <p><strong>What this counts.</strong> Every LIHTC property within the user-selected buffer radius of the site, including:</p>
+              <p><strong>What this counts.</strong> Every affordable property located inside the analysis area (the buffer radius, or the selected tracts), from two sources kept separate in the breakdown:</p>
               <ul style="margin:0 0 0.5rem 1.1rem;padding:0">
-                <li><strong>Completed</strong> projects (open and operating)</li>
-                <li><strong>Pipeline / under-construction</strong> projects (allocated but not yet in service)</li>
+                <li><strong>LIHTC</strong> — every CHFA tax-credit project, whatever its compliance status, completed or still in the pipeline. The feed does not say which: its only year is the CHFA <strong>award</strong> year, and a project typically opens two to three years after its award. Units are the project's <strong>income-restricted</strong> units (<code>LI_UNITS</code>), not its total units.</li>
+                <li><strong>Other assisted</strong> — HUD Multifamily Assisted, USDA Rural Development, local project-based vouchers and CHFA preservation records (<code>data/affordable-housing/properties.json</code>), counted at their <strong>assisted</strong> units.</li>
               </ul>
-              <p>The feed does not say which of the two a property is: its only year is the CHFA <strong>award</strong> year, and a project typically opens two to three years after its award. Both kinds are counted the same.</p>
-              <p>Properties whose affordability period has expired — or is at risk of expiring in the near term — are <strong>excluded</strong>, since they no longer represent active competitive supply.</p>
+              <p>Nothing is excluded for an expired or expiring affordability period — the count includes properties at risk of leaving the inventory.</p>
+              <p>A property in both sources is counted once, as LIHTC: an other-assisted record within 100 m of a LIHTC project whose name shares a distinctive word with it is dropped. A project that does not report its restricted or assisted units is counted at its total units, and one that reports no unit count is left out of the unit total; each case is disclosed under the units figure.</p>
               <dl>
                 <dt>Buffer radius</dt><dd>3, 5, 10, or 15 miles — selected via the control above the map</dd>
                 <dt>Primary source</dt><dd>CHFA HousingTaxCreditProperties live feed (<code>data/chfa-lihtc.json</code>) — 926 projects through 2025</dd>

@@ -218,7 +218,7 @@
         'County-level qualifying HHs (not PMA-tract-level). ',
         'Cumulative ≤ AMI tier, not the tier-interval band — overstates demand depth at higher AMI bands. ',
         'Existing-affordable count includes naturally affordable units (ACS-reported low rent), ',
-        'not just LIHTC-restricted; the actual LIHTC supply is in the LIHTC Supply in Buffer card. ',
+        'not just LIHTC-restricted; the restricted and assisted supply is in the Existing affordable supply in buffer card. ',
         'Does not deduct under-construction pipeline units. ',
         'CHFA-graded studies use PMA-tract qualifying HHs by HH size and net out the pipeline — ',
         'see the "When to commission a professional market study" card below.'
