@@ -33,6 +33,17 @@ assert(sitemapUrls.length >= 500, `expected sitemap to include public tool pages
 assert(!sitemap.includes('developer-brief'), 'private developer pages must not enter the sitemap');
 assert(!sitemap.includes('_template.html'), 'templates must not enter the sitemap');
 assert(!sitemap.includes('404.html'), '404 page must not enter the sitemap');
+const curated = JSON.parse(await readFile('dist/data/policy_briefs_curated.json', 'utf8'));
+const researchIds = curated.briefs.filter((brief) => brief.is_curated).map((brief) => brief.id).sort();
+assert(researchIds.length > 0, 'no curated briefs to check in the public sitemap');
+const readerUrls = sitemapUrls.filter((url) => url.includes('/research-brief.html'));
+assert.deepEqual(readerUrls.map((loc) => new URL(loc.replace(/<\/?loc>/g, '')).searchParams.get('id')).sort(),
+  researchIds, 'the public sitemap must link every existing curated id, never the bare reader');
+const reader = await readFile('dist/research-brief.html', 'utf8');
+assert(reader.includes('data/policy_briefs_curated.json'), 'the built reader must load the shipped curated feed');
+const searchIndex = JSON.parse(await readFile('dist/search-index.json', 'utf8'));
+assert(!searchIndex.some((record) => record.u === 'research-brief.html'),
+  'search must not send readers to a brief URL without an id');
 
 const index = await readFile('dist/index.html', 'utf8');
 const indexJsonLd = jsonLdBlocks(index);
