@@ -5,31 +5,140 @@
       "geoid": "08055",
       "level": "county",
       "name": "Huerfano County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://huerfano.us/departments/clerk-recorder/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded: Huerfano County Ballot Issue 1A, a 2-mill property tax for parks, recreational and cultural facilities and programs; not housing.",
+        "Excluded: Rye Fire Protection District Ballot Issue 7B (style PO-RFP; fire and EMS mill levy); not housing.",
+        "No list of participating political subdivisions or formal TABOR notice was posted as of 2026-09-26; all nine posted sample ballot styles were read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1PfDQ0f2HDKI2kKUlhpgD_eoxhU6nh5it",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=14R1v9VhmvTyYKgaFRDtlifzZV2MKXDuQ",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1FtIWGha7lWl7yzZrk1hc8vH4EXpHz0rG",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1rnGvPzuHpnMdzI4gMt7SpYg6xryAKEOB",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1DIBw1haRbieGuYNrYP5TytxULUve-oQe",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1ueTI2Tho4Ved3V_f4jsAPJ74qOrrB7KM",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1TSdpLVAfFg_-_Qaa1_pfTdZ2_esYqiyd",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1fYO2_pVGCUBEMY2Wx_GiwyCwcjNFdWeQ",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=16PWd-CYVrHUD8xB-LQY-_Jq2JmK9Z5eO",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://huerfano.us/2026-tabor-election-notice-pro-con-statements/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0844100",
       "level": "municipal",
       "name": "La Veta (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://huerfano.us/departments/clerk-recorder/",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "None of the nine posted county sample ballot styles has a Town of La Veta contest or question. The town election page lists no November 3, 2026 question or separate election.",
+        "No list of participating political subdivisions or formal TABOR notice was posted as of 2026-09-26; all nine posted sample ballot styles were read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://drive.google.com/uc?export=download&id=14R1v9VhmvTyYKgaFRDtlifzZV2MKXDuQ",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1FtIWGha7lWl7yzZrk1hc8vH4EXpHz0rG",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1rnGvPzuHpnMdzI4gMt7SpYg6xryAKEOB",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1DIBw1haRbieGuYNrYP5TytxULUve-oQe",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1ueTI2Tho4Ved3V_f4jsAPJ74qOrrB7KM",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1TSdpLVAfFg_-_Qaa1_pfTdZ2_esYqiyd",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1fYO2_pVGCUBEMY2Wx_GiwyCwcjNFdWeQ",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=16PWd-CYVrHUD8xB-LQY-_Jq2JmK9Z5eO",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1PfDQ0f2HDKI2kKUlhpgD_eoxhU6nh5it",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townoflaveta-co.gov/election-information",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0882350",
       "level": "municipal",
       "name": "Walsenburg (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://drive.google.com/uc?export=download&id=1PfDQ0f2HDKI2kKUlhpgD_eoxhU6nh5it",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "OWNER REVIEW (zoning code amendment about a detention-center district; no entry created): City of Walsenburg Ballot Question 2A. Exact text: \"Shall an Ordinance amending Sections 16-4-700 and 16-4-720 of the Walsenburg Municipal Code concerning the Criminal Detention Center (CDC) District be adopted?\" It amends zoning code but concerns a detention-center district, not housing.",
+        "Excluded: City of Walsenburg Ballot Issue 300, a 0.50% sales and use tax \"FOR THE PURPOSE OF OFFSETTING LAW ENFORCEMENT COSTS AND EXPENSES\"; not housing.",
+        "The city website (walsenburg.org) returned HTTP 403 to automated access on 2026-09-26 and was not read."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://huerfano.us/departments/clerk-recorder/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1ueTI2Tho4Ved3V_f4jsAPJ74qOrrB7KM",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=1TSdpLVAfFg_-_Qaa1_pfTdZ2_esYqiyd",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []

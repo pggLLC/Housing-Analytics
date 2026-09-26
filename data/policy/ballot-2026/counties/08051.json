@@ -5,62 +5,199 @@
       "geoid": "08051",
       "level": "county",
       "name": "Gunnison County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17326",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded: Gunnison County Ballot Question 1A, an additional 0.50% countywide sales tax for roads, bridges and transportation; not housing.",
+        "All 15 posted precinct sample ballots (DocumentCenter/View/17326 through 17340) were read. They form three ballot types: PCT-003 adds Town of Crested Butte 2B, PCT-004 adds the Mt. Crested Butte council race and 2A, and the other 13 carry state questions and County 1A only.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.gunnisoncounty.org/136/Elections-Office",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0818310",
       "level": "municipal",
       "name": "Crested Butte (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17328",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "OWNER REVIEW (tax on residential parcels that are not a primary residence and on vacant land; revenue dedicated to the capital fund, with no housing earmark in the text; no entry created): Town of Crested Butte Ballot Question 2B. Exact text (bullet glyphs omitted): \"SHALL THE TOWN OF CRESTED BUTTE TAXES BE INCREASED $1,250,000 IN THE FIRST FULL FISCAL YEAR (2027) AND BY WHATEVER AMOUNTS ARE RAISED ANNUALLY THEREAFTER THROUGH THE IMPOSITION OF AN EXCISE TAX ON RESIDENTIAL PARCELS IN TOWN THAT ARE NOT A PRIMARY RESIDENCE AND ON VACANT LAND AS FOLLOWS: TOTAL RESIDENTIAL SQUARE FOOTAGE ON THE PARCEL OF LESS THAN 1,200 SQUARE FEET $1,400 TOTAL RESIDENTIAL SQUARE FOOTAGE ON THE PARCEL THAT IS EQUAL TO OR MORE THAN 1,200 AND UP TO 2,200 SQUARE FEET $2,400 TOTAL RESIDENTIAL SQUARE FOOTAGE ON THE PARCEL EQUAL TO OR MORE THAN 2,200 SQUARE FEET $3,400 VACANT LAND $3,000 WITH SUCH TAX AMOUNTS TO INCREASE ANNUALLY BY THE PERCENTAGE RATE OF INFLATION AS DEFINED IN ARTICLE X, SECTION 20 OF THE STATE CONSTITUTION FOR THE PRECEDING CALENDAR YEAR; AND SHALL ALL REVENUES FROM SUCH TAX BE DEPOSITED IN AND DEDICATED TO THE CAPITAL FUND, SUCH TAX TO BE COLLECTED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY REVENUE OR EXPENDITURE LIMITATIONS CONTAINED IN ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION?\"",
+        "The referring resolution was not located on the town website; the town elections page has no 2026 ballot content.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://townofcrestedbutte.colorado.gov/government/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0833640",
       "level": "municipal",
       "name": "Gunnison (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17326",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No sample ballot style carries any content for this municipality. The city elections page describes regular elections in odd-numbered years and lists no 2026 question.",
+        "All 15 posted precinct sample ballots (DocumentCenter/View/17326 through 17340) were read. They form three ballot types: PCT-003 adds Town of Crested Butte 2B, PCT-004 adds the Mt. Crested Butte council race and 2A, and the other 13 carry state questions and County 1A only.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.gunnisoncounty.org/136/Elections-Office",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.gunnisonco.gov/elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0848555",
       "level": "municipal",
       "name": "Marble (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17326",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No sample ballot style carries any content for this municipality. The town home page lists no election or ballot item.",
+        "All 15 posted precinct sample ballots (DocumentCenter/View/17326 through 17340) were read. They form three ballot types: PCT-003 adds Town of Crested Butte 2B, PCT-004 adds the Mt. Crested Butte council race and 2A, and the other 13 carry state questions and County 1A only.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.gunnisoncounty.org/136/Elections-Office",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.townofmarble.com/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0852570",
       "level": "municipal",
       "name": "Mount Crested Butte (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
-      "entry_ids": [],
-      "limitations": []
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17329",
+      "checked": "2026-09-26",
+      "entry_ids": [
+        "ballot-2026-0852570-2a"
+      ],
+      "limitations": [
+        "The town elections page confirms a combined election with Gunnison County on November 3, 2026 (three council seats); it does not list the ballot question.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.gunnisoncounty.org/136/Elections-Office",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://mtcb.colorado.gov/town-elections",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0859830",
       "level": "municipal",
       "name": "Pitkin (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://www.gunnisoncounty.org/DocumentCenter/View/17326",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "No sample ballot style carries any content for this municipality. The town home page lists only an archived 2025 special election.",
+        "All 15 posted precinct sample ballots (DocumentCenter/View/17326 through 17340) were read. They form three ballot types: PCT-003 adds Town of Crested Butte 2B, PCT-004 adds the Mt. Crested Butte council race and 2A, and the other 13 carry state questions and County 1A only.",
+        "No TABOR notice and no list of participating political subdivisions was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://www.gunnisoncounty.org/136/Elections-Office",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofpitkin.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "ballot-2026-0852570-2a",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0852570",
+        "level": "municipal",
+        "name": "Mount Crested Butte (town)"
+      },
+      "measure": {
+        "number": "2A",
+        "official_title": "Town of Mt. Crested Butte Ballot Question 2A",
+        "origin": "referred",
+        "relevance": [
+          "housing_tax"
+        ],
+        "fiscal": {
+          "mechanism": "AN INCREASE OF 5% IN THE TOWN'S EXISTING 4.9% SHORT TERM RENTAL EXCISE TAX",
+          "rate": "FOR A TOTAL TAX OF 9.9% ON THE AMOUNT CHARGED TO PERSONS RENTING SHORT TERM RENTAL PROPERTIES (DEFINED AS RENTALS FOR LESS THAN 30 DAYS)",
+          "amount_cap": "NOT MORE THAN $2,500,000 COMMENCING JANUARY 1, 2027",
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": null,
+        "ballot_notice": {
+          "url": "https://www.gunnisoncounty.org/DocumentCenter/View/17329",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Short-term rental excise tax increase for community housing",
+      "detail": "Raises the town short-term rental excise tax on residential short-term rentals by 5%, from 4.9% to 9.9%, with revenue of not more than $2,500,000 commencing January 1, 2027, for the creation and retention of community housing.",
+      "evidence": [
+        {
+          "section": "Gunnison County official sample ballot, precinct PCT-004, Town of Mt. Crested Butte Ballot Question 2A",
+          "quote": "SHALL TOWN OF MT. CRESTED BUTTE TAXES BE INCREASED NOT MORE THAN $2,500,000 COMMENCING JANUARY 1, 2027 AND BY WHATEVER AMOUNTS ARE GENERATED ANNUALLY THEREAFTER BY AN INCREASE OF 5% IN THE TOWN'S EXISTING 4.9% SHORT TERM RENTAL EXCISE TAX, FOR A TOTAL TAX OF 9.9% ON THE AMOUNT CHARGED TO PERSONS RENTING SHORT TERM RENTAL PROPERTIES (DEFINED AS RENTALS FOR LESS THAN 30 DAYS), SUCH INCREASE TO APPLY ONLY TO SHORT TERM RENTAL PROPERTIES WHICH ARE CLASSIFIED BY THE GUNNISON COUNTY ASSESSOR AS \"RESIDENTIAL\", FOR THE PURPOSE OF RAISING FUNDS TO SUPPORT THE CREATION AND RETENTION OF CRITICAL COMMUNITY HOUSING, AND SHALL ALL AMOUNTS RECEIVED BY THE TOWN FROM SUCH TAX AND OTHER REVENUES AND EARNINGS THEREON BE COLLECTED AND SPENT FOR SUCH PURPOSES WITHOUT LIMITATION OR CONDITION AS A VOTER-APPROVED REVENUE CHANGE UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Gunnison County official sample ballot for precinct PCT-004 (DocumentCenter/View/17329)",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "The quote is from the sample ballot with line breaks normalized to single spaces.",
+        "The referring resolution was not located: the town website (mtcrestedbuttecolorado.gov) returned HTTP 502 on 2026-09-26. No TABOR notice was posted as of 2026-09-26.",
+        "The question states no duration or sunset."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }
