@@ -1,5 +1,1034 @@
 {
   "schema": "candidate-platforms/v1",
-  "races": [],
-  "candidates": []
+  "races": [
+    {
+      "office": "Governor/Lieutenant Governor",
+      "election_date": "2026-11-03",
+      "candidates_source": "https://www.sos.state.co.us/pubs/elections/vote/generalCandidates.html",
+      "coverage_state": "complete",
+      "roster_checked": "2026-09-26",
+      "certified_candidates": [
+        {
+          "candidate": "Victor Marx / George Washington Markert",
+          "party": "Republican Party"
+        },
+        {
+          "candidate": "Phil Weiser / Lesley Dahlkemper",
+          "party": "Democratic Party"
+        },
+        {
+          "candidate": "Stephen T. Hamilton / James K Treibert",
+          "party": "American Constitution Party"
+        },
+        {
+          "candidate": "Eric Mulder / Wayne Harlos",
+          "party": "Libertarian Party"
+        },
+        {
+          "candidate": "Jeff Peckman / T.J. Cole",
+          "party": "Unity Party"
+        },
+        {
+          "candidate": "Erik Underwood / Frank Atwood",
+          "party": "Approval Voting Party"
+        },
+        {
+          "candidate": "Greg Lopez / Taralyn Romero",
+          "party": "Unaffiliated"
+        }
+      ]
+    },
+    {
+      "office": "Attorney General",
+      "election_date": "2026-11-03",
+      "candidates_source": "https://www.sos.state.co.us/pubs/elections/vote/generalCandidates.html",
+      "coverage_state": "complete",
+      "roster_checked": "2026-09-26",
+      "certified_candidates": [
+        {
+          "candidate": "Michael J. Allen",
+          "party": "Republican Party"
+        },
+        {
+          "candidate": "Jena Griswold",
+          "party": "Democratic Party"
+        }
+      ]
+    },
+    {
+      "office": "Secretary of State",
+      "election_date": "2026-11-03",
+      "candidates_source": "https://www.sos.state.co.us/pubs/elections/vote/generalCandidates.html",
+      "coverage_state": "not_researched",
+      "roster_checked": "2026-09-26",
+      "certified_candidates": [
+        {
+          "candidate": "Amanda Gonzalez",
+          "party": "Democratic Party"
+        },
+        {
+          "candidate": "James Wiley",
+          "party": "Republican Party"
+        },
+        {
+          "candidate": "Sean Vadney",
+          "party": "Libertarian Party"
+        },
+        {
+          "candidate": "Amanda Campbell",
+          "party": "American Constitution Party"
+        },
+        {
+          "candidate": "Celeste Landry",
+          "party": "Forward Party"
+        }
+      ]
+    },
+    {
+      "office": "Treasurer",
+      "election_date": "2026-11-03",
+      "candidates_source": "https://www.sos.state.co.us/pubs/elections/vote/generalCandidates.html",
+      "coverage_state": "complete",
+      "roster_checked": "2026-09-26",
+      "certified_candidates": [
+        {
+          "candidate": "Jeff Bridges",
+          "party": "Democratic Party"
+        },
+        {
+          "candidate": "Kevin Grantham",
+          "party": "Republican Party"
+        },
+        {
+          "candidate": "Jodie Barr",
+          "party": "Libertarian Party"
+        },
+        {
+          "candidate": "Marilee Langner Sturgis",
+          "party": "Approval Voting Party"
+        }
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "candidate": "Victor Marx / George Washington Markert",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Republican Party",
+      "campaign_source": {
+        "url": "https://www.victor2026.com/my-policies",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922234400/https://www.victor2026.com/my-policies"
+      },
+      "topics": [
+        "supply",
+        "fees_permitting",
+        "land_use_local_control",
+        "homeownership",
+        "homelessness",
+        "property_tax"
+      ],
+      "neutral_summary": "The campaign says Marx would urge all municipalities to adopt expedited permitting standards for residential construction, and that local governments would be required to approve or deny complete applications within clear statutory timeframes.",
+      "quote": "If elected Governor, I will urge all municipalities to adopt expedited permitting standards for residential construction under C.R.S. § 29-20-201. Local governments will be required to approve or deny complete applications within clear statutory timeframes.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: VICTOR2026.COM). The linked full policy platform PDF returned HTTP 404 and was not read.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.victor2026.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.victor2026.com/my-policies",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.victor2026.com/policies",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.victor2026.com/colorado-works-better",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.victor2026.com/articles/categories/press-releases",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Phil Weiser / Lesley Dahlkemper",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Democratic Party",
+      "campaign_source": {
+        "url": "https://philforcolorado.com/affordable-homes-and-communities-meeting-colorados-housing-challenge/",
+        "published": "2025-11-13",
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260903164021/https://philforcolorado.com/affordable-homes-and-communities-meeting-colorados-housing-challenge/"
+      },
+      "topics": [
+        "supply",
+        "affordability_programs",
+        "renters",
+        "homeownership",
+        "fees_permitting",
+        "land_use_local_control"
+      ],
+      "neutral_summary": "The campaign says Weiser's goal is to increase the attainable owner-occupied housing supply by 40,000 units, closing the current gap by 50%, and to materially decrease costs for 100,000 renters by 2035.",
+      "quote": "my goal is to increase the attainable owner-occupied housing supply by 40,000 units, closing the current gap by 50%, and materially decrease costs for 100,000 renters, currently spending half their income on housing, by 2035.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [
+        {
+          "role": "Chief Housing Officer",
+          "person": null,
+          "source": {
+            "url": "https://philforcolorado.com/affordable-homes-and-communities-meeting-colorados-housing-challenge/",
+            "retrieved": "2026-09-26"
+          },
+          "quote": "I will stand up the role of Colorado’s first Chief Housing Officer, a cabinet-level official charged with simplifying and speeding all state processes, funding, and steps involved in the housing space.",
+          "claim_type": "campaign_claim"
+        }
+      ],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.PHILFORCOLORADO.COM). The plan page shows Nov 13, 2025 and \"Updated May 16, 2026\". Rural outreach and water roles announced elsewhere are not housing roles and are not recorded.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://philforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://philforcolorado.com/issues/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://philforcolorado.com/issue/affordable-homes-and-communities/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://philforcolorado.com/affordable-homes-and-communities-meeting-colorados-housing-challenge/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://philforcolorado.com/time-to-get-creative-on-housing-solutions/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://philforcolorado.com/phil-weiser-outlines-most-detailed-plan-in-governors-race-to-tackle-colorados-housing-and-health-care-costs/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Stephen T. Hamilton / James K Treibert",
+      "office": "Governor/Lieutenant Governor",
+      "party": "American Constitution Party",
+      "campaign_source": {
+        "url": null,
+        "published": null,
+        "retrieved": null,
+        "archive_url": null
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "campaign_source_unavailable",
+      "verification": null,
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "No campaign website found. The TRACER candidate record Web field contains a street address, not a site; the committee Web field is blank. The CPR third-party voter guide links only an Instagram account, which requires login and could not be read.",
+          "source": {
+            "url": "https://www.cpr.org/2026/09/25/vg-2026-governor-third-party-voter-guide/",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false
+    },
+    {
+      "candidate": "Eric Mulder / Wayne Harlos",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Libertarian Party",
+      "campaign_source": {
+        "url": "https://www.mulderforgovernor.org/on-the-issues",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260924230208/https://www.mulderforgovernor.org/on-the-issues"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: MULDERFORGOVERNOR.ORG). The Growth section names rising housing costs as an effect of growth but states no housing position; its listed priorities are water supply, a regulatory cost audit and energy. The section says \"four priorities\" and only three were visible in the served page.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.mulderforgovernor.org/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.mulderforgovernor.org/on-the-issues",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.mulderforgovernor.org/priorities",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.mulderforgovernor.org/about-the-team",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.mulderforgovernor.org/get-involved",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Jeff Peckman / T.J. Cole",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Unity Party",
+      "campaign_source": {
+        "url": "https://jeffpeckman.com/solutions-blueprint",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260924231153/https://jeffpeckman.com/solutions-blueprint"
+      },
+      "topics": [
+        "supply",
+        "fees_permitting",
+        "land_use_local_control",
+        "homelessness"
+      ],
+      "neutral_summary": "The campaign says Peckman supports reducing red tape and timelines for permitting and inspections, which it says would be more easily achieved with modular homes built to more exact specifications before they are put on foundations.",
+      "quote": "I also support reducing red tape and timelines for permitting and inspections, which will be more easily achieved with modular homes built to more exact specifications before they get put on foundations.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.JEFFPECKMAN.COM). The /about-jeff and /in-the-news pages could not be loaded, and linked questionnaire PDFs were not read. Zoning and building-code changes appear on the Q&A page.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://jeffpeckman.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/solutions-blueprint",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/candidate-q-%26-a",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/ai-rankings",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/election-fraud",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://jeffpeckman.com/press-releases",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Erik Underwood / Frank Atwood",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Approval Voting Party",
+      "campaign_source": {
+        "url": "https://erikunderwood.com/services/affordable-homes/",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260629013824/https://erikunderwood.com/services/affordable-homes/"
+      },
+      "topics": [
+        "homeownership",
+        "affordability_programs",
+        "renters",
+        "supply",
+        "homelessness"
+      ],
+      "neutral_summary": "The campaign says Underwood would create a special department within the Division of Housing to offer home loans to any Coloradan who wants to buy a home, with a minimum one year of Colorado residency.",
+      "quote": "I will create a special department within the Division of Housing to offer home loans to any Coloradan who wants to buy a home (minimum one year Colorado residency).",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [
+        {
+          "role": "Governor’s Veterans Housing Coordinator",
+          "person": null,
+          "source": {
+            "url": "https://erikunderwood.com/services/homelessness-policy/",
+            "retrieved": "2026-09-26"
+          },
+          "quote": "I will appoint a Governor’s Veterans Housing Coordinator with authority across DOLA, CDPHE, and the Colorado Department of Military and Veterans Affairs to drive veteran homelessness toward functional zero within four years.",
+          "claim_type": "campaign_claim"
+        }
+      ],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.ERIKUNDERWOOD.COM). The homelessness page also proposes convening a Governor’s Cabinet on Homelessness with mayors; that is a body, not a position, and is not recorded as an appointment.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://erikunderwood.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/issues/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/affordable-homes/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/homelessness-policy/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/end-tabor/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/water-policy/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/services/timeline-for-action/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://erikunderwood.com/general-election-message/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Greg Lopez / Taralyn Romero",
+      "office": "Governor/Lieutenant Governor",
+      "party": "Unaffiliated",
+      "campaign_source": {
+        "url": "https://www.greglopez.co/issues",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922003727/https://www.greglopez.co/issues"
+      },
+      "topics": [
+        "supply",
+        "homeownership",
+        "fees_permitting",
+        "water_infrastructure"
+      ],
+      "neutral_summary": "The campaign says Lopez would ensure that 25,000 starter homes are built in his first four years.",
+      "quote": "In my first four years, I will ensure that we build 25,000 starter homes.",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: GREGLOPEZ.CO). The same issues page names government fees, permitting delays and the cost of water and sewer taps.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.greglopez.co/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/issues",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/meet-greg",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.greglopez.co/get-involved",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Michael J. Allen",
+      "office": "Attorney General",
+      "party": "Republican Party",
+      "campaign_source": {
+        "url": "https://michaelallenforcolorado.com/",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922004746/https://michaelallenforcolorado.com/"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "TRACER Web field is blank; site identified from the committee email domain (Michael Allen for Colorado). The site mentions housing among rising family costs but states no housing policy.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://michaelallenforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://michaelallenforcolorado.com/endorsements/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://michaelallenforcolorado.com/showcase/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Jena Griswold",
+      "office": "Attorney General",
+      "party": "Democratic Party",
+      "campaign_source": {
+        "url": "https://www.jenaforcolorado.com/issues",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922005605/https://www.jenaforcolorado.com/issues"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.JENAFORCOLORADO.COM). Issues pages and all 11 news posts were read; none addresses housing.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.jenaforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/about",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/issues",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/issues/issue-1",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/issues/issue-2",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/issues/new-issue",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/issues/standing-up-to-ice",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.jenaforcolorado.com/news",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Jena Griswold",
+      "office": "Attorney General",
+      "party": "Democratic Party",
+      "campaign_source": {
+        "url": "https://www.cpr.org/2026/05/29/vg-2026-primary-election-colorado-attorney-general-jena-griswold/",
+        "published": "2026-05-29",
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260720224842/https://www.cpr.org/2026/05/29/vg-2026-primary-election-colorado-attorney-general-jena-griswold/"
+      },
+      "topics": [],
+      "neutral_summary": "CPR News reports that, in its primary voter-guide questionnaire, Griswold said she would stop hedge funds and corporate landlords from illegally driving up the cost of housing.",
+      "quote": "As Attorney General, I will stop hedge funds and corporate landlords from illegally driving up the cost of housing, prevent grocery store mergers that create monopolies, and stop illegal pricing practices that increase costs to consumers.",
+      "coverage_state": "not_researched",
+      "verification": {
+        "level": "reported",
+        "checked": "2026-09-26",
+        "by": "CPR News"
+      },
+      "proposed_appointments": [],
+      "history": [],
+      "archived": false
+    },
+    {
+      "candidate": "Amanda Gonzalez",
+      "office": "Secretary of State",
+      "party": "Democratic Party",
+      "campaign_source": {
+        "url": "https://www.amandaforcolorado.com/priorities",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260922002324/https://www.amandaforcolorado.com/priorities"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Site identified from the TRACER committee (AMANDA FOR COLORADO) and its email domain. The priorities page lists election-administration priorities only; the biography mentions whether people can afford a home as a general value, with no position attached.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.amandaforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.amandaforcolorado.com/priorities",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.amandaforcolorado.com/meet-amanda",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.amandaforcolorado.com/news",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "James Wiley",
+      "office": "Secretary of State",
+      "party": "Republican Party",
+      "campaign_source": {
+        "url": "https://wileyforcolorado.com/issues",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": null
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "The TRACER candidate record lists WWW.REDFLAMEOFLIBERTY.COM, which could not be reached. wileyforcolorado.com carries \"Paid for by James Wiley for Colorado\", matching the TRACER committee. The issues page proposes recording property deeds on a blockchain for fraud prevention; that is record-keeping, not a housing position. No archive snapshot found.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://wileyforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://wileyforcolorado.com/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://wileyforcolorado.com/issues",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://wileyforcolorado.com/bio",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Sean Vadney",
+      "office": "Secretary of State",
+      "party": "Libertarian Party",
+      "campaign_source": {
+        "url": "https://seanvadneyforsos.org/",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260907074113/https://seanvadneyforsos.org/"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "The TRACER Web field holds a street address; the site names itself Sean Vadney for Colorado Secretary of State. Platform covers elections and business filings only.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://seanvadneyforsos.org/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://seanvadneyforsos.org/about-sean",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://seanvadneyforsos.org/why-vote-libertarian%3F",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Amanda Campbell",
+      "office": "Secretary of State",
+      "party": "American Constitution Party",
+      "campaign_source": {
+        "url": null,
+        "published": null,
+        "retrieved": null,
+        "archive_url": null
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "not_researched",
+      "verification": null,
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "A campaign site was found (linked from the CPR third-party voter guide) but it is served only over plain http; https fails TLS. The schema accepts only https source URLs, so the review cannot be recorded. Its visible content covered the Constitution, the initiative process, business filings and elections. Owner decision needed.",
+          "source": {
+            "url": "https://www.cpr.org/2026/09/25/vg-2026-secretary-of-state-third-party-voter-guide/",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false
+    },
+    {
+      "candidate": "Celeste Landry",
+      "office": "Secretary of State",
+      "party": "Forward Party",
+      "campaign_source": {
+        "url": "https://www.celeste4sos.com/priorities",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260904205412/https://www.celeste4sos.com/priorities"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: WWW.CELESTE4SOS.COM).",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://www.celeste4sos.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.celeste4sos.com/priorities",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.celeste4sos.com/meet",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.celeste4sos.com/blog",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Jeff Bridges",
+      "office": "Treasurer",
+      "party": "Democratic Party",
+      "campaign_source": {
+        "url": "https://bridgesforcolorado.com/",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260812062015/https://bridgesforcolorado.com/"
+      },
+      "topics": [
+        "affordability_programs"
+      ],
+      "neutral_summary": "The campaign says that as Treasurer Bridges would invest state dollars in Colorado rather than on Wall Street and in Washington, including in housing that working people can afford.",
+      "quote": "Instead of parking them on Wall Street and Washington, I’ll put them to work right here at home: • Housing that working people can actually afford",
+      "coverage_state": "verified_platform_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "Campaign site identified from the TRACER candidate record (Web: BRIDGESFORCOLORADO.COM). The quote spans a paragraph and the first item of a bulleted list on the homepage.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://bridgesforcolorado.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://bridgesforcolorado.com/expertise",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://bridgesforcolorado.com/in-the-news",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Kevin Grantham",
+      "office": "Treasurer",
+      "party": "Republican Party",
+      "campaign_source": {
+        "url": "https://citizensforkevingrantham.com/about/",
+        "published": null,
+        "retrieved": "2026-09-26",
+        "archive_url": "https://web.archive.org/web/20260629031937/https://citizensforkevingrantham.com/about/"
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "official_material_reviewed_no_housing_position_found",
+      "verification": {
+        "level": "primary",
+        "checked": "2026-09-26"
+      },
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "TRACER Web field is blank; kevingrantham.com (matching the TRACER email domain) serves the site paid for by Kevin Grantham for Treasurer. The about page describes a past property-tax cut as a Fremont County commissioner and general concern about affordability, but states no proposal or position for the office sought.",
+          "source": {
+            "url": "https://tracer.sos.colorado.gov/PublicSite/SearchPages/CandidateSearch.aspx",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false,
+      "reviewed_sources": [
+        {
+          "url": "https://kevingrantham.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://citizensforkevingrantham.com/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://citizensforkevingrantham.com/about/",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://citizensforkevingrantham.com/join/",
+          "retrieved": "2026-09-26"
+        }
+      ]
+    },
+    {
+      "candidate": "Jodie Barr",
+      "office": "Treasurer",
+      "party": "Libertarian Party",
+      "campaign_source": {
+        "url": null,
+        "published": null,
+        "retrieved": null,
+        "archive_url": null
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "campaign_source_unavailable",
+      "verification": null,
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "No campaign website found: TRACER Web field blank and no committee; the CPR third-party voter guide found no campaign resources.",
+          "source": {
+            "url": "https://www.cpr.org/2026/09/25/vg-2026-state-treasurer-third-party-voter-guide/",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false
+    },
+    {
+      "candidate": "Marilee Langner Sturgis",
+      "office": "Treasurer",
+      "party": "Approval Voting Party",
+      "campaign_source": {
+        "url": null,
+        "published": null,
+        "retrieved": null,
+        "archive_url": null
+      },
+      "topics": [],
+      "neutral_summary": "",
+      "quote": "",
+      "coverage_state": "campaign_source_unavailable",
+      "verification": null,
+      "proposed_appointments": [],
+      "history": [
+        {
+          "checked": "2026-09-26",
+          "note": "No campaign website found: TRACER Web field blank and no committee; the CPR third-party voter guide found no other campaign resources.",
+          "source": {
+            "url": "https://www.cpr.org/2026/09/25/vg-2026-state-treasurer-third-party-voter-guide/",
+            "retrieved": "2026-09-26"
+          }
+        }
+      ],
+      "archived": false
+    }
+  ]
 }
