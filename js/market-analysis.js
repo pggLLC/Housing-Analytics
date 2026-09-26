@@ -2343,17 +2343,23 @@
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.dist + ' mi</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.units + '</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center;color:var(--faint)">' + (p.year || '—') + '</td>' +
-        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)">' + p.stage + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)" data-stage-basis="' + (p.stageBasis || '') + '">' + (p.stageLabel || p.stage) + '</td>' +
         '</tr>';
     }).join('');
 
     el2.innerHTML =
       '<div class="pma-stat-grid" style="margin-bottom:0.6rem">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.total + '</div><div class="pma-stat-label">Total in buffer</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Active / recent</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Active units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Not yet operating</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Units not yet operating</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption (heuristic: ' + pipeline.absorptionUnitsPerMonth + ' units/mo)</div></div>' +
       '</div>' +
+      '<p class="pma-pipeline-basis" style="margin:0 0 0.5rem;font-size:var(--tiny);color:var(--muted)">' +
+        'Stage comes from CHFA only where its status names the phase (\u201cPre-Compliance - Construction Phase\u201d). ' +
+        '\u201cActive Compliance\u201d does not show a property has opened, so those projects and any without a status are estimated from the award year and marked \u201cest.\u201d' +
+        (pipeline.activeStagesEstimated ? ' (' + pipeline.activeStagesEstimated + ' of the ' + pipeline.active + ' not yet operating here)' : '') +
+        '; verify with local planning records. ' + pipeline.absorptionBasis + '.' +
+      '</p>' +
       (pipeline.saturation ? '<div class="pma-flag pma-flag-warn" style="margin-bottom:0.5rem">⚠ Submarket saturation warning: ' + pipeline.active + ' active projects (threshold: ' + ENH.SATURATION_THRESHOLD + ')</div>' : '') +
       (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny)">' +
         '<thead><tr>' +
@@ -5673,6 +5679,9 @@
       tractGeometryDisabledForTest = index === null;
       tractGeometryIndex = index || null;
     },
+    // Renders the pipeline card from a result and LIHTC features a test
+    // supplies (test/pma-pipeline-stage.test.js).
+    _renderPipelineForTest:  function (result, features) { lihtcFeatures = features; renderPipeline(result); },
     // Lets a test drive the real export buttons on a result it built with
     // computePma()/aggregateAcs() (test/pma-suppressed-acs-not-zero.test.js).
     _setLastResultForTest:   function (result) { lastResult = result; },
