@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T07:41:06.764Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T12:18:38.466Z. Do not edit by hand.
 
 ---
 
@@ -97,7 +97,7 @@
 | `data/affordable-housing/properties.json` | 1.45 MB | ✅ | — |
 | `data/affordable-housing/property-aliases.json` | 1.3 KB | ✅ | — |
 | `data/affordable-housing/regrid-parcels-by-place.json` | 4.0 KB | ✅ | — |
-| `data/alerts/alerts_archive.json` | 172.3 KB | ✅ | — |
+| `data/alerts/alerts_archive.json` | 174.6 KB | ✅ | — |
 | `data/allocations.json` | 12.3 KB | ✅ | — |
 | `data/audit/chfa-qap-watch.json` | 2.83 MB | ✅ | — |
 | `data/audit/quarantine-candidates.json` | 483 B | ✅ | — |
@@ -119,7 +119,7 @@
 | `data/chfa-lihtc.json` | 817.4 KB | ✅ | 926 features |
 | `data/chfa-qap-calendar.json` | 18.2 KB | ✅ | — |
 | `data/co-county-boundaries.json` | 123.4 KB | ✅ | 64 features |
-| `data/co-county-demographics.json` | 39.2 KB | ✅ | — |
+| `data/co-county-demographics.json` | 40.7 KB | ✅ | — |
 | `data/co-county-economic-indicators.json` | 15.0 KB | ✅ | — |
 | `data/co-demographics.json` | 3.0 KB | ✅ | — |
 | `data/co-historical-allocations.json` | 13.9 KB | ✅ | — |
@@ -135,7 +135,7 @@
 | `data/derived/market-analysis/neighborhood_access.json` | 2.72 MB | ✅ | — |
 | `data/derived/market-analysis/site_opportunities.json` | 9.3 KB | ✅ | — |
 | `data/derived/market-analysis/subsidy_layers.json` | 1.8 KB | ✅ | — |
-| `data/discovery-reports/latest.json` | 239.7 KB | ✅ | — |
+| `data/discovery-reports/latest.json` | 240.3 KB | ✅ | — |
 | `data/environmental/epa-superfund-co.json` | 324.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-broad-income.scenario.json` | 5.2 KB | ✅ | — |
 | `data/fixtures/fruita-commons-compact.scenario.json` | 5.0 KB | ✅ | — |
@@ -1650,7 +1650,7 @@
 | `data/policy/tax-credit-legislation.json` | 14.0 KB | ✅ | — |
 | `data/policy/tool-watch.json` | 4.7 KB | ✅ | — |
 | `data/policy/unit-size-standards.json` | 4.8 KB | ✅ | — |
-| `data/policy_briefs.json` | 220.5 KB | ✅ | — |
+| `data/policy_briefs.json` | 222.4 KB | ✅ | — |
 | `data/policy_briefs_curated.json` | 9.1 KB | ✅ | — |
 | `data/polymarket-data.json` | 17.4 KB | ✅ | — |
 | `data/processed/rent_burden_crosscheck.json` | 650.1 KB | ✅ | — |
@@ -1899,8 +1899,8 @@
 | `test/lof-lazy-oz.test.js` | 1.4 KB |
 | `test/map-container-resize.test.js` | 3.1 KB |
 | `test/map-pane-order.test.js` | 3.1 KB |
-| `test/market-study-page.test.js` | 19.4 KB |
-| `test/market-study-report.test.js` | 19.0 KB |
+| `test/market-study-page.test.js` | 20.5 KB |
+| `test/market-study-report.test.js` | 29.3 KB |
 | `test/mcm-palette.test.js` | 1.2 KB |
 | `test/metric-semantics-wording.test.js` | 4.3 KB |
 | `test/metric-trust-map-metadata.test.js` | 1.6 KB |
