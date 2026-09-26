@@ -60,4 +60,24 @@ for (const [k, v] of compared) {
 const builder = read('scripts/market/build_transit_stops_co.py');
 assert.match(builder, /\["osm"\], "unconfirmed"/, 'the builder no longer marks OpenStreetMap-only stops "unconfirmed"');
 
+// The TOD check's fallback reads neighborhood_access.json, which is built
+// from the OpenStreetMap stop file — so its hits must count as unconfirmed.
+const na = JSON.parse(read('data/derived/market-analysis/neighborhood_access.json'));
+const naTransitSource = (na.meta && na.meta.sources_detail || []).find((d) => /^transit_stops/.test(d)) || '';
+assert.match(naTransitSource, /^transit_stops_co\.geojson/, 'neighborhood_access transit stops no longer come from the OSM file — revisit the TOD fallback');
+const fallback = (todFn.match(/getWithinRadius\([\s\S]*?\n    \}\n/) || [])[0] || '';
+assert.ok(fallback, 'TOD fallback block not found');
+assert.match(fallback, /unconfirmedCount\+\+/, 'TOD fallback hits (OpenStreetMap) are not counted as unconfirmed');
+
+// The weekly job that commits the stop file must refresh BOTH manifests, in
+// order, and stage both (AGENTS.md "two manifests"; bot commits trigger no
+// other workflow that would repair data/_manifest.json).
+const wf = read('.github/workflows/fetch-parcel-zoning-data.yml');
+const commitStep = wf.slice(wf.indexOf('- name: Commit updated data files'));
+assert.ok(commitStep.includes('data/amenities/transit_stops_statewide_co.geojson'), 'weekly job does not commit the stop file');
+const iAudit = commitStep.indexOf('npm run audit:file-manifest');
+const iRebuild = commitStep.indexOf('scripts/rebuild_manifest.py');
+assert.ok(iAudit >= 0 && iRebuild > iAudit, 'weekly job must run audit:file-manifest before rebuild_manifest.py');
+assert.ok(/data\/_manifest\.json/.test(commitStep) && /data\/manifest\.json/.test(commitStep), 'weekly job must stage both manifests');
+
 console.log(`transit-stops-consumers: ${stops.features.length} stops; ${dmbProps.length} popup fields and ${compared.length} TOD comparison(s) agree with ${dmbUrl} — OK`);
