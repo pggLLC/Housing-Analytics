@@ -54,6 +54,8 @@ const PAGE = `<!doctype html><html><head>
   <section id="clipOnly">
     <div style="max-height:0;overflow:hidden"><span id="clippedChfa">CHFA note</span></div>
     <p id="chfaVisible">CHFA reviews the study.</p></section>
+  <section id="styleReveal">
+    <div id="stylePanel" style="display:none"><p id="styleDda">DDA basis boost</p></div></section>
   <section id="control"><p id="controlVisible">A CHFA award.</p></section>
 </main></body></html>`;
 
@@ -88,7 +90,7 @@ const legendLihtc = (root) => Array.from(root.querySelectorAll('.pma-legend-body
   console.log('\nA glossary definition goes to the first use of a term the reader can see');
 
   // Every term used below must be in the glossary, or nothing is tested.
-  for (const t of ['LIHTC', 'QCT', 'AMI', 'HUD', 'CHFA']) assert(known.has(t), t + ' is not in data/glossary.json');
+  for (const t of ['LIHTC', 'QCT', 'AMI', 'HUD', 'CHFA', 'DDA']) assert(known.has(t), t + ' is not in data/glossary.json');
 
   w.eval(read('js/glossary.js'));
   await wait(700);
@@ -129,6 +131,13 @@ const legendLihtc = (root) => Array.from(root.querySelectorAll('.pma-legend-body
     assert(!onlyLegend.classList.contains('is-collapsed'), 'the legend button did not open it');
     await wait(700);
     assert(defined(legendLihtc(onlyLegend)), 'opening the legend (a class change) did not trigger a re-sweep');
+  });
+
+  await test('a panel revealed by an inline style change gets its definition (developer.html pattern)', async () => {
+    assert(!defined(doc.getElementById('styleDda')), 'the display:none panel was defined while hidden');
+    doc.getElementById('stylePanel').style.display = 'block';
+    await wait(700);
+    assert(defined(doc.getElementById('styleDda')), 'revealing the panel by style.display did not trigger a re-sweep');
   });
 
   console.log(failures ? `\n${failures} failure(s)` : '\nAll checks passed ✅');

@@ -491,13 +491,16 @@
           if (mutating) return;
           for (var i = 0; i < records.length; i++) {
             if (records[i].addedNodes && records[i].addedNodes.length) { scheduleSweep(); return; }
-            // A legend, tab or <details> opening reveals text the sweep
-            // skipped as hidden (see isHidden). Map panes change classes on
-            // every zoom and hold no prose, so they are not a reason to sweep.
+            // A legend, tab, <details> or inline-styled panel opening reveals
+            // text the sweep skipped as hidden (see isHidden). Map panes
+            // restyle on every pan and zoom, and our own tooltips on every
+            // hover; neither holds prose to define, so neither is a reason
+            // to sweep.
             var t = records[i].target;
-            if (records[i].type === 'attributes' && !(t.closest && t.closest('.leaflet-pane'))) { scheduleSweep(); return; }
+            if (records[i].type === 'attributes' &&
+                !(t.closest && t.closest('.leaflet-pane, .gl-tooltip-trigger, .gl-tooltip-popup'))) { scheduleSweep(); return; }
           }
-        }).observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open'] });
+        }).observe(host, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'hidden', 'open', 'style'] });
       }
       if (document.readyState === 'complete' || document.readyState === 'interactive') {
         start();
