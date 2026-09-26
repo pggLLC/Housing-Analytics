@@ -353,6 +353,17 @@ async function generateSitemap() {
       if (!entry.name.endsWith('.html') || skip.has(toPosix(childRel))) continue;
       const html = await readFile(path.join(DIST, childRel), 'utf8');
       if (/<meta[^>]+http-equiv=["']?refresh/i.test(html)) continue;
+      // A reader URL needs a curated id; its bare path is a not-found state.
+      if (childRel === 'research-brief.html') {
+        const curated = JSON.parse(await readFile(path.join(DIST, 'data/policy_briefs_curated.json'), 'utf8'));
+        for (const brief of curated.briefs.filter((item) => item.is_curated)) {
+          urls.push({
+            loc: `${base}research-brief.html?id=${encodeURIComponent(brief.id)}`,
+            lastmod: await gitLastmod('data/policy_briefs_curated.json')
+          });
+        }
+        continue;
+      }
       const urlPath = childRel === 'index.html' ? '' : toPosix(childRel);
       urls.push({
         loc: `${base}${urlPath}`,
@@ -378,7 +389,8 @@ async function generateSearchIndex() {
   // can match places, dashboards, guides, and topics. Non-fatal by design: a failure here logs
   // and continues — the search index must never break the deploy (see deploy-gate lessons).
   try {
-    const SKIP_FILES = new Set(['_template.html', '404.html']);
+    // Research briefs are reached by id from Housing News, not the empty reader shell.
+    const SKIP_FILES = new Set(['_template.html', '404.html', 'research-brief.html']);
     const records = [];
     async function walk(rel) {
       const entries = await readdir(path.join(DIST, rel || '.'), { withFileTypes: true });
