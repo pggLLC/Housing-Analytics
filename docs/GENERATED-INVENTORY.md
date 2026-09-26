@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T16:30:52.663Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T17:04:55.929Z. Do not edit by hand.
 
 ---
 
@@ -59,7 +59,7 @@
 | `lihtc-enhancement-ahcia.html` | AHCIA LIHTC Enhancement — Status Update | Colorado Public Data Reference | 10.7 KB |
 | `lihtc-guide-for-stakeholders.html` | LIHTC Basics | COHO Analytics | 53.0 KB |
 | `lihtc-opportunity-finder.html` | LIHTC Opportunity Finder | Colorado Public Data Reference | 132.1 KB |
-| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 142.7 KB |
+| `market-analysis.html` | Market Analysis | Colorado Affordable Housing Data Reference | 142.9 KB |
 | `market-intelligence.html` | Market Intelligence | COHO Analytics | 22.5 KB |
 | `methods.html` | Computational Methods | Colorado Public Data Reference | 44.8 KB |
 | `og-card.html` | OG Card — COHO Analytics | 1.5 KB |
@@ -1676,7 +1676,7 @@
 
 ## Test Files
 
-442 test files found.
+443 test files found.
 
 | File | Size |
 |------|------|
@@ -1969,7 +1969,7 @@
 | `test/pma-small-area-confidence.test.js` | 1.9 KB |
 | `test/pma-suppressed-acs-not-zero.test.js` | 17.6 KB |
 | `test/pma-tract-display.test.js` | 8.4 KB |
-| `test/pma-transit.test.js` | 14.8 KB |
+| `test/pma-transit.test.js` | 16.8 KB |
 | `test/pmi-gate-is-one-rule.test.mjs` | 11.2 KB |
 | `test/policy-briefs-curated.test.js` | 8.0 KB |
 | `test/policy-data-currency.test.js` | 3.0 KB |
@@ -1989,6 +1989,7 @@
 | `test/public-facing-numbers.test.js` | 10.5 KB |
 | `test/public-land-contract.test.js` | 9.1 KB |
 | `test/qa-recent-changes.js` | 20.1 KB |
+| `test/qap-tod-points.test.js` | 7.7 KB |
 | `test/qct-dda-designation-unknown.test.js` | 10.0 KB |
 | `test/qct-dda-embedded-agreement.test.js` | 8.3 KB |
 | `test/qct-dda-same-origin.test.js` | 3.1 KB |
@@ -2100,7 +2101,7 @@
 | `tests/test_chas_tract_data.py` | 7.1 KB |
 | `tests/test_chfa_qap_trust_label.py` | 7.1 KB |
 | `tests/test_chfa_qap_watch.py` | 22.7 KB |
-| `tests/test_data_plausibility.py` | 20.0 KB |
+| `tests/test_data_plausibility.py` | 21.9 KB |
 | `tests/test_fee_reductions.py` | 11.2 KB |
 | `tests/test_fetch_regrid_pipeline_parcels.py` | 7.3 KB |
 | `tests/test_fmr_extractor.py` | 3.4 KB |
