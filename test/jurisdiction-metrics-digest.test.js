@@ -269,7 +269,18 @@ test('regional comparison metrics are present, bounded, and source-tagged for co
       assert.ok(metric.value >= 0 && metric.value <= 100, `${geoid} ${key} out of percent bounds: ${metric.value}`);
       assert.strictEqual(metric.geography_level, level, `${geoid} ${key} geography_level`);
       assert.strictEqual(metric.measure_type, 'level', `${geoid} ${key} measure_type`);
-      assert.strictEqual(metric.as_of, 'ACS 2020-2024 5-year', `${geoid} ${key} as_of`);
+      // Held to the source's own vintage field, not a pinned string: the
+      // pct_ami_* shares are HUD CHAS, the rest are the summary's ACS series.
+      let wantAsOf;
+      if (String(metric.source_id).startsWith('hud-chas')) {
+        wantAsOf = level === 'county'
+          ? 'HUD CHAS ' + readJson(path.join(ROOT, 'data/hna/chas_affordability_gap.json')).meta.vintage
+          : 'HUD CHAS ' + readJson(path.join(ROOT, 'data/hna/place-chas.json')).meta.vintage_chas;
+      } else {
+        const acs = readJson(path.join(ROOT, `data/hna/summary/${geoid}.json`)).acsProfile;
+        wantAsOf = `ACS ${Number(acs._acsYear) - 4}-${acs._acsYear} 5-year`;
+      }
+      assert.strictEqual(metric.as_of, wantAsOf, `${geoid} ${key} as_of`);
     }
     const sourcePrefix = level === 'county' ? 'hud-chas-county' : 'hud-chas-place-apportioned';
     for (const key of ['pct_ami_lte30', 'pct_ami_31to50', 'pct_ami_51to80', 'pct_ami_gt80']) {

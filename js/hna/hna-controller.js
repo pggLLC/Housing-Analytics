@@ -2690,14 +2690,36 @@
     };
   }
 
-  function unitsNeedBasisLabel(basis, usedPlaceProjection) {
+  function unitsNeedBasisLabel(basis, usedPlaceProjection, netOfStock) {
     if (basis === 'workforce') return 'Workforce reading: jobs vs. affordable homes';
     if (basis === 'resident_growth') {
       return usedPlaceProjection
         ? 'Resident growth: place projection'
-        : 'Resident growth: DOLA household projection';
+        // Kept self-contained (a test evaluates this function on its own);
+        // the name must match residentReadingName below.
+        : (netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth') + ': DOLA household projection';
     }
     return 'Basis unavailable';
+  }
+
+  /**
+   * What the resident-side reading is called, by what it counts.
+   *
+   * Two different quantities have both been called "resident growth". The
+   * ranking index, the digest and the Recommendation publish
+   * future_units_growth_20yr: the CHANGE in homes needed as households grow
+   * (DOLA's incremental_units_needed_dola, or the place ledger built on it) --
+   * Mesa County 12,727 by 2044. This page, where it computes the reading from
+   * the county projection itself, subtracts the homes in the market today
+   * from the homes needed at the horizon, which also counts any shortfall in
+   * today's stock against the target vacancy -- Mesa County 16,071. Both are
+   * deliberate (the stock-net form is what stops a resort county being told
+   * it has surplus housing; see _productionNeed), but they are not the same
+   * figure and must not share a name. test/growth-figure-agrees.test.js holds
+   * the rule: the same name on both surfaces means the same number.
+   */
+  function residentReadingName(netOfStock) {
+    return netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth';
   }
 
   /**
@@ -2720,6 +2742,9 @@
     const basis = (input.basis === 'workforce' || input.basis === 'resident_growth') ? input.basis : null;
     const used = num(input.usedUnits);
     const growth = num(input.growthUnits);
+    const netOfStock = input.growthNetOfStock === true;
+    const growthName = residentReadingName(netOfStock);
+    const growthNameLc = growthName.charAt(0).toLowerCase() + growthName.slice(1);
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
     const rows = [
@@ -2733,10 +2758,14 @@
       },
       {
         key: 'growth',
-        label: 'Resident growth' + (endYear ? ' by ' + endYear : ''),
+        label: growthName + (endYear ? ' by ' + endYear : ''),
         units: growth,
-        counts: 'Homes to house projected households at the target vacancy, less the homes that exist today ('
-          + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
+        counts: netOfStock
+          ? 'Homes to house projected households at the target vacancy, less the homes in the market today (DOLA household projection). '
+            + 'This also counts any shortfall in today\u2019s stock against the target vacancy, so it is not the same figure as resident growth alone, '
+            + 'which counts only the homes added households need.'
+          : 'Homes needed for the growth in projected households, at the target vacancy ('
+            + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
         inFigure: basis === 'resident_growth',
         unavailable: growth === null ? 'No household projection for this geography.' : null,
       },
@@ -2754,11 +2783,11 @@
       // An unknown growth reading is not a smaller one: say which it is.
       why = growth === null
         ? 'The workforce reading is the only reading available here, so it is the figure used; there is no resident-growth projection to compare it with.'
-        : 'The workforce reading is larger than resident growth, so it is the figure used. The two readings answer the same question in different ways and are never added together.';
+        : 'The workforce reading is larger than ' + growthNameLc + ', so it is the figure used. The two readings answer the same question in different ways and are never added together.';
     } else if (basis === 'resident_growth') {
       why = workforce !== null
-        ? 'Resident growth is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
-        : 'Resident growth is the only reading available here, so it is the figure used.';
+        ? growthName + ' is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
+        : growthName + ' is the only reading available here, so it is the figure used.';
     }
     const hh = num(input.chartHouseholdsDelta);
     const p = input.permits || {};
@@ -2787,7 +2816,9 @@
         text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
           + '. That chart counts households, not homes, from DOLA\u2019s household series'
           + (input.subCounty ? ', scaled to this place by its share of county population' : '')
-          + '. The growth reading counts homes: projected households at the target vacancy, less today\u2019s stock'
+          + '. The ' + growthNameLc + ' reading counts homes: '
+          + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
+            : 'the growth in projected households, at the target vacancy')
           + (input.usedPlaceProjection ? ', from this community\u2019s own projection' : '')
           + '. They measure different things and are not expected to match.',
       },
@@ -3027,6 +3058,9 @@
     let incUnits = _need ? _need.units : null;
     let incUnitsBasis = _need ? _need.basis : null;
     let growthUnits = _need ? _need.growthUnits : null;
+    // Whether that reading subtracted the homes in the market today; see
+    // residentReadingName. The place ledger below does not.
+    let growthNetOfStock = !!(_need && _need.activeStock !== null && _need.activeStock > 0);
     let projectionMethodNote = '';
     let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
@@ -3049,6 +3083,7 @@
         incUnits = _placeNeed ? _placeNeed.units : placeInc;
         incUnitsBasis = _placeNeed ? _placeNeed.basis : null;
         growthUnits = _placeNeed ? _placeNeed.growthUnits : placeInc;
+        growthNetOfStock = false;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         if (sh.permit == null) {
@@ -3116,7 +3151,7 @@
     // figure is the workforce reading (jobs against homes affordable at
     // <=60% AMI), not a DOLA projection at all.
     if (els.statUnitsNeedBasis) {
-      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection);
+      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection, growthNetOfStock);
       els.statUnitsNeedBasis.dataset.basis = incUnitsBasis || 'unavailable';
     }
     if (window.HNARenderers.renderProjectionCalculationTrace) {
@@ -3290,6 +3325,7 @@
         usedUnits: incUnits,
         basis: incUnitsBasis,
         growthUnits,
+        growthNetOfStock,
         workforceUnits: _workforceGapUnits,
         existingGapUnits,
         usedPlaceProjection,
