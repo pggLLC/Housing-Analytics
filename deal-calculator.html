@@ -529,7 +529,9 @@
     </div>
 
     <!-- ── Housing Outcome Score ─────────────────────────────────────── -->
-    <div style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
+    <!-- Rental-only (PC-2): a LIHTC score — QCT/DDA, deal confidence, capital-stack
+         gap. Hidden by the Deal Mode toggle (updateDealModeUi) in ownership mode. -->
+    <div data-dc-mode="rental" style="max-width:1400px;margin:24px auto 0;padding:0 18px;">
       <section class="hos-panel" id="hosPanel" aria-labelledby="hosHeading">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <h2 id="hosHeading" style="margin:0;">Housing Outcome Score</h2>

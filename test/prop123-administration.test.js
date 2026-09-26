@@ -92,7 +92,12 @@ const deadLinks = [];
 for (const f of tracked) {
   const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
   for (const url of DEAD_URLS) {
-    if (src.includes(url)) deadLinks.push(`${f}: ${url}`);
+    // Whole path only: /prop-123 is dead, /prop-123-frequently-asked-questions
+    // is not. A plain scan, so the dead URL is never used as a pattern.
+    for (let at = src.indexOf(url); at !== -1; at = src.indexOf(url, at + 1)) {
+      const next = src.charAt(at + url.length);
+      if (!/[A-Za-z0-9_-]/.test(next)) { deadLinks.push(`${f}: ${url}`); break; }
+    }
   }
   // By line, not by sentence: in a JSON field or an HTML line the claim is
   // often its own sentence ("…affordable housing. Administered by DOLA."),

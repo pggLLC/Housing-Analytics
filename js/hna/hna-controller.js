@@ -897,12 +897,8 @@
         }
       } catch(e) {
         if (e.httpStatus !== 404) {
-          console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message, '— using embedded fallback.');
-          if (window.HNAState.els.lihtcMapStatus) {
-            window.HNAState.els.lihtcMapStatus.textContent =
-              'LIHTC data unavailable. Verify data/chfa-lihtc.json is deployed (check GitHub Actions output).';
-          }
-          return { ...window.HNAUtils.lihtcFallbackForCounty(null), _source: 'fallback' };
+          console.warn('[HNA] data/chfa-lihtc.json unreadable:', e.message);
+          throw lihtcUnavailable('data/chfa-lihtc.json could not be read');
         }
         console.warn('[HNA] data/chfa-lihtc.json not found (404); trying CHFA ArcGIS.');
       }
@@ -944,10 +940,10 @@
         const gj = await r.json();
         if (gj && Array.isArray(gj.features) && gj.features.length > 0) return { ...gj, _source: 'HUD' };
       } catch(e) {
-        console.warn('[HNA] LIHTC ArcGIS API unavailable; using embedded fallback.', e.message);
+        console.warn('[HNA] LIHTC ArcGIS API unavailable.', e.message);
       }
 
-      return { ...window.HNAUtils.lihtcFallbackForCounty(null), _source: 'fallback' };
+      throw lihtcUnavailable('the CHFA file and both ArcGIS services failed');
     }
 
     if (countyFips5 && countyFips5.length === 5) {
@@ -1007,14 +1003,25 @@
           if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
             return { ...gj, _source: 'CHFA' };
           }
-          console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5, '— using embedded fallback.');
+          console.info('[HNA] CHFA LIHTC returned no features for county', countyFips5);
         } catch(e) {
-          console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message, '— using embedded fallback.');
+          console.info('[HNA] CHFA LIHTC ArcGIS unavailable:', e.message);
         }
       }
     }
-    // Return embedded fallback filtered to county
-    return { ...window.HNAUtils.lihtcFallbackForCounty(countyFips5), _source: 'fallback' };
+    // No stand-in records. This used to return an embedded list of 73
+    // "representative" projects (hna-utils LIHTC_FALLBACK_CO) that matched no
+    // CHFA project by name. A county with no CHFA projects and no remote
+    // answer is unknown here, not zero and not a made-up list.
+    throw lihtcUnavailable('no source returned projects for this county');
+  }
+
+  // Error marking a LIHTC load that produced no data. The render path shows
+  // "unavailable" and dashes for the counts rather than a zero.
+  function lihtcUnavailable(reason) {
+    const err = new Error('LIHTC project data unavailable: ' + reason);
+    err.lihtcUnavailable = true;
+    return err;
   }
 
   // Fetch QCT census tracts from HUD ArcGIS service for the county
@@ -1069,17 +1076,31 @@
     // production load and this tier could never succeed — the map silently fell
     // through to the ~42-feature embedded fallback while the full 224-feature
     // file sat same-origin at data/qct-colorado.json.
+    // A county with no matching tract in a file that loaded WITH features has
+    // zero QCTs — a real answer, so it is returned here rather than falling
+    // through. A file that parsed but holds no features at all (features: [])
+    // cannot prove anything about any county: that is unknown, not zero.
+    let qctEmptySource = false;
     try {
       const backupGj = await loadJson('data/qct-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(matchCounty);
-        if (features.length > 0) return { ...backupGj, features };
+        if (backupGj.features.length > 0) {
+          const features = backupGj.features.filter(matchCounty);
+          return { ...backupGj, features };
+        }
+        qctEmptySource = true;
       }
     } catch(_) {/* no local QCT backup */}
-    // Tier 3b: embedded fallback filtered to county
-    const qctFeatures = window.HNAUtils.QCT_FALLBACK_CO.features.filter(matchCounty);
-    if (qctFeatures.length > 0) return { ...window.HNAUtils.QCT_FALLBACK_CO, features: qctFeatures };
-    return null;
+    // Nothing usable loaded. There is no embedded stand-in: QCT decides the 30%
+    // basis boost, and a guessed tract would answer that wrongly. Membership is
+    // unknown, which the renderer shows as such — never as "no QCTs".
+    return {
+      type: 'FeatureCollection',
+      features: [],
+      unavailableReason: qctEmptySource
+        ? 'data/qct-colorado.json loaded but contains no QCT features, and the HUD QCT service returned none — an empty source cannot show this county has zero QCTs'
+        : 'data/qct-colorado.json and the HUD QCT service both failed to load',
+    };
   }
 
   // Fetch DDA polygons from HUD ArcGIS service for the county
@@ -1124,7 +1145,9 @@
       const r = await fetchWithTimeout(url, {}, 15000);
       if (!r.ok) throw new Error(`DDA HTTP ${r.status}`);
       const gj = await r.json();
-      if (gj && Array.isArray(gj.features)) {
+      // Only a response that returned DDAs somewhere can show this county has
+      // none. A globally empty response proves nothing — fall through.
+      if (gj && Array.isArray(gj.features) && gj.features.length > 0) {
         const features = gj.features.filter(ddaFilter);
         return { ...gj, features };
       }
@@ -1134,16 +1157,27 @@
     // Tier 3a: same-origin statewide DDA file, filtered to county.
     // Was GITHUB_PAGES_BASE — cross-origin and CORS-blocked from
     // cohoanalytics.com, so this tier never succeeded. See the QCT note above.
+    // As for QCT: a file with features: [] cannot show a county is Non-DDA.
+    let ddaEmptySource = false;
     try {
       const backupGj = await loadJson('data/dda-colorado.json');
       if (backupGj && Array.isArray(backupGj.features)) {
-        const features = backupGj.features.filter(ddaFilter);
-        return { ...backupGj, features };
+        if (backupGj.features.length > 0) {
+          const features = backupGj.features.filter(ddaFilter);
+          return { ...backupGj, features };
+        }
+        ddaEmptySource = true;
       }
     } catch(_) {/* no local DDA backup */}
-    // Tier 3b: embedded fallback filtered to county
-    const ddaFeatures = window.HNAUtils.DDA_FALLBACK_CO.features.filter(ddaFilter);
-    return { ...window.HNAUtils.DDA_FALLBACK_CO, features: ddaFeatures };
+    // Nothing usable loaded. No embedded stand-in (see fetchQctTracts): DDA
+    // status is unknown, and the renderer must not report it as "Non-DDA".
+    return {
+      type: 'FeatureCollection',
+      features: [],
+      unavailableReason: ddaEmptySource
+        ? 'data/dda-colorado.json loaded but contains no DDA features, and the HUD DDA service returned none — an empty source cannot show this county is outside a DDA'
+        : 'data/dda-colorado.json and the HUD DDA service both failed to load',
+    };
   }
 
   // Returns a human-readable label and badge color for a LIHTC data source identifier.
@@ -1235,7 +1269,11 @@
       console.warn('[HNA] LIHTC render failed', e);
       if (window.HNAState.els.statLihtcCount) window.HNAState.els.statLihtcCount.textContent = '—';
       if (window.HNAState.els.statLihtcUnits) window.HNAState.els.statLihtcUnits.textContent = '—';
-      if (window.HNAState.els.lihtcMapStatus) window.HNAState.els.lihtcMapStatus.textContent = '';
+      if (window.HNAState.els.lihtcMapStatus) {
+        window.HNAState.els.lihtcMapStatus.textContent = (e && e.lihtcUnavailable)
+          ? 'LIHTC project data unavailable — no projects are shown, and the counts are unknown rather than zero.'
+          : '';
+      }
     }
 
     // QCT
@@ -1250,7 +1288,11 @@
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       console.warn('[HNA] QCT render failed', e);
-      if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = '—';
+      try {
+        window.HNARenderers.renderQctLayer({ features: [], unavailableReason: 'QCT data could not be processed: ' + e.message });
+      } catch(_) {
+        if (window.HNAState.els.statQctCount) window.HNAState.els.statQctCount.textContent = 'Unavailable';
+      }
     }
 
     // DDA
@@ -1261,7 +1303,13 @@
     } catch(e) {
       if (requestSeq !== window.HNAState._lihtcRequestSeq) return;
       console.warn('[HNA] DDA render failed', e);
-      window.HNARenderers.renderDdaLayer(countyFips5, null, { type: geoType, name: geoLabel });
+      try {
+        window.HNARenderers.renderDdaLayer(countyFips5,
+          { features: [], unavailableReason: 'DDA data could not be processed: ' + e.message },
+          { type: geoType, name: geoLabel });
+      } catch(_) {
+        if (window.HNAState.els.statDdaStatus) window.HNAState.els.statDdaStatus.textContent = 'Unavailable';
+      }
     }
 
     // Market-area LIHTC competition (place/CDP only). Counts LIHTC projects
@@ -1322,7 +1370,9 @@
           name: p.PROJECT || p.project || 'Unnamed project',
           city: p.PROJ_CTY || p.proj_cty || p.CITY || '',
           units,
-          year: parseInt(p.YR_PIS || p.yr_pis || 0, 10) || null,
+          // Award year: CHFA publishes no placed-in-service year, and the
+          // feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js.
+          year: parseInt(p.AwardYear || p.YR_ALLOC || 0, 10) || null,
           credit: p.CREDIT || p.TypeOfCredits || p.type_of_credits || '',
           distance: d
         });
@@ -1351,7 +1401,7 @@
       const rows = matches.map(m => {
         const meta = [
           m.units ? (m.units + ' LI units') : null,
-          m.year ? ('PIS ' + m.year) : null,
+          m.year ? ('awarded ' + m.year) : null,
           m.credit ? _escText(m.credit) : null,
           m.distance.toFixed(1) + ' mi'
         ].filter(Boolean).join(' · ');
@@ -2640,14 +2690,36 @@
     };
   }
 
-  function unitsNeedBasisLabel(basis, usedPlaceProjection) {
+  function unitsNeedBasisLabel(basis, usedPlaceProjection, netOfStock) {
     if (basis === 'workforce') return 'Workforce reading: jobs vs. affordable homes';
     if (basis === 'resident_growth') {
       return usedPlaceProjection
         ? 'Resident growth: place projection'
-        : 'Resident growth: DOLA household projection';
+        // Kept self-contained (a test evaluates this function on its own);
+        // the name must match residentReadingName below.
+        : (netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth') + ': DOLA household projection';
     }
     return 'Basis unavailable';
+  }
+
+  /**
+   * What the resident-side reading is called, by what it counts.
+   *
+   * Two different quantities have both been called "resident growth". The
+   * ranking index, the digest and the Recommendation publish
+   * future_units_growth_20yr: the CHANGE in homes needed as households grow
+   * (DOLA's incremental_units_needed_dola, or the place ledger built on it) --
+   * Mesa County 12,727 by 2044. This page, where it computes the reading from
+   * the county projection itself, subtracts the homes in the market today
+   * from the homes needed at the horizon, which also counts any shortfall in
+   * today's stock against the target vacancy -- Mesa County 16,071. Both are
+   * deliberate (the stock-net form is what stops a resort county being told
+   * it has surplus housing; see _productionNeed), but they are not the same
+   * figure and must not share a name. test/growth-figure-agrees.test.js holds
+   * the rule: the same name on both surfaces means the same number.
+   */
+  function residentReadingName(netOfStock) {
+    return netOfStock ? 'Resident need net of today\u2019s stock' : 'Resident growth';
   }
 
   /**
@@ -2670,6 +2742,9 @@
     const basis = (input.basis === 'workforce' || input.basis === 'resident_growth') ? input.basis : null;
     const used = num(input.usedUnits);
     const growth = num(input.growthUnits);
+    const netOfStock = input.growthNetOfStock === true;
+    const growthName = residentReadingName(netOfStock);
+    const growthNameLc = growthName.charAt(0).toLowerCase() + growthName.slice(1);
     const workforce = num(input.workforceUnits);
     const existing = num(input.existingGapUnits);
     const rows = [
@@ -2683,10 +2758,14 @@
       },
       {
         key: 'growth',
-        label: 'Resident growth' + (endYear ? ' by ' + endYear : ''),
+        label: growthName + (endYear ? ' by ' + endYear : ''),
         units: growth,
-        counts: 'Homes to house projected households at the target vacancy, less the homes that exist today ('
-          + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
+        counts: netOfStock
+          ? 'Homes to house projected households at the target vacancy, less the homes in the market today (DOLA household projection). '
+            + 'This also counts any shortfall in today\u2019s stock against the target vacancy, so it is not the same figure as resident growth alone, '
+            + 'which counts only the homes added households need.'
+          : 'Homes needed for the growth in projected households, at the target vacancy ('
+            + (input.usedPlaceProjection ? 'this community\u2019s place projection' : 'DOLA household projection') + ').',
         inFigure: basis === 'resident_growth',
         unavailable: growth === null ? 'No household projection for this geography.' : null,
       },
@@ -2704,11 +2783,11 @@
       // An unknown growth reading is not a smaller one: say which it is.
       why = growth === null
         ? 'The workforce reading is the only reading available here, so it is the figure used; there is no resident-growth projection to compare it with.'
-        : 'The workforce reading is larger than resident growth, so it is the figure used. The two readings answer the same question in different ways and are never added together.';
+        : 'The workforce reading is larger than ' + growthNameLc + ', so it is the figure used. The two readings answer the same question in different ways and are never added together.';
     } else if (basis === 'resident_growth') {
       why = workforce !== null
-        ? 'Resident growth is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
-        : 'Resident growth is the only reading available here, so it is the figure used.';
+        ? growthName + ' is larger than the workforce reading, so it is the figure used. The two readings are never added together.'
+        : growthName + ' is the only reading available here, so it is the figure used.';
     }
     const hh = num(input.chartHouseholdsDelta);
     const p = input.permits || {};
@@ -2737,7 +2816,9 @@
         text: 'Households chart: ' + (hh >= 0 ? '+' : '\u2212') + fmt(Math.abs(hh)) + ' households' + by
           + '. That chart counts households, not homes, from DOLA\u2019s household series'
           + (input.subCounty ? ', scaled to this place by its share of county population' : '')
-          + '. The growth reading counts homes: projected households at the target vacancy, less today\u2019s stock'
+          + '. The ' + growthNameLc + ' reading counts homes: '
+          + (netOfStock ? 'projected households at the target vacancy, less today\u2019s stock'
+            : 'the growth in projected households, at the target vacancy')
           + (input.usedPlaceProjection ? ', from this community\u2019s own projection' : '')
           + '. They measure different things and are not expected to match.',
       },
@@ -2977,6 +3058,9 @@
     let incUnits = _need ? _need.units : null;
     let incUnitsBasis = _need ? _need.basis : null;
     let growthUnits = _need ? _need.growthUnits : null;
+    // Whether that reading subtracted the homes in the market today; see
+    // residentReadingName. The place ledger below does not.
+    let growthNetOfStock = !!(_need && _need.activeStock !== null && _need.activeStock > 0);
     let projectionMethodNote = '';
     let usedPlaceProjection = false;
     if (placeProjectionRec && Array.isArray(placeProjectionRec.years) && Array.isArray(placeProjectionRec.incremental_units_needed)){
@@ -2999,6 +3083,7 @@
         incUnits = _placeNeed ? _placeNeed.units : placeInc;
         incUnitsBasis = _placeNeed ? _placeNeed.basis : null;
         growthUnits = _placeNeed ? _placeNeed.growthUnits : placeInc;
+        growthNetOfStock = false;
         usedPlaceProjection = true;
         const sh = placeProjectionRec.shares || {};
         if (sh.permit == null) {
@@ -3066,7 +3151,7 @@
     // figure is the workforce reading (jobs against homes affordable at
     // <=60% AMI), not a DOLA projection at all.
     if (els.statUnitsNeedBasis) {
-      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection);
+      els.statUnitsNeedBasis.textContent = unitsNeedBasisLabel(incUnitsBasis, usedPlaceProjection, growthNetOfStock);
       els.statUnitsNeedBasis.dataset.basis = incUnitsBasis || 'unavailable';
     }
     if (window.HNARenderers.renderProjectionCalculationTrace) {
@@ -3240,6 +3325,7 @@
         usedUnits: incUnits,
         basis: incUnitsBasis,
         growthUnits,
+        growthNetOfStock,
         workforceUnits: _workforceGapUnits,
         existingGapUnits,
         usedPlaceProjection,

@@ -1140,7 +1140,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
     <section class="chart-card" style="margin:2rem 0;" aria-labelledby="lihtcTimelineTitle">
       <div class="chart-header">
         <h3 class="chart-title" id="lihtcTimelineTitle">LIHTC Historical Allocations (2010–2026)</h3>
-        <p class="chart-subtitle">Annual low-income housing tax credit units placed in service — Colorado</p>
+        <p class="chart-subtitle">Annual low-income housing tax credit units by the year CHFA awarded the credits — Colorado (not the year the units opened)</p>
       </div>
       <!-- F138 — the inline-styled 280px wrapper used to trap the
            auto-attached .chart-source div inside it, so the source text
@@ -1958,7 +1958,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
         var counts = {};
         for (var y = START; y <= END; y++) counts[y] = 0;
         features.forEach(function (f) {
-          var yr = f.properties && (f.properties.YEAR_ALLOC || f.properties.YR_PIS);
+          var yr = f.properties && (f.properties.YEAR_ALLOC || f.properties.AwardYear || f.properties.YR_ALLOC);
           var units = f.properties && (f.properties.LI_UNITS || f.properties.N_UNITS || 0);
           if (yr && yr >= START && yr <= END) counts[yr] += (parseInt(units, 10) || 0);
         });
@@ -1987,7 +1987,7 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
                 legend: { labels: { color: getComputedStyle(document.documentElement).getPropertyValue('--text') || 'rgba(255,255,255,.75)' } },
                 tooltip: {
                   callbacks: {
-                    footer: function () { return 'Source: HUD LIHTC Database'; }
+                    footer: function () { return 'Source: CHFA LIHTC feed · award year'; }
                   }
                 },
                 annotation: {
@@ -2058,8 +2058,9 @@ Read the latest release: <a href="https://www.nahb.org/news-and-economics/housin
                     type: f.type,
                     geometry: f.geometry,
                     properties: {
-                      // Prefer HUD field names (YEAR_ALLOC, LI_UNITS) then CHFA aliases (YR_PIS, N_UNITS)
-                      YEAR_ALLOC: p.YEAR_ALLOC || p.YR_PIS || p.yr_pis || p.allocYear,
+                      // Prefer HUD field names (YEAR_ALLOC, LI_UNITS) then CHFA aliases (AwardYear, N_UNITS).
+                      // Not YR_PIS: in the CHFA feed it is AwardYear under another name.
+                      YEAR_ALLOC: p.YEAR_ALLOC || p.AwardYear || p.YR_ALLOC || p.allocYear,
                       LI_UNITS: p.LI_UNITS || p.li_units || p.N_UNITS || p.n_units || 0,
                       PROJECT_NAME: p.PROJECT_NAME || p.PROJECT || p.project_name
                     }

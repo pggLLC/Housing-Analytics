@@ -44,7 +44,7 @@
 | QCT Overlay | `#coMap` | `data/qct-colorado.json` (local) → HUD ArcGIS fallback | **224 features** (Polygon) | 31 CO counties | ✅ Good |
 | DDA Overlay | `#coMap` | `data/dda-colorado.json` (local) → HUD ArcGIS fallback | **10 features** (Polygon) | CO metro/zip areas | ✅ Good |
 | Prop 123 Jurisdictions | `#coMap` | `data/prop123_jurisdictions.json` | **80 jurisdictions** | Colorado municipalities & counties | ✅ Good |
-| County Boundaries | `#coMap` | `data/co-county-boundaries.json` → TIGERweb (24h cached) → NaturalEarth → FALLBACK_COUNTY | **0 features** (placeholder) | Expected 64 CO counties | ⚠️ Empty — TIGERweb fallback works; now cached 24h in localStorage |
+| County Boundaries | `#coMap` | `data/co-county-boundaries.json` → TIGERweb (24h cached) → NaturalEarth → unavailable | **0 features** (placeholder) | Expected 64 CO counties | ⚠️ Empty — TIGERweb fallback works; now cached 24h in localStorage |
 
 **Map initialization:** `co-lihtc-map.js` uses `window.coLihtcMap`; Leaflet loaded from `js/vendor/leaflet.js`.
 
@@ -177,7 +177,7 @@
 
 ### 4.4 Fallbacks
 - [x] `co-lihtc-map.js` falls back: `data/chfa-lihtc.json` → CHFA ArcGIS → HUD ArcGIS → embedded stub
-- [x] `co-lihtc-map.js` county boundaries: local file → TIGERweb → NaturalEarth → `FALLBACK_COUNTY` embedded constant
+- [x] `co-lihtc-map.js` county boundaries: local file → TIGERweb → NaturalEarth → marked unavailable (the embedded bounding-box `FALLBACK_COUNTY` was removed)
 - [x] `colorado-deep-dive.js` falls back: configured API URL → `data/prop123_jurisdictions.json`
 - [x] `prop123-map.js` falls back: configured API URL → `data/prop123_jurisdictions.json`
 - [x] `LIHTC-dashboard.html` falls back: `data/states-10m.json` → GitHub Pages CDN → jsdelivr CDN

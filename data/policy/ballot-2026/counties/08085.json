@@ -1,0 +1,56 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08085",
+      "level": "county",
+      "name": "Montrose County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0851745",
+      "level": "municipal",
+      "name": "Montrose (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0853120",
+      "level": "municipal",
+      "name": "Naturita (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0854935",
+      "level": "municipal",
+      "name": "Nucla (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0855540",
+      "level": "municipal",
+      "name": "Olathe (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

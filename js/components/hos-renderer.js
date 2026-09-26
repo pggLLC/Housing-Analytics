@@ -27,9 +27,20 @@
     return 'var(--bad)';
   }
 
+  // PC-2: the Housing Outcome Score is a LIHTC/rental score (QCT/DDA, deal
+  // confidence, capital-stack gap). An ownership project never shows it. The
+  // panel's wrapper carries data-dc-mode="rental", so the Deal Mode toggle
+  // hides it; this also skips computing it, so nothing is written into a
+  // hidden panel that a later mode switch would reveal stale.
+  function _isOwnershipMode() {
+    var checked = document.querySelector('input[name="dc-deal-mode"]:checked');
+    return !!(checked && checked.value === 'ownership');
+  }
+
   function render() {
     var HOS = global.HousingOutcomeScore;
     if (!HOS || typeof HOS.compute !== 'function') return;
+    if (_isOwnershipMode()) return;
 
     var scoreEl    = document.getElementById('hosScoreValue');
     var gradeEl    = document.getElementById('hosGrade');
@@ -40,26 +51,39 @@
     if (!scoreEl) return;
 
     var result = HOS.compute();
+    var unavailable = result.available === false || result.score == null;
 
-    // Main score
-    scoreEl.textContent = result.score;
-    scoreEl.style.color = _gradeColor(result.grade);
+    if (unavailable) {
+      // No score is not a score of 0: no number, no grade, no "High".
+      scoreEl.textContent = 'Unavailable';
+      scoreEl.style.color = 'var(--muted)';
+      gradeEl.textContent = result.unavailableReason || 'Not enough workflow data to score.';
+      gradeEl.style.color = 'var(--muted)';
+    } else {
+      // Main score
+      scoreEl.textContent = result.score;
+      scoreEl.style.color = _gradeColor(result.grade);
 
-    // Grade
-    gradeEl.textContent = 'Grade ' + result.grade;
-    gradeEl.style.color = _gradeColor(result.grade);
+      // Grade
+      gradeEl.textContent = 'Grade ' + result.grade;
+      gradeEl.style.color = _gradeColor(result.grade);
+    }
 
     // Data completeness
-    dataEl.textContent = result.dataComplete + '% of workflow data available';
+    dataEl.textContent = result.dataComplete + '% of scoring inputs measured';
 
     // Confidence badge
-    if (badgeEl) {
+    if (unavailable && badgeEl) {
+      badgeEl.className = 'data-reliability-badge drb--error';
+      badgeEl.textContent = 'Not scored';
+      badgeEl.title = result.unavailableReason || 'Not enough workflow data to score.';
+    } else if (badgeEl) {
       var confClass = result.confidence === 'high' ? 'drb--ok'
                     : result.confidence === 'medium' ? 'drb--warn'
                     : 'drb--error';
       badgeEl.className = 'data-reliability-badge ' + confClass;
       badgeEl.textContent = result.confidence.charAt(0).toUpperCase() + result.confidence.slice(1) + ' confidence';
-      badgeEl.title = result.dataComplete + '% of scoring dimensions have data. Complete more workflow steps to improve confidence.';
+      badgeEl.title = result.dataComplete + '% of scoring inputs are measured. Complete more workflow steps to improve confidence.';
     }
 
     // Dimensions
@@ -71,9 +95,10 @@
         var unavail = !dim.available;
         var cls = 'hos-dim' + (unavail ? ' hos-dim--unavailable' : '');
         var score = unavail ? '—' : dim.score;
+        var why = unavail && dim.unavailableReason ? ' title="' + String(dim.unavailableReason).replace(/"/g, '&quot;') + '"' : '';
         var pct = unavail ? 0 : dim.score;
         var weight = Math.round(dim.weight * 100);
-        html += '<div class="' + cls + '">' +
+        html += '<div class="' + cls + '"' + why + '>' +
           '<div class="hos-dim__label">' + (DIM_LABELS[key] || key) + ' (' + weight + '%)</div>' +
           '<div class="hos-dim__score">' + score + '</div>' +
           '<div class="hos-dim__bar">' +
@@ -95,6 +120,10 @@
     render();
     // Re-render when deal calculator recalculates
     document.addEventListener('workflow:step-updated', render);
+    // Re-render on switching back to rental, rather than up to 5s later.
+    document.addEventListener('change', function (e) {
+      if (e.target && e.target.name === 'dc-deal-mode') render();
+    });
     // Also re-render periodically to catch deal calculator changes (no events dispatched)
     setInterval(render, 5000);
   }

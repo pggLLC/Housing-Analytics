@@ -11,7 +11,11 @@
 //   - every `category` must have a pill style in js/components/qap-calendar.js;
 //   - the component must render a window whose end is still ahead as current,
 //     a window ending today or an event dated today as current for all of that
-//     day, and a stale "upcoming" whose date has passed as past.
+//     day, and a stale "upcoming" whose date has passed as past;
+//   - `qap_status` (draft/adopted) must agree with the QAP source it names in
+//     metadata.qap_sources and with the event's own details, and the rendered
+//     "Draft" badge must follow that field — on the next-deadline card, the
+//     compact list and the full list — and never appear on an adopted event.
 
 'use strict';
 
@@ -75,8 +79,31 @@ for (const cat of categories) {
     `category "${cat}" has no light-mode .qc-item__cat--${cat} style in js/components/qap-calendar.js`);
 }
 
+// ── qap_status agrees with its source and with the event's details ──
+// Adoption status is separate from date_precision: an exact date can still
+// come from a draft QAP. Every event that says it comes from a draft must be
+// marked draft, and every marked event must name a source that agrees.
+const qapSources = cal.metadata.qap_sources || {};
+let draftEvents = 0;
+let adoptedEvents = 0;
+for (const e of events) {
+  const saysDraft = /\bDraft\b[^.]*\(not yet adopted\)/.test(e.details || '');
+  if (saysDraft) {
+    assert.equal(e.qap_status, 'draft', `${e.id}: details cite a QAP draft that is not adopted, but qap_status is ${e.qap_status}`);
+  }
+  if (e.qap_status == null) continue;
+  assert.ok(['draft', 'adopted'].includes(e.qap_status), `${e.id}: unknown qap_status ${e.qap_status}`);
+  const src = qapSources[e.qap_source];
+  assert.ok(src, `${e.id}: qap_source "${e.qap_source}" is not in metadata.qap_sources`);
+  assert.equal(src.status, e.qap_status, `${e.id}: qap_status ${e.qap_status} disagrees with its source's status ${src.status}`);
+  assert.ok(src.title && src.url, `${e.id}: its QAP source must name a title and url`);
+  assert.match(src.verified, ISO, `${e.id}: its QAP source must carry a verified ISO date`);
+  if (e.qap_status === 'draft') draftEvents++; else adoptedEvents++;
+}
+assert.ok(draftEvents > 0 && adoptedEvents > 0, 'qap_status check must exercise both draft and adopted events');
+
 // ── component: past/current is decided by the end of a window ───────
-async function renderWith(fixture) {
+async function renderWith(fixture, mode) {
   const dom = new JSDOM('<!doctype html><html><head></head><body><div id="c"></div></body></html>', {
     runScripts: 'outside-only',
   });
@@ -84,7 +111,8 @@ async function renderWith(fixture) {
   win.fetch = () => Promise.resolve({ ok: true, json: () => Promise.resolve(fixture) });
   win.eval(componentSrc);
   const c = win.document.getElementById('c');
-  win.QapCalendar.attach(c, { showRolling: false });
+  if (mode === 'pill') win.QapCalendar.attachPillHeader(c);
+  else win.QapCalendar.attach(c, { showRolling: false, compact: mode === 'compact' });
   await new Promise((r) => setTimeout(r, 20));
   return c;
 }
@@ -122,6 +150,76 @@ function isoOffset(days) {
   assert.ok(byName('Stale upcoming').classList.contains('qc-item--past'),
     'an event whose date has passed must render as past even if status says upcoming');
 
+  // ── draft badge follows qap_status, in every view ─────────────────
+  const DRAFT_TEXT = /Draft — may change until CHFA adopts the QAP/;
+  const hasBadge = (el) => !!el.querySelector('.qc-draft[data-qap-status="draft"]') && DRAFT_TEXT.test(el.textContent);
+
+  // Real data, full list: badge on exactly the events marked draft.
+  const full = await renderWith(cal, 'full');
+  const fullItems = [...full.querySelectorAll('.qc-item')];
+  assert.equal(fullItems.length, events.length, 'full list must render every event');
+  let badgedReal = 0;
+  for (const e of events) {
+    const li = fullItems.find((x) => x.querySelector('.qc-item__name').textContent === e.name);
+    assert.ok(li, `${e.id}: not rendered`);
+    assert.equal(hasBadge(li), e.qap_status === 'draft',
+      `${e.id}: draft badge ${hasBadge(li) ? 'shown' : 'missing'} but qap_status is ${e.qap_status}`);
+    if (hasBadge(li)) badgedReal++;
+  }
+  assert.equal(badgedReal, draftEvents, 'every draft event in the data must be badged in the full list');
+
+  // Fixture: identical events except for qap_status. The badge must come from
+  // the field, not from the name, details or date_precision.
+  const src = { status: 'draft', title: 'Test QAP Draft', url: 'https://example.org/qap', verified: isoOffset(-2) };
+  const adoptedSrc = { status: 'adopted', title: 'Test Adopted QAP', url: 'https://example.org/adopted', verified: isoOffset(-3) };
+  function fixtureFor(qapStatus) {
+    const s = qapStatus === 'draft' ? 'd' : 'a';
+    return {
+      metadata: { generated: isoOffset(-1), qap_sources: { d: src, a: adoptedSrc } },
+      events: [
+        { id: 'loi', name: 'Round X LOI', date: isoOffset(20), date_precision: 'exact', category: '9pct-r1-loi', status: 'upcoming', qap_status: qapStatus, qap_source: s },
+        { id: 'app', name: 'Round X application', date: isoOffset(80), date_precision: 'exact', category: '9pct-r1-deadline', status: 'upcoming', qap_status: qapStatus, qap_source: s },
+      ],
+    };
+  }
+  for (const qs of ['draft', 'adopted']) {
+    const want = qs === 'draft';
+    for (const mode of ['full', 'compact']) {
+      const el = await renderWith(fixtureFor(qs), mode);
+      const lis = [...el.querySelectorAll('.qc-item')];
+      assert.equal(lis.length, 2, `${mode}: both fixture events must render`);
+      for (const li of lis) assert.equal(hasBadge(li), want, `${mode} list, qap_status ${qs}: badge ${want ? 'missing' : 'shown'}`);
+    }
+    for (const mode of ['full', 'pill']) {
+      const el = await renderWith(fixtureFor(qs), mode);
+      const card = el.querySelector('.qc-next');
+      assert.ok(card, `${mode}: next-deadline card must render`);
+      assert.equal(hasBadge(card.querySelector('.qc-next__event')), want, `${mode} next-deadline card, qap_status ${qs}: badge ${want ? 'missing' : 'shown'}`);
+      // The card names the source and verification date the data carries.
+      const s = want ? src : adoptedSrc;
+      const line = card.querySelector('.qc-next__source');
+      assert.ok(line, `${mode}: next-deadline card must show its source`);
+      assert.ok(line.textContent.includes(s.title), `${mode}: card source must be ${s.title}, got "${line.textContent}"`);
+      assert.equal(line.querySelector('a').getAttribute('href'), s.url, `${mode}: card source link must be the data's url`);
+      const [y, m, d] = s.verified.split('-').map(Number);
+      const verifiedText = new Date(y, m - 1, d).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      assert.ok(line.textContent.includes('verified ' + verifiedText), `${mode}: card must show verified ${verifiedText}`);
+    }
+  }
+
+  // Real data, next-deadline card: badged iff the event it shows is a draft.
+  const pill = await renderWith(cal, 'pill');
+  const realCard = pill.querySelector('.qc-next');
+  if (realCard) {
+    const shownName = realCard.querySelector('.qc-next__event a, .qc-next__event').textContent;
+    const shown = events.find((e) => shownName.startsWith(e.name));
+    assert.ok(shown, 'next-deadline card must show a calendar event');
+    assert.equal(hasBadge(realCard.querySelector('.qc-next__event')) && !!realCard.querySelector('.qc-next__event > .qc-draft'), shown.qap_status === 'draft',
+      `next-deadline card for ${shown.id}: badge disagrees with qap_status ${shown.qap_status}`);
+    assert.ok(realCard.querySelector('.qc-next__source'), 'real next-deadline card must show its source');
+  }
+
+  console.log(`chfa-qap-calendar: ${draftEvents} draft / ${adoptedEvents} adopted events badged per qap_status in full, compact and next-deadline views`);
   console.log(`chfa-qap-calendar: ${events.length} events, status checked against ${asOf} ` +
     `(${checkedPast} past, ${checkedUpcoming} upcoming), ${categories.size} categories styled — OK`);
 })().catch((err) => {

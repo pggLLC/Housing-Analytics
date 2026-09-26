@@ -10,9 +10,11 @@ Why this exists
 The QAP decides how Colorado's 9% and 4% credits are awarded, and CHFA changes
 it every cycle. Two things went wrong without a watcher:
 
-  - A per-project change in the final 2027-2028 QAP (the federal 9% maximum,
+  - A per-project change in the 2027-2028 QAP (the federal 9% maximum,
     reported as $1.85M -> $1.7M a year) reached this project by word of mouth,
-    not from any data the site holds.
+    not from any data the site holds. The report was half right: the Third
+    Draft cuts it from $1.8M to $1.7M (2027) and $1.75M (2028), and keeps
+    $1.8M if state gap funds are unavailable (sections 3.L-3.L.1, pp. 31-32).
   - data/chfa-qap-calendar.json linked two CHFA pages that returned 404 from
     at least 2026-06-13 (data/reports/repo-link-audit.json), and nothing
     noticed for three months.

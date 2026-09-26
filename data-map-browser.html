@@ -333,14 +333,14 @@
       url: 'data/affordable-housing/lihtc/chfa-properties.json', color: '#0366d6', kind: 'point',
       defaultOn: true,
       popupRows: function (p) {
-        // F192 — surface award year alongside PIS year, and a sponsor
-        // row when CHFA exposed one.
+        // F192 — surface award year, and a sponsor row when CHFA exposed
+        // one. No placed-in-service row: CHFA publishes no such year, and
+        // this file's YR_PIS is AwardYear copied by the fetcher.
         const rows = [
           { k: 'Project',     v: p.PROJECT },
           { k: 'Address',     v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
           { k: 'LI units',    v: p.LI_UNITS },
           { k: 'Award year',  v: p.AwardYear || p.YR_ALLOC },
-          { k: 'Placed in service', v: p.YR_PIS },
           { k: 'Credit type', v: p.CREDIT },
         ];
         if (p.sponsor) rows.push({ k: 'Sponsor', v: p.sponsor });
@@ -354,7 +354,7 @@
           { k: 'Address', v: [p.PROJ_ADD, p.PROJ_CTY].filter(Boolean).join(', ') },
           { k: 'County', v: p.CNTY_NAME },
           { k: 'LI units', v: p.LI_UNITS },
-          { k: 'Placed in service', v: p.YR_PIS },
+          { k: 'Award year', v: p.AwardYear },
           { k: 'Allocation year', v: p.YR_ALLOC },
         ];
       } },

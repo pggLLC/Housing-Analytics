@@ -52,26 +52,19 @@ Seven steps, in the order the rail (`js/components/workflow-progress.js` STEPS) 
 
 | id | criterion | source |
 |----|-----------|--------|
-| PC-1 | **NOT RECORDED** — only its title is known: *cross-surface integrity* | Codex/Claude reconciliation, 2026-09-24, as cited by #1878 |
+| PC-1 | Numbers agree everywhere: the same figure for the same place shows the same value, with the same source and year, on the page, in the PDF and Excel downloads, and on the recommendation page | owner, approved 2026-09-26 (drafted with Claude after the 2026-09-24 text could not be found) |
 | PC-2 | An ownership project never displays or exports tax credits, eligible basis, NOI or LIHTC debt unless the user intentionally adds a rental component | Codex/Claude reconciliation, 2026-09-24, quoted in #1874 and `test/ownership-rental-separation.test.js` |
-| PC-3 | **NOT RECORDED** | owner's plan — text not in the repo |
-| PC-4 | **NOT RECORDED** | owner's plan — text not in the repo |
-| PC-5 | **NOT RECORDED** | owner's plan — text not in the repo |
+| PC-3 | No false numbers: nowhere on the site does missing or unknown data show up as 0, "none", or a score; it says "Unavailable" and explains why | owner, approved 2026-09-26 (drafted with Claude after the 2026-09-24 text could not be found) |
+| PC-4 | Works for any Colorado place: a person can complete all 7 guided steps for any of the 546 Colorado counties, towns and communities without an error, a dead end, or losing their place | owner, approved 2026-09-26 (drafted with Claude after the 2026-09-24 text could not be found) |
+| PC-5 | Honest about what it is: every analysis says whether it is a screening result or a full study, and any draft, example, or county-level stand-in figure is labelled as such where it appears | owner, approved 2026-09-26 (drafted with Claude after the 2026-09-24 text could not be found) |
 | PC-6 | Cost per square foot is available in the deal path | owner's plan, quoted 2026-09-15 |
-| PC-7+ | **NOT RECORDED** | unknown how many criteria exist |
 
-**This table is deliberately incomplete and says so.** A criterion is recorded
-only when its full text is here. PC-2 and PC-6 reached the repo because a PR or
-a session happened to quote them word for word. PC-1 is known by its title
-alone, and a title is not a criterion, so it still counts as unrecorded.
-
-The rest live in the Codex/Claude reconciliation of 2026-09-24, which the cloud
-Claude Code session behind #1874 and #1878 worked from, and in the owner's plan
-it reconciled. Until they are pasted in, `finish-line.mjs` reports D2 as OPEN,
-and no session can honestly claim the program is finished. Filling this table
-in is the highest-value thing the owner can do for the remaining schedule;
-everything else is guesswork dressed as progress. Do not write substitutes: a
-criterion nobody agreed to measures nothing.
+**There are six criteria and no PC-7.** PC-2 and PC-6 reached the repo in
+September because a PR or a session quoted them word for word. The text of
+PC-1, PC-3, PC-4 and PC-5 could not be found anywhere (PC-1 was known only by its
+title, *cross-surface integrity*), so on 2026-09-26 the owner approved the
+wording above in their place. Change a criterion only with the owner's
+agreement: a criterion nobody agreed to measures nothing.
 
 ## Phases, as given by the owner (2026-09-15)
 

@@ -74,7 +74,17 @@ directDerived.bands.forEach((band) => {
   assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(money(band.maxAffordablePrice)));
 });
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('Owner input required'));
-assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(scenarios[0].meta.owner_inputs_pending.join(', ')));
+// Values still needed are named in words, never as the fixture's raw keys:
+// every pending key's plain label (the one the report also uses) is shown,
+// and no pending key reaches the reader.
+scenarios[0].meta.owner_inputs_pending.forEach((id) => {
+  assert(text(defaultDom.mount.querySelector('#ms-s1')).includes(Report.PLAIN_LABELS.pending[id] || Report.humanize(id)),
+    `section 1 does not name the pending value ${id} in words`);
+  // A single-word key ("phasing") is also an ordinary word in its label.
+  if (/_/.test(id)) assert(!new RegExp(`\\b${id}\\b`).test(text(defaultDom.mount.querySelector('#ms-s1'))),
+    `section 1 shows the raw key ${id}`);
+});
+assert(scenarios[0].meta.owner_inputs_pending.some((id) => /_/.test(id)), 'the raw-key check needs a key that looks like one');
 assert(text(defaultDom.mount.querySelector('#ms-s1')).includes('candidate; no commitment has been made'));
 assert(!text(defaultDom.mount.querySelector('#ms-s1')).includes('TDC per unit: 0'));
 assert.strictEqual((text(defaultDom.mount).match(/Screening arithmetic for analyst review; verify source evidence and owner inputs before project use\./g) || []).length, 1);
@@ -211,11 +221,30 @@ EffectiveDemand.STAGE_IDS.forEach((id) => {
 });
 const directResolved = Page.buildModel(data, { assumptions: shares });
 assert.strictEqual(typeof directResolved.funnel.effectiveDemand, 'number');
-assert(text(interactive.mount.querySelector('#ms-s5')).includes(directResolved.funnel.effectiveDemand.toLocaleString('en-US', { maximumFractionDigits: 3 })));
+// Household counts render as whole households; the engine value keeps its
+// precision. The page shows the engine's figure, rounded, nothing else.
+assert(text(interactive.mount.querySelector('#ms-s5')).includes(Math.round(directResolved.funnel.effectiveDemand).toLocaleString('en-US')));
 const directThirty = directResolved.capture.scenarios.find((item) => item.selloutMonths === 30);
 assert(text(interactive.mount.querySelector('#ms-s6')).includes(
-  directThirty.totalProjectPenetration.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })
+  'denominator: ' + Math.round(directThirty.totalProjectPenetration.denominator.value).toLocaleString('en-US') + ' '
 ));
+{
+  // Every "Households left" cell is a whole number, and equals the engine's
+  // count rounded — agreement with the funnel, not a pinned string.
+  const stages = directResolved.funnel.stages;
+  const cells = Array.from(interactive.mount.querySelectorAll('#ms-s5 tbody tr')).map((tr) =>
+    (tr.querySelector('td:first-child').textContent === 'Starting pool' ? tr.children[1] : tr.children[2]).textContent.trim());
+  assert.strictEqual(cells.length, stages.length, 'the funnel table lost rows');
+  assert(stages.some((stage) => typeof stage.outputCount === 'number' && !Number.isInteger(stage.outputCount)),
+    'no fractional household count in the fixture, so the rounding check would pass vacuously');
+  stages.forEach((stage, i) => {
+    assert(!/\d\.\d/.test(cells[i]), `funnel row ${i} shows a fractional household count: ${cells[i]}`);
+    if (typeof stage.outputCount === 'number') {
+      assert.strictEqual(cells[i], Math.round(stage.outputCount).toLocaleString('en-US'),
+        `funnel row ${i}: page shows ${cells[i]} for ${stage.outputCount} households`);
+    }
+  });
+}
 assert(interactive.mount.querySelectorAll('#ms-s6 .ms-denominator').length > 0);
 const s6Html = interactive.mount.querySelector('#ms-s6').innerHTML;
 const evenSchedule = '≈2.08 / month × 24 months (total 50)';
@@ -223,9 +252,24 @@ assert.strictEqual(Report.formatSchedule(directResolved.capture.scenarios.find((
 assert.strictEqual(Report.formatSchedule([1, 1.2345, 47.7655], 50), 'total 50 — 1 · 1.23 · 47.77');
 assert(s6Html.includes(evenSchedule));
 assert(s6Html.includes('25 · 25'));
-assert.strictEqual(Report.formatAnnualCapture([{ value: 0.849, denominator: { value: 29.46 } }]), 'Year 1: 84.9% — pool 29.46');
-assert(s6Html.includes('Year 1:'));
-assert(s6Html.includes('Year 2:'));
+const firstYear = directResolved.capture.scenarios.find((item) => item.selloutMonths === 30).annualCaptureRate[0];
+const expectedAnnualPercent = firstYear.value.toLocaleString('en-US', {
+  style: 'percent', minimumFractionDigits: 1, maximumFractionDigits: 1
+});
+const expectedAnnualPool = Report.formatHouseholds(firstYear.denominator.value);
+const annualCell = interactive.mount.querySelector('#ms-s6 tbody tr:nth-child(2) td:nth-child(4)');
+assert.strictEqual(annualCell.innerHTML.split(/<br\s*\/?\s*>/i).length,
+  directResolved.capture.scenarios.find((item) => item.selloutMonths === 30).annualCaptureRate.length,
+  'page annual capture must show one entry for each model year');
+const firstAnnualLine = interactive.window.document.createElement('span');
+firstAnnualLine.innerHTML = annualCell.innerHTML.split(/<br\s*\/?\s*>/i)[0];
+const annualLine = firstAnnualLine.textContent;
+const displayedPercent = annualLine.match(/\d[\d,]*(?:\.\d+)?%/g) || [];
+const displayedPool = displayedPercent.length === 1
+  ? annualLine.slice(annualLine.indexOf(displayedPercent[0]) + displayedPercent[0].length).match(/<1|\d[\d,]*/g) || []
+  : [];
+assert.deepStrictEqual(displayedPercent, [expectedAnnualPercent], 'page annual percentage must agree with the engine');
+assert.deepStrictEqual(displayedPool, [expectedAnnualPool], 'page annual pool must agree with the engine');
 assert(!/\d\.\d{4,}/.test(s6Html), 'S6 must not expose floating-point noise');
 
 // A fresh render is session-clean: no assumption survives and no persistence API exists.

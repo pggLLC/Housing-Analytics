@@ -1,11 +1,65 @@
 {
   "meta": {
-    "generated": "2026-09-24T12:01:12Z",
+    "generated": "2026-09-26T09:50:21Z",
     "feed_count": 6,
-    "alert_count": 254,
+    "alert_count": 257,
     "max_age_days": 90
   },
   "alerts": [
+    {
+      "title": "News | Archway Communities looks to expand affordable housing efforts beyond Denver - CoStar",
+      "date": "2026-09-25T16:16:50Z",
+      "source": "CoStar",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOVy1Bb2VybDBFQmN0UkRTa2VlRWpuT0lmcklzTkRnazRwNFNJVk4xeXNNdWhtMWlLRDlfNDBIMS1UZ3dudU03QkIxUk5PNkJXSFFqZUtIWmxNdnVyVnFyRHp4b3hQYVZKU3Ziakl4RjFxTFZnWDJzLWdPSnVILVJsYzhtTmc5bkZ3aE53N2tqSHJIZG5ndGNkczUyY0pHUmdHaDRRMGIzMjRlYmtoTTByYXFZUVRLVWdG?oc=5",
+      "topic": "affordable_housing",
+      "region": "Denver",
+      "summary": "News | Archway Communities looks to expand affordable housing efforts beyond Denver \u00a0\u00a0 CoStar"
+    },
+    {
+      "title": "Grand Peak Breaks Ground on Mixed-Income Community in Avon, Colorado - Multifamily & Affordable Housing Business",
+      "date": "2026-09-25T12:00:00Z",
+      "source": "Multifamily & Affordable Housing Business",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQYUo2LUMtTGJlZDVMOFlJTGpBQlEwdndNTHA5NGFNcXZzdUZPTUNZMERVcW55TTJBbEFfSVNOLUZnd0ZUakFDN3R6bkdkVl96V0Q3ZHVubGROV25nYVVwRC1oWVk2b09pN2RYLVVGblJ0TUFUeUxNUzRlRS04aFJ5VHlLdFhvWnhQRHJhZ25KNDdzTk1XX3ZvV0oxaUxScnV0MGJ4ek9JYjZqRDlFUmc?oc=5",
+      "topic": "affordable_housing",
+      "region": "Statewide",
+      "summary": "Grand Peak Breaks Ground on Mixed-Income Community in Avon, Colorado \u00a0\u00a0 Multifamily & Affordable Housing Business"
+    },
+    {
+      "title": "I am honored to accept @AHTCCoalition\u2019s Affordable Housing Champion Award. Their advocacy helped us permanently strengthen the Low-Income Housing Tax Credit in the Working Families @TaxCuts, which will help thousands of Idaho families access aff - Forth.News",
+      "date": "2026-09-24T18:45:51Z",
+      "source": "Forth.News",
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9zZG50UVlKd0VZVGVSWTdHcS14Mk03c1FoaUZaYVJHXzFveTRTZG5OS0lub1pUeFBkU2ZjblplZGdVZnpLNGtNTUFLcW9BVEJzb3VFSmdEcXliWXhicmNoNnh0bDFMaGdQdXo4UzAzRQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "I am honored to accept @AHTCCoalition\u2019s Affordable Housing Champion Award. Their advocacy helped us permanently strengthen the Low-Income Housing Tax Credit in the Working Families @TaxCuts, which will help thousands of Idaho families access aff \u00a0\u00a0 Forth.News"
+    },
+    {
+      "title": "Tax Update: How a preservation credit could help protect affordable housing - Institutional Real Estate, Inc.",
+      "date": "2026-09-24T04:07:36Z",
+      "source": "Institutional Real Estate, Inc.",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNMEptMzdBWkc2TUFPWkVEek5MSWVOcVhpV045MnJvallIc1BLME51UmRBb09NTHlKcVBMRV93OUk0aDl1bm1YN3JsaVFCdlRjaHotSDJzWjZDYzE5dExoVDJTVWcyMkZ1M1JtY1hXdVNBZVppWTYxNFU1R09tNWhiUWV6ZUZEajFZSGt0SGJXQm50T0ZzSGg5aFU3UFB5eGZQUTFXVVV2ZVhPVnM2N2xVOVRKWQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "Tax Update: How a preservation credit could help protect affordable housing \u00a0\u00a0 Institutional Real Estate, Inc."
+    },
+    {
+      "title": "The Cost of Homebuilding in Colorado Cities: How the Regulatory Environment Impacts the Price of New Homes - Common Sense Institute",
+      "date": "2026-09-23T20:28:30Z",
+      "source": "Common Sense Institute",
+      "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNT2Ntb2dVZWFBVzd1dXBPQS1WaTVHYlp2a1FsOS1pUlUwZF9KNDAzT3kzV2tYOG5rTEdaTjc0Ukxmbml0S2g0cFpjRzEybnBRZ19nRzFWamVmaU9KcjZJRGhqNEZmUmt4eG1vaG1pYzR3d1BaZzh5ZWJPS25lWklHZEpMRkpnREZheHM2ZEJiZUpBZ0tKSzVTNndRSkdvRlBnSlFvV2xqU3o2aUJoSnU2SmdacFMzV1ZRcW9KSmM2NFFEcmgycU9iWEgtQVJBSWo1YW9PaUVHNHh3Zk9WZ3VNNU9GRlc?oc=5",
+      "topic": "general",
+      "region": "Statewide",
+      "summary": "The Cost of Homebuilding in Colorado Cities: How the Regulatory Environment Impacts the Price of New Homes \u00a0\u00a0 Common Sense Institute"
+    },
+    {
+      "title": "Proposition 1: Yes - California YIMBY",
+      "date": "2026-09-23T17:22:34Z",
+      "source": "California YIMBY",
+      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9uR3phNWRrQnp4VWkzaTVXM1doZHQ0YkxMQW9jT2M2U2JmMHZmZzlDLUNDNHg5cG81ZEFsTVNhQ01jdHRuWGtFNmg4Rkt5eXBkWTdkUnlOUQ?oc=5",
+      "topic": "general",
+      "region": "Colorado",
+      "summary": "Proposition 1: Yes \u00a0\u00a0 California YIMBY"
+    },
     {
       "title": "Colorado mountain town breaks ground on affordable housing complex - CBS News",
       "date": "2026-09-23T15:26:39Z",
@@ -25,6 +79,24 @@
       "summary": "Frisco breaks ground on new affordable housing complex \u00a0\u00a0 CBS News"
     },
     {
+      "title": "New affordable housing coming to southeast Colorado Springs - Yahoo",
+      "date": "2026-09-22T23:54:15Z",
+      "source": "Yahoo",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTmxocEhyeUtOVkdQeGFOckFSM2xCQnNkWTlucjJCelFDQ3lPb2o3MGo2aXk3WkxTMklnd2FzRVFxZDN4WHdSc3RiQ2FRSzVjSGZ3MHVNUWI5WVdxRS10dnpzM2UxNGNBRjVYUS1ETExxN2FJaXl5dlhqZkQxd0ctb3QzNXNKZlBWNkxHQmY3WnVkMnZTeUVIZw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado Springs",
+      "summary": "New affordable housing coming to southeast Colorado Springs \u00a0\u00a0 Yahoo"
+    },
+    {
+      "title": "New affordable housing coming to southeast Colorado Springs - KOAA News 5",
+      "date": "2026-09-22T23:54:15Z",
+      "source": "KOAA News 5",
+      "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOODVONEtxSGlXb19rSFVNUVZUREdEekFnUXVac3QtYVBpc3RjTGZNa1hJT2w3UElNbml3UXlqd1YtSHdpTno4Wnh3OGl3U3luOTRvajJqWXhlX1E1cXpEbzNBLXU5MXJZci1ZOGdKX3dTNXhXZkc1QkhmXzVjeW9nR1Y5S3NfZ0xPUGtFSXRJODRJcXlsVHh0TEtvSkx4LUVXYlA2ZFRDMk9TSEJScjBFVmc0Wmg0YXR1ZkRjT3dOOHg3UFpOZFo5S1dxMUdMdDR4MUE?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado Springs",
+      "summary": "New affordable housing coming to southeast Colorado Springs \u00a0\u00a0 KOAA News 5"
+    },
+    {
       "title": "Governor Hochul Announces Revitalization of 341 Units of Affordable Public Housing in Troy - Homes and Community Renewal (.gov)",
       "date": "2026-09-22T21:21:29Z",
       "source": "Homes and Community Renewal (.gov)",
@@ -41,6 +113,15 @@
       "topic": "affordable_housing",
       "region": "Colorado Springs",
       "summary": "New affordable housing coming to southeast Colorado Springs \u00a0\u00a0 KOAA News 5"
+    },
+    {
+      "title": "\u2018RAD\u2019 Renovation Preserves 353 Units in Lorain, Ohio - Tax Credit Advisor",
+      "date": "2026-09-21T16:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOaG1QZEpPVW1SRlcyZDhKNlVzeEVCODNTTTZ4ZllHOWdTTFptNHRfVTlsT1c5cnZEdk5NNWdHRHRWd1BDUG9YZHVpYlNXOFlkNHJqcXBkQkk5MFR1UjdsVERvQnBKWmswejh4ZW5MZWR4MkltczBsVVVLaEpzMlN3Q2xvTWllUQ?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "\u2018RAD\u2019 Renovation Preserves 353 Units in Lorain, Ohio \u00a0\u00a0 Tax Credit Advisor"
     },
     {
       "title": "\u201cTaylor Swift Tax\u201d Hits Providence: 350+ Non-Owner Occupied Luxury Properties Get Billed to Fund Low-Income Housing - RINewsToday",
@@ -1393,6 +1474,15 @@
       "summary": "Why Colorado is poised to lead the federal real estate pivot \u00a0\u00a0 The Denver Post"
     },
     {
+      "title": "How Private Capital Markets Can Boost Affordable Housing Supply - Tax Credit Advisor",
+      "date": "2026-07-27T07:00:00Z",
+      "source": "Tax Credit Advisor",
+      "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9qc1hubmRSY0dzZTNvU1JnSTlkYmpLUFdwa2l2bXJzbGZyZXFlaEJnam43RXpwYkF4UHpTQm1SM2VaUUR1eHo5RldjX3FtcUxTRWpuc3Z4MW1zYmJmVUljZ28tU0Vaa0gw?oc=5",
+      "topic": "affordable_housing",
+      "region": "Colorado",
+      "summary": "How Private Capital Markets Can Boost Affordable Housing Supply \u00a0\u00a0 Tax Credit Advisor"
+    },
+    {
       "title": "NJHMFA sells $40 million in state tax credits to fund affordable housing initiatives and announces Fall Auction - Insider NJ",
       "date": "2026-07-27T07:00:00Z",
       "source": "Insider NJ",
@@ -2228,69 +2318,6 @@
       "topic": "general",
       "region": "Statewide",
       "summary": "How many subsidized housing units are available in Colorado County, TX? \u00a0\u00a0 USAFacts"
-    },
-    {
-      "title": "Colorado\u2019s least affordable housing markets revealed - AOL.com",
-      "date": "2026-06-27T23:31:47Z",
-      "source": "AOL.com",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNMlM2RnNOSG8weGlHbV9jMjM2Qm5uVk03eXA5b0RwQl9UZWM4eHNkYXZNZkVvVXNPU1hRMW1Cb0RyNnQ5ZDl3Zm14SFV6TkxLTDdYdmpxREIwWUJHbk5ja2NEdHd6d2FGY0NtOFBqYjc0alN2SkhibmdZWE93Zk1YMXJLRndrV19VWmhkd1F3?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s least affordable housing markets revealed \u00a0\u00a0 AOL.com"
-    },
-    {
-      "title": "Colorado\u2019s least affordable housing markets revealed - FOX21 News Colorado",
-      "date": "2026-06-27T20:05:12Z",
-      "source": "FOX21 News Colorado",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOT1FVZGdlYUdUaUdOSVJJTnNOaDc1OTVYZ3Rja1k4WmVVQWZIQm1lb2luV3VBckE3TE9VaTNIeXpZNzdJQ0dEY3kzcEZhOGoyeG1WZ3BNZlJoczdxb3NHcDZNX2l3ZmVXNzhTeGhjOVN0cUZyTUlfa2FMTWotNE9UYVBkSmFSck1vQ2l4RXczUk5abG_SAZgBQVVfeXFMTW1FNmJNLTFHNzhnR2tLZW5OdEFkWUdWRy01ZWJUSHU2d3hWajVzbTJNaE55ZERzdEVDaWxEZnR5WF9HUERrUnp5QWxOQzY3cnU3SjlKX2xscS1MTEJPRkFJRjl1emZVYWJVWkEwZ1dhbHVQNjZOdU1MdHlVakdRaWZ5NzJDT0Y2RmVSbnR0cXdhZWhEV21lQk4?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s least affordable housing markets revealed \u00a0\u00a0 FOX21 News Colorado"
-    },
-    {
-      "title": "Former Navy SEAL turns Colorado Springs building into affordable housing - KOAA News 5",
-      "date": "2026-06-27T15:49:37Z",
-      "source": "KOAA News 5",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNTDB6N3pZYVRsU0o5V0tZRmpTSzNpd0Y1X0FlX2hLNHlQVU5wSW1pTFQxUUZyTWRkV1JUZ0VJdnRNMERBSWdxQTlUQ0FTSlhUVm5jTkYyVGd4QXpRX2dEUDlRZ2pLbC1XRGdFVFdHREs0RElBSmJsOHpyMFJPVUpBRERNSWlBWkdsNGV5MGM0ZjYtZmhLd3ZQQXFNRVhUc2U2WDQ5anV0RUxPSWxVa2c?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado Springs",
-      "summary": "Former Navy SEAL turns Colorado Springs building into affordable housing \u00a0\u00a0 KOAA News 5"
-    },
-    {
-      "title": "Thornton Council Unanimously Backs 508-Unit Affordable Housing - Yellow Scene Magazine",
-      "date": "2026-06-27T13:23:02Z",
-      "source": "Yellow Scene Magazine",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPYUQyaXBGcnRQWnhKdUVnU3c2LXBXRG5EVnRRVFVoMnNSbkluWXhZQzZ2NDJWcmRMZm9HTmRrb2NIV1NqeUd0WG1HRHdsdHhwSWRGNmhqdWJhT1JYTWVkNG1KLVJ6VnNxa2RMam4tVGNjX3RhVmprdS0xMjRQdUhDSFhfcmF6WnJ0U0xid0FPenhTV0t4ZlZ0NVJub2t6blE?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Thornton Council Unanimously Backs 508-Unit Affordable Housing \u00a0\u00a0 Yellow Scene Magazine"
-    },
-    {
-      "title": "Colorado\u2019s least affordable housing markets revealed - Yahoo",
-      "date": "2026-06-27T07:00:00Z",
-      "source": "Yahoo",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQYWtoeFd2V1Z6M3U3MEZEN1RmTFA0TDFIaFRHN05JZ1lKSlJhVUdTQWpWamJPR1RnOHFFRkxYcWxwV2U0bDJheXF5SXVZN2dXa3B1TzV0bkFTWEJQRVZZakgxMk9vNGlCeDFxMHJoa2N5YjZKU29fa3FOa0xVZjNucnExMXM4TGllSjh5QjRrVHhaMHpnZDNxLTJPWQ?oc=5",
-      "topic": "affordable_housing",
-      "region": "Statewide",
-      "summary": "Colorado\u2019s least affordable housing markets revealed \u00a0\u00a0 Yahoo"
-    },
-    {
-      "title": "Michigan House passes low-income housing tax credit: What to know - Big Rapids Pioneer",
-      "date": "2026-06-26T17:06:27Z",
-      "source": "Big Rapids Pioneer",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQRXNxcjlRSE1Ocy1XbklxOWF5bzBXQ3l6ajBSRjNCYjhTX0otMm44dnJ1VmZMSTBPc0QtMExQZExnWWtySXBMeUNfY0Y0dGdSZFV2YkJQUFJLUnktNEhYQTV5Q1ZzeUxLN09GZkhRMm94a2s1VV9QZzhXMkJxdFFvdjFnV2RzUFdqZTNvS0kybW9rM042?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "Michigan House passes low-income housing tax credit: What to know \u00a0\u00a0 Big Rapids Pioneer"
-    },
-    {
-      "title": "PNC Fund to Support More Than 1,700 Affordable Homes - Affordable Housing Finance",
-      "date": "2026-06-26T13:47:07Z",
-      "source": "Affordable Housing Finance",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQeG1MeHdlYWdTTnhxcmhkUC1OOGdPa3JfQklObmFwZDRkMjQySzBDZUlRSnZYNThvX1lZV3huc01LUVE4NjRpSXNWaDVxRVFabndFdUowNW51NjEtMGVGYUxuQVYyTnp0UmcySkpPVkwzNHEyZTVyUExPWWtkZWNFZlRON0t5WVg4Q1E?oc=5",
-      "topic": "affordable_housing",
-      "region": "Colorado",
-      "summary": "PNC Fund to Support More Than 1,700 Affordable Homes \u00a0\u00a0 Affordable Housing Finance"
     }
   ]
 }

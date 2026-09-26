@@ -147,6 +147,36 @@
   }
 
   /**
+   * Returns every amenity of a given type within a radius of a coordinate,
+   * nearest first. Distances are straight-line (haversine) miles.
+   * @param {number} lat
+   * @param {number} lon
+   * @param {string} type          One of the AMENITY_TYPES values.
+   * @param {number} radiusMiles
+   * @returns {Array<{ name: string, lat: number, lon: number, distanceMiles: number }>}
+   *   Empty when nothing is in range. Null when amenity data is not loaded
+   *   or the inputs are invalid, so "no data" is not mistaken for "none nearby".
+   */
+  function getWithinRadius(lat, lon, type, radiusMiles) {
+    if (!loaded || typeof lat !== 'number' || typeof lon !== 'number' || !type ||
+        typeof radiusMiles !== 'number' || !(radiusMiles > 0)) {
+      return null;
+    }
+
+    var found = [];
+    for (var i = 0; i < amenities.length; i++) {
+      var a = amenities[i];
+      if (a.type !== type) { continue; }
+      var d = haversine(lat, lon, a.lat, a.lon);
+      if (d <= radiusMiles) {
+        found.push({ name: a.name, lat: a.lat, lon: a.lon, distanceMiles: parseFloat(d.toFixed(2)) });
+      }
+    }
+    found.sort(function (x, y) { return x.distanceMiles - y.distanceMiles; });
+    return found;
+  }
+
+  /**
    * Computes a multi-category access score for a given coordinate.
    * Each category returns the nearest amenity of the mapped type.
    * `overall` is the rounded mean of all five category scores.
@@ -236,6 +266,7 @@
   window.OsmAmenities = {
     loadAmenities: loadAmenities,
     getNearestByType: getNearestByType,
+    getWithinRadius: getWithinRadius,
     getAccessScore: getAccessScore,
     isLoaded: isLoaded
   };

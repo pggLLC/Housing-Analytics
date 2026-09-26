@@ -37,32 +37,32 @@ function feat(props) {
 const ADAMS_2023 = feat({
   PROJECT_NAME: 'Northpoint Apts', CITY: 'Westminster', CNTY_FIPS: '08001',
   CNTY_NAME: 'Adams', N_UNITS: 80, LI_UNITS: 80, CREDIT: '9%',
-  YR_PIS: '2023', YR_ALLOC: '2021', QCT: '1', DDA: '0', NON_PROF: '1'
+  AwardYear: '2023', YR_PIS: '2023', YR_ALLOC: '2023', QCT: '1', DDA: '0', NON_PROF: '1'
 });
 const ADAMS_2022_4PCT = feat({
   PROJECT_NAME: 'Riverside Place', CITY: 'Commerce City', CNTY_FIPS: '08001',
   CNTY_NAME: 'Adams', N_UNITS: 120, LI_UNITS: 120, CREDIT: '4%',
-  YR_PIS: '2022', YR_ALLOC: '2020', QCT: '0', DDA: '1', NON_PROF: '0'
+  AwardYear: '2022', YR_PIS: '2022', YR_ALLOC: '2022', QCT: '0', DDA: '1', NON_PROF: '0'
 });
 const ADAMS_2018 = feat({
   PROJECT_NAME: 'Old Project', CITY: 'Brighton', CNTY_FIPS: '08001',
   CNTY_NAME: 'Adams', N_UNITS: 60, LI_UNITS: 60, CREDIT: '9%',
-  YR_PIS: '2018', YR_ALLOC: '2016', QCT: '0', DDA: '0', NON_PROF: '0'
+  AwardYear: '2018', YR_PIS: '2018', YR_ALLOC: '2018', QCT: '0', DDA: '0', NON_PROF: '0'
 });
 const ADAMS_2020_SMALL = feat({
   PROJECT_NAME: 'Small One', CITY: 'Federal Heights', CNTY_FIPS: '08001',
   CNTY_NAME: 'Adams', N_UNITS: 30, LI_UNITS: 30, CREDIT: '9%',
-  YR_PIS: '2020', YR_ALLOC: '2018', QCT: '0', DDA: '0', NON_PROF: '0'
+  AwardYear: '2020', YR_PIS: '2020', YR_ALLOC: '2020', QCT: '0', DDA: '0', NON_PROF: '0'
 });
 const DENVER_2024 = feat({
   PROJECT_NAME: 'Mile High Tower', CITY: 'Denver', CNTY_FIPS: '08031',
   CNTY_NAME: 'Denver', N_UNITS: 200, LI_UNITS: 200, CREDIT: '9%',
-  YR_PIS: '2024', YR_ALLOC: '2022', QCT: '1', DDA: '1', NON_PROF: '0'
+  AwardYear: '2024', YR_PIS: '2024', YR_ALLOC: '2024', QCT: '1', DDA: '1', NON_PROF: '0'
 });
 const ARAPAHOE_2023 = feat({
   PROJECT_NAME: 'Aurora Heights', CITY: 'Aurora', CNTY_FIPS: '08005',
   CNTY_NAME: 'Arapahoe', N_UNITS: 90, LI_UNITS: 90, CREDIT: '9%',
-  YR_PIS: '2023', YR_ALLOC: '2021', QCT: '0', DDA: '0', NON_PROF: '1'
+  AwardYear: '2023', YR_PIS: '2023', YR_ALLOC: '2023', QCT: '0', DDA: '0', NON_PROF: '1'
 });
 
 const ALL = [ADAMS_2023, ADAMS_2022_4PCT, ADAMS_2018, ADAMS_2020_SMALL, DENVER_2024, ARAPAHOE_2023];
@@ -104,15 +104,15 @@ test('credit type normalization handles "9%", "9", "9 %"', function () {
 
 test('FIPS normalization pads short codes', function () {
   // Synthetic feature with unpadded FIPS
-  const feat = { properties: { CNTY_FIPS: '8001', PROJECT_NAME: 'Padded', N_UNITS: 50, CREDIT: '9%', YR_PIS: '2020' } };
+  const feat = { properties: { CNTY_FIPS: '8001', PROJECT_NAME: 'Padded', N_UNITS: 50, CREDIT: '9%', AwardYear: '2020' } };
   const peers = dc.findPeerDeals({ features: [feat], countyFips: '8001', creditType: '9%' });
   assert(peers.length === 1,                            'unpadded FIPS still matches');
   assert(peers[0].countyFips === '08001',               'output FIPS is padded to 5 digits');
 });
 
-test('sorts by recency (most recent year_PIS first)', function () {
+test('sorts by recency (most recent award year first)', function () {
   const peers = dc.findPeerDeals({ features: ALL, countyFips: '08001', creditType: '9%' });
-  const years = peers.map(p => p.yearPis);
+  const years = peers.map(p => p.yearAward);
   assert(years[0] === 2023,                                  'first peer is the 2023 project');
   assert(years[years.length - 1] === 2018,                   'last peer is the 2018 project');
   // Sorted descending
@@ -125,7 +125,7 @@ test('size proximity tiebreaks within same year', function () {
   // Add a second 2023 project of differing size to verify proximity tiebreak
   const ADAMS_2023_BIG = feat({
     PROJECT_NAME: 'Big 2023', CNTY_FIPS: '08001', N_UNITS: 200, CREDIT: '9%',
-    YR_PIS: '2023', YR_ALLOC: '2021', QCT: '0', DDA: '0', NON_PROF: '0'
+    AwardYear: '2023', YR_PIS: '2023', YR_ALLOC: '2023', QCT: '0', DDA: '0', NON_PROF: '0'
   });
   // Northpoint has 80 units; Big 2023 has 200. Proposed = 75 → Northpoint should rank first
   const peers = dc.findPeerDeals({
@@ -153,7 +153,7 @@ test('default limit is 5', function () {
   for (let i = 0; i < 8; i++) {
     synth.push(feat({
       PROJECT_NAME: 'Synth-' + i, CNTY_FIPS: '08001', N_UNITS: 50, CREDIT: '9%',
-      YR_PIS: String(2024 - i), YR_ALLOC: String(2022 - i)
+      AwardYear: String(2024 - i), YR_PIS: String(2024 - i), YR_ALLOC: String(2024 - i)
     }));
   }
   const peers = dc.findPeerDeals({ features: synth, countyFips: '08001', creditType: '9%' });
@@ -173,8 +173,21 @@ test('output shape is consistent — never returns synthesized data', function (
     assert(typeof p.name === 'string',         'name is string');
     assert(typeof p.units === 'number',        'units is number');
     assert(typeof p.creditType === 'string',   'creditType is string');
-    assert(p.yearPis === null || typeof p.yearPis === 'number', 'yearPis is number or null');
+    assert(p.yearAward === null || typeof p.yearAward === 'number', 'yearAward is number or null');
+    assert(!('yearPis' in p), 'no yearPis field — the feed has no placed-in-service year');
   });
+});
+
+test('reads the award year, never YR_PIS', function () {
+  // CHFA's feed has no placed-in-service year; YR_PIS there is AwardYear
+  // under another name. A record carrying ONLY YR_PIS must not have that
+  // value surface as the peer's year.
+  const onlyPis = feat({ PROJECT_NAME: 'Pis Only', CNTY_FIPS: '08001', N_UNITS: 40, CREDIT: '9%', YR_PIS: '2021' });
+  const peers = dc.findPeerDeals({ features: [onlyPis], countyFips: '08001', creditType: '9%' });
+  assert(peers.length === 1 && peers[0].yearAward === null, 'YR_PIS alone yields no year');
+  const hud = feat({ PROJECT_NAME: 'Hud Shape', CNTY_FIPS: '08001', N_UNITS: 40, CREDIT: '9%', YR_PIS: '2021', YR_ALLOC: '2019' });
+  assert(dc.findPeerDeals({ features: [hud], countyFips: '08001', creditType: '9%' })[0].yearAward === 2019,
+    'HUD-shaped record reports its allocation year, not YR_PIS');
 });
 
 test('no peers in unfamiliar county → empty', function () {

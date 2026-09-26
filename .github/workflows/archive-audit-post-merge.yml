@@ -75,16 +75,25 @@ jobs:
             # Manifests last, in order: rebuild_manifest.py records byte
             # counts. A refresh that does not verify is abandoned, not
             # committed.
+            #
+            # After the manifests: data/manifest.json is itself an inventory
+            # source, counted by its number of files. sync-data-mtimes.yml can
+            # run on a merge before this job rebuilds the manifest, and then
+            # writes back the old count; the rebuild below adds the merged
+            # file and main fails data-source-inventory-drift (1616 vs 1617
+            # after #1922). Re-sync the counts against what was just rebuilt.
             if npm run -s paper:build \
                && npm run -s audit:file-manifest \
                && python3 scripts/rebuild_manifest.py \
+               && node scripts/audit/refresh-inventory-mtimes.mjs \
                && node scripts/validate-schemas.js \
                && npm run -s test:paper-fresh \
-               && npm run -s test:file-manifest; then
+               && npm run -s test:file-manifest \
+               && node test/data-source-inventory-drift.test.js; then
               :
             else
               echo "::warning::Working-paper refresh did not verify; leaving the committed figures unchanged."
-              git checkout -- working-paper.html methods.html data/paper data/_manifest.json data/manifest.json
+              git checkout -- working-paper.html methods.html data/paper data/_manifest.json data/manifest.json js/data-source-inventory.js
             fi
           }
 

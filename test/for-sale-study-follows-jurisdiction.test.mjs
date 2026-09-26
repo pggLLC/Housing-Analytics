@@ -29,7 +29,7 @@ import assert from 'node:assert';
 import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
-import { createRequire } from 'node:module';
+import Module, { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { JSDOM } from 'jsdom';
 
@@ -263,7 +263,7 @@ const scenarios = ['fruita-commons', 'fruita-commons-compact', 'fruita-commons-f
   .map((name) => json(`data/fixtures/${name}.scenario.json`));
 const conventions = json('data/policy/resale-conventions.json');
 
-function mountFor(geography) {
+function mountFor(geography, PageModule = Page) {
   const dom = new JSDOM(
     '<main><div id="mount"></div><div id="marketStudyReportPreview"></div>'
     + '<button id="marketStudyReportDownload"></button></main>',
@@ -277,9 +277,9 @@ function mountFor(geography) {
     localBaseline: geography && geography.mode === 'jurisdiction' ? geography.localBaseline : null,
     observed: StudyGeography.observedFor(geography, scenarios[0], EffectiveDemand)
   };
-  const model = Page.buildModel(data, {});
+  const model = PageModule.buildModel(data, {});
   const mount = dom.window.document.getElementById('mount');
-  Page.render(mount, model, data);
+  PageModule.render(mount, model, data);
   return { dom, mount, model, data };
 }
 
@@ -366,6 +366,218 @@ test('the exported report names the reader\'s jurisdiction, not the fixture\'s',
     'the exported report still names the example jurisdiction');
   assert.ok(html.includes(String(denver.localBaseline.home_value.value).replace(/\B(?=(\d{3})+(?!\d))/g, ',')),
     "the exported report does not quote the reader's home value");
+});
+
+/* ── Fixed example inputs are labelled wherever they reach the reader ───── */
+//
+// Sections 2-4 of the page (and the land, resale and settlement parts of the
+// report) run on a market value, restricted price and four-person AMI fixed in
+// market-study-page.js, the same for every jurisdiction. Which sections those
+// are is not written down here: the controller is loaded a second time with
+// those inputs changed, and whatever section moves is one they drive. Every
+// such section must carry the example label; no other section may.
+
+const PAGE_FILE = path.join(ROOT, 'js/project-market-study/market-study-page.js');
+const FIXED_INPUT_MUTATIONS = [
+  ['unrestrictedValue: 500000, restrictedPrice: 400000', 'unrestrictedValue: 650000, restrictedPrice: 480000'],
+  ['ami4Person: 100000', 'ami4Person: 125000'],
+  ['restrictedValueAssessment: false, unitPrice: 400000', 'restrictedValueAssessment: false, unitPrice: 480000'],
+  ['ownerDownPayment: 40000, originalRestrictedPrice: 400000', 'ownerDownPayment: 40000, originalRestrictedPrice: 480000'],
+];
+function loadPage(source) {
+  const m = new Module(PAGE_FILE);
+  m.filename = PAGE_FILE;
+  m.paths = Module._nodeModulePaths(path.dirname(PAGE_FILE));
+  m._compile(source, PAGE_FILE);
+  return m.exports;
+}
+function mutatedPage() {
+  let source = CONTROLLER;
+  for (const [from, to] of FIXED_INPUT_MUTATIONS) {
+    const next = source.split(from).join(to);
+    assert.notStrictEqual(next, source, `fixed-input mutation did not apply: ${from}`);
+    source = next;
+  }
+  return loadPage(source);
+}
+function sectionsOf(root, selector) {
+  return Array.from(root.querySelectorAll(selector)).map((node) => ({
+    key: (node.querySelector('h2') || {}).textContent || node.id,
+    text: node.textContent.replace(/\s+/g, ' '),
+    labels: Array.from(node.querySelectorAll('[data-example-inputs="true"]')).map((el) => el.textContent),
+  }));
+}
+function labelAgreement(geography, name, withReport = true) {
+  const base = mountFor(geography);
+  const moved = mountFor(geography, mutatedPage());
+  const expectedLabel = Report.exampleInputsLabel(name);
+  assert.ok(expectedLabel.includes(name), 'the example label does not name the jurisdiction it is not from');
+  const out = {};
+  for (const [where, selector, rootOf] of [
+    ['page', ':scope > section', (m) => m.mount],
+    ['report', 'section', (m) => m.dom.window.document.getElementById('marketStudyReportPreview')],
+  ].slice(0, withReport ? 2 : 1)) {
+    const a = sectionsOf(rootOf(base), selector);
+    const b = sectionsOf(rootOf(moved), selector);
+    assert.strictEqual(a.length, b.length, `${where}: section count changed under the mutation`);
+    assert.ok(a.length >= 6, `${where}: rendered too few sections to check`);
+    const driven = [];
+    a.forEach((section, i) => {
+      const changed = section.text !== b[i].text;
+      if (changed) driven.push(section.key);
+      assert.strictEqual(section.labels.length > 0, changed,
+        `${where} "${section.key}": ${changed ? 'runs on the fixed example inputs but carries no example label'
+          : 'carries the example label but does not depend on the fixed example inputs'}`);
+      section.labels.forEach((label) => assert.ok(label.includes(expectedLabel),
+        `${where} "${section.key}": example label does not read "${expectedLabel}"`));
+    });
+    // Non-vacuity on the scan: the mutation must have moved something.
+    assert.ok(driven.length >= 3, `${where}: the fixed-input mutation moved only ${driven.length} section(s)`);
+    out[where] = driven;
+  }
+  return { base, out };
+}
+
+test('every section driven by the fixed example inputs says so, on screen and in the report', () => {
+  const { base, out } = labelAgreement(denver, 'Denver');
+  // The banner must not claim those sections are local. It names the range of
+  // labelled sections the mutation found, and says they are not Denver's.
+  const numbers = out.page.map((key) => Number(key.match(/^(\d+)\./)[1]));
+  const banner = base.mount.querySelector('[data-study-mode]').textContent.replace(/\s+/g, ' ');
+  assert.ok(banner.includes(`Sections ${Math.min(...numbers)} to ${Math.max(...numbers)}`) && banner.includes("not Denver's data"),
+    `the banner does not say that sections ${numbers.join(', ')} are not Denver's data`);
+});
+
+test('example mode labels the same sections, naming the example town', () => {
+  // With no jurisdiction there is no buyer pool, so no report is offered
+  // (asserted above for that case); the page is checked alone.
+  const example = StudyGeography.inputs(null, DATA, ENGINES);
+  assert.ok(mountFor(example).dom.window.document.getElementById('marketStudyReportDownload').disabled,
+    'example mode now offers a report; check it here too');
+  labelAgreement(example, scenarios[0].jurisdiction.name, false);
+});
+
+test('a report for another jurisdiction is not titled or partnered as the example town', () => {
+  const { dom, model } = mountFor(denver);
+  const preview = dom.window.document.getElementById('marketStudyReportPreview');
+  const h1 = preview.querySelector('h1').textContent;
+  assert.ok(/Denver/.test(h1), `the report title does not name Denver: ${h1}`);
+  assert.ok(!/Fruita/.test(h1), `the Denver report is titled as the example town: ${h1}`);
+  const built = Report.buildReport(model, { asOf: '2026-01-01', jurisdictionLabel: 'Denver', jurisdictionGeoid: '0820000',
+    vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
+  assert.ok(!/Fruita/.test(built.title), `report.title (the exported <title>) names Fruita: ${built.title}`);
+  assert.ok(Report.renderReportHtml(built).includes(`<title>${built.title}</title>`));
+  const partnerTable = Array.from(preview.querySelectorAll('h3')).find((h) => h.textContent === 'Partners').nextElementSibling;
+  assert.ok(partnerTable.querySelectorAll('tbody tr').length === model.scenario.partners.length, 'partner rows missing');
+  const named = model.scenario.partners.map((p) => p.name).filter(Boolean);
+  assert.ok(named.length > 0, 'the fixture names no partner, so this check would pass vacuously');
+  for (const text of [partnerTable.textContent, dom.window.document.querySelector('#ms-s1').textContent]) {
+    named.forEach((n) => assert.ok(!text.includes(n), `the Denver study lists the example town's partner "${n}"`));
+    assert.ok(!/Fruita/.test(text.split('Partners').pop()), 'the Denver partners list mentions Fruita');
+  }
+});
+
+test("the example town's own report keeps its project name and partners", () => {
+  const fruita = StudyGeography.inputs(
+    { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }, DATA, ENGINES);
+  const { dom, model } = mountFor(fruita);
+  const preview = dom.window.document.getElementById('marketStudyReportPreview');
+  assert.ok(/Fruita/.test(preview.querySelector('h1').textContent), 'Fruita lost its project title');
+  model.scenario.partners.map((p) => p.name).filter(Boolean)
+    .forEach((n) => assert.ok(preview.textContent.includes(n), `Fruita's report lost partner ${n}`));
+});
+
+/* ── The housing-authority caveat follows the authority, not the template ─ */
+//
+// "Fruita Housing Authority ≠ Federal Housing Administration" was on the
+// report's fixed required-caveat list, so every jurisdiction's report carried
+// a disambiguation for an agency it never mentions. The rule now: the caveat
+// is present if and only if the report names that authority.
+
+const AUTHORITY_NAME = /[A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority(?! ≠)/g;
+function reportFor(geography, name, geoid) {
+  const { dom, model, data } = mountFor(geography);
+  const text = dom.window.document.getElementById('marketStudyReportPreview').textContent;
+  return { text, model, data, name, geoid };
+}
+const fruitaGeo = StudyGeography.inputs(
+  { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }, DATA, ENGINES);
+
+test('the "not the same agency" caveat appears exactly when the report names the authority', () => {
+  const checked = [];
+  for (const r of [reportFor(denver, 'Denver'), reportFor(fruitaGeo, 'Fruita')]) {
+    assert.ok(r.text.length > 5000, `${r.name}: no report rendered, so nothing is being checked`);
+    // What the report names, with the caveat lines themselves excluded.
+    const named = [...new Set(r.text.match(AUTHORITY_NAME) || [])];
+    const caveats = [...new Set((r.text.match(/[A-Z][A-Za-z'-]*(?: [A-Z][A-Za-z'-]*)* Housing Authority(?= ≠ Federal Housing Administration)/g) || []))];
+    assert.deepStrictEqual(caveats.sort(), named.sort(),
+      `${r.name}: the report names [${named.join(', ')}] but carries the agency caveat for [${caveats.join(', ')}]`);
+    named.forEach((n) => assert.ok(r.text.includes(Report.authorityCaveat(n)), `${r.name}: caveat text for ${n} is not the shared wording`));
+    checked.push(`${r.name}:${named.length}`);
+  }
+  // Non-vacuity: one side of the iff must be exercised each way.
+  assert.deepStrictEqual(checked, ['Denver:0', 'Fruita:1'],
+    `expected Denver to name no authority and Fruita to name one; got ${checked.join(', ')}`);
+});
+
+test('the report guard refuses both halves of a mismatch', () => {
+  const fruita = mountFor(fruitaGeo);
+  const built = Report.buildReport(fruita.model, { asOf: 'x', jurisdictionLabel: 'Fruita', jurisdictionGeoid: scenarios[0].jurisdiction.place_geoid,
+    vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
+  const caveat = Report.authorityCaveat('Fruita Housing Authority');
+  assert.ok(built.content.includes(caveat));
+  const stripped = built.content.split(caveat).join('');
+  assert.notStrictEqual(stripped, built.content, 'the strip mutation did not apply');
+  assert.throws(() => Report.renderReportPreview({ title: built.title, asOf: built.asOf, content: stripped }), /required caveat missing/);
+
+  const denverBuilt = Report.buildReport(mountFor(denver).model, { asOf: 'x', jurisdictionLabel: 'Denver', jurisdictionGeoid: '0820000',
+    vintages: { scenario: 'x', homeValue: 'x', conventions: 'x' }, requiredCaveats: Report.REQUIRED_CAVEATS });
+  const injected = denverBuilt.content.replace('</section>', '<p>' + caveat + '.</p></section>');
+  assert.notStrictEqual(injected, denverBuilt.content, 'the inject mutation did not apply');
+  assert.throws(() => Report.renderReportPreview({ title: denverBuilt.title, asOf: denverBuilt.asOf, content: injected }), /does not name/);
+});
+
+/* ── Local sale prices: the same figure, source and period in the report ── */
+
+const SalePriceEvidence = require('../js/market/sale-price-evidence.js');
+const SALE_CONTEXT = {
+  tracker: json('data/market/redfin_place_market_tracker_co.json'),
+  bridge: json('data/market/bridge_co_market_summary.json'),
+  assessor: json('data/market/parcel_aggregates_co.json')
+};
+function withSalePrice(context) {
+  return StudyGeography.inputs(context, Object.assign({}, DATA,
+    { salePriceEvidence: SalePriceEvidence.forPlace(context.geoid, SALE_CONTEXT) }), ENGINES);
+}
+
+test('the downloaded report carries the on-screen local sale price, source and period', () => {
+  let covered = 0;
+  for (const context of [
+    { geoid: '0820000', geoLevel: 'place', name: 'Denver', countyFips: '08031' },
+    { geoid: scenarios[0].jurisdiction.place_geoid, geoLevel: 'place', name: 'Fruita', countyFips: '08077' }
+  ]) {
+    const geo = withSalePrice(context);
+    const { dom, mount } = mountFor(geo);
+    const screen = mount.querySelector('[data-sale-price]');
+    assert.ok(screen, `${context.name}: no sale-price section on screen`);
+    const exported = dom.window.document.getElementById('marketStudyReportPreview');
+    const inReport = exported.querySelector('[data-sale-price]');
+    assert.ok(inReport, `${context.name}: the report omits the Local sale prices section the screen shows`);
+    assert.strictEqual(inReport.getAttribute('data-sale-price'), screen.getAttribute('data-sale-price'));
+    const evidence = geo.salePrice;
+    if (evidence.value !== null) {
+      covered += 1;
+      const money = evidence.value.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+      const periodText = 'Three-month period ending ' + evidence.period;
+      // Every piece the screen shows is in the report, and both are the evidence's own.
+      for (const piece of [money, evidence.label, periodText, evidence.caveat]) {
+        assert.ok(screen.textContent.includes(piece), `${context.name}: screen lacks "${piece}"`);
+        assert.ok(inReport.textContent.includes(piece), `${context.name}: report lacks "${piece}" that the screen shows`);
+      }
+      assert.ok(exported.textContent.includes('Local sale prices: ' + periodText), `${context.name}: the report's data vintages omit the sale-price period`);
+    }
+  }
+  assert.strictEqual(covered, 2, 'Denver and Fruita are expected to be covered places; re-point this guard');
 });
 
 console.log(failures === 0

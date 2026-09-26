@@ -9,6 +9,9 @@
  *    check covers the historical one-line currency-formatter form.
  * B. global isFinite(Number(...)), where Number() performs the same coercion.
  * C. a data-keyed map lookup that falls back to a non-zero numeric literal.
+ * D. a helper's `fallback || 0`, which turns an explicit null fallback (the
+ *    caller asking for absence) into a measured zero (#1480 class: the
+ *    Housing Outcome Score read "0 / Grade F" with no market analysis run).
  *
  * This is intentionally not a JavaScript linter. It follows the repository's
  * readFileSync/source-scan convention and excludes vendor bundles and common
@@ -77,6 +80,12 @@ export const ALLOWLIST = Object.freeze([
     file: 'js/hna/hna-market-bridge.js',
     expression: 'priorityOrder[b.priority] || 3',
     reason: 'This puts an unknown category last in a presentation sort; the number is neither stored nor rendered as a measurement.',
+  },
+  {
+    rule: 'D',
+    file: 'js/lihtc-deal-predictor.js',
+    expression: 'fallback || 0',
+    reason: 'Every _num() call site passes a literal or DEFAULT_ASSUMPTIONS fallback, none of them null, so the || 0 branch never converts a requested absence into zero.',
   },
 ]);
 
@@ -215,6 +224,13 @@ export function scanSource(file, source) {
     if (literal === 0) continue;
     findings.push(candidate('C', file, source, match.index, source.slice(match.index, match.index + match[0].length),
       'missing map entry falls back to a confident non-zero number'));
+  }
+
+  // Rule D: a numeric helper whose fallback parameter is ORed with zero.
+  const fallbackOrZero = /(?<![.\w$])fallback\s*\|\|\s*0(?![.\d])/g;
+  for (const match of masked.matchAll(fallbackOrZero)) {
+    findings.push(candidate('D', file, source, match.index, source.slice(match.index, match.index + match[0].length),
+      'fallback || 0 turns a null fallback (absence) into a measured zero'));
   }
 
   return findings;

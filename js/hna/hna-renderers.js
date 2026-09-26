@@ -1960,7 +1960,7 @@
       // Basis tag explains where the latest_year came from.
       const basisTag = ({
         award_year: 'CHFA AwardYear',
-        pis_year:   'YR_PIS only (AwardYear missing)',
+        pis_year:   'feed year only (AwardYear missing)',
         r1_bridge:  '2026 R1 bridge',
         never_funded: 'no records',
       })[basis] || basis;
@@ -2383,7 +2383,10 @@
       const p = f.properties || {};
       const name  = escHtml(p.PROJECT || p.project || 'Unnamed Project');
       const units = escHtml(p.LI_UNITS || p.li_units || p.LOW_INCOME_UNITS || '—');
-      const yr    = escHtml(p.YR_PIS   || p.yr_pis   || '—');
+      // CHFA award year. The feed's YR_PIS is this same value under another
+      // name — CHFA publishes no year the property opened.
+      const yrRaw = p.AwardYear || p.YR_ALLOC || null;
+      const yr    = yrRaw ? 'awarded ' + escHtml(yrRaw) : 'award year —';
       const credit = p.CREDIT || p.TypeOfCredits || p.type_of_credits || '';
       const creditHtml = (PL && credit)
         ? '<span style="opacity:.7;font-size:1rem;margin-left:.4rem">· ' + PL.creditTypeTagHtml(credit) + '</span>'
@@ -2436,8 +2439,8 @@
              '</li>';
       const _coords2 = f.geometry && f.geometry.coordinates;
       const _meta = (_coords2 && _coords2.length >= 2)
-        ? _rowMeta(_coords2[1], _coords2[0], yr)
-        : { inJuris: false, year: parseInt(yr, 10) || 0 };
+        ? _rowMeta(_coords2[1], _coords2[0], yrRaw)
+        : { inJuris: false, year: parseInt(yrRaw, 10) || 0 };
       return { html: _html, meta: _meta };
     });
 
@@ -2559,16 +2562,55 @@
   }
 
   /**
+   * _markOverlayToggle — say next to a layer toggle that its overlay did not
+   * load, or clear that note once it has. Mirrors markOverlayUnavailable in
+   * js/co-lihtc-map.js: an empty layer with no explanation reads as "no QCTs
+   * here", when the truth is that nobody knows.
+   * @param {HTMLInputElement|null} toggle
+   * @param {string}                label   - e.g. 'QCT boundaries'
+   * @param {string|null}           reason  - null clears the note
+   */
+  function _markOverlayToggle(toggle, label, reason) {
+    const host = toggle && toggle.closest ? toggle.closest('label') : null;
+    if (!host) return;
+    let note = host.querySelector('.overlay-unavailable');
+    if (!reason) {
+      if (note) note.remove();
+      host.removeAttribute('title');
+      return;
+    }
+    if (!note) {
+      note = document.createElement('span');
+      note.className = 'overlay-unavailable';
+      note.setAttribute('role', 'status');
+      note.style.cssText = 'margin-left:.35rem;font-size:.75rem;font-weight:600;';
+      host.appendChild(note);
+    }
+    note.textContent = '(unavailable \u2014 not drawn)';
+    host.title = label + ' failed to load (' + reason + '). Nothing is drawn rather than ' +
+      'approximate shapes; absence on the map does not mean a site is outside.';
+  }
+
+  /**
    * renderQctLayer — render Qualified Census Tract polygons as a GeoJSON layer.
-   * @param {GeoJSON.FeatureCollection} data
+   * @param {GeoJSON.FeatureCollection} data - with `unavailableReason` set (or
+   *   null) when the tracts could not be loaded; membership is then unknown.
    */
   function renderQctLayer(data) {
-    if (!window.L || !S().map) return;
     if (S().qctLayer) { S().qctLayer.remove(); S().qctLayer = null; }
 
-    const features = (data && Array.isArray(data.features)) ? data.features : [];
+    const unavailableReason = !data ? 'no QCT data returned' : (data.unavailableReason || null);
+    const features = (!unavailableReason && Array.isArray(data.features)) ? data.features : [];
     const countEl  = S().els && S().els.statQctCount;
-    if (countEl) countEl.textContent = features.length;
+    // Unknown is not zero: a count of 0 would tell a developer the county has
+    // no basis-boost tracts.
+    if (countEl) countEl.textContent = unavailableReason ? 'Unavailable' : features.length;
+    _markOverlayToggle(S().els && S().els.layerQct, 'QCT boundaries', unavailableReason);
+    if (unavailableReason) {
+      console.warn('[HNA] QCT boundaries unavailable:', unavailableReason);
+      return;
+    }
+    if (!window.L || !S().map) return;
 
     S().qctLayer = L.geoJSON({ type: 'FeatureCollection', features }, {
       style: { color: '#2563eb', weight: 1.5, fillOpacity: 0.12, fillColor: '#2563eb' },
@@ -2582,14 +2624,28 @@
   /**
    * renderDdaLayer — render Difficult Development Area indicator for the county.
    * @param {string}      countyFips5 - 5-digit FIPS
-   * @param {object|null} data        - DDA data (null = not a DDA county)
+   * @param {object|null} data        - DDA features for the county (empty =
+   *   not a DDA county). Null, or `unavailableReason` set, means the DDA data
+   *   did not load: status is unknown and is never reported as "Non-DDA".
    */
   function renderDdaLayer(countyFips5, data, placeCtx) {
-    if (!window.L || !S().map) return;
     if (S().ddaLayer) { S().ddaLayer.remove(); S().ddaLayer = null; }
 
     const statusEl = S().els && S().els.statDdaStatus;
     const noteEl   = S().els && S().els.statDdaNote;
+
+    const unavailableReason = !data ? 'no DDA data returned' : (data.unavailableReason || null);
+    _markOverlayToggle(S().els && S().els.layerDda, 'DDA boundaries', unavailableReason);
+    if (unavailableReason) {
+      console.warn('[HNA] DDA boundaries unavailable:', unavailableReason);
+      if (statusEl) statusEl.textContent = 'Unavailable';
+      if (noteEl) {
+        noteEl.textContent = 'HUD DDA data did not load, so DDA status is unknown here \u2014 '
+          + 'not a finding that it is outside a DDA. Check HUD\u2019s DDA map for the 30% basis boost.';
+      }
+      return;
+    }
+    if (!window.L || !S().map) return;
 
     const isDda = data && Array.isArray(data.features) && data.features.length > 0;
     const props = isDda ? (data.features[0].properties || {}) : {};
@@ -2937,6 +2993,13 @@
               '<div id="lr-capital-partners-mount"></div>' +
             '</details>';
 
+    // Verified fee waivers/reductions and land-use incentives that lower
+    // the cost of affordable housing here (data/policy/fee-reductions.json).
+    // Hydrated by TaxAbatement.attachCostReductions below; "none verified
+    // yet" is said as such, never as "none".
+    html += '<section class="lr-section" id="lr-cost-reductions-section"><h4>What this jurisdiction does to lower affordable-housing cost</h4>' +
+            '<div id="lr-cost-reductions-mount"></div></section>';
+
     // F141 — Tax abatement / PILOT / fee-waiver inventory
     html += '<section class="lr-section"><h4>Tax abatement, PILOT &amp; fee programs</h4>' +
             '<div id="lr-tax-abatement-mount"></div></section>';
@@ -3006,6 +3069,26 @@
           jurisName:  jurisName || undefined,
           placeName:  jurisName || null,
           countyName: cpCountyName
+        });
+      }
+    }
+
+    // Hydrate the verified cost-reduction mount (fees + land use).
+    if (window.TaxAbatement && window.TaxAbatement.attachCostReductions) {
+      const crMount = document.getElementById('lr-cost-reductions-mount');
+      let crGeoid = null, crCounty = null;
+      try {
+        const cur = S().state && S().state.current;
+        if (cur && cur.geoid) {
+          crGeoid = cur.geoid;
+          crCounty = cur.geoType === 'county' ? cur.geoid : (cur.contextCounty || null);
+        }
+      } catch (_) {}
+      if (crMount) {
+        window.TaxAbatement.attachCostReductions(crMount, {
+          geoid:      crGeoid,
+          countyFips: crCounty,
+          jurisName:  jurisName || undefined
         });
       }
     }
@@ -7961,7 +8044,9 @@
       : null;
 
     return {
-      composite, usePlace, parts, affordPressure, pool,
+      // placeParts is returned so the renderer can say WHY a place fell back
+      // to its county (too few renter households vs. no place CHAS at all).
+      composite, usePlace, parts, placeParts, affordPressure, pool,
       pctA, pctB, pctC, pctD,
       present: present.length,
       nMissing: 4 - present.length,
@@ -8168,7 +8253,7 @@
     // guard can exercise the same decisions this renderer makes instead of
     // reimplementing them.
     const scored = _scorecardScore(placeRec, countyRec, econRec, dist, isPlaceProxy);
-    const { usePlace, parts, affordPressure, pctA, pctB, pctC, pctD, nMissing } = scored;
+    const { usePlace, parts, placeParts, affordPressure, pctA, pctB, pctC, pctD, nMissing } = scored;
 
     const blendedBurden = parts ? parts.blendedBurden : null;
     const deepNeed      = parts ? parts.deepNeed      : null;

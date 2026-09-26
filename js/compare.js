@@ -193,7 +193,7 @@
       (parts[0].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID) state.qctTractIds.add(f.properties.GEOID); });
       (parts[1].features || []).forEach(function (f) { if (f.properties && f.properties.GEOID && f.properties.GEOID.length === 5) state.ddaCountyFips.add(f.properties.GEOID); });
       state.projects = (parts[2].features || []).filter(function (f) {
-        var y = parseInt(f.properties && f.properties.YR_PIS, 10);
+        var y = parseInt(f.properties && (f.properties.AwardYear || f.properties.YR_ALLOC), 10);
         return Number.isFinite(y) && y >= 1980 && y <= 2030;
       });
       state.chasByFips = parts[3].counties || {};
@@ -304,23 +304,15 @@
     var inside = state.projects.filter(function (p) {
       return ((p.properties.PROJ_CTY || '').toUpperCase().trim()) === cityUpper;
     });
-    var lastYearPis = inside.reduce(function (m, p) {
-      var y = parseInt(p.properties.YR_PIS, 10);
-      return (Number.isFinite(y) && y > m) ? y : m;
-    }, -Infinity);
-    if (lastYearPis === -Infinity) lastYearPis = null;
-
     // F116 — 2026 R1 bridge awards in this place (matched by lowercased
     // city name). Surfaces fresh CHFA activity that the live feed lags.
     var r1Awards = state.chfa2026R1ByCity[label.toLowerCase()] || [];
     var r1Count = r1Awards.length;
     var r1Units = r1Awards.reduce(function (s, a) { return s + (+a.total_units || 0); }, 0);
 
-    // F116 — Award-year-based recency. The OF uses YR_PIS (placed in
-    // service), but the live ArcGIS feed also exposes AwardYear which is
-    // 2-3y earlier and what scouts actually care about. Sample it here
-    // so the Compare row can show "fresh awards" as a distinct signal
-    // from "fresh placed-in-service".
+    // F116 — Award-year-based recency. CHFA's feed has no placed-in-service
+    // year: its YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js,
+    // so the award year is read by its own name and is the only year here.
     var lastAwardYear = inside.reduce(function (m, p) {
       var y = parseInt(p.properties.AwardYear || p.properties.YR_ALLOC, 10);
       return (Number.isFinite(y) && y > m) ? y : m;
@@ -329,7 +321,7 @@
 
     // F146 — Bridge the 2026 R1 award year into the recency calc. Parse
     // the round string ("2026 Round One") for a 4-digit year and prefer
-    // it when newer than YR_PIS or AwardYear. Keeps recency consistent
+    // it when newer than the feed's AwardYear. Keeps recency consistent
     // between the OF and Compare pages: a place that won a R1 award shows
     // as "recently funded" (low recency-score) on both pages even before
     // the HUD LIHTC database catches up.
@@ -343,7 +335,7 @@
         if (rm2) bridgeYear = parseInt(rm2[1], 10);
       }
     }
-    var lastYear = lastYearPis;
+    var lastYear = lastAwardYear;
     if (bridgeYear != null && (lastYear == null || bridgeYear > lastYear)) {
       lastYear = bridgeYear;
     }
@@ -410,7 +402,7 @@
       r1Count: r1Count,
       r1Units: r1Units,
       // Combined "most-recent CHFA activity year" — picks the highest of
-      // (live-feed AwardYear, live-feed YR_PIS, 2026 if R1 bridge has any).
+      // (live-feed AwardYear, 2026 if R1 bridge has any).
       latestChfaActivityYear: (function () {
         var ys = [lastYear, lastAwardYear];
         if (r1Count > 0) ys.push(2026);
@@ -677,10 +669,10 @@
     // F116 — Recent CHFA activity (live feed + 2026 R1 bridge) per place.
     // Combines two freshness signals so a stale ArcGIS feed doesn't make
     // an active jurisdiction look dormant:
-    //   1. Live feed: latest AwardYear OR YR_PIS for this place.
+    //   1. Live feed: latest AwardYear for this place.
     //   2. Bridge: 2026 R1 awards (announced 2026-05-21).
     // Renders as e.g. "2026 R1 · 1 award · 50u" or "2024 · live feed".
-    { label: 'Recent CHFA activity', info: 'Combines the live CHFA feed (latest AwardYear / YR_PIS) with the 2026 R1 bridge file (14 developments announced 2026-05-21, not yet ingested). Higher year + non-zero R1 count = active CHFA pipeline here. The bridge can be dropped in one line of code (_bridge:true filter) when the ArcGIS feed catches up.',
+    { label: 'Recent CHFA activity', info: 'Combines the live CHFA feed (latest AwardYear) with the 2026 R1 bridge file (14 developments announced 2026-05-21, not yet ingested). Higher year + non-zero R1 count = active CHFA pipeline here. The bridge can be dropped in one line of code (_bridge:true filter) when the ArcGIS feed catches up.',
       fn: function (r) { return r.latestChfaActivityYear || 0; },
       fmt: function (v, r) {
         if (!r) return v;

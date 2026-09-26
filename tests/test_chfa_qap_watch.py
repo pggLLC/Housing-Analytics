@@ -1,9 +1,10 @@
 """Guard: the CHFA QAP watcher reports QAP changes and never mistakes a failed
 fetch for a removal.
 
-The watcher exists because a change in the final 2027-2028 QAP -- the federal
-9% per-project maximum, reported as $1.85M -> $1.7M a year -- reached this
-project by word of mouth, and because data/chfa-qap-calendar.json linked two
+The watcher exists because a change in the 2027-2028 QAP -- the federal 9%
+per-project maximum, reported as $1.85M -> $1.7M a year (the Third Draft
+actually cuts it from $1.8M to $1.7M in 2027 and $1.75M in 2028) -- reached
+this project by word of mouth, and because data/chfa-qap-calendar.json linked two
 CHFA pages that returned 404 for three months without anything noticing.
 
 These tests run the watcher against a fake CHFA (no network) and small PDFs

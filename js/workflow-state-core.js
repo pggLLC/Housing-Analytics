@@ -82,7 +82,7 @@
       market: {
         completedAt: null, siteAddress: null, siteLat: null, siteLon: null,
         bufferMiles: 3, pmaScore: null, dimensions: null,
-        qctFlag: false, ddaFlag: false, fmrRents: null,
+        qctFlag: null, ddaFlag: null, fmrRents: null,  // null = designation unknown (not checked), never "not in a QCT"
         bridgeLandContext: null, exportReady: false
       },
       scenario: {

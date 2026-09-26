@@ -142,6 +142,7 @@
   function _band(score) {
     var u = window.MAUtils;
     if (u && typeof u.opportunityBand === 'function') return u.opportunityBand(score);
+    if (typeof score !== 'number' || isNaN(score)) return null;
     if (score >= 70) return 'High';
     if (score >= 45) return 'Moderate';
     return 'Lower';
@@ -161,21 +162,34 @@
     }
 
     var band       = _band(scores.final_score);
-    var bandColor  = (band === 'High') ? 'var(--good)' : (band === 'Moderate') ? 'var(--warn)' : 'var(--bad)';
+    var bandColor  = (band === 'High') ? 'var(--good)' : (band === 'Moderate') ? 'var(--warn)'
+      : band ? 'var(--bad)' : 'var(--muted)';
+    // A second model on a second scale. It was headed "Composite Score"
+    // with an "Opportunity Band" beside the PMA score's own tier, and
+    // nothing said which one was the answer (audit F2).
+    var bands = (window.MAUtils && window.MAUtils.OPPORTUNITY_BANDS) || [];
+    var legend = bands.map(function (b, i) {
+      var hi = i > 0 ? bands[i - 1].min - 1 : 100;
+      return b.label + ' ' + (b.min === -Infinity ? '0\u2013' + hi : b.min + '\u2013' + hi);
+    }).join(' \u00b7 ');
     var narrative  = scores.narrative || '';
 
     var html = (
       '<div style="display:grid;gap:1rem;">' +
         '<div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">' +
           '<div>' +
-            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Composite Score</div>' +
-            _scoreBadge(scores.final_score) +
+            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Site-selection index (secondary)</div>' +
+            '<span data-score-role="secondary" data-score="' + _esc(String(scores.final_score)) + '">' + _scoreBadge(scores.final_score) + '</span>' +
           '</div>' +
           '<div>' +
-            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Opportunity Band</div>' +
-            '<span class="pill" style="background:' + bandColor + ';color:#fff;border-color:' + bandColor + ';font-weight:700;">' + band + '</span>' +
+            '<div style="font-size:0.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.25rem;">Opportunity band</div>' +
+            '<span class="pill" style="background:' + bandColor + ';color:#fff;border-color:' + bandColor + ';font-weight:700;">' + (band || 'Not available') + '</span>' +
           '</div>' +
         '</div>' +
+        '<p class="ma-score-scale" style="margin:0;font-size:var(--tiny);color:var(--muted);">' +
+          'A separate site-selection model on its own scale (' + legend + '). ' +
+          'The primary result is the PMA score in the Site Score card; the two are not comparable.' +
+        '</p>' +
         (narrative
           ? '<p style="margin:0;font-size:var(--small);color:var(--muted);line-height:1.55;">' + _esc(narrative) + '</p>'
           : '') +
@@ -198,8 +212,10 @@
    * @private
    */
   function _componentChip(label, score) {
-    var s     = typeof score === 'number' ? score : 0;
-    var color = (s >= 70) ? 'var(--good)' : (s >= 45) ? 'var(--warn)' : 'var(--bad)';
+    // An unavailable component (null) is shown as a dash, never as a 0.
+    var known = typeof score === 'number' && isFinite(score);
+    var s     = known ? score : '\u2014';
+    var color = !known ? 'var(--muted)' : (s >= 70) ? 'var(--good)' : (s >= 45) ? 'var(--warn)' : 'var(--bad)';
     return (
       '<div style="background:var(--card2);border:1px solid var(--border);border-radius:8px;' +
              'padding:0.5rem 0.75rem;display:flex;flex-direction:column;gap:0.15rem;">' +
@@ -231,11 +247,36 @@
         _metricRow('Renter Share',         _fmtPct(acs.renter_share)) +
         _metricRow('Median HH Income',     _fmtCur(acs.med_hh_income)) +
         _metricRow('Median Gross Rent',    _fmtCur(acs.med_gross_rent)) +
+        _medianBasisNote(acs) +
         _metricRow('Unemployment Rate',    _fmtPct(acs.unemployment_rate)) +
       '</div>'
     );
 
     _render('maMarketDemandContent', html);
+  }
+
+  /**
+   * The two medians above are averages of the Census tract medians in the
+   * market area, not a median measured for the area itself. A tract the
+   * Census published no median for is left out of that average rather than
+   * counted as $0, and this line says how many were left out.
+   * @private
+   */
+  function _medianBasisNote(acs) {
+    var hasMedian = acs.med_gross_rent != null || acs.med_hh_income != null;
+    var r = Number(acs.med_gross_rent_excluded_tracts) || 0;
+    var i = Number(acs.med_hh_income_excluded_tracts) || 0;
+    if (!hasMedian && !r && !i) return '';
+    var parts = [];
+    if (r) parts.push(r + ' tract' + (r === 1 ? '' : 's') + ' for rent');
+    if (i) parts.push(i + ' tract' + (i === 1 ? '' : 's') + ' for income');
+    return '<div class="ma-median-basis-note" style="font-size:.68rem;color:var(--faint);font-style:italic;">' +
+      'Averages of the Census tract medians in this area.' +
+      (parts.length
+        ? ' The Census published no median for ' + parts.join(' and ') +
+          '; those tracts are left out, not counted as $0.'
+        : '') +
+      '</div>';
   }
 
   /** @private */
@@ -287,27 +328,36 @@
       return yr >= now - 10;
     }).length;
 
-    // Count projects by estimated pipeline stage.
-    var stageCounts = { Construction: 0, Entitled: 0, 'Pre-Permit': 0, Complete: 0 };
-    lihtcData.forEach(function (f) {
-      var p = (f && f.properties) ? f.properties : f;
-      var yrNum = parseInt(p.YEAR_ALLOC || p.YR_ALLOC || p.year_alloc || 0, 10);
-      if (!yrNum || yrNum <= now - 5) { stageCounts.Complete++; }
-      else if (yrNum >= now - 1) { stageCounts.Construction++; }
-      else if (yrNum >= now - 3) { stageCounts.Entitled++; }
-      else { stageCounts['Pre-Permit']++; }
-    });
+    // Count projects by pipeline stage with the classifier the pipeline card
+    // uses (PMAEnhancements.classifyPipelineStage): a CHFA status where it
+    // names the phase, and otherwise the award year, marked as an estimate. Without that module there is no consistent way to read a stage,
+    // so no pipeline is shown rather than a guessed one.
+    var ENH = window.PMAEnhancements;
+    var STG = ENH && ENH.PIPELINE_STAGES;
+    var order = STG ? [STG.construction, STG.entitled, STG.prePermit] : [];
+    var stageCounts = {}, stageEstimated = {};
+    order.forEach(function (s) { stageCounts[s] = 0; stageEstimated[s] = 0; });
+    if (ENH && typeof ENH.classifyPipelineStage === 'function') {
+      lihtcData.forEach(function (f) {
+        var c = ENH.classifyPipelineStage((f && f.properties) ? f.properties : f, now);
+        if (!Object.prototype.hasOwnProperty.call(stageCounts, c.stage)) return;
+        stageCounts[c.stage]++;
+        if (c.estimated) stageEstimated[c.stage]++;
+      });
+    }
 
-    var pipelineActive = stageCounts.Construction + stageCounts.Entitled + stageCounts['Pre-Permit'];
+    var pipelineActive = order.reduce(function (a, s) { return a + stageCounts[s]; }, 0);
     var pipelineHtml = '';
     if (pipelineActive > 0) {
       pipelineHtml = (
         '<div style="margin-top:0.75rem;">' +
           _sectionHeading('Construction Pipeline') +
-          (stageCounts.Construction > 0 ? _metricRow('Est. Construction', String(stageCounts.Construction)) : '') +
-          (stageCounts.Entitled > 0 ? _metricRow('Est. Entitled', String(stageCounts.Entitled)) : '') +
-          (stageCounts['Pre-Permit'] > 0 ? _metricRow('Est. Pre-Permit', String(stageCounts['Pre-Permit'])) : '') +
-          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stages estimated from allocation year; verify with local planning records.</div>' +
+          order.map(function (s) {
+            if (!stageCounts[s]) return '';
+            var est = stageEstimated[s];
+            return _metricRow(s, String(stageCounts[s]) + (est ? ' (' + est + ' est. from award year)' : ''));
+          }).join('') +
+          '<div style="font-size:.68rem;color:var(--faint);margin-top:.25rem;font-style:italic;">Stage from CHFA where its status names the phase (under construction); otherwise estimated from award year, because “Active Compliance” does not show a property has opened. Verify with local planning records.</div>' +
         '</div>'
       );
     }
@@ -451,6 +501,12 @@
 
     var qct    = subsidyData.qct || subsidyData.qctFlag;
     var dda    = subsidyData.dda || subsidyData.ddaFlag;
+    // null = designation unknown (overlay not loaded). Never render it as "No".
+    var qctUnknown = !qct && (subsidyData.qct === null || subsidyData.qctFlag === null);
+    var ddaUnknown = !dda && (subsidyData.dda === null || subsidyData.ddaFlag === null);
+    var unknownPill = '<span class="pill" title="' +
+      _esc(subsidyData.designationUnavailableReason || 'HUD designation data unavailable') +
+      '">Unknown</span>';
     var fmr    = subsidyData.fmrRatio;
     var nearby = subsidyData.nearbySubsidized;
     var score  = subsidyData.subsidy_score;
@@ -459,9 +515,9 @@
       '<div style="display:grid;gap:0.5rem;">' +
         _sectionHeading('Subsidy Eligibility') +
         _metricRow('Qualified Census Tract (QCT)',
-          qct ? '<span class="pill good">Yes</span>' : '<span class="pill">No</span>') +
+          qct ? '<span class="pill good">Yes</span>' : (qctUnknown ? unknownPill : '<span class="pill">No</span>')) +
         _metricRow('Difficult Development Area (DDA)',
-          dda ? '<span class="pill good">Yes</span>' : '<span class="pill">No</span>') +
+          dda ? '<span class="pill good">Yes</span>' : (ddaUnknown ? unknownPill : '<span class="pill">No</span>')) +
         (fmr !== null && fmr !== undefined
           ? _metricRow('Market / FMR Ratio', _fmtN(fmr, 2),
               fmr >= 1.1 ? 'var(--warn)' : 'var(--good)')

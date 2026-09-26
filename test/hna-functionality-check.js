@@ -456,17 +456,21 @@ test('JS: exportPdf delegates to window.__HNA_exportPdf', () => {
 // ---------------------------------------------------------------------------
 // JS: LIHTC / QCT / DDA map overlays
 // ---------------------------------------------------------------------------
-test('JS: LIHTC layer variables and fallback data are defined', () => {
+test('JS: LIHTC layer variables are defined, with no stand-in project data', () => {
     assert(js.includes('HNAState.lihtcLayer'), 'lihtcLayer referenced via HNAState');
     assert(js.includes('HNAState.qctLayer'),   'qctLayer referenced via HNAState');
     assert(js.includes('HNAState.ddaLayer'),   'ddaLayer referenced via HNAState');
-    assert(js.includes('LIHTC_FALLBACK_CO'),       'LIHTC_FALLBACK_CO fallback dataset is defined');
+    // The 73-record LIHTC_FALLBACK_CO list matched no CHFA project; it was
+    // removed rather than disclosed. Nothing may re-declare it.
+    assert(!/(?:const|var|let)\s+LIHTC_FALLBACK_CO\s*=/.test(js), 'no embedded LIHTC_FALLBACK_CO project list');
     assert(js.includes('CO_DDA'),                  'CO_DDA static DDA lookup is defined');
 });
 
-test('JS: LIHTC fetch function is implemented with fallback', () => {
+test('JS: LIHTC fetch function reports unavailability instead of stand-in data', () => {
     assert(js.includes('async function fetchLihtcProjects'), 'fetchLihtcProjects is an async function');
-    assert(js.includes('lihtcFallbackForCounty'),            'lihtcFallbackForCounty fallback is called');
+    assert(!/lihtcFallbackForCounty\s*\(/.test(js),          'no stand-in fallback is called');
+    assert(/throw lihtcUnavailable\(/.test(js),              'total failure throws lihtcUnavailable');
+    assert(/e\.lihtcUnavailable/.test(js),                   'render path discloses the unavailable state');
     assert(js.includes('hudLihtcQuery'),                     'HUD LIHTC ArcGIS service URL is referenced');
 });
 
