@@ -5,41 +5,116 @@
       "geoid": "08101",
       "level": "county",
       "name": "Pueblo County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's Elections and Sample Ballots pages were blocked (HTTP 403, Cloudflare challenge) on 2026-09-26, so no county sample ballot, TABOR notice or participating-entities list was read.",
+        "The commissioners filed a 2026-07-23 notice that the county 'may be submitting a ballot question or ballot questions'; commissioner agendas and minutes 2026-06-16 through 2026-09-24 contain no resolution referring a county ballot question. Not confirmed against the ballot."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://county.pueblo.org/clerk-and-recorder-department/sample-ballots",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=19429,plainText=false)",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20541,plainText=false)",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20562,plainText=false)",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0807795",
       "level": "municipal",
       "name": "Boone (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's Elections and Sample Ballots pages were blocked (HTTP 403, Cloudflare challenge) on 2026-09-26, so no county sample ballot, TABOR notice or participating-entities list was read.",
+        "Participation unknown; no 2026 election IGA with the Town of Boone appears in commissioner agendas, and the town website was also blocked (HTTP 403)."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://boone.colorado.gov/",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0862000",
       "level": "municipal",
       "name": "Pueblo (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=7316,plainText=false)",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating: the commissioners approved the 2026 election IGA with the City of Pueblo on 2026-08-18.",
+        "City Resolution No. 16419 ratifies the city clerk's certification of ballot content to the county: Ballot Questions 2A and 2B only.",
+        "Excluded 2A (not housing): 0.25% sales and use tax for the Department of Fire and technology related to public safety.",
+        "Excluded 2B (not housing): citizen-initiated 0.167% sales tax for the operations and capital improvement of the Pueblo Zoo, 2027 through 2031.",
+        "The county sample ballot could not be read (HTTP 403), so the city list was not cross-checked against it."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://puebloco.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=7316,plainText=false)",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://www.pueblo.us/131/Elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://pueblococo.api.civicclerk.com/v1/Meetings/GetMeetingFileStream(fileId=20541,plainText=false)",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0866895",
       "level": "municipal",
       "name": "Rye (town)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The county clerk's Elections and Sample Ballots pages were blocked (HTTP 403, Cloudflare challenge) on 2026-09-26, so no county sample ballot, TABOR notice or participating-entities list was read.",
+        "Participation unknown. Town of Rye board agendas through 2026-09-15 and minutes through 2026-08-05 contain no ballot referral or election IGA; the commissioners' 2026 election IGA with Rye Fire Protection District is a separate entity."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://county.pueblo.org/clerk-and-recorder-department/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofrye.colorado.gov/meeting-agendas/2026-meeting-agendas",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://townofrye.colorado.gov/meeting-minutes/2026-meeting-minutes",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
