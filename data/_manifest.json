@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T19:31:04.460Z",
+    "generated_at": "2026-09-26T19:50:40.629Z",
     "root": "data/",
     "file_count": 1687,
-    "total_size_bytes": 163040379,
+    "total_size_bytes": 163077844,
     "kinds": {
       "json": 1652,
       "geojson": 31,
@@ -461,7 +461,7 @@
       "path": "audit/quarantine-candidates.json",
       "kind": "json",
       "size_bytes": 483,
-      "mtime": "2026-09-26T19:25:58.200Z",
+      "mtime": "2026-09-26T19:50:07.896Z",
       "shape": "object",
       "keys": [
         "generated_at",
@@ -30461,8 +30461,8 @@
     {
       "path": "manifest.json",
       "kind": "json",
-      "size_bytes": 214345,
-      "mtime": "2026-09-26T19:31:03.130Z",
+      "size_bytes": 214348,
+      "mtime": "2026-09-26T19:50:39.514Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -31816,7 +31816,7 @@
       "path": "paper/figures.json",
       "kind": "json",
       "size_bytes": 14707,
-      "mtime": "2026-09-26T19:25:58.201Z",
+      "mtime": "2026-09-26T19:50:07.897Z",
       "shape": "object",
       "keys": [
         "generated_from_commit",
@@ -31839,7 +31839,7 @@
       "path": "paper/model-parameters.json",
       "kind": "json",
       "size_bytes": 6280,
-      "mtime": "2026-09-26T19:25:58.201Z",
+      "mtime": "2026-09-26T19:50:07.897Z",
       "shape": "object",
       "keys": [
         "extracted_at_commit",
@@ -32316,7 +32316,7 @@
       "path": "policy/ballot-2026/counties/08031.json",
       "kind": "json",
       "size_bytes": 4304,
-      "mtime": "2026-09-26T19:25:58.201Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32342,7 +32342,7 @@
       "path": "policy/ballot-2026/counties/08033.json",
       "kind": "json",
       "size_bytes": 3536,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32368,7 +32368,7 @@
       "path": "policy/ballot-2026/counties/08035.json",
       "kind": "json",
       "size_bytes": 14228,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32394,7 +32394,7 @@
       "path": "policy/ballot-2026/counties/08037.json",
       "kind": "json",
       "size_bytes": 9543,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32420,7 +32420,7 @@
       "path": "policy/ballot-2026/counties/08039.json",
       "kind": "json",
       "size_bytes": 3721,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32445,7 +32445,7 @@
       "path": "policy/ballot-2026/counties/08041.json",
       "kind": "json",
       "size_bytes": 7567,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32471,7 +32471,7 @@
       "path": "policy/ballot-2026/counties/08043.json",
       "kind": "json",
       "size_bytes": 5660,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -32496,7 +32496,7 @@
       "path": "policy/ballot-2026/counties/08045.json",
       "kind": "json",
       "size_bytes": 9481,
-      "mtime": "2026-09-26T19:25:58.202Z",
+      "mtime": "2026-09-26T19:23:40.058Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33583,8 +33583,8 @@
     {
       "path": "policy/candidate-platforms-2026.json",
       "kind": "json",
-      "size_bytes": 76,
-      "mtime": "2026-09-26T17:11:11.168Z",
+      "size_bytes": 37538,
+      "mtime": "2026-09-26T19:50:07.898Z",
       "shape": "object",
       "keys": [
         "schema",
@@ -33592,9 +33592,22 @@
         "candidates"
       ],
       "key_count": 3,
-      "primary_array_key": null,
-      "primary_array_length": null,
-      "primary_array_first_keys": null
+      "primary_array_key": "candidates",
+      "primary_array_length": 19,
+      "primary_array_first_keys": [
+        "candidate",
+        "office",
+        "party",
+        "campaign_source",
+        "topics",
+        "neutral_summary",
+        "quote",
+        "coverage_state",
+        "verification",
+        "proposed_appointments",
+        "history",
+        "archived"
+      ]
     },
     {
       "path": "policy/chfa-awards-historical.json",
