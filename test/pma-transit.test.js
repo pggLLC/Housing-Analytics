@@ -341,6 +341,34 @@ group('8. getTransitJustification shape', () => {
   });
 });
 
+group('9. no score before calculation; score tagged with its site (#1937)', () => {
+  test('a fresh module reports null, not 0, before any calculation', () => {
+    const modPath = require.resolve('../js/pma-transit.js');
+    delete require.cache[modPath];
+    const Fresh = require('../js/pma-transit.js');
+    const j = Fresh.getTransitJustification();
+    assert.equal(j.transitAccessibilityScore, null);
+    assert.equal(j.siteLat, null);
+    assert.equal(j.siteLon, null);
+  });
+
+  test('the score carries the site it was computed for', () => {
+    Transit.calculateTransitScore(SITE.lat, SITE.lon, [HIGH_FREQ_NEAR], EPA_LIVE);
+    const j = Transit.getTransitJustification();
+    assert.equal(j.siteLat, SITE.lat);
+    assert.equal(j.siteLon, SITE.lon);
+    assert.equal(typeof j.transitAccessibilityScore, 'number');
+  });
+
+  test('the site-selection controller only uses a score computed for the current site', () => {
+    const src = require('node:fs').readFileSync(require.resolve('../js/market-analysis/market-analysis-controller.js'), 'utf8');
+    const block = src.slice(src.indexOf('getTransitJustification()'), src.indexOf('transitMetrics = {'));
+    assert.ok(block.length > 0, 'transit wiring not found in market-analysis-controller.js');
+    assert.match(block, /tj\.siteLat - lat/, 'controller does not compare the score\'s site latitude with the current site');
+    assert.match(block, /tj\.siteLon - lon/, 'controller does not compare the score\'s site longitude with the current site');
+  });
+});
+
 /* ── Summary ───────────────────────────────────────────────────────── */
 
 Promise.all(pending).then(() => {

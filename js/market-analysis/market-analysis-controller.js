@@ -843,14 +843,19 @@
         // PMATransit.calculateTransitScore() (called by the PMA runner
         // when present) blends frequency, coverage, and EPA SLD walk-to-
         // transit; its output captures bus + rail service quality, not
-        // just proximity. When the runner hasn't been invoked or PMATransit
-        // isn't loaded, leave transitMetrics undefined and scoreAccess
+        // just proximity. When the runner hasn't scored this site or
+        // PMATransit isn't loaded, leave transitMetrics null and scoreAccess
         // falls back to the legacy distance proxy.
         var transitMetrics = null;
         if (typeof window !== 'undefined' && window.PMATransit &&
             typeof window.PMATransit.getTransitJustification === 'function') {
           var tj = _safe(function () { return window.PMATransit.getTransitJustification(); }, null);
-          if (tj && typeof tj.transitAccessibilityScore === 'number') {
+          // Only a score computed for THIS site counts. Before the runner's
+          // transit step finishes, the score is null or belongs to the
+          // previous site; either way fall back to the distance proxy.
+          var sameSite = tj && typeof tj.siteLat === 'number' && typeof tj.siteLon === 'number' &&
+            Math.abs(tj.siteLat - lat) < 1e-6 && Math.abs(tj.siteLon - lon) < 1e-6;
+          if (sameSite && Number.isFinite(tj.transitAccessibilityScore)) {
             transitMetrics = {
               transitAccessibilityScore: tj.transitAccessibilityScore,
               nearbyRouteCount:          tj.nearbyRouteCount,

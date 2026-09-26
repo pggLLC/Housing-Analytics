@@ -494,3 +494,43 @@ def test_cdphe_boundaries_match_tiger_county_count():
 # fix. CHAS for places is unconditionally county-inherited at present, so
 # the flag adds no information. Re-add this test if/when the future TIGER
 # spatial-join PR re-introduces place_tract_aggregated CHAS data.
+
+
+def test_transit_routes_all_touch_colorado():
+    """Every route must have at least one vertex in Colorado (#1937).
+
+    The MDB catalog tagged El Dorado Transit (Sacramento, California) as a
+    Colorado feed, and its 28 routes shipped in this file. The state test is
+    the fetcher's own ``CO_BBOX``, which must also enclose every Census county
+    outline, so the file and the filter agree on what Colorado is.
+    """
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        'fetch_gtfs_transit',
+        os.path.join(REPO_ROOT, 'scripts', 'market', 'fetch_gtfs_transit.py'),
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    counties = _load('data/co-county-boundaries.json')['features']
+    assert len(counties) == 64
+    pts = []
+    for f in counties:
+        g = f['geometry']
+        polys = [g['coordinates']] if g['type'] == 'Polygon' else g['coordinates']
+        pts.extend(pt for poly in polys for ring in poly for pt in ring)
+    min_lon, min_lat, max_lon, max_lat = mod.CO_BBOX
+    tol = 0.01
+    assert min(p[0] for p in pts) >= min_lon - tol and max(p[0] for p in pts) <= max_lon + tol
+    assert min(p[1] for p in pts) >= min_lat - tol and max(p[1] for p in pts) <= max_lat + tol
+    assert abs(min(p[0] for p in pts) - min_lon) < 0.05, 'CO_BBOX is wider than Colorado'
+    assert abs(max(p[0] for p in pts) - max_lon) < 0.05, 'CO_BBOX is wider than Colorado'
+
+    features = _load('data/market/transit_routes_co.geojson').get('features', [])
+    assert features, 'no route features to check'
+    outside = {}
+    for f in features:
+        if not mod.route_touches_colorado(f.get('geometry')):
+            a = f.get('properties', {}).get('agency', '?')
+            outside[a] = outside.get(a, 0) + 1
+    assert not outside, f'Routes entirely outside Colorado: {outside}'

@@ -129,6 +129,27 @@ def load_co_feeds(catalog_csv: str) -> list[dict]:
     return feeds
 
 
+# Colorado's boundary is (almost exactly) a latitude/longitude rectangle, so a
+# bounding box is an exact enough state test for route vertices.
+CO_BBOX = (-109.0603, 36.9924, -102.0415, 41.0034)  # min lon, min lat, max lon, max lat
+
+
+def route_touches_colorado(geom: dict | None) -> bool:
+    """True when any vertex of a LineString/MultiLineString lies in Colorado."""
+    if not geom:
+        return False
+    coords = geom.get("coordinates") or []
+    if geom.get("type") == "MultiLineString":
+        coords = [pt for line in coords for pt in line]
+    elif geom.get("type") != "LineString":
+        return False
+    min_lon, min_lat, max_lon, max_lat = CO_BBOX
+    return any(
+        len(pt) >= 2 and min_lon <= pt[0] <= max_lon and min_lat <= pt[1] <= max_lat
+        for pt in coords
+    )
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -365,6 +386,24 @@ def main() -> int:
     # at the un-deduped list).
     result["features"] = all_features
     result["meta"]["feature_count"] = len(all_features)
+
+    # The MDB catalog's "Colorado" filter is not reliable on its own: in
+    # September 2026 it returned El Dorado Transit, whose 28 routes are in
+    # Sacramento, California (#1937). Drop any route with no vertex inside
+    # Colorado. A route that crosses the state line keeps all its vertices.
+    kept, dropped = [], {}
+    for f in all_features:
+        if route_touches_colorado(f.get("geometry")):
+            kept.append(f)
+        else:
+            a = f.get("properties", {}).get("agency", "?")
+            dropped[a] = dropped.get(a, 0) + 1
+    if dropped:
+        log(f"Dropped {sum(dropped.values())} routes entirely outside Colorado: {dropped}", level="WARN")
+    all_features = kept
+    result["features"] = all_features
+    result["meta"]["feature_count"] = len(all_features)
+    result["meta"]["dropped_outside_colorado"] = dropped
 
     # Trim coordinate precision to 5 decimal places (~1.1m at equator,
     # ample for transit route polylines). Combined with compact JSON

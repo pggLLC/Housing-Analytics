@@ -61,7 +61,11 @@
   /* ── Internal state ───────────────────────────────────────────────── */
   var lastRoutes       = [];
   var lastEpaData      = null;
-  var lastScore        = 0;
+  // null until calculateTransitScore() runs, and tagged with the site it was
+  // computed for, so a caller cannot read a 0 or a previous site's score as
+  // this site's transit access (#1937).
+  var lastScore        = null;
+  var lastSite         = null;
   var lastWalkScore    = 0;
   var lastDeserts      = [];
 
@@ -131,6 +135,7 @@
 
     lastRoutes  = routes;
     lastEpaData = epaData;
+    lastSite    = { lat: siteLat, lon: siteLon };
 
     // Track which data sources are available
     var hasRoutes = routes && routes.length > 0;
@@ -352,6 +357,8 @@
     var epa = lastEpaData || {};
     return {
       transitAccessibilityScore: lastScore,
+      siteLat:                   lastSite ? lastSite.lat : null,
+      siteLon:                   lastSite ? lastSite.lon : null,
       walkScore:                 lastWalkScore,
       walkScoreAvailable:        walkAvailable,
       epaDataAvailable:          epaAvailable,
