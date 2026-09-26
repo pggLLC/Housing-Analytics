@@ -1,10 +1,10 @@
 {
-  "generated": "2026-09-26T09:50:48.997935Z",
+  "generated": "2026-09-26T10:04:12.981492Z",
   "files": {
     "data/_manifest.json": {
       "featureCount": 0,
       "placeholder": false,
-      "bytes": 785436
+      "bytes": 785435
     },
     "data/_qa-status.json": {
       "featureCount": 0,
@@ -7664,7 +7664,7 @@
     "data/market/hud_lihtc_co.geojson": {
       "featureCount": 926,
       "placeholder": false,
-      "bytes": 1529920
+      "bytes": 996787
     },
     "data/market/hud_zip_tract_crosswalk_co.json": {
       "featureCount": 0,
@@ -7734,7 +7734,7 @@
     "data/market/pma_tract_display_geometry.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 486690
+      "bytes": 486649
     },
     "data/market/qct_dda_designations_co.json": {
       "featureCount": 0,
@@ -7774,7 +7774,7 @@
     "data/market/tract_boundaries_co.geojson": {
       "featureCount": 1447,
       "placeholder": false,
-      "bytes": 398059
+      "bytes": 398019
     },
     "data/market/tract_centroids_co.json": {
       "featureCount": 0,

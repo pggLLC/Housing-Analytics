@@ -1,9 +1,9 @@
 {
   "meta": {
-    "generated_at": "2026-09-26T07:41:32.379Z",
+    "generated_at": "2026-09-26T10:04:09.793Z",
     "root": "data/",
     "file_count": 1621,
-    "total_size_bytes": 163013240,
+    "total_size_bytes": 162484425,
     "kinds": {
       "json": 1586,
       "geojson": 31,
@@ -276,8 +276,8 @@
     {
       "path": "alerts/alerts_archive.json",
       "kind": "json",
-      "size_bytes": 176473,
-      "mtime": "2026-09-25T12:55:18.566Z",
+      "size_bytes": 178741,
+      "mtime": "2026-09-26T10:03:31.323Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -285,7 +285,7 @@
       ],
       "key_count": 2,
       "primary_array_key": "alerts",
-      "primary_array_length": 254,
+      "primary_array_length": 257,
       "primary_array_first_keys": [
         "title",
         "date",
@@ -1329,7 +1329,7 @@
       "path": "environmental/epa-superfund-co.json",
       "kind": "json",
       "size_bytes": 331979,
-      "mtime": "2026-09-25T12:55:18.624Z",
+      "mtime": "2026-09-26T10:04:03.670Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -1494,8 +1494,8 @@
     {
       "path": "fred-data.json",
       "kind": "json",
-      "size_bytes": 1252594,
-      "mtime": "2026-09-25T12:55:18.627Z",
+      "size_bytes": 1252853,
+      "mtime": "2026-09-26T10:03:31.381Z",
       "shape": "object",
       "keys": [
         "updated",
@@ -29335,7 +29335,7 @@
       "path": "home-snapshot.json",
       "kind": "json",
       "size_bytes": 2173,
-      "mtime": "2026-09-25T18:46:06.430Z",
+      "mtime": "2026-09-26T10:04:08.181Z",
       "shape": "object",
       "keys": [
         "generated",
@@ -30493,7 +30493,7 @@
       "path": "market/acs_tract_metrics_co.json",
       "kind": "json",
       "size_bytes": 1346881,
-      "mtime": "2026-09-25T12:55:18.827Z",
+      "mtime": "2026-09-26T10:03:51.545Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -31085,8 +31085,8 @@
     {
       "path": "market/hud_lihtc_co.geojson",
       "kind": "geojson",
-      "size_bytes": 1529920,
-      "mtime": "2026-09-25T12:55:18.871Z",
+      "size_bytes": 996787,
+      "mtime": "2026-09-26T10:04:03.865Z",
       "shape": "geojson",
       "feature_count": 926,
       "property_keys": [
@@ -31373,8 +31373,8 @@
     {
       "path": "market/pma_tract_display_geometry.geojson",
       "kind": "geojson",
-      "size_bytes": 486690,
-      "mtime": "2026-09-25T12:55:18.977Z",
+      "size_bytes": 486649,
+      "mtime": "2026-09-26T10:04:05.024Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -31530,8 +31530,8 @@
     {
       "path": "market/tract_boundaries_co.geojson",
       "kind": "geojson",
-      "size_bytes": 398059,
-      "mtime": "2026-09-25T12:55:18.993Z",
+      "size_bytes": 398019,
+      "mtime": "2026-09-26T10:04:04.938Z",
       "shape": "geojson",
       "feature_count": 1447,
       "property_keys": [
@@ -32502,8 +32502,8 @@
     {
       "path": "policy_briefs.json",
       "kind": "json",
-      "size_bytes": 225843,
-      "mtime": "2026-09-25T12:55:19.122Z",
+      "size_bytes": 227715,
+      "mtime": "2026-09-26T10:03:31.702Z",
       "shape": "object",
       "keys": [
         "meta",
@@ -32513,7 +32513,7 @@
       ],
       "key_count": 4,
       "primary_array_key": "stories",
-      "primary_array_length": 107,
+      "primary_array_length": 108,
       "primary_array_first_keys": [
         "title",
         "source",
