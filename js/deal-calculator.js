@@ -627,7 +627,7 @@
   // useful peer set for a banker/syndicator sanity-checking a proforma:
   //   1. Same county (CNTY_FIPS match)
   //   2. Same credit type ('9%' or '4%')
-  //   3. Sort by recency (most recent placed-in-service first), then
+  //   3. Sort by recency (most recent CHFA award year first), then
   //      by size proximity to the proposed unit count
   //   4. Take top N (default 5)
   //
@@ -672,8 +672,7 @@
       return true;
     });
 
-    // Reject HUD sentinel years (8888 = "unknown YR_PIS", 9999 = unknown
-    // award) and clamp to the plausible LIHTC range (1986-2030). Without
+    // Reject HUD sentinel years (8888 / 9999 = unknown) and clamp to the plausible LIHTC range (1986-2030). Without
     // this guard, sentinel rows sort to the top as "most recent" and
     // contaminate the comparable-projects panel.
     // Returns true / false / null. null means the source did not publish the
@@ -685,8 +684,14 @@
       return truthy.indexOf(raw) !== -1;
     }
 
+    // Award year, never a placed-in-service year: CHFA publishes none, and
+    // the feed's YR_PIS is AwardYear copied by scripts/fetch-chfa-lihtc.js.
+    // HUD-schema records carry YR_ALLOC / YEAR_ALLOC, the same concept.
+    function _awardYearOf(p) {
+      return p.AwardYear || p.YR_ALLOC || p.YEAR_ALLOC || null;
+    }
     function _safeYear(p) {
-      var raw = parseInt(p.YR_PIS || p.YEAR_PIS || p.YR_ALLOC || p.YEAR_ALLOC || 0, 10);
+      var raw = parseInt(_awardYearOf(p) || 0, 10);
       if (!Number.isFinite(raw) || raw < 1986 || raw > 2030) return 0;
       return raw;
     }
@@ -714,7 +719,7 @@
         units:      parseInt(p.N_UNITS || p.TOTAL_UNITS || 0, 10) || 0,
         liUnits:    parseInt(p.LI_UNITS || 0, 10) || 0,
         creditType: _normCredit(p.CREDIT || p.CREDIT_PCT) || '—',
-        yearPis:    (function () { var y = parseInt(p.YR_PIS || p.YEAR_PIS || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
+        yearAward:  _safeYear(p) || null,
         yearAlloc:  (function () { var y = parseInt(p.YR_ALLOC || p.YEAR_ALLOC || 0, 10); return Number.isFinite(y) && y >= 1986 && y <= 2030 ? y : null; })(),
         // Three states, not two. These comparables are fed from the CHFA
         // feed, which carries QCT, DDA and NON_PROF as columns and populates
@@ -1052,6 +1057,7 @@
         btn;
       label.parentNode.insertBefore(banner, label);
       __dcAbatementBanner = banner;
+      _dcAppendFeeContext(banner, geoKey);
       // Wire the apply button — set select value + trigger change so NOI recomputes
       var applyBtn = banner.querySelector('#dc-apply-abatement');
       if (applyBtn) {
@@ -1069,6 +1075,46 @@
         });
       }
     }).catch(function (e) { console.warn('[dc-abatement] load failed', e); });
+  }
+  // Verified local fee measures (data/policy/fee-reductions.json) shown as
+  // CONTEXT beside the abatement banner. Never applied to any number: a
+  // waiver only lowers cost once the jurisdiction commits it to this
+  // project, and a deferral is still owed (enter it as a loan tranche).
+  function _dcAppendFeeContext(banner, geoKey) {
+    if (!banner || !window.TaxAbatement || !window.TaxAbatement.loadFeeReductions) return;
+    var geoid = geoKey ? String(geoKey).split(':').pop() : null;
+    if (!geoid) return;
+    window.TaxAbatement.loadFeeReductions().then(function (fees) {
+      if (!banner.isConnected || !fees || fees.unavailable) return;
+      var hit = window.TaxAbatement.costReductionsFor(fees, geoid, null);
+      hit.fees = hit.fees.filter(function (e) { return (e.kind || 'program') === 'program'; });
+      var box = document.createElement('div');
+      box.dataset.dcFeeContext = '1';
+      box.style.cssText = 'margin-top:.4rem;padding-top:.35rem;border-top:1px dashed rgba(4,120,87,.35);font-size:.78rem;color:var(--muted)';
+      if (!hit.fees.length) {
+        box.textContent = 'Local fee waivers: none verified yet for this jurisdiction (not the same as none). Nothing is applied to your numbers.';
+      } else {
+        var MEASURE = { waived: 'waived', reduced: 'reduced', reimbursed: 'paid by another source or refunded', deferred: 'deferred (still owed)', rate_discount: 'monthly rate discount' };
+        var items = hit.fees.slice(0, 4).map(function (e) {
+          var li = document.createElement('li');
+          li.textContent = e.summary + ' (' + (MEASURE[e.measure] || e.measure) + '; ' + e.provider + ')';
+          return li;
+        });
+        var lead = document.createElement('div');
+        lead.textContent = 'Verified local fee measures — context only, not applied to any number. A waiver counts only once committed to this project; enter a deferral as an Impact Fee Loan tranche.';
+        var ul = document.createElement('ul');
+        ul.style.cssText = 'margin:.2rem 0 0 1rem;padding:0';
+        items.forEach(function (li) { ul.appendChild(li); });
+        box.appendChild(lead);
+        box.appendChild(ul);
+        if (hit.fees.length > 4) {
+          var more = document.createElement('div');
+          more.textContent = '+' + (hit.fees.length - 4) + ' more in the Housing Needs Assessment’s local resources.';
+          box.appendChild(more);
+        }
+      }
+      banner.appendChild(box);
+    }).catch(function () {});
   }
   // Hook into the existing render lifecycle. Try multiple times since
   // the tax select isn't in the DOM until the Deal Calc renders its
@@ -2405,7 +2451,7 @@
             <tr>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Project</th>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">City</th>
-              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Year PIS</th>
+              <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Award year</th>
               <th style="text-align:right;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Units</th>
               <th style="text-align:left;color:var(--muted);font-weight:600;padding:0.3rem 0.25rem;border-bottom:1px solid var(--border);">Flags</th>
             </tr>
@@ -2417,7 +2463,7 @@
         <p id="dc-peers-empty" style="font-size:var(--tiny);color:var(--muted);margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
         <p id="dc-peers-flag-note" style="font-size:var(--tiny);color:var(--muted);font-style:italic;margin-top:var(--sp2);margin-bottom:0;display:none;"></p>
         <p class="kpi-source kpi-verify" style="margin-top:var(--sp2);">
-          ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, year placed in service, total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
+          ⚠ HUD LIHTC DB does not publish per-project TDC, equity pricing, or stabilized DSCR — those come from syndicator filings (private). What you see here: project name, the year CHFA awarded the credits (not the year the property opened — CHFA publishes no placed-in-service year, and projects typically open two to three years after award), total units, QCT/DDA/non-profit flags. Use as a sanity-check for unit-count and credit-type fit, not as a financial benchmark.
           Source:
           <a href="https://lihtc.huduser.gov/" target="_blank" rel="noopener">HUD LIHTC Database</a>.
         </p>
@@ -3401,6 +3447,22 @@
     // in `isFinite(n) ? ... : '—'`.
     if (unitMixError) {
       annualRents = NaN;
+      // The credit side depends on the unit split too: the applicable
+      // fraction and the minimum set-aside both divide tier units by Total
+      // Units. With the tiers exceeding the total, basis, credits and equity
+      // were still rendered ($12.38M of equity beside the hard error) and the
+      // set-aside read "Qualifies ... 60 of 20 units (300.0%)". Same NaN
+      // treatment as the rents: every renderer downstream shows "—".
+      eligibleBasis = NaN;
+      annualCredits = NaN;
+      equity = NaN;
+      var msaStatus = document.getElementById('dc-minimum-set-aside-status');
+      if (msaStatus) {
+        msaStatus.innerHTML = '<strong>Not evaluated.</strong> AMI-tier units (' + amiUnitSum +
+          ') exceed Total Units (' + units + '), so the minimum set-aside cannot be tested. ' +
+          'Fix the unit mix above.';
+        msaStatus.style.borderColor = 'var(--warn,#d97706)';
+      }
     }
     // Same for a deal with no county. The rent roll above prices each unit at
     // the county's AMI rent ceiling, and before a county is chosen there are
@@ -3854,13 +3916,18 @@
       if (!_countyFips) {
         peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Select a county to see peer deals.</td></tr>';
         if (peersEmpty) peersEmpty.style.display = 'none';
+      } else if (lihtcFeats.length === 0 && hudLihtc && hudLihtc.getSource && hudLihtc.getSource() === 'unavailable') {
+        // Every source failed. Say so — an empty table here would read as
+        // "no comparable deals exist", which the data never said.
+        peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">LIHTC project data is unavailable right now, so no peer deals can be shown. This is a load failure, not an absence of comparable projects.</td></tr>';
+        if (peersEmpty) peersEmpty.style.display = 'none';
       } else if (lihtcFeats.length === 0) {
         peersBody.innerHTML = '<tr><td colspan="5" style="padding:0.5rem;text-align:center;color:var(--muted);font-size:var(--tiny);">Loading LIHTC project database…</td></tr>';
         if (peersEmpty) peersEmpty.style.display = 'none';
         // Trigger a load once if we haven't tried yet
         if (hudLihtc && hudLihtc.load && !window.__dcPeerLoadTried) {
           window.__dcPeerLoadTried = true;
-          hudLihtc.load().then(function () { recalculate(); }).catch(function () {});
+          hudLihtc.load().then(function () { recalculate(); }).catch(function () { recalculate(); });
         }
       } else {
         var peers = findPeerDeals({
@@ -3894,7 +3961,7 @@
                 (p.creditType !== '—' ? ' <span style="font-size:var(--tiny);color:var(--muted);font-weight:400;">' + p.creditType + '</span>' : '') +
               '</td>' +
               '<td style="padding:0.3rem 0.25rem;color:var(--muted);font-size:var(--tiny);">' + (p.city || '—') + '</td>' +
-              '<td style="text-align:right;padding:0.3rem 0.25rem;">' + (p.yearPis || p.yearAlloc || '—') + '</td>' +
+              '<td style="text-align:right;padding:0.3rem 0.25rem;">' + (p.yearAward || '—') + '</td>' +
               '<td style="text-align:right;padding:0.3rem 0.25rem;font-weight:600;color:' + unitColor + ';">' + (p.units || '—') + '</td>' +
               '<td style="padding:0.3rem 0.25rem;">' + (flags.join('') || '<span style="color:var(--muted);font-size:var(--tiny);">—</span>') + '</td>' +
             '</tr>';
@@ -4732,6 +4799,11 @@
           }
           return false;
         };
+        // A share link carries the sender's county (deal-calculator-share.js
+        // sets this before init). It wins over the recipient's own workflow
+        // jurisdiction, which would otherwise re-select a different county
+        // after the link hydrated — or none, leaving every output at "—".
+        if (window.__DealCalcSharedCounty && _selectCounty(window.__DealCalcSharedCounty)) return;
         var _fallbackCounty = function () {
           // Pre-select the jurisdiction county so user doesn't re-enter it.
           // GEO-1 writes a canonical countyFips for place/CDP selections;
@@ -5896,8 +5968,8 @@
         type: 'Loan', notes: 'Deep affordability requirement (≤30% AMI only). 30-yr affordability min. Davis-Bacon applies.' },
       { k: 'impact_fee_loan', name: 'Impact Fee Loan / Waiver',
         desc: 'Municipal impact fee deferral or waiver for affordable units. Highly jurisdiction-specific — check local code.',
-        url: 'https://www.cml.org/home/resources-training/affordable-housing-toolkit',
-        type: 'Loan + Waiver', notes: 'CO statute permits waivers for income-restricted units. Check city/county impact-fee code.' },
+        url: 'https://colorado.public.law/statutes/crs_29-20-104.5',
+        type: 'Loan + Waiver', notes: 'C.R.S. 29-20-104.5(5): a local government "may waive" an impact fee on low- or moderate-income or affordable employee housing as it defines it — permitted, not required. Subsection (6) allows deferring collection to building permit or certificate of occupancy. Water/sewer taps are often charged by a separate district. Verified local measures: data/policy/fee-reductions.json.' },
       { k: 'sponsor_loan', name: 'Sponsor / Affiliate Loan',
         desc: 'Developer or related-entity subordinate loan. Often used to bridge timing gaps between closing + LIHTC equity flow.',
         url: '',

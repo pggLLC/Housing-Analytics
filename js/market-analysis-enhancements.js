@@ -24,6 +24,67 @@
 
   var SATURATION_THRESHOLD = 3; // competitive projects before saturation warning
 
+  // Lease-up pace behind the absorption estimate: a flat rule of thumb of
+  // 50 income-restricted units leased per month across the submarket, not
+  // a lease-up rate measured for this market. The page labels it so.
+  var ABSORPTION_UNITS_PER_MONTH = 50;
+
+  // Where a project's stage came from. A CHFA status that names the phase
+  // is reported; the award-year rule is a guess and is labelled as one.
+  var STAGE_BASIS = {
+    compliance: 'CHFA compliance status',
+    awardYear:  'estimated from award year'
+  };
+
+  /**
+   * Pipeline stage for one LIHTC record.
+   *
+   * Only two CHFA statuses name a phase: "Pre-Compliance - Construction
+   * Phase" is a project being built, and an extended-use status comes after
+   * the 15-year compliance period, so that property has long been open.
+   * "Active Compliance" does NOT prove a property is open: in the 2026-09
+   * feed 26 of the 32 2025 awards already carry it (scripts/fetch-chfa-
+   * lihtc.js). Treating it as operating would drop likely-forthcoming
+   * competition from the pipeline, so an Active Compliance record, like one
+   * with no status, is staged from its award year and marked an estimate.
+   *
+   * YR_PIS is not used: in data/chfa-lihtc.json it is a copy of the award
+   * year, so it cannot say whether a building is placed in service.
+   *
+   * @param {object} p   - feature properties
+   * @param {number} now - current year
+   * @returns {{ stage: string, basis: string, estimated: boolean, status: string|null }}
+   */
+  function classifyPipelineStage(p, now) {
+    p = p || {};
+    var status = String(p.ComplianceStatus || p.compliance_status || '').trim();
+    if (status) {
+      if (/construction/i.test(status)) {
+        return { stage: PIPELINE_STAGES.construction, basis: STAGE_BASIS.compliance, estimated: false, status: status };
+      }
+      if (/extended use/i.test(status)) {
+        return { stage: PIPELINE_STAGES.complete, basis: STAGE_BASIS.compliance, estimated: false, status: status };
+      }
+    }
+    var yr = parseInt(p.YEAR_ALLOC || p.year_alloc || p.YR_ALLOC || p.AwardYear || 0, 10);
+    var stage;
+    if (!yr || yr < now - 5) {
+      stage = PIPELINE_STAGES.complete;
+    } else if (yr >= now - 1) {
+      stage = PIPELINE_STAGES.construction;
+    } else if (yr >= now - 3) {
+      stage = PIPELINE_STAGES.entitled;
+    } else {
+      stage = PIPELINE_STAGES.prePermit;
+    }
+    return { stage: stage, basis: STAGE_BASIS.awardYear, estimated: true, status: status || null };
+  }
+
+  /** Display text for a classified stage: an estimate says it is one. */
+  function stageLabel(c) {
+    return c.estimated ? c.stage + ' (est. from award year)' : c.stage;
+  }
+
   /* ── Peer Benchmarking ───────────────────────────────────────────── */
   /**
    * Rank the given score against a reference project set.
@@ -115,8 +176,9 @@
       return haversine(lat, lon, c[1], c[0]) <= miles;
     });
 
-    // Classify by allocation year as a proxy for development stage.
-    // Field-name reality: hud_lihtc_co.geojson uses HUD-style keys
+    // Stage from CHFA's compliance status where the record has one, and
+    // from the award year (labelled an estimate) where it does not — see
+    // classifyPipelineStage. Field-name reality: hud_lihtc_co.geojson uses HUD-style keys
     // (PROJECT_NAME, CITY, TOTAL_UNITS, YEAR_ALLOC); chfa-lihtc.json
     // — the now-canonical CHFA live cache — uses CHFA-style keys
     // (PROJECT, PROJ_CTY, N_UNITS / LI_UNITS, YR_ALLOC). Fall back through
@@ -130,22 +192,17 @@
       var dist = haversine(lat, lon,
                   (f.geometry.coordinates[1]),
                   (f.geometry.coordinates[0]));
-      var stage;
-      if (!yr || yr < now - 5) {
-        stage = PIPELINE_STAGES.complete;
-      } else if (yr >= now - 1) {
-        stage = PIPELINE_STAGES.construction;
-      } else if (yr >= now - 3) {
-        stage = PIPELINE_STAGES.entitled;
-      } else {
-        stage = PIPELINE_STAGES.prePermit;
-      }
+      var c = classifyPipelineStage(p, now);
       return {
         name:  p.PROJECT_NAME || p.project_name || p.PROJECT || p.ReportedName || 'LIHTC Project',
         city:  p.CITY || p.city || p.PROJ_CTY || '',
         units: parseInt(p.TOTAL_UNITS || p.total_units || p.N_UNITS || p.LI_UNITS || 0, 10),
         year:  yr,
-        stage: stage,
+        stage: c.stage,
+        stageLabel: stageLabel(c),
+        stageBasis: c.basis,
+        stageEstimated: c.estimated,
+        complianceStatus: c.status,
         dist:  Math.round(dist * 10) / 10
       };
     });
@@ -159,11 +216,16 @@
                       (stageCounts[PIPELINE_STAGES.entitled]   || 0) +
                       (stageCounts[PIPELINE_STAGES.construction] || 0);
 
-    // Absorption timeline: rough estimate at 30% annual absorption
+    var activeEstimated = classified.filter(function (p) {
+      return p.stageEstimated && p.stage !== PIPELINE_STAGES.complete;
+    }).length;
+
+    // Absorption timeline: a heuristic — units not yet operating divided by
+    // ABSORPTION_UNITS_PER_MONTH, rounded up to whole months.
     var totalActiveUnits = classified
       .filter(function (p) { return p.stage !== PIPELINE_STAGES.complete; })
       .reduce(function (s, p) { return s + p.units; }, 0);
-    var absorptionMonths = totalActiveUnits > 0 ? Math.ceil(totalActiveUnits / 50) : 0;
+    var absorptionMonths = totalActiveUnits > 0 ? Math.ceil(totalActiveUnits / ABSORPTION_UNITS_PER_MONTH) : 0;
 
     return {
       available:       true,
@@ -173,6 +235,10 @@
       stageCounts:     stageCounts,
       totalActiveUnits: totalActiveUnits,
       estimatedAbsorptionMonths: absorptionMonths,
+      absorptionUnitsPerMonth: ABSORPTION_UNITS_PER_MONTH,
+      absorptionBasis: 'Heuristic: units not yet operating \u00f7 ' + ABSORPTION_UNITS_PER_MONTH +
+        ' units leased per month, a rule of thumb, not a lease-up rate measured for this market',
+      activeStagesEstimated: activeEstimated,
       projects:        classified.sort(function (a, b) { return a.dist - b.dist; }).slice(0, 10)
     };
   }
@@ -187,9 +253,11 @@
    *   other capture rates divide by (market-analysis.js captureDenominator).
    *   Without it the table used ACS renter_hh while the headline and the
    *   simulator used CHAS LIHTC-eligible renters (audit F3).
+   * @param {Function} [scorer] - units -> computePma result with the
+   *   headline's inputs (market-analysis.js _scenarioScorer).
    * @returns {Array} scenarioResults
    */
-  function generateScenarios(acs, existingUnits, scenarioList, denominator) {
+  function generateScenarios(acs, existingUnits, scenarioList, denominator, scorer) {
     if (!acs || !acs.renter_hh) return [];
     var den = Number(denominator) > 0 ? Number(denominator) : acs.renter_hh;
 
@@ -200,7 +268,9 @@
     return scenarioList.map(function (scenario) {
       var units   = scenario.proposedUnits || 0;
       var amiMix  = scenario.amiMix || { ami60: units };
-      var pma     = computePma(acs, existingUnits, units);
+      // scorer: computePma bound to the headline's own inputs, so the
+      // no-project row equals the PMA score (audit F2).
+      var pma     = typeof scorer === 'function' ? scorer(units) : computePma(acs, existingUnits, units);
       var capture = simulateCapture(den, units, amiMix);
 
       return {
@@ -246,7 +316,9 @@
         lihtcSource:  'HUD LIHTC Database (public)',
         geographySource: 'Census TIGERweb tract centroids',
         prop123Source: 'CHFA Prop 123 jurisdictions list',
-        acsVintage:   (quality && quality.counts) ? 'ACS 2022 5-Year' : 'unknown',
+        // Read from the loaded tract metrics' meta.vintage (see
+        // _acsVintageLabel in js/market-analysis.js), never hard-coded.
+        acsVintage:   (result && result.acsVintageLabel) || null,
         methodology:  'docs/MARKET_ANALYSIS_METHOD.md + docs/PMA_SCORING.md'
       },
       dataQuality:    quality || {},
@@ -262,6 +334,9 @@
         dimensions: result.dimensions,
         flags:      result.flags,
         capture:    result.capture,
+        // Existing affordable units ÷ qualified renters (PMAEngine.MEASURE_NAMES).
+        captureMeasure: window.PMAEngine && window.PMAEngine.MEASURE_NAMES
+          ? window.PMAEngine.MEASURE_NAMES.penetration : 'Existing affordable penetration',
         rentRatio:  result.rentRatio
       },
       acs: result.acs || {},
@@ -269,6 +344,18 @@
         count:       result.lihtcCount,
         units:       result.lihtcUnits,
         prop123Count: result.prop123Count
+      },
+      existingAffordable: {
+        count:              result.affordableCount,
+        units:              result.affordableUnits,
+        lihtcCount:         result.lihtcCount,
+        otherAssistedCount: result.otherAssistedCount,
+        unitsUnknownCount:  result.affordableUnitsUnknownCount,
+        unitsUnavailableReason: result.affordableUnitsUnavailableReason,
+        unitsFallbackCount: result.affordableUnitsFallbackCount,
+        unitsFallbackReason: result.affordableUnitsFallbackReason,
+        duplicatesRemoved:  result.affordableDuplicatesRemoved,
+        duplicatesReason:   result.affordableDuplicatesReason
       },
       benchmark:  benchmark  || { available: false },
       pipeline:   pipeline   || { available: false },
@@ -300,6 +387,10 @@
     defaultScenarios:           defaultScenarios,
     exportWithMetadata:         exportWithMetadata,
     PIPELINE_STAGES:            PIPELINE_STAGES,
+    STAGE_BASIS:                STAGE_BASIS,
+    classifyPipelineStage:      classifyPipelineStage,
+    stageLabel:                 stageLabel,
+    ABSORPTION_UNITS_PER_MONTH: ABSORPTION_UNITS_PER_MONTH,
     SATURATION_THRESHOLD:       SATURATION_THRESHOLD
   };
 

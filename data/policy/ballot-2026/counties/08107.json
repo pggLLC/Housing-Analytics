@@ -1,0 +1,56 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08107",
+      "level": "county",
+      "name": "Routt County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0835070",
+      "level": "municipal",
+      "name": "Hayden (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0855155",
+      "level": "municipal",
+      "name": "Oak Creek (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0873825",
+      "level": "municipal",
+      "name": "Steamboat Springs (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0886475",
+      "level": "municipal",
+      "name": "Yampa (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

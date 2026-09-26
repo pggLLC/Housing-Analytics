@@ -89,6 +89,9 @@
     return (labels && labels[id]) || humanize(id);
   }
   function stageLabel(id) { return plainLabel('stages', id); }
+  // Household counts render whole, on the page and in the report alike;
+  // the engines keep the unrounded value for every calculation.
+  function households(value) { return unavailable(value) ? display(value) : MarketStudyReport.formatHouseholds(value); }
   function affordabilityAnswer(item) {
     if (typeof item.preservesAffordability !== 'boolean') return noviceText(item.preservesAffordabilityLabel);
     return (item.preservesAffordability ? '<strong>Yes</strong> — ' : '<strong>No</strong> — ') + noviceText(item.preservesAffordabilityLabel);
@@ -112,6 +115,25 @@
     var maximumAssistance = assistance.range[1];
     var residual = Math.max(0, gap - maximumAssistance);
     return `<strong class="ms-assistance-residual">Short by ${display(residual, 'money')}</strong><span class="ms-assistance-qualifier">insufficient at the top of the available assistance range</span>`;
+  }
+  function studyJurisdiction(data) {
+    var geography = data && data.geography;
+    return (geography && geography.mode === 'jurisdiction') ? geography.context : null;
+  }
+  // The place the reader is looking at: their jurisdiction, or with none
+  // chosen, the example project's own town.
+  function placeName(model, data) {
+    var context = studyJurisdiction(data);
+    return context ? (context.name || context.geoid) : model.scenario.jurisdiction.name;
+  }
+  function atExampleTown(model, data) {
+    var context = studyJurisdiction(data);
+    return MarketStudyReport.isExampleJurisdiction(model.scenario, context && context.name, context && context.geoid);
+  }
+  // Sections 2-4 run on LAND_INPUTS, WATERFALL_INPUTS and lifecycleInput():
+  // fixed example figures, identical for every jurisdiction.
+  function exampleInputs(model, data) {
+    return `<p class="ms-warning ms-example-inputs" data-example-inputs="true"><strong>${esc(MarketStudyReport.exampleInputsLabel(placeName(model, data)))}.</strong> ${MarketStudyReport.exampleInputsDetail()}</p>`;
   }
   function table(headers, rows, label) {
     return `<div class="ms-table-wrap"><table aria-label="${label}"><thead><tr>${headers.map(function (item) { return `<th>${item}</th>`; }).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div>`;
@@ -199,14 +221,18 @@
       var assistance = assistanceForBand(model.scenario, row.band);
       return `<tr><td>${display(row.count)}</td><td>${display(row.band[0], 'rate')}–${display(row.band[1], 'rate')}</td><td>${display(row.maxAffordablePrice, 'money')}</td><td class="ms-affordability-gap"><strong>${display(row.gapVsLocalPrice, 'money')}</strong></td><td>${assistanceFinding(row, assistance)}</td><td>${pill(row)}</td></tr>`;
     });
+    var atHome = atExampleTown(model, data);
     var partners = model.scenario.partners.map(function (partner) {
-      return `<li><strong>${humanize(partner.role)}</strong>: ${partner.name || partner.provider_id || display(null)} — candidate; no commitment has been made</li>`;
+      // The candidates are the example town's organisations; elsewhere only
+      // the role carries over.
+      var who = atHome ? (partner.name || partner.provider_id || display(null)) : `None identified for ${esc(placeName(model, data))}`;
+      return `<li><strong>${humanize(partner.role)}</strong>: ${who} — candidate; no commitment has been made</li>`;
     }).join('');
     var pending = model.scenario.meta.owner_inputs_pending;
-    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p><p class="ms-caveat">Values still needed: ${pending.join(', ')}</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
+    return `<section id="ms-s1" class="chart-card ms-section">${heading('1. The project and who it is priced for', 'scenario and program comparison')}${plain('the first table is the mix of homes in an example project. The second splits the homes by income group (AMI band). For each group it shows the most a household could pay, how far that falls short of the typical local home value (the gap), and whether the down-payment help assumed for the example project could close that gap. That help is an example assumption, not a list of programs available where you are. Use the menu to try other versions of the project.')}<label>Project scenario <select id="ms-scenario-select">${options}</select></label>${table(['Homes', 'Type', 'Size', 'Where the number comes from'], mixRows, 'Unit mix')}${table(['Homes', 'Income group (AMI band)', 'Most they could pay', 'Gap to typical home value', 'Still short after the example\'s down-payment help', 'Where the number comes from'], bandRows, 'AMI comparison')}<div class="ms-grid"><div><h3>Cost per home</h3><p>Total development cost (TDC) per home: ${display(model.derived.tdcDependent.tdcPerUnit, 'money')}</p><p>Public subsidy needed per home: ${display(model.derived.tdcDependent.subsidyPerUnit, 'money')}</p><p><strong>Values still needed from the project sponsor before costs can be worked out:</strong> ${pending.map(function (id) { return plainLabel('pending', id); }).join('; ')}.</p></div><div><h3>Partners</h3><ul>${partners}</ul></div></div></section>`;
   }
 
-  function renderLand(model) {
+  function renderLand(model, data) {
     var rows = model.landOutcomes.map(function (item) {
       var fields = Object.keys(item.row.assessments).map(function (key) {
         var field = item.row.assessments[key];
@@ -214,10 +240,10 @@
       }).join('');
       return `<article class="ms-subcard" data-land-model="${item.row.modelId}"><h3>${item.row.label}</h3><p>${item.row.modelId === 'model_a_public_land_retention' ? '<strong>Hypothesis to test</strong> — an idea to check, not a finding' : ''}</p><p>Upfront price reduction per home: ${display(item.row.initialPerUnitAffordabilityBenefit, 'money')}</p><p>Buyer's monthly housing cost in year 5: <strong>${display(item.lifecycle.results[5].monthlyHousingCost, 'money')}</strong> ${pill(item.lifecycle)}</p><details><summary>What this option means in practice (15 questions)</summary><ul>${fields}</ul></details></article>`;
     }).join('');
-    return `<section id="ms-s2" class="chart-card ms-section">${heading('2. What to do with the land', 'land-disposition comparison')}${plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Open each card to see the trade-offs.')}<p class="ms-caveat">The options are listed in a fixed order, not ranked. Dollar figures are calculated from the same example assumptions for every option.</p><div class="ms-card-grid">${rows}</div></section>`;
+    return `<section id="ms-s2" class="chart-card ms-section">${heading('2. What to do with the land', 'land-disposition comparison')}${plain('four ways a town or housing authority could handle the land under the homes. Keeping the land and leasing it to buyers (a ground lease) takes the land out of the price, but adds a monthly land fee and more paperwork. Selling the land with a deed restriction or covenant avoids the land fee and gives buyers ordinary ownership, but the public keeps only the right to enforce the restriction, not the land itself. Open each card to see the trade-offs.')}<p class="ms-caveat">The options are listed in a fixed order, not ranked. Dollar figures are calculated from the same example assumptions for every option.</p>${exampleInputs(model, data)}<div class="ms-card-grid">${rows}</div></section>`;
   }
 
-  function renderConventions(model) {
+  function renderConventions(model, data) {
     var pathOptions = Object.keys(SharedEquityLifecycle.SCENARIOS).map(function (key) {
       var selected = model.path === SharedEquityLifecycle.SCENARIOS[key] ? ' selected' : '';
       return `<option value="${key}"${selected}>${marketPathLabel(SharedEquityLifecycle.SCENARIOS[key].scenarioLabel)}</option>`;
@@ -229,10 +255,10 @@
       });
       return `<article class="ms-subcard" data-convention="${result.conventionId}"><h3>${result.conventionLabel}</h3><p>${provenance(result)}</p><p>${result.scenarioLabel}</p>${table(['Years owned', 'Seller walks away with (net proceeds)', 'Capped resale price', 'Most the next buyer could pay', 'Still affordable to the next buyer?'], rows, `${result.conventionLabel} outcomes`)}</article>`;
     }).join('');
-    return `<section id="ms-s3" class="chart-card ms-section">${heading('3. What happens when an owner sells', 'shared-equity resale formulas')}${plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the last column checks whether it does. Each card below is one common formula. Compare two things: what the seller walks away with, and whether the capped price is still within reach of the next buyer. The market path menu sets one yearly rate that home values, incomes and inflation all follow, so it moves the resale price and what the next buyer can pay together.')}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span><div class="ms-card-grid">${cards}</div></section>`;
+    return `<section id="ms-s3" class="chart-card ms-section">${heading('3. What happens when an owner sells', 'shared-equity resale formulas')}${plain('price-restricted homes come with a resale formula that caps what an owner can sell for. The goal is to keep the home affordable for the next buyer, but a cap does not guarantee it — the last column checks whether it does. Each card below is one common formula. Compare two things: what the seller walks away with, and whether the capped price is still within reach of the next buyer. The market path menu sets one yearly rate that home values, incomes and inflation all follow, so it moves the resale price and what the next buyer can pay together.')}<label>Market path <select id="ms-path-select">${pathOptions}</select></label><span class="ms-control-note">Each market path is a scenario, not a prediction.</span>${exampleInputs(model, data)}<div class="ms-card-grid">${cards}</div></section>`;
   }
 
-  function renderSettlement(model) {
+  function renderSettlement(model, data) {
     var conventionOptions = model.conventionResults.map(function (item) {
       var selected = item.conventionId === model.selectedConvention.conventionId ? ' selected' : '';
       return `<option value="${item.conventionId}"${selected}>${item.conventionLabel}</option>`;
@@ -245,14 +271,14 @@
     });
     var warning = model.settlement.ownerNetTransparencyWarning
       ? `<div class="ms-warning" role="alert" data-transparency-warning="visible"><strong>Owner-net transparency warning:</strong> ${model.settlement.ownerNetTransparencyNote}</div>` : '';
-    return `<section id="ms-s4" class="chart-card ms-section">${heading('4. Where the money goes at resale', 'resale settlement')}${plain('pick a resale formula and a year to follow one sale line by line: selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. A shortfall means there was not enough money to pay that line in full.')}<div class="ms-controls"><label>Resale formula <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
+    return `<section id="ms-s4" class="chart-card ms-section">${heading('4. Where the money goes at resale', 'resale settlement')}${plain('pick a resale formula and a year to follow one sale line by line: selling costs are paid first, then the mortgage, then the owner gets their down payment back, then any public help is repaid. The owner\'s net proceeds are their down payment back, any improvement credit, and whatever is left after that. A shortfall means there was not enough money to pay that line in full.')}${exampleInputs(model, data)}<div class="ms-controls"><label>Resale formula <select id="ms-convention-select">${conventionOptions}</select></label><label>Year <select id="ms-year-select">${yearOptions}</select></label></div><p>${model.settlement.scenarioLabel} ${pill(model.settlement)}</p>${table(['Step', 'Owed', 'Paid', 'Shortfall', 'Evidence'], rows, 'Resale settlement steps')}<div class="ms-grid"><p>Public subsidy retained in home: <strong>${display(model.settlement.publicSubsidyRetainedInHome, 'money')}</strong></p><p>Public subsidy recaptured at sale: <strong>${display(model.settlement.publicSubsidyRecapturedAtSale, 'money')}</strong></p><p>Owner net proceeds: <strong>${display(model.settlement.ownerNetProceeds, 'money')}</strong></p></div>${warning}</section>`;
   }
 
   function renderFunnel(model) {
     var rows = model.funnel.stages.map(function (stage) {
-      if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${display(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
+      if (stage.id === 'observed_base') return `<tr><td>Starting pool</td><td>${households(stage.outputCount)}</td><td>${stage.label}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
       var assumption = model.assumptions[stage.id];
-      return `<tr><td>${stageLabel(stage.id)}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stageLabel(stage.id)} — share"></td><td>${display(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
+      return `<tr><td>${stageLabel(stage.id)}</td><td><input class="ms-share-input" data-stage-id="${stage.id}" type="number" min="0" max="1" step="0.01" placeholder="0–1" value="${assumption.share === null ? '' : assumption.share}" aria-label="${stageLabel(stage.id)} — share"></td><td>${households(stage.outputCount)}</td><td>${stage.basis}</td><td>${pill(stage)}</td></tr>`;
     });
     var howTo = `<div class="ms-warning"><strong>How to fill this in:</strong> the first row, the starting pool, is filled in for you from public HUD data (CHAS). For each row after it, type the share of the remaining households that pass that step, as a decimal — 0.5 means half. Each step shrinks the pool, top to bottom. If a row is left blank, every row below it stays blank too, because the page will not guess. The <em>Evidence basis</em> column says where a real share should come from: buyer surveys, lender or broker records, or results from similar projects.</div>`;
     return `<section id="ms-s5" class="chart-card ms-section">${heading('5. How many local households could buy', 'effective-demand funnel')}${plain('this starts from a rough count of local moderate-income renter households, taken from HUD\'s CHAS tables and split across the project\'s income groups. It is a potential pool, not committed buyers. Each step below narrows it by a share you supply, so the result is only as good as the evidence behind those shares.')}${howTo}<p class="ms-caveat">Nothing you type is saved — reloading the page clears it.</p><p><strong>Steps still blank:</strong> ${model.funnel.unresolvedStages.length ? model.funnel.unresolvedStages.map(stageLabel).join('; ') : 'none'}</p>${table(['Stage', 'Share / output (decimal share, e.g. 0.8 = 80%)', 'Output / protected label', 'Evidence basis', 'Classification'], rows, 'Effective-demand funnel')}</section>`;
@@ -260,7 +286,7 @@
 
   function figure(value, kind) {
     var shown = unavailable(value.value) && value.denominator.value === 0 ? 'None — the pool is empty' : display(value.value, kind);
-    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : value.denominator.value.toLocaleString('en-US', { maximumFractionDigits: 2 })} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
+    return `<span class="ms-figure">${shown} <span class="ms-denominator">denominator: ${value.denominator.value === NOT_AVAILABLE ? display(value.denominator.value) : MarketStudyReport.formatDenominatorValue(value.denominator)} — ${MarketStudyReport.plainBasis(value.denominator.basis)}</span></span>`;
   }
   function renderCapture(model) {
     var scenarioRows = model.capture.scenarios.map(function (item) {
@@ -301,9 +327,12 @@
       ? '<p class="ms-caveat">' + esc(geography.unavailable.detail) + ' Sections 5 and 6 cannot be screened here.</p>'
       : '';
     return '<aside class="ms-geography" role="note" data-study-mode="jurisdiction" data-study-geoid="' + esc(geography.context.geoid) + '">'
-      + '<p><strong>Market: ' + name + '.</strong> Income limits, home values and the buyer pool below are ' + name + "'s. "
+      + '<p><strong>Market: ' + name + '.</strong> The income limits and home values in section 1, the sale prices, '
+      + 'and the buyer pool in sections 5 and 6 are ' + name + "'s. "
       + 'The project itself is still an example program — nobody has supplied a real one — so read this as '
       + '"what would a project like this meet in ' + name + '".</p>'
+      + '<p>Sections 2 to 4 (land, resale and settlement) are not ' + name + "'s data: they run on fixed example "
+      + 'inputs, the same for every jurisdiction, and each is labelled <em>Example only</em>.</p>'
       + note
       + '<p><a href="select-jurisdiction.html">Change jurisdiction</a></p>'
       + '</aside>';
@@ -336,31 +365,32 @@
    * three of them Grand Junction — so the ZIP count is part of the figure, not
    * a footnote under it.
    */
+  // Rendered from MarketStudyReport.salePriceFacts, the same object the
+  // downloaded report renders, so the two cannot quote different figures.
+  function salePriceEvidence(data) { return (data.geography && data.geography.salePrice) || null; }
   function renderSalePrice(data) {
-    var evidence = data.geography && data.geography.salePrice;
-    if (!evidence) return '';
-    if (evidence.state === 'unavailable') {
-      var reasons = evidence.reasons.map(function (reason) {
+    var facts = MarketStudyReport.salePriceFacts(salePriceEvidence(data));
+    if (!facts) return '';
+    if (!facts.available) {
+      var reasons = facts.reasons.map(function (reason) {
         return '<li><strong>' + esc(reason.source) + '</strong> \u2014 ' + esc(reason.detail)
           + (reason.issue ? ' <span class="ms-caveat">(tracked in #' + esc(reason.issue) + ')</span>' : '')
           + '</li>';
       }).join('');
       return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="unavailable">'
-        + '<h2>Local sale prices</h2>'
-        + plain('this would show what homes near you have recently sold for. No sale-price source covers this place; the reasons are listed below.')
-        + '<p class="ms-unavailable">' + esc(evidence.label) + '.</p>'
-        + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p>'
+        + '<h2>' + esc(facts.heading) + '</h2>'
+        + plain(esc(facts.plain))
+        + '<p class="ms-unavailable">' + esc(facts.label) + '.</p>'
+        + '<p class="ms-caveat">' + esc(facts.caveat) + '</p>'
         + '<ul class="ms-reasons">' + reasons + '</ul></section>';
     }
-    return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(evidence.state) + '">'
-      + '<h2>Local sale prices</h2>'
-        + plain('what homes near you have recently sold for — roughly the price a buyer with no help would face. The gaps in section 1 are measured against a separate typical home-value estimate, so the two figures can differ.')
-      + '<p class="ms-sale-price"><strong>' + display(evidence.value, 'money') + '</strong> '
-      + '<span class="ms-pill">' + esc(evidence.label) + '</span></p>'
-      + (evidence.period
-        ? '<p class="ms-caveat">Three-month period ending ' + esc(evidence.period) + '.</p>'
-        : '')
-      + '<p class="ms-caveat">' + esc(evidence.caveat) + '</p></section>';
+    return '<section id="ms-s0" class="chart-card ms-section" data-sale-price="' + esc(facts.state) + '">'
+      + '<h2>' + esc(facts.heading) + '</h2>'
+      + plain(esc(facts.plain))
+      + '<p class="ms-sale-price"><strong>' + facts.figure + '</strong> '
+      + '<span class="ms-pill">' + esc(facts.label) + '</span></p>'
+      + (facts.period ? '<p class="ms-caveat">' + esc(facts.period) + '.</p>' : '')
+      + '<p class="ms-caveat">' + esc(facts.caveat) + '</p></section>';
   }
 
   function renderUnmeasured(id, heading, detail) {
@@ -376,8 +406,8 @@
       renderGeographyBanner(data),
       '<aside class="ms-screening-notice" role="note">' + caveat() + '</aside>',
       renderSalePrice(data),
-      renderScenario(model, data), renderLand(model), renderConventions(model),
-      renderSettlement(model),
+      renderScenario(model, data), renderLand(model, data), renderConventions(model, data),
+      renderSettlement(model, data),
       model.funnel ? renderFunnel(model) : renderUnmeasured('ms-s5', '5. How many local households could buy', reason),
       model.capture ? renderCapture(model) : renderUnmeasured('ms-s6', '6. How fast the homes might sell', reason)
     ].join('');
@@ -399,12 +429,15 @@
         asOf: data.reportAsOf,
         jurisdictionLabel: (data.geography && data.geography.mode === 'jurisdiction'
           && (data.geography.context.name || data.geography.context.geoid)) || null,
+        jurisdictionGeoid: (data.geography && data.geography.mode === 'jurisdiction'
+          && data.geography.context.geoid) || null,
         vintages: {
           scenario: model.scenario.meta.as_of,
           homeValue: baselineForReport.home_value.as_of || null,
           conventions: data.conventions.meta.as_of
         },
-        requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS
+        requiredCaveats: MarketStudyReport.REQUIRED_CAVEATS,
+        salePrice: salePriceEvidence(data)
       });
       preview.innerHTML = MarketStudyReport.renderReportPreview(report);
       download.onclick = function () {

@@ -62,7 +62,7 @@
       sourceUrl: "https://www.chfainfo.com/rental-housing/housing-credit",
       sourceLabel: "CHFA ArcGIS FeatureServer",
       ingestWorkflow: "fetch-chfa-lihtc",
-      coverageLabel: "926 placed-in-service CO LIHTC projects",
+      coverageLabel: "926 CHFA-awarded CO LIHTC projects (awarded, not necessarily open)",
       agingThresholdMs: 14 * DAY,       // 2 weeks → aging (CI fetches weekly)
       staleThresholdMs: 60 * DAY,       // 60 days → stale
     },

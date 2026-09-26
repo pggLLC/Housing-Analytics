@@ -34,7 +34,65 @@ const COVERAGE_PATH = path.join(ROOT, 'docs', 'qa', 'metric-digest-coverage-2026
 const ECONOMIC_BRIDGE = path.join(ROOT, 'scripts', 'hna', 'economic_housing_bridge.py');
 
 const MIN_RATE_DENOMINATOR = 50;
-const ACS_AS_OF = 'ACS 2020-2024 5-year';
+
+/*
+ * Every as_of below is read from the vintage field of the file the value came
+ * from, never written as a literal. A single ACS_AS_OF constant used to label
+ * every metric, so the HUD CHAS 2018-2022 cost-burden figures were published as
+ * "ACS 2020-2024 5-year" -- and the Recommendation repeated that vintage beside
+ * the severe-burden figure. test/growth-figure-agrees.test.js holds each
+ * metric's label to its source's own vintage field.
+ */
+
+/** "ACS 2020-2024 5-year" from a summary's acsProfile._acsYear/_acsSeries. */
+export function acsVintageLabel(year, series = 'acs5') {
+  const y = Number(year);
+  if (!Number.isInteger(y) || y < 1900) return null;
+  if (series === 'acs1') return `ACS ${y} 1-year`;
+  return `ACS ${y - 4}-${y} 5-year`;
+}
+
+/** "HUD CHAS 2018-2022" from a CHAS file's vintage field. */
+export function chasVintageLabel(vintage) {
+  return vintage ? `HUD CHAS ${vintage}` : null;
+}
+
+function readVintages() {
+  const read = (file) => (fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null);
+  const stateAcs = read(path.join(SUMMARY_DIR, '08.json'))?.acsProfile || {};
+  const placeChas = read(PLACE_CHAS_PATH)?.meta || {};
+  const countyChas = read(COUNTY_CHAS_PATH)?.meta || {};
+  const amiPlace = read(AMI_GAP_PLACE_PATH)?.meta || {};
+  const amiCounty = read(AMI_GAP_COUNTY_PATH)?.meta || {};
+  const vintages = {
+    acsDefault: acsVintageLabel(stateAcs._acsYear, stateAcs._acsSeries),
+    chasPlace: chasVintageLabel(placeChas.vintage_chas),
+    chasCounty: chasVintageLabel(countyChas.vintage),
+    // co_ami_gap_by_*.json are built from ACS 5-year tables (B25118, B19001,
+    // B25063); acs_year is the endpoint year of that 5-year series.
+    amiGapPlace: acsVintageLabel(amiPlace.acs_year, 'acs5'),
+    amiGapCounty: acsVintageLabel(amiCounty.acs_year, 'acs5'),
+  };
+  for (const [k, v] of Object.entries(vintages)) {
+    if (!v) throw new Error(`[metric-digest] no vintage field for ${k}; refusing to label metrics with a guessed vintage`);
+  }
+  return vintages;
+}
+const VINTAGES = readVintages();
+
+/** The ACS vintage of the summary this jurisdiction's ACS values came from. */
+function acsAsOf(summary) {
+  const acs = summary?.acsProfile || {};
+  return acsVintageLabel(acs._acsYear, acs._acsSeries) || VINTAGES.acsDefault;
+}
+
+function chasAsOf(chasSource) {
+  return chasSource === 'place' ? VINTAGES.chasPlace : VINTAGES.chasCounty;
+}
+
+function amiGapAsOf(amiGapSource) {
+  return String(amiGapSource || '').startsWith('place') ? VINTAGES.amiGapPlace : VINTAGES.amiGapCounty;
+}
 // Recency fields written by scripts/augment_ranking_index_recency.mjs whose
 // names do not contain "lihtc". The R1 subset folds in 2026 Round One awards.
 const LIHTC_RECENCY_METRICS = new Set([
@@ -281,7 +339,7 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: src.startsWith('place') ? 'ami-gap-place-acs' : src.startsWith('county') ? 'ami-gap-county-acs' : 'ami-gap-unknown',
       geography_level: contextLevel(entry, src.startsWith('county') ? 'county_context' : 'place'),
-      as_of: ACS_AS_OF,
+      as_of: amiGapAsOf(src),
     };
   }
   // pct_cost_burdened is NOT CHAS, despite sitting in the family below. The
@@ -295,7 +353,7 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: 'acs-profile-dp04-grapi',
       geography_level: localLevel(entry),
-      as_of: ACS_AS_OF,
+      as_of: acsAsOf(summary),
     };
   }
   // The pressure score is a blend, so neither single label is true: 40% the
@@ -305,7 +363,7 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: 'acs-grapi-and-hud-chas-blend',
       geography_level: contextLevel(entry, src),
-      as_of: ACS_AS_OF,
+      as_of: acsAsOf(summary) + ' GRAPI with ' + chasAsOf(src),
     };
   }
   if (metric.includes('burdened')) {
@@ -313,7 +371,7 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: src === 'place' ? 'hud-chas-place-apportioned' : 'hud-chas-county',
       geography_level: contextLevel(entry, src),
-      as_of: ACS_AS_OF,
+      as_of: chasAsOf(src),
     };
   }
   if (metric === 'in_commuters' || metric === 'commute_ratio' || metric === 'commuter_pressure_score') {
@@ -330,11 +388,14 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: src === 'zhvi' ? 'zillow-zhvi-city-index' : src === 'county_zhvi_adjusted' ? 'zillow-zhvi-county-adjusted' : 'acs-profile-dp04',
       geography_level: src === 'county_zhvi_adjusted' ? 'county_context' : localLevel(entry),
-      as_of: home?.as_of || ACS_AS_OF,
+      as_of: home?.as_of || acsAsOf(summary),
       confidence: home?.confidence || m.home_value_confidence || 'medium',
     };
   }
-  if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr' || metric === 'future_pressure_score' || metric === 'senior_share_growth_pp') {
+  // future_units_growth_20yr is the resident-growth half of
+  // future_units_needed_20yr -- DOLA's incremental units (or the place ledger
+  // built on it), not an ACS figure. It fell through to the acs-profile default.
+  if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr' || metric === 'future_units_growth_20yr' || metric === 'future_pressure_score' || metric === 'senior_share_growth_pp') {
     return { source_id: 'dola-demographic-projections', geography_level: contextLevel(entry, entry.type === 'county' ? 'county' : 'county_context'), as_of: 'DOLA projection cache' };
   }
   if (metric.includes('opportunity') || metric === 'walkability_score' || metric === 'amenity_access_score' || metric === 'qct_dda_score' || metric === 'qct_share_pct' || metric === 'dda_share_pct') {
@@ -359,6 +420,11 @@ function sourceForMetric(metric, entry, summary) {
       as_of: withR1 ? 'CHFA LIHTC feed, latest committed, plus 2026 Round One awards' : 'CHFA LIHTC feed, latest committed',
     };
   }
+  // Which reading produced future_units_needed_20yr, and the apportionment
+  // basis: labels the ranking index assigns, not ACS measurements.
+  if (metric === 'future_units_reading' || metric === 'future_units_basis') {
+    return { source_id: 'hna-ranking-index-derived', geography_level: localLevel(entry), as_of: readJson(RANKING_PATH).metadata.generatedAt };
+  }
   if (metric.includes('score')) {
     return { source_id: 'hna-ranking-index-derived', geography_level: localLevel(entry), as_of: readJson(RANKING_PATH).metadata.generatedAt };
   }
@@ -381,7 +447,7 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: place ? 'ami-gap-place-acs' : 'ami-gap-county-acs',
       geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
-      as_of: ACS_AS_OF,
+      as_of: amiGapAsOf(place ? 'place' : 'county'),
     };
   }
   if (metric === 'workforce_gap_units' || metric === 'workforce_gap_pct' || metric === 'workforce_gap_basis') {
@@ -389,14 +455,14 @@ function sourceForMetric(metric, entry, summary) {
     return {
       source_id: 'workforce-gap-lodes-wac-vs-ami-gap',
       geography_level: contextLevel(entry, place ? 'place' : 'county_context'),
-      as_of: 'LEHD LODES WAC vs ' + ACS_AS_OF,
+      as_of: 'LEHD LODES WAC vs ' + amiGapAsOf(place ? 'place' : 'county'),
     };
   }
-  return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: ACS_AS_OF };
+  return { source_id: 'acs-profile', geography_level: localLevel(entry), as_of: acsAsOf(summary) };
 }
 
 function measureType(metric) {
-  if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr') return 'projection';
+  if (metric === 'population_projection_20yr' || metric === 'future_units_needed_20yr' || metric === 'future_units_growth_20yr') return 'projection';
   if (metric.includes('score') || metric === 'rank') return 'derived';
   return 'level';
 }
@@ -426,12 +492,14 @@ function chasForEntry(entry, chasSources) {
       entry: chasSources.countyChas[String(entry.geoid)] || null,
       source_id: 'hud-chas-county',
       geography_level: 'county',
+      as_of: VINTAGES.chasCounty,
     };
   }
   return {
     entry: chasSources.placeChas[String(entry.geoid)] || null,
     source_id: 'hud-chas-place-apportioned',
     geography_level: 'place',
+    as_of: VINTAGES.chasPlace,
   };
 }
 
@@ -458,7 +526,7 @@ function amiShareMetrics(entry, chasSources) {
     geography_level: chasInfo.geography_level,
     confidence: total && total < MIN_RATE_DENOMINATOR ? 'low' : valueConfidence(pctFromCounts(numerator, total), 'medium'),
     source_id: chasInfo.source_id,
-    as_of: ACS_AS_OF,
+    as_of: chasInfo.as_of,
     measure_type: 'level',
     denominator_key: 'chas_households_with_ami',
     denominator: total,
@@ -473,7 +541,7 @@ function amiShareMetrics(entry, chasSources) {
   };
 }
 
-function acsRegionalMetric(value, entry, sourceId, denominatorKey, denominator, confidence = 'high') {
+function acsRegionalMetric(value, entry, sourceId, denominatorKey, denominator, asOf, confidence = 'high') {
   const denom = numberOrNull(denominator);
   const floorApplies = denom !== null && denom < MIN_RATE_DENOMINATOR;
   return {
@@ -481,7 +549,7 @@ function acsRegionalMetric(value, entry, sourceId, denominatorKey, denominator, 
     geography_level: localLevel(entry),
     confidence: floorApplies ? 'low' : valueConfidence(value, confidence),
     source_id: sourceId,
-    as_of: ACS_AS_OF,
+    as_of: asOf,
     measure_type: 'level',
     denominator_key: denominatorKey,
     denominator: denom,
@@ -567,6 +635,7 @@ function ownershipStockAffordabilityMetrics(entry, acs, amiGap) {
     'acs-b25075',
     'owner_occupied_housing_units',
     denominator,
+    acsVintageLabel(acs?._acsYear, acs?._acsSeries) || VINTAGES.acsDefault,
   );
   return {
     pct_owner_stock_affordable_80ami: metric(0.80),
@@ -588,6 +657,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-profile-dp04',
       'housing_units',
       acs.DP04_0001E,
+      acsAsOf(summary),
     ),
     pct_no_hs_degree_25plus: acsRegionalMetric(
       pctFromCounts(sumNumbers([acs.DP02_0060E, acs.DP02_0061E]), acs.DP02_0059E),
@@ -595,6 +665,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-profile-dp02',
       'population_25plus',
       acs.DP02_0059E,
+      acsAsOf(summary),
     ),
     pct_single_parent_households: acsRegionalMetric(
       pctFromCounts(sumNumbers([acs.DP02_0007E, acs.DP02_0011E]), acs.DP02_0001E),
@@ -602,6 +673,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-profile-dp02',
       'households',
       acs.DP02_0001E,
+      acsAsOf(summary),
     ),
     pct_age_65_plus: acsRegionalMetric(
       pctFromCounts(acs.DP05_0024E, acs.DP05_0033E),
@@ -609,6 +681,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-profile-dp05',
       'total_population',
       acs.DP05_0033E,
+      acsAsOf(summary),
     ),
     pct_bipoc_population: acsRegionalMetric(
       bipocPopulationPct(acs),
@@ -616,6 +689,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-profile-dp05',
       'total_population',
       acs.DP05_0033E,
+      acsAsOf(summary),
     ),
     pct_bipoc_households: acsRegionalMetric(
       bipocHouseholdsPct(acs),
@@ -623,6 +697,7 @@ function regionalComparisonMetrics(entry, summary, chasSources, amiGapSources) {
       'acs-b25003',
       'occupied_housing_units',
       acs.B25003_001E,
+      acsAsOf(summary),
     ),
   };
 }

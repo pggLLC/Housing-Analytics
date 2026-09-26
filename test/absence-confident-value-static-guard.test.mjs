@@ -31,6 +31,8 @@ assert.deepEqual(
 );
 assert.deepEqual(rulesFor('if (isFinite(Number(record.value))) render(record.value);'), ['B']);
 assert.deepEqual(rulesFor('const score = scoreMap[record.category] || 50;'), ['C']);
+assert.deepEqual(rulesFor('function _n(v, fallback) { var n = parseFloat(v); return isFinite(n) ? n : (fallback || 0); }'), ['D']);
+assert.deepEqual(rulesFor('function _n(v, fallback) { return fallback === undefined ? null : fallback; }'), []);
 assert.deepEqual(rulesFor([
   'const n = parseFloat(value); if (isFinite(n)) render(n);',
   'const safe = Number.isFinite(record.value);',
@@ -40,12 +42,12 @@ assert.deepEqual(rulesFor([
 ].join('\n')), []);
 
 // The reasoned exception list is exact and cannot silently grow.
-assert.equal(ALLOWLIST.length, 9, 'exactly nine safe expressions remain allowlisted');
+assert.equal(ALLOWLIST.length, 10, 'exactly ten safe expressions remain allowlisted');
 for (const entry of ALLOWLIST) {
   assert.match(entry.reason, /\S.{20,}/, `${entry.file} Rule ${entry.rule} has a durable reason`);
 }
 const report = scanTree(ROOT);
-assert.equal(report.candidates.length, 9, 'the current tree contains only the nine pinned safe expressions');
+assert.equal(report.candidates.length, 10, 'the current tree contains only the ten pinned safe expressions');
 assert.deepEqual(report.unexpected, [], 'the current tree has no unreviewed absence/default pattern');
 assert.deepEqual(report.staleAllowlist, [], 'every allowlist entry still identifies live code');
 assert.deepEqual(report.duplicateAllowlistKeys, [], 'allowlist entries are unique');

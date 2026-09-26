@@ -1,6 +1,6 @@
 <!-- sync-banner:start -->
 > **⚠️ Superseded** — See [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md) for the current feature status matrix.  
-> *Auto-synced 2026-09-25 by `scripts/sync-docs.mjs` · 64 pages · 1586 data files · 72 workflows*
+> *Auto-synced 2026-09-26 by `scripts/sync-docs.mjs` · 65 pages · 1653 data files · 72 workflows*
 <!-- sync-banner:end -->
 
 > **⚠️ Deprecated:** This document is superseded by [`FEATURE_COMPLETE.md`](FEATURE_COMPLETE.md), which contains the current feature status matrix.
@@ -187,7 +187,7 @@
 | File | Status | Notes |
 |------|--------|-------|
 | `test/smoke.test.js` | ✅ Implemented | Smoke tests for 6 major pages, JS file existence, cross-references |
-| `test/smoke-market-analysis.js` | ✅ Implemented | Market Analysis feature smoke tests (HTML elements, data artifacts, PMA module) |
+| `test/smoke-market-analysis.test.js` | ✅ Implemented | Market Analysis feature smoke tests (HTML elements, data artifacts, PMA module) |
 | `test/acs-etl.test.js` | ✅ Implemented | ACS ETL pipeline unit tests (field mapping, coercion, freshness) |
 | `test/validate-site.js` | ✅ Implemented | Site validation: JSON existence, link checks, hardcoded fetch detection, a11y |
 | `test/split-lihtc-by-county.js` | ✅ Implemented | Unit tests for LIHTC county splitting script |

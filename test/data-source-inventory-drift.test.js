@@ -157,4 +157,31 @@ assert.throws(
   /declares 11 features but committed data contains 10/,
 );
 
+
+// data-manifest counts the files in data/manifest.json, which the post-merge
+// job rebuilds. If that job does not re-sync the counts after the rebuild, a
+// merge that adds a data file leaves main failing this test (#1922: the
+// daily sync wrote 1616 back, then the rebuild made it 1617).
+{
+  const postMerge = fs.readFileSync(path.join(ROOT, '.github/workflows/archive-audit-post-merge.yml'), 'utf8');
+  const at = (needle) => postMerge.indexOf(needle);
+  const rebuild = at('python3 scripts/rebuild_manifest.py');
+  const resync = at('node scripts/audit/refresh-inventory-mtimes.mjs');
+  const gate = at('node test/data-source-inventory-drift.test.js');
+  assert(rebuild > 0, 'the post-merge job no longer rebuilds data/manifest.json; revisit this guard');
+  assert(resync > rebuild, 'the post-merge job must re-sync inventory counts after rebuilding the manifest');
+  assert(gate > resync, 'the post-merge job must verify the re-synced counts before committing');
+  assert(/git checkout -- [^\n]*js\/data-source-inventory\.js/.test(postMerge),
+    'an unverified post-merge refresh must also restore js/data-source-inventory.js');
+
+  // PRs regenerate the same manifest without committing generated output.
+  // H2 adds 66 data files: leaving the old count behind fails before pytest.
+  const ci = fs.readFileSync(path.join(ROOT, '.github/workflows/ci-checks.yml'), 'utf8');
+  const ciRebuild = ci.indexOf('python3 scripts/rebuild_manifest.py');
+  const ciResync = ci.indexOf('node scripts/audit/refresh-inventory-mtimes.mjs');
+  const ciGate = ci.indexOf('run: npm run test:ci');
+  assert(ciRebuild > 0 && ciResync > ciRebuild && ciGate > ciResync,
+    'PR CI must re-sync generated inventory counts after rebuilding manifests and before the drift gate');
+}
+
 console.log(`data-source-inventory drift: PASS (${sources.length} sources reconciled)`);

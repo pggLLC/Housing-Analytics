@@ -1,0 +1,36 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08033",
+      "level": "county",
+      "name": "Dolores County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0821265",
+      "level": "municipal",
+      "name": "Dove Creek (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0864090",
+      "level": "municipal",
+      "name": "Rico (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

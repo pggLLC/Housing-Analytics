@@ -1,0 +1,56 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08025",
+      "level": "county",
+      "name": "Crowley County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0818750",
+      "level": "municipal",
+      "name": "Crowley (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0855705",
+      "level": "municipal",
+      "name": "Olney Springs (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0856145",
+      "level": "municipal",
+      "name": "Ordway (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0874815",
+      "level": "municipal",
+      "name": "Sugar City (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

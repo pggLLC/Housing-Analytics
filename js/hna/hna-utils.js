@@ -126,136 +126,22 @@
   // successful run of scripts/fetch-chfa-lihtc.js (and equivalent scripts).
   const GITHUB_PAGES_BASE = 'https://pggllc.github.io/Housing-Analytics';
 
-  // Colorado LIHTC fallback data (representative projects; source: HUD LIHTC database)
-  // Used only when the HUD ArcGIS API is unreachable. Includes the same fields returned by
-  // the live API so popups render consistently in both paths.
+  // No embedded LIHTC fallback. LIHTC_FALLBACK_CO used to hold 73
+  // "representative projects; source: HUD LIHTC database" — none of them
+  // matches a CHFA project by name, the unit counts are round, and it was
+  // labelled "HUD LIHTC Database (embedded)" when shown. fetchLihtcProjects
+  // now reports the data as unavailable instead.
 
-  const LIHTC_FALLBACK_CO = {type:'FeatureCollection',features:[
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9903,39.7392]},properties:{PROJECT:'Lincoln Park Apartments',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:120,LI_UNITS:120,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9748,39.7519]},properties:{PROJECT:'Curtis Park Lofts',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2016,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9875,39.7281]},properties:{PROJECT:'Baker Senior Residences',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:55,LI_UNITS:55,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9620,39.7617]},properties:{PROJECT:'Five Points Commons',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:96,LI_UNITS:96,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8851,39.6784]},properties:{PROJECT:'Aurora Family Commons',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:150,LI_UNITS:150,YR_PIS:2021,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8325,39.6950]},properties:{PROJECT:'Aurora Senior Village',PROJ_CTY:'Aurora',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.2705,40.0150]},properties:{PROJECT:'Boulder Commons',PROJ_CTY:'Boulder',PROJ_ST:'CO',N_UNITS:100,LI_UNITS:100,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Boulder',CNTY_FIPS:'08013',STATEFP:'08',COUNTYFP:'013'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8214,38.8339]},properties:{PROJECT:'Springs Family Village',PROJ_CTY:'Colorado Springs',PROJ_ST:'CO',N_UNITS:130,LI_UNITS:130,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'El Paso',CNTY_FIPS:'08041',STATEFP:'08',COUNTYFP:'041'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0844,40.5853]},properties:{PROJECT:'Fort Collins Commons',PROJ_CTY:'Fort Collins',PROJ_ST:'CO',N_UNITS:104,LI_UNITS:104,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Larimer',CNTY_FIPS:'08069',STATEFP:'08',COUNTYFP:'069'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6914,40.4233]},properties:{PROJECT:'Greeley Flats',PROJ_CTY:'Greeley',PROJ_ST:'CO',N_UNITS:90,LI_UNITS:90,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'Weld',CNTY_FIPS:'08123',STATEFP:'08',COUNTYFP:'123'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.6091,38.2544]},properties:{PROJECT:'Pueblo Senior Manor',PROJ_CTY:'Pueblo',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2017,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Pueblo',CNTY_FIPS:'08101',STATEFP:'08',COUNTYFP:'101'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5506,39.0639]},properties:{PROJECT:'Grand Junction Crossroads',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:85,LI_UNITS:85,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Mesa',CNTY_FIPS:'08077',STATEFP:'08',COUNTYFP:'077'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5750,39.0850]},properties:{PROJECT:'Mesa Valley Apartments',PROJ_CTY:'Grand Junction',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2017,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Mesa',CNTY_FIPS:'08077',STATEFP:'08',COUNTYFP:'077'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,39.6433]},properties:{PROJECT:'Eagle Valley Workforce Housing',PROJ_CTY:'Eagle',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Eagle',CNTY_FIPS:'08037',STATEFP:'08',COUNTYFP:'037'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8801,37.2753]},properties:{PROJECT:'Durango Commons',PROJ_CTY:'Durango',PROJ_ST:'CO',N_UNITS:62,LI_UNITS:62,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'La Plata',CNTY_FIPS:'08067',STATEFP:'08',COUNTYFP:'067'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9211,39.6861]},properties:{PROJECT:'Englewood Family Flats',PROJ_CTY:'Englewood',PROJ_ST:'CO',N_UNITS:70,LI_UNITS:70,YR_PIS:2019,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0211,39.5611]},properties:{PROJECT:'Littleton Senior Homes',PROJ_CTY:'Littleton',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Arapahoe',CNTY_FIPS:'08005',STATEFP:'08',COUNTYFP:'005'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9895,39.7617]},properties:{PROJECT:'Capitol Hill Residences',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:84,LI_UNITS:84,YR_PIS:2022,CREDIT:'4%',QCT:1,DDA:1,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0163,39.7392]},properties:{PROJECT:'West Colfax Commons',PROJ_CTY:'Denver',PROJ_ST:'CO',N_UNITS:56,LI_UNITS:56,YR_PIS:2021,CREDIT:'9%',QCT:1,DDA:1,CNTY_NAME:'Denver',CNTY_FIPS:'08031',STATEFP:'08',COUNTYFP:'031'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1311,39.7500]},properties:{PROJECT:'Lakewood Affordable Flats',PROJ_CTY:'Lakewood',PROJ_ST:'CO',N_UNITS:92,LI_UNITS:92,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Jefferson',CNTY_FIPS:'08059',STATEFP:'08',COUNTYFP:'059'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9281,39.5480]},properties:{PROJECT:'Glenwood Springs Workforce',PROJ_CTY:'Glenwood Springs',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Garfield',CNTY_FIPS:'08045',STATEFP:'08',COUNTYFP:'045'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8069,40.3722]},properties:{PROJECT:'Loveland Family Housing',PROJ_CTY:'Loveland',PROJ_ST:'CO',N_UNITS:75,LI_UNITS:75,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Larimer',CNTY_FIPS:'08069',STATEFP:'08',COUNTYFP:'069'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.4222,38.4681]},properties:{PROJECT:'Cañon City Senior Village',PROJ_CTY:'Cañon City',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Fremont',CNTY_FIPS:'08043',STATEFP:'08',COUNTYFP:'043'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7506,38.2008]},properties:{PROJECT:'Pueblo West Apartments',PROJ_CTY:'Pueblo West',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Pueblo',CNTY_FIPS:'08101',STATEFP:'08',COUNTYFP:'101'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3131,37.4681]},properties:{PROJECT:'Alamosa Affordable Homes',PROJ_CTY:'Alamosa',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2021,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Alamosa',CNTY_FIPS:'08003',STATEFP:'08',COUNTYFP:'003'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9719,39.8680]},properties:{PROJECT:'Thornton Senior Apartments',PROJ_CTY:'Thornton',PROJ_ST:'CO',N_UNITS:72,LI_UNITS:72,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Adams',CNTY_FIPS:'08001',STATEFP:'08',COUNTYFP:'001'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9339,39.8033]},properties:{PROJECT:'Commerce City Workforce Homes',PROJ_CTY:'Commerce City',PROJ_ST:'CO',N_UNITS:88,LI_UNITS:88,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Adams',CNTY_FIPS:'08001',STATEFP:'08',COUNTYFP:'001'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8153,39.9853]},properties:{PROJECT:'Brighton Family Residences',PROJ_CTY:'Brighton',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2018,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Adams',CNTY_FIPS:'08001',STATEFP:'08',COUNTYFP:'001'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0375,39.8358]},properties:{PROJECT:'Westminster Affordable Flats',PROJ_CTY:'Westminster',PROJ_ST:'CO',N_UNITS:96,LI_UNITS:96,YR_PIS:2022,CREDIT:'4%',QCT:1,DDA:1,CNTY_NAME:'Adams',CNTY_FIPS:'08001',STATEFP:'08',COUNTYFP:'001'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0869,39.9205]},properties:{PROJECT:'Broomfield Commons',PROJ_CTY:'Broomfield',PROJ_ST:'CO',N_UNITS:80,LI_UNITS:80,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Broomfield',CNTY_FIPS:'08014',STATEFP:'08',COUNTYFP:'014'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.1175,39.9064]},properties:{PROJECT:'Interlocken Workforce Housing',PROJ_CTY:'Broomfield',PROJ_ST:'CO',N_UNITS:54,LI_UNITS:54,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Broomfield',CNTY_FIPS:'08014',STATEFP:'08',COUNTYFP:'014'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.8561,39.3722]},properties:{PROJECT:'Castle Rock Affordable Homes',PROJ_CTY:'Castle Rock',PROJ_ST:'CO',N_UNITS:66,LI_UNITS:66,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Douglas',CNTY_FIPS:'08035',STATEFP:'08',COUNTYFP:'035'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.7614,39.5183]},properties:{PROJECT:'Parker Senior Residences',PROJ_CTY:'Parker',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Douglas',CNTY_FIPS:'08035',STATEFP:'08',COUNTYFP:'035'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.9690,39.5541]},properties:{PROJECT:'Highlands Ranch Family Flats',PROJ_CTY:'Highlands Ranch',PROJ_ST:'CO',N_UNITS:74,LI_UNITS:74,YR_PIS:2022,CREDIT:'4%',QCT:0,DDA:1,CNTY_NAME:'Douglas',CNTY_FIPS:'08035',STATEFP:'08',COUNTYFP:'035'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.0678,39.6319]},properties:{PROJECT:'Silverthorne Workforce Apts',PROJ_CTY:'Silverthorne',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Summit',CNTY_FIPS:'08117',STATEFP:'08',COUNTYFP:'117'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.0444,39.4817]},properties:{PROJECT:'Breckenridge Affordable Housing',PROJ_CTY:'Breckenridge',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2018,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Summit',CNTY_FIPS:'08117',STATEFP:'08',COUNTYFP:'117'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.1253,39.5750]},properties:{PROJECT:'Frisco Family Homes',PROJ_CTY:'Frisco',PROJ_ST:'CO',N_UNITS:42,LI_UNITS:42,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Summit',CNTY_FIPS:'08117',STATEFP:'08',COUNTYFP:'117'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8317,40.4850]},properties:{PROJECT:'Steamboat Springs Workforce',PROJ_CTY:'Steamboat Springs',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Routt',CNTY_FIPS:'08107',STATEFP:'08',COUNTYFP:'107'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.8417,40.4950]},properties:{PROJECT:'Steamboat Senior Village',PROJ_CTY:'Steamboat Springs',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Routt',CNTY_FIPS:'08107',STATEFP:'08',COUNTYFP:'107'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8122,37.9375]},properties:{PROJECT:'Telluride Affordable Homes',PROJ_CTY:'Telluride',PROJ_ST:'CO',N_UNITS:28,LI_UNITS:28,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'San Miguel',CNTY_FIPS:'08113',STATEFP:'08',COUNTYFP:'113'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8222,37.9275]},properties:{PROJECT:'Mountain Village Workforce Apts',PROJ_CTY:'Mountain Village',PROJ_ST:'CO',N_UNITS:24,LI_UNITS:24,YR_PIS:2018,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'San Miguel',CNTY_FIPS:'08113',STATEFP:'08',COUNTYFP:'113'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.8008,40.2508]},properties:{PROJECT:'Fort Morgan Affordable Apts',PROJ_CTY:'Fort Morgan',PROJ_ST:'CO',N_UNITS:56,LI_UNITS:56,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Morgan',CNTY_FIPS:'08087',STATEFP:'08',COUNTYFP:'087'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.8108,40.2608]},properties:{PROJECT:'Fort Morgan Senior Village',PROJ_CTY:'Fort Morgan',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2017,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Morgan',CNTY_FIPS:'08087',STATEFP:'08',COUNTYFP:'087'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.2086,40.6253]},properties:{PROJECT:'Sterling Workforce Housing',PROJ_CTY:'Sterling',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Logan',CNTY_FIPS:'08075',STATEFP:'08',COUNTYFP:'075'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.2186,40.6153]},properties:{PROJECT:'Sterling Senior Residences',PROJ_CTY:'Sterling',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Logan',CNTY_FIPS:'08075',STATEFP:'08',COUNTYFP:'075'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8762,38.4783]},properties:{PROJECT:'Montrose Family Housing',PROJ_CTY:'Montrose',PROJ_ST:'CO',N_UNITS:64,LI_UNITS:64,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Montrose',CNTY_FIPS:'08085',STATEFP:'08',COUNTYFP:'085'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.8862,38.4683]},properties:{PROJECT:'Montrose Senior Apts',PROJ_CTY:'Montrose',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Montrose',CNTY_FIPS:'08085',STATEFP:'08',COUNTYFP:'085'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.9817,38.6086]},properties:{PROJECT:'Olathe Affordable Homes',PROJ_CTY:'Olathe',PROJ_ST:'CO',N_UNITS:32,LI_UNITS:32,YR_PIS:2017,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Montrose',CNTY_FIPS:'08085',STATEFP:'08',COUNTYFP:'085'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9253,38.5458]},properties:{PROJECT:'Gunnison Affordable Apts',PROJ_CTY:'Gunnison',PROJ_ST:'CO',N_UNITS:38,LI_UNITS:38,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Gunnison',CNTY_FIPS:'08051',STATEFP:'08',COUNTYFP:'051'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.9872,38.8697]},properties:{PROJECT:'Crested Butte Workforce Housing',PROJ_CTY:'Crested Butte',PROJ_ST:'CO',N_UNITS:22,LI_UNITS:22,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Gunnison',CNTY_FIPS:'08051',STATEFP:'08',COUNTYFP:'051'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.5008,37.1742]},properties:{PROJECT:'Trinidad Family Commons',PROJ_CTY:'Trinidad',PROJ_ST:'CO',N_UNITS:52,LI_UNITS:52,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Las Animas',CNTY_FIPS:'08071',STATEFP:'08',COUNTYFP:'071'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.5158,37.1642]},properties:{PROJECT:'Trinidad Senior Village',PROJ_CTY:'Trinidad',PROJ_ST:'CO',N_UNITS:40,LI_UNITS:40,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Las Animas',CNTY_FIPS:'08071',STATEFP:'08',COUNTYFP:'071'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.0081,37.2692]},properties:{PROJECT:'Pagosa Springs Workforce Apts',PROJ_CTY:'Pagosa Springs',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Archuleta',CNTY_FIPS:'08007',STATEFP:'08',COUNTYFP:'007'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-107.0181,37.2592]},properties:{PROJECT:'Pagosa Springs Affordable Homes',PROJ_CTY:'Pagosa Springs',PROJ_ST:'CO',N_UNITS:28,LI_UNITS:28,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Archuleta',CNTY_FIPS:'08007',STATEFP:'08',COUNTYFP:'007'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5856,37.3489]},properties:{PROJECT:'Cortez Family Housing',PROJ_CTY:'Cortez',PROJ_ST:'CO',N_UNITS:60,LI_UNITS:60,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Montezuma',CNTY_FIPS:'08083',STATEFP:'08',COUNTYFP:'083'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.5956,37.3389]},properties:{PROJECT:'Cortez Senior Apts',PROJ_CTY:'Cortez',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Montezuma',CNTY_FIPS:'08083',STATEFP:'08',COUNTYFP:'083'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-108.2878,37.3442]},properties:{PROJECT:'Mancos Affordable Homes',PROJ_CTY:'Mancos',PROJ_ST:'CO',N_UNITS:24,LI_UNITS:24,YR_PIS:2022,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Montezuma',CNTY_FIPS:'08083',STATEFP:'08',COUNTYFP:'083'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.9989,38.5347]},properties:{PROJECT:'Salida Family Homes',PROJ_CTY:'Salida',PROJ_ST:'CO',N_UNITS:46,LI_UNITS:46,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Chaffee',CNTY_FIPS:'08015',STATEFP:'08',COUNTYFP:'015'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.0089,38.5247]},properties:{PROJECT:'Salida Senior Residences',PROJ_CTY:'Salida',PROJ_ST:'CO',N_UNITS:34,LI_UNITS:34,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Chaffee',CNTY_FIPS:'08015',STATEFP:'08',COUNTYFP:'015'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.2922,39.2508]},properties:{PROJECT:'Leadville Affordable Apts',PROJ_CTY:'Leadville',PROJ_ST:'CO',N_UNITS:38,LI_UNITS:38,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Lake',CNTY_FIPS:'08065',STATEFP:'08',COUNTYFP:'065'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3022,39.2408]},properties:{PROJECT:'Leadville Senior Housing',PROJ_CTY:'Leadville',PROJ_ST:'CO',N_UNITS:28,LI_UNITS:28,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Lake',CNTY_FIPS:'08065',STATEFP:'08',COUNTYFP:'065'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.1494,37.5797]},properties:{PROJECT:'Monte Vista Workforce Housing',PROJ_CTY:'Monte Vista',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Rio Grande',CNTY_FIPS:'08105',STATEFP:'08',COUNTYFP:'105'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.3494,37.6869]},properties:{PROJECT:'Del Norte Family Homes',PROJ_CTY:'Del Norte',PROJ_ST:'CO',N_UNITS:30,LI_UNITS:30,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Rio Grande',CNTY_FIPS:'08105',STATEFP:'08',COUNTYFP:'105'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.5436,37.9847]},properties:{PROJECT:'La Junta Family Housing',PROJ_CTY:'La Junta',PROJ_ST:'CO',N_UNITS:50,LI_UNITS:50,YR_PIS:2019,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Otero',CNTY_FIPS:'08089',STATEFP:'08',COUNTYFP:'089'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.5336,37.9947]},properties:{PROJECT:'La Junta Senior Apts',PROJ_CTY:'La Junta',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2017,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Otero',CNTY_FIPS:'08089',STATEFP:'08',COUNTYFP:'089'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-102.6208,38.0872]},properties:{PROJECT:'Lamar Affordable Homes',PROJ_CTY:'Lamar',PROJ_ST:'CO',N_UNITS:42,LI_UNITS:42,YR_PIS:2020,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Prowers',CNTY_FIPS:'08099',STATEFP:'08',COUNTYFP:'099'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-102.6308,38.0772]},properties:{PROJECT:'Lamar Senior Village',PROJ_CTY:'Lamar',PROJ_ST:'CO',N_UNITS:32,LI_UNITS:32,YR_PIS:2018,CREDIT:'9%',QCT:1,DDA:0,CNTY_NAME:'Prowers',CNTY_FIPS:'08099',STATEFP:'08',COUNTYFP:'099'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.9356,40.0878]},properties:{PROJECT:'Granby Workforce Housing',PROJ_CTY:'Granby',PROJ_ST:'CO',N_UNITS:34,LI_UNITS:34,YR_PIS:2021,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Grand',CNTY_FIPS:'08049',STATEFP:'08',COUNTYFP:'049'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-106.1031,40.0728]},properties:{PROJECT:'Hot Sulphur Springs Affordable',PROJ_CTY:'Hot Sulphur Springs',PROJ_ST:'CO',N_UNITS:20,LI_UNITS:20,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Grand',CNTY_FIPS:'08049',STATEFP:'08',COUNTYFP:'049'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0567,38.9939]},properties:{PROJECT:'Woodland Park Affordable Apts',PROJ_CTY:'Woodland Park',PROJ_ST:'CO',N_UNITS:48,LI_UNITS:48,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Teller',CNTY_FIPS:'08119',STATEFP:'08',COUNTYFP:'119'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-105.0667,38.9839]},properties:{PROJECT:'Woodland Park Senior Homes',PROJ_CTY:'Woodland Park',PROJ_ST:'CO',N_UNITS:36,LI_UNITS:36,YR_PIS:2018,CREDIT:'9%',QCT:0,DDA:1,CNTY_NAME:'Teller',CNTY_FIPS:'08119',STATEFP:'08',COUNTYFP:'119'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-103.5567,40.1722]},properties:{PROJECT:'Brush Family Affordable Apts',PROJ_CTY:'Brush',PROJ_ST:'CO',N_UNITS:44,LI_UNITS:44,YR_PIS:2019,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Morgan',CNTY_FIPS:'08087',STATEFP:'08',COUNTYFP:'087'}},
-    {type:'Feature',geometry:{type:'Point',coordinates:[-104.0197,40.1583]},properties:{PROJECT:'Wiggins Senior Village',PROJ_CTY:'Wiggins',PROJ_ST:'CO',N_UNITS:24,LI_UNITS:24,YR_PIS:2020,CREDIT:'9%',QCT:0,DDA:0,CNTY_NAME:'Morgan',CNTY_FIPS:'08087',STATEFP:'08',COUNTYFP:'087'}},
-  ]};
-
-  // Colorado QCT (Qualified Census Tract) embedded fallback data
-  // Used when both the live HUD ArcGIS API and the local data/qct-colorado.json are unavailable.
-  // Source: HUD Qualified Census Tracts list; representative tracts across Colorado counties.
-  const QCT_FALLBACK_CO = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Denver-Globeville QCT',GEOID:'08031006700',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.000,39.772],[-104.940,39.772],[-104.940,39.790],[-105.000,39.790],[-105.000,39.772]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Five Points QCT',GEOID:'08031007700',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.982,39.745],[-104.940,39.745],[-104.940,39.768],[-104.982,39.768],[-104.982,39.745]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Sun Valley QCT',GEOID:'08031006800',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.010,39.720],[-104.975,39.720],[-104.975,39.740],[-105.010,39.740],[-105.010,39.720]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Montbello QCT',GEOID:'08031004601',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.955,39.760],[-104.910,39.760],[-104.910,39.810],[-104.955,39.810],[-104.955,39.760]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Westwood QCT',GEOID:'08031007400',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.050,39.680],[-104.995,39.680],[-104.995,39.718],[-105.050,39.718],[-105.050,39.680]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Villa Park QCT',GEOID:'08031008200',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.030,39.730],[-104.995,39.730],[-104.995,39.755],[-105.030,39.755],[-105.030,39.730]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Barnum QCT',GEOID:'08031008500',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-105.043,39.700],[-105.000,39.700],[-105.000,39.725],[-105.043,39.725],[-105.043,39.700]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Swansea QCT',GEOID:'08031009100',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.966,39.760],[-104.930,39.760],[-104.930,39.785],[-104.966,39.785],[-104.966,39.760]]]}},
-    {type:'Feature',properties:{NAME:'Denver-Capitol Hill QCT',GEOID:'08031003200',STATEFP:'08',COUNTYFP:'031'},geometry:{type:'Polygon',coordinates:[[[-104.975,39.730],[-104.940,39.730],[-104.940,39.748],[-104.975,39.748],[-104.975,39.730]]]}},
-    {type:'Feature',properties:{NAME:'Aurora-Colfax QCT',GEOID:'08005011020',STATEFP:'08',COUNTYFP:'005'},geometry:{type:'Polygon',coordinates:[[[-104.900,39.720],[-104.840,39.720],[-104.840,39.750],[-104.900,39.750],[-104.900,39.720]]]}},
-    {type:'Feature',properties:{NAME:'Aurora-East QCT',GEOID:'08005011800',STATEFP:'08',COUNTYFP:'005'},geometry:{type:'Polygon',coordinates:[[[-104.840,39.686],[-104.780,39.686],[-104.780,39.710],[-104.840,39.710],[-104.840,39.686]]]}},
-    {type:'Feature',properties:{NAME:'Westminster Federal QCT',GEOID:'08001012900',STATEFP:'08',COUNTYFP:'001'},geometry:{type:'Polygon',coordinates:[[[-105.040,39.843],[-104.990,39.843],[-104.990,39.868],[-105.040,39.868],[-105.040,39.843]]]}},
-    {type:'Feature',properties:{NAME:'Colorado Springs-Downtown QCT',GEOID:'08041003200',STATEFP:'08',COUNTYFP:'041'},geometry:{type:'Polygon',coordinates:[[[-104.851,38.820],[-104.800,38.820],[-104.800,38.858],[-104.851,38.858],[-104.851,38.820]]]}},
-    {type:'Feature',properties:{NAME:'Colorado Springs-East QCT',GEOID:'08041004100',STATEFP:'08',COUNTYFP:'041'},geometry:{type:'Polygon',coordinates:[[[-104.800,38.820],[-104.730,38.820],[-104.730,38.860],[-104.800,38.860],[-104.800,38.820]]]}},
-    {type:'Feature',properties:{NAME:'Pueblo-Downtown QCT',GEOID:'08101000300',STATEFP:'08',COUNTYFP:'101'},geometry:{type:'Polygon',coordinates:[[[-104.635,38.238],[-104.580,38.238],[-104.580,38.278],[-104.635,38.278],[-104.635,38.238]]]}},
-    {type:'Feature',properties:{NAME:'Pueblo-North QCT',GEOID:'08101000400',STATEFP:'08',COUNTYFP:'101'},geometry:{type:'Polygon',coordinates:[[[-104.640,38.278],[-104.575,38.278],[-104.575,38.310],[-104.640,38.310],[-104.640,38.278]]]}},
-    {type:'Feature',properties:{NAME:'Greeley QCT',GEOID:'08123000500',STATEFP:'08',COUNTYFP:'123'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.404],[-104.670,40.404],[-104.670,40.440],[-104.730,40.440],[-104.730,40.404]]]}},
-    {type:'Feature',properties:{NAME:'Evans QCT',GEOID:'08123000700',STATEFP:'08',COUNTYFP:'123'},geometry:{type:'Polygon',coordinates:[[[-104.730,40.380],[-104.680,40.380],[-104.680,40.404],[-104.730,40.404],[-104.730,40.380]]]}},
-    {type:'Feature',properties:{NAME:'Longmont East QCT',GEOID:'08013001900',STATEFP:'08',COUNTYFP:'013'},geometry:{type:'Polygon',coordinates:[[[-105.120,40.148],[-105.070,40.148],[-105.070,40.182],[-105.120,40.182],[-105.120,40.148]]]}},
-    {type:'Feature',properties:{NAME:'Grand Junction QCT',GEOID:'08077000200',STATEFP:'08',COUNTYFP:'077'},geometry:{type:'Polygon',coordinates:[[[-108.590,39.048],[-108.530,39.048],[-108.530,39.085],[-108.590,39.085],[-108.590,39.048]]]}},
-    {type:'Feature',properties:{NAME:'Fort Morgan QCT',GEOID:'08087000300',STATEFP:'08',COUNTYFP:'087'},geometry:{type:'Polygon',coordinates:[[[-103.840,40.244],[-103.780,40.244],[-103.780,40.272],[-103.840,40.272],[-103.840,40.244]]]}},
-    {type:'Feature',properties:{NAME:'Sterling QCT',GEOID:'08075001100',STATEFP:'08',COUNTYFP:'075'},geometry:{type:'Polygon',coordinates:[[[-103.250,40.598],[-103.195,40.598],[-103.195,40.634],[-103.250,40.634],[-103.250,40.598]]]}},
-    {type:'Feature',properties:{NAME:'Alamosa QCT',GEOID:'08003000600',STATEFP:'08',COUNTYFP:'003'},geometry:{type:'Polygon',coordinates:[[[-105.910,37.454],[-105.848,37.454],[-105.848,37.490],[-105.910,37.490],[-105.910,37.454]]]}},
-    {type:'Feature',properties:{NAME:'Trinidad QCT',GEOID:'08071000500',STATEFP:'08',COUNTYFP:'071'},geometry:{type:'Polygon',coordinates:[[[-104.590,37.160],[-104.520,37.160],[-104.520,37.192],[-104.590,37.192],[-104.590,37.160]]]}},
-    {type:'Feature',properties:{NAME:'Walsenburg QCT',GEOID:'08055000200',STATEFP:'08',COUNTYFP:'055'},geometry:{type:'Polygon',coordinates:[[[-104.805,37.620],[-104.760,37.620],[-104.760,37.645],[-104.805,37.645],[-104.805,37.620]]]}},
-    {type:'Feature',properties:{NAME:'Cañon City QCT',GEOID:'08043000500',STATEFP:'08',COUNTYFP:'043'},geometry:{type:'Polygon',coordinates:[[[-105.260,38.427],[-105.200,38.427],[-105.200,38.456],[-105.260,38.456],[-105.260,38.427]]]}},
-    {type:'Feature',properties:{NAME:'Las Animas QCT',GEOID:'08011000200',STATEFP:'08',COUNTYFP:'011'},geometry:{type:'Polygon',coordinates:[[[-103.240,38.058],[-103.180,38.058],[-103.180,38.082],[-103.240,38.082],[-103.240,38.058]]]}},
-  ]};
-
-  // Colorado DDA (Difficult Development Area) embedded fallback data
-  // Used when both the live HUD ArcGIS API and the local data/dda-colorado.json are unavailable.
-  // Source: HUD 2025 DDA list; representative Colorado DDA areas.
-  const DDA_FALLBACK_CO = {type:'FeatureCollection',features:[
-    {type:'Feature',properties:{NAME:'Denver-Aurora Metro DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['001','005','014','019','031','035','039','047','059','093']},geometry:{type:'Polygon',coordinates:[[[-105.15,39.55],[-104.67,39.55],[-104.67,39.98],[-105.15,39.98],[-105.15,39.55]]]}},
-    {type:'Feature',properties:{NAME:'Boulder-Broomfield DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['013','014']},geometry:{type:'Polygon',coordinates:[[[-105.35,39.95],[-104.98,39.95],[-104.98,40.15],[-105.35,40.15],[-105.35,39.95]]]}},
-    {type:'Feature',properties:{NAME:'Fort Collins DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['069']},geometry:{type:'Polygon',coordinates:[[[-105.20,40.52],[-104.98,40.52],[-104.98,40.66],[-105.20,40.66],[-105.20,40.52]]]}},
-    {type:'Feature',properties:{NAME:'Colorado Springs DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['041','119']},geometry:{type:'Polygon',coordinates:[[[-105.19,38.69],[-104.60,38.69],[-104.60,39.08],[-105.19,39.08],[-105.19,38.69]]]}},
-    {type:'Feature',properties:{NAME:'Greeley DDA',DDATYPE:'Metropolitan',STATE:'CO',COUNTIES:['123']},geometry:{type:'Polygon',coordinates:[[[-104.90,40.28],[-104.55,40.28],[-104.55,40.55],[-104.90,40.55],[-104.90,40.28]]]}},
-    {type:'Feature',properties:{NAME:'Eagle County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['037']},geometry:{type:'Polygon',coordinates:[[[-107.18,39.44],[-106.29,39.44],[-106.29,39.74],[-107.18,39.74],[-107.18,39.44]]]}},
-    {type:'Feature',properties:{NAME:'Summit County DDA',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['117']},geometry:{type:'Polygon',coordinates:[[[-106.38,39.38],[-105.73,39.38],[-105.73,39.66],[-106.38,39.66],[-106.38,39.38]]]}},
-    {type:'Feature',properties:{NAME:'Pitkin County DDA (Aspen)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['097']},geometry:{type:'Polygon',coordinates:[[[-107.26,39.12],[-106.68,39.12],[-106.68,39.38],[-107.26,39.38],[-107.26,39.12]]]}},
-    {type:'Feature',properties:{NAME:'San Miguel County DDA (Telluride)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['113']},geometry:{type:'Polygon',coordinates:[[[-108.20,37.82],[-107.38,37.82],[-107.38,38.15],[-108.20,38.15],[-108.20,37.82]]]}},
-    {type:'Feature',properties:{NAME:'Routt County DDA (Steamboat)',DDATYPE:'High-Cost Non-Metropolitan',STATE:'CO',COUNTIES:['107']},geometry:{type:'Polygon',coordinates:[[[-107.28,40.25],[-106.46,40.25],[-106.46,40.74],[-107.28,40.74],[-107.28,40.25]]]}},
-    {type:'Feature',properties:{NAME:'Garfield County DDA',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['045']},geometry:{type:'Polygon',coordinates:[[[-108.10,39.30],[-107.06,39.30],[-107.06,39.75],[-108.10,39.75],[-108.10,39.30]]]}},
-    {type:'Feature',properties:{NAME:'La Plata County DDA (Durango)',DDATYPE:'Non-Metropolitan',STATE:'CO',COUNTIES:['067']},geometry:{type:'Polygon',coordinates:[[[-108.12,37.06],[-107.30,37.06],[-107.30,37.58],[-108.12,37.58],[-108.12,37.06]]]}},
-  ]};
+  // ── No embedded QCT or DDA boundaries ────────────────────────────────────────
+  // This file used to carry QCT_FALLBACK_CO (27 "tracts") and DDA_FALLBACK_CO
+  // (12 "areas") as axis-aligned rectangles, returned by hna-controller.js
+  // whenever data/qct-colorado.json, data/dda-colorado.json and the HUD ArcGIS
+  // services all failed. Checked against HUD's 2026 list: none of the 27 GEOIDs
+  // is a 2026 QCT, and the DDAs were whole metro FMR areas drawn as boxes.
+  // QCT and DDA decide the 30% basis boost, so a made-up boundary is worse than
+  // none: on failure the fetch now returns an unavailableReason and the page
+  // says the status is unknown. test/qct-dda-embedded-agreement.test.js fails
+  // if an embedded QCT or DDA feature reappears that is not HUD's own record.
 
   // Colorado DDA (Difficult Development Area) designation lookup
   // Based on HUD 2025 DDA list; covers counties within HUD Metro FMR Areas that qualify.
@@ -499,30 +385,25 @@
   };
 
 
-  function lihtcFallbackForCounty(countyFips5){
-    const features = LIHTC_FALLBACK_CO.features.filter(f =>
-      !countyFips5 || (f.properties.CNTY_FIPS || '') === countyFips5
-    );
-    return { type: 'FeatureCollection', features };
-  }
-
   // Fetch LIHTC projects for a county or for the whole state.
   // Pass a 5-digit county FIPS (e.g. '08077') for county-level results, or the
   // 2-digit Colorado state FIPS ('08') to get all statewide LIHTC projects.
   // For Colorado, data/chfa-lihtc.json (the canonical local file, kept current by CI)
   // is always tried first. Remote ArcGIS APIs (CHFA, then HUD) are only attempted when the
   // local file is absent (HTTP 404). For all other states, HUD ArcGIS is the live source.
-  // The returned GeoJSON includes a _source field ('local' | 'CHFA' | 'HUD' | 'fallback').
+  // The returned GeoJSON includes a _source field ('local' | 'local-county' | 'CHFA' | 'HUD').
+  // When no source answers, fetchLihtcProjects throws (err.lihtcUnavailable).
 
   function lihtcSourceInfo(source) {
     if (source === 'CHFA')  return { label: 'CHFA (Colorado Housing and Finance Authority)', color: '#0ea5e9' };
     if (source === 'local') return { label: 'Local CHFA data (chfa-lihtc.json)', color: '#16a34a' };
     if (source === 'HUD')   return { label: 'HUD LIHTC Database', color: '#6366f1' };
-    return                         { label: 'HUD LIHTC Database (embedded)', color: '#6366f1' };
+    if (source === 'local-county') return { label: 'Local CHFA county cache', color: '#16a34a' };
+    return                         { label: 'Unknown source', color: '#6366f1' };
   }
 
   // Helper: build rich LIHTC popup HTML (mirrors colorado-deep-dive popup style)
-  // source: 'CHFA' | 'HUD' | 'fallback' — indicates which data source provided this record
+  // source: 'local' | 'local-county' | 'CHFA' | 'HUD' — which data source provided this record
   function lihtcPopupHtml(p, source) {
     const safe = v => (v == null || v === '') ? '—' : String(v);
     // Three states, not two. This popup is fed by BOTH the CHFA feed and HUD
@@ -612,11 +493,17 @@
         if (projKey && fpKey && projKey === fpKey) { match = fp; break; }
       }
       if (match) {
-        const yrIn = match.year_placed_in_service || match.YR_PIS || p.YR_PIS;
+        // Only a published placed-in-service year dates the compliance
+        // period. CHFA's YR_PIS is AwardYear under another name, so from an
+        // award year the honest statement is a lower bound: the period
+        // cannot start before the award.
+        const yrIn = match.year_placed_in_service;
+        const yrAward = p.AwardYear || p.YR_ALLOC;
         let status = '';
         if (yrIn) {
-          const compEnd = +yrIn + 30;
-          status = compEnd ? `(30-yr compliance ends ${compEnd})` : '';
+          status = `(30-yr compliance ends ${+yrIn + 30})`;
+        } else if (yrAward) {
+          status = `(awarded ${yrAward}; 30-yr compliance ends no earlier than ${+yrAward + 30})`;
         }
         preservationRow =
           `<tr><td style="padding:2px 0;opacity:.7">Preservation status</td>` +
@@ -630,7 +517,6 @@
         <tr><td style="padding:2px 0;opacity:.7">Total units</td><td style="text-align:right;font-weight:700">${safe(p.N_UNITS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Low-income units</td><td style="text-align:right;font-weight:700">${safe(p.LI_UNITS)}</td></tr>
         ${(p.AwardYear || p.YR_ALLOC) ? `<tr><td style="padding:2px 0;opacity:.7">Award year</td><td style="text-align:right;font-weight:600">${safe(p.AwardYear || p.YR_ALLOC)}</td></tr>` : ''}
-        <tr><td style="padding:2px 0;opacity:.7">Placed in service</td><td style="text-align:right">${safe(p.YR_PIS)}</td></tr>
         <tr><td style="padding:2px 0;opacity:.7">Credit type</td><td style="text-align:right">${creditCell}</td></tr>
         ${sponsorRow}
         ${preservationRow}
@@ -1353,9 +1239,6 @@
     PROP123_MUNICIPALITY_THRESHOLD,
     PROP123_COUNTY_THRESHOLD,
     PROP123_GROWTH_RATE,
-    LIHTC_FALLBACK_CO,
-    QCT_FALLBACK_CO,
-    DDA_FALLBACK_CO,
     CO_DDA,
     BOUNDARY_STYLES,
     PROJECTION_SCENARIOS,
@@ -1388,7 +1271,6 @@
     countyFromGeoid,
     ensureGeographyRegistry,
     censusKey,
-    lihtcFallbackForCounty,
     isSmallGeography,
     getSmallGeoWarning,
   };

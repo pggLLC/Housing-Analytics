@@ -8,7 +8,8 @@
  *                        who opens the page and sees the same scenario.
  *   2. Download PDF    — multi-page screenshot of <main> via html2canvas + jsPDF
  *                        (falls back to window.print() if libs unavailable).
- *   3. Export JSON     — structured snapshot of all inputs (machine-readable).
+ *   3. Export JSON     — structured snapshot of all inputs, plus the computed
+ *                        outputs as displayed (null where unavailable).
  *
  * Hydration: on DOMContentLoaded the script reads URL params and populates
  * matching <input>/<select> elements, then dispatches an `input` event so the
@@ -16,9 +17,9 @@
  * direct call into __DealCalc is needed — we just nudge the same inputs the
  * user would have edited by hand.
  *
- * The list of shareable inputs (SHARE_KEYS) is hardcoded so we never
- * accidentally include diagnostic/output spans or rendered table cells. Add
- * a new key here when a new input ID should round-trip via the share URL.
+ * The shareable inputs are read from the page (every form control whose id
+ * starts with dc- or pf-), so a new input round-trips without an edit here.
+ * auditInputs() accounts for every other control in <main>; see shareKeys().
  *
  * Tranches (multi-instance, dynamic) get a special compact encoding:
  *   ?tr=chfa_htf:500000:loan:3.0:30:100:current:5;prop123:250000:loan:0:30:0:accrued:8
@@ -31,56 +32,112 @@
   'use strict';
 
   // ── Inputs that round-trip via URL params ────────────────────────────
-  // Add new keys here when adding shareable Deal Calc inputs. Order doesn't
-  // matter — the param name is the DOM ID with the "dc-" prefix stripped.
-  var SHARE_KEYS = [
-    // Capital stack
-    'dc-tdc', 'dc-units', 'dc-sale-target-ami', 'dc-basis-pct', 'dc-qct-dda',
-    'dc-minimum-set-aside',
-    'dc-equity-price', 'dc-deferred-pct', 'dc-deferred-auto-balance',
-    // F221 — Credit rate radio (dc-credit-rate group, 9% vs 4%). One ID is
-    // enough; _readVal/_writeVal walk the group via input[name=...].
-    'dc-rate-9',
-    // Deal mode radio (dc-deal-mode group, rental vs ownership) — without it
-    // an ownership-mode share link opens in rental mode for the recipient.
-    'dc-mode-rental',
-    // AMI mix (10 tiers) — both unit counts AND LIHTC-eligibility checkboxes
-    // AND bedroom-mix dropdowns. F221 catch: partner opens link without
-    // these → silent wrong NOI (different BR mix drives different HUD rents).
-    'dc-units-20', 'dc-units-30', 'dc-units-40', 'dc-units-50',
-    'dc-units-60', 'dc-units-70', 'dc-units-80', 'dc-units-100', 'dc-units-110', 'dc-units-120',
-    'dc-chk-20',   'dc-chk-30',   'dc-chk-40',   'dc-chk-50',
-    'dc-chk-60',   'dc-chk-70',   'dc-chk-80',   'dc-chk-100',   'dc-chk-110',   'dc-chk-120',
-    'dc-br-20',    'dc-br-30',    'dc-br-40',    'dc-br-50',
-    'dc-br-60',    'dc-br-70',    'dc-br-80',    'dc-br-100',    'dc-br-110',    'dc-br-120',
-    'dc-units-20-1br', 'dc-units-20-2br', 'dc-units-20-3br', 'dc-units-20-4br',
-    'dc-units-30-1br', 'dc-units-30-2br', 'dc-units-30-3br', 'dc-units-30-4br',
-    'dc-units-40-1br', 'dc-units-40-2br', 'dc-units-40-3br', 'dc-units-40-4br',
-    'dc-units-50-1br', 'dc-units-50-2br', 'dc-units-50-3br', 'dc-units-50-4br',
-    'dc-units-60-1br', 'dc-units-60-2br', 'dc-units-60-3br', 'dc-units-60-4br',
-    'dc-units-70-1br', 'dc-units-70-2br', 'dc-units-70-3br', 'dc-units-70-4br',
-    'dc-units-80-1br', 'dc-units-80-2br', 'dc-units-80-3br', 'dc-units-80-4br',
-    'dc-units-100-1br', 'dc-units-100-2br', 'dc-units-100-3br', 'dc-units-100-4br',
-    'dc-units-110-1br', 'dc-units-110-2br', 'dc-units-110-3br', 'dc-units-110-4br',
-    'dc-units-120-1br', 'dc-units-120-2br', 'dc-units-120-3br', 'dc-units-120-4br',
-    'dc-achievable-cap',
-    // Site coords (drive county auto-detect + QCT/DDA flag)
-    'dc-coords-lat', 'dc-coords-lon',
-    // Mortgage sizing
-    'dc-noi', 'dc-dcr', 'dc-rate', 'dc-term', 'dc-auto-noi',
-    // F221 — NOI components (when auto-NOI is on, these compose NOI)
-    'dc-opex', 'dc-rep-reserve', 'dc-prop-tax', 'dc-tax-exempt',
-    'dc-devfee-pct',
-    // Pro forma growth assumptions
-    'pf-rent-growth', 'pf-exp-growth', 'dc-vacancy',
-    // Year-15 exit
-    'dc-exit-hold', 'dc-exit-cap',
-    // F193 stress sliders
-    'dc-stress-equity-price', 'dc-stress-tdc-overrun', 'dc-stress-rent-low',
-    'dc-stress-leaseup', 'dc-stress-dscr-floor',
-    // F195 capital event waterfall
-    'dc-wf-lp-equity', 'dc-wf-pref', 'dc-wf-gp-residual', 'dc-wf-catchup'
+  // The shareable set is READ FROM THE PAGE, not hand-listed. A hand list
+  // (SHARE_KEYS, F202-F221) silently dropped every input added after it was
+  // written — the county selector, gross SF, the studio split column, the
+  // ownership resale inputs, the methodology constants — so a recipient
+  // opening an ownership share link saw every output as "—" while the sender
+  // saw a max price and a gap. Now every <input>/<select>/<textarea> whose id
+  // starts with one of SHARE_ID_PREFIXES is shared, and anything else inside
+  // <main> must be accounted for in SHARE_EXCLUDED_CONTAINERS or
+  // ATTR_SHARE_KEYS, or auditInputs() reports it (and
+  // test/deal-calc-share-roundtrip.test.js fails).
+  //
+  // The URL param name is the DOM id with the "dc-" prefix stripped, so every
+  // link produced by the old hand list still hydrates.
+  var SHARE_ID_PREFIXES = /^(dc|pf)-/;
+
+  // Radio groups are carried by ONE member (the first in DOM order, which is
+  // the id the old hand list used: dc-mode-rental, dc-rate-9); _readVal /
+  // _writeVal walk the group by name. The other members are not separate keys.
+
+  // Controls inside <main> that are deliberately not shared, with the reason.
+  var SHARE_EXCLUDED_CONTAINERS = [
+    // Soft-funding tranche rows are id-less and multi-instance; they travel in
+    // the compact `tr` param (see _readTranches / _applyTranches).
+    { selector: '[data-tranche-id]', reason: 'soft-funding tranches travel in the `tr` param' },
+    // Rent-vs-Buy is a separate market-context widget with its own defaults;
+    // it feeds no Deal Calculator output.
+    { selector: '#rvbCalculator', reason: 'Rent vs Buy widget is independent of the deal scenario' },
+    // Residual land value tool (js/components/land-value-tool.js): its own
+    // inputs and comps, reads nothing from and writes nothing to the calculator.
+    { selector: '#landValueTool', reason: 'standalone land-value tool; feeds no Deal Calculator output' },
+    // Development realism checklists: reading aids a user ticks, not modeled.
+    { selector: '.devr-checkbox', reason: 'realism checklist ticks; not modeled by the calculator' }
   ];
+
+  // Id-less controls that do drive an output, keyed by a data attribute. The
+  // ownership resale picker is rebuilt on every recalculate, so it has no id.
+  // Order matters on hydrate: the mechanism options depend on the subsidy type.
+  var ATTR_SHARE_KEYS = [
+    { param: 'resale-subsidy',   selector: '[data-resale-subsidy-type]' },
+    { param: 'resale-mechanism', selector: '[data-resale-mechanism]' }
+  ];
+
+  function _isFormControl(el) {
+    return el && /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) &&
+      el.type !== 'button' && el.type !== 'submit' && el.type !== 'reset' && el.type !== 'file';
+  }
+
+  /** Every shareable id on the page, in DOM order, one per radio group. */
+  function shareKeys() {
+    var out = [];
+    var seenGroups = {};
+    Array.prototype.forEach.call(document.querySelectorAll('input[id], select[id], textarea[id]'), function (el) {
+      if (!_isFormControl(el) || !SHARE_ID_PREFIXES.test(el.id)) return;
+      if (_excludedBy(el)) return;
+      if (el.type === 'radio') {
+        if (!el.name || seenGroups[el.name]) return;
+        seenGroups[el.name] = true;
+      }
+      out.push(el.id);
+    });
+    return out;
+  }
+
+  function _excludedBy(el) {
+    for (var i = 0; i < SHARE_EXCLUDED_CONTAINERS.length; i++) {
+      if (el.closest && el.closest(SHARE_EXCLUDED_CONTAINERS[i].selector)) return SHARE_EXCLUDED_CONTAINERS[i];
+    }
+    return null;
+  }
+
+  /**
+   * Account for every form control in <main>: shared by id, shared by data
+   * attribute, or excluded with a reason. `unaccounted` must be empty — a
+   * control in it is one a share link would silently drop.
+   */
+  function auditInputs() {
+    var scope = document.querySelector('main') || document.body;
+    var keys = shareKeys();
+    var keySet = {};
+    keys.forEach(function (id) { keySet[id] = true; });
+    var result = { shared: keys, sharedByAttr: [], excluded: [], unaccounted: [] };
+    Array.prototype.forEach.call(scope.querySelectorAll('input, select, textarea'), function (el) {
+      if (!_isFormControl(el)) return;
+      var label = el.id || el.name || (el.outerHTML || '').slice(0, 80);
+      if (el.id && keySet[el.id]) return;
+      if (el.type === 'radio' && el.name) {
+        var carrier = document.querySelector('input[type="radio"][name="' + el.name + '"]');
+        if (carrier && keySet[carrier.id]) return;
+      }
+      for (var i = 0; i < ATTR_SHARE_KEYS.length; i++) {
+        if (el.matches && el.matches(ATTR_SHARE_KEYS[i].selector)) { result.sharedByAttr.push(ATTR_SHARE_KEYS[i].param); return; }
+      }
+      var ex = _excludedBy(el);
+      if (ex) { result.excluded.push({ control: label, reason: ex.reason }); return; }
+      result.unaccounted.push(label);
+    });
+    return result;
+  }
+
+  // The county a share link carries. deal-calculator.js reads this when the
+  // county list finishes loading, so its own jurisdiction auto-select does not
+  // overwrite the shared county (the list loads asynchronously, after hydrate).
+  try {
+    var _sharedCounty = new URLSearchParams(window.location.search).get('county-select');
+    if (_sharedCounty) window.__DealCalcSharedCounty = _sharedCounty;
+  } catch (_) {}
 
   // ── DOM helpers ───────────────────────────────────────────────────────
   function _getEl(id) { return document.getElementById(id); }
@@ -94,11 +151,17 @@
     }
     return el.value;
   }
+  // A value already in place is left alone: every write fires a full
+  // recalculate, and a link now carries ~140 inputs, most at their defaults.
+  // Writes run in page order, so "already in place" is judged after earlier
+  // writes' side effects (e.g. the credit-rate radio resetting equity price).
   function _writeVal(id, raw) {
     var el = _getEl(id);
     if (!el || raw == null) return;
     if (el.type === 'checkbox') {
-      el.checked = (raw === '1' || raw === 'true' || raw === true);
+      var want = (raw === '1' || raw === 'true' || raw === true);
+      if (el.checked === want) return;
+      el.checked = want;
       el.dispatchEvent(new Event('input',  { bubbles: true }));
       el.dispatchEvent(new Event('change', { bubbles: true }));
       return;
@@ -111,19 +174,49 @@
       // CSS string literal (backslash-escaping order matters).
       var cssVal = String(raw).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
       var match = document.querySelector('input[name="' + el.name + '"][value="' + cssVal + '"]');
-      if (match) {
+      if (match && !match.checked) {
         match.checked = true;
         match.dispatchEvent(new Event('input',  { bubbles: true }));
         match.dispatchEvent(new Event('change', { bubbles: true }));
       }
       return;
     }
+    if (el.tagName === 'SELECT' && !_hasOption(el, raw)) {
+      // Options loaded asynchronously (the county list waits for HUD FMR, the
+      // unit-size standards for their JSON). Setting .value now would select
+      // nothing, so wait for the option to appear.
+      _whenOptionExists(function () { return _getEl(id); }, raw);
+      return;
+    }
+    if (el.value === String(raw)) return;
     el.value = raw;
     // Fire the same events the user would have triggered by editing the
     // input. The Deal Calc listens for 'input' (and sometimes 'change');
     // dispatching both keeps the recalculate flow honest.
     el.dispatchEvent(new Event('input',  { bubbles: true }));
     el.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  function _hasOption(sel, raw) {
+    return Array.prototype.some.call(sel.options || [], function (o) { return o.value === String(raw); });
+  }
+  function _selectAndFire(sel, raw) {
+    sel.value = raw;
+    sel.dispatchEvent(new Event('input',  { bubbles: true }));
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  // Poll (100 ms, up to 15 s) for a select option that is populated later.
+  function _whenOptionExists(getSel, raw, tries) {
+    var sel = getSel();
+    if (sel && _hasOption(sel, raw)) {
+      if (sel.value !== String(raw)) _selectAndFire(sel, raw);
+      return;
+    }
+    if ((tries || 0) >= 150) {
+      console.warn('[DealCalc] shared value ' + raw + ' never became available; not applied');
+      return;
+    }
+    setTimeout(function () { _whenOptionExists(getSel, raw, (tries || 0) + 1); }, 100);
   }
 
   // ── Tranche encode / decode ───────────────────────────────────────────
@@ -203,8 +296,9 @@
     return checked && checked.value === 'ownership' ? 'ownership' : 'rental';
   }
   function _exportedKeys() {
-    if (_dealMode() !== 'ownership') return SHARE_KEYS.slice();
-    return SHARE_KEYS.filter(function (id) {
+    var keys = shareKeys();
+    if (_dealMode() !== 'ownership') return keys;
+    return keys.filter(function (id) {
       var el = _getEl(id);
       return !(el && el.closest && el.closest('[data-dc-mode="rental"]'));
     });
@@ -220,7 +314,19 @@
     var params = new URLSearchParams();
     _exportedKeys().forEach(function (id) {
       var v = _readVal(id);
-      if (v != null && v !== '') params.set(id.replace(/^dc-/, ''), v);
+      if (v == null) return;
+      // An empty field is carried only when it differs from the page default
+      // (the sender cleared a pre-filled value); otherwise the URL would carry
+      // ~50 empty split-unit params for nothing.
+      if (v === '') {
+        var el = _getEl(id);
+        if (!el || !('defaultValue' in el) || el.tagName === 'SELECT' || (el.defaultValue || '') === '') return;
+      }
+      params.set(id.replace(/^dc-/, ''), v);
+    });
+    ATTR_SHARE_KEYS.forEach(function (k) {
+      var el = document.querySelector(k.selector);
+      if (el && el.value) params.set(k.param, el.value);
     });
     var tr = _exportedTranches();
     if (tr) params.set('tr', tr);
@@ -238,11 +344,17 @@
   function _hydrate() {
     var params = new URLSearchParams(window.location.search);
     if (!Array.from(params.keys()).length) return;  // no params, nothing to do
-    SHARE_KEYS.forEach(function (id) {
+    shareKeys().forEach(function (id) {
       var key = id.replace(/^dc-/, '');
       if (params.has(key)) _writeVal(id, params.get(key));
     });
     if (params.has('tr')) _applyTranches(params.get('tr'));
+    // The resale picker is re-rendered by each recalculate, so it is looked up
+    // afresh for each key, after the id-keyed inputs have settled.
+    ATTR_SHARE_KEYS.forEach(function (k) {
+      if (!params.has(k.param)) return;
+      _whenOptionExists(function () { return document.querySelector(k.selector); }, params.get(k.param));
+    });
     // Surface that the scenario came from a URL so the user knows it's not
     // their saved defaults.
     setTimeout(function () {
@@ -313,6 +425,50 @@
     ta.remove();
   }
 
+  // ── Outputs carried in the JSON export ──────────────────────────────
+  // The figures a reader acts on, per mode. Values are the text the page
+  // displays ("$291,723", "1.15x"); an output the page shows as "—", leaves
+  // empty, hides, or does not render is null — never 0, which would read as
+  // a computed zero (AGENTS.md: an unmeasurable quantity is null).
+  // Ownership exports carry no rental output (PC-2).
+  var OUTPUT_IDS = {
+    rental: {
+      eligibleBasis:        'dc-r-basis',
+      annualCredits:        'dc-r-credits',
+      creditEquity:         'dc-r-equity',
+      annualRents:          'dc-r-rents',
+      developerFee:         'dc-r-devfee',
+      deferredDeveloperFee: 'dc-r-deferred',
+      stabilizedNoi:        'dc-r-noi-stab',
+      mortgageConstant:     'dc-r-mc',
+      firstMortgage:        'dc-r-mortgage',
+      annualDebtService:    'dc-r-ads',
+      dscr:                 'dc-r-dscr-base',
+      breakEvenOccupancy:   'dc-r-beo',
+      totalDevelopmentCost: 'dc-su-tdc',
+      fundingGap:           'dc-su-gap'
+    },
+    ownership: {
+      costPerUnit:          'dc-own-cost-per-unit',
+      costPerGrossSf:       'dc-own-cost-per-sf',
+      maxAffordablePrice:   'dc-own-max-price',
+      subsidyGapPerUnit:    'dc-own-gap-per-unit',
+      totalOwnershipGap:    'dc-own-total-gap'
+    }
+  };
+  function _outputText(id) {
+    var el = _getEl(id);
+    if (!el || (el.closest && el.closest('[hidden]'))) return null;
+    var t = String(el.textContent || '').replace(/\s+/g, ' ').trim();
+    return t && t !== '\u2014' && t !== '-' ? t : null;
+  }
+  function _readOutputs(mode) {
+    var map = OUTPUT_IDS[mode] || {};
+    var out = {};
+    Object.keys(map).forEach(function (k) { out[k] = _outputText(map[k]); });
+    return out;
+  }
+
   // ── Public — Export JSON ──────────────────────────────────────────────
   function buildSnapshot() {
     var snapshot = {
@@ -320,11 +476,18 @@
       dealMode: _dealMode(),
       url: window.location.origin + window.location.pathname + '?' + _serialize().toString(),
       inputs: {},
-      tranches: []
+      tranches: [],
+      // Added after `inputs`; importers that read only inputs/tranches are
+      // unaffected. Display text, null where the page shows no value.
+      outputs: _readOutputs(_dealMode())
     };
     _exportedKeys().forEach(function (id) {
       var v = _readVal(id);
       if (v != null) snapshot.inputs[id.replace(/^dc-/, '')] = v;
+    });
+    ATTR_SHARE_KEYS.forEach(function (k) {
+      var el = document.querySelector(k.selector);
+      if (el && el.value) snapshot.inputs[k.param] = el.value;
     });
     var trStr = _exportedTranches();
     if (trStr) {
@@ -450,5 +613,7 @@
   }
 
   // Public API
-  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot };
+  window.__DealCalcShare = { copyLink: copyLink, exportPdf: exportPdf, exportJson: exportJson, openIcSummary: openIcSummary, buildSnapshot: buildSnapshot,
+    shareKeys: shareKeys, auditInputs: auditInputs, serialize: function () { return _serialize().toString(); },
+    hydrate: _hydrate };
 })();

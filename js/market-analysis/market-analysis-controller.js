@@ -288,11 +288,15 @@
    * DDA = Difficult Development Area (high construction costs; IRC §42(d)(5)(B)(iii))
    * Either designation qualifies the project for up to 130% eligible basis boost.
    *
-   * Returns safe defaults when HudEgis is unavailable or data has not yet loaded.
+   * A flag is null (unknown, with `designationUnavailableReason`) when
+   * HudEgis is unavailable or a layer has not loaded / loaded empty. Unknown
+   * is never reported as false: false would untick the deal calculator's
+   * basis-boost box and drop the site's subsidy points.
    *
    * @param {number} lat
    * @param {number} lon
-   * @returns {{ qctFlag: boolean, ddaFlag: boolean, basisBoostEligible: boolean }}
+   * @returns {{ qctFlag: boolean|null, ddaFlag: boolean|null,
+   *             basisBoostEligible: boolean|null, designationUnavailableReason: string|null }}
    */
   function _getDesignationFlags(lat, lon) {
     var hudEgis = window.HudEgis;
@@ -304,15 +308,20 @@
         return {
           qctFlag:          result.in_qct,
           ddaFlag:          result.in_dda,
-          basisBoostEligible: result.basis_boost_eligible
+          basisBoostEligible: result.basis_boost_eligible,
+          designationUnavailableReason: result.unavailableReason || null
         };
       } catch (e) {
         _err('_getDesignationFlags() — HudEgis.checkDesignation() failed', e);
       }
     }
-    // Fallback: HudEgis not available or checkDesignation() not found
-    _log('_getDesignationFlags(): HudEgis unavailable — using safe defaults (all false)');
-    return { qctFlag: false, ddaFlag: false, basisBoostEligible: false };
+    // Fallback: HudEgis not available or checkDesignation() not found.
+    // Designation is unknown — not "not in a QCT/DDA".
+    _log('_getDesignationFlags(): HudEgis unavailable — QCT/DDA designation unknown');
+    return {
+      qctFlag: null, ddaFlag: null, basisBoostEligible: null,
+      designationUnavailableReason: 'HUD QCT/DDA designation lookup (HudEgis) unavailable'
+    };
   }
 
   /**
@@ -755,8 +764,11 @@
         // Notify the deal calculator of the designation result so the UI can
         // pre-check the QCT/DDA checkbox when the site qualifies for a basis boost.
         // setDesignationContext is a no-op when the deal calculator is not mounted.
+        // An unknown designation (null) leaves the checkbox exactly as the user
+        // set it — unknown must not untick a basis boost the site may qualify for.
         _safe(function () {
-          if (window.__DealCalc && typeof window.__DealCalc.setDesignationContext === 'function') {
+          if (typeof flags.basisBoostEligible === 'boolean' &&
+              window.__DealCalc && typeof window.__DealCalc.setDesignationContext === 'function') {
             window.__DealCalc.setDesignationContext(flags.basisBoostEligible);
           }
         });
@@ -831,14 +843,23 @@
         // PMATransit.calculateTransitScore() (called by the PMA runner
         // when present) blends frequency, coverage, and EPA SLD walk-to-
         // transit; its output captures bus + rail service quality, not
-        // just proximity. When the runner hasn't been invoked or PMATransit
-        // isn't loaded, leave transitMetrics undefined and scoreAccess
+        // just proximity. When the runner hasn't scored this site or
+        // PMATransit isn't loaded, leave transitMetrics null and scoreAccess
         // falls back to the legacy distance proxy.
         var transitMetrics = null;
         if (typeof window !== 'undefined' && window.PMATransit &&
             typeof window.PMATransit.getTransitJustification === 'function') {
           var tj = _safe(function () { return window.PMATransit.getTransitJustification(); }, null);
-          if (tj && typeof tj.transitAccessibilityScore === 'number') {
+          // Only a score computed for THIS site counts. Before the runner's
+          // transit step finishes, the score is null or belongs to the
+          // previous site; either way fall back to the distance proxy.
+          // Compare at 5 decimals (~1 m): the runner reads the site back from
+          // #pmaSiteCoords, which placeSiteMarker() writes with toFixed(5),
+          // while this call gets the unrounded marker position.
+          var sameSite = tj && typeof tj.siteLat === 'number' && typeof tj.siteLon === 'number' &&
+            typeof lat === 'number' && typeof lon === 'number' &&
+            tj.siteLat.toFixed(5) === lat.toFixed(5) && tj.siteLon.toFixed(5) === lon.toFixed(5);
+          if (sameSite && Number.isFinite(tj.transitAccessibilityScore)) {
             transitMetrics = {
               transitAccessibilityScore: tj.transitAccessibilityScore,
               nearbyRouteCount:          tj.nearbyRouteCount,
@@ -871,7 +892,8 @@
           jobTrend:         0,
           concentration:    0.5,
           serviceStrength:  0.25,
-          basisBoostEligible: flags.basisBoostEligible
+          basisBoostEligible: flags.basisBoostEligible,
+          designationUnavailableReason: flags.designationUnavailableReason
         };
 
         // ── 3. Compute scores ────────────────────────────────────────
@@ -956,6 +978,7 @@
               qctFlag:            flags.qctFlag,
               ddaFlag:            flags.ddaFlag,
               basisBoostEligible: flags.basisBoostEligible,
+              designationUnavailableReason: flags.designationUnavailableReason,
               fmrRatio:           inputs.fmrRatio,
               nearbySubsidized:   inputs.nearbySubsidized,
               subsidy_score:      scores ? scores.subsidy_score : null

@@ -1,0 +1,36 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08081",
+      "level": "county",
+      "name": "Moffat County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0817760",
+      "level": "municipal",
+      "name": "Craig (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0820495",
+      "level": "municipal",
+      "name": "Dinosaur (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

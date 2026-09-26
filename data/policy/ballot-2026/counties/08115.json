@@ -1,0 +1,46 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08115",
+      "level": "county",
+      "name": "Sedgwick County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0839965",
+      "level": "municipal",
+      "name": "Julesburg (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0856475",
+      "level": "municipal",
+      "name": "Ovid (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0868930",
+      "level": "municipal",
+      "name": "Sedgwick (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

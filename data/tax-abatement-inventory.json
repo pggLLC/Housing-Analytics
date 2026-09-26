@@ -6,7 +6,7 @@
     "categories": {
       "property-tax-exemption": "Statutory or local-ordinance exemption from property tax for qualifying affordable rental properties (often tied to 60% AMI cap + LURA).",
       "PILOT":                  "Payment in Lieu of Taxes — negotiated agreement reducing property tax in exchange for affordability commitments.",
-      "fee-waiver":             "Reduction or waiver of impact fees, plan-review fees, building permit fees, water/sewer tap fees, parkland dedication.",
+      "fee-waiver":             "Reduction or waiver of impact fees, plan-review fees, building permit fees, water/sewer tap fees, parkland dedication. Rows point at data/policy/fee-reductions.json (verified); a row with no verified entry is marked not yet verified.",
       "expedited-review":       "Priority / expedited entitlement track for qualifying affordable projects (saves carrying cost).",
       "density-bonus":          "Additional units / FAR / height in exchange for affordability set-asides.",
       "land-contribution":      "Public land donated or sold below market for affordable development.",
@@ -41,9 +41,9 @@
         },
         {
           "category":  "fee-waiver",
-          "name":      "Denver Use-Tax + Plan-Review Fee Waiver for affordable",
-          "url":       "https://denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Housing-Stability",
-          "summary":   "Selected fee waivers for projects with affordability covenants ≥30 years; ranges $50K-$300K/project."
+          "name":      "Denver — verified local fee measures",
+          "fee_reductions_ids":["denver-eha-building-permit-fee-reduction"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -61,8 +61,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Aurora Affordable Housing Fee Waiver Program",
-          "url":       "https://www.auroragov.org/business_services/development_review/affordable_housing",
-          "summary":   "Building permit + plan-review fee reduction for qualifying affordable projects."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Building permit + plan-review fee reduction for qualifying affordable projects."
         }
       ]
     },
@@ -79,9 +79,9 @@
         },
         {
           "category":  "fee-waiver",
-          "name":      "Affordable Housing Permit + Tap Fee Waiver",
-          "url":       "https://bouldercolorado.gov/affordable-housing",
-          "summary":   "Plan-review + water/sewer tap fees waived for projects at ≤60% AMI with permanent affordability covenants."
+          "name":      "Boulder — verified local fee measures",
+          "fee_reductions_ids":["d-boulder-det-credit-discretionary", "d-boulder-det-waiver-excess-pa"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
           "category":  "property-tax-exemption",
@@ -97,9 +97,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Colorado Springs Affordable Housing Fee Waiver",
-          "url":       "https://coloradosprings.gov/housing-development",
-          "summary":   "Reduction or waiver of impact fees + plan-review fees for projects ≤80% AMI; case-by-case."
+          "name":      "Colorado Springs — verified local fee measures",
+          "fee_reductions_ids":["colorado-springs-construction-use-tax-refund", "colorado-springs-fee-rebate-city-development-fees", "colorado-springs-fee-rebate-csu-utility-fees"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
           "category":  "URA-TIF",
@@ -132,10 +132,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Fort Collins Affordable Housing Fee Credit Program",
-          "url":       "https://www.fcgov.com/socialsustainability/affordable-housing",
-          "summary":   "Credits / reductions on capital expansion fees + utility plant investment fees for affordable projects ≤80% AMI.",
-          "magnitude": "Up to $15K-$25K per unit in fee reductions"
+          "name":      "Fort Collins — verified local fee measures",
+          "fee_reductions_ids":["d-fortcollins-cef-deferral", "d-fortcollins-fee-credit", "d-fortcollins-utility-pif-deferral"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
           "category":  "linkage-fee",
@@ -152,8 +151,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Greeley Affordable Housing Fee Waiver / Reduction",
-          "url":       "https://greeleygov.com/services/cd/housing",
-          "summary":   "Reduction of impact + utility tap fees for qualifying affordable projects."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Reduction of impact + utility tap fees for qualifying affordable projects."
         }
       ]
     },
@@ -169,9 +168,9 @@
         },
         {
           "category":  "fee-waiver",
-          "name":      "Longmont Affordable Housing Fee Subsidy",
-          "url":       "https://www.longmontcolorado.gov/departments/departments-e-m/housing-and-community-investment",
-          "summary":   "Plan review + capital expansion fee credits for ≤60% AMI projects."
+          "name":      "Longmont — verified local fee measures",
+          "fee_reductions_ids":["d-longmont-4-79-general-fee-reduction", "d-longmont-raw-water-cil-offset", "d-longmont-sdf-subsidy"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -193,9 +192,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Vail InDEED + Eagle Valley Workforce Housing programs",
-          "url":       "https://www.vailgov.com/government/departments/housing",
-          "summary":   "Vail InDEED uses dedicated funds to buy deed restrictions on existing units (purchase-side workforce housing). Eagle Co also offers fee waivers + density bonuses for projects ≥80% AMI deed restricted."
+          "name":      "Vail / Eagle / Avon (Eagle County) — verified local fee measures",
+          "fee_reductions_ids":["avon-affordable-fire-impact-fee-waiver", "avon-community-housing-building-permit-waiver", "avon-community-housing-development-review-fee-waiver", "avon-community-housing-tap-fee-deferral", "avon-community-housing-use-tax-credit"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
           "category":  "land-contribution",
@@ -241,8 +240,9 @@
         },
         {
           "category":  "fee-waiver",
-          "name":      "Town-by-town impact + tap fee discretion",
-          "summary":   "Glenwood, Carbondale, Rifle have negotiated case-by-case fee reductions on selected affordable projects; no published formal programs as of 2026-06. Verify via Town Manager."
+          "name":      "Garfield County towns (Glenwood/Carbondale/New Castle/Silt/Rifle/Parachute) — verified local fee measures",
+          "fee_reductions_ids":["b-glenwood-voluntary-deed-restriction-impact-relief", "b-carbondale-fee-exemption-1br-80", "b-carbondale-fee-exemption-2-3br-120", "b-carbondale-fee-exemption-2br-100"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -294,9 +294,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Broomfield affordable housing fee reductions",
-          "url":       "https://www.broomfield.org/352/Housing",
-          "summary":   "Plan-review + impact fee reductions case-by-case for affordable."
+          "name":      "Broomfield — verified local fee measures",
+          "fee_reductions_ids":["d-broomfield-ih-onsite-bp", "d-broomfield-ih-onsite-sef", "d-broomfield-ih-onsite-usetax"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -306,9 +306,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Loveland Affordable Housing Fee Credit",
-          "url":       "https://www.lovgov.org/services/community-development",
-          "summary":   "Capital expansion fee credits for affordable projects."
+          "name":      "Loveland — verified local fee measures",
+          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-use-tax-credit"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -330,9 +330,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Durango affordable housing fee reduction",
-          "url":       "https://www.durangogov.org/",
-          "summary":   "City has reduced fees for selected affordable projects; no formal published schedule."
+          "name":      "Durango — verified local fee measures",
+          "fee_reductions_ids":["b-durango-fairshare-fee-offset-forsale", "b-durango-fairshare-fee-offset-rental"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -354,8 +354,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Wheat Ridge Affordable Housing Fee Adjustment",
-          "url":       "https://www.ci.wheatridge.co.us/",
-          "summary":   "City offers selective fee adjustments for qualifying affordable projects through community development. Case-by-case."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"City offers selective fee adjustments for qualifying affordable projects through community development. Case-by-case."
         }
       ]
     },
@@ -372,8 +372,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Arvada Affordable Housing Fee Adjustment",
-          "url":       "https://www.arvada.org/",
-          "summary":   "Selective impact + plan-review fee adjustments for affordable projects."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Selective impact + plan-review fee adjustments for affordable projects."
         }
       ]
     },
@@ -384,8 +384,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Aurora Affordable Housing Fee Waiver Program",
-          "url":       "https://www.auroragov.org/business_services/development_review/affordable_housing",
-          "summary":   "Building permit + plan-review fee reduction for qualifying affordable projects."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Building permit + plan-review fee reduction for qualifying affordable projects."
         },
         {
           "category":  "URA-TIF",
@@ -402,8 +402,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Parker Affordable Housing Fee Reduction",
-          "url":       "https://www.parkeronline.org/",
-          "summary":   "Town offers selective fee reductions for affordable projects meeting income targeting."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Town offers selective fee reductions for affordable projects meeting income targeting."
         }
       ]
     },
@@ -413,9 +413,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Castle Rock Affordable Housing Fee Adjustment",
-          "url":       "https://www.crgov.com/",
-          "summary":   "Selective fee adjustments for projects with permanent affordability covenants."
+          "name":      "Castle Rock — verified local fee measures",
+          "fee_reductions_ids":["castle-rock-impact-fee-reduction", "castle-rock-system-development-fee-reduction"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         }
       ]
     },
@@ -425,9 +425,9 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Loveland Affordable Housing Fee Credit",
-          "url":       "https://www.lovgov.org/services/community-development",
-          "summary":   "Capital expansion fee credits for affordable projects."
+          "name":      "Loveland — verified local fee measures",
+          "fee_reductions_ids":["d-loveland-ah-fee-waiver-schedule", "d-loveland-use-tax-credit"],
+          "summary":   "Shown from data/policy/fee-reductions.json (verified entries)."
         },
         {
           "category":  "URA-TIF",
@@ -457,8 +457,8 @@
         {
           "category":  "fee-waiver",
           "name":      "Golden Affordable Housing Fee Adjustment",
-          "url":       "https://www.cityofgolden.net/",
-          "summary":   "Selective impact + plan-review fee adjustments for qualifying affordable projects."
+          "verification_note":"Not yet verified: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no entry for it.",
+          "prior_summary":"Selective impact + plan-review fee adjustments for qualifying affordable projects."
         }
       ]
     },
@@ -468,9 +468,8 @@
       "programs": [
         {
           "category":  "fee-waiver",
-          "name":      "Brighton Affordable Housing Fee Reduction",
-          "url":       "https://www.brightonco.gov/",
-          "summary":   "Plan review + capital expansion fee reductions for affordable projects."
+          "name":      "Brighton affordable housing fee reduction",
+          "verification_note":"Not yet verified as a standing program: listed in an older inventory, not yet checked against the jurisdiction's own code or fee schedule. data/policy/fee-reductions.json has no program entry for it (past project awards, if any, show in the HNA)."
         }
       ]
     }

@@ -91,7 +91,7 @@ Panels on `market-analysis.html`:
 | Panel | What it shows |
 |---|---|
 | PMA Composite score | 0–100 overall score with letter-grade banding |
-| LIHTC Supply in Buffer | Count + unit total of active/pipeline LIHTC properties in the buffer (see [explainer tooltip](../../market-analysis.html) on the card) |
+| Existing affordable supply in buffer | Count + affordable-unit total of LIHTC (income-restricted units) and other assisted properties (HUD MF, USDA RD, PBV, CHFA preservation; assisted units) in the buffer, a property in both counted once (see [explainer tooltip](../../market-analysis.html) on the card) |
 | Peer Benchmarking | This site's score percentile against ~50 known CO LIHTC projects (see tooltip for scope) |
 | Competitive Pipeline | LIHTC projects classified by development stage |
 | Enhanced Pipeline Sources | Data-availability checklist (Transit, EPA SLD, HUD AFFH, HUD Opp. Atlas, Utility, USDA Food) |

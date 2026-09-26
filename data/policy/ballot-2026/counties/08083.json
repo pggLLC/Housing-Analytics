@@ -1,0 +1,46 @@
+{
+  "schema": "ballot/v1",
+  "coverage": [
+    {
+      "geoid": "08083",
+      "level": "county",
+      "name": "Montezuma County",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0817375",
+      "level": "municipal",
+      "name": "Cortez (city)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0820770",
+      "level": "municipal",
+      "name": "Dolores (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    },
+    {
+      "geoid": "0848115",
+      "level": "municipal",
+      "name": "Mancos (town)",
+      "coverage_state": "not_researched",
+      "reviewed_source": null,
+      "checked": null,
+      "entry_ids": [],
+      "limitations": []
+    }
+  ],
+  "entries": []
+}

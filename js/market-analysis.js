@@ -55,7 +55,7 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
-  var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
+  var todCircle    = null;   // ½-mile TOD ring (CHFA QAP transit points, see QAP_TOD)
   var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
@@ -64,6 +64,21 @@
   // guarded by a three-way agreement test in test/pma-scoring.test.js
   // (#1160). bindBufferSelect() re-syncs from the live select at init.
   var bufferMiles  = 3;
+
+  // CHFA QAP transit points (Project Location criterion). The adopted plan
+  // and the draft differ, so both are shown and labelled. Must agree with the
+  // "b. Three Five points … TOC or TOD site" redline in
+  // data/audit/chfa-qap-watch.json — guarded by test/qap-tod-points.test.js.
+  var QAP_TOD = {
+    section:       '§5.B.2.b',
+    adoptedPoints: 3,
+    adoptedPlan:   '2025–26 QAP',
+    draftPoints:   5,
+    draftPlan:     '2027–28 QAP Third Draft',
+    ruralSection:  '§5.B.3.b'
+  };
+  var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts (' +
+    QAP_TOD.draftPoints + ' proposed)';
 
   // Walking + biking ring radii (miles). The ½-mile walking ring is the
   // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
@@ -77,6 +92,7 @@
     { miles: 5.0,  mode: 'bike', color: '#93c5fd' }  // 25-min bike
   ];
   var lastResult   = null;
+  var _scenarioScorer = null; // computePma bound to the last run's inputs
   // Re-render hook for the LIHTC concept card's constraint screening.
   // Set on each runAnalysis() so the async flood-zone loader (see
   // loadOverlays) can re-run the environmental screen once the ~28MB
@@ -594,6 +610,7 @@
     var totals = {
       pop: 0, renter_hh: 0, owner_hh: 0, total_hh: 0,
       vacant: 0, rent_sum: 0, income_sum: 0,
+      rent_n: 0, income_n: 0, rent_excluded: 0, income_excluded: 0,
       cost_burden_sum: 0, vacancy_rate_sum: 0,
       severe_burden_sum: 0, severe_burden_n: 0,
       poverty_sum: 0, poverty_n: 0,
@@ -629,8 +646,18 @@
       totals.rented_not_occupied += (m.rented_not_occupied || 0) * share;
       totals.vacant_seasonal     += (m.vacant_seasonal     || 0) * share;
       // Rates are unweighted averages — don't multiply by share.
-      totals.rent_sum     += m.median_gross_rent  || 0;
-      totals.income_sum   += m.median_hh_income   || 0;
+      // A median the Census did not publish (null, or 0 in a tract file
+      // built before scripts/market/build_public_market_data.py stopped
+      // coercing the suppression sentinel) is not a $0 rent or income.
+      // Leave it out of that median's average and count it, so the page can
+      // say how many tracts were left out. Rent and income are counted
+      // separately: a tract can publish one and not the other.
+      var rentV = m.median_gross_rent == null ? NaN : Number(m.median_gross_rent);
+      if (rentV > 0) { totals.rent_sum += rentV; totals.rent_n++; }
+      else totals.rent_excluded++;
+      var incomeV = m.median_hh_income == null ? NaN : Number(m.median_hh_income);
+      if (incomeV > 0) { totals.income_sum += incomeV; totals.income_n++; }
+      else totals.income_excluded++;
       totals.cost_burden_sum  += m.cost_burden_rate || 0;
       totals.vacancy_rate_sum += m.vacancy_rate    || 0;
       if (Number.isFinite(+m.severe_cost_burden_rate)) {
@@ -693,8 +720,12 @@
       renter_hh:        Math.round(totals.renter_hh),
       total_hh:         Math.round(totals.total_hh),
       vacant:           Math.round(totals.vacant),
-      median_gross_rent:   totals.n ? totals.rent_sum    / totals.n : 0,
-      median_hh_income:    totals.n ? totals.income_sum  / totals.n : 0,
+      // Averages of the published tract medians; null, never 0, when no
+      // tract in the buffer has one.
+      median_gross_rent:   totals.rent_n   ? totals.rent_sum   / totals.rent_n   : null,
+      median_hh_income:    totals.income_n ? totals.income_sum / totals.income_n : null,
+      median_gross_rent_excluded_tracts: totals.rent_excluded,
+      median_hh_income_excluded_tracts:  totals.income_excluded,
       cost_burden_rate:    totals.n ? totals.cost_burden_sum  / totals.n : 0,
       vacancy_rate:        totals.n ? totals.vacancy_rate_sum / totals.n : 0,
       // #1163 — buffer-level rental vacancy from summed apportioned counts
@@ -732,6 +763,15 @@
   }
 
   /* ── LIHTC projects within buffer ───────────────────────────────── */
+  // The ACS vintage of the tract metrics this page actually loaded
+  // (data/market/acs_tract_metrics_co.json meta.vintage is the 5-year
+  // period's end year), so export labels cannot drift from the data.
+  // null when the file carries no vintage — unknown, not guessed.
+  function _acsVintageLabel() {
+    var v = acsMetrics && acsMetrics.meta ? parseInt(acsMetrics.meta.vintage, 10) : NaN;
+    return Number.isFinite(v) && v > 2000 ? 'ACS 5-Year ' + (v - 4) + '-' + v : null;
+  }
+
   function lihtcInBuffer(lat, lon, miles) {
     if (!lihtcFeatures) return [];
     return lihtcFeatures.filter(function (f) {
@@ -868,7 +908,22 @@
    * @returns {{ score: number|null, ratio: number, amiUsed: number|null, amiSource: string, unavailable: boolean }}
    */
   function scoreRentPressure(acs, countyAmi) {
-    return PMAScoring.scoreRentPressure(acs, countyAmi);
+    var res = PMAScoring.scoreRentPressure(acs, countyAmi);
+    if (res.unavailable) {
+      res.unavailableReason = 'county 4-person AMI could not be resolved';
+      return res;
+    }
+    // No measured rent is not a rent of $0. The shared helper turns a
+    // missing median into ratio 0, which scores as no rent pressure at all.
+    // Exclude the dimension instead (the overall score redistributes its
+    // weight) and say why. The helper is hash-pinned by
+    // test/pma-scoring.test.js, so the guard lives here.
+    var rent = acs && acs.median_gross_rent != null ? Number(acs.median_gross_rent) : NaN;
+    if (!(rent > 0)) {
+      return { score: null, ratio: null, amiUsed: countyAmi, amiSource: 'county', unavailable: true,
+        unavailableReason: 'the Census published no median rent for any tract in this market area' };
+    }
+    return res;
   }
 
   /**
@@ -1036,9 +1091,10 @@
     var currentYear = new Date().getFullYear();
     var years = (nearbyFeatures || []).map(function (f) {
       var p = (f && f.properties) || {};
-      // Prefer YR_ALLOC (when CHFA awarded credits) over YR_PIS (placed-in-service).
-      // YR_ALLOC reflects CHFA decision timing; YR_PIS lags 18-30 months.
-      return parseInt(p.YR_ALLOC || p.YR_PIS || p.yearAllocated || p.yearPlaced || 0, 10);
+      // Award / allocation year — when CHFA awarded the credits. There is no
+      // placed-in-service year to fall back to: the CHFA feed's YR_PIS is
+      // AwardYear copied by scripts/fetch-chfa-lihtc.js.
+      return parseInt(p.YR_ALLOC || p.AwardYear || p.yearAllocated || 0, 10);
     }).filter(function (y) { return y > 1985 && y <= currentYear; });
 
     if (!years.length) {
@@ -1167,13 +1223,20 @@
       flags.push({ level: 'bad', text: 'High cost-burden pressure (≥45%)' });
     }
     if (captureObj.capture >= RISK.captureHigh) {
-      flags.push({ level: 'warn', text: 'High capture risk (≥25% of qualified renters)' });
+      // captureObj.capture is (existing + proposed units) ÷ qualified
+      // renters. With no proposed units (the headline) it is existing
+      // affordable penetration alone, not a capture rate for any project.
+      flags.push({ level: 'warn', text: 'High ' + MEASURE_NAMES.penetration.toLowerCase() +
+        (proposedUnits > 0 ? ' including the ' + proposedUnits + ' proposed units' : '') +
+        ' (≥' + Math.round(RISK.captureHigh * 100) + '% of qualified renters)' });
     }
     if (!rentPressureObj.unavailable && rentPressureObj.ratio >= RISK.rentPressureElev) {
       flags.push({ level: 'warn', text: 'Elevated rent pressure (market ÷ affordable ≥ 1.10)' });
     }
     if (rentPressureObj.unavailable) {
-      flags.push({ level: 'warn', text: 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)' });
+      flags.push({ level: 'warn', text: rentPressureObj.amiSource === 'unavailable'
+        ? 'Rent-pressure score unavailable — county AMI could not be resolved (buffer crosses ambiguous county lines, or HUD FMR data not loaded)'
+        : 'Rent-pressure score unavailable — ' + rentPressureObj.unavailableReason });
     }
 
     // LIHTC recency flags — surface competitive saturation vs. gap signals
@@ -1220,10 +1283,9 @@
     var rentPressureCoverage;
     if (rentPressureObj.unavailable) {
       rentPressureCoverage = 'unavailable';
-      fallbackReasons.rent_pressure = 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)';
-    } else if (!acs || acs.median_gross_rent == null) {
-      rentPressureCoverage = 'fallback';
-      fallbackReasons.rent_pressure = 'ACS median_gross_rent missing; rent ratio defaulted to 0';
+      fallbackReasons.rent_pressure = rentPressureObj.amiSource === 'unavailable'
+        ? 'County 4-person AMI could not be resolved from HUD FMR data; rent-pressure dimension excluded from overall (weight redistributed)'
+        : 'Rent-pressure dimension excluded from overall (weight redistributed): ' + rentPressureObj.unavailableReason;
     } else {
       rentPressureCoverage = 'full';
     }
@@ -1281,8 +1343,11 @@
             ? ' ⚠ STR-DISTORTED: residual ACS short-term/vacation rental contamination may remain after the seasonal-share proxy discount. Verify against local STR-license and long-term listing data (#1171).'
             : ''),
         rentPressure:    rentPressureObj.unavailable
-          ? 'Rent-pressure score unavailable — county 4-person AMI could not be resolved. Dimension excluded from overall.'
+          ? 'Rent-pressure score unavailable — ' + (rentPressureObj.unavailableReason || 'county 4-person AMI could not be resolved') + '. Dimension excluded from overall.'
           : 'Market rent vs. 60% AMI affordable rent threshold (county AMI: $' + rentPressureObj.amiUsed.toLocaleString() + ')'
+            + (acs && acs.median_gross_rent_excluded_tracts
+              ? '. Market rent averages the tracts with a published median; ' + acs.median_gross_rent_excluded_tracts + ' tract(s) without one are left out, not counted as $0'
+              : '')
       },
       dimensionDataAvailable: {
         demand:          demandCoverage !== 'fallback',
@@ -1326,6 +1391,21 @@
     return { proposedUnits: proposedUnits, captureRate: captureRate, risk: risk };
   }
 
+  /*
+   * Two ratios on this page share one denominator, and must not share a
+   * name. The headline divides EXISTING affordable units by qualified renter
+   * households: that is penetration of the existing stock. The simulator and
+   * the scenario table divide the PROPOSED project's units by the same
+   * households: that is the project's capture rate, the measure CHFA means
+   * by "capture rate". Both were called "Capture rate". These names are used
+   * on screen and in the exports; market-analysis.html and its Help dialog
+   * must agree with them (test/pma-capture-naming.test.js).
+   */
+  var MEASURE_NAMES = {
+    penetration: 'Existing affordable penetration',
+    capture:     'Proposed-project capture'
+  };
+
   /**
    * The one denominator every capture rate on this page divides by (audit
    * F3). The headline and the simulator divided by CHAS LIHTC-eligible
@@ -1351,10 +1431,26 @@
   function _denominatorLine(den) {
     return den
       ? '\u00f7 ' + den.value.toLocaleString() + ' ' + den.label
-      : 'No renter-household count for this PMA, so no capture rate.';
+      : 'No renter-household count for this PMA, so no penetration or capture rate.';
   }
 
   /* ── Tier label ─────────────────────────────────────────────────── */
+  /**
+   * The PMA score's scale, read off scoreTier() itself (0-100), so the
+   * legend under the score cannot disagree with the label beside it
+   * (audit F2). market-analysis-scoring.js is hash-pinned, so the scale is
+   * derived here rather than exported from it.
+   */
+  function scoreScaleLegend() {
+    var spans = [];
+    for (var v = 100; v >= 0; v--) {
+      var label = scoreTier(v).label;
+      if (!spans.length || spans[spans.length - 1].label !== label) spans.push({ label: label, hi: v, lo: v });
+      else spans[spans.length - 1].lo = v;
+    }
+    return spans.map(function (t) { return t.label + ' ' + t.lo + '\u2013' + t.hi; }).join(' \u00b7 ');
+  }
+
   function scoreTier(s) {
     return PMAScoring.scoreTier(s);
   }
@@ -1419,6 +1515,8 @@
       scoreEl.style.background = 'var(' + dimVar + ')';
     }
     setText('pmaScoreTier', tier.label + ' Site');
+    var scaleEl = el('pmaScoreScale');
+    if (scaleEl) scaleEl.textContent = 'Scale: ' + scoreScaleLegend();
     setText('pmaTractCount', result.tractCount || '—');
     renderScoreBoundary(result);
     renderPmaSiteSummary(result);
@@ -1535,7 +1633,7 @@
     var dimLabels = ['Demand', 'Competitive Density', 'Rent Pressure', 'Market Tightness', 'Workforce'];
     var dimDescs  = [
       'Income-qualified renter demand within the buffer. Higher = more households at LIHTC-eligible incomes relative to existing supply.',
-      'Ratio of total affordable units to renter households — not a traditional capture rate. Lower density = higher score.',
+      MEASURE_NAMES.penetration + ': existing affordable units ÷ renter households — not the ' + MEASURE_NAMES.capture.toLowerCase() + ' rate. Lower density = higher score.',
       'How far market rents have pulled above the capped rents an income-restricted building may charge. The wider that gap, the more people are priced out of the open market and the more demand there is for restricted units.',
       'How fully occupied existing housing stock is (vacancy signal). Low vacancy = tight market = strong demand. This does NOT measure land availability for new construction.',
       'Workforce housing alignment: commuting patterns, major employer proximity, and job-to-housing ratio within the buffer.'
@@ -1697,18 +1795,38 @@
       }).join('');
     }
 
-    setText('pmaLihtcCount', result.lihtcCount);
-    setText('pmaLihtcUnits', result.lihtcUnits);
+    setText('pmaAffordableCount', result.affordableCount);
+    setText('pmaAffordableBreakdown',
+      result.lihtcCount + ' LIHTC · ' + result.otherAssistedCount + ' other assisted');
+    function _fmtUnits(n) { return n != null ? n.toLocaleString() : 'Value unavailable'; }
+    // Same figure the capture rate divides (affordableUnitsKnown), shown as
+    // unavailable when no project in the PMA reports a unit count.
+    setText('pmaLihtcUnits',
+      _fmtUnits(result.affordableUnits == null ? null : result.affordableUnitsKnown));
+    setText('pmaAffordableUnitsBreakdown',
+      _fmtUnits(result.lihtcUnits) + ' LIHTC · ' + _fmtUnits(result.otherAssistedUnits) + ' other assisted');
+    var unitsNote = el('pmaAffordableUnitsNote');
+    if (unitsNote) {
+      // Every way the supply total departs from a plain sum is disclosed:
+      // projects without a unit count, projects counted at total units, and
+      // other-assisted records removed as duplicates of a LIHTC project.
+      var supplyNotes = [
+        result.affordableUnitsUnavailableReason,
+        result.affordableUnitsFallbackReason,
+        result.affordableDuplicatesReason
+      ].filter(Boolean).join(' ');
+      unitsNote.textContent = supplyNotes;
+      unitsNote.hidden = !supplyNotes;
+    }
     var capDen = captureDenominator(result);
     setText('pmaCaptureRate', capDen && Number.isFinite(result.capture) ? (result.capture * 100).toFixed(1) + '%' : '\u2014');
     var capDenEl = el('pmaCaptureDenominator');
     if (capDenEl) {
-      var exUnits = Number(result.lihtcUnits) || 0;
+      // The capture numerator: existing affordable units from projects that
+      // report a unit count (LIHTC + other assisted), the same figure
+      // computePma scored and #pmaLihtcUnits shows.
+      var exUnits = result.affordableUnitsKnown;
       capDenEl.textContent = capDen
-        // result.lihtcUnits is every existing affordable unit in the PMA,
-        // LIHTC and other subsidized (runAnalysis adds HUD MF, USDA RD, PBV
-        // and preservation units to it), so it is not labelled LIHTC-only
-        // (Codex review of #1900).
         ? exUnits.toLocaleString() + ' existing affordable units (LIHTC and other subsidized) ' + _denominatorLine(capDen)
         : _denominatorLine(null);
       capDenEl.dataset.denominator = capDen ? String(capDen.value) : '';
@@ -1794,7 +1912,7 @@
    * Pulls every LIHTC project within the user-chosen outer radius (default
    * 25 mi) MINUS those already counted inside the PMA buffer. Sorted by
    * straight-line distance from the site; shows project name, city, miles
-   * away, year placed in service, unit totals, and credit type. Doesn't
+   * away, CHFA award year, unit totals, and credit type. Doesn't
    * affect capture or competitive-supply scoring — just regional context. */
   var _pmaLastSite = null;
   function renderNearbyLihtcOutsidePma(result) {
@@ -1821,7 +1939,7 @@
       var d = haversine(lat, lon, c[1], c[0]);
       if (d <= inner || d > outer) continue; // strictly outside PMA, inside outer ring
       var p = f.properties || {};
-      var yr = parseInt(p.YR_PIS, 10);
+      var yr = parseInt(p.AwardYear || p.YR_ALLOC, 10);  // award year, not an opening year
       if (!Number.isFinite(yr) || yr < 1980 || yr > 2030) yr = null;
       var units = +(p.N_UNITS || p.TOTAL_UNITS || 0) || null;
       var liUnits = +(p.LI_UNITS || 0) || null;
@@ -2157,7 +2275,7 @@
     var mix = validateUnitMix();
     if (!mix.valid) {
       simEl.innerHTML =
-        '<div class="pma-empty">Capture rate unavailable — fix the unit-mix error above.</div>';
+        '<div class="pma-empty">' + MEASURE_NAMES.capture + ' rate unavailable — fix the unit-mix error above.</div>';
       return;
     }
 
@@ -2186,7 +2304,7 @@
     simEl.innerHTML =
       '<div class="pma-stat-grid">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + sim.proposedUnits + '</div><div class="pma-stat-label">Proposed units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">Capture rate</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + sim.captureRate + '%</div><div class="pma-stat-label">' + MEASURE_NAMES.capture + ' rate</div></div>' +
         '<div class="pma-stat"><div class="pma-stat-value" style="color:' +
           (sim.risk === 'High' ? 'var(--bad)' : sim.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' +
           sim.risk + '</div><div class="pma-stat-label">Risk level</div></div>' +
@@ -2260,17 +2378,23 @@
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.dist + ' mi</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center">' + p.units + '</td>' +
         '<td style="padding:0.2rem 0.4rem;text-align:center;color:var(--faint)">' + (p.year || '—') + '</td>' +
-        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)">' + p.stage + '</td>' +
+        '<td style="padding:0.2rem 0.4rem;text-align:center;font-size:var(--tiny)" data-stage-basis="' + (p.stageBasis || '') + '">' + (p.stageLabel || p.stage) + '</td>' +
         '</tr>';
     }).join('');
 
     el2.innerHTML =
       '<div class="pma-stat-grid" style="margin-bottom:0.6rem">' +
         '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.total + '</div><div class="pma-stat-label">Total in buffer</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Active / recent</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Active units</div></div>' +
-        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + pipeline.active + '</div><div class="pma-stat-label">Not yet operating</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.totalActiveUnits || 0).toLocaleString() + '</div><div class="pma-stat-label">Units not yet operating</div></div>' +
+        '<div class="pma-stat"><div class="pma-stat-value">' + (pipeline.estimatedAbsorptionMonths || 0) + ' mo</div><div class="pma-stat-label">Est. absorption (heuristic: ' + pipeline.absorptionUnitsPerMonth + ' units/mo)</div></div>' +
       '</div>' +
+      '<p class="pma-pipeline-basis" style="margin:0 0 0.5rem;font-size:var(--tiny);color:var(--muted)">' +
+        'Stage comes from CHFA only where its status names the phase (\u201cPre-Compliance - Construction Phase\u201d). ' +
+        '\u201cActive Compliance\u201d does not show a property has opened, so those projects and any without a status are estimated from the award year and marked \u201cest.\u201d' +
+        (pipeline.activeStagesEstimated ? ' (' + pipeline.activeStagesEstimated + ' of the ' + pipeline.active + ' not yet operating here)' : '') +
+        '; verify with local planning records. ' + pipeline.absorptionBasis + '.' +
+      '</p>' +
       (pipeline.saturation ? '<div class="pma-flag pma-flag-warn" style="margin-bottom:0.5rem">⚠ Submarket saturation warning: ' + pipeline.active + ' active projects (threshold: ' + ENH.SATURATION_THRESHOLD + ')</div>' : '') +
       (rows ? '<table class="pma-bench-table" style="width:100%;border-collapse:collapse;font-size:var(--tiny)">' +
         '<thead><tr>' +
@@ -2291,11 +2415,14 @@
 
     var proposed = parseInt(el('pmaProposedUnits') && el('pmaProposedUnits').value, 10) || 100;
     var scenDen = captureDenominator(result);
+    var scenarioList = [{ label: 'No proposed project (the PMA score above)', proposedUnits: 0, amiMix: { ami60: 0 }, noProject: true }]
+      .concat(ENH.defaultScenarios(proposed));
     var scenarios = scenDen ? ENH.generateScenarios(
       result.acs,
-      result.lihtcUnits || 0,
-      ENH.defaultScenarios(proposed),
-      scenDen.value
+      result.affordableUnitsKnown,
+      scenarioList,
+      scenDen.value,
+      _scenarioScorer
     ) : [];
     el2.dataset.denominator = scenDen ? String(scenDen.value) : '';
     lastScenarios = scenarios;
@@ -2307,11 +2434,13 @@
 
     var rows = scenarios.map(function (s) {
       var tier = scoreTier(s.overall);
-      return '<tr>' +
+      return '<tr data-units="' + s.proposedUnits + '" data-score="' + s.overall + '">' +
         '<td style="padding:0.25rem 0.5rem">' + s.label + '</td>' +
         '<td style="padding:0.25rem 0.5rem;text-align:center;font-weight:700;color:' + tier.color + '">' + s.overall + '</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
-        '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>' +
+        (s.proposedUnits > 0
+          ? '<td style="padding:0.25rem 0.5rem;text-align:center">' + s.captureRate + '%</td>' +
+            '<td style="padding:0.25rem 0.5rem;text-align:center;color:' + (s.risk === 'High' ? 'var(--bad)' : s.risk === 'Moderate' ? 'var(--warn)' : 'var(--good)') + '">' + s.risk + '</td>'
+          : '<td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td><td style="padding:0.25rem 0.5rem;text-align:center">\u2014</td>') +
         '</tr>';
     }).join('');
 
@@ -2320,10 +2449,10 @@
         '<thead><tr>' +
           '<th style="text-align:left;padding:0.2rem 0.5rem;color:var(--faint)">Scenario</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">PMA Score</th>' +
-          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Capture Rate</th>' +
+          '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">' + MEASURE_NAMES.capture + ' rate</th>' +
           '<th style="text-align:center;padding:0.2rem 0.5rem;color:var(--faint)">Risk</th>' +
         '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">Capture rate = proposed units ' + _denominatorLine(scenDen) + '.</p>';
+      '<p class="pma-capture-denominator" style="margin:.35rem 0 0;font-size:var(--tiny);color:var(--muted)">' + MEASURE_NAMES.capture + ' rate = proposed units ' + _denominatorLine(scenDen) + '. Not the ' + MEASURE_NAMES.penetration.toLowerCase() + ' above, which divides existing units.</p>';
   }
 
   /* ── Run analysis ───────────────────────────────────────────────── */
@@ -2491,9 +2620,6 @@
         'Run the "Generate Market Analysis Data" GitHub Actions workflow.');
       return;
     }
-    var lihtcCount   = nearbyLihtc.length;
-    var lihtcUnits   = nearbyLihtc.reduce(function (s, f) { return s + ((f.properties && (f.properties.N_UNITS || f.properties.TOTAL_UNITS)) || 0); }, 0);
-
     // F218 — Add non-LIHTC affordable inventory (HUD MF, USDA RD, PBV-local,
     // preservation candidates) to the supply count BEFORE PMA scoring math.
     // The Capture Rate KPI + Competitive Density dimension previously used
@@ -2506,25 +2632,23 @@
     // runs (after user clicks "Run market analysis"), the props cache is
     // populated. Degrades gracefully: if cache empty, supply = LIHTC-only
     // and a methodology note flags the gap.
-    var nonLihtcUnits = 0;
-    var nonLihtcCount = 0;
-    if (_nonLihtcPropsCache && _nonLihtcPropsCache.length) {
-      _nonLihtcPropsCache.forEach(function (p) {
-        if (p.lat == null || p.lng == null) return;
-        if (selectedTractBoundary) {
-          if (!pointInBoundary(+p.lng, +p.lat, selectedTractBoundary)) return;
-        } else if (haversine(lat, lon, +p.lat, +p.lng) > effectiveBuffer) {
-          return;
-        }
-        nonLihtcUnits += parseInt(p.total_units || p.assisted_units || 0, 10) || 0;
-        nonLihtcCount += 1;
-      });
-    }
-    // Combined "existing affordable" supply for PMA scoring. We keep the
-    // original lihtcUnits variable name (downstream code uses it widely)
-    // but its meaning is now "all existing affordable units in buffer."
-    lihtcUnits += nonLihtcUnits;
-    lihtcCount += nonLihtcCount;
+    //
+    // The two parts stay separate on the result (lihtcCount vs
+    // otherAssistedCount; affordableCount is their sum) so every surface can
+    // label what it counts. Projects without a reported unit count are
+    // counted and disclosed, not summed as 0 units. Units are affordable
+    // units (LIHTC LI_UNITS, other-assisted assisted_units), and an
+    // other-assisted record that is the same property as a LIHTC feature in
+    // this PMA is dropped so the property is counted once — see
+    // js/market-analysis-supply.js.
+    var supplyBoundary = commuteShapedBoundary || selectedTractBoundary;
+    var nearbyOtherAssisted = (_nonLihtcPropsCache || []).filter(function (p) {
+      if (p.lat == null || p.lng == null) return false;
+      return supplyBoundary
+        ? pointInBoundary(+p.lng, +p.lat, supplyBoundary)
+        : haversine(lat, lon, +p.lat, +p.lng) <= effectiveBuffer;
+    });
+    var supply = window.PMAAffordableSupply.summarizeAffordableSupply(nearbyLihtc, nearbyOtherAssisted);
     // F222 — Cache race fix. Track last run's params so the cache-ready
     // event can re-fire runAnalysis with the same coords once props.json
     // arrives. Show a transient "loading inventory…" pill so the user
@@ -2562,7 +2686,15 @@
       _pmaCountyFips = _bestCf;
     }
     var _pmaCountyAmi = _getCountyAmi(_pmaCountyFips);
-    var pma          = computePma(acs, lihtcUnits, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    var affordableUnitsKnown = supply.affordableUnitsKnown;
+    var pma          = computePma(acs, affordableUnitsKnown, 0, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    // The scenario table scores each unit count with exactly these inputs,
+    // so its no-project row is this score (audit F2). It used to call
+    // computePma(acs, existing, units) with no site, tracts, AMI or CHAS
+    // data, and read 58 beside a headline of 57.
+    _scenarioScorer = function (units) {
+      return computePma(acs, affordableUnitsKnown, units, lat, lon, bufTracts, _pmaCountyAmi, nearbyLihtc, acsIdx);
+    };
 
     // Heuristic confidence score
     var CONF = window.PMAConfidence;
@@ -2693,7 +2825,17 @@
       boundaryMethod: analysisMethod === 'tract' ? 'tract-picker' : 'buffer',
       tractGeoids: analysisMethod === 'tract' ? selectedTractGeoids.slice() : null,
       tractCount: bufTracts.length, acs: acs,
-      lihtcCount: lihtcCount, lihtcUnits: lihtcUnits,
+      lihtcCount: supply.lihtcCount, lihtcUnits: supply.lihtcUnits,
+      otherAssistedCount: supply.otherAssistedCount, otherAssistedUnits: supply.otherAssistedUnits,
+      affordableCount: supply.affordableCount, affordableUnits: supply.affordableUnits,
+      affordableUnitsKnown: affordableUnitsKnown,
+      affordableUnitsUnknownCount: supply.unitsUnknownCount,
+      affordableUnitsUnavailableReason: supply.unitsUnavailableReason,
+      affordableUnitsFallbackCount: supply.unitsFallbackCount,
+      affordableUnitsFallbackReason: supply.unitsFallbackReason,
+      affordableDuplicatesRemoved: supply.duplicatesRemoved,
+      affordableDuplicatesReason: supply.duplicatesReason,
+      acsVintageLabel: _acsVintageLabel(),
       prop123Count: prop123Count,
       confidence: confidence,
       dolaContext: dolaEnrichment,
@@ -2765,7 +2907,7 @@
       var dealInputs = {
         pmaScore:           pma.pma_score || null,
         proposedUnits:      proposedUnits,
-        competitiveSetSize: lihtcCount || 0,
+        competitiveSetSize: supply.affordableCount,
         marketVacancy:      acs.vacancy_rate || null,
         // LIHTC recency — allows predictor to flag saturation (many recent
         // allocations = CHFA geo-distribution pressure) vs. gap (dormant
@@ -2873,6 +3015,8 @@
             vacant:             acs.vacant,
             med_gross_rent:     acs.median_gross_rent,
             med_hh_income:      acs.median_hh_income,
+            med_gross_rent_excluded_tracts: acs.median_gross_rent_excluded_tracts || 0,
+            med_hh_income_excluded_tracts:  acs.median_hh_income_excluded_tracts || 0,
             cost_burden_rate:   acs.cost_burden_rate,
             renter_share:       (_totalHh > 0 && acs.renter_hh != null) ? acs.renter_hh / _totalHh : null,
             vacancy_rate:       acs.vacancy_rate,
@@ -3260,55 +3404,62 @@
   }
 
   /* ── Map legend ─────────────────────────────────────────────────── */
+  /*
+   * The PMA map legend (F211): default-collapsed, header toggles .is-collapsed.
+   * Built here rather than inline in onAdd so the glossary guard can test the
+   * page's real legend markup (test/glossary-skips-hidden-text.test.js).
+   */
+  function buildPmaLegend(overlayMaps) {
+    // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
+    // per F184 site-wide policy so the legend doesn't obscure the map on
+    // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
+    var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
+    var items = [];
+    if (overlayMaps['County Boundaries']) {
+      items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
+    }
+    if (overlayMaps['Qualified Census Tracts']) {
+      items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
+    }
+    if (overlayMaps['Difficult Dev Areas']) {
+      items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
+    }
+    if (overlayMaps['LIHTC Projects']) {
+      items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
+    }
+    div.innerHTML =
+      '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
+               'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
+        '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
+        '<span>Legend</span>' +
+      '</button>' +
+      // F216 — body display driven by CSS via .is-collapsed class (single
+      // source of truth). Previously inline display:none + class toggle
+      // were both used; if anyone removed the inline thinking the class
+      // handled it, the toggle silently broke.
+      '<div class="pma-legend-body" style="margin-top:6px;">' +
+        items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
+      '</div>';
+    // Prevent map drag/zoom propagation when clicking inside the legend
+    L.DomEvent.disableClickPropagation(div);
+    L.DomEvent.disableScrollPropagation(div);
+    // Toggle handler
+    var btn = div.querySelector('.pma-legend-toggle');
+    var caret = div.querySelector('.pma-legend-caret');
+    btn.addEventListener('click', function () {
+      var collapsed = div.classList.toggle('is-collapsed');
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
+    });
+    return div;
+  }
+
   function addMapLegend(overlayMaps) {
     var L = window.L;
     if (!L || !map || !Object.keys(overlayMaps).length) return;
 
     var legend = L.control({ position: 'bottomleft' });
-    legend.onAdd = function () {
-      // F211 — Collapsible legend (matches OF + AHL pattern). Default-collapsed
-      // per F184 site-wide policy so the legend doesn't obscure the map on
-      // mobile or eat space on desktop. Click the header → toggle .is-collapsed.
-      var div = L.DomUtil.create('div', 'pma-legend is-collapsed');
-      var items = [];
-      if (overlayMaps['County Boundaries']) {
-        items.push('<span class="pma-legend-swatch" style="border:2px solid #334155;background:transparent"></span> Counties');
-      }
-      if (overlayMaps['Qualified Census Tracts']) {
-        items.push('<span class="pma-legend-swatch" style="background:#7c3aed;opacity:.6"></span> QCT');
-      }
-      if (overlayMaps['Difficult Dev Areas']) {
-        items.push('<span class="pma-legend-swatch" style="background:#b45309;opacity:.6"></span> DDA');
-      }
-      if (overlayMaps['LIHTC Projects']) {
-        items.push('<span class="pma-legend-swatch pma-legend-circle" style="background:#0a7e74"></span> LIHTC');
-      }
-      div.innerHTML =
-        '<button type="button" class="pma-legend-toggle" aria-label="Toggle legend" aria-expanded="false" ' +
-                 'style="background:none;border:none;cursor:pointer;font-weight:700;font-size:.8rem;color:var(--text);padding:0;display:flex;align-items:center;gap:6px;width:100%;text-align:left;">' +
-          '<span class="pma-legend-caret" style="display:inline-block;transition:transform .15s;">▸</span>' +
-          '<span>Legend</span>' +
-        '</button>' +
-        // F216 — body display driven by CSS via .is-collapsed class (single
-        // source of truth). Previously inline display:none + class toggle
-        // were both used; if anyone removed the inline thinking the class
-        // handled it, the toggle silently broke.
-        '<div class="pma-legend-body" style="margin-top:6px;">' +
-          items.map(function (i) { return '<div>' + i + '</div>'; }).join('') +
-        '</div>';
-      // Prevent map drag/zoom propagation when clicking inside the legend
-      L.DomEvent.disableClickPropagation(div);
-      L.DomEvent.disableScrollPropagation(div);
-      // Toggle handler
-      var btn = div.querySelector('.pma-legend-toggle');
-      var caret = div.querySelector('.pma-legend-caret');
-      btn.addEventListener('click', function () {
-        var collapsed = div.classList.toggle('is-collapsed');
-        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-        if (caret) caret.style.transform = collapsed ? 'rotate(0deg)' : 'rotate(90deg)';
-      });
-      return div;
-    };
+    legend.onAdd = function () { return buildPmaLegend(overlayMaps); };
     legend.addTo(map);
   }
 
@@ -4250,14 +4401,14 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
-    // ½-mile TOD isochrone — CHFA awards 3 points for transit-oriented development
+    // ½-mile TOD ring — CHFA QAP transit points (see QAP_TOD)
     var HALF_MILE_M = 804.67;
     todCircle = L.circle([lat, lon], {
       radius: HALF_MILE_M,
       color: '#0ea5e9', fillColor: '#0ea5e9',
       fillOpacity: 0.06, weight: 2, dashArray: '4 4'
     }).addTo(map);
-    todCircle.bindTooltip('½-mile TOD zone (CHFA 3 pts)', { sticky: true, className: 'pma-tooltip' });
+    todCircle.bindTooltip('½-mile TOD ring (' + QAP_TOD_POINTS_LABEL + ')', { sticky: true, className: 'pma-tooltip' });
 
     // Highlight transit stops within ½ mile
     _highlightTodTransit(lat, lon, HALF_MILE_M);
@@ -4331,31 +4482,38 @@
 
     var halfMile = radiusM / 1609.34; // convert to miles for haversine
     var count = 0;
+    var stopDataChecked = false;
 
-    // Check cached transit stops layer first
-    var transitStopsLayer = _mapLayers['transitStops'];
-    if (transitStopsLayer) {
-      transitStopsLayer.eachLayer(function (layer) {
-        var ll = layer.getLatLng ? layer.getLatLng() : null;
-        if (!ll) return;
-        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+    // Check the cached statewide stop file first. Not the rendered layer:
+    // that is trimmed to the previous analysis site (_scopeToSite), so for a
+    // new site it could hold none of the nearby stops and report "none".
+    var rawStops = _rawLayerData['transitStops'];
+    if (rawStops && Array.isArray(rawStops.features)) {
+      stopDataChecked = true;
+      rawStops.features.forEach(function (f) {
+        var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
+        if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
-          L.circleMarker([ll.lat, ll.lng], {
+          L.circleMarker([c[1], c[0]], {
             pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
             weight: 2, fillOpacity: 0.9
-          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+          }).bindTooltip((f.properties && f.properties.name) || 'Transit stop',
             { sticky: true, className: 'pma-tooltip' }
           ).addTo(todMarkers);
         }
       });
     }
 
-    // Also check the neighborhood_access / OSM amenities data
+    // Also check the neighborhood_access / OSM amenities data.
+    // getWithinRadius returns null when that data is not loaded, which is
+    // different from an empty list: only a real search can report "none".
     if (!count) {
       var amenities = window.OsmAmenities;
-      if (amenities && typeof amenities.getNearestByType === 'function') {
-        var nearby = amenities.getNearestByType('transit_stop', lat, lon, halfMile);
+      if (amenities && typeof amenities.getWithinRadius === 'function') {
+        var nearby = amenities.getWithinRadius(lat, lon, 'transit_stop', halfMile);
+        if (nearby) stopDataChecked = true;
         if (nearby && nearby.length) {
           nearby.forEach(function (a) {
             count++;
@@ -4372,14 +4530,14 @@
 
     // Update TOD panel.
     //
-    // Rural framing: CHFA's QAP awards TOD points (§5.B) but ALSO has
-    // rural-set-aside scoring categories. Sites in rural counties that
-    // lack ½-mile transit access aren't "failing" — they're competing
-    // under a different scoring path. The red ✗ + "No transit" framing
-    // wrongly implied a penalty for rural sites. When the site county
-    // is non-metro (per HUD MSA boundaries), surface a neutral
-    // "rural — TOD doesn't apply" framing instead and reference the
-    // rural set-aside path.
+    // Rural framing: sites in non-metro counties that lack ½-mile transit
+    // aren't "failing" — the QAP scores non-metro location separately
+    // (QAP_TOD.ruralSection). When the site county is non-metro (per HUD MSA
+    // boundaries), show a neutral framing instead of a red ✗.
+    //
+    // The count is straight-line, and the QAP measures walk distance, so
+    // an eligible result is a screen, not a scoring determination. With no
+    // stop data loaded the result is "Unavailable", never "No transit".
     var todPanel = document.getElementById('pmaTodPanel');
     var todContent = document.getElementById('pmaTodContent');
     if (todPanel && todContent) {
@@ -4387,32 +4545,39 @@
       var eligible = count > 0;
       var ruralFips = _siteCountyFips(lat, lon);
       var isRural = isRuralCountyFips(ruralFips);
-      // Three states now: TOD-eligible (green ✓), TOD-not-eligible
-      // (red ✗) for urban sites, neutral (amber ℹ) for rural where
-      // the TOD criterion just doesn't apply.
+      var pointsNote = QAP_TOD.adoptedPoints + ' points under the ' + QAP_TOD.adoptedPlan +
+                       ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
+                       QAP_TOD.draftPoints + ' and adds TOC sites.';
       var iconColor, iconSym, headline, detail;
       if (eligible) {
         iconColor = 'var(--good,#16a34a)';
         iconSym   = '✓';
-        headline  = 'TOD Eligible — 3 CHFA points';
+        headline  = 'Likely TOD site — ' + QAP_TOD_POINTS_LABEL;
         detail    = count + ' transit stop' + (count !== 1 ? 's' : '') +
-                    ' within ½-mile walking distance. Site qualifies for ' +
-                    'Transit-Oriented Development scoring under CHFA QAP §5.B.';
+                    ' within ½ mile (straight-line). The QAP counts walk ' +
+                    'distance, so confirm the walking route. ' + pointsNote;
+      } else if (!stopDataChecked) {
+        iconColor = 'var(--muted,#6b7280)';
+        iconSym   = '?';
+        headline  = 'Transit check unavailable';
+        detail    = 'Transit stop data has not loaded, so this site could ' +
+                    'not be checked. Reload the page or turn on the transit ' +
+                    'stops layer.';
       } else if (isRural) {
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
         headline  = 'Rural site — TOD criterion doesn\'t apply';
-        detail    = 'No fixed-route transit within ½ mile (expected for a ' +
-                    'rural CO county). The CHFA QAP\'s ½-mile TOD scoring ' +
-                    '(§5.B) targets urban/suburban sites; rural projects ' +
-                    'compete under the rural set-aside scoring path ' +
-                    '(§5.D), which doesn\'t require transit proximity.';
+        detail    = 'No fixed-route transit stop found within ½ mile ' +
+                    '(common in a rural CO county). Non-metro projects ' +
+                    'score location points under ' + QAP_TOD.ruralSection +
+                    ', which doesn\'t require transit proximity.';
       } else {
         iconColor = 'var(--bad,#dc2626)';
         iconSym   = '✗';
-        headline  = 'No transit within ½ mile';
-        detail    = '0 transit stops within ½-mile walking distance. ' +
-                    'Site does not qualify for §5.B TOD points.';
+        headline  = 'No transit stop found within ½ mile';
+        detail    = 'No stop within ½ mile in the stop data. That data is ' +
+                    'incomplete outside the Front Range, so check the transit ' +
+                    'agency\'s map before ruling out ' + QAP_TOD.section + ' points.';
       }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +
@@ -4595,7 +4760,7 @@
       generatedBy: 'COHO Analytics Market Analysis (PMA) Export',
       disclaimer:  'Screening tool only. PMA score is a public-data screening signal, not a substitute for a CHFA-required market study. The default mode is circular buffer; commute-shaped PMA is beta and opt-in. See docs/METHODOLOGY-GAPS-2026-05-21.md for limits.',
       vintages: {
-        acs:  'ACS 5-Year 2020-2024',
+        acs:  r.acsVintageLabel || _acsVintageLabel(),
         chas: 'HUD CHAS 2018-2022',
         lehd: 'LEHD WAC 2021',
         fmr:  'HUD FMR FY2026',
@@ -4669,17 +4834,33 @@
         renterShare:       (acs.total_hh && acs.renter_hh) ? +(acs.renter_hh / acs.total_hh * 100).toFixed(1) : null,
         costBurdenRate:    acs.cost_burden_rate,
         medianGrossRent:   acs.median_gross_rent,
+        medianGrossRentExcludedTracts: acs.median_gross_rent_excluded_tracts || 0,
+        medianHhIncome:    acs.median_hh_income,
+        medianHhIncomeExcludedTracts:  acs.median_hh_income_excluded_tracts || 0,
         vacancyRate:       acs.vacancy_rate
       },
       supply: {
         lihtcProjectsInBuffer: r.lihtcCount,
         lihtcUnitsInBuffer:    r.lihtcUnits,
+        otherAssistedProjectsInBuffer: r.otherAssistedCount,
+        otherAssistedUnitsInBuffer:    r.otherAssistedUnits,
+        affordableProjectsInBuffer:    r.affordableCount,
+        affordableUnitsInBuffer:       r.affordableUnits,
+        projectsWithoutUnitCount:      r.affordableUnitsUnknownCount,
+        affordableUnitsUnavailableReason: r.affordableUnitsUnavailableReason,
+        projectsCountedAtTotalUnits:   r.affordableUnitsFallbackCount,
+        affordableUnitsFallbackReason: r.affordableUnitsFallbackReason,
+        duplicateRecordsRemoved:       r.affordableDuplicatesRemoved,
+        affordableDuplicatesReason:    r.affordableDuplicatesReason,
         prop123ProjectsInBuffer: r.prop123Count
       },
-      // The rate and the count it divides by travel together (F3).
+      // The rate and the count it divides by travel together (F3). The key
+      // is kept for existing consumers; `measure` names what it is: existing
+      // affordable units ÷ qualified renters, not a capture rate.
       captureRate: (function () {
         var den = captureDenominator(r);
         return {
+          measure: MEASURE_NAMES.penetration,
           existingPct: den && Number.isFinite(r.capture) ? +(r.capture * 100).toFixed(1) : null,
           denominator: den ? den.value : null,
           denominatorSource: den ? den.source : null,
@@ -4791,12 +4972,26 @@
       ['Renter Households',    fmtNum(ag.renterHouseholds)],
       ['Renter Share',         fmtPct(ag.renterShare)],
       ['Cost-Burden Rate',     fmtPct(ag.costBurdenRate)],
-      ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(ag.medianGrossRent) : ''],
+      // An average of tract medians: whole dollars, as on screen.
+      ['Median Gross Rent',    ag.medianGrossRent != null ? '$' + fmtNum(Math.round(ag.medianGrossRent)) : ''],
+      ['Tracts Left Out of Median Rent (no published median)', fmtNum(ag.medianGrossRentExcludedTracts || 0)],
+      ['Median Household Income', ag.medianHhIncome != null ? '$' + fmtNum(Math.round(ag.medianHhIncome)) : ''],
+      ['Tracts Left Out of Median Income (no published median)', fmtNum(ag.medianHhIncomeExcludedTracts || 0)],
       ['Vacancy Rate',         fmtPct(ag.vacancyRate)],
       ['', ''],
-      ['SECTION', 'LIHTC Supply in Buffer'],
+      ['SECTION', 'Existing Affordable Supply in Buffer'],
       ['LIHTC Projects',       fmtNum(sp.lihtcProjectsInBuffer)],
-      ['LIHTC Total Units',    fmtNum(sp.lihtcUnitsInBuffer)],
+      ['LIHTC Income-Restricted Units', fmtNum(sp.lihtcUnitsInBuffer)],
+      ['Other Assisted Projects (HUD MF / USDA RD / PBV / preservation)', fmtNum(sp.otherAssistedProjectsInBuffer)],
+      ['Other Assisted Units', fmtNum(sp.otherAssistedUnitsInBuffer)],
+      ['Existing Affordable Projects', fmtNum(sp.affordableProjectsInBuffer)],
+      ['Existing Affordable Units', fmtNum(sp.affordableUnitsInBuffer)],
+      ['Projects Without Unit Count', fmtNum(sp.projectsWithoutUnitCount)],
+      ['Unit Count Note', sp.affordableUnitsUnavailableReason || ''],
+      ['Projects Counted at Total Units', fmtNum(sp.projectsCountedAtTotalUnits)],
+      ['Total-Units Note', sp.affordableUnitsFallbackReason || ''],
+      ['Duplicate Records Removed', fmtNum(sp.duplicateRecordsRemoved)],
+      ['Duplicate Note', sp.affordableDuplicatesReason || ''],
       ['Prop 123 Projects',    fmtNum(sp.prop123ProjectsInBuffer)],
       ['', ''],
       ['SECTION', 'PMA Site Summary Card'],
@@ -4942,11 +5137,21 @@
       ['tract_count', r.tractCount],
       ['renter_hh', r.acs.renter_hh],
       ['cost_burden_rate', r.acs.cost_burden_rate],
-      ['median_gross_rent', r.acs.median_gross_rent],
-      ['median_hh_income', r.acs.median_hh_income],
+      ['median_gross_rent', r.acs.median_gross_rent == null ? '' : r.acs.median_gross_rent],
+      ['median_gross_rent_excluded_tracts', r.acs.median_gross_rent_excluded_tracts || 0],
+      ['median_hh_income', r.acs.median_hh_income == null ? '' : r.acs.median_hh_income],
+      ['median_hh_income_excluded_tracts', r.acs.median_hh_income_excluded_tracts || 0],
       ['vacancy_rate', r.acs.vacancy_rate],
       ['lihtc_count', r.lihtcCount],
       ['lihtc_units', r.lihtcUnits],
+      ['other_assisted_count', r.otherAssistedCount],
+      ['other_assisted_units', r.otherAssistedUnits],
+      ['affordable_count', r.affordableCount],
+      ['affordable_units', r.affordableUnits],
+      ['affordable_units_unknown_projects', r.affordableUnitsUnknownCount],
+      ['affordable_units_total_units_fallback_projects', r.affordableUnitsFallbackCount],
+      ['affordable_duplicates_removed', r.affordableDuplicatesRemoved],
+      ['capture_rate_measure', MEASURE_NAMES.penetration],
       ['capture_rate', captureDenominator(r) ? r.capture : ''],
       ['capture_rate_denominator', captureDenominator(r) ? captureDenominator(r).value : ''],
       ['capture_rate_denominator_source', captureDenominator(r) ? captureDenominator(r).source : ''],
@@ -5534,6 +5739,15 @@
       tractGeometryDisabledForTest = index === null;
       tractGeometryIndex = index || null;
     },
+    // Renders the pipeline card from a result and LIHTC features a test
+    // supplies (test/pma-pipeline-stage.test.js).
+    _renderPipelineForTest:  function (result, features) { lihtcFeatures = features; renderPipeline(result); },
+    // Lets a test drive the real export buttons on a result it built with
+    // computePma()/aggregateAcs() (test/pma-suppressed-acs-not-zero.test.js).
+    _setLastResultForTest:   function (result) { lastResult = result; },
+    // Renders the simulator and scenario table from a result a test builds
+    // (test/pma-capture-naming.test.js).
+    _renderCaptureSurfacesForTest: function (result) { updateSimulator(result); renderScenarios(result); },
     _polygonBufferShareFromGeometry: _polygonBufferShareFromGeometry,
     _bboxBufferShare:        _bboxBufferShare,
     computePma:              computePma,
@@ -5541,6 +5755,9 @@
     generatePmaPolygon:      generatePmaPolygon,
     simulateCapture:         simulateCapture,
     captureDenominator:      captureDenominator,
+    buildPmaLegend:          buildPmaLegend,
+    MEASURE_NAMES:           MEASURE_NAMES,
+    scoreScaleLegend:        scoreScaleLegend,
     scoreTier:               scoreTier,
     aggregateAcs:            aggregateAcs,
     isInProp123Jurisdiction: isInProp123Jurisdiction,

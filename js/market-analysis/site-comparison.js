@@ -78,24 +78,32 @@
       dims = score;
     }
 
-    var finalScore    = (dims && dims.final_score)      || (typeof score === 'number' ? score : null);
+    // A dimension the scorer could not measure is null, not 0.
+    // site-selection-score.js returns subsidy_score: null (with
+    // subsidyUnavailableReason) when the QCT/DDA designation is unknown, and
+    // demand/access null when their inputs are missing. `|| 0` turned each
+    // of those into a real-looking zero on the comparison table and dragged
+    // the site to the bottom of its column. No scoring result at all is the
+    // same unknown for every dimension.
+    var finalScore    = _scoreOrNull(dims && dims.final_score);
+    if (finalScore === null) finalScore = _scoreOrNull(score);
     var band          = (dims && dims.opportunity_band)  || _band(finalScore);
-    var demandScore   = dims ? (dims.demand_score   || 0) : 0;
-    var subsidyScore  = dims ? (dims.subsidy_score  || 0) : 0;
-    var feasScore     = dims ? (dims.feasibility_score || 0) : 0;
-    var accessScore   = dims ? (dims.access_score   || 0) : 0;
-    var policyScore   = dims ? (dims.policy_score   || 0) : 0;
-    var marketScore   = dims ? (dims.market_score   || 0) : 0;
-
-    // QCT/DDA flags
-    var qct = false, dda = false;
-    if (state) {
-      qct = !!(state.qctFlag || state.qct);
-      dda = !!(state.ddaFlag || state.dda);
-    } else if (pma) {
-      qct = !!(pma.qctFlag || pma.qct);
-      dda = !!(pma.ddaFlag || pma.dda);
+    var demandScore   = _scoreOrNull(dims && dims.demand_score);
+    var subsidyScore  = _scoreOrNull(dims && dims.subsidy_score);
+    var feasScore     = _scoreOrNull(dims && dims.feasibility_score);
+    var accessScore   = _scoreOrNull(dims && dims.access_score);
+    var policyScore   = _scoreOrNull(dims && dims.policy_score);
+    var marketScore   = _scoreOrNull(dims && dims.market_score);
+    var subsidyUnavailableReason = (dims && dims.subsidyUnavailableReason) || null;
+    if (subsidyScore === null && !subsidyUnavailableReason) {
+      subsidyUnavailableReason = dims ? 'Subsidy score not available for this site.' : 'No site score available.';
     }
+
+    // QCT/DDA flags: true / false are answers; null or absent is unknown and
+    // must not render as "No".
+    var src = state || pma || {};
+    var qct = _flagOrNull(src.qctFlag, src.qct);
+    var dda = _flagOrNull(src.ddaFlag, src.dda);
 
     // Gap coverage from HNA state (if available)
     var gapCoverage = null;
@@ -119,6 +127,7 @@
       band:           band,
       demand:         demandScore,
       subsidy:        subsidyScore,
+      subsidyUnavailableReason: subsidyScore === null ? subsidyUnavailableReason : null,
       feasibility:    feasScore,
       access:         accessScore,
       policy:         policyScore,
@@ -130,6 +139,33 @@
   }
 
   // ── Helpers ────────────────────────────────────────────────────────
+
+  function _scoreOrNull(v) {
+    return (typeof v === 'number' && isFinite(v)) ? v : null;
+  }
+
+  function _flagOrNull(a, b) {
+    if (a === true || b === true) return true;
+    if (a === false || b === false) return false;
+    return null;
+  }
+
+  function _flagCell(v, title) {
+    if (v === true) return '<span title="' + title + '" style="color:var(--good);font-weight:700">Yes</span>';
+    if (v === false) return '<span style="color:var(--muted)">No</span>';
+    return '<span class="sc-unavailable" title="' + title + ' status unknown" style="color:var(--muted)">Unknown</span>';
+  }
+
+  // A null dimension renders as a dash with its reason, and no bar: an
+  // empty bar would read as a measured zero.
+  function _dimCell(val, reason) {
+    if (_scoreOrNull(val) === null) {
+      var why = reason || 'Not measured for this site.';
+      return '<td class="sc-dim--unavailable" data-unavailable="true" title="' + _esc(why) + '">&mdash;' +
+        '<div class="sc-unavailable-reason" style="font-size:.7rem;color:var(--muted)">' + _esc(why) + '</div></td>';
+    }
+    return '<td>' + _esc(_fmtScore(val)) + _dimBar(val) + '</td>';
+  }
 
   function _band(score) {
     if (score == null || isNaN(score)) return '—';
@@ -178,12 +214,17 @@
       return;
     }
 
-    // Sort by final score descending
+    // Sort by final score descending; a site with no score is listed after
+    // every scored site rather than ranked as if it had scored 0.
     var sorted = _sites.slice().sort(function (a, b) {
-      return (b.finalScore || 0) - (a.finalScore || 0);
+      var av = _scoreOrNull(a.finalScore), bv = _scoreOrNull(b.finalScore);
+      if (av === null && bv === null) return 0;
+      if (av === null) return 1;
+      if (bv === null) return -1;
+      return bv - av;
     });
 
-    var bestScore = sorted[0].finalScore || 0;
+    var bestScore = _scoreOrNull(sorted[0].finalScore);
 
     // Build table
     var html = '<div class="sc-table-wrap" style="overflow-x:auto;">' +
@@ -206,7 +247,7 @@
 
     for (var i = 0; i < sorted.length; i++) {
       var s = sorted[i];
-      var isBest = (s.finalScore === bestScore && i === 0);
+      var isBest = (bestScore !== null && s.finalScore === bestScore && i === 0);
       var rowClass = isBest ? ' class="sc-row--best"' : '';
 
       html += '<tr' + rowClass + ' data-site-id="' + _esc(s.id) + '">' +
@@ -218,14 +259,14 @@
         '</td>' +
         '<td><strong>' + _esc(_fmtScore(s.finalScore)) + '</strong></td>' +
         '<td><span class="sc-band ' + _bandClass(s.band) + '">' + _esc(s.band || '—') + '</span></td>' +
-        '<td>' + _esc(_fmtScore(s.demand)) + _dimBar(s.demand) + '</td>' +
-        '<td>' + _esc(_fmtScore(s.subsidy)) + _dimBar(s.subsidy) + '</td>' +
-        '<td>' + _esc(_fmtScore(s.feasibility)) + _dimBar(s.feasibility) + '</td>' +
-        '<td>' + _esc(_fmtScore(s.access)) + _dimBar(s.access) + '</td>' +
-        '<td>' + _esc(_fmtScore(s.policy)) + _dimBar(s.policy) + '</td>' +
-        '<td>' + _esc(_fmtScore(s.market)) + _dimBar(s.market) + '</td>' +
-        '<td>' + (s.qct ? '<span title="Qualified Census Tract" style="color:var(--good);font-weight:700">Yes</span>' : '<span style="color:var(--muted)">No</span>') + '</td>' +
-        '<td>' + (s.dda ? '<span title="Difficult Development Area" style="color:var(--good);font-weight:700">Yes</span>' : '<span style="color:var(--muted)">No</span>') + '</td>' +
+        _dimCell(s.demand) +
+        _dimCell(s.subsidy, s.subsidyUnavailableReason) +
+        _dimCell(s.feasibility) +
+        _dimCell(s.access) +
+        _dimCell(s.policy) +
+        _dimCell(s.market) +
+        '<td>' + _flagCell(s.qct, 'Qualified Census Tract') + '</td>' +
+        '<td>' + _flagCell(s.dda, 'Difficult Development Area') + '</td>' +
         '<td><button type="button" class="sc-remove-btn" data-remove="' + _esc(s.id) + '" title="Remove this site" aria-label="Remove site ' + (i+1) + '">&times;</button></td>' +
       '</tr>';
     }
@@ -236,17 +277,21 @@
     if (sorted.length >= 2) {
       var best = sorted[0];
       var dims = ['demand', 'subsidy', 'feasibility', 'access', 'policy', 'market'];
-      var strongest = dims[0];
-      var strongestVal = best[dims[0]] || 0;
-      for (var d = 1; d < dims.length; d++) {
-        if ((best[dims[d]] || 0) > strongestVal) {
+      // Only measured dimensions can be "strongest".
+      var strongest = null;
+      var strongestVal = null;
+      for (var d = 0; d < dims.length; d++) {
+        var dv = _scoreOrNull(best[dims[d]]);
+        if (dv !== null && (strongestVal === null || dv > strongestVal)) {
           strongest = dims[d];
-          strongestVal = best[dims[d]];
+          strongestVal = dv;
         }
       }
+      var missingDims = dims.filter(function (k) { return _scoreOrNull(best[k]) === null; });
       html += '<div class="sc-insight" style="margin-top:.75rem;padding:.6rem 1rem;background:color-mix(in oklab,var(--card) 60%,var(--good) 8%);border:1px solid color-mix(in oklab,var(--border) 50%,var(--good) 20%);border-radius:var(--radius-sm);font-size:.82rem;">' +
-        '<strong>Top site:</strong> ' + _esc(best.label) + ' scores <strong>' + _esc(_fmtScore(best.finalScore)) + '</strong> (' + _esc(best.band) + '), ' +
-        'strongest in <strong>' + _esc(strongest) + '</strong> (' + _esc(_fmtScore(strongestVal)) + '/100). ' +
+        '<strong>Top site:</strong> ' + _esc(best.label) + ' scores <strong>' + _esc(_fmtScore(best.finalScore)) + '</strong> (' + _esc(best.band) + ')' +
+        (strongest ? ', strongest in <strong>' + _esc(strongest) + '</strong> (' + _esc(_fmtScore(strongestVal)) + '/100). ' : '. ') +
+        (missingDims.length ? 'Not measured: ' + _esc(missingDims.join(', ')) + '. ' : '') +
         (best.qct || best.dda ? 'Eligible for basis boost.' : '') +
       '</div>';
     }
@@ -267,9 +312,10 @@
   }
 
   function _esc(s) {
-    if (!s) return '';
+    // A score of 0 is a value; only null/undefined is empty.
+    if (s === null || s === undefined) return '';
     var d = document.createElement('div');
-    d.textContent = s;
+    d.textContent = String(s);
     return d.innerHTML;
   }
 
