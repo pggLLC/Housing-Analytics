@@ -5,14 +5,15 @@
       "geoid": "08111",
       "level": "county",
       "name": "San Juan County",
-      "coverage_state": "official_notice_unavailable",
-      "reviewed_source": "https://sanjuancounty.colorado.gov/elections",
+      "coverage_state": "verified_measure_found",
+      "reviewed_source": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf",
       "checked": "2026-09-26",
-      "entry_ids": [],
+      "entry_ids": [
+        "ballot-2026-08111-lodging-tax-expansion"
+      ],
       "limitations": [
         "As of 2026-09-26 the clerk's election page states the general-election sample ballot 'will be available in October'; no final TABOR notice or participating-entities list is posted.",
-        "FOR OWNER REVIEW - housing-related county question found only in DRAFT form, so no entry was created: the Board of County Commissioners adopted Resolution 2026-10 'Lodging Tax Expansion' on Aug 12, 2026 (per draft minutes in the Aug 26, 2026 packet, https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf) referring it to the November 3, 2026 ballot, and reached consensus on Sep 9, 2026 to use a draft TABOR notice 'as presented' (draft minutes in the Sep 23, 2026 packet, https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf). The ballot issue number is blank ('SAN JUAN COUNTY BALLOT ISSUE ________'). Text transcribed from the scanned, DRAFT-watermarked TABOR notice in the Sep 9, 2026 packet (https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-9-26.pdf at PDF p.32; same text in draft Resolution 2026-10 Section 2, Aug 12, 2026 packet https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf at PDF pp.30-31): 'San Juan County Ballot Issue - Lodging Tax Expansion: SHALL SAN JUAN COUNTY TAXES BE INCREASED BY $84,494.00 ANNUALLY COMMENCING JANUARY 1, 2027, FROM A ONE PERCENT (1%) INCREASE OF THE EXISTING TWO PERCENT (2%) LODGING TAX, TO A TOTAL OF THREE PERCENT (3%); ON THE RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE LEASING, RENTAL, SALE OR FURNISHING OF A ROOM OR ACCOMMODATION FOR A SHORT-TERM PERIOD (A PERIOD OF LESS THAN 30 CONSECUTIVE DAYS) IN SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON, WITH A REALLOCATION OF THE TOTAL GENERATED FUNDS OF FORTY PERCENT (40%) TO MARKETING AND PROMOTION OF LOCAL TOURISM; FORTY FIVE PERCENT (45%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND, HOUSING AND CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKFORCE, AND OTHER WORKERS IN THE COMMUNITY; AND FIFTEEN PERCENT (15%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND SIGNAGE, TRAIL AND TRAILHEAD DEVELOPMENT, ROAD AND BRIDGE PROJECTS, PARKING AND STAGING, AND THE BACKCOUNTRY RANGER POSITION, AND ANY OTHER LAWFUL USES TO FACILITATE AND ENHANCE VISITOR EXPERIENCES, WITH ALL SUCH EXPENDITURES SPENT IN COMPLIANCE WITH LOCAL GOVERNMENT BUDGET LAWS, AND SHALL THE ACTUAL FIRST YEAR REVENUES, AND WHATEVER ADDITIONAL AMOUNTS ARE RAISED ANNUALLY THEREAFTER, INCLUDING BY RETURN ON INVESTMENT, BE COLLECTED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER PROVISION OF LAW?' Create the entry once the final sample ballot or TABOR notice assigns a number and confirms the wording.",
-        "Scanned PDFs: the draft text above was transcribed from page images, not a text layer."
+        "The one entry is recorded from draft county documents with status proposed, per owner instruction on PR #1946; see its limitations."
       ],
       "reviewed_sources": [
         {
@@ -67,5 +68,71 @@
       ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "ballot-2026-08111-lodging-tax-expansion",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "08111",
+        "level": "county",
+        "name": "San Juan County"
+      },
+      "measure": {
+        "number": "Unassigned",
+        "official_title": "San Juan County Ballot Issue - Lodging Tax Expansion",
+        "origin": "referred",
+        "relevance": [
+          "housing_tax",
+          "housing_finance"
+        ],
+        "fiscal": {
+          "mechanism": "LODGING TAX",
+          "rate": "A ONE PERCENT (1%) INCREASE OF THE EXISTING TWO PERCENT (2%) LODGING TAX, TO A TOTAL OF THREE PERCENT (3%)",
+          "amount_cap": "INCREASED BY $84,494.00 ANNUALLY COMMENCING JANUARY 1, 2027",
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "proposed",
+      "sources": {
+        "certification": null,
+        "official_text": {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-9-26.pdf",
+          "retrieved": "2026-09-26"
+        },
+        "ballot_notice": null,
+        "blue_book": null,
+        "resolution": {
+          "url": "https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-12-26.pdf",
+          "retrieved": "2026-09-26"
+        }
+      },
+      "neutral_title": "County lodging tax increase from 2% to 3% with 45% of proceeds for workforce housing and childcare",
+      "detail": "Raises the county lodging tax on short-term stays from 2% to 3%, stated as $84,494.00 annually commencing January 1, 2027. Total proceeds would be allocated 40% to tourism marketing, 45% to housing and childcare for the tourism-related workforce and other workers, and 15% to visitor-experience uses.",
+      "evidence": [
+        {
+          "section": "Draft Resolution 2026-10, Section 2 (Form of Ballot Question), Aug 12, 2026 Board of County Commissioners packet, PDF pp.30-31",
+          "quote": "SHALL SAN JUAN COUNTY TAXES BE INCREASED BY $84,494.00 ANNUALLY COMMENCING JANUARY 1, 2027, FROM A ONE PERCENT (1%) INCREASE OF THE EXISTING TWO PERCENT (2%) LODGING TAX, TO A TOTAL OF THREE PERCENT (3%), ON THE RENTAL FEE, PRICE, OR OTHER CONSIDERATION PAID OR CHARGED FOR THE LEASING, RENTAL, SALE OR FURNISHING OF A ROOM OR ACCOMMODATION FOR A SHORT-TERM PERIOD (A PERIOD OF LESS THAN 30 CONSECUTIVE DAYS) IN SAN JUAN COUNTY, INCLUDING THE TOWN OF SILVERTON, WITH A REALLOCATION OF THE TOTAL GENERATED FUNDS OF FORTY PERCENT (40%) TO MARKETING AND PROMOTION OF LOCAL TOURISM; FORTY FIVE PERCENT (45%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND, HOUSING AND CHILDCARE FOR THE TOURISM-RELATED WORKFORCE, INCLUDING SEASONAL WORKFORCE, AND OTHER WORKERS IN THE COMMUNITY; AND FIFTEEN PERCENT (15%) TO ACQUIRE, CONSTRUCT, MAINTAIN, ENHANCE, RENOVATE, RELOCATE, IMPROVE, PROMOTE, SUPPORT AND FUND SIGNAGE, TRAIL AND TRAILHEAD DEVELOPMENT, ROAD AND BRIDGE PROJECTS, PARKING AND STAGING, AND THE BACKCOUNTRY RANGER POSITION, AND ANY OTHER LAWFUL USES TO FACILITATE AND ENHANCE VISITOR EXPERIENCES, WITH ALL SUCH EXPENDITURES SPENT IN COMPLIANCE WITH LOCAL GOVERNMENT BUDGET LAWS, AND SHALL THE ACTUAL FIRST YEAR REVENUES, AND WHATEVER ADDITIONAL AMOUNTS ARE RAISED ANNUALLY THEREAFTER, INCLUDING BY RETURN ON INVESTMENT, BE COLLECTED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY LIMITATION OR CONDITION UNDER ARTICLE X, SECTION 20 OF THE COLORADO CONSTITUTION OR ANY OTHER PROVISION OF LAW?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Draft Resolution 2026-10 in the Aug 12, 2026 commissioners packet, compared with the draft TABOR notice in the Sep 9, 2026 packet",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "Status is proposed: the only copies of the text are DRAFT-watermarked documents in commissioners' meeting packets. The final sample ballot and TABOR notice were not posted as of 2026-09-26 (clerk page: sample ballot 'will be available in October').",
+        "measure.number is 'Unassigned': the draft TABOR notice leaves the issue number blank. Replace it and move status to on_ballot once the final sample ballot or notice is posted.",
+        "Adoption is recorded only in draft minutes: Resolution 2026-10 approved unanimously on Aug 12, 2026 (draft minutes in the Aug 26, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/8-26-26.pdf), and the draft TABOR notice accepted 'as presented' on Sep 9, 2026 (draft minutes in the Sep 23, 2026 packet at https://sanjuancounty.colorado.gov/sites/g/files/lrnvjt966/files/9-23-26.pdf).",
+        "Quote is transcribed from scanned page images of the draft resolution. The draft TABOR notice (PDF p.32 of the Sep 9 packet) has the same opening and closing text, but its middle lines are garbled in the scan, and it has a semicolon after '(3%)' where the resolution has a comma.",
+        "The draft resolution's heading reads 'RESOLUTION NO. 2016-10'; the agenda and minutes call it Resolution 2026-10."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }
