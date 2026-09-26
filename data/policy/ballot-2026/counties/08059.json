@@ -99,14 +99,15 @@
       "geoid": "0843000",
       "level": "municipal",
       "name": "Lakewood (city)",
-      "coverage_state": "official_ballot_reviewed_none_found",
+      "coverage_state": "verified_measure_found",
       "reviewed_source": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
       "checked": "2026-09-26",
-      "entry_ids": [],
+      "entry_ids": [
+        "ballot-2026-0843000-2g"
+      ],
       "limitations": [
-        "OWNER REVIEW (mixed-purpose earmark; no entry created): City of Lakewood Ballot Issue 2G. Exact text: \"SHALL CITY OF LAKEWOOD TAXES BE INCREASED BY UP TO $17,600,000 IN THE FIRST FULL FISCAL YEAR (COMMENCING JANUARY 1, 2027) AND BY WHATEVER ADDITIONAL AMOUNTS AS ARE RAISED ANNUALLY IN EACH SUBSEQUENT YEAR, THROUGH THE IMPOSITION OF AN ADDITIONAL SALES AND USE TAX OF 0.5% (INCREASING CITY’S SALES AND USE TAX RATE FROM THREE PERCENT (3%) TO THREE AND A HALF PERCENT (3.5%)), PROVIDED THAT: • FOOD, AS DEFINED IN LAKEWOOD MUNICIPAL CODE SECTION 3.01.430 (WHICH INCLUDES GROCERIES), SHALL BE EXEMPT FROM SUCH ADDITIONAL HALF-PERCENT SALES AND USE TAX, AND SHALL THE TAX REVENUES FROM SUCH ADDITIONAL HALF PERCENT SALES TAX BE USED ONLY FOR THE FOLLOWING SPECIFIC PURPOSES: • PUBLIC SAFETY PURPOSES, INCLUDING INVESTING IN CRIME PREVENTION AND HOMELESSNESS RESPONSE; AND • TRAFFIC SAFETY IMPROVEMENTS, INCLUDING MAINTENANCE AND CONSTRUCTION OF STREETS AND SIDEWALKS, ROAD IMPROVEMENTS TO REDUCE VEHICLE SPEEDS, AND PEDESTRIAN AND BICYCLE SAFETY ENHANCEMENTS. AND SHALL SUCH ADDITIONAL HALF PERCENT SALES AND USE TAX BE COLLECTED, RETAINED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY REVENUE OR EXPENDITURE LIMIT CONTAINED WITHIN ARTICLE X, SECTION 20, OF THE COLORADO CONSTITUTION OR ANY OTHER LAW?\" Homelessness response is one named use within public safety purposes, alongside traffic safety; whether that is an earmark for homelessness is left to the owner.",
         "Excluded: Lakewood Questions 2H (start of newly elected terms), 2I (repeal of Charter 12.12 and voter approval for property tax increases; no housing earmark) and 2J (initiative and referendum election time frames).",
-        "The city website (lakewoodco.gov) returned HTTP 403 to automated access on 2026-09-26; the referring ordinance/resolution was not read."
+        "The city website (lakewoodco.gov) returned HTTP 403 to automated access on 2026-09-26 and was not read."
       ],
       "reviewed_sources": [
         {
@@ -177,5 +178,66 @@
       ]
     }
   ],
-  "entries": []
+  "entries": [
+    {
+      "id": "ballot-2026-0843000-2g",
+      "election": {
+        "date": "2026-11-03",
+        "type": "coordinated"
+      },
+      "jurisdiction": {
+        "geoid": "0843000",
+        "level": "municipal",
+        "name": "Lakewood (city)"
+      },
+      "measure": {
+        "number": "2G",
+        "official_title": "City of Lakewood Ballot Issue 2G",
+        "origin": "referred",
+        "relevance": [
+          "homelessness"
+        ],
+        "fiscal": {
+          "mechanism": "AN ADDITIONAL SALES AND USE TAX OF 0.5%",
+          "rate": "INCREASING CITY’S SALES AND USE TAX RATE FROM THREE PERCENT (3%) TO THREE AND A HALF PERCENT (3.5%)",
+          "amount_cap": "UP TO $17,600,000 IN THE FIRST FULL FISCAL YEAR (COMMENCING JANUARY 1, 2027)",
+          "duration": null,
+          "sunset": null
+        }
+      },
+      "status": "on_ballot",
+      "sources": {
+        "certification": null,
+        "official_text": null,
+        "ballot_notice": {
+          "url": "https://www.jeffco.us/DocumentCenter/View/59081/2026-General-TABOR-Booklet-PDF",
+          "retrieved": "2026-09-26"
+        },
+        "blue_book": null,
+        "resolution": null
+      },
+      "neutral_title": "Sales and use tax increase for public safety, including homelessness response, and traffic safety",
+      "detail": "Adds a 0.5% sales and use tax, raising the city rate from 3% to 3.5%, with food exempt; up to $17,600,000 in the first full fiscal year, commencing January 1, 2027. Revenue is restricted to public safety purposes, including crime prevention and homelessness response, and to traffic safety improvements.",
+      "evidence": [
+        {
+          "section": "Jefferson County 2026 General TABOR Booklet, City of Lakewood Ballot Issue 2G",
+          "quote": "SHALL CITY OF LAKEWOOD TAXES BE INCREASED BY UP TO $17,600,000 IN THE FIRST FULL FISCAL YEAR (COMMENCING JANUARY 1, 2027) AND BY WHATEVER ADDITIONAL AMOUNTS AS ARE RAISED ANNUALLY IN EACH SUBSEQUENT YEAR, THROUGH THE IMPOSITION OF AN ADDITIONAL SALES AND USE TAX OF 0.5% (INCREASING CITY’S SALES AND USE TAX RATE FROM THREE PERCENT (3%) TO THREE AND A HALF PERCENT (3.5%)), PROVIDED THAT: • FOOD, AS DEFINED IN LAKEWOOD MUNICIPAL CODE SECTION 3.01.430 (WHICH INCLUDES GROCERIES), SHALL BE EXEMPT FROM SUCH ADDITIONAL HALF-PERCENT SALES AND USE TAX, AND SHALL THE TAX REVENUES FROM SUCH ADDITIONAL HALF PERCENT SALES TAX BE USED ONLY FOR THE FOLLOWING SPECIFIC PURPOSES: • PUBLIC SAFETY PURPOSES, INCLUDING INVESTING IN CRIME PREVENTION AND HOMELESSNESS RESPONSE; AND • TRAFFIC SAFETY IMPROVEMENTS, INCLUDING MAINTENANCE AND CONSTRUCTION OF STREETS AND SIDEWALKS, ROAD IMPROVEMENTS TO REDUCE VEHICLE SPEEDS, AND PEDESTRIAN AND BICYCLE SAFETY ENHANCEMENTS. AND SHALL SUCH ADDITIONAL HALF PERCENT SALES AND USE TAX BE COLLECTED, RETAINED AND SPENT AS A VOTER APPROVED REVENUE CHANGE NOTWITHSTANDING ANY REVENUE OR EXPENDITURE LIMIT CONTAINED WITHIN ARTICLE X, SECTION 20, OF THE COLORADO CONSTITUTION OR ANY OTHER LAW?"
+        }
+      ],
+      "verification": {
+        "level": "primary",
+        "against": "Jefferson County 2026 General TABOR Booklet (DocumentCenter/View/59081)",
+        "checked": "2026-09-26"
+      },
+      "limitations": [
+        "Mixed-purpose measure: homelessness response is one named use within public safety purposes, alongside crime prevention and traffic safety improvements. The question does not allocate a share of revenue to homelessness. Included as a homelessness measure by owner decision on 2026-09-26.",
+        "The quote is from the TABOR booklet with line breaks normalized to single spaces.",
+        "The referring ordinance or resolution was not read: the city website (lakewoodco.gov) returned HTTP 403 on 2026-09-26. The county PDF sample ballot was not yet posted.",
+        "The question states no duration or sunset."
+      ],
+      "result": null,
+      "history": [],
+      "archived": false
+    }
+  ]
 }
