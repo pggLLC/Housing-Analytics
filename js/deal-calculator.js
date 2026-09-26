@@ -3406,6 +3406,22 @@
     // in `isFinite(n) ? ... : '—'`.
     if (unitMixError) {
       annualRents = NaN;
+      // The credit side depends on the unit split too: the applicable
+      // fraction and the minimum set-aside both divide tier units by Total
+      // Units. With the tiers exceeding the total, basis, credits and equity
+      // were still rendered ($12.38M of equity beside the hard error) and the
+      // set-aside read "Qualifies ... 60 of 20 units (300.0%)". Same NaN
+      // treatment as the rents: every renderer downstream shows "—".
+      eligibleBasis = NaN;
+      annualCredits = NaN;
+      equity = NaN;
+      var msaStatus = document.getElementById('dc-minimum-set-aside-status');
+      if (msaStatus) {
+        msaStatus.innerHTML = '<strong>Not evaluated.</strong> AMI-tier units (' + amiUnitSum +
+          ') exceed Total Units (' + units + '), so the minimum set-aside cannot be tested. ' +
+          'Fix the unit mix above.';
+        msaStatus.style.borderColor = 'var(--warn,#d97706)';
+      }
     }
     // Same for a deal with no county. The rent roll above prices each unit at
     // the county's AMI rent ceiling, and before a county is chosen there are
@@ -4742,6 +4758,11 @@
           }
           return false;
         };
+        // A share link carries the sender's county (deal-calculator-share.js
+        // sets this before init). It wins over the recipient's own workflow
+        // jurisdiction, which would otherwise re-select a different county
+        // after the link hydrated — or none, leaving every output at "—".
+        if (window.__DealCalcSharedCounty && _selectCounty(window.__DealCalcSharedCounty)) return;
         var _fallbackCounty = function () {
           // Pre-select the jurisdiction county so user doesn't re-enter it.
           // GEO-1 writes a canonical countyFips for place/CDP selections;
