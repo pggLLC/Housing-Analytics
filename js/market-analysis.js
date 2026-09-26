@@ -55,7 +55,7 @@
   var map          = null;
   var siteMarker   = null;
   var bufferCircle = null;
-  var todCircle    = null;   // ½-mile TOD isochrone (CHFA 3-pt scoring)
+  var todCircle    = null;   // ½-mile TOD ring (CHFA QAP transit points, see QAP_TOD)
   var todMarkers   = null;   // L.layerGroup for highlighted transit stops in ½-mile
   var isochroneRingsLayer = null;  // L.featureGroup of walking + biking rings
   var siteLatLng   = null;
@@ -64,6 +64,21 @@
   // guarded by a three-way agreement test in test/pma-scoring.test.js
   // (#1160). bindBufferSelect() re-syncs from the live select at init.
   var bufferMiles  = 3;
+
+  // CHFA QAP transit points (Project Location criterion). The adopted plan
+  // and the draft differ, so both are shown and labelled. Must agree with the
+  // "b. Three Five points … TOC or TOD site" redline in
+  // data/audit/chfa-qap-watch.json — guarded by test/qap-tod-points.test.js.
+  var QAP_TOD = {
+    section:       '§5.B.2.b',
+    adoptedPoints: 3,
+    adoptedPlan:   '2025–26 QAP',
+    draftPoints:   5,
+    draftPlan:     '2027–28 QAP Third Draft',
+    ruralSection:  '§5.B.3.b'
+  };
+  var QAP_TOD_POINTS_LABEL = QAP_TOD.adoptedPoints + ' CHFA pts (' +
+    QAP_TOD.draftPoints + ' proposed)';
 
   // Walking + biking ring radii (miles). The ½-mile walking ring is the
   // canonical CHFA TOD-scoring ring drawn separately as `todCircle` — skipped
@@ -4386,14 +4401,14 @@
       fillOpacity: 0.05, weight: 1.5, dashArray: '6 4'
     }).addTo(map);
 
-    // ½-mile TOD isochrone — CHFA awards 3 points for transit-oriented development
+    // ½-mile TOD ring — CHFA QAP transit points (see QAP_TOD)
     var HALF_MILE_M = 804.67;
     todCircle = L.circle([lat, lon], {
       radius: HALF_MILE_M,
       color: '#0ea5e9', fillColor: '#0ea5e9',
       fillOpacity: 0.06, weight: 2, dashArray: '4 4'
     }).addTo(map);
-    todCircle.bindTooltip('½-mile TOD zone (CHFA 3 pts)', { sticky: true, className: 'pma-tooltip' });
+    todCircle.bindTooltip('½-mile TOD ring (' + QAP_TOD_POINTS_LABEL + ')', { sticky: true, className: 'pma-tooltip' });
 
     // Highlight transit stops within ½ mile
     _highlightTodTransit(lat, lon, HALF_MILE_M);
@@ -4467,31 +4482,38 @@
 
     var halfMile = radiusM / 1609.34; // convert to miles for haversine
     var count = 0;
+    var stopDataChecked = false;
 
-    // Check cached transit stops layer first
-    var transitStopsLayer = _mapLayers['transitStops'];
-    if (transitStopsLayer) {
-      transitStopsLayer.eachLayer(function (layer) {
-        var ll = layer.getLatLng ? layer.getLatLng() : null;
-        if (!ll) return;
-        if (haversine(lat, lon, ll.lat, ll.lng) <= halfMile) {
+    // Check the cached statewide stop file first. Not the rendered layer:
+    // that is trimmed to the previous analysis site (_scopeToSite), so for a
+    // new site it could hold none of the nearby stops and report "none".
+    var rawStops = _rawLayerData['transitStops'];
+    if (rawStops && Array.isArray(rawStops.features)) {
+      stopDataChecked = true;
+      rawStops.features.forEach(function (f) {
+        var c = f && f.geometry && f.geometry.type === 'Point' ? f.geometry.coordinates : null;
+        if (!c || typeof c[0] !== 'number' || typeof c[1] !== 'number') return;
+        if (haversine(lat, lon, c[1], c[0]) <= halfMile) {
           count++;
-          L.circleMarker([ll.lat, ll.lng], {
+          L.circleMarker([c[1], c[0]], {
             pane: 'pointsPane',
             radius: 7, fillColor: '#facc15', color: '#0ea5e9',
             weight: 2, fillOpacity: 0.9
-          }).bindTooltip((layer.feature && layer.feature.properties && layer.feature.properties.name) || 'Transit stop',
+          }).bindTooltip((f.properties && f.properties.name) || 'Transit stop',
             { sticky: true, className: 'pma-tooltip' }
           ).addTo(todMarkers);
         }
       });
     }
 
-    // Also check the neighborhood_access / OSM amenities data
+    // Also check the neighborhood_access / OSM amenities data.
+    // getWithinRadius returns null when that data is not loaded, which is
+    // different from an empty list: only a real search can report "none".
     if (!count) {
       var amenities = window.OsmAmenities;
-      if (amenities && typeof amenities.getNearestByType === 'function') {
-        var nearby = amenities.getNearestByType('transit_stop', lat, lon, halfMile);
+      if (amenities && typeof amenities.getWithinRadius === 'function') {
+        var nearby = amenities.getWithinRadius(lat, lon, 'transit_stop', halfMile);
+        if (nearby) stopDataChecked = true;
         if (nearby && nearby.length) {
           nearby.forEach(function (a) {
             count++;
@@ -4508,14 +4530,14 @@
 
     // Update TOD panel.
     //
-    // Rural framing: CHFA's QAP awards TOD points (§5.B) but ALSO has
-    // rural-set-aside scoring categories. Sites in rural counties that
-    // lack ½-mile transit access aren't "failing" — they're competing
-    // under a different scoring path. The red ✗ + "No transit" framing
-    // wrongly implied a penalty for rural sites. When the site county
-    // is non-metro (per HUD MSA boundaries), surface a neutral
-    // "rural — TOD doesn't apply" framing instead and reference the
-    // rural set-aside path.
+    // Rural framing: sites in non-metro counties that lack ½-mile transit
+    // aren't "failing" — the QAP scores non-metro location separately
+    // (QAP_TOD.ruralSection). When the site county is non-metro (per HUD MSA
+    // boundaries), show a neutral framing instead of a red ✗.
+    //
+    // The count is straight-line, and the QAP measures walk distance, so
+    // an eligible result is a screen, not a scoring determination. With no
+    // stop data loaded the result is "Unavailable", never "No transit".
     var todPanel = document.getElementById('pmaTodPanel');
     var todContent = document.getElementById('pmaTodContent');
     if (todPanel && todContent) {
@@ -4523,32 +4545,39 @@
       var eligible = count > 0;
       var ruralFips = _siteCountyFips(lat, lon);
       var isRural = isRuralCountyFips(ruralFips);
-      // Three states now: TOD-eligible (green ✓), TOD-not-eligible
-      // (red ✗) for urban sites, neutral (amber ℹ) for rural where
-      // the TOD criterion just doesn't apply.
+      var pointsNote = QAP_TOD.adoptedPoints + ' points under the ' + QAP_TOD.adoptedPlan +
+                       ' (' + QAP_TOD.section + '); the ' + QAP_TOD.draftPlan + ' proposes ' +
+                       QAP_TOD.draftPoints + ' and adds TOC sites.';
       var iconColor, iconSym, headline, detail;
       if (eligible) {
         iconColor = 'var(--good,#16a34a)';
         iconSym   = '✓';
-        headline  = 'TOD Eligible — 3 CHFA points';
+        headline  = 'Likely TOD site — ' + QAP_TOD_POINTS_LABEL;
         detail    = count + ' transit stop' + (count !== 1 ? 's' : '') +
-                    ' within ½-mile walking distance. Site qualifies for ' +
-                    'Transit-Oriented Development scoring under CHFA QAP §5.B.';
+                    ' within ½ mile (straight-line). The QAP counts walk ' +
+                    'distance, so confirm the walking route. ' + pointsNote;
+      } else if (!stopDataChecked) {
+        iconColor = 'var(--muted,#6b7280)';
+        iconSym   = '?';
+        headline  = 'Transit check unavailable';
+        detail    = 'Transit stop data has not loaded, so this site could ' +
+                    'not be checked. Reload the page or turn on the transit ' +
+                    'stops layer.';
       } else if (isRural) {
         iconColor = 'var(--warn,#d97706)';
         iconSym   = 'ℹ';
         headline  = 'Rural site — TOD criterion doesn\'t apply';
-        detail    = 'No fixed-route transit within ½ mile (expected for a ' +
-                    'rural CO county). The CHFA QAP\'s ½-mile TOD scoring ' +
-                    '(§5.B) targets urban/suburban sites; rural projects ' +
-                    'compete under the rural set-aside scoring path ' +
-                    '(§5.D), which doesn\'t require transit proximity.';
+        detail    = 'No fixed-route transit stop found within ½ mile ' +
+                    '(common in a rural CO county). Non-metro projects ' +
+                    'score location points under ' + QAP_TOD.ruralSection +
+                    ', which doesn\'t require transit proximity.';
       } else {
         iconColor = 'var(--bad,#dc2626)';
         iconSym   = '✗';
-        headline  = 'No transit within ½ mile';
-        detail    = '0 transit stops within ½-mile walking distance. ' +
-                    'Site does not qualify for §5.B TOD points.';
+        headline  = 'No transit stop found within ½ mile';
+        detail    = 'No stop within ½ mile in the stop data. That data is ' +
+                    'incomplete outside the Front Range, so check the transit ' +
+                    'agency\'s map before ruling out ' + QAP_TOD.section + ' points.';
       }
       todContent.innerHTML =
         '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">' +

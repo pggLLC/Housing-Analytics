@@ -1398,24 +1398,28 @@
       apiEndpoint: 'https://hydro.nationalmap.gov/arcgis/rest/services/nhd/MapServer'
     },
 
-    // ── NTD Transit (National Transit Database) ───────────────────
+    // ── Transit stops (OpenStreetMap) ─────────────────────────────
+    // Was labelled "NTD … FTA", but the file is an OpenStreetMap Overpass
+    // extract (see its meta.source and scripts/amenities/build_osm_amenities.py).
+    // It is incomplete outside the Front Range; #1937 replaces it with a
+    // CDOT-first statewide file.
     {
       id: 'ntd-transit-co',
-      name: 'NTD Transit Routes &amp; Stops — Colorado',
+      name: 'Transit Stops — Colorado (OpenStreetMap)',
       category: 'Transportation / Access',
-      format: 'GeoJSON / GTFS',
-      provider: 'FTA / National Transit Database',
-      url: 'https://www.transit.dot.gov/ntd',
+      format: 'GeoJSON',
+      provider: 'OpenStreetMap contributors (Overpass API)',
+      url: 'https://www.openstreetmap.org/',
       localFile: 'data/amenities/transit_stops_co.geojson',
       lastUpdated: '2026-04-07',
-      updateFrequency: 'Annual (NTD) / Real-time (GTFS)',
+      updateFrequency: 'Manual (no scheduled refresh)',
       maxAgeDays: 180,
-      geoUnit: 'Stop / Route',
-      coverage: 'Colorado transit agencies (RTD, CDOT, local)',
+      geoUnit: 'Stop',
+      coverage: 'Colorado stops mapped in OpenStreetMap; sparse outside the Front Range',
       features: 7888,
-      description: 'Transit stops and routes from NTD/GTFS feeds for Colorado agencies. Used for transit access scoring and PMA commuting-based boundary delineation.',
-      tags: ['transit', 'ntd', 'gtfs', 'bus', 'rail', 'transportation'],
-      apiEndpoint: 'https://transit.land/api/v2/rest'
+      description: 'Transit stop points extracted from OpenStreetMap. No agency or schedule fields. Used for the ½-mile TOD check and amenity access scoring. Transit routes come separately from agency GTFS feeds (data/market/transit_routes_co.geojson).',
+      tags: ['transit', 'osm', 'bus', 'rail', 'transportation'],
+      apiEndpoint: 'https://overpass-api.de/api/interpreter'
     },
 
     // ── Regrid Parcels API ────────────────────────────────────────
