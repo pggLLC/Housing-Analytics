@@ -121,6 +121,13 @@ function realFetch(overrides) {
     return Promise.resolve({ ok: true, json: () => Promise.resolve(body) });
   };
 }
+// How the panel must print a share: rounded, except that a measured share
+// never rounds to an absolute (0.4% is not "0%", 99.6% is not "100%").
+function shareLabel(v) {
+  if (v > 0 && v < 0.005) return '<1%';
+  if (v < 1 && v >= 0.995) return '>99%';
+  return Math.round(v * 100) + '%';
+}
 const FRESH = new Date(Date.parse(data.meta.stops_generated) + 86400e3);
 // A place whose three shares all differ, so a tile showing the wrong one fails.
 const sample = Object.entries(data.geographies).find(([, g]) => g.type !== 'county' && g.nearest_confirmed_stop
@@ -135,10 +142,10 @@ test('renders the file\'s figures and the designation note for a place', () => {
     const el = w.document.getElementById('hnaTransitZoneContent');
     assert.equal(el.getAttribute('data-tz-state'), 'ok');
     const shareTile = el.querySelector('[data-tz="share"]').textContent;
-    assert.ok(shareTile.startsWith(Math.round(g.share_within_radius_confirmed * 100) + '%'), shareTile);
+    assert.ok(shareTile.startsWith(shareLabel(g.share_within_radius_confirmed)), shareTile);
     assert.ok(shareTile.includes(`within ${data.meta.radius_miles} miles`), shareTile);
     const halfTile = el.querySelector('[data-tz="half"]').textContent;
-    assert.ok(halfTile.startsWith(Math.round(g.share_within_half_mile_confirmed * 100) + '%'), halfTile);
+    assert.ok(halfTile.startsWith(shareLabel(g.share_within_half_mile_confirmed)), halfTile);
     assert.ok(el.textContent.includes(g.nearest_confirmed_stop.agency));
     const note = el.querySelector('[data-tz-designation]');
     assert.equal(note.textContent, TZ.designation(mapStatus, FRESH).note);
@@ -182,6 +189,25 @@ test('an edge-only zero says "less than 1%", never "no part"', () => {
     assert.doesNotMatch(el.textContent, /No part of/);
     assert.ok(el.textContent.includes(String(fixture[1].nearest_confirmed_stop_to_boundary_miles) + ' miles from the boundary'));
   });
+});
+
+test('a measured share never prints as 0% or 100%', () => {
+  const entries = Object.entries(data.geographies);
+  const tiny = entries.find(([, g]) => g.share_within_radius_confirmed > 0 && g.share_within_radius_confirmed < 0.005);
+  const nearAll = entries.find(([, g]) => g.share_within_radius_confirmed >= 0.995 && g.share_within_radius_confirmed < 1);
+  const cases = [tiny || ['TINY', Object.assign({}, sample[1], { name: 'Tiny', share_within_radius_confirmed: 0.004, share_within_radius_any: 0.004, zero_is_exact: null })],
+                 nearAll || ['NEAR', Object.assign({}, sample[1], { name: 'Near', share_within_radius_confirmed: 0.996, share_within_radius_any: 0.996, zero_is_exact: null })]];
+  return Promise.all(cases.map(([id, g]) => {
+    const doc = Object.assign({}, data, { geographies: { [id]: g } });
+    const w = page(realFetch({ 'data/hna/transit-zone-by-geography.json': doc }));
+    return w.HNARenderers.renderTransitZonePanel(id, FRESH).then(() => {
+      const el = w.document.getElementById('hnaTransitZoneContent');
+      const tile = el.querySelector('[data-tz="share"]').textContent;
+      assert.ok(tile.startsWith(g.share_within_radius_confirmed < 0.5 ? '<1%' : '>99%'), `${id} ${g.share_within_radius_confirmed}: ${tile}`);
+      assert.doesNotMatch(el.textContent, /(^|[^0-9<>])(0|100)% of /, `${id}: printed as an absolute`);
+      assert.doesNotMatch(el.textContent, /No part of|No site here passes/, `${id}: a measured share read as none`);
+    });
+  }));
 });
 
 test('private shuttle pickups never reach the figures', () => {
