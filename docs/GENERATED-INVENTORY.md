@@ -1,6 +1,6 @@
 # GENERATED-INVENTORY.md
 
-> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T06:31:12.785Z. Do not edit by hand.
+> **Auto-generated** by `scripts/sync-docs.mjs` on 2026-09-26T07:41:06.764Z. Do not edit by hand.
 
 ---
 
@@ -83,7 +83,7 @@
 
 | File | Size | Valid JSON | Notes |
 |------|------|-----------|-------|
-| `data/_manifest.json` | 766.4 KB | ✅ | — |
+| `data/_manifest.json` | 767.0 KB | ✅ | — |
 | `data/_qa-status.json` | 6.1 KB | ✅ | — |
 | `data/affordable-housing/chfa-awards/2026-round-one.json` | 14.8 KB | ✅ | — |
 | `data/affordable-housing/lihtc/chfa-properties.json` | 817.4 KB | ✅ | 926 features |
@@ -1574,7 +1574,7 @@
 | `data/jurisdiction-briefs/_verified/0870195.json` | 18.3 KB | ✅ | — |
 | `data/kalshi/prediction-market.json` | 1.4 KB | ✅ | — |
 | `data/lihtc-trends-by-county.json` | 13.9 KB | ✅ | — |
-| `data/manifest.json` | 200.7 KB | ✅ | — |
+| `data/manifest.json` | 200.8 KB | ✅ | — |
 | `data/market/acs_median_rent_co.json` | 82.9 KB | ✅ | — |
 | `data/market/acs_tract_metrics_co.json` | 1.28 MB | ✅ | — |
 | `data/market/apartment_list_co.json` | 5.5 KB | ✅ | — |
@@ -1736,7 +1736,7 @@
 | `test/data-map-coverage.test.js` | 3.4 KB |
 | `test/data-quality-check.test.js` | 7.8 KB |
 | `test/data-scope.test.js` | 6.4 KB |
-| `test/data-source-inventory-drift.test.js` | 5.9 KB |
+| `test/data-source-inventory-drift.test.js` | 7.1 KB |
 | `test/data-source-inventory-paths.test.js` | 1.5 KB |
 | `test/data-status-footer-live-date.test.js` | 5.1 KB |
 | `test/data-trust-center-badges.test.js` | 4.3 KB |
@@ -2127,7 +2127,7 @@
 |------|------|
 | `.github/workflows/a11y-audit.yml` | 3.6 KB |
 | `.github/workflows/accessibility.yml` | 5.3 KB |
-| `.github/workflows/archive-audit-post-merge.yml` | 7.1 KB |
+| `.github/workflows/archive-audit-post-merge.yml` | 7.7 KB |
 | `.github/workflows/audit-endpoints.yml` | 14.6 KB |
 | `.github/workflows/backfill-hna-extended-acs-cache.yml` | 5.8 KB |
 | `.github/workflows/backfill-hna-household-occupation.yml` | 5.2 KB |
