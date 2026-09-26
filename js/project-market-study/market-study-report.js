@@ -132,12 +132,14 @@
   /**
    * A count of households is a whole number of households. The engines keep
    * full precision (CHAS rows are split across AMI bands, so the pool is
-   * routinely fractional) and every figure is still computed from it; only
-   * what the reader sees is rounded. "54,102.5 households" is not a thing.
+   * routinely fractional) and every figure is still computed from it. Show
+   * positive counts below one as <1 so they cannot be mistaken for zero;
+   * larger counts use the existing whole-household rounding convention.
    */
   function formatHouseholds(value) {
-    if (unavailable(value)) return 'Owner input required';
-    return Number(value).toLocaleString('en-US', { maximumFractionDigits: 0 });
+    if (unavailable(value) || typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 'Owner input required';
+    if (value > 0 && value < 1) return '<1';
+    return value.toLocaleString('en-US', { maximumFractionDigits: 0 });
   }
   // Every capture denominator is a buyer pool (households) except the one
   // divided by the contract-survival share, which is a share and keeps its
