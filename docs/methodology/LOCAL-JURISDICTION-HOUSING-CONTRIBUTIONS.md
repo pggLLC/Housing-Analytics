@@ -107,9 +107,9 @@ Extend the project-side funding-source schema (Revision-2 §5.2) with contributi
 
 **Type:** screening context, not a study. **Data:** `data/policy/fee-reductions.json` (schema `fee-reductions/v1`), checked by `tests/test_fee_reductions.py`; the Housing News brief `co-fee-reductions-2026` in `data/policy_briefs_curated.json` summarises it, and each jurisdiction's verified measures appear in its Housing Needs Assessment under local resources ("What this jurisdiction does to lower affordable-housing cost").
 
-**How it was built.** Every entry was read from the jurisdiction's own code, resolution, fee schedule, council record or program page (or its utility's or district's). The page was saved, and every quote was checked by exact substring match against the saved text. Every dollar amount and percentage an entry states appears in its own quotes. A source that could not be read is listed in `meta.known_gaps`, not filled in. Ten items rest on a news report or a reproduction of a statute and say so (`verification.level: "reported"`): four fee entries and six legal-basis items. An amount a source does not publish is `null`, never `0`. Each fee entry is a standing `program`, a one-off `project_award` (what a jurisdiction did for one project — an example, not an offer: Loveland's Mirasol Phase III, Brighton's Ravenfield, Castle Rock's Meadowmark, Montrose's VOA Rendezvous, Grand Junction's 2024 CDBG taps, Crested Butte's Whetstone deferral), or `repealed` (Grand Junction's 2024 program). The HNA lists standing programs first; a jurisdiction counts as having an active fee reduction only through a standing program.
+**How it was built.** Every entry was read from the jurisdiction's own code, resolution, fee schedule, council record or program page (or its utility's or district's). The page was saved, and every quote was checked by exact substring match against the saved text. Every dollar amount and percentage an entry states appears in its own quotes. A source that could not be read is listed in `meta.known_gaps`, not filled in. Nine items rest on a news report or a reproduction of a statute and say so (`verification.level: "reported"`): three fee entries and six legal-basis items. An amount a source does not publish is `null`, never `0`. Each fee entry is a standing `program`, a one-off `project_award` (what a jurisdiction did for one project — an example, not an offer: Loveland's Mirasol Phase III, Brighton's Ravenfield, Castle Rock's Meadowmark, Montrose's VOA Rendezvous, Grand Junction's 2024 CDBG taps, Crested Butte's Whetstone deferral), or `repealed` (Grand Junction's 2024 program). The HNA lists standing programs first; a jurisdiction counts as having an active fee reduction only through a standing program.
 
-**What the numbers below count.** The counts are recomputed by the guards from the dataset, so they cannot drift from it: 106 Colorado fee measures in 39 jurisdictions, 50 land-use or zoning incentives in 31 jurisdictions, and 21 statutes, bills and state guidance documents. That is a sample of the places checked, not a census; a jurisdiction with no entry has not been shown to have no program.
+**What the numbers below count.** The counts are recomputed by the guards from the dataset, so they cannot drift from it: 105 Colorado fee measures in 39 jurisdictions, 50 land-use or zoning incentives in 31 jurisdictions, and 21 statutes, bills and state guidance documents. That is a sample of the places checked, not a census; a jurisdiction with no entry has not been shown to have no program.
 
 ### 6.1 The fees, and why they exist
 
@@ -163,7 +163,7 @@ The HB21-1117 option, verbatim: "Materially reduce or eliminate utility charges,
 
 ### 6.3 How waived fees are paid for
 
-Only 22 of the 106 Colorado fee measures say; 84 do not (`backfill.method: not_specified`). Where a source does say:
+Only 22 of the 105 Colorado fee measures say; 83 do not (`backfill.method: not_specified`). Where a source does say:
 
 | Method | Entries | Examples (verified) |
 |---|---|---|
@@ -177,19 +177,19 @@ Only 22 of the 106 Colorado fee measures say; 84 do not (`backfill.method: not_s
 
 ### 6.4 Trends
 
-Counts from the dataset; "one-time" excludes monthly rate discounts. Adoption dates are known for 85 of the 108 entries.
+Counts from the dataset; "one-time" excludes monthly rate discounts. Adoption dates are known for 84 of the 107 entries.
 
-**Measure mix.** 46 waived · 26 reduced · 14 reimbursed after payment (rebates, credits, fees paid on the project's behalf) · 8 deferred · 12 monthly rate discounts. **Deferral is kept apart**: Fort Collins, Lafayette, Salida, Avon, Trinidad and Crested Butte (Whetstone, reported) defer fees, which are still owed; they help construction cash flow, not total development cost.
+**Measure mix.** 46 waived · 25 reduced · 14 reimbursed after payment (rebates, credits, fees paid on the project's behalf) · 8 deferred · 12 monthly rate discounts. **Deferral is kept apart**: Fort Collins, Lafayette, Salida, Avon, Trinidad and Crested Butte (Whetstone, reported) defer fees, which are still owed; they help construction cash flow, not total development cost.
 
-**Direction since 2022.** Among entries with an adoption date, those adopted in 2022 or later are 19 waived, 15 reduced, 9 reimbursed, 8 rate discounts and 2 deferrals; before 2022 the figures are 17, 4, 4, 3 and 4. Partial reductions and pay-then-rebate programs are the growth area: Colorado Springs (2022, rebate after full payment — its rules say the program "does not constitute a fee reduction or waiver"), Littleton (2022, $2,500 per affordable unit), Denver (EHA, 2022), Grand Junction (2024, rebuilt in 2025), Crested Butte (2025). The counts are small; read them as direction, not rate.
+**Direction since 2022.** Among entries with an adoption date, those adopted in 2022 or later are 19 waived, 15 reduced, 9 reimbursed, 8 rate discounts and 2 deferrals; before 2022 the figures are 17, 3, 4, 3 and 4. Partial reductions and pay-then-rebate programs are the growth area: Colorado Springs (2022, rebate after full payment — its rules say the program "does not constitute a fee reduction or waiver"), Littleton (2022, $2,500 per affordable unit), Denver (EHA, 2022), Grand Junction (2024, rebuilt in 2025), Crested Butte (2025). The counts are small; read them as direction, not rate.
 
-**Discretion.** 60 of 93 one-time measures need council or staff approval; 26 are by right. Several are "subject to available appropriations" (Durango) or "contingent upon the allocated annual budget" (Grand Junction). A developer should count a waiver only once it is committed to the project.
+**Discretion.** 60 of 92 one-time measures need council or staff approval; 25 are by right. Several are "subject to available appropriations" (Durango) or "contingent upon the allocated annual budget" (Grand Junction). A developer should count a waiver only once it is committed to the project.
 
 **By region** (county-based: *mountain resort* = Pitkin, Eagle, Summit, San Miguel, Gunnison, Grand, Chaffee, Lake, Ouray, Archuleta, Routt; *Western Slope* = Mesa, Montrose, Delta, La Plata, Montezuma, Garfield; *Front Range and other* = the rest):
 
 | Region | Jurisdictions | Fee measures | Mix | Eligibility |
 |---|---|---|---|---|
-| Mountain resort | 14 | 38 | 26 waived, 4 reduced, 3 deferred, 2 reimbursed, 3 rate | Deed restriction; only 5 of 35 one-time measures name an AMI cap |
+| Mountain resort | 14 | 37 | 26 waived, 3 reduced, 3 deferred, 2 reimbursed, 3 rate | Deed restriction; only 4 of 34 one-time measures name an AMI cap |
 | Western Slope | 8 | 22 | 8 waived, 7 reduced, 4 reimbursed, 3 rate | Income-tiered: 15 of 18 one-time measures name an AMI cap |
 | Front Range and other | 17 | 46 | 12 waived, 15 reduced, 8 reimbursed, 5 deferred, 6 rate | Mixed: 17 of 40 name an AMI cap |
 
@@ -236,7 +236,7 @@ The owner's Fruita brief (September 2026) and older repo files were used as lead
 
 ### 6.8 Known gaps
 
-The full list is `meta.known_gaps` in the dataset (69 items). The main ones:
+The full list is `meta.known_gaps` in the dataset (70 items). The main ones:
 - Official C.R.S. and constitution text could not be read here; reproductions were used and are marked as reported.
 - Sites that blocked reading: Bennett, Delta, Englewood, Centennial, Breckenridge, Vail, Estes Park, the Colorado Springs Utilities deferral page, and parts of Salida, Telluride and Fort Collins.
 - No income-qualified *rate* discount was found at Denver Water, Aurora Water, Colorado Springs Utilities or Pueblo Water. No affordable-housing fee relief was found for Aurora, Greeley, Thornton, Parker or Douglas County; that is not the same as none.
@@ -247,11 +247,11 @@ The full list is `meta.known_gaps` in the dataset (69 items). The main ones:
 
 Every entry's source URL, and each quote's section, is in the dataset. The grouped references above:
 - [S1] Denver Water, System Development Charge page; Brighton water treatment plant FAQ; CML-hosted 2017 legal presentation — see legal basis `growth-pays-rationale`.
-- [S2] C.R.S. 29-20-104.5 — https://colorado.public.law/statutes/crs_29-20-104.5 (reproduction).
-- [S3] Colo. Const. art. X §20 (i2i.org reproduction); C.R.S. 37-45.1-102 — https://colorado.public.law/statutes/crs_37-45.1-102 (reproduction).
-- [S4] HB20-1164 — https://leg.colorado.gov/bills/hb20-1164.
-- [S5] C.R.S. 29-32-105 — https://colorado.public.law/statutes/crs_29-32-105 (reproduction); HB26-1313 — https://leg.colorado.gov/bills/hb26-1313.
+- [S2] C.R.S. 29-20-104.5 — <https://colorado.public.law/statutes/crs_29-20-104.5> (reproduction).
+- [S3] Colo. Const. art. X §20 (i2i.org reproduction); C.R.S. 37-45.1-102 — <https://colorado.public.law/statutes/crs_37-45.1-102> (reproduction).
+- [S4] HB20-1164 — <https://leg.colorado.gov/bills/hb20-1164>.
+- [S5] C.R.S. 29-32-105 — <https://colorado.public.law/statutes/crs_29-32-105> (reproduction); HB26-1313 — <https://leg.colorado.gov/bills/hb26-1313>.
 - [S6] leg.colorado.gov bill pages and bill texts for HB21-1117, HB21-1271, HB22-1304, HB24-1152, HB24-1313, SB24-174, HB24-1304, HB24-1007, HB25-1211, SB23-213.
-- [S7] DOLA Division of Housing, Local Housing Policy — https://doh.colorado.gov/local-housing-policy; DOLA ADU toolkit, waiving or reducing fees — https://dlg.colorado.gov/waiving-or-reducing-fees.
-- [S-gj] City of Grand Junction, Affordable and Attainable Housing Incentive Program — https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent, and Resolution 45-25.
+- [S7] DOLA Division of Housing, Local Housing Policy — <https://doh.colorado.gov/local-housing-policy>; DOLA ADU toolkit, waiving or reducing fees — <https://dlg.colorado.gov/waiving-or-reducing-fees>.
+- [S-gj] City of Grand Junction, Affordable and Attainable Housing Incentive Program — <https://www.gjcity.org/1459/Affordable-and-Attainable-Housing-Incent>, and Resolution 45-25.
 - [S-aspen] Aspen Daily News, June 29, 2026 (reported).

@@ -372,12 +372,12 @@
           {
             "section": "DOLA guidance Section 4B",
             "quote": "HB26-1313 introduces an incentive structure where certain types of newly developed housing count for more than one unit toward your Proposition 123 goal.",
-            "url": "https://doc-0c-4o-docstext.googleusercontent.com/export/s8v029du74rmth76t5k6ldhbqs/vu13if2km56jslg36rts59k5os/1790397215000/105250506097979753968/*/1EwQ_rU8amUmc7lLPbO3nydJixd3AMBgZ2Ao4WXx1xpo?format=txt"
+            "url": "https://docs.google.com/document/d/1EwQ_rU8amUmc7lLPbO3nydJixd3AMBgZ2Ao4WXx1xpo/edit"
           },
           {
             "section": "DOLA guidance Section 3A",
             "quote": "The law requires that by January 1, 2027, local governments can effectively review and decide on affordable housing applications within 90 calendar days of a complete application submission (C.R.S. § 29-32-105(2)(a)).",
-            "url": "https://doc-0c-4o-docstext.googleusercontent.com/export/s8v029du74rmth76t5k6ldhbqs/vu13if2km56jslg36rts59k5os/1790397215000/105250506097979753968/*/1EwQ_rU8amUmc7lLPbO3nydJixd3AMBgZ2Ao4WXx1xpo?format=txt"
+            "url": "https://docs.google.com/document/d/1EwQ_rU8amUmc7lLPbO3nydJixd3AMBgZ2Ao4WXx1xpo/edit"
           }
         ]
       },
@@ -775,6 +775,7 @@
       "Water and sewer taps in many towns are charged by separate water, sanitation or metropolitan districts; district-level waivers were checked only where a town's source named the district.",
       "The older inventories (data/policy/jurisdiction-housing-progress.json tap_fee_reduction and data/tax-abatement-inventory.json fee-waiver rows) now point here; their rows that no entry backs are shown as not yet verified.",
       "Denver Water's System Development Charge credit rewards water-efficiency measures and is not targeted at affordable housing on Denver Water's pages; only a news report described it that way, so it is not listed as an affordable-housing measure.",
+      "Salida: a 2019 Ark Valley Voice report says Resolution 2019-29 set water and sewer system development fees for legally restricted affordable housing units at 40 percent of the single-family fee. Not listed as an entry: the city's resolution pages return 403 here, and the news host answers automated link checks inconsistently (403/404), so the figure could not be kept on a checkable source. Salida's SDF deferral (code §13-2-180) is listed.",
       "Official Colorado Constitution text (leg.colorado.gov links to LexisNexis; justia/findlaw/weld.gov returned 403): TABOR definition taken from i2i.org reproduction, corroborated by Legislative Council Staff memos.",
       "Official CRS on leg.colorado.gov / justia (403): statute text read from colorado.public.law reproductions of OLLS 2024 PDFs (current through Fall 2025) — any 2026 amendments (e.g. HB26-1313 to 29-32-105) are not reflected there.",
       "HB25-1211 and HB26-1313 Signed Act PDFs are image scans with no extractable text; enrolled/rerevised versions were read instead.",
@@ -5173,65 +5174,6 @@
       "notes": "Deferral only; does not reduce total cost."
     },
     {
-      "id": "salida-affordable-sdf-reduction",
-      "state": "CO",
-      "kind": "program",
-      "geoid": "0867280",
-      "jurisdiction": "City of Salida",
-      "county": "Chaffee County",
-      "provider": "City of Salida (water & wastewater utility)",
-      "provider_type": "city",
-      "fee_category": "system_development",
-      "recurrence": "one_time",
-      "measure": "reduced",
-      "reduces_total_cost": true,
-      "amount": null,
-      "percent": 40,
-      "value_basis": "Water and sewer system development ('tap') fees for Legally Restricted Affordable Housing Units set at 40 percent of the single-family fee (multi-family: 75 percent)",
-      "deferral_trigger": null,
-      "eligibility": {
-        "ami_max": 80,
-        "tenure": "any",
-        "deed_restriction_years": null,
-        "by_right": true
-      },
-      "backfill": {
-        "method": "not_specified",
-        "source_note": ""
-      },
-      "legal_basis_ids": [],
-      "authorizing_code": "City Council resolution setting tap fees by class (2019); customer class defined at Municipal Code §13-3-10(a)(4)",
-      "adopted": "2019",
-      "summary": "Salida's 2019 fee resolution set water and sewer system development fees for legally restricted affordable housing units at 40 percent of the single-family fee, as reported by Ark Valley Voice.",
-      "source": {
-        "label": "Ark Valley Voice, 'Salida Council Takes Action on Water and Sewer Tap Fees' (May 24, 2019)",
-        "url": "https://arkvalleyvoice.com/salida-council-takes-action-on-water-and-sewer-tap-fees/"
-      },
-      "verification": {
-        "level": "reported",
-        "against": "Ark Valley Voice article, May 24, 2019",
-        "checked": "2026-09-26",
-        "by": "Ark Valley Voice article, May 24, 2019"
-      },
-      "evidence": [
-        {
-          "section": "Ark Valley Voice, para. 1",
-          "quote": "Two measures were passed Tuesday night by Salida City Council aimed at reducing water and sewer system development fees or \"tap fees\" that create a barrier to the construction of affordable housing, particularly affordable rental units, in Salida."
-        },
-        {
-          "section": "Ark Valley Voice, resolution",
-          "quote": "It sets the tap fees for units in a Multi-Family Residential complex at 75 percent of the fees for single family residences, and those for ADUs or Legally Restricted Affordable Housing Units at 40 percent of the fees for single family residences and the units of duplexes."
-        },
-        {
-          "section": "Municipal Code §13-3-10(a)(4) customer class",
-          "quote": "legally-restricted for affordable housing at less than or equal to eighty percent",
-          "url": "https://api.municode.com/CodesContent?jobId=497113&nodeId=CH13MUUT_ARTIIIWAWAFERACH_S13-3-10CUCLDE&productId=15390"
-        }
-      ],
-      "not_in_source": [],
-      "notes": "Seed pointed to cityofsalida.com/media/17566 ('Fees and Charges for Water and Wastewater'), which returned HTTP 403 (bot challenge) — so the current percentage in the fee resolution is NOT verified from the primary source; the 2019 figure is from news. A search-engine summary claimed a 40% 'affordable housing rate' for wastewater SDFs specifically; not verified. The municipal code (§13-3-30/13-3-10) confirms fees are set by council resolution and defines the affordable class at <=80% AMI."
-    },
-    {
       "id": "trinidad-affordable-utility-tap-fee-deferral",
       "state": "CO",
       "kind": "program",
@@ -5804,7 +5746,7 @@
       "summary": "Carbondale exempts qualified deed-restricted developers from 100 percent of listed town fees for one-bedroom units priced up to 80 percent of median income.",
       "source": {
         "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
-        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20(Obsolete%20Zone%20Districts).pdf"
+        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf"
       },
       "verification": {
         "level": "primary",
@@ -5869,7 +5811,7 @@
       "summary": "Carbondale exempts qualified deed-restricted developers from 60 percent of listed town fees for two- or three-bedroom units priced up to 120 percent of median income.",
       "source": {
         "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
-        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20(Obsolete%20Zone%20Districts).pdf"
+        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf"
       },
       "verification": {
         "level": "primary",
@@ -5934,7 +5876,7 @@
       "summary": "Carbondale exempts qualified deed-restricted developers from 80 percent of listed town fees for two-bedroom units priced up to 100 percent of median income.",
       "source": {
         "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
-        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20(Obsolete%20Zone%20Districts).pdf"
+        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf"
       },
       "verification": {
         "level": "primary",
@@ -9319,7 +9261,7 @@
       "adopted": null,
       "source": {
         "label": "Carbondale Unified Development Code (Jan 2025 compilation)",
-        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20(Obsolete%20Zone%20Districts).pdf"
+        "url": "https://cms7files.revize.com/carbondale/Carbondale%20UDC%20Jan%202025%20without%20Appendix%20A%20%28Obsolete%20Zone%20Districts%29.pdf"
       },
       "verification": {
         "level": "primary",
