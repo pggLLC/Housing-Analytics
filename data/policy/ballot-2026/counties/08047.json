@@ -5,31 +5,92 @@
       "geoid": "08047",
       "level": "county",
       "name": "Gilpin County",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://gilpincounty.colorado.gov/media/11326",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Excluded: Gilpin County Ballot Issue 1A (referred by Resolution 26-077) retains revenue \"FOR CORE INFRASTRUCTURE AND MAINTENANCE INCLUDING ROADS, BRIDGES, WILDFIRE AND FLOOD MITIGATION\"; no housing earmark.",
+        "Excluded: Timberline Fire Protection District Ballot Issue 7B (fire district mill levy); not housing.",
+        "The posted sample ballots are JPEG images with no text layer; they were read visually.",
+        "No list of participating political subdivisions and no mailed TABOR notice was posted as of 2026-09-26."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://gilpincounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11331",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11336",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11341",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/county-news-notices/public-notices",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0807025",
       "level": "municipal",
       "name": "Black Hawk (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "source_unreadable",
+      "reviewed_source": "https://www.cityofblackhawk.org/city-clerk/page/elections",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "The city clerk elections page (cityofblackhawk.org) returned HTTP 403 to automated access on 2026-09-26 and was not read.",
+        "The county has posted two sample ballot styles (General; Central City). Neither contains a City of Black Hawk contest or question. With no participating-entities list posted, participation could not be confirmed or ruled out."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://gilpincounty.colorado.gov/elected-officials/clerk-and-recorder/elections",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11326",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11336",
+          "retrieved": "2026-09-26"
+        }
+      ]
     },
     {
       "geoid": "0812900",
       "level": "municipal",
       "name": "Central City (city)",
-      "coverage_state": "not_researched",
-      "reviewed_source": null,
-      "checked": null,
+      "coverage_state": "official_ballot_reviewed_none_found",
+      "reviewed_source": "https://gilpincounty.colorado.gov/media/11336",
+      "checked": "2026-09-26",
       "entry_ids": [],
-      "limitations": []
+      "limitations": [
+        "Participating for candidates only: the city Call for Candidates states \"A Regular Mail Ballot Election coordinated with Gilpin County Clerk & Recorder will be held on Tuesday, November 3, 2026 to fill the Mayor seat and two (2) Alderman seats\". The Central City sample ballot carries no city ballot question.",
+        "The posted sample ballots are JPEG images with no text layer; they were read visually."
+      ],
+      "reviewed_sources": [
+        {
+          "url": "https://gilpincounty.colorado.gov/media/11341",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://centralcity.colorado.gov/election",
+          "retrieved": "2026-09-26"
+        },
+        {
+          "url": "https://drive.google.com/uc?export=download&id=18q5AMBoR8W5eyqQ4cax_PNW2_YoL4gDL",
+          "retrieved": "2026-09-26"
+        }
+      ]
     }
   ],
   "entries": []
