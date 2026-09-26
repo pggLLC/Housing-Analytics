@@ -261,6 +261,34 @@ export function measure({ runTests = false } = {}) {
         + `coverage report for all 64 counties`,
     'data/amenities/transit_stops_statewide_co.geojson + data/market/transit_stops_coverage_co.json');
 
+  // T2: one zone answer for every page — js/transit-zone.js, reading its
+  // radius and the OEDIT map's due date from data/policy/thiz-map-status.json,
+  // with its guard reachable from test:ci. Reopens when the map's due date has
+  // passed and nobody has recorded whether OEDIT published it: a provisional
+  // label past its deadline is a claim nobody has re-checked.
+  const t2Problems = [];
+  let tzStatus = null;
+  try { tzStatus = JSON.parse(read('data/policy/thiz-map-status.json')); } catch { /* reported below */ }
+  if (!/TransitZone\s*=|module\.exports\s*=\s*api/.test(read('js/transit-zone.js') || '')) t2Problems.push('js/transit-zone.js missing');
+  if (!tzStatus) t2Problems.push('data/policy/thiz-map-status.json missing or unreadable');
+  else {
+    if (!(tzStatus.zone_radius_miles > 0)) t2Problems.push('zone radius not recorded');
+    const due = Date.parse(`${tzStatus.map_due_date}T23:59:59-06:00`);
+    const checked = Date.parse(`${tzStatus.last_checked}T00:00:00Z`);
+    if (!Number.isFinite(due)) t2Problems.push('OEDIT map due date not recorded');
+    else if (tzStatus.status !== 'published' && Date.now() > due + 7 * 86400000
+             && !(Number.isFinite(checked) && checked > due)) {
+      t2Problems.push(`OEDIT's zone map was due ${tzStatus.map_due_date}; record whether it was published `
+        + '(data/policy/thiz-map-status.json status + last_checked)');
+    }
+  }
+  if (!(reachableFromCi && reachableFromCi.has('test:transit-zone'))) t2Problems.push('test:transit-zone is not reachable from test:ci');
+  add('T2', 'Transit zone screen', t2Problems.length ? OPEN : PASS,
+    t2Problems.length ? t2Problems.join('; ')
+      : `zone helper in place, ${tzStatus.zone_radius_miles}-mile radius; designation `
+        + (tzStatus.status === 'published' ? 'official (OEDIT map loaded)' : `provisional until OEDIT's map (due ${tzStatus.map_due_date})`),
+    'js/transit-zone.js + data/policy/thiz-map-status.json + package.json');
+
   /* ── The definition itself ────────────────────────────────────────────── */
 
   const doc = read('docs/FINISH-LINE.md');
